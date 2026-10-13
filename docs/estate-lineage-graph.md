@@ -119,3 +119,42 @@ expanded byte budget transactionally before mutation. Original scans stay intact
 Freeze invalidation: graph contract/producers, gateway vocabulary and discovery
 hash production changed. No estate/model calls, recorded-run changes, new scope,
 secret changes, or live verification were performed by these tests.
+
+### Item-owned seed and incremental identity
+
+`extract_partitioned` uses the retained parent-ID chain to assign each graph node
+to its Fabric item or SQL database; edge ownership follows the consumer node.
+Graph IDs are constructed with that owner at extraction, so an item re-extracted
+with the same retained external symbol table has the same IDs. No prefix/name
+heuristic chooses an owner. `replace_many` validates and replaces all seed owners
+in one transaction and reads the current nodes and edges only once. Cross-owner
+references can be inserted in either order; a missing endpoint rolls the whole
+batch back. Unchanged owner hashes are skipped. Re-extraction preserves prior
+query proof as STALE when its underlying edge changes.
+
+A changed report needs its retained external model symbols for re-extraction.
+Passing only the report definition cannot resolve external model fields and
+continues to emit UNKNOWN. This is a coverage boundary, not a justification for
+silently guessing those symbols. The caller can supply the approved retained
+symbol table, replace the changed item's assets in it, extract partitions and
+apply only the changed owner. No new estate read is implicit in that operation.
+
+Local retained-material validation (2026-10-13, zero estate/model reads):
+
+| Estate | Retained scan | Owners | Nodes | Edges | DECLARED / UNKNOWN edges | Visual/slicer paths |
+|---|---|---:|---:|---:|---:|---:|
+| Fixture | 942ae95f-367f-4d11-bb1a-701bb955930c | 40 | 851 | 980 | 855 / 125 | 76 |
+| Billing | e2c81334-17c6-474f-957b-53ff5bf1565b | 9 | 270 | 294 | 277 / 17 | 7 |
+
+All 83 paths return named stopping points; none are truncated or claimed verified.
+Source-of-record declarations were not inferred into this material. The fixture
+scan hash is `87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493`;
+billing is `1c07c0c75098efe5b2ede369cd92498b7c8160405a0c6991c81ef91e54139c56`.
+The local staging directory contains `partitions.json`, `owner-manifest.json`,
+`coverage.json`, `visual-paths.json`, and `definitions-manifest.json`; exact raw
+bytes are at `definitions/<sha256>`. The portable `cas://retained-definition/`
+references require an explicit configured resolver when published; local staging
+is not itself Blob publication. Fixture definitions are 567 objects / 540,032
+bytes; billing definitions 189 objects / 132,158 bytes. Earlier semantic-only and
+intact-earlier-billing staging outputs are separate and are not the publication
+seed.

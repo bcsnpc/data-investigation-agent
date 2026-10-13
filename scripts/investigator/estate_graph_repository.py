@@ -26,11 +26,11 @@ def structural(value):
     value=copy.deepcopy(value)
     value['provenance'].pop('observed_at',None)
     if 'base_confidence' in value:
-        value['properties'].pop('query_verification',None)
+        verification=value['properties'].pop('query_verification',{})
         value['confidence']=value['base_confidence']
         value['verification']={'state':'NOT_VERIFIED','evidence_ids':[],'scope_hash':None}
         if value['provenance']['source']=='QUERY_VERIFICATION':
-            value['provenance']['source']='MODEL_PROPOSAL' if value['base_confidence']=='INFERRED' else 'STATIC_DEFINITION'
+            value['provenance']['source']=verification.get('origin_source') or ('MODEL_PROPOSAL' if value['base_confidence']=='INFERRED' else 'STATIC_DEFINITION')
     return value
 
 
@@ -65,7 +65,8 @@ class GraphRepository:
             if proof['source']!=item.get('source') or proof['target']!=item.get('target'):
                 raise ValueError('GRAPH_VERIFIED_RECEIPT_ENDPOINT_DIFFERS')
             if estate is not None and proof['estate']!=estate:raise ValueError('GRAPH_VERIFIED_RECEIPT_ESTATE_DIFFERS')
-            item['properties']['query_verification']={'qualification':proof['qualification'],'snapshot':proof['snapshot']}
+            item['properties']['query_verification']={'qualification':proof['qualification'],'snapshot':proof['snapshot'],
+                'origin_source':'MODEL_PROPOSAL' if item['base_confidence']=='INFERRED' else proof['origin_source']}
 
     def verify_edges(self,estate,evidence_ids,*,observed_at):
         """Append earned proof without inventing a changed definition hash."""
@@ -101,38 +102,55 @@ class GraphRepository:
         return {'status':'UPDATED','changed':len(updates)}
 
     def replace(self,value):
-        value=contract.snapshot(value);estate=value['estate'];owner=value['owner']
-        now=contract.timestamp(value['observed_at'])
+        return self.replace_many([value])
+
+    def replace_many(self,values):
+        """Atomically reconcile changed owners with one current projection read.
+
+        Incoming owners may refer to each other regardless of input order. A
+        batch is one estate and observation timestamp. Unchanged owners are
+        skipped, not deleted/reinserted or charged as changes.
+        """
+        if not isinstance(values,list) or not 1<=len(values)<=1000:raise ValueError('GRAPH_BATCH_BOUND')
+        values=[contract.snapshot(value) for value in values]
+        estate=values[0]['estate'];now=contract.timestamp(values[0]['observed_at'])
+        if any(value['estate']!=estate or contract.timestamp(value['observed_at'])!=now for value in values):
+            raise ValueError('GRAPH_BATCH_ESTATE_OR_TIME_DIFFERS')
+        if len({value['owner'] for value in values})!=len(values):raise ValueError('GRAPH_BATCH_DUPLICATE_OWNER')
         with self.state.transaction() as db:
-            prior=self.state.sql(db,'SELECT definition_hash,observed_at FROM estate_graph_owner_versions WHERE estate=? AND owner=?',(estate,owner)).fetchone()
-            if prior and prior[0]==value['definition_hash']:return {'status':'UNCHANGED','changed':0}
-            if prior and now<=prior[1]:raise StateConflict('GRAPH_CHANGE_TIME_MUST_ADVANCE')
+            versions={owner:(hash,observed) for owner,hash,observed in self.state.sql(db,
+                'SELECT owner,definition_hash,observed_at FROM estate_graph_owner_versions WHERE estate=?',(estate,)).fetchall()}
+            pending=[]
+            for value in values:
+                prior=versions.get(value['owner'])
+                if prior and prior[0]==value['definition_hash']:continue
+                if prior and now<=prior[1]:raise StateConflict('GRAPH_CHANGE_TIME_MUST_ADVANCE')
+                pending.append(value)
+            if not pending:return {'status':'UNCHANGED','changed':0}
+            owners={value['owner'] for value in pending}
             old={kind:self._current(db,estate,kind) for kind in ('nodes','edges')}
-            new={kind:{key:copy.deepcopy(item) for key,item in entries.items() if item['owner']!=owner} for kind,entries in old.items()}
-            for kind in ('nodes','edges'):
-                for item in value[kind]:
-                    if item['id'] in new[kind]:raise StateConflict('GRAPH_IDENTITY_OWNED_BY_ANOTHER_ITEM')
-                    self._proof(item,estate)
-                    previous=old[kind].get(item['id'])
-                    new[kind][item['id']]=copy.deepcopy(previous) if previous and structural(previous)==structural(item) else item
-                    # Re-extraction emits definition confidence, not an earned
-                    # query proof. Retain superseded proof as explicitly stale
-                    # instead of silently discarding it when the edge changes.
-                    if (kind=='edges' and previous and previous['confidence']=='VERIFIED'
-                            and item['confidence']!='VERIFIED' and structural(previous)!=structural(item)):
-                        new[kind][item['id']]['verification']={**copy.deepcopy(previous['verification']),'state':'STALE'}
+            new={kind:{key:copy.deepcopy(item) for key,item in entries.items() if item['owner'] not in owners} for kind,entries in old.items()}
+            for value in pending:
+                for kind in ('nodes','edges'):
+                    for item in value[kind]:
+                        if item['id'] in new[kind]:raise StateConflict('GRAPH_IDENTITY_OWNED_BY_ANOTHER_ITEM')
+                        previous=old[kind].get(item['id'])
+                        if previous and previous['owner']!=item['owner']:raise StateConflict('GRAPH_IDENTITY_OWNED_BY_ANOTHER_ITEM')
+                        self._proof(item,estate)
+                        new[kind][item['id']]=copy.deepcopy(previous) if previous and structural(previous)==structural(item) else item
+                        if (kind=='edges' and previous and previous['confidence']=='VERIFIED'
+                                and item['confidence']!='VERIFIED' and structural(previous)!=structural(item)):
+                            new[kind][item['id']]['verification']={**copy.deepcopy(previous['verification']),'state':'STALE'}
             changed_nodes={identity for identity in old['nodes'].keys()|new['nodes'].keys() if old['nodes'].get(identity)!=new['nodes'].get(identity)}
-            # Imported edges that depend on a changed object lose earned proof.
-            # A deleted endpoint gets an explicit stopping boundary; old versions
-            # stay queryable and no dangling FK or silent source path survives.
+            batch_hash=contract.digest([(value['owner'],value['definition_hash']) for value in sorted(pending,key=lambda value:value['owner'])])
             for identity,item in list(new['edges'].items()):
                 missing=[key for key in (item['source'],item['target']) if key not in new['nodes']]
-                if missing and item['owner']==owner:raise ValueError('GRAPH_ENDPOINT_NOT_DECLARED')
+                if missing and item['owner'] in owners:raise ValueError('GRAPH_ENDPOINT_NOT_DECLARED')
                 if missing:
                     for endpoint in ('source','target'):
                         if item[endpoint] in missing:
-                            original=item[endpoint];gap_id=contract.identity(estate,item['owner'],'BOUNDARY',['deleted',original,value['definition_hash']])
-                            proof={**item['provenance'],'definition_hash':value['definition_hash'],'observed_at':now,'source_id':owner}
+                            original=item[endpoint];gap_id=contract.identity(estate,item['owner'],'BOUNDARY',['deleted',original,batch_hash])
+                            proof={**item['provenance'],'definition_hash':batch_hash,'observed_at':now,'source_id':item['owner']}
                             gap={'reason':'A referenced object was removed from its current definition: '+original,
                                  'remedy':'Recollect the dependent definition and resolve its reference to an existing object.'}
                             new['nodes'][gap_id]=contract.node(gap_id,item['owner'],'BOUNDARY','Removed dependency',proof,confidence='UNKNOWN',unknown=gap)
@@ -141,7 +159,8 @@ class GraphRepository:
                     item['confidence']=item['base_confidence']
                     if item['verification']['evidence_ids']:item['verification']['state']='STALE'
                     item['provenance']={**item['provenance'],'observed_at':now}
-                    if item['provenance']['source']=='QUERY_VERIFICATION':item['provenance']['source']='STATIC_DEFINITION' if item['base_confidence']!='INFERRED' else 'MODEL_PROPOSAL'
+                    if item['provenance']['source']=='QUERY_VERIFICATION':
+                        item['provenance']['source']=item['properties'].get('query_verification',{}).get('origin_source') or ('STATIC_DEFINITION' if item['base_confidence']!='INFERRED' else 'MODEL_PROPOSAL')
                 contract.record(item,edge=True)
             changed=[]
             for kind in ('nodes','edges'):
@@ -150,20 +169,22 @@ class GraphRepository:
                     if before==after:continue
                     latest=self.state.sql(db,'SELECT valid_from FROM estate_graph_history WHERE estate=? AND record_kind=? AND identity=? AND valid_to IS NULL',(estate,kind,identity)).fetchone()
                     if latest and now<=latest[0]:raise StateConflict('GRAPH_RECORD_CHANGE_TIME_MUST_ADVANCE')
-                    changed.append({'kind':kind,'id':identity,'change':'DELETED' if after is None else 'ADDED' if before is None else 'CHANGED'})
+                    owner=(after or before)['owner']
+                    changed.append({'kind':kind,'id':identity,'owner':owner,'change':'DELETED' if after is None else 'ADDED' if before is None else 'CHANGED'})
                     self.state.sql(db,'UPDATE estate_graph_history SET valid_to=? WHERE estate=? AND record_kind=? AND identity=? AND valid_to IS NULL',(now,estate,kind,identity))
                     if after is not None:
                         self.state.sql(db,'INSERT INTO estate_graph_history VALUES(?,?,?,?,?,?,?,?)',(estate,kind,identity,after['owner'],now,None,encoded(after),sha(after)))
-            # Current tables are a projection of history, never a second producer.
             self.state.sql(db,'DELETE FROM estate_graph_edges WHERE estate=?',(estate,))
             self.state.sql(db,'DELETE FROM estate_graph_nodes WHERE estate=?',(estate,))
             for item in new['nodes'].values():
                 self.state.sql(db,'INSERT INTO estate_graph_nodes VALUES(?,?,?,?,?)',(estate,item['id'],item['confidence'],encoded(item['provenance']),encoded(item)))
             for item in new['edges'].values():
                 self.state.sql(db,'INSERT INTO estate_graph_edges VALUES(?,?,?,?,?,?,?)',(estate,item['id'],item['source'],item['target'],item['confidence'],encoded(item['provenance']),encoded(item)))
-            if prior:self.state.sql(db,'UPDATE estate_graph_owner_versions SET definition_hash=?,observed_at=? WHERE estate=? AND owner=?',(value['definition_hash'],now,estate,owner))
-            else:self.state.sql(db,'INSERT INTO estate_graph_owner_versions VALUES(?,?,?,?)',(estate,owner,value['definition_hash'],now))
-            self.state.sql(db,'INSERT INTO estate_graph_changes VALUES(?,?,?,?,?,?)',(estate,now,owner,prior[0] if prior else None,value['definition_hash'],encoded(changed)))
+            for value in pending:
+                owner=value['owner'];prior=versions.get(owner)
+                if prior:self.state.sql(db,'UPDATE estate_graph_owner_versions SET definition_hash=?,observed_at=? WHERE estate=? AND owner=?',(value['definition_hash'],now,estate,owner))
+                else:self.state.sql(db,'INSERT INTO estate_graph_owner_versions VALUES(?,?,?,?)',(estate,owner,value['definition_hash'],now))
+                self.state.sql(db,'INSERT INTO estate_graph_changes VALUES(?,?,?,?,?,?)',(estate,now,owner,prior[0] if prior else None,value['definition_hash'],encoded([change for change in changed if change['owner']==owner])))
         return {'status':'UPDATED','changed':len(changed),'changes':changed}
 
     def records(self,estate,*,at=None,identities=None,limit=1000):

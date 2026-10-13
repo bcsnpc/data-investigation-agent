@@ -26,7 +26,7 @@ def walk(value,path=''):
 
 
 class StaticGraph:
-    def __init__(self,estate,owner,observed_at,assets,definition_sink,*,source_asset_ids=()):
+    def __init__(self,estate,owner,observed_at,assets,definition_sink,*,source_asset_ids=(),partitioned=False):
         self.estate,self.owner,self.at=estate,owner,c.timestamp(observed_at)
         self.assets={a['id']:a for a in assets if a.get('availability','CURRENT')=='CURRENT'}
         if len(self.assets)!=len([a for a in assets if a.get('availability','CURRENT')=='CURRENT']):raise ValueError('GRAPH_DUPLICATE_ASSET')
@@ -41,6 +41,7 @@ class StaticGraph:
                     raise ValueError('GRAPH_RETAINED_METADATA_HASH_DIFFERS')
         self.sink=definition_sink;self.definitions={};self.nodes={};self.edges={};self.by_asset={};self.proofs={}
         self.sources=set(source_asset_ids)
+        self.partitioned=partitioned
         if not self.sources<=self.assets.keys():raise ValueError('GRAPH_SOURCE_DECLARATION_NOT_COLLECTED')
 
     def retain(self,raw):
@@ -77,17 +78,30 @@ class StaticGraph:
         return self.proof(asset)
 
     def add(self,kind,label,locator,proof,properties=None,*,confidence='DECLARED',unknown=None):
-        identity=c.identity(self.estate,self.owner,kind,locator)
-        value=c.node(identity,self.owner,kind,str(label),proof,
+        owner=self.item_owner(proof['source_id']) if self.partitioned else self.owner
+        identity=c.identity(self.estate,owner,kind,locator)
+        value=c.node(identity,owner,kind,str(label),proof,
             properties={**(properties or {}),'definition':self.definitions[proof['definition_hash']]},confidence=confidence,unknown=unknown)
         prior=self.nodes.get(identity)
         if prior is not None and prior!=value:raise ValueError('GRAPH_NODE_IDENTITY_COLLISION')
         self.nodes[identity]=value;return identity
 
     def link(self,kind,source,target,proof,*,properties=None,confidence='DECLARED',unknown=None):
-        identity=c.identity(self.estate,self.owner,kind,[source,target,proof['source_id'],proof['span']])
-        self.edges[identity]=c.edge(identity,self.owner,kind,source,target,proof,properties=properties,confidence=confidence,unknown=unknown)
+        owner=self.nodes[source]['owner'] if self.partitioned else self.owner
+        identity=c.identity(self.estate,owner,kind,[source,target,proof['source_id'],proof['span']])
+        self.edges[identity]=c.edge(identity,owner,kind,source,target,proof,properties=properties,confidence=confidence,unknown=unknown)
         return identity
+
+    def item_owner(self,asset_id):
+        """Ownership follows retained parent IDs, never labels or GUID guessing."""
+        if asset_id not in self.assets:raise ValueError('GRAPH_OWNER_ASSET_MISSING')
+        seen=set();current=asset_id
+        while True:
+            if current in seen:raise ValueError('GRAPH_OWNER_PARENT_CYCLE')
+            seen.add(current);parent=self.assets[current].get('parent_id')
+            if parent not in self.assets or self.assets[parent]['kind'] in ('Workspace','SourceConnection'):
+                return current
+            current=parent
 
     def gap(self,origin,reason,remedy,proof,*,kind='COMPUTED_FROM'):
         unknown={'reason':reason[:2048],'remedy':remedy[:2048]}
@@ -233,6 +247,21 @@ class StaticGraph:
                 self.gap(self.by_asset[parent],'Definition cannot be statically read: '+path+' ('+type(error).__name__+').',
                     'Retain the original definition and use a bounded interpreter with exact code-span citations; verify any inferred links.',proof)
         self.inherited_filters()
+        if self.partitioned:
+            partitions=[]
+            for owner in sorted({n['owner'] for n in self.nodes.values()}):
+                nodes=[n for n in self.nodes.values() if n['owner']==owner]
+                edges=[e for e in self.edges.values() if e['owner']==owner]
+                # Content hash excludes collection time but includes resolved
+                # external identities. Rebinding changes the owning item hash.
+                records=[]
+                for item in nodes+edges:
+                    item=json.loads(c.canonical(item));item['provenance'].pop('observed_at')
+                    records.append(item)
+                partitions.append(c.snapshot({'estate':self.estate,'owner':owner,
+                    'definition_hash':c.digest({'records':records,'source_assets':sorted(self.sources)}),
+                    'observed_at':self.at,'nodes':nodes,'edges':edges}))
+            return partitions
         return c.snapshot({'estate':self.estate,'owner':self.owner,'definition_hash':c.digest({'definitions':sorted(self.definitions),'source_assets':sorted(self.sources),
                 'assets':[(a['id'],a.get('parent_id'),a['kind'],a['name'],c.digest(a.get('metadata',{}))) for a in sorted(self.assets.values(),key=lambda x:x['id'])]}),
             'observed_at':self.at,'nodes':list(self.nodes.values()),'edges':list(self.edges.values())})
@@ -424,3 +453,14 @@ class StaticGraph:
 
 def extract(estate,assets,definition_sink,*,observed_at,owner='retained-catalog',source_asset_ids=()):
     return StaticGraph(estate,owner,observed_at,assets,definition_sink,source_asset_ids=source_asset_ids).build()
+
+
+def extract_partitioned(estate,assets,definition_sink,*,observed_at,source_asset_ids=()):
+    """Full retained symbol table, item-owned IDs and consumer-owned edges.
+
+    Pass changed item definitions plus explicitly retained external assets for
+    incremental extraction, then select the changed owner partitions. Absence
+    of external symbols stays UNKNOWN; no catalog-name match is invented.
+    """
+    return StaticGraph(estate,'retained-catalog',observed_at,assets,definition_sink,
+                       source_asset_ids=source_asset_ids,partitioned=True).build()

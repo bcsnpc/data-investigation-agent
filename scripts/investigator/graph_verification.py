@@ -66,6 +66,7 @@ class VerificationResolver:
             'scope_hash':check['scope_hash'],'definition_hashes':[check['definition_hash']],
             'edge_ids':[check['edge_id']],'source':check['source'],'target':check['target'],
             'observed_at':check['observed_at'],'qualification':QUALIFICATION,
+            'origin_source':'ENGINE_DEPENDENCY' if witness['kind']=='ENGINE_DEPENDENCY' else 'STATIC_DEFINITION',
             'snapshot':'ALIGNED_QUERY_BOUND' if aligned else 'SNAPSHOT_UNVERIFIED'}
 
 
