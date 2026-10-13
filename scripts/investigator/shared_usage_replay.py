@@ -14,6 +14,21 @@ VERSION = 'FRESH_SHARED_USAGE_V1'
 WORKSPACE_VERSION = 'OWNED_SHARED_USAGE_V1'
 
 
+def validate_workspace(marker):
+    if (not isinstance(marker, dict) or set(marker) != {'version', 'owner', 'baseline_owners'}
+            or marker['version'] != WORKSPACE_VERSION
+            or not isinstance(marker['owner'], str) or not marker['owner']
+            or not isinstance(marker['baseline_owners'], list)):
+        raise TapeError('TAPE_SHARED_USAGE_CONTRACT_DIFFERS')
+    keys = set()
+    for row in marker['baseline_owners']:
+        if not isinstance(row, list) or len(row) != 3 or any(not isinstance(v, str) or not v for v in row):
+            raise TapeError('TAPE_SHARED_USAGE_OWNER_INVALID')
+        if tuple(row[:2]) in keys:raise TapeError('TAPE_SHARED_USAGE_OWNER_DUPLICATE')
+        keys.add(tuple(row[:2]))
+    return marker
+
+
 def capture_backend(governor):
     """Seal public ownership with a mirror-consistent baseline before capture."""
     shared = governor.shared

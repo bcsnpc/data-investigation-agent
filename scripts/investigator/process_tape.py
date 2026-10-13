@@ -190,6 +190,10 @@ class Tape:
                 raise TapeError('TAPE_ENGINE_REVISION_MISSING')
             state=bootstrap['state']
             fields={'environment','workspace_owner','artifacts','dynamic_read_limit','dynamic_input_limit'}
+            if 'shared_usage_replay' in state:
+                fields.add('shared_usage_replay')
+                from .shared_usage_replay import validate_workspace
+                validate_workspace(state['shared_usage_replay'])
             if 'intake_span_protocol' in state:
                 fields.add('intake_span_protocol')
                 from .intake_span_references import VERSION as span_version
