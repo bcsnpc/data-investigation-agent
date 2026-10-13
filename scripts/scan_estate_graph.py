@@ -61,13 +61,15 @@ def validate(config):
         return config
     required = {'estate', 'workspace', 'owners', 'authentication', 'storage', 'definition_uri_prefix',
                 'budget', 'max_requests', 'approval'}
-    if not isinstance(config, dict) or not required<=set(config)<=required|{'sql','dependency_models'}: raise ValueError('GRAPH_SCHEDULE_CONFIGURATION')
+    if not isinstance(config, dict) or not required<=set(config)<=required|{'sql','dependency_models','admin_metadata'}: raise ValueError('GRAPH_SCHEDULE_CONFIGURATION')
     if 'sql' in config and (not isinstance(config['sql'],list) or not 1<=len(config['sql'])<=10):
         raise ValueError('GRAPH_SQL_COLLECTOR_BOUND')
     for group in config.get('sql',[]):
         if not isinstance(group,dict)or set(group)!={'identity','config','objects'}:raise ValueError('GRAPH_SQL_COLLECTOR_SHAPE')
     if config.get('authentication',{}).get('mode')=='federated_scanner' and config.get('sql'):
         raise ValueError('SCANNER_SQL_CREDENTIAL_FORBIDDEN')
+    if 'admin_metadata' in config and (type(config['admin_metadata'])is not bool or config['authentication'].get('mode')!='federated_scanner'):
+        raise ValueError('SCANNER_ADMIN_METADATA_CONFIGURATION')
     if 'dependency_models' in config:
         from uuid import UUID
         models=config['dependency_models']
@@ -168,7 +170,10 @@ def _execute_one_scoped(config):
     scanner = IncrementalScanner(repo, collector, None,reconcile=catalog.refresh,observation_clock=clock)
     at = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
     try:
+        from investigator.adapters.scanner_admin import collect as admin_metadata
+        admin_result=admin_metadata(config,http,sink)
         result = scanner.run(config['estate'], at)
+        result['admin_metadata']=admin_result
         result['sql_collectors']=[]
         for group in config.get('sql',[]):
             from investigator.adapters.graph_sql_changes import FabricSqlChanges
