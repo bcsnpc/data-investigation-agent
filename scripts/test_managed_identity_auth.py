@@ -48,6 +48,21 @@ def cloud_manifest():
 
 
 class ManagedIdentityTests(unittest.TestCase):
+    def test_known_vault_guid_is_only_an_alias_for_vault_and_identity_stays_pinned(self):
+        scope='https://vault.azure.net/.default'
+        alias='cfa8b339-82a2-471a-a3c9-0fc0be7a4093'
+        credential=Mock(get_token=Mock(return_value=SimpleNamespace(token=token(scope,aud=alias))))
+        provider=auth.Tokens(IDENTITY,credential=credential)
+        self.assertEqual(provider.get_token(scope),token(scope,aud=alias))
+        for other_scope in auth.SCOPES-{scope}:
+            with self.assertRaisesRegex(auth.TokenBindingError,'AUDIENCE_MISMATCH'):
+                provider.get_token(other_scope)
+        for changes,reason in [({'aud':CLIENT},'AUDIENCE_MISMATCH'),
+                               ({'aud':alias,'tid':CLIENT},'TENANT_MISMATCH'),
+                               ({'aud':alias,'oid':CLIENT},'PRINCIPAL_MISMATCH')]:
+            credential.get_token.return_value=SimpleNamespace(token=token(scope,**changes))
+            with self.assertRaisesRegex(auth.TokenBindingError,reason):provider.get_token(scope)
+
     def test_token_failure_reason_is_stable_and_never_includes_provider_text(self):
         scope='https://vault.azure.net/.default'
         failures=[('not-a-token','TOKEN_NOT_JWT'),

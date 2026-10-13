@@ -26,6 +26,12 @@ SCOPES = frozenset({
 TOKEN_FAILURE_REASONS = frozenset({'TOKEN_ACQUISITION_FAILED', 'TOKEN_NOT_JWT',
     'TENANT_MISMATCH', 'PRINCIPAL_MISMATCH', 'AUDIENCE_MISMATCH'})
 
+# Key Vault's documented service application ID is an alternate audience for
+# that resource only. It is not permission to accept arbitrary GUID audiences.
+# https://learn.microsoft.com/en-us/azure/key-vault/secrets/overview-storage-keys
+AUDIENCE_ALIASES = {'https://vault.azure.net/.default': frozenset({
+    'cfa8b339-82a2-471a-a3c9-0fc0be7a4093'})}
+
 
 class TokenBindingError(RuntimeError):
     def __init__(self, reason):
@@ -75,7 +81,9 @@ class Tokens:
             raise TokenBindingError('TENANT_MISMATCH')
         if claims.get('oid') != self.declaration['principal_id']:
             raise TokenBindingError('PRINCIPAL_MISMATCH')
-        if str(claims.get('aud', '')).rstrip('/') != scope.removesuffix('/.default').rstrip('/'):
+        audience = str(claims.get('aud', '')).rstrip('/')
+        if (audience != scope.removesuffix('/.default').rstrip('/')
+                and audience not in AUDIENCE_ALIASES.get(scope, ())):
             raise TokenBindingError('AUDIENCE_MISMATCH')
         return token
 
