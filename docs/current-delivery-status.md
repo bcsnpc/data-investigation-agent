@@ -10,6 +10,8 @@ Round Nineteen 2026-10-13: secretless reader authentication4/4 PASS; storage key
 
 Round Nineteen in progress (2026-10-13): dedicated reader application/federation, Viewer/model Read+Build and source read roles applied; SQL authentication remains enabled. No live principal proof or demo yet. New branch based on draft424; no merge. See round-nineteen-control-ledger.md.
 
+2026-10-13 pre-merge CI correction: backported the later tested replay compatibility fix c4602de to #424. Older pinned engines retain their own inline configuration validator; no tapes, expectations or engine bytes are rewritten. Ten targeted tests pass offline; hosted acceptance rerun pending. Round Eighteen live failures remain unchanged.
+
 Round Eighteen closed, 2026-10-13: approved cloud platform deployed; conditional estimate USD13.74/month. Two reader verifications completed18/18 witnesses each, but exact replay failed both times; family A cloud demo NOT_RUN. Offline fixes and incomplete-state/retention/preflight boundaries recorded. Final full suite4,073PASS,46skip,1,416subtests; eight cloud CI shards and image publication pass. New modelUSD0, physical178 SETTLED; pot3,017/4,000, rolling376/3,000, reserve95. D free12.65GB. Draft424 and423 remain unmerged; freeze invalid. See docs/round-eighteen-summary.md.
 
 Round Eighteen Part C closed, 2026-10-13 05:30 UTC: two cloud verifications each completed18/18 witnesses and40 probes, then failed exact replay; family A cloud demo NOT_RUN. Both immutable tapes/failures retained. Corrected e646 full suite4,057PASS; later pointer-export fix19focusedPASS. New physical178, new modelUSD0; pot3,017/4,000, rolling376/3,000, reserve95. No further live admission in this part. Draft #424, freeze invalid. See docs/round-eighteen-part-c.md.
