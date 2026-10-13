@@ -60,7 +60,8 @@ def block_id(index, data):
     return base64.b64encode(hashlib.sha256(index.to_bytes(8, 'big') + data).hexdigest().encode()).decode()
 
 
-def publish_resumable(manifest, manifest_sha, review, client, journal, *, source_verifier=verify_local):
+def publish_resumable(manifest, manifest_sha, review, client, journal, *, source_verifier=verify_local,
+                      max_stored_bytes=None):
     privacy_approved(review, manifest_sha)
     if digest(canonical(manifest)) != manifest_sha:
         raise ArtifactError('ARCHIVE_MANIFEST_SHA_DIFFERS')
@@ -69,6 +70,18 @@ def publish_resumable(manifest, manifest_sha, review, client, journal, *, source
     # The full approved set is checked before any control request is dispatched.
     paths = [source_verifier(manifest, entry) for entry in manifest['entries']]
     encoding = manifest.get('storage_encoding', 'identity')
+    if max_stored_bytes is not None:
+        if type(max_stored_bytes) is not int or max_stored_bytes < 1:
+            raise ArtifactError('ARCHIVE_TRANSFER_BYTE_CAP')
+        measured={}
+        for entry,path in zip(manifest['entries'],paths):
+            identity=(entry['sha256'],entry['bytes'])
+            if identity in measured:continue
+            stats={}
+            for _ in encoded_chunks(path,encoding,stats):pass
+            measured[identity]=stats['stored_bytes']
+            if sum(measured.values())>max_stored_bytes:
+                raise ArtifactError('ARCHIVE_TRANSFER_BYTE_CAP')
     receipts = []
     first_path = {}
     for entry, path in zip(manifest['entries'], paths):
@@ -88,7 +101,11 @@ def publish_resumable(manifest, manifest_sha, review, client, journal, *, source
                 existing = client.blocks(key)
                 stats = {}
                 ids = []
+                streamed_bytes=0
                 for index, data in enumerate(fixed_blocks(encoded_chunks(path, encoding, stats))):
+                    streamed_bytes+=len(data)
+                    if max_stored_bytes is not None and streamed_bytes>measured[(entry['sha256'],entry['bytes'])]:
+                        raise ArtifactError('ARCHIVE_TRANSFER_BYTE_CAP')
                     if index >= 30000:
                         raise ArtifactError('ARCHIVE_BLOCK_COUNT_BOUND')
                     identity = block_id(index, data)
@@ -115,12 +132,14 @@ def publish_resumable(manifest, manifest_sha, review, client, journal, *, source
             if not final or final['tier'] != 'Archive' or not final.get('etag'):
                 raise ArtifactError('ARCHIVE_TIER_NOT_CONFIRMED')
             receipt = {**receipt, 'etag': final['etag'], 'tier': 'Archive', 'phase': 'ARCHIVED'}
+        if max_stored_bytes is not None and sum({row['blob']:row['stored_bytes'] for row in receipts+[receipt]}.values())>max_stored_bytes:
+            raise ArtifactError('ARCHIVE_TRANSFER_BYTE_CAP')
         journal.append(receipt)
         receipts.append(receipt)
     return {'version': 'verified-archive-receipt-v1', 'manifest_sha256': manifest_sha, 'privacy_review': review,
             'objects': receipts, 'local_deletion_performed': False,
             'original_bytes': sum(row['bytes'] for row in receipts),
-            'stored_bytes': sum(row['stored_bytes'] for row in receipts)}
+            'stored_bytes': sum({row['blob']:row['stored_bytes'] for row in receipts}.values())}
 
 
 class IdentityArchiveClient:

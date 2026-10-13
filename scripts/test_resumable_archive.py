@@ -84,11 +84,21 @@ class Tests(unittest.TestCase):
         result = publish_resumable(manifest, sha, review, remote, journal)
         self.assertEqual(len(remote.objects), 2)
         self.assertEqual(len(result['objects']), 3)
+        self.assertEqual(result['stored_bytes'],sum(len(body) for body in remote.objects.values()))
         self.assertEqual(result['objects'][0]['blob'], result['objects'][1]['blob'])
         reopened = Journal(journal.path, sha, URL)
         self.assertEqual(len(publish_resumable(manifest, sha, review, remote, reopened)['objects']), 3)
         with self.assertRaisesRegex(ArtifactError, 'WITHOUT_MATCHING_VERIFICATION'):
             publish_resumable(manifest, sha, review, remote, Journal(self.root / 'empty.jsonl', sha, URL))
+    def test_streamed_stored_byte_cap_precedes_every_remote_call_and_counts_unique_objects(self):
+        manifest,sha,review,journal=self.prepare((b'abc',b'abc',b'defg'))
+        remote=Remote()
+        with patch.object(remote,'properties',side_effect=AssertionError('no remote before measured cap')):
+            with self.assertRaisesRegex(ArtifactError,'TRANSFER_BYTE_CAP'):
+                publish_resumable(manifest,sha,review,remote,journal,max_stored_bytes=6)
+        result=publish_resumable(manifest,sha,review,remote,journal,max_stored_bytes=7)
+        self.assertEqual(result['stored_bytes'],7)
+        self.assertEqual(result['original_bytes'],10)
     def test_corrupt_remote_never_archived_or_cleanup_eligible(self):
         manifest, sha, review, journal = self.prepare()
         remote = Remote()

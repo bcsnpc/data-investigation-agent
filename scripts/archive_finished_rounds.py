@@ -86,6 +86,7 @@ def main(argv=None):
             sub.add_argument('--azure-cli-python',type=Path,help='Explicit installed CLI module when az is not on PATH')
             sub.add_argument('--gateway-channel',required=True)
             sub.add_argument('--max-control-requests',required=True,type=int)
+            sub.add_argument('--max-stored-bytes',required=True,type=int)
             sub.add_argument('--journal',required=True,type=Path)
         if action=='convert':
             sub.add_argument('--tape-directory',required=True,type=Path)
@@ -129,7 +130,7 @@ def main(argv=None):
         journal=Journal(args.journal,args.manifest_sha256,args.account_url)
         client=IdentityArchiveClient(args.account_url,credential,current(),args.gateway_channel,
                     max_requests=args.max_control_requests,receipts=str(args.journal)+'.controls.jsonl')
-        result=publish_resumable(value,args.manifest_sha256,review,client,journal)
+        result=publish_resumable(value,args.manifest_sha256,review,client,journal,max_stored_bytes=args.max_stored_bytes)
     elif args.command=='upload':
         def checkpoint(row):
             progress=Path(str(args.output)+'.progress.jsonl')
