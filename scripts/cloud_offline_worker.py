@@ -62,6 +62,8 @@ def replay(manifest, evidence, output, shard, shards, executor, *, private_failu
             estate = sealed_file(evidence, entry['estate_manifest_path'], entry['estate_manifest_sha256']) if 'estate_manifest_path' in entry else None
             result = executor(tape, Path(output) / entry['id'], entry['engine_revision'], estate_manifest=estate)
             row['matched'] = result.get('matched') is True
+            if not row['matched'] and private_failures is not None:
+                private_failures.append({'id': entry['id'], 'kind': 'REPLAY_RETURNED_MISMATCH', 'result': result})
         except Exception as exc:
             # No provider body, connection details or exception text in public CI logs.
             row['error_type'] = type(exc).__name__
