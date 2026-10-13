@@ -15,7 +15,7 @@ as an automatic fallback.
 | Prerequisite | Why it is needed | What fails without it |
 |---|---|---|
 | Subscription/resource-group deployment rights for the operator | Create the tool's platform resources and the explicitly approved scoped grants | Infrastructure deployment; no additional role is silently requested |
-| PostgreSQL access to the tool database for the worker identity | Share tickets, case state and atomic budgets | Live admission refuses; SQLite is not a substitute parallel authority |
+| PostgreSQL access to the tool database for the worker identity | Share smart-ticket state, catalog/readiness and atomic budgets | Live admission refuses; SQLite is not a substitute parallel authority |
 | Storage Blob Data Contributor on the one tool storage account | Read/write private recordings, content-addressed snapshots and evidence | Capture/replay publication; no public container fallback |
 | Key Vault Secrets User on the one vault | Resolve an approved versioned secret reference in memory when needed | The affected connector is unavailable; no plaintext secret file is created |
 | Explicit model deployment and allowed model identity | Make bounded model requests | Model work stops on billing/authentication failure; non-model work can continue |
@@ -209,7 +209,7 @@ Model enablement/onboarding changes require a new operator publication; a worker
 cannot edit its private snapshot to widen access.
 
 Current limitation: raw discovery inventory and per-job execution/capture state
-still use a private SQLite replay image. Published catalog reads and global
+still use a private SQLite replay image. Claim-first state and screenshots also remain there; generic shared case-file storage has no production writer yet. Published catalog reads and global
 accounting use PostgreSQL. This is not a complete migration of every historical
 SQLite consumer. Privacy-projected shared PostgreSQL persistence is not yet
 implemented and refuses admission, rather than persisting raw values.

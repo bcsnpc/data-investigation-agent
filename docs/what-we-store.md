@@ -9,12 +9,12 @@ client data even when they contain no credentials.
 |---|---|---|
 | Discovery inventory | Scan times/status; asset IDs, parent IDs, kind, name, source, collection time, definition hash and JSON metadata; capability observations | Retained `inventory.sqlite` images; content-addressed snapshot storage when converted |
 | Published catalog | Model registration/enablement, immutable report/model context definitions, scope/source hashes, event history and readiness certificates | Shared PostgreSQL documents; private historical SQLite images remain for replay |
-| Tickets/shared case state | Submitted text, selected context, question/reply history, claims and evidence references, revisions and hashes | Shared PostgreSQL for configured cloud workers; offline SQLite for historical tests/replay |
+| Ticket/case state | Submitted text, context, question/reply history, claims/evidence references, revisions and hashes | Smart-ticket state uses SharedTickets in PostgreSQL. Claim-first state, runtime/investigation tables and images still use per-job SQLite retained in captures. Generic shared case-file storage exists but has no production writer yet. |
 | Investigation evidence | Exact guarded SQL/DAX requests, bounded responses or aggregate values, surfaced identity/permission attestation, limitations and receipts | Per-job evidence/capture state and recordings; private Blob containers when published |
 | Model recordings | Provider request/response bytes, structured decisions, usage and failures, tool events and timing | Sealed tapes plus referenced immutable starting snapshots and changes |
 | Budgets | Original reservation counts, actual usage, status, overrun acknowledgments, expiring credits, pot/reserve policy, conservative dollar accounting | Shared PostgreSQL authority; local originals and per-job replay mirrors retained |
-| Screenshots | User-uploaded report images and associated intake provenance | `workspace_images.content` stores image bytes in the case catalog; read/review records are separate tables. The declared retention period has no implemented screenshot purge job. |
-| Secrets | Only approved connector credentials when unavoidable | Key Vault; managed-identity access tokens stay in memory, never in tapes or database snapshots |
+| Screenshots | User-uploaded report images and associated intake provenance | `workspace_images.content` stores image bytes in the per-job SQLite catalog; read/review records are separate tables. The declared retention period has no implemented screenshot purge job. |
+| Secrets | Approved cloud credential copies and versioned references | Key Vault for cloud workers; existing workstation DPAPI/CLI caches and local secret mechanisms remain in place. Managed-identity access tokens stay in memory, never in tapes or database snapshots. |
 
 `metadata_inventory.Inventory` creates exactly three collector tables: `scans`,
 `assets`, and `observations`. `assets.metadata` holds definitions and schema

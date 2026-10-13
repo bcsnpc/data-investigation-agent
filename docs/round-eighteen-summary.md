@@ -1,108 +1,39 @@
-﻿# Round Eighteen — checkpoint, not closed
+# Round Eighteen ? cloud foundation
 
-Recorded 2026-10-13 UTC, through the 04:05 control ledger checkpoint and the later
-offline setup audit. Draft **#424** targets draft **#423**; neither is merged.
-The previous freeze is invalid. Cloud verification/demo work continues; this is
-not a claim that the round's targets have all been earned.
+Recorded2026-10-13 UTC. Draft **#424** is based on draft **#423**; neither merges. The foundation is deployed, with explicit gaps below. The previous freeze is invalid. The cloud verification/demo closing result is still pending in this checkpoint.
 
-## Platform and safety
+## Platform, cost and guardrails
 
-Created platform resources include `pg-dia-d5dd7d65` (PostgreSQL B1ms, 32 GB,
-no HA, database `investigator`), `diaplatformd5dd7d65` (Standard LRS private Blob),
-`kv-dia-d5dd7d65` (Standard Key Vault), `id-dia-worker` and the consumption
-Container Apps environment/job `job-dia-worker`. PostgreSQL/compute use South
-Central US after the approved regional fallback; storage/vault/identity remain
-East US. No always-running API, paid registry or Log Analytics workspace was
-provisioned. The conditional operating estimate remains **$13.74/month**,
-including the confirmed free PostgreSQL entitlement and bounded compute/storage
-assumptions; it is not an invoice or a hard Azure spending stop. Without that
-free entitlement, South Central US PostgreSQL alone is estimated $19.308/month.
-See [the estimate](cloud-cost-estimate.md).
+Created `rg-dia-platform`, PostgreSQL `pg-dia-d5dd7d65` (B1ms,32GB,no HA,Entra-only), private Standard LRS Blob `diaplatformd5dd7d65`, RBAC Key Vault `kv-dia-d5dd7d65`, worker MI `id-dia-worker`, and consumption Container Apps environment/job `cae-dia-platform` / `job-dia-worker`. PostgreSQL and compute use South Central US after the approved East US restriction fallback; the other resources use East US. No always-running API, ACR, Log Analytics workspace or estate capacity was created. Parameterized Bicep and CI-published code-only GHCR images are committed.
 
-Worker MI health passed PostgreSQL, immutable Blob PUT/GET and vault metadata.
-The existing read-only user authenticated separately for Power BI and SQL through
-its approved versioned cache references. No extra estate role follows from
-moving credentials. Application-source workstation authentication remains
-unavailable in the cloud. Code-reader Contributor credentials never serve
-quantities. Cross-tenant MI federation remains a future proposal.
+The estimate is **$13.74/month**, conditional on the confirmed PostgreSQL free entitlement through2027-10-12 and bounded storage/compute use. Without that entitlement, regional PostgreSQL alone is about$19.308/month. This is an estimate, not an Azure spending lock; see [cost assumptions](cloud-cost-estimate.md).
 
-Part A's integrated gateway/literal/MI/Linux gate passed **43 tests / 47
-subtests**. The literal audit covers **358 installed files**, removed one
-fixture-specific prompt example, and keeps historical fixture builders outside
-the product boundary. The frozen `4377cbf` full suite passed **3,983 tests**,
-46 skipped and 1,407 subtests in 796.43 seconds. Later changes have separate
-focused results; this old full run does not certify every later commit.
-The gateway is an application boundary, not an OS firewall.
+The worker MI passed platform PostgreSQL/Blob/vault checks. The owner-approved existing investigator-reader delegated cache authenticated for Power BI and SQL with the same tenant/object/audiences. It remains an Entra user, not a newly created principal. Vault-only Secrets Officer was applied to the existing Azure owner after the recorded RBAC refusal; no estate reader gained scope. Application-source workstation authentication remains unreachable in cloud. The Contributor code reader never serves quantities.
 
-## State, recordings and disk
+The integrated gateway/literal/MI/Linux gate passed43 tests/47 subtests; all eight current cloud test shards passed with network disabled. The gateway is deny-by-default and an application boundary, not an OS firewall. The hard-coding audit covered358 installed files, removed one fixture-specific prompt example and separated historical fixture builders from product code. No intake redesign or acceptance change occurred.
 
-Shared PostgreSQL is authoritative for cloud tickets/case sections, published
-catalog/readiness and budgets. Migration preserved **10,022 usage rows**, all
-statuses including one historical reserved row, monetary totals and request
-keys. The document import retained **1,043 tickets, 291 contexts and nine
-models**. Graph tables were queried: **zero nodes / zero edges**. Private SQLite
-remains for per-job replay and offline execution; projected PostgreSQL live
-persistence refuses rather than leaking raw state.
+## Storage and disk
 
-The pilot and eight selected tapes were slimmed. The eight tapes' 1,958,359,736
-original bytes added 23,394,768 bytes to the shared content-addressed store,
-which reached **48,595,256 bytes**. All 32 reconstructed files matched exactly;
-all eight local pinned-engine replays matched. Broader history conversion is
-unfinished. The verified archive pilot covered 45 files; a later 32-file batch
-initially failed with connection reset, then verified and completed cleanup.
-Original failures remain. The later cleanup removed 1,958,359,736 logical bytes;
-D: free afterward was **14,078,382,080 bytes**. The 10 GB floor stays enforced.
-The initial 45-file cleanup freed 96,485,376 allocated bytes. Logical and
-allocated space must not be combined into a fabricated saving.
+Shared PostgreSQL now holds smart-ticket state, catalog/readiness and transactional budgets. Claim-first state, investigation/runtime tables and screenshots remain in per-job SQLite persisted in captures. Generic shared case-file repository support exists but is not wired into a production writer. Migration preserved10,022 usage rows, statuses and monetary counters, plus1,043 tickets,291 contexts and nine models. Graph tables remain empty. Private SQLite supports offline replay. Privacy-projected PostgreSQL and slim cloud recording explicitly refuse until supported; there is no silent exact fallback.
 
-A dated correction records that the initial SDK per-call hook was ignored;
-its inferred request count was not measured. The replacement transport recorded
-460 dispatches/responses for CAS publication and 192 for the retried archive,
-with zero errors in those completed batches. See
-[the control ledger](round-eighteen-control-ledger.md) for retained failures,
-checksums and exact scope changes.
+The pilot plus eight selected tapes use48,595,256 bytes of shared content-addressed storage. The eight tapes'1,958,359,736 original bytes added23,394,768 bytes;32 reconstructed files were byte-identical and all eight local pinned-engine replays matched. Most historical conversion remains unfinished. Verified archive cleanup removed45 pilot files (96,485,376 allocated bytes) and32 later files (1,958,359,736 logical bytes). Initial connection-reset and transport-counting errors remain recorded; the corrected transport counts physical dispatches. Logical bytes are not claimed as allocated savings.
 
-## Cloud and guide evidence
+D: free at the Part D opening was13,558,284,288 bytes; after cleanup14,078,382,080. Closing free space will be recorded after current artifacts are retained. The10GB floor remains enforced. No general deletion or full218GB archive claim is made.
 
-The first eight-way cloud historical replay was **7/8**; later failing-shard
-diagnostics retained Windows-path portability mismatches. Corrected Linux
-verification remains due at this checkpoint. The comparable eight-worker laptop
-baseline is **198.253 seconds**. No valid cloud speedup is claimed from a cohort
-with a failed member.
+The [content audit](round-eighteen-recording-content-audit.md) inspected1,146 loose tapes,1,596 inventory schemas and1,959/1,961 catalog schemas. All9,652 decoded row arrays exceeding249 were accounting. However141 tapes have uninspected protocol events, two catalog reads refused and archive payload inspection is incomplete: universal no-bulk certification is **not earned**. A separate intentional legacy export contains1,410,699 rows, with a byte-identical duplicate; both remain untouched and excluded from recording publication. Screenshot expiry is configured but not automatically enforced.
 
-The new cloud workflow prepares an image-local context candidate, requires its
-reviewed hash before single-model publication, then checks 18 bindings and one
-native boundary within the unchanged **40-probe verification cap**. It replays
-and derives six-stage readiness before admitting one form. Its audited input
-package is 47,305,616 compressed bytes / 461,153,892 expanded bytes. Preparation,
-verification, readiness and a successful live demo are distinct; the actual
-demo finding is **not yet earned** here.
+## Cloud execution and onboarding
 
-Retained-control preflight: fixture **8 PASS / 0 FAIL / 24 MISSING**; billing
-**8 PASS / 0 FAIL / 13 MISSING**. The first billing candidate's schema failure
-is preserved. An independent billing guide recheck reproduced the corrected
-counts with zero new requests. These are **NOT_READY**, and billing's example
-covers its declared semantic model, not a full end-to-end billing onboarding.
-The guide now fixes configuration paths, regions, credential-reference
-consistency, and hash-bound control imports. Clean-client deployment through
-teardown is not claimed tested. See [Part D](round-eighteen-part-d.md).
+Eight historical tapes ran as parallel cloud jobs: initial7/8 in about68seconds from first start to last finish, against local8/8 in198.253seconds. A Windows-path portability correction gave the remaining shard1/1 in55seconds. Thus all eight have passing cloud receipts, but no single all-green parallel cohort or speedup claim is made. Offline children made zero network/estate/model calls; platform artifact controls are separate.
 
-Sampled inventory schemas contain metadata/observations; sampled diagnostics
-retain bounded value rows, up to 249. A universal audit of every historical tape
-for bulk data remains incomplete. The storage document explicitly names that
-limit rather than asserting all recordings are metadata-only.
+The first live reader verification completed18/18 witnesses with40 probes and89 physical requests, then failed exact replay before readiness or demo admission. New captures now declare the shared-budget implementation and replay that algorithm privately; old failures/bytes are preserved. A fresh approval conserved825 retained assets and admits verification02 on immutable imagee646f7e. Its closing result is pending. Connection attestation remains partial and SNAPSHOT_UNVERIFIED remains throughout; reader verification alone is not the requested7,661-to-8,765 finding.
 
-## Budget and remaining work
+Retained-control preflight: fixture8 PASS/0 FAIL/24 MISSING; billing8 PASS/0 FAIL/13 MISSING. Both are NOT_READY as whole estates. Billing's example declares its semantic model, not the entire chain. The setup-guide exercise found and fixed paths, regional parameters, credential-reference consistency and receipt imports. Clean-client onboarding through teardown is not proven. [Part D](round-eighteen-part-d.md) and [owner actions](owner-actions.md) separate unfinished operator work from future authority decisions.
 
-At the ledger checkpoint, new estate/model admissions were **zero**. Shared model
-opening spend is **$107.957725**; new-round allowance is **$10**, admission ceiling
-**$127.957725** with protected **$10** margin (spend stop $117.957725). Pot remains
-**2,839/4,000**, restoration **95 remaining**, investigation diagnostic cap **12**.
-Rolling opening usage was 198/3,000; the final rolling value must come from the
-closing ledger, not an assumed unchanged time window.
+## Closing status
 
-Remaining: corrected Linux replay result; reviewed cloud candidate and fresh
-route proofs; one actual cloud demo/capture/replay; final spend/timing/disk
-measurements; broader conversion/content-audit backlog. No new owner approval is
-requested by the guide checkpoint. Existing deferred authority boundaries remain
-listed in [owner-actions.md](owner-actions.md).
+The last completed full regression on60c741a passed4,055 tests. A later frozen9634cef run had4,056 passes and one replay-bootstrap failure; its correction passes the specific test on e646f7e, whose full run is pending. Do not treat the older full pass as certification of every later commit.
+
+Opening shared model spend$107.957725; new allowance$10, ceiling$127.957725 with protected$10 margin (admission stop$117.957725). After verification01, new spend$0; pot2,928/4,000, reserve95, rolling287/3,000. Closing verification02/demo counters remain pending. Investigation diagnostic12 and every other cap stay unchanged.
+
+Remaining product gaps: integrating claim-first and case-file shared persistence; full archive conversion/content audit; projected cloud persistence; enforced screenshot/cloud-wide purge; complete client preflight/onboarding; source-app cloud authentication; and the live demo result until its gates pass. No general availability claim is made.

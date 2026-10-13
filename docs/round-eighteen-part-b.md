@@ -15,3 +15,6 @@ The verified archive pilot contains 45 files: 246,408,805 original bytes stored 
 The frozen 4377cbf engine passed 3,983 tests, 46 skipped and 1,407 subtests, in 796.43 seconds. Real PostgreSQL migration/concurrency tests and subsequent focused cloud tests are recorded separately. Current disk free was 13,850,230,784 bytes after the eight conversions; the 10 GB admission floor remains.
 
 Part C proceeds with the cloud demo prerequisites and the Linux historical replay correction. The first eight-way cloud replay matched 7/8; a Windows-path descriptor portability defect explains the retained failure. That result is not upgraded here. Cloud estate readiness and the live demo remain unearned at this checkpoint.
+
+
+Dated correction,2026-10-13 05:18 UTC: the opening claim about all cloud tickets/case-file sections was too broad. Production PostgreSQL wiring covers smart tickets, catalog/readiness and budgets. Claim-first state, investigation/runtime tables and images remain in per-job SQLite persisted in captures. The generic case-file repository has no production writer. This is unfinished shared-persistence work, not a migrated component.
