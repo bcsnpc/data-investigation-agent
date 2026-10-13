@@ -107,6 +107,12 @@ def verify_phase(inputs,work,config):
  if sha(candidate)!=config['candidate_sha256']:raise ValueError('OWNER_REVIEWED_CANDIDATE_DIFFERS')
  state=configured_state()
  if state is None or state.backend!='postgresql':raise ValueError('CLOUD_POSTGRES_REQUIRED')
+ from cloud_binding_verifier import preflight
+ from investigator.estate_manifest import load
+ from investigator.adapters.estate_installation import configuration
+ admitted=preflight(read(inputs/'verification-spec.json'),configuration(load(inputs/'estate.json')),
+  read(prepared/'context.json'),receipt_path=prepared/'endpoints.json')
+ if not admitted['admissible']:raise ValueError('VERIFICATION_PREFLIGHT_REFUSED')
  publication=publish(state,read(candidate));write(prepared/'publication.json',publication)
  plan=read(inputs/'operator-plan.json')
  result=execute(inputs/'estate.json',prepared,inputs/'verification-spec.json',spec_sha256=plan['verification_spec_sha256'],session=config['session'],deadline=config['deadline'],capture=work/'verification-capture')

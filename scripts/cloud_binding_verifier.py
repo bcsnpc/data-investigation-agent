@@ -9,7 +9,7 @@ from investigator.onboarding import digest
 from investigator.verification_budget import VerificationBudget
 
 
-def plan(spec):
+def plan(spec,*,config=None,objects=None):
     proposals=spec['proposals']
     if not proposals:raise ValueError('EMPTY_VERIFICATION_INVENTORY')
     identities=[digest(p) for p in proposals]
@@ -28,9 +28,13 @@ def plan(spec):
             raise ValueError('VERIFICATION_PREWARM_DECLARATION')
     groups={spec['target_databases'][name] for name in targets}
     needed=2*len(proposals)+len(groups)+2
+    scope_validated=prewarm is None
+    if prewarm is not None and config is not None and objects is not None:
+        prewarm_assets(spec,config,objects);scope_validated=True
     return {'bindings':len(proposals),'target_catalog_reads':len(groups),
         'verification_reads_needed':needed,'verification_cap':vb.cap,
-        'admissible':needed<=vb.cap,'physical_endpoint_requests':0,
+        'admissible':needed<=vb.cap and scope_validated,'physical_endpoint_requests':0,
+        'prewarm_scope_validated':scope_validated,
         'diagnostic_investigation_reads':0,'model_calls':0,
         'publication':'NOT_PERFORMED','native_direct_route':'TWO_READS_IN_SAME_SESSION'}
 
@@ -42,11 +46,7 @@ def prewarm_source(spec,config,objects,governor,inputs,record,*,execute=None,sle
     from investigator import process_tape as tape
     from serverless_control import prewarm
     if tape.ACTIVE.get() is None:raise ValueError('EXACT_CAPTURE_REQUIRED')
-    assets=declaration['asset_ids']
-    sources={objects[s['table']]['asset_id']for p in spec['proposals']for s in p['sources']}
-    layers={l['asset_id']:l for l in config.get('_estate',{}).get('layers',[])}
-    if not set(assets)<=sources or any(layers.get(a,{}).get('serverless')is not True for a in assets):
-        raise ValueError('VERIFICATION_PREWARM_SOURCE_NOT_DECLARED')
+    assets=prewarm_assets(spec,config,objects)
     from sql_layer_policy import policy
     timeout=policy(config,{'asset_ids':assets})['worker_timeout_seconds']
     if type(timeout)is not int or not 1<=timeout<=240:
@@ -75,6 +75,33 @@ def prewarm_source(spec,config,objects,governor,inputs,record,*,execute=None,sle
     if result.get('error') or result.get('status')!='CONNECTED':raise ValueError('VERIFICATION_PREWARM_FAILED')
 
 
+def prewarm_assets(spec,config,objects):
+    """Same source restriction for offline admission and actual controls."""
+    declaration=spec.get('prewarm')
+    if declaration is None:return []
+    assets=declaration['asset_ids']
+    sources={objects[s['table']]['asset_id']for p in spec['proposals']for s in p['sources']}
+    layers={l['asset_id']:l for l in config.get('_estate',{}).get('layers',[])}
+    if not set(assets)<=sources or any(layers.get(a,{}).get('serverless')is not True for a in assets):
+        raise ValueError('VERIFICATION_PREWARM_SOURCE_NOT_DECLARED')
+    return list(assets)
+
+
+def preflight(spec,config,context,*,receipt_path):
+    """Pure retained-input admission; no transport, PG, model or budget seam."""
+    from types import SimpleNamespace
+    from investigator.adapters.code_verification import resolve_objects
+    from investigator.adapters.retained_endpoints import read
+    plan(spec) # shape and conservation validation before retained resolution
+    process=SimpleNamespace(config=config,read_endpoint=lambda request:read(config,context,request,receipt_path=receipt_path))
+    objects,missing=resolve_objects(process,context,spec['schemas'])
+    if missing:raise ValueError('VERIFICATION_PREFLIGHT_OBJECT_RESOLUTION_REFUSED')
+    result=plan(spec,config=config,objects=objects)
+    assets=prewarm_assets(spec,config,objects)
+    return {**result,'prewarm_scope_validated':True,'prewarm_asset_ids':assets,
+        'resolved_source_asset_ids':sorted({objects[s['table']]['asset_id']for p in spec['proposals']for s in p['sources']})}
+
+
 def perform(bootstrap, work, budget_catalog=None, live=None):
     """Replay-compatible capture entry point, same inputs under live/replay.
 
@@ -98,7 +125,7 @@ def perform(bootstrap, work, budget_catalog=None, live=None):
     i=bootstrap['state']['inputs'];spec=i['verification_spec'];config=bootstrap['config']
     if fingerprint()!=i['engine_fingerprint']:raise ValueError('VERIFIER_ENGINE_DIFFERS')
     planned=plan(spec)
-    if not planned['admissible']:raise ValueError('VERIFICATION_CAP_INSUFFICIENT')
+    if planned['verification_reads_needed']>planned['verification_cap']:raise ValueError('VERIFICATION_CAP_INSUFFICIENT')
     work=Path(work);context=json.loads((work/'context.json').read_bytes())
     model=json.loads((work/'model.json').read_bytes())
     if digest(context)!=i['context_hash'] or model['context_id']!=i['model_context_id']:
@@ -125,6 +152,8 @@ def perform(bootstrap, work, budget_catalog=None, live=None):
         read_endpoint=lambda request:endpoint(config,context,request,receipt_path=work/'endpoints.json'))
     objects,missing=resolve_objects(process,context,spec['schemas'])
     if missing:raise ValueError('VERIFICATION_OBJECT_RESOLUTION_REFUSED')
+    planned=plan(spec,config=config,objects=objects);record['plan']=planned
+    if not planned['admissible']:raise ValueError('VERIFICATION_CAP_INSUFFICIENT')
     try:
         with guard_scope(lambda e:record['guards'].append(e)):
             prewarm_source(spec,config,objects,governor,i,record)
@@ -177,7 +206,17 @@ def perform(bootstrap, work, budget_catalog=None, live=None):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--plan',type=Path,required=True)
+    for key in ('manifest','context','endpoints'):parser.add_argument('--'+key,type=Path)
     args=parser.parse_args()
-    print(json.dumps(plan(json.loads(args.plan.read_bytes())),indent=2))
+    spec=json.loads(args.plan.read_bytes())
+    if spec.get('prewarm') is not None and not all((args.manifest,args.context,args.endpoints)):
+        raise ValueError('VERIFICATION_PREWARM_PREFLIGHT_INPUTS_REQUIRED')
+    if any((args.manifest,args.context,args.endpoints)):
+        if not all((args.manifest,args.context,args.endpoints)):raise ValueError('VERIFICATION_PREFLIGHT_INPUTS_REQUIRED')
+        from investigator.estate_manifest import load
+        from investigator.adapters.estate_installation import configuration
+        result=preflight(spec,configuration(load(args.manifest)),json.loads(args.context.read_bytes()),receipt_path=args.endpoints)
+    else:result=plan(spec)
+    print(json.dumps(result,indent=2))
 
 if __name__=='__main__':main()

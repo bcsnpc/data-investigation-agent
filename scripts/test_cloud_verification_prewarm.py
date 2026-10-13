@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from unittest.mock import Mock
 
-from cloud_binding_verifier import prewarm_source,plan
+from cloud_binding_verifier import prewarm_source,plan,preflight
 from investigator.process_tape import Tape,active
 from test_process_tape import bootstrap
 from test_serverless_source_controls import CONFIG,ASSET,FAILED
@@ -63,6 +63,23 @@ class PrewarmVerificationTests(unittest.TestCase):
         for declaration in ({},{'asset_ids':[]},{'asset_ids':[ASSET,ASSET]},{'asset_ids':[ASSET],'query':'SELECT 1'}):
             spec=self.spec();spec['prewarm']=declaration
             with self.assertRaisesRegex(ValueError,'PREWARM_DECLARATION'):plan(spec)
+
+    def test_unresolved_prewarm_cannot_be_admitted_by_shape_only_plan(self):
+        got=plan(self.spec())
+        self.assertFalse(got['admissible']);self.assertFalse(got['prewarm_scope_validated'])
+        allowed=plan(self.spec(),config=CONFIG,objects={'source':{'asset_id':ASSET}})
+        self.assertTrue(allowed['admissible']);self.assertTrue(allowed['prewarm_scope_validated'])
+
+    def test_manifest_serverless_asset_unrelated_to_proposals_refused_offline(self):
+        from unittest.mock import patch
+        objects={'source':{'asset_id':'fabric://workspace/bronze/table/source'}}
+        with patch('investigator.adapters.code_verification.resolve_objects',return_value=(objects,[])):
+            with self.assertRaisesRegex(ValueError,'PREWARM_SOURCE_NOT_DECLARED'):
+                preflight(self.spec(),CONFIG,{'assets':[]},receipt_path='not-read')
+        # No prewarm is needed when the proposals do not reach a serverless source.
+        spec=self.spec();spec.pop('prewarm')
+        with patch('investigator.adapters.code_verification.resolve_objects',return_value=(objects,[])):
+            self.assertTrue(preflight(spec,CONFIG,{'assets':[]},receipt_path='not-read')['admissible'])
 
     def test_worker_bound_and_remaining_job_time_checked_before_admission(self):
         with tempfile.TemporaryDirectory() as folder,active(Tape(Path(folder)/'tape.json',bootstrap())):

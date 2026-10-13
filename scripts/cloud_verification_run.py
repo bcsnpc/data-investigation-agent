@@ -10,7 +10,7 @@ from investigator.adapters.estate_installation import configuration
 from investigator.onboarding import ModelStore,digest
 from investigator.runtime import Runtime,fingerprint
 from investigator.usage_governance import UsageGovernor
-from cloud_binding_verifier import plan
+from cloud_binding_verifier import preflight
 from cloud_verification_capture import Capture
 
 
@@ -20,13 +20,15 @@ def execute(manifest_path,prepared,spec_path,*,spec_sha256,session,deadline,capt
     current().check_live()
     prepared=Path(prepared);spec_path=Path(spec_path);manifest=load(manifest_path);config=configuration(manifest)
     if hashlib.sha256(spec_path.read_bytes()).hexdigest()!=spec_sha256:raise ValueError('VERIFICATION_SPEC_CHANGED')
-    spec=json.loads(spec_path.read_bytes());planned=plan(spec)
-    if not planned['admissible'] or spec['budgets']!=manifest['budgets']:raise ValueError('VERIFICATION_BUDGET_DIFFERS')
+    spec=json.loads(spec_path.read_bytes())
+    if spec['budgets']!=manifest['budgets']:raise ValueError('VERIFICATION_BUDGET_DIFFERS')
     approval=json.loads((prepared/'approval.json').read_bytes())
     if approval['config_hash']!=digest(config) or approval['manifest_sha256']!=hashlib.sha256(Path(manifest_path).read_bytes()).hexdigest():
         raise ValueError('CLOUD_CONFIG_APPROVAL_DIFFERS')
     if approval['engine_hash']!=fingerprint():raise ValueError('APPROVED_ENGINE_DIFFERS')
     context=json.loads((prepared/'context.json').read_bytes());model=json.loads((prepared/'model.json').read_bytes())
+    planned=preflight(spec,config,context,receipt_path=prepared/'endpoints.json')
+    if not planned['admissible']:raise ValueError('VERIFICATION_BUDGET_DIFFERS')
     pinned_body={k:v for k,v in context.items() if k!='version'}
     if context.get('version')!=approval['context_id'] or digest(pinned_body)!=approval['context_hash']:
         raise ValueError('APPROVED_CONTEXT_DIFFERS')
