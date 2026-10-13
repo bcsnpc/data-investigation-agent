@@ -62,3 +62,34 @@ independent installation catalogs cannot be promoted under `unknown-domain-v4`
 without a namespace decision. That is a recorded limitation, not permission to
 rewrite their manifests, evidence or identities. Root owns selection and apply;
 this document is a plan only.
+
+## Runtime-reference check: blocked, 2026-10-13
+
+Root selected the pipeline default for consideration, conditional on exact
+runtime-reference agreement with `.local/unknown-domain-v4/catalog.sqlite`
+(the source of the 23,568-row primary migration). Both databases were opened
+read-only. That check failed because the referenced sessions are absent:
+
+| Claim | Recorded status | Explicit session | Pipeline rows | Primary rows |
+|---|---|---|---|---|
+| `ce337237-0982-4b2e-add2-bb5b69da65dd` | COMPLETED | `c62ff14f-3af5-45dc-b907-cc4938c9057c` | session 1; synthesis 1; events 38 | 0 in each table |
+| `ceb8d931-261d-4852-abf4-806f2fbf8a4c` | PARTIAL | `4ad161ad-500a-499c-acaf-517869adf5e7` | session 1; events 7 | 0 in each table |
+| `06d18d76-d26d-4537-941f-663f71adb1ad` | HELD | no session/candidate-session reference | no runtime asserted | not applicable |
+
+Canonical column-and-row hashes for the completed session in the pipeline are
+`0d9091992dfa8892385e46837f154474fd10f5b1cb05b147ba28b8aa641efcea`
+(`adaptive_sessions`),
+`6d78e9466892095b0cd8c38ca19c610069e06c222b08bc8397a8e90cc104305e`
+(`adaptive_syntheses`), and
+`158f908a14dce6711e1dced05ca0db949b805cd8355122728cb375d3f0f12c6f`
+(`adaptive_events`). The partial session hashes are
+`45aab58449dfd6c4e93ab8b31e0a7b0edf0549a2604f9941b7b373047e1588af`
+and `2d340ce2c47594f5e73735e5e93870613ab28fe858df0e0fadd5f6beed94789b`.
+These hashes describe `SELECT *` rows in original row order plus their column
+names; they are comparison receipts, not replacement migration hashes.
+
+**No claims-only import payload was prepared and no merge was performed.**
+The two nonempty runtime histories remain in their original pipeline catalog.
+An isolated installation import preserving its entire claim/runtime namespace
+would need an explicit namespace decision; adding these claims alone to the
+primary authority would create dangling case references.
