@@ -18,7 +18,7 @@ class SnapshotHistoryTests(unittest.TestCase):
     db.executemany('INSERT INTO adaptive_usage VALUES(?,?,?,?,?,?,?,?,?,?)',[('test','s'+str(i),'k',day,'cloud',json.dumps(amount),None,'SETTLED','hash',now-1) for i in range(n)])
     calls=[]
     def clock():calls.append(now);return process_tape.clock('snapshot-fixed',lambda:now)
-    owner=UsageGovernor.__new__(UsageGovernor);owner.environment='test';owner.hash='hash';owner.runtime=types.SimpleNamespace(db=lambda:db);owner.clock=clock;owner.policy={'daily_limits':{'cloud_calls':10000}}
+    owner=UsageGovernor.__new__(UsageGovernor);owner.shared=None;owner.environment='test';owner.hash='hash';owner.runtime=types.SimpleNamespace(db=lambda:db);owner.clock=clock;owner.policy={'daily_limits':{'cloud_calls':10000}}
     return owner,calls,now
  def test_8000_rows_observe_one_instant_and_preserve_totals(self):
     owner,calls,_=self.owner(8000);result=owner.snapshot()
