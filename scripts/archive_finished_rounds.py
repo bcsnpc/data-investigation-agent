@@ -1,6 +1,7 @@
 """Plan, privacy-review-bound archive publication, or generate cleanup (never run it)."""
 import argparse
 import json
+import os
 from pathlib import Path
 
 from investigator.archive_migration import (plan, load_pinned, publish, cleanup_script,
@@ -10,23 +11,26 @@ from investigator.artifact_store import ArtifactError, Files, LocalObjects, cano
 
 class ArchiveClient:
     def __init__(self, account_url, identity, channel):
-        from azure.core.pipeline.policies import SansIOHTTPPolicy
+        from investigator.adapters.guarded_transport import GuardedTransport
         from azure.identity import ManagedIdentityCredential
         from azure.storage.blob import ContainerClient
         from investigator.live_gateway import current
         gateway=current()
-        class Guard(SansIOHTTPPolicy):
-            def on_request(self, request):
-                http=request.http_request
-                gateway.http(channel,http.method,http.url)
         self.client=ContainerClient(account_url,'archive',credential=ManagedIdentityCredential(client_id=identity),
-                                    per_call_policies=[Guard()],retry_total=0)
+                                    transport=GuardedTransport(gateway,channel),retry_total=0)
 
     def upload_hot(self,key,path,encoding='identity'):
         from azure.storage.blob import StandardBlobTier
+        from azure.core.exceptions import ResourceExistsError
         stats={}
-        self.client.get_blob_client(key).upload_blob(encoded_chunks(path,encoding,stats),overwrite=False,
-                    validate_content=True,max_concurrency=1,standard_blob_tier=StandardBlobTier.Hot)
+        try:
+            self.client.get_blob_client(key).upload_blob(encoded_chunks(path,encoding,stats),overwrite=False,
+                        validate_content=True,max_concurrency=1,standard_blob_tier=StandardBlobTier.Hot)
+        except ResourceExistsError:
+            # A previous failed response may have left the immutable object Hot.
+            # Existing bytes are NOT accepted here: publish must download and
+            # verify original size/hash, stable ETag and Hot tier before archiving.
+            return None
         return stats
 
     def download_chunks(self,key):
@@ -96,7 +100,13 @@ def main(argv=None):
     review=json.loads(args.privacy_review.read_bytes())
     privacy_approved(review,args.manifest_sha256)
     if args.command=='upload':
-        result=publish(value,args.manifest_sha256,review,ArchiveClient(args.account_url,args.managed_client_id,args.gateway_channel))
+        def checkpoint(row):
+            progress=Path(str(args.output)+'.progress.jsonl')
+            record={'manifest_sha256':args.manifest_sha256,'privacy_review':review,'object':row}
+            with progress.open('a',encoding='utf-8') as stream:
+                stream.write(json.dumps(record,sort_keys=True)+'\n');stream.flush();os.fsync(stream.fileno())
+        result=publish(value,args.manifest_sha256,review,ArchiveClient(args.account_url,args.managed_client_id,args.gateway_channel),
+                       on_verified=checkpoint)
     else:
         directory=args.tape_directory.resolve(strict=True)
         workspace=Path(value['workspace']).resolve(strict=True)

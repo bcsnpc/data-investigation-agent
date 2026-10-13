@@ -196,7 +196,7 @@ def verify_download(chunks, encoding, entry):
             'stored_bytes':stored_size,'stored_sha256':stored.hexdigest(),'storage_encoding':encoding}
 
 
-def publish(manifest, manifest_sha, review, client):
+def publish(manifest, manifest_sha, review, client, *, on_verified=None):
     """Injected archive client: no overwrite; verify while Hot, then Archive."""
     privacy_approved(review,manifest_sha)
     if digest(canonical(manifest))!=manifest_sha:raise ArtifactError('ARCHIVE_MANIFEST_SHA_DIFFERS')
@@ -222,6 +222,7 @@ def publish(manifest, manifest_sha, review, client):
         if final['tier']!='Archive' or not final.get('etag'):raise ArtifactError('ARCHIVE_TIER_NOT_CONFIRMED')
         receipts.append({**entry,'blob':key,'etag':final['etag'],'tier':'Archive',
                          **verified,'verified_at':datetime.now(timezone.utc).isoformat()})
+        if on_verified is not None:on_verified(dict(receipts[-1]))
     return {'version':'verified-archive-receipt-v1','manifest_sha256':manifest_sha,
             'privacy_review':review,'objects':receipts,'local_deletion_performed':False,
             'original_bytes':sum(e['bytes'] for e in receipts),'stored_bytes':sum(e['stored_bytes'] for e in receipts)}

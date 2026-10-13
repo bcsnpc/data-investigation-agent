@@ -40,16 +40,12 @@ class BlobObjects:
     managed identity; owner migration can pass its existing credential in memory.
     """
     def __init__(self, account_url, container, credential, *, channel, gateway):
-        from azure.core.pipeline.policies import SansIOHTTPPolicy
+        from .guarded_transport import GuardedTransport
         from azure.storage.blob import ContainerClient
         if container not in {'snapshots', 'tapes', 'captures', 'screenshots'}:
             raise ArtifactError('ARTIFACT_CONTAINER_NOT_ALLOWED')
-        class Guard(SansIOHTTPPolicy):
-            def on_request(self, request):
-                http = request.http_request
-                gateway.http(channel, http.method, http.url)
         self.client = ContainerClient(account_url, container, credential=credential,
-                                      per_call_policies=[Guard()], retry_total=0)
+                                      transport=GuardedTransport(gateway, channel), retry_total=0)
 
     @staticmethod
     def key(key):

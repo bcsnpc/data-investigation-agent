@@ -202,6 +202,46 @@ class Tests(unittest.TestCase):
         self.assertEqual(calls,[{'overwrite':False,'validate_content':True,'max_concurrency':1,'standard_blob_tier':'Hot'}])
         self.assertEqual(list(self.root.iterdir()),[source])
 
+    def test_existing_hot_object_is_verified_without_overwrite(self):
+        from archive_finished_rounds import ArchiveClient
+        from azure.core.exceptions import ResourceExistsError
+        source=self.put('.local/round-five/receipt.json',b'original')
+        plan=self.plan(['.local/round-five/receipt.json']);sha,review=self.review(plan)
+        remote=Remote();key='originals/'+digest(b'original')+'/'+digest(plan['entries'][0]['path'].encode())
+        remote.data[key]=b'original';remote.tiers[key]='Hot'
+        calls=[]
+        def upload(data,**kwargs):
+            calls.append(kwargs);raise ResourceExistsError('already exists')
+        client=ArchiveClient.__new__(ArchiveClient)
+        client.client=SimpleNamespace(get_blob_client=lambda key:SimpleNamespace(upload_blob=upload))
+        remote.upload_hot=lambda key,path:client.upload_hot(key,path)
+        result=archive.publish(plan,sha,review,remote)
+        self.assertEqual(result['objects'][0]['download_verified_sha256'],digest(b'original'))
+        self.assertEqual(calls[0]['overwrite'],False);self.assertIn('download',remote.calls)
+        self.assertEqual(remote.data[key],b'original')
+
+    def test_existing_corrupt_or_archived_object_is_never_accepted(self):
+        self.put('.local/round-five/receipt.json',b'original')
+        plan=self.plan(['.local/round-five/receipt.json']);sha,review=self.review(plan)
+        key='originals/'+digest(b'original')+'/'+digest(plan['entries'][0]['path'].encode())
+        for tier,data in [('Hot',b'wrong'),('Archive',b'original')]:
+            remote=Remote();remote.data[key]=data;remote.tiers[key]=tier
+            remote.upload_hot=lambda *args,**kwargs:None
+            with self.subTest(tier=tier),self.assertRaises(ArtifactError):archive.publish(plan,sha,review,remote)
+            self.assertNotIn('archive',remote.calls)
+
+    def test_verified_progress_survives_later_upload_failure(self):
+        paths=['.local/round-five/one.json','.local/round-five/two.json']
+        for path in paths:self.put(path)
+        plan=self.plan(paths);sha,review=self.review(plan);remote=Remote();original=remote.upload_hot
+        def fail_second(key,path):
+            if remote.data:raise ConnectionResetError('synthetic reset')
+            return original(key,path)
+        remote.upload_hot=fail_second;progress=[]
+        with self.assertRaises(ConnectionResetError):archive.publish(plan,sha,review,remote,on_verified=progress.append)
+        self.assertEqual(len(progress),1);self.assertEqual(progress[0]['tier'],'Archive')
+        self.assertEqual(progress[0]['download_verified_sha256'],plan['entries'][0]['sha256'])
+
     def test_old_raw_manifest_and_receipt_remain_usable(self):
         self.put('.local/round-five/receipt.json')
         plan=self.plan(['.local/round-five/receipt.json']);self.assertNotIn('storage_encoding',plan)
