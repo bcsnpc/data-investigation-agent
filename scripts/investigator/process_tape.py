@@ -198,6 +198,10 @@ class Tape:
                 raise TapeError('TAPE_ENGINE_REVISION_MISSING')
             state=bootstrap['state']
             fields={'environment','workspace_owner','artifacts','dynamic_read_limit','dynamic_input_limit'}
+            if 'shared_application' in state:
+                fields.add('shared_application')
+                from .shared_application import VERSION as application_version
+                if state['shared_application']!=application_version:raise TapeError('TAPE_APPLICATION_STATE_VERSION')
             if 'shared_usage_replay' in state:
                 fields.add('shared_usage_replay')
                 from .shared_usage_replay import validate_workspace

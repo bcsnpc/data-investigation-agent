@@ -28,6 +28,15 @@ TABLES = frozenset('''claim_intakes claim_revisions claim_investigations
  record_readbacks record_comparisons record_aggregate_assessments
  comparison_assessments proof_preflights'''.split())
 CURRENT = ContextVar('shared_application_connection', default=None)
+BOOTSTRAP_REPLAY = ContextVar('shared_application_bootstrap_replay', default=False)
+
+
+@contextmanager
+def bootstrap_replay():
+    """Controller constructors restore sealed schemas, not operation reads."""
+    token=BOOTSTRAP_REPLAY.set(True)
+    try:yield
+    finally:BOOTSTRAP_REPLAY.reset(token)
 
 
 def key(environment, table):
@@ -38,7 +47,7 @@ def key(environment, table):
 def enabled(store):
     tape = ACTIVE.get()
     if tape is not None and tape.replaying:
-        return tape.bootstrap.get('state', {}).get('shared_application') == VERSION
+        return not BOOTSTRAP_REPLAY.get() and tape.bootstrap.get('state', {}).get('shared_application') == VERSION
     return store.__dict__.get('shared_catalog') is not None
 
 
