@@ -12,8 +12,10 @@ def configuration(manifest):
     options=copy.deepcopy(manifest['adapters'][0]['options'])
     # Scattered roles/audits/source declarations are forbidden in adapter
     # options: these are derived solely from the neutral manifest inventory.
-    if set(options)!={'sql','fabric'}:
-        raise ValueError('manifest.adapters.options: expected sql and fabric only')
+    if set(options) not in ({'sql','fabric'},{'fabric'}):
+        raise ValueError('manifest.adapters.options: expected fabric and optional sql only')
+    if 'sql' not in options and (manifest['resources'] or any(row['role']!='SEMANTIC' for row in manifest['layers'])):
+        raise ValueError('manifest.adapters.options.sql: required for declared non-semantic layers or resources')
     identities={i['id']:i for i in manifest['identities']}
     for row in manifest['layers']+manifest['resources']:
         if row['reach']['address']!=row['asset_id']:
@@ -34,8 +36,21 @@ def configuration(manifest):
                 from .managed_identity import reference as identity_reference
                 actual=identity_reference({k:auth[k] for k in ('mode','tenant_id','client_id','principal_id')})
             else:actual=auth['credential_file']
+        elif row.get('role')=='SEMANTIC' and options['fabric']['auth'].get('mode') in ('federated_reader','managed_identity','key_vault_user_cache'):
+            auth=options['fabric']['auth']
+            if auth['mode']=='federated_reader':
+                from .vault_user_cache import credential
+                from .federated_reader import reference as identity_reference
+                actual=identity_reference(credential(auth))
+            elif auth['mode']=='managed_identity':
+                from .managed_identity import reference as identity_reference
+                actual=identity_reference({k:auth[k] for k in ('mode','tenant_id','client_id','principal_id')})
+            else:
+                from .vault_user_cache import credential, reference as identity_reference
+                actual=identity_reference(credential(auth))
         else:
-            reader=options['fabric']['sql_reader']
+            reader=options['fabric'].get('sql_reader')
+            if reader is None:raise ValueError('manifest.identities: native credential reference unavailable')
             if reader.get('mode')=='federated_reader':
                 from .vault_user_cache import credential
                 from .federated_reader import reference as identity_reference

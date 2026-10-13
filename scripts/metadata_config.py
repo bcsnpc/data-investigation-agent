@@ -33,10 +33,10 @@ def worker_configuration(config, request):
     if estate is not None:
         prefix = 'fabric://' + request['workspace'] + '/' + request['native_model_id'] + '/'
         layers = [row for row in estate['layers'] if row['role'] == 'SEMANTIC'
-                  and row['asset_id'].startswith(prefix)]
+                  and (row['asset_id']==prefix[:-1] or row['asset_id'].startswith(prefix))]
         if not layers or any(not row['reachable'] for row in layers):
             raise ValueError('Native worker target lacks a reachable declared layer')
-    projected = {key: copy.deepcopy(config[key]) for key in WORKER_CONFIG_FIELDS}
+    projected = {key: copy.deepcopy(config[key]) for key in WORKER_CONFIG_FIELDS if key in config}
     projected['fabric'] = {key: copy.deepcopy(config['fabric'][key])
                            for key in WORKER_FABRIC_FIELDS if key in config['fabric']}
     if estate is not None:
@@ -56,7 +56,7 @@ def load_config(path):
 
 def validate_config(config):
     """Adapter projection validation without consulting another config file."""
-    keys(config, list(WORKER_CONFIG_FIELDS) + [k for k in ('system_of_record','load_audits','source_delivery','layer_roles') if k in config])
+    keys(config, [k for k in WORKER_CONFIG_FIELDS if k!='sql' or k in config] + [k for k in ('system_of_record','load_audits','source_delivery','layer_roles') if k in config])
     if 'layer_roles' in config:
         from investigator.layer_roles import declarations
         declarations(config['layer_roles'])
@@ -71,27 +71,28 @@ def validate_config(config):
         declaration(config['system_of_record'])
     if config['version'] != 1:
         raise ValueError('Unsupported configuration version')
-    sql, fabric = config['sql'], config['fabric']
-    keys(sql, ['server', 'database', 'visibility_schema', 'auth'])
-    if not re.fullmatch(r'[A-Za-z0-9.-]+', text(sql['server'])):
-        raise ValueError('SQL server must be a hostname')
-    text(sql['database']); text(sql['visibility_schema'])
+    sql, fabric = config.get('sql'), config['fabric']
     from investigator.adapters.managed_identity import validate as managed_identity
     from investigator.adapters.vault_user_cache import MODE as USER_CACHE, FIELDS as USER_FIELDS, validate as user_cache, PBI, SQL
     from investigator.adapters.federated_reader import MODE as FEDERATED, FIELDS as FED_FIELDS, validate as federated
-    if sql['auth'].get('mode') == FEDERATED:
-        keys(sql['auth'], FED_FIELDS | {'account'})
-        federated({k:sql['auth'][k] for k in FED_FIELDS});text(sql['auth']['account'])
-    elif sql['auth'].get('mode') == 'managed_identity':
-        keys(sql['auth'], ['mode', 'tenant_id', 'client_id', 'principal_id', 'account'])
-        managed_identity({k:sql['auth'][k] for k in ('mode','tenant_id','client_id','principal_id')})
-        text(sql['auth']['account'])
-    else:
-        keys(sql['auth'], ['mode', 'credential_file'] + (['account'] if 'account' in sql['auth'] else []))
-        if 'account' in sql['auth']:
-            if len(text(sql['auth']['account']))>128:raise ValueError('Source reader account exceeds bound')
-        if sql['auth']['mode'] != 'dpapi_file':
-            raise ValueError('Unsupported SQL authentication mode')
+    if sql is not None:
+        keys(sql, ['server', 'database', 'visibility_schema', 'auth'])
+        if not re.fullmatch(r'[A-Za-z0-9.-]+', text(sql['server'])):
+            raise ValueError('SQL server must be a hostname')
+        text(sql['database']); text(sql['visibility_schema'])
+        if sql['auth'].get('mode') == FEDERATED:
+            keys(sql['auth'], FED_FIELDS | {'account'})
+            federated({k:sql['auth'][k] for k in FED_FIELDS});text(sql['auth']['account'])
+        elif sql['auth'].get('mode') == 'managed_identity':
+            keys(sql['auth'], ['mode', 'tenant_id', 'client_id', 'principal_id', 'account'])
+            managed_identity({k:sql['auth'][k] for k in ('mode','tenant_id','client_id','principal_id')})
+            text(sql['auth']['account'])
+        else:
+            keys(sql['auth'], ['mode', 'credential_file'] + (['account'] if 'account' in sql['auth'] else []))
+            if 'account' in sql['auth']:
+                if len(text(sql['auth']['account']))>128:raise ValueError('Source reader account exceeds bound')
+            if sql['auth']['mode'] != 'dpapi_file':
+                raise ValueError('Unsupported SQL authentication mode')
     optional = [k for k in ('native_reader', 'sql_session', 'sql_reader', 'xmla_client', 'refresh_timing_reader', 'snapshot_identity_reader', 'retained_endpoints') if k in fabric]
     keys(fabric, ['workspace_id', 'auth'] + optional)
     fabric['workspace_id'] = str(UUID(text(fabric['workspace_id'])))
@@ -184,7 +185,7 @@ def validate_config(config):
             fabric['sql_session']['profile'] == fabric['sql_reader'].get('profile')):
         raise ValueError('SQL reader and SQL session must use separate profiles')
     keys(config['storage'], ['database'])
-    for section, key in [(sql['auth'], 'credential_file'), (fabric['auth'], 'python'), (config['storage'], 'database')]:
+    for section, key in ([(sql['auth'], 'credential_file')] if sql is not None else []) + [(fabric['auth'], 'python'), (config['storage'], 'database')]:
         if key not in section:continue
         if key == 'python' and fabric['auth']['mode'] in ('managed_identity', USER_CACHE, FEDERATED):
             text(section[key]);continue

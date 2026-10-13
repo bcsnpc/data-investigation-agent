@@ -36,7 +36,7 @@ def main():
     governor=UsageGovernor(Runtime(store,config,None,None),policy(manifest),time.time)
     auth=config['fabric']['auth']
     transport=WorkerTransport(auth['python'],auth['tenant_id'],ROOT/'scripts/metadata_worker.py',authentication=auth)
-    sql=PowerShellSqlCatalog(ROOT/'infra/scripts/Get-SqlMetadata.ps1',config['sql']['auth']['credential_file'])
+    sql=PowerShellSqlCatalog(ROOT/'infra/scripts/Get-SqlMetadata.ps1',config['sql']['auth']['credential_file']) if 'sql' in config else None
     summaries=[]
     for i in range(args.cycles):
         if i:time.sleep(args.interval_seconds)
