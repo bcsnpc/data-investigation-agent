@@ -163,24 +163,28 @@ class GraphRepository:
                     if item['provenance']['source']=='QUERY_VERIFICATION':
                         item['provenance']['source']=item['properties'].get('query_verification',{}).get('origin_source') or ('STATIC_DEFINITION' if item['base_confidence']!='INFERRED' else 'MODEL_PROPOSAL')
                 contract.record(item,edge=True)
-            changed=[]
+            changed=[]; history_updates=[]; history_inserts=[]
+            active_versions={(kind,identity):stamp for kind,identity,stamp in self.state.sql(db,
+                'SELECT record_kind,identity,valid_from FROM estate_graph_history WHERE estate=? AND valid_to IS NULL',(estate,)).fetchall()}
             for kind in ('nodes','edges'):
                 for identity in sorted(old[kind].keys()|new[kind].keys()):
                     before=old[kind].get(identity);after=new[kind].get(identity)
                     if before==after:continue
-                    latest=self.state.sql(db,'SELECT valid_from FROM estate_graph_history WHERE estate=? AND record_kind=? AND identity=? AND valid_to IS NULL',(estate,kind,identity)).fetchone()
-                    if latest and now<=latest[0]:raise StateConflict('GRAPH_RECORD_CHANGE_TIME_MUST_ADVANCE')
+                    latest=active_versions.get((kind,identity))
+                    if latest and now<=latest:raise StateConflict('GRAPH_RECORD_CHANGE_TIME_MUST_ADVANCE')
                     owner=(after or before)['owner']
                     changed.append({'kind':kind,'id':identity,'owner':owner,'change':'DELETED' if after is None else 'ADDED' if before is None else 'CHANGED'})
-                    self.state.sql(db,'UPDATE estate_graph_history SET valid_to=? WHERE estate=? AND record_kind=? AND identity=? AND valid_to IS NULL',(now,estate,kind,identity))
+                    history_updates.append((now,estate,kind,identity))
                     if after is not None:
-                        self.state.sql(db,'INSERT INTO estate_graph_history VALUES(?,?,?,?,?,?,?,?)',(estate,kind,identity,after['owner'],now,None,encoded(after),sha(after)))
+                        history_inserts.append((estate,kind,identity,after['owner'],now,None,encoded(after),sha(after)))
+            self.state.sqlmany(db,'UPDATE estate_graph_history SET valid_to=? WHERE estate=? AND record_kind=? AND identity=? AND valid_to IS NULL',history_updates)
+            self.state.sqlmany(db,'INSERT INTO estate_graph_history VALUES(?,?,?,?,?,?,?,?)',history_inserts)
             self.state.sql(db,'DELETE FROM estate_graph_edges WHERE estate=?',(estate,))
             self.state.sql(db,'DELETE FROM estate_graph_nodes WHERE estate=?',(estate,))
-            for item in new['nodes'].values():
-                self.state.sql(db,'INSERT INTO estate_graph_nodes VALUES(?,?,?,?,?)',(estate,item['id'],item['confidence'],encoded(item['provenance']),encoded(item)))
-            for item in new['edges'].values():
-                self.state.sql(db,'INSERT INTO estate_graph_edges VALUES(?,?,?,?,?,?,?)',(estate,item['id'],item['source'],item['target'],item['confidence'],encoded(item['provenance']),encoded(item)))
+            self.state.sqlmany(db,'INSERT INTO estate_graph_nodes VALUES(?,?,?,?,?)',
+                [(estate,item['id'],item['confidence'],encoded(item['provenance']),encoded(item)) for item in new['nodes'].values()])
+            self.state.sqlmany(db,'INSERT INTO estate_graph_edges VALUES(?,?,?,?,?,?,?)',
+                [(estate,item['id'],item['source'],item['target'],item['confidence'],encoded(item['provenance']),encoded(item)) for item in new['edges'].values()])
             for value in pending:
                 owner=value['owner'];prior=versions.get(owner)
                 if prior:self.state.sql(db,'UPDATE estate_graph_owner_versions SET definition_hash=?,observed_at=? WHERE estate=? AND owner=?',(value['definition_hash'],now,estate,owner))

@@ -3,7 +3,7 @@
 No estate data connector lives here. PostgreSQL transactions serialize budget
 admission and revision changes; there is no SQL-dialect rewriting layer.
 """
-from contextlib import contextmanager
+from contextlib import contextmanager, closing
 from decimal import Decimal
 import hashlib
 import json
@@ -126,6 +126,11 @@ class SharedState:
         # Queries in this module have no literal '?' characters. This is only
         # parameter binding, never translation of caller-provided SQL.
         return db.execute(query.replace('?', '%s') if self.backend == 'postgresql' else query, args)
+
+    def sqlmany(self, db, query, rows):
+        """Batch internal writes in the caller's existing atomic transaction."""
+        with closing(db.cursor()) as cursor:
+            cursor.executemany(query.replace('?', '%s') if self.backend == 'postgresql' else query, rows)
 
     @contextmanager
     def transaction(self):

@@ -36,6 +36,25 @@ class GraphRepositoryTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
         self.state=SharedState.offline(Path(self.temp.name)/'graph.sqlite');self.repo=GraphRepository(self.state);self.repo.migrate()
+    def test_large_projection_batches_writes_and_rolls_back_a_late_failure(self):
+        from unittest.mock import patch
+        first=graph();self.repo.replace(first)
+        changed=copy.deepcopy(first);changed.update(definition_hash='c'*64,observed_at=T1)
+        changed['nodes'] += [c.node('extra'+str(i),'owner','COLUMN',str(i),proof()) for i in range(80)]
+        original=self.state.sqlmany;calls=[]
+        def fail_late(db,query,rows):
+            calls.append(query)
+            if 'estate_graph_nodes VALUES' in query:raise RuntimeError('injected write failure')
+            return original(db,query,rows)
+        with patch.object(self.state,'sqlmany',side_effect=fail_late):
+            with self.assertRaisesRegex(RuntimeError,'injected'):self.repo.replace(changed)
+        self.assertEqual(len(self.repo.records('estate')['nodes']),5)
+        self.assertEqual(len(self.repo.changes('estate')),1)
+        with patch.object(self.state,'sql',wraps=self.state.sql)as queries:
+            self.repo.replace(changed)
+        self.assertLess(queries.call_count,15)
+        self.assertEqual(len(self.repo.records('estate')['nodes']),85)
+        self.assertEqual(len(self.repo.records('estate',at=T0)['nodes']),5)
     def test_history_hash_skip_and_deleted_versions(self):
         first=graph();self.assertEqual(self.repo.replace(first)['changed'],9)
         self.assertEqual(self.repo.replace(first),{'status':'UNCHANGED','changed':0})
