@@ -102,3 +102,13 @@ Preparation03 completed without estate or model calls. Its publication candidate
 The additional attempt started at 18:46:51 UTC as `job-dia-worker-rhp9wxh`. Fresh control-plane observations showed all56 earlier executions terminal, the sole job Manual with1800-second timeout, no other Container Apps and no other PostgreSQL sessions or advisory holders. The admission check passed before the one start request. A2100-second exclusive writer lease covers the1800-second run envelope;1200seconds are available for work and600 for finalization. Foreign cooperative writers refuse before waiting; database lock waits are bounded. Old images/raw administrative writers remain operationally drained. This is not a database ACL claim. Archive uploads touch Blob/local files only.
 
 The live result is pending; admission is not successful verification, exact replay or a demo finding. A failure of this additional attempt will not be retried. Original attempts and charges remain unchanged.
+
+## Additional attempt closed, 2026-10-13
+
+Job `job-dia-worker-rhp9wxh` ran18:46:51-19:01:54 UTC, within1800seconds. Azure reports its wrapper Succeeded; the retained stage result is FAILED, `ValueError: VERIFICATION_NOT_COMPLETED`. The capture wrapper completed, but the actual verifier progress is REFUSED: six bounded binding witnesses agreed, and the seventh independent source read failed. No verification profile or READY route was published; family A was not admitted. No further attempt follows.
+
+The complete353,827,279-byte ZIP is retained locally and remotely, SHA256 `e1c1a35d395bd72bfbb884e360c84b0ce3cae5e0cc567678dde6a799c6ceb065`. Verification tape SHA256 `e47da8adbde93ac29737d2498d2466f3052020cfc2c1ae191b1853527bf864a7`. Exact offline replay and the lower read receipt are being audited separately. Counts:36physical,16verification reads against40,0investigation diagnostics against12,0model calls,0pending reservations.
+
+At19:00:50 a read-only platform check found no other PostgreSQL sessions or advisory holders. Cleanup released the exact lease. Schedule restoration PATCH returned success with an empty body; the control receipt parser raised JSONDecodeError. That control failure remains recorded. An independent GET at19:05:04 confirmed the original Schedule/cron/retry/template restored with timeout1800 retained; no repeated PATCH was sent and no usage counter changed.
+
+Sample repair frozen source6c94c1b full pytest:4,461passed,46skipped,1,552subtests,615.75seconds. The tested image starts the separate sample structural rescan at19:05:41 as `job-dia-worker-iw8hnx5`; this is not a cloud-demo retry.
