@@ -58,6 +58,13 @@ contains a credential. It covers these two snapshots only, not every tape or
 all JSON fields in the archive. Publication still requires its separate
 credential/content audit and hash-pinned manifest.
 
+A later offline recheck inspected two other inventory snapshots and the retained
+Round Seventeen application capture. The latter contains 1,419 non-null flexible
+result documents (maximum 249 rows), one NULL result, and three native result
+documents (maximum one row). Exact hashes and the deliberately limited coverage
+are in [the setup audit](round-eighteen-guide-audit.md). These observations do not
+make a publication credential audit unnecessary.
+
 ## Exact and privacy-projected recordings
 
 An estate explicitly selects EXACT or PRIVACY_PROJECTED. Exact tapes retain exact

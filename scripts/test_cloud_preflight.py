@@ -46,6 +46,27 @@ class PreflightTests(unittest.TestCase):
         report=self.report()
         self.assertEqual(next(c for c in report['checks']if c['id']=='recording.configuration')['status'],'FAIL')
 
+    def test_delegated_semantic_reader_is_distinct_from_vault_fetching_worker(self):
+        fabric=self.manifest['adapters'][0]['options']['fabric']
+        native=fabric['native_reader']
+        fabric['auth']={'mode':'key_vault_user_cache','tenant_id':native['tenant_id'],
+                        'account':native['account'],'principal_id':native['principal_id']}
+        def report(identity):
+            return self.report(manifest_validator=lambda _:None,probes={'semantic.execute_queries':
+                lambda:Observation(identity,'reader-receipt',True,'Synthetic reader response')})
+        row=lambda r:next(c for c in r['checks']if c['id']=='semantic.execute_queries')
+        self.assertEqual(row(report(native['principal_id']))['status'],'PASS')
+        self.assertEqual(row(report(self.platform['worker_identity']['principal_id']))['status'],'FAIL')
+        self.assertEqual(row(self.report(manifest_validator=lambda _:None))['status'],'MISSING')
+        fabric['auth']['principal_id']='wrong-principal'
+        self.assertEqual(row(report(native['principal_id']))['status'],'FAIL')
+        from unittest.mock import Mock
+        forbidden_probe=Mock(side_effect=AssertionError('Unbound identity must not run'))
+        refused=self.report(manifest_validator=lambda _:None,
+                            probes={'semantic.execute_queries':forbidden_probe})
+        self.assertEqual(row(refused)['status'],'FAIL')
+        forbidden_probe.assert_not_called()
+
     def test_exception_summary_does_not_leak_secret(self):
         def fail():raise RuntimeError('password=PRIVATE_VALUE')
         report=self.report(probes={'network.access':fail})

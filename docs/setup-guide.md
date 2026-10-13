@@ -6,7 +6,7 @@ HTTP 200 from an unrelated endpoint does not make an estate READY.
 
 ## 1. Prerequisites and boundaries
 
-Deploy into the client's Azure tenant and subscription. Use a deployment operator
+Deploy into the client's Azure subscription in the same Entra tenant as the client's Fabric estate. Managed identity is the normal client authentication path. Use a deployment operator
 for infrastructure and grants, a metadata scanner for definitions, and a separate
 read-only investigator/worker. The worker never falls back to the operator's CLI
 credentials. Impersonation is optional, separately approved, and not implemented
@@ -40,11 +40,23 @@ is optional and its availability must be tested as the actual reader.
 
 ## 2. Configure without estate-specific code
 
-Create a client estate manifest from the examples under `infra/estates/`. Supply
+Use `estates/fixture.json` and `estates/billing.json` as estate examples. These retained workstation manifests are not cloud-ready templates: they still contain local DPAPI credential paths, Azure CLI/native-reader profiles and library paths. Replace those with the approved managed-identity or versioned Key Vault connector declarations and obtain a fresh configuration approval. Copying a manifest does not transfer credentials or earn access. Never copy a cache, token or password into the repository. Supply
 the tenant/workspaces, discovered layer and resource addresses, identity
 references, model endpoint/deployment, budgets, retention, glossary and read-only
 connection declarations. Validate with the installed manifest/adapter. The example
 fixture and billing names are examples, never defaults for a new client.
+
+Keep definition and value identities distinct. A Contributor/code-reader profile
+may supply declared definition evidence; it must never execute or attest a
+quantity query. The current cross-tenant test installation has a separately
+approved exception: its existing read-only user's delegated MSAL cache is held
+in Key Vault and fetched by the platform MI. The query is attributed to the user,
+not the MI. The adapter's `fabric.auth` mode `key_vault_user_cache` must name the
+same account, tenant and principal as `fabric.native_reader`; the SQL reader has
+its own explicit scope. No failed MI call triggers this route automatically.
+The preflight checks this binding but requires an actual reader receipt before
+marking Execute Queries PASS. A future secretless cross-tenant option is only a
+proposal in [owner-actions.md](owner-actions.md).
 
 Create a separate, secret-free platform declaration for preflight:
 
@@ -106,14 +118,21 @@ connector. It is not a worker authentication fallback.
 
 ## 3. Deploy or update in one command
 
-Install the repository's workspace, shared-state, cloud-auth and gateway
-dependencies in the deployment environment. Use the existing operator Azure CLI
+Install `scripts/requirements-workspace.txt`, `scripts/requirements-shared-state.txt`,
+`scripts/requirements-cloud-auth.txt` and `scripts/requirements-cloud-worker.txt`
+in the deployment environment. Use the existing operator Azure CLI
 sign-in. Prepare a local JSON parameter file for `infra/platform/main.bicep`:
-`location`, `resourceGroupName`, `storageName`, `vaultName`, `postgresName`,
+`location`, `postgresLocation`, `computeLocation`, `resourceGroupName`, `storageName`, `vaultName`, `postgresName`,
 `identityName`, `environmentName`, `jobName`, `ownerObjectId`,
-`ownerPrincipalName`, `ownerIp`, `databaseName`, `deployCompute`, and
+`ownerPrincipalName`, `ownerIp`, `databaseName`, `deployPostgres`, `deployCompute`, and
 `workerImage`. Set the image to the CI-published, immutable GHCR digest.
-There is no password parameter. Review the current cost estimate and grant scope
+`location` locates the resource group/storage/vault/identity; `postgresLocation`
+selects the database region and `computeLocation` must follow it for this
+installation. Select these explicitly: an advertised SKU is not proof that the
+subscription can provision it. A regional refusal does not authorize a region
+switch. Keep existing resources where they are unless a separate move is approved.
+Use `deployCompute=false` until an immutable image is available; staged deployment
+is not evidence that the worker ran. There is no password parameter. Review the current cost estimate and grant scope
 before creation; do not assume a free allowance applies to an arbitrary client.
 
 ```powershell
@@ -233,3 +252,5 @@ verify each service's retained copies and the client's legal retention policy.
 
 The deploy command is not a cleanup command. No removal happens as part of
 preflight, onboarding or a failed investigation.
+
+Offline execution of these instructions and the unearned checks are recorded in [round-eighteen-guide-audit.md](round-eighteen-guide-audit.md).

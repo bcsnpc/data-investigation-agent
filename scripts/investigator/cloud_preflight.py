@@ -22,7 +22,10 @@ def result(manifest,*,platform=None,probes=None,manifest_validator=None,gateway_
     platform=platform or {};probes=probes or {};checks=[]
     def add(identity,status,detail,fix,*,required=True,evidence=None):
         checks.append({'id':identity,'status':status,'detail':detail,'fix':fix,'required':required,'evidence':evidence})
-    def observe(identity,principal,detail,fix,*,required=True):
+    def observe(identity,principal,detail,fix,*,required=True,identity_valid=True):
+        if not identity_valid:
+            add(identity,'FAIL','Declared reader identities disagree; no probe is admitted.',fix,required=required)
+            return
         probe=probes.get(identity)
         if probe is None:
             add(identity,'MISSING',detail+' No probe evidence was supplied.',fix,required=required)
