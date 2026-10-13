@@ -27,6 +27,15 @@ class UsageHold(Conflict):pass
 
 class UsageGovernor:
     def __init__(self,runtime,policy,clock):
+        # The old governor transacts against SQLite and cannot silently become
+        # the authority for cloud workers. Until its rolling/batch/diagnostic
+        # allocations are migrated together, live PostgreSQL admission refuses.
+        # Offline tape replay retains the original accounting implementation.
+        from .process_tape import ACTIVE
+        from .shared_state import configured_state
+        tape = ACTIVE.get()
+        if not (tape is not None and tape.replaying) and configured_state() is not None:
+            raise UsageHold('POSTGRES_USAGE_GOVERNOR_NOT_MIGRATED: rolling, batch and diagnostic admission must share the PostgreSQL transaction')
         fields(policy,['environment','daily_limits','max_inflight_planners','no_progress_limit'])
         if not isinstance(policy['environment'],str) or policy['environment']!=runtime.store.environment:
             raise ValueError('Policy must match configured environment')

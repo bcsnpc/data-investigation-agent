@@ -108,6 +108,17 @@ def admission(body):
         try:yield lambda usage: replay_optional('MODEL_SPEND_SETTLE')
         finally:replay_optional('MODEL_SPEND_CLEANUP')
         return
+    from .shared_state import configured_state
+    state = configured_state()
+    if state is not None:
+        from .shared_spend import SharedSpendBudget
+        budget = SharedSpendBudget(state, int(os.environ['INVESTIGATOR_MODEL_SPEND_MICRODOLLARS']))
+        identity = budget.reserve(body)
+        try:
+            yield lambda usage: boundary('MODEL_SPEND_SETTLE',lambda:budget.settle(identity, usage))
+        finally:
+            boundary('MODEL_SPEND_CLEANUP',lambda:budget.settle(identity))
+        return
     path = os.environ.get('INVESTIGATOR_MODEL_SPEND_DB')
     if not path:
         yield lambda usage: None

@@ -11,6 +11,16 @@ from . import ticket_protocol as protocol
 
 
 class Tickets:
+    def __new__(cls, store):
+        from .shared_state import configured_state
+        from .process_tape import ACTIVE
+        tape = ACTIVE.get()
+        state = None if tape is not None and tape.replaying else configured_state()
+        if state is not None:
+            from .shared_tickets import SharedTickets
+            return SharedTickets(state)
+        return super().__new__(cls)
+
     def __init__(self, store):
         self.store=store
         with store.connect() as db:
