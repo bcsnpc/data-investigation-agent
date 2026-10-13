@@ -65,12 +65,26 @@ class SharedUsageReplayTests(unittest.TestCase):
                 self.assertEqual(result['status'], final['status'])
                 if not fail:
                     self.assertEqual(result['result']['refusal'], 'Rolling 24-hour read allowance exhausted')
+                    # Recompute, do not copy the sealed admission answer. A
+                    # changed decision still fails strict event/final equality.
+                    from investigator.process_tape import TapeError
+                    from investigator.usage_governance import UsageHold
+                    with patch('investigator.shared_usage_replay.ReplayUsage.reserve',
+                               side_effect=UsageHold('changed admission')):
+                        with self.assertRaises(TapeError):
+                            replay(root / 'capture', root / 'changed-replay')
 
-    def test_replay_marker_cannot_claim_an_existing_session(self):
-        from investigator.shared_usage_replay import declaration
+    def test_replay_marker_is_explicit_and_rejects_other_owned_sessions(self):
+        from types import SimpleNamespace
+        from investigator.shared_usage_replay import declaration, ReplayUsage
+        from investigator.process_tape import TapeError
         self.assertEqual(declaration('fresh')['version'], 'FRESH_SHARED_USAGE_V1')
         with self.assertRaises(ValueError):
             declaration('')
+        tape = SimpleNamespace(replaying=True, bootstrap={'state': {
+            'inputs': {'session_id': 'fresh'}, 'shared_usage_replay': declaration('another')}})
+        with self.assertRaisesRegex(TapeError, 'CONTRACT_DIFFERS'):
+            ReplayUsage(None, tape)
 
 
 if __name__ == '__main__':
