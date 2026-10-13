@@ -17,6 +17,9 @@ class CloudOfflineWorkerTests(unittest.TestCase):
                      'scripts/requirements-cloud-worker.txt', 'infra/scripts/Read-Source.ps1',
                      'acceptance/unknown_domain/recorded_engine.py', 'infra/cloud-worker/Dockerfile']:
             self.assertTrue(admitted(name), name)
+        self.assertTrue(admitted('infra/scripts/WorkerResponseBounds.json'))
+        self.assertTrue(admitted('acceptance/model_steps/intake-resolution-policy.json'))
+        self.assertTrue(admitted('scripts/investigator/windows_ocr.ps1'))
 
     def test_eight_shards_cover_each_entry_once(self):
         entries = list(range(63))

@@ -1,6 +1,6 @@
 """Stage only tracked executable source and requirements for a public image.
 
-Never copy the repository wholesale. No JSON, databases, captures, receipts,
+Never copy the repository wholesale. No data JSON, databases, captures, receipts,
 secrets, acceptance answers, .git or .local files enter this context.
 """
 import argparse
@@ -10,12 +10,16 @@ from pathlib import Path, PurePosixPath
 import shutil
 import subprocess
 
+PUBLIC_CODE_POLICIES = frozenset({'infra/scripts/WorkerResponseBounds.json',
+    'acceptance/model_steps/intake-resolution-policy.json'})
+
 
 def admitted(name):
     path = PurePosixPath(name)
     if any(part.startswith('.') or part in {'__pycache__', 'node_modules'} for part in path.parts):
         return False
-    return ((path.parts[0] in {'scripts', 'acceptance'} and path.suffix == '.py')
+    return (name in PUBLIC_CODE_POLICIES or name == 'scripts/investigator/windows_ocr.ps1'
+            or (path.parts[0] in {'scripts', 'acceptance'} and path.suffix == '.py')
             or (path.parent == PurePosixPath('scripts') and path.name.startswith('requirements-') and path.suffix == '.txt')
             or (path.parent == PurePosixPath('infra/scripts') and path.suffix == '.ps1')
             or name == 'infra/cloud-worker/Dockerfile')

@@ -2,9 +2,13 @@
 
 The public image contains tracked Python source, dependency declarations, and
 PowerShell source used by synthetic contract tests. The staging command rejects
-all JSON/data, databases, receipts, captures, installations, `.local`, `.git`, and
+data JSON, databases, receipts, captures, installations, `.local`, `.git`, and
 untracked files. It does not package private evidence or secrets. Its source
 manifest records each included file's SHA-256.
+The only JSON source exceptions are two named scalar code policies:
+`WorkerResponseBounds.json` and `intake-resolution-policy.json`. Neither holds
+estate data, identities, endpoints or evidence. Their bytes participate in the
+engine fingerprint and cannot be omitted from a working image.
 
 `Cloud worker offline foundation` builds on PR/main and runs eight synthetic
 contract shards with Docker networking disabled, a read-only filesystem, no
