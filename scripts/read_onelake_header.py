@@ -1,3 +1,4 @@
+from investigator.live_gateway import open_http
 """List a table's data files or read a bounded data-file header with the metadata identity; never decode rows."""
 import contextlib
 import io
@@ -40,7 +41,7 @@ def bounded_get(token):
     def get(url,headers,limit):
         from urllib.request import Request,build_opener
         from metadata_auth import NoRedirect
-        with build_opener(NoRedirect()).open(Request(url,headers={'Authorization':'Bearer '+token,**headers}),timeout=45) as response:
+        with open_http(build_opener(NoRedirect()),Request(url,headers={'Authorization':'Bearer '+token,**headers}),timeout=45) as response:
             raw=response.read(limit+1)
             if len(raw)>limit:raise ValueError('Byte limit exceeded')
             return response.status,raw

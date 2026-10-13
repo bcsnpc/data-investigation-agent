@@ -19,6 +19,9 @@ def collect(workspace, lakehouse, catalog, get=None):
         if not token:
             raise RuntimeError('Storage authentication unavailable')
         def get(path):
+            from investigator.live_gateway import current
+            import os
+            current().http(os.environ.get('DIA_GATEWAY_HTTP_IDENTITY',''),'GET',base+path)
             response = requests.get(base + path, headers={'Authorization': 'Bearer ' + token}, timeout=60, allow_redirects=False)
             if response.status_code != 200:
                 raise RuntimeError(f'OneLake metadata HTTP {response.status_code}')

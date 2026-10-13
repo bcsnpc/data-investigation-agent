@@ -84,6 +84,8 @@ class ConnectorTests(unittest.TestCase):
             ('groups/another-workspace/datasets/model/refreshes','powerbi')])
 
     def test_http_uses_injected_credential_and_blocks_mutations(self):
+        from gateway_test_support import allow_http
+        self.enterContext(allow_http({'method': 'GET', 'url': 'https://api.powerbi.com/v1.0/myorg/groups/w/datasets', 'purpose': 'metadata'}))
         scopes=[]
         credential=SimpleNamespace(get_token=lambda scope: (scopes.append(scope) or SimpleNamespace(token='test-token')))
         class Response(io.BytesIO):

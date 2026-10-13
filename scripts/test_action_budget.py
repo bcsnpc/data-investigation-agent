@@ -19,6 +19,10 @@ from run_ledger import row
 
 
 class ActionBudgetTests(unittest.TestCase):
+    def setUp(self):
+        from gateway_test_support import allow_models
+        self.enterContext(allow_models())
+
     def test_existing_total_is_partitioned_and_rejections_do_not_enlarge_it(self):
         state={'envelope':{'limits':{'planner_calls':6,'cloud_calls':4}},'planner_calls':4,'cloud_calls':0,
                'decisions':[{'decision':{'action':'LOOKUP'}} for _ in range(4)],'observations':[]}

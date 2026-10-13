@@ -85,7 +85,8 @@ class MetadataHttp:
 
     def _send(self, request):
         try:
-            with self.opener.open(request, timeout=90) as response:
+            from investigator.live_gateway import open_http
+            with open_http(self.opener, request, timeout=90) as response:
                 body = response.read()
                 return {'status_code': response.status, 'headers': dict(response.headers),
                         'text': json.loads(body) if body else {}}
@@ -124,6 +125,8 @@ class PowerShellSqlCatalog:
         self.script, self.credential_file, self.runner = str(script), credential_file, runner
 
     def __call__(self, server, database, visibility_schema):
+        from investigator.live_gateway import authorize_sql_control
+        authorize_sql_control(server,database,'CATALOG')
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / 'catalog.json'
             from investigator.physical_reads import run

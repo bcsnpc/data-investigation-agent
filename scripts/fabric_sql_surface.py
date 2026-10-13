@@ -39,6 +39,8 @@ def self_report(config, database, *, token=get_sql_token, run=subprocess.run):
     if reader.get('mode')=='managed_identity':
         return {'status':'UNAVAILABLE','reason':'MANAGED_IDENTITY_SQL_GUARDED_TRANSPORT_NOT_INSTALLED',
                 'execution_surface':surface,'surface_report':None}
+    from investigator.live_gateway import authorize_sql_control
+    authorize_sql_control(reader['server'],database,'SELF_REPORT')
     try:
         access = token(config['fabric']['auth']['tenant_id'], reader['account'], reader['profile'])
     except SignInRequired as exc:

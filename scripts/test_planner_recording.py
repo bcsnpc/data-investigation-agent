@@ -14,6 +14,8 @@ from ticket_planner import azure_generate
 
 class RecordingTests(unittest.TestCase):
     def setUp(self):
+        from gateway_test_support import allow_models
+        self.enterContext(allow_models())
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)

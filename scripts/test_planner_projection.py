@@ -63,6 +63,8 @@ class PlannerProjectionTests(unittest.TestCase):
         self.assertEqual(after,(case['expected_entries'],case['expected_sql_objects']))
 
     def setUp(self):
+        from gateway_test_support import allow_models
+        self.enterContext(allow_models())
         self.inputs = json.loads((FIXTURES / 'inputs.json').read_text(encoding='utf-8'))
         self.golden = json.loads((FIXTURES / 'expected.json').read_text(encoding='utf-8'))
 

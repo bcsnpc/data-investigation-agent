@@ -154,6 +154,8 @@ def http_options():
                     import base64
                     return httpx.Response(body['status'],content=base64.b64decode(body['body']),request=request)
                 try:
+                    from .live_gateway import model_request
+                    model_request(request)
                     response=self.inner.handle_request(request)
                     raw=response.read()
                     if legacy:legacy.response(response)
@@ -176,11 +178,11 @@ def http_options():
                 if self.inner:self.inner.close()
         return {'http_client':DefaultHttpxClient(transport=Transport())}
     record = ACTIVE.get()
-    if record is None:
-        return {}
     from openai import DefaultHttpxClient
+    from .live_gateway import model_request
     return {'http_client': DefaultHttpxClient(event_hooks={
-        'request': [record.request], 'response': [record.response]})}
+        'request': [model_request] + ([record.request] if record else []),
+        'response': [record.response] if record else []}, follow_redirects=False)}
 
 
 def load_session(session_id, directory=None):

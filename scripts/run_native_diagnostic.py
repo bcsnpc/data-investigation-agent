@@ -73,7 +73,8 @@ def execute(request,tenant,reader=None,authentication=None):
     body={'queries':[{'query':request['query']}],'serializerSettings':{'includeNulls':True}}
     http=Request(f'https://api.powerbi.com/v1.0/myorg/groups/{workspace}/datasets/{model}/executeQueries',
                  data=json.dumps(body).encode(),headers={'Authorization':'Bearer '+token,'Content-Type':'application/json'})
-    with build_opener(NoRedirect()).open(http,timeout=90) as response:
+    from investigator.live_gateway import open_http
+    with open_http(build_opener(NoRedirect()),http,timeout=90) as response:
         raw=response.read(2*1024*1024+1)
     if len(raw)>2*1024*1024:raise ValueError('Native response exceeds budget')
     decoded=raw.decode('utf-8')

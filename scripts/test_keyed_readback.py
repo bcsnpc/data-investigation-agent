@@ -223,6 +223,8 @@ class ReadbackTests(unittest.TestCase):
     def test_source_worker_receives_record_limits_and_shape(self):
         self.config['sql']['auth']['credential_file']='unused'
         request=self.build('source_records')
+        from gateway_test_support import allow_sql
+        self.enterContext(allow_sql(self.config['sql']['server'],self.config['sql']['database'],['app.Sales']))
         with patch('run_source_diagnostic.subprocess.run',return_value=MagicMock(returncode=0,stdout='{"rows":[]}')) as call:
             self.assertEqual(read_once(self.config,request),{'rows':[]})
         payload=json.loads(call.call_args.kwargs['input'])

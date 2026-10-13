@@ -130,6 +130,8 @@ class ReaderExecutionTests(unittest.TestCase):
         with self.assertRaises(ValueError): identity.require(self.raw, self.request, READER)
 
     def test_transport_preserves_precision_and_uses_reader_only(self):
+        from gateway_test_support import allow_http
+        self.enterContext(allow_http({'method': 'POST', 'url': 'https://api.powerbi.com/v1.0/myorg/groups/44444444-4444-4444-4444-444444444444/datasets/33333333-3333-3333-3333-333333333333/executeQueries', 'purpose': 'dax'}))
         raw = b'{"results":[{"tables":[{"rows":[{"[m0]":123.123456789012345}]}]}]}'
         with patch('connect_fixture_reader.application'), patch('connect_fixture_reader.token', return_value=issued()) as token, \
              patch('run_native_diagnostic.FabricCliTokens') as publisher, patch('run_native_diagnostic.build_opener') as opener:
