@@ -72,6 +72,18 @@ class PreflightTests(unittest.TestCase):
         report=self.report(probes={'network.access':fail})
         self.assertNotIn('PRIVATE_VALUE',json.dumps(report))
 
+    def test_federated_reader_permission_is_not_worker_permission(self):
+        fabric=self.manifest['adapters'][0]['options']['fabric'];native=fabric['native_reader']
+        native['mode']='federated_reader'
+        fabric['auth']={'mode':'federated_reader','tenant_id':native['tenant_id'],'principal_id':native['principal_id']}
+        def check(principal):
+            report=self.report(manifest_validator=lambda _:None,probes={'semantic.execute_queries':lambda:Observation(principal,'receipt',True,'Bound principal')})
+            return next(row for row in report['checks'] if row['id']=='semantic.execute_queries')['status']
+        self.assertEqual(check(native['principal_id']),'PASS')
+        self.assertEqual(check(self.platform['worker_identity']['principal_id']),'FAIL')
+        fabric['auth']['tenant_id']='other'
+        self.assertEqual(check(native['principal_id']),'FAIL')
+
     def test_cli_is_offline_and_preserves_previous_output(self):
         from preflight_installation import main
         from unittest.mock import patch
