@@ -75,7 +75,7 @@ class Tests(unittest.TestCase):
             with patch('shutil.disk_usage',return_value=type('Usage',(),{'free':20*1024**3})()),patch('investigator.checksum_archive.measure',side_effect=measure):
                 result=run(config,root/'output',client)
             self.assertEqual(result['batches'],[])
-            self.assertIn('after measurement',(root/'output/controller.jsonl').read_text())
+            self.assertIn('ADMISSIONS_CLOSED',(root/'output/controller.jsonl').read_text())
 
     def test_bounded_run_keeps_originals_and_cap_blocks_before_client(self):
         with tempfile.TemporaryDirectory() as directory:

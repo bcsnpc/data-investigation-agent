@@ -113,6 +113,24 @@ class Tests(unittest.TestCase):
         with self.assertRaisesRegex(ArtifactError,'LOCAL_HASH_DIFFERS'):
             self.run_publish(remote,Journal(self.root/'changed-after',self.psha,URL))
 
+    def test_ephemeral_review_reuses_initial_scan_but_refuses_changed_source(self):
+        from investigator.checksum_archive import prepare_reviewed
+        import investigator.streaming_archive_bundle as module
+        original=module.verify_local
+        with patch.object(module,'verify_local',wraps=original) as checked:
+            reviewed=prepare_reviewed(self.manifest,self.sha,100000)
+            self.assertEqual(checked.call_count,1)
+            remote=Remote()
+            publish(self.plan,self.psha,self.manifest,self.sha,self.review,remote,self.journal,max_stored_bytes=100000,reviewed_stream=reviewed)
+            self.assertEqual(checked.call_count,1)  # same checked bytes, no duplicate parse
+        with self.assertRaisesRegex(ArtifactError,'REVIEWED_STREAM_REQUIRED'):
+            publish(self.plan,self.psha,self.manifest,self.sha,self.review,Remote(),self.journal,max_stored_bytes=100000,reviewed_stream={})
+        path=self.root/self.manifest['entries'][0]['path'];path.write_bytes(b'x'*path.stat().st_size)
+        remote=Remote()
+        with self.assertRaisesRegex(ArtifactError,'LOCAL_HASH_DIFFERS'):
+            publish(self.plan,self.psha,self.manifest,self.sha,self.review,remote,self.journal,max_stored_bytes=100000,reviewed_stream=reviewed)
+        self.assertEqual(remote.calls,[])
+
     def test_transport_requires_checksum_and_cool_immutable_commit(self):
         g=gateway();body=b'fixture';identity=base64.b64encode(b'a'*64).decode()
         with bind(g,'archive',URL,KEY,'STAGE_CHECKED',body=body,block_id=identity) as (method,url,headers):

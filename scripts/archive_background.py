@@ -150,7 +150,13 @@ def run(config,output,client_factory,*,planner=batch,preparer=prepare,publisher=
             if not manifest['entries']:
                 record({'phase':'NO_ELIGIBLE_SELECTION','index':index,'excluded':len(manifest['excluded'])})
                 break
-            prepared,source=preparer(manifest,sha)
+            reviewed_stream=None
+            if mode=='block-checksum-v1':
+                from investigator.checksum_archive import prepare_reviewed
+                reviewed_stream=prepare_reviewed(manifest,sha,config['cost_policy']['batch_stored_bytes'])
+                prepared=json.loads(reviewed_stream.plan_bytes)
+            else:
+                prepared,source=preparer(manifest,sha)
             plan_sha=write_new(folder/'bundle-plan.json',prepared)
             review={'status':'APPROVED','manifest_sha256':sha,
                     'reviewer':'Automated bounded archive under '+config['scope_approval'],
@@ -162,8 +168,7 @@ def run(config,output,client_factory,*,planner=batch,preparer=prepare,publisher=
             if shutil.disk_usage(root).free<10*1024**3:raise ArtifactError('BACKGROUND_DISK_FLOOR')
             effective_policy=dict(config['cost_policy'])
             if mode=='block-checksum-v1':
-                from investigator.checksum_archive import measure
-                measurement=measure(source,effective_policy['batch_stored_bytes'])
+                measurement=json.loads(reviewed_stream.measurement_bytes)
                 write_new(folder/'compressed-measurement.json',measurement)
                 # Stage each block plus initial/final properties, block lists,
                 # commit and tier change; reserve all three bounded attempts.
@@ -184,7 +189,8 @@ def run(config,output,client_factory,*,planner=batch,preparer=prepare,publisher=
             client=client_factory(folder,effective_policy['batch_controls'])
             receipt=publisher(prepared,plan_sha,manifest,sha,review,client,
                               Journal(folder/'progress.jsonl',plan_sha,client.account_url),
-                              max_stored_bytes=effective_policy['batch_stored_bytes'])
+                              max_stored_bytes=effective_policy['batch_stored_bytes'],
+                              **({'reviewed_stream':reviewed_stream} if reviewed_stream is not None else {}))
             receipt_sha=write_new(folder/'receipt.json',receipt)
             charged=effective_policy['batch_controls']-client.remaining
             stored+=receipt['stored_bytes'];controls+=charged

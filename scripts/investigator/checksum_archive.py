@@ -2,6 +2,8 @@
 import base64
 from datetime import datetime,timezone
 import hashlib
+import json
+from dataclasses import dataclass
 from .artifact_store import ArtifactError,canonical,digest
 from .archive_migration import privacy_approved,encoded_stream,verify_unchanged_local
 from .streaming_archive_bundle import prepare
@@ -27,14 +29,42 @@ def measure(source,max_stored_bytes):
             'stored_md5':base64.b64encode(md5.digest()).decode(),'blocks':blocks}
 
 
-def publish(plan,plan_sha,manifest,manifest_sha,review,client,journal,*,max_stored_bytes):
+@dataclass(frozen=True)
+class ReviewedStream:
+    # Ephemeral producer-owned proof. Never loaded from a saved JSON assertion.
+    manifest_bytes: bytes
+    plan_bytes: bytes
+    measurement_bytes: bytes
+    source: object
+
+
+def prepare_reviewed(manifest,manifest_sha,max_stored_bytes):
+    current,source=prepare(manifest,manifest_sha)  # full initial privacy and seal checks
+    measured=measure(source,max_stored_bytes)
+    return ReviewedStream(canonical(manifest),canonical(current),canonical(measured),source)
+
+
+def publish(plan,plan_sha,manifest,manifest_sha,review,client,journal,*,max_stored_bytes,reviewed_stream=None):
     privacy_approved(review,manifest_sha)
     if digest(canonical(plan))!=plan_sha:raise ArtifactError('ARCHIVE_BUNDLE_PLAN_SHA_DIFFERS')
-    current,source=prepare(manifest,manifest_sha)
+    if reviewed_stream is None:
+        current,source=prepare(manifest,manifest_sha)
+        measured=measure(source,max_stored_bytes)
+    else:
+        if not isinstance(reviewed_stream,ReviewedStream):raise ArtifactError('ARCHIVE_REVIEWED_STREAM_REQUIRED')
+        if (reviewed_stream.manifest_bytes!=canonical(manifest) or
+            digest(reviewed_stream.manifest_bytes)!=manifest_sha or reviewed_stream.plan_bytes!=canonical(plan) or
+            canonical(reviewed_stream.source.manifest)!=reviewed_stream.manifest_bytes):
+            raise ArtifactError('ARCHIVE_REVIEWED_STREAM_DIFFERS')
+        # Same already privacy-reviewed bytes; no redundant SQLite parsing or
+        # decoded credential scan. Changed bytes/path/reparse still refuse.
+        for entry in manifest['entries']:verify_unchanged_local(manifest,entry)
+        current=json.loads(reviewed_stream.plan_bytes);source=reviewed_stream.source
+        measured=json.loads(reviewed_stream.measurement_bytes)
+        if measured['stored_bytes']>max_stored_bytes:raise ArtifactError('ARCHIVE_TRANSFER_BYTE_CAP')
     if current!=plan:raise ArtifactError('ARCHIVE_STREAM_PLAN_CHANGED')
     if journal.scope!={'manifest_sha256':plan_sha,'account_url':client.account_url,'container':'archive'}:
         raise ArtifactError('ARCHIVE_JOURNAL_SCOPE')
-    measured=measure(source,max_stored_bytes)
     key='originals/'+plan['entries'][0]['sha256']+'/'+digest(b'block-checksum-v1:bundle.tar')+'.gz'
     prior=client.checksum_properties(key)
     verified=journal.last(key,'CHECKSUM_VERIFIED')
