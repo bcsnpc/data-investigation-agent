@@ -18,9 +18,25 @@ ROUNDS = ('five','six','seven','eight','nine','ten','eleven','twelve','thirteen'
 from .adapters.platform_credentials import CREDENTIAL_PATH_WORDS
 SENSITIVE = re.compile(r'(^|[/_.-])(' + CREDENTIAL_PATH_WORDS + r')([/_.-]|$)', re.I)
 LIVE = re.compile(r'(model[-_]spend|shared[-_](?:accounting|catalog)|(?:budget|usage|pot|ledger)(?:[-_.]|$))', re.I)
-SECRET_BYTES = re.compile(rb'-----BEGIN [A-Z ]*PRIVATE KEY-----|Bearer\s+[A-Za-z0-9._~-]{16,}|'
-                          rb'eyJ[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}|'
-                          rb'(?:password|api[_-]?key|client[_-]?secret|AccountKey)["\x27]?\s*[=:]\s*["\x27]?[^\s"\x27;,}]{6,}', re.I)
+_SECRET_RULES = [(b'-----BEGIN ',rb'[A-Z ]*PRIVATE KEY-----'),
+                 (b'Bearer',rb'\s+[A-Za-z0-9._~-]{16,}'),
+                 (b'eyJ',rb'[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}')]
+_VALUE_SUFFIX=rb'["\x27]?\s*[=:]\s*["\x27]?[^\s"\x27;,}]{6,}'
+_SECRET_RULES += [(prefix,_VALUE_SUFFIX) for prefix in
+                 (b'password',b'apikey',b'api_key',b'api-key',b'clientsecret',b'client_secret',b'client-secret',b'AccountKey')]
+SECRET_BYTES = re.compile(b'|'.join(re.escape(prefix)+suffix for prefix,suffix in _SECRET_RULES),re.I)
+_PREFIX_RULES=[(prefix.lower(),re.compile(re.escape(prefix)+suffix,re.I)) for prefix,suffix in _SECRET_RULES]
+
+
+def credential_pattern(data):
+    """Same full patterns; locate their mandatory literal prefixes in C first."""
+    lowered=data.lower()
+    for prefix,pattern in _PREFIX_RULES:
+        offset=lowered.find(prefix)
+        while offset>=0:
+            if pattern.match(data,offset):return True
+            offset=lowered.find(prefix,offset+1)
+    return False
 
 
 def sha_file(path):
@@ -85,7 +101,7 @@ def privacy_reason(path, relative):
     with Path(path).open('rb') as stream:
         while block:=stream.read(1024*1024):
             combined=tail+block
-            if SECRET_BYTES.search(combined):return 'CREDENTIAL_PATTERN'
+            if credential_pattern(combined):return 'CREDENTIAL_PATTERN'
             tail=combined[-4096:]
     if Path(path).name in ('tape.json','tape.events.jsonl'):
         import base64
@@ -96,7 +112,7 @@ def privacy_reason(path, relative):
                 events=(json.loads(line) for line in Path(path).read_bytes().splitlines())
             for event in events:
                 decoded=base64.b64decode(event['body'],validate=True)
-                if SECRET_BYTES.search(decoded):return 'DECODED_TAPE_CREDENTIAL_PATTERN'
+                if credential_pattern(decoded):return 'DECODED_TAPE_CREDENTIAL_PATTERN'
         except (ValueError,TypeError,KeyError):return 'TAPE_PRIVACY_DECODE_FAILED'
     return None
 

@@ -81,6 +81,27 @@ class Tests(unittest.TestCase):
         sidecar=self.put('.local/round-five/tape.events.jsonl',canonical({'body':base64.b64encode(secret).decode()})+b'\n')
         self.assertEqual(archive.privacy_reason(sidecar,sidecar.name),'DECODED_TAPE_CREDENTIAL_PATTERN')
 
+    def test_prefix_scanner_retains_complete_pattern_semantics(self):
+        import random,re
+        prior=re.compile(rb'-----BEGIN [A-Z ]*PRIVATE KEY-----|Bearer\s+[A-Za-z0-9._~-]{16,}|'
+                         rb'eyJ[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}|'
+                         rb'(?:password|api[_-]?key|client[_-]?secret|AccountKey)["\x27]?\s*[=:]\s*["\x27]?[^\s"\x27;,}]{6,}',re.I)
+        randomizer=random.Random(42)
+        candidates=[b'-----BEGIN RSA PRIVATE KEY-----',b'Bearer '+b'x'*16,
+                    b'eyJ'+b'a'*12+b'.'+b'b'*12+b'.'+b'c'*12]
+        for prefix,_ in archive._SECRET_RULES[3:]:
+            for separator in (b'=',b'": "',b"' : '"):
+                candidates += [prefix+separator+body for body in (b'abcde',b'abcdef',b'abc def')]
+        candidates += [b'ordinary metadata',b'Bearer short',b'eyJmissingdots']
+        for candidate in candidates:
+            for altered in (candidate,candidate.upper(),candidate.lower()):
+                data=randomizer.randbytes(50)+altered+randomizer.randbytes(50)
+                self.assertEqual(archive.credential_pattern(data),bool(prior.search(data)))
+                self.assertEqual(bool(archive.SECRET_BYTES.search(data)),bool(prior.search(data)))
+        for _ in range(200):
+            data=randomizer.randbytes(4096)
+            self.assertEqual(archive.credential_pattern(data),bool(prior.search(data)))
+
     def test_hot_download_hash_then_archive_receipt_then_cleanup_script(self):
         self.put('.local/round-five/receipt.json')
         plan=self.plan(['.local/round-five/receipt.json']);sha,review=self.review(plan);remote=Remote()
