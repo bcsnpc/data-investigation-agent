@@ -57,6 +57,9 @@ def append_checksum(plan, manifest_pin, receipt_pin, journal_pin, bundle_pin, *,
     if receipt.get('member_proof',{}).get('source_manifest_sha256')!=manifest_pin['sha256']:
         raise ArtifactError('CLEANUP_MEMBER_PROOF_DIFFERS')
     result=json.loads(json.dumps(plan)); seen=set()
+    for previous in result['files']:
+        relative=Path(previous['path']).relative_to(Path(plan['workspace'])).as_posix()
+        previous['runtime_protected']=bool(previous.get('runtime_protected')) or protected_path(relative,protected_parents)
     existing={str(Path(e['path'])).casefold() for e in result['files']}
     for row in receipt['objects']:
         e=expected.get(row['path'])

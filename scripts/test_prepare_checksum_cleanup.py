@@ -20,6 +20,9 @@ class Tests(unittest.TestCase):
             mp=pin('manifest',canonical(manifest));rp=pin('receipt',canonical(receipt));jp={'path':str(journal.path),'sha256':digest(journal.path.read_bytes())};bp=pin('bundle',canonical(bundle))
             base={'workspace':str(root),'account_url':URL,'files':[],'blobs':[]}
             result=append_checksum(base,mp,rp,jp,bp,protected_parents=['.local/round-five'])
+            old={**base,'files':[{'path':str(root/'.local/newly-active/old.json'),'runtime_protected':False}]}
+            reclassified=append_checksum(old,mp,rp,jp,bp,protected_parents=['.local/newly-active'])
+            self.assertTrue(reclassified['files'][0]['runtime_protected'])
             self.assertTrue(result['files'][0]['runtime_protected']);self.assertNotIn('readback_sha256',result['blobs'][0])
             self.assertEqual(verify_remote(result,remote)['status'],'UNCHANGED_ARCHIVED_PROOFS')
             remote.md5='different'
