@@ -1,0 +1,88 @@
+{
+  "recorded_at": "2026-10-13",
+  "status": "SECOND_CHECKED_BATCH_COMPLETE_FULL_ARCHIVE_IN_PROGRESS",
+  "completed_batch": "archive-checksum-controller-01/batch-0000",
+  "new_paths": 56,
+  "new_original_bytes": 4878004470,
+  "new_stored_bytes": 431011287,
+  "new_platform_controls": 113,
+  "receipt_sha256": "b721afe74b8f036c4244ffa9a27755871ea4338628d10deff139a31e66ecd01d",
+  "source_manifest_sha256": "c6a7fd6e9d214d45981eb7daacb4f31c84520f2ac9966c7fb362effe73d10db0",
+  "cumulative_historical_plus_new": {
+    "verified_original_paths": 1440,
+    "original_bytes": 15510444339,
+    "stored_bytes": 1411475119,
+    "platform_controls": 494
+  },
+  "round_nineteen_b": {
+    "verified_paths": 132,
+    "original_bytes": 8692315113,
+    "stored_bytes": 752909688,
+    "platform_controls": 200,
+    "estimated_oneoff_usd_including_cool_minimum_and_prior": "0.01427570149952"
+  },
+  "projected_platform_usd_month": "14.82139736036781",
+  "invoice_actual_available": false,
+  "blob_body_downloads_new_batches": 0,
+  "server_computed_sha256": false,
+  "integrity_method": "SERVER_VALIDATED_BLOCK_MD5_ORDERED_COMMIT_AND_STORED_MD5_PROPERTY",
+  "local_deletion": false,
+  "owner_cleanup": {
+    "eligible_allocated_bytes": 2744546347,
+    "existing_eligible_paths": 641,
+    "free_bytes": 12038221824,
+    "helper_sha256": "1ac6f087630f232a1033daab31ed7ff020215e9a3e975ad72b5f237223eb5abe",
+    "new_verified_paths": 56,
+    "paths": 1440,
+    "plan_sha256": "4d1429229a986bb7509902d82e60cfac96177b8773ec919c4f68d636cf151a47",
+    "proof_blobs": 17,
+    "protected": 129,
+    "remote_rechecked_this_preparation": false,
+    "script_sha256": "c491855e0450629653271d7c8ba2ac8723d3cade13d94ae914e4eab0b3de0236",
+    "status": "OWNER_SCRIPT_PREPARED_NOT_EXECUTED"
+  },
+  "compression": {
+    "at": "2026-10-13T18:36:25.853570+00:00",
+    "kind": "LOSSLESS_FILESYSTEM_COMPRESSION",
+    "authority": "Root requested cold file compression, no deletion, for 500MB headroom",
+    "disk_before": 11983933440,
+    "files": [
+      {
+        "path": "D:\\data_investigation_agent\\.local\\round-seventeen\\d-handoff\\route-replay\\712c9b041f1cce407988f590d655160f8b029ec6f88ca820147ef2a780512ed2\\model-catalog.sqlite",
+        "bytes": 353406976,
+        "sha256_before": "8a33327a75c8736f723fe0937b2a8d08027e0ca77dea97265f3181805eae7a7c",
+        "sha256_after": "8a33327a75c8736f723fe0937b2a8d08027e0ca77dea97265f3181805eae7a7c",
+        "allocated_before": 353406976,
+        "allocated_after": 138842112,
+        "returncode": 0,
+        "output": "\n Compressing files in D:\\data_investigation_agent\\.local\\round-seventeen\\d-handoff\\route-replay\\712c9b041f1cce407988f590d655160f8b029ec6f88ca820147ef2a780512ed2\\\n\n\n1 files within 1 directories were compressed.\n353,406,976 total bytes of data are stored in 138,842,112 bytes.\nThe compression ratio is 2.5 to 1.\n"
+      },
+      {
+        "path": "D:\\data_investigation_agent\\.local\\round-seventeen\\d-held-out-resumed\\route-replay\\712c9b041f1cce407988f590d655160f8b029ec6f88ca820147ef2a780512ed2\\model-catalog.sqlite",
+        "bytes": 353406976,
+        "sha256_before": "8a33327a75c8736f723fe0937b2a8d08027e0ca77dea97265f3181805eae7a7c",
+        "sha256_after": "8a33327a75c8736f723fe0937b2a8d08027e0ca77dea97265f3181805eae7a7c",
+        "allocated_before": 353406976,
+        "allocated_after": 138842112,
+        "returncode": 0,
+        "output": "\n Compressing files in D:\\data_investigation_agent\\.local\\round-seventeen\\d-held-out-resumed\\route-replay\\712c9b041f1cce407988f590d655160f8b029ec6f88ca820147ef2a780512ed2\\\n\n\n1 files within 1 directories were compressed.\n353,406,976 total bytes of data are stored in 138,842,112 bytes.\nThe compression ratio is 2.5 to 1.\n"
+      },
+      {
+        "path": "D:\\data_investigation_agent\\.local\\round-seventeen\\d-pipeline\\route-replay\\712c9b041f1cce407988f590d655160f8b029ec6f88ca820147ef2a780512ed2\\model-catalog.sqlite",
+        "bytes": 353406976,
+        "sha256_before": "8a33327a75c8736f723fe0937b2a8d08027e0ca77dea97265f3181805eae7a7c",
+        "sha256_after": "8a33327a75c8736f723fe0937b2a8d08027e0ca77dea97265f3181805eae7a7c",
+        "allocated_before": 353406976,
+        "allocated_after": 138842112,
+        "returncode": 0,
+        "output": "\n Compressing files in D:\\data_investigation_agent\\.local\\round-seventeen\\d-pipeline\\route-replay\\712c9b041f1cce407988f590d655160f8b029ec6f88ca820147ef2a780512ed2\\\n\n\n1 files within 1 directories were compressed.\n353,406,976 total bytes of data are stored in 138,842,112 bytes.\nThe compression ratio is 2.5 to 1.\n"
+      }
+    ],
+    "deletions": 0,
+    "network_requests": 0,
+    "runtime_reference_check": "2237 declared current files: only compression-candidates.json references these three replay paths; no active runtime or test reference; no explicit protected path match.",
+    "disk_after": 12627365888,
+    "actual_allocated_bytes_freed": 643694592
+  },
+  "coverage": "Only completed manifests counted. Current next batch and remaining historical files are not claimed archived or privacy-reviewed. Cleanup prepared, not executed; invocation rechecks remote properties, up to 51 HEAD controls, counted separately."
+}
