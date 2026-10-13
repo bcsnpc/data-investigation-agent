@@ -48,6 +48,24 @@ def cloud_manifest():
 
 
 class ManagedIdentityTests(unittest.TestCase):
+    def test_token_failure_reason_is_stable_and_never_includes_provider_text(self):
+        scope='https://vault.azure.net/.default'
+        failures=[('not-a-token','TOKEN_NOT_JWT'),
+                  (token(scope,tid=CLIENT),'TENANT_MISMATCH'),
+                  (token(scope,oid=CLIENT),'PRINCIPAL_MISMATCH'),
+                  (token(scope,aud='https://wrong.invalid'),'AUDIENCE_MISMATCH')]
+        for value,reason in failures:
+            credential=Mock(get_token=Mock(return_value=SimpleNamespace(token=value)))
+            with self.assertRaises(auth.TokenBindingError) as error:
+                auth.Tokens(IDENTITY,credential=credential).get_token(scope)
+            self.assertEqual(error.exception.reason,reason)
+            self.assertNotIn(value,str(error.exception))
+        credential=Mock(get_token=Mock(side_effect=RuntimeError('raw-secret-detail')))
+        with self.assertRaises(auth.TokenBindingError) as error:
+            auth.Tokens(IDENTITY,credential=credential).get_token(scope)
+        self.assertEqual(error.exception.reason,'TOKEN_ACQUISITION_FAILED')
+        self.assertNotIn('raw-secret-detail',str(error.exception))
+
     def test_explicit_identity_and_audience_are_pinned_before_use(self):
         scope = 'https://database.windows.net/.default'
         credential = Mock()

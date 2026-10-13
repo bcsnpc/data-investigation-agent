@@ -111,5 +111,24 @@ class PlatformHealthTests(unittest.TestCase):
                          pg_read=Mock(return_value=['tool_state', 'worker', 'off', 2, 1, 3, 4]))
         self.assertEqual(result['checks']['postgres']['status'], 'FAIL')
 
+    def test_vault_authentication_failure_reason_is_retained_without_http_or_secret(self):
+        from investigator.adapters.managed_identity import TokenBindingError
+        saved={}
+        def token(scope):
+            if scope=='https://vault.azure.net/.default':raise TokenBindingError('AUDIENCE_MISMATCH')
+            return 'private-token'
+        def opened(request,timeout):
+            self.assertNotIn('.vault.',request.full_url)
+            if request.get_method()=='PUT':
+                saved[request.full_url]=request.data
+                return Reply(b'',201)
+            return Reply(saved[request.full_url],200)
+        with configured(policy()):
+            result=run(CONFIG,tokens=Mock(get_token=token),opener=Mock(open=opened),
+                pg_read=Mock(return_value=['tool_state','worker','on',2,1,3,4]))
+        self.assertEqual(result['checks']['key_vault']['authentication_reason'],'AUDIENCE_MISMATCH')
+        self.assertEqual(json.loads(saved[plan(CONFIG)['receipt_url']])['checks'],result['checks'])
+        self.assertNotIn('private-token',json.dumps(result))
+
 
 if __name__ == '__main__': unittest.main()

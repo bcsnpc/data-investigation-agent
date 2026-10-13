@@ -142,6 +142,9 @@ def run(config, *, tokens=None, opener=None, pg_read=None):
             'secret_read_verified': False, 'limitation': 'One metadata page only; no secret value was requested or established.'}
     except Exception as exc:
         checks['key_vault'] = {'status': 'FAIL', 'error_type': type(exc).__name__, 'secret_read_verified': False}
+        from investigator.adapters.managed_identity import TokenBindingError
+        if isinstance(exc, TokenBindingError):
+            checks['key_vault']['authentication_reason'] = exc.reason
     result = {'version': 1, 'kind': 'PLATFORM_HEALTH', 'principal_id': config['identity']['principal_id'],
             'recorded_at': datetime.now(timezone.utc).isoformat(),
             'status': 'PASS' if all(value['status'] == 'PASS' for value in checks.values()) else 'FAIL',

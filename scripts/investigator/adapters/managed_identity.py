@@ -23,6 +23,17 @@ SCOPES = frozenset({
     'https://ossrdbms-aad.database.windows.net/.default',
 })
 
+TOKEN_FAILURE_REASONS = frozenset({'TOKEN_ACQUISITION_FAILED', 'TOKEN_NOT_JWT',
+    'TENANT_MISMATCH', 'PRINCIPAL_MISMATCH', 'AUDIENCE_MISMATCH'})
+
+
+class TokenBindingError(RuntimeError):
+    def __init__(self, reason):
+        if reason not in TOKEN_FAILURE_REASONS:
+            raise ValueError('UNKNOWN_TOKEN_FAILURE_REASON')
+        self.reason = reason
+        super().__init__('MANAGED_IDENTITY_TOKEN_UNAVAILABLE_OR_BINDING_MISMATCH: ' + reason)
+
 
 def validate(value):
     if not isinstance(value, dict) or set(value) != FIELDS or value['mode'] != 'managed_identity':
@@ -50,16 +61,22 @@ class Tokens:
             raise ValueError('MANAGED_IDENTITY_AUDIENCE_UNDECLARED')
         try:
             token = self.credential.get_token(scope).token
+        except Exception:
+            raise TokenBindingError('TOKEN_ACQUISITION_FAILED') from None
+        try:
             part = token.split('.')[1]
             claims = json.loads(base64.urlsafe_b64decode(part + '=' * (-len(part) % 4)))
-            # SDK obtains the token from the selected managed identity endpoint.
-            # This is a binding check, not a replacement for server signature validation.
-            if (claims.get('tid') != self.declaration['tenant_id']
-                    or claims.get('oid') != self.declaration['principal_id']
-                    or str(claims.get('aud', '')).rstrip('/') != scope.removesuffix('/.default').rstrip('/')):
-                raise ValueError('binding')
+            if not isinstance(claims, dict):raise ValueError('claims')
         except Exception:
-            raise RuntimeError('MANAGED_IDENTITY_TOKEN_UNAVAILABLE_OR_BINDING_MISMATCH') from None
+            raise TokenBindingError('TOKEN_NOT_JWT') from None
+        # SDK obtained the token from the selected identity endpoint. These are
+        # binding checks; the destination server still verifies its signature.
+        if claims.get('tid') != self.declaration['tenant_id']:
+            raise TokenBindingError('TENANT_MISMATCH')
+        if claims.get('oid') != self.declaration['principal_id']:
+            raise TokenBindingError('PRINCIPAL_MISMATCH')
+        if str(claims.get('aud', '')).rstrip('/') != scope.removesuffix('/.default').rstrip('/'):
+            raise TokenBindingError('AUDIENCE_MISMATCH')
         return token
 
 
