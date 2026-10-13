@@ -34,10 +34,12 @@ def reader_availability(config):
     reader=config['fabric'].get('sql_reader')
     if not reader:return None
     if reader.get('mode') in ('managed_identity','key_vault_user_cache'):
-        from investigator.adapters.vault_user_cache import credential
+        from investigator.adapters.vault_user_cache import credential, SQL
         auth=credential(reader)
         if auth['tenant_id']!=config['fabric']['auth']['tenant_id']:
             raise ValueError('SQL reader tenant differs')
+        if auth['mode']=='key_vault_user_cache' and auth['scope']!=SQL:
+            raise ValueError('SQL reader audience differs')
         return {'status':'CONFIGURED','account':reader['account'],
                 'authentication_verified':False,'permission_verified':False,
                 'limitation':'Credential declaration only; authentication and guarded surface reads remain to be established.'}

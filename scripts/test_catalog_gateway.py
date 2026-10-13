@@ -68,12 +68,15 @@ class CatalogGatewayTests(unittest.TestCase):
     def test_cloud_reader_is_configured_without_claiming_authentication_or_calling_cli(self):
         from fabric_sql_surface import reader_availability
         from test_managed_identity_auth import IDENTITY
-        for reader in (D|{'server':'server'},IDENTITY|{'server':'server','account':'reader'}):
+        from investigator.adapters.vault_user_cache import SQL
+        for reader in (D|{'scope':SQL,'server':'server'},IDENTITY|{'server':'server','account':'reader'}):
             with patch('fabric_sql_auth.session_status',side_effect=AssertionError('No CLI')), \
                     patch('investigator.adapters.vault_user_cache.Tokens',side_effect=AssertionError('No auth call')):
                 result=reader_availability({'fabric':{'sql_reader':reader,'auth':{'tenant_id':reader['tenant_id']}}})
             self.assertEqual(result['status'],'CONFIGURED')
             self.assertFalse(result['authentication_verified']);self.assertFalse(result['permission_verified'])
+        with self.assertRaisesRegex(ValueError,'audience'):
+            reader_availability({'fabric':{'sql_reader':D|{'server':'server'},'auth':{'tenant_id':D['tenant_id']}}})
 
     def test_configured_transport_declares_probe_capability_not_an_observed_result(self):
         from test_independent_lower_read import Harness
