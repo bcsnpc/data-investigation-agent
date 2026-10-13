@@ -56,3 +56,17 @@ Tenant settings `AllowServicePrincipalsUseReadAdminAPIs`, `AdminApisIncludeDetai
 Integrated focused check: 52 tests and 106 subtests passed, including denied write paths and scanner credentials unavailable to investigation jobs. A subsequent dependency wiring/CI change is under verification before first scanner live use. This is application gateway enforcement, not a claim of an OS/network security boundary.
 
 Cleanup correction: 37 files referenced by current tests/runtime were removed before exclusions were complete. Calling the script ready was an implementation error. All 37 were restored from retained local archives, with exact original SHA256 and size checks (1,071,241,247 bytes), without network retrieval. The new script protects them; original deletion logs remain. Disk afterward: 12,551,286,784 bytes free.
+
+## Platform graph table grant, 2026-10-13 (?8)
+
+The first scanner batch retained 31 physical requests and all 12 owner refreshes unavailable: five publication attempts failed with `InsufficientPrivilege`; seven kinds remained unsupported. Admin metadata scan succeeded. The batch is not a coverage success.
+
+The existing Round Eighteen owner approval grants the worker rights to the tool database only. The new graph tables had omitted those grants. Applied via the existing owner connection, only to the five platform tables below; no estate reader permission changed.
+
+```sql
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE dia_state.estate_graph_nodes, dia_state.estate_graph_edges TO "id-dia-worker";
+GRANT SELECT, INSERT, UPDATE ON TABLE dia_state.estate_graph_owner_versions, dia_state.estate_graph_history TO "id-dia-worker";
+GRANT SELECT, INSERT ON TABLE dia_state.estate_graph_changes TO "id-dia-worker";
+```
+
+Before: all four permissions false on all five tables. Independent after: nodes/edges SELECT, INSERT, UPDATE, DELETE; owner_versions/history SELECT, INSERT, UPDATE; changes SELECT, INSERT. All other listed permissions remain false. Exact receipt: `.local/round-nineteen-b/platform-graph-grant.json`, at 2026-10-13T17:01:29.884766+00:00.
