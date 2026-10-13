@@ -17,14 +17,21 @@ MAX_BYTES=256*1024*1024
 
 
 class _FailedPayload:
-    def __init__(self,estate,owner,reference):
+    def __init__(self,estate,owner,reference,manifest_reference):
         self.estate,self.owner,self.reference=estate,owner,copy.deepcopy(reference)
+        self.manifest_reference=copy.deepcopy(manifest_reference)
 
 
 def failure_reference(error,estate,owner):
     value=getattr(error,'_graph_failed_payload',None)
     if not isinstance(value,_FailedPayload)or (value.estate,value.owner)!=(estate,owner):return None
     return copy.deepcopy(value.reference)
+
+
+def failure_manifest_reference(error,estate,owner):
+    value=getattr(error,'_graph_failed_payload',None)
+    if not isinstance(value,_FailedPayload)or (value.estate,value.owner)!=(estate,owner):return None
+    return copy.deepcopy(value.manifest_reference)
 
 
 class AssetCatalog:
@@ -142,6 +149,9 @@ class AssetCatalog:
         if sum(v['reference']['bytes']for k,v in manifest['owners'].items()if k!=owner)+len(raw)>MAX_BYTES:
             raise ValueError('GRAPH_CATALOG_TOTAL_BYTE_BOUND')
         reference=self.sink(raw)  # Seal before extraction; failure keeps exact safe payload.
+        basis={'estate':estate,'refresh_owner':owner,'catalog_revision':old['revision'],'catalog':old['body']}
+        basis_raw=encoded(basis).encode('utf8');_safe(basis_raw)
+        manifest_reference=self.sink(basis_raw)
         try:
             manifest['owners'][owner]={'reference':reference,'observed_at':at,
                 'source_observations':times}
@@ -157,5 +167,5 @@ class AssetCatalog:
             partitions=self.partition(estate,assets,self.sink,observed_at=at,source_asset_ids=sources,source_observations=observations)
             return self._commit(estate,at,manifest,partitions,old['revision'],retire_missing=True)
         except Exception as error:
-            error._graph_failed_payload=_FailedPayload(estate,owner,reference)
+            error._graph_failed_payload=_FailedPayload(estate,owner,reference,manifest_reference)
             raise

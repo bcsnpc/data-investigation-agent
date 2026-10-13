@@ -109,9 +109,9 @@ class IncrementalScanner:
             except Exception as error:
                 # Do not advance this owner's cursor. Permission denial never deletes it.
                 detail=safe_failure(error)
-                from .graph_asset_catalog import failure_reference
+                from .graph_asset_catalog import failure_reference,failure_manifest_reference
                 reference=failure_reference(error,estate,owner)
-                retained={'payload_reference':reference} if reference is not None else {}
+                retained={'payload_reference':reference,'catalog_manifest_reference':failure_manifest_reference(error,estate,owner)} if reference is not None else {}
                 health(self.repo.state, estate, owner, owner_at, 'UNAVAILABLE', 'Owner definition refresh unavailable: ' + type(error).__name__,failure=detail,**retained)
                 if is_stop_condition(error):raise
                 results.append({'owner': owner, 'status': 'UNAVAILABLE', 'reason': type(error).__name__,'failure':detail,**retained})

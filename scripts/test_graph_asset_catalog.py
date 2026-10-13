@@ -69,10 +69,14 @@ class CatalogTests(unittest.TestCase):
         source.list_changes.return_value={'items':[{'owner':'book','fingerprint':sha('new'),'deleted':False}],'complete':False}
         source.fetch.return_value=payload
         error=ValueError('GRAPH_UNKNOWN_COLLISION')
+        original_partition=self.catalog.partition
         self.catalog.partition=Mock(side_effect=error)
         result=IncrementalScanner(self.repo,source,None,reconcile=self.catalog.refresh).run('estate',T[1])
         reference=result['owners'][0]['payload_reference']
         self.assertEqual(json.loads(self.sink.read(reference)),payload)
+        basis_reference=result['owners'][0]['catalog_manifest_reference']
+        basis=json.loads(self.sink.read(basis_reference))
+        self.assertEqual(basis,{'estate':'estate','refresh_owner':'book','catalog_revision':before['revision'],'catalog':before['body']})
         self.assertNotIn('fresh-metadata-only-sentinel',json.dumps(result))
         self.assertEqual(self.repo.records('estate')['unavailable_owners']['book']['payload_reference'],reference)
         self.assertEqual(self.state.get(NAMESPACE,'estate'),before)
@@ -82,6 +86,15 @@ class CatalogTests(unittest.TestCase):
         self.assertIsNone(failure_reference(error,'estate','other-owner'))
         forged=ValueError('untrusted');forged._graph_failed_payload={'reference':reference}
         self.assertIsNone(failure_reference(forged,'estate','book'))
+        from investigator.graph_asset_catalog import failure_manifest_reference
+        self.assertIsNone(failure_manifest_reference(error,'estate','other-owner'))
+        self.catalog.partition=original_partition
+        self.catalog.refresh('estate','unrelated',T[2],self.payload('unrelated'))
+        self.assertNotEqual(self.state.get(NAMESPACE,'estate')['body'],basis['catalog'])
+        self.assertEqual(json.loads(self.sink.read(basis_reference)),basis)
+        # Every original input remains addressable without querying current PG.
+        for entry in basis['catalog']['owners'].values():
+            self.assertIn('assets',json.loads(self.sink.read(entry['reference'])))
     def test_cross_owner_payload_refuses_before_capture(self):
         calls=Mock(wraps=self.sink);self.catalog.sink=calls
         with self.assertRaisesRegex(ValueError,'LEAVES_OWNER'):
