@@ -83,6 +83,14 @@ def execute(config):
 
 
 def _execute_one(config):
+    if config['authentication'].get('mode')=='federated_scanner':
+        from investigator.adapters.scanner_identity import job
+        with job(config['authentication'],[config['workspace']],kind='CHANGE_DETECTION'):
+            return _execute_one_scoped(config)
+    return _execute_one_scoped(config)
+
+
+def _execute_one_scoped(config):
     import os
     from investigator.privacy_capture import ACTIVE
     if ACTIVE.get() is not None or os.environ.get('INVESTIGATOR_RECORDING_CLASS', 'EXACT') != 'EXACT':
@@ -102,12 +110,18 @@ def _execute_one(config):
     repo = GraphRepository(state)
     meter = Meter(state, config['budget'], config['max_requests'])
     mode = config['authentication'].get('mode')
-    if mode == 'federated_reader':
+    if mode == 'federated_scanner':
+        if config.get('sql'):raise ValueError('SCANNER_SQL_CREDENTIAL_FORBIDDEN')
+        from investigator.adapters.scanner_identity import Tokens
+    elif mode == 'federated_reader':
         from investigator.adapters.federated_reader import Tokens
     elif mode == 'managed_identity':
         from investigator.adapters.managed_identity import Tokens
     else: raise ValueError('GRAPH_SCHEDULE_IDENTITY_MODE_UNSUPPORTED')
-    http = MetadataHttp(Tokens(config['authentication']), meter=meter)
+    if mode=='federated_scanner':
+        from investigator.adapters.scanner_http import ScannerHttp
+        http=ScannerHttp(Tokens(config['authentication']),meter=meter)
+    else:http = MetadataHttp(Tokens(config['authentication']), meter=meter)
     collector = FabricChanges(config['workspace'], config['owners'], http)
     files, _ = recording_stores(config['storage'])
     sink = DefinitionSink(files, config['definition_uri_prefix'], recording_class='EXACT')

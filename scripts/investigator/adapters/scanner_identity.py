@@ -35,7 +35,7 @@ def job(declaration,workspaces,*,kind):
     workspaces=tuple(str(UUID(w)) for w in workspaces)
     if len(set(workspaces))!=len(workspaces):raise ValueError('SCANNER_WORKSPACE_SCOPE_DUPLICATE')
     if _JOB.get() is not None:raise ValueError('SCANNER_JOB_NESTING_REFUSED')
-    token=_JOB.set((principal(declaration),frozenset(workspaces),kind))
+    token=_JOB.set((principal(declaration),frozenset(workspaces),kind,{}))
     try:yield
     finally:_JOB.reset(token)
 

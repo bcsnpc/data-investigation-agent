@@ -163,6 +163,10 @@ class Gateway:
         permissions=self.identity(identity);_url(url)
         method=method.upper()
         matches=[item for item in permissions.get('http',[]) if item['method']==method and item['url']==url]
+        if not matches and permissions.get('role')=='scanner':
+            from .adapters.scanner_policy import followup
+            bound=followup(identity,method,url)
+            if bound is not None:matches=[bound]
         if len(matches)!=1:
             if not matches and permissions.get('role')=='platform':
                 from .adapters.platform_cas import permits
@@ -224,6 +228,10 @@ class Gateway:
         permissions=self.identity(identity)
         if permissions.get('role')=='scanner'and operation!='XMLA_GRAPH_METADATA':
             _deny('SCANNER_NATIVE_OPERATION_REFUSED',identity=identity,operation=operation)
+        if permissions.get('role')=='scanner':
+            from .adapters.scanner_identity import require_job
+            try:require_job(permissions['scanner']['authentication'],[target['workspace']])
+            except Exception:_deny('SCANNER_NATIVE_SCOPE_REFUSED',identity=identity,operation=operation)
         if operation not in ('XMLA_EVALUATE','XMLA_GRAPH_METADATA','SNAPSHOT_SQL_METADATA','SNAPSHOT_XMLA_METADATA'):
             _deny('NATIVE_CONTROL_UNKNOWN',identity=identity)
         grant={'operation':operation,**target}
