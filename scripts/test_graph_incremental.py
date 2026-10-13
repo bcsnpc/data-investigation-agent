@@ -122,22 +122,40 @@ class LiveCollectorTests(unittest.TestCase):
 
 
 class ScheduleTests(unittest.TestCase):
+    def setUp(self):
+        self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
+        self.state=SharedState.offline(Path(self.temp.name)/'budget.sqlite');self.state.migrate()
+        self.retained={'policy':{'environment':'estate','daily_limits':{'planner_calls':20,'cloud_calls':2,
+            'input_characters':100000,'output_tokens':30000},'max_inflight_planners':1,'no_progress_limit':2},
+            'round_policy':{'id':'ROUND_TEST','physical_requests':3,'restoration_reserved':1,'starts_at_epoch':0}}
+        self.state.put('usage_policy','estate',self.retained)
+        self.budget={'environment':'estate','policy_sha256':sha(self.retained),'round_id':'ROUND_TEST','rolling_limit':2}
+    def meter(self,limit):
+        value=Meter(self.state,self.budget,limit,clock=lambda:1000)
+        self.addCleanup(value.close);return value
     def test_meter_counts_failures_and_keeps_existing_accounts(self):
-        state = Mock(); state.snapshot.return_value = {'unit': 'requests'}
-        meter = Meter(state, ['round', 'rolling'], 1)
+        meter=self.meter(1)
         with self.assertRaises(RuntimeError): meter(lambda: (_ for _ in ()).throw(RuntimeError('403')))
-        self.assertEqual(meter.used, 1); self.assertEqual(state.settle.call_count, 2)
+        self.assertEqual(meter.used, 1)
+        self.assertEqual(meter.usage.snapshot()['read_allowance']['ordinary_charged'],1)
         with self.assertRaisesRegex(ValueError, 'CAP'): meter(lambda: None)
-        state.create_account.assert_not_called()
-    def test_second_account_refusal_releases_unspent_first_reservation(self):
-        state = Mock(); state.snapshot.return_value = {'unit': 'requests'}
-        state.reserve.side_effect = [None, ValueError('cap')]
-        meter = Meter(state, ['round', 'rolling'], 1); call = Mock()
-        with self.assertRaises(ValueError): meter(call)
-        call.assert_not_called(); self.assertEqual(state.settle.call_args.args[-1], '0')
-        self.assertEqual(meter.used, 0)
+        with self.state.transaction() as db:
+            self.assertEqual(db.execute('SELECT count(*) FROM state_accounts').fetchone()[0],0)
+            self.assertEqual(db.execute('SELECT status FROM state_usage').fetchone()[0],'UNCERTAIN')
+        self.assertEqual(self.state.get('usage_policy','estate')['body'],self.retained)
+    def test_round_reserve_and_rolling_share_existing_admission_atomically(self):
+        from investigator.usage_governance import UsageHold
+        first=self.meter(5);first(lambda:None);second=self.meter(5);second(lambda:None)
+        call=Mock()
+        with self.assertRaisesRegex(UsageHold,'restoration'):second(call)
+        call.assert_not_called()
+        self.assertEqual(second.usage.snapshot()['read_allowance']['ordinary_charged'],2)
+    def test_wrong_existing_policy_pin_refuses_without_admission(self):
+        self.budget['policy_sha256']='0'*64
+        with self.assertRaisesRegex(ValueError,'PIN_DIFFERS'):self.meter(2)
+        with self.state.transaction() as db:self.assertEqual(db.execute('SELECT count(*) FROM state_usage').fetchone()[0],0)
     def test_owner_approval_required_before_scheduling(self):
-        config = dict.fromkeys(('estate', 'workspace', 'owners', 'authentication', 'storage', 'definition_uri_prefix', 'budget_accounts', 'max_requests', 'approval'))
+        config = dict.fromkeys(('estate', 'workspace', 'owners', 'authentication', 'storage', 'definition_uri_prefix', 'budget', 'max_requests', 'approval'))
         with self.assertRaisesRegex(ValueError, 'APPROVAL'): validate(config)
 
 

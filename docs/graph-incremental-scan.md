@@ -17,7 +17,7 @@ The operator JSON has these exact keys:
   "authentication": {"mode": "federated_reader", "tenant_id": "tenant-guid", "client_id": "reader-app-guid", "principal_id": "reader-object-guid", "managed_identity": {}},
   "storage": {"account_url": "https://approvedaccount.blob.core.windows.net", "identity": {}, "snapshot_channel": "private-snapshot-channel", "tape_channel": "private-tape-channel"},
   "definition_uri_prefix": "https://approvedaccount.blob.core.windows.net/snapshots",
-  "budget_accounts": ["existing-round-account", "existing-rolling-account"],
+  "budget": {"environment": "existing-shared-usage-environment", "policy_sha256": "sha256-of-existing-usage-policy-body", "round_id": "ROUND_NINETEEN", "rolling_limit": 3000},
   "max_requests": 40,
   "approval": "Dated owner approval reference for this schedule and scope"
 }
@@ -38,12 +38,34 @@ python scripts/scan_estate_graph.py --config <config.json> --receipt <plan.json>
 python scripts/scan_estate_graph.py --config <config.json> --receipt <run.json> --apply
 ```
 
-Every actual metadata HTTP attempt reserves one request against each configured
-existing shared account. Failed requests count. If any account denies admission,
-the request is not sent and any other unspent reservation is released. A process
-crash leaves its reservation charged conservatively for reconciliation. The
+Every actual metadata HTTP attempt reserves one request through the existing
+`SharedUsage` authority, which atomically checks both the current round pot and
+rolling window. The approved policy body hash, round ID and rolling limit must
+match; no new `state_accounts` request accounts are manufactured. Failed requests
+remain charged. A refusal happens before transport and creates no reservation.
+A process crash leaves its reservation charged conservatively for reconciliation. The
 per-scan request cap bounds definition polling as well as listing pages. Existing
 account ceilings and protected restoration reserve are not changed.
+
+`graph_scan_schedule_plan.py` takes a retained ARM response for the existing job,
+the scan configuration, exact gateway policy, and a digest-pinned existing worker
+image. It emits a PATCH body and URL without sending either. It preserves the
+job's identities, platform environment and resource sizes, selects the trusted
+`graph_scan_bootstrap.py` entrypoint, limits each run to ten minutes with no
+platform retries, and prints the worst-case 30-day compute seconds. Root must
+compare that bound with the existing free allowance before deployment. For the
+existing two-vCPU/four-GiB job, 120 ten-minute runs imply at most 144,000 vCPU-seconds
+and 288,000 GiB-seconds per 30 days; this is a usage bound, not a claim of zero
+incremental cost or remaining free allowance.
+
+```text
+python scripts/graph_scan_schedule_plan.py --existing-job <job.json> --config <scan.json> --gateway <gateway.json> --image ghcr.io/<existing-image>@sha256:<digest> --output <schedule-plan.json>
+```
+
+After reviewing the prepared plan, write only its `body` to an ARM request file
+and use `az rest --method patch --url <plan.url> --body @<body.json>`. This updates
+the existing job, never creates one. Do not apply while the owner is using that
+job for a manual verification; record the existing trigger before changing it.
 
 The live Fabric collector lists at most five pages/1,000 workspace items and
 considers at most 100 explicitly configured owners. Each owner is

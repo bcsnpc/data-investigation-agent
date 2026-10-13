@@ -9,33 +9,46 @@ from investigator.shared_state import sha
 
 
 class Meter:
-    def __init__(self, state, accounts, limit):
-        if not isinstance(accounts, list) or not accounts or len(set(accounts)) != len(accounts):
-            raise ValueError('EXISTING_SHARED_BUDGET_ACCOUNTS_REQUIRED')
+    def __init__(self, state, budget, limit, *, clock=None):
+        import sqlite3
+        import time
+        from types import SimpleNamespace
+        from investigator.shared_usage import SharedUsage, TABLES
+        from investigator.onboarding import digest
+        if not isinstance(budget, dict) or set(budget) != {'environment', 'policy_sha256', 'round_id', 'rolling_limit'}:
+            raise ValueError('EXISTING_SHARED_USAGE_PINS_REQUIRED')
         if type(limit) is not int or not 1 <= limit <= 100: raise ValueError('GRAPH_PHYSICAL_REQUEST_BOUND')
-        self.state, self.accounts, self.limit, self.used = state, accounts, limit, 0
+        retained=state.get('usage_policy',budget['environment'])['body']
+        if (sha(retained)!=budget['policy_sha256'] or retained['round_policy']['id']!=budget['round_id']
+                or retained['policy']['daily_limits']['cloud_calls']!=budget['rolling_limit']):
+            raise ValueError('GRAPH_SHARED_USAGE_APPROVAL_PIN_DIFFERS')
+        self.state, self.limit, self.used = state, limit, 0
         self.owner = 'graph-scan:' + str(uuid4())
-        for account in accounts:
-            if state.snapshot(account)['unit'] != 'requests': raise ValueError('GRAPH_REQUEST_ACCOUNT_UNIT')
+        governor=SimpleNamespace(environment=budget['environment'],policy=retained['policy'],hash=digest(retained['policy']),
+            clock=clock or time.time,runtime=SimpleNamespace(config={'_estate':{'round':retained['round_policy']}}))
+        self.usage=SharedUsage(governor,state,owner=self.owner)
+        # The existing authority owns admission; memory is only its reporting
+        # mirror. No new budget tables, limits, or durable local ledger exist.
+        self.local=sqlite3.connect(':memory:')
+        for table,(_,columns) in TABLES.items():
+            self.local.execute('CREATE TABLE '+table+'('+','.join(columns)+')')
+        self.before=self.usage.snapshot()
     def __call__(self, execute):
         if self.used >= self.limit: raise ValueError('GRAPH_PHYSICAL_REQUEST_CAP')
-        key = str(uuid4()); admitted = []
-        try:
-            for account in self.accounts:
-                self.state.reserve(account, key, self.owner, '1', detail={'purpose': 'graph_metadata'})
-                admitted.append(account)
-        except BaseException:
-            for account in admitted: self.state.settle(account, key, self.owner, '0')
-            raise
+        key=str(uuid4())
+        self.usage.reserve(self.local,self.owner,key,'cloud',purpose='INVESTIGATION')
         self.used += 1
-        try: return execute()
+        uncertain=True
+        try:
+            result=execute();uncertain=False;return result
         finally:
-            for account in admitted: self.state.settle(account, key, self.owner, '1')
+            self.usage.settle(self.local,self.owner,key,uncertain=uncertain)
+    def close(self): self.local.close()
 
 
 def validate(config):
     required = {'estate', 'workspace', 'owners', 'authentication', 'storage', 'definition_uri_prefix',
-                'budget_accounts', 'max_requests', 'approval'}
+                'budget', 'max_requests', 'approval'}
     if not isinstance(config, dict) or set(config) != required: raise ValueError('GRAPH_SCHEDULE_CONFIGURATION')
     if not isinstance(config['approval'], str) or not config['approval'].strip():
         raise ValueError('GRAPH_SCHEDULE_OWNER_APPROVAL_REQUIRED')
@@ -60,7 +73,7 @@ def execute(config):
     if state is None: raise ValueError('SHARED_GRAPH_STATE_REQUIRED')
     # Migrations are operator-owned; a scheduled reader must not create tables.
     repo = GraphRepository(state)
-    meter = Meter(state, config['budget_accounts'], config['max_requests'])
+    meter = Meter(state, config['budget'], config['max_requests'])
     mode = config['authentication'].get('mode')
     if mode == 'federated_reader':
         from investigator.adapters.federated_reader import Tokens
@@ -76,7 +89,8 @@ def execute(config):
     at = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
     try:
         result = scanner.run(config['estate'], at)
-        result.update(physical_requests=meter.used, approval=config['approval'], config_hash=sha(config))
+        result.update(physical_requests=meter.used, approval=config['approval'], config_hash=sha(config),
+            usage_before=meter.before,usage_after=meter.usage.snapshot())
         state.put('graph_scan_run', meter.owner, result)
         return result
     except BaseException as error:
@@ -84,6 +98,7 @@ def execute(config):
             'status': 'FAILED', 'error_type': type(error).__name__, 'physical_requests': meter.used,
             'approval': config['approval'], 'config_hash': sha(config)})
         raise
+    finally: meter.close()
 
 
 def main():
