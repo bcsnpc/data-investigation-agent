@@ -70,3 +70,14 @@ GRANT SELECT, INSERT ON TABLE dia_state.estate_graph_changes TO "id-dia-worker";
 ```
 
 Before: all four permissions false on all five tables. Independent after: nodes/edges SELECT, INSERT, UPDATE, DELETE; owner_versions/history SELECT, INSERT, UPDATE; changes SELECT, INSERT. All other listed permissions remain false. Exact receipt: `.local/round-nineteen-b/platform-graph-grant.json`, at 2026-10-13T17:01:29.884766+00:00.
+
+
+## 2026-10-13 continuation checkpoint
+
+Billing retry refreshed both formerly colliding owners after the gap-identity repair. Both billing Warehouse schema owners were subsequently refreshed through the existing investigator SQL scope (21 physical requests); no scanner SQL credential was used. Fixture batches continue. RESCANNED is not itself proof that INFO calls succeeded or that a complete path is verified.
+
+The first sample-publication preparation failed on its first read-only workspace list: HTTP200 bytes were not decoded before JSON parsing, ending in KeyError `value`. One physical control request, zero mutations. Original script and receipt retained. A separately hashed v2 publisher uses bounded decoded reads and explicit response-shape refusals; seven offline tests pass. Its new attempt created the approved workspace and roles, then received HTTP202 for the unchanged official sample import. Completion is pending; it is not yet an onboarded estate.
+
+The final cloud verification attempt was admitted after an offline 18-binding,40/40-probe check, full manifest/spec budget equality, and an independent current-model match. Candidate e77890a70a7b6661456d3098aa9594ad79040f98f1453a451e360297f1238a0a; execution job-dia-worker-siyf9k6. No third live attempt is authorized.
+
+Archive selection caught six additional capture parents referenced by current acceptance manifests before the first network upload. The original100-file plan and zero-network interruption remain; corrected76-file batch excludes24 files. Nothing from either batch is yet declared cleanup-ready.
