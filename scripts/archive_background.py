@@ -173,6 +173,12 @@ def run(config,output,client_factory,*,planner=batch,preparer=prepare,publisher=
                 effective_policy['batch_stored_bytes']=measurement['stored_bytes']
                 effective_policy['batch_controls']=required_controls
                 projected=admission(effective_policy,stored,controls)
+            # Compression can outlast the admission window. A stop during that
+            # offline work must not turn into a late network client afterwards.
+            if datetime.now(timezone.utc)>=deadline or stop_file.exists():
+                record({'phase':'ADMISSIONS_CLOSED','index':index,'reason':'deadline or stop file after measurement'})
+                break
+            if shutil.disk_usage(root).free<10*1024**3:raise ArtifactError('BACKGROUND_DISK_FLOOR')
             record({'phase':'ADMITTED','index':index,'manifest_sha256':sha,'files':len(manifest['entries']),
                     'excluded':len(manifest['excluded']),**projected})
             client=client_factory(folder,effective_policy['batch_controls'])
