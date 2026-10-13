@@ -1,0 +1,516 @@
+{
+  "recorded_at": "2026-10-13T00:45:51.083659+00:00",
+  "tapes": [
+    {
+      "batch": "d-pipeline",
+      "tape": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\12141d0c-9fa3-40ff-828e-47ef75da5501\\tape.json",
+      "sha256": "d21cfc554789fdd93c4df047021d2c00e1bb8719b33697ce6005799e50ebcf65",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-pipeline\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-pipeline",
+      "tape": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\408c95c5-c013-4f3d-874d-28f3728cee28\\tape.json",
+      "sha256": "6366951017cf743442cfc19f8aed0bf2565a755759f76a55399020f8370097cf",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-pipeline\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-pipeline",
+      "tape": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\85f1f362-9851-4d80-9949-1c95292651d0\\tape.json",
+      "sha256": "2080085c38e5f0e3015a6f7b5a9555d1eb37c688ae7a022744464c818654e142",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-pipeline\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-pipeline",
+      "tape": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\9ee5bc94-5bf5-43ea-8f58-5d6f0608663a\\tape.json",
+      "sha256": "8fb970221e372d03f96d2b49d1d8496e7f3e70ca0845d7d76a42a319a9e958ee",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-pipeline\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-pipeline",
+      "tape": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\a4ef2b6c-179e-4984-906d-63e63c5cf2ee\\tape.json",
+      "sha256": "27706d009974a1fc62264a1b9fba2fcafc152be34443cef8f44820487ea80b3c",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-pipeline\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-pipeline",
+      "tape": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\b74d6e68-3ce2-4dc1-8086-b319bb062cbb\\tape.json",
+      "sha256": "788332a91efa5503862e01b2f667be7e6986f07586e5ad4b45cb6b69b059c9ea",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-pipeline\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-pipeline",
+      "tape": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\cbc0b2af-963e-48f6-aeae-6f8fd75ee464\\tape.json",
+      "sha256": "2a55a41acf08c592926e66efaf962a9c8b371b1ba450c0be3c1f9676d04b92f5",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-pipeline\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-pipeline",
+      "tape": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\d08ee192-7724-4e69-9312-7cbc2ac1f561\\tape.json",
+      "sha256": "d6769de68e26ce96aa5e45ac4966b4d65f719d9179f3174bda425c1657a6177b",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-pipeline\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-pipeline",
+      "tape": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\e35e1e7b-2b78-4e5e-98b7-fd3173d1a914\\tape.json",
+      "sha256": "4486cc330a203bab123c6284760892a17301e34cbe125650d7f48949e4152ce6",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-pipeline\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-pipeline",
+      "tape": ".local\\round-seventeen\\d-pipeline\\tester\\R17-03-reply-0\\tape.json",
+      "sha256": "4e8512bd25c182e125d97f1cdbdb11fac14a9fd61b048088448a71426a63747f",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-pipeline\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-pipeline",
+      "tape": ".local\\round-seventeen\\d-pipeline\\tester\\R17-07-confirm\\tape.json",
+      "sha256": "ac342d0845eba708713fd1fc25f767de8b74ced06baf944f0514755091d872f3",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-pipeline\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-pipeline",
+      "tape": ".local\\round-seventeen\\d-pipeline\\tester\\R17-09-confirm\\tape.json",
+      "sha256": "40171eadb351354987cc18eab6c92c16bc7e7e1580d7477cc883b644f601789b",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-pipeline\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-pipeline",
+      "tape": ".local\\round-seventeen\\d-pipeline\\tester\\R17-11-confirm\\tape.json",
+      "sha256": "b0b5e37c29dbba4e05de1bbdbfe69ad8598c64f5a3ca672c593853109c234fe7",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-pipeline\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-resumed-2",
+      "tape": ".local\\round-seventeen\\d-correction-dev-resumed-2\\capture\\.local\\process-tapes\\088ca039-f99c-4253-8dd6-a08a6d82c211\\tape.json",
+      "sha256": "d4db5af86a0046e8898dc9181f4074f8195137d2be5695c0457118162dfb880e",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-resumed-2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-resumed-2",
+      "tape": ".local\\round-seventeen\\d-correction-dev-resumed-2\\capture\\.local\\process-tapes\\5bc54e00-2149-4d3a-9a16-b3dd5f6d7ce1\\tape.json",
+      "sha256": "139403dbe4e33434f124b243333964aded105bbacef47e36f7e11bcb069369e5",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-resumed-2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-resumed-2",
+      "tape": ".local\\round-seventeen\\d-correction-dev-resumed-2\\capture\\.local\\process-tapes\\9402e622-39f1-45b0-b0ee-3fc327ad01a6\\tape.json",
+      "sha256": "abbd3a2cbe20e8ee4b97ddd7e3604d45b3ee9a1a35a027658bbd2071b739bfcc",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-resumed-2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-resumed-2",
+      "tape": ".local\\round-seventeen\\d-correction-dev-resumed-2\\capture\\.local\\process-tapes\\ae438e03-705e-4514-b018-9fd69a7b4edb\\tape.json",
+      "sha256": "7981ee2757041cbf90b4e2982a4fcfde3bdf55ad022c5e8b51de83679be336db",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-resumed-2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-resumed-2",
+      "tape": ".local\\round-seventeen\\d-correction-dev-resumed-2\\tester\\R17-07-reply-0\\tape.json",
+      "sha256": "6c8fb51753844c9b6b3100c0fa498dab3e26d733762ce9427d03218f4a0cc7e7",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-resumed-2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-resumed-2",
+      "tape": ".local\\round-seventeen\\d-correction-dev-resumed-2\\tester\\R17-07-reply-1\\tape.json",
+      "sha256": "f4efa46c8c38ede82021f3f90a07b4f239fb18461587919bba31f8ae388916b9",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-resumed-2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-resumed-2",
+      "tape": ".local\\round-seventeen\\d-correction-dev-resumed-2\\tester\\R17-09-reply-0\\tape.json",
+      "sha256": "be24d3c4a4fc478f180a9738a3b28840811f92a7ce6a422eda85eeded4852359",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-resumed-2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-resumed-2",
+      "tape": ".local\\round-seventeen\\d-correction-dev-resumed-2\\tester\\R17-11-confirm-0\\tape.json",
+      "sha256": "ea81093f17bc806ed9d0849a1394c7c61659d03151c133f24d2d4e6c97892902",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-resumed-2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-resumed-2",
+      "tape": ".local\\round-seventeen\\d-correction-dev-resumed-2\\tester\\R17-11-reply-0\\tape.json",
+      "sha256": "4002f2c12c81c55ef8b0d37344ca82cadc40ca69dc2f909dc39c99b916967681",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-resumed-2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-resumed-2",
+      "tape": ".local\\round-seventeen\\d-correction-dev-resumed-2\\tester\\R17-11-reply-1\\tape.json",
+      "sha256": "aaeb6c0f9f1967615f988a8a8ee56d5711ec5d361f66b75cafe9cb27d12a60fe",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-resumed-2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-recorded-reply",
+      "tape": ".local\\round-seventeen\\d-correction-dev-recorded-reply\\capture\\.local\\process-tapes\\415bd665-685d-4108-8dec-7844ca5dc2d7\\tape.json",
+      "sha256": "fc12dea1796dc21845cdeb7f245b82cc3cf1e0ecc53b350cee647dc7c170e2bf",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-recorded-reply\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-recorded-reply",
+      "tape": ".local\\round-seventeen\\d-correction-dev-recorded-reply\\capture\\.local\\process-tapes\\5df1e784-cb90-49f2-bd5c-a774026ef0a4\\tape.json",
+      "sha256": "1053c0836f00a44f97f7b2ee24e321a684c4d2962d69da8f6431ece073bc8dd7",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-recorded-reply\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-recorded-reply",
+      "tape": ".local\\round-seventeen\\d-correction-dev-recorded-reply\\capture\\.local\\process-tapes\\7366ea35-7e27-4184-b584-895287f8adcd\\tape.json",
+      "sha256": "63182a444b884ac3fb7d1fe709a5ccc7bd5dfe7eca3869a7047e19080792980f",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-recorded-reply\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-recorded-reply",
+      "tape": ".local\\round-seventeen\\d-correction-dev-recorded-reply\\capture\\.local\\process-tapes\\c2aee7d8-c38a-43fe-bcfc-f273c481a1a3\\tape.json",
+      "sha256": "ed8e411d8156fa6349c7eb85ab697998092c0765bdedc21d981685d19ead2814",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-recorded-reply\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-recorded-reply",
+      "tape": ".local\\round-seventeen\\d-correction-dev-recorded-reply\\tester\\R17-09-confirm-0\\tape.json",
+      "sha256": "9203419866ca3fa51aae740e123ec0a829158527a42ffba15d033eed0566516d",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-recorded-reply\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-recorded-reply",
+      "tape": ".local\\round-seventeen\\d-correction-dev-recorded-reply\\tester\\R17-09-confirm-1\\tape.json",
+      "sha256": "45d9fec9829c364dd464e5489b84a6f799173367a6ca48fbc58dc05e7863118a",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-recorded-reply\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-recorded-reply",
+      "tape": ".local\\round-seventeen\\d-correction-dev-recorded-reply\\tester\\R17-09-reply-1\\tape.json",
+      "sha256": "0ed0f4cc4041b7bc60733b12568d4e722ccc7c5eca34a9f46198331f7ec17ed6",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-recorded-reply\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-recorded-reply-11",
+      "tape": ".local\\round-seventeen\\d-correction-dev-recorded-reply-11\\capture\\.local\\process-tapes\\ba37f4dd-4322-4006-88d3-50820afc212a\\tape.json",
+      "sha256": "be15664bcce2382a444f71147fe5e3dac291886e6ecc09f924e930b0eb14b48e",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-recorded-reply-11\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-recorded-reply-11",
+      "tape": ".local\\round-seventeen\\d-correction-dev-recorded-reply-11\\capture\\.local\\process-tapes\\c2445c9c-b43d-4698-93c7-ee704eebfcf4\\tape.json",
+      "sha256": "dcdd5364a1f426ae2d999c1422f369c19e418220518628e7c8ecc313157e54bc",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-recorded-reply-11\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-correction-dev-recorded-reply-11",
+      "tape": ".local\\round-seventeen\\d-correction-dev-recorded-reply-11\\tester\\R17-11-confirm-1\\tape.json",
+      "sha256": "be176c0455951bdfa8035b9f9190ab9c4234c04b42bf4afd4c54644a6672ed4b",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-correction-dev-recorded-reply-11\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-held-out-resumed",
+      "tape": ".local\\round-seventeen\\d-held-out-resumed\\capture\\.local\\process-tapes\\251a537b-2b53-4441-8dd3-5b50ccc705d8\\tape.json",
+      "sha256": "bcf117a710b912ed0a119497b92c985c5fcfc74333737f49b53f73104e7e8c42",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-held-out-resumed\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-held-out-resumed",
+      "tape": ".local\\round-seventeen\\d-held-out-resumed\\capture\\.local\\process-tapes\\5c18cd23-39fc-4e64-b710-10ac420d5726\\tape.json",
+      "sha256": "e157c3651304d09175e0ad19defa5cf9972d0d80489af6e1a549df2256297c49",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-held-out-resumed\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-held-out-resumed",
+      "tape": ".local\\round-seventeen\\d-held-out-resumed\\capture\\.local\\process-tapes\\7b7224b0-3c21-4c28-a292-b9eab234c701\\tape.json",
+      "sha256": "397182ccc79770863cbf490f9c8d101800e677250abee4a30333c33618ae9465",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-held-out-resumed\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-held-out-resumed",
+      "tape": ".local\\round-seventeen\\d-held-out-resumed\\capture\\.local\\process-tapes\\92574899-8aeb-4fe2-99f9-b9a195b42157\\tape.json",
+      "sha256": "540dc26c6bd68a6652b447b77023020a454efe1e647944328a5225a92c6eb36a",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-held-out-resumed\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-held-out-resumed",
+      "tape": ".local\\round-seventeen\\d-held-out-resumed\\capture\\.local\\process-tapes\\c6b1135a-7d26-4ce0-910a-75af40767f54\\tape.json",
+      "sha256": "b2f876d0cfd0a6d015fe34b1bd6286a181bc27df8e6e33a5721a116e0978d4e0",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-held-out-resumed\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-held-out-resumed",
+      "tape": ".local\\round-seventeen\\d-held-out-resumed\\capture\\.local\\process-tapes\\e1f7bf8a-5b77-4e18-9d91-345adb3bcbe6\\tape.json",
+      "sha256": "c0388dfdefaf1accedb555bb55ac6a8f75e609812e85acf45f990f67a1751f43",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-held-out-resumed\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-held-out-resumed",
+      "tape": ".local\\round-seventeen\\d-held-out-resumed\\capture\\.local\\process-tapes\\e6e8ad83-6c1e-4c15-9178-af5710f4ebae\\tape.json",
+      "sha256": "37bd69e05b932ed624d19449d3cfa28f70737488746e0eefe3dd4272fafdee30",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-held-out-resumed\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-held-out-resumed",
+      "tape": ".local\\round-seventeen\\d-held-out-resumed\\capture\\.local\\process-tapes\\fe830577-9028-45d3-9d34-11b9747b3bf5\\tape.json",
+      "sha256": "023067894f26ac258cad43f0a6b3cd7d50a8971c8f8913e992bbb5e619e513f7",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-held-out-resumed\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-held-out-resumed",
+      "tape": ".local\\round-seventeen\\d-held-out-resumed\\tester\\R17-02-reply-0\\tape.json",
+      "sha256": "8ed27c1ec0244478e0d5f60bce8c91b25d453c1bf2c45dfefb79801d8c23cc78",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-held-out-resumed\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-held-out-resumed",
+      "tape": ".local\\round-seventeen\\d-held-out-resumed\\tester\\R17-02-reply-1\\tape.json",
+      "sha256": "d0412e4568790da32dca7b634bcac9c08cc9d8cf19c079c51326058200564a09",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-held-out-resumed\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-held-out-resumed",
+      "tape": ".local\\round-seventeen\\d-held-out-resumed\\tester\\R17-06-reply-0\\tape.json",
+      "sha256": "2fc79bc1dadde7ec37d4faf722eb24491e38dd7f7f08ca452d26c041c2458ab7",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-held-out-resumed\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-held-out-resumed",
+      "tape": ".local\\round-seventeen\\d-held-out-resumed\\tester\\R17-06-reply-1\\tape.json",
+      "sha256": "e2acc00c4428603bf906c2a0cde50681ab8ef5780fe601da16dbe83a88753461",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-held-out-resumed\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-held-out-resumed",
+      "tape": ".local\\round-seventeen\\d-held-out-resumed\\tester\\R17-10-reply-0\\tape.json",
+      "sha256": "b7f9425aa0b8f4336df33c7eb1743e61a605993cae598bf8cd2cebb80c6804ae",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-held-out-resumed\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-handoff-scored-v2",
+      "tape": ".local\\round-seventeen\\d-handoff-scored-v2\\capture\\.local\\process-tapes\\02e47931-c7b6-453e-a208-34ca9036b639\\tape.json",
+      "sha256": "16df5d8aa3913f368605478f8d01911d3a208e762bfdec491d8c8fc638c1163e",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-handoff-scored-v2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-handoff-scored-v2",
+      "tape": ".local\\round-seventeen\\d-handoff-scored-v2\\capture\\.local\\process-tapes\\03b6c9f1-7c3f-43dc-8058-e4c28d212b8f\\tape.json",
+      "sha256": "0443aff44e5e88eb1dd3b180fbdbab4437afe4e604f70e0c00e4fa0ac455f06e",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-handoff-scored-v2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-handoff-scored-v2",
+      "tape": ".local\\round-seventeen\\d-handoff-scored-v2\\capture\\.local\\process-tapes\\299a99e6-de00-4558-bd65-4837d5ba9052\\tape.json",
+      "sha256": "e010eb7311f7cce3a68b30f12a8dd2143f123db2c7a4503cd94fef81f0896d15",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-handoff-scored-v2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-handoff-scored-v2",
+      "tape": ".local\\round-seventeen\\d-handoff-scored-v2\\capture\\.local\\process-tapes\\4bebc78e-ff69-4ce5-8320-0587ee94afe9\\tape.json",
+      "sha256": "1f02c757ba3b67bafa921e28447b9b13a6599a87127c27db20c12945e1e66e7d",
+      "replay_status": "MISMATCH",
+      "replay_error": "TAPE_EVENT_DIFFERS:CONFIGURATION:OPERATION_END",
+      "replay_result": ".local\\round-seventeen\\d-handoff-scored-v2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-handoff-scored-v2",
+      "tape": ".local\\round-seventeen\\d-handoff-scored-v2\\capture\\.local\\process-tapes\\854d0c88-1ed6-4b62-9e37-3b1a9346caec\\tape.json",
+      "sha256": "fdcdfc5a32af5f89e837d7b882b8a0c13832a2283f6b5b1f88fb997411e1a449",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-handoff-scored-v2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-handoff-scored-v2",
+      "tape": ".local\\round-seventeen\\d-handoff-scored-v2\\capture\\.local\\process-tapes\\967af3e2-97e1-480e-bd88-02516841ae47\\tape.json",
+      "sha256": "df971a445e107847ca4fcf19c7163d1780ffdb83b16960224863507229e569a3",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-handoff-scored-v2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-handoff-scored-v2",
+      "tape": ".local\\round-seventeen\\d-handoff-scored-v2\\capture\\.local\\process-tapes\\b7704707-f08c-45ff-a99a-2231880d5856\\tape.json",
+      "sha256": "39e3127558920279da2c0df44f247c8c530fcce39322c04e5600b372a3e63607",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-handoff-scored-v2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-handoff-scored-v2",
+      "tape": ".local\\round-seventeen\\d-handoff-scored-v2\\capture\\.local\\process-tapes\\e5a4316a-d8fb-46e7-a945-1b055c3d5b05\\tape.json",
+      "sha256": "7acee26ef9db2278ae4937016c2771d1b875cbd00d45f7770660fff103b03be8",
+      "replay_status": "MISMATCH",
+      "replay_error": "TAPE_EVENT_DIFFERS:CONFIGURATION:OPERATION_END",
+      "replay_result": ".local\\round-seventeen\\d-handoff-scored-v2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-handoff-scored-v2",
+      "tape": ".local\\round-seventeen\\d-handoff-scored-v2\\capture\\.local\\process-tapes\\e94b230e-3469-4ed6-96af-c70f86db81ce\\tape.json",
+      "sha256": "c5fdacc95e1ce50c3ced2f7b24c189f16bcaf814027a11d7f93d1d8ec440453b",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-handoff-scored-v2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-handoff-scored-v2",
+      "tape": ".local\\round-seventeen\\d-handoff-scored-v2\\tester\\R17-02-reply-0\\tape.json",
+      "sha256": "082026cd8ad90b7dadede041073ce10374796f85a8a0c2193519d71bde808bfb",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-handoff-scored-v2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-handoff-scored-v2",
+      "tape": ".local\\round-seventeen\\d-handoff-scored-v2\\tester\\R17-06-reply-0\\tape.json",
+      "sha256": "2978b638a6fbf35cd6c5c8d00857bacd463653a6f4c490c45501d032c8fecf2c",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-handoff-scored-v2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-handoff-scored-v2",
+      "tape": ".local\\round-seventeen\\d-handoff-scored-v2\\tester\\R17-06-reply-1\\tape.json",
+      "sha256": "aaa40822de188b1012a93b4777d032762ca5418308f13bae05cd967cc7192a70",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-handoff-scored-v2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-handoff-scored-v2",
+      "tape": ".local\\round-seventeen\\d-handoff-scored-v2\\tester\\R17-10-reply-0\\tape.json",
+      "sha256": "2dd1c8e2ba85024434accd2c26d6ec2722b797a7805eb4df613c85b212edc5db",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-handoff-scored-v2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-handoff-scored-v2",
+      "tape": ".local\\round-seventeen\\d-handoff-scored-v2\\tester\\R17-11-confirm-0\\tape.json",
+      "sha256": "d1259499d6da879aec1c342f3de06c9e6082b5c214618c1fcb40ec15c00ce353",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-handoff-scored-v2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-handoff-scored-v2",
+      "tape": ".local\\round-seventeen\\d-handoff-scored-v2\\tester\\R17-11-reply-0\\tape.json",
+      "sha256": "7518fbd3c1e7f43842f4c17d84b54146e74110b827ac11969c5bf12988b93e73",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-handoff-scored-v2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-handoff-scored-v2",
+      "tape": ".local\\round-seventeen\\d-handoff-scored-v2\\tester\\R17-11-reply-1\\tape.json",
+      "sha256": "24cd057aa3d1f8f21f04d096766a0dc3f6f9256071e5e68535da163b16a54969",
+      "replay_status": "MATCHED",
+      "replay_error": null,
+      "replay_result": ".local\\round-seventeen\\d-handoff-scored-v2\\offline-replay\\results.json"
+    },
+    {
+      "batch": "d-generate",
+      "tape": ".local\\round-seventeen\\d-generate\\tester\\tickets\\tape.json",
+      "sha256": "dac99a690c91249e7426171f294ecbb119278fac7da045a46ce5315cdb510550",
+      "replay_status": "MATCHED",
+      "replay_result": "docs/round-seventeen-part-d.md (generation replay recorded before owner pause)"
+    }
+  ],
+  "counts": {
+    "MATCHED": 61,
+    "MISMATCH": 2
+  },
+  "network_requests": 0,
+  "model_calls": 0,
+  "shared_live_ledgers_attached": false,
+  "publication": "Hash inventory and results committed; private tape bodies and databases retained locally, not uploaded."
+}

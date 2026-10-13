@@ -1,56 +1,60 @@
-Owner pause, 2026-10-12: Round Seventeen paused; Part C earned one additional READY application route. Part D initial dev: two errors, four clarifying, no investigations; six held-out and all agent handoffs not run. Captures saved, workers exited, counters preserved. Shared model $107.491251, round $4.558311; pot2826/4000, reserve95 untouched. Draft423 remains draft, freeze invalid. See docs/round-seventeen-part-d.md and docs/round-seventeen-pause-captures.json.
+# Round Seventeen: final report
 
-Dated owner correction, 2026-10-12: the supporting Codex helper limit does not trigger the Azure billing/authorisation stop. Round Seventeen continues in the main session without helpers. The prior partial-close entry is superseded as a stopping decision, not erased as history. Shared dollar ceiling remains $122.932940 (start $102.932940 + $20), margin $10; all counters and other caps unchanged. CI repair: shared scope derivation now revalidates glossary confirmation; screenshot provenance follows its retained source fact; image test dependency installed. 201 claim tests pass offline. Prior freeze invalid; Part C and D remain to be earned.
+2026-10-12 America/Chicago; closing records dated 2026-10-13 UTC. **The round closed; its main delivery targets were not met.** Extraction validates 85/85, but avoidable questions remain 33/60. One additional route is READY. Twelve pipeline tickets reached no investigation; six setting-on follow-ups demonstrated no agent activation. Draft **#423 remains draft**.
 
-# Round Seventeen: partial close
+The earlier partial close is preserved verbatim in [the historical record](round-seventeen-partial-close.md). The owner resumed the round; only unspent working time was restored after the laptop pause, with no fresh two-hour allocation or budget increase.
 
-2026-10-12. Draft **#423 remains draft**. Part A route readiness and Part B implementation/smoke are recorded; the round did **not** earn its independent score or three additional READY routes.
+## Readiness and intake
 
-A supporting Codex worker reported: ?You?ve hit your usage limit. Visit https://chatgpt.com/settings/usage to purchase more credits or try again at Oct 17th, 2026 10:58 PM.? The admitted smoke drained and all captures finished. **DECIDED WITHOUT REVIEW:** apply the round's model-availability stop conservatively to new admissions. This is a Codex worker-account limit, not an Azure provider refusal; the project still has $5.571357 admissible above its $10 margin. Continuing through another model resource was not attempted. Original records and counters remain intact.
-
-## Readiness
-
-| Estate | READY route | Not ready |
+| Estate | READY routes | Still blocked |
 |---|---|---|
-| Fixture | Handled Quantity, original unfiltered whole-entity route; six-asset closure including rates | Eight other registered metrics; application, filtered and grouped scopes not covered |
-| Billing | None | All six registered metrics lack completed route evidence |
+| Fixture | Original unfiltered Handled Quantity; application Movement Units (semantic, landing and application agree at 7,661) | Other model/workspace bindings; filtered/page scopes |
+| Billing | None | All six metrics lack completed route evidence; no billing work this round |
 
-Readiness uses discovery/adapter/binding-verifier versions and actual offline verification replay after unrelated engine changes. The current smoke's Handled Quantity revalidation passed. Whole-estate status remains separately blocked. Connection coverage is PARTIAL; SNAPSHOT_UNVERIFIED remains. Part A commit: `4f30059`.
+Readiness is per route, uses onboarding-component versions, and survives unrelated engine changes only after actual offline verification replay. One additional route was earned against a target of three. Partial connection attestation and SNAPSHOT_UNVERIFIED remain; READY does not establish currency or filtered equivalence.
 
-## Intake and tests
+Fresh extraction: **85/85 contract-valid**, all 85 tapes replayed; valid shape is not semantic accuracy. Retained-response regrade: avoidable questions **54 -> 33/60** still asked (scope 7, direction 12, binding 12, report 2), missing the <=10 target. Of 21 legitimate questions, 16 still ask and five prepare pending live candidate checks. Of 22 former re-asks, ten prepare and twelve ask a different fact axis; none repeats the original axis. Four undetermined records: one prepares, three ask.
 
-Fresh extraction: **85/85 contract-valid**,85 calls,$4.385152,zero estate data reads; all85 new tapes replayed. Valid shape is not semantic accuracy. The owner-steered location/extent split and governed figure/metric checks are pushed in **`9e6a2a6`**. No new model calls were used for the retained-response regrade.
+Synthetic screenshot identification remains full 19/21, cropped 3/21, portal 19/21: **41 correct, 22 held, 0 wrong**. No native screenshot-only score was earned. Part B smoke: one completed TRANSFORMATION_LOGIC finding with engine-rendered evidence but rejected model mechanism, one definition hold, one partial freshness answer. All nine smoke tapes replayed; no harmful technical finding identified.
 
-| Historical class | Prepared interpretation | Still asks | Not measurable |
-|---|---:|---:|---:|
-| Avoidable60 | 27 | **33** | 0 |
-| Legitimate21 | 5 | 16 | 0 |
-| Undetermined4 | 1 | 3 | 0 |
+## Scored attempts
 
-Previously54/60 avoidable questions remained; now33/60 remain, so the <=10 target is missed. Remaining causes: scope7,direction12,binding12,report2. The five newly prepared legitimate cases await real candidate checks; they are not answered offline. Of22 former re-asks,12 still ask a different fact axis,10 prepare; none repeats the original fact axis. Pending live matching is not a failed or successful match.
+Truth was sealed before twelve fresh, public-only Azure-model tester tickets. These are **not human or separate Codex-thread tickets**, and are variations on one visible card, not twelve defects. No fixture mutation. Six dev and six held-out tickets ran with no engine change between halves. The score is **0/12 correct endings, 0/12 useful localizations, 0 harmful technical findings**; no ticket reached investigation. Errors earn no honest-hold credit.
 
-The engine separates report/page location from explicit container extent, verifies candidate values before selecting a representative, retains named metrics even if another metric matches the numeral, and refuses differing contexts as equivalent. Candidate and subsequent procedure diagnostics share12. Budget/read/attestation failures cannot trigger an agent capability fallback. Validation:202 workflow tests plus48 final candidate/handoff tests, overlapping; no full-suite claim.
+| Ticket | Pipeline | Setting ON, once | Main stop |
+|---|---|---|---|
+| R17-01 | ERROR | Ineligible | Candidate context compiler conflict |
+| R17-02 | CLARIFYING | CLARIFYING | Forced direction; ON asks empty definition choice |
+| R17-03 | CLARIFYING | ERROR | Empty definition choice; ON glossary conflict |
+| R17-04 | ERROR | Ineligible | Duplicate choice labels |
+| R17-05 | ERROR | Ineligible | Duplicate choice labels |
+| R17-06 | CLARIFYING | CLARIFYING | Neutral review forced into discrepancy direction |
+| R17-07 | ERROR | Ineligible | Candidate context compiler conflict after corrections |
+| R17-08 | ERROR | Ineligible | Duplicate choice labels |
+| R17-09 | CLARIFYING | ERROR | Currency rewritten as stale; ON glossary conflict |
+| R17-10 | CLARIFYING | CLARIFYING | Empty definition choice |
+| R17-11 | CLARIFYING | CLARIFYING | Rejected unfamiliar model context / clarification |
+| R17-12 | ERROR | Ineligible | Duplicate choice labels |
 
-Synthetic screenshot identification: full19/21,cropped3/21,portal19/21: **41correct,22held,0wrong**. This is not native screenshot acceptance.
+Pipeline: six ERROR, six CLARIFYING; **12 clarification prompts plus seven confirmations**. Main review identifies at least four non-actionable questions: two forced-direction menus and two definition questions without choices. Five correction turns are additional friction, not five independently established needless questions. [Part D](round-seventeen-part-d.md) contains exact questions, per-ticket cost/time and source hashes.
 
-## Live smoke and score
+Setting ON: two ERROR, four CLARIFYING; **zero triggers, agent steps, correct gap closures or better questions**. Definition asks are excluded from agent authority; other clarification states supplied no named trigger. Two cold-installation glossary seeding conflicts occurred before activation. These are worse observed results, not harmful agent findings. Keep automatic handoff **off by default**: no correct closure was demonstrated. Agent reasoning quality was not exercised.
 
-Three typed fixture-authored claims; **not independent scoring**. The original three storage-blocked slots remain preserved.
+The model tester rejected a legitimate backing-model name unfamiliar from its screenshot; this can depress confirmation scores. R17-09's second reply saw an earlier objection, a retained protocol defect. Exact recorded replies continued private-harness failures within the same two-answer allowance, without replacement runs.
 
-| Replacement ticket | Result | Diagnostic / physical | Model calls |
+## Verification, spend and remaining work
+
+**Part D replay: 61/63 MATCHED.** Pipeline/generation: 47/47. Setting ON: 14/16. The two glossary-conflict captures fail with `TAPE_EVENT_DIFFERS:CONFIGURATION:OPERATION_END`: isolated replay does not reproduce the live concurrent revision conflict. Originals remain intact; no matcher was relaxed. All replay used zero network/model calls and no live shared-ledger attachment. [Hashes and results](round-seventeen-final-replay.json) are committed; private tape bodies remain local.
+
+| Part | Time | Models / USD | Physical requests |
 |---|---|---:|---:|
-| Whole value | COMPLETED / TRANSFORMATION_LOGIC;8,765 at semantic/serving vs7,661 at refined | 4 /10 | 3 |
-| Definition | HELD / LEGACY_ROUTE_ADMISSION_UNAVAILABLE | 0 /0 | 0 |
-| Freshness | PARTIAL; retained timing does not establish current currency | 0 /0 | 0 |
+| A | 22 min | 0 / 0 | 0 |
+| B | 111 min including closeout; about 103 through smoke | 88 / 4.428643 | 13 |
+| C | 55 min | 0 / 0 | 42, including 14 verification probes |
+| D | About 98 active min through replay/report assembly; owner pause excluded | 51 / 0.596142 | 20: ten candidate diagnostics, ten controls |
 
-The value run's model-written mechanism failed validation. Engine-rendered evidence and limitations were delivered; no full-answer or validated-mechanism claim is made. Duplicate matches and aligned snapshots remain unproven. No harmful technical finding was identified in these three outputs. All **9/9** lifecycle tapes replayed with zero network/model calls and no live shared-ledger attachment.
+Round total: **139 model calls, $5.024785; 75 physical requests**. Shared model total $107.957725; ceiling $122.932940, protected margin $10, admissible $4.975215. Pot **2,839/4,000**, restoration reserve **95 untouched**; rolling **198/3,000** at 00:40:59 UTC. Diagnostic cap 12 unchanged. New reservations all settled. Historical uncertain/violation rows and one old cloud reservation remain intact. Disk: 12.84 GiB free at live closure; hash-verified compression, zero deletions. Owner cleanup script not run.
 
-Independent Part D tickets, dev/held-out runs, screenshot scoring and the once-only setting-ON follow-up: **NOT RUN**. There is no per-ticket agent closure score. Five code-controlled triggers are implemented and tested, default off. **Recommendation: keep off by default**; no live correct gap closure was demonstrated, so the required evidence condition is unmet. Part C private preparation is described in [its report](round-seventeen-part-c.md); it was not admitted or published.
+Applicable hosted checks on `48289cb` passed; current-intake-evaluation skipped. Four private-driver regression paths passed. No engine changes in the resumed scored phase; prior freeze remains invalid. No new permission, identity, secret, fixture change or ceiling increase.
 
-## Accounting and storage
-
-Part A: about22minutes,zero project model/estate calls. Part B: about103minutes;88 project model calls,$4.428643;13 physical requests including3 authentication controls,4 diagnostic reads. C/D live time and spend: zero.
-
-At18:06:49UTC: shared model **$107.361583/$122.932940**,protected margin$10; pot **2777/4000**,restoration95 untouched,rolling196/3000,diagnostic12. Historical uncertain reservations remain preserved. No cap,identity,scope,credential or fixture data changed.
-
-Deletion was policy-refused;zero files deleted. Hash-verified compression of224 closed replay copies raised free space to21.75GiB; after new captures it is18.04GiB. The30GiB target was not met. Owner-run `.local/round-seventeen/cleanup-regenerable.ps1` is prepared and **not executed**,with one literal deletion line/comment per item. After compression its expected allocation freed is **3,167,596,544bytes (2.95GiB)**. Originals,shared ledgers,tracked files,tester folder and the dependent demo worktree remain protected. Freeze invalid; no merge.
+**Unfinished:** two further READY routes and filtered/page support; intake label/context exceptions and neutral-check routing; glossary concurrency and its replay gap; independent human/native screenshot scoring; missing-record, wrong-field, whole-page and expected-difference scenarios; live automatic-trigger coverage and a correct gap closure. None is counted as passed. New live admissions are closed.
