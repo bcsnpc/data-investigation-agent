@@ -198,10 +198,11 @@ class ScreenshotTests(unittest.TestCase):
 class VisionTransportTests(unittest.TestCase):
     def test_sdk_receives_inline_image_and_existing_limits(self):
         from ticket_planner import azure_generate
+        from openai import DefaultHttpxClient
         client = MagicMock(); client.__enter__.return_value = client
         client.responses.create.return_value = SimpleNamespace(status='completed', output=[SimpleNamespace(type='function_call', name='vision', arguments='{}')],
                                                                id='response', model='configured', usage=None)
-        with patch.dict('os.environ', {'AZURE_OPENAI_ENDPOINT':'https://test.openai.azure.com','AZURE_OPENAI_DEPLOYMENT':'configured','AZURE_OPENAI_API_KEY':'fake-test-key'}), patch.dict('sys.modules', {'openai': SimpleNamespace(OpenAI=MagicMock(return_value=client))}):
+        with patch.dict('os.environ', {'AZURE_OPENAI_ENDPOINT':'https://test.openai.azure.com','AZURE_OPENAI_DEPLOYMENT':'configured','AZURE_OPENAI_API_KEY':'fake-test-key'}), patch.dict('sys.modules', {'openai': SimpleNamespace(OpenAI=MagicMock(return_value=client),DefaultHttpxClient=DefaultHttpxClient)}):
             azure_generate({}, name='vision', decision_tool=True, image_data_url='data:image/png;base64,aGVsbG8=')
             options = client.responses.create.call_args.kwargs
             self.assertEqual(options['input'][0]['content'][1]['type'], 'input_image')

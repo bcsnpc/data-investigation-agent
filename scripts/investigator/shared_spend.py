@@ -1,7 +1,7 @@
 """PostgreSQL dollar guard using the shared-state transaction boundary."""
 import json
 import os
-from uuid import uuid4
+from .process_tape import uuid4
 from .shared_state import StateConflict, amount
 
 

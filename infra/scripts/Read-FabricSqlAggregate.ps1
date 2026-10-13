@@ -36,7 +36,8 @@ try {
     $rawRequest = if ($Metered) { [Console]::In.ReadLine() } else { [Console]::In.ReadToEnd() }
     $request = $rawRequest | ConvertFrom-Json
     $names = @($request.PSObject.Properties.Name | Sort-Object)
-    if (($names -join ',') -ne 'access_token,database,max_rows,parameters,query,read_only_objects,result_columns,server') { throw 'Unexpected request fields' }
+    if (($names -join ',') -ne 'access_token,database,max_rows,parameters,query,read_only_objects,require_read_only,result_columns,server') { throw 'Unexpected request fields' }
+    if ($request.require_read_only -ne $true) { throw 'Read-only admission required' }
     if ([string]::IsNullOrWhiteSpace($request.database)) { throw 'Database name required' }
     if ($request.server -notmatch '^[A-Za-z0-9.-]+$') { throw 'Invalid server' }
     $builder = New-Object System.Data.SqlClient.SqlConnectionStringBuilder
