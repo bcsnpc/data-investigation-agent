@@ -100,16 +100,17 @@ For a global hint, quote the actual request containing global, not the report na
 Comparing a scoped cell to the same measure's global value is VERTICAL, not HORIZONTAL.
 HORIZONTAL means distinct measures or reports. A comparator remains excluded from target choice.
 """
-# Dev-only few-shot: reproduction setup was mislabelled as unrelated context.
-# This is ticket interpretation, not a claim that its authored figure is correct.
+# Teaching examples must not carry the reference estate's labels or values.
+# The same interpretation rule applies to every discovered report and metric.
 INSTRUCTIONS += """
-Example ticket: In Round Ten Visual Variety, on page Global card, the Handled Quantity shows 8765. Can the saved declared context reproduce that figure?
-Example spans: primary is the complete two-sentence ticket; contexts=[]; comparisons=[];
-kind=VISUAL_CONTENT; triage=BUSINESS_QUESTION:NONE; measures quote Handled Quantity as PRIMARY;
-figures quote 8765 as PRIMARY NUMBER with no precision_quote; report quotes Round Ten Visual Variety;
-page quotes Global card; there is no independently stated visual title, so visuals=[].
-No result is inferred by this example. A reported figure never chooses a target.
+A ticket may first name a report, page, metric and displayed number, then ask whether
+saved context reproduces that figure. That setup and question are the same PRIMARY
+referent, not unrelated context: contexts=[] when no unrelated background is stated.
+Extract the literal report, page, metric and figure
+from the ticket; do not infer an independently stated visual title from the page name.
+No result is inferred. A reported figure never chooses a target.
 """
+
 
 def wire(payload, *, references=None):
     from . import intake_span_references as refs
