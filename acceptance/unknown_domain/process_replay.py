@@ -27,7 +27,14 @@ def final_envelope(name,result,error):
             'status':(result or {}).get('status'),'result':result}
 
 
-def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_transport=None):
+def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_transport=None,snapshot_storage=None):
+    from investigator.slim_recording import materialize
+    with materialize(path,storage=snapshot_storage) as restored:
+        return _replay(restored,output,allow_engine_drift=allow_engine_drift,
+                       native_transport=native_transport,source_transport=source_transport)
+
+
+def _replay(path,output,*,allow_engine_drift=False,native_transport=None,source_transport=None):
     tape=journal.Tape(path);bootstrap=tape.bootstrap
     replay_engine_hash=fingerprint()
     if bootstrap['engine_hash']!=replay_engine_hash and not allow_engine_drift:
