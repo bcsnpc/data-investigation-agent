@@ -24,3 +24,11 @@ The offline v2 publication receipt is `.local/round-nineteen/graph-v2-receipt.js
 The existing job is 0.5 vCPU and 1 GiB. A six-hour schedule with a 600-second hard timeout bounds 120 monthly executions to 36,000 vCPU-seconds and 72,000 GiB-seconds. Microsoft's [monthly subscription grant](https://learn.microsoft.com/en-us/azure/container-apps/billing) is 180,000 vCPU-seconds and 360,000 GiB-seconds; the remaining grant is shared and is not assumed unused. No new paid resource is proposed.
 
 The CLI unexpectedly refused `containerapp job show`, reporting Microsoft.App unregistered. An independent provider read reported `Registering`, and a direct read of the existing job succeeded. No provider registration or resource setting was changed in response to that CLI message. The exact control response is retained locally as `job-before-schedule-rest.json`.
+
+## Part B boundary, 08:18 UTC
+
+Version three explicitly qualifies all 154 billing Script column edges as authored logic with deployment not established. Counts are unchanged; version two remains in history. The asset catalog seed compares every current graph partition hash before atomically saving its manifest: fixture 825 assets across 61 retained ownership groups, billing 268 across 12. Only 40 and 9 groups respectively produce graph partitions. Original per-asset collection times are retained.
+
+The first cloud interpreter batch stopped on task zero before the provider call: `PermissionError` while creating the capture directory under read-only `/app`. One planner reservation was conservatively settled UNCERTAIN; there was no dollar reservation, model response or model charge. Three tasks were not run. Result CAS SHA-256: `289ab6bbc51f5526f1a3555efead41c686515ce3ff1e7a79954d0b3a0949e13e`. This failure is preserved. The corrected recorder accepts an explicit writable directory; a regression exercises the non-writable default without patching its root. 51 recorder/privacy tests and 16 subtests passed. No retry of the failed task is claimed.
+
+The tested image at `89b2fb75b19524405d9744325b8383bae8884595` passed all eight cloud CI shards. Integrated graph tests passed 55/55 before live admission. The recorder correction requires its own tested image before the remaining tasks. No VERIFIED path or model lineage proposal was produced by this batch.

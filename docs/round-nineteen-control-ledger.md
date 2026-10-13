@@ -149,3 +149,16 @@ Original catalog migrated to PostgreSQL: 23568 rows across 20 tables, every sour
 | workspace_intakes | 2365 | 2365 | yes |
 | workspace_jobs | 163 | 163 | yes |
 | workspace_previews | 463 | 463 | yes |
+
+
+## Graph Parts B/C, 2026-10-13
+
+Retained v3 graph readback: fixture1163nodes/1696edges; billing388/759. Exact receipt `graph-v3-receipt.json` SHA256 `3ee6169eb37258b1b38d4c3c468a6e08182b93dd7fe3250692fd86ab19b681d0`. The asset-catalog manifest seed rewrote no graph record; SHA256 `4541617a5c03757f3bc56c041dc996ef06ba479b628955423da543a31caa6977`. All historical snapshots retained.
+
+Reader scan execution bbgkydh:26fixture+6billing physical requests, no diagnostic/model reads. Both item lists succeeded; all67owner refreshes unavailable. Exact statuses and provider codes are in `round-nineteen-live-metadata-scan.json`; private full readback SHA256 `4bb4dbb619f0cbe42b7588670a83592a0bb613edf2fe03e225fa5eb9c2ec599b`. These calls consume the existing round pot (36total with prior4). No owner was deleted on absence or access failure. No investigator scope broadened.
+
+Interpreter execution r5na9t8 stopped before provider dispatch because the recording path was read-only. One planner reservation remains conservatively UNCERTAIN/settled, no dollar reservation or provider charge. Original result CAS `289ab6bbc51f5526f1a3555efead41c686515ce3ff1e7a79954d0b3a0949e13e`; original three remaining tasks not run. Fixed caller-owned recording directory is offline-tested; no original result overwritten.
+
+DECIDED WITHOUT REVIEW: do not mutate the proposed controlled-change report while the actual graph reader cannot fetch its baseline definition (HTTP404 EntityNotFound). Rejected alternative: use publisher credentials to make the reader test pass. Continue offline change/revert tests and scheduling with explicit gaps.
+
+Four retained input databases were losslessly NTFS-compressed; SHA256 before/after matched for each, originals not deleted. Free bytes10,825,805,824 ->11,392,466,944. Receipt `retained-inputs-ntfs-compression.json` is local. This changes filesystem allocation only, not evidence bytes.

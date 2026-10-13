@@ -1,0 +1,980 @@
+{
+  "at": "2026-10-13T08:13:53.052071+00:00",
+  "runs": [
+    {
+      "id": "graph-scan:4b9f0e12-14b4-4a42-9cbd-d9bc568f7d58",
+      "body": {
+        "approval": "Owner Round Nineteen 2026-10-13: bounded read-only incremental scans on existing platform; pot1500 reserve95 rolling3000 unchanged",
+        "config_hash": "5d59f237e70633720542fbf13f71f7152a8a995f7db4446dcfab26248b36675d",
+        "coverage_gaps": [
+          {
+            "capability": "runtime_query_monitoring",
+            "reason": "Scheduled runtime-query monitoring collector is not implemented; no monitoring permission or data is inferred.",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "capability": "refresh_pipeline_delta_history",
+            "reason": "Scheduled refresh, run and Delta-history collectors are not implemented. Item/SQL modify dates describe definitions, not data freshness.",
+            "status": "UNAVAILABLE"
+          }
+        ],
+        "estate": "billing",
+        "listing_complete": false,
+        "observed_at": "2026-10-13T08:10:58.385607Z",
+        "owners": [
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/1853cbbb-06d1-4ae9-b378-370007c574ba",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 401,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "Unauthorized"
+            },
+            "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/62eb1a7f-19c2-466f-85ec-cda6bc231fb9",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 401,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "Unauthorized"
+            },
+            "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/76c60248-b830-433b-9880-90593da28e7e",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/9cd1829b-7e2e-4340-8f59-fdf996033198",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/a28d5492-02d0-4be8-9e5f-71125c875f30",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 401,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "Unauthorized"
+            },
+            "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/fc8438fd-2c18-4196-9191-33e26481e2e0",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          }
+        ],
+        "physical_requests": 6,
+        "sql_collectors": []
+      }
+    },
+    {
+      "id": "graph-scan:5d3c2bad-e906-4443-86ef-de52c3cfdb1b",
+      "body": {
+        "approval": "Owner Round Nineteen 2026-10-13: bounded read-only incremental scans on existing platform; pot1500 reserve95 rolling3000 unchanged",
+        "config_hash": "016ba3448974b22792675323b1744bc5203c63e32dde9274cbe7142dcf04342e",
+        "coverage_gaps": [
+          {
+            "capability": "runtime_query_monitoring",
+            "reason": "Scheduled runtime-query monitoring collector is not implemented; no monitoring permission or data is inferred.",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "capability": "refresh_pipeline_delta_history",
+            "reason": "Scheduled refresh, run and Delta-history collectors are not implemented. Item/SQL modify dates describe definitions, not data freshness.",
+            "status": "UNAVAILABLE"
+          }
+        ],
+        "estate": "fixture",
+        "listing_complete": false,
+        "observed_at": "2026-10-13T08:09:33.035155Z",
+        "owners": [
+          {
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/72b37e0e-0510-4226-9809-b132fdd7d9c6",
+            "reason": "GRAPH_OWNER_NOT_VISIBLE: configured or retained owner absent from incomplete listing; deletion is not established.",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 401,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "Unauthorized"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/01f6e7b2-9939-4f96-bf56-2c943b22e82a",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/1537c298-3727-43e6-a10f-7af59fcc2446",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 401,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "Unauthorized"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/15785497-e46a-4c6c-9c87-aa45c1db5a9e",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/15cb2e5b-49a6-4025-8b0a-a79d685e29e5",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/163ce520-ec47-4824-975c-96f5c749205f",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/242133bf-66e5-4b1b-864a-0d62df426518",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/28a0c79d-86d6-473b-8c7a-485d8b8ff404",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/32c6b358-f738-4d10-870c-a78db5b2c5f8",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/382adacf-ba00-44cf-ab62-070b96a961f9",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/4728218b-9fff-4e1a-95f5-208e0ef3e47e",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/4de4fcd3-97dd-4cc7-8c9f-171a871dd1e6",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/544de61d-325b-42ee-b5dc-ae61a4ad54a7",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 401,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "Unauthorized"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/549274ae-ac77-4ba4-95d7-818f132694f5",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/56bd6e85-d840-4d4a-8b85-4e9e8f46bd25",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 401,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "Unauthorized"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 401,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "Unauthorized"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/5a3200de-8ef9-4a1b-8128-db9cacc8a779",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/5dbdbf17-eb9b-4189-9f8c-7071f365e842",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/5f2afb96-157e-46ab-9fcb-b56a2bb37fba",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/5f443879-734a-4b02-8be7-4466222c6386",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/667dd390-1403-4b4a-8ae5-91adfc4d8ca1",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/6cabd22c-26ec-4c98-8318-834011c1e0b3",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7050f705-e595-4708-b62b-1836dac30741",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/76fd529b-6cb2-4f3a-927a-bdd2407a2e80",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/77c49180-2ef9-4558-837c-f50fdb1df8de",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7826f034-ab61-4d8f-8125-27c1d60a73a5",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/79109d35-b1f9-4ca2-9833-a43c8bf79572",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 401,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "Unauthorized"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7e353019-064f-4aac-9a62-a9770d1399a9",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/8195c990-f9ed-4190-a935-ec3fa2ef443c",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/8e434350-7100-47b7-a0de-2c5732385dbb",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 401,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "Unauthorized"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/974791f8-3e8f-4f38-a129-b15b9030ab14",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/a23c2d34-8d82-4772-ab32-bf26face4d83",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/a3aca96f-d2f1-4495-8a0c-bf761774dfe4",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/a5797c7c-d548-4f40-8b74-56a42d0c895e",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ad49e54f-50b2-4562-9c43-9e6ba0fcd5cb",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 401,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "Unauthorized"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b71c906a-0ada-4565-adb5-81c8745f7f30",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/bd1a3a47-e3b6-4104-8486-551c5d984385",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/bea673e0-a206-461e-9b2f-1b3b827e80de",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/c2cb3331-b651-4447-807b-eb748c101c80",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/c45da96d-fe88-4f2d-846c-0ce82f2e38c2",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/c463921e-64b2-488e-b8b1-e0239980c79c",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ccc6ed61-d9eb-400e-b1c4-956788508254",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ce379e11-9a02-43df-9ddd-14be119ec0ee",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "MetadataUnavailable",
+              "http_status": 404,
+              "line": 99,
+              "message": "Metadata provider request unavailable",
+              "message_redacted": false,
+              "module": "metadata_auth.py",
+              "provider_code": "EntityNotFound"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/e74fae1b-aab8-4058-9ae1-4038b7eec18a",
+            "reason": "MetadataUnavailable",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/f8fc4bf1-84b3-455c-b9ce-120ba32e8d75",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          },
+          {
+            "failure": {
+              "errno": null,
+              "error_type": "RuntimeError",
+              "line": 66,
+              "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+              "message_redacted": false,
+              "module": "graph_change_collector.py"
+            },
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/fbbccea4-d943-4f58-b91f-e6cbcb912620",
+            "reason": "RuntimeError",
+            "status": "UNAVAILABLE"
+          }
+        ],
+        "physical_requests": 26,
+        "sql_collectors": []
+      }
+    }
+  ]
+}
