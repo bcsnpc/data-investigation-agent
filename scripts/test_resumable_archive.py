@@ -47,6 +47,8 @@ class Remote:
 
 
 class Tests(unittest.TestCase):
+    def test_platform_transport_implementation_lives_in_adapter(self):
+        self.assertEqual(IdentityArchiveClient.__module__,'investigator.adapters.platform_archive_client')
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
