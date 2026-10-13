@@ -26,7 +26,7 @@ def walk(value,path=''):
 
 
 class StaticGraph:
-    def __init__(self,estate,owner,observed_at,assets,definition_sink,*,source_asset_ids=(),partitioned=False):
+    def __init__(self,estate,owner,observed_at,assets,definition_sink,*,source_asset_ids=(),partitioned=False,source_observations=None):
         self.estate,self.owner,self.at=estate,owner,c.timestamp(observed_at)
         self.assets={a['id']:a for a in assets if a.get('availability','CURRENT')=='CURRENT'}
         if len(self.assets)!=len([a for a in assets if a.get('availability','CURRENT')=='CURRENT']):raise ValueError('GRAPH_DUPLICATE_ASSET')
@@ -42,6 +42,8 @@ class StaticGraph:
         self.sink=definition_sink;self.definitions={};self.nodes={};self.edges={};self.by_asset={};self.proofs={}
         self.sources=set(source_asset_ids)
         self.partitioned=partitioned
+        self.source_observations={key:c.timestamp(value) for key,value in (source_observations or {}).items()}
+        if not self.source_observations.keys()<=self.assets.keys():raise ValueError('GRAPH_OBSERVATION_ASSET_NOT_RETAINED')
         if not self.sources<=self.assets.keys():raise ValueError('GRAPH_SOURCE_DECLARATION_NOT_COLLECTED')
 
     def retain(self,raw):
@@ -59,7 +61,7 @@ class StaticGraph:
         if raw is None:raw=json.dumps(asset.get('metadata',{}),sort_keys=True,ensure_ascii=False)
         reference=self.retain(raw)
         return {'source':'STATIC_DEFINITION','source_id':asset['id'],'definition_hash':reference['sha256'],
-                'observed_at':self.at,'span':span or {'kind':'JSON_POINTER','path':path}}
+                'observed_at':self.source_observations.get(asset['id'],self.at),'span':span or {'kind':'JSON_POINTER','path':path}}
 
     def asset_proof(self,asset):
         # Prefer an exact retained native part over a re-serialized expanded
@@ -77,8 +79,8 @@ class StaticGraph:
             if len(matches)==1:return self.proof(matches[0][0],matches[0][1])
         return self.proof(asset)
 
-    def add(self,kind,label,locator,proof,properties=None,*,confidence='DECLARED',unknown=None):
-        owner=self.item_owner(proof['source_id']) if self.partitioned else self.owner
+    def add(self,kind,label,locator,proof,properties=None,*,confidence='DECLARED',unknown=None,owner=None):
+        owner=owner or (self.item_owner(proof['source_id']) if self.partitioned else self.owner)
         identity=c.identity(self.estate,owner,kind,locator)
         value=c.node(identity,owner,kind,str(label),proof,
             properties={**(properties or {}),'definition':self.definitions[proof['definition_hash']]},confidence=confidence,unknown=unknown)
@@ -411,6 +413,12 @@ class StaticGraph:
                     'Collect the exact condition-column metadata in this database.',proof)
 
     def notebook(self,parent,content,proof):
+        from .graph_code_columns import attach_notebook
+        from ..code_static import Unsupported
+        try:attach_notebook(self,parent,content,proof)
+        except (Unsupported,KeyError,TypeError,IndexError) as error:
+            self.gap(self.by_asset[parent],'Bounded notebook column extraction stopped: '+str(error),
+                'Retain the unresolved exact code span; use a bounded interpreter or collect the missing schema.',proof)
         tree=ast.parse(content);found=0;lines=content.splitlines(keepends=True)
         offsets=[0]
         for line in lines:offsets.append(offsets[-1]+len(line))
@@ -437,6 +445,9 @@ class StaticGraph:
         if not activities:
             self.gap(self.by_asset[parent],'Pipeline activity definitions are missing.','Collect the complete pipeline definition through the reader metadata route.',proof);return
         for index,activity in enumerate(activities):
+            if activity.get('type')=='Script':
+                from .graph_script_sql import attach_scripts
+                attach_scripts(self,parent,activity,index,proof)
             at={**proof,'span':{'kind':'JSON_POINTER','path':'/properties/activities/'+str(index)}}
             kind='COPY_ACTIVITY' if activity.get('type')=='Copy' else 'QUERY_STEP'
             node=self.add(kind,activity.get('name','Unnamed activity'),[parent,'activity',index],at,{'activity_type':activity.get('type')})
@@ -451,11 +462,11 @@ class StaticGraph:
                 'Collect its exact connection metadata and dataset object definitions; explicit mapping text alone is not an object binding.',at)
 
 
-def extract(estate,assets,definition_sink,*,observed_at,owner='retained-catalog',source_asset_ids=()):
-    return StaticGraph(estate,owner,observed_at,assets,definition_sink,source_asset_ids=source_asset_ids).build()
+def extract(estate,assets,definition_sink,*,observed_at,owner='retained-catalog',source_asset_ids=(),source_observations=None):
+    return StaticGraph(estate,owner,observed_at,assets,definition_sink,source_asset_ids=source_asset_ids,source_observations=source_observations).build()
 
 
-def extract_partitioned(estate,assets,definition_sink,*,observed_at,source_asset_ids=()):
+def extract_partitioned(estate,assets,definition_sink,*,observed_at,source_asset_ids=(),source_observations=None):
     """Full retained symbol table, item-owned IDs and consumer-owned edges.
 
     Pass changed item definitions plus explicitly retained external assets for
@@ -463,4 +474,4 @@ def extract_partitioned(estate,assets,definition_sink,*,observed_at,source_asset
     of external symbols stays UNKNOWN; no catalog-name match is invented.
     """
     return StaticGraph(estate,'retained-catalog',observed_at,assets,definition_sink,
-                       source_asset_ids=source_asset_ids,partitioned=True).build()
+                       source_asset_ids=source_asset_ids,partitioned=True,source_observations=source_observations).build()

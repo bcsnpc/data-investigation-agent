@@ -201,3 +201,55 @@ path-specific evidence exist. The retained fixture and billing graphs therefore
 have **no newly earned complete VERIFIED path**. This is an implementation gap,
 not a reason to weaken attestation or classify aggregate agreement as semantic
 truth. Inferred SQL/code edges still require a real profile check before promotion.
+
+### Retained-code extraction correction (2026-10-13)
+
+The first graph seed had no column-origin dependency edges. This was partly an
+extractor wiring defect: notebook calls were enumerated without invoking the
+existing bounded `transformation_ast.Reader`, and pipeline Script SQL was not
+visited at all. Neither absence proved that the retained code was unavailable.
+
+The corrected reader delegates notebook dataflow to that existing parser and
+binds each read/write by its exact retained storage location. It retains join,
+filter and projection plans separately from scalar column dependencies. Literal
+seed data provides code-declared schema only; it is never evaluated as a value
+probe or represented as a read dependency. Columns known from code alone carry
+`CODE_DECLARED_NOT_OBSERVED`, and operations state `execution_established:false`.
+The column node belongs to its table owner while its proof names the notebook.
+
+Script SQL is now read at its exact JSON pointer under the activity. The
+activity's explicit workspace and Warehouse IDs scope lookup. Cross-database
+names resolve only inside that retained workspace, and the lakehouse's observed
+`reader_schema.schema_name` is used rather than assuming `dbo`. Single explicit
+CREATE TABLE/VIEW SELECT declarations yield column dependencies and separate
+join/filter influences. Procedures, dynamic execution, set operations and
+ambiguous/missing references remain named UNKNOWN gaps. Code-declared views do
+not imply that a pipeline ran or that a view is currently deployed.
+
+Offline re-extraction of the unchanged scans, saved separately as local v2
+material, produced:
+
+| Retained estate | Nodes | Edges | DECLARED / UNKNOWN edges | Column dependency edges |
+| --- | ---: | ---: | --- | ---: |
+| Fixture | 1,163 | 1,696 | 1,568 / 128 | 180 |
+| Billing | 388 | 759 | 725 / 34 | 154 |
+
+All 18 retained fixture binding proposals match exact output locations and code
+hashes to 19 of these edges; the derived value has two input dependencies. This
+is attachment eligibility, not verification. All 76 fixture visual/slicer paths
+and seven billing visual paths still have named stops, including the unresolved
+engine DAX dependencies. There is still no complete VERIFIED visual-to-source
+path. Four exact billing procedure snippets (two distinct bodies appearing in
+two retained pipelines) are prepared locally for a bounded interpreter; no
+model call was made by this extraction pass.
+
+Original scan hashes, collection timestamps and definitions are unchanged. V2
+snapshot time records re-extraction; provenance retains each original collection
+time. `source_observations` allows incremental extraction to retain the distinct
+times of unchanged external assets. The initial published seed is not overwritten.
+
+Scanner integration audit: the owner-only extraction wrapper cannot resolve
+external report/model or notebook/table symbols by itself. It emits named UNKNOWN
+gaps rather than silently joining names. A complete incremental refresh requires
+an approved retained external-asset catalog, affected-owner closure and atomic
+`replace_many`; a mere owner-only refresh must not be described as that capability.
