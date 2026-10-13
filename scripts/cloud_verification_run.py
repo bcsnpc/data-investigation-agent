@@ -42,7 +42,7 @@ def execute(manifest_path,prepared,spec_path,*,spec_sha256,session,deadline,capt
         program=Path(__file__).with_name('cloud_binding_verifier.py'),
         files={name:prepared/name for name in ('context.json','model.json','endpoints.json')},
         databases={'catalog.sqlite':store.database,'inventory.sqlite':store.inventory},
-        environment=manifest['environment'],context_identity=context['version'])
+        environment=manifest['environment'],context_identity=context['version'],shared_usage=True)
     final=recorder.execute()
     # The original complete capture is retained even if publication/export fails.
     return {'status':final['status'],'accounting':final['accounting'],'error':final['error'],

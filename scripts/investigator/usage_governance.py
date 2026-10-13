@@ -73,6 +73,9 @@ class UsageGovernor:
                 environment TEXT, session_id TEXT, reservation_key TEXT,
                 violation_hash TEXT, approval TEXT, created REAL,
                 PRIMARY KEY(environment,session_id,reservation_key))''')
+        if tape is not None and tape.replaying and 'shared_usage_replay' in tape.bootstrap.get('state', {}):
+            from .shared_usage_replay import ReplayUsage
+            self.shared = ReplayUsage(self, tape)
 
     def acknowledge_violation(self, session_id, key, approval):
         """Operator-only, explicit owner decision; charges and violation stay intact."""

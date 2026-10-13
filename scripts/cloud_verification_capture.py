@@ -46,7 +46,7 @@ def load_program(path):
  spec=importlib.util.spec_from_file_location('sealed_verification_program',path)
  module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
 class Capture:
- def __init__(self,folder,*,inputs,config,policy,engine_hash,program,files,databases,environment,context_identity,profile_member=None):
+ def __init__(self,folder,*,inputs,config,policy,engine_hash,program,files,databases,environment,context_identity,profile_member=None,shared_usage=False):
   journal.bytes_of(inputs);_safe(journal.bytes_of(inputs));_safe(journal.bytes_of(config));_safe(journal.bytes_of(policy))
   if config.get('_estate',{}).get('recording',{}).get('tape_class','EXACT')!='EXACT':raise ValueError('PROJECTED_VERIFIER_CAPTURE_UNIMPLEMENTED')
   self.root=Path(folder);self.root.mkdir(parents=True,exist_ok=False);self.work=self.root/'working';self.work.mkdir()
@@ -67,6 +67,9 @@ class Capture:
   revision=committed_revision()
   if profile_member is not None and profile_member not in files:raise ValueError('VERIFIER_PROFILE_BASELINE_REQUIRED')
   state={'profile_member':profile_member,'capture_contract':CONTRACT,'engine_revision':revision,'environment':environment,'inputs':inputs,'members':members,'database_members':sorted(databases),'native_path_identities':identities,'budget_checkpoint':'DELTA_V2','snapshot_clock':'ONE_CLOCK_V1'}
+  if shared_usage:
+   from investigator.shared_usage_replay import declaration
+   state['shared_usage_replay']=declaration(session)
   # Execute exactly the serialized representation replay will consume. Mapping
   # insertion order must not become an unsealed catalog-column list order.
   bootstrap=json.loads(journal.bytes_of({'entry_point':'code_verifier','context_identity':context_identity,'config':config,'profile':{},'usage_policy':policy,'engine_hash':engine_hash,'state':state}))
