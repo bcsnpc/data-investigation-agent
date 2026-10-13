@@ -1,3 +1,5 @@
+2026-10-13: Round Nineteen owner platform-only storage grant verified. Authentication control found resource-ID audience handling defect; corrected, nine focused tests pass. No estate requests or model calls in these controls. Freeze invalid; reader permission proof and demo pending.
+
 Round Nineteen in progress (2026-10-13): dedicated reader application/federation, Viewer/model Read+Build and source read roles applied; SQL authentication remains enabled. No live principal proof or demo yet. New branch based on draft424; no merge. See round-nineteen-control-ledger.md.
 
 Round Eighteen closed, 2026-10-13: approved cloud platform deployed; conditional estimate USD13.74/month. Two reader verifications completed18/18 witnesses each, but exact replay failed both times; family A cloud demo NOT_RUN. Offline fixes and incomplete-state/retention/preflight boundaries recorded. Final full suite4,073PASS,46skip,1,416subtests; eight cloud CI shards and image publication pass. New modelUSD0, physical178 SETTLED; pot3,017/4,000, rolling376/3,000, reserve95. D free12.65GB. Draft424 and423 remain unmerged; freeze invalid. See docs/round-eighteen-summary.md.

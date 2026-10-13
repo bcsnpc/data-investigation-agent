@@ -78,6 +78,16 @@ Opening shared charge USD107.957725; ceiling USD127.957725 -> USD132.957725, pro
 
 ## Local control receipt hashes
 
+### Additional owner storage decision applied, 2026-10-13
+
+Owner answer: **Approve platform-storage scope only**. At 06:21:55 UTC the existing owner `leelamounika14@gmail.com` (`c22c5e9b-5005-4a48-af98-51d614e6021a`) received Storage Blob Data Contributor on `diaplatformd5dd7d65` only, to upload the approved archives using identity before disabling account-key access. Before: inherited Owner and Foundry User, no Blob data role. After: those unchanged roles plus this one account-scoped data role. No estate-storage role changed.
+
+```powershell
+az role assignment create --assignee-object-id c22c5e9b-5005-4a48-af98-51d614e6021a --assignee-principal-type User --role "Storage Blob Data Contributor" --scope /subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.Storage/storageAccounts/diaplatformd5dd7d65
+```
+
+Before/after: `az role assignment list --assignee c22c5e9b-5005-4a48-af98-51d614e6021a --scope <the exact account scope above> --include-inherited`; both succeeded. Assignment `6ef84b9e-b6c0-44d4-b9de-83c3dbb8be67`. Full local receipt `owner-storage-grant.json`, SHA-256 `2662f76aa1669bf23bd93ac9089365cbafbf4452b129452ee99a67ae3b625931`. Archive verification and shared-key disablement are separate, still pending controls.
+
 - `budget-opening.json`: `e4ce1e647a9a18e913932873a26bf9ef32947d5e789de737c811897d78918e11`.
 - `identity-controls.json`: `6bc89504cb1e1591ffa06d167360547a8d7c6ce033cd2fa839553958e99e02c7`.
 - `model-controls.json`: `77029d3f145fa1df7914c4a3bd1bebd422ccbe172c2bc44bd05ee54c609da153`.
@@ -88,3 +98,9 @@ Opening shared charge USD107.957725; ceiling USD127.957725 -> USD132.957725, pro
 - `sql-reader-grants-attempt01.json`: `e6023f824484396984c40d94cb272e8754df42880dd214e1756194277a2f3857`.
 - `sql-reader-grants-billing-retry.json`: `b6540cbf627d2c239ace57fa30da631da3d726f30d063a3bba32fdb2e44348ac`.
 - `sql-reader-grants.json`: `789453119e163dd0698c64e3c162db6d934a4f5f28d8bf403008ad4f9b7d015c`.
+
+## Authentication controls, 2026-10-13
+
+First check sagxfam failed four audiences without a safe stage. Diagnostic htkjvt8 at06:30:19UTC failed all four at MANAGED_ASSERTION_BINDING. Separate 7f737qu control established expected tenant/oid and audience `fb60f99c-7a34-4190-8149-302f77469936`, issuer `https://login.microsoftonline.com/aeb4d0a9-e637-4a7e-8efc-63cf0c3827df/v2.0`. Only these public claims retained, never tokens. Local start receipts and logs retained; 60-second hold allowed log capture. Zero estate requests/model calls; not estate permission tests.
+
+Microsoft documents the resource ID [here](https://learn.microsoft.com/entra/identity/conditional-access/agent-id); its [federation guide](https://learn.microsoft.com/entra/workload-id/workload-identity-federation-config-app-trust-managed-identity) uses the URI form. Adapter accepts these two exact representations only, preserving tenant/principal validation. Nine focused tests pass. Live exchange pending; no grant or trust change. A combined documentation/commit shell call was blocked by policy; none of it executed. README contains historical non-UTF8 bytes, so new text was prepended without changing those bytes.

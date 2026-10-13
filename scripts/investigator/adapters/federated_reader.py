@@ -13,6 +13,9 @@ SCOPES = frozenset({'https://database.windows.net/.default',
                     'https://api.fabric.microsoft.com/.default',
                     'https://analysis.windows.net/powerbi/api/.default'})
 EXCHANGE = 'api://AzureADTokenExchange/.default'
+# Microsoft public token-exchange resource: URI in v1, resource ID in v2.
+EXCHANGE_AUDIENCES = frozenset({'api://AzureADTokenExchange',
+                              'fb60f99c-7a34-4190-8149-302f77469936'})
 ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
 
 
@@ -66,7 +69,7 @@ def validate_request(method, url, body, grant):
                 and len(data['client_assertion']) == 1
                 and claims(data['client_assertion'][0]).get('tid') == d['managed_identity']['tenant_id']
                 and claims(data['client_assertion'][0]).get('oid') == d['managed_identity']['principal_id']
-                and claims(data['client_assertion'][0]).get('aud') == 'api://AzureADTokenExchange')
+                and claims(data['client_assertion'][0]).get('aud') in EXCHANGE_AUDIENCES)
     except Exception:
         return False
 
@@ -93,7 +96,7 @@ class Tokens:
             observed = claims(assertion)
             mi = self.d['managed_identity']
             if (observed.get('tid') != mi['tenant_id'] or observed.get('oid') != mi['principal_id']
-                    or observed.get('aud') != 'api://AzureADTokenExchange'):
+                    or observed.get('aud') not in EXCHANGE_AUDIENCES):
                 raise ValueError('Managed assertion binding differs')
             url = 'https://login.microsoftonline.com/' + self.d['tenant_id'] + '/oauth2/v2.0/token'
             body = urlencode({'client_id': self.d['client_id'], 'scope': scope,

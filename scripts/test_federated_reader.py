@@ -23,6 +23,22 @@ def policy():
 
 
 class FederationTests(unittest.TestCase):
+    def test_public_exchange_resource_id_is_same_audience_not_an_arbitrary_guid(self):
+        grant=policy()['identities'][auth.channel(D,SCOPE)]['http'][0]
+        for audience in ('api://AzureADTokenExchange', 'fb60f99c-7a34-4190-8149-302f77469936'):
+            assertion=token(auth.EXCHANGE,aud=audience)
+            managed=Mock(get_token=Mock(return_value=SimpleNamespace(token=assertion)))
+            access=token(appid=CLIENT)
+            opener=Mock(open=Mock(return_value=io.BytesIO(json.dumps({'access_token':access}).encode())))
+            with configured(policy()):
+                self.assertEqual(auth.Tokens(D,managed=managed,opener=opener).get_token(SCOPE),access)
+            self.assertTrue(auth.validate_request('POST',URL,opener.open.call_args.args[0].data,grant))
+        for audience in (CLIENT, 'https://graph.microsoft.com', 'api://AzureADTokenExchange/evil'):
+            opener=Mock()
+            with self.assertRaises(auth.FederationUnavailable):
+                auth.Tokens(D,managed=Mock(get_token=Mock(return_value=SimpleNamespace(token=token(auth.EXCHANGE,aud=audience)))),opener=opener).get_token(SCOPE)
+            opener.open.assert_not_called()
+
     def test_success_keeps_assertion_and_access_token_in_memory(self):
         managed=Mock(get_token=Mock(return_value=SimpleNamespace(token=token(auth.EXCHANGE))))
         access=token(appid=CLIENT)
