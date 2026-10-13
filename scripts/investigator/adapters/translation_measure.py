@@ -18,6 +18,9 @@ from .microsoft_self_report import compose as self_report
 from .microsoft_process import SEMANTIC_REPORT, SEMANTIC_TYPES, SEMANTIC_ENGINE, SQL_ENGINE, SQL_TYPES
 
 
+from investigator.adapters.sql_principal import expected as sql_principal
+
+
 class MeasureRoute:
     def __init__(self, process, *, measure_id, objects, verification_meter):
         self.process = process; self.measure_id = measure_id
@@ -82,7 +85,7 @@ class MeasureRoute:
         surface = ({'engine': SEMANTIC_ENGINE, 'connection': process.model['workspace'],
             'object': process.model['native_id'], 'identity': process.config['fabric']['native_reader']['account']}
             if native else {'engine': SQL_ENGINE, 'connection': 'sql://' + process.config['fabric']['sql_reader']['server'],
-                'object': compiled['database'], 'identity': process.config['fabric']['sql_reader']['account']})
+                'object': compiled['database'], 'identity': sql_principal(process.config['fabric']['sql_reader'])})
         evidence = {'id': result['id'], 'context_id': plan['context_id'], 'read_address': copy.deepcopy(plan['read_address']),
             'tool': compiled['tool'], 'execution_surface': surface, 'surface_report': body.get('surface_report'),
             'surface_report_types': copy.deepcopy(SEMANTIC_TYPES if native else SQL_TYPES),

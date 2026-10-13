@@ -10,6 +10,9 @@ from ..process_quantity import quantity
 from ..process_tape import Tape, bytes_of
 
 
+from investigator.adapters.sql_principal import expected as sql_principal
+
+
 class _ScanStore:
     """Existing compilers see one hash-checked scan in RAM; no estate database."""
     def __init__(self,scan,model):
@@ -140,7 +143,7 @@ def validate_declared_route(route,*,manifest,scan):
     if comparison['upper_layer']!=table['id'] or comparison['lower_layer']!=binding['asset']['id']:
         raise ValueError('Native comparison identifies a different declared boundary')
     expected=[{'engine':SEMANTIC_ENGINE,'connection':model['workspace'],'object':model['native_id'],'identity':config['fabric']['native_reader']['account']},
-              {'engine':SQL_ENGINE,'connection':'sql://'+config['fabric']['sql_reader']['server'],'object':compiled['database'],'identity':config['fabric']['sql_reader']['account']}]
+              {'engine':SQL_ENGINE,'connection':'sql://'+config['fabric']['sql_reader']['server'],'object':compiled['database'],'identity':sql_principal(config['fabric']['sql_reader'])}]
     attestations=[]
     for receipt,surface in zip((upper,lower),expected):
         if receipt['execution_surface']!=surface:raise ValueError('Native receipt surface differs from the declared reader route')

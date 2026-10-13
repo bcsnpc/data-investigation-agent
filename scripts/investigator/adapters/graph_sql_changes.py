@@ -3,6 +3,9 @@ import re
 from ..shared_state import sha
 
 
+from investigator.adapters.sql_principal import expected as sql_principal
+
+
 def names(obj):
     meta=obj['catalog']['metadata'];schema,name=meta['schema_name'],meta['name']
     if any(not isinstance(value,str)or not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,127}',value)for value in (schema,name)):
@@ -55,7 +58,7 @@ class FabricSqlChanges:
                 raise ValueError('GRAPH_SQL_READER_SCOPE')
     def read(self,obj,kind):
         req=request(obj,kind);answer=self.execute(obj['database'],req);surface=answer.get('surface_report')or{}
-        if (not answer.get('read_only_verified')or surface.get('identity')!=self.config['fabric']['sql_reader']['account']
+        if (not answer.get('read_only_verified')or surface.get('identity')!=sql_principal(self.config['fabric']['sql_reader'])
                 or surface.get('object')!=obj['database'] or surface.get('engine')!='Microsoft Azure SQL Data Warehouse'):
             raise RuntimeError('GRAPH_SQL_SURFACE_NOT_ATTESTED')
         rows=answer.get('rows')

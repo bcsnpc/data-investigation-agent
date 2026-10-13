@@ -17,6 +17,9 @@ ENGINE = 'FABRIC_SQL'
 SCRIPT = ROOT/'infra/scripts/Read-FabricSqlSurface.ps1'
 
 
+from investigator.adapters.sql_principal import expected as sql_principal
+
+
 def database_name(database):
     """Every connection names its database; relying on the endpoint default is a defect."""
     if not isinstance(database, str) or not re.fullmatch(r'[A-Za-z0-9_-]{1,128}', database):
@@ -26,7 +29,7 @@ def database_name(database):
 
 def declared(reader, database):
     return {'engine': ENGINE, 'connection': 'sql://'+reader['server'], 'object': database_name(database),
-            'identity': reader['account']}
+            'identity': sql_principal(reader)}
 
 
 def reader_availability(config):

@@ -27,6 +27,9 @@ from .microsoft_self_report import compose as semantic_self_report
 GENERIC_SERVICE_ERRORS=frozenset(('DatasetExecuteQueriesError',))
 
 
+from investigator.adapters.sql_principal import expected as sql_principal
+
+
 class MicrosoftProcessAdapter:
     def __init__(self,store,config,model,execute_native,execute_source,judge_definition=None,meter_read=None,
                  read_ingestion=None,lower_surface=None,read_failure_detail=None,execute_lower=None,
@@ -724,7 +727,7 @@ class MicrosoftProcessAdapter:
     def _evaluate_lower(self,layer,measure_id,compiled):
         reader=((self.config or {}).get('fabric') or {}).get('sql_reader') or {}
         surface={'engine':SQL_ENGINE,'connection':'sql://'+str(reader.get('server')),'object':compiled['database'],
-                 'identity':reader.get('account')}
+                 'identity':sql_principal(reader)}
         plan={'model_id':self.model['id'],'revision':self.model['revision'],'context_id':self.model['context_id'],
               'query':compiled['query'],'max_rows':20}
         from ..read_address import baseline

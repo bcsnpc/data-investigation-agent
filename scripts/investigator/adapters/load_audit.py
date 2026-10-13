@@ -2,6 +2,9 @@
 from ..load_accounting import COLUMNS,classify
 
 
+from investigator.adapters.sql_principal import expected as sql_principal
+
+
 def read(adapter, entry):
     from .. import context_search
     from ..flexible_tools import run as run_query
@@ -64,7 +67,7 @@ def read(adapter, entry):
     if result['status']!='COMPLETED':return unavailable('Declared audit read did not complete; no monitoring fallback was attempted.')
     body=result['result'];reader=adapter.config['fabric']['sql_reader']
     surface={'engine':'Microsoft Azure SQL Data Warehouse','connection':'sql://'+reader['server'],
-             'object':database,'identity':reader['account']}
+             'object':database,'identity':sql_principal(reader)}
     report=attest_surface(surface,body.get('surface_report'),('identity','engine','object'))
     if body['completeness']!='COMPLETE_RESPONSE' or report['consistency']!='MATCHED' or report['missing_required_fields']:
         return unavailable('Audit accounting lacks complete query-bound reader surface attestation.')
