@@ -68,3 +68,46 @@ or credentials inside definitions. The earlier `00041249...` sample in
 were not available for a second inspection. No new claim about their archival
 state follows from that absence. Publication still needs its content/credential
 audit and immutable bundle manifest.
+
+## Dated control-receipt recheck (2026-10-13 UTC)
+
+The earlier synthetic, disabled-gateway audit above remains unchanged. A later
+run consumed real retained platform/authentication receipts, without requesting
+new tokens, queries or control-plane operations:
+
+| Configuration | PASS | FAIL | MISSING | Result |
+|---|---:|---:|---:|---|
+| fixture, retained-controls-01 | 8 | 0 | 24 | NOT_READY |
+| billing, retained-controls-01 | 0 | 1 | 0 | Manifest validation refused |
+| billing, retained-controls-02 | 8 | 0 | 13 | NOT_READY |
+| billing, independent guide recheck-03 | 8 | 0 | 13 | NOT_READY |
+
+The initial billing candidate changed the SQL adapter to a versioned vault cache
+but retained the identity's old local credential reference. The corrected
+candidate changed that reference to the same versioned vault reference. It did
+not add a role or perform a query. This missing guide instruction is now explicit.
+The billing example declares one semantic-model layer: its smaller prerequisite
+count is not evidence that the complete billing source-to-report chain is ready.
+
+The guide recheck executed the documented CLI with both receipt switches. It
+retained these original hashes:
+
+- Platform health: `f0dda1cf92a6406060139761225ecaeeab1f0c5047cd854a26043f6eb4ca03f1`.
+- Authentication: `f94048619d30c1254691da0fcff4adb5d5e9b962c9e517b43b8b2073ccab9b2a`.
+- Fixture result: `2bc15be354fe0d644880b1d9b09e9e7cc669565952640df967c35ef25fcb8f41`.
+- Billing corrected result: `e3c51a5607bd172b580b7dc8ba4f430587996de4f679b20960ba2b33e57e10a8`.
+
+The independent result is retained locally as
+`round-eighteen/preflight-billing-guide-audit-03.json`. Authentication facts remain
+separate from permissions. Shared-schema proof, vault/model/network access,
+layer reads/definitions, tenant settings and semantic Execute Queries remain
+MISSING in these particular prerequisite reports, plus the optional XMLA,
+monitoring and impersonation checks. Platform health and migrated schema have
+separate evidence elsewhere; no absent callback was represented as a denial.
+
+Guide corrections now cover explicit credential-reference consistency, importing
+hash-bound controls, partial preflight meaning, image-local context approval and
+the gated cloud migration/demo command sequence. Deployment and teardown were
+reviewed against the implementation; this helper did not create or remove an
+installation while testing the guide. The full clean-client deployment,
+onboarding and deletion path is therefore not claimed tested end to end.

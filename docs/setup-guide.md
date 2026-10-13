@@ -55,7 +55,10 @@ not the MI. The adapter's `fabric.auth` mode `key_vault_user_cache` must name th
 same account, tenant and principal as `fabric.native_reader`; the SQL reader has
 its own explicit scope. No failed MI call triggers this route automatically.
 The preflight checks this binding but requires an actual reader receipt before
-marking Execute Queries PASS. A future secretless cross-tenant option is only a
+marking Execute Queries PASS. The matching manifest identity?s `credential_reference`
+must also identify that versioned Key Vault reference; changing only the adapter
+while leaving a workstation profile there fails schema validation. Keep the
+semantic and SQL audience declarations separate. A future secretless cross-tenant option is only a
 proposal in [owner-actions.md](owner-actions.md).
 
 Create a separate, secret-free platform declaration for preflight:
@@ -233,6 +236,20 @@ From the deployed worker, add `--check-shared-state` to check the tool's own
 PostgreSQL schema hashes and retained migration proofs through the exact gateway
 and managed identity. It is a control operation, not an estate investigation.
 
+Existing control receipts can be imported without repeating their requests:
+
+```powershell
+python scripts/preflight_installation.py --manifest .local/client-estate.json --platform .local/client-platform.json --platform-health-receipt .local/health.json <sha256> --authentication-receipt .local/authentication.json <sha256> --output .local/preflight-002.json
+```
+
+Both arguments require the original receipt bytes and hash. Worker Blob health
+establishes its storage authentication and the recorded immutable roundtrip only.
+The authentication receipt records the actual reader principal and audience
+separately; a valid token does not establish table SELECT, model Read + Build, or
+Execute Queries. These facts do not turn every prerequisite green. An existing
+PostgreSQL migration may still appear MISSING if its proof has not been connected
+to this preflight invocation; do not repeat a migration merely to change a label.
+
 The initial CLI does not automatically query every estate endpoint or tenant
 setting. Those entries remain MISSING until an installation-owned guarded probe
 is connected and supplies its actual identity and receipt. Do not relabel them
@@ -245,7 +262,11 @@ retain MISSING with the administrator action; no admin elevation is implied.
 Once prerequisites are established, run the normal discovery collector, retain
 definition hashes and the coverage report, and explicitly approve the complete
 configuration/context. Verify each intended investigation route with the
-configured reader. Only admit tickets on earned READY routes. The future estate
+configured reader. Only admit tickets on earned READY routes. For an explicitly approved migration
+of an existing context, [cloud-verification-guide.md](cloud-verification-guide.md)
+provides the fixed prepare/publication/verification/replay/demo sequence. It
+requires image-local approval pins and fresh reader verification; historical
+READY labels do not transfer into a new cloud configuration. The future estate
 graph tables are reserved but empty; this foundation does not claim full graph
 discovery, incremental updates, RLS impersonation or the future agent playbook.
 

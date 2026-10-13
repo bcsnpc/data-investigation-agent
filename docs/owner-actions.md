@@ -13,9 +13,14 @@ The owner also approved moving the existing read-only user's delegated cache to
 that vault for this cross-tenant test. It remains the same user and existing
 scope. The platform managed identity fetches the secret; the user performs the
 estate read. Definition-only Contributor credentials must not serve quantities.
-There is no automatic CLI/operator fallback. The platform health demonstration
-is pending separate evidence; this page requests no additional owner action
-unless that demonstration identifies a new blocker.
+There is no automatic CLI/operator fallback. Platform managed-identity health subsequently passed for PostgreSQL, Blob and
+Key Vault; the existing delegated reader authenticated separately for its Power
+BI and SQL audiences. These are platform/authentication facts, not estate route
+readiness. No further owner approval is requested at this checkpoint. The
+application SQL workstation credential has not been made a cloud route and stays
+explicitly unreachable; any future migration or new scope needs its own recorded
+authority decision. Current bounded cloud verification and demo remain operator
+work, not an unexplained owner action.
 
 ## Future option only: secretless cross-tenant estate access
 
