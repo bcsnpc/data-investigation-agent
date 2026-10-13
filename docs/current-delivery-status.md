@@ -1,3 +1,5 @@
+Round Nineteen 2026-10-13: secretless reader authentication4/4 PASS; storage keys disabled with identity readback PASS; primary application migration23568 rows/20tables exact. One fresh cloud verification admitted, demo remains conditional on exact replay. Historical claim cohorts remain separate. Graph construction and archive migration continue. Draft425, no merge; freeze invalid.
+
 2026-10-13: Round Nineteen owner platform-only storage grant verified. Authentication control found resource-ID audience handling defect; corrected, nine focused tests pass. No estate requests or model calls in these controls. Freeze invalid; reader permission proof and demo pending.
 
 Round Nineteen in progress (2026-10-13): dedicated reader application/federation, Viewer/model Read+Build and source read roles applied; SQL authentication remains enabled. No live principal proof or demo yet. New branch based on draft424; no merge. See round-nineteen-control-ledger.md.
