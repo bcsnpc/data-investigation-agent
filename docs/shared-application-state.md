@@ -76,6 +76,17 @@ until the operator schedules the control or applies an equivalent scoped Blob
 lifecycle policy. Historical tapes containing image pixels are immutable and
 have not been silently rewritten or deleted.
 
+For the latter, save the existing policy's `rules` object and an estate-to-days
+JSON map, then run `scripts/screenshot_retention_plan.py --current-policy
+<policy.json> --estates <retention.json> --output <new-policy.json>`. This is
+plan-only: it makes no Azure call. It preserves unrelated rules, creates one
+delete rule per exact hashed estate prefix, and refuses overlapping existing
+delete rules or a conflicting owned-rule name. The map must use the same
+retention days as each estate's intake configuration. Review and apply that
+prepared policy through the existing platform administration path. Keep the
+bounded purge control for PostgreSQL expiry metadata and retries; lifecycle
+deletion alone does not mark metadata expired.
+
 Projected screenshots still refuse: hashing text cannot redact image pixels.
 Cloud pixel access inside an immutable process capture also refuses explicitly,
 because copying the pixels into that tape would defeat retention. Metadata and
