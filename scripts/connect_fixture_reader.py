@@ -8,8 +8,14 @@ import base64
 import json
 from pathlib import Path
 from uuid import UUID
-from urllib.request import Request, urlopen
+from urllib.request import Request, build_opener
 from urllib.error import HTTPError
+
+
+def urlopen(request, timeout):
+    from metadata_auth import NoRedirect
+    from investigator.live_gateway import open_http
+    return open_http(build_opener(NoRedirect()), request, timeout=timeout)
 
 
 def application(tenant):

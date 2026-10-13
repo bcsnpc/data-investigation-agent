@@ -179,6 +179,13 @@ class GatewayRedTeamTests(unittest.TestCase):
         policy['identities']['platform']['sql']=POLICY['identities']['reader']['sql']
         self.denied(lambda:Gateway(policy))
 
+    def test_reader_verification_has_no_ungated_http_path(self):
+        import connect_fixture_reader
+        opener=MagicMock()
+        with patch('connect_fixture_reader.build_opener',return_value=opener):
+            self.denied(lambda:connect_fixture_reader.urlopen(Request(URL),timeout=60))
+        opener.open.assert_not_called()
+
     def test_model_http_hook_denies_refresh_and_unknown_destination(self):
         import httpx
         from investigator.live_gateway import model_request
