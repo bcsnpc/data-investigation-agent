@@ -61,7 +61,7 @@ def validate(config):
         return config
     required = {'estate', 'workspace', 'owners', 'authentication', 'storage', 'definition_uri_prefix',
                 'budget', 'max_requests', 'approval'}
-    if not isinstance(config, dict) or not required<=set(config)<=required|{'sql','container_schemas','dependency_models','admin_metadata'}: raise ValueError('GRAPH_SCHEDULE_CONFIGURATION')
+    if not isinstance(config, dict) or not required<=set(config)<=required|{'sql','container_schemas','dependency_models','admin_metadata','bootstrap'}: raise ValueError('GRAPH_SCHEDULE_CONFIGURATION')
     if not isinstance(config['approval'], str) or not config['approval'].strip():
         raise ValueError('GRAPH_SCHEDULE_OWNER_APPROVAL_REQUIRED')
     if not isinstance(config['authentication'],dict):raise ValueError('GRAPH_SCHEDULE_AUTHENTICATION_REQUIRED')
@@ -79,6 +79,8 @@ def validate(config):
             if not set(group['owners'])<=approved:raise ValueError('GRAPH_CONTAINER_OWNER_SCOPE')
     if config.get('authentication',{}).get('mode')=='federated_scanner' and (config.get('sql')or config.get('container_schemas')):
         raise ValueError('SCANNER_SQL_CREDENTIAL_FORBIDDEN')
+    if 'bootstrap' in config and (config['bootstrap'] is not True or config.get('sql') or config.get('container_schemas')):
+        raise ValueError('GRAPH_BOOTSTRAP_DEFINITION_ONLY')
     if 'admin_metadata' in config and (type(config['admin_metadata'])is not bool or config['authentication'].get('mode')!='federated_scanner'):
         raise ValueError('SCANNER_ADMIN_METADATA_CONFIGURATION')
     if 'dependency_models' in config:
@@ -97,6 +99,50 @@ def validate(config):
 def definition_owner_ids(config):
     schemas={owner for group in config.get('container_schemas',[])for owner in group['owners']}
     return [key for key in config['owners']if 'fabric://'+config['workspace']+'/'+key not in schemas]
+
+
+def require_empty_catalog(repo,estate):
+    from investigator.graph_asset_catalog import NAMESPACE
+    try:repo.state.get(NAMESPACE,estate)
+    except KeyError:pass
+    else:raise ValueError('GRAPH_BOOTSTRAP_CATALOG_ALREADY_EXISTS')
+    with repo.state.transaction() as db:
+        if repo.state.sql(db,'SELECT 1 FROM estate_graph_owner_versions WHERE estate=? LIMIT 1',(estate,)).fetchone():
+            raise ValueError('GRAPH_BOOTSTRAP_REQUIRES_EMPTY_GRAPH')
+
+
+def bootstrap_catalog(catalog,collector,estate,clock):
+    """First approved owner catalog, all-or-nothing; no retained seed invented."""
+    require_empty_catalog(catalog.repo,estate)
+    from investigator.graph_scan_health import record as health
+    from investigator.adapters.metadata_error import safe_failure
+    configured=set(collector.configured_owners)
+    if configured!=catalog.allowed:raise ValueError('GRAPH_BOOTSTRAP_OWNER_SCOPE')
+    assets=[];sources=[];observations={};references={}
+    try:
+        listing=collector.list_changes()
+        if (set(listing)!={'items','complete'} or len(listing['items'])!=len(configured)
+                or {s['owner']for s in listing['items']}!=configured
+                or any(s['deleted']for s in listing['items'])):
+            raise ValueError('GRAPH_BOOTSTRAP_CONFIGURED_OWNER_NOT_VISIBLE')
+        for owner in sorted(configured):
+            payload=collector.fetch(owner)
+            catalog._payload(owner,payload)  # Exact owner boundary before retaining.
+            # Retain successful native payloads even if a later owner refuses.
+            from investigator.shared_state import encoded
+            references[owner]=catalog.sink(encoded(payload).encode('utf8'))
+            at=clock();assets.extend(payload['assets']);sources.extend(payload['source_asset_ids'])
+            observations.update({a['id']:at for a in payload['assets']})
+        at=clock()
+        result=catalog.seed(estate,assets,observed_at=at,source_asset_ids=sources,
+            source_observations=observations,require_empty_graph=True)
+        for owner in configured:health(catalog.repo.state,estate,owner,at,'CURRENT')
+        return {'estate':estate,'observed_at':at,'bootstrap':True,'owners':[
+            {'owner':owner,'status':'SEEDED'}for owner in sorted(configured)],'graph':result}
+    except Exception as error:
+        for owner in configured:health(catalog.repo.state,estate,owner,clock(),'UNAVAILABLE',
+            'Initial definition collection incomplete',failure=safe_failure(error),payload_reference=references.get(owner))
+        raise
 
 
 def execute(config):
@@ -182,14 +228,16 @@ def _execute_one_scoped(config):
     allowed={'fabric://'+config['workspace']+'/'+key for key in config['owners']}
     for group in config.get('sql',[]):allowed.update(group['objects'])
     catalog=AssetCatalog(repo,sink,extract_partitioned,asset_owners,allowed_owners=allowed)
-    catalog.snapshot(config['estate'])  # Retained external symbols must exist before any estate call.
+    if config.get('bootstrap'):
+        require_empty_catalog(repo,config['estate'])
+    else:catalog.snapshot(config['estate'])  # Retained external symbols must exist before any estate call.
     clock=lambda:datetime.now(timezone.utc).isoformat().replace('+00:00','Z')
     scanner = IncrementalScanner(repo, collector, None,reconcile=catalog.refresh,observation_clock=clock) if collector else None
     at = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
     try:
         from investigator.adapters.scanner_admin import collect as admin_metadata
         admin_result=admin_metadata(config,http,sink)
-        result = scanner.run(config['estate'], at) if scanner else {'estate':config['estate'],'observed_at':at,'owners':[],'definition_collection':'NOT_REQUESTED_SCHEMA_ONLY'}
+        result = bootstrap_catalog(catalog,collector,config['estate'],clock) if config.get('bootstrap') else scanner.run(config['estate'], at) if scanner else {'estate':config['estate'],'observed_at':at,'owners':[],'definition_collection':'NOT_REQUESTED_SCHEMA_ONLY'}
         result['admin_metadata']=admin_result
         result['sql_collectors']=[]
         for group in config.get('sql',[]):

@@ -78,7 +78,7 @@ class AssetCatalog:
         if len(assets)>MAX_ASSETS or len(observations)!=len(assets):raise ValueError('GRAPH_CATALOG_DUPLICATE_OR_ASSET_BOUND')
         return record,assets,sources,observations
 
-    def _commit(self,estate,at,manifest,partitions,revision,*,existing_graph_only=False,retire_missing=False):
+    def _commit(self,estate,at,manifest,partitions,revision,*,existing_graph_only=False,retire_missing=False,require_empty_graph=False):
         # One lock and transaction: stale readers cannot overwrite any partition
         # or the owner references after another refresh commits.
         with self.repo.state.transaction()as db:
@@ -86,6 +86,8 @@ class AssetCatalog:
             except KeyError:prior=None
             if (None if prior is None else prior['revision'])!=revision:
                 raise StateConflict('GRAPH_ASSET_CATALOG_REVISION_DIFFERS')
+            if require_empty_graph and self.repo.state.sql(db,'SELECT 1 FROM estate_graph_owner_versions WHERE estate=? LIMIT 1',(estate,)).fetchone():
+                raise StateConflict('GRAPH_BOOTSTRAP_REQUIRES_EMPTY_GRAPH')
             if existing_graph_only:
                 actual=dict(self.repo.state.sql(db,'SELECT owner,definition_hash FROM estate_graph_owner_versions WHERE estate=?',(estate,)).fetchall())
                 expected={p['owner']:p['definition_hash']for p in partitions}
@@ -105,7 +107,7 @@ class AssetCatalog:
                     (revision+1,encoded(manifest),sha(manifest),NAMESPACE,estate))
         return result
 
-    def seed(self,estate,assets,*,observed_at,source_asset_ids=(),source_observations=None,existing_graph_only=False):
+    def seed(self,estate,assets,*,observed_at,source_asset_ids=(),source_observations=None,existing_graph_only=False,require_empty_graph=False):
         at=contract.timestamp(observed_at)
         if not isinstance(assets,list)or not assets or len(assets)>MAX_ASSETS:raise ValueError('GRAPH_CATALOG_ASSET_BOUND')
         if len({a['id']for a in assets})!=len(assets):raise ValueError('GRAPH_CATALOG_DUPLICATE_ASSET')
@@ -130,7 +132,7 @@ class AssetCatalog:
                 'uri':self.sink.uri_prefix+'/files/'+hashlib.sha256(raw).hexdigest()}
         partitions=self.partition(estate,assets,retained_reference if existing_graph_only else self.sink,observed_at=at,source_asset_ids=source_asset_ids,
             source_observations=times)
-        return self._commit(estate,at,manifest,partitions,None,existing_graph_only=existing_graph_only)
+        return self._commit(estate,at,manifest,partitions,None,existing_graph_only=existing_graph_only,require_empty_graph=require_empty_graph)
 
     def refresh(self,estate,owner,at,payload,*,retained_asset_ids=()):
         at=contract.timestamp(at)

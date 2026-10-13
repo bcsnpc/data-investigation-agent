@@ -234,3 +234,15 @@ Publication accounting: 15 actual HTTP sends; 16 charged controls including one 
 }
 ```
 
+
+## Generic fixes and offline follow-up
+
+The Microsoft adapter now accepts a semantic-only connection bundle and binds modern semantic authentication to its actual native credential reference. It no longer invents an application SQL source. Declared non-semantic layers/resources still require SQL; malformed SQL, wrong credentials and out-of-scope worker targets still refuse. Discovery can collect and update a model-only estate without invoking SQL or asserting SQL coverage.
+
+The same actual-ID manifest now passes schema validation. The default offline preflight is still **NOT_READY: 5 PASS, 1 FAIL, 15 MISSING**. The FAIL is the deliberately disabled live gateway, and the missing observations include reader query/definition rights, tenant settings, network and platform controls. This is no live readiness claim. No estate/model calls were made in these fixes. Focused model-only, reader, manifest, discovery and identity regression: **119 passed, 33 subtests passed**.
+
+First-scan bootstrap is explicit and one-time: `bootstrap: true` refuses an existing catalog/graph before reads and again checks graph emptiness inside the atomic commit. All configured owners must be visible and fetched successfully before catalog/graph publication. It retains native payloads and failure references; permission, policy or budget refusal cannot leave a partial current graph or admit the next owner. Five bootstrap regressions plus the catalog/multiscan suite passed **23 tests and 2 subtests**.
+
+Prepared only, not executed: `.local/round-nineteen-b/sample-onboarding/scan-sample-bootstrap.json` (SHA-256 `b88b70b99f12c916c73c79321ca284fe77daca6d17c7e2cf9ea5f00f74acd3ec`) and `sample-scanner-gateway.json` (`07d9489079d96d4c80af3b2dc711e0e397541954919e6aa2d67f5f1761a90ddb`). They bind only the published sample's two owners and selected model; maximum 40 sends against the existing shared round/rolling accounts. The gateway includes exact scanner metadata/INFO/admin routes and existing platform CAS/database channels, with no estate SQL or write route. The main session must review pins and run them in the existing trusted worker, then retain actual results. The graph is not yet earned.
+
+Expanded first-scan/catalog/scanner/red-team verification: **56 passed, 86 subtests passed**. These are offline synthetic tests; the published sample has still not been scanned by this helper.

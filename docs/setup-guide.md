@@ -58,8 +58,7 @@ The preflight checks this binding but requires an actual reader receipt before
 marking Execute Queries PASS. The matching manifest identity?s `credential_reference`
 must also identify that versioned Key Vault reference; changing only the adapter
 while leaving a workstation profile there fails schema validation. Keep the
-semantic and SQL audience declarations separate. A future secretless cross-tenant option is only a
-proposal in [owner-actions.md](owner-actions.md).
+semantic and SQL audience declarations separate. The implemented `federated_reader` adapter uses an explicitly bound managed-identity assertion for a declared tenant/client/principal; no automatic fallback or new consent is allowed. See [cloud-authentication.md](cloud-authentication.md).
 
 Create a separate, secret-free platform declaration for preflight:
 
@@ -208,10 +207,7 @@ readiness assessor still checks the certificate, current pins and evidence.
 Model enablement/onboarding changes require a new operator publication; a worker
 cannot edit its private snapshot to widen access.
 
-Current limitation: raw discovery inventory and per-job execution/capture state
-still use a private SQLite replay image. Claim-first state and screenshots also remain there; generic shared case-file storage has no production writer yet. Published catalog reads and global
-accounting use PostgreSQL. This is not a complete migration of every historical
-SQLite consumer. Privacy-projected shared PostgreSQL persistence is not yet
+Raw discovery inventory and exact replay snapshots still use private SQLite images. In shared mode, claim-first and investigation/runtime records are authoritative in typed PostgreSQL documents with a transient in-memory compatibility view; the production case-file writer publishes changed case records. Screenshots use private Blob references with an operator-applied retention policy (default 30 days). Published catalog reads and global accounting use PostgreSQL. Historical cohorts still require explicit, namespace-preserving migration; implementation does not prove every old SQLite consumer has been migrated. Privacy-projected shared PostgreSQL persistence is not yet
 implemented and refuses admission, rather than persisting raw values.
 
 ## 5. Preflight before onboarding or a live ticket
@@ -266,9 +262,19 @@ configured reader. Only admit tickets on earned READY routes. For an explicitly 
 of an existing context, [cloud-verification-guide.md](cloud-verification-guide.md)
 provides the fixed prepare/publication/verification/replay/demo sequence. It
 requires image-local approval pins and fresh reader verification; historical
-READY labels do not transfer into a new cloud configuration. The future estate
-graph tables are reserved but empty; this foundation does not claim full graph
-discovery, incremental updates, RLS impersonation or the future agent playbook.
+READY labels do not transfer into a new cloud configuration. Shared graph storage and bounded incremental owner refresh are implemented. Retained static edges still do not establish runtime execution, snapshot alignment, RLS equivalence or a verified investigation route.
+
+### Model-only and first-scan installations
+
+An imported Power BI sample need not have an application SQL database. Declare only its SEMANTIC layer, using the discovered model root `fabric://<workspace>/<model>` (or a discovered model table). Use `adapters[].options.fabric` with the native reader identity and credential reference; omit `sql` entirely when no source is declared. Do not insert a placeholder SQL database to pass validation. SQL settings remain required for declared non-semantic layers/resources, and their original validation remains enforced.
+
+Preflight is offline by default: `python scripts/preflight_installation.py --manifest <manifest.json> --platform <platform.json> --output <new-receipt.json>`. It proves configuration validity only. Hash-pinned authentication/platform receipts can be imported separately. `--graph-coverage-estate <estate>` performs a bounded operator read of shared graph state; it does not grant READY status. Successful publication, group ReadExplore and token issuance are not query receipts.
+
+For a new graph namespace, prepare the same bounded configuration used by `scripts/scan_estate_graph.py`, with explicit workspace/owner IDs, existing shared budget pins and `bootstrap: true`. The trusted `graph_scan_bootstrap.py` entrypoint reads this from `DIA_GRAPH_SCAN_CONFIG` and its exact gateway from `DIA_GRAPH_SCAN_GATEWAY`. This is a one-time initial scan, not a schedule setting: it refuses any existing graph/catalog before estate reads, lists only the declared workspace, requires all declared owners to be visible, fetches each approved owner once, and atomically seeds the merged catalog and graph. A failed owner leaves no partial current graph. Remove `bootstrap` for subsequent changed-owner scans. The operator must supply the existing PostgreSQL authority, platform Blob channels, exact scanner token channels and metadata routes; counters are not copied or reset.
+
+The dedicated `federated_scanner` identity is only available in SCAN/CHANGE_DETECTION jobs. Definition/INFO access can require Contributor on an explicitly approved test workspace; that scope never belongs to the quantity reader. Its gateway accepts bounded list/get/getDefinition/admin scans and fixed INFO metadata queries only. Set `dependency_models` to the exact selected semantic model IDs, and `admin_metadata: true` only when approved. Scanner discovery must never be executed through a general quantity reader or its SQL routes. A model/report definition refusal is retained as UNAVAILABLE, never replaced with invented definitions or a broader identity.
+
+The imported sample's workbook source remains an unchecked source boundary unless that source is independently declared and reachable. Do not manufacture a Warehouse path or a system-of-record declaration for it.
 
 ## 7. Remove an installation
 
