@@ -2,6 +2,9 @@
 import re
 
 
+from investigator.adapters.sql_principal import expected as sql_principal
+
+
 def inventory(config, warehouse, *, execute=None):
     """Read visible tables on one discovered, approved Warehouse connection.
 
@@ -28,7 +31,7 @@ def inventory(config, warehouse, *, execute=None):
             'max_length','precision','scale','is_nullable','can_view_definition']}
     result=(execute or sql_read)(config,warehouse['displayName'],request)
     report=result.get('surface_report') or {};rows=result.get('rows')
-    if (report.get('identity')!=reader['account'] or report.get('object')!=warehouse['displayName']
+    if (report.get('identity')!=sql_principal(reader) or report.get('object')!=warehouse['displayName']
             or report.get('engine')!='Microsoft Azure SQL Data Warehouse'
             or not result.get('read_only_verified') or not isinstance(rows,list) or len(rows)>=visible_limit):
         raise ValueError('Warehouse inventory lacks bounded reader-owned evidence')
@@ -62,7 +65,7 @@ def read(config, warehouse, table_name, *, execute=None):
         'max_rows':251,'result_columns':['column_name','data_type']}
     result=(execute or sql_read)(config,warehouse['displayName'],request)
     report=result.get('surface_report') or {}
-    if (report.get('identity')!=reader['account'] or report.get('object')!=warehouse['displayName']
+    if (report.get('identity')!=sql_principal(reader) or report.get('object')!=warehouse['displayName']
             or report.get('engine')!='Microsoft Azure SQL Data Warehouse'
             or not result.get('read_only_verified') or not result.get('rows') or len(result['rows'])>=250):
         raise ValueError('Warehouse schema lacks complete reader-owned evidence')

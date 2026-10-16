@@ -32,7 +32,7 @@ def install(workspace,config):
             from ..physical_reads import run
             def execute():
                 request={'endpoint':endpoint,'workspace_ids':scopes,'reader':reader}
-                if config['fabric']['auth'].get('mode')=='key_vault_user_cache':
+                if config['fabric']['auth'].get('mode') in ('key_vault_user_cache','federated_reader'):
                     from .vault_user_cache import credential
                     request['authentication']=credential(config['fabric']['auth'])
                 if reader['mode']=='managed_identity':

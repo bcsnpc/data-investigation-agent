@@ -41,8 +41,9 @@ def _safe(data):
 
 
 class CallRecord:
-    def __init__(self, metadata):
-        self.path = ROOT / '.local' / 'planner-recordings' / str(uuid4())
+    def __init__(self, metadata, *, directory=None):
+        base = Path(directory) if directory is not None else ROOT / '.local' / 'planner-recordings'
+        self.path = base / str(uuid4())
         from .privacy_capture import ACTIVE as PROJECTED_CAPTURE
         self.projected_capture=PROJECTED_CAPTURE.get()
         if self.projected_capture is None:self.path.mkdir(parents=True, exist_ok=False)
@@ -106,7 +107,7 @@ class CallRecord:
 
 
 @contextmanager
-def recording(metadata, *, distinct=False):
+def recording(metadata, *, distinct=False, directory=None):
     """The flag is operator process configuration, never a ticket/provider field."""
     from .process_tape import ACTIVE as RUN_TAPE
     tape=RUN_TAPE.get()
@@ -118,7 +119,7 @@ def recording(metadata, *, distinct=False):
     if (os.environ.get(FLAG) != '1' and tape is None) or (ACTIVE.get() is not None and not distinct):
         yield ACTIVE.get()
         return
-    record = CallRecord(metadata() if callable(metadata) else metadata)
+    record = CallRecord(metadata() if callable(metadata) else metadata, directory=directory)
     token = ACTIVE.set(record)
     error = None
     try:

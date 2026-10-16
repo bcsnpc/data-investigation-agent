@@ -3,6 +3,9 @@ import copy
 import re
 
 
+from investigator.adapters.sql_principal import expected as sql_principal
+
+
 def read(config, obj, *, execute):
     reader=config['fabric']['sql_reader']
     meta=obj['catalog']['metadata']
@@ -21,7 +24,7 @@ def read(config, obj, *, execute):
         'max_rows':251,'result_columns':['column_name','data_type','collation_name']}
     answer=execute(obj['database'],request)
     report=answer.get('surface_report') or {}
-    if (report.get('identity')!=reader['account'] or report.get('object')!=obj['database']
+    if (report.get('identity')!=sql_principal(reader) or report.get('object')!=obj['database']
             or report.get('engine')!='Microsoft Azure SQL Data Warehouse'
             or not answer.get('read_only_verified')):
         raise ValueError('Target types lack reader-owned guarded surface evidence')
@@ -97,7 +100,7 @@ def read_many(config, objects, *, execute):
         raise ValueError('Target catalog leaves the approved Fabric SQL connection')
     database=objects[0]['database'];answer=execute(database,request)
     report=answer.get('surface_report') or {}
-    if (report.get('identity')!=reader['account'] or report.get('object')!=database or
+    if (report.get('identity')!=sql_principal(reader) or report.get('object')!=database or
         report.get('engine')!='Microsoft Azure SQL Data Warehouse' or not answer.get('read_only_verified')):
         raise ValueError('Target types lack reader-owned guarded surface evidence')
     rows=answer.get('rows')

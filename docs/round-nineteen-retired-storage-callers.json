@@ -1,0 +1,86 @@
+[
+  {
+    "script": "archive-next-eight-02.py",
+    "sha256": "f45ab674f458488bafe6358719446c1f8eeeb568cb139cde4d34fb9f19273f12",
+    "status": "RETIRED_FOR_FUTURE_EXECUTION_OR_OPERATOR_REVIEW_REQUIRED",
+    "replacement": "archive_finished_rounds.py upload-resumable; platform_blob_transfer.py; injected OwnerCliCredential for CAS"
+  },
+  {
+    "script": "archive-next-eight.py",
+    "sha256": "92af58d5d35e076573694e621e77fda611fd76eb37db2b544c992138fbae84c8",
+    "status": "RETIRED_FOR_FUTURE_EXECUTION_OR_OPERATOR_REVIEW_REQUIRED",
+    "replacement": "archive_finished_rounds.py upload-resumable; platform_blob_transfer.py; injected OwnerCliCredential for CAS"
+  },
+  {
+    "script": "archive-pilot.py",
+    "sha256": "a1ecd7690116bd98716c4de41a3f6e946143c9dd2fd9c193b584d634f04f57f4",
+    "status": "RETIRED_FOR_FUTURE_EXECUTION_OR_OPERATOR_REVIEW_REQUIRED",
+    "replacement": "archive_finished_rounds.py upload-resumable; platform_blob_transfer.py; injected OwnerCliCredential for CAS"
+  },
+  {
+    "script": "collect-eight-cloud.py",
+    "sha256": "e37ee5c8dbf081cc9293e49a405cca871fe21fc0b2b676c7184a4ff3e6d72ac4",
+    "status": "RETIRED_FOR_FUTURE_EXECUTION_OR_OPERATOR_REVIEW_REQUIRED",
+    "replacement": "archive_finished_rounds.py upload-resumable; platform_blob_transfer.py; injected OwnerCliCredential for CAS"
+  },
+  {
+    "script": "fetch-first-error-result.py",
+    "sha256": "2b9a88bd1f5abe930dbed8aac2b9b0538d70b4ca4d14210188141ad19ac1e64f",
+    "status": "RETIRED_FOR_FUTURE_EXECUTION_OR_OPERATOR_REVIEW_REQUIRED",
+    "replacement": "archive_finished_rounds.py upload-resumable; platform_blob_transfer.py; injected OwnerCliCredential for CAS"
+  },
+  {
+    "script": "fetch-portable-result.py",
+    "sha256": "2c76b43eca615135772b7ed90d334afb00fa91443920b9ad7764eb276ac1a432",
+    "status": "RETIRED_FOR_FUTURE_EXECUTION_OR_OPERATOR_REVIEW_REQUIRED",
+    "replacement": "archive_finished_rounds.py upload-resumable; platform_blob_transfer.py; injected OwnerCliCredential for CAS"
+  },
+  {
+    "script": "fetch-stage-result.py",
+    "sha256": "16731f0c6cbb8141d01d69ac3f5749510b4bdd8e28c98e161668a612903e3218",
+    "status": "RETIRED_FOR_FUTURE_EXECUTION_OR_OPERATOR_REVIEW_REQUIRED",
+    "replacement": "archive_finished_rounds.py upload-resumable; platform_blob_transfer.py; injected OwnerCliCredential for CAS"
+  },
+  {
+    "script": "fetch-windows-config-result.py",
+    "sha256": "4547a354efdb9ab65e3c1f0ff303c8677beab1d54aeb1602c6697b3595155e01",
+    "status": "RETIRED_FOR_FUTURE_EXECUTION_OR_OPERATOR_REVIEW_REQUIRED",
+    "replacement": "archive_finished_rounds.py upload-resumable; platform_blob_transfer.py; injected OwnerCliCredential for CAS"
+  },
+  {
+    "script": "migrate-model-credential.py",
+    "sha256": "86117c5d5422a0b7b7ed991eee44402bb595cbad93b7b89b68f5c59760eec382",
+    "status": "RETIRED_FOR_FUTURE_EXECUTION_OR_OPERATOR_REVIEW_REQUIRED",
+    "replacement": "archive_finished_rounds.py upload-resumable; platform_blob_transfer.py; injected OwnerCliCredential for CAS"
+  },
+  {
+    "script": "publish-demo-inputs-02.py",
+    "sha256": "e1af148a30a1173087d5fa93da7ad2a85efd001f4a728530dc371e5747ad696d",
+    "status": "RETIRED_FOR_FUTURE_EXECUTION_OR_OPERATOR_REVIEW_REQUIRED",
+    "replacement": "archive_finished_rounds.py upload-resumable; platform_blob_transfer.py; injected OwnerCliCredential for CAS"
+  },
+  {
+    "script": "publish-demo-inputs.py",
+    "sha256": "2f1e0ca859edfffcf3a85afb41feac11f6587ef9b0979f701956ac36ac1aec08",
+    "status": "RETIRED_FOR_FUTURE_EXECUTION_OR_OPERATOR_REVIEW_REQUIRED",
+    "replacement": "archive_finished_rounds.py upload-resumable; platform_blob_transfer.py; injected OwnerCliCredential for CAS"
+  },
+  {
+    "script": "publish-eight-cas.py",
+    "sha256": "927474559cb38f8ea85904e68aad1e3c10e9760c97c90d1e895b1640ec78ea7e",
+    "status": "RETIRED_FOR_FUTURE_EXECUTION_OR_OPERATOR_REVIEW_REQUIRED",
+    "replacement": "archive_finished_rounds.py upload-resumable; platform_blob_transfer.py; injected OwnerCliCredential for CAS"
+  },
+  {
+    "script": "publish-pilot-cas.py",
+    "sha256": "bbbf0da1288ed7464331fb43bc339acd22167a91892189e6296a6fd9cb4ff103",
+    "status": "RETIRED_FOR_FUTURE_EXECUTION_OR_OPERATOR_REVIEW_REQUIRED",
+    "replacement": "archive_finished_rounds.py upload-resumable; platform_blob_transfer.py; injected OwnerCliCredential for CAS"
+  },
+  {
+    "script": "start-eight-cloud.py",
+    "sha256": "a7d60ba6c36a6bf3adda926e8bd30c41f29119d038bc08472606b1a410aa5370",
+    "status": "RETIRED_FOR_FUTURE_EXECUTION_OR_OPERATOR_REVIEW_REQUIRED",
+    "replacement": "archive_finished_rounds.py upload-resumable; platform_blob_transfer.py; injected OwnerCliCredential for CAS"
+  }
+]

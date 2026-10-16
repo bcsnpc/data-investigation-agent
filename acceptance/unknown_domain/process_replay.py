@@ -46,7 +46,8 @@ def _replay(path,output,*,allow_engine_drift=False,native_transport=None,source_
         shutil.copyfile(Path(path).parent/name,output/name)
     config=bootstrap['config'];settings=bootstrap['state']
     construction=journal.active(tape) if settings.get('shared_usage_replay') else nullcontext()
-    with construction:
+    from investigator.shared_application import bootstrap_replay
+    with construction,bootstrap_replay():
         store=ModelStore(output/'catalog.sqlite',output/'inventory.sqlite',settings['environment'],
                          context_pins=settings.get('context_pins'))
         if 'fixture_state' in settings:store.acceptance_fixture_state=settings['fixture_state']
@@ -61,7 +62,7 @@ def _replay(path,output,*,allow_engine_drift=False,native_transport=None,source_
         from investigator.estate_installation import install_candidate_reader
         install_candidate_reader(workspace)
     controllers=journal.active(tape) if settings.get('shared_usage_replay') else nullcontext()
-    with controllers:
+    with controllers,bootstrap_replay():
         methods={'intake':workspace.intake.resolve,'preview':workspace.preview,
                  'create':agent.create,'run':agent.run,'synthesize':agent.synthesize}
         if tape.version in journal.SMART_VERSIONS:

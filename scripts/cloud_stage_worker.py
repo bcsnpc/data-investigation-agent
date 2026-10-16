@@ -82,10 +82,13 @@ def package(inputs,work,output):
 def prepare_phase(inputs,work):
  from cloud_context_prepare import prepare
  plan=read(inputs/'operator-plan.json')
+ decision=plan.get('decision','Round Eighteen cloud migration: preserved definitions, fresh verification, one original A demo')
+ if not isinstance(decision,str) or not decision.strip() or len(decision)>2000:
+  raise ValueError('OWNER_DECISION_REQUIRED')
  with offline():
   value=prepare(inputs/'estate.json',inputs/'catalog.sqlite',inputs/'inventory.sqlite',work/'verification',
    model_id=plan['model_id'],context_id=plan['source_context'],context_hash=plan['source_context_hash'],
-   actor='owner',decision='Round Eighteen cloud migration: preserved definitions, fresh verification, one original A demo')
+   actor='owner',decision=decision)
  shutil.copyfile(inputs/'endpoints.json',work/'verification/endpoints.json')
  return {'status':'PREPARED_NOT_PUBLISHED_NOT_READY','candidate_sha256':sha(work/'verification/publication-candidate.json'),'approval':value['approval'],'estate_reads':0,'model_calls':0}
 
@@ -104,6 +107,12 @@ def verify_phase(inputs,work,config):
  if sha(candidate)!=config['candidate_sha256']:raise ValueError('OWNER_REVIEWED_CANDIDATE_DIFFERS')
  state=configured_state()
  if state is None or state.backend!='postgresql':raise ValueError('CLOUD_POSTGRES_REQUIRED')
+ from cloud_binding_verifier import preflight
+ from investigator.estate_manifest import load
+ from investigator.adapters.estate_installation import configuration
+ admitted=preflight(read(inputs/'verification-spec.json'),configuration(load(inputs/'estate.json')),
+  read(prepared/'context.json'),receipt_path=prepared/'endpoints.json')
+ if not admitted['admissible']:raise ValueError('VERIFICATION_PREFLIGHT_REFUSED')
  publication=publish(state,read(candidate));write(prepared/'publication.json',publication)
  plan=read(inputs/'operator-plan.json')
  result=execute(inputs/'estate.json',prepared,inputs/'verification-spec.json',spec_sha256=plan['verification_spec_sha256'],session=config['session'],deadline=config['deadline'],capture=work/'verification-capture')

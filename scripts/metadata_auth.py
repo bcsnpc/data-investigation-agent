@@ -91,7 +91,12 @@ class MetadataHttp:
                 return {'status_code': response.status, 'headers': dict(response.headers),
                         'text': json.loads(body) if body else {}}
         except HTTPError as exc:
-            raise RuntimeError('Metadata HTTP status ' + str(exc.code)) from None
+            from investigator.adapters.metadata_error import MetadataUnavailable
+            try:
+                raw=exc.read(32769)
+                body=json.loads(raw) if len(raw)<=32768 else None
+            except Exception:body=None
+            raise MetadataUnavailable(exc.code,body) from None
 
 
 class WorkerTransport:
@@ -104,6 +109,9 @@ class WorkerTransport:
         request = dict(request, tenant=self.tenant)
         if self.authentication and self.authentication.get('mode')=='key_vault_user_cache':
             raise ValueError('SCOPED_USER_CACHE_METADATA_ROUTE_UNDECLARED')
+        if self.authentication and self.authentication.get('mode')=='federated_reader':
+            from investigator.adapters.vault_user_cache import credential
+            request['authentication']=credential(self.authentication)
         if self.authentication and self.authentication.get('mode')=='managed_identity':
             from investigator.adapters.managed_identity import validate
             request['authentication']=validate({k:self.authentication[k] for k in ('mode','tenant_id','client_id','principal_id')})

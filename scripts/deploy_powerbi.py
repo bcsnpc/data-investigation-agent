@@ -2,23 +2,32 @@
 import argparse,base64,json,time
 from fabric_api import api,ROOT
 
-def deploy(folder,item_type,display_name):
-    config=json.loads((ROOT/'infra/fabric/environment.json').read_text())
-    workspace=config['workspace_id']
+def deploy(folder,item_type,display_name,*,workspace=None,expected_item_id=None,request=None):
+    """An explicit existing-item pin forbids creation or name-based substitution."""
+    from uuid import UUID
+    request=request or api
+    if workspace is None:
+        config=json.loads((ROOT/'infra/fabric/environment.json').read_text())
+        workspace=config['workspace_id']
+    workspace=str(UUID(workspace))
+    if expected_item_id is not None:expected_item_id=str(UUID(expected_item_id))
     parts=[{'path':p.relative_to(folder).as_posix(),'payload':base64.b64encode(p.read_bytes()).decode(),'payloadType':'InlineBase64'}
       for p in sorted(folder.rglob('*')) if p.is_file()]
     definition={'parts':parts}
-    items=api(f'workspaces/{workspace}/items')['text']['value']
+    items=request(f'workspaces/{workspace}/items')['text']['value']
     matches=[i for i in items if i['type']==item_type and i['displayName']==display_name]
+    if len(matches)>1:raise ValueError('Publication target name is ambiguous')
+    if expected_item_id is not None and (len(matches)!=1 or matches[0]['id']!=expected_item_id):
+        raise ValueError('Pinned publication target differs; creation refused')
     if matches:
-        result=api(f"workspaces/{workspace}/items/{matches[0]['id']}/updateDefinition",'post',{'definition':definition})
+        result=request(f"workspaces/{workspace}/items/{matches[0]['id']}/updateDefinition",'post',{'definition':definition})
     else:
-        result=api(f'workspaces/{workspace}/items','post',{'displayName':display_name,'type':item_type,'definition':definition})
+        result=request(f'workspaces/{workspace}/items','post',{'displayName':display_name,'type':item_type,'definition':definition})
     operation=result.get('headers',{}).get('x-ms-operation-id')
     if operation:
         print(f'Fabric operation: {operation}',flush=True)
         for attempt in range(30):
-            status=api(f'operations/{operation}')['text']
+            status=request(f'operations/{operation}')['text']
             if status['status'] in ('Succeeded','Completed'):break
             if status['status'] in ('Failed','Cancelled'):raise RuntimeError(status)
             time.sleep(10)

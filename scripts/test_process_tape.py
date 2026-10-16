@@ -268,7 +268,10 @@ class TapeTests(unittest.TestCase):
     def test_shared_cloud_workspace_replays_initial_snapshot_and_full_intake_investigation(self):
         self.exercise_process(shared_backend=True)
 
-    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False,cold_resume=False,unavailable_reply=False,auto_start=False,shared_backend=False):
+    def test_shared_application_authority_replays_full_intake_investigation_and_budget(self):
+        self.exercise_process(shared_backend=True,shared_application=True)
+
+    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False,cold_resume=False,unavailable_reply=False,auto_start=False,shared_backend=False,shared_application=False):
         import test_flexible_investigation as fixture
         from investigator.runtime import Runtime
         from investigator.adaptive_runtime import AdaptiveRuntime
@@ -301,6 +304,12 @@ class TapeTests(unittest.TestCase):
             shared=SharedState.offline(helper.fixture.root/'shared-authority.sqlite');shared.migrate()
             import_usage(shared,'baseline',source)
             agent.governor.shared=SharedUsage(agent.governor,shared,owner='worker-current')
+            if shared_application:
+                from investigator.shared_catalog import SharedCatalog,export_catalog,import_catalog
+                from investigator.shared_application import source as export_application,migrate
+                import_catalog(shared,'catalog',export_catalog(helper.store))
+                migrate(shared,'application',export_application(helper.store.database,helper.store.environment))
+                helper.store.shared_catalog=SharedCatalog(shared,helper.store.environment)
         envelope=copy.deepcopy(helper.envelope);envelope['strategy']=VERSION
         envelope['comparison_mode']='VERTICAL';envelope['ticket_shape']='MISMATCH_COMPLAINT'
         workspace=Workspace(agent,execution_enabled=True,question_resolver=azure_resolve)

@@ -1,0 +1,135 @@
+{
+  "at": "2026-10-13T07:35:12.696042+00:00",
+  "classification": "PARTIAL_ARCHIVE_NOT_COMPLETE",
+  "batches": [
+    {
+      "batch": "source-export-archive",
+      "receipt_sha256": "ba43043769c87368ab4c4649a1e9c32da62acc0ff661b14067b8cebbde7546e6",
+      "manifest_sha256": "835af4c7b4311bcc2e58f0a0fa18aa3844cd776021eecf98a3b329716e7dd788",
+      "files": 25,
+      "original_bytes": 304087195,
+      "stored_bytes": 17369676,
+      "controls": 16,
+      "controls_by_method": {
+        "HEAD": 5,
+        "GET": 3,
+        "PUT": 8
+      },
+      "status": "VERIFIED_ARCHIVE",
+      "local_deletion": false
+    },
+    {
+      "batch": "archive-batch-02",
+      "receipt_sha256": "9153c71ab4f9f29a63a5339cd1df1c4c284b5650554d175794a63ad4631924d5",
+      "manifest_sha256": "e50adb78781bacd758153301511b211c50a6d6c5ae1c410ff9fef1a0cf5686d5",
+      "files": 166,
+      "original_bytes": 245364053,
+      "stored_bytes": 24463899,
+      "controls": 14,
+      "controls_by_method": {
+        "HEAD": 4,
+        "GET": 2,
+        "PUT": 8
+      },
+      "status": "VERIFIED_ARCHIVE",
+      "local_deletion": false
+    },
+    {
+      "batch": "archive-batch-03-0",
+      "receipt_sha256": "31e7c326bc916d13df90e81e4113c0da8b539c0a1dff1ccf1ef7930f29a13d21",
+      "manifest_sha256": "b8b9bf452806b29e4f960842365003c822b663ffb4d6c1bcaf2ca461c016f4d2",
+      "files": 20,
+      "original_bytes": 711023623,
+      "stored_bytes": 65438324,
+      "controls": 25,
+      "controls_by_method": {
+        "HEAD": 5,
+        "GET": 2,
+        "PUT": 18
+      },
+      "status": "VERIFIED_ARCHIVE",
+      "local_deletion": false
+    },
+    {
+      "batch": "archive-batch-03-1",
+      "receipt_sha256": "b3632d26bd605bfbc07cabee81750c886fab415c4c316aaa6691f758ebbc2b88",
+      "manifest_sha256": "e2c9d8f795bc3ebf65f21b96523101971f02d39ed25d45c16af571b773c66dbb",
+      "files": 18,
+      "original_bytes": 603494411,
+      "stored_bytes": 55658328,
+      "controls": 22,
+      "controls_by_method": {
+        "HEAD": 4,
+        "GET": 2,
+        "PUT": 16
+      },
+      "status": "VERIFIED_ARCHIVE",
+      "local_deletion": false
+    },
+    {
+      "batch": "archive-batch-03-2",
+      "receipt_sha256": "8a3abc172c4651c99dc82f12a23aa9bb94b1a864863e6008864cd8ab37fc8660",
+      "manifest_sha256": "1be2641556ec5bc591a0dbfd8553fd52f7172690b09e30441f76e50702f44c71",
+      "files": 253,
+      "original_bytes": 483853103,
+      "stored_bytes": 46232072,
+      "controls": 21,
+      "controls_by_method": {
+        "HEAD": 4,
+        "GET": 2,
+        "PUT": 15
+      },
+      "status": "VERIFIED_ARCHIVE",
+      "local_deletion": false
+    },
+    {
+      "batch": "archive-batch-04",
+      "receipt_sha256": "6c451eebbb3f0fd2f90e0986046ce8e8c8bf0865ca82ef729b380d9fd9418a17",
+      "manifest_sha256": "4f96058fedace5fe522af2a5f7303187f01ef3d7e84bd3d885f767ceb5363100",
+      "files": 4,
+      "original_bytes": 154311703,
+      "stored_bytes": 15819180,
+      "controls": 39,
+      "controls_by_method": {
+        "HEAD": 16,
+        "GET": 8,
+        "PUT": 15
+      },
+      "status": "VERIFIED_ARCHIVE",
+      "local_deletion": false,
+      "mode": "DIRECT_STREAM_NO_STAGING"
+    }
+  ],
+  "original_paths": 486,
+  "original_bytes": 2502134088,
+  "stored_bytes": 224981479,
+  "platform_controls": 137,
+  "model_calls": 0,
+  "estate_reads": 0,
+  "local_originals_deleted": 0,
+  "disk_before_source_pilot_bytes": 12384309248,
+  "disk_at_record_bytes": 10887376896,
+  "disk_note": "Concurrent root operations and retained staging affect the difference; no deletion savings claimed.",
+  "cost_estimate_usd": {
+    "archive_monthly": "0.00022273166421",
+    "internet_egress_no_free_allowance_credit": "0.019573388673",
+    "transactions_upper_using_all_controls_at_0_10_per_10k": "0.00137"
+  },
+  "cost_not_invoice": true,
+  "errors_preserved": [
+    "source-pilot transient upload reset and setup failures",
+    "source cleanup blocked by policy before launch",
+    "batch03 ARCHIVE_STAGING_BOUND, partial retained, zero remote requests",
+    "batch03-2 GATEWAY_POLICY_UNREADABLE, wrong env representation, zero remote requests",
+    "batch03-0 ModuleNotFoundError: jsonschema after remote proof; resumed with original journal and full runtime"
+  ],
+  "limits": [
+    "Size inventory 32352 files /459000730051 logical bytes is not privacy approval.",
+    "34 selected files excluded from batch02 and9 from batch03; all remain local.",
+    "Opaque containers, snapshots with invalid seals and live/protected state remain excluded.",
+    "Historical rounds outside selected captured directories are not archived by this result.",
+    "Existing sealed bytes were not converted or rewritten.",
+    "All originals and failed staging remain; cleanup blocked."
+  ],
+  "previous_checkpoint_sha256": "fc4a8265fa3bf82b02bcb262fc8ac8117bedb64a60a7ca3bc2ec57eac3603f90"
+}

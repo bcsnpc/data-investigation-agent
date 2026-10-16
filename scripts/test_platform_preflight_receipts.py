@@ -9,6 +9,18 @@ from test_vault_user_cache import D
 
 
 class ReceiptTests(unittest.TestCase):
+    def test_federated_facts_bind_client_and_preserve_permission_gap(self):
+        declaration={'mode':'federated_reader','tenant_id':'fabric','principal_id':'reader','client_id':'app'}
+        manifest={'adapters':[{'id':'microsoft','options':{'fabric':{'auth':declaration,'sql_reader':declaration},
+            'sql':{'auth':dict(declaration,tenant_id='source',principal_id='source-reader')}}}]}
+        rows=[{'kind':'FEDERATED_READER_AUTHENTICATION','status':'PASS',**declaration,
+               'scope':'https://analysis.windows.net/powerbi/api/.default','audience':'https://analysis.windows.net/powerbi/api'}]
+        facts=authentication_facts(manifest,{'checks':rows},'sha256:receipt')
+        self.assertEqual([f['status'] for f in facts],['PASS','MISSING','MISSING'])
+        self.assertTrue(all('no model, database' in f['detail'] for f in facts))
+        rows[0]['client_id']='different-app'
+        self.assertEqual(authentication_facts(manifest,{'checks':rows},'receipt')[0]['status'],'MISSING')
+
     def test_hash_changed_kind_and_unbounded_or_estate_receipt_refuse(self):
         with tempfile.TemporaryDirectory() as folder:
             path=Path(folder)/'receipt.json'

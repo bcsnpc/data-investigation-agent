@@ -9,7 +9,7 @@ record and the exact relationship it supports.
 import copy
 import json
 import unicodedata
-from contextlib import closing
+from contextlib import closing, contextmanager
 
 from .onboarding import digest, Conflict
 from .privacy_storage import connect
@@ -113,10 +113,23 @@ def _proof(value, source, target):
 
 
 class EstateGlossary:
-    def __init__(self, database, estate_id, *, evidence_lookup=None):
+    def __init__(self, database, estate_id, *, evidence_lookup=None, store=None):
         if not isinstance(estate_id, str) or not estate_id:
             raise ValueError('GLOSSARY_ESTATE_REQUIRED')
         self.database, self.estate_id, self.evidence_lookup = database, estate_id, evidence_lookup
+        self.store=store
+
+    @contextmanager
+    def connection(self):
+        if self.store is not None:
+            with self.store.connect()as db:
+                db.execute('CREATE TABLE IF NOT EXISTS claim_glossary_events '
+                           '(estate_id TEXT NOT NULL, revision INTEGER NOT NULL, body TEXT NOT NULL, '
+                           'PRIMARY KEY (estate_id, revision))')
+                yield db
+        else:
+            with closing(self._db())as db:
+                with db:yield db
 
     def _db(self):
         db = connect(self.database)
@@ -143,7 +156,7 @@ class EstateGlossary:
         return history
 
     def get(self):
-        with closing(self._db()) as db:
+        with self.connection() as db:
             history = self._read(db)
         links = {}
         for event in history:
@@ -161,7 +174,7 @@ class EstateGlossary:
     def _append(self, event, expected_revision):
         if not isinstance(expected_revision, int) or isinstance(expected_revision, bool):
             raise ValueError('GLOSSARY_EXPECTED_REVISION_REQUIRED')
-        with closing(self._db()) as db:
+        with self.connection() as db:
             try:
                 db.execute('BEGIN IMMEDIATE')
                 history = self._read(db)

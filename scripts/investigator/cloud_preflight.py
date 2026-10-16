@@ -18,6 +18,41 @@ class Observation:
     detail: str
 
 
+def operator_graph_coverage(estate, *, repository=None):
+    """Optional operator-only retained graph summary; never a readiness proof.
+
+    The explicit estate is selected by the CLI operator, not ticket/model text.
+    Reads only platform state, through its existing database gateway; it neither
+    collects estate metadata nor exposes an unbounded graph to an agent.
+    """
+    if not isinstance(estate,str) or not estate.strip() or len(estate)>2048 or any(ord(c)<32 for c in estate):
+        raise ValueError('GRAPH_PREFLIGHT_ESTATE_REQUIRED')
+    base={'estate':estate,'record_limit':10000,'operator_only':True,
+          'readiness_evidence':False,'estate_reads':0,'model_calls':0}
+    try:
+        if repository is None:
+            from .shared_state import configured_state
+            from .estate_graph_repository import GraphRepository
+            state=configured_state()
+            if state is None:
+                return {**base,'status':'UNAVAILABLE','reason':'SHARED_GRAPH_STATE_NOT_CONFIGURED','truncated':False}
+            repository=GraphRepository(state)
+        graph=repository.records(estate,limit=10000)
+        from .estate_graph_api import coverage
+        summary=coverage(graph)
+        status=('TRUNCATED' if summary['truncated'] else
+                'UNAVAILABLE' if not graph['nodes'] and not graph['edges'] else
+                'PARTIAL' if summary['unavailable_owners'] else 'AVAILABLE')
+        return {**base,**summary,'status':status,
+                'reason':'NO_RETAINED_GRAPH' if status=='UNAVAILABLE' else None,
+                'counts_are_partial':bool(summary['truncated'])}
+    except Exception as exc:
+        # Database/provider exception strings can contain secret routes. Keep
+        # only the type here; exact errors belong in their governed receipts.
+        return {**base,'status':'UNAVAILABLE','reason':'GRAPH_READ_FAILED',
+                'error_type':type(exc).__name__,'truncated':False}
+
+
 def result(manifest,*,platform=None,probes=None,manifest_validator=None,gateway_validator=None):
     platform=platform or {};probes=probes or {};checks=[]
     def add(identity,status,detail,fix,*,required=True,evidence=None):

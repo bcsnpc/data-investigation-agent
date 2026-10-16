@@ -13,13 +13,16 @@ def observe_platform(manifest, platform, principal, observe):
             fabric=adapter.get('options',{}).get('fabric',{})
             auth=fabric.get('auth',{});native=fabric.get('native_reader',{})
             reader_principal=principal;bound=True
-            if auth.get('mode')=='key_vault_user_cache':
+            if auth.get('mode') in ('key_vault_user_cache','federated_reader'):
                 # MI accesses the vault; the delegated reader serves the query.
                 # Both explicit profiles must name the same reader. A declaration
                 # never supplies a success observation by itself.
+                fields=('principal_id','account','tenant_id') if auth['mode']=='key_vault_user_cache' else ('principal_id','tenant_id')
                 bound=all(isinstance(native.get(k),str) and native[k]
-                          and native[k]==auth.get(k) for k in ('principal_id','account','tenant_id'))
-                reader_principal=native['principal_id'] if bound else 'UNBOUND_DELEGATED_READER'
+                          and native[k]==auth.get(k) for k in fields)
+                if auth['mode']=='federated_reader':
+                    bound=bound and native.get('mode')=='federated_reader'
+                reader_principal=native['principal_id'] if bound else 'UNBOUND_ESTATE_READER'
             check='semantic.execute_queries'+('.'+adapter['id'] if len(microsoft_adapters)>1 else '')
             observe(check,reader_principal,'Read + Build and Dataset Execute Queries REST API have not been established for the declared semantic reader.',
                     'Grant model Read + Build only where approved, enable Dataset Execute Queries REST API, and test through the declared reader. Key Vault cache identity must match native_reader; the vault-fetching MI or a code-reader Contributor cannot stand in for it. Service-principal RLS/SSO restrictions may prevent this route.',identity_valid=bound)

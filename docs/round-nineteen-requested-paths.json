@@ -1,0 +1,129 @@
+[
+  {
+    "estate": "fixture",
+    "measure": "Movement Units",
+    "graph_node": "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+    "native_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units",
+    "model_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+    "expression": "SUM('Movements'[units])",
+    "visual_nodes": [],
+    "stops": [
+      {
+        "reason": "Engine-resolved expression dependencies have not been collected.",
+        "remedy": "CALCDEPENDENCY needs model write permission and is unavailable to this read-only investigator; retain UNKNOWN or use a separately approved metadata source."
+      }
+    ],
+    "end_to_end_eligible": false,
+    "reason": "DAX dependency missing; no graph verifier for visual/measure edge. SQL column profiles only earn their exact lower graph edge."
+  },
+  {
+    "estate": "fixture",
+    "measure": "Handled Quantity",
+    "graph_node": "243d53ffe49ae9fe5ac9fc3ad4281760eff3ed3426a24733792fbda018c05236",
+    "native_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/163ce520-ec47-4824-975c-96f5c749205f/table/Material%20Events/measures/Handled%20Quantity",
+    "model_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/163ce520-ec47-4824-975c-96f5c749205f",
+    "expression": "SUM('Material Events'[units])",
+    "visual_nodes": [
+      "2ea6333de4d861068b12927b074bfbc59fa1eb9d99159471717c97790b460b07",
+      "605912746ed69bef9736fb484114339724f544518cf4f74a2713c2e05f91478d"
+    ],
+    "stops": [
+      {
+        "reason": "Engine-resolved expression dependencies have not been collected.",
+        "remedy": "CALCDEPENDENCY needs model write permission and is unavailable to this read-only investigator; retain UNKNOWN or use a separately approved metadata source."
+      }
+    ],
+    "end_to_end_eligible": false,
+    "reason": "DAX dependency missing; no graph verifier for visual/measure edge. SQL column profiles only earn their exact lower graph edge."
+  },
+  {
+    "estate": "fixture",
+    "measure": "Handled Quantity",
+    "graph_node": "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+    "native_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+    "model_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e",
+    "expression": "SUM('Activity'[units])",
+    "visual_nodes": [
+      "971a54dd1b44ecc035bdd009dbea646755da7baa056300de9d17c6533d51b1df",
+      "9ce0e047c27063c110caf8859dcb68a2802c693602052d8e05a6e554689393dd",
+      "3792249b906b532a7ad777cacc43ae6c53924d8f759aa9d08e291adc677c1ed4",
+      "a88263feb4c97f42a3ab464bd787c082cbc6ba55438661658b0d4aa08e30edd3",
+      "3fe7de704ffabe44794601c7a1a0cc0b1ee6933092bdf7e4caccbe43df8adf4f",
+      "63749edbd8cdd7396f252c87ef461d42e600c318469b6352df305d97ecb5b143",
+      "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+      "4f8f4437a55a851e0668b1a736c52a801685f578fed4f623a5db3c5e2a23572c",
+      "93f70afcbb104ae4477a31350b112484eb99acb59aa81b464e75f6e96c5716d2",
+      "f55e2f6d431d6b1f3b7215ca64b6151315b86531b0c96d2bc643831c2d2fec97",
+      "eaa47593d6534e7b1b6811676ed822435b1512220c68d0ab7d278076585f7976",
+      "5e761f0ad8e365155f0eeaf9c534607ccd686df554e2a62ad50d49c3e3828bc6",
+      "77a77f85a88ded286d6189e98a206cf4c5e813ae98988225e2dbaa5b28c83465"
+    ],
+    "stops": [
+      {
+        "reason": "Engine-resolved expression dependencies have not been collected.",
+        "remedy": "CALCDEPENDENCY needs model write permission and is unavailable to this read-only investigator; retain UNKNOWN or use a separately approved metadata source."
+      }
+    ],
+    "end_to_end_eligible": false,
+    "reason": "DAX dependency missing; no graph verifier for visual/measure edge. SQL column profiles only earn their exact lower graph edge."
+  },
+  {
+    "estate": "fixture",
+    "measure": "Movement Units",
+    "graph_node": "d1774306612ea1b70fa855f090bf3441c4cecd1ca0530c3a6375cc16a31bac40",
+    "native_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/c463921e-64b2-488e-b8b1-e0239980c79c/table/Movements/measures/Movement%20Units",
+    "model_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/c463921e-64b2-488e-b8b1-e0239980c79c",
+    "expression": "SUM(Movements[units])",
+    "visual_nodes": [
+      "e3cf2e938fef27816dd12155c36fbfd790e0295a35269f739027ac863e489ffe",
+      "35821859d681f24b739dc3216a8802e8b1772fe4e0614122884140bcf752129d"
+    ],
+    "stops": [
+      {
+        "reason": "Engine-resolved expression dependencies have not been collected.",
+        "remedy": "CALCDEPENDENCY needs model write permission and is unavailable to this read-only investigator; retain UNKNOWN or use a separately approved metadata source."
+      }
+    ],
+    "end_to_end_eligible": false,
+    "reason": "DAX dependency missing; no graph verifier for visual/measure edge. SQL column profiles only earn their exact lower graph edge."
+  },
+  {
+    "estate": "billing",
+    "measure": "Invoiced Amount",
+    "graph_node": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+    "native_asset": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/measures/Invoiced%20Amount",
+    "model_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+    "expression": "SUM(Billing[amount])",
+    "visual_nodes": [
+      "01bca5b114e2a561d56d1010ae38978fa8ac5ca3ffaf8ee731856fa51e0104e9",
+      "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b"
+    ],
+    "stops": [
+      {
+        "reason": "Engine-resolved expression dependencies have not been collected.",
+        "remedy": "CALCDEPENDENCY needs model write permission and is unavailable to this read-only investigator; retain UNKNOWN or use a separately approved metadata source."
+      }
+    ],
+    "end_to_end_eligible": false,
+    "reason": "DAX dependency missing; no graph verifier for visual/measure edge. SQL column profiles only earn their exact lower graph edge."
+  },
+  {
+    "estate": "billing",
+    "measure": "MRR All Plans",
+    "graph_node": "0532113507705dcd143663c4e93c281c5e2d80468d9b875945e162954f3616c7",
+    "native_asset": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/measures/MRR%20All%20Plans",
+    "model_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+    "expression": "CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status] = \"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans))",
+    "visual_nodes": [
+      "2b9e6f88834911285e6dae466b9c4be7276b7b7db1351f77049801776ead04ca"
+    ],
+    "stops": [
+      {
+        "reason": "Engine-resolved expression dependencies have not been collected.",
+        "remedy": "CALCDEPENDENCY needs model write permission and is unavailable to this read-only investigator; retain UNKNOWN or use a separately approved metadata source."
+      }
+    ],
+    "end_to_end_eligible": false,
+    "reason": "DAX dependency missing; no graph verifier for visual/measure edge. SQL column profiles only earn their exact lower graph edge."
+  }
+]

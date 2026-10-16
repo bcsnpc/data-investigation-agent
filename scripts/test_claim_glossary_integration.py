@@ -2,11 +2,11 @@ import copy
 import tempfile
 import unittest
 from pathlib import Path
-from types import SimpleNamespace
+from unittest.mock import patch
 
 from investigator.claim_glossary import EstateGlossary, relationship
 from investigator.claim_clarification import candidates
-from investigator.onboarding import digest
+from investigator.onboarding import digest,ModelStore
 from test_claim_glossary import catalog, phrase, measure
 
 
@@ -45,7 +45,10 @@ class GlossaryIntegrationTests(unittest.TestCase):
     def test_workspace_callback_is_late_bound_after_first_glossary_access(self):
         from investigator.workspace import Workspace
         workspace = object.__new__(Workspace)
-        workspace.store = SimpleNamespace(database=self.path, environment='new-estate')
+        # The shared glossary uses the store's transaction port. Exercise the
+        # real offline port instead of a stale path-only test double.
+        with patch('investigator.shared_state.configured_state',return_value=None):
+            workspace.store = ModelStore(self.path,self.path.with_name('inventory.sqlite'),'new-estate')
         glossary = workspace.claim_glossary
         source, target = phrase('treated'), measure()
         proof = {'id': 'retained-proposal', 'kind': 'MODEL_INFERRED',

@@ -8,6 +8,9 @@ from ..flexible_tools import run as run_query
 from .microsoft_process import SQL_TYPES
 
 
+from investigator.adapters.sql_principal import expected as sql_principal
+
+
 def read(adapter,boundary,scope):
     result={'status':'UNAVAILABLE','observations':[]}
     def unavailable(reason):return dict(result,reason=reason)
@@ -65,7 +68,7 @@ def read(adapter,boundary,scope):
                 surface={'engine':ENGINE,'connection':'sql://'+proof['server'],'object':proof['database'],'identity':adapter.config['sql']['auth'].get('account')}
             else:
                 execute=lambda:run_query(adapter.store,plan,adapter.config,tool,lambda request:adapter.execute_lower(database,request),catalog=catalog)
-                r=adapter.config['fabric']['sql_reader'];surface={'engine':'Microsoft Azure SQL Data Warehouse','connection':'sql://'+r['server'],'object':database,'identity':r['account']}
+                r=adapter.config['fabric']['sql_reader'];surface={'engine':'Microsoft Azure SQL Data Warehouse','connection':'sql://'+r['server'],'object':database,'identity':sql_principal(r)}
             read=adapter.meter_read(tool,execute) if adapter.meter_read else execute()
             if read['status']!='COMPLETED':return unavailable('Delivery membership page did not complete; no gap is inferred.')
             body=read['result'];report=attest_surface(surface,body.get('surface_report'),('identity','engine','object'))

@@ -1,3 +1,5 @@
+Dated Round Nineteen, 2026-10-13: dia-investigator-round19 (app531419ef-1610-415a-b8bf-01a4b6aad751) has Viewer on three test workspaces, group ReadExplore on nine models, db_datareader and VIEW DEFINITION in ordersops/billingapp. Federation and query proof pending; old cache retained. Owner separately received Storage Blob Data Contributor on platform account diaplatformd5dd7d65 only, as a control identity. Exact authority: docs/round-nineteen-control-ledger.md.
+
 # Estate reader manifest seed
 
 Dated code-only identity addition, 2026-10-05: the human authorized

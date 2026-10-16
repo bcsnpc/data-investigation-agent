@@ -82,6 +82,20 @@ class Gateway:
     """Policy is trusted operator configuration, never an operation's request."""
     policy: dict
 
+    def graph_objects(self,estate,object_ids,*,identity):
+        """Read-only graph authority is an exact caller-independent object slice."""
+        scope=self.policy.get('identities',{}).get(identity,{}).get('graph',{})
+        if not isinstance(scope,dict):_deny('GRAPH_SCOPE_REQUIRED',identity=identity,operation='graph',target=estate)
+        allowed=scope.get(estate)
+        if (not isinstance(allowed,list) or not allowed or len(allowed)>1000
+                or any(not isinstance(item,str) or not item or item=='*' for item in allowed)):
+            _deny('GRAPH_SCOPE_REQUIRED',identity=identity,operation='graph',target=estate)
+        if not isinstance(object_ids,(list,set,tuple)) or not object_ids or len(object_ids)>1000:
+            _deny('GRAPH_SLICE_BOUND',identity=identity,operation='graph',target=estate)
+        if not set(object_ids)<=set(allowed):
+            _deny('GRAPH_OBJECT_NOT_ALLOWED',identity=identity,operation='graph',target=estate)
+        return tuple(sorted(set(object_ids)))
+
     def __post_init__(self):
         # Snapshot the source: a caller cannot widen authority after construction.
         object.__setattr__(self,'policy',json.loads(json.dumps(self.policy)))
@@ -95,7 +109,7 @@ class Gateway:
                 _url(endpoint['url'])
                 if endpoint.get('method') not in ('GET','HEAD','POST','PUT'):
                     _deny('MUTATING_METHOD_IN_POLICY')
-                if endpoint.get('purpose') not in ('metadata','dax','model','blob_read','kql','platform_blob','auth_refresh'):
+                if endpoint.get('purpose') not in ('metadata','dax','model','blob_read','kql','platform_blob','auth_refresh','auth_federation'):
                     _deny('INVALID_ENDPOINT_PURPOSE')
                 if endpoint['method']=='PUT' and endpoint['purpose']!='platform_blob':
                     _deny('ESTATE_WRITE_METHOD_IN_POLICY')
@@ -110,6 +124,14 @@ class Gateway:
                 from .adapters.platform_cas import declaration
                 if permissions.get('role')!='platform':_deny('PLATFORM_IDENTITY_REQUIRED')
                 for item in permissions['platform_cas']:declaration(item)
+            if permissions.get('platform_screenshots'):
+                from .adapters.screenshot_blobs import declaration
+                if permissions.get('role')!='platform':_deny('PLATFORM_IDENTITY_REQUIRED')
+                for item in permissions['platform_screenshots']:declaration(item)
+            if permissions.get('platform_archive'):
+                from .adapters.platform_archive import declaration
+                if permissions.get('role')!='platform':_deny('PLATFORM_IDENTITY_REQUIRED')
+                for item in permissions['platform_archive']:declaration(item)
             for target in permissions.get('sql',[]):
                 if (target.get('read_only') is not True or not target.get('server') or not target.get('database')
                         or type(target.get('row_cap')) is not int or not 1<=target['row_cap']<=1000
@@ -136,6 +158,12 @@ class Gateway:
                 from .adapters.platform_cas import permits
                 if permits(self,identity,method,url,body,headers):
                     return {'method':method,'url':url,'purpose':'platform_cas'}
+                from .adapters.screenshot_blobs import permits as screenshot_permits
+                if screenshot_permits(self,identity,method,url,body,headers):
+                    return {'method':method,'url':url,'purpose':'platform_screenshot'}
+                from .adapters.platform_archive import permits as archive_permits
+                if archive_permits(self,identity,method,url,body,headers):
+                    return {'method':method,'url':url,'purpose':'platform_archive'}
             _deny('ENDPOINT_METHOD_NOT_ALLOWED',identity=identity,operation=method,target=url)
         path=unquote(urlsplit(url).path).casefold().split('/')
         if (set(path)&FORBIDDEN_HTTP_SEGMENTS
@@ -156,6 +184,10 @@ class Gateway:
         elif purpose=='metadata':
             if method not in ('GET','HEAD') and not (method=='POST' and path[-1]=='getdefinition' and not body):
                 _deny('METADATA_MUTATION_BLOCKED',identity=identity,operation=method,target=url)
+        elif purpose=='auth_federation':
+            from .adapters.federated_reader import validate_request
+            if not validate_request(method, url, body, matches[0]):
+                _deny('AUTH_FEDERATION_REQUEST_REFUSED',identity=identity,target=url)
         elif purpose=='auth_refresh':
             from .adapters.vault_user_cache import validate_refresh_request
             if not validate_refresh_request(method, url, body, matches[0]):
@@ -176,12 +208,15 @@ class Gateway:
 
     def native_control(self,identity,operation,target,query=None):
         permissions=self.identity(identity)
-        if operation not in ('XMLA_EVALUATE','SNAPSHOT_SQL_METADATA','SNAPSHOT_XMLA_METADATA'):
+        if operation not in ('XMLA_EVALUATE','XMLA_GRAPH_METADATA','SNAPSHOT_SQL_METADATA','SNAPSHOT_XMLA_METADATA'):
             _deny('NATIVE_CONTROL_UNKNOWN',identity=identity)
         grant={'operation':operation,**target}
         if grant not in permissions.get('native_controls',[]):
             _deny('NATIVE_CONTROL_NOT_ALLOWED',identity=identity,operation=operation)
         if operation=='XMLA_EVALUATE':validate_dax(query)
+        elif operation=='XMLA_GRAPH_METADATA':
+            from .adapters.graph_dependencies import validate_query
+            validate_query(query)
         elif query is not None:_deny('FIXED_METADATA_QUERY_REQUIRED',identity=identity)
         return grant
 
@@ -332,6 +367,9 @@ def authorize_sql_payload(payload):
     identity=os.environ.get('DIA_GATEWAY_SQL_IDENTITY','')
     from .adapters.binding_catalog import compiled_control_objects
     catalog_objects=compiled_control_objects(payload)
+    if catalog_objects is None:
+        from .adapters.graph_sql_changes import compiled_control_objects as graph_catalog_objects
+        catalog_objects=graph_catalog_objects(payload)
     if catalog_objects is not None:
         gateway=current()
         gateway.sql_control(identity,payload['server'],payload['database'],'CATALOG')

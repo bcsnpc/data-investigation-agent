@@ -57,7 +57,13 @@ def execute(request,tenant,reader=None,authentication=None):
         profile(reader)
         if reader['tenant_id'] != tenant or not allows(reader,workspace,model):
             raise ValueError('Native reader target differs')
-        if reader['mode']=='managed_identity':
+        if reader['mode']=='federated_reader':
+            from investigator.adapters.vault_user_cache import credential, provider
+            auth=credential(authentication or {})
+            if auth['mode']!='federated_reader' or any(auth[k]!=reader[k] for k in ('tenant_id','principal_id')):
+                raise ValueError('Federated reader credential binding differs')
+            token=provider(auth).get_token('https://analysis.windows.net/powerbi/api/.default')
+        elif reader['mode']=='managed_identity':
             from investigator.adapters.managed_identity import Tokens,validate
             credential=validate({k:authentication[k] for k in ('mode','tenant_id','client_id','principal_id')}) if authentication else None
             if credential is None or credential['principal_id']!=reader['principal_id'] or credential['tenant_id']!=tenant:

@@ -8,6 +8,9 @@ from ..process_debugging import attest_surface
 from ..source_diagnostics import quote
 
 
+from investigator.adapters.sql_principal import expected as sql_principal
+
+
 def plan(adapter,path,layer,requested,scope):
     from ..query_sql import capabilities
     from ..proposal_limits import EXACT_INTEGER
@@ -94,7 +97,7 @@ def read(adapter,path,layer,requested,scope):
     else:
         if adapter.execute_lower is None:return {'status':'UNAVAILABLE','reason':'Lower membership reader is unconfigured.'}
         dispatch=lambda req:adapter.execute_lower(compiled['database'],req);reader=adapter.config['fabric']['sql_reader']
-        surface={'engine':'Microsoft Azure SQL Data Warehouse','connection':'sql://'+reader['server'],'object':compiled['database'],'identity':reader['account']}
+        surface={'engine':'Microsoft Azure SQL Data Warehouse','connection':'sql://'+reader['server'],'object':compiled['database'],'identity':sql_principal(reader)}
     execute=lambda:run_query(adapter.store,request,adapter.config,tool,dispatch,catalog=compiled['catalog'])
     try:result=adapter.meter_read(tool,execute) if adapter.meter_read else execute()
     except ValueError as exc:return {'status':'UNAVAILABLE','reason':'Membership could not be compiled faithfully: '+str(exc)}

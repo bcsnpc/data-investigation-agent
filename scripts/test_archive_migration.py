@@ -53,7 +53,7 @@ class Tests(unittest.TestCase):
     def test_plan_protects_shared_state_and_quarantines_credentials(self):
         names=['.local/round-thirteen/model-spend.sqlite','.local/round-nine/catalog.sqlite',
                '.local/round-seven/shared.sqlite','.local/round-nine/secret.json',
-               '.local/round-nine/config.json','.local/round-sixteen/tape.json','.local/round-five/receipt.json']
+               '.local/round-nine/config.json','.local/round-eighteen/tape.json','.local/round-five/receipt.json']
         for path in names:self.put(path,b'password=really-private-value' if path.endswith('config.json') else b'fixture')
         result=self.plan(names,['.local/round-seven/shared.sqlite'])
         self.assertEqual([e['path'] for e in result['entries']],['.local/round-five/receipt.json'])
@@ -69,6 +69,38 @@ class Tests(unittest.TestCase):
         remote=Remote()
         with self.assertRaisesRegex(ArtifactError,'PRIVACY_REVIEW'):archive.publish(plan,sha,{},remote)
         self.assertEqual(remote.calls,[])
+
+    def test_json_credential_and_base64_tape_credential_are_quarantined(self):
+        import base64
+        secret=canonical({'password':'synthetic-secret-value'})
+        plain=self.put('.local/round-five/unsafe.json',secret)
+        self.assertEqual(archive.privacy_reason(plain,plain.name),'CREDENTIAL_PATTERN')
+        body=canonical({'events':[{'body':base64.b64encode(secret).decode()}]})
+        tape=self.put('.local/round-five/tape.json',body)
+        self.assertEqual(archive.privacy_reason(tape,tape.name),'DECODED_TAPE_CREDENTIAL_PATTERN')
+        sidecar=self.put('.local/round-five/tape.events.jsonl',canonical({'body':base64.b64encode(secret).decode()})+b'\n')
+        self.assertEqual(archive.privacy_reason(sidecar,sidecar.name),'DECODED_TAPE_CREDENTIAL_PATTERN')
+
+    def test_prefix_scanner_retains_complete_pattern_semantics(self):
+        import random,re
+        prior=re.compile(rb'-----BEGIN [A-Z ]*PRIVATE KEY-----|Bearer\s+[A-Za-z0-9._~-]{16,}|'
+                         rb'eyJ[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}|'
+                         rb'(?:password|api[_-]?key|client[_-]?secret|AccountKey)["\x27]?\s*[=:]\s*["\x27]?[^\s"\x27;,}]{6,}',re.I)
+        randomizer=random.Random(42)
+        candidates=[b'-----BEGIN RSA PRIVATE KEY-----',b'Bearer '+b'x'*16,
+                    b'eyJ'+b'a'*12+b'.'+b'b'*12+b'.'+b'c'*12]
+        for prefix,_ in archive._SECRET_RULES[3:]:
+            for separator in (b'=',b'": "',b"' : '"):
+                candidates += [prefix+separator+body for body in (b'abcde',b'abcdef',b'abc def')]
+        candidates += [b'ordinary metadata',b'Bearer short',b'eyJmissingdots']
+        for candidate in candidates:
+            for altered in (candidate,candidate.upper(),candidate.lower()):
+                data=randomizer.randbytes(50)+altered+randomizer.randbytes(50)
+                self.assertEqual(archive.credential_pattern(data),bool(prior.search(data)))
+                self.assertEqual(bool(archive.SECRET_BYTES.search(data)),bool(prior.search(data)))
+        for _ in range(200):
+            data=randomizer.randbytes(4096)
+            self.assertEqual(archive.credential_pattern(data),bool(prior.search(data)))
 
     def test_hot_download_hash_then_archive_receipt_then_cleanup_script(self):
         self.put('.local/round-five/receipt.json')

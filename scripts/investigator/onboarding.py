@@ -104,6 +104,11 @@ class ModelStore:
 
     @contextmanager
     def connect(self):
+        from .shared_application import CURRENT, enabled, connection
+        application = CURRENT.get()
+        if application is not None and application.store is self:
+            yield application
+            return
         current=_CATALOG_CONNECTION.get()
         if current is not None and current[0]==str(self.database.resolve()).casefold():
             yield current[1]
@@ -115,7 +120,10 @@ class ModelStore:
         db.execute('PRAGMA foreign_keys=ON')
         try:
             with db:
-                yield db
+                if enabled(self):
+                    with connection(self, db) as shared:
+                        yield shared
+                else:yield db
         finally:
             db.close()
 

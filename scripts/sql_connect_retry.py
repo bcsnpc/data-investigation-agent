@@ -48,9 +48,12 @@ def read_with_retry(read, sleep=time.sleep, *, serverless=False, record_wait=Non
         if not delay:
             return dict(result, connection_attempts=attempts)
         tape=ACTIVE.get()
-        if tape is None or not tape.replaying:
-            if record_wait:record_wait(delay,lambda:sleep(delay))
-            else:sleep(delay)
+        # Control observers must replay their STARTED/COMPLETED events too;
+        # only the actual wall-clock sleep is omitted during replay.
+        def wait():
+            if tape is None or not tape.replaying:sleep(delay)
+        if record_wait:record_wait(delay,wait)
+        else:wait()
 
 
 def _read_attempt(read):

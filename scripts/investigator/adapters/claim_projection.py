@@ -10,6 +10,9 @@ from ..claim_projection import validate_request, facts, validate
 from .record_presence import plan as presence_plan
 
 
+from investigator.adapters.sql_principal import expected as sql_principal
+
+
 def mapped(adapter, path, layer, request, scope):
     validate_request(request)
     if not isinstance(scope, dict):
@@ -167,7 +170,7 @@ def expected_surface(adapter, compiled):
                 'object': compiled['database'], 'identity': adapter.config['sql']['auth']['account']}
     reader = adapter.config['fabric']['sql_reader']
     return {'engine': 'Microsoft Azure SQL Data Warehouse', 'connection': 'sql://' + reader['server'],
-            'object': compiled['database'], 'identity': reader['account']}
+            'object': compiled['database'], 'identity': sql_principal(reader)}
 
 
 def admitted_request(adapter, layer, request, compiled):
