@@ -39,6 +39,10 @@ class DeltaCommitTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'exceeds cap'):read_onelake_commit.decode_commit(b'x'*1_000_001,'v')
 
     def test_reads_only_latest_commit_metadata_and_returns_allowlisted_fields(self):
+        from gateway_test_support import allow_http
+        self.enterContext(allow_http(*[{'method':'GET','url':url,'purpose':'blob_read'} for url in [
+            'https://onelake.dfs.fabric.microsoft.com/00000000-0000-0000-0000-000000000001?resource=filesystem&directory=00000000-0000-0000-0000-000000000002/Tables/dbo.events/_delta_log&recursive=false&maxResults=100',
+            'https://onelake.dfs.fabric.microsoft.com/00000000-0000-0000-0000-000000000001/lake/Tables/dbo.events/_delta_log/00000000000000000001.json']]))
         auth=types.ModuleType('fabric_cli.core.fab_auth')
         auth.FabAuth=lambda:types.SimpleNamespace(get_access_token=lambda scopes,interactive_renew=False:'secret-token')
         opener=Opener()

@@ -1,3 +1,4 @@
+from investigator.live_gateway import open_http
 """Bounded value reads; no caller-provided SQL, DAX, URLs or access tokens."""
 import json
 from pathlib import Path
@@ -65,10 +66,12 @@ def execute(request):
         token = FabricCliTokens(request['tenant']).get_token('https://analysis.windows.net/powerbi/api/.default')
         http = Request(f'https://api.powerbi.com/v1.0/myorg/groups/{workspace}/datasets/{model}/executeQueries',
                        data=json.dumps(body).encode(), headers={'Authorization': 'Bearer '+token, 'Content-Type': 'application/json'})
-        with build_opener(NoRedirect()).open(http, timeout=90) as result:
+        with open_http(build_opener(NoRedirect()),http, timeout=90) as result:
             values = extract_dax(json.load(result))
         from datetime import datetime, timezone
         return {'values': values, 'query': query, 'captured_at': datetime.now(timezone.utc).isoformat()}
+    from investigator.live_gateway import _deny
+    _deny('LEGACY_SQL_TRANSPORT_NOT_GATEWAY_BOUND')
     suffix = '.database.windows.net' if layer == 'sql' else '.datawarehouse.fabric.microsoft.com'
     if not re.fullmatch(r'[a-zA-Z0-9.-]+', request['server']) or not request['server'].endswith(suffix):
         raise ValueError('Unsupported SQL host')

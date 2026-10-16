@@ -243,6 +243,8 @@ class InstallationEntrypointTests(unittest.TestCase):
 
 class ManifestDiscoveryBudgetTests(unittest.TestCase):
     def test_metadata_http_admission_precedes_the_actual_request(self):
+        from gateway_test_support import allow_http
+        self.enterContext(allow_http({'method': 'GET', 'url': 'https://api.fabric.microsoft.com/v1/workspaces', 'purpose': 'metadata'}))
         import io
         from types import SimpleNamespace
         from metadata_auth import MetadataHttp

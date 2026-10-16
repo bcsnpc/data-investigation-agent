@@ -110,9 +110,11 @@ def _azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='tic
             from investigator.process_tape import event
             event('CONFIGURATION',{'control':'INTAKE_REQUEST_OVERSIZE','characters':size,'cap':max_request_characters})
             raise ValueError('INTAKE_REQUEST_OVERSIZE: '+str(size)+' > '+str(max_request_characters))
-    endpoint = os.environ.get('AZURE_OPENAI_ENDPOINT', '')
+    from investigator.adapters.managed_identity import MODEL_SESSION,model_key
+    cloud_session=MODEL_SESSION.get()
+    endpoint = cloud_session['endpoint'] if cloud_session else os.environ.get('AZURE_OPENAI_ENDPOINT', '')
     deployment = body['model']
-    key = os.environ.get('AZURE_OPENAI_API_KEY', '')
+    key = model_key(cloud_session) if cloud_session else os.environ.get('AZURE_OPENAI_API_KEY', '')
     if not re.fullmatch(r'https://[a-zA-Z0-9-]+\.openai\.azure\.com/?', endpoint) or not deployment or not key:
         raise ValueError('Azure endpoint, deployment and local API key must be configured')
     from openai import OpenAI

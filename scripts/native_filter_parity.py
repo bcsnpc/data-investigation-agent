@@ -1,3 +1,4 @@
+from investigator.live_gateway import open_http
 """One-order semantic diagnostic; no arbitrary DAX or equivalence certification."""
 import argparse
 from datetime import datetime, timezone
@@ -63,7 +64,7 @@ def run(tenant, workspace, model, currency, order_id):
     request = Request(f'https://api.powerbi.com/v1.0/myorg/groups/{workspace}/datasets/{model}/executeQueries',
                       data=json.dumps({'queries': [{'query': dax}], 'serializerSettings': {'includeNulls': True}}).encode(),
                       headers={'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json'})
-    with build_opener(NoRedirect()).open(request, timeout=90) as response:
+    with open_http(build_opener(NoRedirect()),request, timeout=90) as response:
         raw = json.load(response)
     evidence = {'workspace': workspace, 'model': model, 'currency': currency, 'order_id': order_id,
                 'query': dax, 'response': raw, 'captured_at': datetime.now(timezone.utc).isoformat(),

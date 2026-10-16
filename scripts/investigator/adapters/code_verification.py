@@ -72,6 +72,8 @@ def resolve_objects(process,context,schemas):
             'catalog':{'id':asset['id'],'provenance':'DECLARED_BY_DEFINITION','metadata':{
                 'schema_name':schema,'name':table,'type_desc':'USER_TABLE','columns':[
                     {'name':c,'data_type':TYPES.get(t,t if t in ('smallint','tinyint') else 'sql_variant')} for c,t in columns.items()]}}}
+        if declaration.get('endpoint_provenance'):
+            objects[location]['endpoint_evidence']['provenance']=copy.deepcopy(declaration['endpoint_provenance'])
     return objects,unavailable
 
 

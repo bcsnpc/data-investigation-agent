@@ -34,6 +34,8 @@ def read(request, token, run=subprocess.run):
     library = (ROOT/request['library']).resolve()
     if (ROOT/'.local').resolve() not in library.parents or not library.is_file():
         return {'status': 'UNAVAILABLE', 'stage': 'library', 'codes': []}
+    from investigator.live_gateway import authorize_native_control
+    authorize_native_control('XMLA_EVALUATE',{'workspace':request['workspace_name'],'model':request['model_name']},request['query'])
     payload = json.dumps({'library': str(library), 'workspace_name': request['workspace_name'],
                           'model_name': request['model_name'], 'query': request['query'],
                           'access_token': token(request)})

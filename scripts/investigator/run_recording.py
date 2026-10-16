@@ -32,6 +32,9 @@ def operation(name):
                 from .acceptance_context import assert_run_context
                 assert_run_context(workspace)
             if agent.config.get('_estate',{}).get('recording',{}).get('tape_class')=='PRIVACY_PROJECTED':
+                if os.environ.get('DIA_SLIM_RECORDING_CONFIG'):
+                    from .slim_recording import configuration as slim_configuration
+                    slim_configuration(agent)  # Refuse before any exact backup.
                 # Validate the existing context-pin invariant first, then
                 # refuse before legacy backup() can create raw artifacts.
                 from .privacy_capture import ACTIVE as PROJECTED_CAPTURE
@@ -72,8 +75,14 @@ def operation(name):
             if tape is None:
                 if name not in {'intake','preview','create',*journal.SMART_OPERATIONS,*journal.CLAIM_RUN_OPERATIONS} and not (name in ('run','agent_run') and has_smart_ticket(agent,str(key))):
                     raise journal.TapeError('LIVE_RUN_MISSING_RECORDING_BOOTSTRAP')
+                from .slim_recording import configuration as slim_configuration
+                slim_config=slim_configuration(agent)
                 root=ROOT/'.local/process-tapes'/str(fresh_id())
                 root.mkdir(parents=True,exist_ok=False)
+                shared_backend=None
+                if agent.governor is not None and agent.governor.shared is not None:
+                    from .shared_usage_replay import capture_backend
+                    shared_backend=capture_backend(agent.governor)
                 backup(agent.store.database,root/'catalog.sqlite')
                 if getattr(agent.store,'shared_accounting',None):
                     from .shared_accounting import materialize
@@ -96,6 +105,8 @@ def operation(name):
                         'snapshot_clock':'ONE_CLOCK_V1',
                         'local_accounting':'SQLITE_BOUNDARY_V1','physical_transport_retries':2}}
                 bootstrap['state']['agent_dollar_guard']='agent-dollar-guard-v1'
+                if shared_backend is not None:
+                    bootstrap['state']['shared_usage_replay']=shared_backend
                 if agent.governor is not None:
                     bootstrap['state']['budget_checkpoint']='DELTA_V2'
                 if getattr(agent.store,'context_pins',None):
@@ -109,6 +120,9 @@ def operation(name):
                     bootstrap['state']['smart_ownership']=owner.ownership
                     bootstrap['state']['smart_auto_start']=owner.auto_start
                 tape=journal.Tape(root/'tape.json',bootstrap)
+                if slim_config is not None:
+                    tape._slim_configuration=slim_config
+                    tape._slim_owned_root=root.resolve()
             error=None;result=None
             with journal.active(tape):
                 journal.event('OPERATION_START',{'name':name,'args':list(args),'kwargs':kwargs})
@@ -154,6 +168,8 @@ def operation(name):
                             if error is not None:error.add_note(str(failure))
                             else:raise
                         if smart_read:retain_read_capture(agent,str(key),tape)
+                        from .slim_recording import publish_sealed
+                        with journal.active(None):publish_sealed(agent,tape)
                     if trace_error is not None:raise trace_error
         return invoke
     return decorate
@@ -191,8 +207,10 @@ def retained_read_capture(agent, identity):
     path=Path(row[0]).resolve();root=(ROOT/'.local/process-tapes').resolve()
     if not path.is_relative_to(root):raise journal.TapeError('READ_CAPTURE_OUTSIDE_RECORDING_ROOT')
     if journal.sha(path.read_bytes())!=row[1]:raise journal.TapeError('READ_CAPTURE_HASH_DIFFERS')
-    recorded=journal.Tape(path)
-    final=json.loads(journal.validate_event(recorded.events[-1],len(recorded.events)))
+    from .slim_recording import materialize
+    with materialize(path) as restored:
+        recorded=journal.Tape(restored)
+        final=json.loads(journal.validate_event(recorded.events[-1],len(recorded.events)))
     if final.get('operation')!='run' or (final.get('result') or {}).get('id')!=identity:
         raise journal.TapeError('READ_CAPTURE_SESSION_DIFFERS')
     return {'status':'SEALED','tape_sha256':row[1]}
@@ -240,6 +258,8 @@ def seal_read_stage(agent, identity):
             if pending is None or pending['result']['id']!=identity:
                 return {'status':'UNAVAILABLE','reason':'READ_STAGE_RETURN_UNAVAILABLE'}
             prior.finish(pending)
+            from .slim_recording import publish_sealed
+            with journal.active(None):publish_sealed(agent,prior)
         return {'status':'SEALED','tape_sha256':journal.sha(prior.path.read_bytes())}
     closure=journal.value('CONFIGURATION','ticket_read_stage_closure',seal)
     if closure['status']=='UNAVAILABLE':

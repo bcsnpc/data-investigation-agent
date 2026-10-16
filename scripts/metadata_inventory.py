@@ -180,10 +180,14 @@ def main():
     args = parser.parse_args()
     config = load_config(args.config)
     database = args.database or Path(config['storage']['database'])
-    sql_reader = PowerShellSqlCatalog(ROOT / 'infra/scripts/Get-SqlMetadata.ps1', config['sql']['auth']['credential_file'])
+    if config['sql']['auth'].get('mode')=='managed_identity':
+        def sql_reader(*args):
+            raise ValueError('MANAGED_IDENTITY_SQL_CATALOG_TRANSPORT_NOT_INSTALLED')
+    else:
+        sql_reader = PowerShellSqlCatalog(ROOT / 'infra/scripts/Get-SqlMetadata.ps1', config['sql']['auth']['credential_file'])
     sql = SqlMetadataConnector(config['sql'], sql_reader)
     auth = config['fabric']['auth']
-    transport = WorkerTransport(auth['python'], auth['tenant_id'], ROOT / 'scripts/metadata_worker.py')
+    transport = WorkerTransport(auth['python'], auth['tenant_id'], ROOT / 'scripts/metadata_worker.py', authentication=auth)
     fabric = FabricMetadataConnector(config['fabric']['workspace_id'], transport, transport.tables)
     powerbi = PowerBIMetadataConnector(fabric)
     store = Inventory(database)

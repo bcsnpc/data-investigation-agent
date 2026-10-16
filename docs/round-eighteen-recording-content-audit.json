@@ -1,0 +1,155 @@
+{
+  "audit_version": "recording-content-audit-v1",
+  "completed_at_utc": "2026-10-13T05:09:41.015508+00:00",
+  "enumeration_started_at_utc": "2026-10-13T04:41:38Z",
+  "local_receipt_directory": ".local/round-eighteen/recording-content-audit-01",
+  "estate_reads": 0,
+  "model_calls": 0,
+  "archive_extractions": 0,
+  "tapes": {
+    "files": 1146,
+    "logical_bytes": 9754414222,
+    "events": 1101704,
+    "versions": {
+      "bounded-worker-tape-v1": 26,
+      "bounded-worker-tape-v10": 24,
+      "bounded-worker-tape-v11": 4,
+      "bounded-worker-tape-v12": 353,
+      "bounded-worker-tape-v13": 167,
+      "bounded-worker-tape-v14": 168,
+      "bounded-worker-tape-v2": 5,
+      "bounded-worker-tape-v3": 1,
+      "bounded-worker-tape-v4": 131,
+      "bounded-worker-tape-v5": 88,
+      "bounded-worker-tape-v6": 4,
+      "bounded-worker-tape-v7": 30,
+      "bounded-worker-tape-v8": 144,
+      "bounded-worker-tape-v9": 1
+    },
+    "statuses": {
+      "SHAPE_AUDITED": 1005,
+      "PARTIAL_DECODING": 141
+    },
+    "final_event_present": 1141,
+    "decoded_rows_arrays": 20121,
+    "arrays_above_249": 9652,
+    "known_accounting_arrays_above_249": 9652,
+    "other_arrays_above_249": 0,
+    "max_rows_array_including_accounting": 9408,
+    "non_json_events": {
+      "WORKER_SEND": 1809,
+      "WORKER_READ": 4
+    }
+  },
+  "inventories": {
+    "files": 1596,
+    "statuses": {
+      "METADATA_TABLES_ONLY": 1595,
+      "REVIEW_REQUIRED": 1
+    },
+    "exact_three_metadata_tables": 1595,
+    "schema_exceptions": [
+      {
+        "path": ".local\\metadata\\inventory.sqlite",
+        "tables": [
+          "assets",
+          "bronze_snapshot_verifications",
+          "gold_snapshot_publications",
+          "investigation_runs",
+          "lineage_edges",
+          "lineage_gaps",
+          "lineage_runs",
+          "observations",
+          "scans",
+          "semantic_snapshot_verifications",
+          "silver_snapshot_publications",
+          "source_snapshots"
+        ],
+        "error_type": null
+      }
+    ]
+  },
+  "catalogs": {
+    "files": 1961,
+    "logical_bytes": 321854537728,
+    "statuses": {
+      "SCHEMA_ONLY_NO_PAYLOAD_AUDIT": 1959,
+      "UNREADABLE": 2
+    },
+    "distinct_table_names": 51,
+    "unreadable": [
+      ".local\\process-tapes\\1f75553d-c365-45f5-8a30-8420757e00e7\\catalog.sqlite",
+      ".local\\process-tapes\\914cb4a3-8d29-41f3-8245-c55f867f0c62\\catalog.sqlite"
+    ]
+  },
+  "archives": {
+    "files": 14,
+    "types": {
+      ".zip": 6,
+      ".gz": 8
+    },
+    "member_data_file_candidates": 0,
+    "contents_inspected": false
+  },
+  "separate_legacy_source_export": {
+    "distinct_verified_rows": 1410699,
+    "data_copies": 2,
+    "each_data_bytes": 151996446,
+    "stored_row_occurrences": 2821398,
+    "stored_data_bytes": 303992892,
+    "registry_manifest_sha256": "809b998a4a731072f504e5435e0b3cdd08a61abf18947e926c9cac2ea358601a",
+    "unregistered_copy_manifest_sha256": "b694c6f54e6c93ec67cd3ad0694eeddc6120c7158ff90f262210f4600ce2dc52",
+    "data_file_hashes_identical": true
+  },
+  "separate_small_data_files": {
+    "files": 53,
+    "statuses": {
+      "SCHEMA_COUNT_ONLY": 53
+    },
+    "duckdb_files": 52,
+    "parquet_files": 1
+  },
+  "disk_free_after_bytes": 13021548544,
+  "receipt_hashes": {
+    "archives.json": {
+      "bytes": 2977,
+      "sha256": "28289280d589c50f05e193484e6e38c06e4939173c0e67e0918983c6fd88187b"
+    },
+    "catalog-schemas.jsonl": {
+      "bytes": 1718141,
+      "sha256": "4586b90cf162161b613bf271150b5c443ccf62cc21e6945595694a9417484502"
+    },
+    "data-files.jsonl": {
+      "bytes": 19036,
+      "sha256": "ca66efc958c76837cb923fed2ea8caf933c7fed788f820bc242b7e40b5c04b4a"
+    },
+    "inventories.jsonl": {
+      "bytes": 504352,
+      "sha256": "7f698299c4184bf045faccf8a84c58c2c150a00b8fc02bfa5dee0ea582662652"
+    },
+    "legacy-source-export-unregistered.json": {
+      "bytes": 2518,
+      "sha256": "99cc61f4f0d3c12d69f273917aed71a2c1cd81fc48b70cc47abadf39b163dc4e"
+    },
+    "legacy-source-export.json": {
+      "bytes": 717,
+      "sha256": "0ff2da0cb4694a5cfff2b024fab952eb710b2ddcf23e5cf91a48abec6f3c7eb3"
+    },
+    "summary.json": {
+      "bytes": 599,
+      "sha256": "c1b7be1066dd91ffd12945afef1e6e91510235d7c364d40bbe22c220bea63c2c"
+    },
+    "tapes.jsonl": {
+      "bytes": 2230864,
+      "sha256": "c6fb0e331eec0c7a0a37ad4eebbb06e2fc54f4232d25cd20d7f23d051463f4f6"
+    }
+  },
+  "limits": [
+    "Schema-only catalog audit, not all JSON/BLOB contents",
+    "Only decoded rows arrays; opaque/protocol and other result member names excluded",
+    "Nested JSON strings bounded to 64MiB/depth80 and delimiter at first character",
+    "No seal validation or replay",
+    "Archive member metadata only; gzip contents not inspected",
+    "Not a credential audit or universal no-bulk proof"
+  ]
+}

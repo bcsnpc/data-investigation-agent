@@ -16,6 +16,10 @@ import test_session_replay as replay_fixture
 
 
 class LocalRepairTests(unittest.TestCase):
+    def setUp(self):
+        from gateway_test_support import allow_models
+        self.enterContext(allow_models())
+
     def test_identical_duplicates_and_text_bounds_preserve_input(self):
         h={'id':'h1','claim':'c'*401,'status':'OPEN','evidence_ids':[]}
         proposal={'action':'ASK','candidate_id':None,'question':'q'*501,'stop_reason':None,

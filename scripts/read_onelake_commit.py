@@ -1,3 +1,4 @@
+from investigator.live_gateway import open_http
 """Read bounded Delta commit metadata with the metadata identity; never read table rows."""
 import contextlib
 import io
@@ -45,14 +46,14 @@ def read(request):
          +quote(directory,safe='/')+'&recursive=false&maxResults=100')
     headers={'Authorization':'Bearer '+token}
     def listing_get():
-        with build_opener(NoRedirect()).open(Request(url,headers=headers),timeout=60) as response:
+        with open_http(build_opener(NoRedirect()),Request(url,headers=headers),timeout=60) as response:
             return json.load(response)
     listing=request_read('onelake_listing',listing_get)
     commits=sorted(x['name'] for x in listing.get('paths',[]) if re.search(r'/[0-9]{20}\.json$',x.get('name','')))
     if not commits:return {'status':'EMPTY_RESPONSE','latest_commit':None}
     target='https://onelake.dfs.fabric.microsoft.com/'+workspace+'/'+quote(commits[-1],safe='/')
     def commit_get():
-        with build_opener(NoRedirect()).open(Request(target,headers=headers),timeout=60) as response:
+        with open_http(build_opener(NoRedirect()),Request(target,headers=headers),timeout=60) as response:
             return response.read(1_000_001)
     raw=request_read('onelake_commit',commit_get)
     return decode_commit(raw,commits[-1])

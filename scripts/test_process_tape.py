@@ -17,6 +17,10 @@ def bootstrap():
 
 
 class TapeTests(unittest.TestCase):
+    def setUp(self):
+        from gateway_test_support import allow_models
+        self.enterContext(allow_models())
+
     def test_peek_validates_without_consuming_and_has_no_wire_effect(self):
         with tempfile.TemporaryDirectory() as folder:
             path=Path(folder)/'peek.json';tape=Tape(path,bootstrap());tape.finish({})
@@ -261,7 +265,10 @@ class TapeTests(unittest.TestCase):
     def test_smart_ticket_auto_start_records_and_replays_without_an_extra_click(self):
         self.exercise_process(smart_ticket=True,auto_start=True)
 
-    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False,cold_resume=False,unavailable_reply=False,auto_start=False):
+    def test_shared_cloud_workspace_replays_initial_snapshot_and_full_intake_investigation(self):
+        self.exercise_process(shared_backend=True)
+
+    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False,cold_resume=False,unavailable_reply=False,auto_start=False,shared_backend=False):
         import test_flexible_investigation as fixture
         from investigator.runtime import Runtime
         from investigator.adaptive_runtime import AdaptiveRuntime
@@ -284,6 +291,16 @@ class TapeTests(unittest.TestCase):
         runtime=Runtime(helper.store,helper.config,native,helper.runtime.source_transport)
         agent=AdaptiveRuntime(runtime,lambda _:self.fail('No open planner'),usage_policy=policy,
             planner_profile={'adapter':'injected','deployment':'synthetic'})
+        if shared_backend:
+            from investigator.shared_state import SharedState
+            from investigator.shared_usage import SharedUsage, export_usage, import_usage
+            with runtime.db() as db:
+                agent.governor.reserve(db,'foreign-history','old','cloud')
+                agent.governor.settle(db,'foreign-history','old')
+                source=export_usage(db,helper.store.environment,policy,None)
+            shared=SharedState.offline(helper.fixture.root/'shared-authority.sqlite');shared.migrate()
+            import_usage(shared,'baseline',source)
+            agent.governor.shared=SharedUsage(agent.governor,shared,owner='worker-current')
         envelope=copy.deepcopy(helper.envelope);envelope['strategy']=VERSION
         envelope['comparison_mode']='VERTICAL';envelope['ticket_shape']='MISMATCH_COMPLAINT'
         workspace=Workspace(agent,execution_enabled=True,question_resolver=azure_resolve)
@@ -393,7 +410,9 @@ class TapeTests(unittest.TestCase):
             self.assertIn(['run'] if auto_start else ['preview','create','run'],operations)
             self.assertIn(['ticket_finish'],operations)
             return
-        with tempfile.TemporaryDirectory() as output:
+        from contextlib import nullcontext
+        offline_state=patch('investigator.shared_state.configured_state',side_effect=AssertionError('Replay contacted live state')) if shared_backend else nullcontext()
+        with tempfile.TemporaryDirectory() as output,offline_state:
             actual=replay(tape.path,Path(output)/'replay',native_transport=lambda request:
                 bounded_call('synthetic-native',request,lambda:self.fail('No live transport in replay')))
         self.assertTrue(actual['matched'])
@@ -580,8 +599,11 @@ print(json.dumps({'status':'AVAILABLE','quantity':7}),flush=True)
         # producer do not create engine result identities. Their boundaries
         # are explicit; all other producers must use the common source.
         private={'process_tape.py','run_recording.py','planner_recording.py','physical_reads.py'}
+        # Platform HTTP journal correlation IDs never enter an engine event/result.
+        # test_guarded_blob_transport proves that boundary under an active tape.
+        private_paths={'adapters/guarded_transport.py'}
         for path in root.rglob('*.py'):
-            if path.name in private:continue
+            if path.name in private or path.relative_to(root).as_posix() in private_paths:continue
             tree=ast.parse(path.read_text(encoding='utf-8-sig'))
             for node in ast.walk(tree):
                 if isinstance(node,ast.ImportFrom) and node.module=='uuid':

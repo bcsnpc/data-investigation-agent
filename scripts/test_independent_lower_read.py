@@ -338,7 +338,8 @@ class TransportScriptTests(unittest.TestCase):
         self.assertIn("$builder['Initial Catalog'] = $request.database", source)
         self.assertIn('SUSER_SNAME() AS login_name, DB_NAME() AS database_name', source)
         self.assertIn("fn_my_permissions(NULL,'DATABASE')", source)
-        self.assertIn("'access_token,database,max_rows,parameters,query,read_only_objects,result_columns,server'", source)
+        self.assertIn("'access_token,database,max_rows,parameters,query,read_only_objects,require_read_only,result_columns,server'", source)
+        self.assertIn("if ($request.require_read_only -ne $true)", source)
 
     def test_transport_forwards_only_the_admitted_request(self):
         import subprocess
@@ -349,11 +350,14 @@ class TransportScriptTests(unittest.TestCase):
             return subprocess.CompletedProcess(command, 0, json.dumps({'rows': [], 'read_only_verified': True}), '')
         config = {'fabric': {'auth': {'tenant_id': WS}, 'sql_reader': {'account': 'r@example.com', 'profile': '.local/p',
                                                                        'server': 'h.example.invalid'}}}
-        request = {'query': 'SELECT 1', 'parameters': [], 'read_only_objects': ['[s].[e]'], 'max_rows': 21,
+        request = {'query': 'SELECT 1 FROM [s].[e]', 'parameters': [], 'read_only_objects': ['[s].[e]'], 'max_rows': 21,
                    'result_columns': ['x'], 'tool': 'bounded_fabric_sql', 'extra': 'dropped'}
-        fabric_sql_surface.read(config, 'lower_db', request, token=lambda *a: 't', run=run)
+        from gateway_test_support import allow_sql
+        with allow_sql('h.example.invalid', 'lower_db', ['[s].[e]']):
+            fabric_sql_surface.read(config, 'lower_db', request, token=lambda *a: 't', run=run)
         self.assertEqual(sorted(seen), ['access_token', 'database', 'max_rows', 'parameters', 'query',
-                                        'read_only_objects', 'result_columns', 'server'])
+                                        'read_only_objects', 'require_read_only', 'result_columns', 'server'])
+        self.assertIs(seen['require_read_only'], True)
         self.assertEqual(seen['database'], 'lower_db')
 
 

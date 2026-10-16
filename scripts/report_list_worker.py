@@ -8,7 +8,10 @@ from metadata_auth import MetadataHttp
 
 
 def read(request, *, application=None, token=None, http_factory=MetadataHttp, meter=None):
-    if set(request)!={'endpoint','workspace_ids','reader'}:
+    expected={'endpoint','workspace_ids','reader'}
+    cached=request.get('authentication',{}).get('mode')=='key_vault_user_cache'
+    if cached or request.get('reader',{}).get('mode')=='managed_identity':expected.add('authentication')
+    if set(request)!=expected:
         raise ValueError('Unexpected report metadata request fields')
     reader=profile(request['reader'])
     match=re.fullmatch(r'groups/([0-9a-f-]{36})/reports(?:/([0-9a-f-]{36})/pages)?',request['endpoint'])
@@ -16,7 +19,7 @@ def read(request, *, application=None, token=None, http_factory=MetadataHttp, me
         raise ValueError('Report metadata endpoint outside declared scope')
     if 'workspace_ids' in reader and not set(request['workspace_ids'])<=set(reader['workspace_ids']):
         raise ValueError('Report metadata workspace exceeds reader allowlist')
-    if application is None or token is None:
+    if not cached and reader['mode']!='managed_identity' and (application is None or token is None):
         from connect_fixture_reader import application, token
     class Tokens:
         def get_token(self,scope):
@@ -30,7 +33,20 @@ def read(request, *, application=None, token=None, http_factory=MetadataHttp, me
                     or (claims.get('preferred_username') or claims.get('upn') or '').casefold()!=reader['account'].casefold()):
                 raise ValueError('Report metadata reader principal differs')
             return access
-    result=http_factory(Tokens(),meter=meter)(request['endpoint'],audience='powerbi')
+    if cached:
+        from investigator.adapters.vault_user_cache import validate, Tokens as CachedTokens
+        auth=validate(request['authentication'])
+        if reader['mode']!='isolated_reader' or any(auth[k]!=reader[k] for k in ('tenant_id','principal_id','account')):
+            raise ValueError('Report metadata reader identity differs')
+        provider=CachedTokens(auth)
+    elif reader['mode']=='managed_identity':
+        from investigator.adapters.managed_identity import Tokens as ManagedTokens,validate
+        auth=validate(request['authentication'])
+        if auth['tenant_id']!=reader['tenant_id'] or auth['principal_id']!=reader['principal_id']:
+            raise ValueError('Report metadata reader identity differs')
+        provider=ManagedTokens(auth)
+    else:provider=Tokens()
+    result=http_factory(provider,meter=meter)(request['endpoint'],audience='powerbi')
     return {'status_code':result['status_code'],'body':result['text'],
         'reader':{k:reader[k] for k in ('tenant_id','principal_id','account')}}
 

@@ -223,6 +223,16 @@ class RouteAdmission:
     fresh admission. The returned report is a copy, not admission authority.
     """
     def __init__(self, certificate, *, current_identity, replay_verifications, output, base='.'):
+        from .shared_state import configured_state
+        from .process_tape import ACTIVE
+        from .onboarding import digest
+        tape=ACTIVE.get()
+        state=None if tape is not None and tape.replaying else configured_state()
+        if state is not None:
+            saved=state.get('readiness_certificate',digest(certificate))['body']
+            if saved!=certificate:
+                raise ValueError('POSTGRES_READINESS_CERTIFICATE_DIFFERS')
+            certificate=saved
         from .onboarding import digest
         if not callable(current_identity):
             raise ValueError('CURRENT_ROUTE_IDENTITY_PORT_REQUIRED')

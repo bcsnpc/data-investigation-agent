@@ -278,7 +278,8 @@ class AdaptiveTests(unittest.TestCase):
         call=SimpleNamespace(type='function_call',name='decision',arguments=json.dumps(decision()))
         response=SimpleNamespace(status='completed',output=[call],id='r',model='test',usage=None)
         client=MagicMock();client.responses.create.return_value=response
-        sdk=SimpleNamespace(OpenAI=MagicMock())
+        from openai import DefaultHttpxClient
+        sdk=SimpleNamespace(OpenAI=MagicMock(),DefaultHttpxClient=DefaultHttpxClient)
         sdk.OpenAI.return_value.__enter__.return_value=client
         env={'AZURE_OPENAI_ENDPOINT':'https://unit.openai.azure.com','AZURE_OPENAI_DEPLOYMENT':'test','AZURE_OPENAI_API_KEY':'test-only'}
         with patch.dict(sys.modules,{'openai':sdk}),patch.dict('os.environ',env):

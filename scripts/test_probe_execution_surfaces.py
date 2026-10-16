@@ -132,6 +132,8 @@ class HeaderReaderTests(unittest.TestCase):
         self.assertEqual(result['data_files'],[self.LH+'/Tables/t/b.parquet'])
 
     def test_bounded_get_refuses_more_than_the_limit(self):
+        from gateway_test_support import allow_http
+        self.enterContext(allow_http({"method":"GET","url":"https://x","purpose":"blob_read"}))
         class Response:
             status=206
             def __enter__(self):return self

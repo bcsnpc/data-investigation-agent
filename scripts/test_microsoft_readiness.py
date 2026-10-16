@@ -41,17 +41,26 @@ def fixture():
 class DeclaredRouteTests(unittest.TestCase):
     def setUp(self):
         self.manifest,self.scan,self.route=fixture();self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup);self.counter=0;self.seal()
-    def seal(self):
+    def seal(self, nested=False):
         from investigator.process_tape import Tape
         from test_process_tape import bootstrap
         self.counter+=1;p=Path(self.temp.name)/str(self.counter)/'tape.json'
         definition=next(a for a in self.scan['assets']if a['kind']=='DefinitionPart')
         source={'id':'native-path','declared_source_binding':{'asset':{'id':self.route['selected_observations'][-1]['lower_layer']},
             'unchanged_connection':{'definition_hash':hashlib.sha256(definition['metadata']['content'].encode()).hexdigest()}}}
-        Tape(p,bootstrap()).finish({'result':{'id':'native-session','observations':self.route['selected_observations']+[source],
-            'process_read_receipts':self.route['read_receipts']}})
+        boot=bootstrap();result={'id':'native-session','observations':self.route['selected_observations']+[source],
+            'process_read_receipts':self.route['read_receipts']}
+        if nested:
+            boot['entry_point']='code_verifier';boot['state']={'inputs':{'native_route_contract':'declared-native-pair-v1'}}
+            result={'native_route':result,'witnesses':[]}
+        Tape(p,boot).finish({'result':result})
         self.route.update(captured_run_tape=str(p),captured_run_tape_sha256=hashlib.sha256(p.read_bytes()).hexdigest(),session_id='native-session')
     def run_route(self):return validate_declared_route(self.route,manifest=self.manifest,scan=self.scan)
+    def test_native_pair_inside_approval_capture_keeps_full_validator(self):
+        self.seal(nested=True)
+        self.assertEqual(self.run_route()['receipt_ids'],['upper','lower'])
+        self.route['selected_observations'][0]['query']+=' changed'
+        with self.assertRaisesRegex(ValueError,'sealed original'):self.run_route()
     def test_actual_compilers_derive_boundary_and_preserve_partial_snapshot_limits(self):
         before=copy.deepcopy((self.manifest,self.scan,self.route));result=self.run_route()
         self.assertEqual(result['boundary'],{'from_layer':'original-serving','to_layer':'original-model'})

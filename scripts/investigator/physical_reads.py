@@ -70,6 +70,19 @@ def connection_failure(number):
 
 
 def run(command, *, input, timeout, fallback=None, **kwargs):
+    # Replay consumes the originally sealed worker bytes; no live transport is
+    # opened and no retrospective policy alters those receipts.
+    from .process_tape import ACTIVE as RUN_TAPE
+    replay=RUN_TAPE.get()
+    if not (replay and replay.replaying):
+        candidate=json.loads(input)
+        if isinstance(candidate,dict) and 'query' in candidate and 'server' in candidate:
+            from .live_gateway import authorize_sql_payload, authorize_sql_control
+            if candidate.get('control_mode')=='PREWARM':
+                authorize_sql_control(candidate['server'],candidate['database'],'PREWARM')
+            else:
+                candidate=authorize_sql_payload(candidate)
+                input=json.dumps(candidate)
     state=_scope.get()
     if state is None:
         from .tape_worker import run as worker_run
@@ -79,6 +92,8 @@ def run(command, *, input, timeout, fallback=None, **kwargs):
     # Credential fingerprint stays in memory only, never in receipts.
     def secret_connection():
         credential=payload.get('access_token','')
+        if payload.get('authentication',{}).get('mode') in ('managed_identity','key_vault_user_cache'):
+            credential=json.dumps(payload['authentication'],sort_keys=True)
         if payload.get('credential_file'):
             credential=Path(payload['credential_file']).read_bytes().hex()
         return sha256(json.dumps([command,payload.get('server'),payload.get('database'),credential],sort_keys=True).encode()).hexdigest()

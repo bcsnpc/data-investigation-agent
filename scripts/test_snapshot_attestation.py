@@ -154,6 +154,8 @@ class OptionalReaderTests(unittest.TestCase):
             r=reader.read(self.config(),{'workspace':'workspace'},self.probe(),None)
         cli.assert_not_called();self.assertEqual(r['status'],'UNAVAILABLE');self.assertFalse(r['identity_provenance']['execution_reader'])
     def test_metadata_success_is_not_query_bound(self):
+        from gateway_test_support import allow_native
+        self.enterContext(allow_native("SNAPSHOT_SQL_METADATA",server="host",database="db"))
         import snapshot_identity_reader as reader
         import base64
         claims={'tid':'tenant','aud':'https://database.windows.net/','upn':'metadata@example.com','oid':'metadata-principal'}

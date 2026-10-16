@@ -27,6 +27,12 @@ class UsageHold(Conflict):pass
 
 class UsageGovernor:
     def __init__(self,runtime,policy,clock):
+        # Offline tape replay retains the original accounting implementation.
+        from .process_tape import ACTIVE
+        from .shared_state import configured_state
+        tape = ACTIVE.get()
+        state = None if tape is not None and tape.replaying else configured_state()
+        self.shared = None
         fields(policy,['environment','daily_limits','max_inflight_planners','no_progress_limit'])
         if not isinstance(policy['environment'],str) or policy['environment']!=runtime.store.environment:
             raise ValueError('Policy must match configured environment')
@@ -38,6 +44,11 @@ class UsageGovernor:
             if type(policy[key]) is not int or not 1<=policy[key]<=maximum:raise ValueError('Invalid policy limit')
         self.runtime=runtime;self.policy=json.loads(encoded(policy));self.clock=clock
         self.environment=policy['environment'];self.hash=digest(policy)
+        if state is not None:
+            if runtime.store.__dict__.get('shared_accounting') is not None:
+                raise UsageHold('PostgreSQL cloud jobs require a private replay catalog, not a shared SQLite attachment')
+            from .shared_usage import SharedUsage
+            self.shared=SharedUsage(self,state)
         if runtime.store.__dict__.get('shared_accounting') is not None:
             # The owner-installed ledger must already exist. Never provision,
             # copy, reset or replace allowance state from an isolated catalog.
@@ -62,9 +73,14 @@ class UsageGovernor:
                 environment TEXT, session_id TEXT, reservation_key TEXT,
                 violation_hash TEXT, approval TEXT, created REAL,
                 PRIMARY KEY(environment,session_id,reservation_key))''')
+        if tape is not None and tape.replaying and 'shared_usage_replay' in tape.bootstrap.get('state', {}):
+            from .shared_usage_replay import ReplayUsage
+            self.shared = ReplayUsage(self, tape)
 
     def acknowledge_violation(self, session_id, key, approval):
         """Operator-only, explicit owner decision; charges and violation stay intact."""
+        if self.shared is not None:
+            return self.shared.acknowledge_violation(session_id,key,approval)
         fields(approval,['owner','approved_at','reason','corrected_output_tokens'])
         if any(not isinstance(approval[k],str) or not approval[k].strip()
                for k in ('owner','approved_at','reason')):
@@ -90,6 +106,8 @@ class UsageGovernor:
             return record
 
     def grant_batch(self, approval):
+        if self.shared is not None:
+            return self.shared.grant_batch(approval)
         with self.runtime.db() as db:
             from .budget_delta_v2 import register_codec
             register_codec(db)
@@ -130,6 +148,8 @@ class UsageGovernor:
 
     @decision
     def reserve(self,db,session_id,key,kind,characters=0,*,output_tokens=1500,purpose="INVESTIGATION"):
+        if self.shared is not None:
+            return self.shared.reserve(db,session_id,key,kind,characters,output_tokens=output_tokens,purpose=purpose)
         # Caller holds BEGIN IMMEDIATE; budget and session transition commit together.
         if kind not in ('planner','cloud'):raise ValueError('Unknown usage kind')
         if kind=='planner' and purpose!='INVESTIGATION':raise ValueError('Restoration credits are read-only')
@@ -176,6 +196,8 @@ class UsageGovernor:
 
     @decision
     def settle(self,db,session_id,key,usage=None,uncertain=False):
+        if self.shared is not None:
+            return self.shared.settle(db,session_id,key,usage,uncertain)
         row=db.execute('SELECT status,reserved FROM adaptive_usage WHERE environment=? AND session_id=? AND reservation_key=?',
                        (self.environment,session_id,key)).fetchone()
         if row is None:raise UsageHold('Missing usage reservation')
@@ -190,6 +212,8 @@ class UsageGovernor:
         # actual output after settlement; missing usage retains the full bound.
 
     def snapshot(self):
+        if self.shared is not None:
+            return self.shared.snapshot()
         from .process_tape import ACTIVE
         tape=ACTIVE.get()
         # Old sealed tapes retain their CLOCK event order. A new snapshot

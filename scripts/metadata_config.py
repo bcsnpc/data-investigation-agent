@@ -76,23 +76,48 @@ def validate_config(config):
     if not re.fullmatch(r'[A-Za-z0-9.-]+', text(sql['server'])):
         raise ValueError('SQL server must be a hostname')
     text(sql['database']); text(sql['visibility_schema'])
-    keys(sql['auth'], ['mode', 'credential_file'] + (['account'] if 'account' in sql['auth'] else []))
-    if 'account' in sql['auth']:
-        if len(text(sql['auth']['account']))>128:raise ValueError('Source reader account exceeds bound')
-    if sql['auth']['mode'] != 'dpapi_file':
-        raise ValueError('Unsupported SQL authentication mode')
-    optional = [k for k in ('native_reader', 'sql_session', 'sql_reader', 'xmla_client', 'refresh_timing_reader', 'snapshot_identity_reader') if k in fabric]
+    from investigator.adapters.managed_identity import validate as managed_identity
+    from investigator.adapters.vault_user_cache import MODE as USER_CACHE, FIELDS as USER_FIELDS, validate as user_cache, PBI, SQL
+    if sql['auth'].get('mode') == 'managed_identity':
+        keys(sql['auth'], ['mode', 'tenant_id', 'client_id', 'principal_id', 'account'])
+        managed_identity({k:sql['auth'][k] for k in ('mode','tenant_id','client_id','principal_id')})
+        text(sql['auth']['account'])
+    else:
+        keys(sql['auth'], ['mode', 'credential_file'] + (['account'] if 'account' in sql['auth'] else []))
+        if 'account' in sql['auth']:
+            if len(text(sql['auth']['account']))>128:raise ValueError('Source reader account exceeds bound')
+        if sql['auth']['mode'] != 'dpapi_file':
+            raise ValueError('Unsupported SQL authentication mode')
+    optional = [k for k in ('native_reader', 'sql_session', 'sql_reader', 'xmla_client', 'refresh_timing_reader', 'snapshot_identity_reader', 'retained_endpoints') if k in fabric]
     keys(fabric, ['workspace_id', 'auth'] + optional)
     fabric['workspace_id'] = str(UUID(text(fabric['workspace_id'])))
-    keys(fabric['auth'], ['mode', 'tenant_id', 'python'])
-    if fabric['auth']['mode'] != 'fabric_cli':
-        raise ValueError('Unsupported Fabric authentication mode')
-    fabric['auth']['tenant_id'] = str(UUID(text(fabric['auth']['tenant_id'])))
+    if fabric['auth'].get('mode') == USER_CACHE:
+        keys(fabric['auth'], USER_FIELDS | {'python'})
+        credential = user_cache({k:fabric['auth'][k] for k in USER_FIELDS})
+        if credential['scope'] != PBI:raise ValueError('Native reader audience differs')
+        reader = fabric.get('native_reader', {})
+        if reader.get('mode') != 'isolated_reader' or any(reader.get(k) != credential[k] for k in ('tenant_id','principal_id','account')):
+            raise ValueError('Native cached reader binding differs')
+    elif fabric['auth'].get('mode') == 'managed_identity':
+        keys(fabric['auth'], ['mode', 'tenant_id', 'client_id', 'principal_id', 'python'])
+        managed_identity({k:fabric['auth'][k] for k in ('mode','tenant_id','client_id','principal_id')})
+    else:
+        keys(fabric['auth'], ['mode', 'tenant_id', 'python'])
+        if fabric['auth']['mode'] != 'fabric_cli':
+            raise ValueError('Unsupported Fabric authentication mode')
+        fabric['auth']['tenant_id'] = str(UUID(text(fabric['auth']['tenant_id'])))
+    if 'retained_endpoints' in fabric:
+        from investigator.adapters.retained_endpoints import validate as retained_endpoints
+        retained_endpoints(fabric['retained_endpoints'])
     if 'native_reader' in fabric:
         from investigator.native_identity import profile
         profile(fabric['native_reader'])
         if fabric['native_reader']['tenant_id'] != fabric['auth']['tenant_id']:
             raise ValueError('Native reader and metadata tenant differ')
+        if fabric['native_reader']['mode']=='managed_identity':
+            if (fabric['auth']['mode']!='managed_identity' or
+                    fabric['native_reader']['principal_id']!=fabric['auth']['principal_id']):
+                raise ValueError('Native managed identity credential binding differs')
     if 'xmla_client' in fabric:
         # A second interface to the semantic surface, for specific failures only.
         keys(fabric['xmla_client'], ['library'])
@@ -123,14 +148,29 @@ def validate_config(config):
         if name in fabric:
             from fabric_sql_auth import account_name, profile_path
             section = fabric[name]
-            keys(section, ['account', 'profile'] + (['server'] if name == 'sql_reader' else []))
-            account_name(section['account']); profile_path(section['profile'])
+            if section.get('mode') == USER_CACHE:
+                if name != 'sql_reader':raise ValueError('Cached identity is a reader, not a control session')
+                keys(section, USER_FIELDS | {'server'})
+                credential = user_cache({k:section[k] for k in USER_FIELDS})
+                if credential['scope'] != SQL or credential['tenant_id'] != fabric['auth']['tenant_id']:
+                    raise ValueError('SQL cached reader audience or tenant differs')
+            elif section.get('mode') == 'managed_identity':
+                if name != 'sql_reader':raise ValueError('Managed identity is a reader, not a control session')
+                keys(section, ['mode', 'tenant_id', 'client_id', 'principal_id', 'account', 'server'])
+                managed_identity({k:section[k] for k in ('mode','tenant_id','client_id','principal_id')})
+                text(section['account'])
+            else:
+                keys(section, ['account', 'profile'] + (['server'] if name == 'sql_reader' else []))
+                account_name(section['account']); profile_path(section['profile'])
             if name == 'sql_reader' and not re.fullmatch(r'[A-Za-z0-9.-]+', text(section['server'])):
                 raise ValueError('SQL reader server must be a hostname')
     if 'sql_session' in fabric and 'sql_reader' in fabric and (
-            fabric['sql_session']['profile'] == fabric['sql_reader']['profile']):
+            fabric['sql_session']['profile'] == fabric['sql_reader'].get('profile')):
         raise ValueError('SQL reader and SQL session must use separate profiles')
     keys(config['storage'], ['database'])
     for section, key in [(sql['auth'], 'credential_file'), (fabric['auth'], 'python'), (config['storage'], 'database')]:
+        if key not in section:continue
+        if key == 'python' and fabric['auth']['mode'] in ('managed_identity', USER_CACHE):
+            text(section[key]);continue
         section[key] = str((ROOT / text(section[key])).resolve())
     return config

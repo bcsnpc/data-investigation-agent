@@ -25,9 +25,20 @@ def configuration(manifest):
             raise ValueError('manifest.identities.'+row['reach']['reader']+': adapter account differs')
         reference=identities[row['reach']['reader']]['credential_reference']
         if row.get('role')=='APPLICATION':
-            actual=options['sql']['auth']['credential_file']
+            auth=options['sql']['auth']
+            if auth.get('mode')=='managed_identity':
+                from .managed_identity import reference as identity_reference
+                actual=identity_reference({k:auth[k] for k in ('mode','tenant_id','client_id','principal_id')})
+            else:actual=auth['credential_file']
         else:
-            actual=options['fabric']['sql_reader']['profile']
+            reader=options['fabric']['sql_reader']
+            if reader.get('mode')=='key_vault_user_cache':
+                from .vault_user_cache import credential, reference as identity_reference
+                actual=identity_reference(credential(reader))
+            elif reader.get('mode')=='managed_identity':
+                from .managed_identity import reference as identity_reference
+                actual=identity_reference({k:reader[k] for k in ('mode','tenant_id','client_id','principal_id')})
+            else:actual=reader['profile']
         if reference!=actual:
             raise ValueError('manifest.identities.'+row['reach']['reader']+': adapter credential reference differs')
     config={'version':1,**options,'storage':{'database':manifest['storage']['inventory']},
@@ -72,6 +83,12 @@ def transports(config):
 
 
 def validate_provider_credential(credential):
+    from .managed_identity import validate,validate_secret_reference
+    if credential.get('mode')=='managed_identity':
+        validate(credential);return
+    if credential.get('mode')=='key_vault':
+        if set(credential)!={'mode','reference'}:raise ValueError('manifest.model.credential: invalid vault reference')
+        validate_secret_reference(credential['reference']);return
     if set(credential)!={'subscription_id','resource_group','account'} or any(not isinstance(v,str) or not v for v in credential.values()):
         raise ValueError('manifest.model.credential: invalid installed provider options')
 

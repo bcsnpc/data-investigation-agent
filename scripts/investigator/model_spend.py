@@ -15,6 +15,16 @@ class SpendHold(RuntimeError):
 
 
 class SpendBudget:
+    def __new__(cls, path, ceiling_microdollars):
+        from .shared_state import configured_state
+        from .process_tape import ACTIVE
+        tape=ACTIVE.get()
+        state=None if tape is not None and tape.replaying else configured_state()
+        if state is not None:
+            from .shared_spend import SharedSpendBudget
+            return SharedSpendBudget(state,ceiling_microdollars)
+        return super().__new__(cls)
+
     def __init__(self, path, ceiling_microdollars):
         self.path = str(path)
         self.ceiling = ceiling_microdollars
@@ -107,6 +117,17 @@ def admission(body):
     if tape is not None and tape.replaying:
         try:yield lambda usage: replay_optional('MODEL_SPEND_SETTLE')
         finally:replay_optional('MODEL_SPEND_CLEANUP')
+        return
+    from .shared_state import configured_state
+    state = configured_state()
+    if state is not None:
+        from .shared_spend import SharedSpendBudget
+        budget = SharedSpendBudget(state, int(os.environ['INVESTIGATOR_MODEL_SPEND_MICRODOLLARS']))
+        identity = budget.reserve(body)
+        try:
+            yield lambda usage: boundary('MODEL_SPEND_SETTLE',lambda:budget.settle(identity, usage))
+        finally:
+            boundary('MODEL_SPEND_CLEANUP',lambda:budget.settle(identity))
         return
     path = os.environ.get('INVESTIGATOR_MODEL_SPEND_DB')
     if not path:

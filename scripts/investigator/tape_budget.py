@@ -70,6 +70,8 @@ def decision(method):
         # BEFORE any physical work or journaled reservation, also outside tapes.
         from .budget_delta_v2 import register_codec
         register_codec(db)
+        if getattr(self,'shared',None) is not None:
+            self.shared.mirror(db)
         if ACTIVE.get() is None:return method(self,db,session_id,key,*args,**kwargs)
         checkpoint(self,db,session_id)
         def snapshot():

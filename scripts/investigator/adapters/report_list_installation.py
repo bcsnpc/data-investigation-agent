@@ -31,8 +31,14 @@ def install(workspace,config):
         try:
             from ..physical_reads import run
             def execute():
+                request={'endpoint':endpoint,'workspace_ids':scopes,'reader':reader}
+                if config['fabric']['auth'].get('mode')=='key_vault_user_cache':
+                    from .vault_user_cache import credential
+                    request['authentication']=credential(config['fabric']['auth'])
+                if reader['mode']=='managed_identity':
+                    request['authentication']={k:config['fabric']['auth'][k] for k in ('mode','tenant_id','client_id','principal_id')}
                 result=run([config['fabric']['auth']['python'],str(ROOT/'scripts/report_list_worker.py')],
-                    input=json.dumps({'endpoint':endpoint,'workspace_ids':scopes,'reader':reader}),
+                    input=json.dumps(request),
                     capture_output=True,text=True,encoding='utf-8',timeout=120)
                 if result.returncode:raise RuntimeError('Isolated reader report metadata unavailable')
                 value=json.loads(result.stdout)

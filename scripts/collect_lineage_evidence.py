@@ -47,7 +47,7 @@ if __name__=='__main__':
     with closing(sqlite3.connect(database)) as db:
         scan=args.scan or db.execute("SELECT id FROM scans WHERE status='COMPLETE' ORDER BY started DESC LIMIT 1").fetchone()[0]
     auth=config['fabric']['auth']
-    transport=WorkerTransport(auth['python'],auth['tenant_id'],ROOT/'scripts/metadata_worker.py')
+    transport=WorkerTransport(auth['python'],auth['tenant_id'],ROOT/'scripts/metadata_worker.py',authentication=auth)
     data=collect(database,scan,transport)
     output=args.output or Path(database).parent/'lineage-evidence.json'
     output.write_text(json.dumps(data,indent=2))

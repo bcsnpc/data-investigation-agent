@@ -1,6 +1,6 @@
 """Capture bounded child-worker bytes, not upstream network decoding."""
 import json
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import subprocess
 import re
 from .process_tape import ACTIVE, bytes_of, safe_request, TapeError
@@ -10,11 +10,12 @@ def descriptor(command):
     values=[str(v) for v in command]
     # Ephemeral configuration paths are represented by their actual contents.
     for n,v in enumerate(values):
-        if n==0 and re.fullmatch(r'python(?:\d(?:\.\d+)?)?(?:\.exe)?',Path(v).name.casefold()):
+        name=(PureWindowsPath(v) if re.match(r'^[A-Za-z]:[\\/]|^\\\\',v) else Path(v)).name
+        if n==0 and re.fullmatch(r'python(?:\d(?:\.\d+)?)?(?:\.exe)?',name.casefold()):
             values[n]='python'
         elif n and values[n-1]=='--config':
             values[n]='config:'+bytes_of(json.loads(Path(v).read_text(encoding='utf-8-sig'))).decode()
-        elif v.endswith(('.py','.ps1')):values[n]=Path(v).name
+        elif v.endswith(('.py','.ps1')):values[n]=name
     return values
 
 

@@ -4,7 +4,9 @@ import json
 from urllib.request import Request,build_opener
 from metadata_auth import NoRedirect
 
-def urlopen(request,timeout):return build_opener(NoRedirect()).open(request,timeout=timeout)
+def urlopen(request,timeout):
+    from investigator.live_gateway import open_http
+    return open_http(build_opener(NoRedirect()),request,timeout=timeout)
 from urllib.error import HTTPError
 from uuid import UUID
 from fabric_sql_auth import cli,session_status

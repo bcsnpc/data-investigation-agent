@@ -1,0 +1,162 @@
+{
+  "accepted_limits": [
+    {
+      "code": "BILLING_BINDING_UNAVAILABLE",
+      "resource": "billing-model",
+      "statement": "The prepared billing results, loaded billing records and application records remain unchecked because their native load and transformation bindings are not supported by the installed resolver."
+    },
+    {
+      "code": "BILLING_AUDIT_UNCHECKED",
+      "resource": "billing-model",
+      "statement": "The load audit exists, but no supported binding connects it to a compared boundary in this installation."
+    }
+  ],
+  "adapters": [
+    {
+      "id": "estate-reader",
+      "implementation": "microsoft",
+      "options": {
+        "fabric": {
+          "auth": {
+            "mode": "fabric_cli",
+            "python": ".local/fabric-cli-env/Scripts/python.exe",
+            "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780"
+          },
+          "native_reader": {
+            "account": "investigator-reader@skynwhy.com",
+            "mode": "isolated_reader",
+            "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+            "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+            "workspace_ids": [
+              "7d67bb36-04f6-4182-95aa-da5d515248fa"
+            ]
+          },
+          "sql_reader": {
+            "account": "investigator-reader@skynwhy.com",
+            "profile": ".local/azure-reader-sql",
+            "server": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com"
+          },
+          "workspace_id": "7d67bb36-04f6-4182-95aa-da5d515248fa",
+          "xmla_client": {
+            "library": ".local/adomd-client/19.117.0/lib/net472/Microsoft.AnalysisServices.AdomdClient.dll"
+          }
+        },
+        "sql": {
+          "auth": {
+            "account": "orderops_investigator",
+            "credential_file": ".local/runtime-credentials/orderops_investigator.credential.xml",
+            "mode": "dpapi_file"
+          },
+          "database": "billingapp",
+          "server": "sql-orderops-9696025.database.windows.net",
+          "visibility_schema": "app"
+        }
+      }
+    }
+  ],
+  "budgets": {
+    "diagnostic_reads_per_run": 12,
+    "binding_verification": {
+      "probes_per_binding": 2,
+      "metadata_probes": 3,
+      "session_cap": 40
+    },
+    "input_characters_per_run": 384000,
+    "max_boundaries": 3,
+    "rolling_window_seconds": 86400,
+    "rolling_physical_requests": 3000,
+    "planner_daily": {
+      "calls": 600,
+      "input_characters": 8000000,
+      "output_tokens": 1500000,
+      "max_inflight": 1,
+      "no_progress_limit": 3
+    },
+    "round": {
+      "id": "EXAMPLE_NOT_LIVE_APPROVAL",
+      "starts_at_epoch": 0,
+      "physical_requests": 4000,
+      "restoration_reserved": 95
+    }
+  },
+  "capability_ceiling": [
+    "evaluate_scoped_quantity",
+    "resolve_measure_path"
+  ],
+  "environment": "billing-example",
+  "identities": [
+    {
+      "credential_reference": ".local/azure-reader-sql",
+      "id": "investigator-reader",
+      "principal": "investigator-reader@skynwhy.com",
+      "scopes": [
+        {
+          "resource": "billing-model",
+          "rights": [
+            "READ",
+            "BUILD"
+          ]
+        }
+      ]
+    }
+  ],
+  "investigation": {
+    "mode": "PIPELINE",
+    "step_cap": 12,
+    "wall_seconds": 900
+  },
+  "layers": [
+    {
+      "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing",
+      "business_name": "billing calculation",
+      "id": "billing-model",
+      "reach": {
+        "adapter": "estate-reader",
+        "address": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing",
+        "reader": "investigator-reader"
+      },
+      "reachable": true,
+      "role": "SEMANTIC"
+    }
+  ],
+  "lineage": {
+    "bindings": [],
+    "inference": {
+      "code_resources": [],
+      "enabled": false
+    },
+    "source_delivery": null
+  },
+  "model": {
+    "credential": {
+      "account": "aoai-investigator-9696025",
+      "resource_group": "rg-investigator-dev",
+      "subscription_id": "d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9"
+    },
+    "deployment": "investigator-quality-54",
+    "endpoint": "https://aoai-investigator-9696025.openai.azure.com",
+    "generation_options": {
+      "max_output_tokens": 8000,
+      "max_payload_characters": 48000,
+      "reasoning_effort": "medium",
+      "timeout_seconds": 120
+    },
+    "max_planner_recoveries": 1,
+    "provider": "azure"
+  },
+  "pipelines": [],
+  "resources": [],
+  "storage": {
+    "catalog": ".local/estates/billing/catalog.sqlite",
+    "inventory": ".local/estates/billing/inventory.sqlite"
+  },
+  "system_of_record": null,
+  "version": "estate-manifest-v1",
+  "recording": {
+    "tape_class": "EXACT"
+  },
+  "retention": {
+    "tape_days": 90,
+    "ledger_days": 365
+  }
+}

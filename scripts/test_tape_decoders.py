@@ -29,6 +29,8 @@ class DecoderTests(unittest.TestCase):
         self.assertIsNone(decode_completion('{"error":"SQL_READ_FAILED"}','sql_quantity'))
 
     def test_metadata_http_decoder_preserves_json_null_empty_and_refuses_invalid_json(self):
+        from gateway_test_support import allow_http
+        self.enterContext(allow_http({'method': 'GET', 'url': 'https://api.fabric.microsoft.com/v1/workspaces', 'purpose': 'metadata'}))
         from types import SimpleNamespace
         tokens=SimpleNamespace(get_token=lambda scope:'synthetic-auth')
         for raw,expected in [(b'{"value":[],"next":null}',{'value':[],'next':None}),(b'',{})]:

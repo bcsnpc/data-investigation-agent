@@ -62,6 +62,8 @@ class ConnectorTests(unittest.TestCase):
         with self.assertRaises(UnsupportedCapability): connector.get_refresh_history({})
 
     def test_local_sql_adapter_passes_values_as_arguments(self):
+        from gateway_test_support import allow_sql
+        self.enterContext(allow_sql("other.host","name;with delimiter",[],["CATALOG"]))
         def runner(command, **kwargs):
             self.assertEqual(command[command.index('-Database')+1], 'name;with delimiter')
             self.assertEqual(command[command.index('-VisibilitySchema')+1], 'sales')
@@ -84,6 +86,8 @@ class ConnectorTests(unittest.TestCase):
             ('groups/another-workspace/datasets/model/refreshes','powerbi')])
 
     def test_http_uses_injected_credential_and_blocks_mutations(self):
+        from gateway_test_support import allow_http
+        self.enterContext(allow_http({'method': 'GET', 'url': 'https://api.powerbi.com/v1.0/myorg/groups/w/datasets', 'purpose': 'metadata'}))
         scopes=[]
         credential=SimpleNamespace(get_token=lambda scope: (scopes.append(scope) or SimpleNamespace(token='test-token')))
         class Response(io.BytesIO):

@@ -651,6 +651,10 @@ class AdaptiveRuntime:
             return meter_read('xmla_failure_detail',execute,True)
 
         def read_endpoint(request):
+            if 'retained_endpoints' in self.config['fabric']:
+                from .adapters.retained_endpoints import read as retained_endpoint
+                from . import context_search
+                return retained_endpoint(self.config, context_search.latest(self.store) or {}, request)
             def execute(request):
                 import subprocess
                 from metadata_config import ROOT
@@ -714,9 +718,8 @@ class AdaptiveRuntime:
         reader_config=self.config['fabric']
         sql_reader=reader_config.get('sql_reader')
         if sql_reader:
-            from fabric_sql_auth import session_status
-            from fabric_sql_surface import read as read_lower
-            lower_surface=session_status(self.config['fabric']['auth']['tenant_id'],sql_reader['account'],sql_reader['profile'])
+            from fabric_sql_surface import read as read_lower, reader_availability
+            lower_surface=reader_availability(self.config)
             execute_lower=lambda database,request:read_lower(self.config,database,request)
         def read_refresh_timing():
             from refresh_timing_reader import read

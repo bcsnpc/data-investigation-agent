@@ -60,7 +60,7 @@ class MicrosoftProcessAdapter:
                 'declared_context_reproduction','declared_filter_effects'}
         if self.judge_definition is not None:result.add('transformation_definition')
         if self.read_ingestion is not None:result.add('ingestion')
-        if (self.lower_surface or {}).get('status')=='READY' and self.execute_lower is not None:
+        if (self.lower_surface or {}).get('status') in ('READY','CONFIGURED') and self.execute_lower is not None:
             result.add('independent_lower_surface')
         if self.read_failure_detail is not None:result.add('failure_detail')
         if self.read_refresh_timing is not None:result.add('refresh_timing')
@@ -612,6 +612,8 @@ class MicrosoftProcessAdapter:
             compiled['query']='SELECT SUM('+quote(compiled['source_column'])+') AS [quantity] FROM '+quote(compiled['schema'])+'.'+quote(compiled['table'])
             layer['binding']['declared_connection_asset_id']=matches[0]['id']
             layer['endpoint_evidence']={'lakehouse':parent,'endpoint_id':props['id'],'server':props['connectionString']}
+            if endpoint.get('endpoint_provenance'):
+                layer['endpoint_evidence']['provenance']=endpoint['endpoint_provenance']
             return self._evaluate_lower(layer,measure_id,compiled)
         measure=next(a for a in assets(self.model['context']) if a['id']==measure_id)
         reader=((self.config or {}).get('fabric') or {}).get('native_reader') or {}

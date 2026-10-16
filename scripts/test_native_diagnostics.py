@@ -119,6 +119,8 @@ class NativeTests(unittest.TestCase):
     @patch('run_native_diagnostic.build_opener')
     @patch('run_native_diagnostic.FabricCliTokens')
     def test_transport_preserves_decimal_json_and_requests_nulls(self,tokens,opener):
+        from gateway_test_support import allow_http
+        self.enterContext(allow_http({'method': 'POST', 'url': 'https://api.powerbi.com/v1.0/myorg/groups/00000000-0000-0000-0000-000000000001/datasets/00000000-0000-0000-0000-000000000002/executeQueries', 'purpose': 'dax'}))
         tokens.return_value.get_token.return_value='test-token'
         raw=b'{"results":[{"tables":[{"rows":[{"[m0]":123.123456789012345}]}]}]}'
         opener.return_value.open.return_value.__enter__.return_value.read.return_value=raw

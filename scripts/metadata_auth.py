@@ -85,7 +85,8 @@ class MetadataHttp:
 
     def _send(self, request):
         try:
-            with self.opener.open(request, timeout=90) as response:
+            from investigator.live_gateway import open_http
+            with open_http(self.opener, request, timeout=90) as response:
                 body = response.read()
                 return {'status_code': response.status, 'headers': dict(response.headers),
                         'text': json.loads(body) if body else {}}
@@ -95,11 +96,17 @@ class MetadataHttp:
 
 class WorkerTransport:
     """Development bridge: isolated CLI virtualenv, structured input, no tokens in output."""
-    def __init__(self, python, tenant, worker):
+    def __init__(self, python, tenant, worker, authentication=None):
         self.python, self.tenant, self.worker = python, tenant, str(worker)
+        self.authentication=authentication
 
     def invoke(self, request):
         request = dict(request, tenant=self.tenant)
+        if self.authentication and self.authentication.get('mode')=='key_vault_user_cache':
+            raise ValueError('SCOPED_USER_CACHE_METADATA_ROUTE_UNDECLARED')
+        if self.authentication and self.authentication.get('mode')=='managed_identity':
+            from investigator.adapters.managed_identity import validate
+            request['authentication']=validate({k:self.authentication[k] for k in ('mode','tenant_id','client_id','principal_id')})
         from investigator.physical_reads import run
         result = run([self.python, self.worker], input=json.dumps(request), fallback=subprocess.run,
                                 capture_output=True, text=True, encoding='utf-8', timeout=360)
@@ -120,6 +127,8 @@ class PowerShellSqlCatalog:
         self.script, self.credential_file, self.runner = str(script), credential_file, runner
 
     def __call__(self, server, database, visibility_schema):
+        from investigator.live_gateway import authorize_sql_control
+        authorize_sql_control(server,database,'CATALOG')
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / 'catalog.json'
             from investigator.physical_reads import run
