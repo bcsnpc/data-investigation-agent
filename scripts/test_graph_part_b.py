@@ -71,7 +71,7 @@ class MetadataTests(unittest.TestCase):
 
 class InterpreterTests(unittest.TestCase):
     def run_proposal(self,change=None):
-        code='target = source + 1';item={'source':'out','target':'in','kind':'COMPUTED_FROM','start':0,'end':len(code),'quote':code,'explanation':'Output uses the retained input expression.'}
+        code='target = source + 1';item={'source':'out','target':'in','kind':'COMPUTED_FROM','first_line':1,'last_line':1,'explanation':'Output uses the retained input expression.'}
         if change:item.update(change)
         calls=[]
         answer=propose(estate='estate',owner='code',code=code,definition_hash=hashlib.sha256(code.encode()).hexdigest(),
@@ -81,7 +81,7 @@ class InterpreterTests(unittest.TestCase):
     def test_exact_span_only_inferred_and_no_completeness_claim(self):
         got=self.run_proposal();self.assertEqual(got['edges'][0]['confidence'],'INFERRED');self.assertEqual(got['coverage'],'INCOMPLETE')
     def test_bad_quote_unknown_id_or_extra_confidence_refused(self):
-        for change in ({'quote':'invented'},{'target':'outside'},{'confidence':'VERIFIED'}):
+        for change in ({'first_line':2},{'target':'outside'},{'confidence':'VERIFIED'},{'quote':'invented'}):
             with self.assertRaises(Exception):self.run_proposal(change)
 
 

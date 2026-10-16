@@ -28,6 +28,9 @@ SECRET_BYTES = re.compile(b'|'.join(re.escape(prefix)+suffix for prefix,suffix i
 _PREFIX_RULES=[(prefix.lower(),re.compile(re.escape(prefix)+suffix,re.I)) for prefix,suffix in _SECRET_RULES]
 
 
+_TOKEN_BOUNDARY = re.compile(rb'[^A-Za-z0-9_-]')
+
+
 def credential_pattern(data):
     """Same full patterns; locate their mandatory literal prefixes in C first."""
     lowered=data.lower()
@@ -35,7 +38,16 @@ def credential_pattern(data):
         offset=lowered.find(prefix)
         while offset>=0:
             if pattern.match(data,offset):return True
-            offset=lowered.find(prefix,offset+1)
+            if prefix==b'eyj':
+                # All later starts in this same first token share its suffix.
+                # If the longest candidate fails, a shorter first segment cannot
+                # make it pass. Skip it once rather than retrying a megabyte-long
+                # base64-like value at every embedded JSON prefix (quadratic).
+                boundary=_TOKEN_BOUNDARY.search(data,offset)
+                if boundary is None:break
+                offset=lowered.find(prefix,boundary.start())
+            else:
+                offset=lowered.find(prefix,offset+1)
     return False
 
 
@@ -83,7 +95,7 @@ def approved_scope(relative, source_export_roots=()):
 
 def protected_path(relative, protected):
     normalized=Path(relative).as_posix().casefold()
-    if any(normalized==Path(p).as_posix().casefold() for p in protected):return True
+    if any(normalized==Path(p).as_posix().casefold() or normalized.startswith(Path(p).as_posix().casefold().rstrip('/')+'/') for p in protected):return True
     if LIVE.search(Path(relative).name):return True
     # Catalogs are eligible only inside sealed tape directories, not shared roots.
     if Path(relative).name.casefold() in ('catalog.sqlite','inventory.sqlite'):
@@ -191,6 +203,24 @@ def verify_local(manifest, entry):
         raise ArtifactError('ARCHIVE_PROTECTED_OR_QUARANTINED')
     if path.stat().st_size!=entry['bytes'] or sha_file(path)!=entry['sha256']:
         raise ArtifactError('ARCHIVE_LOCAL_HASH_DIFFERS')
+    return path
+
+
+def verify_unchanged_local(manifest, entry):
+    """Recheck bytes already privacy-reviewed by this publish operation.
+
+    This is never an initial admission check. The publisher must first call
+    verify_local for every source; unchanged SHA proves that same reviewed body.
+    """
+    path=bounded_path(manifest['workspace'],entry['path'])
+    if not approved_scope(entry['path'],manifest.get('source_export_roots',())) or protected_path(entry['path'],manifest['protected_paths']):
+        raise ArtifactError('ARCHIVE_PROTECTED_PATH')
+    before=path.stat()
+    if before.st_size!=entry['bytes'] or sha_file(path)!=entry['sha256']:
+        raise ArtifactError('ARCHIVE_LOCAL_HASH_DIFFERS')
+    after=path.stat()
+    if (before.st_size,before.st_mtime_ns)!=(after.st_size,after.st_mtime_ns):
+        raise ArtifactError('ARCHIVE_SOURCE_CHANGED_DURING_CHECK')
     return path
 
 

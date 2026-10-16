@@ -10,6 +10,22 @@ ONE='12345678-1234-1234-1234-123456789abc';TWO='22345678-1234-1234-1234-12345678
 def db(path,text):
     with closing(sqlite3.connect(path)) as c:c.execute('CREATE TABLE contents(text TEXT)');c.execute('INSERT INTO contents VALUES(?)',(text,));c.commit()
 class Tests(unittest.TestCase):
+    def test_fast_identity_matching_is_exact_on_boundaries_and_randomized_text(self):
+        from investigator.artifact_identity_cache import identity_matches
+        import random,string
+        rng=random.Random(3921)
+        corpus=[ONE,ONE+' '+TWO,ONE+TWO,'x'+ONE,ONE+'_','?'+ONE,ONE+'?',
+                '-'+ONE+'-',ONE.upper(),'_'+ONE,ONE+'\n'+TWO,'0'*20000+'-'+ONE,
+                'eyJ'*10000,ONE.replace('-','--'),ONE[:-1],ONE+'--'+TWO]
+        alphabet=string.ascii_letters+string.digits+'_- \n.:?'
+        for _ in range(3000):
+            chunks=[''.join(rng.choices(alphabet,k=rng.randrange(50))) for _ in range(4)]
+            chunks[rng.randrange(4)]=rng.choice([ONE,TWO,ONE.upper(),ONE.replace('-','--')])
+            corpus.append(''.join(chunks))
+        for value in corpus:self.assertEqual(list(identity_matches(value,PATTERN)),PATTERN.findall(value))
+        other=re.compile(r'[A-Z]+')
+        self.assertEqual(list(identity_matches('ABC def XYZ',other)),other.findall('ABC def XYZ'))
+
     def test_same_main_hash_wal_overlay_never_expands_cached_identity(self):
         with tempfile.TemporaryDirectory() as folder:
             p=Path(folder)/'a.sqlite';db(p,ONE)

@@ -27,8 +27,7 @@ class CloudGraphTests(unittest.TestCase):
     def producer(self,request,schema,options):
         self.calls.append(request);record=ACTIVE.get()
         raw=json.dumps(request).encode();record.request(SimpleNamespace(read=lambda:raw))
-        answer={'edges':[{'source':'out','target':'in','kind':'COMPUTED_FROM','start':0,'end':14,
-            'quote':'out = incoming','explanation':'Declared assignment only'}]}
+        answer={'edges':[{'source':'out','target':'in','kind':'COMPUTED_FROM','first_line':1,'last_line':1,'explanation':'Declared assignment only'}]}
         response=json.dumps(answer).encode();record.response(SimpleNamespace(status_code=200,read=lambda:response))
         self.assertEqual(options['max_output_tokens'],8000)
         return answer,{'usage':{'input_tokens':30,'output_tokens':40,'total_tokens':70}}
@@ -76,7 +75,7 @@ class CloudGraphTests(unittest.TestCase):
         self.assertEqual(self.calls,[])
     def test_first_rejection_is_not_retried_or_repaired(self):
         def invalid(request,schema,options):
-            result,meta=self.producer(request,schema,options);result['edges'][0]['quote']='wrong'
+            result,meta=self.producer(request,schema,options);result['edges'][0]['first_line']=999
             return result,meta
         result=self.result(self.run_batch([self.task(),self.task()],invalid))
         self.assertEqual(len(self.calls),1);self.assertEqual(result['status'],'STOPPED');self.assertEqual(result['not_run'],[1])

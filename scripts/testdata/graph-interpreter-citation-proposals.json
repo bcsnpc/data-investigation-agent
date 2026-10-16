@@ -1,0 +1,319 @@
+{
+  "source_result_sha256": "1361336e80ca0905514c6a6c9140b30e7d096a3d532462bb360c56e9f83435df",
+  "cases": [
+    {
+      "task": 0,
+      "code": "-- Fixture-authoring code only. Not executed or asserted to be deployed.\n-- Bronze tables are Dataflow Gen2 destinations; no literal-row staging here.\nCREATE PROCEDURE [silver].[build_invoices]\nAS\nBEGIN\n DELETE FROM [silver].[invoices];\n INSERT INTO [silver].[invoices] (invoice_id,account_id,invoice_date,amount,status)\n SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];\nEND;",
+      "definition_hash": "e1774b4e88a902d91dd63ccf0fc554647b33f1d9d7846226fe36300e683efed4",
+      "proposals": [
+        {
+          "kind": "COPIED_TO",
+          "source_label": "bronze.invoices.invoice_id",
+          "target_label": "silver.invoices.invoice_id",
+          "span": {
+            "kind": "TEXT",
+            "start": 321,
+            "end": 404
+          },
+          "quote": " SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "bronze.invoices.account_id",
+          "target_label": "silver.invoices.account_id",
+          "span": {
+            "kind": "TEXT",
+            "start": 321,
+            "end": 404
+          },
+          "quote": " SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "bronze.invoices.invoice_date",
+          "target_label": "silver.invoices.invoice_date",
+          "span": {
+            "kind": "TEXT",
+            "start": 321,
+            "end": 404
+          },
+          "quote": " SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "bronze.invoices.amount",
+          "target_label": "silver.invoices.amount",
+          "span": {
+            "kind": "TEXT",
+            "start": 321,
+            "end": 404
+          },
+          "quote": " SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "bronze.invoices.status",
+          "target_label": "silver.invoices.status",
+          "span": {
+            "kind": "TEXT",
+            "start": 321,
+            "end": 404
+          },
+          "quote": " SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];\n"
+        },
+        {
+          "kind": "DERIVED_IN_STEP",
+          "source_label": "bronze.invoices",
+          "target_label": "silver.invoices",
+          "span": {
+            "kind": "TEXT",
+            "start": 237,
+            "end": 404
+          },
+          "quote": " INSERT INTO [silver].[invoices] (invoice_id,account_id,invoice_date,amount,status)\n SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];\n"
+        }
+      ]
+    },
+    {
+      "task": 1,
+      "code": "CREATE PROCEDURE [gold].[build_billing]\nAS\nBEGIN\n DELETE FROM [gold].[invoice_activity];\n INSERT INTO [gold].[invoice_activity] (invoice_id,account_id,plan_id,invoice_date,amount,status)\n SELECT i.invoice_id,i.account_id,h.plan_id,i.invoice_date,i.amount,i.status\n FROM [silver].[invoices] AS i\n LEFT JOIN [bronze].[account_plan_history] AS h ON i.account_id=h.account_id;\nEND;",
+      "definition_hash": "186fb7fefa74c1c822d06cf3fb9d4190f2621fc92f5e0afe7d65e543c654fd53",
+      "proposals": [
+        {
+          "kind": "COPIED_TO",
+          "source_label": "silver.invoices.invoice_id",
+          "target_label": "gold.invoice_activity.invoice_id",
+          "span": {
+            "kind": "TEXT",
+            "start": 89,
+            "end": 264
+          },
+          "quote": " INSERT INTO [gold].[invoice_activity] (invoice_id,account_id,plan_id,invoice_date,amount,status)\n SELECT i.invoice_id,i.account_id,h.plan_id,i.invoice_date,i.amount,i.status\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "silver.invoices.account_id",
+          "target_label": "gold.invoice_activity.account_id",
+          "span": {
+            "kind": "TEXT",
+            "start": 89,
+            "end": 264
+          },
+          "quote": " INSERT INTO [gold].[invoice_activity] (invoice_id,account_id,plan_id,invoice_date,amount,status)\n SELECT i.invoice_id,i.account_id,h.plan_id,i.invoice_date,i.amount,i.status\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "bronze.account_plan_history.plan_id",
+          "target_label": "gold.invoice_activity.plan_id",
+          "span": {
+            "kind": "TEXT",
+            "start": 89,
+            "end": 264
+          },
+          "quote": " INSERT INTO [gold].[invoice_activity] (invoice_id,account_id,plan_id,invoice_date,amount,status)\n SELECT i.invoice_id,i.account_id,h.plan_id,i.invoice_date,i.amount,i.status\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "silver.invoices.invoice_date",
+          "target_label": "gold.invoice_activity.invoice_date",
+          "span": {
+            "kind": "TEXT",
+            "start": 89,
+            "end": 264
+          },
+          "quote": " INSERT INTO [gold].[invoice_activity] (invoice_id,account_id,plan_id,invoice_date,amount,status)\n SELECT i.invoice_id,i.account_id,h.plan_id,i.invoice_date,i.amount,i.status\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "silver.invoices.amount",
+          "target_label": "gold.invoice_activity.amount",
+          "span": {
+            "kind": "TEXT",
+            "start": 89,
+            "end": 264
+          },
+          "quote": " INSERT INTO [gold].[invoice_activity] (invoice_id,account_id,plan_id,invoice_date,amount,status)\n SELECT i.invoice_id,i.account_id,h.plan_id,i.invoice_date,i.amount,i.status\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "silver.invoices.status",
+          "target_label": "gold.invoice_activity.status",
+          "span": {
+            "kind": "TEXT",
+            "start": 89,
+            "end": 264
+          },
+          "quote": " INSERT INTO [gold].[invoice_activity] (invoice_id,account_id,plan_id,invoice_date,amount,status)\n SELECT i.invoice_id,i.account_id,h.plan_id,i.invoice_date,i.amount,i.status\n"
+        },
+        {
+          "kind": "JOINED_VIA",
+          "source_label": "silver.invoices.account_id",
+          "target_label": "bronze.account_plan_history.account_id",
+          "span": {
+            "kind": "TEXT",
+            "start": 295,
+            "end": 373
+          },
+          "quote": " LEFT JOIN [bronze].[account_plan_history] AS h ON i.account_id=h.account_id;\n"
+        }
+      ]
+    },
+    {
+      "task": 2,
+      "code": "-- Fixture-authoring code only. Not executed or asserted to be deployed.\n-- Bronze tables are Dataflow Gen2 destinations; no literal-row staging here.\nCREATE PROCEDURE [silver].[build_invoices]\nAS\nBEGIN\n DELETE FROM [silver].[invoices];\n INSERT INTO [silver].[invoices] (invoice_id,account_id,invoice_date,amount,status)\n SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];\nEND;",
+      "definition_hash": "e1774b4e88a902d91dd63ccf0fc554647b33f1d9d7846226fe36300e683efed4",
+      "proposals": [
+        {
+          "kind": "COPIED_TO",
+          "source_label": "bronze.invoices.invoice_id",
+          "target_label": "silver.invoices.invoice_id",
+          "span": {
+            "kind": "TEXT",
+            "start": 237,
+            "end": 404
+          },
+          "quote": " INSERT INTO [silver].[invoices] (invoice_id,account_id,invoice_date,amount,status)\n SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "bronze.invoices.account_id",
+          "target_label": "silver.invoices.account_id",
+          "span": {
+            "kind": "TEXT",
+            "start": 237,
+            "end": 404
+          },
+          "quote": " INSERT INTO [silver].[invoices] (invoice_id,account_id,invoice_date,amount,status)\n SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "bronze.invoices.invoice_date",
+          "target_label": "silver.invoices.invoice_date",
+          "span": {
+            "kind": "TEXT",
+            "start": 237,
+            "end": 404
+          },
+          "quote": " INSERT INTO [silver].[invoices] (invoice_id,account_id,invoice_date,amount,status)\n SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "bronze.invoices.amount",
+          "target_label": "silver.invoices.amount",
+          "span": {
+            "kind": "TEXT",
+            "start": 237,
+            "end": 404
+          },
+          "quote": " INSERT INTO [silver].[invoices] (invoice_id,account_id,invoice_date,amount,status)\n SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "bronze.invoices.status",
+          "target_label": "silver.invoices.status",
+          "span": {
+            "kind": "TEXT",
+            "start": 237,
+            "end": 404
+          },
+          "quote": " INSERT INTO [silver].[invoices] (invoice_id,account_id,invoice_date,amount,status)\n SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];\n"
+        },
+        {
+          "kind": "DERIVED_IN_STEP",
+          "source_label": "bronze.invoices",
+          "target_label": "silver.invoices",
+          "span": {
+            "kind": "TEXT",
+            "start": 237,
+            "end": 404
+          },
+          "quote": " INSERT INTO [silver].[invoices] (invoice_id,account_id,invoice_date,amount,status)\n SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];\n"
+        }
+      ]
+    },
+    {
+      "task": 3,
+      "code": "CREATE PROCEDURE [gold].[build_billing]\nAS\nBEGIN\n DELETE FROM [gold].[invoice_activity];\n INSERT INTO [gold].[invoice_activity] (invoice_id,account_id,plan_id,invoice_date,amount,status)\n SELECT i.invoice_id,i.account_id,h.plan_id,i.invoice_date,i.amount,i.status\n FROM [silver].[invoices] AS i\n LEFT JOIN [bronze].[account_plan_history] AS h ON i.account_id=h.account_id;\nEND;",
+      "definition_hash": "186fb7fefa74c1c822d06cf3fb9d4190f2621fc92f5e0afe7d65e543c654fd53",
+      "proposals": [
+        {
+          "kind": "COPIED_TO",
+          "source_label": "silver.invoices.invoice_id",
+          "target_label": "gold.invoice_activity.invoice_id",
+          "span": {
+            "kind": "TEXT",
+            "start": 89,
+            "end": 264
+          },
+          "quote": " INSERT INTO [gold].[invoice_activity] (invoice_id,account_id,plan_id,invoice_date,amount,status)\n SELECT i.invoice_id,i.account_id,h.plan_id,i.invoice_date,i.amount,i.status\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "silver.invoices.account_id",
+          "target_label": "gold.invoice_activity.account_id",
+          "span": {
+            "kind": "TEXT",
+            "start": 89,
+            "end": 264
+          },
+          "quote": " INSERT INTO [gold].[invoice_activity] (invoice_id,account_id,plan_id,invoice_date,amount,status)\n SELECT i.invoice_id,i.account_id,h.plan_id,i.invoice_date,i.amount,i.status\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "bronze.account_plan_history.plan_id",
+          "target_label": "gold.invoice_activity.plan_id",
+          "span": {
+            "kind": "TEXT",
+            "start": 89,
+            "end": 264
+          },
+          "quote": " INSERT INTO [gold].[invoice_activity] (invoice_id,account_id,plan_id,invoice_date,amount,status)\n SELECT i.invoice_id,i.account_id,h.plan_id,i.invoice_date,i.amount,i.status\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "silver.invoices.invoice_date",
+          "target_label": "gold.invoice_activity.invoice_date",
+          "span": {
+            "kind": "TEXT",
+            "start": 89,
+            "end": 264
+          },
+          "quote": " INSERT INTO [gold].[invoice_activity] (invoice_id,account_id,plan_id,invoice_date,amount,status)\n SELECT i.invoice_id,i.account_id,h.plan_id,i.invoice_date,i.amount,i.status\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "silver.invoices.amount",
+          "target_label": "gold.invoice_activity.amount",
+          "span": {
+            "kind": "TEXT",
+            "start": 89,
+            "end": 264
+          },
+          "quote": " INSERT INTO [gold].[invoice_activity] (invoice_id,account_id,plan_id,invoice_date,amount,status)\n SELECT i.invoice_id,i.account_id,h.plan_id,i.invoice_date,i.amount,i.status\n"
+        },
+        {
+          "kind": "COPIED_TO",
+          "source_label": "silver.invoices.status",
+          "target_label": "gold.invoice_activity.status",
+          "span": {
+            "kind": "TEXT",
+            "start": 89,
+            "end": 264
+          },
+          "quote": " INSERT INTO [gold].[invoice_activity] (invoice_id,account_id,plan_id,invoice_date,amount,status)\n SELECT i.invoice_id,i.account_id,h.plan_id,i.invoice_date,i.amount,i.status\n"
+        },
+        {
+          "kind": "JOINED_VIA",
+          "source_label": "silver.invoices.account_id",
+          "target_label": "bronze.account_plan_history.account_id",
+          "span": {
+            "kind": "TEXT",
+            "start": 295,
+            "end": 373
+          },
+          "quote": " LEFT JOIN [bronze].[account_plan_history] AS h ON i.account_id=h.account_id;\n"
+        }
+      ]
+    }
+  ]
+}

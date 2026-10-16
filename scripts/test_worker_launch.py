@@ -9,7 +9,9 @@ from investigator import tape_worker
 class WorkerLaunchTests(unittest.TestCase):
     def test_tape_git_integrity_and_revision_checks_share_no_console_policy(self):
         from investigator.process_tape import Tape, TapeError
-        bootstrap = {'entry_point': 'workspace', 'config': {}}
+        bootstrap = {'entry_point': 'workspace', 'context_identity': 'synthetic-context',
+                     'config': {}, 'profile': {}, 'usage_policy': {},
+                     'engine_hash': 'synthetic-engine', 'state': {}}
         revision = 'a' * 40
         with tempfile.TemporaryDirectory() as folder, \
                 patch('investigator.worker_launch.options',

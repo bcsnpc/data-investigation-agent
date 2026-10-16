@@ -1,0 +1,78 @@
+{
+  "recorded_at": "2026-10-13",
+  "status": "THIRD_CHECKED_BATCH_COMPLETE_FULL_ARCHIVE_IN_PROGRESS",
+  "completed_batch": "archive-checksum-controller-01/batch-0001",
+  "receipt_sha256": "d70b6ae3a0ee070aa414172ec5589111d202e4e9bef17a7038a4bc4cdf3fbdb9",
+  "new_paths": 56,
+  "new_original_bytes": 4891178977,
+  "new_stored_bytes": 360814555,
+  "new_platform_controls": 97,
+  "control_methods": {
+    "HEAD": 3,
+    "GET": 2,
+    "PUT": 92
+  },
+  "GET_purpose": "Block-list metadata only",
+  "retained_retry_error_types": [
+    "ServiceResponseError",
+    "ServiceResponseError",
+    "ServiceResponseError"
+  ],
+  "cumulative_historical_plus_new": {
+    "verified_paths": 1496,
+    "original_bytes": 20401623316,
+    "stored_bytes": 1772289674,
+    "platform_controls": 591
+  },
+  "round_nineteen_b": {
+    "verified_paths": 188,
+    "original_bytes": 13583494090,
+    "stored_bytes": 1113724243,
+    "platform_controls": 297,
+    "oneoff_estimate_usd_including_cool_minimum_and_prior": "0.02091289544338666666666666667"
+  },
+  "projected_platform_usd_month": "14.82175456677726",
+  "invoice_actual_available": false,
+  "blob_body_downloads_new_batches": 0,
+  "local_deletion": false,
+  "server_computed_sha256": false,
+  "integrity_method": "SERVER_VALIDATED_BLOCK_MD5_ORDERED_COMMIT_AND_STORED_MD5_PROPERTY",
+  "coverage": "Only completed immutable receipts counted. Next selection in offline preparation is excluded; full archive remains incomplete.",
+  "owner_cleanup": {
+    "eligible_allocated_bytes": 934621975,
+    "existing_eligible_paths": 56,
+    "free_bytes": 15734992896,
+    "helper_sha256": "1ac6f087630f232a1033daab31ed7ff020215e9a3e975ad72b5f237223eb5abe",
+    "new_verified_paths": 56,
+    "paths": 1496,
+    "plan_sha256": "2824bf9bcaf674d1e567c96363dea9e074d0944059c8633b813f5a612a91af46",
+    "proof_blobs": 18,
+    "protected": 129,
+    "remote_rechecked_this_preparation": false,
+    "script_sha256": "df43bf04463dd3512f0fa5c923d045973f2668c8abd39a63f265fa6ad468241d",
+    "status": "OWNER_SCRIPT_PREPARED_NOT_EXECUTED",
+    "powershell_syntax": "PASS",
+    "observed_prior_eligible_absence": "Previous641 eligible files now absent; external cleanup execution observed in retained removal log. Invoking human/process not established by log; helper/root session did not execute deletion."
+  },
+  "additional_cleanup_metadata_controls": {
+    "actual_HEAD": 32,
+    "receipts": [
+      "cleanup-remote-a668bc5c-0f86-4636-a912-be6851a5a2cd.jsonl",
+      "cleanup-remote-f1e140e6-a8ad-4c67-a6e2-ea3733a4a586.jsonl"
+    ],
+    "archive_plus_cleanup_actual_controls": 623,
+    "body_downloads": 0,
+    "estimated_cost_usd": "0.00032",
+    "accounting": "Separate from archive-upload totals; next admission holds0.01 for auxiliary controls."
+  },
+  "externally_observed_cleanup": {
+    "classification": "EXTERNALLY_OBSERVED_CLEANUP_EXECUTION_INVOKER_NOT_ESTABLISHED_BY_LOG",
+    "log_sha256": "f440ae1d23c85edcc41d9eea2a79384cf0c82fde922e4ce89de28d0e4f66cdbf",
+    "removed_records": 641,
+    "allocated_bytes_before_sum": 2744546347,
+    "logical_bytes_sum": 9488623995,
+    "first_removed_at": "2026-10-13T18:39:37.4109005Z",
+    "last_removed_at": "2026-10-13T18:41:49.4026329Z",
+    "meaning": "Recorded allocation for641 removed paths, not a volume-free delta; invoking human/process is not established. This helper/root session did not run deletion."
+  }
+}

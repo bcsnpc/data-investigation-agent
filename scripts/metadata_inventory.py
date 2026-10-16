@@ -80,6 +80,11 @@ def expand_definition(store, item_id, kind, parts, source):
         for relationship in model.get('relationships', []):
             store.asset(item_id + '/relationship/' + quote(relationship['name'], safe=''), 'SemanticRelationship', relationship['name'], source, relationship, item_id)
     elif kind == 'Report':
+        if 'report.json' in parts:
+            if any(path.startswith('definition/') for path in parts):raise ValueError('Mixed PBIR and PBIR-Legacy definitions')
+            from investigator.adapters.legacy_report import expand
+            expand(store,item_id,parts['report.json'],source)
+            return
         if not any(path.endswith('/page.json') for path in parts):
             raise ValueError('Native PBIR pages unavailable')
         for path, content in parts.items():

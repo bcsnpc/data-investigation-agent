@@ -3,6 +3,17 @@ import unittest
 from cloud_binding_verifier import plan
 
 class VerificationPlanTests(unittest.TestCase):
+    def test_preflight_compares_whole_policy_before_resolving_objects(self):
+        from cloud_binding_verifier import preflight
+        from unittest.mock import patch
+        spec=self.spec();spec['budgets'].update(round={'id':'OLD','physical_requests':1500,'restoration_reserved':95},rolling=3000)
+        for field,value in [('round',{'id':'NEW','physical_requests':1500,'restoration_reserved':95}),('rolling',3001),('extra',1)]:
+            expected=copy.deepcopy(spec['budgets']);expected[field]=value
+            with self.subTest(field=field),patch('investigator.adapters.code_verification.resolve_objects')as resolve:
+                with self.assertRaisesRegex(ValueError,'VERIFICATION_BUDGET_DIFFERS'):
+                    preflight(spec,{}, {},receipt_path='unused',manifest_budgets=expected)
+                resolve.assert_not_called()
+
     def spec(self):
         return {'proposals':[{'target':{'table':table,'column':str(i)},'sources':[{'table':'source'}]} for table in ('one','two','three') for i in range(6)],
             'schemas':{'source':{},'one':{},'two':{},'three':{}},'samples':{'one':{},'two':{},'three':{}},

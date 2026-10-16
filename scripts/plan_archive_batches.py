@@ -62,14 +62,20 @@ def sample(root, cutoff, *, max_sample_bytes=256*1024*1024):
             'estate_reads':0,'model_calls':0,'local_deletion':False}
 
 
-def batch(root,cutoff,*,max_original_bytes,max_files,protected,skip_paths=()):
+def batch(root,cutoff,*,max_original_bytes,max_files,protected,skip_paths=(),runtime_reference_ids=None):
     rows=discover(root,cutoff);files={path: size for path,_,_,size in rows}
+    runtime_held={}
+    if runtime_reference_ids is not None:
+        from archive_runtime_references import held_parents
+        runtime_held=held_parents([p.relative_to(root) for p in files],runtime_reference_ids)
+        protected=list(protected)+list(runtime_held)
     by_parent=defaultdict(list)
     for path in sorted(files):by_parent[path.parent].append(path)
     candidates=[]
     for path,folder,kind,_ in rows:
         if kind!='tape.json':continue
         group=by_parent[path.parent]
+        if path.parent.relative_to(root).as_posix() in runtime_held:continue
         if any(p.relative_to(root).as_posix() in skip_paths for p in group):continue
         # Preserve every file in the capture directory, including failures and
         # sidecars. Nested children must be handled in a separate audited plan.
@@ -96,6 +102,10 @@ def batch(root,cutoff,*,max_original_bytes,max_files,protected,skip_paths=()):
         removed=[e for e in manifest['entries'] if str(Path(e['path']).parent) in blocked]
         manifest['entries']=[e for e in manifest['entries'] if str(Path(e['path']).parent) not in blocked]
         manifest['excluded'] +=[{**e,'reason':'CAPTURE_PEER_QUARANTINED'} for e in removed]
+    if runtime_held:
+        manifest['runtime_reference_holds']=runtime_held
+        manifest['excluded'] += [{'path':p.relative_to(root).as_posix(),'reason':'CURRENT_RUNTIME_REFERENCE'}
+                                for p in files if p.parent.relative_to(root).as_posix() in runtime_held]
     return manifest
 
 

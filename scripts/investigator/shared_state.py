@@ -133,16 +133,25 @@ class SharedState:
             cursor.executemany(query.replace('?', '%s') if self.backend == 'postgresql' else query, rows)
 
     @contextmanager
-    def transaction(self):
+    def transaction(self,*,_lease_release=False):
         db = self.connector()
         try:
+            from .shared_writer_lease import check as check_lease
             if self.backend == 'postgresql':
+                # The post-lock lease read must see an acquisition committed
+                # while this connection waited; do not inherit snapshot mode.
+                db.execute('SET TRANSACTION ISOLATION LEVEL READ COMMITTED')
+                db.execute("SET LOCAL lock_timeout = '5s'")
+                db.execute("SET LOCAL statement_timeout = '30s'")
+                db.execute("SET LOCAL idle_in_transaction_session_timeout = '30s'")
+                check_lease(self,db,release_only=_lease_release)
                 # One application-state lock gives portable serializable writes
                 # including absent-row creation. It is held only for short local
                 # state operations, never while a model or estate request runs.
                 db.execute('SELECT pg_advisory_xact_lock(183746812)')
             else:
                 db.execute('BEGIN IMMEDIATE')
+            check_lease(self,db,release_only=_lease_release)
             yield db
             db.commit()
         except BaseException:

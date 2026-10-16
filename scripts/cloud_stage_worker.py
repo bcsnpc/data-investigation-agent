@@ -107,17 +107,21 @@ def verify_phase(inputs,work,config):
  if sha(candidate)!=config['candidate_sha256']:raise ValueError('OWNER_REVIEWED_CANDIDATE_DIFFERS')
  state=configured_state()
  if state is None or state.backend!='postgresql':raise ValueError('CLOUD_POSTGRES_REQUIRED')
+ from investigator.shared_writer_lease import require as require_isolation
+ require_isolation(state,config.get('exclusive_writer'),deadline=config['deadline'])
  from cloud_binding_verifier import preflight
  from investigator.estate_manifest import load
  from investigator.adapters.estate_installation import configuration
- admitted=preflight(read(inputs/'verification-spec.json'),configuration(load(inputs/'estate.json')),
-  read(prepared/'context.json'),receipt_path=prepared/'endpoints.json')
+ manifest=load(inputs/'estate.json')
+ admitted=preflight(read(inputs/'verification-spec.json'),configuration(manifest),
+  read(prepared/'context.json'),receipt_path=prepared/'endpoints.json',manifest_budgets=manifest['budgets'])
  if not admitted['admissible']:raise ValueError('VERIFICATION_PREFLIGHT_REFUSED')
  publication=publish(state,read(candidate));write(prepared/'publication.json',publication)
  plan=read(inputs/'operator-plan.json')
  result=execute(inputs/'estate.json',prepared,inputs/'verification-spec.json',spec_sha256=plan['verification_spec_sha256'],session=config['session'],deadline=config['deadline'],capture=work/'verification-capture')
  write(prepared/'verification-result.json',result)
  if result['status']!='COMPLETED':return {'status':'VERIFICATION_STOPPED','verification':result}
+ if time.time()>=config['deadline']:raise TimeoutError('CLOUD_WORK_DEADLINE_BEFORE_READINESS')
  ready=build(inputs/'estate.json',prepared,inputs/'retained-facts.json',work/'verification-capture',work/'readiness')
  if ready['status']!='READY':return {'status':'READINESS_BLOCKED','readiness':ready}
  for name in ('estate.json','form.json'):shutil.copyfile(inputs/name,work/name)
@@ -128,6 +132,7 @@ def verify_phase(inputs,work,config):
   'snapshots':{'catalog':reference(prepared/'catalog.sqlite'),'inventory':reference(prepared/'inventory.sqlite')},
   'model_pin':{'model_id':model['id'],'context_id':model['context_id'],'context_hash':digest(model['context'])}}
  write(work/'form-bundle.json',bundle)
+ if time.time()>=config['deadline']:raise TimeoutError('CLOUD_WORK_DEADLINE_BEFORE_DEMO')
  form_main(['--bundle',str(work/'form-bundle.json'),'--sha256',sha(work/'form-bundle.json'),'--job-root',str(work/'one-attempt')])
  return {'status':'DEMO_FINISHED','verification':result,'readiness':ready,'demo':read(work/'one-attempt/result.json')}
 

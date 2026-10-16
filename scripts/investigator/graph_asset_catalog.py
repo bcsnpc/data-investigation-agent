@@ -16,6 +16,24 @@ MAX_ASSETS=50000
 MAX_BYTES=256*1024*1024
 
 
+class _FailedPayload:
+    def __init__(self,estate,owner,reference,manifest_reference):
+        self.estate,self.owner,self.reference=estate,owner,copy.deepcopy(reference)
+        self.manifest_reference=copy.deepcopy(manifest_reference)
+
+
+def failure_reference(error,estate,owner):
+    value=getattr(error,'_graph_failed_payload',None)
+    if not isinstance(value,_FailedPayload)or (value.estate,value.owner)!=(estate,owner):return None
+    return copy.deepcopy(value.reference)
+
+
+def failure_manifest_reference(error,estate,owner):
+    value=getattr(error,'_graph_failed_payload',None)
+    if not isinstance(value,_FailedPayload)or (value.estate,value.owner)!=(estate,owner):return None
+    return copy.deepcopy(value.manifest_reference)
+
+
 class AssetCatalog:
     def __init__(self,repository,sink,partition,owner_for,*,allowed_owners):
         from .privacy_capture import ACTIVE
@@ -60,7 +78,7 @@ class AssetCatalog:
         if len(assets)>MAX_ASSETS or len(observations)!=len(assets):raise ValueError('GRAPH_CATALOG_DUPLICATE_OR_ASSET_BOUND')
         return record,assets,sources,observations
 
-    def _commit(self,estate,at,manifest,partitions,revision,*,existing_graph_only=False,retire_missing=False):
+    def _commit(self,estate,at,manifest,partitions,revision,*,existing_graph_only=False,retire_missing=False,require_empty_graph=False):
         # One lock and transaction: stale readers cannot overwrite any partition
         # or the owner references after another refresh commits.
         with self.repo.state.transaction()as db:
@@ -68,6 +86,8 @@ class AssetCatalog:
             except KeyError:prior=None
             if (None if prior is None else prior['revision'])!=revision:
                 raise StateConflict('GRAPH_ASSET_CATALOG_REVISION_DIFFERS')
+            if require_empty_graph and self.repo.state.sql(db,'SELECT 1 FROM estate_graph_owner_versions WHERE estate=? LIMIT 1',(estate,)).fetchone():
+                raise StateConflict('GRAPH_BOOTSTRAP_REQUIRES_EMPTY_GRAPH')
             if existing_graph_only:
                 actual=dict(self.repo.state.sql(db,'SELECT owner,definition_hash FROM estate_graph_owner_versions WHERE estate=?',(estate,)).fetchall())
                 expected={p['owner']:p['definition_hash']for p in partitions}
@@ -87,7 +107,7 @@ class AssetCatalog:
                     (revision+1,encoded(manifest),sha(manifest),NAMESPACE,estate))
         return result
 
-    def seed(self,estate,assets,*,observed_at,source_asset_ids=(),source_observations=None,existing_graph_only=False):
+    def seed(self,estate,assets,*,observed_at,source_asset_ids=(),source_observations=None,existing_graph_only=False,require_empty_graph=False):
         at=contract.timestamp(observed_at)
         if not isinstance(assets,list)or not assets or len(assets)>MAX_ASSETS:raise ValueError('GRAPH_CATALOG_ASSET_BOUND')
         if len({a['id']for a in assets})!=len(assets):raise ValueError('GRAPH_CATALOG_DUPLICATE_ASSET')
@@ -112,27 +132,42 @@ class AssetCatalog:
                 'uri':self.sink.uri_prefix+'/files/'+hashlib.sha256(raw).hexdigest()}
         partitions=self.partition(estate,assets,retained_reference if existing_graph_only else self.sink,observed_at=at,source_asset_ids=source_asset_ids,
             source_observations=times)
-        return self._commit(estate,at,manifest,partitions,None,existing_graph_only=existing_graph_only)
+        return self._commit(estate,at,manifest,partitions,None,existing_graph_only=existing_graph_only,require_empty_graph=require_empty_graph)
 
-    def refresh(self,estate,owner,at,payload):
+    def refresh(self,estate,owner,at,payload,*,retained_asset_ids=()):
         at=contract.timestamp(at)
         if owner not in self.allowed:raise ValueError('GRAPH_REFRESH_OWNER_NOT_APPROVED')
         old,assets,sources,observations=self.snapshot(estate)
         if owner not in old['body']['owners']:raise ValueError('GRAPH_REFRESH_OWNER_NOT_SEEDED')
         if at<=old['body']['owners'][owner]['observed_at']:raise StateConflict('GRAPH_CATALOG_TIME_MUST_ADVANCE')
+        retained=set(retained_asset_ids)
+        owner_map=self.owner_for(assets)
+        original={a['id']:a for a in assets if owner_map[a['id']]==owner}
+        proposed={a['id']:a for a in payload['assets']}
+        if not retained<=original.keys() or any(proposed.get(key)!=original[key] for key in retained):
+            raise ValueError('GRAPH_RETAINED_ASSET_CONTENT_DIFFERS')
+        times={a['id']:observations[a['id']] if a['id'] in retained else at for a in payload['assets']}
         raw=self._payload(owner,payload);manifest=copy.deepcopy(old['body'])
         if sum(v['reference']['bytes']for k,v in manifest['owners'].items()if k!=owner)+len(raw)>MAX_BYTES:
             raise ValueError('GRAPH_CATALOG_TOTAL_BYTE_BOUND')
-        manifest['owners'][owner]={'reference':self.sink(raw),'observed_at':at,
-            'source_observations':{a['id']:at for a in payload['assets']}}
-        owner_ids={key for key,value in self.owner_for(assets).items()if value==owner}
-        assets=[a for a in assets if a['id']not in owner_ids]+payload['assets']
-        if len(assets)>MAX_ASSETS or len({a['id']for a in assets})!=len(assets):raise ValueError('GRAPH_CATALOG_DUPLICATE_OR_ASSET_BOUND')
-        # Source status is an estate declaration, never overwritten by a
-        # collector's empty declaration list. Removed sources remain a refusal.
-        if not set(sources)<={a['id']for a in assets}:raise ValueError('GRAPH_DECLARED_SOURCE_REMOVED')
-        if not set(payload['source_asset_ids'])<=set(sources):raise ValueError('GRAPH_REFRESH_CANNOT_DECLARE_SOURCE')
-        observations={key:value for key,value in observations.items()if key not in owner_ids}
-        observations.update({a['id']:at for a in payload['assets']})
-        partitions=self.partition(estate,assets,self.sink,observed_at=at,source_asset_ids=sources,source_observations=observations)
-        return self._commit(estate,at,manifest,partitions,old['revision'],retire_missing=True)
+        reference=self.sink(raw)  # Seal before extraction; failure keeps exact safe payload.
+        basis={'estate':estate,'refresh_owner':owner,'catalog_revision':old['revision'],'catalog':old['body']}
+        basis_raw=encoded(basis).encode('utf8');_safe(basis_raw)
+        manifest_reference=self.sink(basis_raw)
+        try:
+            manifest['owners'][owner]={'reference':reference,'observed_at':at,
+                'source_observations':times}
+            owner_ids={key for key,value in self.owner_for(assets).items()if value==owner}
+            assets=[a for a in assets if a['id']not in owner_ids]+payload['assets']
+            if len(assets)>MAX_ASSETS or len({a['id']for a in assets})!=len(assets):raise ValueError('GRAPH_CATALOG_DUPLICATE_OR_ASSET_BOUND')
+            # Source status is an estate declaration, never overwritten by a
+            # collector's empty declaration list. Removed sources remain a refusal.
+            if not set(sources)<={a['id']for a in assets}:raise ValueError('GRAPH_DECLARED_SOURCE_REMOVED')
+            if not set(payload['source_asset_ids'])<=set(sources):raise ValueError('GRAPH_REFRESH_CANNOT_DECLARE_SOURCE')
+            observations={key:value for key,value in observations.items()if key not in owner_ids}
+            observations.update(times)
+            partitions=self.partition(estate,assets,self.sink,observed_at=at,source_asset_ids=sources,source_observations=observations)
+            return self._commit(estate,at,manifest,partitions,old['revision'],retire_missing=True)
+        except Exception as error:
+            error._graph_failed_payload=_FailedPayload(estate,owner,reference,manifest_reference)
+            raise

@@ -75,11 +75,11 @@ class PrewarmVerificationTests(unittest.TestCase):
         objects={'source':{'asset_id':'fabric://workspace/bronze/table/source'}}
         with patch('investigator.adapters.code_verification.resolve_objects',return_value=(objects,[])):
             with self.assertRaisesRegex(ValueError,'PREWARM_SOURCE_NOT_DECLARED'):
-                preflight(self.spec(),CONFIG,{'assets':[]},receipt_path='not-read')
+                preflight(self.spec(),CONFIG,{'assets':[]},receipt_path='not-read',manifest_budgets=self.spec()['budgets'])
         # No prewarm is needed when the proposals do not reach a serverless source.
         spec=self.spec();spec.pop('prewarm')
         with patch('investigator.adapters.code_verification.resolve_objects',return_value=(objects,[])):
-            self.assertTrue(preflight(spec,CONFIG,{'assets':[]},receipt_path='not-read')['admissible'])
+            self.assertTrue(preflight(spec,CONFIG,{'assets':[]},receipt_path='not-read',manifest_budgets=spec['budgets'])['admissible'])
 
     def test_worker_bound_and_remaining_job_time_checked_before_admission(self):
         with tempfile.TemporaryDirectory() as folder,active(Tape(Path(folder)/'tape.json',bootstrap())):

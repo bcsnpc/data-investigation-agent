@@ -27,7 +27,7 @@ def execute(manifest_path,prepared,spec_path,*,spec_sha256,session,deadline,capt
         raise ValueError('CLOUD_CONFIG_APPROVAL_DIFFERS')
     if approval['engine_hash']!=fingerprint():raise ValueError('APPROVED_ENGINE_DIFFERS')
     context=json.loads((prepared/'context.json').read_bytes());model=json.loads((prepared/'model.json').read_bytes())
-    planned=preflight(spec,config,context,receipt_path=prepared/'endpoints.json')
+    planned=preflight(spec,config,context,receipt_path=prepared/'endpoints.json',manifest_budgets=manifest['budgets'])
     if not planned['admissible']:raise ValueError('VERIFICATION_BUDGET_DIFFERS')
     pinned_body={k:v for k,v in context.items() if k!='version'}
     if context.get('version')!=approval['context_id'] or digest(pinned_body)!=approval['context_hash']:

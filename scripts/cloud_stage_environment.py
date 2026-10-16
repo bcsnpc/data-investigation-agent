@@ -32,12 +32,19 @@ def install(*,environment=None,work=Path('/work')):
 
 
 def build(stage,gateway,platform,slim,*,worker_id,ceiling_microdollars,margin_microdollars,
-          investigation_channel='investigation',model_channel='model',state_channel='worker:state'):
+          investigation_channel='investigation',model_channel='model',state_channel='worker:state',
+          job_observation=None,admission_now=None,isolation_observation=None):
     Gateway(gateway);slim_validate(slim)
     identity=identity_validate(platform.get('worker_identity',platform.get('identity')))
     if stage.get('identity')!=identity or slim['identity']!=identity:
         raise ValueError('CLOUD_WORKER_IDENTITIES_DIFFER')
     if stage.get('phase') not in ('prepare','verify'):raise ValueError('CLOUD_STAGE_UNKNOWN')
+    admission=None
+    if stage['phase']=='verify':
+        from cloud_job_admission import admit,isolation
+        admission=admit(stage,job_observation,now=admission_now)
+        admission['isolation']=isolation(stage,isolation_observation,now=admission['admitted_at'])
+        if stage['exclusive_writer']['owner']!=worker_id:raise ValueError('CLOUD_EXCLUSIVE_WORKER_ID_DIFFERS')
     if not isinstance(worker_id,str) or not re.fullmatch(r'[A-Za-z0-9_.:-]{1,100}',worker_id):
         raise ValueError('CLOUD_WORKER_ID_REQUIRED')
     if type(ceiling_microdollars)is not int or type(margin_microdollars)is not int or not 0<margin_microdollars<ceiling_microdollars:
@@ -68,6 +75,10 @@ def build(stage,gateway,platform,slim,*,worker_id,ceiling_microdollars,margin_mi
          'INVESTIGATOR_MODEL_SPEND_MICRODOLLARS':str(ceiling_microdollars),
          'INVESTIGATOR_MODEL_SPEND_MARGIN_MICRODOLLARS':str(margin_microdollars),
          'INVESTIGATOR_RECORDING_CLASS':'EXACT'}
+    if admission is not None:
+        env['DIA_CLOUD_JOB_ADMISSION']=json.dumps(admission,sort_keys=True)
+        env['INVESTIGATOR_EXCLUSIVE_LEASE_ID']=stage['exclusive_writer']['lease_id']
+        env['INVESTIGATOR_CLOUD_WORK_DEADLINE']=str(stage['deadline'])
     return {'command':['python','/app/scripts/cloud_stage_worker.py'],
             'env':[{'name':name,'value':value} for name,value in env.items()]}
 
@@ -77,11 +88,16 @@ def main():
     for name in ('stage','gateway','platform','slim','output','worker-id'):parser.add_argument('--'+name,required=True)
     parser.add_argument('--ceiling-microdollars',type=int,required=True)
     parser.add_argument('--margin-microdollars',type=int,required=True)
+    parser.add_argument('--job-observation',help='Fresh control-plane job GET and observed_at Unix seconds; required for verify')
+    parser.add_argument('--isolation-observation',help='Fresh drained executions, paused schedule, idle advisory lock and installed lease observations')
     args=parser.parse_args()
     output=Path(args.output)
     if output.exists():parser.error('Output exists; retain it and choose a new path')
     values=[json.loads(Path(getattr(args,name)).read_bytes()) for name in ('stage','gateway','platform','slim')]
-    result=build(*values,worker_id=args.worker_id,ceiling_microdollars=args.ceiling_microdollars,margin_microdollars=args.margin_microdollars)
+    observation=json.loads(Path(args.job_observation).read_bytes()) if args.job_observation else None
+    isolated=json.loads(Path(args.isolation_observation).read_bytes()) if args.isolation_observation else None
+    result=build(*values,worker_id=args.worker_id,ceiling_microdollars=args.ceiling_microdollars,
+                 margin_microdollars=args.margin_microdollars,job_observation=observation,isolation_observation=isolated)
     output.write_text(json.dumps(result,indent=2)+'\n',encoding='utf8')
 
 

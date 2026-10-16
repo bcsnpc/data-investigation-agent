@@ -14,4 +14,4 @@ jobs:
           python-version: '3.13'
       - run: pip install -r scripts/requirements-lineage.txt -r scripts/requirements-llm.txt pytest pytest-xdist
       - name: Exercise actual transport seams against write and injection attempts
-        run: python -m pytest scripts/test_live_gateway.py -n auto -q
+        run: python -m pytest scripts/test_live_gateway.py scripts/test_scanner_guardrails.py scripts/test_scanner_http.py scripts/test_scanner_dependency_wiring.py scripts/test_scanner_admin.py scripts/test_graph_incremental.py scripts/test_cloud_job_admission.py scripts/test_cloud_stage_worker.py scripts/test_shared_writer_lease.py scripts/test_model_only_installation.py scripts/test_graph_first_scan.py scripts/test_artifact_identity_cache.py -n auto -q

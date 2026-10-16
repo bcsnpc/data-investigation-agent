@@ -21,6 +21,31 @@ def file_sha(path):
     with Path(path).open('rb') as stream:
         for block in iter(lambda:stream.read(1024*1024),b''):digest.update(block)
     return digest.hexdigest()
+_UUID_SHAPE=r'(?i)\b[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}\b'
+
+
+def identity_matches(value,pattern):
+    """Same regex at every possible UUID start, with C-level dash search.
+
+    The mandatory first dash is exactly eight characters after the start.
+    Matching against the original string preserves Unicode word boundaries.
+    Other patterns keep their original findall behavior.
+    """
+    if pattern.pattern!=_UUID_SHAPE:
+        yield from pattern.findall(value)
+        return
+    cursor=0
+    while True:
+        at=value.find('-',cursor)
+        if at<0:return
+        start=at-8
+        match=pattern.match(value,start) if start>=0 else None
+        if match:
+            yield match.group()
+            cursor=match.end()+8  # findall does not return overlapping matches
+        else:cursor=at+1
+
+
 def scan(path,pattern):
     found=set()
     with closing(sqlite3.connect(Path(path).resolve().as_uri()+'?mode=ro',uri=True)) as db:
@@ -29,7 +54,7 @@ def scan(path,pattern):
             quoted='"'+table.replace('"','""')+'"'
             for row in db.execute('SELECT * FROM '+quoted):
                 for value in row:
-                    if isinstance(value,str):found.update(v.casefold() for v in pattern.findall(value))
+                    if isinstance(value,str):found.update(v.casefold() for v in identity_matches(value,pattern))
     return frozenset(found)
 class IdentityCache:
     def __init__(self,pattern,*,max_entries=8,max_identities=100000,scanner=scan):

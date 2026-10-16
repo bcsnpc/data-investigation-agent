@@ -7,6 +7,41 @@ def asset(id,kind,name,parent=None,metadata=None):return {'id':id,'kind':kind,'n
 def part(id,parent,name,content):return asset(id,'DefinitionPart',name,parent,{'content':content if isinstance(content,str) else json.dumps(content),'path':name})
 def field(kind,table,name):return {kind:{'Expression':{'SourceRef':{'Entity':table}},'Property':name}}
 class StaticTests(unittest.TestCase):
+    def test_same_gap_location_is_idempotent_but_conflicting_evidence_still_refuses(self):
+        from investigator.adapters.estate_graph_static import StaticGraph
+        def sink(raw):
+            h=hashlib.sha256(raw).hexdigest()
+            return {'sha256':h,'bytes':len(raw),'uri':'cas://'+h}
+        graph=StaticGraph('estate','owner',NOW,[asset('m','SemanticModel','Model')],sink)
+        proof=graph.proof(graph.assets['m'])
+        first=graph.gap('origin','Unresolved','Collect definition',proof)
+        self.assertEqual(graph.gap('origin','Unresolved','Collect definition',proof),first)
+        self.assertEqual(len(graph.nodes),1)
+        with self.assertRaisesRegex(ValueError,'GRAPH_NODE_IDENTITY_COLLISION'):
+            graph.gap('origin','Unresolved','Different unsupported remedy',proof)
+
+    def test_repeated_unresolved_member_occurrences_keep_distinct_provenance(self):
+        assets=self.assets()
+        visual=next(a for a in assets if a['id']=='v')
+        visual['metadata']['visual']['query']={'first':field('Measure','Data','Missing'),
+                                             'second':field('Measure','Data','Missing')}
+        graph=self.build(assets)
+        gaps=[n for n in graph['nodes'] if n['label']=='Unresolved Measure reference Data[Missing]']
+        self.assertEqual(len(gaps),2)
+        self.assertEqual({n['provenance']['span']['path'] for n in gaps},{'/first/Measure','/second/Measure'})
+        self.assertEqual(len({n['id'] for n in gaps}),2)
+        self.assertTrue(all(n['confidence']=='UNKNOWN' for n in gaps))
+
+    def test_repeated_unsupported_m_partitions_keep_both_original_locations(self):
+        doc={'model':{'tables':[{'name':name,'partitions':[{'source':{'type':'m','expression':'UnresolvedSource'}}]}
+                                for name in ('First','Second')]}}
+        graph=self.build([asset('model','SemanticModel','Model'),part('bim','model','model.bim',doc)])
+        gaps=[n for n in graph['nodes'] if n['label']=='Power Query declaration form is unsupported.']
+        self.assertEqual(len(gaps),2)
+        self.assertEqual({n['provenance']['span']['path'] for n in gaps},
+            {'/model/tables/0/partitions/0/source/expression','/model/tables/1/partitions/0/source/expression'})
+        self.assertTrue(all(n['confidence']=='UNKNOWN' for n in gaps))
+
     def test_both_evidenced_historical_hash_serializations_checked_without_rewrite(self):
         value=asset('wh','Warehouse','Serving',metadata={'name':'Serving','properties':{'route':'catalog'}})
         for separators,label in [(None,'SORTED_JSON_SPACED'),((',',':'),'SORTED_JSON_COMPACT_LEGACY')]:

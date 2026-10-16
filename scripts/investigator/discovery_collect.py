@@ -234,39 +234,40 @@ class Collector:
                 references.update(declared_source_connections(
                     part.get('metadata',{}).get('path'), part['metadata']['content']))
             self.attempt(part['id']+'/connection_reference',refs)
-        sql=config['sql']; sqlroot='sql://'+sql['server']+'/'+sql['database']
-        for cid in sorted(references):
-            def connection(cid=cid):
-                body=self.call('connections/'+cid)['text']
-                if str(UUID(body['id']))!=cid:raise ValueError('Connection identity differs')
-                details=body.get('connectionDetails',{})
-                path=details.get('path','').split(';')
-                if (details.get('type')!='SQL' or len(path)!=2
-                        or path[0].casefold()!=sql['server'].casefold() or path[1]!=sql['database']):
-                    raise ValueError('Declared connection leaves approved source scope')
-                self.asset(root+'/connection/'+cid,'SourceConnection',cid,'connections/'+cid,
-                    {'id':cid,'connectionDetails':{'type':details['type'],'path':details['path']}},root)
-            self.attempt(root+'/connection/'+cid,connection)
-        def sql_catalog():
-            self.charge()
-            snapshot=self.sql_reader(sql['server'],sql['database'],sql['visibility_schema'])
-            if (snapshot['server'].removeprefix('tcp:').split(',')[0].lower()!=sql['server'].lower()
-                    or snapshot['database']!=sql['database']):raise ValueError('SQL catalog target differs')
-            snapshot=copy.deepcopy(snapshot)
-            # The old reader enumerates all visible objects: constrain the projection.
-            snapshot['objects']=[o for o in snapshot['objects'] if o['schema_name']==sql['visibility_schema']]
-            collect_sql(self,snapshot)
-            self.asset(sqlroot+'/schema/'+quote(sql['visibility_schema'],safe=''),'SqlSchema',
-                       sql['visibility_schema'],'Azure SQL sys catalog',{'name':sql['visibility_schema']},sqlroot)
-            return bool(snapshot['permissions'] and snapshot['permissions'][0]['can_view_definition'])
-        complete=self.attempt(sqlroot+'/catalog',sql_catalog)
-        if complete is False:
-            # A complete metadata response about visible objects is retained as
-            # such. Lack of schema-wide visibility is a coverage limit, not a
-            # reason to erase the returned objects or claim hidden ones absent.
-            self.coverage[sqlroot+'/catalog']={'status':'UNAVAILABLE',
-                'error_type':'PermissionError','reason':'Complete schema visibility unavailable',
-                'retained_scope':'VISIBLE_OBJECTS_ONLY','complete_schema':False}
+        if 'sql' in config:
+            sql=config['sql']; sqlroot='sql://'+sql['server']+'/'+sql['database']
+            for cid in sorted(references):
+                def connection(cid=cid):
+                    body=self.call('connections/'+cid)['text']
+                    if str(UUID(body['id']))!=cid:raise ValueError('Connection identity differs')
+                    details=body.get('connectionDetails',{})
+                    path=details.get('path','').split(';')
+                    if (details.get('type')!='SQL' or len(path)!=2
+                            or path[0].casefold()!=sql['server'].casefold() or path[1]!=sql['database']):
+                        raise ValueError('Declared connection leaves approved source scope')
+                    self.asset(root+'/connection/'+cid,'SourceConnection',cid,'connections/'+cid,
+                        {'id':cid,'connectionDetails':{'type':details['type'],'path':details['path']}},root)
+                self.attempt(root+'/connection/'+cid,connection)
+            def sql_catalog():
+                self.charge()
+                snapshot=self.sql_reader(sql['server'],sql['database'],sql['visibility_schema'])
+                if (snapshot['server'].removeprefix('tcp:').split(',')[0].lower()!=sql['server'].lower()
+                        or snapshot['database']!=sql['database']):raise ValueError('SQL catalog target differs')
+                snapshot=copy.deepcopy(snapshot)
+                # The old reader enumerates all visible objects: constrain the projection.
+                snapshot['objects']=[o for o in snapshot['objects'] if o['schema_name']==sql['visibility_schema']]
+                collect_sql(self,snapshot)
+                self.asset(sqlroot+'/schema/'+quote(sql['visibility_schema'],safe=''),'SqlSchema',
+                           sql['visibility_schema'],'Azure SQL sys catalog',{'name':sql['visibility_schema']},sqlroot)
+                return bool(snapshot['permissions'] and snapshot['permissions'][0]['can_view_definition'])
+            complete=self.attempt(sqlroot+'/catalog',sql_catalog)
+            if complete is False:
+                # A complete metadata response about visible objects is retained as
+                # such. Lack of schema-wide visibility is a coverage limit, not a
+                # reason to erase the returned objects or claim hidden ones absent.
+                self.coverage[sqlroot+'/catalog']={'status':'UNAVAILABLE',
+                    'error_type':'PermissionError','reason':'Complete schema visibility unavailable',
+                    'retained_scope':'VISIBLE_OBJECTS_ONLY','complete_schema':False}
         return {'assets':list(self.assets.values()),'coverage':self.coverage,
                 'observations':self.observations,'report_bindings':self.report_bindings,
                 'item_relations':self.item_relations,

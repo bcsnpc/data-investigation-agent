@@ -26,6 +26,57 @@ class Tests(unittest.TestCase):
                               ({'egress_usd_per_gb':0.087},'COST_POLICY'),
                               ({'egress_usd_per_gb':'-1'},'COST_POLICY')]:
             with self.assertRaisesRegex(ArtifactError,error):admission({**POLICY,**changed},0,0)
+    def test_separate_oneoff_and_steady_caps_include_cool_minimum(self):
+        policy={'version':2,'batch_stored_bytes':1000000000,'batch_controls':100,
+                'total_stored_bytes':200000000000,'historical_stored_bytes':1000000000,
+                'historical_controls':294,'cool_reserve_days':31,'cool_usd_per_gb_month':'0.0152',
+                'archive_usd_per_gb_month':'0.00099','control_usd_each':'0.00001',
+                'platform_baseline_usd_month':'19.99','platform_total_usd_cap':'20',
+                'oneoff_usd_cap':'2','oneoff_prior_usd':'0.00045'}
+        got=admission(policy,1000000000,294)
+        self.assertEqual(got['projected_platform_usd_month'],'19.99198')
+        self.assertGreater(float(got['reserved_oneoff_usd']),0.016)
+        # Old mixed accounting would refuse despite both independent caps fitting.
+        self.assertGreater(float(got['projected_platform_usd_month'])+float(got['reserved_oneoff_usd']),20)
+        for patch_values,stored,controls,error in [
+            ({'oneoff_usd_cap':'0.016'},1000000000,294,'ONEOFF_COST_CAP'),
+            ({'platform_total_usd_cap':'19.99'},1000000000,294,'PLATFORM_COST_CAP'),
+            ({'cool_reserve_days':30},1000000000,294,'COST_POLICY'),
+            ({},999999999,294,'ACCOUNTING_CHECKPOINT'),
+            ({'oneoff_usd_cap':'0.0172'},1000000000,400,'ONEOFF_COST_CAP'),
+        ]:
+            with self.assertRaisesRegex(ArtifactError,error):
+                admission({**policy,**patch_values},stored,controls)
+        # Retained retry charges and prior committed blobs cannot disappear.
+        after=admission(policy,2000000000,394)
+        self.assertGreater(float(after['reserved_oneoff_usd']),float(got['reserved_oneoff_usd']))
+
+    def test_owner_stop_during_offline_measurement_never_creates_client(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);capture=root/'.local/round-five/capture';capture.mkdir(parents=True)
+            (capture/'tape.json').write_bytes(canonical({'events':[]}))
+            runtime=root/'runtime.py';runtime.write_text('# no captured dependencies')
+            baseline=root/'baseline.json';baseline.write_bytes(canonical({'stored_bytes':0,'platform_controls':0}))
+            policy={'version':2,'batch_stored_bytes':100000,'batch_controls':100,'total_stored_bytes':1000000,
+                    'historical_stored_bytes':0,'historical_controls':0,'cool_reserve_days':31,
+                    'cool_usd_per_gb_month':'0.0152','archive_usd_per_gb_month':'0.00099',
+                    'control_usd_each':'0.00001','platform_baseline_usd_month':'14.82',
+                    'platform_total_usd_cap':'20','oneoff_usd_cap':'2','oneoff_prior_usd':'0'}
+            config={'workspace':str(root),'scope_approval':'synthetic','local_deletion':False,
+                    'accounting_checkpoint':{'path':str(baseline),'sha256':digest(baseline.read_bytes())},
+                    'previous_plans':[],'cutoff':datetime.fromtimestamp(time.time()+1,timezone.utc).isoformat(),
+                    'admit_before':'2099-01-01T00:00:00+00:00','stop_file':str(root/'STOP'),
+                    'max_batches':1,'max_original_bytes':10000,'max_files':10,'protected_paths':[],
+                    'runtime_reference_paths':[str(runtime)],'verification_mode':'block-checksum-v1','cost_policy':policy}
+            def measure(*args):
+                (root/'STOP').touch()
+                return {'blocks':[{}],'stored_bytes':100}
+            def client(*args):self.fail('a stop during offline work must precede client creation')
+            with patch('shutil.disk_usage',return_value=type('Usage',(),{'free':20*1024**3})()),patch('investigator.checksum_archive.measure',side_effect=measure):
+                result=run(config,root/'output',client)
+            self.assertEqual(result['batches'],[])
+            self.assertIn('ADMISSIONS_CLOSED',(root/'output/controller.jsonl').read_text())
+
     def test_bounded_run_keeps_originals_and_cap_blocks_before_client(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory);capture=root/'.local/round-five/capture';capture.mkdir(parents=True)

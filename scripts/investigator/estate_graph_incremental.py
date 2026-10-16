@@ -6,6 +6,17 @@ from . import estate_graph_contract as contract
 NAMESPACE = 'graph_scan_cursor'
 
 
+def is_stop_condition(error):
+    """Policy and budget refusals stop a scan, never become ordinary coverage gaps."""
+    from .live_gateway import GatewayDenied
+    from .usage_governance import UsageHold
+    from .shared_state import StateConflict
+    from .discovery_collect import BudgetExceeded
+    from .model_spend import SpendHold
+    from .action_budget import RetrievalBudgetExceeded
+    return isinstance(error,(GatewayDenied,UsageHold,StateConflict,BudgetExceeded,SpendHold,RetrievalBudgetExceeded)) or str(error)=='GRAPH_PHYSICAL_REQUEST_CAP'
+
+
 class IncrementalScanner:
     def __init__(self, repository, collector, extract, *, max_owners=100, reconcile=None, observation_clock=None):
         if type(max_owners) is not int or not 1 <= max_owners <= 1000:
@@ -98,7 +109,15 @@ class IncrementalScanner:
             except Exception as error:
                 # Do not advance this owner's cursor. Permission denial never deletes it.
                 detail=safe_failure(error)
-                health(self.repo.state, estate, owner, owner_at, 'UNAVAILABLE', 'Owner definition refresh unavailable: ' + type(error).__name__,failure=detail)
-                results.append({'owner': owner, 'status': 'UNAVAILABLE', 'reason': type(error).__name__,'failure':detail})
+                from .graph_asset_catalog import failure_reference,failure_manifest_reference
+                reference=failure_reference(error,estate,owner)
+                retained={'payload_reference':reference,'catalog_manifest_reference':failure_manifest_reference(error,estate,owner)} if reference is not None else {}
+                if reference is None:
+                    from .adapters.graph_change_collector import failure_definition_reference
+                    reference=failure_definition_reference(error,owner)
+                    if reference is not None:retained={'payload_reference':reference}
+                health(self.repo.state, estate, owner, owner_at, 'UNAVAILABLE', 'Owner definition refresh unavailable: ' + type(error).__name__,failure=detail,**retained)
+                if is_stop_condition(error):raise
+                results.append({'owner': owner, 'status': 'UNAVAILABLE', 'reason': type(error).__name__,'failure':detail,**retained})
         self.repo.state.put(NAMESPACE, identity, {'owners': latest, 'observed_at': at}, revision=previous['revision'])
         return {'estate': estate, 'observed_at': at, 'listing_complete': listing['complete'], 'owners': results}

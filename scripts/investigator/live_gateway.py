@@ -105,12 +105,18 @@ class Gateway:
         for identity,permissions in self.policy['identities'].items():
             if not isinstance(identity,str) or not identity or not isinstance(permissions,dict):
                 _deny('INVALID_GATEWAY_IDENTITY')
+            if permissions.get('role')=='scanner':
+                from .adapters.scanner_policy import declaration
+                try:declaration(permissions)
+                except Exception:_deny('INVALID_SCANNER_POLICY',identity=identity)
             for endpoint in permissions.get('http',[]):
                 _url(endpoint['url'])
                 if endpoint.get('method') not in ('GET','HEAD','POST','PUT'):
                     _deny('MUTATING_METHOD_IN_POLICY')
-                if endpoint.get('purpose') not in ('metadata','dax','model','blob_read','kql','platform_blob','auth_refresh','auth_federation'):
+                if endpoint.get('purpose') not in ('metadata','dax','model','blob_read','kql','platform_blob','auth_refresh','auth_federation','scanner_metadata','scanner_dax','scanner_auth'):
                     _deny('INVALID_ENDPOINT_PURPOSE')
+                if endpoint.get('purpose','').startswith('scanner_')and permissions.get('role')!='scanner':
+                    _deny('SCANNER_IDENTITY_REQUIRED',identity=identity)
                 if endpoint['method']=='PUT' and endpoint['purpose']!='platform_blob':
                     _deny('ESTATE_WRITE_METHOD_IN_POLICY')
                 if endpoint['purpose']=='platform_blob' and permissions.get('role')!='platform':
@@ -147,12 +153,24 @@ class Gateway:
         self.check_live()
         permissions=self.policy['identities'].get(identity)
         if permissions is None:_deny('IDENTITY_NOT_ALLOWED',identity=identity)
+        if permissions.get('role')=='scanner':
+            from .adapters.scanner_policy import authorize_job
+            try:authorize_job(permissions)
+            except Exception:_deny('SCANNER_JOB_REQUIRED',identity=identity)
         return permissions
 
     def http(self,identity,method,url,body=None,headers=None):
         permissions=self.identity(identity);_url(url)
         method=method.upper()
         matches=[item for item in permissions.get('http',[]) if item['method']==method and item['url']==url]
+        if not matches and permissions.get('role')=='scanner':
+            from .adapters.scanner_policy import followup
+            bound=followup(identity,method,url)
+            if bound is not None:matches=[bound]
+        if permissions.get('role')=='scanner':
+            from .adapters.scanner_policy import response_bound_only,followup
+            if response_bound_only(url) and followup(identity,method,url) is None:
+                _deny('SCANNER_RESPONSE_BINDING_REQUIRED',identity=identity,operation=method,target=url)
         if len(matches)!=1:
             if not matches and permissions.get('role')=='platform':
                 from .adapters.platform_cas import permits
@@ -170,7 +188,11 @@ class Gateway:
                 or method not in ('GET','HEAD') and set(path)&{'refreshes','refresh'}):
             _deny('ESTATE_CONTROL_ENDPOINT_BLOCKED',identity=identity,operation=method,target=url)
         purpose=matches[0]['purpose']
-        if purpose=='dax':
+        if purpose.startswith('scanner_'):
+            from .adapters.scanner_policy import http
+            try:http(permissions,matches[0],method,url,body)
+            except Exception:_deny('SCANNER_OPERATION_REFUSED',identity=identity,operation=method,target=url)
+        elif purpose=='dax':
             if method!='POST' or path[-1]!='executequeries':_deny('DAX_ENDPOINT_REQUIRED')
             try:
                 value=json.loads(body) if isinstance(body,(str,bytes)) else body
@@ -208,6 +230,12 @@ class Gateway:
 
     def native_control(self,identity,operation,target,query=None):
         permissions=self.identity(identity)
+        if permissions.get('role')=='scanner'and operation!='XMLA_GRAPH_METADATA':
+            _deny('SCANNER_NATIVE_OPERATION_REFUSED',identity=identity,operation=operation)
+        if permissions.get('role')=='scanner':
+            from .adapters.scanner_identity import require_job
+            try:require_job(permissions['scanner']['authentication'],[target['workspace']])
+            except Exception:_deny('SCANNER_NATIVE_SCOPE_REFUSED',identity=identity,operation=operation)
         if operation not in ('XMLA_EVALUATE','XMLA_GRAPH_METADATA','SNAPSHOT_SQL_METADATA','SNAPSHOT_XMLA_METADATA'):
             _deny('NATIVE_CONTROL_UNKNOWN',identity=identity)
         grant={'operation':operation,**target}

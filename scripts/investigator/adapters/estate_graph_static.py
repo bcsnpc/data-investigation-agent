@@ -68,6 +68,12 @@ class StaticGraph:
         # child. Equality is checked; a convenient same-name part is not proof.
         report=self.ancestor(asset['id'],'Report')
         if report and asset['kind'] in ('Report','ReportPage','ReportVisual'):
+            from .legacy_report import location
+            for part in self.assets.values():
+                if (part['kind']=='DefinitionPart' and part.get('parent_id')==report and part['name']=='report.json'
+                        and asset['kind'] in ('ReportPage','ReportVisual')):
+                    raw=part['metadata']['content'];pointer=location(json.loads(raw),asset['id'],report,asset.get('metadata',{}))
+                    if pointer is not None:return self.proof(part,raw,path=pointer)
             matches=[]
             suffix={'Report':'definition/report.json','ReportPage':'/page.json','ReportVisual':'/visual.json'}[asset['kind']]
             for part in self.assets.values():
@@ -78,6 +84,10 @@ class StaticGraph:
                 except (KeyError,ValueError,TypeError):continue
             if len(matches)==1:return self.proof(matches[0][0],matches[0][1])
         return self.proof(asset)
+
+    def legacy(self,asset):
+        report=self.ancestor(asset['id'],'Report')
+        return any(p['kind']=='DefinitionPart' and p.get('parent_id')==report and p['name']=='report.json' for p in self.assets.values())
 
     def add(self,kind,label,locator,proof,properties=None,*,confidence='DECLARED',unknown=None,owner=None):
         owner=owner or (self.item_owner(proof['source_id']) if self.partitioned else self.owner)
@@ -107,7 +117,12 @@ class StaticGraph:
 
     def gap(self,origin,reason,remedy,proof,*,kind='COMPUTED_FROM'):
         unknown={'reason':reason[:2048],'remedy':remedy[:2048]}
-        target=self.add('BOUNDARY',reason[:200],[origin,reason],proof,confidence='UNKNOWN',unknown=unknown)
+        # Equal gap wording at different source locations is not one declaration.
+        # Keep each location so repeated unresolved references cannot collide or
+        # erase evidence. Deliberately omit observation time/content hash: the
+        # same declaration location keeps its identity across later revisions.
+        target=self.add('BOUNDARY',reason[:200],[origin,reason,proof['source_id'],proof['span']],
+            proof,confidence='UNKNOWN',unknown=unknown)
         self.link(kind,origin,target,proof,confidence='UNKNOWN',unknown=unknown);return target
 
     def ancestor(self,asset_id,kind):
@@ -194,9 +209,14 @@ class StaticGraph:
             if kind is None:continue
             meta=asset.get('metadata',{});proof=self.asset_proof(asset)
             if native=='ReportVisual' and meta.get('visual',{}).get('visualType')=='slicer':kind='SLICER'
+            legacy=self.legacy(asset) if native in ('Report','ReportPage','ReportVisual') else False
+            if legacy and native=='ReportVisual':
+                from .legacy_report import object_json
+                if object_json(meta['config']).get('singleVisual',{}).get('visualType')=='slicer':kind='SLICER'
             if native in ('SqlObject','WarehouseTable'):kind={'V':'VIEW','SQL_STORED_PROCEDURE':'PROCEDURE','P':'PROCEDURE','VIEW':'VIEW'}.get(meta.get('type',meta.get('type_desc')),kind)
             if native=='SemanticColumn' and meta.get('type')=='calculated':kind='CALCULATED_COLUMN'
             props={'asset_id':aid,'native_kind':native,'hidden':meta.get('isHidden',meta.get('visibility'))}
+            if legacy:props['native_format']='PBIR_LEGACY'
             if 'content_hash' in asset:
                 spaced=hashlib.sha256(json.dumps(meta,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
                 props['retained_metadata_hash_encoding']='SORTED_JSON_SPACED' if asset['content_hash']==spaced else 'SORTED_JSON_COMPACT_LEGACY'
@@ -204,11 +224,16 @@ class StaticGraph:
             for key in ('dataType','sourceColumn','isActive','crossFilteringBehavior','securityFilteringBehavior'):
                 if key in meta:props[key]=meta[key]
             node=self.add(kind,asset['name'],['asset',aid],proof,props);self.by_asset[aid]=node;self.proofs[aid]=proof
+        engine_covered=self.engine_dependencies()
         for aid,node in list(self.by_asset.items()):
             asset=self.assets[aid];parent=asset.get('parent_id');proof=self.proofs[aid];meta=asset.get('metadata',{})
             if parent in self.by_asset:self.link('CONTAINS',self.by_asset[parent],node,proof)
             if asset['kind'] in ('Report','ReportPage','ReportVisual'):
                 report=self.ancestor(aid,'Report');model=self.model_for_report(report) if report else None
+                if self.legacy(asset):
+                    self.gap(node,'PBIR-Legacy structure retained; embedded query, filter and interaction semantics are not interpreted.',
+                        'Use a supported explicit legacy semantic reader; do not treat this structural graph as complete visual lineage.',proof)
+                    continue
                 self.filters(node,meta,model,proof,scope={'Report':'report','ReportPage':'page','ReportVisual':'visual'}[asset['kind']])
                 if asset['kind']=='ReportVisual':
                     references=self.fields(node,meta.get('visual',{}).get('query',{}),model,proof)
@@ -217,7 +242,7 @@ class StaticGraph:
                     elif not references:
                         self.gap(node,'No supported explicit field reference was found in the retained visual query.','Collect the visual query or a permitted runtime visual-query observation.',proof)
                 if asset['kind']=='ReportPage':self.interactions(aid,meta,proof)
-            if asset['kind'] in ('Measure','SemanticColumn') and ('expression' in meta or asset['kind']=='Measure'):
+            if asset['kind'] in ('Measure','SemanticColumn') and ('expression' in meta or asset['kind']=='Measure') and node not in engine_covered:
                 self.gap(node,'Engine-resolved expression dependencies have not been collected.',
                     'CALCDEPENDENCY needs model write permission and is unavailable to this read-only investigator; retain UNKNOWN or use a separately approved metadata source.',proof)
             if asset['kind']=='SemanticRelationship':self.relationship(aid,meta,proof)
@@ -267,6 +292,45 @@ class StaticGraph:
         return c.snapshot({'estate':self.estate,'owner':self.owner,'definition_hash':c.digest({'definitions':sorted(self.definitions),'source_assets':sorted(self.sources),
                 'assets':[(a['id'],a.get('parent_id'),a['kind'],a['name'],c.digest(a.get('metadata',{}))) for a in sorted(self.assets.values(),key=lambda x:x['id'])]}),
             'observed_at':self.at,'nodes':list(self.nodes.values()),'edges':list(self.edges.values())})
+
+    def engine_dependencies(self):
+        """Join engine rows by exact model/table/member identity, never DAX text."""
+        from .graph_dependencies import dependency_edges
+        covered=set()
+        for asset in sorted(self.assets.values(),key=lambda a:a['id']):
+            if asset['kind']!='EngineDependencyMetadata':continue
+            model=asset.get('parent_id');meta=asset.get('metadata',{});result=meta.get('result',{})
+            if model not in self.by_asset or result.get('request',{}).get('kind')!='CALCULATIONS':continue
+            proof=self.proof(asset)
+            pins={hashlib.sha256(a['metadata']['content'].encode()).hexdigest() for a in self.assets.values()
+                if a['kind']=='DefinitionPart' and a.get('parent_id')==model and a['name']=='model.bim'}
+            request=result.get('request',{}).get('target',{})
+            parts=model.split('/')
+            if (pins!={meta.get('model_definition_hash')} or len(parts)!=4 or
+                    request!={'workspace':parts[-2],'model':parts[-1]} or
+                    meta.get('model_name')!=self.assets[model]['name']):
+                self.gap(self.by_asset[model],'Engine dependency observation does not bind the retained model definition.',
+                    'Collect dependency metadata and the exact model definition under one declared model identity.',proof);continue
+            bindings={};expected=[]
+            for aid,node in self.by_asset.items():
+                item=self.assets[aid]
+                if self.ancestor(aid,'SemanticModel')!=model:continue
+                kind={'Measure':'MEASURE','SemanticColumn':'COLUMN','SemanticTable':'TABLE'}.get(item['kind'])
+                if kind is None:continue
+                table=self.assets.get(item.get('parent_id'),{}).get('name') if kind!='TABLE' else item['name']
+                native=(kind,table,item['name'])
+                if item['kind']=='SemanticColumn' and item.get('metadata',{}).get('expression'):
+                    native=('CALC_COLUMN',table,item['name'])
+                if native in bindings:raise ValueError('GRAPH_DEPENDENCY_MEMBER_AMBIGUOUS')
+                bindings[native]=node
+                if kind=='MEASURE' or native[0]=='CALC_COLUMN':expected.append(native)
+            got=dependency_edges(result,estate=self.estate,owner=self.item_owner(model) if self.partitioned else self.owner,
+                model=meta['model_name'],bindings=bindings,expected=expected,definition_hash=meta['model_definition_hash'],
+                observed_at=self.source_observations.get(asset['id'],self.at),definition_sink=self.retain)
+            for edge in got['edges']:self.edges[edge['id']]=edge
+            for key in got['covered']:covered.add(bindings[tuple(key)])
+            for gap in got['gaps']:self.gap(self.by_asset[model],gap['reason'],gap['remedy'],proof)
+        return covered
 
     def _parents(self,aid):
         seen=set()
