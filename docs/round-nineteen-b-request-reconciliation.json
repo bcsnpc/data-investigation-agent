@@ -1,0 +1,213 @@
+{
+  "recorded_at": "2026-10-16",
+  "observed_at": "2026-10-13T19:23:28.401609+00:00",
+  "source_sha256": "3b9e51512cc0c6c5d47bbc123f74dcdf638647ceb866dda5c09bd6ce1f270d15",
+  "round": "NINETEEN_B",
+  "sessions": [
+    {
+      "session_id": "graph-scan:272ad770-305e-4f40-a3a0-a77e72b97750",
+      "physical_requests": 31,
+      "reservation_statuses": {
+        "SETTLED": 31
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "graph-scan:5c36c4de-6110-46b5-917f-1e46bf211ec7",
+      "physical_requests": 28,
+      "reservation_statuses": {
+        "SETTLED": 28
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "round-nineteen-b-interpreter-01",
+      "physical_requests": 0,
+      "reservation_statuses": {
+        "SETTLED": 4
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "graph-scan:90d8d31a-1ea3-4b0c-86e4-73596d4c13fe",
+      "physical_requests": 18,
+      "reservation_statuses": {
+        "SETTLED": 18
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "graph-scan:ef45191f-74ad-4818-94df-9b90bbde472d",
+      "physical_requests": 30,
+      "reservation_statuses": {
+        "SETTLED": 30
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "graph-scan:fa7fc037-93b4-482d-a85c-0f6d0e394115",
+      "physical_requests": 12,
+      "reservation_statuses": {
+        "SETTLED": 12
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "graph-scan:bd687a59-7c88-48ce-9d7f-1f2590e31b57",
+      "physical_requests": 11,
+      "reservation_statuses": {
+        "SETTLED": 11
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "owner-control:sample-publication-01",
+      "physical_requests": 1,
+      "reservation_statuses": {
+        "SETTLED": 1
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "graph-scan:4bd73a28-772d-4216-b5dd-12f1f6dc9381",
+      "physical_requests": 20,
+      "reservation_statuses": {
+        "SETTLED": 19,
+        "UNCERTAIN": 1
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "graph-scan:e0d6e05c-dc70-489c-bf5b-cda29244fc44",
+      "physical_requests": 21,
+      "reservation_statuses": {
+        "SETTLED": 21
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "owner-control:sample-publication-02",
+      "physical_requests": 10,
+      "reservation_statuses": {
+        "SETTLED": 10
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "round-nineteen-b-verify-02",
+      "physical_requests": 33,
+      "reservation_statuses": {
+        "SETTLED": 33
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "graph-scan:10a7e5e8-e37a-40c4-aa14-0080023191eb",
+      "physical_requests": 21,
+      "reservation_statuses": {
+        "SETTLED": 21
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "owner-control:sample-publication-03",
+      "physical_requests": 5,
+      "reservation_statuses": {
+        "SETTLED": 5
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "graph-scan:ff155244-b574-4550-b254-206e96d6d240",
+      "physical_requests": 12,
+      "reservation_statuses": {
+        "SETTLED": 12
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "graph-scan:2d8e84e8-bc08-4b5b-b698-826236c17d72",
+      "physical_requests": 4,
+      "reservation_statuses": {
+        "SETTLED": 4
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "graph-scan:cb4f38e9-37b9-490e-9f94-9141083c98df",
+      "physical_requests": 26,
+      "reservation_statuses": {
+        "SETTLED": 26
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "graph-scan:d0133389-724a-4e50-b26b-5648a5e67326",
+      "physical_requests": 15,
+      "reservation_statuses": {
+        "SETTLED": 15
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "round-nineteen-b-verify-03",
+      "physical_requests": 36,
+      "reservation_statuses": {
+        "SETTLED": 36
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "graph-scan:b7f48e78-13e2-41f1-8598-912d96c3bdec",
+      "physical_requests": 15,
+      "reservation_statuses": {
+        "SETTLED": 15
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "owner-control:bronze-access-before-20261013",
+      "physical_requests": 4,
+      "reservation_statuses": {
+        "SETTLED": 4
+      },
+      "accounting_is_not_result_evidence": true
+    },
+    {
+      "session_id": "round-nineteen-b-bronze-check-01",
+      "physical_requests": 4,
+      "reservation_statuses": {
+        "SETTLED": 4
+      },
+      "accounting_is_not_result_evidence": true
+    }
+  ],
+  "physical_total": 357,
+  "settled_physical": 356,
+  "uncertain_physical": 1,
+  "reserved_physical": 0,
+  "round_cap": 1500,
+  "restoration_reserve": 95,
+  "rolling_at_observation": 585,
+  "rolling_limit": 3000,
+  "new_model_cost_usd": "0.074710",
+  "shared_model_cost_at_observation_usd": "108.121268",
+  "model_ceiling_usd": "133.046558",
+  "protected_model_margin_usd": "10",
+  "current_refresh": {
+    "date": "2026-10-16",
+    "status": "FAILED",
+    "error_type": "psycopg.errors.ConnectionTimeout",
+    "message": "connection timeout expired",
+    "receipt": ".local/round-nineteen-b/budget-resume-20261016.log",
+    "estate_reads": 0,
+    "model_calls": 0,
+    "remote_writes": 0
+  },
+  "limits": [
+    "Counters are the dated October13 readback, not a current rolling-window claim.",
+    "No reservation was changed by this reconciliation.",
+    "Platform PostgreSQL/ARM/Blob controls are separately recorded.",
+    "Four interpreter reservations have zero physical requests; they are not four additional estate reads."
+  ]
+}

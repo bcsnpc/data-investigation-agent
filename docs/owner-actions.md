@@ -61,3 +61,10 @@ Historical pipeline and handoff claim catalogs remain distinct because the prima
 ## 2026-10-13: cloud Bronze proof remains unearned
 
 The single owner-approved SQL check consumed4settled requests but its operator capture header failed finalization before upload; the native result is unavailable. No additional full verification/demo was admitted. No permissions were changed: investigator already has Viewer and the endpoint matches. Any future check needs separate bounded approval, a successfully tested capture wrapper (including failure upload), fresh immutable image and offline admission. Original18456 and both operator failures remain recorded in docs/round-nineteen-b-bronze-diagnosis.md. Schedule restored; lease released; no further SQL attempt authorized in this round.
+
+
+## Post-round platform reachability and remaining cloud proof (2026-10-16)
+
+The read-only closing PostgreSQL snapshot failed with `psycopg.errors.ConnectionTimeout: connection timeout expired` connecting to `pg-dia-d5dd7d65.postgres.database.azure.com:5432`. The cause is not established; no server setting, firewall, identity or permission was changed. Last verified counters remain dated2026-10-13T19:23:28Z. Future read-only checks: `Test-NetConnection pg-dia-d5dd7d65.postgres.database.azure.com -Port 5432`; `az postgres flexible-server show --resource-group rg-dia-platform --name pg-dia-d5dd7d65 --output json`. A fresh successful readback is needed before another live admission.
+
+The sole approved Bronze probe was consumed and its result was lost by operator finalization; no further probe/demo was admitted. Any later attempt needs a fresh owner decision and a valid capture header with independent failure-safe upload, followed by the unchanged read-only, runtime, lease, budget and exact-replay requirements. The source-path/compiler gaps and partial archive are detailed in round-nineteen-b-summary.md. Existing local worktrees and the pinned cleanup helper remain.

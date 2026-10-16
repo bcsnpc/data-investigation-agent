@@ -1,0 +1,184 @@
+{
+  "recorded_at": "2026-10-16",
+  "owner_approval": "Round Nineteen-B Part E, 2026-10-13; continued by owner2026-10-16",
+  "tested_main": "6fb161640bff72164931bbd3f0384e19b5d5891a",
+  "tag": "v0.19b",
+  "annotated_tag_object": "fac4633fcb59a8cb8d1e01ece695a6d636237131",
+  "merges": [
+    {
+      "pr": 423,
+      "merge_commit": "f2c86c2c0ac7cd991315b0dbf6eadae9158b0cb8"
+    },
+    {
+      "pr": 424,
+      "merge_commit": "4bb0a39ee8d62cda240c1653b969474e3db0214e"
+    },
+    {
+      "pr": 425,
+      "merge_commit": "d53d6874d41696d032609f910514d059e614fd18"
+    },
+    {
+      "pr": 426,
+      "merge_commit": "6fb161640bff72164931bbd3f0384e19b5d5891a"
+    }
+  ],
+  "merge_method": "MERGE_COMMITS",
+  "branch_full_tests": {
+    "source": "141991296962a57348f09481518a7a340062395f",
+    "passed": 4463,
+    "skipped": 46,
+    "subtests": 1557,
+    "seconds": 895.58
+  },
+  "main_full_tests": {
+    "passed": 4463,
+    "skipped": 46,
+    "subtests": 1557,
+    "seconds": 794.8
+  },
+  "ci": [
+    {
+      "name": "publish",
+      "conclusion": "skipped",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260271/job/117208234986",
+      "completed_at": "2026-10-16T21:38:40Z"
+    },
+    {
+      "name": "offline-shards (5)",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260271/job/117208032942",
+      "completed_at": "2026-10-16T21:38:38Z"
+    },
+    {
+      "name": "offline-shards (3)",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260271/job/117208032412",
+      "completed_at": "2026-10-16T21:38:34Z"
+    },
+    {
+      "name": "offline-shards (4)",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260271/job/117208032364",
+      "completed_at": "2026-10-16T21:38:34Z"
+    },
+    {
+      "name": "offline-shards (0)",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260271/job/117208032301",
+      "completed_at": "2026-10-16T21:38:35Z"
+    },
+    {
+      "name": "offline-shards (1)",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260271/job/117208032298",
+      "completed_at": "2026-10-16T21:38:34Z"
+    },
+    {
+      "name": "offline-shards (7)",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260271/job/117208032297",
+      "completed_at": "2026-10-16T21:38:40Z"
+    },
+    {
+      "name": "offline-shards (2)",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260271/job/117208032281",
+      "completed_at": "2026-10-16T21:38:35Z"
+    },
+    {
+      "name": "offline-shards (6)",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260271/job/117208032278",
+      "completed_at": "2026-10-16T21:38:33Z"
+    },
+    {
+      "name": "round-ten-earned-2",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260360/job/117206609819",
+      "completed_at": "2026-10-16T21:48:30Z"
+    },
+    {
+      "name": "round-ten-earned-4",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260360/job/117206609816",
+      "completed_at": "2026-10-16T21:44:30Z"
+    },
+    {
+      "name": "round-ten-earned-1",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260360/job/117206609680",
+      "completed_at": "2026-10-16T21:45:27Z"
+    },
+    {
+      "name": "round-ten-earned-3",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260360/job/117206609378",
+      "completed_at": "2026-10-16T21:44:05Z"
+    },
+    {
+      "name": "known-domain-acceptance",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260431/job/117206609301",
+      "completed_at": "2026-10-16T21:54:52Z"
+    },
+    {
+      "name": "build",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260271/job/117206609049",
+      "completed_at": "2026-10-16T21:38:07Z"
+    },
+    {
+      "name": "round-thirteen-billing-metadata-replay",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260205/job/117206608756",
+      "completed_at": "2026-10-16T21:39:33Z"
+    },
+    {
+      "name": "portal",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260095/job/117206608259",
+      "completed_at": "2026-10-16T21:36:40Z"
+    },
+    {
+      "name": "generator-tests",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260095/job/117206608209",
+      "completed_at": "2026-10-16T21:43:17Z"
+    },
+    {
+      "name": "deny-by-default",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260180/job/117206608085",
+      "completed_at": "2026-10-16T21:36:32Z"
+    },
+    {
+      "name": "powershell-syntax",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260095/job/117206608025",
+      "completed_at": "2026-10-16T21:34:33Z"
+    },
+    {
+      "name": "model-step-regression",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/38970260095/job/117206607780",
+      "completed_at": "2026-10-16T21:35:14Z"
+    }
+  ],
+  "deleted_remote_branches": [
+    "feat/round-ten-fifty-tickets",
+    "feat/round-eighteen-cloud-foundation",
+    "feat/round-nineteen-lineage-graph",
+    "feat/round-nineteen-b-complete-graph"
+  ],
+  "local_worktrees_retained": true,
+  "superseded_intermediate_main_ci_runs_cancelled": 8,
+  "conflicts": "README/status/ledger histories concatenated; both ledger histories conserved. Later code retained.",
+  "source_tree_matches_tested_branch": true,
+  "report_commit_scope": "Documentation and ledger only; release tag remains on the tested merge commit.",
+  "cloud_demo": "NOT_ADMITTED",
+  "verified_end_to_end_paths": 0,
+  "freeze": "PRIOR_FREEZE_INVALID; release tag is not a general capability qualification",
+  "D_free_bytes_at_record": 13897674752,
+  "new_estate_reads_this_resume": 0,
+  "new_model_calls_this_resume": 0
+}
