@@ -1,0 +1,100 @@
+{
+  "id": "refusal-unidentified-visual",
+  "ticket_text": "A report card somewhere shows 16 and seems wrong. I do not know the report, page, visual, or measure.",
+  "phrasing_class": "refusal",
+  "fixture_state": "inventory-baseline",
+  "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+  "fixture_authored": true,
+  "expected": {
+    "accepted_dispositions": [
+      "HELD",
+      "NEEDS_INPUT",
+      "CAPABILITY_REFUSAL"
+    ],
+    "must_not_claim_defect": true
+  },
+  "expected_reproduction": null,
+  "derivation": {
+    "method": "No supplied evidence establishes the requested meaning/binding/unique figure/filter/visual. Missing details may not be invented. A qualified technical finding that does not answer the request does not count as correct refusal.",
+    "arithmetic": {
+      "seed_sha256": "313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1",
+      "seed_rows": 360,
+      "refined": 7661,
+      "serving": 8765,
+      "inbound": 6425,
+      "outbound": 2340,
+      "fraction": "6425/8765",
+      "balance": 4085,
+      "value": 57043,
+      "rate_rows": [
+        {
+          "product_id": 1,
+          "rate_version": 1,
+          "unit_cost": 6
+        },
+        {
+          "product_id": 2,
+          "rate_version": 1,
+          "unit_cost": 4
+        },
+        {
+          "product_id": 3,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 4,
+          "rate_version": 1,
+          "unit_cost": 7
+        },
+        {
+          "product_id": 5,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 6,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 7,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 7,
+          "rate_version": 2,
+          "unit_cost": 11
+        },
+        {
+          "product_id": 8,
+          "rate_version": 1,
+          "unit_cost": 9
+        }
+      ],
+      "join": "Product-only left join. Product 7 has two matches. Additive units are carried, not transformed. Row identity is not globally proven by equal totals."
+    }
+  },
+  "fixture_prerequisites": [],
+  "lineage_columns": [
+    "stripped"
+  ],
+  "version": 1,
+  "ticket_hash": "d19810b2a6aba7a149a7c44a96480d152286d373769d9f7901bb62635ba923e4",
+  "authorship": "Fixture-authored by Codex before any Round Ten ticket run, from committed seed arithmetic and definition/capability contracts; not real user observations.",
+  "expectation_columns": {
+    "stripped": {
+      "accepted_dispositions": [
+        "HELD",
+        "NEEDS_INPUT",
+        "CAPABILITY_REFUSAL"
+      ],
+      "must_not_claim_defect": true
+    }
+  },
+  "reference_context_pin": {
+    "context_id": "541d500c-437a-485c-97bf-f5d44febae44",
+    "hash": "5c38074b687c1c56157ccf081975ba15517ec27cf962cd19882c47219e353564"
+  }
+}

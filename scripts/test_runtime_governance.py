@@ -31,6 +31,26 @@ class GovernanceTests(unittest.TestCase):
         self.assertEqual(second['stop_reason'],'USAGE_LIMIT');self.native.assert_called_once()
         self.assertEqual(self.agent.governor.snapshot()['reserved_today']['cloud_calls'],1)
 
+    def test_owner_acknowledgment_preserves_violation_charges_and_new_overrun_guard(self):
+        g=self.agent.governor
+        def reserve(name):
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');g.reserve(db,name,'call','planner',100)
+        reserve('undersized')
+        with self.runtime.db() as db:
+            g.settle(db,'undersized','call',{'output_tokens':2504})
+            before=dict(db.execute("SELECT * FROM adaptive_usage WHERE session_id='undersized'").fetchone())
+        with self.assertRaises(UsageHold):reserve('blocked')
+        charges=g.snapshot()['reserved_today']
+        g.acknowledge_violation('undersized','call',{'owner':'owner','approved_at':'2026-10-10',
+            'reason':'Producer bound was 8000; reservation was 1500','corrected_output_tokens':8000})
+        self.assertEqual(g.snapshot()['reserved_today'],charges)
+        with self.runtime.db() as db:
+            self.assertEqual(dict(db.execute("SELECT * FROM adaptive_usage WHERE session_id='undersized'").fetchone()),before)
+        reserve('next')
+        with self.runtime.db() as db:g.settle(db,'next','call',{'output_tokens':1501})
+        with self.assertRaises(UsageHold):reserve('new-overrun-blocked')
+
     def test_daily_planner_limit_survives_restart(self):
         self.policy['daily_limits']['planner_calls']=1;self.reset_agent();self.planner.return_value=(fixture.decision(),{})
         self.agent.run(self.create('first'));self.reset_agent();result=self.agent.run(self.create('second'))
@@ -40,14 +60,17 @@ class GovernanceTests(unittest.TestCase):
         self.policy['daily_limits']['output_tokens']=1499;self.reset_agent()
         self.assertEqual(self.agent.run(self.create())['stop_reason'],'USAGE_LIMIT');self.planner.assert_not_called()
 
-    def test_high_profile_reserves_full_16000_without_refund(self):
+    def test_high_profile_reserves_full_16000_then_charges_actual_output(self):
         self.agent=AdaptiveRuntime(self.runtime,self.planner,self.clock,
             planner_profile={'generation_options':{'max_output_tokens':16000,'reasoning_effort':'high'}},usage_policy=self.policy)
         self.planner.return_value=(fixture.decision(),{'usage':{'output_tokens':700}})
         self.agent.run(self.create('high'))
         self.assertEqual(self.agent.governor.snapshot()['reserved_today']['output_tokens'],16000)
-        self.assertEqual(self.agent.run(self.create('next'))['stop_reason'],'USAGE_LIMIT')
-        self.assertEqual(self.planner.call_count,1)
+        self.assertEqual(self.agent.governor.snapshot()['charged_today']['output_tokens'],700)
+        self.assertNotEqual(self.agent.run(self.create('next'))['stop_reason'],'USAGE_LIMIT')
+        self.assertEqual(self.planner.call_count,2)
+        self.assertEqual(self.agent.governor.snapshot()['reserved_today']['output_tokens'],32000)
+        self.assertEqual(self.agent.governor.snapshot()['charged_today']['output_tokens'],1400)
         from investigator.generation_policy import validate
         with self.assertRaises(ValueError):validate({'max_output_tokens':16001})
 

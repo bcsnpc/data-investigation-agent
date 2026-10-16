@@ -1,0 +1,469 @@
+{
+  "instructions": "Answer each exact question as the original ticket author would, in plain words. Use ONLY this packet and original tester README/session/tickets. Do not read engine, expectations, defects, oracle, tapes, ledgers or delivery records. No new SQL/cloud reads needed or authorized. Do not invent unknown facts; say what is missing. These are clarification answers, not new tickets.",
+  "questions": [
+    {
+      "id": "clarification-001",
+      "original_ticket_file": "ticket-01.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Invoice total won't reconcile\n\nReport: Subscription Billing\nPage: Subscription Billing\nVisual: Invoiced Amount\n\nThe card shows 950. In the application I found October 1 invoices 101 Aster 250, 102 Birch 100, 103 Cedar 250 and 104 Dune 100. That gives me 700, or 600 if I leave out Dune because it says VOID. Sorry, I have both totals in my notes. Neither gets me to 950.\n\nI expected to be able to reconcile the card to those invoices. Can someone confirm the total and whether void invoices belong in it?\n\n",
+      "original_form": null,
+      "exact_question": "I found more than one retained report named \"Subscription Billing.\" Which specific report do you mean? Please reply with any distinguishing detail you have, such as the workspace/app location or a screenshot showing the report title/breadcrumb."
+    },
+    {
+      "id": "clarification-002",
+      "original_ticket_file": "ticket-02.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "somethings off with collections\n\ncollections looks low - 550 collected against 950 invoiced on the first page. are we really that far behind?\n\nI checked the app payments: Aster 200, Birch 100, Cedar 250. Those do add up to 550, so maybe the collections number is fine and I'm reading the gap wrong. I expected the gap to be explainable before I use it as the amount still to chase.\n\n",
+      "original_form": null,
+      "exact_question": "Which exact visual or card on the first page shows the \u201c550 collected\u201d value?"
+    },
+    {
+      "id": "clarification-003",
+      "original_ticket_file": "ticket-06.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Has Aster's plan change reached this view?\n\nAster moved from Starter to Growth on October 1 according to its plan history in the app; September was Starter. The report overview shows MRR All Plans 600 and Usage Overage 600, but neither tells me what plan it is using for Aster.\n\nCan you confirm this view includes the October change? I expected to be able to check that Aster has the Growth allowance of 3,000 for its October 2 usage of 3,500. I'm worried about using an old plan for this month's review, rather than saying the 600 itself is definitely wrong.\n\n",
+      "original_form": null,
+      "exact_question": "Which page is the view you mean?\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/5051e1ac7f7e58d89f5c\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/c9b267726b645332927d\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/e02da1e0c071513ea847"
+    },
+    {
+      "id": "clarification-004",
+      "original_ticket_file": "ticket-13.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Is the overview up to date?\n\nThe first page has 950 invoiced, 550 collected and 600 MRR. I can't see an as-of date or last-updated time alongside those cards.\n\nI can look up payments through October 4 in the application, but I can't tell from this page how current its figures are. Please tell me what date/time the report covers. I expected some indication before relying on it for today's collection calls.\n\n",
+      "original_form": null,
+      "exact_question": "Are you asking whether the whole first page overview is up to date, or just one specific card? If it is one card, which one: 950 invoiced, 550 collected, or 600 MRR?\nWhole first page overview\n950 invoiced\n550 collected\n600 MRR"
+    },
+    {
+      "id": "clarification-005",
+      "original_ticket_file": "ticket-14.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "How do I switch September and October?\n\nReport: Subscription Billing, overview page.\n\nI can't find a month selector on the page, and the Filters pane says there aren't any filters to display before I select a visual. The application lookup gives me zero invoices and zero payments in September, then four invoices and 550 payments in October.\n\nI need to compare those two months. What month does the 950 Invoiced Amount card cover, and how do I select a month? I expected to be able to make that choice rather than assume these are October numbers.\n\n",
+      "original_form": null,
+      "exact_question": "I found more than one retained report named \u201cSubscription Billing,\u201d so I can\u2019t safely identify the overview page/card yet. Which exact report are you using\u2014please reply with the report link or a distinguishing detail from the report header/workspace."
+    },
+    {
+      "id": "clarification-006",
+      "original_ticket_file": "ticket-15.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Need to check Starter versus Growth\n\nWhere do I pick a plan on Subscription Billing? I can see MRR All Plans 600, but no plan slicer or month-by-plan grid on the pages I checked.\n\nIn the application, the active subscriptions are Birch on Starter at 100, plus Aster and Cedar on Growth at 250 each. I wanted to check the Starter/October and Growth/October amounts separately. I expected a way to see that breakdown or select a plan; please point me to it if I'm missing it.\n\n",
+      "original_form": null,
+      "exact_question": "Please name the exact Subscription Billing page and visual you want checked\u2014for example, whether it is the 'MRR All Plans 600' card or another visual."
+    },
+    {
+      "id": "clarification-007",
+      "original_ticket_file": "ticket-01.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Invoice total won't reconcile\n\nReport: Subscription Billing\nPage: Subscription Billing\nVisual: Invoiced Amount\n\nThe card shows 950. In the application I found October 1 invoices 101 Aster 250, 102 Birch 100, 103 Cedar 250 and 104 Dune 100. That gives me 700, or 600 if I leave out Dune because it says VOID. Sorry, I have both totals in my notes. Neither gets me to 950.\n\nI expected to be able to reconcile the card to those invoices. Can someone confirm the total and whether void invoices belong in it?\n\n",
+      "original_form": null,
+      "exact_question": "What figure does that visual show?"
+    },
+    {
+      "id": "clarification-008",
+      "original_ticket_file": "ticket-03.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "FW: Monthly recurring number for the review\n\nSubject: FW: Monthly recurring number for the review\n\nHi,\n\nCan you check the MRR All Plans card on Subscription Billing? It says 600. I added the plan prices for the four subscriptions and got 700: Aster Growth 250, Birch Starter 100, Cedar Growth 250, Dune Starter 100.\n\nDune is marked CHURNED in the app, and leaving it out gives 600. Is that the intended rule even though the title says All Plans? Please confirm so we don't ask for the extra 100 in the review.\n\nThanks,\nFinance\nSent from my phone\nPlease ignore the earlier request for a spreadsheet.\n\n",
+      "original_form": null,
+      "exact_question": "What would you like that figure compared against?"
+    },
+    {
+      "id": "clarification-009",
+      "original_ticket_file": "ticket-04.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "What does the churn count cover?\n\nSubscription Billing has Churned Accounts = 1. Dune is CHURNED in the application, which seems to explain the one.\n\nIs this the number currently churned, or accounts that churned during a particular month? Also, should a paused account count as churned? I haven't found a paused account in the records I checked; this is a definition question before we use the number for retention reporting. I'd expect the reporting period and treatment of pauses to be clear.\n\n",
+      "original_form": null,
+      "exact_question": "What figure does that visual show?"
+    },
+    {
+      "id": "clarification-010",
+      "original_ticket_file": "ticket-05.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "600 overage - units or money?\n\nThe Usage Overage card says 600 but I can't see a unit or currency next to it.\n\nThe app has Aster using 3,500 against 3,000 included and Birch using 1,100 against 1,000. Cedar is 2,800 against 3,000, and Dune is 500 against 1,000. Counting only the amounts above the allowances gives 600 units, so that part looks reasonable.\n\nIs the card showing units rather than a charge? I expected a label that tells me which before I put it into the billing notes.\n\n",
+      "original_form": null,
+      "exact_question": "Which report are you asking about?\nSubscription Billing"
+    },
+    {
+      "id": "clarification-011",
+      "original_ticket_file": "ticket-06.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Has Aster's plan change reached this view?\n\nAster moved from Starter to Growth on October 1 according to its plan history in the app; September was Starter. The report overview shows MRR All Plans 600 and Usage Overage 600, but neither tells me what plan it is using for Aster.\n\nCan you confirm this view includes the October change? I expected to be able to check that Aster has the Growth allowance of 3,000 for its October 2 usage of 3,500. I'm worried about using an old plan for this month's review, rather than saying the 600 itself is definitely wrong.\n\n",
+      "original_form": null,
+      "exact_question": "Which report are you asking about?\nSubscription Billing"
+    },
+    {
+      "id": "clarification-012",
+      "original_ticket_file": "ticket-13.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Is the overview up to date?\n\nThe first page has 950 invoiced, 550 collected and 600 MRR. I can't see an as-of date or last-updated time alongside those cards.\n\nI can look up payments through October 4 in the application, but I can't tell from this page how current its figures are. Please tell me what date/time the report covers. I expected some indication before relying on it for today's collection calls.\n\n",
+      "original_form": null,
+      "exact_question": "Which report are you asking about?\nSubscription Billing"
+    },
+    {
+      "id": "clarification-013",
+      "original_ticket_file": "ticket-15.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Need to check Starter versus Growth\n\nWhere do I pick a plan on Subscription Billing? I can see MRR All Plans 600, but no plan slicer or month-by-plan grid on the pages I checked.\n\nIn the application, the active subscriptions are Birch on Starter at 100, plus Aster and Cedar on Growth at 250 each. I wanted to check the Starter/October and Growth/October amounts separately. I expected a way to see that breakdown or select a plan; please point me to it if I'm missing it.\n\n",
+      "original_form": null,
+      "exact_question": "What figure does that visual show?"
+    },
+    {
+      "id": "clarification-014",
+      "original_ticket_file": "ticket-02.txt",
+      "input_kind": "FORM",
+      "original_ticket": "somethings off with collections\n\ncollections looks low - 550 collected against 950 invoiced on the first page. are we really that far behind?\n\nI checked the app payments: Aster 200, Birch 100, Cedar 250. Those do add up to 550, so maybe the collections number is fine and I'm reading the gap wrong. I expected the gap to be explainable before I use it as the amount still to chase.\n\n",
+      "original_form": null,
+      "exact_question": "I can\u2019t safely bind which first-page \u201ccollected/collections\u201d metric you mean. Please reply with the exact visual title/label for the 550 figure you\u2019re questioning, or send a screenshot with that visual highlighted."
+    },
+    {
+      "id": "clarification-015",
+      "original_ticket_file": "ticket-03.txt",
+      "input_kind": "FORM",
+      "original_ticket": "FW: Monthly recurring number for the review\n\nSubject: FW: Monthly recurring number for the review\n\nHi,\n\nCan you check the MRR All Plans card on Subscription Billing? It says 600. I added the plan prices for the four subscriptions and got 700: Aster Growth 250, Birch Starter 100, Cedar Growth 250, Dune Starter 100.\n\nDune is marked CHURNED in the app, and leaving it out gives 600. Is that the intended rule even though the title says All Plans? Please confirm so we don't ask for the extra 100 in the review.\n\nThanks,\nFinance\nSent from my phone\nPlease ignore the earlier request for a spreadsheet.\n\n",
+      "original_form": null,
+      "exact_question": "To confirm the selected MRR All Plans card on Subscription Billing: are you asking whether the card is intentionally supposed to exclude churned subscriptions like Dune, which would explain why it shows 600 instead of the 700 total of all four plan prices?"
+    },
+    {
+      "id": "clarification-016",
+      "original_ticket_file": "ticket-06.txt",
+      "input_kind": "FORM",
+      "original_ticket": "Has Aster's plan change reached this view?\n\nAster moved from Starter to Growth on October 1 according to its plan history in the app; September was Starter. The report overview shows MRR All Plans 600 and Usage Overage 600, but neither tells me what plan it is using for Aster.\n\nCan you confirm this view includes the October change? I expected to be able to check that Aster has the Growth allowance of 3,000 for its October 2 usage of 3,500. I'm worried about using an old plan for this month's review, rather than saying the 600 itself is definitely wrong.\n\n",
+      "original_form": null,
+      "exact_question": "Which overview item should I use as the starting point for this check?\nMRR All Plans card\nUsage Overage card\nThe overview page/view as a whole"
+    },
+    {
+      "id": "clarification-017",
+      "original_ticket_file": "ticket-15.txt",
+      "input_kind": "FORM",
+      "original_ticket": "Need to check Starter versus Growth\n\nWhere do I pick a plan on Subscription Billing? I can see MRR All Plans 600, but no plan slicer or month-by-plan grid on the pages I checked.\n\nIn the application, the active subscriptions are Birch on Starter at 100, plus Aster and Cedar on Growth at 250 each. I wanted to check the Starter/October and Growth/October amounts separately. I expected a way to see that breakdown or select a plan; please point me to it if I'm missing it.\n\n",
+      "original_form": null,
+      "exact_question": "Please restate the single thing you want checked on Subscription Billing without comparing Starter vs Growth. Are you asking where the plan selector/month-by-plan breakdown is, or are you asking about the MRR All Plans 600 card?\nWhere the plan selector or month-by-plan breakdown is on Subscription Billing\nWhy the MRR All Plans card shows 600"
+    },
+    {
+      "id": "clarification-018",
+      "original_ticket_file": "ticket-02.txt",
+      "input_kind": "FORM",
+      "original_ticket": "somethings off with collections\n\ncollections looks low - 550 collected against 950 invoiced on the first page. are we really that far behind?\n\nI checked the app payments: Aster 200, Birch 100, Cedar 250. Those do add up to 550, so maybe the collections number is fine and I'm reading the gap wrong. I expected the gap to be explainable before I use it as the amount still to chase.\n\n",
+      "original_form": null,
+      "exact_question": "Which visual are you asking about?\nChurned Accounts / Subscription Billing\nInvoiced Amount / Subscription Billing\nSubscription Billing / Usage Overage\nCollected Amount / Subscription Billing\nMRR All Plans / Subscription Billing"
+    },
+    {
+      "id": "clarification-019",
+      "original_ticket_file": "ticket-03.txt",
+      "input_kind": "FORM",
+      "original_ticket": "FW: Monthly recurring number for the review\n\nSubject: FW: Monthly recurring number for the review\n\nHi,\n\nCan you check the MRR All Plans card on Subscription Billing? It says 600. I added the plan prices for the four subscriptions and got 700: Aster Growth 250, Birch Starter 100, Cedar Growth 250, Dune Starter 100.\n\nDune is marked CHURNED in the app, and leaving it out gives 600. Is that the intended rule even though the title says All Plans? Please confirm so we don't ask for the extra 100 in the review.\n\nThanks,\nFinance\nSent from my phone\nPlease ignore the earlier request for a spreadsheet.\n\n",
+      "original_form": null,
+      "exact_question": "Which business rule would you like the application owner to explain?"
+    },
+    {
+      "id": "clarification-020",
+      "original_ticket_file": "ticket-05.txt",
+      "input_kind": "FORM",
+      "original_ticket": "600 overage - units or money?\n\nThe Usage Overage card says 600 but I can't see a unit or currency next to it.\n\nThe app has Aster using 3,500 against 3,000 included and Birch using 1,100 against 1,000. Cedar is 2,800 against 3,000, and Dune is 500 against 1,000. Counting only the amounts above the allowances gives 600 units, so that part looks reasonable.\n\nIs the card showing units rather than a charge? I expected a label that tells me which before I put it into the billing notes.\n\n",
+      "original_form": null,
+      "exact_question": "Which business rule would you like the application owner to explain?"
+    },
+    {
+      "id": "clarification-021",
+      "original_ticket_file": "ticket-06.txt",
+      "input_kind": "FORM",
+      "original_ticket": "Has Aster's plan change reached this view?\n\nAster moved from Starter to Growth on October 1 according to its plan history in the app; September was Starter. The report overview shows MRR All Plans 600 and Usage Overage 600, but neither tells me what plan it is using for Aster.\n\nCan you confirm this view includes the October change? I expected to be able to check that Aster has the Growth allowance of 3,000 for its October 2 usage of 3,500. I'm worried about using an old plan for this month's review, rather than saying the 600 itself is definitely wrong.\n\n",
+      "original_form": null,
+      "exact_question": "Which visual are you asking about?\nChurned Accounts / Subscription Billing\nInvoiced Amount / Subscription Billing\nSubscription Billing / Usage Overage\nCollected Amount / Subscription Billing\nMRR All Plans / Subscription Billing"
+    },
+    {
+      "id": "clarification-022",
+      "original_ticket_file": "ticket-13.txt",
+      "input_kind": "FORM",
+      "original_ticket": "Is the overview up to date?\n\nThe first page has 950 invoiced, 550 collected and 600 MRR. I can't see an as-of date or last-updated time alongside those cards.\n\nI can look up payments through October 4 in the application, but I can't tell from this page how current its figures are. Please tell me what date/time the report covers. I expected some indication before relying on it for today's collection calls.\n\n",
+      "original_form": null,
+      "exact_question": "Which business rule would you like the application owner to explain?"
+    },
+    {
+      "id": "clarification-023",
+      "original_ticket_file": "ticket-14.txt",
+      "input_kind": "FORM",
+      "original_ticket": "How do I switch September and October?\n\nReport: Subscription Billing, overview page.\n\nI can't find a month selector on the page, and the Filters pane says there aren't any filters to display before I select a visual. The application lookup gives me zero invoices and zero payments in September, then four invoices and 550 payments in October.\n\nI need to compare those two months. What month does the 950 Invoiced Amount card cover, and how do I select a month? I expected to be able to make that choice rather than assume these are October numbers.\n\n",
+      "original_form": null,
+      "exact_question": "Which business rule would you like the application owner to explain?"
+    },
+    {
+      "id": "clarification-024",
+      "original_ticket_file": "ticket-15.txt",
+      "input_kind": "FORM",
+      "original_ticket": "Need to check Starter versus Growth\n\nWhere do I pick a plan on Subscription Billing? I can see MRR All Plans 600, but no plan slicer or month-by-plan grid on the pages I checked.\n\nIn the application, the active subscriptions are Birch on Starter at 100, plus Aster and Cedar on Growth at 250 each. I wanted to check the Starter/October and Growth/October amounts separately. I expected a way to see that breakdown or select a plan; please point me to it if I'm missing it.\n\n",
+      "original_form": null,
+      "exact_question": "Which business rule would you like the application owner to explain?"
+    },
+    {
+      "id": "clarification-025",
+      "original_ticket_file": "ticket-01.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Invoice total won't reconcile\n\nReport: Subscription Billing\nPage: Subscription Billing\nVisual: Invoiced Amount\n\nThe card shows 950. In the application I found October 1 invoices 101 Aster 250, 102 Birch 100, 103 Cedar 250 and 104 Dune 100. That gives me 700, or 600 if I leave out Dune because it says VOID. Sorry, I have both totals in my notes. Neither gets me to 950.\n\nI expected to be able to reconcile the card to those invoices. Can someone confirm the total and whether void invoices belong in it?\n\n",
+      "original_form": null,
+      "exact_question": "Which report are you asking about?\nSubscription Billing"
+    },
+    {
+      "id": "clarification-026",
+      "original_ticket_file": "ticket-02.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "somethings off with collections\n\ncollections looks low - 550 collected against 950 invoiced on the first page. are we really that far behind?\n\nI checked the app payments: Aster 200, Birch 100, Cedar 250. Those do add up to 550, so maybe the collections number is fine and I'm reading the gap wrong. I expected the gap to be explainable before I use it as the amount still to chase.\n\n",
+      "original_form": null,
+      "exact_question": "Which report are you asking about?\nSubscription Billing"
+    },
+    {
+      "id": "clarification-027",
+      "original_ticket_file": "ticket-03.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "FW: Monthly recurring number for the review\n\nSubject: FW: Monthly recurring number for the review\n\nHi,\n\nCan you check the MRR All Plans card on Subscription Billing? It says 600. I added the plan prices for the four subscriptions and got 700: Aster Growth 250, Birch Starter 100, Cedar Growth 250, Dune Starter 100.\n\nDune is marked CHURNED in the app, and leaving it out gives 600. Is that the intended rule even though the title says All Plans? Please confirm so we don't ask for the extra 100 in the review.\n\nThanks,\nFinance\nSent from my phone\nPlease ignore the earlier request for a spreadsheet.\n\n",
+      "original_form": null,
+      "exact_question": "Which report are you asking about?\nSubscription Billing"
+    },
+    {
+      "id": "clarification-028",
+      "original_ticket_file": "ticket-05.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "600 overage - units or money?\n\nThe Usage Overage card says 600 but I can't see a unit or currency next to it.\n\nThe app has Aster using 3,500 against 3,000 included and Birch using 1,100 against 1,000. Cedar is 2,800 against 3,000, and Dune is 500 against 1,000. Counting only the amounts above the allowances gives 600 units, so that part looks reasonable.\n\nIs the card showing units rather than a charge? I expected a label that tells me which before I put it into the billing notes.\n\n",
+      "original_form": null,
+      "exact_question": "Which report are you asking about?\nSubscription Billing"
+    },
+    {
+      "id": "clarification-029",
+      "original_ticket_file": "ticket-06.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Has Aster's plan change reached this view?\n\nAster moved from Starter to Growth on October 1 according to its plan history in the app; September was Starter. The report overview shows MRR All Plans 600 and Usage Overage 600, but neither tells me what plan it is using for Aster.\n\nCan you confirm this view includes the October change? I expected to be able to check that Aster has the Growth allowance of 3,000 for its October 2 usage of 3,500. I'm worried about using an old plan for this month's review, rather than saying the 600 itself is definitely wrong.\n\n",
+      "original_form": null,
+      "exact_question": "Which report are you asking about?\nSubscription Billing"
+    },
+    {
+      "id": "clarification-030",
+      "original_ticket_file": "ticket-13.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Is the overview up to date?\n\nThe first page has 950 invoiced, 550 collected and 600 MRR. I can't see an as-of date or last-updated time alongside those cards.\n\nI can look up payments through October 4 in the application, but I can't tell from this page how current its figures are. Please tell me what date/time the report covers. I expected some indication before relying on it for today's collection calls.\n\n",
+      "original_form": null,
+      "exact_question": "Which report are you asking about?\nSubscription Billing"
+    },
+    {
+      "id": "clarification-031",
+      "original_ticket_file": "ticket-14.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "How do I switch September and October?\n\nReport: Subscription Billing, overview page.\n\nI can't find a month selector on the page, and the Filters pane says there aren't any filters to display before I select a visual. The application lookup gives me zero invoices and zero payments in September, then four invoices and 550 payments in October.\n\nI need to compare those two months. What month does the 950 Invoiced Amount card cover, and how do I select a month? I expected to be able to make that choice rather than assume these are October numbers.\n\n",
+      "original_form": null,
+      "exact_question": "Which report are you asking about?\nSubscription Billing"
+    },
+    {
+      "id": "clarification-032",
+      "original_ticket_file": "ticket-06.txt",
+      "input_kind": "FORM",
+      "original_ticket": "Has Aster's plan change reached this view?\n\nAster moved from Starter to Growth on October 1 according to its plan history in the app; September was Starter. The report overview shows MRR All Plans 600 and Usage Overage 600, but neither tells me what plan it is using for Aster.\n\nCan you confirm this view includes the October change? I expected to be able to check that Aster has the Growth allowance of 3,000 for its October 2 usage of 3,500. I'm worried about using an old plan for this month's review, rather than saying the 600 itself is definitely wrong.\n\n",
+      "original_form": null,
+      "exact_question": "Which visual are you asking about?\nChurned Accounts / Subscription Billing\nInvoiced Amount / Subscription Billing\nSubscription Billing / Usage Overage\nCollected Amount / Subscription Billing\nMRR All Plans / Subscription Billing"
+    },
+    {
+      "id": "clarification-033",
+      "original_ticket_file": "ticket-15.txt",
+      "input_kind": "FORM",
+      "original_ticket": "Need to check Starter versus Growth\n\nWhere do I pick a plan on Subscription Billing? I can see MRR All Plans 600, but no plan slicer or month-by-plan grid on the pages I checked.\n\nIn the application, the active subscriptions are Birch on Starter at 100, plus Aster and Cedar on Growth at 250 each. I wanted to check the Starter/October and Growth/October amounts separately. I expected a way to see that breakdown or select a plan; please point me to it if I'm missing it.\n\n",
+      "original_form": null,
+      "exact_question": "Which business rule would you like the application owner to explain?"
+    },
+    {
+      "id": "clarification-034",
+      "original_ticket_file": "ticket-01.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Invoice total won't reconcile\n\nReport: Subscription Billing\nPage: Subscription Billing\nVisual: Invoiced Amount\n\nThe card shows 950. In the application I found October 1 invoices 101 Aster 250, 102 Birch 100, 103 Cedar 250 and 104 Dune 100. That gives me 700, or 600 if I leave out Dune because it says VOID. Sorry, I have both totals in my notes. Neither gets me to 950.\n\nI expected to be able to reconcile the card to those invoices. Can someone confirm the total and whether void invoices belong in it?\n\n",
+      "original_form": null,
+      "exact_question": "Which report is this? You may also supply its link or a screenshot.\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/5051e1ac7f7e58d89f5c\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/c9b267726b645332927d\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/e02da1e0c071513ea847"
+    },
+    {
+      "id": "clarification-035",
+      "original_ticket_file": "ticket-02.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "somethings off with collections\n\ncollections looks low - 550 collected against 950 invoiced on the first page. are we really that far behind?\n\nI checked the app payments: Aster 200, Birch 100, Cedar 250. Those do add up to 550, so maybe the collections number is fine and I'm reading the gap wrong. I expected the gap to be explainable before I use it as the amount still to chase.\n\n",
+      "original_form": null,
+      "exact_question": "Which report is this? You may also supply its link or a screenshot.\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/5051e1ac7f7e58d89f5c\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/c9b267726b645332927d\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/e02da1e0c071513ea847"
+    },
+    {
+      "id": "clarification-036",
+      "original_ticket_file": "ticket-03.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "FW: Monthly recurring number for the review\n\nSubject: FW: Monthly recurring number for the review\n\nHi,\n\nCan you check the MRR All Plans card on Subscription Billing? It says 600. I added the plan prices for the four subscriptions and got 700: Aster Growth 250, Birch Starter 100, Cedar Growth 250, Dune Starter 100.\n\nDune is marked CHURNED in the app, and leaving it out gives 600. Is that the intended rule even though the title says All Plans? Please confirm so we don't ask for the extra 100 in the review.\n\nThanks,\nFinance\nSent from my phone\nPlease ignore the earlier request for a spreadsheet.\n\n",
+      "original_form": null,
+      "exact_question": "Which figure is the reported result?\nIt says 600. at 166:178\ngot 700 at 234:241\nAster Growth 250 at 243:259\nBirch Starter 100 at 261:278\nCedar Growth 250 at 280:296\nleaving it out gives 600 at 356:380"
+    },
+    {
+      "id": "clarification-037",
+      "original_ticket_file": "ticket-04.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "What does the churn count cover?\n\nSubscription Billing has Churned Accounts = 1. Dune is CHURNED in the application, which seems to explain the one.\n\nIs this the number currently churned, or accounts that churned during a particular month? Also, should a paused account count as churned? I haven't found a paused account in the records I checked; this is a definition question before we use the number for retention reporting. I'd expect the reporting period and treatment of pauses to be clear.\n\n",
+      "original_form": null,
+      "exact_question": "Which displayed number should we investigate?\nSubscription Billing / Subscription Billing / Churned Accounts / Subscription Billing \u2014 'Churned Accounts = 1' at 59:79"
+    },
+    {
+      "id": "clarification-038",
+      "original_ticket_file": "ticket-04.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "What does the churn count cover?\n\nSubscription Billing has Churned Accounts = 1. Dune is CHURNED in the application, which seems to explain the one.\n\nIs this the number currently churned, or accounts that churned during a particular month? Also, should a paused account count as churned? I haven't found a paused account in the records I checked; this is a definition question before we use the number for retention reporting. I'd expect the reporting period and treatment of pauses to be clear.\n\n",
+      "original_form": null,
+      "exact_question": "What are you comparing against?\nThe application\nThe information seems stale\nIt looks wrong\nAnother report\nThe business meaning or rule"
+    },
+    {
+      "id": "clarification-039",
+      "original_ticket_file": "ticket-13.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Is the overview up to date?\n\nThe first page has 950 invoiced, 550 collected and 600 MRR. I can't see an as-of date or last-updated time alongside those cards.\n\nI can look up payments through October 4 in the application, but I can't tell from this page how current its figures are. Please tell me what date/time the report covers. I expected some indication before relying on it for today's collection calls.\n\n",
+      "original_form": null,
+      "exact_question": "Which report is this? You may also supply its link or a screenshot.\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/5051e1ac7f7e58d89f5c\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/c9b267726b645332927d\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/e02da1e0c071513ea847"
+    },
+    {
+      "id": "clarification-040",
+      "original_ticket_file": "ticket-15.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Need to check Starter versus Growth\n\nWhere do I pick a plan on Subscription Billing? I can see MRR All Plans 600, but no plan slicer or month-by-plan grid on the pages I checked.\n\nIn the application, the active subscriptions are Birch on Starter at 100, plus Aster and Cedar on Growth at 250 each. I wanted to check the Starter/October and Growth/October amounts separately. I expected a way to see that breakdown or select a plan; please point me to it if I'm missing it.\n\n",
+      "original_form": null,
+      "exact_question": "Which figure is the reported result?\nMRR All Plans 600 at 95:112\nBirch on Starter at 100 at 229:252\nAster and Cedar on Growth at 250 each at 259:296"
+    },
+    {
+      "id": "clarification-041",
+      "original_ticket_file": "ticket-02.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "somethings off with collections\n\ncollections looks low - 550 collected against 950 invoiced on the first page. are we really that far behind?\n\nI checked the app payments: Aster 200, Birch 100, Cedar 250. Those do add up to 550, so maybe the collections number is fine and I'm reading the gap wrong. I expected the gap to be explainable before I use it as the amount still to chase.\n\n",
+      "original_form": null,
+      "exact_question": "Which report is this? You may also supply its link or a screenshot.\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/5051e1ac7f7e58d89f5c\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/c9b267726b645332927d\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/e02da1e0c071513ea847"
+    },
+    {
+      "id": "clarification-042",
+      "original_ticket_file": "ticket-03.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "FW: Monthly recurring number for the review\n\nSubject: FW: Monthly recurring number for the review\n\nHi,\n\nCan you check the MRR All Plans card on Subscription Billing? It says 600. I added the plan prices for the four subscriptions and got 700: Aster Growth 250, Birch Starter 100, Cedar Growth 250, Dune Starter 100.\n\nDune is marked CHURNED in the app, and leaving it out gives 600. Is that the intended rule even though the title says All Plans? Please confirm so we don't ask for the extra 100 in the review.\n\nThanks,\nFinance\nSent from my phone\nPlease ignore the earlier request for a spreadsheet.\n\n",
+      "original_form": null,
+      "exact_question": "Which displayed number should we investigate?\nSubscription Billing / Subscription Billing / MRR All Plans / Subscription Billing \u2014 'It says 600' at 166:177"
+    },
+    {
+      "id": "clarification-043",
+      "original_ticket_file": "ticket-03.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "FW: Monthly recurring number for the review\n\nSubject: FW: Monthly recurring number for the review\n\nHi,\n\nCan you check the MRR All Plans card on Subscription Billing? It says 600. I added the plan prices for the four subscriptions and got 700: Aster Growth 250, Birch Starter 100, Cedar Growth 250, Dune Starter 100.\n\nDune is marked CHURNED in the app, and leaving it out gives 600. Is that the intended rule even though the title says All Plans? Please confirm so we don't ask for the extra 100 in the review.\n\nThanks,\nFinance\nSent from my phone\nPlease ignore the earlier request for a spreadsheet.\n\n",
+      "original_form": null,
+      "exact_question": "What are you comparing against?\nThe application\nThe information seems stale\nIt looks wrong\nAnother report\nThe business meaning or rule"
+    },
+    {
+      "id": "clarification-044",
+      "original_ticket_file": "ticket-04.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "What does the churn count cover?\n\nSubscription Billing has Churned Accounts = 1. Dune is CHURNED in the application, which seems to explain the one.\n\nIs this the number currently churned, or accounts that churned during a particular month? Also, should a paused account count as churned? I haven't found a paused account in the records I checked; this is a definition question before we use the number for retention reporting. I'd expect the reporting period and treatment of pauses to be clear.\n\n",
+      "original_form": null,
+      "exact_question": "Which displayed number should we investigate?\nSubscription Billing / Subscription Billing / Churned Accounts / Subscription Billing \u2014 'Churned Accounts = 1' at 59:79"
+    },
+    {
+      "id": "clarification-045",
+      "original_ticket_file": "ticket-04.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "What does the churn count cover?\n\nSubscription Billing has Churned Accounts = 1. Dune is CHURNED in the application, which seems to explain the one.\n\nIs this the number currently churned, or accounts that churned during a particular month? Also, should a paused account count as churned? I haven't found a paused account in the records I checked; this is a definition question before we use the number for retention reporting. I'd expect the reporting period and treatment of pauses to be clear.\n\n",
+      "original_form": null,
+      "exact_question": "What are you comparing against?\nThe application\nThe information seems stale\nIt looks wrong\nAnother report\nThe business meaning or rule"
+    },
+    {
+      "id": "clarification-046",
+      "original_ticket_file": "ticket-06.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Has Aster's plan change reached this view?\n\nAster moved from Starter to Growth on October 1 according to its plan history in the app; September was Starter. The report overview shows MRR All Plans 600 and Usage Overage 600, but neither tells me what plan it is using for Aster.\n\nCan you confirm this view includes the October change? I expected to be able to check that Aster has the Growth allowance of 3,000 for its October 2 usage of 3,500. I'm worried about using an old plan for this month's review, rather than saying the 600 itself is definitely wrong.\n\n",
+      "original_form": null,
+      "exact_question": "Which report is this? You may also supply its link or a screenshot.\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/5051e1ac7f7e58d89f5c\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/c9b267726b645332927d\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/e02da1e0c071513ea847"
+    },
+    {
+      "id": "clarification-047",
+      "original_ticket_file": "ticket-15.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Need to check Starter versus Growth\n\nWhere do I pick a plan on Subscription Billing? I can see MRR All Plans 600, but no plan slicer or month-by-plan grid on the pages I checked.\n\nIn the application, the active subscriptions are Birch on Starter at 100, plus Aster and Cedar on Growth at 250 each. I wanted to check the Starter/October and Growth/October amounts separately. I expected a way to see that breakdown or select a plan; please point me to it if I'm missing it.\n\n",
+      "original_form": null,
+      "exact_question": "Which displayed number should we investigate?\nSubscription Billing / Subscription Billing / MRR All Plans / Subscription Billing \u2014 'MRR All Plans 600' at 95:112"
+    },
+    {
+      "id": "clarification-048",
+      "original_ticket_file": "ticket-15.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Need to check Starter versus Growth\n\nWhere do I pick a plan on Subscription Billing? I can see MRR All Plans 600, but no plan slicer or month-by-plan grid on the pages I checked.\n\nIn the application, the active subscriptions are Birch on Starter at 100, plus Aster and Cedar on Growth at 250 each. I wanted to check the Starter/October and Growth/October amounts separately. I expected a way to see that breakdown or select a plan; please point me to it if I'm missing it.\n\n",
+      "original_form": null,
+      "exact_question": "What are you comparing against?\nThe application\nThe information seems stale\nIt looks wrong\nAnother report\nThe business meaning or rule"
+    },
+    {
+      "id": "clarification-049",
+      "original_ticket_file": "ticket-02.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "somethings off with collections\n\ncollections looks low - 550 collected against 950 invoiced on the first page. are we really that far behind?\n\nI checked the app payments: Aster 200, Birch 100, Cedar 250. Those do add up to 550, so maybe the collections number is fine and I'm reading the gap wrong. I expected the gap to be explainable before I use it as the amount still to chase.\n\n",
+      "original_form": null,
+      "exact_question": "Which report is this? You may also supply its link or a screenshot.\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/5051e1ac7f7e58d89f5c\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/c9b267726b645332927d\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/e02da1e0c071513ea847"
+    },
+    {
+      "id": "clarification-050",
+      "original_ticket_file": "ticket-03.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "FW: Monthly recurring number for the review\n\nSubject: FW: Monthly recurring number for the review\n\nHi,\n\nCan you check the MRR All Plans card on Subscription Billing? It says 600. I added the plan prices for the four subscriptions and got 700: Aster Growth 250, Birch Starter 100, Cedar Growth 250, Dune Starter 100.\n\nDune is marked CHURNED in the app, and leaving it out gives 600. Is that the intended rule even though the title says All Plans? Please confirm so we don't ask for the extra 100 in the review.\n\nThanks,\nFinance\nSent from my phone\nPlease ignore the earlier request for a spreadsheet.\n\n",
+      "original_form": null,
+      "exact_question": "Which displayed number should we investigate?\nSubscription Billing / Subscription Billing / MRR All Plans / Subscription Billing \u2014 'It says 600' at 166:177"
+    },
+    {
+      "id": "clarification-051",
+      "original_ticket_file": "ticket-03.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "FW: Monthly recurring number for the review\n\nSubject: FW: Monthly recurring number for the review\n\nHi,\n\nCan you check the MRR All Plans card on Subscription Billing? It says 600. I added the plan prices for the four subscriptions and got 700: Aster Growth 250, Birch Starter 100, Cedar Growth 250, Dune Starter 100.\n\nDune is marked CHURNED in the app, and leaving it out gives 600. Is that the intended rule even though the title says All Plans? Please confirm so we don't ask for the extra 100 in the review.\n\nThanks,\nFinance\nSent from my phone\nPlease ignore the earlier request for a spreadsheet.\n\n",
+      "original_form": null,
+      "exact_question": "What are you comparing against?\nThe application\nThe information seems stale\nIt looks wrong\nAnother report\nThe business meaning or rule"
+    },
+    {
+      "id": "clarification-052",
+      "original_ticket_file": "ticket-04.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "What does the churn count cover?\n\nSubscription Billing has Churned Accounts = 1. Dune is CHURNED in the application, which seems to explain the one.\n\nIs this the number currently churned, or accounts that churned during a particular month? Also, should a paused account count as churned? I haven't found a paused account in the records I checked; this is a definition question before we use the number for retention reporting. I'd expect the reporting period and treatment of pauses to be clear.\n\n",
+      "original_form": null,
+      "exact_question": "Which displayed number should we investigate?\nSubscription Billing / Subscription Billing / Churned Accounts / Subscription Billing \u2014 'Churned Accounts = 1' at 59:79"
+    },
+    {
+      "id": "clarification-053",
+      "original_ticket_file": "ticket-04.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "What does the churn count cover?\n\nSubscription Billing has Churned Accounts = 1. Dune is CHURNED in the application, which seems to explain the one.\n\nIs this the number currently churned, or accounts that churned during a particular month? Also, should a paused account count as churned? I haven't found a paused account in the records I checked; this is a definition question before we use the number for retention reporting. I'd expect the reporting period and treatment of pauses to be clear.\n\n",
+      "original_form": null,
+      "exact_question": "What are you comparing against?\nThe application\nThe information seems stale\nIt looks wrong\nAnother report\nThe business meaning or rule"
+    },
+    {
+      "id": "clarification-054",
+      "original_ticket_file": "ticket-05.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "600 overage - units or money?\n\nThe Usage Overage card says 600 but I can't see a unit or currency next to it.\n\nThe app has Aster using 3,500 against 3,000 included and Birch using 1,100 against 1,000. Cedar is 2,800 against 3,000, and Dune is 500 against 1,000. Counting only the amounts above the allowances gives 600 units, so that part looks reasonable.\n\nIs the card showing units rather than a charge? I expected a label that tells me which before I put it into the billing notes.\n\n",
+      "original_form": null,
+      "exact_question": "Which report is this? You may also supply its link or a screenshot.\nSubscription Billing / Accounts\nSubscription Billing / Subscription Billing\nSubscription Billing / Recent Collections"
+    },
+    {
+      "id": "clarification-055",
+      "original_ticket_file": "ticket-06.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Has Aster's plan change reached this view?\n\nAster moved from Starter to Growth on October 1 according to its plan history in the app; September was Starter. The report overview shows MRR All Plans 600 and Usage Overage 600, but neither tells me what plan it is using for Aster.\n\nCan you confirm this view includes the October change? I expected to be able to check that Aster has the Growth allowance of 3,000 for its October 2 usage of 3,500. I'm worried about using an old plan for this month's review, rather than saying the 600 itself is definitely wrong.\n\n",
+      "original_form": null,
+      "exact_question": "Which report is this? You may also supply its link or a screenshot.\nSubscription Billing / Accounts\nSubscription Billing / Subscription Billing\nSubscription Billing / Recent Collections"
+    },
+    {
+      "id": "clarification-056",
+      "original_ticket_file": "ticket-13.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Is the overview up to date?\n\nThe first page has 950 invoiced, 550 collected and 600 MRR. I can't see an as-of date or last-updated time alongside those cards.\n\nI can look up payments through October 4 in the application, but I can't tell from this page how current its figures are. Please tell me what date/time the report covers. I expected some indication before relying on it for today's collection calls.\n\n",
+      "original_form": null,
+      "exact_question": "Which report is this? You may also supply its link or a screenshot.\nSubscription Billing / Accounts\nSubscription Billing / Subscription Billing\nSubscription Billing / Recent Collections"
+    },
+    {
+      "id": "clarification-057",
+      "original_ticket_file": "ticket-15.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Need to check Starter versus Growth\n\nWhere do I pick a plan on Subscription Billing? I can see MRR All Plans 600, but no plan slicer or month-by-plan grid on the pages I checked.\n\nIn the application, the active subscriptions are Birch on Starter at 100, plus Aster and Cedar on Growth at 250 each. I wanted to check the Starter/October and Growth/October amounts separately. I expected a way to see that breakdown or select a plan; please point me to it if I'm missing it.\n\n",
+      "original_form": null,
+      "exact_question": "Which displayed number should we investigate?\nSubscription Billing / Subscription Billing / MRR All Plans / Subscription Billing \u2014 'MRR All Plans 600' at 95:112"
+    },
+    {
+      "id": "clarification-058",
+      "original_ticket_file": "ticket-15.txt",
+      "input_kind": "FREE_TEXT",
+      "original_ticket": "Need to check Starter versus Growth\n\nWhere do I pick a plan on Subscription Billing? I can see MRR All Plans 600, but no plan slicer or month-by-plan grid on the pages I checked.\n\nIn the application, the active subscriptions are Birch on Starter at 100, plus Aster and Cedar on Growth at 250 each. I wanted to check the Starter/October and Growth/October amounts separately. I expected a way to see that breakdown or select a plan; please point me to it if I'm missing it.\n\n",
+      "original_form": null,
+      "exact_question": "What are you comparing against?\nThe application\nThe information seems stale\nIt looks wrong\nAnother report\nThe business meaning or rule"
+    }
+  ]
+}

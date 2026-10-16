@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "corrections": [
+    {
+      "id": "family-F-terse",
+      "column": "stripped",
+      "original_sha256": "c43516d326df0e4d95f67a09c7f56767ed2dfb342813ad0ea8e637df00c708dd",
+      "before": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "after": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "reason": "boundary consistency does not answer a mechanism question",
+      "authority": "Explicit human outcome-mapping decision, 2026-10-07"
+    },
+    {
+      "id": "family-F-typo",
+      "column": "stripped",
+      "original_sha256": "1ef08209f24e8d58659f3228545279e1894b9dbe94fd107bc6fb6b5be5755015",
+      "before": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "after": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "reason": "boundary consistency does not answer a mechanism question",
+      "authority": "Explicit human outcome-mapping decision, 2026-10-07"
+    },
+    {
+      "id": "question-hiding-rows",
+      "column": "stripped",
+      "original_sha256": "44581991fa645216532d4c0b850428c8d9289e50852761dcd6ebea71368e6bf1",
+      "before": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "REPRODUCED"
+      },
+      "after": {
+        "status": "COMPLETED",
+        "outcome": "DECLARED_FILTER_EFFECTS",
+        "answer_category": "REPRODUCED"
+      },
+      "reason": "declared filter-effect route implemented: reproduce the resolved visual, then remove one active restriction per probe without a pipeline walk; the original NO_COMPARABLE_PATH expectation was the authorized placeholder",
+      "authority": "Explicit human routing decision, 2026-10-07; update with reason when the route is built"
+    }
+  ]
+}

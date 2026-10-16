@@ -1,0 +1,597 @@
+{
+  "version": 1,
+  "sealed_at": "2026-10-07T21:38:29.466577+00:00",
+  "count": 50,
+  "owner_folder_empty_at_section_start": true,
+  "seed_sha256": "313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1",
+  "manifest_hash": "3d102fd2348a685838b1fcf568a402f5a65228d2d65f4937abd7da98b4afdae4",
+  "config_hash": "b17305f2edc8c7620ccb6373b03db172e1faf000c43a40e9c3c50510bf3f5927",
+  "context_pin": {
+    "context_id": "541d500c-437a-485c-97bf-f5d44febae44",
+    "hash": "5c38074b687c1c56157ccf081975ba15517ec27cf962cd19882c47219e353564"
+  },
+  "entries": [
+    {
+      "id": "family-A-mention",
+      "path": "acceptance/tickets/round-ten/family-A-mention.json",
+      "sha256": "84fbc3ba159b4627cb0323efd0768be311a1d046cd9f97108b652520187faf2d",
+      "ticket_hash": "f3ba4ddda3be99856afaab227a695da9a3dd53d563014e8725fa099462d69d9d",
+      "phrasing_class": "second-numeral-mention",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-A-noisy",
+      "path": "acceptance/tickets/round-ten/family-A-noisy.json",
+      "sha256": "1dc87cf8785903cb69f36313710d1a644ec9e157639a9acf4184a4592ba093bd",
+      "ticket_hash": "8c51bcd64b6840ed6a478e3557f3a92df4e20a20556d38326d90f94a2dcd7db0",
+      "phrasing_class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-A-terse",
+      "path": "acceptance/tickets/round-ten/family-A-terse.json",
+      "sha256": "e0d6226079eed245657fcda0fe814e05d06169e14c0f8a2714dfb5a954fb412c",
+      "ticket_hash": "b3016ce3d145d41b2deb2e97d3b4cd67439e36bc0a53531ca47e2834220ee25a",
+      "phrasing_class": "terse",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-A-typo",
+      "path": "acceptance/tickets/round-ten/family-A-typo.json",
+      "sha256": "f7aef3788b51b7cd244dd3398b933e99952be56a0e5e5edee8d1b973dbeb497f",
+      "ticket_hash": "84f4ff0d064a920ef038bc58cc9fafda17e9d2f52e03b109a543a422de9fbfe1",
+      "phrasing_class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-B-noisy",
+      "path": "acceptance/tickets/round-ten/family-B-noisy.json",
+      "sha256": "a93eefdf3e1761421b34b8dad66cca8a67e9bafab3261d6ef0c43472686b83dd",
+      "ticket_hash": "0b314d01b0123d676c1b1b34ca288f94fea26d23c601b0f38073d86e3ed42ca3",
+      "phrasing_class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-B-terse",
+      "path": "acceptance/tickets/round-ten/family-B-terse.json",
+      "sha256": "d9289351a677efa7e1ad812858cdbf3ed495465b7685b216c0be482098e1c7ae",
+      "ticket_hash": "d83d36db8c8ebcd9ef6eb29de0a691ed23057b7d4b1e93670c7873c42d4e2fb4",
+      "phrasing_class": "terse",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-B-typo",
+      "path": "acceptance/tickets/round-ten/family-B-typo.json",
+      "sha256": "884eb174217497809f28a976bec3918fd28f54792958438d20d575064a4b50be",
+      "ticket_hash": "945bb6fadd28c6afbcefa860121cf1e47589143284eac2ede53999dcefa0f896",
+      "phrasing_class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-C-noisy",
+      "path": "acceptance/tickets/round-ten/family-C-noisy.json",
+      "sha256": "5bed13a658f2e1c160172f8cea8bfa837eb3ef8a27b6d14dfdc086f97d9936a5",
+      "ticket_hash": "5a3064640a1796bae3539c00580aff21dcfcfc171b79b90c47f14ac9f441cefb",
+      "phrasing_class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-C-terse",
+      "path": "acceptance/tickets/round-ten/family-C-terse.json",
+      "sha256": "1b05940526cf91b9f1e57b58f6c62169d705aee3ccf6c7147627eed579163743",
+      "ticket_hash": "78f5ea1394729e659f6d2beedfdcf1872c8e5008f80837abb4d36abd56e58a95",
+      "phrasing_class": "terse",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-C-typo",
+      "path": "acceptance/tickets/round-ten/family-C-typo.json",
+      "sha256": "e82e10370d095eb3a71641b9f16f4dd1e86f2c592897e30e0d738c46c740dc1d",
+      "ticket_hash": "de1ee2a32f8df6034ad95197e645b3a7adcb09b0e9611267772c8e6a5cc9e33f",
+      "phrasing_class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-D-noisy",
+      "path": "acceptance/tickets/round-ten/family-D-noisy.json",
+      "sha256": "ab9ebfa942b008e1ca30f687e2f7e2ae83dde80bfa53e9af72f8295b56921d94",
+      "ticket_hash": "533f437b73397bbb691a9c2f8aa969f9a12d3140a1a9f36c953f1abccd21f970",
+      "phrasing_class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-D-terse",
+      "path": "acceptance/tickets/round-ten/family-D-terse.json",
+      "sha256": "e4159016dbd85d1c5dea5dd3e97b7679ea85dd7d405482d825d5181ffe19ffd7",
+      "ticket_hash": "7ce147147b62d6631e65bbf8a1c470e16d68ddfc7b18063dfb06e037070779f1",
+      "phrasing_class": "terse",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-D-typo",
+      "path": "acceptance/tickets/round-ten/family-D-typo.json",
+      "sha256": "606c9f60836c428cd3e74fd6d7b4a85ab10446d903e0c88b6a3fafd71daeab85",
+      "ticket_hash": "9a375bb71b2e45f1d25ac17be3ee78bd7cb4dc986469fcef638126ba2f6b55ef",
+      "phrasing_class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-E-mention",
+      "path": "acceptance/tickets/round-ten/family-E-mention.json",
+      "sha256": "911dea46726066a09a975104d198326d0461eadce9c31a066dd3f489b3bb353c",
+      "ticket_hash": "a1e53497b0f886719ac2d65701952af973ac7585b16520185a383b6ae2117c54",
+      "phrasing_class": "second-numeral-mention",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-E-noisy",
+      "path": "acceptance/tickets/round-ten/family-E-noisy.json",
+      "sha256": "f2a2521bad3d3cad181d6b2d3c8bc5e82c5b6d4ac9d31b4743fbe5fc35feabec",
+      "ticket_hash": "d682ffdbdf6948ebab3cd9a39847a06ad9cc6584ac41d652fc6147af5599e5c0",
+      "phrasing_class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-E-terse",
+      "path": "acceptance/tickets/round-ten/family-E-terse.json",
+      "sha256": "632003f566d8dd27a396d61a5d64dfd1b0d66b305843c65c6742632e0870233b",
+      "ticket_hash": "b7f70f14057323c9c7c6c6c10f4fa681b756fe6dfbfeef3dbadb9a9eccf860f7",
+      "phrasing_class": "terse",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-E-typo",
+      "path": "acceptance/tickets/round-ten/family-E-typo.json",
+      "sha256": "3676a1c4fcc919b62a04dadb37d7762274549d799e937f77f7c607207eb714b3",
+      "ticket_hash": "a63132371d982749fadedb40e08ced77411f04d92d929268b98962a8945bd2df",
+      "phrasing_class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-F-noisy",
+      "path": "acceptance/tickets/round-ten/family-F-noisy.json",
+      "sha256": "02c08ea1fa5054bf719f6a01e4b70b475777c26bb88e5ed79007d932fcc86ba5",
+      "ticket_hash": "f46ba73ed7bcfa6675c02ababa70b840aae88ae0a8d13c7505886e2ca23ce9ff",
+      "phrasing_class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-F-terse",
+      "path": "acceptance/tickets/round-ten/family-F-terse.json",
+      "sha256": "c43516d326df0e4d95f67a09c7f56767ed2dfb342813ad0ea8e637df00c708dd",
+      "ticket_hash": "0f5114359a6d6659d990a71ea728a711102b72303f8f6b530d08d333dd7ead64",
+      "phrasing_class": "terse",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-F-typo",
+      "path": "acceptance/tickets/round-ten/family-F-typo.json",
+      "sha256": "1ef08209f24e8d58659f3228545279e1894b9dbe94fd107bc6fb6b5be5755015",
+      "ticket_hash": "2eb7618db35733d86a9e1ce2182b57a59e135878becde473cb7fb94b1ef41f53",
+      "phrasing_class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-G-mention",
+      "path": "acceptance/tickets/round-ten/family-G-mention.json",
+      "sha256": "7544618e2e0ab993143fbad7cd55d9ccef40583e156dcb78852d50fabf3b17a4",
+      "ticket_hash": "4e5b6f46635f3b2d2cc78e907c6bc4daac0b1155d7eb2c86f596c515d07c69ad",
+      "phrasing_class": "second-numeral-mention",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-G-noisy",
+      "path": "acceptance/tickets/round-ten/family-G-noisy.json",
+      "sha256": "593d162fbfb4fa8f9c401c65a4dff5cc71b5dcddb2c32e39294f12844411b5a2",
+      "ticket_hash": "4bc2810f61a11ecd9b2d1a4876c0f6c05e461666865cb75a3bccbc24bd6bb88e",
+      "phrasing_class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-G-terse",
+      "path": "acceptance/tickets/round-ten/family-G-terse.json",
+      "sha256": "aec24934171797cacd56c61c1ba507829766191bb0c462480eff6b2a286d9096",
+      "ticket_hash": "64acb396bd1318da18cd455dd31cb343dfd211035771f4f8b7cf0c476a8abb3f",
+      "phrasing_class": "terse",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-G-typo",
+      "path": "acceptance/tickets/round-ten/family-G-typo.json",
+      "sha256": "f55da4fe4e3680b5d9ba1dab0b9afbfc67e8c67bf7f758af6b00fcd904b574c5",
+      "ticket_hash": "6b678d90e3c8969f3a3cdcf31f35ff6852a74356fb6d82a5c8b1d7100c15a076",
+      "phrasing_class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-H-noisy",
+      "path": "acceptance/tickets/round-ten/family-H-noisy.json",
+      "sha256": "81e2abc08261a6f632ca52d655bf96867242cd3c69a2f64a4f9567915b9bab12",
+      "ticket_hash": "031545c9535f9a956640240090e4d0b2171ccd937ce772e1df9f38ad74ef6ee2",
+      "phrasing_class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-H-terse",
+      "path": "acceptance/tickets/round-ten/family-H-terse.json",
+      "sha256": "f4db10cb6d7e45a78b81865bc1723ef338b320885a78781020d0b396e48f9482",
+      "ticket_hash": "556c44f9af911de44e0e4e38d4399e670427341a077fd8d93a71efb9b2ea13e7",
+      "phrasing_class": "terse",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-H-typo",
+      "path": "acceptance/tickets/round-ten/family-H-typo.json",
+      "sha256": "41e2d9c46488e25bcd5f4f5cc3e24a8b61ae6b4223810174cfd39414a77f13f0",
+      "ticket_hash": "127fe49c7b5479db675069fdfc6e98bfbdcf7417c0c2dfea658bf59a4fdf4a22",
+      "phrasing_class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-I-noisy",
+      "path": "acceptance/tickets/round-ten/family-I-noisy.json",
+      "sha256": "dd847d30dd477f3baad2d8b0dfe6573b6c15b28d83baa2b844b428735f1918e2",
+      "ticket_hash": "4883066f3c054074de59cc273c447ad53657d2a90989af158ed7ddd05335758a",
+      "phrasing_class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-I-terse",
+      "path": "acceptance/tickets/round-ten/family-I-terse.json",
+      "sha256": "653b9ce0ff2c5f1f2657b146aff6de20dc38bed0dd9ff8d173fd18b127458e35",
+      "ticket_hash": "66c72b3b56d3598e1509e67cb513492d027ddc5afd22759ad7d6da9ca2fd3efc",
+      "phrasing_class": "terse",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "family-I-typo",
+      "path": "acceptance/tickets/round-ten/family-I-typo.json",
+      "sha256": "f16f7fe920e22060b57c014a49511967535ddd2089ea4450a545629088f0fbbd",
+      "ticket_hash": "e879926d916b9e5d7c6ba091945e8b952d6119e5e7ae1d9a1f54569bda3c7c54",
+      "phrasing_class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "declared",
+        "stripped"
+      ]
+    },
+    {
+      "id": "question-change-days",
+      "path": "acceptance/tickets/round-ten/question-change-days.json",
+      "sha256": "b34e088e3008d7e58dc32c6ec3e719e49a98e4354d3116fa43c23693b997bf06",
+      "ticket_hash": "821b0c46099323b72b5b3c6047dde913080f3105fea353670234a4ea68383133",
+      "phrasing_class": "new-question",
+      "fixture_state": "report-15sep",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "question-change-week",
+      "path": "acceptance/tickets/round-ten/question-change-week.json",
+      "sha256": "6e8a318e758490fa4f6fdc0eae7f154168af34ba10cc2b2b739580aa58f29ef2",
+      "ticket_hash": "68c4dce5a966fb1f8386596db1ae6a2fe5169bdb1023bba68ca55edcb4228737",
+      "phrasing_class": "new-question",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "question-hiding-rows",
+      "path": "acceptance/tickets/round-ten/question-hiding-rows.json",
+      "sha256": "44581991fa645216532d4c0b850428c8d9289e50852761dcd6ebea71368e6bf1",
+      "ticket_hash": "aef774dd882d0b14aeb4d3eb10d92ed1bb890a763ecb824816c76b613e1df73d",
+      "phrasing_class": "new-question",
+      "fixture_state": "report-15sep",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "question-stale-no-sla",
+      "path": "acceptance/tickets/round-ten/question-stale-no-sla.json",
+      "sha256": "5599f378454c044973e609a106eae082455fbc041a2c12032c01c87222f0f8e0",
+      "ticket_hash": "e431d86185de0f8b502a32723d1cc7e46348ccdf262a6a12d573f2c3611b6146",
+      "phrasing_class": "new-question",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "refusal-business-benchmark",
+      "path": "acceptance/tickets/round-ten/refusal-business-benchmark.json",
+      "sha256": "cb9c71cfeade3e94f9c79533a6a8049e60b9047390720bdefcd6b796eefbc149",
+      "ticket_hash": "64b3488c0fa3926c1423171fdceb1a82a40ea94aa5e02aea464ad6aa873a9c99",
+      "phrasing_class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "refusal-business-intent",
+      "path": "acceptance/tickets/round-ten/refusal-business-intent.json",
+      "sha256": "50532fd5a0ddb679e31d1c0ba70351e819196934e16e97eea0f635e429ca0d7c",
+      "ticket_hash": "7053e5e1518abad7e2ccc9e7bd1afedd29cfd1ad38d761376d9206731d65a9d0",
+      "phrasing_class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "refusal-business-q49",
+      "path": "acceptance/tickets/round-ten/refusal-business-q49.json",
+      "sha256": "9d88ceef7109ec7d40504dba3755ed88e4b7726fcfc3f3090d52f2fd790d1656",
+      "ticket_hash": "1792c020d1d6c9f5dae89ae10aeaf4475f32e096ba79c28ae6094f0d46bd71b8",
+      "phrasing_class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "refusal-nonexistent-column",
+      "path": "acceptance/tickets/round-ten/refusal-nonexistent-column.json",
+      "sha256": "897b6a47d6179a5503b71bd4406b51a9279a2782e4422967b9e612516d529460",
+      "ticket_hash": "61aae8dff070e04fd5dbb27509c9d766c70dc4a3e432c80e5d3a45b6ed064522",
+      "phrasing_class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "refusal-two-figures-total",
+      "path": "acceptance/tickets/round-ten/refusal-two-figures-total.json",
+      "sha256": "d7fd65450bacea0619d0217247c8d6592149cce1326d5934476259121c825b6c",
+      "ticket_hash": "ff77c8021585811e56736b1cc4a2ae6eaf3563c44e69ac1e9a95fbc29871b671",
+      "phrasing_class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "refusal-two-figures",
+      "path": "acceptance/tickets/round-ten/refusal-two-figures.json",
+      "sha256": "9ad2b5163218349c95a9a55453fbba4e3ea929c38083845db3b252c59cbf63ea",
+      "ticket_hash": "d23e4558dcaf5559305ab8318d38d175a65918fc35fe36d53a9bbe817a9fa58c",
+      "phrasing_class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "refusal-unidentified-measure",
+      "path": "acceptance/tickets/round-ten/refusal-unidentified-measure.json",
+      "sha256": "7e7c1792108c5fada42463c4afced5d1247b2668a3d31bde7d2cbb0703445a53",
+      "ticket_hash": "449c5ee74c2921cb7ff20c579b4e517f5844be68fe6d9e3267cce4297786e902",
+      "phrasing_class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "refusal-unidentified-visual",
+      "path": "acceptance/tickets/round-ten/refusal-unidentified-visual.json",
+      "sha256": "2ddc33846d58fa17a80e7ce26369e2a896155b114198c622d95cb1c078dd6c18",
+      "ticket_hash": "d19810b2a6aba7a149a7c44a96480d152286d373769d9f7901bb62635ba923e4",
+      "phrasing_class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "refusal-unsupported-filter",
+      "path": "acceptance/tickets/round-ten/refusal-unsupported-filter.json",
+      "sha256": "bbaec4f79aad5a31835bca74c2b85e19fbfa31060bc8740ff7ba0bd40fecc426",
+      "ticket_hash": "a2cadcd6c686c83c97eeaac9358cbe0c71ec46e4c8a96a45bed959f4571a286d",
+      "phrasing_class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "refusal-unsupported-relative",
+      "path": "acceptance/tickets/round-ten/refusal-unsupported-relative.json",
+      "sha256": "fb5d3352e59a6d15584cdfd58c331180fd92cfb764da60c939390725c3bdd17b",
+      "ticket_hash": "5e645afd2627193fcca5900febbbd1c82aea92db412d445d4a78a07b7757d924",
+      "phrasing_class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "visual-1",
+      "path": "acceptance/tickets/round-ten/visual-1.json",
+      "sha256": "42eda69abb27b973d41df49d9210f127a177ed560727659982db046231b30c2d",
+      "ticket_hash": "b3b102f1ba5082d35c5047f7823abcdfe6bb599de2777b6773d283909bc9bae4",
+      "phrasing_class": "visual-variety",
+      "fixture_state": "round-ten-visuals",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "visual-2",
+      "path": "acceptance/tickets/round-ten/visual-2.json",
+      "sha256": "37e682a8e3590c78deccb3316e48093c8d3ed7f39cc778abe605055c92e2177d",
+      "ticket_hash": "04cccd067ea12d4205f44b4e8436a4792a8b8c9175f727f7882542930e8b707a",
+      "phrasing_class": "visual-variety",
+      "fixture_state": "round-ten-visuals",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "visual-3",
+      "path": "acceptance/tickets/round-ten/visual-3.json",
+      "sha256": "fd5f1336697154b5ac1a7e65a6f50cb9eaabb1d5d98992cf4f9a380a1ab09921",
+      "ticket_hash": "ef2129084f49fdc594aca8f93d298ab19d01a53aa1668a66145ce19d84e9ee76",
+      "phrasing_class": "visual-variety",
+      "fixture_state": "round-ten-visuals",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "visual-4",
+      "path": "acceptance/tickets/round-ten/visual-4.json",
+      "sha256": "42592cd1e1b16754bc8b1cf872c1f9617196ea5b9a51cb77c912e896abaeb139",
+      "ticket_hash": "380cf4e49653e49461594b567fe93b0b31e59ad537f894b8e29ed11407fd591d",
+      "phrasing_class": "visual-variety",
+      "fixture_state": "round-ten-visuals",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "visual-5",
+      "path": "acceptance/tickets/round-ten/visual-5.json",
+      "sha256": "35eaa22c05ab0e95dc0f60e3a49b431bd741e532e4c0b155b4f447243d89f5bd",
+      "ticket_hash": "2bdfe913c511507755c2c449244e4c7a479400b5fdff3cc7ac398efd1d8064ff",
+      "phrasing_class": "visual-variety",
+      "fixture_state": "round-ten-visuals",
+      "columns": [
+        "stripped"
+      ]
+    },
+    {
+      "id": "visual-6",
+      "path": "acceptance/tickets/round-ten/visual-6.json",
+      "sha256": "13c13e7d22319a0f61ee6c3077604212b885358f44134e7de4948aeb167a9ee6",
+      "ticket_hash": "e8bd37dd0354d16c05919f6bc5290c98213d6465cdfd044816190986a189eb5b",
+      "phrasing_class": "visual-variety",
+      "fixture_state": "round-ten-visuals",
+      "columns": [
+        "stripped"
+      ]
+    }
+  ],
+  "honesty": "Seed arithmetic and native-definition contracts can be falsified by served data, collection, intake target/scope, compiler, binding qualification or output validation. No engine quantity answer was copied. A matching outcome is a synthetic expectation match, not independent real-incident accuracy.",
+  "entries_sha256": "a9eeaed21ba439e3a4826d5809b041b201708216739567b1a51675e5a008f3eb"
+}

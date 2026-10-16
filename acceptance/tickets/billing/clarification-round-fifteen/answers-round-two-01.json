@@ -1,0 +1,20 @@
+{
+  "author_identity": "independent fresh tester session",
+  "qa_round": 2,
+  "answer_count": 1,
+  "independence_statement": "Read only this second-round packet and previously permitted README/session and original supplied ticket facts. No excluded sources or engineering worktrees accessed. No live estate, SQL, cloud or model API calls made. No original tickets modified.",
+  "answers": [
+    {
+      "id": "clarification-036-round-two",
+      "exact_question": "Which figure is the reported result?\nIt says 600. at 166:178\ngot 700 at 234:241\nAster Growth 250 at 243:259\nBirch Starter 100 at 261:278\nCedar Growth 250 at 280:296\nleaving it out gives 600 at 356:380",
+      "original_ticket_file": "ticket-03.txt",
+      "input_kind": "FREE_TEXT",
+      "reply": "\"It says 600.\" That is the result shown on the MRR All Plans card in Subscription Billing.",
+      "answer_basis": "ticket/form",
+      "basis_detail": "The original supplied ticket explicitly says the MRR All Plans card says 600. The other amounts describe my application comparison or my calculation. No authored form was supplied.",
+      "prior_supplied_ticket_or_form_already_answered": true,
+      "author_judgment": "Yes: my original ticket already identifies the card result as 600.",
+      "author_identity": "independent fresh tester session"
+    }
+  ]
+}

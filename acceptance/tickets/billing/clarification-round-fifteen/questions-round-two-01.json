@@ -1,0 +1,23 @@
+{
+  "instructions": "Independent original author clarification round two. Use only this packet and original allowed tester README/session/tickets. Do not read engine code, expectations, oracle, defect lists, delivery records, tapes or ledgers. No estate or external-provider tool calls are requested; only your ordinary author text reply. Answer in plain words as the original ticket author would, with answer_basis ticket/form or unknown, and preserve each exact_question. Quote one offered phrase only when it is what your notes mean. Do not invent missing facts.",
+  "qa_round": 2,
+  "questions": [
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "Which figure is the reported result?\nIt says 600. at 166:178\ngot 700 at 234:241\nAster Growth 250 at 243:259\nBirch Starter 100 at 261:278\nCedar Growth 250 at 280:296\nleaving it out gives 600 at 356:380",
+      "id": "clarification-036-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "It says 600.",
+        "got 700",
+        "Aster Growth 250",
+        "Birch Starter 100",
+        "Cedar Growth 250",
+        "leaving it out gives 600"
+      ],
+      "original_form": null,
+      "original_ticket": "FW: Monthly recurring number for the review\n\nSubject: FW: Monthly recurring number for the review\n\nHi,\n\nCan you check the MRR All Plans card on Subscription Billing? It says 600. I added the plan prices for the four subscriptions and got 700: Aster Growth 250, Birch Starter 100, Cedar Growth 250, Dune Starter 100.\n\nDune is marked CHURNED in the app, and leaving it out gives 600. Is that the intended rule even though the title says All Plans? Please confirm so we don't ask for the extra 100 in the review.\n\nThanks,\nFinance\nSent from my phone\nPlease ignore the earlier request for a spreadsheet.\n\n",
+      "original_ticket_file": "ticket-03.txt"
+    }
+  ]
+}

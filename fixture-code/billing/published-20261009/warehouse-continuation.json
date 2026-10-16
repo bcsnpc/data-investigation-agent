@@ -1,0 +1,147 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "name": "BuildSilverAndGold",
+        "type": "Script",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 0
+        },
+        "linkedService": {
+          "name": "406dcb89_0526_4f48_bb77_397d52471c89",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com",
+              "artifactId": "406dcb89-0526-4f48-bb77-397d52471c89",
+              "workspaceId": "7d67bb36-04f6-4182-95aa-da5d515248fa"
+            }
+          }
+        },
+        "typeProperties": {
+          "database": "billing_serving",
+          "scripts": [
+            {
+              "type": "Query",
+              "text": "IF SCHEMA_ID(N'bronze') IS NULL EXEC(N'CREATE SCHEMA [bronze]');",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "IF SCHEMA_ID(N'silver') IS NULL EXEC(N'CREATE SCHEMA [silver]');",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "IF SCHEMA_ID(N'gold') IS NULL EXEC(N'CREATE SCHEMA [gold]');",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "CREATE VIEW [bronze].[plans] AS SELECT [plan_id],[plan_name],[monthly_price],[included_units],source_row_version,source_modified_at_utc FROM [billing_bronze].[dbo].[plans];",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "CREATE TABLE [gold].[plans] AS SELECT [plan_id],[plan_name],[monthly_price],[included_units] FROM [bronze].[plans];",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "CREATE VIEW [bronze].[account_plan_history] AS SELECT [history_id],[account_id],[plan_id],[valid_from],[valid_to],source_row_version,source_modified_at_utc FROM [billing_bronze].[dbo].[account_plan_history];",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "CREATE TABLE [gold].[account_plan_history] AS SELECT [history_id],[account_id],[plan_id],[valid_from],[valid_to] FROM [bronze].[account_plan_history];",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "CREATE VIEW [bronze].[invoices] AS SELECT [invoice_id],[account_id],[invoice_date],[amount],[status],source_row_version,source_modified_at_utc FROM [billing_bronze].[dbo].[invoices];",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "CREATE TABLE [gold].[invoices] AS SELECT [invoice_id],[account_id],[invoice_date],[amount],[status] FROM [bronze].[invoices];",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "CREATE VIEW [bronze].[payments] AS SELECT [payment_id],[invoice_id],[payment_date],[amount],source_row_version,source_modified_at_utc FROM [billing_bronze].[dbo].[payments];",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "CREATE TABLE [gold].[payments] AS SELECT [payment_id],[invoice_id],[payment_date],[amount] FROM [bronze].[payments];",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "CREATE VIEW [bronze].[usage_events] AS SELECT [event_id],[account_id],[event_date],[units],source_row_version,source_modified_at_utc FROM [billing_bronze].[dbo].[usage_events];",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "CREATE TABLE [gold].[usage_events] AS SELECT [event_id],[account_id],[event_date],[units] FROM [bronze].[usage_events];",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "CREATE VIEW [bronze].[subscriptions] AS SELECT [subscription_id],[account_id],[plan_id],[status],source_row_version,source_modified_at_utc FROM [billing_bronze].[dbo].[subscriptions];",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "CREATE TABLE [gold].[subscriptions] AS SELECT [subscription_id],[account_id],[plan_id],[status] FROM [bronze].[subscriptions];",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "CREATE TABLE [silver].[invoices] AS SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "CREATE TABLE [gold].[invoice_activity] (invoice_id int,account_id int,plan_id int,invoice_date date,amount int,status varchar(200));",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "-- Fixture-authoring code only. Not executed or asserted to be deployed.\n-- Bronze tables are Dataflow Gen2 destinations; no literal-row staging here.\nCREATE PROCEDURE [silver].[build_invoices]\nAS\nBEGIN\n DELETE FROM [silver].[invoices];\n INSERT INTO [silver].[invoices] (invoice_id,account_id,invoice_date,amount,status)\n SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];\nEND;",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "CREATE PROCEDURE [gold].[build_billing]\nAS\nBEGIN\n DELETE FROM [gold].[invoice_activity];\n INSERT INTO [gold].[invoice_activity] (invoice_id,account_id,plan_id,invoice_date,amount,status)\n SELECT i.invoice_id,i.account_id,h.plan_id,i.invoice_date,i.amount,i.status\n FROM [silver].[invoices] AS i\n LEFT JOIN [bronze].[account_plan_history] AS h ON i.account_id=h.account_id;\nEND;",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "EXEC [silver].[build_invoices]; EXEC [gold].[build_billing];",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "CREATE TABLE [gold].[usage_with_plan] AS SELECT u.event_id,u.account_id,u.event_date,u.units,s.plan_id FROM [bronze].[usage_events] u LEFT JOIN [bronze].[subscriptions] s ON u.account_id=s.account_id;",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "CREATE TABLE [gold].[dates] AS SELECT DISTINCT invoice_date AS date FROM [bronze].[invoices] UNION SELECT DISTINCT payment_date FROM [bronze].[payments] UNION SELECT DISTINCT event_date FROM [bronze].[usage_events];",
+              "parameters": []
+            },
+            {
+              "type": "Query",
+              "text": "SELECT COUNT_BIG(*) AS row_count,SUM(amount) AS amount FROM gold.invoice_activity; SELECT COUNT_BIG(*) AS row_count,SUM(amount) AS amount FROM silver.invoices;",
+              "parameters": []
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:02:00"
+        }
+      }
+    ]
+  }
+}

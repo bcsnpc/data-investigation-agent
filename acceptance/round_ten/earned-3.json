@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "basis": "Original independent synthetic expectations; original matching runs plus new matching once-only reruns, no failed run promoted. Historical producer replay, not a fresh current-engine or unfamiliar-domain claim.",
+  "entries": [
+    {
+      "id": "refusal-business-benchmark",
+      "column": "stripped",
+      "run_path": "runs/stripped/refusal-business-benchmark.json",
+      "run_sha256": "2222d29564d206f517a40036d56afa2dbc6142e65237286f718474623909385e",
+      "tape_sha256": "850a47f63d4eab6cf162b0ce030b36a236bd90981522e387cec3b085ee96034f"
+    },
+    {
+      "id": "refusal-business-q49",
+      "column": "stripped",
+      "run_path": "runs/stripped/refusal-business-q49.json",
+      "run_sha256": "3f28d0096dbbb0656c7026f747b28ecec21f9630f7ab707362c21d65ce8be6ce",
+      "tape_sha256": "d3b79e4ff9acab40288f2daafa1c12d050068a2c0d6c275b6fe6ae7e9249e6f0"
+    },
+    {
+      "id": "refusal-nonexistent-column",
+      "column": "stripped",
+      "run_path": "runs/stripped/refusal-nonexistent-column.json",
+      "run_sha256": "2562639c33e442d32d85930328b7fe64b3194aee4652202e5e75fe2c2c0823ca",
+      "tape_sha256": "a151b02a41a8f2f9bbbb8d508bcf24f40a7b4fd4e32dbea8124d5f4b06d1b93c"
+    },
+    {
+      "id": "refusal-two-figures-total",
+      "column": "stripped",
+      "run_path": "runs/stripped/refusal-two-figures-total.json",
+      "run_sha256": "b754a5e3a1792cb6050877d439fb29337a1a4e5b4728bb5b40ea13d1731f39ef",
+      "tape_sha256": "dcbac95ad55015ffdb237c1269bb746c8c67a4177b42b05b8dad7eedf85231c3"
+    },
+    {
+      "id": "refusal-two-figures",
+      "column": "stripped",
+      "run_path": "runs/stripped/refusal-two-figures.json",
+      "run_sha256": "ca8599d8e6566dfa93dd0749cf307555ac1011742362c27e25aab709be036ab4",
+      "tape_sha256": "6a0f6128cce0d2237d1a5c30901564cba081cfddbf4664a518622900d36345d1"
+    },
+    {
+      "id": "refusal-unidentified-measure",
+      "column": "stripped",
+      "run_path": "runs/stripped/refusal-unidentified-measure.json",
+      "run_sha256": "b36e136207eb41c05459b8f1060a4e67039c5ee3a1a0c9f19da41ef39ba913c9",
+      "tape_sha256": "4fec326328cfeae51f14965621abc643ee228230c446d67d63d079ad0730cc7c"
+    },
+    {
+      "id": "refusal-unidentified-visual",
+      "column": "stripped",
+      "run_path": "runs/stripped/refusal-unidentified-visual.json",
+      "run_sha256": "01cdb259ed02ff1372342ca0526b5b57535f91e1b5d39a3787e57d7d1af541f2",
+      "tape_sha256": "3c1413b7814366ec1f671c895b2de8bdc82017f4c31bc2a1687ca56d1be0b70a"
+    },
+    {
+      "id": "refusal-unsupported-filter",
+      "column": "stripped",
+      "run_path": "runs/stripped/refusal-unsupported-filter.json",
+      "run_sha256": "530b87e296b6500bfaad9ad771b6d7d941562967508f1c1081b9412afdcbf02c",
+      "tape_sha256": "47d045f48f8cf7981f405ef38e1ee28cdcb4f61bc0d6f600d58d0210f0bbd997"
+    },
+    {
+      "id": "refusal-unsupported-relative",
+      "column": "stripped",
+      "run_path": "runs/stripped/refusal-unsupported-relative.json",
+      "run_sha256": "a8a3fae1be542d74591e7ba6f4e2bc9e521301fbc75b6c4699aeeecd9d9951cc",
+      "tape_sha256": "c91b0045a57a8abd6d55674e78a88414671aec5fd157ac83220cc2de22dcadb1"
+    },
+    {
+      "id": "family-A-noisy",
+      "column": "declared",
+      "run_path": "runs/declared/family-A-noisy.json",
+      "run_sha256": "fb72c0e4411142c962952bc4db4e4bc8d0f896a4598e200246f93fca95a0c581",
+      "tape_sha256": "70f50638a8b7a2906c3bc03ca2b2ecb518c774b37100af79078113496ca76eb0"
+    },
+    {
+      "id": "family-A-terse",
+      "column": "declared",
+      "run_path": "runs/declared/family-A-terse.json",
+      "run_sha256": "c04a3cc41cc3e086a33b82edaabf3b4514fec3f9769649aea0f556610d67193b",
+      "tape_sha256": "a78d19a54143077206c9a806068710c1e6f7f449fe44d39a73a1444c15f5bfbe"
+    }
+  ]
+}

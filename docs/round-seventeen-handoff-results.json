@@ -1,0 +1,209 @@
+{
+  "recorded_at": "2026-10-13T00:41:54.980876+00:00",
+  "rows": [
+    {
+      "id": "R17-02",
+      "status": "CLARIFYING",
+      "trigger": null,
+      "agent_actions": [],
+      "correct_gap_closed": false,
+      "better_question": false,
+      "harmful_technical_findings": 0,
+      "comparison": "UNRESOLVED",
+      "reason": "No named trigger: missing binding remains a clarification; no matched reply or rule-based conflict.",
+      "error": null,
+      "questions": [
+        {
+          "text": "Which retained definition should represent the metric you named?",
+          "field": "binding",
+          "choice_labels": [],
+          "tester_can_answer": false
+        }
+      ],
+      "confirmations": [],
+      "model_calls": 2,
+      "cost_microdollars": 27035,
+      "physical_requests": 1,
+      "diagnostic_reads": 1,
+      "seconds": 408.4272816181183,
+      "source": ".local\\round-seventeen\\d-handoff-scored-v2\\R17-02.json",
+      "sha256": "f0be808a4aaf6c330d871b919cbfffca1273fc4d612b723cdaddda394143b090"
+    },
+    {
+      "id": "R17-03",
+      "status": "ERROR",
+      "trigger": null,
+      "agent_actions": [],
+      "correct_gap_closed": false,
+      "better_question": false,
+      "harmful_technical_findings": 0,
+      "comparison": "WORSE_BEFORE_ACTIVATION",
+      "reason": "Submit raised glossary revision Conflict before automatic eligibility was evaluated.",
+      "error": "Glossary changed; reload before editing",
+      "questions": [],
+      "confirmations": [],
+      "model_calls": 1,
+      "cost_microdollars": 13690,
+      "physical_requests": 0,
+      "diagnostic_reads": 0,
+      "seconds": 103.07782173156738,
+      "source": ".local\\round-seventeen\\d-handoff-scored-v2\\R17-03.json",
+      "sha256": "42a1dc0b4ce3e64c9e423aa431955129fd242bc16ded14168cbc6608f8561476"
+    },
+    {
+      "id": "R17-06",
+      "status": "CLARIFYING",
+      "trigger": null,
+      "agent_actions": [],
+      "correct_gap_closed": false,
+      "better_question": false,
+      "harmful_technical_findings": 0,
+      "comparison": "UNRESOLVED",
+      "reason": "No named trigger: neutral count review remains a direction clarification.",
+      "error": null,
+      "questions": [
+        {
+          "text": "What are you comparing against?",
+          "field": "comparator",
+          "choice_labels": [
+            "My own count",
+            "The source application",
+            "Another report",
+            "No other comparison"
+          ],
+          "tester_can_answer": true
+        },
+        {
+          "text": "Is it less, more, different, stale, or a definition question?",
+          "field": "direction",
+          "choice_labels": [
+            "Less or missing",
+            "More or extra",
+            "Different",
+            "Stale or not up to date",
+            "A definition question"
+          ],
+          "tester_can_answer": false
+        }
+      ],
+      "confirmations": [],
+      "model_calls": 3,
+      "cost_microdollars": 34301,
+      "physical_requests": 1,
+      "diagnostic_reads": 1,
+      "seconds": 515.1342284679413,
+      "source": ".local\\round-seventeen\\d-handoff-scored-v2\\R17-06.json",
+      "sha256": "40dc1a4324ac562565a5f3402807e4415b3b9ae2d613b3b96e261386fc94e353"
+    },
+    {
+      "id": "R17-09",
+      "status": "ERROR",
+      "trigger": null,
+      "agent_actions": [],
+      "correct_gap_closed": false,
+      "better_question": false,
+      "harmful_technical_findings": 0,
+      "comparison": "WORSE_BEFORE_ACTIVATION",
+      "reason": "Submit raised glossary revision Conflict before automatic eligibility was evaluated.",
+      "error": "Glossary changed; reload before editing",
+      "questions": [],
+      "confirmations": [],
+      "model_calls": 1,
+      "cost_microdollars": 11653,
+      "physical_requests": 0,
+      "diagnostic_reads": 0,
+      "seconds": 101.80527424812317,
+      "source": ".local\\round-seventeen\\d-handoff-scored-v2\\R17-09.json",
+      "sha256": "fc4a1c00b1abe7c0611277d1dbc2cc28c8d1034718245096a21d2735f451e164"
+    },
+    {
+      "id": "R17-10",
+      "status": "CLARIFYING",
+      "trigger": null,
+      "agent_actions": [],
+      "correct_gap_closed": false,
+      "better_question": false,
+      "harmful_technical_findings": 0,
+      "comparison": "UNRESOLVED",
+      "reason": "Definition question excluded from handoff authority; no named trigger recorded.",
+      "error": null,
+      "questions": [
+        {
+          "text": "Which retained definition should represent the metric you named?",
+          "field": "binding",
+          "choice_labels": [],
+          "tester_can_answer": false
+        }
+      ],
+      "confirmations": [],
+      "model_calls": 2,
+      "cost_microdollars": 15071,
+      "physical_requests": 0,
+      "diagnostic_reads": 0,
+      "seconds": 358.3265860080719,
+      "source": ".local\\round-seventeen\\d-handoff-scored-v2\\R17-10.json",
+      "sha256": "e86f54c26df3b953806b6e0fa084e6bad20bf4ee1f5704230c69f5b2ad3529ed"
+    },
+    {
+      "id": "R17-11",
+      "status": "CLARIFYING",
+      "trigger": null,
+      "agent_actions": [],
+      "correct_gap_closed": false,
+      "better_question": false,
+      "harmful_technical_findings": 0,
+      "comparison": "UNRESOLVED",
+      "reason": "Definition question excluded from handoff authority; correction was a matched reply, not UNMATCHED_REPLY.",
+      "error": null,
+      "questions": [
+        {
+          "text": "What should we correct in this interpretation?",
+          "field": "correction",
+          "choice_labels": [],
+          "tester_can_answer": true
+        },
+        {
+          "text": "Which report is this about?",
+          "field": "report",
+          "choice_labels": [
+            "Inventory Health f28cf2",
+            "Warehouse Performance f28cf2",
+            "Declared predicate fixture 20261001",
+            "Round Nine translation filters 20261007",
+            "Inventory Health e1b8e1",
+            "Warehouse Performance e1b8e1",
+            "Round Ten Visual Variety",
+            "Inventory Health 0fd86f",
+            "Warehouse Performance 0fd86f",
+            "Inventory Health 23619e",
+            "Warehouse Performance 23619e"
+          ],
+          "tester_can_answer": false
+        }
+      ],
+      "confirmations": [
+        {
+          "interpretation": "You are asking about Handled Quantity. By 'Handled Quantity', you mean Handled Quantity. Using Warehouse Operations e1b8e1. On Declared predicate fixture 20261001. On Unfiltered control. Direction: a definition question. Scope: the identified metric at this location. Is this interpretation correct?",
+          "decision": {
+            "accepted": false,
+            "reason": "The core ask is preserved as a definition question about the Handled Quantity metric on the Unfiltered control page, but the interpretation introduces unsupported context: 'Using Warehouse Operations e1b8e1' does not appear in the ticket or the public evidence provided. I cannot approve an interpretation that adds an invented/unstated target context."
+          }
+        }
+      ],
+      "model_calls": 5,
+      "cost_microdollars": 46951,
+      "physical_requests": 1,
+      "diagnostic_reads": 1,
+      "seconds": 373.111453294754,
+      "source": ".local\\round-seventeen\\d-handoff-scored-v2\\R17-11.json",
+      "sha256": "8d1a8eaa740a1c2dd4c84966402ff9f6d79fc0c6af7bab9f8a3f5b6bce93adf3"
+    }
+  ],
+  "activated": 0,
+  "closed_correctly": 0,
+  "better_question": 0,
+  "harmful_technical_findings": 0,
+  "recommend_default_on": false,
+  "condition_unmet": "No demonstrated correct gap closure. Live agent behavior was not exercised.",
+  "scope_limit": "Fresh setting-on attempts rerun intake; differences before any trigger are not agent effects."
+}

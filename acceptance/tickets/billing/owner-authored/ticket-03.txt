@@ -1,0 +1,3 @@
+Subject: Collections look short of our issued invoices
+
+The Collected Amount card shows 550. The application's payments are 200 for Aster, 100 for Birch and 250 for Cedar, so 550 does agree with the payments I looked up. Our issued invoices total 600 though. Is the difference money still outstanding, or am I comparing the wrong things?

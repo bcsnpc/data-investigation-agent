@@ -1,0 +1,60 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "798e43f542a753b3a69e",
+  "position": {
+    "x": 434,
+    "y": 300,
+    "width": 360,
+    "height": 160,
+    "z": 1,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "card",
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Usage Overage'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Billing"
+                    }
+                  },
+                  "Property": "Usage Overage"
+                }
+              },
+              "queryRef": "Billing.Usage Overage",
+              "nativeQueryRef": "Usage Overage",
+              "displayName": "Usage Overage"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

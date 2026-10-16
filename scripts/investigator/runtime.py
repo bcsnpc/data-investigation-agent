@@ -20,11 +20,12 @@ from .tool_registry import TOOLS, normalize, compile_actions
 # execute its reads. A freeze certifies these files, so none may be left out.
 FINGERPRINT_TRANSPORTS = ('scripts/run_native_diagnostic.py', 'scripts/run_source_diagnostic.py', 'scripts/run_investigation_v2.py',
     'scripts/run_adaptive_investigation.py', 'scripts/serve_investigator_workspace.py', 'scripts/connect_fixture_reader.py',
-    'scripts/ticket_planner.py', 'scripts/requirements-workspace.txt', 'scripts/metadata_auth.py', 'scripts/metadata_worker.py', 'scripts/metadata_config.py',
+    'scripts/ticket_planner.py', 'scripts/requirements-workspace.txt', 'scripts/metadata_auth.py', 'scripts/metadata_worker.py', 'scripts/metadata_config.py', 'scripts/installation_secrets.py',
     'scripts/sql_connect_retry.py', 'scripts/sql_layer_policy.py', 'scripts/serverless_control.py', 'scripts/fabric_sql_auth.py', 'scripts/fabric_sql_surface.py', 'scripts/application_sql_surface.py', 'scripts/read_xmla_failure.py', 'scripts/refresh_timing_reader.py',
     'scripts/read_budget.py', 'scripts/snapshot_identity_reader.py', 'infra/scripts/Read-SnapshotMetadata.ps1', 'scripts/read_onelake_commit.py', 'infra/scripts/Read-CatalogAggregate.ps1', 'infra/scripts/Read-FabricSqlAggregate.ps1',
     'infra/scripts/Read-FabricSqlSurface.ps1', 'infra/scripts/Read-XmlaFailure.ps1', 'infra/scripts/WorkerResponseBounds.json',
-    'infra/scripts/Read-PrivacyProjectionKey.ps1')
+    'infra/scripts/Read-PrivacyProjectionKey.ps1', 'scripts/report_list_worker.py', 'acceptance/model_steps/intake-resolution-policy.json',
+    'scripts/investigator/windows_ocr.ps1')
 
 
 def fingerprint_files(root=None):
@@ -83,6 +84,8 @@ class Runtime:
     @contextmanager
     def db(self):
         with self.store.connect() as db:
+            from .budget_delta_v2 import register_codec
+            register_codec(db)
             db.row_factory = sqlite3.Row
             yield db
 

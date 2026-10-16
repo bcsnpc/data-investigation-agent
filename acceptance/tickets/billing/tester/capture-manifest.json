@@ -1,0 +1,87 @@
+{
+  "recorded_at_utc": "2026-10-10T03:01:56.103554+00:00",
+  "recorded_local_date": "2026-10-09",
+  "source": "independent tester thread",
+  "source_folder": "D:\\dia-billing-tester\\tickets",
+  "independence": "Owner states these were written by a separate fresh Codex thread with only README.md and tester-session-billing.md. This continuing session did not author or edit these new files.",
+  "evidence_class": "INDEPENDENT_TESTER",
+  "copied_without_edits": true,
+  "expectations_derived": false,
+  "files": [
+    {
+      "path": "ticket-01.txt",
+      "bytes": 506,
+      "sha256": "17c02dae44dec694ff87ac5d40817eada645ddcac9d67b141a374c438c31bb0e"
+    },
+    {
+      "path": "ticket-02.txt",
+      "bytes": 383,
+      "sha256": "9019a3f4ba690da70a81a0c81a5dcb139e22455fd063ac6c23e9153cb379bb3e"
+    },
+    {
+      "path": "ticket-03.txt",
+      "bytes": 600,
+      "sha256": "349d6fab5f7e229cee7eea360c02f5de2cfee8492ba8c8c65c6358db98f718d4"
+    },
+    {
+      "path": "ticket-04.txt",
+      "bytes": 497,
+      "sha256": "77f0d8a9eeb0750aa746481f60f7bc1ef90f57e79a6058777d3b9d757b6243d3"
+    },
+    {
+      "path": "ticket-05.txt",
+      "bytes": 486,
+      "sha256": "ffa3300a489f9d21dd5c9958389388f26400281e149683ea49805353cfa88c83"
+    },
+    {
+      "path": "ticket-06.txt",
+      "bytes": 561,
+      "sha256": "a864b58113e642995d21e8e61522daf9bf9437786413da27eb45bce9c9b788be"
+    },
+    {
+      "path": "ticket-07.txt",
+      "bytes": 471,
+      "sha256": "99eb154bdac9617e591b6bf052129f7e9e2c9351ba2f85f9e314c2b5eeee25e4"
+    },
+    {
+      "path": "ticket-08.txt",
+      "bytes": 338,
+      "sha256": "8de21f4a97efc91abfb0f1f275a2281fd3a1fa059900c10ed0937f7981a24dfe"
+    },
+    {
+      "path": "ticket-09.txt",
+      "bytes": 452,
+      "sha256": "a3184881939fa814b877b0f1cbbf44899f9fdabb2e85d91ca823f2e9e9d0e257"
+    },
+    {
+      "path": "ticket-10.txt",
+      "bytes": 601,
+      "sha256": "216053c41c151cac7394824322f018230b1a84cd564143331053d29677e610c1"
+    },
+    {
+      "path": "ticket-11.txt",
+      "bytes": 503,
+      "sha256": "2db1075bd53966ab86a6da9a70f7a6a64dc9e4e926025ceba7734e44fe43df6c"
+    },
+    {
+      "path": "ticket-12.txt",
+      "bytes": 507,
+      "sha256": "bf272bf6a478a72b7529d4e0ac0cdf188f1344917425111bf35b0905e05c5bfb"
+    },
+    {
+      "path": "ticket-13.txt",
+      "bytes": 410,
+      "sha256": "2a381ab1d8b332bebeb8a5c08e8cac711000dc4455e1ace2a1f8280eec0201a5"
+    },
+    {
+      "path": "ticket-14.txt",
+      "bytes": 550,
+      "sha256": "5d3516670561c26be88a30a5cc27741213dcadf60e641f4ccf3ff5f31d9b1604"
+    },
+    {
+      "path": "ticket-15.txt",
+      "bytes": 474,
+      "sha256": "34967bf507d2329a72cfddb718082d85028effdc54c88423bbbee9a46d4345e5"
+    }
+  ]
+}

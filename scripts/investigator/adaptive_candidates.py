@@ -10,6 +10,18 @@ def catalog(store,config,envelope):
     fields(envelope,['model_id','revision','context_id','measure_id','filters','dimension_ids','source_tests','symptom','limits']+
            [k for k in ('source_selection','record_tests','record_pairs','record_selection','joint_native_records','strategy',
                         'ticket_shape','comparison_mode')+PROCEDURE_EVIDENCE_FIELDS if k in envelope])
+    confirmed_claim=('confirmed_claim' in (envelope.get('target_visual') or {}).get('match_basis',{})
+        or (envelope.get('report_binding') or {}).get('resolution_kind')=='USER_CONFIRMED_CLAIM')
+    if confirmed_claim:
+        from .claim_reference import validate_envelope
+        from .question_intake import snapshot
+        from .workspace import Workspace
+        from types import SimpleNamespace
+        # Reuse the ordinary retained catalog renderer without initializing a
+        # second controller, worker, job queue or provider.
+        view=Workspace.__new__(Workspace);view.store=store
+        view.agent=SimpleNamespace(config=config);view.visual_display_names=None
+        validate_envelope(envelope,store,snapshot(view),config)
     from .numeral_roles import evidence
     evidence(envelope,envelope['symptom'])
     if 'name_binding' in envelope:
@@ -25,6 +37,9 @@ def catalog(store,config,envelope):
     if 'question_kind' in envelope:
         from .question_kind import validate
         validate(envelope['question_kind'],envelope['symptom'])
+    if 'ticket_route' in envelope:
+        from .ticket_route import validate,admit
+        validate(envelope['ticket_route'],envelope['symptom']);admit(envelope['ticket_route'])
     if 'report_binding' in envelope:
         from . import report_scope
         model=store.get(envelope['model_id'])
@@ -36,13 +51,16 @@ def catalog(store,config,envelope):
         shape(envelope['definition_target'],envelope['symptom'])
     if 'reported_figure' in envelope:
         from .reported_figure import validate
-        validate(envelope['reported_figure'],envelope['symptom'])
+        validate(envelope['reported_figure'],None if confirmed_claim else envelope['symptom'])
     if 'strategy' in envelope:
         from .dynamic_reasoning import VERSION
         from .process_debugging import VERSION as PROCESS_VERSION
         if envelope['strategy'] not in (VERSION,PROCESS_VERSION):raise ValueError('Unknown investigation strategy')
         model=store.get(envelope['model_id'])
-        if not model.get('discovery') or model['discovery']['policy_hash']!=digest(config):raise Conflict('Dynamic investigation needs current approved discovery policy')
+        if config.get('_estate', {}).get('execution', {}).get('mode') == 'LOCAL_EXPORTED':
+            from .local_execution_approval import validate as validate_local_approval
+            validate_local_approval(store, config, model)
+        elif not model.get('discovery') or model['discovery']['policy_hash']!=digest(config):raise Conflict('Dynamic investigation needs current approved discovery policy')
         if not model['enabled'] or model['revision']!=envelope['revision'] or model['context_id']!=envelope['context_id']:
             raise Conflict('Dynamic context changed or disabled')
         if envelope['measure_id'] not in {m['id'] for m in model['context']['measures']}:raise ValueError('Unknown starting measure')

@@ -1,0 +1,5399 @@
+{
+  "status": "PARTIAL",
+  "attempted": 64,
+  "matched": 41,
+  "classification_matches": 40,
+  "classification_denominator": 54,
+  "by_class": {
+    "stripped/second-numeral-mention": {
+      "attempted": 3,
+      "matched": 1,
+      "physical_requests": 24,
+      "diagnostic_reads": 8
+    },
+    "stripped/forwarded-noisy": {
+      "attempted": 9,
+      "matched": 7,
+      "physical_requests": 63,
+      "diagnostic_reads": 21
+    },
+    "stripped/terse": {
+      "attempted": 9,
+      "matched": 6,
+      "physical_requests": 71,
+      "diagnostic_reads": 27
+    },
+    "stripped/typo-informal": {
+      "attempted": 9,
+      "matched": 7,
+      "physical_requests": 71,
+      "diagnostic_reads": 27
+    },
+    "stripped/new-question": {
+      "attempted": 4,
+      "matched": 1,
+      "physical_requests": 40,
+      "diagnostic_reads": 16
+    },
+    "stripped/refusal": {
+      "attempted": 10,
+      "matched": 9,
+      "physical_requests": 17,
+      "diagnostic_reads": 5
+    },
+    "stripped/visual-variety": {
+      "attempted": 6,
+      "matched": 0,
+      "physical_requests": 45,
+      "diagnostic_reads": 17
+    },
+    "declared/second-numeral-mention": {
+      "attempted": 2,
+      "matched": 0,
+      "physical_requests": 0,
+      "diagnostic_reads": 0
+    },
+    "declared/forwarded-noisy": {
+      "attempted": 4,
+      "matched": 3,
+      "physical_requests": 17,
+      "diagnostic_reads": 11
+    },
+    "declared/terse": {
+      "attempted": 4,
+      "matched": 3,
+      "physical_requests": 17,
+      "diagnostic_reads": 11
+    },
+    "declared/typo-informal": {
+      "attempted": 4,
+      "matched": 4,
+      "physical_requests": 17,
+      "diagnostic_reads": 11
+    }
+  },
+  "limits": "Fixture-authored expectations, not real incident adjudication. A qualified technical finding that fails to refuse an unsupported request does not earn a refusal match. No changed expectation, retry or replacement run.",
+  "rows": [
+    {
+      "id": "family-A-mention",
+      "column": "stripped",
+      "class": "second-numeral-mention",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 12,
+      "session_id": "0d57f3f1-f075-45d9-b86a-06c8da5ac61f",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [],
+      "run_sha256": "7bfb998cacd227c2264be52c5e7940bc3a2bf4ed8db75d369bd9466ff6b2cbee",
+      "tape_sha256": "458c09e843bca306a80576707ef98549edbf0174de8eefc4aba5c2cd582dc2b8",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18849,
+          "output_tokens": 166,
+          "physical_admissions": 0,
+          "wall_seconds": 11.1282212
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 8.2762876
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1389,
+          "output_tokens": 265,
+          "physical_admissions": 10,
+          "wall_seconds": 58.020818999999996
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.554105
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4148,
+          "output_tokens": 587,
+          "physical_admissions": 0,
+          "wall_seconds": 10.2365635
+        }
+      }
+    },
+    {
+      "id": "family-A-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 12,
+      "session_id": "624e0d0f-fa15-4c14-a439-e074c0bc2a43",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [],
+      "run_sha256": "1881b7374b456442b3656153e2dda6f3ad68635931e2280abe984032e4dda747",
+      "tape_sha256": "b8f7d37845950ce6e2ce9e6168d079c4951c6e5800f91715a97c3ad6c6eb7f3e",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18871,
+          "output_tokens": 139,
+          "physical_admissions": 0,
+          "wall_seconds": 8.0393998
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 7.9770608
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1389,
+          "output_tokens": 353,
+          "physical_admissions": 10,
+          "wall_seconds": 46.916585
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4140,
+          "output_tokens": 618,
+          "physical_admissions": 0,
+          "wall_seconds": 10.3742439
+        }
+      }
+    },
+    {
+      "id": "family-A-terse",
+      "column": "stripped",
+      "class": "terse",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": false,
+      "findings": [
+        "SYNTHESIS_NOT_COMPLETED",
+        "OUTPUT_MISSING"
+      ],
+      "physical_charged": 12,
+      "session_id": "91483c66-8704-4d2a-84a0-b8d5cf60f5c0",
+      "synthesis_status": "FAILED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [
+        "SYNTHESIS_NOT_COMPLETED",
+        "business_output:MISSING_OUTPUT",
+        "technical_output:MISSING_OUTPUT"
+      ],
+      "run_sha256": "154b2ed34f02043d60ae27a00fee380b08b8db9306c98f4aa4ce3c53bc056b91",
+      "tape_sha256": "5f4aac72cec581e5ed6f2eb04ab5bc8cbd11e13de335651d2520714dc929496f",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18811,
+          "output_tokens": 119,
+          "physical_admissions": 0,
+          "wall_seconds": 9.4773543
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 7.7145118
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1388,
+          "output_tokens": 394,
+          "physical_admissions": 10,
+          "wall_seconds": 53.847527
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4069,
+          "output_tokens": 530,
+          "physical_admissions": 0,
+          "wall_seconds": 8.8888182
+        }
+      }
+    },
+    {
+      "id": "family-A-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 12,
+      "session_id": "d2400cd6-977f-445c-b1b9-f31dc8c08189",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [],
+      "run_sha256": "c7719c24df35ec6c665c88da752ef320ef8a1a305bc4c1d2767b03b926804af2",
+      "tape_sha256": "c70804510cd37f5bafa8ae1171ebc39e5b63118a1c5792f9f3f8dfb398b18381",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18823,
+          "output_tokens": 133,
+          "physical_admissions": 0,
+          "wall_seconds": 8.3691911
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 7.8637954
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1388,
+          "output_tokens": 317,
+          "physical_admissions": 10,
+          "wall_seconds": 56.448178
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4087,
+          "output_tokens": 518,
+          "physical_admissions": 0,
+          "wall_seconds": 8.6813319
+        }
+      }
+    },
+    {
+      "id": "family-B-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 3,
+      "session_id": "300576a8-fa37-4b7f-9584-9d66df8800d0",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 1,
+      "reads_other": 2,
+      "reads_total": 3,
+      "physical_requests": 3,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 1,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 3,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 1,
+      "output_invariant_errors": [],
+      "run_sha256": "54e3016fafe043cd36a6f52fbeb43cfddd3422b2a0b9f9a9faea3506c04be18e",
+      "tape_sha256": "d0ad85769262d5ff016d1dc7367f5126b4f8522aeed954ac67e846a2d5ad7e5a",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18873,
+          "output_tokens": 138,
+          "physical_admissions": 0,
+          "wall_seconds": 9.2350816
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 9.339041100000001
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 1,
+          "wall_seconds": 17.07101
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 1397,
+          "output_tokens": 483,
+          "physical_admissions": 0,
+          "wall_seconds": 9.6665107
+        }
+      }
+    },
+    {
+      "id": "family-B-terse",
+      "column": "stripped",
+      "class": "terse",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 3,
+      "session_id": "151be305-62f8-4267-9b9e-959cd2e7c11c",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 1,
+      "reads_other": 2,
+      "reads_total": 3,
+      "physical_requests": 3,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 1,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 3,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 1,
+      "output_invariant_errors": [],
+      "run_sha256": "d0dbd4db9b50ea1768b19c89847addb853aa6e91480d3418729bbb3a5b868696",
+      "tape_sha256": "8f1508b02fa43438065a6d7a513d2c4e8d03c09f13bb4f3ec3cd4b5b352673a7",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18813,
+          "output_tokens": 112,
+          "physical_admissions": 0,
+          "wall_seconds": 8.9262691
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 8.7260099
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 1,
+          "wall_seconds": 4.390859
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 1337,
+          "output_tokens": 584,
+          "physical_admissions": 0,
+          "wall_seconds": 9.7999913
+        }
+      }
+    },
+    {
+      "id": "family-B-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 3,
+      "session_id": "84aa2639-fe35-4c2c-b116-11ca1347245a",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 1,
+      "reads_other": 2,
+      "reads_total": 3,
+      "physical_requests": 3,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 1,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 3,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 1,
+      "output_invariant_errors": [],
+      "run_sha256": "716a01883a3beed5cbc71bf3c9ff67d1984c612f0585675d3ef300032f9e66cd",
+      "tape_sha256": "2d48c40689fe7626427914f5209aed982d2274f66a11f252966c496cf91b52fa",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18823,
+          "output_tokens": 112,
+          "physical_admissions": 0,
+          "wall_seconds": 9.2076476
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 7.8980617
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 1,
+          "wall_seconds": 4.871133
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 1347,
+          "output_tokens": 601,
+          "physical_admissions": 0,
+          "wall_seconds": 8.6858273
+        }
+      }
+    },
+    {
+      "id": "family-C-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 0,
+      "session_id": "90bdcab0-ed12-44ed-b7aa-9ff434a1fbd6",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 0,
+      "reads_other": 0,
+      "reads_total": 0,
+      "physical_requests": 0,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": null,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 0,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "LEGACY_OBSERVATIONS",
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [],
+      "run_sha256": "4e4928cec73d2529b241645640d3537530b1e464c5df875dee10666e9cfa3465",
+      "tape_sha256": "a2860ae39cec02260a59ae6810551d9e763f4082710d3e5be72725d703850d18",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18869,
+          "output_tokens": 134,
+          "physical_admissions": 0,
+          "wall_seconds": 9.1852532
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 3.0157488
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.4085616
+        }
+      }
+    },
+    {
+      "id": "family-C-terse",
+      "column": "stripped",
+      "class": "terse",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 0,
+      "session_id": "f36f3aeb-74d5-4ac8-987c-29b171f0aa29",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 0,
+      "reads_other": 0,
+      "reads_total": 0,
+      "physical_requests": 0,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": null,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 0,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "LEGACY_OBSERVATIONS",
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [],
+      "run_sha256": "59a6e3a6b703410377624cf75ee94eceabf96ab30c2e270cb559ccd7c71258b9",
+      "tape_sha256": "2c51e426a5fe73cda491a9df12454148e9bcf6dd83093d7e148b462dfc8f7d61",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18808,
+          "output_tokens": 108,
+          "physical_admissions": 0,
+          "wall_seconds": 8.177454
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 2.6506060000000002
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.4221411
+        }
+      }
+    },
+    {
+      "id": "family-C-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 0,
+      "session_id": "d65e320c-534f-4cf8-8cdb-7e8ccb655d77",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 0,
+      "reads_other": 0,
+      "reads_total": 0,
+      "physical_requests": 0,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": null,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 0,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "LEGACY_OBSERVATIONS",
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [],
+      "run_sha256": "cd058ae7a017d235bbe6c52d664171ba90ebbd5a7c502549cab89caf8359dd7f",
+      "tape_sha256": "69c5b9b2c3ec6983950a8d5e424baf0685ac1e6d5a9e18214f7e0e22376542f6",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18822,
+          "output_tokens": 111,
+          "physical_admissions": 0,
+          "wall_seconds": 8.1331267
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 2.8227233
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.5267436
+        }
+      }
+    },
+    {
+      "id": "family-D-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NO_REPORTED_FIGURE"
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": false,
+      "findings": [
+        "STATUS_CHANGED",
+        "OUTCOME_CHANGED",
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "physical_charged": 0,
+      "session_id": null,
+      "synthesis_status": null,
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED",
+        "OUTCOME_CHANGED",
+        "STATUS_CHANGED"
+      ],
+      "run_sha256": "132450cc1fdcf2dd6efb8e4ec6728eccd1c2574701036ca924e335bf8f3f2f7e",
+      "tape_sha256": "75506da73f6e6725f638fbff7cefe72c021b311b2c0eb9a0dbb99f91249082d6",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18877,
+          "output_tokens": 185,
+          "physical_admissions": 0,
+          "wall_seconds": 7.750726
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        }
+      }
+    },
+    {
+      "id": "family-D-terse",
+      "column": "stripped",
+      "class": "terse",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NO_REPORTED_FIGURE"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "findings": [
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "physical_charged": 8,
+      "session_id": "a639b064-95e0-481d-a4e9-c7bc0f00b345",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 6,
+      "reads_other": 2,
+      "reads_total": 8,
+      "physical_requests": 8,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 6,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 8,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 6,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "run_sha256": "0c127541cbc6c620f6ea47b64747bad6114b21ce87a46c90958c175a279a3bf0",
+      "tape_sha256": "4a1c777418fe7cca7ebbf9092a88478e24cb4d2ee601c11d8cce4ba9d492c8ea",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18817,
+          "output_tokens": 164,
+          "physical_admissions": 0,
+          "wall_seconds": 8.0701684
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 10.446337999999999
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 5,
+          "wall_seconds": 34.94874
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 1,
+          "wall_seconds": 5.553923
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4467,
+          "output_tokens": 606,
+          "physical_admissions": 0,
+          "wall_seconds": 10.7601807
+        }
+      }
+    },
+    {
+      "id": "family-D-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NO_REPORTED_FIGURE"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "findings": [
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "physical_charged": 8,
+      "session_id": "42abe077-99ab-4c61-9bdf-0f8e7f601b1f",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 6,
+      "reads_other": 2,
+      "reads_total": 8,
+      "physical_requests": 8,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 6,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 8,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 6,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "run_sha256": "f866dc3b97e3d9657c5e9be430b3a089a77e39289d172b10a643224946cf8378",
+      "tape_sha256": "47dff95b34d7f9d5ff41f0cdda0e311c746568bf5e9973d0b5dac0d191b4d0a0",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18830,
+          "output_tokens": 185,
+          "physical_admissions": 0,
+          "wall_seconds": 8.8839739
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 7.8483369000000005
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 5,
+          "wall_seconds": 21.57207
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 1,
+          "wall_seconds": 4.448008
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4480,
+          "output_tokens": 700,
+          "physical_admissions": 0,
+          "wall_seconds": 12.7260483
+        }
+      }
+    },
+    {
+      "id": "family-E-mention",
+      "column": "stripped",
+      "class": "second-numeral-mention",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": false,
+      "findings": [
+        "STATUS_CHANGED",
+        "OUTCOME_CHANGED",
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "physical_charged": 0,
+      "session_id": null,
+      "synthesis_status": null,
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED",
+        "OUTCOME_CHANGED",
+        "STATUS_CHANGED"
+      ],
+      "run_sha256": "e9bc523a1888538e5fd749e68164030cd4517065aee1ac12a1cb43f8a168eb48",
+      "tape_sha256": "4bb14662be6c0cabfdf93ad2e726f60068ccec5bab43561105b58f85d62859e7",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18854,
+          "output_tokens": 191,
+          "physical_admissions": 0,
+          "wall_seconds": 8.2619197
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        }
+      }
+    },
+    {
+      "id": "family-E-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 12,
+      "session_id": "76a8c43a-319e-40a7-8b62-2e6ed928bb53",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [],
+      "run_sha256": "17a572e6527b79cf07453f7011dc70419afa14aa45148e7b8372004037c65cb1",
+      "tape_sha256": "474e6eb1d84d7eb04682e70120f82d72d2133e9e1261c9a1f5cf6dbf79ccc453",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18876,
+          "output_tokens": 138,
+          "physical_admissions": 0,
+          "wall_seconds": 8.3492047
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 8.1142823
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1392,
+          "output_tokens": 429,
+          "physical_admissions": 10,
+          "wall_seconds": 56.552542
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.207743
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4204,
+          "output_tokens": 575,
+          "physical_admissions": 0,
+          "wall_seconds": 9.9160378
+        }
+      }
+    },
+    {
+      "id": "family-E-terse",
+      "column": "stripped",
+      "class": "terse",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 12,
+      "session_id": "91478992-607b-4384-9f62-e946a9222378",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [],
+      "run_sha256": "d5b9d03c7930ec4fc7c2856a03fd8e80e2539570088a43dd86b7ffc7efeb307a",
+      "tape_sha256": "81d4b404d8df6fce8f99c8fe56d0d954f0556397dc0315208b787491d1cef389",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18816,
+          "output_tokens": 113,
+          "physical_admissions": 0,
+          "wall_seconds": 8.1188416
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 8.6273038
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1390,
+          "output_tokens": 325,
+          "physical_admissions": 10,
+          "wall_seconds": 55.761392
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.309711
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4164,
+          "output_tokens": 632,
+          "physical_admissions": 0,
+          "wall_seconds": 10.5669269
+        }
+      }
+    },
+    {
+      "id": "family-E-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 12,
+      "session_id": "5788f7df-860b-4efe-acdf-9683207577db",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [],
+      "run_sha256": "9dac8577eed840f7c6645216185e5d3351fec68819ee3c3acd5dac620cdfe051",
+      "tape_sha256": "f7cea605ddcc3b207ced636795ac49bbf25f87ad78e20343d5146830ad3c7b66",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18828,
+          "output_tokens": 119,
+          "physical_admissions": 0,
+          "wall_seconds": 9.8389425
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 9.9503241
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1387,
+          "output_tokens": 353,
+          "physical_admissions": 10,
+          "wall_seconds": 55.03438
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.212777
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4154,
+          "output_tokens": 565,
+          "physical_admissions": 0,
+          "wall_seconds": 9.1630783
+        }
+      }
+    },
+    {
+      "id": "family-F-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "BUSINESS_QUESTION",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "findings": [
+        "OUTCOME_CHANGED",
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "physical_charged": 9,
+      "session_id": "80ac4ff0-adf9-4fd0-b773-6ffd1a242c9c",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 4,
+      "reads_dax": 1,
+      "reads_other": 4,
+      "reads_total": 9,
+      "physical_requests": 9,
+      "guard_requests": 3,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 3,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 9,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 7,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED",
+        "OUTCOME_CHANGED"
+      ],
+      "run_sha256": "be876c8252ee6fef38e44e7fd13101fed1fd3d3796b2e74afa214d891e1d5430",
+      "tape_sha256": "a15df42d49357fef0467c3992f3041de9ab9f09570dcebf43fb57e24a36e4d58",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18873,
+          "output_tokens": 139,
+          "physical_admissions": 0,
+          "wall_seconds": 9.0228162
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 8.5457834
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 5,
+          "wall_seconds": 23.130468
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 11.662044
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 1904,
+          "output_tokens": 583,
+          "physical_admissions": 0,
+          "wall_seconds": 9.8048897
+        }
+      }
+    },
+    {
+      "id": "family-F-terse",
+      "column": "stripped",
+      "class": "terse",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "findings": [
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "physical_charged": 9,
+      "session_id": "96936856-02ca-47dd-aa1d-cb4145d1784d",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 4,
+      "reads_dax": 1,
+      "reads_other": 4,
+      "reads_total": 9,
+      "physical_requests": 9,
+      "guard_requests": 3,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 3,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 9,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 7,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "run_sha256": "b0ff9815f3e80db46de861e5b032f7e58390265085f40db6ed03d21fa0107fd8",
+      "tape_sha256": "902aeedabb03c07917a89db8548fcf38ca6a3af730d9659377fb6b589f1ff809",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18813,
+          "output_tokens": 116,
+          "physical_admissions": 0,
+          "wall_seconds": 8.3605618
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 9.4257223
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 5,
+          "wall_seconds": 24.023448000000002
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 7.858146
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 1848,
+          "output_tokens": 503,
+          "physical_admissions": 0,
+          "wall_seconds": 8.4493423
+        }
+      }
+    },
+    {
+      "id": "family-F-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "findings": [
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "physical_charged": 9,
+      "session_id": "83414840-e216-4835-b382-636ac1fea5a8",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 4,
+      "reads_dax": 1,
+      "reads_other": 4,
+      "reads_total": 9,
+      "physical_requests": 9,
+      "guard_requests": 3,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 3,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 9,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 7,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "run_sha256": "26aa09ffed8567934879e85a2b7e3e39878087c221313d3ec200723fb4bf9d10",
+      "tape_sha256": "1820f01a4639cde982e843009baf1dbd2d852e7f9c1627584b7b75be2de8d97f",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18823,
+          "output_tokens": 110,
+          "physical_admissions": 0,
+          "wall_seconds": 9.9152505
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 9.8189609
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 5,
+          "wall_seconds": 23.570274
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 11.235621
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 1858,
+          "output_tokens": 604,
+          "physical_admissions": 0,
+          "wall_seconds": 10.3445589
+        }
+      }
+    },
+    {
+      "id": "family-G-mention",
+      "column": "stripped",
+      "class": "second-numeral-mention",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": false,
+      "findings": [
+        "SYNTHESIS_NOT_COMPLETED",
+        "OUTPUT_MISSING"
+      ],
+      "physical_charged": 12,
+      "session_id": "e6c80c93-ad5d-4c08-aa79-b60f6850cea1",
+      "synthesis_status": "FAILED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [
+        "SYNTHESIS_NOT_COMPLETED",
+        "business_output:MISSING_OUTPUT",
+        "technical_output:MISSING_OUTPUT"
+      ],
+      "run_sha256": "135e2ab2ba82479b4658ac1023579bb737cce3146ebf720f8fb5a0846a4c6a08",
+      "tape_sha256": "d5d4431f82d7f21826fe01ccba1329d1bce0c0e418632de9529ec47b615a6f09",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18857,
+          "output_tokens": 186,
+          "physical_admissions": 0,
+          "wall_seconds": 8.6693794
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 9.222201400000001
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1390,
+          "output_tokens": 310,
+          "physical_admissions": 10,
+          "wall_seconds": 59.384505000000004
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.536036
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4179,
+          "output_tokens": 664,
+          "physical_admissions": 0,
+          "wall_seconds": 10.0232973
+        }
+      }
+    },
+    {
+      "id": "family-G-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 12,
+      "session_id": "96f36a56-58b5-43cb-aa0b-c8155f618e9d",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [],
+      "run_sha256": "fa797e83b591ec6c5709743580291a71edb930ebcc8b26a5c2da15841da35d0a",
+      "tape_sha256": "380cfdc36895a7f65bb665309106165b4e6d663271c63eaac50fe89da0a23e95",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18879,
+          "output_tokens": 149,
+          "physical_admissions": 0,
+          "wall_seconds": 8.6485751
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 9.7065935
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1392,
+          "output_tokens": 341,
+          "physical_admissions": 10,
+          "wall_seconds": 55.611940000000004
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4155,
+          "output_tokens": 589,
+          "physical_admissions": 0,
+          "wall_seconds": 11.0328369
+        }
+      }
+    },
+    {
+      "id": "family-G-terse",
+      "column": "stripped",
+      "class": "terse",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 12,
+      "session_id": "d9150a1f-91da-437f-81ac-dff7c251b0dc",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [],
+      "run_sha256": "6872482fe9b57ae12b57530967597521db26819d67a2b0561307ecac3f42e56f",
+      "tape_sha256": "c56e6dc47df84cde2442b90bc145ac12aa84ad014bdcd5e19ea37312075dfcd3",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18819,
+          "output_tokens": 121,
+          "physical_admissions": 0,
+          "wall_seconds": 10.1362479
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 10.1456484
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1391,
+          "output_tokens": 310,
+          "physical_admissions": 10,
+          "wall_seconds": 63.233957000000004
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4078,
+          "output_tokens": 665,
+          "physical_admissions": 0,
+          "wall_seconds": 11.9034209
+        }
+      }
+    },
+    {
+      "id": "family-G-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 12,
+      "session_id": "eeae8d5a-6ace-4669-ba2b-21a2514c8d20",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [],
+      "run_sha256": "301d0a1ac6b3258480e0ccf26ab9ea97bdf631d66a7749ee043a57aec7290f9c",
+      "tape_sha256": "deffae3faaadbd14170a8e6b8c7e45af2ae0d1da9aed137546e0f05ab3bf255f",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18831,
+          "output_tokens": 123,
+          "physical_admissions": 0,
+          "wall_seconds": 20.2590487
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 9.863568800000001
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1388,
+          "output_tokens": 335,
+          "physical_admissions": 10,
+          "wall_seconds": 55.088519
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4096,
+          "output_tokens": 609,
+          "physical_admissions": 0,
+          "wall_seconds": 9.7947974
+        }
+      }
+    },
+    {
+      "id": "family-H-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 3,
+      "session_id": "131e598b-9dec-41f1-8cd7-97a9753698e9",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 1,
+      "reads_other": 2,
+      "reads_total": 3,
+      "physical_requests": 3,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 1,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 3,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 1,
+      "output_invariant_errors": [],
+      "run_sha256": "fa7106b3cdb3ef294a1315cb18ebfb846b37012e5f4ec74f70d33da66a347e0f",
+      "tape_sha256": "08f34e25b5880a47e22c1db6f0cf4d2ed1b71cff537180af2fd34ca72136d064",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18876,
+          "output_tokens": 152,
+          "physical_admissions": 0,
+          "wall_seconds": 8.8765938
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 7.7315986
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 1,
+          "wall_seconds": 8.176621
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 1400,
+          "output_tokens": 378,
+          "physical_admissions": 0,
+          "wall_seconds": 7.2760115
+        }
+      }
+    },
+    {
+      "id": "family-H-terse",
+      "column": "stripped",
+      "class": "terse",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 3,
+      "session_id": "f3959ba1-7bad-4543-ab39-b95367cd2cce",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 1,
+      "reads_other": 2,
+      "reads_total": 3,
+      "physical_requests": 3,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 1,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 3,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 1,
+      "output_invariant_errors": [],
+      "run_sha256": "0baa7164a7ab8100a810c59721b8b51a61d014e1141e1700cc0050b1161e7b2c",
+      "tape_sha256": "cf45d0302aaff08c7c42d9ae9adcb262cf507fda303c9d35a4c2056d0eaaddfd",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18816,
+          "output_tokens": 139,
+          "physical_admissions": 0,
+          "wall_seconds": 7.8734555
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 8.0140521
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 1,
+          "wall_seconds": 4.452025
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 1340,
+          "output_tokens": 584,
+          "physical_admissions": 0,
+          "wall_seconds": 10.1567676
+        }
+      }
+    },
+    {
+      "id": "family-H-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 3,
+      "session_id": "4b067708-7cff-469d-858e-1b06e8e2dba3",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 1,
+      "reads_other": 2,
+      "reads_total": 3,
+      "physical_requests": 3,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 1,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 3,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 1,
+      "output_invariant_errors": [],
+      "run_sha256": "cd96c75c89dfb9a78016e7c43478c5191601628004b5d7773450de407c393149",
+      "tape_sha256": "a9603364e2069425dd29becef55a7e47e352ebe03fafc4866e26c449f845c079",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18832,
+          "output_tokens": 116,
+          "physical_admissions": 0,
+          "wall_seconds": 8.2249716
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 8.0342903
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 1,
+          "wall_seconds": 4.655363
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 1356,
+          "output_tokens": 487,
+          "physical_admissions": 0,
+          "wall_seconds": 8.1752496
+        }
+      }
+    },
+    {
+      "id": "family-I-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 12,
+      "session_id": "4e4f908a-6b2f-4065-9896-a7d180a27b24",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [],
+      "run_sha256": "8d9b28f4ec321eda9de380ee9895037d1066d565927b58ae00ba09c2a83be3fd",
+      "tape_sha256": "d1ca7d0a17efde271df69df2cc210eef632fd999d633b489e649059b85e1e603",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18877,
+          "output_tokens": 145,
+          "physical_admissions": 0,
+          "wall_seconds": 9.8718311
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 10.3576149
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1388,
+          "output_tokens": 395,
+          "physical_admissions": 10,
+          "wall_seconds": 66.102433
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4176,
+          "output_tokens": 622,
+          "physical_admissions": 0,
+          "wall_seconds": 10.4824483
+        }
+      }
+    },
+    {
+      "id": "family-I-terse",
+      "column": "stripped",
+      "class": "terse",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 12,
+      "session_id": "5f62a1a9-c59b-4bff-b662-4b8ca6b5c06d",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [],
+      "run_sha256": "e0025eccecc27890177262c6ca7f958db831bfba8a7b9761f22cdbb057d78d19",
+      "tape_sha256": "bcec17c7d5d63f1922ff345f5f15fae42d278087346bcd3b384e179165210773",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18817,
+          "output_tokens": 146,
+          "physical_admissions": 0,
+          "wall_seconds": 8.340734
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 8.3701095
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1388,
+          "output_tokens": 408,
+          "physical_admissions": 10,
+          "wall_seconds": 67.388327
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4111,
+          "output_tokens": 586,
+          "physical_admissions": 0,
+          "wall_seconds": 10.6906025
+        }
+      }
+    },
+    {
+      "id": "family-I-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 12,
+      "session_id": "84fb31b0-4f3e-4292-b236-42e531833871",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [],
+      "run_sha256": "1fee786dd19ce125a29d39b5440ba22dbab2b8ca56a57c58e7b0890c4cefffc9",
+      "tape_sha256": "abd7cd85c8c7a272a42c46125f3bc9bdb5063e59e7f3b0214d57bf80062b3b64",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18829,
+          "output_tokens": 135,
+          "physical_admissions": 0,
+          "wall_seconds": 10.0912103
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 10.9198825
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1390,
+          "output_tokens": 301,
+          "physical_admissions": 10,
+          "wall_seconds": 62.332402
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4092,
+          "output_tokens": 632,
+          "physical_admissions": 0,
+          "wall_seconds": 10.4534495
+        }
+      }
+    },
+    {
+      "id": "question-change-days",
+      "column": "stripped",
+      "class": "new-question",
+      "fixture_state": "report-15sep",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NO_REPORTED_FIGURE"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "findings": [
+        "OUTCOME_CHANGED",
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "physical_charged": 12,
+      "session_id": "e2ebe847-f134-493c-9c48-cf5a35df4ac5",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED",
+        "OUTCOME_CHANGED"
+      ],
+      "run_sha256": "f9f6a966b55db7a10f5148e8bf84673afbd3abcf8b7fc92f50d167577418511d",
+      "tape_sha256": "1eb5e7e7f2d2c3def361a460d06540ea661b17fd5d5ee90d5a5b84ea50222d77",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18821,
+          "output_tokens": 147,
+          "physical_admissions": 0,
+          "wall_seconds": 8.9197922
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 8.428851700000001
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1385,
+          "output_tokens": 365,
+          "physical_admissions": 10,
+          "wall_seconds": 56.534463
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4115,
+          "output_tokens": 494,
+          "physical_admissions": 0,
+          "wall_seconds": 8.4699805
+        }
+      }
+    },
+    {
+      "id": "question-change-week",
+      "column": "stripped",
+      "class": "new-question",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": false,
+      "findings": [
+        "STATUS_CHANGED",
+        "OUTCOME_CHANGED",
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "physical_charged": 0,
+      "session_id": null,
+      "synthesis_status": null,
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED",
+        "OUTCOME_CHANGED",
+        "STATUS_CHANGED"
+      ],
+      "run_sha256": "b9b7c203db9a801a0c3be3ff134603faded08d4a6c66bad2586b4c1553e56200",
+      "tape_sha256": "340cb645618cb1a2870a3adc32af82bbf7cf05d1316e84f7c20bd7dc8c926cf3",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18822,
+          "output_tokens": 94,
+          "physical_admissions": 0,
+          "wall_seconds": 9.063771
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        }
+      }
+    },
+    {
+      "id": "question-hiding-rows",
+      "column": "stripped",
+      "class": "new-question",
+      "fixture_state": "report-15sep",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "REPRODUCED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "REPRODUCED"
+      },
+      "matches": false,
+      "findings": [
+        "OUTCOME_CHANGED"
+      ],
+      "physical_charged": 16,
+      "session_id": "3816fb4a-95a9-4906-be3c-7d1ca0c098cf",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 5,
+      "reads_other": 3,
+      "reads_total": 16,
+      "physical_requests": 16,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 8,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 16,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 14,
+      "output_invariant_errors": [
+        "OUTCOME_CHANGED"
+      ],
+      "run_sha256": "aefdf82a7ee701070ffaddd7893a09f40fad95a3f5370316e0b4a2d1b156b1e8",
+      "tape_sha256": "4d81928468ac747527cfe15f6cef71c384c8c131d75a0279cbc6b637acbae6d0",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18821,
+          "output_tokens": 203,
+          "physical_admissions": 0,
+          "wall_seconds": 9.3991585
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 8.7684465
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 4,
+          "wall_seconds": 18.654077
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1392,
+          "output_tokens": 332,
+          "physical_admissions": 10,
+          "wall_seconds": 61.551463999999996
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 7112,
+          "output_tokens": 639,
+          "physical_admissions": 0,
+          "wall_seconds": 10.9147672
+        }
+      }
+    },
+    {
+      "id": "question-stale-no-sla",
+      "column": "stripped",
+      "class": "new-question",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 12,
+      "session_id": "8d30f4de-c335-4430-8343-b248ddb5e455",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [],
+      "run_sha256": "6c75d7e55a8f29889de329660ceb11a63e8645c3bd02529fe5e6b8595a959ab2",
+      "tape_sha256": "cd059d2cab066d879813dfd09bba7089a41e3e309c873de8bf18513b86251399",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18821,
+          "output_tokens": 121,
+          "physical_admissions": 0,
+          "wall_seconds": 8.3351295
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 8.5098628
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1391,
+          "output_tokens": 409,
+          "physical_admissions": 10,
+          "wall_seconds": 52.881836
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.202497
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4165,
+          "output_tokens": 680,
+          "physical_admissions": 0,
+          "wall_seconds": 11.4434323
+        }
+      }
+    },
+    {
+      "id": "refusal-business-benchmark",
+      "column": "stripped",
+      "class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 3,
+      "session_id": "a70e7b33-d57a-4901-9772-dda8df956cc2",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 1,
+      "reads_other": 2,
+      "reads_total": 3,
+      "physical_requests": 3,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 1,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 3,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 1,
+      "output_invariant_errors": [],
+      "run_sha256": "2222d29564d206f517a40036d56afa2dbc6142e65237286f718474623909385e",
+      "tape_sha256": "850a47f63d4eab6cf162b0ce030b36a236bd90981522e387cec3b085ee96034f",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18809,
+          "output_tokens": 111,
+          "physical_admissions": 0,
+          "wall_seconds": 10.2472318
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 10.24351
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 1,
+          "wall_seconds": 6.373928
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 1333,
+          "output_tokens": 459,
+          "physical_admissions": 0,
+          "wall_seconds": 9.1139142
+        }
+      }
+    },
+    {
+      "id": "refusal-business-intent",
+      "column": "stripped",
+      "class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "findings": [
+        "REQUEST_NOT_REFUSED"
+      ],
+      "physical_charged": 12,
+      "session_id": "29484cab-0c89-4f34-85c8-4c6d3cf3146a",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [
+        "REQUEST_NOT_REFUSED"
+      ],
+      "run_sha256": "80d9b565bcdbf287bccc86f1e67612361467f8c4dfd8e0f19cdd17f72274f4cd",
+      "tape_sha256": "4339d0a0bf780a53680b3e8957b55b052b564c1a2705ad89fe82c9e5bdcf6b32",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18813,
+          "output_tokens": 127,
+          "physical_admissions": 0,
+          "wall_seconds": 9.0193976
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 8.7866207
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1387,
+          "output_tokens": 337,
+          "physical_admissions": 10,
+          "wall_seconds": 49.231708
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4076,
+          "output_tokens": 634,
+          "physical_admissions": 0,
+          "wall_seconds": 10.5027715
+        }
+      }
+    },
+    {
+      "id": "refusal-business-q49",
+      "column": "stripped",
+      "class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 2,
+      "session_id": "41e918a0-e67e-4c55-8f58-8a3206085313",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 0,
+      "reads_other": 2,
+      "reads_total": 2,
+      "physical_requests": 2,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 0,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 2,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [],
+      "run_sha256": "3f28d0096dbbb0656c7026f747b28ecec21f9630f7ab707362c21d65ce8be6ce",
+      "tape_sha256": "d3b79e4ff9acab40288f2daafa1c12d050068a2c0d6c275b6fe6ae7e9249e6f0",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18807,
+          "output_tokens": 123,
+          "physical_admissions": 0,
+          "wall_seconds": 10.3147811
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 7.7203472
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 1326,
+          "output_tokens": 309,
+          "physical_admissions": 0,
+          "wall_seconds": 7.7966678
+        }
+      }
+    },
+    {
+      "id": "refusal-nonexistent-column",
+      "column": "stripped",
+      "class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 0,
+      "session_id": null,
+      "synthesis_status": null,
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [],
+      "run_sha256": "2562639c33e442d32d85930328b7fe64b3194aee4652202e5e75fe2c2c0823ca",
+      "tape_sha256": "a151b02a41a8f2f9bbbb8d508bcf24f40a7b4fd4e32dbea8124d5f4b06d1b93c",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18817,
+          "output_tokens": 84,
+          "physical_admissions": 0,
+          "wall_seconds": 8.28699
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        }
+      }
+    },
+    {
+      "id": "refusal-two-figures-total",
+      "column": "stripped",
+      "class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 0,
+      "session_id": null,
+      "synthesis_status": null,
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [],
+      "run_sha256": "b754a5e3a1792cb6050877d439fb29337a1a4e5b4728bb5b40ea13d1731f39ef",
+      "tape_sha256": "dcbac95ad55015ffdb237c1269bb746c8c67a4177b42b05b8dad7eedf85231c3",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18821,
+          "output_tokens": 146,
+          "physical_admissions": 0,
+          "wall_seconds": 8.016021
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        }
+      }
+    },
+    {
+      "id": "refusal-two-figures",
+      "column": "stripped",
+      "class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 0,
+      "session_id": null,
+      "synthesis_status": null,
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [],
+      "run_sha256": "ca8599d8e6566dfa93dd0749cf307555ac1011742362c27e25aab709be036ab4",
+      "tape_sha256": "6a0f6128cce0d2237d1a5c30901564cba081cfddbf4664a518622900d36345d1",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18827,
+          "output_tokens": 156,
+          "physical_admissions": 0,
+          "wall_seconds": 8.905658
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        }
+      }
+    },
+    {
+      "id": "refusal-unidentified-measure",
+      "column": "stripped",
+      "class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 0,
+      "session_id": null,
+      "synthesis_status": null,
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [],
+      "run_sha256": "b36e136207eb41c05459b8f1060a4e67039c5ee3a1a0c9f19da41ef39ba913c9",
+      "tape_sha256": "4fec326328cfeae51f14965621abc643ee228230c446d67d63d079ad0730cc7c",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18810,
+          "output_tokens": 83,
+          "physical_admissions": 0,
+          "wall_seconds": 8.9562287
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        }
+      }
+    },
+    {
+      "id": "refusal-unidentified-visual",
+      "column": "stripped",
+      "class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 0,
+      "session_id": null,
+      "synthesis_status": null,
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [],
+      "run_sha256": "01cdb259ed02ff1372342ca0526b5b57535f91e1b5d39a3787e57d7d1af541f2",
+      "tape_sha256": "3c1413b7814366ec1f671c895b2de8bdc82017f4c31bc2a1687ca56d1be0b70a",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18814,
+          "output_tokens": 115,
+          "physical_admissions": 0,
+          "wall_seconds": 7.9197392
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        }
+      }
+    },
+    {
+      "id": "refusal-unsupported-filter",
+      "column": "stripped",
+      "class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 0,
+      "session_id": null,
+      "synthesis_status": null,
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [],
+      "run_sha256": "530b87e296b6500bfaad9ad771b6d7d941562967508f1c1081b9412afdcbf02c",
+      "tape_sha256": "47d045f48f8cf7981f405ef38e1ee28cdcb4f61bc0d6f600d58d0210f0bbd997",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18820,
+          "output_tokens": 110,
+          "physical_admissions": 0,
+          "wall_seconds": 10.1844201
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        }
+      }
+    },
+    {
+      "id": "refusal-unsupported-relative",
+      "column": "stripped",
+      "class": "refusal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 0,
+      "session_id": null,
+      "synthesis_status": null,
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [],
+      "run_sha256": "a8a3fae1be542d74591e7ba6f4e2bc9e521301fbc75b6c4699aeeecd9d9951cc",
+      "tape_sha256": "c91b0045a57a8abd6d55674e78a88414671aec5fd157ac83220cc2de22dcadb1",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18825,
+          "output_tokens": 92,
+          "physical_admissions": 0,
+          "wall_seconds": 8.8519862
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        }
+      }
+    },
+    {
+      "id": "visual-1",
+      "column": "stripped",
+      "class": "visual-variety",
+      "fixture_state": "round-ten-visuals",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "REPRODUCED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "REPRODUCED"
+      },
+      "matches": false,
+      "findings": [
+        "OUTCOME_CHANGED"
+      ],
+      "physical_charged": 16,
+      "session_id": "75a73050-6a19-486d-9cf7-0c08d53bf8ed",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 5,
+      "reads_other": 3,
+      "reads_total": 16,
+      "physical_requests": 16,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 8,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 16,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 14,
+      "output_invariant_errors": [
+        "OUTCOME_CHANGED"
+      ],
+      "run_sha256": "975ff30f16b164ae227f65ccb1713f2dad983699c9825ffecb30330dad7026a6",
+      "tape_sha256": "29e4b61b392a645961a2fe02a735088754402161326c234390977e1b2b9390e1",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18818,
+          "output_tokens": 122,
+          "physical_admissions": 0,
+          "wall_seconds": 10.76492
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 8.1131135
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 4,
+          "wall_seconds": 18.565038
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1387,
+          "output_tokens": 390,
+          "physical_admissions": 10,
+          "wall_seconds": 56.163381
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 6996,
+          "output_tokens": 627,
+          "physical_admissions": 0,
+          "wall_seconds": 10.0592832
+        }
+      }
+    },
+    {
+      "id": "visual-2",
+      "column": "stripped",
+      "class": "visual-variety",
+      "fixture_state": "round-ten-visuals",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "REPRODUCED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": false,
+      "findings": [
+        "OUTCOME_CHANGED",
+        "ANSWER_CATEGORY_CHANGED",
+        "REPRODUCTION_LABEL_CHANGED"
+      ],
+      "physical_charged": 12,
+      "session_id": "4516c007-b8ba-4a3e-a96d-89e76462cb82",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED",
+        "OUTCOME_CHANGED",
+        "REPRODUCTION_LABEL_CHANGED"
+      ],
+      "run_sha256": "4af9132eefc0ef9ac578ea6d4a97e64599cfd94b9733464ebddde79fb15a8215",
+      "tape_sha256": "fdd97d500274400bcd95a5133db24588fd6a733638e3c5c7323df50c9b624d26",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18821,
+          "output_tokens": 124,
+          "physical_admissions": 0,
+          "wall_seconds": 8.83474
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 8.1315312
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1388,
+          "output_tokens": 413,
+          "physical_admissions": 10,
+          "wall_seconds": 59.404902
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4082,
+          "output_tokens": 508,
+          "physical_admissions": 0,
+          "wall_seconds": 8.7353526
+        }
+      }
+    },
+    {
+      "id": "visual-3",
+      "column": "stripped",
+      "class": "visual-variety",
+      "fixture_state": "round-ten-visuals",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "REPRODUCED"
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": false,
+      "findings": [
+        "STATUS_CHANGED",
+        "OUTCOME_CHANGED",
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "physical_charged": 0,
+      "session_id": null,
+      "synthesis_status": null,
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED",
+        "OUTCOME_CHANGED",
+        "STATUS_CHANGED"
+      ],
+      "run_sha256": "9062d5f8b72407249471f90a1a0194163722691bc0681c62391793727215fdc1",
+      "tape_sha256": "9daf38d3fbd88e53c7d534a9c0637dac1e50eae860cc54c3177de1822dfce231",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18825,
+          "output_tokens": 192,
+          "physical_admissions": 0,
+          "wall_seconds": 10.2637496
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        }
+      }
+    },
+    {
+      "id": "visual-4",
+      "column": "stripped",
+      "class": "visual-variety",
+      "fixture_state": "round-ten-visuals",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "REPRODUCED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": false,
+      "findings": [
+        "OUTCOME_CHANGED",
+        "ANSWER_CATEGORY_CHANGED",
+        "REPRODUCTION_LABEL_CHANGED"
+      ],
+      "physical_charged": 12,
+      "session_id": "5d2d3518-dea2-4b18-a625-0d3d022361f9",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 3,
+      "reads_total": 12,
+      "physical_requests": 12,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 12,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED",
+        "OUTCOME_CHANGED",
+        "REPRODUCTION_LABEL_CHANGED"
+      ],
+      "run_sha256": "8010951993883f103692ff1ee7794c4630aa9f093998922211f0bd1a6adcb7cf",
+      "tape_sha256": "c0586356f111115bf5b289ff47e96f5f14ccf0545cb2e94ec1d2176b11005de8",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18818,
+          "output_tokens": 123,
+          "physical_admissions": 0,
+          "wall_seconds": 8.1720891
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 8.6636913
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1387,
+          "output_tokens": 426,
+          "physical_admissions": 10,
+          "wall_seconds": 57.735727
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4086,
+          "output_tokens": 669,
+          "physical_admissions": 0,
+          "wall_seconds": 10.5497313
+        }
+      }
+    },
+    {
+      "id": "visual-5",
+      "column": "stripped",
+      "class": "visual-variety",
+      "fixture_state": "round-ten-visuals",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NOT_REPRODUCED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "findings": [
+        "OUTCOME_CHANGED",
+        "ANSWER_CATEGORY_CHANGED",
+        "REPRODUCTION_LABEL_CHANGED"
+      ],
+      "physical_charged": 3,
+      "session_id": "b93a2230-9f41-440f-8142-42303d7fbd9c",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 1,
+      "reads_other": 2,
+      "reads_total": 3,
+      "physical_requests": 3,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 1,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 3,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 1,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED",
+        "OUTCOME_CHANGED",
+        "REPRODUCTION_LABEL_CHANGED"
+      ],
+      "run_sha256": "225ca9dc3e973bf87b4e59e53115ed07e60269858eca5f543d30d0372a592b89",
+      "tape_sha256": "66a0064ca10dc6004c8cbf865b3787dcfdd36e12bfe8a8daac97139a1ddd573d",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18836,
+          "output_tokens": 196,
+          "physical_admissions": 0,
+          "wall_seconds": 9.7477429
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 9.276456
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 1,
+          "wall_seconds": 5.915007
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.4262435
+        }
+      }
+    },
+    {
+      "id": "visual-6",
+      "column": "stripped",
+      "class": "visual-variety",
+      "fixture_state": "round-ten-visuals",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "REPRODUCED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "findings": [
+        "OUTCOME_CHANGED",
+        "ANSWER_CATEGORY_CHANGED",
+        "REPRODUCTION_LABEL_CHANGED"
+      ],
+      "physical_charged": 2,
+      "session_id": "226266b9-ee93-46b3-9d1b-2d27632f3b01",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 0,
+      "reads_other": 2,
+      "reads_total": 2,
+      "physical_requests": 2,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 0,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 2,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 2,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED",
+        "OUTCOME_CHANGED",
+        "REPRODUCTION_LABEL_CHANGED"
+      ],
+      "run_sha256": "04c6cecd68f4302fc82b816f757ce80ce991b0de51cf64dee6d1c287d70891a6",
+      "tape_sha256": "dfd143d4e08f030316e333df8a9a23b4aebdc35fa39759565832affd19e7f197",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18820,
+          "output_tokens": 166,
+          "physical_admissions": 0,
+          "wall_seconds": 8.5990136
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 2,
+          "wall_seconds": 7.9215422
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 1339,
+          "output_tokens": 516,
+          "physical_admissions": 0,
+          "wall_seconds": 10.3440263
+        }
+      }
+    },
+    {
+      "id": "family-A-mention",
+      "column": "declared",
+      "class": "second-numeral-mention",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": false,
+      "findings": [
+        "STATUS_CHANGED",
+        "OUTCOME_CHANGED",
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "physical_charged": 0,
+      "session_id": null,
+      "synthesis_status": null,
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED",
+        "OUTCOME_CHANGED",
+        "STATUS_CHANGED"
+      ],
+      "run_sha256": "f9a27a6978438012e0145c74a7d0aff11e01771854949c4fccc530aac32c1a8e",
+      "tape_sha256": "b64010ea1dc1f864f71c7a32d5363030cfd3409862cefc719f9388de4774d9bd",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18841,
+          "output_tokens": 192,
+          "physical_admissions": 0,
+          "wall_seconds": 12.19536
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        }
+      }
+    },
+    {
+      "id": "family-A-noisy",
+      "column": "declared",
+      "class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 10,
+      "session_id": "c47e256c-6e25-4753-bad6-cd54bd1777be",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 1,
+      "reads_total": 10,
+      "physical_requests": 10,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 10,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [],
+      "run_sha256": "fb72c0e4411142c962952bc4db4e4bc8d0f896a4598e200246f93fca95a0c581",
+      "tape_sha256": "70f50638a8b7a2906c3bc03ca2b2ecb518c774b37100af79078113496ca76eb0",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18863,
+          "output_tokens": 139,
+          "physical_admissions": 0,
+          "wall_seconds": 10.409518
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 4.5303916
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1389,
+          "output_tokens": 444,
+          "physical_admissions": 10,
+          "wall_seconds": 91.293282
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 3979,
+          "output_tokens": 586,
+          "physical_admissions": 0,
+          "wall_seconds": 11.2692711
+        }
+      }
+    },
+    {
+      "id": "family-A-terse",
+      "column": "declared",
+      "class": "terse",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 10,
+      "session_id": "be8c84b9-70b0-4969-b9cf-60762fdb5d54",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 1,
+      "reads_total": 10,
+      "physical_requests": 10,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 10,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [],
+      "run_sha256": "c04a3cc41cc3e086a33b82edaabf3b4514fec3f9769649aea0f556610d67193b",
+      "tape_sha256": "a78d19a54143077206c9a806068710c1e6f7f449fe44d39a73a1444c15f5bfbe",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18803,
+          "output_tokens": 113,
+          "physical_admissions": 0,
+          "wall_seconds": 16.521947
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 4.6193471
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1391,
+          "output_tokens": 331,
+          "physical_admissions": 10,
+          "wall_seconds": 59.668569
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 3915,
+          "output_tokens": 673,
+          "physical_admissions": 0,
+          "wall_seconds": 12.0311037
+        }
+      }
+    },
+    {
+      "id": "family-A-typo",
+      "column": "declared",
+      "class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 10,
+      "session_id": "32ba6f4f-903f-4eab-85da-26765dea5dda",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 8,
+      "reads_dax": 1,
+      "reads_other": 1,
+      "reads_total": 10,
+      "physical_requests": 10,
+      "guard_requests": 6,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 10,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 10,
+      "output_invariant_errors": [],
+      "run_sha256": "9f6785b74c8f95c2e15c9b3bc3b69e7e18388ec9f518020af61742115d57b28d",
+      "tape_sha256": "e6f22bd4a1ed94d43a3fced009d5defb85b000b24110a356de9a9f283c180d72",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18815,
+          "output_tokens": 119,
+          "physical_admissions": 0,
+          "wall_seconds": 9.230712
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 3.6004918
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 1,
+          "input_tokens": 1386,
+          "output_tokens": 316,
+          "physical_admissions": 10,
+          "wall_seconds": 49.546640000000004
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 3943,
+          "output_tokens": 652,
+          "physical_admissions": 0,
+          "wall_seconds": 10.9593504
+        }
+      }
+    },
+    {
+      "id": "family-B-noisy",
+      "column": "declared",
+      "class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 1,
+      "session_id": "cf92629d-c1bb-489c-be8f-20e6de0429a7",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 1,
+      "reads_other": 0,
+      "reads_total": 1,
+      "physical_requests": 1,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 1,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 1,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 1,
+      "output_invariant_errors": [],
+      "run_sha256": "39d61d6f655403c6b19b9e57dd944ce3f8a5dace9992daa923cf56a79139f720",
+      "tape_sha256": "e8bcf7e65f52707951c60be812f6892065518059648950ecaa566e99e7199cbb",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18865,
+          "output_tokens": 149,
+          "physical_admissions": 0,
+          "wall_seconds": 9.0894846
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 4.2695371
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 1,
+          "wall_seconds": 5.067279
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 1399,
+          "output_tokens": 447,
+          "physical_admissions": 0,
+          "wall_seconds": 8.2752306
+        }
+      }
+    },
+    {
+      "id": "family-B-terse",
+      "column": "declared",
+      "class": "terse",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 1,
+      "session_id": "81b54360-ec14-4f9e-bbec-bd9d3815cedb",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 1,
+      "reads_other": 0,
+      "reads_total": 1,
+      "physical_requests": 1,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 1,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 1,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 1,
+      "output_invariant_errors": [],
+      "run_sha256": "dd9b9bca43259d50d847ae21cba521f0d9f77131ff6cca8917e10eda721e98cb",
+      "tape_sha256": "9b780711ba6dc9c50bdb89304444687c0b2092854895b5f75630caad89db4a74",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18805,
+          "output_tokens": 112,
+          "physical_admissions": 0,
+          "wall_seconds": 8.9953513
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 3.5262075
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 1,
+          "wall_seconds": 4.465147
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 1339,
+          "output_tokens": 602,
+          "physical_admissions": 0,
+          "wall_seconds": 10.5770168
+        }
+      }
+    },
+    {
+      "id": "family-B-typo",
+      "column": "declared",
+      "class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 1,
+      "session_id": "bbe3c7c3-3560-4640-9694-d31d9baf28e2",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 1,
+      "reads_other": 0,
+      "reads_total": 1,
+      "physical_requests": 1,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 1,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 1,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 1,
+      "output_invariant_errors": [],
+      "run_sha256": "efaeab0327ac13f05a5e3f0e253b4443657168affbd3d9f648cc11ace49ac6d7",
+      "tape_sha256": "522b3fbdcacb77112c5f25e7705476f9ed26deaa0ecb0764269ecb0383d8351a",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18815,
+          "output_tokens": 112,
+          "physical_admissions": 0,
+          "wall_seconds": 8.0377707
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 3.5568702
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 1,
+          "wall_seconds": 5.482039
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 1349,
+          "output_tokens": 535,
+          "physical_admissions": 0,
+          "wall_seconds": 9.478976
+        }
+      }
+    },
+    {
+      "id": "family-C-noisy",
+      "column": "declared",
+      "class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 0,
+      "session_id": "cefd2916-bc8a-4c35-8e46-85862a953be9",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 0,
+      "reads_other": 0,
+      "reads_total": 0,
+      "physical_requests": 0,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": null,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 0,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "LEGACY_OBSERVATIONS",
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [],
+      "run_sha256": "0e480cfb7eb81fd2dab7178722d70c2b3042fd8f7bd6486b95222bbe903c340e",
+      "tape_sha256": "980e617ed05f2581516b7fa30c61fae758549f5cd5a264fea73b55920bb4f464",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18861,
+          "output_tokens": 134,
+          "physical_admissions": 0,
+          "wall_seconds": 9.136087
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 2.7052435
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.410695
+        }
+      }
+    },
+    {
+      "id": "family-C-terse",
+      "column": "declared",
+      "class": "terse",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 0,
+      "session_id": "31e76c97-ba26-4676-a83a-98629e8e3220",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 0,
+      "reads_other": 0,
+      "reads_total": 0,
+      "physical_requests": 0,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": null,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 0,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "LEGACY_OBSERVATIONS",
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [],
+      "run_sha256": "f5abb2ac33d6565e161fbb197e853287393066d688a624a6318e649823a2f8b3",
+      "tape_sha256": "ae2dfbc3015c792a0a278d83de19947deb7194386732b9816c47923925f0d4c6",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18800,
+          "output_tokens": 109,
+          "physical_admissions": 0,
+          "wall_seconds": 8.614345
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 2.8144405
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.4105108
+        }
+      }
+    },
+    {
+      "id": "family-C-typo",
+      "column": "declared",
+      "class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 0,
+      "session_id": "36b54473-2a25-4089-a57c-7323c9278065",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 0,
+      "reads_other": 0,
+      "reads_total": 0,
+      "physical_requests": 0,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": null,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 0,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "LEGACY_OBSERVATIONS",
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [],
+      "run_sha256": "51e0ff8e710d72a3c7ff16429b2411c8050b3498d0a1a7cec026a8cc528b9e23",
+      "tape_sha256": "6e5cf52941c5a180f378cff348371b9465d0e8b0e9b851c792e9e06d076ea9e0",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18814,
+          "output_tokens": 111,
+          "physical_admissions": 0,
+          "wall_seconds": 9.2542522
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 2.7110298
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.4184122
+        }
+      }
+    },
+    {
+      "id": "family-D-noisy",
+      "column": "declared",
+      "class": "forwarded-noisy",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NO_REPORTED_FIGURE"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "findings": [
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "physical_charged": 6,
+      "session_id": "8332b616-3663-4284-b7d0-cde6558841fa",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 6,
+      "reads_other": 0,
+      "reads_total": 6,
+      "physical_requests": 6,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 6,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 6,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 6,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "run_sha256": "9dbb867474574b4e2509a697d3be2a03ddad3372c6046d0506e5c5b0b0836b75",
+      "tape_sha256": "046185d8d64ea7b79f18c383c821177df0e3cd4856432db81d0b260c938bee7a",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18869,
+          "output_tokens": 183,
+          "physical_admissions": 0,
+          "wall_seconds": 9.2493976
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 3.6620546000000003
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 5,
+          "wall_seconds": 28.433067
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 1,
+          "wall_seconds": 4.393694999999999
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4529,
+          "output_tokens": 669,
+          "physical_admissions": 0,
+          "wall_seconds": 12.9644497
+        }
+      }
+    },
+    {
+      "id": "family-D-terse",
+      "column": "declared",
+      "class": "terse",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NO_REPORTED_FIGURE"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "findings": [
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "physical_charged": 6,
+      "session_id": "fa41a1c2-305c-4208-b86e-55264c3331f2",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 6,
+      "reads_other": 0,
+      "reads_total": 6,
+      "physical_requests": 6,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 6,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 6,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 6,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "run_sha256": "8e4a3a88980943ce2f7671a82430e9e76acce27884229261bad0c75090a96f8c",
+      "tape_sha256": "6d3a0c54b83637aa90f6b005590369a3aad79c55a4f9d4864c7eed04f556dc0a",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18809,
+          "output_tokens": 168,
+          "physical_admissions": 0,
+          "wall_seconds": 10.0035725
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 3.5438278
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 5,
+          "wall_seconds": 24.000701
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 1,
+          "wall_seconds": 4.4037049999999995
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4469,
+          "output_tokens": 671,
+          "physical_admissions": 0,
+          "wall_seconds": 12.8625926
+        }
+      }
+    },
+    {
+      "id": "family-D-typo",
+      "column": "declared",
+      "class": "typo-informal",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NO_REPORTED_FIGURE"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NO_REPORTED_FIGURE"
+      },
+      "matches": true,
+      "findings": [],
+      "physical_charged": 6,
+      "session_id": "fd61c801-aa12-4316-b462-73f6cba0ef63",
+      "synthesis_status": "COMPLETED",
+      "reads_sql": 0,
+      "reads_dax": 6,
+      "reads_other": 0,
+      "reads_total": 6,
+      "physical_requests": 6,
+      "guard_requests": 0,
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 6,
+      "guard_reuses": 0,
+      "diagnostic_read_cap": 12,
+      "reads_completed": 6,
+      "reads_unsuccessful_or_uncertain": 0,
+      "read_accounting_source": "PROCESS_READ_RECEIPTS",
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 6,
+      "output_invariant_errors": [],
+      "run_sha256": "81edde10417301eb119390216cedbbb203b695c475ecc417e324c716656d3834",
+      "tape_sha256": "3c3908106073a8e2de8b8d48ec4cd37a4f678d98a9f459ff080a83559793e5d6",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18822,
+          "output_tokens": 170,
+          "physical_admissions": 0,
+          "wall_seconds": 13.5472143
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 3.5430994
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 5,
+          "wall_seconds": 23.69793
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 1,
+          "wall_seconds": 4.882623
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 1,
+          "input_tokens": 4482,
+          "output_tokens": 642,
+          "physical_admissions": 0,
+          "wall_seconds": 10.3757642
+        }
+      }
+    },
+    {
+      "id": "family-E-mention",
+      "column": "declared",
+      "class": "second-numeral-mention",
+      "fixture_state": "inventory-baseline",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": false,
+      "findings": [
+        "STATUS_CHANGED",
+        "OUTCOME_CHANGED",
+        "ANSWER_CATEGORY_CHANGED"
+      ],
+      "physical_charged": 0,
+      "session_id": null,
+      "synthesis_status": null,
+      "local_code_retrievals": 0,
+      "estate_requests_excluding_local_code": 0,
+      "output_invariant_errors": [
+        "ANSWER_CATEGORY_CHANGED",
+        "OUTCOME_CHANGED",
+        "STATUS_CHANGED"
+      ],
+      "run_sha256": "cd1ac8fa02bfacc52639c884214059b84a4a394ae35a7ebe0a1ca92da5371e93",
+      "tape_sha256": "c855a1810ac39fde5a18f0109b657fba2fba32bf65c26003cf2702c01f02819b",
+      "model_stages": {
+        "intake": {
+          "model_calls": 1,
+          "input_tokens": 18846,
+          "output_tokens": 195,
+          "physical_admissions": 0,
+          "wall_seconds": 9.1924032
+        },
+        "context": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "reproduce": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "walk": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "source": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        },
+        "compose": {
+          "model_calls": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "physical_admissions": 0,
+          "wall_seconds": 0.0
+        }
+      }
+    }
+  ],
+  "provider_calls": 132,
+  "estate_requests_excluding_local_code": 310,
+  "local_code_retrievals": 72,
+  "new_gate_cases": 0,
+  "gate_enlargement": "BLOCKED_SQLITE_REPLAY",
+  "engine_commit": "2ec18bdc8148e99a33adfb667c2d473f4ac95615"
+}

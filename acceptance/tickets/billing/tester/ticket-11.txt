@@ -1,0 +1,6 @@
+Seven-day title but the number of days looks empty
+
+On Recent Collections I selected the collection visual and expanded its date filter. It says "is in the last", then the duration box looks empty with a "1-10000" hint, then "days". Include today is checked. The filter summary says is (All).
+
+The visual is titled Collected in the Last Seven Days. I expected to see 7 in that box or a clear date range. Can you confirm what period this view is meant to use? I didn't enter or apply a different value.
+

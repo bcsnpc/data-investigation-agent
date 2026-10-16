@@ -32,7 +32,9 @@ def response(rows):
 
 @contextmanager
 def database(path):
-    with closing(sqlite3.connect(path)) as db:
+    # Match the production catalog's codec and replay transaction hooks.
+    from investigator.budget_connection import connect
+    with closing(connect(path)) as db:
         with db:yield db
 
 

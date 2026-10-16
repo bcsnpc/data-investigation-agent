@@ -1,0 +1,209 @@
+{
+  "recorded_at": "2026-10-11T20:21:36.916632+00:00",
+  "rows": [
+    {
+      "ticket": "ticket-01.txt",
+      "input": "form",
+      "status": "HELD",
+      "reason": "Referenced quote exceeds consumer bound: /primary",
+      "models": 2,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-form-span-grounded-r1-pair1\\ticket-01.txt\\full-result.json",
+      "sha256": "2c391f6d24ab66c3f2e4a9a4750bd71954e53e8da19f11927f91bfdbb871f745"
+    },
+    {
+      "ticket": "ticket-02.txt",
+      "input": "form",
+      "status": "HELD",
+      "reason": "Starting measure/model is unresolved",
+      "models": 2,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-form-span-grounded-r1-pair1\\ticket-02.txt\\full-result.json",
+      "sha256": "991b9aa29754004b98796df77a23ea9f923fdfde1e9c81678a71ecf08eb9a5b0"
+    },
+    {
+      "ticket": "ticket-03.txt",
+      "input": "form",
+      "status": "HELD",
+      "reason": "DESCRIPTION_SUBJECT_UNRESOLVED: the selected Nothing comparison is retained; no description route could be admitted. Restate the question; the comparator will not be asked again.",
+      "models": 1,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-form-span-grounded-r1-pair2\\ticket-03.txt\\full-result.json",
+      "sha256": "55cf2dd43c21de4671db398892534b92ab9e839c28805c0e1cd4fabbf2de5977"
+    },
+    {
+      "ticket": "ticket-04.txt",
+      "input": "form",
+      "status": "HELD",
+      "reason": "The requested business-rule decision requires a domain specialist; technical process evidence cannot decide whether the rule is correct.",
+      "models": 1,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-form-span-grounded-r1-pair2\\ticket-04.txt\\full-result.json",
+      "sha256": "dd415274c07246c12b85bd3773f23327041cd26d59c859bfcb100b60e799637f"
+    },
+    {
+      "ticket": "ticket-05.txt",
+      "input": "form",
+      "status": "HELD",
+      "reason": "DESCRIPTION_SUBJECT_UNRESOLVED: the selected Nothing comparison is retained; no description route could be admitted. Restate the question; the comparator will not be asked again.",
+      "models": 1,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-form-span-grounded-r1-pair3\\ticket-05.txt\\full-result.json",
+      "sha256": "7f7e960358b694ed4ce194872665d5203ccce6985c269c6ee86f7f6f16b3a107"
+    },
+    {
+      "ticket": "ticket-06.txt",
+      "input": "form",
+      "status": "HELD",
+      "reason": "Starting measure/model is ambiguous",
+      "models": 2,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-form-span-grounded-r1-pair3\\ticket-06.txt\\full-result.json",
+      "sha256": "77b69192b792230c0fae743eca2feb2ec8a3c44ae2869ccf200f24ccb0224837"
+    },
+    {
+      "ticket": "ticket-13.txt",
+      "input": "form",
+      "status": "HELD",
+      "reason": "Ambiguous reported figure: more than one resolved value requires clarification: 950 from '950 invoiced'; 550 from '550 collected'; 600 from '600 MRR'",
+      "models": 1,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-form-span-grounded-r1-pair4\\ticket-13.txt\\full-result.json",
+      "sha256": "f00f1edc6dd1ea2774ce4b5a2bcc336a0952429d36fa75998e95e2acc944ec47"
+    },
+    {
+      "ticket": "ticket-14.txt",
+      "input": "form",
+      "status": "HELD",
+      "reason": "DESCRIPTION_SUBJECT_UNRESOLVED: the selected Nothing comparison is retained; no description route could be admitted. Restate the question; the comparator will not be asked again.",
+      "models": 2,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-form-span-grounded-r1-pair4\\ticket-14.txt\\full-result.json",
+      "sha256": "6a658a6a6c26c9711be609feec5468dabcf8ff7f78a3da8d799412e36c68e200"
+    },
+    {
+      "ticket": "ticket-15.txt",
+      "input": "form",
+      "status": "HELD",
+      "reason": "DESCRIPTION_SUBJECT_UNRESOLVED: the selected Nothing comparison is retained; no description route could be admitted. Restate the question; the comparator will not be asked again.",
+      "models": 1,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-form-span-grounded-r1-pair5\\ticket-15.txt\\full-result.json",
+      "sha256": "f60a06a56764221abb695bd88dde8b3d6df43fd1f085adaf1d4ee69810a0de95"
+    },
+    {
+      "ticket": "ticket-01.txt",
+      "input": "chat",
+      "status": "HELD",
+      "reason": "No faithful choices for NUMBER",
+      "models": 2,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-chat-span-grounded-r1-pair1\\ticket-01.txt\\full-result.json",
+      "sha256": "b272c73ad5aad5d1ac7ccba3692e5d4b2f4e50e18ffdfa2968ed638afcf0e788"
+    },
+    {
+      "ticket": "ticket-02.txt",
+      "input": "chat",
+      "status": "CLARIFYING",
+      "reason": "REPORT_OR_SCREENSHOT",
+      "models": 2,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-chat-span-grounded-r1-pair1\\ticket-02.txt\\full-result.json",
+      "sha256": "ff35991976106290a66ba168bfa2c968392b14b8511bc0ec6b890d15e81510f2"
+    },
+    {
+      "ticket": "ticket-03.txt",
+      "input": "chat",
+      "status": "CLARIFYING",
+      "reason": "NUMBER; COMPARISON",
+      "models": 2,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-chat-span-grounded-r1-pair2-resumed\\ticket-03.txt\\full-result.json",
+      "sha256": "5737c77febbe93cc82fe94291d3a121dfa5f7fe0a260fe63a8202275f320e80b"
+    },
+    {
+      "ticket": "ticket-04.txt",
+      "input": "chat",
+      "status": "CLARIFYING",
+      "reason": "NUMBER; COMPARISON",
+      "models": 2,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-chat-span-grounded-r1-pair2-resumed\\ticket-04.txt\\full-result.json",
+      "sha256": "3fb8e165a50ae62e522b0ce275a7c3741ea7bfee7c83b04f42ae2e3b206c4bcb"
+    },
+    {
+      "ticket": "ticket-05.txt",
+      "input": "chat",
+      "status": "CLARIFYING",
+      "reason": "REPORT_OR_SCREENSHOT",
+      "models": 1,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-chat-span-grounded-r1-pair3\\ticket-05.txt\\full-result.json",
+      "sha256": "ae0f37bff9bdd13292fb91ccc94de1215dfb373191b333b92f6be30f06b4cb50"
+    },
+    {
+      "ticket": "ticket-06.txt",
+      "input": "chat",
+      "status": "CLARIFYING",
+      "reason": "REPORT_OR_SCREENSHOT",
+      "models": 2,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-chat-span-grounded-r1-pair3\\ticket-06.txt\\full-result.json",
+      "sha256": "1031790a8ccdc31968e453d706a915b647651d6834246b79367d61a9d66bbee9"
+    },
+    {
+      "ticket": "ticket-13.txt",
+      "input": "chat",
+      "status": "CLARIFYING",
+      "reason": "REPORT_OR_SCREENSHOT",
+      "models": 1,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-chat-span-grounded-r1-pair4\\ticket-13.txt\\full-result.json",
+      "sha256": "ed113ee3557028473c4105ce4ea06c494b1d3d940231c998e2d1fd1e6a1b1b55"
+    },
+    {
+      "ticket": "ticket-14.txt",
+      "input": "chat",
+      "status": "HELD",
+      "reason": "No faithful choices for NUMBER",
+      "models": 2,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-chat-span-grounded-r1-pair4\\ticket-14.txt\\full-result.json",
+      "sha256": "e51d7b142603972a197a6e78eec1b4eeca81243756b96812d2d9cd65adb535f6"
+    },
+    {
+      "ticket": "ticket-15.txt",
+      "input": "chat",
+      "status": "CLARIFYING",
+      "reason": "NUMBER; COMPARISON",
+      "models": 2,
+      "physical": 0,
+      "admitted": false,
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-chat-span-grounded-r1-pair5\\ticket-15.txt\\full-result.json",
+      "sha256": "3773a2bf783534f0a477abe3ac2b9e449051d2f12b7c82ff4be568a7eb22f652"
+    }
+  ],
+  "admitted": 0,
+  "models": 29,
+  "physical": 0,
+  "harmful_technical": 0,
+  "id_display_defects": 1,
+  "full_contract_matches": 0
+}

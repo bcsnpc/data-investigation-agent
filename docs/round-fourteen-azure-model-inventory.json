@@ -1,0 +1,787 @@
+{
+  "recorded_at": "2026-10-11T21:14:19.299002+00:00",
+  "control_requests": 2,
+  "diagnostic_reads": 0,
+  "identity_or_deployment_changes": false,
+  "receipts": [
+    {
+      "route": "deployments",
+      "status": 200,
+      "request_id": "3ece400a-aa40-499e-9f6b-14a69a558697",
+      "sha256": "959d120d514d728d1a0abb697a750b1d575806b12f035b4ab4d67cc1295183f0"
+    },
+    {
+      "route": "models",
+      "status": 200,
+      "request_id": "f4176a61-ed1c-4880-b71f-03081a757534",
+      "sha256": "5dc1065bf405a23e214f0dd627800b3eb015915da967938bb6a3c50b114435dc"
+    }
+  ],
+  "deployments": [
+    {
+      "name": "investigator-llm",
+      "model": {
+        "format": "OpenAI",
+        "name": "gpt-4.1-mini",
+        "version": "2025-04-14"
+      },
+      "state": "Succeeded",
+      "sku": {
+        "name": "GlobalStandard",
+        "capacity": 10
+      }
+    },
+    {
+      "name": "investigator-quality",
+      "model": {
+        "format": "OpenAI",
+        "name": "gpt-4.1",
+        "version": "2025-04-14"
+      },
+      "state": "Succeeded",
+      "sku": {
+        "name": "GlobalStandard",
+        "capacity": 10
+      }
+    },
+    {
+      "name": "investigator-quality-54",
+      "model": {
+        "format": "OpenAI",
+        "name": "gpt-5.4",
+        "version": "2026-03-05"
+      },
+      "state": "Succeeded",
+      "sku": {
+        "name": "GlobalStandard",
+        "capacity": 100
+      }
+    },
+    {
+      "name": "investigator-intake-ci",
+      "model": {
+        "format": "OpenAI",
+        "name": "gpt-5.4",
+        "version": "2026-03-05"
+      },
+      "state": "Succeeded",
+      "sku": {
+        "name": "GlobalStandard",
+        "capacity": 10
+      }
+    },
+    {
+      "name": "investigator-intake-f-55",
+      "model": {
+        "format": "OpenAI",
+        "name": "gpt-5.5",
+        "version": "2026-04-24"
+      },
+      "state": "Succeeded",
+      "sku": {
+        "name": "GlobalStandard",
+        "capacity": 50
+      }
+    }
+  ],
+  "offered_models": [
+    {
+      "name": "whisper",
+      "version": "001",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "Standard"
+      ]
+    },
+    {
+      "name": "gpt-4o",
+      "version": "2024-05-13",
+      "format": "OpenAI",
+      "lifecycle": "Deprecating",
+      "sku_names": [
+        "Standard",
+        "GlobalStandard",
+        "ProvisionedManaged",
+        "GlobalBatch",
+        "DataZoneStandard",
+        "DataZoneProvisionedManaged",
+        "GlobalProvisionedManaged"
+      ]
+    },
+    {
+      "name": "gpt-4o",
+      "version": "2024-08-06",
+      "format": "OpenAI",
+      "lifecycle": "Deprecating",
+      "sku_names": [
+        "Standard",
+        "GlobalStandard",
+        "ProvisionedManaged",
+        "GlobalProvisionedManaged",
+        "Standard",
+        "GlobalStandard",
+        "DataZoneStandard",
+        "GlobalBatch",
+        "DataZoneStandard",
+        "DataZoneProvisionedManaged",
+        "DataZoneBatch"
+      ]
+    },
+    {
+      "name": "gpt-4o-mini",
+      "version": "2024-07-18",
+      "format": "OpenAI",
+      "lifecycle": "Deprecating",
+      "sku_names": [
+        "Standard",
+        "GlobalStandard",
+        "GlobalBatch",
+        "ProvisionedManaged",
+        "GlobalStandard",
+        "DataZoneStandard",
+        "GlobalProvisionedManaged",
+        "DataZoneStandard",
+        "DataZoneProvisionedManaged",
+        "DataZoneBatch"
+      ]
+    },
+    {
+      "name": "gpt-4o",
+      "version": "2024-11-20",
+      "format": "OpenAI",
+      "lifecycle": "Legacy",
+      "sku_names": [
+        "Standard",
+        "ProvisionedManaged",
+        "DataZoneStandard",
+        "GlobalStandard",
+        "DataZoneBatch",
+        "GlobalBatch",
+        "GlobalProvisionedManaged",
+        "DataZoneProvisionedManaged"
+      ]
+    },
+    {
+      "name": "gpt-4o-transcribe",
+      "version": "2025-03-20",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard",
+        "DataZoneStandard"
+      ]
+    },
+    {
+      "name": "gpt-4o-mini-transcribe",
+      "version": "2025-03-20",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "gpt-4o-mini-tts",
+      "version": "2025-03-20",
+      "format": "OpenAI",
+      "lifecycle": "Preview",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "text-embedding-ada-002",
+      "version": "2",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "Standard",
+        "GlobalStandard",
+        "DataZoneStandard"
+      ]
+    },
+    {
+      "name": "text-embedding-3-small",
+      "version": "1",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "Standard",
+        "GlobalStandard",
+        "DataZoneStandard"
+      ]
+    },
+    {
+      "name": "text-embedding-3-large",
+      "version": "1",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "Standard",
+        "GlobalStandard",
+        "DataZoneStandard"
+      ]
+    },
+    {
+      "name": "o1",
+      "version": "2024-12-17",
+      "format": "OpenAI",
+      "lifecycle": "Deprecating",
+      "sku_names": [
+        "Standard",
+        "GlobalStandard",
+        "DataZoneStandard",
+        "GlobalProvisionedManaged",
+        "DataZoneProvisionedManaged"
+      ]
+    },
+    {
+      "name": "o3-mini",
+      "version": "2025-01-31",
+      "format": "OpenAI",
+      "lifecycle": "Deprecating",
+      "sku_names": [
+        "GlobalStandard",
+        "ProvisionedManaged",
+        "GlobalBatch",
+        "DataZoneBatch",
+        "DataZoneStandard",
+        "GlobalProvisionedManaged",
+        "DataZoneProvisionedManaged"
+      ]
+    },
+    {
+      "name": "o3",
+      "version": "2025-04-16",
+      "format": "OpenAI",
+      "lifecycle": "Deprecating",
+      "sku_names": [
+        "GlobalStandard",
+        "ProvisionedManaged",
+        "GlobalProvisionedManaged",
+        "DataZoneProvisionedManaged",
+        "GlobalBatch",
+        "DataZoneStandard",
+        "DataZoneBatch"
+      ]
+    },
+    {
+      "name": "model-router",
+      "version": "2025-05-19",
+      "format": "OpenAI",
+      "lifecycle": "Preview",
+      "sku_names": [
+        "GlobalStandard",
+        "DataZoneStandard"
+      ]
+    },
+    {
+      "name": "model-router",
+      "version": "2025-08-07",
+      "format": "OpenAI",
+      "lifecycle": "Preview",
+      "sku_names": [
+        "GlobalStandard",
+        "DataZoneStandard"
+      ]
+    },
+    {
+      "name": "model-router",
+      "version": "2025-11-18",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard",
+        "DataZoneStandard",
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "codex-mini",
+      "version": "2025-05-16",
+      "format": "OpenAI",
+      "lifecycle": "Deprecating",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "sora-2",
+      "version": "2025-10-06",
+      "format": "OpenAI",
+      "lifecycle": "Preview",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "o4-mini",
+      "version": "2025-04-16",
+      "format": "OpenAI",
+      "lifecycle": "Deprecating",
+      "sku_names": [
+        "Standard",
+        "GlobalStandard",
+        "GlobalStandard",
+        "DataZoneStandard",
+        "DeveloperTier",
+        "Standard",
+        "ProvisionedManaged",
+        "DataZoneProvisionedManaged",
+        "GlobalProvisionedManaged",
+        "GlobalBatch",
+        "DataZoneBatch",
+        "DataZoneStandard"
+      ]
+    },
+    {
+      "name": "gpt-4.1",
+      "version": "2025-04-14",
+      "format": "OpenAI",
+      "lifecycle": "Legacy",
+      "sku_names": [
+        "Standard",
+        "GlobalStandard",
+        "DataZoneStandard",
+        "ProvisionedManaged",
+        "DataZoneProvisionedManaged",
+        "GlobalProvisionedManaged",
+        "GlobalStandard",
+        "DeveloperTier",
+        "GlobalBatch",
+        "DataZoneBatch"
+      ]
+    },
+    {
+      "name": "gpt-4.1-mini",
+      "version": "2025-04-14",
+      "format": "OpenAI",
+      "lifecycle": "Legacy",
+      "sku_names": [
+        "Standard",
+        "GlobalStandard",
+        "DataZoneStandard",
+        "GlobalStandard",
+        "DataZoneStandard",
+        "DeveloperTier",
+        "GlobalProvisionedManaged",
+        "ProvisionedManaged",
+        "DataZoneProvisionedManaged",
+        "GlobalBatch",
+        "DataZoneBatch"
+      ]
+    },
+    {
+      "name": "gpt-4.1-nano",
+      "version": "2025-04-14",
+      "format": "OpenAI",
+      "lifecycle": "Legacy",
+      "sku_names": [
+        "GlobalStandard",
+        "GlobalStandard",
+        "DataZoneStandard",
+        "DeveloperTier",
+        "DataZoneStandard",
+        "DataZoneProvisionedManaged",
+        "GlobalProvisionedManaged",
+        "ProvisionedManaged",
+        "GlobalBatch",
+        "DataZoneBatch"
+      ]
+    },
+    {
+      "name": "gpt-image-1",
+      "version": "2025-04-15",
+      "format": "OpenAI",
+      "lifecycle": "Preview",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "gpt-image-1-mini",
+      "version": "2025-10-06",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "gpt-5",
+      "version": "2025-08-07",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard",
+        "DataZoneStandard",
+        "ProvisionedManaged",
+        "DataZoneProvisionedManaged",
+        "GlobalProvisionedManaged",
+        "GlobalBatch",
+        "DataZoneBatch"
+      ]
+    },
+    {
+      "name": "gpt-5-mini",
+      "version": "2025-08-07",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard",
+        "ProvisionedManaged",
+        "DataZoneProvisionedManaged",
+        "GlobalProvisionedManaged",
+        "DataZoneStandard"
+      ]
+    },
+    {
+      "name": "gpt-5-nano",
+      "version": "2025-08-07",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard",
+        "DataZoneStandard"
+      ]
+    },
+    {
+      "name": "gpt-audio",
+      "version": "2025-08-28",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "gpt-realtime",
+      "version": "2025-08-28",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "gpt-5-codex",
+      "version": "2025-09-15",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "gpt-audio-mini",
+      "version": "2025-10-06",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "gpt-realtime-mini",
+      "version": "2025-10-06",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "gpt-5-pro",
+      "version": "2025-10-06",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "gpt-4o-transcribe-diarize",
+      "version": "2025-10-15",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "gpt-5.1",
+      "version": "2025-11-13",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "Standard",
+        "GlobalStandard",
+        "DataZoneStandard",
+        "ProvisionedManaged",
+        "DataZoneProvisionedManaged",
+        "GlobalProvisionedManaged",
+        "GlobalBatch",
+        "DataZoneBatch"
+      ]
+    },
+    {
+      "name": "gpt-5.1-codex",
+      "version": "2025-11-13",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard",
+        "DataZoneProvisionedManaged",
+        "GlobalProvisionedManaged"
+      ]
+    },
+    {
+      "name": "gpt-5.1-codex-mini",
+      "version": "2025-11-13",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "gpt-5.1-codex-max",
+      "version": "2025-12-04",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "gpt-5.2",
+      "version": "2025-12-11",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard",
+        "DataZoneStandard",
+        "DataZoneProvisionedManaged",
+        "GlobalProvisionedManaged"
+      ]
+    },
+    {
+      "name": "gpt-4o-mini-tts",
+      "version": "2025-12-15",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "gpt-realtime-mini",
+      "version": "2025-12-15",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "gpt-4o-mini-transcribe",
+      "version": "2025-12-15",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "gpt-image-1.5",
+      "version": "2025-12-16",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard",
+        "DataZoneStandard"
+      ]
+    },
+    {
+      "name": "gpt-audio-mini",
+      "version": "2025-12-15",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "gpt-5.2-codex",
+      "version": "2026-01-14",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard",
+        "GlobalProvisionedManaged"
+      ]
+    },
+    {
+      "name": "gpt-audio-1.5",
+      "version": "2026-02-23",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard"
+      ]
+    },
+    {
+      "name": "gpt-realtime-1.5",
+      "version": "2026-02-23",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard",
+        "DataZoneStandard"
+      ]
+    },
+    {
+      "name": "gpt-5.3-codex",
+      "version": "2026-02-24",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard",
+        "DataZoneStandard",
+        "GlobalProvisionedManaged"
+      ]
+    },
+    {
+      "name": "gpt-5.4",
+      "version": "2026-03-05",
+      "format": "OpenAI",
+      "lifecycle": "GenerallyAvailable",
+      "sku_names": [
+        "GlobalStandard",
+        "DataZoneStandard",
+        "DataZoneProvisionedManaged",
+        "GlobalProvisionedManaged",
+        "GlobalBatch",
+        "DataZoneBatch"
+      ]
+    }
+  ],
+  "interpretation": "No GPT-6 deployment returned. Existing GPT-5.5 deployment Succeeded; account offered-model list is separate from deployment list and runtime serving. No new deployment made.",
+  "catalog_continuation": {
+    "recorded_at": "2026-10-11T21:32:21.520410+00:00",
+    "complete": true,
+    "physical_controls": 1,
+    "additional_models": [
+      {
+        "name": "gpt-5.4-pro",
+        "version": "2026-03-05"
+      },
+      {
+        "name": "gpt-5.4-mini",
+        "version": "2026-03-17"
+      },
+      {
+        "name": "gpt-5.4-nano",
+        "version": "2026-03-17"
+      },
+      {
+        "name": "sora-2",
+        "version": "2025-12-08"
+      },
+      {
+        "name": "gpt-image-2",
+        "version": "2026-04-21"
+      },
+      {
+        "name": "gpt-5.5",
+        "version": "2026-04-24"
+      },
+      {
+        "name": "gpt-chat-latest",
+        "version": "2026-05-05"
+      },
+      {
+        "name": "gpt-realtime-translate",
+        "version": "2026-05-06"
+      },
+      {
+        "name": "gpt-realtime-whisper",
+        "version": "2026-05-06"
+      },
+      {
+        "name": "gpt-realtime-2",
+        "version": "2026-05-06"
+      },
+      {
+        "name": "gpt-chat-latest",
+        "version": "2026-05-28"
+      },
+      {
+        "name": "gpt-chat-latest",
+        "version": "2026-06-24"
+      },
+      {
+        "name": "gpt-realtime-2.1-mini",
+        "version": "2026-07-07"
+      },
+      {
+        "name": "gpt-realtime-2.1",
+        "version": "2026-07-07"
+      },
+      {
+        "name": "gpt-5.6-sol",
+        "version": "2026-07-09"
+      },
+      {
+        "name": "gpt-5.6-luna",
+        "version": "2026-07-09"
+      },
+      {
+        "name": "gpt-5.6-terra",
+        "version": "2026-07-09"
+      },
+      {
+        "name": "gpt-live-transcribe",
+        "version": "2026-07-28"
+      },
+      {
+        "name": "gpt-transcribe",
+        "version": "2026-07-28"
+      },
+      {
+        "name": "gpt-chat-latest",
+        "version": "2026-08-06"
+      },
+      {
+        "name": "gpt-6-astra",
+        "version": "2026-09-03"
+      },
+      {
+        "name": "gpt-image-2.5-flare",
+        "version": "2026-09-08"
+      },
+      {
+        "name": "gpt-image-2.5-sunburst",
+        "version": "2026-09-08"
+      },
+      {
+        "name": "gpt-live-1",
+        "version": "2026-09-10"
+      },
+      {
+        "name": "gpt-6-luna",
+        "version": "2026-09-22"
+      },
+      {
+        "name": "gpt-6-sol",
+        "version": "2026-09-22"
+      },
+      {
+        "name": "gpt-6.1-sol",
+        "version": "2026-09-29"
+      }
+    ],
+    "correction": "The first 50-model page was incomplete. GPT-6 Astra is offered in the account catalog, but no GPT-6 deployment exists. GPT-5.5 is the strongest existing deployment; testing uses it without provisioning a deployment or changing identities."
+  }
+}

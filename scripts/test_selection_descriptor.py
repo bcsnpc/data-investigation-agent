@@ -4,7 +4,8 @@ import unittest
 from unittest.mock import patch
 from jsonschema import Draft202012Validator,ValidationError
 from investigator import selection_descriptor as descriptor,report_resolution
-from investigator.question_intake import azure_resolve,wire_contract
+# Explicit historical wire-v2 decoder; current producer covered by test_intake_extraction.
+from investigator.question_intake import azure_resolve_legacy as azure_resolve,wire_contract
 import test_report_scoped_cells as scoped_fixture
 
 

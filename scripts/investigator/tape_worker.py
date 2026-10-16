@@ -72,7 +72,8 @@ class Worker:
         if deadline is not None and not legacy:start['timeout']=deadline
         self.tape.event('WORKER_START',bytes_of(start))
         if not self.tape.replaying:
-            try:self.child=subprocess.Popen(command,**kwargs)
+            from .worker_launch import options
+            try:self.child=subprocess.Popen(command,**options(kwargs))
             except Exception as exc:
                 from .process_failure import capture
                 exc.recorded_failure=capture(exc)
@@ -97,7 +98,8 @@ class Worker:
 def popen(command,**kwargs):
     if ACTIVE.get():return Worker(command,**kwargs)
     kwargs.pop('worker_timeout',None)
-    return subprocess.Popen(command,**kwargs)
+    from .worker_launch import options
+    return subprocess.Popen(command,**options(kwargs))
 
 
 def check_deadline(worker):
@@ -131,7 +133,8 @@ def raise_failure(name,command,timeout,detail=None):
 
 def run(command,*,input,timeout,fallback=None,**kwargs):
     tape=ACTIVE.get()
-    if tape is None:return (fallback or subprocess.run)(command,input=input,timeout=timeout,**kwargs)
+    from .worker_launch import options
+    if tape is None:return (fallback or subprocess.run)(command,input=input,timeout=timeout,**options(kwargs))
     tape.event('WORKER_START',bytes_of({'command':descriptor(command),'mode':'BOUNDED','timeout':timeout}))
     tape.event('WORKER_SEND',safe_request(input))
     if tape.replaying:
@@ -141,7 +144,7 @@ def run(command,*,input,timeout,fallback=None,**kwargs):
             raise_failure(end['error'],command,timeout,end.get('failure'))
         return subprocess.CompletedProcess(command,end['returncode'],stdout,'')
     try:
-        result=(fallback or subprocess.run)(command,input=input,timeout=timeout,**kwargs)
+        result=(fallback or subprocess.run)(command,input=input,timeout=timeout,**options(kwargs))
         tape.event('WORKER_READ',result.stdout.encode() if isinstance(result.stdout,str) else result.stdout)
         tape.event('WORKER_END',bytes_of({'returncode':result.returncode,'error':None}))
         return result

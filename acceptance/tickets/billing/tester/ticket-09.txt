@@ -1,0 +1,6 @@
+Overview has 950 but Accounts has nothing to check it against
+
+Subscription Billing's first page shows Invoiced Amount 950. On Accounts, Top Accounts by Invoice Value gives me an empty chart and the table view is empty too.
+
+I expected the account page to show at least the biggest contributors to the first-page amount. It currently looks like one page has invoices and the other has none. I can't explain the total to the team from these two pages.
+

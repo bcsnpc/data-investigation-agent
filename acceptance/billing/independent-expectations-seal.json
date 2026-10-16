@@ -1,0 +1,14 @@
+{
+  "excluded_tickets": [
+    "ticket-07.txt",
+    "ticket-08.txt",
+    "ticket-09.txt",
+    "ticket-10.txt",
+    "ticket-11.txt",
+    "ticket-12.txt"
+  ],
+  "file": "independent-expectations.json",
+  "sealed_at": "2026-10-10",
+  "sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+  "tickets": 9
+}

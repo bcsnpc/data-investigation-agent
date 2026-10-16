@@ -1,0 +1,20 @@
+{
+  "instructions": "Independent original author clarification round two. Use only this packet and original allowed tester README/session/tickets. Do not read engine code, expectations, oracle, defect lists, delivery records, tapes or ledgers. No estate or external-provider tool calls are requested; only your ordinary author text reply. Answer in plain words as the original ticket author would, with answer_basis ticket/form or unknown, and preserve each exact_question. Quote one offered phrase only when it is what your notes mean. Do not invent missing facts.",
+  "qa_round": 2,
+  "questions": [
+    {
+      "clarification_request": "Answer this exact retained question in your own words; do not invent absent facts.",
+      "exact_question": "Which page are you asking about?\nAccounts\nSubscription Billing\nRecent Collections",
+      "id": "clarification-010-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "Accounts",
+        "Subscription Billing",
+        "Recent Collections"
+      ],
+      "original_form": null,
+      "original_ticket": "600 overage - units or money?\n\nThe Usage Overage card says 600 but I can't see a unit or currency next to it.\n\nThe app has Aster using 3,500 against 3,000 included and Birch using 1,100 against 1,000. Cedar is 2,800 against 3,000, and Dune is 500 against 1,000. Counting only the amounts above the allowances gives 600 units, so that part looks reasonable.\n\nIs the card showing units rather than a charge? I expected a label that tells me which before I put it into the billing notes.\n\n",
+      "original_ticket_file": "ticket-05.txt"
+    }
+  ]
+}

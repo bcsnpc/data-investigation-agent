@@ -1,0 +1,40 @@
+You asked: In Inventory Health, the Movement Units card shows 7,661. Is that faithful to the application?
+
+Report link supplied by user:
+https://app.powerbi.com/groups/d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/reports/3fa351b8-ff17-4b0e-bbce-3a24b1f9536e/688de76fce97549d9756
+Answer to your question: Partly answered.
+Regarding whether the application information was delivered: Independent quantities were compared within the checked scope; remaining boundaries, timing and business intent are limited by the recorded evidence.
+What the investigation established:
+
+Measure: Handled Quantity.
+Roles reached in path resolution: L0 (SEMANTIC), L1 (SERVING), L2 (REFINED), L3 (LANDING). These labels do not establish successful reads.
+B2 diverges: L2 (stock movements e1b8e1 in rehearsal silver 20261008; role REFINED, upstream input) 7,661 -> L1 (movement values in rehearsal gold 20261008; role SERVING, downstream output) 8,765.
+B1 agrees: L1 (movement values in rehearsal gold 20261008; role SERVING, upstream input) 8,765 -> L0 (Activity in Rehearsal Warehouse Operations 20261008; role SEMANTIC, downstream output) 8,765.
+ENGINE_INDEPENDENT: comparable quantity-bound engine self-reports differ; this is an engine-independent cross-surface comparison. (receipt boundary-1-comparison).
+OBJECT_DISTINCT: comparable quantity-bound object self-reports differ; this verifies a data-path boundary, not engine-level independence. Shared computation faults are not excluded. (receipt boundary-2-comparison).
+Declared-context reproduction unavailable: Declared-context reproduction is undeclared for question kind SOURCE_CORRECTNESS.
+
+A left join on product_id at L1 (SERVING) matches movement rows to rate rows without an established unique match. Repeated matches can duplicate carried units before a derived value column is added, which makes the total at L1 (SERVING) exceed the total at L2 (REFINED).
+
+Layers:
+L0 - Activity in Rehearsal Warehouse Operations 20261008; role SEMANTIC: fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/ade205fe-52b1-43b5-980a-773b7b1de538/table/Activity
+L1 - movement values in rehearsal gold 20261008; role SERVING: fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/0b36ee15-643c-464f-81b3-776aa4616872/table/movement_values
+L2 - stock movements e1b8e1 in rehearsal silver 20261008; role REFINED: fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/cfd8d7d5-a914-4ff8-96d0-bb8ccbc45d74/table/stock_movements_e1b8e1
+L3 - stock movements e1b8e1 in rehearsal bronze 20261008; role LANDING: fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/1cbc0cde-434a-4f6b-82d4-4da300076736/table/stock_movements_e1b8e1
+
+Limits:
+- Unattested connection on L0 (receipt c973dccb-dd0e-4fc9-8c1c-06964b4053d9).
+- Unattested connection on L1 (receipt 149548d1-f2ae-42c8-a246-dba0e8432c00).
+- Unattested connection on L2 (receipt 03fd8bd4-1fe6-4436-acd0-ba82be9f278b).
+- SNAPSHOT_UNVERIFIED for B1, B2: the reads cannot be tied to matching data versions; agreement does not prove currency, and different update timing was not excluded as a cause of divergence.
+- Checked through L2; stopped because reached.
+- The comparison L1 -> L2 rests on a binding INFERRED_FROM_CODE, not declared or discovered.
+- Lineage was verified on value, not on snapshot; bounded profiles do not establish global equivalence or business intent.
+- Unchecked L2 -> L3: Investigation terminated before this boundary.
+- Unchecked L3 -> unresolved upstream: No declared upstream read for this quantity (literal initialization or derived/unsupported column).
+- Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established.
+- This explanation relies on possible row multiplication from the join. The supplied definition does not establish product_id uniqueness, other business rules, or a shared snapshot.
+
+Recommended action: Ask the responsible business owner whether this behavior is intended; request a change if it is not.
+
+Previous runs: same ticket bf82037e-9f78-4bd9-89e2-7cd09889840d.

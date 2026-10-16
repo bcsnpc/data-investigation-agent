@@ -1,0 +1,3 @@
+Subject: No time period shown beside the billing totals
+
+The Subscription Billing page shows Invoiced Amount 950 and Collected Amount 550, but I don't see a date selection or any filters listed. Are these this month's figures or everything recorded so far? I need October figures and don't want to assume the date range.

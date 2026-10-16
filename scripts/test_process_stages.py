@@ -34,6 +34,17 @@ class StageTests(unittest.TestCase):
         self.assertEqual(delegate.resolve_path('x'),'original path')
         self.assertEqual(observed.resolve_path('x'),'original path')
 
+    def test_claim_projection_preserves_layer_scope_and_stage(self):
+        events=[];seen=[];sentinel=object()
+        def probe(*args):seen.append(args);return sentinel
+        delegate=SimpleNamespace(claim_probe=probe,config={'_estate':{'layers':[{'asset_id':'app','role':'APPLICATION'}]}})
+        observed=Adapter(delegate,lambda k,d:events.append((k,d)))
+        args=({'layers':[]},{'id':'app'},{'kind':'MULTIPLICITY'},{})
+        self.assertIs(observed.claim_probe(*args),sentinel);self.assertEqual(seen,[args])
+        self.assertEqual(events[0][1],{'stage':'source','operation':'claim_probe'})
+        observed.claim_probe({}, {'id':'model'},{},{})
+        self.assertEqual(events[2][1]['stage'],'walk')
+
     def test_labels_are_engine_stage_facts_and_do_not_include_native_operation_or_error_text(self):
         self.assertEqual(label({'kind':'PROCESS_STAGE_STARTED','detail':{'stage':'reproduce','operation':'secret'}}),
                          'Checking declared report context started')
@@ -41,6 +52,17 @@ class StageTests(unittest.TestCase):
                          'Checking source and load evidence failed')
         self.assertIsNone(label({'kind':'CREATED'}))
         with self.assertRaises(ValueError):label({'kind':'PROCESS_STAGE_STARTED','detail':{'stage':'unknown'}})
+
+    def test_page_ports_record_actual_stage_without_changing_arguments_or_results(self):
+        for operation, stage in [('read_visual_quantity', 'walk'), ('read_page_refresh', 'walk'), ('read_page_load', 'source')]:
+            with self.subTest(operation=operation):
+                events=[]; seen=[]; result=object(); argument=object()
+                def read(value):seen.append(value); return result
+                adapter=Adapter(SimpleNamespace(**{operation:read}),lambda k,d:events.append((k,d)))
+                self.assertIs(getattr(adapter,operation)(argument),result)
+                self.assertEqual(seen,[argument])
+                self.assertEqual(events[0][1],{'stage':stage,'operation':operation})
+                self.assertEqual(events[-1][1]['error_type'],None)
 
 
 if __name__ == '__main__':unittest.main()

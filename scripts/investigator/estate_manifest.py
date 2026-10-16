@@ -2,6 +2,7 @@
 import copy
 import json
 from pathlib import Path
+from .usage_limits import DAILY_MAXIMUM
 from jsonschema import Draft202012Validator
 from .layer_roles import ROLES
 from .process_debugging import REQUIRED_CAPABILITIES, OPTIONAL_CAPABILITIES
@@ -10,6 +11,8 @@ from .estate_limits import STATEMENT_BOUND
 from .code_sources import CODE_SOURCE_SCHEMA, validate_sources as validate_code_inventory
 from .binding_sample import SAMPLE_SCHEMA
 from .string_semantics import SCHEMA as STRING_SEMANTICS
+from .ticket_protocol import INTAKE as INTAKE_SCHEMA, OWNERSHIP as OWNERSHIP_SCHEMA
+from .agent_handoff import SETTING as AUTOMATIC_HANDOFF_SETTING
 
 
 def obj(properties, optional=()):
@@ -40,9 +43,10 @@ PROVIDER_REGION={'oneOf':[
     obj({'status':{'const':'DECLARED'},'name':STRING,'evidence':STRING}),
     obj({'status':{'const':'UNDECLARED'},'reason':STRING})]}
 SCHEMA=obj({
+    'intake':INTAKE_SCHEMA,'ownership':OWNERSHIP_SCHEMA,
     'version':{'const':'estate-manifest-v1'},'environment':STRING,
     'lineage_proposer':BOOL,'assistant_proposer':BOOL,
-    'storage':obj({'catalog':STRING,'inventory':STRING}),
+    'storage':obj({'catalog':STRING,'inventory':STRING,'shared_accounting':STRING}, optional=('shared_accounting',)),
     'retention':RETENTION,
     'recording':RECORDING,
     'adapters':array(obj({'id':STRING,'implementation':STRING,
@@ -54,6 +58,11 @@ SCHEMA=obj({
         'string_semantics':STRING_SEMANTICS},
         optional=('serverless','worker_timeout_seconds','comparison_normalization','string_semantics'))),
     'resources':array(RESOURCE),
+    # A comparison ceiling names unexamined upstream work. It does not declare
+    # a system of record, create a route, or grant access to the named asset.
+    'scope_boundaries':array(obj({'asset_id':STRING,
+        'kind':{'const':'REACHABILITY_CEILING'},
+        'unchecked_limits':{'type':'array','items':STRING,'minItems':1,'maxItems':32}})),
     'identities':array(obj({'id':STRING,'principal':STRING,'credential_reference':STRING,
         'scopes':array(SCOPE)})),
     'system_of_record':{'anyOf':[STRING,{'type':'null'}]},
@@ -87,22 +96,44 @@ SCHEMA=obj({
         'input_characters_per_run':integer(*DYNAMIC_INPUT_BOUNDS),
         'max_boundaries':integer(0,32),'rolling_window_seconds':{'const':86400},
         'rolling_physical_requests':integer(1,10000000),
-        'planner_daily':obj({'calls':integer(1,10000000),'input_characters':integer(1,10000000),
-            'output_tokens':integer(1,10000000),'max_inflight':integer(1,4),'no_progress_limit':integer(1,4)}),
+        'planner_daily':obj({'calls':integer(1,DAILY_MAXIMUM['planner_calls']),'input_characters':integer(1,DAILY_MAXIMUM['input_characters']),
+            'output_tokens':integer(1,DAILY_MAXIMUM['output_tokens']),'max_inflight':integer(1,8),'no_progress_limit':integer(1,4)}),
         'round':obj({'id':STRING,'starts_at_epoch':{'type':'number','minimum':0},
             'physical_requests':integer(1,10000000),'restoration_reserved':integer(0,10000000)})}, optional=('binding_verification',)),
     'accepted_limits':array(obj({'code':STRING,'resource':STRING,
         'statement':{'type':'string','minLength':1,'maxLength':STATEMENT_BOUND}})),
     # Evaluator-only declarations; not projected into tools or prompts.
+    'execution':{'oneOf':[obj({'mode':{'const':'LIVE'}}), obj({'mode':{'const':'LOCAL_EXPORTED'},'bundle':STRING, 'manifest_sha256':{'type':'string','pattern':'^[0-9a-f]{64}$'}, 'source_manifest_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'}})]},
+    'investigation':{'oneOf':[
+        obj({'mode':{'const':'PIPELINE'},'step_cap':integer(1,25),'wall_seconds':integer(1,3600),
+             'automatic_handoff':AUTOMATIC_HANDOFF_SETTING}, optional=('automatic_handoff',)),
+        obj({'mode':{'const':'AGENT'},'step_cap':integer(1,25),'wall_seconds':integer(1,3600),
+             'input_characters_per_request':integer(8000,150000),'agent_deployment':STRING}, optional=('input_characters_per_request','agent_deployment')),
+        obj({'mode':{'const':'HYBRID'},'step_cap':integer(1,12),'wall_seconds':integer(1,3600),
+             'input_characters_per_request':integer(8000,150000),
+             'agent_deployment':STRING,
+             'fallback_scope':{'enum':['ANY_GAP','INTAKE_ONLY']}}, optional=('input_characters_per_request','fallback_scope','agent_deployment'))]},
     'fixture_states':array(obj({'id':STRING,'description':STRING,
         'arithmetic':{'type':'string','minLength':1,'maxLength':2000},
-        'evidence':array(STRING)}))}, optional=('fixture_states','lineage_proposer','assistant_proposer','retention','recording'))
+        'evidence':array(STRING)}))}, optional=('scope_boundaries','fixture_states','lineage_proposer','assistant_proposer','retention','recording','intake','ownership','execution','investigation'))
 
 
 def validate(value):
     errors=sorted(Draft202012Validator(SCHEMA).iter_errors(value),key=lambda e:str(list(e.path)))
     if errors:
         e=errors[0];raise ValueError('manifest.'+'.'.join(map(str,e.path))+': '+e.message)
+    if 'intake' in value:
+        routes=[c['route'] for c in value['intake']['comparison_choices']]
+        if len(set(routes))!=len(routes):raise ValueError('manifest.intake: duplicate comparison route')
+        default=value['intake']['default_route']
+        if default!='ASK' and default not in routes:
+            raise ValueError('manifest.intake: default route is not an offered comparison')
+        aliases=[a['alias'].casefold() for a in value['intake']['vocabulary_aliases']]
+        if len(set(aliases))!=len(aliases):raise ValueError('manifest.intake: ambiguous vocabulary alias')
+    if 'ownership' in value:
+        for kind,key in (('business','measure_or_area'),('technical','layer_or_pipeline')):
+            selectors=[row[key] for row in value['ownership'][kind]]
+            if len(set(selectors))!=len(selectors):raise ValueError('manifest.ownership: ambiguous owner')
     from .generation_policy import validate as generation
     generation(value['model']['generation_options'])
     from .privacy_projection import declaration as recording_declaration
@@ -114,10 +145,16 @@ def validate(value):
             result[row['id']]=row
         return result
     layers=indexed('layers');resources=indexed('resources');adapters=indexed('adapters');identities=indexed('identities')
+    boundary_assets=[b['asset_id'] for b in value.get('scope_boundaries', [])]
+    if len(boundary_assets)!=len(set(boundary_assets)):
+        raise ValueError('manifest.scope_boundaries: duplicate asset')
     from .string_semantics import validate as validate_string_semantics
     for layer in layers.values():
         if 'string_semantics' in layer:validate_string_semantics(layer['string_semantics'])
-    indexed('pipelines')
+    pipelines=indexed('pipelines')
+    for owner in value.get('ownership',{}).get('technical',[]):
+        if owner['layer_or_pipeline'] not in set(layers)|set(pipelines):
+            raise ValueError('manifest.ownership.technical: undeclared layer or pipeline')
     if 'fixture_states' in value:indexed('fixture_states')
     from .layer_roles import declarations as roles
     roles([{k:l[k] for k in ('asset_id','role','business_name')} for l in value['layers']])

@@ -1,0 +1,70 @@
+{
+  "billing": {
+    "delivered": 0,
+    "full_contract_matches": 0,
+    "intake_holds": 21,
+    "model_calls": 35,
+    "physical_requests": 0,
+    "pre_intake_operator_failures": 6,
+    "slots": 27
+  },
+  "chat": {
+    "attempts": 6,
+    "model_calls": 12,
+    "physical_requests": 21
+  },
+  "closed_at": "2026-10-11T04:04:46.339432+00:00",
+  "export": {
+    "complete_estates": 0,
+    "completed_read_rows": 545,
+    "completed_table_reads": 7,
+    "data_physical_admissions": 32,
+    "local_A_G_check": "WITHDRAWN_BY_OWNER",
+    "metadata_physical_requests": 64,
+    "retained_reserved_data_requests": 2,
+    "settled_data_requests": 30,
+    "status": "STOPPED_PARTIAL_UNUSABLE"
+  },
+  "fixture": {
+    "attempts": 48,
+    "full_contract_matches": 0,
+    "groups": 18,
+    "harmful_claims": 2,
+    "model_calls": 106,
+    "outcome_status_matches": 34,
+    "physical_requests": 296,
+    "stable_outcome_groups": 9
+  },
+  "next": "ROUND_FOURTEEN_LIVE_BOTH_MODES_THREE_REPEATS",
+  "not_run": [
+    "remaining R13 billing repeats",
+    "remaining original chat I",
+    "all rebuilt and billing chat runs",
+    "all 24 scenario-matrix cells",
+    "local A/G checks (owner withdrew)"
+  ],
+  "replay": {
+    "billing_intake_operations": 21,
+    "billing_matched": 21,
+    "billing_metadata_hosted": "MATCHED_RECORDED_V2_BOUNDARY",
+    "chat_matched": 12,
+    "chat_operations": 12,
+    "fixture_blocked": 6,
+    "fixture_matched": 136,
+    "fixture_operations": 142,
+    "historical_originals_unchanged": true,
+    "whole_round_encrypted_publication": "SECURITY_SCAN_PENDING"
+  },
+  "status": "OWNER_CLOSED_WITH_REPLAY_BLOCKERS_AND_PARTIAL_EXPORT",
+  "version": "round-thirteen-owner-final-v1",
+  "window": {
+    "model_ceiling_usd": 100,
+    "model_unsettled_calls": 0,
+    "model_usd": 2.723086,
+    "pot_ceiling": 2500,
+    "pot_used": 1999,
+    "protected_reserve_remaining": 95,
+    "rolling_ceiling": 3000,
+    "rolling_used": 857
+  }
+}

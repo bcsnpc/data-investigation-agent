@@ -36,6 +36,9 @@ def create_app(workspace, token, port=8776):
         path, method = env.get('PATH_INFO', ''), env.get('REQUEST_METHOD', 'GET')
         assets = {'/': ('index.html', 'text/html; charset=utf-8'),
                   '/workspace.js': ('workspace.js', 'text/javascript'), '/screenshots.js': ('screenshots.js', 'text/javascript'), '/style.css': ('style.css', 'text/css')}
+        assets['/form.js']=('form.js','text/javascript')
+        assets['/questionnaire.js']=('questionnaire.js','text/javascript')
+        assets['/claims.js']=('claims.js','text/javascript')
         if method == 'GET' and path in assets:
             filename, mime = assets[path]
             return respond('200 OK', (ASSETS / filename).read_bytes(), mime)
@@ -47,6 +50,11 @@ def create_app(workspace, token, port=8776):
         try:
             if method not in ('GET', 'POST'):
                 return respond('405 Method Not Allowed', {'error': 'Method not allowed'})
+            if method=='POST' or path in ('/api/workspace/forms/catalog','/api/workspace/questionnaire/catalog'):
+                from .admission_deadline import require_open,AdmissionClosed
+                try:require_open()
+                except AdmissionClosed:
+                    return respond('409 Conflict',{'error':'Live admissions have closed for this batch. Captured work remains available.','code':'LIVE_ADMISSION_DEADLINE_REACHED'})
             body = None
             if method == 'POST':
                 size = int(env.get('CONTENT_LENGTH', '0'))
@@ -56,9 +64,82 @@ def create_app(workspace, token, port=8776):
                 body = json.loads(env['wsgi.input'].read(size))
             if path == '/api/workspace/models' and method == 'GET':
                 result = workspace.models()
+                from .ticket_clarification import settings
+                result['intake_options']={'comparison_choices':settings(workspace.intake_configuration)['comparison_choices']}
+            elif path == '/api/workspace/claims/catalog' and method == 'GET':
+                result = workspace.claims.catalog()
+            elif path == '/api/workspace/claims' and method == 'POST':
+                result = workspace.claims.submit(body)
+            elif path.startswith('/api/workspace/claims/'):
+                parts = path[len('/api/workspace/claims/'):].split('/')
+                if len(parts) == 1 and method == 'GET':
+                    result = workspace.claims.get(parts[0])
+                elif len(parts) == 2 and parts[1] == 'investigation' and method == 'GET':
+                    result = workspace.claim_investigations.get(parts[0])
+                elif len(parts) == 2 and parts[1] == 'run' and method == 'POST':
+                    if not isinstance(body, dict) or 'id' in body:
+                        raise ValueError('Claim identity comes from the path')
+                    result = workspace.claim_investigations.run({'id': parts[0], **body})
+                elif len(parts) == 2 and parts[1] in ('replies', 'confirm') and method == 'POST':
+                    if not isinstance(body, dict) or 'id' in body:
+                        raise ValueError('Claim identity comes from the path')
+                    name = 'reply' if parts[1] == 'replies' else 'confirm'
+                    result = getattr(workspace.claims, name)({'id': parts[0], **body})
+                else:
+                    return respond('404 Not Found', {'error': 'Not found'})
+            elif path == '/api/workspace/claim-screenshots' and method == 'POST':
+                result = workspace.claim_screenshots.identify(body)
+            elif path.startswith('/api/workspace/claim-screenshots/'):
+                parts = path[len('/api/workspace/claim-screenshots/'):].split('/')
+                if len(parts) == 1 and method == 'GET':
+                    result = workspace.claim_screenshots.get(parts[0])
+                elif len(parts) == 2 and parts[1] == 'confirm' and method == 'POST':
+                    if not isinstance(body, dict) or 'review_id' in body:
+                        raise ValueError('Screenshot review identity comes from the path')
+                    result = workspace.claim_screenshots.confirm({'review_id': parts[0], **body})
+                else:
+                    return respond('404 Not Found', {'error': 'Not found'})
+            elif path == '/api/workspace/questionnaire/schema' and method=='GET':
+                from .intake_questionnaire import DEFINITION
+                result=DEFINITION
+            elif path == '/api/workspace/questionnaire/catalog':
+                if method=='POST':fields(body,['refresh'])
+                result=workspace.forms.catalog(refresh=body['refresh'] if method=='POST' else False)
+            elif path == '/api/workspace/questionnaire/pages' and method=='POST':
+                result=workspace.forms.pages(body)
+            elif path == '/api/workspace/questionnaire/visuals' and method=='POST':
+                fields(body,['report_id','page_id'])
+                from .question_intake import snapshot
+                from .clarification_grounding import label
+                display=workspace.__dict__.get('visual_display_names')
+                rows=[];unavailable=0
+                for model in snapshot(workspace)['models']:
+                    titles=display(model['id']) if callable(display) else None
+                    for visual in model.get('visuals',[]):
+                        if visual['report_id']!=body['report_id'] or visual['page_id']!=body['page_id']:continue
+                        names=titles.get(visual['target_id'],[]) if titles is not None else visual.get('names',[])
+                        if not names:
+                            unavailable+=1;continue
+                        rows.append({'id':visual['target_id'],'name':label(names)})
+                result={'source':'RETAINED_APPROVED_DEFINITION','visuals':rows,'untitled_visuals':unavailable}
+            elif path == '/api/workspace/questionnaire' and method=='POST':
+                result=workspace.forms.submit(body)
+            elif path == '/api/workspace/forms/catalog':
+                if method=='POST':fields(body,['refresh'])
+                result=workspace.forms.catalog(refresh=body['refresh'] if method=='POST' else False)
+            elif path == '/api/workspace/forms/pages' and method == 'POST':
+                result=workspace.forms.pages(body)
+            elif path == '/api/workspace/forms/layout' and method == 'POST':
+                from .adapters.report_layout import form_page
+                result=form_page(workspace,body)
+            elif path == '/api/workspace/forms' and method == 'POST':
+                result=workspace.forms.submit(body)
             elif path == '/api/workspace/context/search' and method == 'POST':
                 from .context_search import search
                 result = search(workspace.store,body)
+            elif path == '/api/workspace/report-layouts' and method == 'POST':
+                from .adapters.report_layout import preview
+                result=preview(workspace,body)
             elif path == '/api/workspace/context/asset' and method == 'POST':
                 from .context_search import get_asset
                 fields(body,['asset_id']);result=get_asset(workspace.store,body['asset_id'])
@@ -82,6 +163,41 @@ def create_app(workspace, token, port=8776):
                     fields(body, []); result = workspace.screenshots.hold(parts[0])
                 else: return respond('404 Not Found', {'error': 'Not found'})
             elif path == '/api/workspace/screenshot-reviews' and method == 'POST': result = workspace.screenshots.review(body)
+            elif path == '/api/workspace/tickets':
+                result = workspace.smart_intake.submit(body) if method == 'POST' else workspace.smart_intake.tickets.list()
+            elif path.startswith('/api/workspace/tickets/'):
+                parts=path[len('/api/workspace/tickets/'):].split('/')
+                if len(parts)==1 and method=='GET':result=workspace.smart_intake.tickets.get(parts[0])
+                elif len(parts)==2 and parts[1]=='progress' and method=='GET':
+                    from .ticket_comments import progress
+                    result=progress(workspace,parts[0])
+                elif len(parts)==2 and parts[1]=='comments' and method=='POST':
+                    result=workspace.forms.comment({'ticket_id':parts[0],**body})
+                elif len(parts)==2 and parts[1]=='agent-resume' and method=='POST':
+                    fields(body,['revision','comment_id'])
+                    if type(body['revision']) is not int or not isinstance(body['comment_id'],str) or not 1<=len(body['comment_id'])<=100:
+                        raise ValueError('Agent resume requires a revision and retained comment ID')
+                    from .agent_ticket import AgentTicket, selected
+                    from .hybrid_ticket import selected as hybrid_selected
+                    if not (selected(workspace) or hybrid_selected(workspace)):
+                        raise Conflict('Agent or hybrid mode is not selected')
+                    result=AgentTicket(workspace).resume(parts[0],revision=body['revision'],comment_id=body['comment_id'])
+                elif len(parts)==2 and parts[1]=='screenshot-reply' and method=='POST':
+                    result=workspace.forms.screenshot_reply({'ticket_id':parts[0],**body})
+                elif len(parts)==2 and parts[1]=='layout' and method=='GET':
+                    from .adapters.report_layout import choices
+                    result=choices(workspace,parts[0])
+                elif len(parts)==2 and parts[1]=='reply' and method=='POST':
+                    fields(body,['revision','answers','request_key'])
+                    saved=workspace.smart_intake.tickets.get(parts[0])
+                    controller=workspace.forms if saved['ticket'].get('form_input') else workspace.smart_intake
+                    result=controller.reply({'ticket_id':parts[0],**body})
+                elif len(parts)==2 and parts[1] in ('attach','share','finish','close','respond') and method=='POST':
+                    expected=['revision']+(['session_id'] if parts[1]=='attach' else ['kind','text'] if parts[1]=='respond' else [])
+                    fields(body,expected)
+                    method_name=parts[1]
+                    result=getattr(workspace.smart_intake,method_name)({'ticket_id':parts[0],**body})
+                else:return respond('404 Not Found',{'error':'Not found'})
             elif path == '/api/workspace/questions' and method == 'POST':
                 result = workspace.intake.resolve(body)
             elif path == '/api/workspace/questions' and method == 'GET':

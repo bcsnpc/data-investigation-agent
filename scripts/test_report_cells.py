@@ -15,16 +15,26 @@ class CellTests(unittest.TestCase):
         self.report['report']['name']='Sales overview'
         self.scope['report_binding']={'resolution_kind':'STATED','report_id':self.report['report']['id'],
             'source':{'start':0,'end':14,'quote':'Sales overview'}}
+        self.modify(self.page,lambda d:d.update(displayName='Revenue page'))
+        self.modify(self.visual,lambda d:d['visual'].update(visualContainerObjects={'title':[{'properties':{'text':{'expr':{'Literal':{'Value':"'Revenue card'"}}}}}]}))
+        from investigator.visual_target import resolve
+        self.scope['target_visual']=resolve({'mode':'UNGROUPED','mode_source':None,
+            'source':{'start':0,'end':12,'quote':'Revenue card'}},ticket=None,
+            candidates=report_cells.catalog(self.model),report_id=self.report['report']['id'],
+            measure_id=self.measure['id'])
     part = fixture.DeclaredPredicateAdapterTests.part
     modify = fixture.DeclaredPredicateAdapterTests.modify
 
     def address(self, scope=None):
+        scope=copy.deepcopy(self.scope if scope is None else scope)
+        scope.pop('target_visual',None) # Low-level address-shape inspection, not execution.
         return report_cells.addresses(self.model, json.loads(self.visual['metadata']['content']),
-            self.visual['id'], self.measure['id'], self.scope if scope is None else scope)
+            self.visual['id'], self.measure['id'], scope)
 
     def grouped(self):
         self.modify(self.visual, lambda d: d['visual'].update(visualType='tableEx'))
         self.modify(self.visual, lambda d: d['visual']['query']['queryState']['Values']['projections'].insert(0, {'field': field()}))
+        self.scope['target_visual']['mode']='KEYED'
 
     def test_zero_grouping_is_the_general_rule_not_a_separate_card_guard(self):
         cell = self.address()[0]
@@ -72,13 +82,14 @@ class CellTests(unittest.TestCase):
         with self.assertRaisesRegex(report_predicates.Refusal, 'UNSUPPORTED_VISUAL_TYPE: unfamiliarDataVisual'):
             self.address()
 
-    def test_two_candidate_visuals_are_independently_evaluated_and_reported(self):
+    def test_another_visual_is_never_evaluated_for_the_named_target(self):
         document = json.loads(self.visual['metadata']['content']); document['name'] = 'other'
+        document['visual']['visualContainerObjects']['title'][0]['properties']['text']['expr']['Literal']['Value']="'Other card'"
         self.part('definition/pages/p/visuals/other/visual.json', document)
         self.modify(self.page, lambda d: d['visualInteractions'].append({'source': 's', 'target': 'other', 'type': 'DataFilter'}))
         result = declared_reproduction.run(self.adapter, self.layer, self.measure['id'], self.scope)
-        self.assertEqual(len(result['cells']), 2)
-        self.assertEqual(len(self.requests), 3)
+        self.assertEqual(len(result['cells']), 1)
+        self.assertEqual(len(self.requests), 2)
         self.assertTrue(all(r['finding']['label'] == 'REPRODUCED' for r in result['cells']))
         for r in result['cells']: self.assertIn(r['cell']['target_id'], result['technical_output'])
 
@@ -86,7 +97,7 @@ class CellTests(unittest.TestCase):
         self.grouped()
         options = report_predicates.scoped_options(self.model, self.measure['id'],self.scope['report_binding'])
         batch = self.adapter.declared_cells(self.layer, self.measure['id'], self.scope)
-        self.assertEqual(len(batch['cells']), 2)
+        self.assertEqual(len(batch['cells']), 1)
         for declaration in batch['cells']:
             self.assertEqual(declaration['inventory'], options[0]['inventory'])
             entries = declared_reproduction._entries(declaration['evidence'],declaration['inventory'],declaration['restrictions'])
@@ -97,11 +108,11 @@ class CellTests(unittest.TestCase):
 
     def test_cap_names_unevaluated_cells_and_does_not_attempt_extra_reads(self):
         self.grouped()
-        self.adapter.remaining_diagnostic_reads = lambda: 2 - len(self.requests)
+        self.adapter.remaining_diagnostic_reads = lambda: 1 - len(self.requests)
         result = declared_reproduction.run(self.adapter, self.layer, self.measure['id'], self.scope)
-        self.assertEqual(len(self.requests), 2)
-        self.assertEqual(len(result['unevaluated_cells']), 2)
-        self.assertEqual(result['unevaluated_cells'][0]['purpose'],'DECLARED_CONTEXT')
+        self.assertEqual(len(self.requests), 1)
+        self.assertEqual(len(result['unevaluated_cells']), 1)
+        self.assertEqual(result['unevaluated_cells'][0]['purpose'],'UNDECLARED_CONTEXT')
 
     def test_no_reported_figure_still_obtains_values_without_a_verdict(self):
         self.scope['reported_figure'] = {'state': 'UNSPECIFIED'}

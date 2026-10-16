@@ -57,7 +57,7 @@ class MicrosoftProcessAdapter:
 
     def capabilities(self):
         result={'resolve_measure_path','evaluate_scoped_quantity','presentation_context','job_history','declared_source_comparison',
-                'declared_context_reproduction'}
+                'declared_context_reproduction','declared_filter_effects'}
         if self.judge_definition is not None:result.add('transformation_definition')
         if self.read_ingestion is not None:result.add('ingestion')
         if (self.lower_surface or {}).get('status')=='READY' and self.execute_lower is not None:
@@ -161,9 +161,17 @@ class MicrosoftProcessAdapter:
         applied=scope.get('restrictions')
         keys=declaration.get('cell',{}).get('key_restrictions',[])
         expected_fields={'restrictions','dimension_ids'} | ({'cell_id','probe_purpose'} if 'cell' in declaration else set())
+        purpose=scope.get('probe_purpose')
+        allowed=([],compose(declaration['restrictions']+keys))
+        if purpose=='WITHOUT_DECLARATION' and 'cell' in declaration:
+            from ..filter_effects import variant
+            from ..declared_reproduction import _entries
+            expected_fields.update(('declaration_id','restriction_index'))
+            entries=_entries(declaration['evidence'],declaration['inventory'],declaration['restrictions'])
+            allowed=(variant(entries,scope.get('declaration_id'),scope.get('restriction_index'),keys),)
         if (set(scope)!=expected_fields or scope['dimension_ids']!=[]
-                or ('cell' in declaration and scope.get('probe_purpose') not in ('DECLARED_CONTEXT','UNDECLARED_CONTEXT'))
-                or not isinstance(applied,list) or applied not in ([],compose(declaration['restrictions'] + keys))):
+                or ('cell' in declaration and purpose not in ('DECLARED_CONTEXT','UNDECLARED_CONTEXT','WITHOUT_DECLARATION'))
+                or not isinstance(applied,list) or applied not in allowed):
             raise Conflict('Reproduction scope differs from the pinned composed declaration')
         measure=next(a for a in assets(model['context']) if a['id']==measure_id)
         if layer.get('kind')!='presentation' or layer['id']!=measure['parent_id']:
@@ -263,13 +271,18 @@ class MicrosoftProcessAdapter:
     def selection_columns(self):
         return [{'id':a['id'],'name':a['name']} for a in assets(self.model['context']) if a['kind']=='SemanticColumn']
 
-    def report_selection_inventory(self,measure_id,binding):
+    def report_selection_inventory(self,measure_id,binding,target_visual=None):
         from .report_predicates import pinned,scoped_options,_document
         from .report_cells import roles
         model=pinned(self)
         from .report_predicates import Refusal
         from ..declared_reproduction import UnsupportedRestriction
-        try: declarations=scoped_options(model,measure_id,binding)
+        try:
+            if target_visual is None:
+                declarations=scoped_options(model,measure_id,binding)
+            else:
+                from .report_predicates import scoped_declaration
+                declarations=[scoped_declaration(model,measure_id,{'report_binding':binding},target_visual['target_id'])]
         except Refusal as exc: raise UnsupportedRestriction(exc.form) from exc
         grouping=set()
         for declaration in declarations:
@@ -375,6 +388,16 @@ class MicrosoftProcessAdapter:
         relations=[e for e in context.get('graph',{}).get('edges',[]) if e.get('source')==endpoint
                    and e.get('relation')=='NATIVE_CASCADEDELETE' and by_id.get(e.get('target'),{}).get('kind')=='Lakehouse']
         roots=sorted({e['target'] for e in relations})
+        warehouse=by_id.get(endpoint)
+        warehouse=(warehouse if warehouse and warehouse.get('kind')=='Warehouse' else None)
+        if warehouse:
+            native=warehouse.get('metadata',{})
+            if (warehouse.get('availability')!='CURRENT' or native.get('id')!=match.group(2)
+                    or native.get('properties',{}).get('connectionString')!=match.group(1)
+                    or match.group(1)!=self.config.get('fabric',{}).get('sql_reader',{}).get('server')):
+                return {'status':'SCOPE_NOT_DISCOVERED','scope_ids':[endpoint],'candidates':[],
+                        'reason':'Warehouse metadata does not establish the declared server and item identity.'}
+            roots=[endpoint]
         if not roots:
             status='ACCESS_DENIED' if denied(model_root+'/relations/upstream') else 'SCOPE_NOT_DISCOVERED'
             return {'status':status,'scope_ids':[endpoint],'candidates':[],
@@ -384,7 +407,7 @@ class MicrosoftProcessAdapter:
         labels=[x.lstrip('.') for x in labels if x.strip('.')]
         offset=definition['metadata']['content'].find(str(source.get('entityName','')))
         declaration={'scope_ids':roots,'target_labels':labels,
-            'target_kinds':['LakehouseTable'],'definition_asset_id':definition['id'],
+            'target_kinds':['WarehouseTable'] if warehouse else ['LakehouseTable'],'definition_asset_id':definition['id'],
             'declared_connection_asset_id':endpoint}
         if offset>=0:declaration['definition_offset']=offset
         resolved=self.resolve_declared_source(declaration)
@@ -399,6 +422,10 @@ class MicrosoftProcessAdapter:
         resolved['declared_role_count']=len(document.get('roles') or [])
         resolved['relation_cross_check']={'status':'AGREES' if resolved['status']=='RESOLVED' else 'NO_UNIQUE_AGREEMENT',
             'relations':[{'source':e['source'],'target':e['target'],'relation':e['relation']} for e in relations]}
+        if warehouse:
+            resolved['relation_cross_check']={'status':'WAREHOUSE_DECLARATION_MATCHED',
+                'metadata_asset_id':warehouse['id'],'metadata_hash':warehouse['content_hash'],
+                'reason':'The model declares the Warehouse item directly; no Lakehouse ownership relation is inferred.'}
         return resolved
 
     def resolve_path(self,measure_id):
@@ -409,6 +436,11 @@ class MicrosoftProcessAdapter:
         binding=self._partition_binding(metadata) if self.store is not None else {'status':'NO_DECLARATION','candidates':[]}
         layers=[{'id':measure['parent_id'],'kind':'presentation','measure':measure}]
         if binding.get('status')=='RESOLVED':
+            # The concrete scoped pointer supersedes the collector's generic
+            # partition-identity gap even when this measure cannot be compiled.
+            # Binding resolution and faithful quantity compilation are separate
+            # facts; an unsupported expression must not become a missing pointer.
+            gaps=[g for g in gaps if g.get('reason')!='UNRESOLVED_PARTITION_IDENTITY']
             referenced_columns=[a for a in metadata.get('assets',[]) if a.get('kind')=='SemanticColumn']
             expression=measure.get('metadata',{}).get('expression','')
             if isinstance(expression,list):expression='\n'.join(expression)
@@ -426,7 +458,9 @@ class MicrosoftProcessAdapter:
                     'binding':binding,'definition_asset_id':binding['definition_asset_id']})
                 from .direct_source import quantity_proof
                 layers[-1]['direct_source_proof']=quantity_proof(metadata,layers[-1],self.config)
-                gaps=[g for g in gaps if g.get('reason')!='UNRESOLVED_PARTITION_IDENTITY']
+            else:
+                gaps=[{'reason':'UNSUPPORTED_DECLARED_SOURCE_QUANTITY',
+                    'detail':'The declared partition source was resolved, but this measure expression cannot be compiled faithfully on that source; only a direct additive SUM is supported by this path.'}]+gaps
             context=context_search.latest(self.store);edges=(context or {}).get('graph',{}).get('edges',[])
             upstream=[]
             for edge in edges:
@@ -459,7 +493,8 @@ class MicrosoftProcessAdapter:
                 'stopped_by':'CAPABILITY_UNAVAILABLE' if gaps else 'REACHED',
                 'missing_comparable_quantity':missing,
                 'evidence':{'id':'path-'+str(uuid4()),'tool':'context','completeness':'PARTIAL' if gaps else 'COMPLETE_RESPONSE',
-                            'metadata':metadata,'declared_source_binding':binding}}
+                            'metadata':metadata,'declared_source_binding':binding,
+                            'resolved_path_gaps':gaps}}
         if self.max_boundaries>1 and len(layers)>1:
             from .declared_chain import extend
             path['layers'],contracts,gap=extend(context_search.latest(self.store) or {},layers)
@@ -669,8 +704,10 @@ class MicrosoftProcessAdapter:
             return None,'The measured column does not declare a physical source column.'
         context=context_search.latest(self.store) or {}
         endpoint=next((a for a in context.get('assets',[]) if a.get('id')==binding.get('declared_connection_asset_id')
-                       and a.get('kind')=='SQLEndpoint'),None)
+                       and a.get('kind') in ('SQLEndpoint','Warehouse')),None)
         if not endpoint:return None,'The binding declares no SQL endpoint for the source.'
+        if endpoint['kind']=='Warehouse' and endpoint.get('metadata',{}).get('properties',{}).get('connectionString')!=self.config.get('fabric',{}).get('sql_reader',{}).get('server'):
+            return None,'The Warehouse declaration differs from the approved SQL endpoint.'
         from ..source_diagnostics import quote
         types={'int64':'bigint','double':'float','decimal':'decimal','string':'nvarchar','boolean':'bit','dateTime':'datetime2'}
         columns=[{'name':c['sourceColumn'],'data_type':types.get(c.get('dataType'),'sql_variant')}
@@ -858,9 +895,37 @@ class MicrosoftProcessAdapter:
                 for i,(upper,lower) in enumerate(zip(layers,layers[1:]),1)
                 if by_id.get(lower.get('transformation_asset_id'),{}).get('kind') in ('DataPipeline','CopyJob','Notebook')]
 
+    def read_visual_quantity(self,candidate):
+        from .page_observations import read
+        return read(self,candidate)
+
+    def read_page_refresh(self,path):
+        from .page_observations import refresh
+        return refresh(self,path)
+
+    def verify_visual_quantity(self,candidate,probe):
+        from .page_observations import verify_quantity
+        return verify_quantity(self,candidate,probe)
+
+    def page_visual_inventory(self,scope):
+        from .page_observations import inventory
+        return inventory(self,scope)
+
+    def read_page_load(self,boundary):
+        from .page_observations import load
+        return load(self,boundary)
+
     def source_delivery(self,boundary,scope):
         from .source_delivery import read
         return read(self,boundary,scope)
+
+    def claim_probe_contract(self,path,layer,request,scope):
+        from .claim_projection import contract
+        return contract(self,path,layer,request,scope)
+
+    def claim_probe(self,path,layer,request,scope):
+        from .claim_projection import read
+        return read(self,path,layer,request,scope)
 
     def record_presence(self,path,layer,requested,scope):
         from .record_presence import read

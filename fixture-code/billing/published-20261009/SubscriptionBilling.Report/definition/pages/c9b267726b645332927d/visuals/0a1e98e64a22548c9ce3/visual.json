@@ -1,0 +1,60 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "0a1e98e64a22548c9ce3",
+  "position": {
+    "x": 24,
+    "y": 300,
+    "width": 360,
+    "height": 160,
+    "z": 1,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "card",
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Churned Accounts'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Billing"
+                    }
+                  },
+                  "Property": "Churned Accounts"
+                }
+              },
+              "queryRef": "Billing.Churned Accounts",
+              "nativeQueryRef": "Churned Accounts",
+              "displayName": "Churned Accounts"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

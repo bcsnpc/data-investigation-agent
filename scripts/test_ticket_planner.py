@@ -14,6 +14,20 @@ from ticket_planner import validate_plan, plan_ticket, azure_generate
 
 
 class PlannerTests(unittest.TestCase):
+    def test_agent_decodes_final_phase_without_changing_historical_default(self):
+        from ticket_planner import _azure_generate
+        from investigator.generation_policy import ProviderResponseError
+        text=json.dumps(self.plan)
+        def msg(phase):return SimpleNamespace(type='message',role='assistant',status='completed',phase=phase,content=[SimpleNamespace(type='output_text',text=text)])
+        response=SimpleNamespace(status='completed',output=[msg('commentary'),msg('final_answer')],
+            output_text=text+text,id='synthetic-response',model='synthetic-model',usage=None)
+        sdk=MagicMock();sdk.OpenAI.return_value.__enter__.return_value.responses.create.return_value=response
+        env=dict(AZURE_OPENAI_ENDPOINT='https://test.openai.azure.com',AZURE_OPENAI_DEPLOYMENT='synthetic-model',AZURE_OPENAI_API_KEY='synthetic-placeholder')
+        with patch.dict('os.environ',env,clear=True),patch.dict('sys.modules',{'openai':sdk}):
+            self.assertEqual(_azure_generate({},agent_final_answer=True)[0],self.plan)
+            with self.assertRaises(ProviderResponseError) as caught:_azure_generate({})
+            self.assertEqual(caught.exception.code,'INVALID_JSON')
+
     def test_provider_input_bytes_do_not_depend_on_nested_dictionary_insertion_order(self):
         sdk=MagicMock();client=sdk.OpenAI.return_value.__enter__.return_value
         client.responses.create.return_value=SimpleNamespace(status='completed',output=[],

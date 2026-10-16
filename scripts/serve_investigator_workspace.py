@@ -2,6 +2,8 @@
 import argparse
 import json
 import os
+import secrets
+import webbrowser
 from pathlib import Path
 from threading import Thread
 from wsgiref.simple_server import make_server
@@ -26,6 +28,7 @@ def main():
     parser.add_argument('--manifest', type=Path, required=True)
     parser.add_argument('--port', type=int, default=8776)
     parser.add_argument('--live', action='store_true')
+    parser.add_argument('--open-browser',action='store_true',help='Open with an ephemeral local key; no manual key setup')
     args = parser.parse_args()
     if not 1 <= args.port <= 65535:
         parser.error('Invalid port')
@@ -34,13 +37,17 @@ def main():
     workspace.screenshots.extractor=azure_extract if args.live else None
     model=manifest['model']
     settings={**model['credential'],'endpoint':model['endpoint'],'deployment':model['deployment']}
-    app = create_app(workspace, os.environ.get('INVESTIGATOR_WORKSPACE_TOKEN'), args.port)
+    token=os.environ.get('INVESTIGATOR_WORKSPACE_TOKEN')
+    if args.open_browser and token is None:token=secrets.token_urlsafe(48)
+    app = create_app(workspace, token, args.port)
     with local_azure_key(settings if args.live else None):
         with make_server('127.0.0.1', args.port, app, server_class=WorkspaceServer, handler_class=QuietHandler) as server:
             worker = Thread(target=workspace.work, daemon=True)
             if args.live:
                 worker.start()
             print(f'Investigation workspace: http://127.0.0.1:{args.port} (execution {"enabled" if args.live else "disabled"})', flush=True)
+            if args.open_browser:
+                webbrowser.open(f'http://127.0.0.1:{args.port}/#access='+token)
             try:
                 server.serve_forever()
             finally:

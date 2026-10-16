@@ -1,5 +1,6 @@
 """Quoted numeral interpretations; only FIGURE mentions enter comparison."""
 import copy
+import re
 from .reported_figure import SPAN_SCHEMA, span, stated
 ROLES=('FIGURE','IDENTIFIER','DATE','COUNT','OTHER')
 LIMIT=32
@@ -30,12 +31,25 @@ def validate(mentions,ticket=None):
     return mentions
 
 
-def expected(mentions,ticket=None):
+def expected(mentions,ticket=None,*,allow_opaque=False):
     validate(mentions,ticket)
     result=[]
     for mention in mentions:
         if mention['role']!='IDENTIFIER':continue
-        value,precision=stated(mention['source']['quote'])
+        literal=mention['source']['quote']
+        if allow_opaque and re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]*',literal):
+            # An opaque record/code identifier has no numeric precision. Keep
+            # its exact spelling; the downstream source/key compiler decides
+            # whether it is meaningful for the declared key type.
+            result.append({'value':literal,'source':copy.deepcopy(mention['source'])})
+            continue
+        try:value,precision=stated(literal)
+        except ValueError as exc:
+            from .intake_rules import RuleViolation
+            raise RuleViolation('IDENTIFIER_QUOTE_INVALID',
+                'Quote each identifier token exactly, without its surrounding description. '
+                'An identifier is not a reported quantity and has no comparison precision; '
+                'do not choose among competing identifier tokens.') from exc
         if precision!={'state':'EXACT'}:raise ValueError('Expected record identifier must be exact, not rounded')
         result.append({'value':value,'source':copy.deepcopy(mention['source'])})
     return result
@@ -56,7 +70,8 @@ def evidence(value,ticket):
                 a,b=source['start']+numeral.start(),source['start']+numeral.end()
                 if start<=a and b<=end:
                     raise ValueError('Numeral role ambiguity: a numeral in the resolved catalog name cannot be a reported figure or expected-record key.')
-    if value.get('expected_records')!=expected(mentions,ticket):raise ValueError('Expected records differ from IDENTIFIER mentions')
+    form=value.get('report_binding',{}).get('resolution_kind') in ('USER_SUPPLIED_FORM','FORM_DESCRIPTION_SELECTION','FORM_DESCRIPTION_VALUE_MATCH')
+    if value.get('expected_records')!=expected(mentions,ticket,allow_opaque=form):raise ValueError('Expected records differ from IDENTIFIER mentions')
     candidates=[m['source'] for m in mentions if m['role']=='FIGURE']
     if value['reported_figure']!=reported_figure.from_candidates(candidates,ticket):raise ValueError('Reported figure differs from FIGURE mentions')
 

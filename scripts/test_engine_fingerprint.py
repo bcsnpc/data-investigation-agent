@@ -22,6 +22,22 @@ class FingerprintTests(unittest.TestCase):
         for name in FINGERPRINT_TRANSPORTS:
             self.assertTrue((ROOT/name).is_file(), name)
 
+    def test_name_scoring_policy_is_frozen_with_the_engine(self):
+        _, files = fingerprint_files()
+        policy = ROOT/'acceptance/model_steps/intake-resolution-policy.json'
+        self.assertIn(policy, files)
+        with tempfile.TemporaryDirectory() as folder:
+            copy = Path(folder)
+            shutil.copytree(ROOT/'scripts/investigator', copy/'scripts/investigator',
+                            ignore=shutil.ignore_patterns('__pycache__'))
+            for name in FINGERPRINT_TRANSPORTS:
+                (copy/name).parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(ROOT/name, copy/name)
+            before = fingerprint(copy)
+            changed = copy/'acceptance/model_steps/intake-resolution-policy.json'
+            changed.write_text(changed.read_text(encoding='utf8').replace('0.72','0.73'),encoding='utf8')
+            self.assertNotEqual(fingerprint(copy),before)
+
     def test_an_adapter_only_change_changes_the_fingerprint(self):
         with tempfile.TemporaryDirectory() as folder:
             copy = Path(folder)

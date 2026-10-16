@@ -19,6 +19,14 @@ from run_native_diagnostic import transport as native
 from run_source_diagnostic import transport as source
 
 
+def final_envelope(name,result,error):
+    """Match the recorder's operation-specific delivered-output envelope."""
+    return {'operation':name,'error':error,
+            'outputs':((result or {}).get('synthesis') or {}).get('outputs') or (result or {}).get('refusal_outputs') or
+                      ((result or {}).get('outputs') if name in journal.CLAIM_RUN_OPERATIONS else None),
+            'status':(result or {}).get('status'),'result':result}
+
+
 def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_transport=None):
     tape=journal.Tape(path);bootstrap=tape.bootstrap
     replay_engine_hash=fingerprint()
@@ -37,10 +45,42 @@ def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_t
                     source_transport or (lambda r:source(config,r)))
     agent=AdaptiveRuntime(runtime,azure_plan,planner_profile=bootstrap['profile'],usage_policy=bootstrap['usage_policy'])
     workspace=Workspace(agent,execution_enabled=True,question_resolver=azure_resolve,
-        dynamic_read_limit=settings['dynamic_read_limit'],dynamic_input_limit=settings['dynamic_input_limit'])
+        dynamic_read_limit=settings['dynamic_read_limit'],dynamic_input_limit=settings['dynamic_input_limit'],
+        concurrency_limit=settings.get('workspace_concurrency_limit',1))
     workspace.owner=settings['workspace_owner']
+    if tape.version in journal.AGENT_VERSIONS and config.get('_estate'):
+        from investigator.estate_installation import install_candidate_reader
+        install_candidate_reader(workspace)
     methods={'intake':workspace.intake.resolve,'preview':workspace.preview,
              'create':agent.create,'run':agent.run,'synthesize':agent.synthesize}
+    if tape.version in journal.SMART_VERSIONS:
+        from investigator.smart_intake import SmartIntake
+        controller=SmartIntake(workspace,settings.get('smart_intake'),settings.get('smart_ownership'),
+                               auto_start=settings.get('smart_auto_start',False))
+        workspace._smart_intake=controller
+        methods.update(ticket_submit=controller.submit,ticket_reply=controller.reply,
+            ticket_attach=controller.attach,ticket_share=controller.share,ticket_close=controller.close,
+            ticket_respond=controller.respond,ticket_finish=controller.finish)
+        def form_method(method):
+            def invoke(*args,**kwargs):
+                workspace.intake_configuration=settings.get('smart_intake')
+                workspace.ownership_configuration=settings.get('smart_ownership')
+                return getattr(workspace.forms,method)(*args,**kwargs)
+            return invoke
+        methods.update(form_submit=form_method('submit'),form_reply=form_method('reply'),
+                       form_screenshot_reply=form_method('screenshot_reply'),form_comment=form_method('comment'))
+    if tape.version in journal.CLAIM_VERSIONS:
+        from investigator.claim_intake import ClaimIntake
+        claims=ClaimIntake(workspace)
+        methods.update(claim_submit=claims.submit,claim_reply=claims.reply,claim_confirm=claims.confirm,
+            claim_screenshot_identify=workspace.claim_screenshots.identify,claim_screenshot_confirm=workspace.claim_screenshots.confirm)
+    if tape.version in journal.CLAIM_RUN_VERSIONS:
+        methods['claim_run']=workspace.claim_investigations.run
+    if tape.version in journal.AGENT_VERSIONS:
+        methods.update(agent_run=workspace.agent_controller.run)
+    if tape.version in journal.AGENT_RESUME_VERSIONS:
+        from investigator.agent_ticket import AgentTicket
+        methods.update(agent_resume=AgentTicket(workspace).resume)
     result=None;error=None;operations=[]
     with ExitStack() as stack:
         if allow_engine_drift:
@@ -72,8 +112,7 @@ def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_t
                 except journal.TapeError:raise
                 except Exception as exc:error=type(exc).__name__
             operations.append(name)
-        final={'operation':name,'error':error,'outputs':((result or {}).get('synthesis') or {}).get('outputs') or (result or {}).get('refusal_outputs'),
-               'status':(result or {}).get('status'),'result':result}
+        final=final_envelope(name,result,error)
         # Preserve the recomputed return even on mismatch. It is diagnostic
         # evidence, never substituted for the sealed final or a passing replay.
         (output/'recomputed-final.json').write_bytes(journal.bytes_of(final))

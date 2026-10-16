@@ -1,0 +1,25 @@
+{
+  "recorded_at": "2026-10-12T16:15:40.899238+00:00",
+  "reason": "Round Seventeen initial component version adoption after current-component verification replay; originals unchanged",
+  "original_index_sha256": "6ffb2d7816256c5a57645de51b046ba382e2310730b56e2e5ff27228497d907b",
+  "original_scope_sha256": "1a879c5107dfdf48a171daec0cc0ac8af0ce08b9b901ebaf0dfebb78696bcf94",
+  "route_certificate_sha256": "d849d900233240143db226674b548a1365af7371b1a4abb4191b85ece9f06b9a",
+  "route_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+  "baseline": {
+    "versions": {
+      "discovery": "1.0.0",
+      "adapter": "1.0.0",
+      "binding_verifier": "1.0.0"
+    },
+    "engine_hash": "33cd9e00efb2cba8b446c1982358194027c592b3d8b110b855d5babfd158d7bf",
+    "authority": "COMPONENT_BASELINE_ADOPTION"
+  },
+  "change_policy": "Component behaviour changes require a version bump and re-verification. Never overwrite this adoption to make a newer version match.",
+  "verification_capture_sha256": [
+    "712c9b041f1cce407988f590d655160f8b029ec6f88ca820147ef2a780512ed2"
+  ],
+  "native_witness_capture_sha256": [
+    "aa4b0d3c378266ab797f21e78a49b9a4fdde8f20fa35dd2a7d762bd37459954e",
+    "b714f424562a5adb0f58b013a1b566fb0f98ea18e630f85cc815b029a26dda98"
+  ]
+}

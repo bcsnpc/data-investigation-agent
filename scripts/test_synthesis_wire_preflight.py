@@ -22,7 +22,8 @@ class WirePreflightTests(unittest.TestCase):
 
     def payload(self):
         return {'outcome':'NO_COMPARABLE_PATH','rendered_business':'The visual "Example" was checked.',
-            'evidence':[{'id':'actual-receipt'},{'id':'definition'},{'id':'comparison'}],
+            'evidence':[{'id':'actual-receipt'},{'id':'definition','process_roles':['presentation_definition'],
+                'result':{'definition':'A retained synthetic calculation.'}},{'id':'comparison'}],
             'candidates':[{'receipt_id':'comparison','definition_receipt_id':'definition',
                 'read_receipt_ids':['actual-receipt','actual-receipt']}],
             'boundaries':[{'comparison_id':'comparison'}]}

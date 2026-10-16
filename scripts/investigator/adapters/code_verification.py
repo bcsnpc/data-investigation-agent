@@ -33,6 +33,23 @@ def resolve_objects(process,context,schemas):
             objects[location]={'asset_id':a['id'],'surface':'APPLICATION_SQL','connection':source['server'],
                 'database':source['database'],'catalog':copy.deepcopy(a)}
             continue
+        warehouses=[a for a in assets if a.get('kind')=='WarehouseTable' and a['id']==location]
+        if warehouses:
+            a=warehouses[0];parent=a['parent_id'];parts=parent.removeprefix('fabric://').split('/')
+            owners=[x for x in assets if x['id']==parent and x.get('kind')=='Warehouse']
+            server=process.config['fabric']['sql_reader']['server']
+            if (len(warehouses)!=1 or len(owners)!=1 or len(parts)!=2 or parts[0]!=process.config['fabric']['workspace_id']
+                    or owners[0]['metadata'].get('id')!=parts[1]
+                    or owners[0]['metadata'].get('properties',{}).get('connectionString')!=server):
+                unavailable.append({'location':location,'reason':'Warehouse metadata does not establish the approved server and item'});continue
+            metadata=a['metadata'];known={c['name']:c['data_type'] for c in metadata.get('columns',[])}
+            if any(name not in known or TYPES.get(kind,kind)!=known[name] for name,kind in columns.items()):
+                unavailable.append({'location':location,'reason':'Proposed Warehouse schema differs from retained reader column metadata'});continue
+            objects[location]={'asset_id':a['id'],'connection':server,'database':owners[0]['name'],
+                'endpoint_evidence':{'container':parent,'endpoint_id':parent,'server':server,
+                    'metadata_hash':owners[0]['content_hash'],'provenance':'DISCOVERED'},
+                'catalog':copy.deepcopy(a)}
+            continue
         matches=[a for a in assets if a.get('kind')=='LakehouseTable' and
                  (a['id']==location or a.get('metadata',{}).get('location')==location)]
         if len(matches)!=1:

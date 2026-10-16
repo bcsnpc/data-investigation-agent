@@ -1,0 +1,526 @@
+{
+  "controls": {
+    "harmful_errors": 0,
+    "illegitimate_questions": 0,
+    "questions": 0,
+    "records": 12,
+    "settled": 10,
+    "settled_zero_questions": 10
+  },
+  "estate_reads": 0,
+  "input_characters": 741542,
+  "method": "Dev-only first pass plus affected-record reruns; mixed source versions explicitly retained. No fresh held-out pass or expectation change.",
+  "model_calls": 58,
+  "not_measurable": [
+    "original:family-E-mention"
+  ],
+  "oracle_sha256": "bc2819f1ab12ae93d2203a519a6318a6f9ecbc1a3220a466e664a00c495a9a6b",
+  "per_class": {
+    "family": {
+      "harmful_errors": 0,
+      "illegitimate_questions": 0,
+      "questions": 0,
+      "records": 26,
+      "settled": 26,
+      "settled_zero_questions": 26
+    },
+    "question": {
+      "harmful_errors": 0,
+      "illegitimate_questions": 0,
+      "questions": 0,
+      "records": 3,
+      "settled": 2,
+      "settled_zero_questions": 2
+    },
+    "refusal": {
+      "harmful_errors": 0,
+      "illegitimate_questions": 0,
+      "questions": 0,
+      "records": 7,
+      "settled": 6,
+      "settled_zero_questions": 6
+    },
+    "visual": {
+      "harmful_errors": 0,
+      "illegitimate_questions": 0,
+      "questions": 0,
+      "records": 4,
+      "settled": 4,
+      "settled_zero_questions": 4
+    }
+  },
+  "rows": {
+    "complete": {
+      "original:family-B": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-B",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-B-noisy": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-B-noisy",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-B-terse": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-B-terse",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-B-typo": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-B-typo",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-D": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-D",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-D-noisy": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-D-noisy",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-D-terse": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-D-terse",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-D-typo": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-D-typo",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-E": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-E",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-E-mention": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-E-mention",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-E-noisy": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-E-noisy",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-E-terse": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-E-terse",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-E-typo": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-E-typo",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-H": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-H",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-H-noisy": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-H-noisy",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-H-terse": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-H-terse",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-H-typo": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-H-typo",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-I": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-I",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_TECHNICAL_THEN_BUSINESS_VALIDATION",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-I-noisy": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-I-noisy",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_TECHNICAL_THEN_BUSINESS_VALIDATION",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-I-terse": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-I-terse",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_TECHNICAL_THEN_BUSINESS_VALIDATION",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:family-I-typo": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:family-I-typo",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_TECHNICAL_THEN_BUSINESS_VALIDATION",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:question-change-days": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:question-change-days",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "UNSUPPORTED_ROUTE",
+        "settled_within_one_round": false,
+        "state": "HELD"
+      },
+      "original:question-hiding-rows": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:question-hiding-rows",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "REPRODUCE_THEN_FILTER_EFFECT_OR_UNIMPLEMENTED_ROUTE",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:question-stale-no-sla": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:question-stale-no-sla",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:refusal-business-benchmark": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:refusal-business-benchmark",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "BUSINESS_VALIDATION",
+        "settled_within_one_round": true,
+        "state": "HELD"
+      },
+      "original:refusal-business-intent": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:refusal-business-intent",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "BUSINESS_VALIDATION",
+        "settled_within_one_round": true,
+        "state": "HELD"
+      },
+      "original:refusal-business-q49": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:refusal-business-q49",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "BUSINESS_VALIDATION",
+        "settled_within_one_round": true,
+        "state": "HELD"
+      },
+      "original:refusal-two-figures": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:refusal-two-figures",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "HOLD_TWO_REPORTED_FIGURES",
+        "settled_within_one_round": true,
+        "state": "HELD"
+      },
+      "original:refusal-unidentified-visual": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:refusal-unidentified-visual",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "HOLD_UNIDENTIFIED_REFERENT",
+        "settled_within_one_round": false,
+        "state": "HELD"
+      },
+      "original:refusal-unsupported-filter": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:refusal-unsupported-filter",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "HOLD_UNSUPPORTED_FILTER",
+        "settled_within_one_round": true,
+        "state": "HELD"
+      },
+      "original:refusal-unsupported-relative": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:refusal-unsupported-relative",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "HOLD_UNLESS_RELATIVE_DATE_TRANSLATION_VERIFIED",
+        "settled_within_one_round": true,
+        "state": "HELD"
+      },
+      "original:visual-1": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:visual-1",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:visual-3": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:visual-3",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:visual-4": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:visual-4",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:visual-5": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:visual-5",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "rebuilt:family-B": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "rebuilt:family-B",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "rebuilt:family-D": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "rebuilt:family-D",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "rebuilt:family-E": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "rebuilt:family-E",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "rebuilt:family-H": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "rebuilt:family-H",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "rebuilt:family-I": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "rebuilt:family-I",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_TECHNICAL_THEN_BUSINESS_VALIDATION",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      }
+    },
+    "visual-skipped": {
+      "original:question-hiding-rows": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:question-hiding-rows",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "REPRODUCE_THEN_FILTER_EFFECT_OR_UNIMPLEMENTED_ROUTE",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:visual-1": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:visual-1",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:visual-3": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:visual-3",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:visual-4": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:visual-4",
+        "illegitimate_questions": [],
+        "questions": 0,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": true,
+        "state": "NEW"
+      },
+      "original:visual-5": {
+        "evaluated": true,
+        "harmful_admission_fields": [],
+        "id": "original:visual-5",
+        "illegitimate_questions": [
+          "NUMBER"
+        ],
+        "questions": 1,
+        "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+        "settled_within_one_round": false,
+        "state": "HELD"
+      }
+    }
+  },
+  "visual_complete": {
+    "harmful_errors": 0,
+    "illegitimate_questions": 0,
+    "questions": 0,
+    "records": 28,
+    "settled": 28,
+    "settled_zero_questions": 28
+  },
+  "visual_skipped": {
+    "harmful_errors": 0,
+    "illegitimate_questions": 1,
+    "questions": 1,
+    "records": 5,
+    "settled": 4,
+    "settled_zero_questions": 4
+  }
+}

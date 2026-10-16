@@ -1,0 +1,22 @@
+{
+  "author_identity": "independent fresh tester session",
+  "qa_round": 2,
+  "answer_count": 1,
+  "independence_statement": "Independent original-author session. Used only this supplied public packet and previously permitted README/session/original author ticket facts. No code, engineering worktrees, oracle, expectations, defects, ledgers, tapes, delivery records or other excluded sources accessed. No cloud, browser, SQL, estate or model API requests made; no new image created. Originals unchanged. No single visual target invented.",
+  "answers": [
+    {
+      "id": "clarification-011-round-two",
+      "exact_question": "Which visual are you asking about?\nChurned Accounts / Subscription Billing\nInvoiced Amount / Subscription Billing\nSubscription Billing / Usage Overage\nCollected Amount / Subscription Billing\nMRR All Plans / Subscription Billing",
+      "original_ticket_file": "ticket-06.txt",
+      "input_kind": "FREE_TEXT",
+      "reply": "I mentioned both MRR All Plans and Usage Overage on the overview, each showing 600. I did not pick just one visual in my ticket. I want to confirm whether the overview reflects Aster changing to Growth on October 1, including its 3,000 allowance for October 2 usage. I cannot select a single offered visual from those notes.",
+      "selected_offered_phrase": null,
+      "answer_basis": "ticket/form",
+      "basis_detail": "The original ticket explicitly names both cards and asks about whether the overview includes the plan change. It does not prioritize one card; no authored form is supplied.",
+      "prior_supplied_ticket_or_form_already_answered": false,
+      "author_judgment": "Only partly: the ticket identifies both cards, but it does not name a single visual to choose.",
+      "author_inability_cause": "The original notes name two cards without selecting one; selecting a single visual would add a new target.",
+      "author_identity": "independent fresh tester session"
+    }
+  ]
+}

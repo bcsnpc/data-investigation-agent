@@ -1,0 +1,28 @@
+# Original fixture HYBRID checkpoint,2026-10-11
+
+These are preserved ordinary repeat1 attempts, with one authorized A replacement. The ordinary PIPELINE baseline is reused from Round Thirteen where ticket/estate/expectations and relevant code agree. Original recording defects are extra preserved attempts, not erased.
+
+| Family | Final fallback state | Physical / diagnostics | Models | What the agent added |
+|---|---|---:|---:|---|
+| A replacement | HELD / AGENT_STEP_CAP |10 /4|16|Fetched original evidence; five terminal claims refused for unknown/unpersisted citations. No gap closed. |
+| B | COMPLETED / NO_COMPARABLE_PATH |1 /1|15|Delivered the original conservative capability finding; expected NO_KNOWN_PATTERN still missed. |
+| C | NEEDS_INPUT / AGENT_WAITING_FOR_USER |2 /2|13|Investigated candidate scope and asked a question; no technical output delivered. |
+| D | COMPLETED / NO_COMPARABLE_PATH |3 /3|12|Reused the standard assessment and delivered its original refusal. No filtered lower comparison capability added. |
+| E | ENVIRONMENT-AFFECTED /429|10 /4|10|Invalid proposed outcome was refused, then provider throttled. Not a scored investigation result. |
+| F | HELD / AGENT_STEP_CAP |7 /3|14|Did not invoke the high-level standard tool; terminal claims lacked persisted supporting receipts. |
+| G | NEEDS_INPUT / AGENT_WAITING_FOR_USER |10 /4|5|Asked intended treatment of inventory adjustments; did not answer the technical source question. |
+| H | NEEDS_INPUT / AGENT_WAITING_FOR_USER |1 /1|5|Reused standard investigation then asked intended relationship of measures; no missing compilation capability closed. |
+| I | NOT_RUN at checkpoint |?|?|Queued after billing quote reruns. |
+
+A's earlier429 fallback remains ENVIRONMENT-AFFECTED with its original10requests/12models charged. The owner's one replacement above was not throttled and remains a genuine step-cap hold, not a pass. E's earlier429 is likewise excluded by the general rule that provider throttling is not a result; no extra E replacement was authorized. Original tapes, receipts and reviews remain unchanged; corrections are appended.
+
+No new harmful finding was delivered in this hybrid checkpoint. Rejected claims are recorded as rejected, never credited as delivered findings. Retained pipeline outputs inside a held fallback are not credited as successful agent closure. Mixed source revisions are explicit in the run map; no same-revision stability or adoption claim is earned. PIPELINE stays the default. Rebuilt hybrid remains NOT_RUN because its required exact verification replay failed FINAL:CLOCK and its profile was not published.
+
+Remaining19 ordinary original HYBRID slots, billing form/chat repeat comparisons and demo are pending within unchanged caps. Draft#423, freeze invalid.
+
+Dated continuation2026-10-11: I-r1 failed during hybrid hold persistence (Invalid ticket transition), then cleanup repeated the same error. Original failure/tape retained. Persisted parent receipts establish4diagnostics+6guards=10physical and7models; an append-only ledger correction supplies counts absent from the failed return. A/B-r2 bothHELD at12steps,16/15models and10/1physical. A retained qualified8765/7661 pipeline finding; rejected unpersisted citations did not become a new claim. B used the standard tool but failed evidence coverage; neither closed its gap. No new harmful delivered finding. C/D-r2 next; #423draft, freeze invalid.
+
+Continuation: C-r2 NEEDS_INPUT asks missing comparison; D-r2 HELD on rejected citations/coverage, filtered lower refusals intact. E-r2 tape records429, governed retry and200; later decision ValueError causesHELD, not a rate-limit finding. F-r2 completes qualified boundary consistency but explicitly does not answer mechanism/source question. G/H-r2 never admitted: SQLite capture backup disk-full,0models/reads, no sealed run tape. Both failures preserved separately. Compression of24closed sealed directories verified all logical bytes unchanged; free42MB->9.604GB,0model/estate requests. Unadmitted G/H slots resume after recovery; remaining cohorts wait for capture headroom. #423draft,freeze invalid.
+
+
+2026-10-11 owner reprioritisation: remaining original-fixture HYBRID admissions stopped. R1 and A-H R2 attempts are preserved (including the separate G/H disk bootstrap failures); G R2 closed with Invalid ticket transition, H R2 delivered a qualified non-answer. No new gap closed and no harmful delivered claim in these HYBRID attempts. I R2 and every R3 are NOT_RUN by owner decision. Billing shared intake and one fresh 9-form/9-chat pass per mode take priority; all limits unchanged, minimum 10 GB free before admission.

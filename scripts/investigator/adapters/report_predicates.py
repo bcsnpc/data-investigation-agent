@@ -596,7 +596,15 @@ def cells(model, measure_id, scope):
     from .. import report_scope
     from .report_cells import addresses
     report_scope.report_binding(scope.get('report_binding'), reports=report_catalog(model))
-    declarations = scoped_options(model, measure_id, scope['report_binding'])
+    referent = scope.get('target_visual')
+    if referent is not None:
+        from ..visual_target import validate as validate_visual
+        from .report_cells import catalog
+        validate_visual(referent,ticket=scope.get('ticket_text'),candidates=catalog(model),
+                        report_id=scope['report_binding']['report_id'],measure_id=measure_id)
+        declarations = [scoped_declaration(model,measure_id,scope,referent['target_id'])]
+    else:
+        declarations = scoped_options(model, measure_id, scope['report_binding'])
     result = []; refused = []
     for declaration in declarations:
         target_id = declaration['evidence']['metadata']['definition_target_id']
@@ -608,7 +616,7 @@ def cells(model, measure_id, scope):
                 result.append(item)
         except Refusal as exc:
             refused.append({'target_id': target_id, 'reason': str(exc), 'form': exc.form})
-            if exc.form.startswith('MISSING_CELL_KEYS:'):
+            if referent is None and exc.form.startswith('MISSING_CELL_KEYS:'):
                 from .report_cells import roles
                 columns,_=roles(model,_document(model,target_id))
                 address={'target_id':target_id,'measure_id':measure_id,'grouping_columns':sorted(c['id'] for c in columns),

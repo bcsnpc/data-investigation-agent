@@ -9,11 +9,11 @@ from .onboarding import encoded
 
 def build(payload, state, bound):
     from .output_contract import business_text
-    from .path_narrative import facts
+    from .path_narrative import facts,operation_evidence
     outcome = (state.get('assessment') or {}).get('classification')
     result = {'version': 2, 'question': payload['question'],
               'scope': copy.deepcopy(payload['scope']), 'evidence': [],
-              'candidates': [], 'boundaries': facts(payload), 'mechanism_evidence': [],
+              'candidates': [], 'boundaries': facts(payload), 'mechanism_evidence': copy.deepcopy(operation_evidence(payload)),
               'elided': [], 'rendered_business': business_text(outcome, payload) if outcome else None}
     if outcome: result['outcome'] = outcome
     from .path_narrative import layer_tokens
@@ -35,8 +35,6 @@ def build(payload, state, bound):
         # A display copy, never a reconstructed validation observation. Keep
         # the complete retained definition and judgment together, including
         # provenance and limits; future evidence fields cannot silently vanish.
-        if set(entry.get('process_roles', [])) & {'transformation_definition', 'presentation_definition'}:
-            result['mechanism_evidence'].append(copy.deepcopy(entry))
         if row.get('check_kind') == 'DECLARED_CONTEXT_REPRODUCTION':
             cell = row.get('cell') or {}
             declarations = row.get('declarations', [])
@@ -85,17 +83,8 @@ def build(payload, state, bound):
 
 def degraded_outputs(payload, state, spine):
     """No new conclusion: render the original supported assessment locally."""
-    from .synthesis_narrative import Response, assemble
-    from .output_contract import business_text
-    source = state['assessment']
-    refs = [payload['evidence'][0]['id']] if payload['evidence'] else []
-    technical={'text': 'The recorded checks evaluate the declared calculation.', 'evidence_ids': refs}
-    from .path_narrative import divergent_boundaries
-    boundaries=divergent_boundaries(payload)
-    if boundaries:technical['boundary_evidence_id']=boundaries[0]
-    response = Response({'business_output': {'text': business_text(source['classification'], payload), 'evidence_ids': refs},
-                         'technical_output': technical})
-    assessment, outputs = assemble(response, payload, state)
+    from .synthesis_narrative import assemble
+    assessment, outputs = assemble(None, payload, state)
     for key in ('business_output', 'technical_output'):
         note = ('The explanation used the complete saved evidence locally; part of the model view was omitted to stay within its input allowance.'
                 if key == 'business_output' else 'Provider view elided: ' + '; '.join(

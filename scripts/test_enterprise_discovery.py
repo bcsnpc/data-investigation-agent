@@ -19,6 +19,54 @@ from investigator.native_identity import allows
 
 
 class DiscoveryTests(unittest.TestCase):
+    def test_lakehouse_reader_columns_bind_only_to_exact_listed_table(self):
+        from unittest.mock import Mock
+        lid=str(uuid4());self.items.append({'id':lid,'type':'Lakehouse','displayName':'Landing'})
+        aid='fabric://'+self.ws+'/'+lid;old=self.transport
+        def transport(endpoint,**kwargs):
+            if endpoint.endswith('/lakehouses/'+lid):
+                return {'status_code':200,'text':{'id':lid,'displayName':'Landing'}}
+            return old(endpoint,**kwargs)
+        reader=Mock(return_value={'scope':'VISIBLE_OBJECTS_ONLY','complete_schema':False,
+            'tables':[{'schema_name':'dbo','name':'new_fact','columns':[{'name':'id','data_type':'int'}]}]})
+        batch=Collector(self.config,transport,self.sql,lakehouse_catalog_reader=reader).run()
+        table=next(a for a in batch['assets'] if a['kind']=='LakehouseTable')
+        self.assertEqual(table['metadata']['columns'],[{'name':'id','data_type':'int'}])
+        reader.return_value['tables'].append({'schema_name':'dbo','name':'unlisted','columns':[]})
+        batch=Collector(self.config,transport,self.sql,lakehouse_catalog_reader=reader).run()
+        table=next(a for a in batch['assets'] if a['kind']=='LakehouseTable')
+        self.assertNotIn('reader_schema',table['metadata'])
+        self.assertEqual(batch['coverage'][aid+'/visible_column_schema']['status'],'UNAVAILABLE')
+
+    def test_missing_schema_visibility_retains_visible_objects_without_completeness(self):
+        def visible(*args):
+            result=self.sql(*args);result['permissions']=[{'can_view_definition':False}];return result
+        batch=Collector(self.config,self.transport,visible).run()
+        self.assertTrue(any(a['kind']=='SqlObject' and a['name']=='business.events' for a in batch['assets']))
+        self.assertFalse(any(a['name']=='secret.restricted' for a in batch['assets']))
+        coverage=batch['coverage']['sql://approved.database.windows.net/source/catalog']
+        self.assertEqual(coverage['status'],'UNAVAILABLE')
+        self.assertFalse(coverage['complete_schema'])
+        self.assertEqual(coverage['retained_scope'],'VISIBLE_OBJECTS_ONLY')
+        self.assertTrue(any(o['capability']=='catalog_visibility' and o['status']=='UNAVAILABLE' for o in batch['observations']))
+
+    def test_visible_warehouse_catalog_preserves_scope_without_claiming_completeness(self):
+        from unittest.mock import Mock
+        wid=str(uuid4());self.items.append({'id':wid,'type':'Warehouse','displayName':'Serving'})
+        aid='fabric://'+self.ws+'/'+wid;old=self.transport
+        def transport(endpoint,**kwargs):
+            if endpoint.endswith('/warehouses/'+wid):
+                return {'status_code':200,'text':{'id':wid,'displayName':'Serving','properties':{'connectionString':'approved'}}}
+            return old(endpoint,**kwargs)
+        reader=Mock(return_value={'scope':'VISIBLE_OBJECTS_ONLY','complete_schema':False,
+            'tables':[{'schema_name':'dbo','name':'events','columns':[{'name':'id','data_type':'int'}]}]})
+        batch=Collector(self.config,transport,self.sql,warehouse_catalog_reader=reader).run()
+        self.assertEqual(reader.call_count,1)
+        self.assertTrue(any(a['kind']=='WarehouseTable' and a['name']=='dbo.events' for a in batch['assets']))
+        observation=next(x for x in batch['observations'] if x['asset_id']==aid and x['capability']=='catalog_visibility')
+        self.assertEqual(observation['status'],'PARTIAL')
+        self.assertFalse(observation['detail']['complete_schema'])
+
     def test_only_declared_warehouse_audit_schema_is_collected(self):
         wid=str(uuid4());self.items.append({'id':wid,'type':'Warehouse','displayName':'Operations'})
         aid='fabric://'+self.ws+'/'+wid;tid=aid+'/table/dbo.audit'
@@ -131,6 +179,60 @@ class DiscoveryTests(unittest.TestCase):
         self.assertTrue(any(a['kind']=='SemanticRelationship' for a in result['assets']))
         self.assertNotEqual(self.store.list(True)[0]['context_id'],before)
         self.assertTrue(any(c['state']=='CHANGED' for c in result['changes']))
+
+    def test_scan_bookkeeping_only_repeat_preserves_immutable_context(self):
+        self.scan();self.scan()  # The first unchanged scan records the added -> empty change transition.
+        before=self.store.list(True)[0]
+        original=copy.deepcopy(before['context'])
+        self.scan()
+        after=self.store.list(True)[0]
+        self.assertEqual(after['context_id'],before['context_id'])
+        self.assertEqual(after['context'],original)
+        self.assertGreater(after['revision'],before['revision'])
+        with self.store.connect() as db:
+            kind,payload=db.execute('SELECT action,detail FROM model_events WHERE model_id=? ORDER BY id DESC LIMIT 1',
+                                  (after['id'],)).fetchone()
+        self.assertEqual(kind,'DISCOVERED_CONTEXT_REUSED')
+        self.assertTrue(json.loads(payload)['context_preserved'])
+
+    def test_context_content_equality_does_not_ignore_policy_unknown_fields_or_native_metadata(self):
+        from investigator.enterprise_discovery import same_model_context_content
+        before={'id':'old','scan_id':'old-scan','scan_ended':'old-time',
+            'model_assets':[{'last_seen_scan':'old','metadata':{'last_seen_scan':'native-value'}}],
+            'reports':[],'discovery':{'policy_hash':'policy'},'changes':{'added':[]}}
+        after=copy.deepcopy(before);after.update(id='new',scan_id='new-scan',scan_ended='new-time')
+        after['model_assets'][0]['last_seen_scan']='new'
+        self.assertTrue(same_model_context_content(before,after))
+        for change in ('policy','unknown','metadata','changes'):
+            modified=copy.deepcopy(after)
+            if change=='policy':modified['discovery']['policy_hash']='different'
+            elif change=='unknown':modified['future_evidence']='different'
+            elif change=='metadata':modified['model_assets'][0]['metadata']['last_seen_scan']='different'
+            else:modified['changes']['added']=['different']
+            self.assertFalse(same_model_context_content(before,modified),change)
+
+    def test_scan_only_context_preservation_keeps_profile_eligibility_but_definition_change_does_not(self):
+        from investigator.enterprise_discovery import same_model_context_content
+        from investigator.transformation_service import select
+        from test_binding_sample import BindingSampleTests
+        verification=BindingSampleTests().trial('NUMERIC',[2,3],[2,3])
+        before={'id':verification['context'],'scan_id':'old','scan_ended':'old',
+            'model_assets':[{'last_seen_scan':'old','metadata':{'definition':'SUM(amount)'}}],
+            'reports':[]}
+        after=copy.deepcopy(before);after.update(id='new-context',scan_id='new',scan_ended='new')
+        after['model_assets'][0]['last_seen_scan']='new'
+        proposal=verification['proposal'];location=proposal['location']
+        params=dict(declared=[],inferred=[verification],
+            current_hashes={(location['item'],location['path']):location['content_hash']},
+            boundary=proposal['boundary'],target_column=proposal['target']['column'],
+            cell=None,precision=None,binding_profiles=True)
+        context=before if same_model_context_content(before,after) else after
+        self.assertEqual(select(context=context['id'],**params)['status'],'RESOLVED')
+        after['model_assets'][0]['metadata']['definition']='SUM(other_amount)'
+        context=before if same_model_context_content(before,after) else after
+        result=select(context=context['id'],**params)
+        self.assertEqual(result['status'],'UNBOUND')
+        self.assertEqual(result['excluded'][0]['reason_category'],'SAMPLE_MISMATCH')
 
     def test_definition_denial_retains_children_and_disables_dispatch(self):
         self.scan();self.denied.add(self.mid+'/getDefinition')

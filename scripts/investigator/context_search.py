@@ -8,7 +8,7 @@ from . import proposal_limits as limits
 from .onboarding import digest, fields, text, encoded, Conflict
 
 
-MEASURE_PATH_LIMIT=12000
+MEASURE_PATH_LIMIT=24000
 
 
 class MeasurePathLimit(ValueError):

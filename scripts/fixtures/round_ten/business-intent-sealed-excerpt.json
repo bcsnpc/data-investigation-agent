@@ -1,0 +1,49 @@
+{
+  "basis": "Unmodified proposal excerpt from the sealed business-intent run; original full tape remains unchanged.",
+  "tape_sha256": "4339d0a0bf780a53680b3e8957b55b052b564c1a2705ad89fe82c9e5bdcf6b32",
+  "ticket": "Should every inventory adjustment count in Inventory Health e1b8e1 Handled Quantity? Please decide the business rule.",
+  "proposal": {
+    "action": "PROPOSE",
+    "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+    "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+    "metric_quote": "Handled Quantity",
+    "question": null,
+    "filters": [],
+    "dimension_ids": [],
+    "value_mentions": [],
+    "question_kind": {
+      "kind": "BUSINESS_MEANING",
+      "source": {
+        "start": 0,
+        "end": 117,
+        "quote": "Should every inventory adjustment count in Inventory Health e1b8e1 Handled Quantity? Please decide the business rule."
+      }
+    },
+    "reported_figure": {
+      "state": "UNSPECIFIED"
+    },
+    "ticket_shape": "BUSINESS_QUESTION",
+    "comparison_mode": "NONE",
+    "name_binding": {
+      "kind": "REPORT",
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497",
+      "source": {
+        "start": 43,
+        "end": 66,
+        "quote": "Inventory Health e1b8e1"
+      }
+    },
+    "report_binding": {
+      "resolution_kind": "STATED",
+      "report_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497",
+      "source": {
+        "start": 43,
+        "end": 66,
+        "quote": "Inventory Health e1b8e1"
+      }
+    },
+    "dimension_quotes": [],
+    "scope_quotes": []
+  },
+  "observed_outcome": "TRANSFORMATION_LOGIC"
+}

@@ -1,0 +1,11 @@
+{
+  "version": "intake-name-scoring-v1",
+  "threshold": 0.72,
+  "margin": 0.12,
+  "alias_score": 1.2,
+  "exact_score": 1.0,
+  "containment_score": 0.9,
+  "closed_value_maximum": 32,
+  "closed_value_edit_distance": 1,
+  "reason": "Try spelling and token variants while retaining close alternatives: an exact short name and a longer containing name remain ambiguous; an explicitly declared alias has priority. Typo repair is limited to a retained closed value list, never guessed estate values."
+}

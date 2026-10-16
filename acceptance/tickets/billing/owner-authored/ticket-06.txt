@@ -1,0 +1,3 @@
+Subject: Usage Overage is 600, but usage is much higher
+
+Usage Overage on the Subscription Billing page is 600. I added the application usage entries: Aster 3500, Birch 1100, Cedar 2800 and Dune 500, giving 7900 units. I may be misunderstanding the card. What is the 600 measuring, and which usage does it leave out?

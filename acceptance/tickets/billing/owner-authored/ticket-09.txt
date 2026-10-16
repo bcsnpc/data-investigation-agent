@@ -1,0 +1,3 @@
+Subject: Top Accounts is blank
+
+On the Accounts page, Top Accounts by Invoice Value has a title but I cannot see any account rows or amounts. The main page does show Invoiced Amount 950, and the application has invoices for Aster, Birch, Cedar and Dune. I expected to be able to see which accounts make up the amount. The visible Account and Invoiced Amount filters both say All. Screenshot: 05-accounts-observed-loading.jpg.

@@ -1,0 +1,100 @@
+{
+  "id": "visual-5",
+  "ticket_text": "In Round Ten Visual Variety, on Saved bookmark comparison, I invoked the North product one saved alternative bookmark and the Handled Quantity card shows 149. Does the saved active context reproduce it, and what remains unknown about that bookmark invocation?",
+  "phrasing_class": "visual-variety",
+  "fixture_state": "round-ten-visuals",
+  "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+  "fixture_authored": true,
+  "expected": {
+    "status": "COMPLETED",
+    "outcome": "NO_COMPARABLE_PATH",
+    "answer_category": "NOT_REPRODUCED"
+  },
+  "expected_reproduction": {
+    "label": "NOT_REPRODUCED",
+    "value": "149"
+  },
+  "derivation": {
+    "method": "The independently expanded movement rows for warehouse_id 1 and product_id 1 sum to 149. The authored bookmark stores those two predicates but is CONDITIONAL, not ACTIVE; the default page has no predicates and sums to 8765. A ticket claiming invocation does not prove runtime selection; non-reproduction must name invoked bookmark in the open set. Initial unsealed draft retained separately; corrected before any seal or run.",
+    "arithmetic": {
+      "seed_sha256": "313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1",
+      "seed_rows": 360,
+      "refined": 7661,
+      "serving": 8765,
+      "inbound": 6425,
+      "outbound": 2340,
+      "fraction": "6425/8765",
+      "balance": 4085,
+      "value": 57043,
+      "rate_rows": [
+        {
+          "product_id": 1,
+          "rate_version": 1,
+          "unit_cost": 6
+        },
+        {
+          "product_id": 2,
+          "rate_version": 1,
+          "unit_cost": 4
+        },
+        {
+          "product_id": 3,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 4,
+          "rate_version": 1,
+          "unit_cost": 7
+        },
+        {
+          "product_id": 5,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 6,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 7,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 7,
+          "rate_version": 2,
+          "unit_cost": 11
+        },
+        {
+          "product_id": 8,
+          "rate_version": 1,
+          "unit_cost": 9
+        }
+      ],
+      "join": "Product-only left join. Product 7 has two matches. Additive units are carried, not transformed. Row identity is not globally proven by equal totals."
+    }
+  },
+  "fixture_prerequisites": [
+    "Served new report definition collected and explicitly approved",
+    "Authored visual exists in served report"
+  ],
+  "lineage_columns": [
+    "stripped"
+  ],
+  "version": 1,
+  "ticket_hash": "2bdfe913c511507755c2c449244e4c7a479400b5fdff3cc7ac398efd1d8064ff",
+  "authorship": "Fixture-authored by Codex before any Round Ten ticket run, from committed seed arithmetic and definition/capability contracts; not real user observations.",
+  "expectation_columns": {
+    "stripped": {
+      "status": "COMPLETED",
+      "outcome": "NO_COMPARABLE_PATH",
+      "answer_category": "NOT_REPRODUCED"
+    }
+  },
+  "reference_context_pin": {
+    "context_id": "541d500c-437a-485c-97bf-f5d44febae44",
+    "hash": "5c38074b687c1c56157ccf081975ba15517ec27cf962cd19882c47219e353564"
+  }
+}

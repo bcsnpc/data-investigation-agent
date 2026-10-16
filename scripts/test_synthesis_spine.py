@@ -5,6 +5,17 @@ from investigator.onboarding import encoded
 
 
 class RenderedSpineTests(unittest.TestCase):
+    def test_no_operation_evidence_cannot_admit_invented_compiler_mechanism(self):
+        from investigator.synthesis_wire import prepare
+        from jsonschema import Draft202012Validator
+        payload,state=self.fixture(0,0)
+        payload['evidence']=[{'id':'path','result':{'definition':'Retained path metadata.'}}]
+        spine=build(payload,state,48000)
+        self.assertFalse(spine['mechanism_evidence'])
+        _,schema,_=prepare(spine)
+        validator=Draft202012Validator(schema['properties']['technical_output']['properties']['text'])
+        self.assertFalse(validator.is_valid('The record applies a direct additive sum and rejects other expressions.'))
+        self.assertTrue(validator.is_valid(''))
     def test_roles_survive_without_compared_boundaries_and_without_directory_loss(self):
         payload,state=self.fixture(10,10)
         before=build(payload,state,48000)

@@ -1,0 +1,10 @@
+Top accounts is just blank
+
+Report: Subscription Billing
+Page: Accounts
+Visual: Top Accounts by Invoice Value
+
+I can see the title but no account names, bars or values. I left the page, looked at Recent Collections and came back; it was still blank. The visible Account and Invoiced Amount filters both say (All).
+
+There are invoices in the application for Aster, Birch and Cedar. I expected to see a ranking with some accounts on it, even if the list only shows a few.
+

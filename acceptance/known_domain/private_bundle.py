@@ -34,7 +34,7 @@ def seal_for_recipient(plain, public_key):
     return PUBLIC_MAGIC + SealedBox(PublicKey(public_key)).encrypt(PUBLIC_MAGIC + plain)
 
 
-def hydrate(ciphertext, expected_hash, key, output, *, expected_members=61, inventory=None):
+def hydrate(ciphertext, expected_hash, key, output, *, expected_members=61, inventory=None, expected_uncompressed_bytes=None):
     raw = Path(ciphertext).read_bytes()
     if hashlib.sha256(raw).hexdigest() != expected_hash:
         raise ValueError('PRIVATE_BUNDLE_HASH_MISMATCH_BEFORE_DECRYPTION')
@@ -54,7 +54,9 @@ def hydrate(ciphertext, expected_hash, key, output, *, expected_members=61, inve
         raise ValueError('PRIVATE_BUNDLE_OUTPUT_ALREADY_EXISTS')
     with tarfile.open(fileobj=io.BytesIO(plain), mode='r:gz') as archive:
         members = archive.getmembers()
-        if len(members) != expected_members or sum(m.size for m in members) > MAX_BUNDLE_BYTES:
+        size=sum(m.size for m in members)
+        if expected_uncompressed_bytes is not None and (type(expected_uncompressed_bytes) is not int or size!=expected_uncompressed_bytes):raise ValueError('PRIVATE_BUNDLE_UNCOMPRESSED_SIZE_PIN_DIFFERS')
+        if len(members) != expected_members or size > MAX_BUNDLE_BYTES:
             raise ValueError('PRIVATE_BUNDLE_SIZE_OR_INVENTORY')
         if len({m.name for m in members}) != len(members):
             raise ValueError('PRIVATE_BUNDLE_DUPLICATE_MEMBER')

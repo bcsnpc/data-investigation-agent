@@ -16,6 +16,7 @@ class Shape:
 
 REGISTRY = {
     'DECLARED_CONTEXT_REPRODUCTION': Shape('reproduction'),
+    'DECLARED_FILTER_EFFECTS':Shape('filter_effects'),
     'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE': Shape('retained'),
     'REPORT_SELECTION_RESOLUTION': Shape('resolution'),
     'REPORT_SELECTION_REFUSED': Shape('retained', refusal_stage='selection resolution'),
@@ -29,6 +30,7 @@ REGISTRY = {
     'SOURCE_DELIVERY': Shape('retained'),
     'FRESHNESS_ATTEMPT': Shape('retained'),
     'EXPECTED_RECORD_PRESENCE': Shape('query','flexible_diagnostics'),
+    'CLAIM_PROJECTION': Shape('query','flexible_diagnostics'),
     'EXPECTED_RECORD_UNAVAILABLE': Shape('retained'),
     **{name: Shape('context') for name in ('CONTEXT_METADATA',
        'DECLARED_CONTEXT_DEFINITION', 'TRANSFORMATION_DEFINITION', 'INGESTION',
@@ -41,7 +43,7 @@ REGISTRY = {
        'INTAKE_REFUSED': 'intake', 'RESOLUTION_REFUSED': 'resolution',
        'INVENTORY_REFUSED': 'declaration inventory',
        'REPRODUCTION_REFUSED': 'declared-context reproduction',
-       'WALK_REFUSED': 'process walk', 'PROCESS_FAILED':'process failure','BUDGET_STOP':'read budget'}.items()},
+       'WALK_REFUSED': 'process walk', 'UNIMPLEMENTED_ROUTE':'unimplemented route', 'PROCESS_FAILED':'process failure','BUDGET_STOP':'read budget'}.items()},
 }
 
 QUERY_TABLES = {name: spec.table for name, spec in REGISTRY.items()
@@ -63,6 +65,10 @@ def validate_for_synthesis(observation):
         for field in ('request_hash','values'):
             if field not in observation:
                 raise Conflict('Registered process receipt '+name+' lacks required '+field)
+    if name=='CLAIM_PROJECTION':
+        from .claim_projection import validate
+        try:validate(observation)
+        except (ValueError,KeyError,TypeError) as exc:raise Conflict('Claim projection differs from its original typed evidence') from exc
     if name=='EXPECTED_RECORD_PRESENCE':
         from .record_presence import validate
         try:validate(observation)

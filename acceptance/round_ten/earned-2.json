@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "basis": "Original independent synthetic expectations; original matching runs plus new matching once-only reruns, no failed run promoted. Historical producer replay, not a fresh current-engine or unfamiliar-domain claim.",
+  "entries": [
+    {
+      "id": "family-E-typo",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-E-typo.json",
+      "run_sha256": "9dac8577eed840f7c6645216185e5d3351fec68819ee3c3acd5dac620cdfe051",
+      "tape_sha256": "f7cea605ddcc3b207ced636795ac49bbf25f87ad78e20343d5146830ad3c7b66"
+    },
+    {
+      "id": "family-G-noisy",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-G-noisy.json",
+      "run_sha256": "fa797e83b591ec6c5709743580291a71edb930ebcc8b26a5c2da15841da35d0a",
+      "tape_sha256": "380cfdc36895a7f65bb665309106165b4e6d663271c63eaac50fe89da0a23e95"
+    },
+    {
+      "id": "family-G-terse",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-G-terse.json",
+      "run_sha256": "6872482fe9b57ae12b57530967597521db26819d67a2b0561307ecac3f42e56f",
+      "tape_sha256": "c56e6dc47df84cde2442b90bc145ac12aa84ad014bdcd5e19ea37312075dfcd3"
+    },
+    {
+      "id": "family-G-typo",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-G-typo.json",
+      "run_sha256": "301d0a1ac6b3258480e0ccf26ab9ea97bdf631d66a7749ee043a57aec7290f9c",
+      "tape_sha256": "deffae3faaadbd14170a8e6b8c7e45af2ae0d1da9aed137546e0f05ab3bf255f"
+    },
+    {
+      "id": "family-H-noisy",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-H-noisy.json",
+      "run_sha256": "fa7106b3cdb3ef294a1315cb18ebfb846b37012e5f4ec74f70d33da66a347e0f",
+      "tape_sha256": "08f34e25b5880a47e22c1db6f0cf4d2ed1b71cff537180af2fd34ca72136d064"
+    },
+    {
+      "id": "family-H-terse",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-H-terse.json",
+      "run_sha256": "0baa7164a7ab8100a810c59721b8b51a61d014e1141e1700cc0050b1161e7b2c",
+      "tape_sha256": "cf45d0302aaff08c7c42d9ae9adcb262cf507fda303c9d35a4c2056d0eaaddfd"
+    },
+    {
+      "id": "family-H-typo",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-H-typo.json",
+      "run_sha256": "cd96c75c89dfb9a78016e7c43478c5191601628004b5d7773450de407c393149",
+      "tape_sha256": "a9603364e2069425dd29becef55a7e47e352ebe03fafc4866e26c449f845c079"
+    },
+    {
+      "id": "family-I-noisy",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-I-noisy.json",
+      "run_sha256": "8d9b28f4ec321eda9de380ee9895037d1066d565927b58ae00ba09c2a83be3fd",
+      "tape_sha256": "d1ca7d0a17efde271df69df2cc210eef632fd999d633b489e649059b85e1e603"
+    },
+    {
+      "id": "family-I-terse",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-I-terse.json",
+      "run_sha256": "e0025eccecc27890177262c6ca7f958db831bfba8a7b9761f22cdbb057d78d19",
+      "tape_sha256": "bcec17c7d5d63f1922ff345f5f15fae42d278087346bcd3b384e179165210773"
+    },
+    {
+      "id": "family-I-typo",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-I-typo.json",
+      "run_sha256": "1fee786dd19ce125a29d39b5440ba22dbab2b8ca56a57c58e7b0890c4cefffc9",
+      "tape_sha256": "abd7cd85c8c7a272a42c46125f3bc9bdb5063e59e7f3b0214d57bf80062b3b64"
+    },
+    {
+      "id": "question-stale-no-sla",
+      "column": "stripped",
+      "run_path": "runs/stripped/question-stale-no-sla.json",
+      "run_sha256": "6c75d7e55a8f29889de329660ceb11a63e8645c3bd02529fe5e6b8595a959ab2",
+      "tape_sha256": "cd059d2cab066d879813dfd09bba7089a41e3e309c873de8bf18513b86251399"
+    }
+  ]
+}

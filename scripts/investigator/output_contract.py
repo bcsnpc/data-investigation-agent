@@ -5,6 +5,7 @@ def canonical(outcome):
     return OLD_TO_CURRENT.get(outcome, outcome)
 
 BUSINESS = {
+    'DECLARED_FILTER_EFFECTS':'The saved selections reproduce the reported figure; the recorded checks identify which saved filters change its value when removed separately.',
     'REFRESH_LATENCY': 'The reported number has not yet caught up with the latest available information.',
     'LOAD_LATENCY': 'A scheduled update has not yet delivered the information needed by the reported number.',
     'PRESENTATION_LOGIC': 'The way the report presents the information explains the difference. This does not establish whether that behavior is intended.',
@@ -48,7 +49,12 @@ def business_text(outcome, payload=None):
         return payload['rendered_business']
     from .reproduction_composition import from_payload,body
     reproduction=body(from_payload(payload or {}))
-    if reproduction is not None:return reproduction
+    if reproduction is not None:
+        if outcome=='DECLARED_FILTER_EFFECTS':
+            from .filter_effects import render,KIND
+            finding=next(e['result'] for e in (payload or {}).get('evidence',[]) if e.get('result',{}).get('check_kind')==KIND)
+            reproduction=reproduction.rsplit('Recommended action:',1)[0]+render(finding,True)+'\nRecommended action: '+action(outcome)['text']
+        return reproduction
     entries=(payload or {}).get('evidence',[])
     baseline=next((e for e in entries if e.get('test_purpose')=='ESTABLISH_BASELINE'
                    and e.get('provenance',{}).get('receipt_seal')),None)

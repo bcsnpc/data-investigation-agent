@@ -51,7 +51,10 @@ def span(source, ticket=None):
 
 def stated(quote):
     """Read digits/scale exactly as supplied. No implicit approximation interval."""
-    matches=list(re.finditer(r'(?<![\w.])[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\s*[KMBkmb]?(?![\w.])',quote))
+    # A sentence's final full stop is punctuation, not an unknown decimal
+    # place. Still reject partial numbers embedded in dotted identifiers or
+    # malformed decimal strings: a dot followed by a word cannot terminate it.
+    matches=list(re.finditer(r'(?<![\w.])[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\s*[KMBkmb]?(?!\w|\.\w)',quote))
     if len(matches)!=1: raise UnavailablePrecision('Reported numeral or its stated precision is ambiguous')
     raw=matches[0].group().strip(); scale=0
     if raw[-1].upper() in 'KMB': scale={'K':3,'M':6,'B':9}[raw[-1].upper()];raw=raw[:-1].strip()
@@ -64,9 +67,20 @@ def stated(quote):
     if approximate and '.' not in raw and not scale:
         raise UnavailablePrecision('Approximate figure has no determinable stated precision')
     decimals=len(raw.split('.')[1]) if '.' in raw else 0
-    precision=({'state':'STATED_PLACE','place':scale-decimals} if (decimals or scale)
+    precision=({'state':'STATED_PLACE','place':scale-decimals} if (approximate or scale)
                and not re.search(r'\bexact(?:ly)?\b',quote,re.I) else {'state':'EXACT'})
     return format(value,'f'),precision
+
+
+def empty_result(quote):
+    matches=empty_matches(quote)
+    if not matches:return False
+    if all(m.group()=='-' for m in matches):
+        try:stated(quote)
+        except UnavailablePrecision:return True
+        # A dash separating prose from digits is punctuation, not a blank.
+        return False
+    return True
 
 
 def validate(value, ticket=None):
@@ -85,7 +99,7 @@ def validate(value, ticket=None):
         return value
     quote=span(value['source'],ticket)
     if state=='EMPTY':
-        if not empty_matches(quote):
+        if not empty_result(quote):
             raise ValueError('Empty reported state lacks explicit ticket provenance')
     else:
         number,precision=stated(quote)
@@ -107,7 +121,7 @@ def _resolve(candidates,ticket):
     for source in candidates:span(source,ticket)
     for source in sorted(candidates,key=lambda s:(s['start'],s['end'])):
         quote=span(source,ticket)
-        if empty_matches(quote):key=('EMPTY',);number=precision=None
+        if empty_result(quote):key=('EMPTY',);number=precision=None
         else:
             number,precision=stated(quote);key=('NUMBER',Decimal(number))
         rows=groups.setdefault(key,[])

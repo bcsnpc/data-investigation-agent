@@ -1,0 +1,1328 @@
+{
+  "date": "2026-10-07",
+  "phase": "ROUND_TEN_B_SECTION_1",
+  "physical_requests": 0,
+  "provider_calls": 0,
+  "groups": {
+    "synthesis": 2,
+    "intake": 13,
+    "outcome mapping / question account": 8
+  },
+  "rows": [
+    {
+      "id": "family-A-mention",
+      "column": "stripped",
+      "class": "second-numeral-mention",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "0d57f3f1-f075-45d9-b86a-06c8da5ac61f",
+      "first_divergence": null,
+      "original_tape_sha256": "458c09e843bca306a80576707ef98549edbf0174de8eefc4aba5c2cd582dc2b8"
+    },
+    {
+      "id": "family-A-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "624e0d0f-fa15-4c14-a439-e074c0bc2a43",
+      "first_divergence": null,
+      "original_tape_sha256": "b8f7d37845950ce6e2ce9e6168d079c4951c6e5800f91715a97c3ad6c6eb7f3e"
+    },
+    {
+      "id": "family-A-terse",
+      "column": "stripped",
+      "class": "terse",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": false,
+      "session_id": "91483c66-8704-4d2a-84a0-b8d5cf60f5c0",
+      "first_divergence": {
+        "point": "synthesis",
+        "evidence": "Quantity outcome matches; sealed mechanism rejected for repeated hedging. No outputs emitted."
+      },
+      "original_tape_sha256": "5f4aac72cec581e5ed6f2eb04ab5bc8cbd11e13de335651d2520714dc929496f"
+    },
+    {
+      "id": "family-A-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "d2400cd6-977f-445c-b1b9-f31dc8c08189",
+      "first_divergence": null,
+      "original_tape_sha256": "c70804510cd37f5bafa8ae1171ebc39e5b63118a1c5792f9f3f8dfb398b18381"
+    },
+    {
+      "id": "family-B-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "300576a8-fa37-4b7f-9584-9d66df8800d0",
+      "first_divergence": null,
+      "original_tape_sha256": "d0ad85769262d5ff016d1dc7367f5126b4f8522aeed954ac67e846a2d5ad7e5a"
+    },
+    {
+      "id": "family-B-terse",
+      "column": "stripped",
+      "class": "terse",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "151be305-62f8-4267-9b9e-959cd2e7c11c",
+      "first_divergence": null,
+      "original_tape_sha256": "8f1508b02fa43438065a6d7a513d2c4e8d03c09f13bb4f3ec3cd4b5b352673a7"
+    },
+    {
+      "id": "family-B-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "84aa2639-fe35-4c2c-b116-11ca1347245a",
+      "first_divergence": null,
+      "original_tape_sha256": "2d48c40689fe7626427914f5209aed982d2274f66a11f252966c496cf91b52fa"
+    },
+    {
+      "id": "family-C-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "expected": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "90bdcab0-ed12-44ed-b7aa-9ff434a1fbd6",
+      "first_divergence": null,
+      "original_tape_sha256": "a2860ae39cec02260a59ae6810551d9e763f4082710d3e5be72725d703850d18"
+    },
+    {
+      "id": "family-C-terse",
+      "column": "stripped",
+      "class": "terse",
+      "expected": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "f36f3aeb-74d5-4ac8-987c-29b171f0aa29",
+      "first_divergence": null,
+      "original_tape_sha256": "2c51e426a5fe73cda491a9df12454148e9bcf6dd83093d7e148b462dfc8f7d61"
+    },
+    {
+      "id": "family-C-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "expected": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "d65e320c-534f-4cf8-8cdb-7e8ccb655d77",
+      "first_divergence": null,
+      "original_tape_sha256": "69c5b9b2c3ec6983950a8d5e424baf0685ac1e6d5a9e18214f7e0e22376542f6"
+    },
+    {
+      "id": "family-D-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NO_REPORTED_FIGURE"
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": false,
+      "session_id": null,
+      "first_divergence": {
+        "point": "intake",
+        "evidence": "RESOLUTION_UNCERTAIN before a proposed target or any probe; exact unresolved choice needs proposal-response inspection, not a guessed grouping fix."
+      },
+      "original_tape_sha256": "75506da73f6e6725f638fbff7cefe72c021b311b2c0eb9a0dbb99f91249082d6"
+    },
+    {
+      "id": "family-D-terse",
+      "column": "stripped",
+      "class": "terse",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NO_REPORTED_FIGURE"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "session_id": "a639b064-95e0-481d-a4e9-c7bc0f00b345",
+      "first_divergence": {
+        "point": "outcome mapping / question account",
+        "evidence": "Procedure retains No reported figure supplied, but header maps to NOT_ANSWERED instead of sealed NO_REPORTED_FIGURE."
+      },
+      "original_tape_sha256": "4a1c777418fe7cca7ebbf9092a88478e24cb4d2ee601c11d8cce4ba9d492c8ea"
+    },
+    {
+      "id": "family-D-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NO_REPORTED_FIGURE"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "session_id": "42abe077-99ab-4c61-9bdf-0f8e7f601b1f",
+      "first_divergence": {
+        "point": "outcome mapping / question account",
+        "evidence": "Procedure retains No reported figure supplied, but header maps to NOT_ANSWERED instead of sealed NO_REPORTED_FIGURE."
+      },
+      "original_tape_sha256": "47dff95b34d7f9d5ff41f0cdda0e311c746568bf5e9973d0b5dac0d191b4d0a0"
+    },
+    {
+      "id": "family-E-mention",
+      "column": "stripped",
+      "class": "second-numeral-mention",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": false,
+      "session_id": null,
+      "first_divergence": {
+        "point": "intake",
+        "evidence": "Explicit displayed integer and tracking reference reach intake; model asks for precision instead of supplying an exact reported figure."
+      },
+      "original_tape_sha256": "4bb14662be6c0cabfdf93ad2e726f60068ccec5bab43561105b58f85d62859e7"
+    },
+    {
+      "id": "family-E-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "76a8c43a-319e-40a7-8b62-2e6ed928bb53",
+      "first_divergence": null,
+      "original_tape_sha256": "474e6eb1d84d7eb04682e70120f82d72d2133e9e1261c9a1f5cf6dbf79ccc453"
+    },
+    {
+      "id": "family-E-terse",
+      "column": "stripped",
+      "class": "terse",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "91478992-607b-4384-9f62-e946a9222378",
+      "first_divergence": null,
+      "original_tape_sha256": "81d4b404d8df6fce8f99c8fe56d0d954f0556397dc0315208b787491d1cef389"
+    },
+    {
+      "id": "family-E-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "5788f7df-860b-4efe-acdf-9683207577db",
+      "first_divergence": null,
+      "original_tape_sha256": "f7cea605ddcc3b207ced636795ac49bbf25f87ad78e20343d5146830ad3c7b66"
+    },
+    {
+      "id": "family-F-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "BUSINESS_QUESTION",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "session_id": "80ac4ff0-adf9-4fd0-b773-6ffd1a242c9c",
+      "first_divergence": {
+        "point": "intake",
+        "evidence": "Resolved measure and TRANSFORMATION_MECHANISM agree with terse variant; BUSINESS_QUESTION/NONE rather than MISMATCH_COMPLAINT/VERTICAL selects different terminal branch."
+      },
+      "original_tape_sha256": "a15df42d49357fef0467c3992f3041de9ab9f09570dcebf43fb57e24a36e4d58"
+    },
+    {
+      "id": "family-F-terse",
+      "column": "stripped",
+      "class": "terse",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "session_id": "96936856-02ca-47dd-aa1d-cb4145d1784d",
+      "first_divergence": {
+        "point": "outcome mapping / question account",
+        "evidence": "CONSISTENT_TO_BOUNDARY matches; matching totals do not answer the mechanism question, so NOT_ANSWERED differs from authored PARTLY_ANSWERED. Oracle may be too permissive; unchanged."
+      },
+      "original_tape_sha256": "902aeedabb03c07917a89db8548fcf38ca6a3af730d9659377fb6b589f1ff809"
+    },
+    {
+      "id": "family-F-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "session_id": "83414840-e216-4835-b382-636ac1fea5a8",
+      "first_divergence": {
+        "point": "outcome mapping / question account",
+        "evidence": "CONSISTENT_TO_BOUNDARY matches; matching totals do not answer the mechanism question, so NOT_ANSWERED differs from authored PARTLY_ANSWERED. Oracle may be too permissive; unchanged."
+      },
+      "original_tape_sha256": "1820f01a4639cde982e843009baf1dbd2d852e7f9c1627584b7b75be2de8d97f"
+    },
+    {
+      "id": "family-G-mention",
+      "column": "stripped",
+      "class": "second-numeral-mention",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": false,
+      "session_id": "e6c80c93-ad5d-4c08-aa79-b60f6850cea1",
+      "first_divergence": {
+        "point": "synthesis",
+        "evidence": "Quantity outcome matches; sealed mechanism rejected for repeated hedging. No outputs emitted."
+      },
+      "original_tape_sha256": "d5d4431f82d7f21826fe01ccba1329d1bce0c0e418632de9529ec47b615a6f09"
+    },
+    {
+      "id": "family-G-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "96f36a56-58b5-43cb-aa0b-c8155f618e9d",
+      "first_divergence": null,
+      "original_tape_sha256": "380cfdc36895a7f65bb665309106165b4e6d663271c63eaac50fe89da0a23e95"
+    },
+    {
+      "id": "family-G-terse",
+      "column": "stripped",
+      "class": "terse",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "d9150a1f-91da-437f-81ac-dff7c251b0dc",
+      "first_divergence": null,
+      "original_tape_sha256": "c56e6dc47df84cde2442b90bc145ac12aa84ad014bdcd5e19ea37312075dfcd3"
+    },
+    {
+      "id": "family-G-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "eeae8d5a-6ace-4669-ba2b-21a2514c8d20",
+      "first_divergence": null,
+      "original_tape_sha256": "deffae3faaadbd14170a8e6b8c7e45af2ae0d1da9aed137546e0f05ab3bf255f"
+    },
+    {
+      "id": "family-H-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "131e598b-9dec-41f1-8cd7-97a9753698e9",
+      "first_divergence": null,
+      "original_tape_sha256": "08f34e25b5880a47e22c1db6f0cf4d2ed1b71cff537180af2fd34ca72136d064"
+    },
+    {
+      "id": "family-H-terse",
+      "column": "stripped",
+      "class": "terse",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "f3959ba1-7bad-4543-ab39-b95367cd2cce",
+      "first_divergence": null,
+      "original_tape_sha256": "cf45d0302aaff08c7c42d9ae9adcb262cf507fda303c9d35a4c2056d0eaaddfd"
+    },
+    {
+      "id": "family-H-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "4b067708-7cff-469d-858e-1b06e8e2dba3",
+      "first_divergence": null,
+      "original_tape_sha256": "a9603364e2069425dd29becef55a7e47e352ebe03fafc4866e26c449f845c079"
+    },
+    {
+      "id": "family-I-noisy",
+      "column": "stripped",
+      "class": "forwarded-noisy",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "4e4f908a-6b2f-4065-9896-a7d180a27b24",
+      "first_divergence": null,
+      "original_tape_sha256": "d1ca7d0a17efde271df69df2cc210eef632fd999d633b489e649059b85e1e603"
+    },
+    {
+      "id": "family-I-terse",
+      "column": "stripped",
+      "class": "terse",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "5f62a1a9-c59b-4bff-b662-4b8ca6b5c06d",
+      "first_divergence": null,
+      "original_tape_sha256": "bcec17c7d5d63f1922ff345f5f15fae42d278087346bcd3b384e179165210773"
+    },
+    {
+      "id": "family-I-typo",
+      "column": "stripped",
+      "class": "typo-informal",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "84fb31b0-4f3e-4292-b236-42e531833871",
+      "first_divergence": null,
+      "original_tape_sha256": "abd7cd85c8c7a272a42c46125f3bc9bdb5063e59e7f3b0214d57bf80062b3b64"
+    },
+    {
+      "id": "question-change-days",
+      "column": "stripped",
+      "class": "new-question",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NO_REPORTED_FIGURE"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "session_id": "e2ebe847-f134-493c-9c48-cf5a35df4ac5",
+      "first_divergence": {
+        "point": "intake",
+        "evidence": "Temporal-state question classified BUSINESS_MEANING; no pair of date states carried into the procedure."
+      },
+      "original_tape_sha256": "1eb5e7e7f2d2c3def361a460d06540ea661b17fd5d5ee90d5a5b84ea50222d77"
+    },
+    {
+      "id": "question-change-week",
+      "column": "stripped",
+      "class": "new-question",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": false,
+      "session_id": null,
+      "first_divergence": {
+        "point": "intake",
+        "evidence": "Model asks which metric to compare; no metric/procedure dispatch. Ticket/expected-answer sufficiency is still an authoring question."
+      },
+      "original_tape_sha256": "340cb645618cb1a2870a3adc32af82bbf7cf05d1316e84f7c20bd7dc8c926cf3"
+    },
+    {
+      "id": "question-hiding-rows",
+      "column": "stripped",
+      "class": "new-question",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "REPRODUCED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "REPRODUCED"
+      },
+      "matches": false,
+      "session_id": "3816fb4a-95a9-4906-be3c-7d1ca0c098cf",
+      "first_divergence": {
+        "point": "outcome mapping / question account",
+        "evidence": "VISUAL_CONTENT and reported16 reach reproduced saved-context result; walk then finds TRANSFORMATION_LOGIC instead of authored NO_COMPARABLE_PATH. Whether walk should proceed is separate from number reproduction."
+      },
+      "original_tape_sha256": "4d81928468ac747527cfe15f6cef71c384c8c131d75a0279cbc6b637acbae6d0"
+    },
+    {
+      "id": "question-stale-no-sla",
+      "column": "stripped",
+      "class": "new-question",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "8d30f4de-c335-4430-8343-b248ddb5e455",
+      "first_divergence": null,
+      "original_tape_sha256": "cd059d2cab066d879813dfd09bba7089a41e3e309c873de8bf18513b86251399"
+    },
+    {
+      "id": "refusal-business-benchmark",
+      "column": "stripped",
+      "class": "refusal",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "a70e7b33-d57a-4901-9772-dda8df956cc2",
+      "first_divergence": null,
+      "original_tape_sha256": "850a47f63d4eab6cf162b0ce030b36a236bd90981522e387cec3b085ee96034f"
+    },
+    {
+      "id": "refusal-business-intent",
+      "column": "stripped",
+      "class": "refusal",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "session_id": "29484cab-0c89-4f34-85c8-4c6d3cf3146a",
+      "first_divergence": {
+        "point": "outcome mapping / question account",
+        "evidence": "BUSINESS_MEANING reaches technical walk; TRANSFORMATION_LOGIC with NOT_ANSWERED/domain-specialist action does not meet the authored refusal commitment."
+      },
+      "original_tape_sha256": "4339d0a0bf780a53680b3e8957b55b052b564c1a2705ad89fe82c9e5bdcf6b32"
+    },
+    {
+      "id": "refusal-business-q49",
+      "column": "stripped",
+      "class": "refusal",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "41e918a0-e67e-4c55-8f58-8a3206085313",
+      "first_divergence": null,
+      "original_tape_sha256": "d3b79e4ff9acab40288f2daafa1c12d050068a2c0d6c275b6fe6ae7e9249e6f0"
+    },
+    {
+      "id": "refusal-nonexistent-column",
+      "column": "stripped",
+      "class": "refusal",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": true,
+      "session_id": null,
+      "first_divergence": null,
+      "original_tape_sha256": "a151b02a41a8f2f9bbbb8d508bcf24f40a7b4fd4e32dbea8124d5f4b06d1b93c"
+    },
+    {
+      "id": "refusal-two-figures-total",
+      "column": "stripped",
+      "class": "refusal",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": true,
+      "session_id": null,
+      "first_divergence": null,
+      "original_tape_sha256": "dcbac95ad55015ffdb237c1269bb746c8c67a4177b42b05b8dad7eedf85231c3"
+    },
+    {
+      "id": "refusal-two-figures",
+      "column": "stripped",
+      "class": "refusal",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": true,
+      "session_id": null,
+      "first_divergence": null,
+      "original_tape_sha256": "6a0f6128cce0d2237d1a5c30901564cba081cfddbf4664a518622900d36345d1"
+    },
+    {
+      "id": "refusal-unidentified-measure",
+      "column": "stripped",
+      "class": "refusal",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": true,
+      "session_id": null,
+      "first_divergence": null,
+      "original_tape_sha256": "4fec326328cfeae51f14965621abc643ee228230c446d67d63d079ad0730cc7c"
+    },
+    {
+      "id": "refusal-unidentified-visual",
+      "column": "stripped",
+      "class": "refusal",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": true,
+      "session_id": null,
+      "first_divergence": null,
+      "original_tape_sha256": "3c1413b7814366ec1f671c895b2de8bdc82017f4c31bc2a1687ca56d1be0b70a"
+    },
+    {
+      "id": "refusal-unsupported-filter",
+      "column": "stripped",
+      "class": "refusal",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": true,
+      "session_id": null,
+      "first_divergence": null,
+      "original_tape_sha256": "47d045f48f8cf7981f405ef38e1ee28cdcb4f61bc0d6f600d58d0210f0bbd997"
+    },
+    {
+      "id": "refusal-unsupported-relative",
+      "column": "stripped",
+      "class": "refusal",
+      "expected": {
+        "accepted_dispositions": [
+          "HELD",
+          "NEEDS_INPUT",
+          "CAPABILITY_REFUSAL"
+        ],
+        "must_not_claim_defect": true
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": true,
+      "session_id": null,
+      "first_divergence": null,
+      "original_tape_sha256": "c91b0045a57a8abd6d55674e78a88414671aec5fd157ac83220cc2de22dcadb1"
+    },
+    {
+      "id": "visual-1",
+      "column": "stripped",
+      "class": "visual-variety",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "REPRODUCED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "REPRODUCED"
+      },
+      "matches": false,
+      "session_id": "75a73050-6a19-486d-9cf7-0c08d53bf8ed",
+      "first_divergence": {
+        "point": "intake",
+        "evidence": "Correct report, but definition target and cell address absent despite named Global card. Reproduction subsequently selects Warehouse/product matrix TOTAL; requested card is unevaluated."
+      },
+      "original_tape_sha256": "29e4b61b392a645961a2fe02a735088754402161326c234390977e1b2b9390e1"
+    },
+    {
+      "id": "visual-2",
+      "column": "stripped",
+      "class": "visual-variety",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "REPRODUCED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": false,
+      "session_id": "4516c007-b8ba-4a3e-a96d-89e76462cb82",
+      "first_divergence": {
+        "point": "intake",
+        "evidence": "Explicit saved-context reproduction request classified FIGURE_DIFFERENCE; target/cell address absent; capability undeclared by kind. No evidence yet for intersection or calculated-lineage defect as the first cause."
+      },
+      "original_tape_sha256": "fdd97d500274400bcd95a5133db24588fd6a733638e3c5c7323df50c9b624d26"
+    },
+    {
+      "id": "visual-3",
+      "column": "stripped",
+      "class": "visual-variety",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "REPRODUCED"
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": false,
+      "session_id": null,
+      "first_divergence": {
+        "point": "intake",
+        "evidence": "RESOLUTION_UNCERTAIN before a proposed target or any probe; exact unresolved choice needs proposal-response inspection, not a guessed grouping fix."
+      },
+      "original_tape_sha256": "9daf38d3fbd88e53c7d534a9c0637dac1e50eae860cc54c3177de1822dfce231"
+    },
+    {
+      "id": "visual-4",
+      "column": "stripped",
+      "class": "visual-variety",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "REPRODUCED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": false,
+      "session_id": "5d2d3518-dea2-4b18-a625-0d3d022361f9",
+      "first_divergence": {
+        "point": "intake",
+        "evidence": "Explicit saved-context reproduction request classified FIGURE_DIFFERENCE; target/cell address absent; capability undeclared by kind. No evidence yet for intersection or calculated-lineage defect as the first cause."
+      },
+      "original_tape_sha256": "c0586356f111115bf5b289ff47e96f5f14ccf0545cb2e94ec1d2176b11005de8"
+    },
+    {
+      "id": "visual-5",
+      "column": "stripped",
+      "class": "visual-variety",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NOT_REPRODUCED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "session_id": "b93a2230-9f41-440f-8142-42303d7fbd9c",
+      "first_divergence": {
+        "point": "intake",
+        "evidence": "Named page/bookmark target absent; compound North product one selection remains UNSEPARATED. Procedure then refuses VALUE_EXISTENCE_RESULT restriction; bookmark promotion is not established as the cause."
+      },
+      "original_tape_sha256": "66a0064ca10dc6004c8cbf865b3787dcfdd36e12bfe8a8daac97139a1ddd573d"
+    },
+    {
+      "id": "visual-6",
+      "column": "stripped",
+      "class": "visual-variety",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "REPRODUCED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "session_id": "226266b9-ee93-46b3-9d1b-2d27632f3b01",
+      "first_divergence": {
+        "point": "intake",
+        "evidence": "Explicit saved-context reproduction request classified FIGURE_DIFFERENCE; target/cell address absent; capability undeclared by kind. No evidence yet for intersection or calculated-lineage defect as the first cause."
+      },
+      "original_tape_sha256": "dfd143d4e08f030316e333df8a9a23b4aebdc35fa39759565832affd19e7f197"
+    },
+    {
+      "id": "family-A-mention",
+      "column": "declared",
+      "class": "second-numeral-mention",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": false,
+      "session_id": null,
+      "first_divergence": {
+        "point": "intake",
+        "evidence": "Intake refuses asking for stated precision; no target/procedure dispatch."
+      },
+      "original_tape_sha256": "b64010ea1dc1f864f71c7a32d5363030cfd3409862cefc719f9388de4774d9bd"
+    },
+    {
+      "id": "family-A-noisy",
+      "column": "declared",
+      "class": "forwarded-noisy",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "c47e256c-6e25-4753-bad6-cd54bd1777be",
+      "first_divergence": null,
+      "original_tape_sha256": "70f50638a8b7a2906c3bc03ca2b2ecb518c774b37100af79078113496ca76eb0"
+    },
+    {
+      "id": "family-A-terse",
+      "column": "declared",
+      "class": "terse",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "be8c84b9-70b0-4969-b9cf-60762fdb5d54",
+      "first_divergence": null,
+      "original_tape_sha256": "a78d19a54143077206c9a806068710c1e6f7f449fe44d39a73a1444c15f5bfbe"
+    },
+    {
+      "id": "family-A-typo",
+      "column": "declared",
+      "class": "typo-informal",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "32ba6f4f-903f-4eab-85da-26765dea5dda",
+      "first_divergence": null,
+      "original_tape_sha256": "e6f22bd4a1ed94d43a3fced009d5defb85b000b24110a356de9a9f283c180d72"
+    },
+    {
+      "id": "family-B-noisy",
+      "column": "declared",
+      "class": "forwarded-noisy",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "cf92629d-c1bb-489c-be8f-20e6de0429a7",
+      "first_divergence": null,
+      "original_tape_sha256": "e8bcf7e65f52707951c60be812f6892065518059648950ecaa566e99e7199cbb"
+    },
+    {
+      "id": "family-B-terse",
+      "column": "declared",
+      "class": "terse",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "81b54360-ec14-4f9e-bbec-bd9d3815cedb",
+      "first_divergence": null,
+      "original_tape_sha256": "9b780711ba6dc9c50bdb89304444687c0b2092854895b5f75630caad89db4a74"
+    },
+    {
+      "id": "family-B-typo",
+      "column": "declared",
+      "class": "typo-informal",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_KNOWN_PATTERN",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "bbe3c7c3-3560-4640-9694-d31d9baf28e2",
+      "first_divergence": null,
+      "original_tape_sha256": "522b3fbdcacb77112c5f25e7705476f9ed26deaa0ecb0764269ecb0383d8351a"
+    },
+    {
+      "id": "family-C-noisy",
+      "column": "declared",
+      "class": "forwarded-noisy",
+      "expected": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "cefd2916-bc8a-4c35-8e46-85862a953be9",
+      "first_divergence": null,
+      "original_tape_sha256": "980e617ed05f2581516b7fa30c61fae758549f5cd5a264fea73b55920bb4f464"
+    },
+    {
+      "id": "family-C-terse",
+      "column": "declared",
+      "class": "terse",
+      "expected": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "31e76c97-ba26-4676-a83a-98629e8e3220",
+      "first_divergence": null,
+      "original_tape_sha256": "ae2dfbc3015c792a0a278d83de19947deb7194386732b9816c47923925f0d4c6"
+    },
+    {
+      "id": "family-C-typo",
+      "column": "declared",
+      "class": "typo-informal",
+      "expected": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "actual": {
+        "status": "HELD",
+        "outcome": null,
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": true,
+      "session_id": "36b54473-2a25-4089-a57c-7323c9278065",
+      "first_divergence": null,
+      "original_tape_sha256": "6e5cf52941c5a180f378cff348371b9465d0e8b0e9b851c792e9e06d076ea9e0"
+    },
+    {
+      "id": "family-D-noisy",
+      "column": "declared",
+      "class": "forwarded-noisy",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NO_REPORTED_FIGURE"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "session_id": "8332b616-3663-4284-b7d0-cde6558841fa",
+      "first_divergence": {
+        "point": "outcome mapping / question account",
+        "evidence": "Procedure retains No reported figure supplied; header maps to NOT_ANSWERED instead of sealed NO_REPORTED_FIGURE."
+      },
+      "original_tape_sha256": "046185d8d64ea7b79f18c383c821177df0e3cd4856432db81d0b260c938bee7a"
+    },
+    {
+      "id": "family-D-terse",
+      "column": "declared",
+      "class": "terse",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NO_REPORTED_FIGURE"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "matches": false,
+      "session_id": "fa41a1c2-305c-4208-b86e-55264c3331f2",
+      "first_divergence": {
+        "point": "outcome mapping / question account",
+        "evidence": "Procedure retains No reported figure supplied; header maps to NOT_ANSWERED instead of sealed NO_REPORTED_FIGURE."
+      },
+      "original_tape_sha256": "6d3a0c54b83637aa90f6b005590369a3aad79c55a4f9d4864c7eed04f556dc0a"
+    },
+    {
+      "id": "family-D-typo",
+      "column": "declared",
+      "class": "typo-informal",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NO_REPORTED_FIGURE"
+      },
+      "actual": {
+        "status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "answer_category": "NO_REPORTED_FIGURE"
+      },
+      "matches": true,
+      "session_id": "fd61c801-aa12-4316-b462-73f6cba0ef63",
+      "first_divergence": null,
+      "original_tape_sha256": "3c3908106073a8e2de8b8d48ec4cd37a4f678d98a9f459ff080a83559793e5d6"
+    },
+    {
+      "id": "family-E-mention",
+      "column": "declared",
+      "class": "second-numeral-mention",
+      "expected": {
+        "status": "COMPLETED",
+        "outcome": "TRANSFORMATION_LOGIC",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "actual": {
+        "status": "NEEDS_INPUT",
+        "outcome": null,
+        "answer_category": null
+      },
+      "matches": false,
+      "session_id": null,
+      "first_divergence": {
+        "point": "intake",
+        "evidence": "Intake refuses asking for stated precision; no target/procedure dispatch."
+      },
+      "original_tape_sha256": "c855a1810ac39fde5a18f0109b657fba2fba32bf65c26003cf2702c01f02819b"
+    }
+  ]
+}

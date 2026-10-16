@@ -1,0 +1,14 @@
+// Authoring fragment; actual table bindings and endpoint IDs remain unset.
+table Billing
+
+	measure 'Invoiced Amount' = SUM(Billing[amount])
+
+	measure 'MRR All Plans' = CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status] = "ACTIVE"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans))
+
+	measure 'Churned Accounts' = CALCULATE(DISTINCTCOUNT(Subscriptions[account_id]), Subscriptions[status] = "CHURNED")
+
+	measure 'Collected Amount' = SUM(Payments[amount])
+
+	measure 'Collected Fraction' = DIVIDE([Collected Amount], [Invoiced Amount])
+
+	measure 'Usage Overage' = SUMX(Usage, MAX(0, Usage[units] - RELATED(Plans[included_units])))

@@ -4,7 +4,7 @@ import json
 import unittest
 from unittest.mock import patch
 from investigator import definition_target as target, declaration_inventory as inventory, declared_reproduction, report_scope
-from investigator.question_intake import Intake, azure_resolve, wire_contract, TARGET_INSTRUCTIONS
+from investigator.question_intake import Intake, azure_resolve_legacy as azure_resolve, wire_contract, TARGET_INSTRUCTIONS
 import test_declared_predicate_adapter as adapter_fixture
 from test_declared_predicate_adapter import native_filter, filter_config
 import test_target_figure_contract as contract_fixture

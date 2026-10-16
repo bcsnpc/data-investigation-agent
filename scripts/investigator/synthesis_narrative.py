@@ -36,9 +36,17 @@ class Response:
     narrative: dict
 
 
+def mechanism_unavailable(payload):
+    """An explicit empty operation inventory cannot support model mechanism prose.
+
+    The provider spine and original local payload share the same typed inventory.
+    """
+    return not path_narrative.operation_evidence(payload)
+
+
 def schema(payload):
     ids=sorted({e['id'] for e in payload['evidence']})
-    refs={'type':'array','minItems':1 if ids else 0,'maxItems':limits.ASSESSMENT_REFS if ids else 0,
+    refs={'type':'array','minItems':1 if ids and not mechanism_unavailable(payload) else 0,'maxItems':limits.ASSESSMENT_REFS if ids else 0,
           'items':{'type':'string',**({'enum':ids} if ids else {})}}
     def statement(length):
         return {'type':'object','additionalProperties':False,'properties':{
@@ -54,6 +62,8 @@ def schema(payload):
     business['properties']['text']={'type':'string','enum':texts}
     technical=statement(limits.ASSESSMENT_CLAIM)
     technical['properties']['text']=path_narrative.mechanism_schema(limits.ASSESSMENT_CLAIM)
+    if mechanism_unavailable(payload):
+        technical['properties']['text']={'type':'string','enum':['']}
     boundaries=path_narrative.divergent_boundaries(payload)
     if boundaries:
         technical['properties']['boundary_evidence_id']={'type':'string','enum':boundaries}
@@ -67,25 +77,36 @@ def schema(payload):
 def assemble(response,payload,state):
     """Keep structural facts original; never infer them back from narrative."""
     from .evidence_synthesis import schema as assessment_schema,validate
-    value=copy.deepcopy(response.narrative)
-    contract=schema(payload)
-    # A wrong boundary rejects this paragraph, not the already validated finding.
-    # Other malformed response fields still fail strictly; no repair or clipping.
+    fallback=response is None
+    rejected=False;layer_rejection=None
     boundaries=path_narrative.divergent_boundaries(payload)
-    rejected=bool(boundaries and value.get('technical_output',{}).get('boundary_evidence_id') not in boundaries)
-    layer_rejection=None
-    try:path_narrative.validate_layer_references(value.get('technical_output',{}).get('text',''),payload)
-    except path_narrative.LayerReferenceError as exc:layer_rejection=str(exc)
-    if rejected:
-        contract['properties']['technical_output']['properties']['boundary_evidence_id']={'type':'string'}
-    if layer_rejection:
-        contract['properties']['technical_output']['properties']['text']=evidence_prose.schema(limits.ASSESSMENT_CLAIM)
-    Draft202012Validator(contract).validate(value)
-    evidence_prose.validate(value['technical_output']['text'],limits.ASSESSMENT_CLAIM)
-    import re
-    if re.search(r'\b(?:you asked|answer to your question|partly answered|not answered)\b',value['technical_output']['text'],re.I):
-        raise ValueError('Question coverage belongs to the engine, not model commentary')
-    if not rejected and not layer_rejection:path_narrative.validate_mechanism(value['technical_output']['text'],state['assessment']['limits'])
+    if fallback:
+        refs=[e['id'] for e in payload.get('evidence',[])][:1]
+        value={'business_output':{'text':business_text(state['assessment']['classification'],payload),'evidence_ids':refs},
+               'technical_output':{'text':'','evidence_ids':refs}}
+    else:
+        value=copy.deepcopy(response.narrative)
+        contract=schema(payload)
+        # A wrong boundary rejects this paragraph, not the already validated finding.
+        # Other malformed response fields still fail strictly; no repair or clipping.
+        boundaries=path_narrative.divergent_boundaries(payload)
+        rejected=bool(boundaries and value.get('technical_output',{}).get('boundary_evidence_id') not in boundaries)
+        layer_rejection=None
+        try:path_narrative.validate_layer_references(value.get('technical_output',{}).get('text',''),payload)
+        except path_narrative.LayerReferenceError as exc:layer_rejection=str(exc)
+        if rejected:
+            contract['properties']['technical_output']['properties']['boundary_evidence_id']={'type':'string'}
+        if layer_rejection:
+            contract['properties']['technical_output']['properties']['text']=evidence_prose.schema(limits.ASSESSMENT_CLAIM)
+        Draft202012Validator(contract).validate(value)
+        if not mechanism_unavailable(payload):
+            evidence_prose.validate(value['technical_output']['text'],limits.ASSESSMENT_CLAIM)
+        import re
+        if re.search(r'\b(?:you asked|answer to your question|partly answered|not answered)\b',value['technical_output']['text'],re.I):
+            raise ValueError('Question coverage belongs to the engine, not model commentary')
+        if not rejected and not layer_rejection:
+            path_narrative.validate_mechanism(value['technical_output']['text'],state['assessment']['limits'])
+            path_narrative.validate_causal_certainty(value['technical_output']['text'],payload)
     source=state['assessment']
     if value['business_output']['text']!=business_text(source['classification'],payload):
         raise ValueError('Business wording differs from the fixed outcome')
@@ -100,7 +121,7 @@ def assemble(response,payload,state):
     recommended=action(source['classification'])
     from .reproduction_composition import from_payload,select,action as cell_action
     answering=select(from_payload(payload))
-    if answering:recommended=cell_action(answering)
+    if answering and source['classification']!='DECLARED_FILTER_EFFECTS':recommended=cell_action(answering)
     for key in ('business_output','technical_output'):
         outputs[key]={'explanation':value[key],
                       'conclusion':copy.deepcopy(source.get(key,{})),
@@ -110,7 +131,7 @@ def assemble(response,payload,state):
     outputs['technical_output']['path_order']=path_narrative.facts(payload)
     outputs['technical_output']['model_mechanism']={
         'text':'' if rejected or layer_rejection else value['technical_output']['text'],
-        'provenance':'PROVIDER_MECHANISM',
+        'provenance':'MECHANISM_NOT_STATED' if fallback or mechanism_unavailable(payload) else 'PROVIDER_MECHANISM',
         'evidence_ids':copy.deepcopy(value['technical_output']['evidence_ids'])}
     if delivery:outputs['technical_output']['engine_mechanism']=delivery
     from . import narrative_form
@@ -128,7 +149,7 @@ def assemble(response,payload,state):
         if not delivery:outputs['technical_output']['explanation']['text']+='\n\nMechanism paragraph omitted: its citation did not name an observed divergent boundary.'
     if answering:
         vertical=[e for e in payload['evidence'] if e.get('test_purpose')=='ESTABLISH_BASELINE' and e.get('verified_quantity')]
-        account=['What else was checked: vertical path outcome '+source['classification']+'.']
+        account=['No pipeline walk was attempted; these checks concern saved report restrictions.'] if source['classification']=='DECLARED_FILTER_EFFECTS' else ['What else was checked: vertical path outcome '+source['classification']+'.']
         for e in vertical:
             account.append('Separate vertical-path probe '+e['id']+': quantity '+str(e['verified_quantity'].get('quantity'))+'.')
         outputs['technical_output']['explanation']['text']+='\n\n'+'\n'.join(account)
@@ -139,5 +160,8 @@ def assemble(response,payload,state):
         for e in payload['evidence'] if e.get('result',{}).get('business_vocabulary')]
     from .question_account import attach
     attach(outputs,state)
-    return assessment,{'version':5,'provenance':'LLM_INFERRED',
+    if fallback:
+        for key in ('business_output','technical_output'):
+            outputs[key]['explanation']['text']+='\nMechanism not stated: the model explanation did not validate.'
+    return assessment,{'version':5,'provenance':'DETERMINISTIC_FALLBACK_RENDERING' if fallback else 'LLM_INFERRED',
                        'source_assessment_hash':digest(source),**outputs}

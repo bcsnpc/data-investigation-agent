@@ -32,13 +32,19 @@ PHASES.update(CONTEXT_OBSERVED='Reading definitions and relationships',PROPOSAL_
 
 
 class Workspace:
-    def __init__(self, agent, *, execution_enabled=False, clock=time.time, question_resolver=None, screenshot_extractor=None, dynamic_read_limit=15, dynamic_input_limit=384000):
+    def __init__(self, agent, *, execution_enabled=False, clock=time.time, question_resolver=None, screenshot_extractor=None, dynamic_read_limit=15, dynamic_input_limit=384000, intake_configuration=None, ownership_configuration=None, concurrency_limit=1):
+        if type(concurrency_limit) is not int or not 1<=concurrency_limit<=8:
+            raise ValueError('Workspace concurrency must be one through eight')
+        self.concurrency_limit=concurrency_limit
         if type(dynamic_read_limit) is not int or not DYNAMIC_READ_BOUNDS[0]<=dynamic_read_limit<=DYNAMIC_READ_BOUNDS[1]:
             raise ValueError('Dynamic read limit must be 1–15')
         if type(dynamic_input_limit) is not int or not DYNAMIC_INPUT_BOUNDS[0]<=dynamic_input_limit<=DYNAMIC_INPUT_BOUNDS[1]:
             raise ValueError("Invalid dynamic input limit")
         self.dynamic_input_limit=dynamic_input_limit
         self.dynamic_read_limit=dynamic_read_limit
+        self.intake_configuration=intake_configuration
+        self.ownership_configuration=ownership_configuration
+        self.visual_display_names=None
         self.agent, self.store, self.clock = agent, agent.store, lambda:tape_clock('workspace',clock)
         self.execution_enabled = execution_enabled
         if execution_enabled and (agent.planner is None or agent.governor is None):
@@ -52,13 +58,71 @@ class Workspace:
             CREATE TABLE IF NOT EXISTS workspace_jobs(
               preview_id TEXT PRIMARY KEY, model_id TEXT NOT NULL, session_id TEXT UNIQUE,
               owner TEXT NOT NULL, status TEXT NOT NULL, created REAL NOT NULL, error TEXT);
-            CREATE UNIQUE INDEX IF NOT EXISTS workspace_single_active ON workspace_jobs((1))
-              WHERE status IN ('SUBMITTING','QUEUED','RUNNING');
             ''')
+            db.execute('BEGIN IMMEDIATE')
+            db.execute('DROP INDEX IF EXISTS workspace_single_active')
+            db.execute("CREATE UNIQUE INDEX IF NOT EXISTS workspace_owner_active ON workspace_jobs(owner) WHERE status IN ('SUBMITTING','QUEUED','RUNNING')")
         from .question_intake import Intake
         self.intake = Intake(self, question_resolver)
         from .screenshot_intake import Screenshots
         self.screenshots = Screenshots(self, screenshot_extractor)
+
+    @property
+    def smart_intake(self):
+        if not hasattr(self,'_smart_intake'):
+            from .smart_intake import SmartIntake
+            self._smart_intake=SmartIntake(self,self.intake_configuration,self.ownership_configuration,auto_start=True)
+        return self._smart_intake
+
+    @property
+    def claims(self):
+        if not hasattr(self, '_claims'):
+            from .claim_intake import ClaimIntake
+            self._claims = ClaimIntake(self)
+        return self._claims
+
+    @property
+    def claim_investigations(self):
+        if not hasattr(self, "_claim_investigations"):
+            from .claim_investigations import ClaimInvestigations
+            self._claim_investigations = ClaimInvestigations(self)
+        return self._claim_investigations
+
+    @property
+    def claim_glossary(self):
+        if not hasattr(self, '_claim_glossary'):
+            from .claim_glossary import EstateGlossary
+            from .claim_glossary_evidence import RetainedClaimEvidence
+            evidence = RetainedClaimEvidence(
+                self.store, lambda: self.claims._catalog(),
+                fallback=lambda identity: (
+                    self.claim_glossary_evidence(identity)
+                    if callable(getattr(self, 'claim_glossary_evidence', None)) else None))
+            self._claim_glossary = EstateGlossary(
+                self.store.database, self.store.environment,
+                evidence_lookup=evidence)
+        return self._claim_glossary
+
+    @property
+    def claim_screenshots(self):
+        if not hasattr(self, '_claim_screenshots'):
+            from .claim_screenshots import ClaimScreenshots
+            self._claim_screenshots = ClaimScreenshots(self)
+        return self._claim_screenshots
+
+    @property
+    def forms(self):
+        if not hasattr(self,'_forms'):
+            from .form_controller import Forms
+            self._forms=Forms(self)
+        return self._forms
+
+    @property
+    def agent_controller(self):
+        if not hasattr(self,'_agent_controller'):
+            from .agent_process import AgentProcess
+            self._agent_controller=AgentProcess(self)
+        return self._agent_controller
 
     def models(self):
         return {'execution_enabled': self.execution_enabled, 'question_intake_enabled': self.execution_enabled and self.intake.resolver is not None,
@@ -159,7 +223,13 @@ class Workspace:
         self.store.get(body['model_id'])
         return body
 
-    def start(self, identity):
+    def start(self, identity, *, controller_owned=False):
+        if type(controller_owned) is not bool:
+            raise ValueError('Controller ownership must be boolean')
+        if controller_owned and self.agent.config.get('_estate',{}).get('investigation',{}).get('mode','PIPELINE') not in ('AGENT','HYBRID'):
+            from .agent_handoff import controller_owned as automatic_controller
+            if not automatic_controller(self):
+                raise Conflict('Controller ownership requires configured agent mode or retained code handoff authority')
         if not self.execution_enabled:
             raise Conflict('This host is in history-only mode')
         preview = self.read_preview(identity)
@@ -180,16 +250,16 @@ class Workspace:
             raise Conflict('Available checks changed; review again')
         with self.store.connect() as db:
             db.execute('BEGIN IMMEDIATE')
-            if db.execute("SELECT 1 FROM workspace_jobs WHERE status IN ('SUBMITTING','QUEUED','RUNNING')").fetchone():
-                raise Conflict('Another investigation is active; wait or cancel it first')
+            from .workspace_admission import admit
+            admit(db,self.owner,self.concurrency_limit)
             db.execute('INSERT INTO workspace_jobs VALUES (?,?,NULL,?,?,?,NULL)',
                        (identity, preview['model_id'], self.owner, 'SUBMITTING', self.clock()))
         try:
             state = (self.agent.revise(preview['predecessor'], preview['envelope'], 'workspace:' + identity)
                      if preview['predecessor'] else self.agent.create(preview['envelope'], 'workspace:' + identity))
             with self.store.connect() as db:
-                db.execute("UPDATE workspace_jobs SET session_id=?,status='QUEUED' WHERE preview_id=? AND status='SUBMITTING'",
-                           (state['id'], identity))
+                db.execute("UPDATE workspace_jobs SET session_id=?,status=? WHERE preview_id=? AND status='SUBMITTING'",
+                           (state['id'], 'RUNNING' if controller_owned else 'QUEUED', identity))
         except Exception:
             with self.store.connect() as db:
                 db.execute("UPDATE workspace_jobs SET status='INTERRUPTED',error='SUBMISSION_FAILED' WHERE preview_id=?", (identity,))
@@ -197,14 +267,21 @@ class Workspace:
         return self.session(state['id'])
 
     def run_once(self):
+        return self.run_session_once(None)
+
+    def run_session_once(self, identity):
+        """Claim the requested queued session, never another ticket's work."""
         with self.store.connect() as db:
             db.execute('BEGIN IMMEDIATE')
-            row = db.execute("SELECT * FROM workspace_jobs WHERE owner=? AND status='QUEUED' ORDER BY created LIMIT 1", (self.owner,)).fetchone()
+            row = db.execute("SELECT * FROM workspace_jobs WHERE owner=? AND status='QUEUED' AND (? IS NULL OR session_id=?) ORDER BY created LIMIT 1", (self.owner,identity,identity)).fetchone()
             if row is None:
                 return False
             db.execute("UPDATE workspace_jobs SET status='RUNNING' WHERE preview_id=?", (row['preview_id'],))
         try:
-            self.agent.run(row['session_id'])
+            if self.agent.config.get('_estate',{}).get('investigation',{}).get('mode','PIPELINE')=='AGENT':
+                self.agent_controller.run(row['session_id'])
+            else:
+                self.agent.run(row['session_id'])
             status, error = 'FINISHED', None
         except Exception:
             status, error = 'INTERRUPTED', 'WORKER_INTERRUPTED'

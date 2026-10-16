@@ -1,6 +1,18 @@
 """Build an investigation from one validated manifest; no configuration fallback."""
+import copy
 from pathlib import Path
 from .estate_manifest import load, policy
+
+
+def install_candidate_reader(workspace):
+    """Same configured value-reading port for live construction and tape replay."""
+    if workspace.agent.config.get('_estate',{}).get('execution',{}).get('mode')=='LOCAL_EXPORTED':
+        from .adapters.local_installation import install
+    else:
+        from .adapters.form_candidate_values import install
+    install(workspace)
+    from .claim_candidate_checks import install as install_claim_candidates
+    install_claim_candidates(workspace)
 
 
 def build(path, *, execution_enabled=True,secret_store=None):
@@ -33,19 +45,42 @@ def _build_workspace(manifest,path,config,execution_enabled):
     from metadata_config import ROOT
     model=manifest['model'];budget=manifest['budgets']
     planner,resolver=provider(model['provider'],model['credential']) if execution_enabled else (None,None)
-    store=ModelStore(ROOT/manifest['storage']['catalog'],config['storage']['database'],manifest['environment'])
+    shared=manifest['storage'].get('shared_accounting')
+    store=ModelStore(ROOT/manifest['storage']['catalog'],config['storage']['database'],manifest['environment'],
+        shared_accounting=ROOT/shared if shared is not None else None)
     native,source=transports(config) if execution_enabled else (None,None)
     profile={'adapter':model['provider'],'deployment':model['deployment'],'endpoint':model['endpoint'],
         'process_max_boundaries':budget['max_boundaries'],'generation_options':model['generation_options'],
         'max_planner_recoveries':model['max_planner_recoveries']}
     lineage=None
-    if any(b['may_infer_from_code'] for b in manifest['lineage'].get('code_locations',[])):
+    if config.get('_estate',{}).get('execution',{}).get('mode')!='LOCAL_EXPORTED' and any(b['may_infer_from_code'] for b in manifest['lineage'].get('code_locations',[])):
         from .adapters.code_lineage import Installation
         lineage=Installation(manifest,path,ROOT)
         if execution_enabled:lineage.approval()
     agent=AdaptiveRuntime(Runtime(store,config,native,source),planner,
         planner_profile=profile,usage_policy=policy(manifest),process_lineage=lineage)
+    ownership=copy.deepcopy(manifest.get('ownership',{'business':[],'technical':[]}))
+    addresses={layer['id']:layer['asset_id'] for layer in manifest['layers']}
+    addresses.update({pipeline['id']:pipeline['producer_asset_id'] for pipeline in manifest['pipelines']})
+    for row in ownership['technical']:row['layer_or_pipeline']=addresses[row['layer_or_pipeline']]
     workspace=Workspace(agent,execution_enabled=execution_enabled,
         question_resolver=resolver,
-        dynamic_read_limit=budget['diagnostic_reads_per_run'],dynamic_input_limit=budget['input_characters_per_run'])
+        intake_configuration=manifest.get('intake'),
+        ownership_configuration=ownership,
+        dynamic_read_limit=budget['diagnostic_reads_per_run'],dynamic_input_limit=budget['input_characters_per_run'],
+        concurrency_limit=budget['planner_daily']['max_inflight'])
+    from .adapters.report_display import install as install_visual_display
+    install_visual_display(workspace)
+    local = config.get('_estate',{}).get('execution',{}).get('mode')=='LOCAL_EXPORTED'
+    if local:
+        # The shared form controller reads retained definitions when this live
+        # metadata port is absent. Never authenticate merely to list local data.
+        workspace.report_lists=None
+        if execution_enabled:
+            install_candidate_reader(workspace)
+    else:
+        from .adapters.report_list_installation import install as install_report_lists
+        workspace.report_lists=install_report_lists(workspace,config)
+        if execution_enabled:
+            install_candidate_reader(workspace)
     return workspace

@@ -6,6 +6,38 @@ from investigator import process_outcomes,assessment_support
 import test_process_debugging as contract_fixtures
 
 class NarrativeContractTests(unittest.TestCase):
+    def test_explicit_empty_operation_inventory_survives_wire_and_consumer(self):
+        from investigator import synthesis_wire
+        state,payload=self.source('CONSISTENT_TO_BOUNDARY')
+        payload['mechanism_evidence']=[]
+        _,wire,handles=synthesis_wire.prepare(payload)
+        response={'technical_output':{'text':'','evidence_ids':[]}}
+        decoded=synthesis_wire.decode(response,payload,wire,handles)
+        assessment,outputs=narrative.assemble(narrative.Response(decoded),payload,state)
+        self.assertEqual(assessment,state['assessment'])
+        self.assertEqual(outputs['technical_output']['model_mechanism']['text'],'')
+        self.assertEqual(outputs['technical_output']['model_mechanism']['provenance'],'MECHANISM_NOT_STATED')
+        self.assertIn('Measure:',outputs['technical_output']['explanation']['text'])
+        decoded['technical_output']['text']='An invented calculation explains the result.'
+        with self.assertRaises(ValidationError):
+            narrative.assemble(narrative.Response(decoded),payload,state)
+
+    def test_operation_inventory_does_not_allow_empty_mechanism(self):
+        state,payload=self.source('CONSISTENT_TO_BOUNDARY')
+        payload['mechanism_evidence']=[{'id':payload['evidence'][0]['id']}]
+        value=self.response(payload);value['technical_output']['text']=''
+        with self.assertRaises(ValidationError):
+            narrative.assemble(narrative.Response(value),payload,state)
+
+    def test_causal_certainty_is_checked_against_original_judgment(self):
+        state,payload=self.source('TRANSFORMATION_LOGIC')
+        payload['evidence'].append({'id':'qualified-definition','result':{'judgment':{
+            'status':'COMPLETED','explanation':'Matches may multiply.',
+            'limitation':'Actual uniqueness is not established.'}}})
+        value=self.response(payload)
+        value['technical_output']['text']='Repeated matches explain the difference.'
+        with self.assertRaisesRegex(ValueError,'actual cause'):
+            narrative.assemble(narrative.Response(value),payload,state)
     def test_roles_render_without_a_boundary_or_model_role_reference(self):
         state,payload=self.source('CONSISTENT_TO_BOUNDARY')
         labels={'model':{'role':'SEMANTIC','name':'Calculation'}}
@@ -65,6 +97,16 @@ class NarrativeContractTests(unittest.TestCase):
         self.assertNotIn('Measure:',mechanism['text'])
         self.assertIn('Measure:',outputs['technical_output']['explanation']['text'])
 
+    def test_mechanism_question_at_boundary_consistency_names_agreement_and_unreached_source(self):
+        state,payload=self.source('CONSISTENT_TO_BOUNDARY')
+        state['envelope']['question_kind']={'kind':'TRANSFORMATION_MECHANISM','source':{'start':0,'end':7,'quote':'Explain'}}
+        _,outputs=narrative.assemble(narrative.Response(self.response(payload)),payload,state)
+        for key in ('business_output','technical_output'):
+            text=outputs[key]['explanation']['text']
+            self.assertIn('reachable compared layers agree',text)
+            self.assertIn('application source was not reached',text)
+            self.assertEqual(outputs[key]['question_account']['status'],'NOT_ANSWERED')
+
     def test_wrong_layer_role_omits_only_paragraph_and_keeps_the_finding(self):
         state,payload=self.source('TRANSFORMATION_LOGIC')
         for text in ('The application measure repeats matches.','L0 (APPLICATION) repeats matches.'):
@@ -82,13 +124,18 @@ class NarrativeContractTests(unittest.TestCase):
         for role,o in observations.items():
             o.update(tool='process' if role=='comparison' else 'bounded_dax',completeness='COMPLETE_RESPONSE')
         observations['baseline']['test_purpose']='ESTABLISH_BASELINE'
-        value.update(claim='An observed scoped result.',alternatives=['Other scopes remain untested.'],limits=['Only the stated scope was checked.'])
-        value['support'].update(mechanism='Observed evidence.',mechanism_evidence_ids=list(observations),
+        value.update(claim='An observed scoped result.',alternatives=['Other scopes remain untested.'])
+        value.setdefault('limits',[]).append('Only the stated scope was checked.')
+        value['support'].update(mechanism='Observed evidence.',mechanism_evidence_ids=list(observations)[:8],
             intent_dependency='NOT_REQUIRED',intent_basis='Implemented behavior only.',intent_evidence_ids=[],
             measure_connection='ESTABLISHED',measure_connection_basis='A baseline was read.',
             measure_connection_evidence_ids=['baseline'],remaining_test='Obtain intended rules.')
+        observations['synthetic-operation']={'id':'synthetic-operation','status':'COMPLETED',
+            'tool':'process','completeness':'COMPLETE_RESPONSE','process_roles':['presentation_definition'],
+            'result':{'definition':'The synthetic operation carries the additive quantity.'}}
         return {'envelope':{'symptom':'Explain the observed difference.'},'assessment':value,'observations':list(observations.values())},{'evidence':[{'id':i,
-            **({'result':copy.deepcopy(o)} if 'surface_difference' in o else {})} for i,o in observations.items()],
+            **({'process_roles':o['process_roles'],'result':copy.deepcopy(o.get('result',o))} if 'process_roles' in o else
+               {'result':copy.deepcopy(o)} if 'surface_difference' in o or outcome=='DECLARED_FILTER_EFFECTS' else {})} for i,o in observations.items()],
             'deterministic_process_finding':{'classification':outcome}}
 
     def response(self,payload):

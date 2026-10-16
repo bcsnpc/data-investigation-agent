@@ -1,0 +1,2 @@
+Independent original-author session. Used only this public question packet and previously permitted original README/tester-session/ticket facts. No repository, code, oracle, expectations, defects, tapes, ledgers, delivery records or other excluded sources accessed. No network, browser, SQL, cloud, estate or model API queries made. No original modified and no new number or timestamp invented.
+One exact question and ID retained. Reply gives only the three original card values and preserves the missing report timing.

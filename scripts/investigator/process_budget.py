@@ -25,6 +25,10 @@ def allocation(cap, scope):
     from .question_kind import reproduction
     possible = reproduction(scope)['applicable'] or bool(
         (scope.get('selection_request') or scope.get('definition_target')) and scope.get('report_binding'))
+    if (scope.get('question_kind') or {}).get('kind')=='FILTER_EFFECT':
+        # One presentation baseline, then reproduction and restriction effects.
+        # No lower walk is admitted; the unchanged overall diagnostic cap binds.
+        return {'WALK':min(1,cap),'REPRODUCTION':max(0,cap-1)}
     side = min(4, cap // 2) if possible else 0
     return {'WALK': cap - side, 'REPRODUCTION': side}
 

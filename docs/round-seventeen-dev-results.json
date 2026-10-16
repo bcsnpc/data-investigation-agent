@@ -1,0 +1,93 @@
+{
+  "rows": [
+    {
+      "id": "R17-05",
+      "status": "ERROR",
+      "answer_rounds": 0,
+      "error": "Claim choice labels are not distinguishable",
+      "harness_limitations": [],
+      "review": {
+        "harmful_technical_findings": 0,
+        "investigation_reached": false,
+        "grade": "UNANSWERED; no localization credit",
+        "source": "Main-session review of all retained decisions, states and outputs"
+      },
+      "source": ".local\\round-seventeen\\d-dev-final.json"
+    },
+    {
+      "id": "R17-01",
+      "status": "ERROR",
+      "answer_rounds": 0,
+      "error": "Supplied candidate context is not faithfully compiled",
+      "harness_limitations": [],
+      "review": {
+        "harmful_technical_findings": 0,
+        "investigation_reached": false,
+        "grade": "UNANSWERED; no localization credit",
+        "source": "Main-session review of all retained decisions, states and outputs"
+      },
+      "source": ".local\\round-seventeen\\d-dev-final.json"
+    },
+    {
+      "id": "R17-03",
+      "status": "CLARIFYING",
+      "answer_rounds": 1,
+      "error": null,
+      "harness_limitations": [],
+      "review": {
+        "harmful_technical_findings": 0,
+        "investigation_reached": false,
+        "grade": "UNANSWERED; no localization credit",
+        "source": "Main-session review of all retained decisions, states and outputs"
+      },
+      "source": ".local\\round-seventeen\\d-dev-final.json"
+    },
+    {
+      "id": "R17-07",
+      "status": "ERROR",
+      "answer_rounds": 2,
+      "error": "Supplied candidate context is not faithfully compiled",
+      "harness_limitations": [],
+      "review": {
+        "harmful_technical_findings": 0,
+        "investigation_reached": false,
+        "grade": "UNANSWERED; no localization credit",
+        "source": "Main-session review of all retained decisions, states and outputs"
+      },
+      "source": ".local\\round-seventeen\\d-dev-final.json"
+    },
+    {
+      "id": "R17-11",
+      "status": "CLARIFYING",
+      "answer_rounds": 2,
+      "error": null,
+      "harness_limitations": [],
+      "review": {
+        "harmful_technical_findings": 0,
+        "investigation_reached": false,
+        "grade": "UNANSWERED; no localization credit",
+        "source": "Main-session review of all retained decisions, states and outputs"
+      },
+      "source": ".local\\round-seventeen\\d-dev-final.json"
+    },
+    {
+      "id": "R17-09",
+      "status": "CLARIFYING",
+      "answer_rounds": 2,
+      "error": null,
+      "harness_limitations": [
+        "Second-reply tester saw initial rather than latest objection; preserve result but do not claim clean protocol equivalence."
+      ],
+      "review": {
+        "harmful_technical_findings": 0,
+        "investigation_reached": false,
+        "grade": "UNANSWERED; no localization credit",
+        "source": "Main-session review of all retained decisions, states and outputs"
+      },
+      "source": ".local\\round-seventeen\\d-dev-final.json"
+    }
+  ],
+  "originals_preserved": true,
+  "technical_findings": 0,
+  "harmful_findings": 0
+}

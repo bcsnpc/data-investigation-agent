@@ -1,0 +1,6 @@
+Which day drops out of the recent payment figure?
+
+The recent collections date filter has Include today checked. In the app, payments are Aster 200 on October 2, Birch 100 on October 3 and Cedar 250 on October 4.
+
+For a seven-day check on October 9, should October 2 still count, or does the period start on October 3? That makes a difference between 550 and 350. The visual currently errors so I can't check it there. I expected the start and end dates to be visible so we all use the same weekly number.
+

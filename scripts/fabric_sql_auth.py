@@ -26,8 +26,10 @@ def profile_path(profile):
     """Profiles are local run artifacts: relative, and under `.local/` only."""
     if not isinstance(profile, str) or not profile or Path(profile).is_absolute():
         raise ValueError('SQL session profile must be a relative path')
-    local = (ROOT/'.local').resolve()
-    path = (ROOT/profile).resolve()
+    from installation_secrets import root
+    secret_root=root(ROOT)
+    local = (secret_root/'.local').resolve()
+    path = (secret_root/profile).resolve()
     if local not in path.parents:
         raise ValueError('SQL session profile must be under .local/')
     return path
@@ -43,7 +45,8 @@ def account_name(account):
 def cli(args, profile, interactive=False):
     env = dict(os.environ, AZURE_CONFIG_DIR=str(profile_path(profile)),
                AZURE_CORE_ENABLE_BROKER_ON_WINDOWS='false', AZURE_CORE_LOGIN_EXPERIENCE_V2='off')
-    command = [str(ROOT/'.local/azure-cli-env/Scripts/python.exe'), '-m', 'azure.cli', *args]
+    from installation_secrets import root
+    command = [str(root(ROOT)/'.local/azure-cli-env/Scripts/python.exe'), '-m', 'azure.cli', *args]
     result = subprocess.run(command, env=env, text=True, capture_output=not interactive, timeout=360 if interactive else 90)
     if result.returncode:
         raise RuntimeError('Enterprise Azure CLI authentication unavailable')

@@ -1,0 +1,6 @@
+Has Aster's plan change reached this view?
+
+Aster moved from Starter to Growth on October 1 according to its plan history in the app; September was Starter. The report overview shows MRR All Plans 600 and Usage Overage 600, but neither tells me what plan it is using for Aster.
+
+Can you confirm this view includes the October change? I expected to be able to check that Aster has the Growth allowance of 3,000 for its October 2 usage of 3,500. I'm worried about using an old plan for this month's review, rather than saying the 600 itself is definitely wrong.
+

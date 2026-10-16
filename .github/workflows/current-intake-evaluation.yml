@@ -1,0 +1,54 @@
+name: Current intake evaluation
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * *"
+  pull_request:
+    paths:
+      - ".github/workflows/current-intake-evaluation.yml"
+      - "scripts/run_current_intake_eval.py"
+      - "scripts/ticket_planner.py"
+      - "scripts/investigator/intake*.py"
+      - "scripts/investigator/question_intake.py"
+      - "scripts/investigator/question_kind.py"
+      - "scripts/investigator/reported_figure.py"
+      - "scripts/investigator/numeral_roles.py"
+      - "scripts/investigator/value_mentions.py"
+      - "scripts/investigator/visual_target.py"
+      - "scripts/investigator/report_cells.py"
+      - "scripts/investigator/report_scope.py"
+      - "scripts/investigator/proposal_limits.py"
+      - "scripts/investigator/model_eval_intake.py"
+      - "scripts/investigator/model_step_scores.py"
+      - "scripts/test_intake*.py"
+      - "scripts/test_question_intake.py"
+      - "acceptance/model_steps/intake-*.json"
+permissions:
+  contents: read
+concurrency:
+  group: current-intake-evaluation
+  cancel-in-progress: false
+jobs:
+  current-intake-evaluation:
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13'
+      - run: pip install -r scripts/requirements-lineage.txt -r scripts/requirements-llm.txt
+      - name: Evaluate current intake prompt and validator, never cached responses
+        env:
+          AZURE_OPENAI_API_KEY: ${{ secrets.INTAKE_MODEL_API_KEY }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.INTAKE_MODEL_ENDPOINT }}
+        run: python scripts/run_current_intake_eval.py --ci-profile acceptance/model_steps/intake-current-profile.json --golden acceptance/model_steps/intake-round-ten-current-59.json --output .local/current-intake-ci
+      - name: Preserve evaluation scores without publishing provider bodies
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: current-intake-evaluation
+          path: |
+            .local/current-intake-ci/score.json
+            .local/current-intake-ci/plan.json

@@ -54,12 +54,18 @@ def configuration(manifest):
         'accepted_limits':manifest['accepted_limits'],
         # Recorder configuration only, never a worker option or model prompt.
         'provider_terms':declaration(manifest['model']), 'trace_footer':True}
+    if 'execution' in manifest:config['_estate']['execution']=copy.deepcopy(manifest['execution'])
+    if 'investigation' in manifest:config['_estate']['investigation']=copy.deepcopy(manifest['investigation'])
     if 'recording' in manifest:
         config['_estate']['recording']=copy.deepcopy(manifest['recording'])
     return config
 
 
 def transports(config):
+    if config.get('_estate',{}).get('execution',{}).get('mode')=='LOCAL_EXPORTED':
+        def forbidden(*args,**kwargs):
+            raise ValueError('LOCAL_NATIVE_TRANSPORT_FORBIDDEN')
+        return forbidden,forbidden
     from run_native_diagnostic import transport as native
     from run_source_diagnostic import transport as source
     return lambda r:native(config,r),lambda r:source(config,r)

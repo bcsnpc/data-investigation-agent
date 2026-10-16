@@ -2,7 +2,8 @@
 import copy
 import unittest
 from unittest.mock import patch
-from investigator.question_intake import azure_resolve, wire_contract
+# Explicit historical wire-v2 decoder; current producer covered by test_intake_extraction.
+from investigator.question_intake import azure_resolve_legacy as azure_resolve, wire_contract
 from investigator import value_roles
 
 

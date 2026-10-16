@@ -22,7 +22,7 @@ def _prepare(adapter, layer, measure_id, scope, observations):
     result = copy.deepcopy(scope)
     reports = adapter.report_catalog()
     report_scope.report_binding(scope['report_binding'], reports=reports)
-    declarations, grouping = adapter.report_selection_inventory(measure_id, scope['report_binding'])
+    declarations, grouping = adapter.report_selection_inventory(measure_id, scope['report_binding'],scope['target_visual']) if scope.get('target_visual') else adapter.report_selection_inventory(measure_id, scope['report_binding'])
     for declaration in declarations:
         report_scope.validate_inventory(declaration['inventory'], declaration['restrictions'],
             binding=scope['report_binding'], reports=reports)

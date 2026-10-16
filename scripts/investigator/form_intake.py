@@ -1,0 +1,135 @@
+"""Consumer-owned form authority, separate from model-inferred ticket spans.
+
+This port binds selected identities to the retained catalog. It neither reads
+quantities nor supplies provider-generated scope. Description interpretation is
+an explicit remaining step, never silently discarded.
+"""
+import copy
+import re
+from jsonschema import Draft202012Validator
+from . import ticket_protocol as protocol, reported_figure
+from .onboarding import digest
+
+VERSION = 'estate-form-input-v1'
+SUBJECT_ROUTE = 'DECLARED_SUBJECT'
+SUBJECT_LABEL = "The report's saved context or definition"
+NULL_ID = {'anyOf': [protocol.ID, {'type': 'null'}]}
+SCHEMA = protocol.obj({
+    'version': {'const': VERSION}, 'request_key': protocol.ID,
+    'report_id': NULL_ID, 'page_id': NULL_ID, 'target_id': NULL_ID,
+    'cell_mode': {'enum': ['UNGROUPED', 'TOTAL', 'KEYED', None]},
+    'value_seen': {'anyOf': [protocol.TEXT, {'type': 'null'}]},
+    'comparison': {'enum': [*protocol.ROUTES, SUBJECT_ROUTE, None]},
+    'measure_id': protocol.ID,
+    'description': {**protocol.TEXT, 'minLength': 0},
+    'description_resolution':{'enum':['FORM_SELECTIONS']},
+    'subject':{'enum':['REPORT','MEASURE_TEXT']},
+    'cell_keys': {'type': 'array', 'maxItems': 6, 'items': protocol.obj({
+        'column_id': protocol.ID, 'value': {'anyOf': [protocol.TEXT,
+            {'type':'integer'}, {'type':'boolean'}, {'type':'null'}]}})}}, optional=('cell_keys','description_resolution','measure_id','subject'))
+SCHEMA['allOf']=[{'if':{'required':['subject'],'properties':{'subject':{'const':'MEASURE_TEXT'}}},
+    'then':{'not':{'anyOf':[{'required':['measure_id']},{'required':['description_resolution']}]},
+            'properties':{**{k:{'type':'null'} for k in ('report_id','page_id','target_id','cell_mode')},
+                          'description':{**protocol.TEXT,'minLength':1},'cell_keys':{'maxItems':0}}}}]
+
+
+def resolve(request, models, configuration, *, measure_id=None):
+    """Bind explicit picks; an unresolved field produces at most one batch.
+
+    Live list IDs must first be mapped by the platform adapter into these
+    retained neutral IDs. A live name or equal quantity never grants authority.
+    """
+    Draft202012Validator(SCHEMA).validate(request)
+    from .ticket_clarification import settings
+    configured = settings(configuration)
+    routes = {v['route'] for v in configured['comparison_choices']} | {SUBJECT_ROUTE}
+    route = request['comparison']
+    if route is not None and route not in routes:
+        raise ValueError('Comparison outside estate intake choices')
+    base = {'version': VERSION, 'authority': 'USER_SUPPLIED_FORM',
+            'request_hash': digest(request), 'catalog_hash': digest(models),
+            'execution_authorized': False,
+            'description_requires_interpretation': bool(request['description']),
+            'questions': [], 'scope': None}
+    if request.get('subject')=='MEASURE_TEXT':
+        return {**base,'status':'ROUTED','route':'MEASURE_TEXT'}
+    if route == 'OTHER_REPORT':
+        return {**base, 'status': 'HELD', 'reason': 'OTHER_REPORT_COMING_SOON'}
+    reports = [(m, r) for m in models for r in m.get('reports', [])
+               if r['id'] == request['report_id']]
+    if request['report_id'] is None:
+        return {**base, 'status': 'NEEDS_INPUT', 'questions': [{'field': 'REPORT_PAGE'}]}
+    if len(reports) != 1:
+        raise ValueError('Selected report is absent or ambiguously bound')
+    model, report = reports[0]
+    visuals = [v for v in model.get('visuals', []) if v['report_id'] == report['id']]
+    if request['page_id'] is None:
+        return {**base, 'status': 'NEEDS_INPUT', 'questions': [{'field': 'REPORT_PAGE'}]}
+    eligible = [v for v in visuals if v.get('page_id') == request['page_id']]
+    if not eligible:
+        raise ValueError('Selected page has no retained executable visual')
+    selected = request['target_id']
+    if selected is not None:
+        eligible = [v for v in eligible if v['target_id'] == selected]
+        if len(eligible) != 1:
+            raise ValueError('Selected visual is outside the selected report/page')
+    if len(eligible) != 1:
+        return {**base, 'status': 'NEEDS_INPUT', 'questions': [{
+            'field': 'NUMBER', 'candidate_target_ids': [v['target_id'] for v in eligible]}]}
+    visual = eligible[0]
+    picked_measure=request.get('measure_id')
+    if picked_measure and measure_id and picked_measure!=measure_id:
+        raise ValueError('Description measure is not bound by the selected visual')
+    measure_id=picked_measure or measure_id
+    if visual.get('unsupported') or not visual['measure_ids']:
+        return {**base, 'status': 'HELD', 'reason': 'TARGET_NOT_EXECUTABLE'}
+    if measure_id is None and len(visual['measure_ids'])!=1:
+        return {**base,'status':'NEEDS_INPUT','questions':[{'field':'NUMBER','reason':'MEASURE_UNRESOLVED',
+            'candidate_measure_ids':visual['measure_ids']}]}
+    measure_id=measure_id or visual['measure_ids'][0]
+    if measure_id not in visual['measure_ids']:
+        raise ValueError('Description measure is not bound by the selected visual')
+    mode = request['cell_mode']
+    if mode is None:
+        if visual['grouping_columns']:
+            return {**base, 'status': 'NEEDS_INPUT', 'questions': [{'field': 'NUMBER'}]}
+        mode = 'UNGROUPED'
+    if bool(visual['grouping_columns']) != (mode != 'UNGROUPED'):
+        raise ValueError('Selected cell mode contradicts the selected visual')
+    keys = request.get('cell_keys', [])
+    if len({k['column_id'] for k in keys}) != len(keys):
+        raise ValueError('Duplicate cell key')
+    if keys and (mode != 'KEYED' or set(k['column_id'] for k in keys) != set(visual['grouping_columns'])):
+        raise ValueError('Cell keys must match exactly the selected visual grouping')
+    from .filter_scope import compile_filter
+    columns = {c['column_id']: c for c in model.get('columns', [])}
+    for k in keys:
+        if k['column_id'] not in columns:
+            raise ValueError('Cell key is absent from the retained column catalog')
+        compile_filter({'column_id': k['column_id'], 'operator': 'in', 'values': [k['value']]},
+                       {'dataType': columns[k['column_id']]['data_type']}, 'validated_reference')
+    if mode == 'KEYED' and not keys:
+        return {**base, 'status': 'NEEDS_INPUT', 'questions': [
+            {'field': 'NUMBER', 'reason': 'CELL_KEYS_UNRESOLVED'}]}
+    if route is None:
+        return {**base, 'status': 'NEEDS_INPUT', 'questions': [{'field': 'COMPARISON'}]}
+    wording = request['value_seen']
+    figure = {'state': 'UNSPECIFIED'}
+    if wording is not None:
+        source = {'start': 0, 'end': len(wording), 'quote': wording}
+        from .intake_statement_registry import empty_matches
+        if empty_matches(wording):
+            if re.search(r'\d', wording):
+                raise ValueError('An empty state and a numeric figure cannot share the value field')
+            figure = {'state': 'EMPTY', 'source': source}
+        else:
+            value, precision = reported_figure.stated(wording)
+            figure = {'state': 'NUMBER', 'value': value, 'precision': precision, 'source': source}
+        reported_figure.validate(figure, wording)
+    return {**base, 'status': 'BOUND', 'scope': {
+        'model_id': model['id'], 'report_id': report['id'], 'page_id': request['page_id'],
+        'target_id': visual['target_id'], 'measure_id': measure_id,
+        'cell_mode': mode, 'comparison': route, 'reported_figure': copy.deepcopy(figure),
+        'figure_document': wording, 'figure_pointer': '/value_seen',
+        'filters': [{'column_id': k['column_id'], 'operator': 'in',
+                     'values': [copy.deepcopy(k['value'])]} for k in keys]}}

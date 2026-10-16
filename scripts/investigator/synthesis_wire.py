@@ -47,6 +47,10 @@ def prepare(payload):
         'text':{'type':'string','description':'Mechanism only. Complete sentences, at most '+str(limits.ASSESSMENT_CLAIM)+' characters; no limitations or path-account references.'},
         'evidence_ids':{'type':'array','items':{'type':'string','enum':list(handles)}}},
         'required':['text','evidence_ids']}
+    from .synthesis_narrative import mechanism_unavailable
+    if mechanism_unavailable(payload):
+        statement['properties']['text']['enum']=['']
+        statement['properties']['text']['description']='No retained operation evidence was supplied. Return an empty mechanism; the engine renders the complete finding.'
     from .path_narrative import divergent_boundaries
     boundaries=divergent_boundaries(payload)
     if boundaries:
@@ -63,7 +67,8 @@ def decode(value,payload,schema,handles):
     Draft202012Validator(schema).validate(value)
     technical=copy.deepcopy(value['technical_output'])
     refs=technical['evidence_ids']
-    if len(refs)>limits.ASSESSMENT_REFS or (handles and not refs):raise ValueError('Synthesis requires bounded visible citations')
+    from .synthesis_narrative import mechanism_unavailable
+    if len(refs)>limits.ASSESSMENT_REFS or (handles and not refs and not mechanism_unavailable(payload)):raise ValueError('Synthesis requires bounded visible citations')
     technical['evidence_ids']=[handles[ref] for ref in refs]
     if 'boundary_evidence_id' in technical:
         technical['boundary_evidence_id']=handles[technical['boundary_evidence_id']]

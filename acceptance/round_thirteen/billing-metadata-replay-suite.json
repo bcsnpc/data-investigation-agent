@@ -1,0 +1,289 @@
+{
+  "version": "round-thirteen-captured-replay-suite-v1",
+  "consumer_revision": "e4d173ae83ae077cf5e84b539999ce461a847432",
+  "consumer_hash_mode": "GIT_BLOB_WITH_DECLARED_TEXT_MATERIALIZATION_V1",
+  "consumer_hashes": {
+    "acceptance/known_domain/private_bundle.py": {
+      "git_blob_sha256": "ea0575b155bb2fa63abd4eac8f86a61909962c17554bccce0b13b265f84b44b5",
+      "checkout_sha256": {
+        "LF": "ea0575b155bb2fa63abd4eac8f86a61909962c17554bccce0b13b265f84b44b5",
+        "CRLF": "cb881211d017afe82381b62422a33e4221acd3463393d24ead74783023075935"
+      }
+    },
+    "acceptance/round_thirteen/bounded_replay_lifecycle.py": {
+      "git_blob_sha256": "f1850a3fbcd591fdcfae3f7ed7fcfacf7fae94a47b0c5fb8e8fbfe88b4f04787",
+      "checkout_sha256": {
+        "LF": "f1850a3fbcd591fdcfae3f7ed7fcfacf7fae94a47b0c5fb8e8fbfe88b4f04787",
+        "CRLF": "f6fe50a08f7aa0c0a80514a90a75517fc56fcc4cb74e50a1dd6289b6a6059624"
+      }
+    },
+    "acceptance/round_thirteen/metadata_revision.py": {
+      "git_blob_sha256": "44e43030c17ce4644950bb1e5d76862da974db1650c09b7a536bce9d1d0555e0",
+      "checkout_sha256": {
+        "LF": "44e43030c17ce4644950bb1e5d76862da974db1650c09b7a536bce9d1d0555e0",
+        "CRLF": "b32dbd98669b7646285a7c4e2f0625417ca2f9249eafe4612ad45ca9788e594e"
+      }
+    },
+    "acceptance/round_thirteen/metadata_revision_v2.py": {
+      "git_blob_sha256": "cab8be1524b0b044e3bfc4fe22afb4161247019966a251b5535c9bfaaffa85fa",
+      "checkout_sha256": {
+        "LF": "cab8be1524b0b044e3bfc4fe22afb4161247019966a251b5535c9bfaaffa85fa",
+        "CRLF": "42e399eb5a74f8dd4ad2ef7d86c71720b1117a942d57fb91a600f0ba9456b69b"
+      }
+    },
+    "acceptance/round_thirteen/metadata_worker_v2.py": {
+      "git_blob_sha256": "a93b59f8af701ae4f0a0557b71c65fd1fef5b937f7dfda0594a116b1a8d9bf1c",
+      "checkout_sha256": {
+        "LF": "a93b59f8af701ae4f0a0557b71c65fd1fef5b937f7dfda0594a116b1a8d9bf1c",
+        "CRLF": "31db0e0417a4c80cdde7a299bc1bfe9979400aff939b6e9357489ae5b9b8d5c7"
+      }
+    },
+    "acceptance/round_thirteen/replay_metadata_v2.py": {
+      "git_blob_sha256": "d235630e41240db834d11db6f1d46448c14975f0c6a9939b24008b3a5b94a90e",
+      "checkout_sha256": {
+        "LF": "d235630e41240db834d11db6f1d46448c14975f0c6a9939b24008b3a5b94a90e",
+        "CRLF": "4ae4b0320b8f1437f04bbb48c65a8d8610e24a52e824ab77af27782eeafa7f8a"
+      }
+    },
+    "acceptance/unknown_domain/catalog_replay.py": {
+      "git_blob_sha256": "eb140692adb6d49a3ba901f5c4df3c8b193cf64951de671e68264ba5144242e3",
+      "checkout_sha256": {
+        "LF": "eb140692adb6d49a3ba901f5c4df3c8b193cf64951de671e68264ba5144242e3",
+        "CRLF": "d56af5256e22141981f23098dcaed30da95b4555fba651c4439e92e56ac110f5"
+      }
+    },
+    "acceptance/unknown_domain/lineage_replay.py": {
+      "git_blob_sha256": "9d473c543b58d37bbef0ec9830f76c489adcabdf0382255e73ca1d82e99d3c99",
+      "checkout_sha256": {
+        "LF": "9d473c543b58d37bbef0ec9830f76c489adcabdf0382255e73ca1d82e99d3c99",
+        "CRLF": "8eefd3c04e80c6ab2bd22633a1f49d2d95271d12a1d4c4803328c5107558d2d8"
+      }
+    },
+    "acceptance/unknown_domain/process_replay.py": {
+      "git_blob_sha256": "4931620768ac8fc6035e475d00c1b8dedc83f6afd8dcc5ea64c41586f7bdccc3",
+      "checkout_sha256": {
+        "LF": "4931620768ac8fc6035e475d00c1b8dedc83f6afd8dcc5ea64c41586f7bdccc3",
+        "CRLF": "4c35515cf10334028fd9a80be4a569e6212b3d3e8f470fc38e0d89657b6e083e"
+      }
+    },
+    "acceptance/unknown_domain/recorded_engine.py": {
+      "git_blob_sha256": "d75d2ab0ba6d4b69526b65a390458ef4e13226f3876903f7fb71e630c1bf8ee1",
+      "checkout_sha256": {
+        "LF": "d75d2ab0ba6d4b69526b65a390458ef4e13226f3876903f7fb71e630c1bf8ee1",
+        "CRLF": "8067da1c7759efc0810a404498883e3d9d61a35d50566bcff02ac6d748680a90"
+      }
+    },
+    "scripts/investigator/budget_tape_contract.py": {
+      "git_blob_sha256": "92b7cfe71d4a816138c5fb67b0a2c7748faf0cf340fea47e4168657b1cac0058",
+      "checkout_sha256": {
+        "LF": "92b7cfe71d4a816138c5fb67b0a2c7748faf0cf340fea47e4168657b1cac0058",
+        "CRLF": "f6a2c14799fd72a0edd0aeefd568cf843b9e632ff0311183079c785db3c724db"
+      }
+    },
+    "scripts/investigator/privacy_tape.py": {
+      "git_blob_sha256": "1111840e6928d5886c3e9a29751b1cc87bedbfbacdef71656966387f2f9a38a5",
+      "checkout_sha256": {
+        "LF": "1111840e6928d5886c3e9a29751b1cc87bedbfbacdef71656966387f2f9a38a5",
+        "CRLF": "44397f6569c5eaa216c9024cd4264103496304825f9f4b084974dc28e9c4229a"
+      }
+    },
+    "scripts/investigator/process_tape.py": {
+      "git_blob_sha256": "1a55bb1a8f337df7a62e4d0aa99ad93607d9c0aff1f1915b7ee7629d42f883de",
+      "checkout_sha256": {
+        "LF": "1a55bb1a8f337df7a62e4d0aa99ad93607d9c0aff1f1915b7ee7629d42f883de",
+        "CRLF": "609f3558ace0e334cbf2140976e47c4fbc135377316fe9d505b1fc4079153eb6"
+      }
+    },
+    "scripts/investigator/provider_tape_contract.py": {
+      "git_blob_sha256": "3a7cec2ec4c4e48a24c916509f44b8bf604922ff2a9199ab426a779f572459c9",
+      "checkout_sha256": {
+        "LF": "3a7cec2ec4c4e48a24c916509f44b8bf604922ff2a9199ab426a779f572459c9",
+        "CRLF": "665919b269c4ce67b6ccca9494c36851016842ddeefb28a265937a2b95726b3c"
+      }
+    }
+  },
+  "scratch_lifecycle": "EXCLUSIVE_SERIAL_SHARDS_V1",
+  "assets": [
+    {
+      "id": "billing014940-01",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/releases/download/round13-billing-014940-74f6d44b-v1/billing-014940-shard-01.dia2",
+      "ciphertext_sha256": "75bdfe1982459a1ffcde0233c5c10c999a229361778ea5c6e497e95c7fbdb827",
+      "ciphertext_bytes": 21033809,
+      "uncompressed_bytes": 207028224,
+      "inventory": {
+        ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/catalog-after.sqlite": "6e137bbbba29edeccb3b368567a7ca312af52f31357882feac8285d7357aaea9"
+      }
+    },
+    {
+      "id": "billing014940-02",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/releases/download/round13-billing-014940-74f6d44b-v1/billing-014940-shard-02.dia2",
+      "ciphertext_sha256": "3b265d54d918a026012d2cbb9c4caa86352093dfacc35f6cfcb4f25810917878",
+      "ciphertext_bytes": 20979142,
+      "uncompressed_bytes": 206409728,
+      "inventory": {
+        ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/catalog.sqlite": "17a3d0e09ea0ce9c2d674cc7a0abb0fc743f5dc7fddb77d580ad6e6abde310ab"
+      }
+    },
+    {
+      "id": "billing014940-03",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/releases/download/round13-billing-014940-74f6d44b-v1/billing-014940-shard-03.dia2",
+      "ciphertext_sha256": "d83266694873f8c87d99dc3a6c0b6a76b9a481a240164c40ff690de957b1bd83",
+      "ciphertext_bytes": 24553,
+      "uncompressed_bytes": 229376,
+      "inventory": {
+        ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/inventory-after.sqlite": "086b5129b1791c5aa2b4824178f8734809406fbf43d00da00187ea24fd09c8fc"
+      }
+    },
+    {
+      "id": "billing014940-04",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/releases/download/round13-billing-014940-74f6d44b-v1/billing-014940-shard-04.dia2",
+      "ciphertext_sha256": "498542d8754d1c41d303d81f2b4b4f84955e28cc69c8985800f45b507756d6b1",
+      "ciphertext_bytes": 3319,
+      "uncompressed_bytes": 8636,
+      "inventory": {
+        ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/metadata_capture.py": "19e6506f792cc47aa8a864b2ec8ff496913732c9f89dd0070814a8bc5519280d"
+      }
+    },
+    {
+      "id": "billing014940-05",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/releases/download/round13-billing-014940-74f6d44b-v1/billing-014940-shard-05.dia2",
+      "ciphertext_sha256": "67776dc4c0b8e56e280248e05f22111bdf8024d6340f3cc3feec9de6abe694b9",
+      "ciphertext_bytes": 1717,
+      "uncompressed_bytes": 3946,
+      "inventory": {
+        ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/replay_metadata.py": "cbf43d5f84d9849ede68e75e340c361538add498334d06d09aaefc033f679b15"
+      }
+    },
+    {
+      "id": "billing014940-06",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/releases/download/round13-billing-014940-74f6d44b-v1/billing-014940-shard-06.dia2",
+      "ciphertext_sha256": "67a60f573ed79058171c52dc821cf624ea68f1cb785893da5ec477e6b56ea8c0",
+      "ciphertext_bytes": 139779,
+      "uncompressed_bytes": 896303,
+      "inventory": {
+        ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/tape.events.jsonl": "799f7be08bf25994dcc2537e655e25b6935b940385432bfb2b8be87294d81199"
+      }
+    },
+    {
+      "id": "billing014940-07",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/releases/download/round13-billing-014940-74f6d44b-v1/billing-014940-shard-07.dia2",
+      "ciphertext_sha256": "3c09233e570df58a18176957d35c8083d1c0af3f7593a855d2ee5235e783258f",
+      "ciphertext_bytes": 139947,
+      "uncompressed_bytes": 896486,
+      "inventory": {
+        ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/tape.json": "99d1139bc1ddabc3f99b4b2a8feb89c140784ed712c6e8f6844acd9ee1b08f88"
+      }
+    },
+    {
+      "id": "billing014940-08",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/releases/download/round13-billing-014940-74f6d44b-v1/billing-014940-shard-08.dia2",
+      "ciphertext_sha256": "bac25db6fa4cbc1df11d9023b792f9bb7d4f4cbfc3d64b2b9638abe3f1007dd1",
+      "ciphertext_bytes": 36466,
+      "uncompressed_bytes": 511075,
+      "inventory": {
+        ".local/round-thirteen/billing/billing-native-collection-20261011T014940.json": "3b8101fbf4811cd606083a19daaa64d1255f903ad81f379bea65e90877ec664a"
+      }
+    }
+  ],
+  "operations": [
+    {
+      "run_id": "billing-native-collection-20261011T014940",
+      "case": "billing-native-metadata",
+      "operation": "billing_metadata_collection",
+      "producer_revision": "bf7c8b6d360abbc8af4e326619fc27eebf2bdbad",
+      "tape_class": "EXACT",
+      "tape": {
+        "asset": "billing014940-07",
+        "member": ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/tape.json",
+        "sha256": "99d1139bc1ddabc3f99b4b2a8feb89c140784ed712c6e8f6844acd9ee1b08f88"
+      },
+      "catalog": {
+        "asset": "billing014940-02",
+        "member": ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/catalog.sqlite",
+        "sha256": "17a3d0e09ea0ce9c2d674cc7a0abb0fc743f5dc7fddb77d580ad6e6abde310ab"
+      },
+      "inventory": null,
+      "capture_support": {
+        "metadata_capture.py": {
+          "asset": "billing014940-04",
+          "member": ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/metadata_capture.py",
+          "sha256": "19e6506f792cc47aa8a864b2ec8ff496913732c9f89dd0070814a8bc5519280d"
+        },
+        "replay_metadata.py": {
+          "asset": "billing014940-05",
+          "member": ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/replay_metadata.py",
+          "sha256": "cbf43d5f84d9849ede68e75e340c361538add498334d06d09aaefc033f679b15"
+        }
+      },
+      "after_artifacts": {
+        "catalog-after.sqlite": {
+          "asset": "billing014940-01",
+          "member": ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/catalog-after.sqlite",
+          "sha256": "6e137bbbba29edeccb3b368567a7ca312af52f31357882feac8285d7357aaea9"
+        },
+        "inventory-after.sqlite": {
+          "asset": "billing014940-03",
+          "member": ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/inventory-after.sqlite",
+          "sha256": "086b5129b1791c5aa2b4824178f8734809406fbf43d00da00187ea24fd09c8fc"
+        }
+      },
+      "id": "billing014940-v1-native-helper",
+      "dispatcher": "RECORDED_METADATA_DISCOVERY_V1",
+      "expected_status": "REPLAY_BLOCKED",
+      "expected_blocker": "TAPE_EVENT_DIFFERS:CLOCK:AUTH_STATE"
+    },
+    {
+      "run_id": "billing-native-collection-20261011T014940",
+      "case": "billing-native-metadata",
+      "operation": "billing_metadata_collection",
+      "producer_revision": "bf7c8b6d360abbc8af4e326619fc27eebf2bdbad",
+      "tape_class": "EXACT",
+      "tape": {
+        "asset": "billing014940-07",
+        "member": ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/tape.json",
+        "sha256": "99d1139bc1ddabc3f99b4b2a8feb89c140784ed712c6e8f6844acd9ee1b08f88"
+      },
+      "catalog": {
+        "asset": "billing014940-02",
+        "member": ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/catalog.sqlite",
+        "sha256": "17a3d0e09ea0ce9c2d674cc7a0abb0fc743f5dc7fddb77d580ad6e6abde310ab"
+      },
+      "inventory": null,
+      "capture_support": {
+        "metadata_capture.py": {
+          "asset": "billing014940-04",
+          "member": ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/metadata_capture.py",
+          "sha256": "19e6506f792cc47aa8a864b2ec8ff496913732c9f89dd0070814a8bc5519280d"
+        },
+        "replay_metadata.py": {
+          "asset": "billing014940-05",
+          "member": ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/replay_metadata.py",
+          "sha256": "cbf43d5f84d9849ede68e75e340c361538add498334d06d09aaefc033f679b15"
+        }
+      },
+      "after_artifacts": {
+        "catalog-after.sqlite": {
+          "asset": "billing014940-01",
+          "member": ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/catalog-after.sqlite",
+          "sha256": "6e137bbbba29edeccb3b368567a7ca312af52f31357882feac8285d7357aaea9"
+        },
+        "inventory-after.sqlite": {
+          "asset": "billing014940-03",
+          "member": ".local/round-thirteen/billing/billing-native-collection-20261011T014940-capture/inventory-after.sqlite",
+          "sha256": "086b5129b1791c5aa2b4824178f8734809406fbf43d00da00187ea24fd09c8fc"
+        }
+      },
+      "id": "billing014940-v2-sql-protocol",
+      "dispatcher": "RECORDED_METADATA_SQL_PROTOCOL_V2",
+      "expected_status": "MATCHED_CAPTURED_OPERATION"
+    }
+  ],
+  "scope": "Billing014940 metadata only; V1 historical negative and V2 narrower consumer proof, not whole round",
+  "original_v1_negative_preserved": true,
+  "release_tag": "round13-billing-014940-74f6d44b-v1",
+  "encryption_manifest_sha256": "fe767102174388da12ef6c6ee021d7d65df61e91de188a271fed6e2301ab79f5",
+  "v2_claim": "Exact archived Collector/Discovery, SQL compiler/worker protocol and recorded decoded JSON file-result, native context and actual physical count; native private caller cap enforcement and four pre-tape authentication controls outside replay, native temporary-file bytes not claimed.",
+  "pre_tape_auth_controls_retained_outside_replay": 4,
+  "private_native_caller_cap_outside_replay": true,
+  "native_temporary_file_bytes_not_claimed": true
+}

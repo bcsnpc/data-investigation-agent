@@ -8,6 +8,7 @@ from .model_context import assets as model_assets
 from .evidence_prose import diagnostic_detail
 from datetime import datetime, timezone
 import json
+import copy
 import time
 from .process_tape import uuid4
 from .run_recording import operation
@@ -43,6 +44,24 @@ def outcome(state):
 
 
 class AdaptiveRuntime:
+    def _persist_process_stage(self,identity,kind,detail):
+        from .local_accounting import boundary
+        def persist():
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
+                self.save(db,current,kind,detail)
+        return boundary('PROCESS_STAGE_ADMISSION',persist)
+
+    def _persist_process_read(self,identity,key,entry,uncertain):
+        from .local_accounting import boundary
+        def persist():
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
+                current.setdefault('process_read_receipts',[]).append(entry)
+                self.save(db,current,'PROCESS_READ_RECORDED',entry)
+                if self.governor:self.governor.settle(db,identity,key,uncertain=uncertain)
+        return boundary('PROCESS_READ_RECEIPT_PERSISTENCE',persist)
+
     def __init__(self,runtime,planner,clock=time.time,planner_profile=None,usage_policy=None,process_judge=None,
                  process_lineage=None):
         self.runtime=runtime;self.store=runtime.store;self.config=runtime.config
@@ -83,11 +102,13 @@ class AdaptiveRuntime:
         if row is None:raise KeyError('Session not found')
         state=json.loads(row['state'])
         if digest(state)!=row['state_hash']:raise ValueError('Session integrity differs')
-        self.store.get(row['model_id'])
+        with self.store.catalog_connection(db):self.store.get(row['model_id'])
         if state['model_id']!=row['model_id']:raise ValueError('Session model differs')
         return state
 
-    def admit(self,state):
+    def admit(self,state,db=None):
+        if db is not None:
+            with self.store.catalog_connection(db):return self.admit(state)
         if state.get('usage_policy_hash')!=(self.governor.hash if self.governor else None):raise Conflict('Usage policy changed')
         if state['engine_hash']!=fingerprint() or state['config_hash']!=digest(self.config) or state['planner_profile_hash']!=digest(self.planner_profile):raise Conflict('Engine or connection changed')
         model=self.store.get(state['model_id'])
@@ -213,14 +234,14 @@ class AdaptiveRuntime:
             db.execute('BEGIN IMMEDIATE');state=self.load(db,identity)
             if state['status'] in ('COMPLETED','NEEDS_INPUT','HELD','CANCELLED'):return self.get(identity)
             if state['status']!='READY':raise Conflict('Session has an active or interrupted turn')
-            try:candidates=self.admit(state)
+            try:candidates=self.admit(state,db)
             except Conflict:
                 self.stop(db,state,'ADMISSION_CHANGED','HELD');return self.project_after_commit(db,state)
             dynamic=bool(state['envelope'].get('strategy'))
             choices=([c for c in candidates if c['id'] not in state['attempted']] if dynamic else available(candidates,state['observations'],state['attempted']));limits=state['envelope']['limits']
             reason=None
             if self.clock()+self.generation_options['timeout_seconds']>state['deadline']:reason='DEADLINE'
-            elif state['planner_calls']>=limits['planner_calls'] or state['cloud_calls']>=limits['cloud_calls']:reason='BUDGET_LIMIT'
+            elif state['planner_calls']+state.get('transport_planner_calls',0)>=limits['planner_calls'] or state['cloud_calls']>=limits['cloud_calls']:reason='BUDGET_LIMIT'
             elif state.get('no_progress',0)>=(self.governor.policy['no_progress_limit'] if self.governor else 2):reason='NO_PROGRESS'
             elif not choices and not dynamic:reason='NO_ADMITTED_TEST'
             payload=self.payload(state,choices)
@@ -247,7 +268,8 @@ class AdaptiveRuntime:
         if self.planner_profile.get('adapter')=='azure':payload['generation_options']=self.generation_options
         try:
             from .planner_recording import recording
-            with recording(lambda: {'session_id':identity,'planner_call':state['planner_calls'],
+            from .model_transport_retry import adaptive_scope
+            with adaptive_scope(self,identity,'planner:'+str(state['planner_calls']),size,self.generation_options['max_output_tokens'],'PLANNING'), recording(lambda: {'session_id':identity,'planner_call':state['planner_calls'],
                     'environment':self.store.environment,'planner_profile':self.planner_profile,
                     'usage_policy':self.governor.policy if self.governor else None,
                     'context_version':state.get('discovery_version',state['context_hash']),
@@ -299,7 +321,7 @@ class AdaptiveRuntime:
             if self.governor:self.governor.settle(db,identity,'planner:'+str(state['planner_calls']),usage.get('usage') if isinstance(usage,dict) else None)
             if state['token']!=token or state['status']!='PLANNING':raise Conflict('Planner is fenced')
             for detail in repairs:self.save(db,state,'PROPOSAL_REPAIRED',detail)
-            try:self.admit(state)
+            try:self.admit(state,db)
             except Conflict:
                 self.stop(db,state,'ADMISSION_CHANGED','HELD');return self.project_after_commit(db,state)
             if self.clock()>state['deadline']:
@@ -380,7 +402,7 @@ class AdaptiveRuntime:
         with self.runtime.db() as db:
             state=self.load(db,identity)
             if state['token']!=token or state['status']!='EXECUTING':raise Conflict('Dispatcher fenced')
-            self.admit(state);pending=state['pending'];candidate=pending['candidate']
+            self.admit(state,db);pending=state['pending'];candidate=pending['candidate']
             if self.clock()+(300 if candidate['tool'] in ('source','source_records','bounded_sql') else 120)>state['deadline']:
                 self.stop(db,state,'DEADLINE','HELD');return self.project_after_commit(db,state)
         child=self.runtime.create({'model_id':state['model_id'],'call_budget':1,
@@ -393,20 +415,29 @@ class AdaptiveRuntime:
             state['pending']['run_id']=child['id'];self.save(db,state,'CHILD_LINKED',{'run_id':child['id']})
         def additional_read(tool,execute):
             with self.runtime.db() as db:
-                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current,db)
                 if current['status']!='EXECUTING' or current['token']!=token: raise Conflict('Dispatcher fenced')
                 if current['status']!='EXECUTING' or self.clock()>=current['deadline']:raise UsageHold('Read cancelled or deadline exhausted')
                 number=current.get('physical_calls',current['cloud_calls'])+1;key='physical:'+str(number)
                 if self.governor:self.governor.reserve(db,identity,key,'cloud')
                 current['physical_calls']=number;self.save(db,current,'PHYSICAL_READ_RESERVED',{'tool':tool,'number':number})
-            result=None;error=None
+            result=None;error=None;retry_physical=None
             try:
-                result=execute();return result
+                from .physical_reads import scope
+                from .process_tape import ACTIVE as active_tape
+                tape=active_tape.get()
+                legacy=tape is not None and tape.replaying and tape.bootstrap.get('state',{}).get('physical_transport_retries')!=2
+                if legacy:result=execute()
+                else:
+                    with scope(additional_read) as retry_physical:result=execute()
+                return result
             except Exception as exc:
                 error=type(exc).__name__;raise
             finally:
                 from .process_read_receipts import receipt
-                entry=receipt(number,tool,result,error)
+                first=retry_physical.get('first_report') if retry_physical else None
+                entry=receipt(number,first['request_kind'] if first else tool,first or result,error)
+                if first:entry['logical_tool']=tool
                 with self.runtime.db() as db:
                     db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
                     current.setdefault('physical_read_receipts',[]).append(entry)
@@ -447,7 +478,7 @@ class AdaptiveRuntime:
             if self.governor:self.governor.settle(db,identity,state['pending'].get('reservation_key','tool:'+str(state['cloud_calls'])),uncertain=child['status'] not in ('COMPLETED','CANCELLED') and not any(s['status']=='FAILED' for s in child['steps']))
             if child['status']!='COMPLETED':self.stop(db,state,'TOOL_UNAVAILABLE','HELD')
             else:
-                try:self.admit(state)
+                try:self.admit(state,db)
                 except Conflict:self.stop(db,state,'ADMISSION_CHANGED','HELD')
                 else:
                     from .progress_policy import informative
@@ -461,7 +492,7 @@ class AdaptiveRuntime:
         from .physical_reads import guard_scope
         def record_guard(event):
             with self.runtime.db() as db:
-                db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state)
+                db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state,db)
                 state.setdefault('guard_evidence',[]).append(event)
                 self.save(db,state,'SQL_GUARD_'+event['status'],event)
         with guard_scope(record_guard):
@@ -480,19 +511,17 @@ class AdaptiveRuntime:
             result=self.step(identity)
             if result['status']!='READY':return result
 
-    def run_process(self,identity):
-        """Execute the deterministic vertical strategy; open planning is fallback only."""
+    def process_adapter(self,identity):
+        """Construct the admitted, governed adapter without resolving or reading data."""
         from .adapters.microsoft_process import MicrosoftProcessAdapter
-        from .process_debugging import vertical
-        from .assessment_support import validate as validate_support
         with self.runtime.db() as db:
-            state=self.load(db,identity);self.admit(state)
-            if state['status']!='READY':return self.get(identity)
+            state=self.load(db,identity);self.admit(state,db)
+            if state['status'] not in ('READY','EXECUTING'):raise Conflict('Process adapter requires an admitted session')
         model=self.store.get(state['model_id'])
 
         def meter_read(tool,execute,physical_only=False):
             with self.runtime.db() as db:
-                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current,db)
                 if current['status']!='EXECUTING' or self.clock()>=current['deadline']:raise UsageHold('Read cancelled or deadline exhausted')
                 if not physical_only and current['cloud_calls']>=current['envelope']['limits']['cloud_calls']:
                     raise UsageHold('Investigation diagnostic-read limit')
@@ -522,14 +551,10 @@ class AdaptiveRuntime:
                 if first:
                     entry['logical_tool']=tool
                     entry['logical_receipt']=receipt(number,tool,result,error_type)
-                with self.runtime.db() as db:
-                    db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
-                    current.setdefault('process_read_receipts',[]).append(entry)
-                    self.save(db,current,'PROCESS_READ_RECORDED',entry)
-                    if self.governor:self.governor.settle(db,identity,key,uncertain=uncertain)
+                self._persist_process_read(identity,key,entry,uncertain)
 
-        provider=self.process_judge
-        if provider is None and self.planner_profile.get('adapter')=='azure':
+        provider=None if state.get('claim_process') else self.process_judge
+        if provider is None and not state.get('claim_process') and self.planner_profile.get('adapter')=='azure':
             from .transformation_judgment import azure_judge
             provider=azure_judge
 
@@ -543,10 +568,10 @@ class AdaptiveRuntime:
         def judge_once(payload,attempt):
             size=input_characters(payload)
             with self.runtime.db() as db:
-                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current,db)
                 if current['status']!='EXECUTING' or self.clock()+self.generation_options['timeout_seconds']>current['deadline']:
                     return {'status':'UNAVAILABLE','explains':None,'reason':'Judgment cancelled or deadline exhausted.'}
-                if current['planner_calls']>=current['envelope']['limits']['planner_calls']:
+                if current['planner_calls']+current.get('transport_planner_calls',0)>=current['envelope']['limits']['planner_calls']:
                     return {'status':'UNAVAILABLE','explains':None,'reason':'Investigation planner-call limit reached.'}
                 if current['input_characters']+size>current['envelope']['limits']['input_characters']:
                     return {'status':'UNAVAILABLE','explains':None,'reason':'Investigation input-character limit reached.'}
@@ -558,7 +583,8 @@ class AdaptiveRuntime:
             metadata=None;received=False
             try:
                 from .planner_recording import recording
-                with recording({'session_id':identity,'phase':'PROCESS_JUDGMENT','planner_call':number,
+                from .model_transport_retry import adaptive_scope
+                with adaptive_scope(self,identity,key,size,output,'EXECUTING'), recording({'session_id':identity,'phase':'PROCESS_JUDGMENT','planner_call':number,
                     'attempt':attempt,'retry_reason':'INCOMPLETE_PROSE' if attempt==2 else None,
                     'context_version':current.get('discovery_version'),'payload':payload,
                     'planner_profile':self.planner_profile,'usage_policy':self.governor.policy if self.governor else None,
@@ -625,7 +651,7 @@ class AdaptiveRuntime:
             return meter_read('xmla_failure_detail',execute,True)
 
         def read_endpoint(request):
-            def execute():
+            def execute(request):
                 import subprocess
                 from metadata_config import ROOT
                 from uuid import UUID
@@ -651,7 +677,36 @@ class AdaptiveRuntime:
                     return {'id':body['id'],'properties':{'sqlEndpointProperties':{
                         k:properties[k] for k in ('id','connectionString') if k in properties}}}
                 except (ValueError,KeyError,subprocess.TimeoutExpired):return {'status':'UNAVAILABLE'}
-            return meter_read('fabric_endpoint_metadata',execute)
+            from .physical_transport_retry import execute as retry_transport
+            return meter_read('fabric_endpoint_metadata',lambda:retry_transport(request,execute,'fabric_endpoint_metadata'))
+
+        local_execution=self.config.get('_estate',{}).get('execution',{}).get('mode')=='LOCAL_EXPORTED'
+        if local_execution:
+            def meter_local_read(tool,execute):
+                with self.runtime.db() as db:
+                    db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current,db)
+                    if current['status']!='EXECUTING' or self.clock()>=current['deadline']:
+                        raise UsageHold('Local read cancelled or deadline exhausted')
+                    from . import process_budget
+                    process_budget.admit(current,tool)
+                    if current['cloud_calls']>=current['envelope']['limits']['cloud_calls']:
+                        raise UsageHold('Investigation diagnostic-read limit')
+                    current['cloud_calls']+=1;process_budget.charge(current)
+                    current['local_diagnostic_reads']=current.get('local_diagnostic_reads',0)+1
+                    self.save(db,current,'PROCESS_LOCAL_READ_RESERVED',{'tool':tool,'diagnostic_reads':current['cloud_calls'],'physical_calls':current.get('physical_calls',0)})
+                return execute()
+            def record_local_evidence(evidence):
+                identity_value='local-read:'+str(uuid4());evidence=dict(evidence,id=identity_value)
+                with self.runtime.db() as db:
+                    db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
+                    current.setdefault('local_read_evidence',[]).append(evidence)
+                    self.save(db,current,'PROCESS_LOCAL_READ_RECORDED',{'evidence_id':identity_value})
+                return identity_value
+            from .adapters.local_process import create
+            adapter=create(self.store,self.config,model,record_evidence=record_local_evidence,
+                meter_local_read=meter_local_read,judge_definition=judge if provider is not None else None,
+                max_boundaries=self.process_max_boundaries)
+            return self._stage_process_adapter(identity,adapter,meter_local_read,local=True)
 
         # The independent lower surface: declared only when the reader's own
         # session is present (a local check, no token request).
@@ -691,19 +746,170 @@ class AdaptiveRuntime:
             max_boundaries=self.process_max_boundaries,read_endpoint=read_endpoint,
             read_refresh_timing=read_refresh_timing if self.config['fabric'].get('refresh_timing_reader') else None,
             read_snapshot_identity=read_snapshot_identity if self.config['fabric'].get('snapshot_identity_reader') else None)
-        def stage_event(kind, detail):
-            with self.runtime.db() as db:
-                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
-                self.save(db,current,kind,detail)
+        return self._stage_process_adapter(identity,adapter,meter_read,local=False)
+
+    def _stage_process_adapter(self,identity,adapter,meter_read,local):
+        def stage_event(kind,detail):
+            return self._persist_process_stage(identity,kind,detail)
         from .process_stages import Adapter as StageAdapter
         adapter=StageAdapter(adapter,stage_event)
+        adapter._runtime_meter_read=meter_read
+        adapter._runtime_stage_event=stage_event
+        adapter._runtime_local_execution=local
+        adapter._runtime_session_id=identity
+        return adapter
+
+    def agent_tool_boundary(self,identity):
+        """Persist complete tool observations before returning their evidence IDs.
+
+        Read/model admission remains in the governed adapter. This boundary owns
+        local persistence and terminal failure facts, not causal classification.
+        """
+        def boundary(name,arguments,operation):
+            receipt_id='agent-tool:'+str(uuid4())
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state,db)
+                if state['status']!='EXECUTING' or self.clock()>=state['deadline']:
+                    raise UsageHold('Agent tool cancelled or deadline exhausted')
+                self.save(db,state,'AGENT_TOOL_STARTED',{'receipt_id':receipt_id,'tool':name})
+            tape_event('CONFIGURATION',{'control':'AGENT_TOOL_BOUNDARY_V1','phase':'START','session_id':identity,'receipt_id':receipt_id,'tool':name,'arguments':arguments})
+            try:result=operation()
+            except BaseException as exc:
+                from .process_failure import capture
+                failure=capture(exc)
+                with self.runtime.db() as db:
+                    db.execute('BEGIN IMMEDIATE');state=self.load(db,identity)
+                    state.setdefault('agent_tool_receipts',[]).append({'id':receipt_id,'tool':name,'arguments':arguments,'status':'FAILED','failure':failure})
+                    self.save(db,state,'AGENT_TOOL_FAILED',{'receipt_id':receipt_id,'tool':name,'failure':failure})
+                tape_event('CONFIGURATION',{'control':'AGENT_TOOL_BOUNDARY_V1','phase':'FAILED','session_id':identity,'receipt_id':receipt_id,'error_type':type(exc).__name__})
+                raise
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state,db)
+                if state['status']!='EXECUTING':raise Conflict('Agent tool persistence fenced')
+                state.setdefault('agent_tool_receipts',[]).append({'id':receipt_id,'tool':name,'arguments':arguments,'status':'COMPLETED','result':result})
+                self.save(db,state,'AGENT_TOOL_COMPLETED',{'receipt_id':receipt_id,'tool':name})
+            tape_event('CONFIGURATION',{'control':'AGENT_TOOL_BOUNDARY_V1','phase':'COMPLETED','session_id':identity,'receipt_id':receipt_id,'result_hash':digest(result)})
+            return {'receipt_id':receipt_id,'result':result}
+        return boundary
+
+    def begin_agent_process(self,identity):
+        """Claim a trusted intake session for tool-led execution, without walking."""
+        with self.runtime.db() as db:
+            db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state,db)
+            if state['status']!='READY' or state.get('process_started'):
+                raise Conflict('Agent requires a fresh admitted process session')
+            state.update(process_started=True,status='EXECUTING')
+            self.save(db,state,'PROCESS_STARTED',{'procedure':'AGENT_TOOL_LOOP','reserved_reads':0})
+        return self.get(identity)
+
+    def begin_claim_process(self,envelope,key,*,claim_hash,confirmation_hash):
+        """Admit one confirmed claim through the ordinary session/read guards.
+
+        This port does not choose scope, run a planner, or grant a capability.
+        The consumer retains the confirmed claim separately; these hashes fence
+        the resulting metered session against reuse by another interpretation.
+        """
+        for value in (claim_hash,confirmation_hash):
+            if not isinstance(value,str) or len(value)!=64 or any(c not in '0123456789abcdef'for c in value):
+                raise ValueError('Confirmed claim hashes are required')
+        cap=min(12,self.config.get('_estate',{}).get('budgets',{}).get('diagnostic_reads_per_run',12))
+        if envelope.get('limits',{}).get('cloud_calls',13)>cap:
+            raise ValueError('Claim diagnostic ceiling exceeds the existing run cap')
+        identity=self.create(envelope,key)['id']
+        with self.runtime.db()as db:
+            db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state,db)
+            if state['status']!='READY' or state.get('process_started'):
+                raise Conflict('Claim requires a fresh admitted process session')
+            state.update(process_started=True,status='EXECUTING',claim_process={
+                'claim_hash':claim_hash,'confirmation_hash':confirmation_hash})
+            self.save(db,state,'PROCESS_STARTED',{'procedure':'CONFIRMED_CLAIM','reserved_reads':0,
+                'claim_hash':claim_hash,'confirmation_hash':confirmation_hash})
+        return self.get(identity)
+
+    def finalize_claim_process(self,identity,result,*,claim_hash,confirmation_hash):
+        """Retain deterministic consumer-checked results and actual read receipts.
+
+        No synthesis/model call or causal promotion takes place here. The claim
+        controller is responsible for the route's receipt-bound reducer.
+        """
+        if not isinstance(result,dict)or result.get('status')not in('COMPLETED','HELD','PARTIAL'):
+            raise ValueError('Claim result requires an explicit terminal status')
+        if result.get('cause_verified')is True or result.get('classification')in('DEFECT','DATA_DEFECT'):
+            raise ValueError('A claim projection cannot confer causal defect proof')
+        with self.runtime.db()as db:
+            db.execute('BEGIN IMMEDIATE');state=self.load(db,identity)
+            if state.get('claim_process')!={'claim_hash':claim_hash,'confirmation_hash':confirmation_hash}:
+                raise Conflict('Claim interpretation differs from the admitted session')
+            if state['status']!='EXECUTING':raise Conflict('Claim terminal transition is fenced')
+            state['claim_result']=copy.deepcopy(result)
+            state['claim_result']['reads']={'diagnostic':state['cloud_calls'],
+                'physical':state.get('physical_calls',0),
+                'receipts':copy.deepcopy(state.get('process_read_receipts',[]))}
+            state.update(status='COMPLETED',stop_reason='CLAIM_CHECK_COMPLETE',token=None,pending=None)
+            self.save(db,state,'PROCESS_CLAIM_STOPPED',{'status':result['status'],
+                'result_hash':digest(result),'diagnostic_reads':state['cloud_calls'],
+                'physical_calls':state.get('physical_calls',0)})
+        return self.get(identity)
+
+    def accept_agent_support(self,identity,tools,outcome,target_id,citations):
+        """Persist only existing-gate support built from this session's tool ledger.
+
+        This is not delivery: synthesize still applies coverage and prose gates.
+        The caller's text/claims cannot confer roles or become engine evidence.
+        """
+        from .investigation_tools import InvestigationTools
+        from .definition_target import procedure_scope
+        from .assessment_support import validate as validate_support
+        if not isinstance(tools,InvestigationTools) or getattr(tools.adapter,'_runtime_session_id',None)!=identity:
+            raise Conflict('Agent support belongs to a different session')
+        with self.runtime.db() as db:
+            state=self.load(db,identity);self.admit(state,db)
+            if state['status']!='EXECUTING':raise Conflict('Agent session is not executing')
+            target=tools._target(target_id)
+            if target is None or target[0]!=state['envelope']['measure_id'] or digest(target[1])!=digest(procedure_scope(state['envelope'])):
+                raise Conflict('Agent support target or scope changed')
+        candidate=tools.terminal_support(outcome,target_id,citations)
+        assessment=candidate['assessment'];observations=candidate['observations']
+        validate_support(assessment,observations)
+        with self.runtime.db() as db:
+            db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state,db)
+            if state['status']!='EXECUTING':raise Conflict('Agent terminal transition fenced')
+            existing={o['id']:o for o in state['observations']}
+            for key,value in observations.items():
+                if key in existing and existing[key]!=value:raise Conflict('Agent evidence identity changed')
+                existing[key]=value
+            state['observations']=list(existing.values());state['assessment']=assessment
+            state.update(status='COMPLETED',stop_reason='ENOUGH_DIAGNOSTICS',token=None,pending=None)
+            self.save(db,state,'PROCESS_AGENT_STOPPED',{'classification':assessment['classification'],
+                'support_receipt_id':candidate['support_receipt_id']})
+        return self.get(identity)
+
+    def run_process(self,identity,*,agent_candidate=False):
+        """Execute the unchanged deterministic strategy through the shared adapter."""
+        from .process_debugging import vertical
+        from .assessment_support import validate as validate_support
+        with self.runtime.db() as db:
+            state=self.load(db,identity);self.admit(state,db)
+            if agent_candidate:
+                automatic=False
+                from .agent_handoff import WORKSPACE
+                workspace=WORKSPACE.get()
+                if workspace is not None:
+                    from .agent_handoff import controller_owned
+                    automatic=workspace.agent is self and controller_owned(workspace)
+                if (self.config.get('_estate',{}).get('investigation',{}).get('mode')!='HYBRID' and not automatic) or state['status']!='EXECUTING' or not state.get('process_started'):
+                    raise Conflict('Standard candidate requires an executing hybrid session')
+            elif state['status']!='READY':return self.get(identity)
+        adapter=self.process_adapter(identity)
+        meter_read=adapter._runtime_meter_read
+        stage_event=adapter._runtime_stage_event
         from .context_search import MeasurePathLimit
         try:
             path=adapter.resolve_path(state['envelope']['measure_id'])
         except MeasurePathLimit as exc:
             with self.runtime.db() as db:
-                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
-                if current['status']!='READY':return self.project_after_commit(db,current)
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current,db)
+                if current['status']!=('EXECUTING' if agent_candidate else 'READY'):return self.project_after_commit(db,current)
                 self.stop(db,current,'PATH_CONTEXT_LIMIT','HELD')
                 current['process_error']='PATH_CONTEXT_LIMIT'
                 self.save(db,current,'PROCESS_PATH_REFUSED',{'reason':'PATH_CONTEXT_LIMIT',
@@ -711,16 +917,17 @@ class AdaptiveRuntime:
                     'limitation':'The complete measure path exceeds the context bound; no evidence was truncated and no data read was attempted.'})
                 return self.project_after_commit(db,current)
         with self.runtime.db() as db:
-            db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state)
-            if state['status']!='READY':return self.project_after_commit(db,state)
+            db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state,db)
+            if state['status']!=('EXECUTING' if agent_candidate else 'READY'):return self.project_after_commit(db,state)
             state['process_started']=True;state['status']='EXECUTING'
             self.save(db,state,'PROCESS_STARTED',{'procedure':'VERTICAL','reserved_reads':0})
         from . import observation_journal
-        error=None;budget_error=None;assessment=None;observations=[];journal=observation_journal.Journal()
+        from .question_kind import UnimplementedRoute
+        error=None;budget_error=None;route_error=None;assessment=None;observations=[];journal=observation_journal.Journal()
         try:
             from .definition_target import procedure_scope
             with observation_journal.scope(journal):
-                if self.process_lineage is not None:
+                if self.process_lineage is not None and not adapter._runtime_local_execution:
                     stage_event('PROCESS_STAGE_STARTED',{'stage':'context','operation':'qualify_lineage'})
                     lineage_error=None
                     try:path=self.process_lineage(adapter,path,state['envelope'],meter_read)
@@ -738,6 +945,9 @@ class AdaptiveRuntime:
             validate_support(assessment,{o['id']:o for o in observations})
         except UsageHold as exc:
             budget_error=str(exc)
+            observations=list({o['id']:o for o in journal if o.get('id')}.values())
+        except UnimplementedRoute as exc:
+            route_error=str(exc)
             observations=list({o['id']:o for o in journal if o.get('id')}.values())
         except Exception as exc:
             from .process_failure import capture
@@ -768,7 +978,20 @@ class AdaptiveRuntime:
                 self.stop(db,state,'PROCESS_FAILED','HELD')
                 state['process_error']=error;self.save(db,state,'PROCESS_FAILED',error)
                 return self.project_after_commit(db,state)
+            if route_error:
+                state['observations'].extend(observations)
+                from .process_receipts import refusal
+                state['observations'].append(refusal('UNIMPLEMENTED_ROUTE',route_error,
+                    'unimplemented-route-'+str(len(state['observations']))))
+                self.stop(db,state,'UNIMPLEMENTED_ROUTE','HELD')
+                self.save(db,state,'PROCESS_ROUTE_UNIMPLEMENTED',{'reason':route_error})
+                return self.project_after_commit(db,state)
             state['observations'].extend(observations);state['assessment']=assessment
+            if agent_candidate:
+                # Keep terminal authority with the original support/delivery gate.
+                self.save(db,state,'STANDARD_INVESTIGATION_CANDIDATE',{'classification':assessment['classification']})
+                return {'status':'AVAILABLE','assessment':copy.deepcopy(assessment),
+                        'observations':{o['id']:copy.deepcopy(o) for o in observations}}
             state.update(status='COMPLETED',stop_reason='ENOUGH_DIAGNOSTICS',token=None,pending=None)
             self.save(db,state,'PROCESS_STOPPED',{'classification':assessment['classification'],
                 'terminating_step':assessment['terminating_step']})
@@ -813,7 +1036,7 @@ class AdaptiveRuntime:
                 return self.get(identity)
         if child['status']=='READY':
             with self.runtime.db() as db:
-                state=self.load(db,identity);self.admit(state)
+                state=self.load(db,identity);self.admit(state,db)
                 if self.clock()+(300 if pending['candidate']['tool'] in ('source','source_records','bounded_sql') else 120)>state['deadline']:
                     self.stop(db,state,'DEADLINE','HELD');return self.project_after_commit(db,state)
             return self.dispatch(identity,token)

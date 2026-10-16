@@ -1,0 +1,159 @@
+{
+  "date": "2026-10-09T01:10:37.469067+00:00",
+  "dev_only": true,
+  "golden_changed": false,
+  "issues": [
+    {
+      "case_id": "original:visual-1",
+      "ticket_verbatim": "In Round Ten Visual Variety, on page Global card, the Handled Quantity shows 8765. Can the saved declared context reproduce that figure?",
+      "sealed_expected": {
+        "status": "PROPOSED",
+        "error": null,
+        "action": "PROPOSE",
+        "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+        "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "VISUAL_CONTENT",
+        "dimension_ids": [],
+        "filters": [],
+        "figure_state": "NUMBER",
+        "figure_value": "8765",
+        "figure_precision": {
+          "state": "EXACT"
+        },
+        "selection_value": null,
+        "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F99d9ca357e3792ad6f70%2Fvisuals%2F45e0a944d0425fec09d0%2Fvisual.json",
+        "cell_mode": "UNGROUPED",
+        "nominated_question_kind": "VISUAL_CONTENT"
+      },
+      "finding": "Shown figure plus reproduction request contains no explicit mismatch allegation; sealed triage requires MISMATCH_COMPLAINT/VERTICAL.",
+      "decision": "PENDING_HUMAN_NO_REFERENCE_CHANGED"
+    },
+    {
+      "case_id": "original:family-H",
+      "ticket_verbatim": "Warehouse Performance e1b8e1 Inbound Quantity and Outbound Quantity are different. For the Received Units card, explain whether the current observed difference follows their definitions, and state what business intent remains unknown.",
+      "sealed_expected": {
+        "status": "PROPOSED",
+        "error": null,
+        "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7826f034-ab61-4d8f-8125-27c1d60a73a5/part/definition%2Fpages%2F808c90e3fbe05225bef0%2Fvisuals%2Fcb317373005d5476a24e%2Fvisual.json",
+        "cell_mode": "UNGROUPED",
+        "action": "PROPOSE",
+        "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+        "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Inbound%20Quantity",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "METRIC_COMPONENTS",
+        "dimension_ids": [],
+        "filters": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "nominated_question_kind": "METRIC_COMPONENTS"
+      },
+      "finding": "Ticket compares Inbound Quantity and Outbound Quantity, distinct measures; reference requires VERTICAL. Primary card points at one of those metrics, so reviewer must decide what comparison the question actually asks.",
+      "decision": "PENDING_HUMAN_NO_REFERENCE_CHANGED"
+    },
+    {
+      "case_id": "original:refusal-two-figures",
+      "ticket_verbatim": "The same Handled Quantity card in Declared predicate fixture 20261001 shows 16 and 17 at the same time. Both are reported figures; I cannot identify which is correct.",
+      "sealed_expected": {
+        "status": "NEEDS_INPUT",
+        "error": null,
+        "target_id": null,
+        "cell_mode": null,
+        "action": "ASK",
+        "model_id": null,
+        "measure_id": null,
+        "ticket_shape": null,
+        "comparison_mode": null,
+        "question_kind": null,
+        "dimension_ids": [],
+        "filters": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "nominated_question_kind": null
+      },
+      "finding": "A kind is required by the extraction wire, but the scored nominated kind is null. Correct business refusals use BUSINESS_MEANING instead. A safe semantic refusal may still fail this nomination field.",
+      "decision": "PENDING_HUMAN_NO_REFERENCE_CHANGED"
+    },
+    {
+      "case_id": "original:refusal-unidentified-visual",
+      "ticket_verbatim": "A report card somewhere shows 16 and seems wrong. I do not know the report, page, visual, or measure.",
+      "sealed_expected": {
+        "status": "NEEDS_INPUT",
+        "error": null,
+        "target_id": null,
+        "cell_mode": null,
+        "action": "ASK",
+        "model_id": null,
+        "measure_id": null,
+        "ticket_shape": null,
+        "comparison_mode": null,
+        "question_kind": null,
+        "dimension_ids": [],
+        "filters": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "nominated_question_kind": null
+      },
+      "finding": "A kind is required by the extraction wire, but the scored nominated kind is null. Correct business refusals use BUSINESS_MEANING instead. A safe semantic refusal may still fail this nomination field.",
+      "decision": "PENDING_HUMAN_NO_REFERENCE_CHANGED"
+    },
+    {
+      "case_id": "original:refusal-unsupported-filter",
+      "ticket_verbatim": "Inventory Health e1b8e1 Handled Quantity shows 16 under an unidentified custom-script slicer filter. I have no predicate or selection details.",
+      "sealed_expected": {
+        "status": "NEEDS_INPUT",
+        "error": null,
+        "target_id": null,
+        "cell_mode": null,
+        "action": "ASK",
+        "model_id": null,
+        "measure_id": null,
+        "ticket_shape": null,
+        "comparison_mode": null,
+        "question_kind": null,
+        "dimension_ids": [],
+        "filters": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "nominated_question_kind": null
+      },
+      "finding": "A kind is required by the extraction wire, but the scored nominated kind is null. Correct business refusals use BUSINESS_MEANING instead. A safe semantic refusal may still fail this nomination field.",
+      "decision": "PENDING_HUMAN_NO_REFERENCE_CHANGED"
+    },
+    {
+      "case_id": "original:refusal-unsupported-relative",
+      "ticket_verbatim": "Round Nine translation filters 20261007: Handled Quantity for the last seven days shows 16. Reproduce that relative-date context; Activity.event_day is a text field.",
+      "sealed_expected": {
+        "status": "NEEDS_INPUT",
+        "error": null,
+        "target_id": null,
+        "cell_mode": null,
+        "action": "ASK",
+        "model_id": null,
+        "measure_id": null,
+        "ticket_shape": null,
+        "comparison_mode": null,
+        "question_kind": null,
+        "dimension_ids": [],
+        "filters": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "nominated_question_kind": null
+      },
+      "finding": "A kind is required by the extraction wire, but the scored nominated kind is null. Correct business refusals use BUSINESS_MEANING instead. A safe semantic refusal may still fail this nomination field.",
+      "decision": "PENDING_HUMAN_NO_REFERENCE_CHANGED"
+    }
+  ]
+}

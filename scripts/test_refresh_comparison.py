@@ -61,7 +61,7 @@ class RefreshComparisonTests(unittest.TestCase):
         payload={'evidence':entries,'deterministic_process_finding':{'classification':r['classification']}}
         refs=[e['id'] for e in entries]
         response={'business_output':{'text':narrative.business_text(r['classification'],payload),'evidence_ids':refs},
-                  'technical_output':{'text':'The declared calculation reads the referenced source without changing the quantity.','evidence_ids':refs,'boundary_evidence_id':'boundary-1-comparison'}}
+                  'technical_output':{'text':'','evidence_ids':[],'boundary_evidence_id':'boundary-1-comparison'}}
         _,outputs=narrative.assemble(narrative.Response(response),payload,{'envelope':{'symptom':'Is the report stale?'},'assessment':r,'observations':observations})
         for key in ('business_output','technical_output'):
             self.assertIn(refresh_comparison.LIMIT,outputs[key]['mandatory_limits'])

@@ -12,7 +12,7 @@ class RebuildPlanTests(unittest.TestCase):
     def test_every_step_is_plan_only_and_has_identity_and_refusal_or_inputs(self):
         result=plan(self.manifest())
         self.assertEqual(result['platform_requests'],0)
-        self.assertFalse(result['apply_implemented'])
+        self.assertTrue(result['apply_implemented'])
         self.assertEqual([step['order'] for step in result['steps']], list(range(1,len(result['steps'])+1)))
         for step in result['steps']:
             with self.subTest(step=step['name']):

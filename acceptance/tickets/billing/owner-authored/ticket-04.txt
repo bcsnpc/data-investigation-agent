@@ -1,0 +1,3 @@
+Subject: MRR All Plans is lower than the plan amounts I added
+
+On Subscription Billing, MRR All Plans is 600. The application shows Aster on Growth at 250, Birch on Starter at 100, Cedar on Growth at 250 and Dune on Starter at 100. Adding all four gives me 700. Dune is marked churned. Does All Plans include that account or not? The title is confusing me.

@@ -1,0 +1,62 @@
+{
+  "approval_path": "D:\\dia-round-eleven-links\\.local\\round-fifteen\\billing\\continuation-pipeline-restore-after-hybrid\\approval.json",
+  "assessed_at": "2026-10-12T04:21:39.197488+00:00",
+  "command": [
+    "C:\\Users\\chait\\anaconda3\\python.exe",
+    "scripts/estate_readiness.py",
+    "--manifest",
+    "D:\\dia-round-eleven-links\\.local\\round-fifteen\\billing\\continuation-pipeline-restore-after-hybrid\\estate.json",
+    "--approval",
+    "D:\\dia-round-eleven-links\\.local\\round-fifteen\\billing\\continuation-pipeline-restore-after-hybrid\\approval.json",
+    "--index",
+    "D:\\dia-round-eleven-links\\.local\\round-fifteen\\billing\\continuation-pipeline-restore-after-hybrid\\readiness-index.json"
+  ],
+  "interpretation": "Retained re-assessment under current source and restored PIPELINE approval. Same actual PARTIAL collection; missing onboarding stages remain missing.",
+  "native_exit_code": 2,
+  "result": {
+    "estate_reads": 0,
+    "model_calls": 0,
+    "pins": {
+      "config_hash": "95d5340b0509c50ddf2a19308ee4bbdbf470ab92aa87e8b379552654e475e57a",
+      "context_hash": "011cc23304f45c7f7250a69ce4d6e3ccdb12144d0ae678136e327240f4000206",
+      "context_identity": "01c29e37-914a-4ec5-9a1c-23d3de0bfb71",
+      "engine_hash": "b9868654a96b89e0d254ea813ff7889c6f57afbec86886e4a57b1065b63eae6b",
+      "manifest_hash": "5c71237002607f11d7762485f258d0944a59ad5d89a5924bdc66f3f0fd92aecd"
+    },
+    "reason": "estate-not-fully-onboarded",
+    "scoring": "NOT_SCORED",
+    "stages": [
+      {
+        "reason": "DISCOVERY_NOT_COMPLETE",
+        "stage": "discovery",
+        "status": "BLOCKED"
+      },
+      {
+        "stage": "discovery_approval",
+        "status": "VERIFIED"
+      },
+      {
+        "reason": "'transformations'",
+        "stage": "transformations",
+        "status": "BLOCKED"
+      },
+      {
+        "reason": "'bindings'",
+        "stage": "bindings",
+        "status": "BLOCKED"
+      },
+      {
+        "reason": "'reader_verification'",
+        "stage": "reader_verification",
+        "status": "BLOCKED"
+      },
+      {
+        "reason": "'publication'",
+        "stage": "publication",
+        "status": "BLOCKED"
+      }
+    ],
+    "status": "BLOCKED",
+    "version": "estate-readiness-v1"
+  }
+}

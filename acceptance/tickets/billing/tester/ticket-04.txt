@@ -1,0 +1,6 @@
+What does the churn count cover?
+
+Subscription Billing has Churned Accounts = 1. Dune is CHURNED in the application, which seems to explain the one.
+
+Is this the number currently churned, or accounts that churned during a particular month? Also, should a paused account count as churned? I haven't found a paused account in the records I checked; this is a definition question before we use the number for retention reporting. I'd expect the reporting period and treatment of pauses to be clear.
+

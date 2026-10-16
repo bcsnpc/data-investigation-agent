@@ -1,0 +1,37 @@
+{
+  "audit_sha256": "fea84717168de643658e6e7b7b082941434c6a274680fda01210007a99382001",
+  "estate_reads": 0,
+  "exact_final_differences": [
+    {
+      "path": ".result.events[16].detail.logical_receipt.result_hash",
+      "recorded": "887222b026af3dc7f5d52e98e475b4fc356cca89f4f4f15b9f222e4eac6a0073",
+      "replayed": "0bc0cb0799658ab9848a8ba3a469ef6f40b4bf6c1fd8ebac3ed596be8ee1240d"
+    },
+    {
+      "path": ".result.process_read_receipts[2].logical_receipt.result_hash",
+      "recorded": "887222b026af3dc7f5d52e98e475b4fc356cca89f4f4f15b9f222e4eac6a0073",
+      "replayed": "0bc0cb0799658ab9848a8ba3a469ef6f40b4bf6c1fd8ebac3ed596be8ee1240d"
+    }
+  ],
+  "final_map_sha256": "29e966b68d856f410070a02fc411a606861f1f1b0293108e010e5eded51950cf",
+  "local_failure_boundary_event_present": false,
+  "model_calls": 0,
+  "native_error_type": "OperationalError",
+  "native_line": null,
+  "native_module": null,
+  "native_sqlite_code": null,
+  "new_replays": 0,
+  "new_tests": 0,
+  "originals_unchanged": true,
+  "producer_revision": "694dc9a1edc8519b4509789296c673887e306c65",
+  "publication_status": "BLOCKED_CURRENT_EXACT_PRODUCER_REPLAY",
+  "receipt_id": "f3b08597-bdd5-4e43-acb5-3b26bca90de3",
+  "recomputed_final_sha256": "dea74475c2bd7db1065057c8ae30910e58c568294e7b06104c90a2882813cfd0",
+  "recorded_at": "2026-10-11T01:40:53.999521+00:00",
+  "replay_line": null,
+  "replay_module": null,
+  "replayed_error_type": "TapeError",
+  "run_tape_sha256": "df5160358f50492b129420f9a35d221fa799c88787f9a1693e8b0a68d443ab34",
+  "session_id": "57843cba-a281-4bff-8812-1d1e842b8e0b",
+  "source_line_reconstruction_class_established": false
+}

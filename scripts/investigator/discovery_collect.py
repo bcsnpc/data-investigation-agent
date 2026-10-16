@@ -15,6 +15,7 @@ from metadata_inventory import expand_definition, collect_sql
 from metadata_protocol import pages
 from metadata_connectors import FabricMetadataConnector, PowerBIMetadataConnector
 from .onboarding import digest
+from .adapters.microsoft_load_declarations import declared_source_connections
 
 
 class BudgetExceeded(RuntimeError):
@@ -24,7 +25,7 @@ class BudgetExceeded(RuntimeError):
 class Collector:
     def __init__(self, config, transport, sql_reader, *, max_calls=160,
                  max_assets=20000, max_bytes=32*1024*1024, seconds=600, clock=time.monotonic,
-                 warehouse_reader=None):
+                 warehouse_reader=None, warehouse_catalog_reader=None, lakehouse_catalog_reader=None):
         self.config, self.transport, self.sql_reader = config, transport, sql_reader
         self.max_calls, self.max_assets, self.max_bytes = max_calls, max_assets, max_bytes
         self.clock, self.deadline = clock, clock()+seconds
@@ -32,6 +33,8 @@ class Collector:
         self.assets, self.coverage, self.observations = {}, {}, []
         self.scope = None
         self.warehouse_reader = warehouse_reader
+        self.warehouse_catalog_reader = warehouse_catalog_reader
+        self.lakehouse_catalog_reader = lakehouse_catalog_reader
 
     def charge(self):
         if self.clock() >= self.deadline or self.calls >= self.max_calls:
@@ -140,7 +143,51 @@ class Collector:
                                        column['name'],endpoint,column,tid)
                 self.attempt(aid+'/tables', tables)
                 self.observe(aid,'column_schema','UNKNOWN',aid,'REST table listing may omit columns')
+                if self.lakehouse_catalog_reader:
+                    def lakehouse_columns(item=item,aid=aid):
+                        endpoint=f'workspaces/{workspace}/lakehouses/{item["id"]}'
+                        body=self.call(endpoint)['text']
+                        if body.get('id')!=item['id']:raise ValueError('Lakehouse identity differs')
+                        self.charge()
+                        snapshot=self.lakehouse_catalog_reader(config,body)
+                        if snapshot.get('scope')!='VISIBLE_OBJECTS_ONLY' or snapshot.get('complete_schema') is not False:
+                            raise ValueError('Lakehouse SQL visibility scope differs')
+                        plans=[]
+                        for table in snapshot['tables']:
+                            matches=[a for a in self.assets.values() if a['parent_id']==aid and a['kind']=='LakehouseTable'
+                                and a['name'] in (table['name'],table['schema_name']+'.'+table['name'])]
+                            if len(matches)!=1:raise ValueError('SQL table not uniquely bound to listed Lakehouse table')
+                            plans.append((matches[0],table))
+                        for target,table in plans:
+                            target['metadata']['reader_schema']=copy.deepcopy(table)
+                            target['metadata']['columns']=copy.deepcopy(table['columns']);target['content_hash']=digest(target['metadata'])
+                            for column in table['columns']:
+                                cid=target['id']+'/column/'+quote(column['name'],safe='')
+                                if cid not in self.assets:
+                                    self.asset(cid,'LakehouseColumn',column['name'],'Lakehouse SQL reader catalog',column,target['id'])
+                        self.observe(aid,'column_schema','PARTIAL','Lakehouse SQL reader catalog',snapshot)
+                    self.attempt(aid+'/visible_column_schema',lakehouse_columns)
             if kind == 'Warehouse':
+                if self.warehouse_catalog_reader:
+                    def warehouse_catalog(item=item,aid=aid):
+                        endpoint=f'workspaces/{workspace}/warehouses/{item["id"]}'
+                        body=self.call(endpoint)['text']
+                        if body.get('id')!=item['id']:raise ValueError('Warehouse identity differs')
+                        self.assets[aid]['metadata']=copy.deepcopy(body)
+                        self.assets[aid]['content_hash']=digest(body)
+                        self.charge()
+                        snapshot=self.warehouse_catalog_reader(config,body)
+                        if snapshot.get('scope')!='VISIBLE_OBJECTS_ONLY' or snapshot.get('complete_schema') is not False:
+                            raise ValueError('Warehouse visibility scope differs')
+                        for table in snapshot['tables']:
+                            name=table['schema_name']+'.'+table['name'];tid=aid+'/table/'+quote(name,safe='')
+                            self.asset(tid,'WarehouseTable',name,'Warehouse reader sys catalog',table,aid)
+                            for column in table['columns']:
+                                self.asset(tid+'/column/'+quote(column['name'],safe=''),'WarehouseColumn',
+                                           column['name'],'Warehouse reader sys catalog',column,tid)
+                        self.observe(aid,'catalog_visibility','PARTIAL','Warehouse reader sys catalog',snapshot)
+                    self.attempt(aid+'/visible_tables',warehouse_catalog)
+                    continue
                 declared=[entry['audit_asset_id'] for entry in config.get('load_audits',[])
                           if entry['audit_asset_id'].startswith(aid+'/table/')]
                 if declared and self.warehouse_reader:
@@ -170,16 +217,14 @@ class Collector:
             if kind == 'SemanticModel':
                 history=self.attempt(aid+'/refreshes', lambda item=item: powerbi.get_refresh_history(item))
                 if history is not None:self.observe(aid,'refresh_history','AVAILABLE',aid,history)
-        # Follow only connection references declared by collected Copy Jobs.
-        # An exact approved source scope is required; neither connection listing
-        # nor credential material belongs in the discovery context.
+        # Interpretation of native load declaration forms belongs in the adapter.
+        # Follow explicit declared source references, never a recursive string sweep.
         references=set()
         for part in list(self.assets.values()):
-            if part['kind']!='DefinitionPart' or part['metadata'].get('path')!='copyjob-content.json':continue
+            if part['kind']!='DefinitionPart':continue
             def refs(part=part):
-                document=json.loads(part['metadata']['content'])
-                ref=document['properties']['source']['connectionSettings'].get('externalReferences',{}).get('connection')
-                if ref:references.add(str(UUID(ref)))
+                references.update(declared_source_connections(
+                    part.get('metadata',{}).get('path'), part['metadata']['content']))
             self.attempt(part['id']+'/connection_reference',refs)
         sql=config['sql']; sqlroot='sql://'+sql['server']+'/'+sql['database']
         for cid in sorted(references):
@@ -205,9 +250,15 @@ class Collector:
             collect_sql(self,snapshot)
             self.asset(sqlroot+'/schema/'+quote(sql['visibility_schema'],safe=''),'SqlSchema',
                        sql['visibility_schema'],'Azure SQL sys catalog',{'name':sql['visibility_schema']},sqlroot)
-            if not snapshot['permissions'] or not snapshot['permissions'][0]['can_view_definition']:
-                raise PermissionError('Complete schema visibility unavailable')
-        self.attempt(sqlroot+'/catalog',sql_catalog)
+            return bool(snapshot['permissions'] and snapshot['permissions'][0]['can_view_definition'])
+        complete=self.attempt(sqlroot+'/catalog',sql_catalog)
+        if complete is False:
+            # A complete metadata response about visible objects is retained as
+            # such. Lack of schema-wide visibility is a coverage limit, not a
+            # reason to erase the returned objects or claim hidden ones absent.
+            self.coverage[sqlroot+'/catalog']={'status':'UNAVAILABLE',
+                'error_type':'PermissionError','reason':'Complete schema visibility unavailable',
+                'retained_scope':'VISIBLE_OBJECTS_ONLY','complete_schema':False}
         return {'assets':list(self.assets.values()),'coverage':self.coverage,
                 'observations':self.observations,'report_bindings':self.report_bindings,
                 'item_relations':self.item_relations,

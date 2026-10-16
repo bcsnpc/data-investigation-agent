@@ -1,0 +1,409 @@
+{
+  "consumer_revision": "8fa2161",
+  "dated_additions": [
+    {
+      "consumer_revision": "551a049",
+      "operations": [
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "551a049",
+          "family": "family-A",
+          "matched": true,
+          "network_requests": 0,
+          "operations": [
+            "form_submit"
+          ],
+          "outcome": null,
+          "recorded_engine_hash": "f9adb5ef8a990fa222460e9573b8c811e5dc321bd9015788ef5249c7011f25f8",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "f9adb5ef8a990fa222460e9573b8c811e5dc321bd9015788ef5249c7011f25f8",
+          "replay_setup_correction": null,
+          "source_identity_limitation": null,
+          "status": null,
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\a599a628-afb9-4567-b239-c93d8823ba0c\\tape.json"
+        },
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "551a049",
+          "family": "family-B",
+          "matched": true,
+          "network_requests": 0,
+          "operations": [
+            "form_submit"
+          ],
+          "outcome": null,
+          "recorded_engine_hash": "f9adb5ef8a990fa222460e9573b8c811e5dc321bd9015788ef5249c7011f25f8",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "f9adb5ef8a990fa222460e9573b8c811e5dc321bd9015788ef5249c7011f25f8",
+          "replay_setup_correction": "Restore production live candidate reader port",
+          "source_identity_limitation": null,
+          "status": null,
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\396a7878-f7cb-4760-910c-6f359907ad39\\tape.json"
+        }
+      ],
+      "prior_failed_replays_preserved": true,
+      "recorded_at": "2026-10-11T10:37:58.394933+00:00",
+      "setup_failure": "First restored-port diagnostic patched an imported module but invoked a separate runpy namespace; no setup change was applied there. Corrected diagnostic invokes the patched consumer."
+    },
+    {
+      "consumer_revision": "984892d",
+      "date": "2026-10-11",
+      "model_calls": 0,
+      "originals_unchanged": true,
+      "reads": 0,
+      "runs": [
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "984892d",
+          "family": "family-E",
+          "matched": true,
+          "model_calls": 0,
+          "network_requests": 0,
+          "operations": [
+            "form_submit"
+          ],
+          "outcome": null,
+          "recorded_engine_hash": "202e9ed05c38bbb77428c85f914c0fb367d5da81751232cb986aaf04a709a7f0",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "202e9ed05c38bbb77428c85f914c0fb367d5da81751232cb986aaf04a709a7f0",
+          "status": null,
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\6b60d8c3-a0b7-4a2d-b3be-ce2ebae050bf\\tape.json"
+        },
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "984892d",
+          "family": "family-F",
+          "matched": true,
+          "model_calls": 0,
+          "network_requests": 0,
+          "operations": [
+            "form_submit"
+          ],
+          "outcome": null,
+          "recorded_engine_hash": "202e9ed05c38bbb77428c85f914c0fb367d5da81751232cb986aaf04a709a7f0",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "202e9ed05c38bbb77428c85f914c0fb367d5da81751232cb986aaf04a709a7f0",
+          "status": null,
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\790afff4-2026-4741-9971-8a1bca802844\\tape.json"
+        }
+      ]
+    },
+    {
+      "consumer_revision": "29fefe8",
+      "engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+      "estate_requests": 0,
+      "model_calls": 0,
+      "operations": [
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "29fefe8",
+          "family": "family-E",
+          "matched": true,
+          "model_calls": 0,
+          "network_requests": 0,
+          "operations": [
+            "run"
+          ],
+          "outcome": "TRANSFORMATION_LOGIC",
+          "recorded_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "status": "COMPLETED",
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\ef88603a-3bb5-4584-b236-f78f4b5fff1f\\tape.json"
+        },
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "29fefe8",
+          "family": "family-E",
+          "matched": true,
+          "model_calls": 0,
+          "network_requests": 0,
+          "operations": [
+            "ticket_finish"
+          ],
+          "outcome": null,
+          "recorded_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "status": null,
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\cc752bea-7d1d-4d4a-90b5-067741715527\\tape.json"
+        },
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "29fefe8",
+          "family": "family-E",
+          "matched": true,
+          "model_calls": 0,
+          "network_requests": 0,
+          "operations": [
+            "form_submit"
+          ],
+          "outcome": null,
+          "recorded_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "status": null,
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\fd4caed5-0564-422c-87d8-1d9402402d34\\tape.json"
+        },
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "29fefe8",
+          "family": "family-F",
+          "matched": true,
+          "model_calls": 0,
+          "network_requests": 0,
+          "operations": [
+            "run"
+          ],
+          "outcome": "CONSISTENT_TO_BOUNDARY",
+          "recorded_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "status": "COMPLETED",
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\18691175-0ad1-4b3e-91df-e98533a806be\\tape.json"
+        },
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "29fefe8",
+          "family": "family-F",
+          "matched": true,
+          "model_calls": 0,
+          "network_requests": 0,
+          "operations": [
+            "ticket_finish"
+          ],
+          "outcome": null,
+          "recorded_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "status": null,
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\1aaad780-bb66-4b73-ab66-40d7e581fa06\\tape.json"
+        },
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "29fefe8",
+          "family": "family-F",
+          "matched": true,
+          "model_calls": 0,
+          "network_requests": 0,
+          "operations": [
+            "form_submit"
+          ],
+          "outcome": null,
+          "recorded_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "status": null,
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\a02e6275-01d6-4bda-8b9a-f482de3dcf05\\tape.json"
+        },
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "29fefe8",
+          "family": "family-G",
+          "matched": true,
+          "model_calls": 0,
+          "network_requests": 0,
+          "operations": [
+            "run"
+          ],
+          "outcome": "TRANSFORMATION_LOGIC",
+          "recorded_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "status": "COMPLETED",
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\80fa32fe-51c9-4b04-a38a-cef72f119226\\tape.json"
+        },
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "29fefe8",
+          "family": "family-G",
+          "matched": true,
+          "model_calls": 0,
+          "network_requests": 0,
+          "operations": [
+            "form_submit"
+          ],
+          "outcome": null,
+          "recorded_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "status": null,
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\5c9a74ed-0584-4875-b93a-b64e5db8cf0d\\tape.json"
+        },
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "29fefe8",
+          "family": "family-G",
+          "matched": true,
+          "model_calls": 0,
+          "network_requests": 0,
+          "operations": [
+            "ticket_finish"
+          ],
+          "outcome": null,
+          "recorded_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "status": null,
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\d76085b4-8c68-436c-9458-60cabd51a4ee\\tape.json"
+        },
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "29fefe8",
+          "family": "family-H",
+          "matched": true,
+          "model_calls": 0,
+          "network_requests": 0,
+          "operations": [
+            "run"
+          ],
+          "outcome": "NO_KNOWN_PATTERN",
+          "recorded_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "status": "COMPLETED",
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\ff1144e3-ac9d-47f8-8bfd-aa52a9a4c2e5\\tape.json"
+        },
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "29fefe8",
+          "family": "family-H",
+          "matched": true,
+          "model_calls": 0,
+          "network_requests": 0,
+          "operations": [
+            "ticket_finish"
+          ],
+          "outcome": null,
+          "recorded_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "status": null,
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\13e4ae9d-5f99-415e-abef-a3e89972503e\\tape.json"
+        },
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "29fefe8",
+          "family": "family-H",
+          "matched": true,
+          "model_calls": 0,
+          "network_requests": 0,
+          "operations": [
+            "form_submit"
+          ],
+          "outcome": null,
+          "recorded_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+          "status": null,
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\591260cc-d6d9-46be-b985-516cf0f86dc6\\tape.json"
+        }
+      ],
+      "original_tapes_unchanged": true,
+      "recorded_at": "2026-10-11T11:57:29.408769+00:00",
+      "scope": "PIPELINE E/F/G/H-r1 original inventory: twelve sealed run/finish/form-submit operations. Exact original engine and provider/worker bytes; upstream decoding not exercised. Closed working copies in C scratch, controlled partial F scratch kept separately.",
+      "status": "MATCHED"
+    }
+  ],
+  "engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+  "estate_requests": 0,
+  "model_calls": 0,
+  "operations": [
+    {
+      "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+      "consumer_revision": "8fa2161",
+      "family": "family-E",
+      "matched": true,
+      "network_requests": 0,
+      "operations": [
+        "form_submit"
+      ],
+      "outcome": null,
+      "recorded_engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+      "recorded_engine_identity_used": false,
+      "replay_engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+      "sealed_tape_sha256": "3175e11a0d575d061884fda090a8793d0ab140f013e0c9add1cc01c6907911e7",
+      "source_identity_limitation": null,
+      "status": null,
+      "synthesis_status": null,
+      "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\8f3cc412-113a-4763-b9bf-908484b06cad\\tape.json"
+    },
+    {
+      "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+      "consumer_revision": "8fa2161",
+      "family": "family-F",
+      "matched": true,
+      "network_requests": 0,
+      "operations": [
+        "form_submit"
+      ],
+      "outcome": null,
+      "recorded_engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+      "recorded_engine_identity_used": false,
+      "replay_engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+      "sealed_tape_sha256": "9cc031b72bdfbed778649d850b49ccf383ade2da11e9941164b67e0ff2f8d480",
+      "source_identity_limitation": null,
+      "status": null,
+      "synthesis_status": null,
+      "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\560067ae-35b2-45e9-a9f6-fb6c05c68277\\tape.json"
+    },
+    {
+      "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+      "consumer_revision": "8fa2161",
+      "family": "family-G",
+      "matched": true,
+      "network_requests": 0,
+      "operations": [
+        "form_submit"
+      ],
+      "outcome": null,
+      "recorded_engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+      "recorded_engine_identity_used": false,
+      "replay_engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+      "sealed_tape_sha256": "13c8ac111d8579041ac5b09723de4fe2e1f6eeb9e696f60cef0ccd137d2405cd",
+      "source_identity_limitation": null,
+      "status": null,
+      "synthesis_status": null,
+      "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\8a4ab15f-0752-4c1f-b090-8f25739baa8b\\tape.json"
+    },
+    {
+      "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+      "consumer_revision": "8fa2161",
+      "family": "family-H",
+      "matched": true,
+      "network_requests": 0,
+      "operations": [
+        "form_submit"
+      ],
+      "outcome": null,
+      "recorded_engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+      "recorded_engine_identity_used": false,
+      "replay_engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+      "sealed_tape_sha256": "fc75c63116fa84f72690641ae8de0ff558c4d099a6a25c4fe32985a44840f976",
+      "source_identity_limitation": null,
+      "status": null,
+      "synthesis_status": null,
+      "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\73c62b16-8de4-4041-83e6-535d8c45da29\\tape.json"
+    }
+  ],
+  "original_tapes_unchanged": true,
+  "recorded_at": "2026-10-11T09:40:17.110210+00:00",
+  "scope": "Four captured original E/F/G/H r2 form_submit operations include agent decisions and delivery; native transport decoding is not exercised by bounded replay. Other historical tapes are not covered by this result.",
+  "status": "EXACT_MATCHED"
+}

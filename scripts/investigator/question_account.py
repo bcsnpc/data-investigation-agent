@@ -23,8 +23,59 @@ KIND_SUBJECTS={'VISUAL_CONTENT':'comparison','FRESHNESS':'currency',
     'SOURCE_CORRECTNESS':'delivery','FIGURE_DIFFERENCE':'comparison',
     'METRIC_COMPONENTS':'definitions','DERIVED_CALCULATION':'definitions',
     'TRANSFORMATION_MECHANISM':'mechanism','BUSINESS_MEANING':'meaning',
-    'EXPECTED_BEHAVIOR':'expectation'}
+    'EXPECTED_BEHAVIOR':'expectation','FILTER_EFFECT':'comparison','TEMPORAL_COMPARISON':'comparison'}
 DELIVERY_OUTCOMES={'INGESTION_GAP':'GAP','LOAD_LATENCY':'LATENT'}
+
+
+def primary_business_request(envelope):
+    """A picked comparator does not add a technical question to user prose.
+
+    This is a conservative coverage guard, not an intake-kind rewrite. An
+    explicit independent technical ask keeps its own coverage obligation; a
+    direct meaning/intent ask cannot be answered by incidental flow checks.
+    """
+    source=(envelope.get('question_kind') or {}).get('source') or {}
+    quote=source.get('quote')
+    question=envelope['symptom']
+    if isinstance(quote,str) and quote:
+        start,end=source.get('start'),source.get('end')
+        if type(start)!=int or type(end)!=int or not 0<=start<end<=len(question) or question[start:end]!=quote:
+            raise Conflict('Question coverage source is not the retained user span')
+        # Quote validity establishes provenance, not completeness of the ask.
+        # A short valid quote must not hide another obligation in user prose.
+    question=question_views(envelope).get('business_question',question)
+    meaning=re.search(r'\b(?:what\s+(?:does|do)\b[^?]*\bmean|what\s+is\b[^?]*\bmeaning|should\b[^?]*\b(?:affect|count|include|exclude)|business\s+(?:intent|rule))\b',question,re.I)
+    technical=any(re.search(SUBJECTS[name],question,re.I) for name in ('currency','definitions'))
+    # The transport caption "Comparison selected by user" declares an input,
+    # not an independent comparison request. No caption/string is stripped.
+    technical=technical or re.search(r'\b(?:compare|differs|difference|discrepancy|disagree|higher|lower|overstated)\b|\b(?:explain|check|investigate|show|why|how)\b[^?]*\bcomparison\b',question,re.I)
+    technical=technical or re.search(r'\b(?:how\b[^?]*\b(?:calculated|transformed|loaded)|transformation mechanism)\b',question,re.I)
+    return bool(meaning and not technical)
+
+
+def question_views(envelope):
+    """Keep transport authority in evidence, not in the business question.
+
+    Only the exact appended input-document block may be omitted, and only
+    under its validated declared-reference proof. User prose is never parsed
+    or shortened by an identifier-removal heuristic.
+    """
+    binding=envelope.get('report_binding') or {}
+    if binding.get('resolution_kind')!='DECLARED_REFERENCE':return {}
+    question=envelope['symptom'];reference=binding['reference'];source=reference['source']
+    marker='\n\nReport link supplied by user:\n'
+    start=source['start'];end=source['end']
+    if (reference['request_hash']!=digest(question) or type(start)!=int or type(end)!=int
+            or not 0<=start<end<=len(question) or question[start:end]!=source['quote']):
+        raise Conflict('Business question reference does not match the retained input document')
+    boundary=start-len(marker)
+    if end!=len(question) or boundary<0 or question[boundary:start]!=marker:
+        return {}  # A different placement is not proof of an appended field.
+    visible=question[:boundary]
+    if not visible.strip():return {}
+    return {'business_question':visible,
+            'business_question_projection':{'rule':'OMIT_PROVEN_APPENDED_REPORT_LINK',
+                'document_hash':reference['request_hash'],'source':copy.deepcopy(source)}}
 
 
 def typed_check(kind,assessment,observations):
@@ -33,6 +84,14 @@ def typed_check(kind,assessment,observations):
     if kind not in KINDS or set(KIND_SUBJECTS)!=set(KINDS):raise Conflict('Question-kind answer map is incomplete')
     subject=KIND_SUBJECTS[kind];outcome=assessment.get('classification')
     refs=[];status='NOT_ANSWERED';reason='The completed checks did not establish an answer for this question kind.'
+    from .declared_reproduction import NO_FIGURE
+    no_figure = [o for o in observations
+                 if o.get('check_kind') == 'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE'
+                 and o.get('reason') == NO_FIGURE]
+    if outcome == 'NO_COMPARABLE_PATH' and no_figure:
+        return {'subject':subject, 'status':'NO_REPORTED_FIGURE',
+                'reason':'There is no reported figure to compare; no reproduction verdict was established.',
+                'evidence_ids':[o['id'] for o in no_figure]}
     delivery=[o for o in observations if o.get('check_kind')=='SOURCE_DELIVERY'
               and o.get('delivery_result',{}).get('status')==DELIVERY_OUTCOMES.get(outcome)] if outcome in DELIVERY_OUTCOMES else []
     comparisons=[o for o in observations if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']
@@ -49,6 +108,10 @@ def typed_check(kind,assessment,observations):
         elif outcome=='CONSISTENT_TO_BOUNDARY':
             reason='The compared path agreed through the named checked depth; the application beyond it was not read, so the remaining question belongs to the application owner.'
     elif kind=='TRANSFORMATION_MECHANISM':
+        if outcome=='CONSISTENT_TO_BOUNDARY':
+            return {'subject':subject,'status':'NOT_ANSWERED',
+                'reason':'The reachable compared layers agree, but the application source was not reached; agreement does not establish the requested mechanism.',
+                'evidence_ids':[o['id'] for o in comparisons]}
         refs=[o['id'] for o in observations if set(o.get('process_roles',[])) & {'transformation_definition','mechanism'}]
         if refs and outcome in ('TRANSFORMATION_LOGIC','DEFECT'):
             status='PARTLY_ANSWERED';reason='The retained definition was judged against the observed difference; the supported mechanism and its evidence limits are reported, without deciding business intent.'
@@ -59,7 +122,24 @@ def typed_check(kind,assessment,observations):
         reason='Technical flow evidence cannot establish authoritative business meaning; the remaining question requires a domain specialist.'
     elif kind=='VISUAL_CONTENT':
         reason='No completed declared-context reproduction established the requested visual result.'
+    elif kind=='FILTER_EFFECT':
+        refs=[o['id'] for o in observations if o.get('check_kind')=='DECLARED_FILTER_EFFECTS']
+        if refs:
+            status='PARTLY_ANSWERED';reason='Each active saved restriction was removed separately at the requested cell. The value effects were observed; current viewer selections, individual missing rows and timing remain unestablished.'
     return {'subject':subject,'status':status,'reason':reason,'evidence_ids':refs}
+
+
+def explicit_mechanism_obligation(envelope):
+    """Conservative requested deliverable guard, never an intake-kind rewrite.
+
+    A discrepancy allegation is background; an explicit request for a causal
+    explanation is not answered by confirming equal values. Unknown wording
+    remains under the ordinary typed coverage rule.
+    """
+    question=question_views(envelope).get('business_question',envelope['symptom'])
+    causal=re.search(r'\b(?:identify|find|seek|provide|give|establish)\b[^.!?\n]*\bexplanations?\b|\bexplain\s+why\b|\b(?:identify|find|establish)\b[^.!?\n]*\b(?:cause|mechanism)\b',question,re.I)
+    independent_comparison=re.search(r'\b(?:compare|reconcile)\b[^.!?\n]*\b(?:with|against|versus|to)\b',question,re.I)
+    return bool(causal),bool(independent_comparison)
 
 
 def build(state):
@@ -68,11 +148,13 @@ def build(state):
     assessment=state.get('assessment') or {}
     kind=(state['envelope'].get('question_kind') or {}).get('kind')
     from .reproduction_composition import select,answer,requested
-    lead=select(state.get('observations',[])) if kind=='VISUAL_CONTENT' or requested(question) else None
+    business_primary=primary_business_request(state['envelope'])
+    lead=select(state.get('observations',[])) if not business_primary and (kind in ('VISUAL_CONTENT','FILTER_EFFECT') or requested(question)) else None
     if lead is not None:
-        return {'version':2,'question':question,'question_hash':digest(question),
+        return {'version':2,'question':question,'question_hash':digest(question),**question_views(state['envelope']),
             'status':'ANSWERED' if lead['label'] else 'NOT_ANSWERED',
-            'subjects':[],'reproduction_answer':answer(lead),'answering_cell_receipt_id':lead['id'],
+            'subjects':[typed_check(kind,assessment,state.get('observations',[]))] if kind=='FILTER_EFFECT' else [],
+            'reproduction_answer':answer(lead),'answering_cell_receipt_id':lead['id'],
             'subject_provenance':'COMPLETED_DECLARED_CONTEXT_PROCEDURE',
             'finding_outcome':assessment.get('classification'),'authority':'DETERMINISTIC_EVIDENCE_COVERAGE'}
     observations=[o for o in state.get('observations',[]) if o.get('status')=='COMPLETED']
@@ -83,6 +165,13 @@ def build(state):
     kind=(state['envelope'].get('question_kind') or {}).get('kind')
     subjects=([KIND_SUBJECTS[kind]] if kind in KIND_SUBJECTS else
         [key for key,pattern in SUBJECTS.items() if re.search(pattern,question,re.I)] or ['unclassified'])
+    if business_primary:subjects=['meaning']
+    if kind in KIND_SUBJECTS and kind != 'BUSINESS_MEANING' and re.search(SUBJECTS['meaning'],question,re.I):
+        if 'meaning' not in subjects:subjects.append('meaning')
+    mechanism_required,independent_comparison=explicit_mechanism_obligation(state['envelope'])
+    if mechanism_required and not business_primary:
+        subjects=[subject for subject in subjects if subject!='comparison' or independent_comparison]
+        if 'mechanism' not in subjects:subjects.append('mechanism')
     checks=[]
     for subject in subjects:
         status='NOT_ANSWERED';reason='No recorded completion check establishes an answer to this request.'
@@ -97,18 +186,21 @@ def build(state):
             attempts=[o for o in observations if o.get('check_kind')=='FRESHNESS_ATTEMPT']
             if attempts:
                 refs=sorted(set(refs+[o['id'] for o in attempts]))
+                statements=[]
                 for attempt in attempts:
                     attempted_checks=attempt['freshness_attempt']['checks']
                     job=attempted_checks['job_history']
                     if job['status']=='CURRENT':
                         status='PARTLY_ANSWERED'
-                        reason+=(' The load accounting was read and established a successful completed load; that alone does not establish currency.'
+                        statements.append(' The load accounting was read and established a successful completed load; that alone does not establish currency.'
                             if job.get('accounting_observed') else ' Processing history was read and established successful completion; it did not return the load\'s own accounting.')
-                    else:reason+=' Load accounting was attempted and found '+job['status'].lower()+': '+(job.get('reason') or 'No successful completion was established.')
+                    else:statements.append(' Load accounting was attempted and found '+job['status'].lower()+': '+(job.get('reason') or 'No successful completion was established.'))
                     delivery=attempted_checks['source_delivery']
                     if delivery['status'] in ('GAP','LATENT'):
-                        status='PARTLY_ANSWERED';reason+=(' Source delivery evidence established a delivery gap.' if delivery['status']=='GAP' else ' Source delivery evidence established that the source changed after the last load.')
-                    else:reason+=' Source delivery was attempted and found '+delivery['status'].lower()+': '+(delivery.get('reason') or 'No delivery condition was established.')
+                        status='PARTLY_ANSWERED';statements.append(' Source delivery evidence established a delivery gap.' if delivery['status']=='GAP' else ' Source delivery evidence established that the source changed after the last load.')
+                    else:statements.append(' Source delivery was attempted and found '+delivery['status'].lower()+': '+(delivery.get('reason') or 'No delivery condition was established.'))
+                # Render each identical engine-owned fact once; all receipt IDs remain.
+                reason+=''.join(dict.fromkeys(statements))
             elif 'job_history' not in roles:reason+=' Processing history was not assessed before the investigation stopped.'
         elif subject=='meaning':
             reason='No authoritative business meaning or intended rule was established; a technical finding cannot supply it.'
@@ -140,21 +232,27 @@ def build(state):
                         refs=[o['id'] for o in refusals if o.get('reason')==NO_FIGURE]
                         reason='There is no reported figure to compare; no reproduction verdict was established.'
                     else:reason='No independent comparison established an answer to the requested difference.'
-        checks.append(typed_check(kind,assessment,observations) if kind and kind!='FRESHNESS' else
+        if subject=='mechanism' and mechanism_required and not business_primary:
+            checks.append(typed_check('TRANSFORMATION_MECHANISM',assessment,observations))
+            continue
+        checks.append(typed_check(kind,assessment,observations) if not business_primary and kind and kind!='FRESHNESS' and subject==KIND_SUBJECTS[kind] else
             {'subject':subject,'status':status,'reason':reason,'evidence_ids':refs})
     states=[c['status'] for c in checks]
-    status=('ANSWERED' if all(s=='ANSWERED' for s in states) else
+    status=('NO_REPORTED_FIGURE' if all(s=='NO_REPORTED_FIGURE' for s in states) else
+            'ANSWERED' if all(s=='ANSWERED' for s in states) else
             'NOT_ANSWERED' if all(s=='NOT_ANSWERED' for s in states) else 'PARTLY_ANSWERED')
-    return {'version':1,'question':question,'question_hash':digest(question),'status':status,
-            'subjects':checks,'subject_provenance':'DECLARED_QUESTION_KIND' if kind else 'EXPLICIT_TEXT_MARKERS_WITH_UNCLASSIFIED_FALLBACK',
+    return {'version':1,'question':question,'question_hash':digest(question),**question_views(state['envelope']),'status':status,
+            'subjects':checks,'subject_provenance':'PRIMARY_BUSINESS_REQUEST_GUARD' if business_primary else 'EXPLICIT_MECHANISM_OBLIGATION_GUARD' if mechanism_required else 'DECLARED_QUESTION_KIND' if kind else 'EXPLICIT_TEXT_MARKERS_WITH_UNCLASSIFIED_FALLBACK',
             'finding_outcome':assessment.get('classification'),'authority':'DETERMINISTIC_EVIDENCE_COVERAGE'}
 
 
-def render(account):
+def render(account, *, business=False):
+    question=account.get('business_question',account['question']) if business else account['question']
     if 'reproduction_answer' in account:
-        return 'You asked: '+account['question']+'\nAnswer to your question: '+account['reproduction_answer']
-    status={'ANSWERED':'Answered within the checked scope','PARTLY_ANSWERED':'Partly answered','NOT_ANSWERED':'Not answered'}[account['status']]
-    lines=['You asked: '+account['question'],'Answer to your question: '+status+'.']
+        return 'You asked: '+question+'\nAnswer to your question: '+account['reproduction_answer']
+    status={'ANSWERED':'Answered within the checked scope','PARTLY_ANSWERED':'Partly answered',
+            'NOT_ANSWERED':'Not answered','NO_REPORTED_FIGURE':'No verdict: no reported figure supplied'}[account['status']]
+    lines=['You asked: '+question,'Answer to your question: '+status+'.']
     for check in account['subjects']:
         lines.append('Regarding '+LABELS[check['subject']]+': '+check['reason'])
     lines.append('What was found instead:' if account['status']=='NOT_ANSWERED' else 'What the investigation established:')
@@ -162,20 +260,21 @@ def render(account):
 
 
 def attach(outputs,state):
-    account=build(state);prefix=render(account)
+    account=build(state)
     from .narrative_form import validate as validate_form
     for key in ('business_output','technical_output'):
         entry=outputs[key]
         entry['question_account']=copy.deepcopy(account)
-        entry['explanation']['text']=prefix+'\n\n'+entry['explanation']['text']
+        entry['explanation']['text']=render(account,business=key=='business_output')+'\n\n'+entry['explanation']['text']
         validate_form(entry['explanation']['text'],key=='business_output')
     validate(outputs,state)
     return outputs
 
 
 def validate(outputs,state):
-    expected=build(state);prefix=render(expected)+'\n\n'
+    expected=build(state)
     for key in ('business_output','technical_output'):
         entry=outputs.get(key,{})
+        prefix=render(expected,business=key=='business_output')+'\n\n'
         if entry.get('question_account')!=expected or not entry.get('explanation',{}).get('text','').startswith(prefix):
             raise Conflict('Narrative omits or changes the engine question/answer account')

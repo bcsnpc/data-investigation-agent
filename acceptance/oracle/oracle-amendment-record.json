@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-09",
+  "source_decision_sha256": "7049dc4723230dc36a76e33c0bfa8bc47332edf1547cddbbe154e7fd8f1796d8",
+  "owner": "Chiranjeevi Bhogireddy",
+  "reviewer": "Claude",
+  "before_draft_sha256": "0bce64af7690c4fc86b7e9bfd2e796d80dfc5a3aadf1154f605cac21254e11dd",
+  "revised_draft_sha256": "be029b56a6de27195dac507bfb5010f0ce7abc2732702d9a230e5f4a8d38406c",
+  "diff_sha256": "7cf60223f9bf81f1cdbaf2be0c2711ce0dbf86dc72d4a2596af90d367f327453",
+  "status": "DIFF_BEFORE_SEALING",
+  "model_calls": 0,
+  "estate_reads": 0
+}

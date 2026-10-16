@@ -1,0 +1,979 @@
+{
+  "counts": {
+    "attempted": 27,
+    "delivered": 0,
+    "full_contract_matches": 0,
+    "harmful_delivered_claims": 0,
+    "intake_held": 21,
+    "known_rate_card_microdollars": 398165,
+    "model_calls": 35,
+    "physical_requests": 0,
+    "pre_intake_operator_failures": 6,
+    "three_repeat_contract_passes": 0
+  },
+  "date": "2026-10-11T02:49:45.459979+00:00",
+  "expectations_changed": false,
+  "no_replacements": true,
+  "round_model_spend": {
+    "calls": 195,
+    "ceiling_usd": 100.0,
+    "charged_usd": 2.588925,
+    "input_tokens": 496315,
+    "output_tokens": 89873,
+    "rate_card_billing_estimate": true,
+    "unsettled_calls": 0
+  },
+  "rows": [
+    {
+      "actual": "PRE_INTAKE_OPERATOR_FAILURE",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 1.7249467372894287,
+      "expected_answer": "The technical reconciliation may explain 950 versus 700 through the invoice-to-plan-history join. Whether VOID should count is a separate business-owner question.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "PARTLY_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 0,
+      "label": "ticket-01.txt-form-r1",
+      "model_calls": 0,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing27-014940-run-1\\ea57aac1-a531-46e3-9006-f37fd432fb91\\orchestrator-failure.json",
+      "native_artifact_sha256": "e306537af434915bd4cd9886dafa963965314c07ededfd64639bfb346b5f8d67",
+      "physical_requests": 0,
+      "reason": "[WinError 183] Cannot create a file when that file already exists: 'C:\\\\Users\\\\chait\\\\.codex\\\\dia-round-thirteen-captures\\\\billing27-014940-run-1\\\\ea57aac1-a531-46e3-9006-f37fd432fb91'",
+      "repeat": 1,
+      "run_id": "ea57aac1-a531-46e3-9006-f37fd432fb91",
+      "score_status": "CAPTURE_BLOCKED",
+      "ticket": "ticket-01.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 48.04372501373291,
+      "expected_answer": "The technical reconciliation may explain 950 versus 700 through the invoice-to-plan-history join. Whether VOID should count is a separate business-owner question.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "PARTLY_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 22935,
+      "label": "ticket-01.txt-form-r2",
+      "model_calls": 2,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing21-014940-remaining-run-1\\a4d951e7-6c5b-4c26-a12b-dcb753ae2429\\full-result.json",
+      "native_artifact_sha256": "cac49ac20da0494b429e4e2cfe145436decf4007082f51ab57b3462c199e0f9a",
+      "physical_requests": 0,
+      "reason": "Reported-figure quote occurs 2 times at ticket spans 157:160, 396:399; supply a longer unique verbatim quote.",
+      "repeat": 2,
+      "run_id": "a4d951e7-6c5b-4c26-a12b-dcb753ae2429",
+      "score_status": "GRADED",
+      "ticket": "ticket-01.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 48.79357981681824,
+      "expected_answer": "The technical reconciliation may explain 950 versus 700 through the invoice-to-plan-history join. Whether VOID should count is a separate business-owner question.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "PARTLY_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 24870,
+      "label": "ticket-01.txt-form-r3",
+      "model_calls": 2,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing15-014940-guarded-remaining-run-1\\d7ee2157-bcfa-4ae5-9090-1f92f61b0500\\full-result.json",
+      "native_artifact_sha256": "27e312dfd6757cbc62cbcb5ad68ce6b9a6f20fc2cb4785fee0ad817590a92c87",
+      "physical_requests": 0,
+      "reason": "Reported-figure quote occurs 2 times at ticket spans 157:160, 396:399; supply a longer unique verbatim quote.",
+      "repeat": 3,
+      "run_id": "d7ee2157-bcfa-4ae5-9090-1f92f61b0500",
+      "score_status": "GRADED",
+      "ticket": "ticket-01.txt"
+    },
+    {
+      "actual": "PRE_INTAKE_OPERATOR_FAILURE",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 1.7937068939208984,
+      "expected_answer": "Collected payments and invoiced amounts are different measures. Their difference does not establish a pipeline defect or whether collection performance is satisfactory.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 0,
+      "label": "ticket-02.txt-form-r1",
+      "model_calls": 0,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing27-014940-run-1\\23e09128-a9c6-4bc2-affd-527329a5ad02\\orchestrator-failure.json",
+      "native_artifact_sha256": "fe4b5217335579abfe4ec3fae658eabbc882277783ee273bcc0d21532c16d592",
+      "physical_requests": 0,
+      "reason": "[WinError 183] Cannot create a file when that file already exists: 'C:\\\\Users\\\\chait\\\\.codex\\\\dia-round-thirteen-captures\\\\billing27-014940-run-1\\\\23e09128-a9c6-4bc2-affd-527329a5ad02'",
+      "repeat": 1,
+      "run_id": "23e09128-a9c6-4bc2-affd-527329a5ad02",
+      "score_status": "CAPTURE_BLOCKED",
+      "ticket": "ticket-02.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 46.441980600357056,
+      "expected_answer": "Collected payments and invoiced amounts are different measures. Their difference does not establish a pipeline defect or whether collection performance is satisfactory.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 21885,
+      "label": "ticket-02.txt-form-r2",
+      "model_calls": 2,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing21-014940-remaining-run-1\\d470aaec-83ea-4271-a7b8-01f9aae66f5a\\full-result.json",
+      "native_artifact_sha256": "4b0e2dcc5d5e3aa4fdfe3c7ab63a0ae3e19096d5c4b95166381957e8b63aa533",
+      "physical_requests": 0,
+      "reason": "Reported-figure quote occurs 2 times at ticket spans 87:90, 253:256; supply a longer unique verbatim quote.",
+      "repeat": 2,
+      "run_id": "d470aaec-83ea-4271-a7b8-01f9aae66f5a",
+      "score_status": "GRADED",
+      "ticket": "ticket-02.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 47.3844850063324,
+      "expected_answer": "Collected payments and invoiced amounts are different measures. Their difference does not establish a pipeline defect or whether collection performance is satisfactory.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 22650,
+      "label": "ticket-02.txt-form-r3",
+      "model_calls": 2,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing15-014940-guarded-remaining-run-1\\a2bd7eb5-2bc4-4467-844a-d5df4b3bc98a\\full-result.json",
+      "native_artifact_sha256": "39e289483aeda5f53cf86e67b3a3b70d75c01789e006d3a73b2e836c5fd2e962",
+      "physical_requests": 0,
+      "reason": "Reported-figure quote occurs 2 times at ticket spans 87:90, 253:256; supply a longer unique verbatim quote.",
+      "repeat": 3,
+      "run_id": "a2bd7eb5-2bc4-4467-844a-d5df4b3bc98a",
+      "score_status": "GRADED",
+      "ticket": "ticket-02.txt"
+    },
+    {
+      "actual": "PRE_INTAKE_OPERATOR_FAILURE",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 1.7709858417510986,
+      "expected_answer": "The active-plan definition explains the arithmetic, but the requested treatment of a churned account is a business-rule decision.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 0,
+      "label": "ticket-03.txt-form-r1",
+      "model_calls": 0,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing25-014940-remaining-run-1\\f1ad14e4-ce75-400e-982f-ee1bae5626e2\\orchestrator-failure.json",
+      "native_artifact_sha256": "01426fa4df0d89f7b91861ec29f8a0019f878136ce237b3ce446cb0ff2742a5e",
+      "physical_requests": 0,
+      "reason": "BILLING_EMPTY_OWNED_RUN_DIRECTORY_REQUIRED",
+      "repeat": 1,
+      "run_id": "f1ad14e4-ce75-400e-982f-ee1bae5626e2",
+      "score_status": "CAPTURE_BLOCKED",
+      "ticket": "ticket-03.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 49.08717393875122,
+      "expected_answer": "The active-plan definition explains the arithmetic, but the requested treatment of a churned account is a business-rule decision.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 23260,
+      "label": "ticket-03.txt-form-r2",
+      "model_calls": 2,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing21-014940-remaining-run-1\\485cd356-e62b-492f-a13d-34887f11640e\\full-result.json",
+      "native_artifact_sha256": "4934fe1346ff55a52d7879c91ab97501fdd76a56522ffab92f21e8e638586793",
+      "physical_requests": 0,
+      "reason": "Reported-figure quote occurs 2 times at ticket spans 204:207, 407:410; supply a longer unique verbatim quote.",
+      "repeat": 2,
+      "run_id": "485cd356-e62b-492f-a13d-34887f11640e",
+      "score_status": "GRADED",
+      "ticket": "ticket-03.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 35.6415057182312,
+      "expected_answer": "The active-plan definition explains the arithmetic, but the requested treatment of a churned account is a business-rule decision.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 23605,
+      "label": "ticket-03.txt-form-r3",
+      "model_calls": 2,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing15-014940-guarded-remaining-run-1\\903afaef-590e-42c6-8013-0b00e3ad2a83\\full-result.json",
+      "native_artifact_sha256": "094415ae3fdcd1dad810a4b88b42b7ae29a4e59bd85f2c1a2753d7a4bf3142cd",
+      "physical_requests": 0,
+      "reason": "Reported-figure quote occurs 2 times at ticket spans 204:207, 407:410; supply a longer unique verbatim quote.",
+      "repeat": 3,
+      "run_id": "903afaef-590e-42c6-8013-0b00e3ad2a83",
+      "score_status": "GRADED",
+      "ticket": "ticket-03.txt"
+    },
+    {
+      "actual": "PRE_INTAKE_OPERATOR_FAILURE",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 1.7068169116973877,
+      "expected_answer": "The current definition counts churned-status accounts; it does not establish a month-specific churn event or decide treatment of paused accounts.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 0,
+      "label": "ticket-04.txt-form-r1",
+      "model_calls": 0,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing25-014940-remaining-run-1\\68536eae-565f-4225-90e4-15aceff839c3\\orchestrator-failure.json",
+      "native_artifact_sha256": "ad651d942c3fbeef49495dcac27da76e538942b99aa498a09f5521bca2210a7e",
+      "physical_requests": 0,
+      "reason": "BILLING_EMPTY_OWNED_RUN_DIRECTORY_REQUIRED",
+      "repeat": 1,
+      "run_id": "68536eae-565f-4225-90e4-15aceff839c3",
+      "score_status": "CAPTURE_BLOCKED",
+      "ticket": "ticket-04.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 63.29453444480896,
+      "expected_answer": "The current definition counts churned-status accounts; it does not establish a month-specific churn event or decide treatment of paused accounts.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 9673,
+      "label": "ticket-04.txt-form-r2",
+      "model_calls": 1,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing15-014940-guarded-remaining-run-1\\ff5025c6-8306-4000-a768-a66e9732b995\\full-result.json",
+      "native_artifact_sha256": "643ba8e2211584055233a70c97100779314e94b5a06b463b1bbf7f1025f1d51d",
+      "physical_requests": 0,
+      "reason": "The requested business-rule decision requires a domain specialist; technical process evidence cannot decide whether the rule is correct.",
+      "repeat": 2,
+      "run_id": "ff5025c6-8306-4000-a768-a66e9732b995",
+      "score_status": "GRADED",
+      "ticket": "ticket-04.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 34.410627365112305,
+      "expected_answer": "The current definition counts churned-status accounts; it does not establish a month-specific churn event or decide treatment of paused accounts.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 10558,
+      "label": "ticket-04.txt-form-r3",
+      "model_calls": 1,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing15-014940-guarded-remaining-run-1\\11964209-98b7-471b-bfb9-673b3929ece1\\full-result.json",
+      "native_artifact_sha256": "ec03fc901127ccabf9bb329f29f65d7de2f0524337b6387ae3538561db9c56e3",
+      "physical_requests": 0,
+      "reason": "The requested business-rule decision requires a domain specialist; technical process evidence cannot decide whether the rule is correct.",
+      "repeat": 3,
+      "run_id": "11964209-98b7-471b-bfb9-673b3929ece1",
+      "score_status": "GRADED",
+      "ticket": "ticket-04.txt"
+    },
+    {
+      "actual": "PRE_INTAKE_OPERATOR_FAILURE",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 2.236870288848877,
+      "expected_answer": "The definition computes usage above allowance in units. Pricing those units or deciding a better label belongs to the business owner.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "PARTLY_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 0,
+      "label": "ticket-05.txt-form-r1",
+      "model_calls": 0,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing23-014940-remaining-run-1\\78c7ed59-104c-4998-bd1c-cfd316de100d\\full-result.json",
+      "native_artifact_sha256": "e3f4f4cafdca3e6932cc8885040c9615ac77be47e4012f085edd853136daf170",
+      "physical_requests": 0,
+      "reason": "Selected report is absent or ambiguously bound",
+      "repeat": 1,
+      "run_id": "78c7ed59-104c-4998-bd1c-cfd316de100d",
+      "score_status": "CAPTURE_BLOCKED",
+      "ticket": "ticket-05.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 65.08280992507935,
+      "expected_answer": "The definition computes usage above allowance in units. Pricing those units or deciding a better label belongs to the business owner.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "PARTLY_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 20183,
+      "label": "ticket-05.txt-form-r2",
+      "model_calls": 2,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing15-014940-guarded-remaining-run-1\\6b913d0b-ad6f-47a2-886b-be50fa54fb1e\\full-result.json",
+      "native_artifact_sha256": "09c0b3eb2885a9ceec39f44d3c4aea9e520d09274132218d74d4618f6948668b",
+      "physical_requests": 0,
+      "reason": "Provenance quote not found verbatim in the ticket.",
+      "repeat": 2,
+      "run_id": "6b913d0b-ad6f-47a2-886b-be50fa54fb1e",
+      "score_status": "GRADED",
+      "ticket": "ticket-05.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 40.31475758552551,
+      "expected_answer": "The definition computes usage above allowance in units. Pricing those units or deciding a better label belongs to the business owner.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "PARTLY_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 21880,
+      "label": "ticket-05.txt-form-r3",
+      "model_calls": 2,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing15-014940-guarded-remaining-run-1\\f7b072eb-b0b1-497e-a769-8e227c51576c\\full-result.json",
+      "native_artifact_sha256": "eedd6b575936ae29cfef17e468ecb593410a68ddcaf1a302071b2c2d6e7d1621",
+      "physical_requests": 0,
+      "reason": "Reported-figure quote occurs 3 times at ticket spans 30:33, 89:92, 345:348; supply a longer unique verbatim quote.",
+      "repeat": 3,
+      "run_id": "f7b072eb-b0b1-497e-a769-8e227c51576c",
+      "score_status": "GRADED",
+      "ticket": "ticket-05.txt"
+    },
+    {
+      "actual": "PRE_INTAKE_OPERATOR_FAILURE",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 2.316298007965088,
+      "expected_answer": "Neither an aggregate MRR of 600 nor aggregate overage of 600 proves the account-specific plan change is current.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 0,
+      "label": "ticket-06.txt-form-r1",
+      "model_calls": 0,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing23-014940-remaining-run-1\\156a71fc-c9a7-442c-8167-a8a31ae39fc5\\full-result.json",
+      "native_artifact_sha256": "fdae017ff1d181c1c8feecf88a78ccf0df7478ce9550167aba58c556195a0cf8",
+      "physical_requests": 0,
+      "reason": "Selected report is absent or ambiguously bound",
+      "repeat": 1,
+      "run_id": "156a71fc-c9a7-442c-8167-a8a31ae39fc5",
+      "score_status": "CAPTURE_BLOCKED",
+      "ticket": "ticket-06.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 51.25552797317505,
+      "expected_answer": "Neither an aggregate MRR of 600 nor aggregate overage of 600 proves the account-specific plan change is current.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 24678,
+      "label": "ticket-06.txt-form-r2",
+      "model_calls": 2,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing15-014940-guarded-remaining-run-1\\0e6c650c-1c2c-4102-b2da-ed007197b8d8\\full-result.json",
+      "native_artifact_sha256": "57cf939efbe0e9d0d3a3480a8fac4a59da64e5ecb0f56cf21234a9e69af0d4c4",
+      "physical_requests": 0,
+      "reason": "Provenance quote not found verbatim in the ticket.",
+      "repeat": 2,
+      "run_id": "0e6c650c-1c2c-4102-b2da-ed007197b8d8",
+      "score_status": "GRADED",
+      "ticket": "ticket-06.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 41.441434383392334,
+      "expected_answer": "Neither an aggregate MRR of 600 nor aggregate overage of 600 proves the account-specific plan change is current.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 24265,
+      "label": "ticket-06.txt-form-r3",
+      "model_calls": 2,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing15-014940-guarded-remaining-run-1\\a68d474e-6f31-428d-845c-a9f414b58ce2\\full-result.json",
+      "native_artifact_sha256": "a134b0f2022175dee55696ac7490feedaceed77e9441e981f8a676316c523516",
+      "physical_requests": 0,
+      "reason": "Provenance quote not found verbatim in the ticket.",
+      "repeat": 3,
+      "run_id": "a68d474e-6f31-428d-845c-a9f414b58ce2",
+      "score_status": "GRADED",
+      "ticket": "ticket-06.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 72.22831869125366,
+      "expected_answer": "The three displayed values do not establish an as-of timestamp. A freshness claim needs actual timing/source evidence and its limits.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 21703,
+      "label": "ticket-13.txt-form-r1",
+      "model_calls": 2,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing21-014940-remaining-run-1\\f980af6d-e32b-482a-b84f-9d9b8e83b62f\\full-result.json",
+      "native_artifact_sha256": "5cfef74ac5854e98291ccd788a684315cf7dc5430a045610b19f1b1c17493eac",
+      "physical_requests": 0,
+      "reason": "Provenance quote not found verbatim in the ticket.",
+      "repeat": 1,
+      "run_id": "f980af6d-e32b-482a-b84f-9d9b8e83b62f",
+      "score_status": "GRADED",
+      "ticket": "ticket-13.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 50.20499134063721,
+      "expected_answer": "The three displayed values do not establish an as-of timestamp. A freshness claim needs actual timing/source evidence and its limits.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 21838,
+      "label": "ticket-13.txt-form-r2",
+      "model_calls": 2,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing15-014940-guarded-remaining-run-1\\52ec6382-38ad-42b9-8430-43ef8f817d89\\full-result.json",
+      "native_artifact_sha256": "25463bfe701326c9719d4f88b5f9fc8a4e91fcf3d7e51f5a0ebfbffd83191516",
+      "physical_requests": 0,
+      "reason": "Provenance quote not found verbatim in the ticket.",
+      "repeat": 2,
+      "run_id": "52ec6382-38ad-42b9-8430-43ef8f817d89",
+      "score_status": "GRADED",
+      "ticket": "ticket-13.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 39.06515455245972,
+      "expected_answer": "The three displayed values do not establish an as-of timestamp. A freshness claim needs actual timing/source evidence and its limits.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 21343,
+      "label": "ticket-13.txt-form-r3",
+      "model_calls": 2,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing15-014940-guarded-remaining-run-1\\a7a79f35-4e61-42da-ac55-2c52a27ad3d3\\full-result.json",
+      "native_artifact_sha256": "55089a8088a963d3d5b2ad52bb95c51c406dccb314b52fe96e6ec0e316e51f2d",
+      "physical_requests": 0,
+      "reason": "Provenance quote not found verbatim in the ticket.",
+      "repeat": 3,
+      "run_id": "a7a79f35-4e61-42da-ac55-2c52a27ad3d3",
+      "score_status": "GRADED",
+      "ticket": "ticket-13.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 70.72011637687683,
+      "expected_answer": "The request is a between-month comparison and a report-design request, not a current-state discrepancy.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 10945,
+      "label": "ticket-14.txt-form-r1",
+      "model_calls": 1,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing21-014940-remaining-run-1\\7d20592c-83f1-41b5-957e-bd8101ae29b4\\full-result.json",
+      "native_artifact_sha256": "459413470d00faf17fce7a3ae4f9aecb0520684643d91c7c045f932bac19b461",
+      "physical_requests": 0,
+      "reason": "DESCRIPTION_SUBJECT_UNRESOLVED: the selected Nothing comparison is retained; no description route could be admitted. Restate the question; the comparator will not be asked again.",
+      "repeat": 1,
+      "run_id": "7d20592c-83f1-41b5-957e-bd8101ae29b4",
+      "score_status": "GRADED",
+      "ticket": "ticket-14.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 46.1936240196228,
+      "expected_answer": "The request is a between-month comparison and a report-design request, not a current-state discrepancy.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 12160,
+      "label": "ticket-14.txt-form-r2",
+      "model_calls": 1,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing15-014940-guarded-remaining-run-1\\f8519fd7-eafc-4ac4-93a1-bf9b409fd7b8\\full-result.json",
+      "native_artifact_sha256": "f90a5782a685fbb22f6e64d69974f6f25c4c575cbe825156f48e25ffea1507ec",
+      "physical_requests": 0,
+      "reason": "The stated precision of the reported figure is unclear. At what precision should it be compared?",
+      "repeat": 2,
+      "run_id": "f8519fd7-eafc-4ac4-93a1-bf9b409fd7b8",
+      "score_status": "GRADED",
+      "ticket": "ticket-14.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 39.914047718048096,
+      "expected_answer": "The request is a between-month comparison and a report-design request, not a current-state discrepancy.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 25240,
+      "label": "ticket-14.txt-form-r3",
+      "model_calls": 2,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing15-014940-guarded-remaining-run-1\\bb572aab-0c66-4856-a9dd-73eb1b48cd8d\\full-result.json",
+      "native_artifact_sha256": "ad18502b328d9292cb5af6ec54ee04978272c8639ea2b5d19ed66c6c5885ab96",
+      "physical_requests": 0,
+      "reason": "Provenance quote not found verbatim in the ticket.",
+      "repeat": 3,
+      "run_id": "bb572aab-0c66-4856-a9dd-73eb1b48cd8d",
+      "score_status": "GRADED",
+      "ticket": "ticket-14.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 47.02058720588684,
+      "expected_answer": "The MRR All Plans definition deliberately removes the plan filter. It cannot be represented as a plan-scoped MRR measurement.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "PARTLY_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 11123,
+      "label": "ticket-15.txt-form-r1",
+      "model_calls": 1,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing21-014940-remaining-run-1\\67d7fd9d-e9f5-4cd8-8fe8-c126538839b4\\full-result.json",
+      "native_artifact_sha256": "aadffddda3fa159f2ffce949de636ade97851340f8093306a5dcf5be67118085",
+      "physical_requests": 0,
+      "reason": "DESCRIPTION_SUBJECT_UNRESOLVED: the selected Nothing comparison is retained; no description route could be admitted. Restate the question; the comparator will not be asked again.",
+      "repeat": 1,
+      "run_id": "67d7fd9d-e9f5-4cd8-8fe8-c126538839b4",
+      "score_status": "GRADED",
+      "ticket": "ticket-15.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 44.403435468673706,
+      "expected_answer": "The MRR All Plans definition deliberately removes the plan filter. It cannot be represented as a plan-scoped MRR measurement.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "PARTLY_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 11933,
+      "label": "ticket-15.txt-form-r2",
+      "model_calls": 1,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing15-014940-guarded-remaining-run-1\\7b72aaba-0c78-4212-94b3-1ee3fc4e489f\\full-result.json",
+      "native_artifact_sha256": "b62fc436e8c00d35bb35c35114baaa98ab59d3519d473a1d6e7ab1f81fbd63b8",
+      "physical_requests": 0,
+      "reason": "Ambiguous reported figure: more than one resolved value requires clarification: 600 from '600'; 100 from '100'; 250 from '250'",
+      "repeat": 2,
+      "run_id": "7b72aaba-0c78-4212-94b3-1ee3fc4e489f",
+      "score_status": "GRADED",
+      "ticket": "ticket-15.txt"
+    },
+    {
+      "actual": "HELD",
+      "contract_match": false,
+      "delivered": false,
+      "elapsed_seconds": 35.00909972190857,
+      "expected_answer": "The MRR All Plans definition deliberately removes the plan filter. It cannot be represented as a plan-scoped MRR measurement.",
+      "expected_contract_sha256": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_question_relationship": "PARTLY_ANSWERED",
+      "harmful_delivered_claim": false,
+      "known_rate_card_microdollars": 11438,
+      "label": "ticket-15.txt-form-r3",
+      "model_calls": 1,
+      "native_artifact": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing15-014940-guarded-remaining-run-1\\6fb1c292-9fd0-4d4c-be26-fefcfc3247b8\\full-result.json",
+      "native_artifact_sha256": "188b730d971c9598f99ef386eee7b8daad5f5d2c3bb653e6e5e27b03b135ec59",
+      "physical_requests": 0,
+      "reason": "DESCRIPTION_SUBJECT_UNRESOLVED: the selected Nothing comparison is retained; no description route could be admitted. Restate the question; the comparator will not be asked again.",
+      "repeat": 3,
+      "run_id": "6fb1c292-9fd0-4d4c-be26-fefcfc3247b8",
+      "score_status": "GRADED",
+      "ticket": "ticket-15.txt"
+    }
+  ],
+  "scope": "Full independent billing answer/evidence contracts; absence of output is not a successful refusal answer.",
+  "source_final_reports": [
+    {
+      "path": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing27-014940-run-1\\final-report.json",
+      "sha256": "31f23c6bd11b831375a69440e634c5b64843897352eef9db0262c9eb397474f4"
+    },
+    {
+      "path": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing25-014940-remaining-run-1\\final-report.json",
+      "sha256": "3fcf3cceb9e33c991101655b5edae9d49e65a2ced34c50fd14fd747d59a247b4"
+    },
+    {
+      "path": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing23-014940-remaining-run-1\\final-report.json",
+      "sha256": "8f8148e8b3423134183264968a5717fcaf2ed1d1f9d31fdc3efc675fcac80877"
+    },
+    {
+      "path": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing21-014940-remaining-run-1\\final-report.json",
+      "sha256": "3efde5ca8bae7175e0671e96a25c145c378f0c87df911008b6a0c1c61dc6adef"
+    },
+    {
+      "path": "C:\\Users\\chait\\.codex\\dia-round-thirteen-captures\\billing15-014940-guarded-remaining-run-1\\final-report.json",
+      "sha256": "bb15710a8eec6f8d176dfb434de78792006f679de522a545544a6bbd2ff67623"
+    }
+  ],
+  "status": "TWENTY_SEVEN_ONCE_ONLY_SLOTS_PRESERVED",
+  "window": {
+    "authority": "GLOBAL_WINDOW_NOT_PER_TICKET",
+    "governor": {
+      "active_reservations": {
+        "cloud_calls": 1,
+        "input_characters": 0,
+        "output_tokens": 0,
+        "planner_calls": 0
+      },
+      "billing_cap_verified": false,
+      "charged_today": {
+        "cloud_calls": 209,
+        "input_characters": 687861,
+        "output_tokens": 23496,
+        "planner_calls": 68
+      },
+      "day": "2026-10-11",
+      "environment": "unknown-domain-v4",
+      "limitation": "Planner reservations use UTC days; ordinary reads use rolling 24 hours, with separate expiring run credits. Initiated requests in this catalog only, not provider spend or SQL compute.",
+      "limits": {
+        "cloud_calls": 3000,
+        "input_characters": 8000000,
+        "output_tokens": 1500000,
+        "planner_calls": 600
+      },
+      "policy_hash": "f445f7ad77e51603e1a29abc3606b316c0d2f4ac2e7477c13d127b42387b9ec9",
+      "read_allowance": {
+        "accounting": "Physical request reservations; pre-migration records retain historical logical counts.",
+        "batches": [
+          {
+            "batch_id": "G-physical-budget-R1-20260927-credits",
+            "expired": true,
+            "expires_at": 1790549200.0446944,
+            "runs": [
+              {
+                "allowance": 10,
+                "available": 0,
+                "charged": 4,
+                "purpose": "INVESTIGATION",
+                "session_id": "a7d36799-fb4f-4b8c-a66e-b13012a9e7d9"
+              }
+            ]
+          },
+          {
+            "batch_id": "G-physical-budget-R2-20260927-credits",
+            "expired": true,
+            "expires_at": 1790549326.8872936,
+            "runs": [
+              {
+                "allowance": 10,
+                "available": 0,
+                "charged": 4,
+                "purpose": "INVESTIGATION",
+                "session_id": "1cfd52f2-b825-4e13-9737-9a78cfca3a68"
+              }
+            ]
+          },
+          {
+            "batch_id": "G-diagnostic-budget-R1-20260927-credits",
+            "expired": true,
+            "expires_at": 1790550499.1808727,
+            "runs": [
+              {
+                "allowance": 10,
+                "available": 0,
+                "charged": 10,
+                "purpose": "INVESTIGATION",
+                "session_id": "79735d7d-e7cb-4496-8f33-6b6b33cf1d4a"
+              }
+            ]
+          },
+          {
+            "batch_id": "G-diagnostic-budget-R2-20260927-credits",
+            "expired": true,
+            "expires_at": 1790550648.476794,
+            "runs": [
+              {
+                "allowance": 10,
+                "available": 0,
+                "charged": 10,
+                "purpose": "INVESTIGATION",
+                "session_id": "43977d8e-aad4-435b-ae5f-f0ee1ca2c071"
+              }
+            ]
+          },
+          {
+            "batch_id": "G-rendered-synthesis-R1-20260927-credits",
+            "expired": true,
+            "expires_at": 1790551619.879465,
+            "runs": [
+              {
+                "allowance": 10,
+                "available": 0,
+                "charged": 10,
+                "purpose": "INVESTIGATION",
+                "session_id": "c7019601-6f18-4a44-8cb8-1dcd36dc67ac"
+              }
+            ]
+          },
+          {
+            "batch_id": "G-rendered-synthesis-R2-20260927-credits",
+            "expired": true,
+            "expires_at": 1790551766.443214,
+            "runs": [
+              {
+                "allowance": 10,
+                "available": 0,
+                "charged": 10,
+                "purpose": "INVESTIGATION",
+                "session_id": "56a00578-875c-4c42-850e-040b0ab566ff"
+              }
+            ]
+          },
+          {
+            "batch_id": "G-narrative-form-R1-20260927-credits",
+            "expired": true,
+            "expires_at": 1790572542.4069436,
+            "runs": [
+              {
+                "allowance": 10,
+                "available": 0,
+                "charged": 10,
+                "purpose": "INVESTIGATION",
+                "session_id": "778bcd6f-582f-4b5a-bef3-ed4f2cea15d6"
+              }
+            ]
+          },
+          {
+            "batch_id": "A-nine-family-20260928-credits",
+            "expired": true,
+            "expires_at": 1790589024.3486154,
+            "runs": [
+              {
+                "allowance": 16,
+                "available": 0,
+                "charged": 4,
+                "purpose": "INVESTIGATION",
+                "session_id": "c7dcc655-f2f9-4ae2-9b6c-5bd2a045e8b0"
+              }
+            ]
+          },
+          {
+            "batch_id": "B-nine-family-20260928-credits",
+            "expired": true,
+            "expires_at": 1790589024.3486154,
+            "runs": [
+              {
+                "allowance": 16,
+                "available": 0,
+                "charged": 1,
+                "purpose": "INVESTIGATION",
+                "session_id": "9a0eb374-247f-4380-8453-b3b77c63a1e3"
+              }
+            ]
+          },
+          {
+            "batch_id": "C-nine-family-20260928-credits",
+            "expired": true,
+            "expires_at": 1790589024.3486154,
+            "runs": [
+              {
+                "allowance": 16,
+                "available": 0,
+                "charged": 0,
+                "purpose": "INVESTIGATION",
+                "session_id": "e8dcb0d9-0fcd-400b-8bb8-788597667c40"
+              }
+            ]
+          },
+          {
+            "batch_id": "D-nine-family-20260928-credits",
+            "expired": true,
+            "expires_at": 1790589024.3486154,
+            "runs": [
+              {
+                "allowance": 16,
+                "available": 0,
+                "charged": 1,
+                "purpose": "INVESTIGATION",
+                "session_id": "c2e2e7c9-0cdc-482c-abc3-c3cdab729dee"
+              }
+            ]
+          },
+          {
+            "batch_id": "E-nine-family-20260928-credits",
+            "expired": true,
+            "expires_at": 1790589024.3486154,
+            "runs": [
+              {
+                "allowance": 16,
+                "available": 0,
+                "charged": 10,
+                "purpose": "INVESTIGATION",
+                "session_id": "c274890f-e041-4261-b364-c4c3d6c2bcc8"
+              }
+            ]
+          },
+          {
+            "batch_id": "F-nine-family-20260928-credits",
+            "expired": true,
+            "expires_at": 1790589024.3486154,
+            "runs": [
+              {
+                "allowance": 16,
+                "available": 0,
+                "charged": 7,
+                "purpose": "INVESTIGATION",
+                "session_id": "6860ae26-d855-4bb2-ac03-8e10c1e01cf1"
+              }
+            ]
+          },
+          {
+            "batch_id": "G-nine-family-20260928-credits",
+            "expired": true,
+            "expires_at": 1790589024.3486154,
+            "runs": [
+              {
+                "allowance": 16,
+                "available": 0,
+                "charged": 10,
+                "purpose": "INVESTIGATION",
+                "session_id": "cd2ffbff-f75b-4999-a0fe-a5fee18ee5f9"
+              }
+            ]
+          },
+          {
+            "batch_id": "H-nine-family-20260928-credits",
+            "expired": true,
+            "expires_at": 1790589024.3486154,
+            "runs": [
+              {
+                "allowance": 16,
+                "available": 0,
+                "charged": 1,
+                "purpose": "INVESTIGATION",
+                "session_id": "e68af7b8-4a7c-47a8-8303-8116278a15be"
+              }
+            ]
+          },
+          {
+            "batch_id": "I-nine-family-20260928-credits",
+            "expired": true,
+            "expires_at": 1790589024.3486154,
+            "runs": [
+              {
+                "allowance": 16,
+                "available": 0,
+                "charged": 2,
+                "purpose": "INVESTIGATION",
+                "session_id": "0d049414-87b8-4a7a-a034-9649f6840f53"
+              }
+            ]
+          },
+          {
+            "batch_id": "H-full-allowance-20260928-credits",
+            "expired": true,
+            "expires_at": 1790591365.031124,
+            "runs": [
+              {
+                "allowance": 16,
+                "available": 0,
+                "charged": 2,
+                "purpose": "INVESTIGATION",
+                "session_id": "7a591ed4-8516-4633-901a-7d48a5eb7459"
+              }
+            ]
+          },
+          {
+            "batch_id": "round-five-restoration-20261004",
+            "expired": true,
+            "expires_at": 1791166612.1129045,
+            "runs": [
+              {
+                "allowance": 50,
+                "available": 0,
+                "charged": 36,
+                "purpose": "RESTORATION",
+                "session_id": "round-five-restoration-20261004"
+              }
+            ]
+          },
+          {
+            "batch_id": "round-six-j-reserved-restoration-20261006",
+            "expired": true,
+            "expires_at": 1791263990.1653311,
+            "runs": [
+              {
+                "allowance": 60,
+                "available": 0,
+                "charged": 6,
+                "purpose": "RESTORATION",
+                "session_id": "round-six-j-restoration-20261006"
+              }
+            ]
+          },
+          {
+            "batch_id": "round-seven-reserved-restoration-20261006",
+            "expired": true,
+            "expires_at": 1791281133.388716,
+            "runs": [
+              {
+                "allowance": 60,
+                "available": 0,
+                "charged": 19,
+                "purpose": "RESTORATION",
+                "session_id": "round-seven-restoration-20261006"
+              }
+            ]
+          },
+          {
+            "batch_id": "round-eight-reserved-restoration-20261006",
+            "expired": true,
+            "expires_at": 1791333793.4154158,
+            "runs": [
+              {
+                "allowance": 60,
+                "available": 0,
+                "charged": 0,
+                "purpose": "RESTORATION",
+                "session_id": "round-eight-restoration-20261006"
+              }
+            ]
+          },
+          {
+            "batch_id": "round-ten-restoration-reserve-20261007",
+            "expired": false,
+            "expires_at": 1791836850.55696,
+            "runs": [
+              {
+                "allowance": 100,
+                "available": 95,
+                "charged": 5,
+                "purpose": "RESTORATION",
+                "session_id": "round-ten-restoration-20261007"
+              }
+            ]
+          }
+        ],
+        "ordinary_available": 2260,
+        "ordinary_charged": 740,
+        "ordinary_limit": 3000,
+        "window_seconds": 86400
+      },
+      "reservation_states": {
+        "RESERVED": 1,
+        "SETTLED": 6899,
+        "UNCERTAIN": 57,
+        "VIOLATION": 1
+      },
+      "reserved_today": {
+        "cloud_calls": 209,
+        "input_characters": 687861,
+        "output_tokens": 225500,
+        "planner_calls": 68
+      },
+      "unknown_output_charged": 0
+    },
+    "round_ceiling": 2500,
+    "round_physical": 1882
+  }
+}

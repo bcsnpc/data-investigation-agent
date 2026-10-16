@@ -1,0 +1,16 @@
+FW: Weekly collections update - number unavailable
+
+Subject: FW: Weekly collections update
+Priority: normal
+
+Hello,
+
+On Subscription Billing > Recent Collections, Collected in the Last Seven Days says "Error fetching data for this visual". I can't read a weekly collection amount at all. The main Subscription Billing page does show Collected Amount 550.
+
+Please get the recent figure visible, or tell us when we can use it for the weekly update. I expected a number, including zero if there are no payments in the period.
+
+Regards,
+Operations
+--- forwarded for the morning review ---
+No attachment.
+

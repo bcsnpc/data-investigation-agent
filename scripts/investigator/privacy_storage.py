@@ -31,7 +31,8 @@ def path_identity(path):
 def connect(path,*args,**kwargs):
     with _LOCK:store=_STORES.get(path_identity(path))
     if store is not None:return store.connection(path,*args,**kwargs)
-    return sqlite3.connect(path,*args,**kwargs)
+    from .budget_connection import connect as exact_connect
+    return exact_connect(path,*args,**kwargs)
 
 
 class EvidenceStore:
@@ -39,6 +40,8 @@ class EvidenceStore:
         self.path=Path(path).resolve();self.projection=projection;self.closed=False
         self.uri='file:privacy-'+token_hex(16)+'?mode=memory&cache=shared'
         self.keeper=sqlite3.connect(self.uri,uri=True)
+        from .budget_delta_v2 import register_codec
+        register_codec(self.keeper)
         self.keeper.execute('PRAGMA temp_store=MEMORY')
         self.keeper.execute('PRAGMA journal_mode=MEMORY')
         with _LOCK:
@@ -58,7 +61,8 @@ class EvidenceStore:
             raise ProjectionError('PRIVACY_STORE_PATH_DIFFERS')
         # URI mode=ro is an access intent, not a licence to open a raw file.
         readonly=kwargs.pop('uri',False) and 'mode=ro' in str(path)
-        db=sqlite3.connect(self.uri,*args,uri=True,**kwargs)
+        from .budget_connection import connect as budget_connect
+        db=budget_connect(self.uri,*args,uri=True,**kwargs)
         db.execute('PRAGMA temp_store=MEMORY');db.execute('PRAGMA journal_mode=MEMORY')
         if readonly:db.execute('PRAGMA query_only=ON')
         return db
@@ -121,6 +125,8 @@ class EvidenceStore:
             self.keeper.close()
             self.uri='file:privacy-'+token_hex(16)+'?mode=memory&cache=shared'
             self.keeper=sqlite3.connect(self.uri,uri=True)
+            from .budget_delta_v2 import register_codec
+            register_codec(self.keeper)
             self.keeper.execute('PRAGMA temp_store=MEMORY')
             self.keeper.execute('PRAGMA journal_mode=MEMORY')
         objects=image['objects']

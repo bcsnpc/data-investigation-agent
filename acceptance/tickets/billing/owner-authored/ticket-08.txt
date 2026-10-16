@@ -1,0 +1,3 @@
+Subject: Recent Collections card won't show a number
+
+In Subscription Billing, on Recent Collections, Collected in the Last Seven Days says "Error fetching data for this visual" instead of a number. The main page's Collected Amount card does show 550. I need the recent collections figure for today's update. Screenshot: 03-recent-collections-error.jpg.

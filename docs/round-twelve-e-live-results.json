@@ -1,0 +1,1328 @@
+{
+  "engine_revision": "c377331",
+  "engine_hash": "367b9ba9ade7874eac10f87343c00e9d8247e02fd8b8b0d820ed6a577ee53ceb",
+  "cases": [
+    {
+      "case": "original:family-A",
+      "elapsed_seconds": 338.0886137485504,
+      "ticket_state": "FINDINGS_SHARED",
+      "session_id": "e938f3eb-a853-4e51-b775-836a66e8a7b4",
+      "outcome": "TRANSFORMATION_LOGIC",
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 8,
+        "reads_dax": 1,
+        "reads_other": 1,
+        "reads_total": 10,
+        "physical_requests": 10,
+        "guard_requests": 6,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": 4,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 10,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "physical_requests_charged": 10,
+      "model_calls_reserved": 3,
+      "input_characters_reserved": 24654,
+      "before_pot": {
+        "used": 1152,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 553
+      },
+      "after_pot": {
+        "used": 1162,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 543
+      },
+      "failure": null,
+      "expectation_differences": [
+        {
+          "invariant": "resolutions",
+          "expected": {
+            "report_binding": "STATED"
+          },
+          "observed": {
+            "report_binding": "USER_SUPPLIED_FORM"
+          }
+        }
+      ],
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "investigation_planner_calls_as_recorded": 1,
+      "synthesis_model_calls": 1,
+      "settled_output_tokens": 1172,
+      "outcome_matches": true,
+      "full_contract_matches": false,
+      "artifact_sha256": "5c78a23805ec1fa0a4fa6a554e61639cf06fc8475961b549ae87f737fab33772"
+    },
+    {
+      "case": "original:family-B",
+      "elapsed_seconds": 112.28956484794617,
+      "ticket_state": "FINDINGS_SHARED",
+      "session_id": "71e0246d-1682-4bb8-a278-875a0e15958a",
+      "outcome": "NO_COMPARABLE_PATH",
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 0,
+        "reads_dax": 1,
+        "reads_other": 0,
+        "reads_total": 1,
+        "physical_requests": 1,
+        "guard_requests": 0,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": 1,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 1,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "physical_requests_charged": 1,
+      "model_calls_reserved": 2,
+      "input_characters_reserved": 14910,
+      "before_pot": {
+        "used": 1162,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 543
+      },
+      "after_pot": {
+        "used": 1163,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 542
+      },
+      "failure": null,
+      "expectation_differences": [
+        {
+          "invariant": "outcome",
+          "expected": "NO_KNOWN_PATTERN",
+          "observed": "NO_COMPARABLE_PATH"
+        },
+        {
+          "invariant": "resolutions",
+          "expected": {
+            "report_binding": "STATED"
+          },
+          "observed": {
+            "report_binding": "USER_SUPPLIED_FORM"
+          }
+        }
+      ],
+      "expected_outcome": "NO_KNOWN_PATTERN",
+      "expected_status": "COMPLETED",
+      "investigation_planner_calls_as_recorded": 0,
+      "synthesis_model_calls": 1,
+      "settled_output_tokens": 707,
+      "outcome_matches": false,
+      "full_contract_matches": false,
+      "artifact_sha256": "5de9e1134e49e27cb573d21a6b20c4d8565e56166a529c4587fcb6f53c1c525d"
+    },
+    {
+      "case": "original:family-C",
+      "elapsed_seconds": 104.61293196678162,
+      "ticket_state": "INVESTIGATING",
+      "session_id": "dd045bd2-65ae-47d9-af69-bd077f98b57a",
+      "outcome": null,
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 0,
+        "reads_dax": 0,
+        "reads_other": 0,
+        "reads_total": 0,
+        "physical_requests": 0,
+        "guard_requests": 0,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": null,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 0,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "LEGACY_OBSERVATIONS"
+      },
+      "physical_requests_charged": 0,
+      "model_calls_reserved": 1,
+      "input_characters_reserved": 12856,
+      "before_pot": {
+        "used": 1163,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 542
+      },
+      "after_pot": {
+        "used": 1163,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 542
+      },
+      "failure": {
+        "type": "Conflict",
+        "message": "Saved synthesis has no assessment",
+        "traceback": "Traceback (most recent call last):\n  File \"D:\\dia-round-eleven-links\\.local\\round-twelve-e\\live-forms.py\", line 72, in <module>\n    saved=w.smart_intake.finish({'ticket_id':saved['ticket']['id'],'revision':saved['revision']});state=agent.get(sid)\n  File \"D:\\dia-round-eleven-links\\scripts\\investigator\\run_recording.py\", line 103, in invoke\n    result=method(owner,*args,**kwargs)\n  File \"D:\\dia-round-eleven-links\\scripts\\investigator\\smart_intake.py\", line 326, in finish\n    return self.share(request)\n           ~~~~~~~~~~^^^^^^^^^\n  File \"D:\\dia-round-eleven-links\\scripts\\investigator\\run_recording.py\", line 52, in invoke\n    return method(owner,*args,**kwargs)\n  File \"D:\\dia-round-eleven-links\\scripts\\investigator\\smart_intake.py\", line 298, in share\n    findings=from_state(self.workspace.agent.get(ticket['session_id']))\n  File \"D:\\dia-round-eleven-links\\scripts\\investigator\\ticket_findings.py\", line 15, in from_state\n    if not isinstance(assessment,dict):raise Conflict('Saved synthesis has no assessment')\n                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ninvestigator.onboarding.Conflict: Saved synthesis has no assessment\n"
+      },
+      "expectation_differences": null,
+      "expected_outcome": null,
+      "expected_status": "HELD",
+      "investigation_planner_calls_as_recorded": 0,
+      "synthesis_model_calls": 0,
+      "settled_output_tokens": 153,
+      "outcome_matches": false,
+      "full_contract_matches": false,
+      "artifact_sha256": "e1a407f5cf59f7071645bfb2026b4d030f72a44ea478ccf0086bce6f4a2f4aa3"
+    },
+    {
+      "case": "original:family-D",
+      "elapsed_seconds": 136.38526582717896,
+      "ticket_state": "FINDINGS_SHARED",
+      "session_id": "b898976d-7a03-4c79-9df3-fd82972dbb2a",
+      "outcome": "NO_COMPARABLE_PATH",
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 0,
+        "reads_dax": 3,
+        "reads_other": 0,
+        "reads_total": 3,
+        "physical_requests": 3,
+        "guard_requests": 0,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": 3,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 3,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "physical_requests_charged": 3,
+      "model_calls_reserved": 2,
+      "input_characters_reserved": 20812,
+      "before_pot": {
+        "used": 1163,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 542
+      },
+      "after_pot": {
+        "used": 1166,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 539
+      },
+      "failure": null,
+      "expectation_differences": [
+        {
+          "invariant": "resolutions",
+          "expected": {
+            "report_binding": "STATED",
+            "selection": null
+          },
+          "observed": {
+            "report_binding": "USER_SUPPLIED_FORM"
+          }
+        }
+      ],
+      "expected_outcome": "NO_COMPARABLE_PATH",
+      "expected_status": "COMPLETED",
+      "investigation_planner_calls_as_recorded": 0,
+      "synthesis_model_calls": 1,
+      "settled_output_tokens": 749,
+      "outcome_matches": true,
+      "full_contract_matches": false,
+      "artifact_sha256": "43cc7d677682a620e49796fc36bf657d4939d5e3a261c37feccd81cb338ac94d"
+    },
+    {
+      "case": "original:family-E",
+      "elapsed_seconds": 180.6592903137207,
+      "ticket_state": "FINDINGS_SHARED",
+      "session_id": "93c88f31-583c-4ee9-8c16-58586a4b18b3",
+      "outcome": "TRANSFORMATION_LOGIC",
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 8,
+        "reads_dax": 1,
+        "reads_other": 1,
+        "reads_total": 10,
+        "physical_requests": 10,
+        "guard_requests": 6,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": 4,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 10,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "physical_requests_charged": 10,
+      "model_calls_reserved": 3,
+      "input_characters_reserved": 24942,
+      "before_pot": {
+        "used": 1166,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 539
+      },
+      "after_pot": {
+        "used": 1176,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 529
+      },
+      "failure": null,
+      "expectation_differences": [
+        {
+          "invariant": "resolutions",
+          "expected": {
+            "report_binding": "STATED"
+          },
+          "observed": {
+            "report_binding": "USER_SUPPLIED_FORM"
+          }
+        }
+      ],
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "investigation_planner_calls_as_recorded": 1,
+      "synthesis_model_calls": 1,
+      "settled_output_tokens": 1162,
+      "outcome_matches": true,
+      "full_contract_matches": false,
+      "artifact_sha256": "86f8ecb49e9403bb799069ffa7a54b9344e34d5a11263741d612de0a135cea93"
+    },
+    {
+      "case": "original:family-F",
+      "elapsed_seconds": 125.88701796531677,
+      "ticket_state": "FINDINGS_SHARED",
+      "session_id": "7c456715-713f-4218-a22d-716dd27758a0",
+      "outcome": "CONSISTENT_TO_BOUNDARY",
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 4,
+        "reads_dax": 1,
+        "reads_other": 2,
+        "reads_total": 7,
+        "physical_requests": 7,
+        "guard_requests": 3,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": 3,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 7,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "physical_requests_charged": 7,
+      "model_calls_reserved": 2,
+      "input_characters_reserved": 16195,
+      "before_pot": {
+        "used": 1176,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 529
+      },
+      "after_pot": {
+        "used": 1183,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 522
+      },
+      "failure": null,
+      "expectation_differences": [
+        {
+          "invariant": "resolutions",
+          "expected": {
+            "report_binding": "STATED"
+          },
+          "observed": {
+            "report_binding": "USER_SUPPLIED_FORM"
+          }
+        }
+      ],
+      "expected_outcome": "CONSISTENT_TO_BOUNDARY",
+      "expected_status": "COMPLETED",
+      "investigation_planner_calls_as_recorded": 0,
+      "synthesis_model_calls": 1,
+      "settled_output_tokens": 608,
+      "outcome_matches": true,
+      "full_contract_matches": false,
+      "artifact_sha256": "a3a72285eac7ad19b7bfdda95e740b371d92b4708ab8f05aab2a848f5bbc8d74"
+    },
+    {
+      "case": "original:family-G",
+      "elapsed_seconds": 159.24033164978027,
+      "ticket_state": "FINDINGS_SHARED",
+      "session_id": "9f7b6267-9bb3-4fe1-937a-d96d791c4bcf",
+      "outcome": "TRANSFORMATION_LOGIC",
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 8,
+        "reads_dax": 1,
+        "reads_other": 1,
+        "reads_total": 10,
+        "physical_requests": 10,
+        "guard_requests": 6,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": 4,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 10,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "physical_requests_charged": 10,
+      "model_calls_reserved": 3,
+      "input_characters_reserved": 24950,
+      "before_pot": {
+        "used": 1183,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 522
+      },
+      "after_pot": {
+        "used": 1193,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 512
+      },
+      "failure": null,
+      "expectation_differences": [
+        {
+          "invariant": "resolutions",
+          "expected": {
+            "report_binding": "STATED"
+          },
+          "observed": {
+            "report_binding": "USER_SUPPLIED_FORM"
+          }
+        }
+      ],
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "investigation_planner_calls_as_recorded": 1,
+      "synthesis_model_calls": 1,
+      "settled_output_tokens": 1085,
+      "outcome_matches": true,
+      "full_contract_matches": false,
+      "artifact_sha256": "80a2a27ebbf9886acdf566320e8570a7057b7b81a7e215aef270265f0e35b610"
+    },
+    {
+      "case": "original:family-H",
+      "elapsed_seconds": 92.21662402153015,
+      "ticket_state": "FINDINGS_SHARED",
+      "session_id": "598e851c-1566-4e98-858f-329f36c66576",
+      "outcome": "NO_COMPARABLE_PATH",
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 0,
+        "reads_dax": 1,
+        "reads_other": 0,
+        "reads_total": 1,
+        "physical_requests": 1,
+        "guard_requests": 0,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": 1,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 1,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "physical_requests_charged": 1,
+      "model_calls_reserved": 2,
+      "input_characters_reserved": 15032,
+      "before_pot": {
+        "used": 1193,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 512
+      },
+      "after_pot": {
+        "used": 1194,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 511
+      },
+      "failure": null,
+      "expectation_differences": [
+        {
+          "invariant": "outcome",
+          "expected": "NO_KNOWN_PATTERN",
+          "observed": "NO_COMPARABLE_PATH"
+        },
+        {
+          "invariant": "resolutions",
+          "expected": {
+            "report_binding": "STATED"
+          },
+          "observed": {
+            "report_binding": "USER_SUPPLIED_FORM"
+          }
+        }
+      ],
+      "expected_outcome": "NO_KNOWN_PATTERN",
+      "expected_status": "COMPLETED",
+      "investigation_planner_calls_as_recorded": 0,
+      "synthesis_model_calls": 1,
+      "settled_output_tokens": 672,
+      "outcome_matches": false,
+      "full_contract_matches": false,
+      "artifact_sha256": "0367f9f655adccdcbce6c69409433d15b01415d1de137afd81f6a80e7551c034"
+    },
+    {
+      "case": "original:family-I",
+      "elapsed_seconds": 168.16006922721863,
+      "ticket_state": "FINDINGS_SHARED",
+      "session_id": "2ed5378e-a899-48ce-99e4-007826a8db8d",
+      "outcome": "TRANSFORMATION_LOGIC",
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 8,
+        "reads_dax": 1,
+        "reads_other": 1,
+        "reads_total": 10,
+        "physical_requests": 10,
+        "guard_requests": 6,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": 4,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 10,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "physical_requests_charged": 10,
+      "model_calls_reserved": 3,
+      "input_characters_reserved": 24672,
+      "before_pot": {
+        "used": 1194,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 511
+      },
+      "after_pot": {
+        "used": 1204,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 501
+      },
+      "failure": null,
+      "expectation_differences": [
+        {
+          "invariant": "answer_category",
+          "expected": "NOT_ANSWERED",
+          "observed": "PARTLY_ANSWERED"
+        },
+        {
+          "invariant": "resolutions",
+          "expected": {
+            "report_binding": "STATED"
+          },
+          "observed": {
+            "report_binding": "USER_SUPPLIED_FORM"
+          }
+        }
+      ],
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "investigation_planner_calls_as_recorded": 1,
+      "synthesis_model_calls": 1,
+      "settled_output_tokens": 894,
+      "outcome_matches": true,
+      "full_contract_matches": false,
+      "artifact_sha256": "c88a5964d272c8b400f62f6feeab5cc7a4ba5fab3d83b83e03510efc27c293f7"
+    },
+    {
+      "case": "rebuilt:family-A",
+      "elapsed_seconds": 149.87043714523315,
+      "ticket_state": "FINDINGS_SHARED",
+      "session_id": "3c3f0099-eaab-4a30-920d-a4246e836bec",
+      "outcome": "CONSISTENT_TO_BOUNDARY",
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 4,
+        "reads_dax": 1,
+        "reads_other": 3,
+        "reads_total": 8,
+        "physical_requests": 8,
+        "guard_requests": 3,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": 3,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 8,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "physical_requests_charged": 8,
+      "model_calls_reserved": 2,
+      "input_characters_reserved": 15702,
+      "before_pot": {
+        "used": 1206,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 499
+      },
+      "after_pot": {
+        "used": 1214,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 491
+      },
+      "failure": null,
+      "expectation_differences": [
+        {
+          "invariant": "outcome",
+          "expected": "TRANSFORMATION_LOGIC",
+          "observed": "CONSISTENT_TO_BOUNDARY"
+        },
+        {
+          "invariant": "resolutions",
+          "expected": {
+            "report_binding": "STATED"
+          },
+          "observed": {
+            "report_binding": "USER_SUPPLIED_FORM"
+          }
+        },
+        {
+          "invariant": "boundaries",
+          "expected": [
+            {
+              "upper_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/ade205fe-52b1-43b5-980a-773b7b1de538/table/Activity",
+              "lower_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/0b36ee15-643c-464f-81b3-776aa4616872/table/movement_values",
+              "values_equal": true,
+              "grade": "ENGINE_INDEPENDENT"
+            },
+            {
+              "upper_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/0b36ee15-643c-464f-81b3-776aa4616872/table/movement_values",
+              "lower_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/cfd8d7d5-a914-4ff8-96d0-bb8ccbc45d74/table/stock_movements_e1b8e1",
+              "values_equal": false,
+              "grade": "OBJECT_DISTINCT"
+            }
+          ],
+          "observed": [
+            {
+              "upper_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/ade205fe-52b1-43b5-980a-773b7b1de538/table/Activity",
+              "lower_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/0b36ee15-643c-464f-81b3-776aa4616872/table/movement_values",
+              "values_equal": true,
+              "grade": "ENGINE_INDEPENDENT"
+            }
+          ]
+        },
+        {
+          "invariant": "layers_reached",
+          "expected": [
+            {
+              "engine": "OLAP Server",
+              "connection": "d028fa2b-0d1b-4dd8-b423-37dd161cd5d0",
+              "object": "ade205fe-52b1-43b5-980a-773b7b1de538"
+            },
+            {
+              "engine": "Microsoft Azure SQL Data Warehouse",
+              "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-fp5crua3bxme3nbdg7ormhgv2a.datawarehouse.fabric.microsoft.com",
+              "object": "rehearsal_gold_20261008"
+            },
+            {
+              "engine": "Microsoft Azure SQL Data Warehouse",
+              "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-fp5crua3bxme3nbdg7ormhgv2a.datawarehouse.fabric.microsoft.com",
+              "object": "rehearsal_silver_20261008"
+            }
+          ],
+          "observed": [
+            {
+              "engine": "OLAP Server",
+              "connection": "d028fa2b-0d1b-4dd8-b423-37dd161cd5d0",
+              "object": "ade205fe-52b1-43b5-980a-773b7b1de538"
+            },
+            {
+              "engine": "Microsoft Azure SQL Data Warehouse",
+              "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-fp5crua3bxme3nbdg7ormhgv2a.datawarehouse.fabric.microsoft.com",
+              "object": "rehearsal_gold_20261008"
+            }
+          ]
+        }
+      ],
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "investigation_planner_calls_as_recorded": 0,
+      "synthesis_model_calls": 1,
+      "settled_output_tokens": 761,
+      "outcome_matches": false,
+      "full_contract_matches": false,
+      "artifact_sha256": "58a8f60906230b9d7251147b9dcac8d017cc2d23d976b663c7d51c31912cfdd8"
+    },
+    {
+      "case": "rebuilt:family-B",
+      "elapsed_seconds": 212.16193413734436,
+      "ticket_state": "FINDINGS_SHARED",
+      "session_id": "6417f25f-c829-4deb-9842-2bad99b9350e",
+      "outcome": "NO_COMPARABLE_PATH",
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 0,
+        "reads_dax": 1,
+        "reads_other": 1,
+        "reads_total": 2,
+        "physical_requests": 2,
+        "guard_requests": 0,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": 1,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 2,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "physical_requests_charged": 2,
+      "model_calls_reserved": 2,
+      "input_characters_reserved": 13877,
+      "before_pot": {
+        "used": 1214,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 491
+      },
+      "after_pot": {
+        "used": 1216,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 489
+      },
+      "failure": null,
+      "expectation_differences": [
+        {
+          "invariant": "outcome",
+          "expected": "NO_KNOWN_PATTERN",
+          "observed": "NO_COMPARABLE_PATH"
+        },
+        {
+          "invariant": "resolutions",
+          "expected": {
+            "report_binding": "STATED"
+          },
+          "observed": {
+            "report_binding": "USER_SUPPLIED_FORM"
+          }
+        }
+      ],
+      "expected_outcome": "NO_KNOWN_PATTERN",
+      "expected_status": "COMPLETED",
+      "investigation_planner_calls_as_recorded": 0,
+      "synthesis_model_calls": 1,
+      "settled_output_tokens": 788,
+      "outcome_matches": false,
+      "full_contract_matches": false,
+      "artifact_sha256": "96bd61a3d8db5e186f881d222dc1db07783dc9cb3e35c6e28cb80ed308267d6f"
+    },
+    {
+      "case": "rebuilt:family-C",
+      "elapsed_seconds": 98.06430196762085,
+      "ticket_state": "INVESTIGATING",
+      "session_id": "8e1ed796-837e-426f-94f9-74621d62b938",
+      "outcome": null,
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 0,
+        "reads_dax": 0,
+        "reads_other": 0,
+        "reads_total": 0,
+        "physical_requests": 0,
+        "guard_requests": 0,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": null,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 0,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "LEGACY_OBSERVATIONS"
+      },
+      "physical_requests_charged": 0,
+      "model_calls_reserved": 1,
+      "input_characters_reserved": 11823,
+      "before_pot": {
+        "used": 1216,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 489
+      },
+      "after_pot": {
+        "used": 1216,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 489
+      },
+      "failure": {
+        "type": "Conflict",
+        "message": "Saved synthesis has no assessment",
+        "traceback": "Traceback (most recent call last):\n  File \"D:\\dia-round-eleven-links\\.local\\round-twelve-e\\live-forms.py\", line 72, in <module>\n    saved=w.smart_intake.finish({'ticket_id':saved['ticket']['id'],'revision':saved['revision']});state=agent.get(sid)\n  File \"D:\\dia-round-eleven-links\\scripts\\investigator\\run_recording.py\", line 103, in invoke\n    result=method(owner,*args,**kwargs)\n  File \"D:\\dia-round-eleven-links\\scripts\\investigator\\smart_intake.py\", line 326, in finish\n    return self.share(request)\n           ~~~~~~~~~~^^^^^^^^^\n  File \"D:\\dia-round-eleven-links\\scripts\\investigator\\run_recording.py\", line 52, in invoke\n    return method(owner,*args,**kwargs)\n  File \"D:\\dia-round-eleven-links\\scripts\\investigator\\smart_intake.py\", line 298, in share\n    findings=from_state(self.workspace.agent.get(ticket['session_id']))\n  File \"D:\\dia-round-eleven-links\\scripts\\investigator\\ticket_findings.py\", line 15, in from_state\n    if not isinstance(assessment,dict):raise Conflict('Saved synthesis has no assessment')\n                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ninvestigator.onboarding.Conflict: Saved synthesis has no assessment\n"
+      },
+      "expectation_differences": null,
+      "expected_outcome": null,
+      "expected_status": "HELD",
+      "investigation_planner_calls_as_recorded": 0,
+      "synthesis_model_calls": 0,
+      "settled_output_tokens": 153,
+      "outcome_matches": false,
+      "full_contract_matches": false,
+      "artifact_sha256": "d5da2bce749b27adf09c2d9f82fad7c6c72ab38c93f1f48fc65e131d969458b8"
+    },
+    {
+      "case": "rebuilt:family-D",
+      "elapsed_seconds": 178.32697319984436,
+      "ticket_state": "FINDINGS_SHARED",
+      "session_id": "4c3731e4-3d49-459f-aa1e-281e9d975ea3",
+      "outcome": "NO_COMPARABLE_PATH",
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 0,
+        "reads_dax": 3,
+        "reads_other": 1,
+        "reads_total": 4,
+        "physical_requests": 4,
+        "guard_requests": 0,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": 3,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 4,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "physical_requests_charged": 4,
+      "model_calls_reserved": 2,
+      "input_characters_reserved": 19200,
+      "before_pot": {
+        "used": 1216,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 489
+      },
+      "after_pot": {
+        "used": 1220,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 485
+      },
+      "failure": null,
+      "expectation_differences": [
+        {
+          "invariant": "resolutions",
+          "expected": {
+            "report_binding": "STATED",
+            "selection": null
+          },
+          "observed": {
+            "report_binding": "USER_SUPPLIED_FORM"
+          }
+        }
+      ],
+      "expected_outcome": "NO_COMPARABLE_PATH",
+      "expected_status": "COMPLETED",
+      "investigation_planner_calls_as_recorded": 0,
+      "synthesis_model_calls": 1,
+      "settled_output_tokens": 925,
+      "outcome_matches": true,
+      "full_contract_matches": false,
+      "artifact_sha256": "9b8713efa721f9834cbf42fbbc67351ece97005850947ce9f03f208741218d01"
+    },
+    {
+      "case": "rebuilt:family-E",
+      "elapsed_seconds": 205.3066909313202,
+      "ticket_state": "FINDINGS_SHARED",
+      "session_id": "13f5d4b2-68f5-4a1b-97c9-4306a160eb1d",
+      "outcome": "CONSISTENT_TO_BOUNDARY",
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 4,
+        "reads_dax": 1,
+        "reads_other": 3,
+        "reads_total": 8,
+        "physical_requests": 8,
+        "guard_requests": 3,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": 3,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 8,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "physical_requests_charged": 8,
+      "model_calls_reserved": 2,
+      "input_characters_reserved": 15814,
+      "before_pot": {
+        "used": 1220,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 485
+      },
+      "after_pot": {
+        "used": 1228,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 477
+      },
+      "failure": null,
+      "expectation_differences": [
+        {
+          "invariant": "outcome",
+          "expected": "TRANSFORMATION_LOGIC",
+          "observed": "CONSISTENT_TO_BOUNDARY"
+        },
+        {
+          "invariant": "resolutions",
+          "expected": {
+            "report_binding": "STATED"
+          },
+          "observed": {
+            "report_binding": "USER_SUPPLIED_FORM"
+          }
+        },
+        {
+          "invariant": "boundaries",
+          "expected": [
+            {
+              "upper_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/ade205fe-52b1-43b5-980a-773b7b1de538/table/Activity",
+              "lower_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/0b36ee15-643c-464f-81b3-776aa4616872/table/movement_values",
+              "values_equal": true,
+              "grade": "ENGINE_INDEPENDENT"
+            },
+            {
+              "upper_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/0b36ee15-643c-464f-81b3-776aa4616872/table/movement_values",
+              "lower_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/cfd8d7d5-a914-4ff8-96d0-bb8ccbc45d74/table/stock_movements_e1b8e1",
+              "values_equal": false,
+              "grade": "OBJECT_DISTINCT"
+            }
+          ],
+          "observed": [
+            {
+              "upper_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/ade205fe-52b1-43b5-980a-773b7b1de538/table/Activity",
+              "lower_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/0b36ee15-643c-464f-81b3-776aa4616872/table/movement_values",
+              "values_equal": true,
+              "grade": "ENGINE_INDEPENDENT"
+            }
+          ]
+        },
+        {
+          "invariant": "layers_reached",
+          "expected": [
+            {
+              "engine": "OLAP Server",
+              "connection": "d028fa2b-0d1b-4dd8-b423-37dd161cd5d0",
+              "object": "ade205fe-52b1-43b5-980a-773b7b1de538"
+            },
+            {
+              "engine": "Microsoft Azure SQL Data Warehouse",
+              "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-fp5crua3bxme3nbdg7ormhgv2a.datawarehouse.fabric.microsoft.com",
+              "object": "rehearsal_gold_20261008"
+            },
+            {
+              "engine": "Microsoft Azure SQL Data Warehouse",
+              "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-fp5crua3bxme3nbdg7ormhgv2a.datawarehouse.fabric.microsoft.com",
+              "object": "rehearsal_silver_20261008"
+            }
+          ],
+          "observed": [
+            {
+              "engine": "OLAP Server",
+              "connection": "d028fa2b-0d1b-4dd8-b423-37dd161cd5d0",
+              "object": "ade205fe-52b1-43b5-980a-773b7b1de538"
+            },
+            {
+              "engine": "Microsoft Azure SQL Data Warehouse",
+              "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-fp5crua3bxme3nbdg7ormhgv2a.datawarehouse.fabric.microsoft.com",
+              "object": "rehearsal_gold_20261008"
+            }
+          ]
+        }
+      ],
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "investigation_planner_calls_as_recorded": 0,
+      "synthesis_model_calls": 1,
+      "settled_output_tokens": 630,
+      "outcome_matches": false,
+      "full_contract_matches": false,
+      "artifact_sha256": "74e4b94aa5238a2563a80c0ac129c5557acccc7c60e9a54da67b421dc86a04d3"
+    },
+    {
+      "case": "rebuilt:family-F",
+      "elapsed_seconds": 203.69024777412415,
+      "ticket_state": "FINDINGS_SHARED",
+      "session_id": "7b66131d-e8c3-444c-9722-1f85c5ae9fcd",
+      "outcome": "CONSISTENT_TO_BOUNDARY",
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 4,
+        "reads_dax": 1,
+        "reads_other": 3,
+        "reads_total": 8,
+        "physical_requests": 8,
+        "guard_requests": 3,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": 3,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 8,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "physical_requests_charged": 8,
+      "model_calls_reserved": 2,
+      "input_characters_reserved": 15162,
+      "before_pot": {
+        "used": 1228,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 477
+      },
+      "after_pot": {
+        "used": 1236,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 469
+      },
+      "failure": null,
+      "expectation_differences": [
+        {
+          "invariant": "resolutions",
+          "expected": {
+            "report_binding": "STATED"
+          },
+          "observed": {
+            "report_binding": "USER_SUPPLIED_FORM"
+          }
+        }
+      ],
+      "expected_outcome": "CONSISTENT_TO_BOUNDARY",
+      "expected_status": "COMPLETED",
+      "investigation_planner_calls_as_recorded": 0,
+      "synthesis_model_calls": 1,
+      "settled_output_tokens": 621,
+      "outcome_matches": true,
+      "full_contract_matches": false,
+      "artifact_sha256": "4712f760c7d229032f658daea146a08ebe0c76d3d86fcf109301ce35c590b096"
+    },
+    {
+      "case": "rebuilt:family-G",
+      "elapsed_seconds": 199.35998129844666,
+      "ticket_state": "FINDINGS_SHARED",
+      "session_id": "a4265a6a-80e7-4c9b-ae62-3ac1efc401fb",
+      "outcome": "CONSISTENT_TO_BOUNDARY",
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 4,
+        "reads_dax": 1,
+        "reads_other": 3,
+        "reads_total": 8,
+        "physical_requests": 8,
+        "guard_requests": 3,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": 3,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 8,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "physical_requests_charged": 8,
+      "model_calls_reserved": 2,
+      "input_characters_reserved": 15880,
+      "before_pot": {
+        "used": 1236,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 469
+      },
+      "after_pot": {
+        "used": 1244,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 461
+      },
+      "failure": null,
+      "expectation_differences": [
+        {
+          "invariant": "outcome",
+          "expected": "TRANSFORMATION_LOGIC",
+          "observed": "CONSISTENT_TO_BOUNDARY"
+        },
+        {
+          "invariant": "resolutions",
+          "expected": {
+            "report_binding": "STATED"
+          },
+          "observed": {
+            "report_binding": "USER_SUPPLIED_FORM"
+          }
+        },
+        {
+          "invariant": "boundaries",
+          "expected": [
+            {
+              "upper_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/ade205fe-52b1-43b5-980a-773b7b1de538/table/Activity",
+              "lower_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/0b36ee15-643c-464f-81b3-776aa4616872/table/movement_values",
+              "values_equal": true,
+              "grade": "ENGINE_INDEPENDENT"
+            },
+            {
+              "upper_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/0b36ee15-643c-464f-81b3-776aa4616872/table/movement_values",
+              "lower_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/cfd8d7d5-a914-4ff8-96d0-bb8ccbc45d74/table/stock_movements_e1b8e1",
+              "values_equal": false,
+              "grade": "OBJECT_DISTINCT"
+            }
+          ],
+          "observed": [
+            {
+              "upper_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/ade205fe-52b1-43b5-980a-773b7b1de538/table/Activity",
+              "lower_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/0b36ee15-643c-464f-81b3-776aa4616872/table/movement_values",
+              "values_equal": true,
+              "grade": "ENGINE_INDEPENDENT"
+            }
+          ]
+        },
+        {
+          "invariant": "layers_reached",
+          "expected": [
+            {
+              "engine": "OLAP Server",
+              "connection": "d028fa2b-0d1b-4dd8-b423-37dd161cd5d0",
+              "object": "ade205fe-52b1-43b5-980a-773b7b1de538"
+            },
+            {
+              "engine": "Microsoft Azure SQL Data Warehouse",
+              "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-fp5crua3bxme3nbdg7ormhgv2a.datawarehouse.fabric.microsoft.com",
+              "object": "rehearsal_gold_20261008"
+            },
+            {
+              "engine": "Microsoft Azure SQL Data Warehouse",
+              "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-fp5crua3bxme3nbdg7ormhgv2a.datawarehouse.fabric.microsoft.com",
+              "object": "rehearsal_silver_20261008"
+            }
+          ],
+          "observed": [
+            {
+              "engine": "OLAP Server",
+              "connection": "d028fa2b-0d1b-4dd8-b423-37dd161cd5d0",
+              "object": "ade205fe-52b1-43b5-980a-773b7b1de538"
+            },
+            {
+              "engine": "Microsoft Azure SQL Data Warehouse",
+              "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-fp5crua3bxme3nbdg7ormhgv2a.datawarehouse.fabric.microsoft.com",
+              "object": "rehearsal_gold_20261008"
+            }
+          ]
+        }
+      ],
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "investigation_planner_calls_as_recorded": 0,
+      "synthesis_model_calls": 1,
+      "settled_output_tokens": 473,
+      "outcome_matches": false,
+      "full_contract_matches": false,
+      "artifact_sha256": "ae38201a7c94563e8714d64432a8b2e2cd313f8e7c4ecebbd9c0c136e407ca7b"
+    },
+    {
+      "case": "rebuilt:family-H",
+      "elapsed_seconds": 142.24093437194824,
+      "ticket_state": "FINDINGS_SHARED",
+      "session_id": "710aad8b-0bf5-4bd4-8099-0c8261b79780",
+      "outcome": "NO_KNOWN_PATTERN",
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 0,
+        "reads_dax": 1,
+        "reads_other": 1,
+        "reads_total": 2,
+        "physical_requests": 2,
+        "guard_requests": 0,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": 1,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 2,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "physical_requests_charged": 2,
+      "model_calls_reserved": 2,
+      "input_characters_reserved": 14026,
+      "before_pot": {
+        "used": 1244,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 461
+      },
+      "after_pot": {
+        "used": 1246,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 459
+      },
+      "failure": null,
+      "expectation_differences": [
+        {
+          "invariant": "resolutions",
+          "expected": {
+            "report_binding": "STATED"
+          },
+          "observed": {
+            "report_binding": "USER_SUPPLIED_FORM"
+          }
+        }
+      ],
+      "expected_outcome": "NO_KNOWN_PATTERN",
+      "expected_status": "COMPLETED",
+      "investigation_planner_calls_as_recorded": 0,
+      "synthesis_model_calls": 1,
+      "settled_output_tokens": 1090,
+      "outcome_matches": true,
+      "full_contract_matches": false,
+      "artifact_sha256": "525ffe59369a303cb65c42fe4aa8956e0e405f117113d4f83703072c4bb91d4a"
+    },
+    {
+      "case": "rebuilt:family-I",
+      "elapsed_seconds": 200.99129366874695,
+      "ticket_state": "FINDINGS_SHARED",
+      "session_id": "5df77cde-33cc-4a02-a3ac-8425014b2ab1",
+      "outcome": "BUSINESS_QUESTION",
+      "synthesis_status": "COMPLETED",
+      "accounting": {
+        "reads_sql": 4,
+        "reads_dax": 1,
+        "reads_other": 3,
+        "reads_total": 8,
+        "physical_requests": 8,
+        "guard_requests": 3,
+        "connection_retry_requests": 0,
+        "diagnostic_reads": 3,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 12,
+        "reads_completed": 8,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "physical_requests_charged": 8,
+      "model_calls_reserved": 2,
+      "input_characters_reserved": 15642,
+      "before_pot": {
+        "used": 1246,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 459
+      },
+      "after_pot": {
+        "used": 1254,
+        "ceiling": 1800,
+        "restoration_remaining": 95,
+        "net_available": 451
+      },
+      "failure": null,
+      "expectation_differences": [
+        {
+          "invariant": "outcome",
+          "expected": "TRANSFORMATION_LOGIC",
+          "observed": "BUSINESS_QUESTION"
+        },
+        {
+          "invariant": "answer_category",
+          "expected": "NOT_ANSWERED",
+          "observed": "PARTLY_ANSWERED"
+        },
+        {
+          "invariant": "resolutions",
+          "expected": {
+            "report_binding": "STATED"
+          },
+          "observed": {
+            "report_binding": "USER_SUPPLIED_FORM"
+          }
+        },
+        {
+          "invariant": "boundaries",
+          "expected": [
+            {
+              "upper_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/ade205fe-52b1-43b5-980a-773b7b1de538/table/Activity",
+              "lower_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/0b36ee15-643c-464f-81b3-776aa4616872/table/movement_values",
+              "values_equal": true,
+              "grade": "ENGINE_INDEPENDENT"
+            },
+            {
+              "upper_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/0b36ee15-643c-464f-81b3-776aa4616872/table/movement_values",
+              "lower_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/cfd8d7d5-a914-4ff8-96d0-bb8ccbc45d74/table/stock_movements_e1b8e1",
+              "values_equal": false,
+              "grade": "OBJECT_DISTINCT"
+            }
+          ],
+          "observed": [
+            {
+              "upper_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/ade205fe-52b1-43b5-980a-773b7b1de538/table/Activity",
+              "lower_layer": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0/0b36ee15-643c-464f-81b3-776aa4616872/table/movement_values",
+              "values_equal": true,
+              "grade": "ENGINE_INDEPENDENT"
+            }
+          ]
+        },
+        {
+          "invariant": "layers_reached",
+          "expected": [
+            {
+              "engine": "OLAP Server",
+              "connection": "d028fa2b-0d1b-4dd8-b423-37dd161cd5d0",
+              "object": "ade205fe-52b1-43b5-980a-773b7b1de538"
+            },
+            {
+              "engine": "Microsoft Azure SQL Data Warehouse",
+              "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-fp5crua3bxme3nbdg7ormhgv2a.datawarehouse.fabric.microsoft.com",
+              "object": "rehearsal_gold_20261008"
+            },
+            {
+              "engine": "Microsoft Azure SQL Data Warehouse",
+              "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-fp5crua3bxme3nbdg7ormhgv2a.datawarehouse.fabric.microsoft.com",
+              "object": "rehearsal_silver_20261008"
+            }
+          ],
+          "observed": [
+            {
+              "engine": "OLAP Server",
+              "connection": "d028fa2b-0d1b-4dd8-b423-37dd161cd5d0",
+              "object": "ade205fe-52b1-43b5-980a-773b7b1de538"
+            },
+            {
+              "engine": "Microsoft Azure SQL Data Warehouse",
+              "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-fp5crua3bxme3nbdg7ormhgv2a.datawarehouse.fabric.microsoft.com",
+              "object": "rehearsal_gold_20261008"
+            }
+          ]
+        }
+      ],
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "investigation_planner_calls_as_recorded": 0,
+      "synthesis_model_calls": 1,
+      "settled_output_tokens": 735,
+      "outcome_matches": false,
+      "full_contract_matches": false,
+      "artifact_sha256": "9671d9a84738299b56a769c08ded883650cb548c74e4ba6e785121376066b3a6"
+    }
+  ],
+  "stopped": null,
+  "unrun": [],
+  "method": "One live form attempt per family and estate; explicit fixture-author form choices derived before execution; original descriptions unchanged; no billing run; no replacement attempts.",
+  "delivered": 16,
+  "physical_investigation_requests": 100,
+  "diagnostic_reads": 44,
+  "guards": 42,
+  "receipt_accounting_unavailable": [
+    "original:family-C",
+    "rebuilt:family-C"
+  ],
+  "model_calls": 38,
+  "input_characters": 316149,
+  "full_contract_matches": 0,
+  "outcome_matches": 9
+}

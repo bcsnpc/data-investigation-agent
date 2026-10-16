@@ -1,0 +1,100 @@
+{
+  "id": "visual-6",
+  "ticket_text": "In Round Ten Visual Variety, on page Calculated table card, the Fixture Calculated Quantity shows 16. Can the saved declared context reproduce that figure?",
+  "phrasing_class": "visual-variety",
+  "fixture_state": "round-ten-visuals",
+  "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+  "fixture_authored": true,
+  "expected": {
+    "status": "COMPLETED",
+    "outcome": "NO_COMPARABLE_PATH",
+    "answer_category": "REPRODUCED"
+  },
+  "expected_reproduction": {
+    "label": "REPRODUCED",
+    "value": "16"
+  },
+  "derivation": {
+    "method": "Independent literal-seed arithmetic or authored calculated-table row. No engine query result used. {\"title\": \"Calculated table card\", \"page\": \"ca8355a38db5ec471f39\", \"visual\": \"ae4a2be89ac2444d9767\", \"authored_value\": 16, \"movement_ids\": [], \"method\": \"Committed synthetic rows expanded on declared product-only left join, then explicit declared predicates/grouping; no engine query. Calculated card uses independently authored DATATABLE row 16.\"}",
+    "arithmetic": {
+      "seed_sha256": "313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1",
+      "seed_rows": 360,
+      "refined": 7661,
+      "serving": 8765,
+      "inbound": 6425,
+      "outbound": 2340,
+      "fraction": "6425/8765",
+      "balance": 4085,
+      "value": 57043,
+      "rate_rows": [
+        {
+          "product_id": 1,
+          "rate_version": 1,
+          "unit_cost": 6
+        },
+        {
+          "product_id": 2,
+          "rate_version": 1,
+          "unit_cost": 4
+        },
+        {
+          "product_id": 3,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 4,
+          "rate_version": 1,
+          "unit_cost": 7
+        },
+        {
+          "product_id": 5,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 6,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 7,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 7,
+          "rate_version": 2,
+          "unit_cost": 11
+        },
+        {
+          "product_id": 8,
+          "rate_version": 1,
+          "unit_cost": 9
+        }
+      ],
+      "join": "Product-only left join. Product 7 has two matches. Additive units are carried, not transformed. Row identity is not globally proven by equal totals."
+    }
+  },
+  "fixture_prerequisites": [
+    "Served new report definition collected and explicitly approved",
+    "Calculated table installed and processed"
+  ],
+  "lineage_columns": [
+    "stripped"
+  ],
+  "version": 1,
+  "ticket_hash": "e8bd37dd0354d16c05919f6bc5290c98213d6465cdfd044816190986a189eb5b",
+  "authorship": "Fixture-authored by Codex before any Round Ten ticket run, from committed seed arithmetic and definition/capability contracts; not real user observations.",
+  "expectation_columns": {
+    "stripped": {
+      "status": "COMPLETED",
+      "outcome": "NO_COMPARABLE_PATH",
+      "answer_category": "REPRODUCED"
+    }
+  },
+  "reference_context_pin": {
+    "context_id": "541d500c-437a-485c-97bf-f5d44febae44",
+    "hash": "5c38074b687c1c56157ccf081975ba15517ec27cf962cd19882c47219e353564"
+  }
+}

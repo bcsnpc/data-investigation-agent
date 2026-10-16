@@ -1,0 +1,552 @@
+{
+  "recorded_at": "2026-10-13T00:34:47.401254+00:00",
+  "provenance": "Derived main-session scoring from immutable live attempts; model-tester cohort, not human or separate Codex tester.",
+  "truth_sha256": "033095c4b5a34bf1ce91df33d4efab15a9433e89719a3c03c748ff385ef1d1c2",
+  "rows": [
+    {
+      "id": "R17-01",
+      "split": "dev",
+      "topic": "quantity",
+      "ticket_text": "Please review the Handled Quantity card on the Unfiltered control page for Declared predicate fixture 20261001. It is showing 8765, and I want the displayed count checked.",
+      "pipeline_status": "ERROR",
+      "reason": "Candidate context could not be faithfully compiled.",
+      "question_count": 0,
+      "confirmation_count": 0,
+      "questions": [],
+      "confirmation_decisions": [],
+      "active_attempt_seconds": 117.81032752990723,
+      "time_definition": "Sum of attempt and same-attempt continuation durations; excludes owner pause and between-phase operator time. Harness overhead included.",
+      "model_calls": 1,
+      "model_cost_microdollars": 18780,
+      "physical_requests": 0,
+      "diagnostic_reads": 0,
+      "sources": [
+        {
+          "path": ".local\\round-seventeen\\d-pipeline\\R17-01.json",
+          "sha256": "a174b3a4d9e2829479c9d3ccfa1a86031d7b056e9b4ae1425933449a9dc1bb62"
+        }
+      ],
+      "investigation_reached": false,
+      "correct_ending": false,
+      "correct_localization": false,
+      "harmful_technical_findings": 0,
+      "protocol_limits": []
+    },
+    {
+      "id": "R17-02",
+      "split": "held-out",
+      "topic": "quantity",
+      "ticket_text": "Can someone verify the 8765 shown on Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered?",
+      "pipeline_status": "CLARIFYING",
+      "reason": "Neutral verification request forced into a discrepancy direction after no-other-comparison reply.",
+      "question_count": 2,
+      "confirmation_count": 0,
+      "questions": [
+        {
+          "question_id": "a4d768c50c0f1f4732854048407dd981a01955b46379c5ff11284626f83003b7",
+          "text": "What are you comparing against?",
+          "field": "comparator",
+          "choice_labels": [
+            "My own count",
+            "The source application",
+            "Another report",
+            "No other comparison"
+          ],
+          "tester_can_answer": true
+        },
+        {
+          "question_id": "7f36c89f6a827d032f1b615eab266dcb97b0767c701db29d10367f2e9c4d376c",
+          "text": "Is it less, more, different, stale, or a definition question?",
+          "field": "direction",
+          "choice_labels": [
+            "Less or missing",
+            "More or extra",
+            "Different",
+            "Stale or not up to date",
+            "A definition question"
+          ],
+          "tester_can_answer": false
+        }
+      ],
+      "confirmation_decisions": [],
+      "active_attempt_seconds": 435.83495450019836,
+      "time_definition": "Sum of attempt and same-attempt continuation durations; excludes owner pause and between-phase operator time. Harness overhead included.",
+      "model_calls": 3,
+      "model_cost_microdollars": 24188,
+      "physical_requests": 1,
+      "diagnostic_reads": 1,
+      "sources": [
+        {
+          "path": ".local\\round-seventeen\\d-held-out-resumed\\R17-02.json",
+          "sha256": "7f80bd855e77865cc057d2a5503c742461e0aee6cd758679c0bffbc41d7a2101"
+        }
+      ],
+      "investigation_reached": false,
+      "correct_ending": false,
+      "correct_localization": false,
+      "harmful_technical_findings": 0,
+      "protocol_limits": []
+    },
+    {
+      "id": "R17-03",
+      "split": "dev",
+      "topic": "quantity",
+      "ticket_text": "I have a count concern with the Handled Quantity metric on the Unfiltered control page. It currently reads 8765.",
+      "pipeline_status": "CLARIFYING",
+      "reason": "Asked the user to choose a retained definition, with no choices.",
+      "question_count": 1,
+      "confirmation_count": 0,
+      "questions": [
+        {
+          "question_id": "a5077cbca5875286c15debdecc1af82cabf011a705feb7e8e351e3c5f2dcccee",
+          "text": "Which retained definition should represent the metric you named?",
+          "field": "binding",
+          "choice_labels": [],
+          "tester_can_answer": false
+        }
+      ],
+      "confirmation_decisions": [],
+      "active_attempt_seconds": 127.98808598518372,
+      "time_definition": "Sum of attempt and same-attempt continuation durations; excludes owner pause and between-phase operator time. Harness overhead included.",
+      "model_calls": 2,
+      "model_cost_microdollars": 15758,
+      "physical_requests": 0,
+      "diagnostic_reads": 0,
+      "sources": [
+        {
+          "path": ".local\\round-seventeen\\d-pipeline\\R17-03.json",
+          "sha256": "96d1c236dbc5b0ed6875cba86fa599cf9a7f104f9d70507a931deef79b5ec050"
+        }
+      ],
+      "investigation_reached": false,
+      "correct_ending": false,
+      "correct_localization": false,
+      "harmful_technical_findings": 0,
+      "protocol_limits": []
+    },
+    {
+      "id": "R17-04",
+      "split": "held-out",
+      "topic": "quantity",
+      "ticket_text": "Handled Quantity on the unfiltered card is showing 8765. Please confirm this number is the intended value for that view.",
+      "pipeline_status": "ERROR",
+      "reason": "Indistinguishable choice labels raised an exception.",
+      "question_count": 0,
+      "confirmation_count": 0,
+      "questions": [],
+      "confirmation_decisions": [],
+      "active_attempt_seconds": 160.65342617034912,
+      "time_definition": "Sum of attempt and same-attempt continuation durations; excludes owner pause and between-phase operator time. Harness overhead included.",
+      "model_calls": 1,
+      "model_cost_microdollars": 19558,
+      "physical_requests": 0,
+      "diagnostic_reads": 0,
+      "sources": [
+        {
+          "path": ".local\\round-seventeen\\d-held-out-resumed\\R17-04.json",
+          "sha256": "dea428e19108866017a784d71e66d9199187716c1d5d418751a447895bd29936"
+        }
+      ],
+      "investigation_reached": false,
+      "correct_ending": false,
+      "correct_localization": false,
+      "harmful_technical_findings": 0,
+      "protocol_limits": []
+    },
+    {
+      "id": "R17-05",
+      "split": "dev",
+      "topic": "quantity",
+      "ticket_text": "Please investigate the quantity displayed in the Handled Quantity card for Declared predicate fixture 20261001. The visible number is 8765.",
+      "pipeline_status": "ERROR",
+      "reason": "Indistinguishable choice labels raised an exception.",
+      "question_count": 0,
+      "confirmation_count": 0,
+      "questions": [],
+      "confirmation_decisions": [],
+      "active_attempt_seconds": 117.80627942085266,
+      "time_definition": "Sum of attempt and same-attempt continuation durations; excludes owner pause and between-phase operator time. Harness overhead included.",
+      "model_calls": 1,
+      "model_cost_microdollars": 18885,
+      "physical_requests": 0,
+      "diagnostic_reads": 0,
+      "sources": [
+        {
+          "path": ".local\\round-seventeen\\d-pipeline\\R17-05.json",
+          "sha256": "14be16381b59e297765c04e60fce95dfdfb24d4758eb0cae1af459400063fe28"
+        }
+      ],
+      "investigation_reached": false,
+      "correct_ending": false,
+      "correct_localization": false,
+      "harmful_technical_findings": 0,
+      "protocol_limits": []
+    },
+    {
+      "id": "R17-06",
+      "split": "held-out",
+      "topic": "quantity",
+      "ticket_text": "The Handled Quantity - unfiltered visual on the Unfiltered control page shows 8765. I need support to review that count.",
+      "pipeline_status": "CLARIFYING",
+      "reason": "Neutral review request forced into a discrepancy direction after no-other-comparison reply.",
+      "question_count": 2,
+      "confirmation_count": 0,
+      "questions": [
+        {
+          "question_id": "c5c1f1e1c6a601c468b96e35a4eac427f4437e71eddce0f39b9c3143564f11f6",
+          "text": "What are you comparing against?",
+          "field": "comparator",
+          "choice_labels": [
+            "My own count",
+            "The source application",
+            "Another report",
+            "No other comparison"
+          ],
+          "tester_can_answer": true
+        },
+        {
+          "question_id": "406e3f2bd4bac1366dc0101e08f8063dd8cf040ccc2c8f6238f1ace9fa6729a3",
+          "text": "Is it less, more, different, stale, or a definition question?",
+          "field": "direction",
+          "choice_labels": [
+            "Less or missing",
+            "More or extra",
+            "Different",
+            "Stale or not up to date",
+            "A definition question"
+          ],
+          "tester_can_answer": false
+        }
+      ],
+      "confirmation_decisions": [],
+      "active_attempt_seconds": 377.60886549949646,
+      "time_definition": "Sum of attempt and same-attempt continuation durations; excludes owner pause and between-phase operator time. Harness overhead included.",
+      "model_calls": 3,
+      "model_cost_microdollars": 24296,
+      "physical_requests": 1,
+      "diagnostic_reads": 1,
+      "sources": [
+        {
+          "path": ".local\\round-seventeen\\d-held-out-resumed\\R17-06.json",
+          "sha256": "d8638ae456638bc92318edff291e6119e99688ee451163301607fbdfc65f379d"
+        }
+      ],
+      "investigation_reached": false,
+      "correct_ending": false,
+      "correct_localization": false,
+      "harmful_technical_findings": 0,
+      "protocol_limits": []
+    },
+    {
+      "id": "R17-07",
+      "split": "dev",
+      "topic": "freshness",
+      "ticket_text": "When was the Handled Quantity value on the Unfiltered control page last refreshed?",
+      "pipeline_status": "ERROR",
+      "reason": "Candidate context could not be faithfully compiled after correction replies.",
+      "question_count": 2,
+      "confirmation_count": 1,
+      "questions": [
+        {
+          "question_id": "f757ad5113e8c048cb41a5ab66c72f3c6160505399713c7f20d77af6de87ee80",
+          "text": "What should we correct in this interpretation?",
+          "field": "correction",
+          "choice_labels": [],
+          "tester_can_answer": true
+        },
+        {
+          "question_id": "5d3d187059a780df46b12713f6957c1ff8e79d635d1b34563685863f0fd54566",
+          "text": "Which report is this about?",
+          "field": "report",
+          "choice_labels": [
+            "Inventory Health f28cf2",
+            "Warehouse Performance f28cf2",
+            "Declared predicate fixture 20261001",
+            "Round Nine translation filters 20261007",
+            "Inventory Health e1b8e1",
+            "Warehouse Performance e1b8e1",
+            "Round Ten Visual Variety",
+            "Inventory Health 0fd86f",
+            "Warehouse Performance 0fd86f",
+            "Inventory Health 23619e",
+            "Warehouse Performance 23619e"
+          ],
+          "tester_can_answer": true
+        }
+      ],
+      "confirmation_decisions": [
+        {
+          "decision": {
+            "accepted": false,
+            "reason": "The interpretation does not preserve the original question. The ticket asks for the refresh time of the Handled Quantity value on the Unfiltered control page ('When was it last refreshed?'). The support interpretation changes that to a stale/up-to-date judgment ('whether it is up to date', 'Direction: stale'), which is a different target. It also introduces 'Warehouse Operations e1b8e1', which is not stated in the ticket and is not supported by the public evidence provided. While 'Handled Quantity', 'Unfiltered control', and the named view are consistent with the observation, the key ask has been changed."
+          },
+          "interpretation": "You are asking about Handled Quantity. By 'Handled Quantity', you mean Handled Quantity. Using Warehouse Operations e1b8e1. On Declared predicate fixture 20261001. On Unfiltered control. The question is whether it is up to date, not whether a single figure reproduces. Direction: stale. Scope: the identified metric at this location. Is this interpretation correct?"
+        }
+      ],
+      "active_attempt_seconds": 364.1891174316406,
+      "time_definition": "Sum of attempt and same-attempt continuation durations; excludes owner pause and between-phase operator time. Harness overhead included.",
+      "model_calls": 5,
+      "model_cost_microdollars": 60102,
+      "physical_requests": 1,
+      "diagnostic_reads": 1,
+      "sources": [
+        {
+          "path": ".local\\round-seventeen\\d-pipeline\\R17-07.json",
+          "sha256": "782ef9ef529d3e5af3ca4864b396934d4959b0544b05752626342f991b9b0f71"
+        },
+        {
+          "path": ".local\\round-seventeen\\d-correction-dev-resumed-2\\R17-07.json",
+          "sha256": "f683773d276113c747537764af52b2306723d108bef27d92830387cea28eaab6"
+        }
+      ],
+      "investigation_reached": false,
+      "correct_ending": false,
+      "correct_localization": false,
+      "harmful_technical_findings": 0,
+      "protocol_limits": []
+    },
+    {
+      "id": "R17-08",
+      "split": "held-out",
+      "topic": "freshness",
+      "ticket_text": "Can you confirm whether the 8765 shown in Handled Quantity is based on the latest available refresh for this report view?",
+      "pipeline_status": "ERROR",
+      "reason": "Indistinguishable choice labels raised an exception.",
+      "question_count": 0,
+      "confirmation_count": 0,
+      "questions": [],
+      "confirmation_decisions": [],
+      "active_attempt_seconds": 160.07266426086426,
+      "time_definition": "Sum of attempt and same-attempt continuation durations; excludes owner pause and between-phase operator time. Harness overhead included.",
+      "model_calls": 1,
+      "model_cost_microdollars": 11378,
+      "physical_requests": 0,
+      "diagnostic_reads": 0,
+      "sources": [
+        {
+          "path": ".local\\round-seventeen\\d-held-out-resumed\\R17-08.json",
+          "sha256": "d49715dde8c8af90de296d8e8aa3a8875da3fa943c1db8851750f7d42d99ac07"
+        }
+      ],
+      "investigation_reached": false,
+      "correct_ending": false,
+      "correct_localization": false,
+      "harmful_technical_findings": 0,
+      "protocol_limits": []
+    },
+    {
+      "id": "R17-09",
+      "split": "dev",
+      "topic": "freshness",
+      "ticket_text": "Please advise how current the Handled Quantity card is on Declared predicate fixture 20261001 > Unfiltered control.",
+      "pipeline_status": "CLARIFYING",
+      "reason": "Neutral currency question repeatedly rendered as a claim that the value is stale.",
+      "question_count": 2,
+      "confirmation_count": 3,
+      "questions": [
+        {
+          "question_id": "f837536407464968f16ff279f8a70cb083eeb1edec2a490cf75fa6d27f49018b",
+          "text": "What should we correct in this interpretation?",
+          "field": "correction",
+          "choice_labels": [],
+          "tester_can_answer": true
+        },
+        {
+          "question_id": "c60623035c67c4f341b35f20bf4d43adcad99d87f3c34186d987319940cb52f9",
+          "text": "What should we correct in this interpretation?",
+          "field": "correction",
+          "choice_labels": [],
+          "tester_can_answer": true
+        }
+      ],
+      "confirmation_decisions": [
+        {
+          "decision": {
+            "accepted": false,
+            "reason": "The interpretation mostly matches the ticket’s freshness question about the Handled Quantity card on Declared predicate fixture 20261001 > Unfiltered control, but it adds an unsupported target: “Using Warehouse Operations e1b8e1.” That report/workspace identifier is not stated in the original ticket or the public observations, so approving it would accept an invented target. It also says “selected visuals,” while the ticket is about a specific card."
+          },
+          "interpretation": "You are asking about Handled Quantity. By 'Handled Quantity', you mean Handled Quantity. Using Warehouse Operations e1b8e1. On Declared predicate fixture 20261001. On Unfiltered control. Visible objects: Handled Quantity - unfiltered / Unfiltered control. The question is whether it is up to date, not whether a single figure reproduces. Direction: stale. Scope: the selected visuals. Is this interpretation correct?"
+        },
+        {
+          "accepted": false,
+          "reason": "The interpretation correctly identifies the target as the Handled Quantity card on Declared predicate fixture 20261001 > Unfiltered control and correctly frames the issue as freshness/currentness rather than exact-value reproduction. However, it adds 'Direction: stale,' which is not stated in the ticket or established by the supplied public observations. That extra directional assumption means the interpretation does not strictly preserve the original question."
+        },
+        {
+          "accepted": false,
+          "reason": "The interpretation correctly identifies the target visual and page: the Handled Quantity card/visual on Declared predicate fixture 20261001 > Unfiltered control. It also correctly frames the request as a freshness/currentness question rather than a value-reproduction question. However, it adds an unsupported bias with 'Direction: stale.' The ticket asks neutrally how current the card is, not specifically to verify that it is stale. A faithful interpretation should keep the freshness direction neutral."
+        }
+      ],
+      "active_attempt_seconds": 848.4289989471436,
+      "time_definition": "Sum of attempt and same-attempt continuation durations; excludes owner pause and between-phase operator time. Harness overhead included.",
+      "model_calls": 8,
+      "model_cost_microdollars": 106078,
+      "physical_requests": 1,
+      "diagnostic_reads": 1,
+      "sources": [
+        {
+          "path": ".local\\round-seventeen\\d-pipeline\\R17-09.json",
+          "sha256": "66550f73ffe7781574be171c9d1008fa6d121322e9620987141147bf746f70a5"
+        },
+        {
+          "path": ".local\\round-seventeen\\d-correction-dev-resumed-2\\R17-09.json",
+          "sha256": "8674d941c7ca8f37335e58d947cb5e4c562a02ce8b9804e9e1d59ddbc8c772a0"
+        },
+        {
+          "path": ".local\\round-seventeen\\d-correction-dev-recorded-reply\\R17-09.json",
+          "sha256": "14ddd0ea855f04c7d83c3d6bf56db2ca9805dfd5168bc8e2a2276fe50b7eae70"
+        }
+      ],
+      "investigation_reached": false,
+      "correct_ending": false,
+      "correct_localization": false,
+      "harmful_technical_findings": 0,
+      "protocol_limits": [
+        "Second-reply tester saw initial rather than latest objection; preserve result but do not claim clean protocol equivalence."
+      ]
+    },
+    {
+      "id": "R17-10",
+      "split": "held-out",
+      "topic": "definition",
+      "ticket_text": "What exactly is included in the Handled Quantity metric on the Handled Quantity - unfiltered card?",
+      "pipeline_status": "CLARIFYING",
+      "reason": "Asked the user to choose a retained definition, with no choices.",
+      "question_count": 1,
+      "confirmation_count": 0,
+      "questions": [
+        {
+          "question_id": "632bbe276d63b784b217f344b4ed19234a8ff18888f8bdb50754fcf243a4c6bd",
+          "text": "Which retained definition should represent the metric you named?",
+          "field": "binding",
+          "choice_labels": [],
+          "tester_can_answer": false
+        }
+      ],
+      "confirmation_decisions": [],
+      "active_attempt_seconds": 403.6609489917755,
+      "time_definition": "Sum of attempt and same-attempt continuation durations; excludes owner pause and between-phase operator time. Harness overhead included.",
+      "model_calls": 2,
+      "model_cost_microdollars": 14621,
+      "physical_requests": 0,
+      "diagnostic_reads": 0,
+      "sources": [
+        {
+          "path": ".local\\round-seventeen\\d-held-out-resumed\\R17-10.json",
+          "sha256": "5d604a41e4b431ade0bf54678aaa63968e3641dd5e8694bf306c5c94be27a7ff"
+        }
+      ],
+      "investigation_reached": false,
+      "correct_ending": false,
+      "correct_localization": false,
+      "harmful_technical_findings": 0,
+      "protocol_limits": []
+    },
+    {
+      "id": "R17-11",
+      "split": "dev",
+      "topic": "definition",
+      "ticket_text": "Please clarify the business definition of Handled Quantity on the Unfiltered control page.",
+      "pipeline_status": "CLARIFYING",
+      "reason": "Tester rejected unfamiliar backing-model terms and added context in confirmation.",
+      "question_count": 2,
+      "confirmation_count": 3,
+      "questions": [
+        {
+          "question_id": "57e79887418d1f20fb6edb700346249513493923d2272336c9b70cafa5cabdcd",
+          "text": "What should we correct in this interpretation?",
+          "field": "correction",
+          "choice_labels": [],
+          "tester_can_answer": true
+        },
+        {
+          "question_id": "78a05c18e518c416c70e0ef169ee72105da28081c47565bcfbc7521021dbfaae",
+          "text": "What should we correct in this interpretation?",
+          "field": "correction",
+          "choice_labels": [],
+          "tester_can_answer": true
+        }
+      ],
+      "confirmation_decisions": [
+        {
+          "decision": {
+            "accepted": false,
+            "reason": "The interpretation does not strictly preserve the original ticket. The ticket asks for the business definition of 'Handled Quantity' on the 'Unfiltered control' page. The interpretation adds unsupported context ('Using Warehouse Operations e1b8e1') that is not stated in the ticket or the public evidence, and it narrows the target to 'Declared predicate fixture 20261001' rather than just the metric on the Unfiltered control page. Because it introduces extra targeting details beyond the original request, it should not be approved as-is."
+          },
+          "interpretation": "You are asking about Handled Quantity. By 'Handled Quantity', you mean Handled Quantity. Using Warehouse Operations e1b8e1. On Declared predicate fixture 20261001. On Unfiltered control. Direction: a definition question. Scope: the identified metric at this location. Is this interpretation correct?"
+        },
+        {
+          "accepted": false,
+          "reason": "The core intent is preserved as a definition question about the 'Handled Quantity' metric on the 'Unfiltered control' page, but the interpretation adds unsupported specifics that are not established by the supplied public evidence, especially 'Using Warehouse Operations e1b8e1'. It also introduces 'Declared predicate fixture 20261001' as scope context even though the ticket only asks about the page-level metric definition. So the interpretation is not cleanly faithful to the provided question and target."
+        },
+        {
+          "accepted": false,
+          "reason": "The interpretation mostly preserves the ticket’s intent—a definition question about the 'Handled Quantity' metric on the 'Unfiltered control' page—but it adds 'Using Warehouse Operations e1b8e1,' which is not stated in the supplied public evidence. Based on the evidence, I can verify only: metric='Handled Quantity', page='Unfiltered control', and the displayed view named 'Declared predicate fixture 20261001'."
+        }
+      ],
+      "active_attempt_seconds": 802.0675618648529,
+      "time_definition": "Sum of attempt and same-attempt continuation durations; excludes owner pause and between-phase operator time. Harness overhead included.",
+      "model_calls": 8,
+      "model_cost_microdollars": 108564,
+      "physical_requests": 3,
+      "diagnostic_reads": 3,
+      "sources": [
+        {
+          "path": ".local\\round-seventeen\\d-pipeline\\R17-11.json",
+          "sha256": "475dda9664c4f9ccc6b097eb16d8bcfad7d7884beff5b8f37033b16fe425f804"
+        },
+        {
+          "path": ".local\\round-seventeen\\d-correction-dev-resumed-2\\R17-11.json",
+          "sha256": "0fb007fa7be65d8d1b33fdcc43ce8a1b58e3750ec0fbb424dc57140d9fc38e9a"
+        },
+        {
+          "path": ".local\\round-seventeen\\d-correction-dev-recorded-reply-11\\R17-11.json",
+          "sha256": "2fdf8525d8e8a807309f3d1258ceb6f19a0afea75357b96f4673bbca5f90f9d3"
+        }
+      ],
+      "investigation_reached": false,
+      "correct_ending": false,
+      "correct_localization": false,
+      "harmful_technical_findings": 0,
+      "protocol_limits": []
+    },
+    {
+      "id": "R17-12",
+      "split": "held-out",
+      "topic": "definition",
+      "ticket_text": "Does the Handled Quantity value of 8765 represent items, cases, records, or another unit on this report?",
+      "pipeline_status": "ERROR",
+      "reason": "Indistinguishable choice labels raised an exception.",
+      "question_count": 0,
+      "confirmation_count": 0,
+      "questions": [],
+      "confirmation_decisions": [],
+      "active_attempt_seconds": 290.9443151950836,
+      "time_definition": "Sum of attempt and same-attempt continuation durations; excludes owner pause and between-phase operator time. Harness overhead included.",
+      "model_calls": 1,
+      "model_cost_microdollars": 14850,
+      "physical_requests": 0,
+      "diagnostic_reads": 0,
+      "sources": [
+        {
+          "path": ".local\\round-seventeen\\d-held-out-resumed\\R17-12.json",
+          "sha256": "aebe6b2bb34a3be7c76bc38334b59d57e9750d0dd635a60577227d66cdec70c4"
+        }
+      ],
+      "investigation_reached": false,
+      "correct_ending": false,
+      "correct_localization": false,
+      "harmful_technical_findings": 0,
+      "protocol_limits": []
+    }
+  ],
+  "statuses": {
+    "ERROR": 6,
+    "CLARIFYING": 6
+  },
+  "question_count": 12,
+  "confirmation_count": 7,
+  "correct_endings": 0,
+  "correct_localizations": 0,
+  "harmful_technical_findings": 0,
+  "engine_changes_between_halves": 0
+}

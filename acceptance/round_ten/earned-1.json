@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "basis": "Original independent synthetic expectations; original matching runs plus new matching once-only reruns, no failed run promoted. Historical producer replay, not a fresh current-engine or unfamiliar-domain claim.",
+  "entries": [
+    {
+      "id": "family-A-mention",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-A-mention.json",
+      "run_sha256": "7bfb998cacd227c2264be52c5e7940bc3a2bf4ed8db75d369bd9466ff6b2cbee",
+      "tape_sha256": "458c09e843bca306a80576707ef98549edbf0174de8eefc4aba5c2cd582dc2b8"
+    },
+    {
+      "id": "family-A-noisy",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-A-noisy.json",
+      "run_sha256": "1881b7374b456442b3656153e2dda6f3ad68635931e2280abe984032e4dda747",
+      "tape_sha256": "b8f7d37845950ce6e2ce9e6168d079c4951c6e5800f91715a97c3ad6c6eb7f3e"
+    },
+    {
+      "id": "family-A-typo",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-A-typo.json",
+      "run_sha256": "c7719c24df35ec6c665c88da752ef320ef8a1a305bc4c1d2767b03b926804af2",
+      "tape_sha256": "c70804510cd37f5bafa8ae1171ebc39e5b63118a1c5792f9f3f8dfb398b18381"
+    },
+    {
+      "id": "family-B-noisy",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-B-noisy.json",
+      "run_sha256": "54e3016fafe043cd36a6f52fbeb43cfddd3422b2a0b9f9a9faea3506c04be18e",
+      "tape_sha256": "d0ad85769262d5ff016d1dc7367f5126b4f8522aeed954ac67e846a2d5ad7e5a"
+    },
+    {
+      "id": "family-B-terse",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-B-terse.json",
+      "run_sha256": "d0dbd4db9b50ea1768b19c89847addb853aa6e91480d3418729bbb3a5b868696",
+      "tape_sha256": "8f1508b02fa43438065a6d7a513d2c4e8d03c09f13bb4f3ec3cd4b5b352673a7"
+    },
+    {
+      "id": "family-B-typo",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-B-typo.json",
+      "run_sha256": "716a01883a3beed5cbc71bf3c9ff67d1984c612f0585675d3ef300032f9e66cd",
+      "tape_sha256": "2d48c40689fe7626427914f5209aed982d2274f66a11f252966c496cf91b52fa"
+    },
+    {
+      "id": "family-C-noisy",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-C-noisy.json",
+      "run_sha256": "4e4928cec73d2529b241645640d3537530b1e464c5df875dee10666e9cfa3465",
+      "tape_sha256": "a2860ae39cec02260a59ae6810551d9e763f4082710d3e5be72725d703850d18"
+    },
+    {
+      "id": "family-C-terse",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-C-terse.json",
+      "run_sha256": "59a6e3a6b703410377624cf75ee94eceabf96ab30c2e270cb559ccd7c71258b9",
+      "tape_sha256": "2c51e426a5fe73cda491a9df12454148e9bcf6dd83093d7e148b462dfc8f7d61"
+    },
+    {
+      "id": "family-C-typo",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-C-typo.json",
+      "run_sha256": "cd058ae7a017d235bbe6c52d664171ba90ebbd5a7c502549cab89caf8359dd7f",
+      "tape_sha256": "69c5b9b2c3ec6983950a8d5e424baf0685ac1e6d5a9e18214f7e0e22376542f6"
+    },
+    {
+      "id": "family-E-noisy",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-E-noisy.json",
+      "run_sha256": "17a572e6527b79cf07453f7011dc70419afa14aa45148e7b8372004037c65cb1",
+      "tape_sha256": "474e6eb1d84d7eb04682e70120f82d72d2133e9e1261c9a1f5cf6dbf79ccc453"
+    },
+    {
+      "id": "family-E-terse",
+      "column": "stripped",
+      "run_path": "runs/stripped/family-E-terse.json",
+      "run_sha256": "d5b9d03c7930ec4fc7c2856a03fd8e80e2539570088a43dd86b7ffc7efeb307a",
+      "tape_sha256": "81d4b404d8df6fce8f99c8fe56d0d954f0556397dc0315208b787491d1cef389"
+    }
+  ]
+}

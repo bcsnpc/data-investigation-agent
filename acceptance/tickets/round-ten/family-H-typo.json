@@ -1,0 +1,100 @@
+{
+  "id": "family-H-typo",
+  "ticket_text": "Warehouse Performance e1b8e1 Inbound Qunatity differs from Outbound Qunatity. pls explain their definitions and what business intent stays unknown. thx, need the actual scope too",
+  "phrasing_class": "typo-informal",
+  "fixture_state": "inventory-baseline",
+  "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+  "fixture_authored": true,
+  "expected": {
+    "status": "COMPLETED",
+    "outcome": "NO_KNOWN_PATTERN",
+    "answer_category": "NOT_ANSWERED"
+  },
+  "expected_reproduction": null,
+  "derivation": {
+    "method": "Two different predicates RECEIPT/ISSUE define two quantities; both figures and subtraction derived below. No authoritative benchmark or multi-measure faithful binding is fabricated.",
+    "arithmetic": {
+      "seed_sha256": "313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1",
+      "seed_rows": 360,
+      "refined": 7661,
+      "serving": 8765,
+      "inbound": 6425,
+      "outbound": 2340,
+      "fraction": "6425/8765",
+      "balance": 4085,
+      "value": 57043,
+      "rate_rows": [
+        {
+          "product_id": 1,
+          "rate_version": 1,
+          "unit_cost": 6
+        },
+        {
+          "product_id": 2,
+          "rate_version": 1,
+          "unit_cost": 4
+        },
+        {
+          "product_id": 3,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 4,
+          "rate_version": 1,
+          "unit_cost": 7
+        },
+        {
+          "product_id": 5,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 6,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 7,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 7,
+          "rate_version": 2,
+          "unit_cost": 11
+        },
+        {
+          "product_id": 8,
+          "rate_version": 1,
+          "unit_cost": 9
+        }
+      ],
+      "join": "Product-only left join. Product 7 has two matches. Additive units are carried, not transformed. Row identity is not globally proven by equal totals."
+    }
+  },
+  "fixture_prerequisites": [],
+  "lineage_columns": [
+    "declared",
+    "stripped"
+  ],
+  "version": 1,
+  "ticket_hash": "127fe49c7b5479db675069fdfc6e98bfbdcf7417c0c2dfea658bf59a4fdf4a22",
+  "authorship": "Fixture-authored by Codex before any Round Ten ticket run, from committed seed arithmetic and definition/capability contracts; not real user observations.",
+  "expectation_columns": {
+    "declared": {
+      "status": "COMPLETED",
+      "outcome": "NO_KNOWN_PATTERN",
+      "answer_category": "NOT_ANSWERED"
+    },
+    "stripped": {
+      "status": "COMPLETED",
+      "outcome": "NO_KNOWN_PATTERN",
+      "answer_category": "NOT_ANSWERED"
+    }
+  },
+  "reference_context_pin": {
+    "context_id": "541d500c-437a-485c-97bf-f5d44febae44",
+    "hash": "5c38074b687c1c56157ccf081975ba15517ec27cf962cd19882c47219e353564"
+  }
+}

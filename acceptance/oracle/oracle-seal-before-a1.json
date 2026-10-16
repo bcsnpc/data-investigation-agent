@@ -1,0 +1,13 @@
+{
+  "version": "conversational-oracle-seal-v1",
+  "artifact": "oracle-draft.json",
+  "sha256": "be029b56a6de27195dac507bfb5010f0ce7abc2732702d9a230e5f4a8d38406c",
+  "approved_at": "2026-10-09",
+  "owner": "Chiranjeevi Bhogireddy",
+  "reviewer": "Claude, independent reviewer; approved by Chaitu",
+  "decision": "User accepted the published diff and gave owner and reviewer approval 2026-10-09; oracle fixed for this phase",
+  "source_split_sha256": "d2c330ff5144b9f05c69c5571bb5c89a17b157d781cabc8d86c56346ded96795",
+  "records": 68,
+  "dev": 40,
+  "held_out": 28
+}

@@ -1,0 +1,489 @@
+{
+  "compatibilityLevel": 1604,
+  "model": {
+    "culture": "en-US",
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "expressions": [
+      {
+        "name": "BillingServingSource",
+        "kind": "m",
+        "expression": "let database = Sql.Database(\"i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com\", \"406dcb89-0526-4f48-bb77-397d52471c89\") in database"
+      }
+    ],
+    "tables": [
+      {
+        "name": "Accounts",
+        "columns": [
+          {
+            "name": "account_id",
+            "dataType": "int64",
+            "sourceColumn": "account_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "account_name",
+            "dataType": "string",
+            "sourceColumn": "account_name",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Accounts",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "schemaName": "gold",
+              "entityName": "accounts",
+              "expressionSource": "BillingServingSource"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Plans",
+        "columns": [
+          {
+            "name": "plan_id",
+            "dataType": "int64",
+            "sourceColumn": "plan_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "plan_name",
+            "dataType": "string",
+            "sourceColumn": "plan_name",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "monthly_price",
+            "dataType": "int64",
+            "sourceColumn": "monthly_price",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "included_units",
+            "dataType": "int64",
+            "sourceColumn": "included_units",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Plans",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "schemaName": "gold",
+              "entityName": "plans",
+              "expressionSource": "BillingServingSource"
+            }
+          }
+        ]
+      },
+      {
+        "name": "AccountPlanHistory",
+        "columns": [
+          {
+            "name": "history_id",
+            "dataType": "int64",
+            "sourceColumn": "history_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "account_id",
+            "dataType": "int64",
+            "sourceColumn": "account_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "plan_id",
+            "dataType": "int64",
+            "sourceColumn": "plan_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "valid_from",
+            "dataType": "dateTime",
+            "sourceColumn": "valid_from",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "valid_to",
+            "dataType": "dateTime",
+            "sourceColumn": "valid_to",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "AccountPlanHistory",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "schemaName": "gold",
+              "entityName": "account_plan_history",
+              "expressionSource": "BillingServingSource"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Payments",
+        "columns": [
+          {
+            "name": "payment_id",
+            "dataType": "int64",
+            "sourceColumn": "payment_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "invoice_id",
+            "dataType": "int64",
+            "sourceColumn": "invoice_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "payment_date",
+            "dataType": "dateTime",
+            "sourceColumn": "payment_date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "amount",
+            "dataType": "int64",
+            "sourceColumn": "amount",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Payments",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "schemaName": "gold",
+              "entityName": "payments",
+              "expressionSource": "BillingServingSource"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Subscriptions",
+        "columns": [
+          {
+            "name": "subscription_id",
+            "dataType": "int64",
+            "sourceColumn": "subscription_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "account_id",
+            "dataType": "int64",
+            "sourceColumn": "account_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "plan_id",
+            "dataType": "int64",
+            "sourceColumn": "plan_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "status",
+            "dataType": "string",
+            "sourceColumn": "status",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Subscriptions",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "schemaName": "gold",
+              "entityName": "subscriptions",
+              "expressionSource": "BillingServingSource"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Billing",
+        "columns": [
+          {
+            "name": "invoice_id",
+            "dataType": "int64",
+            "sourceColumn": "invoice_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "account_id",
+            "dataType": "int64",
+            "sourceColumn": "account_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "plan_id",
+            "dataType": "int64",
+            "sourceColumn": "plan_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "invoice_date",
+            "dataType": "dateTime",
+            "sourceColumn": "invoice_date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "amount",
+            "dataType": "int64",
+            "sourceColumn": "amount",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "status",
+            "dataType": "string",
+            "sourceColumn": "status",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Billing",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "schemaName": "gold",
+              "entityName": "invoice_activity",
+              "expressionSource": "BillingServingSource"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Invoiced Amount",
+            "expression": "SUM(Billing[amount])"
+          },
+          {
+            "name": "MRR All Plans",
+            "expression": "CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status] = \"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans))"
+          },
+          {
+            "name": "Churned Accounts",
+            "expression": "CALCULATE(DISTINCTCOUNT(Subscriptions[account_id]), Subscriptions[status] = \"CHURNED\")"
+          },
+          {
+            "name": "Collected Amount",
+            "expression": "SUM(Payments[amount])"
+          },
+          {
+            "name": "Collected Fraction",
+            "expression": "DIVIDE([Collected Amount], [Invoiced Amount])"
+          },
+          {
+            "name": "Usage Overage",
+            "expression": "SUMX(Usage, MAX(0, Usage[units] - RELATED(Plans[included_units])))"
+          }
+        ]
+      },
+      {
+        "name": "Usage",
+        "columns": [
+          {
+            "name": "event_id",
+            "dataType": "int64",
+            "sourceColumn": "event_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "account_id",
+            "dataType": "int64",
+            "sourceColumn": "account_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "event_date",
+            "dataType": "dateTime",
+            "sourceColumn": "event_date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "units",
+            "dataType": "int64",
+            "sourceColumn": "units",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "plan_id",
+            "dataType": "int64",
+            "sourceColumn": "plan_id",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Usage",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "schemaName": "gold",
+              "entityName": "usage_with_plan",
+              "expressionSource": "BillingServingSource"
+            }
+          }
+        ]
+      },
+      {
+        "name": "InvoiceDate",
+        "columns": [
+          {
+            "name": "date",
+            "dataType": "dateTime",
+            "sourceColumn": "date",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "InvoiceDate",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "schemaName": "gold",
+              "entityName": "dates",
+              "expressionSource": "BillingServingSource"
+            }
+          }
+        ]
+      },
+      {
+        "name": "PaymentDate",
+        "columns": [
+          {
+            "name": "date",
+            "dataType": "dateTime",
+            "sourceColumn": "date",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "PaymentDate",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "schemaName": "gold",
+              "entityName": "dates",
+              "expressionSource": "BillingServingSource"
+            }
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "98b14bc4-43d5-58ee-9edf-539df5cd8fc9",
+        "fromTable": "AccountPlanHistory",
+        "fromColumn": "account_id",
+        "fromCardinality": "many",
+        "toTable": "Accounts",
+        "toColumn": "account_id",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "82b22761-1132-5d2c-b230-64c47b88aa65",
+        "fromTable": "AccountPlanHistory",
+        "fromColumn": "plan_id",
+        "fromCardinality": "many",
+        "toTable": "Plans",
+        "toColumn": "plan_id",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "8b67c133-5ba8-5d15-bcbf-3a5b89c17a6a",
+        "fromTable": "Billing",
+        "fromColumn": "account_id",
+        "fromCardinality": "many",
+        "toTable": "AccountPlanHistory",
+        "toColumn": "account_id",
+        "toCardinality": "many",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "ba27d659-11da-5d79-bc10-3f142ff327c6",
+        "fromTable": "Subscriptions",
+        "fromColumn": "account_id",
+        "fromCardinality": "many",
+        "toTable": "Accounts",
+        "toColumn": "account_id",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "6e9b950d-f716-588b-b784-879734211f55",
+        "fromTable": "Subscriptions",
+        "fromColumn": "plan_id",
+        "fromCardinality": "many",
+        "toTable": "Plans",
+        "toColumn": "plan_id",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "f46a15b7-99ef-5f3b-91a0-ad1c7bf2d214",
+        "fromTable": "Usage",
+        "fromColumn": "account_id",
+        "fromCardinality": "many",
+        "toTable": "Accounts",
+        "toColumn": "account_id",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "149483ab-060a-5c76-8020-386bb5b52375",
+        "fromTable": "Usage",
+        "fromColumn": "plan_id",
+        "fromCardinality": "many",
+        "toTable": "Plans",
+        "toColumn": "plan_id",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "b898317f-02fd-5384-a2e6-73de609b51b4",
+        "fromTable": "Billing",
+        "fromColumn": "invoice_date",
+        "fromCardinality": "many",
+        "toTable": "InvoiceDate",
+        "toColumn": "date",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "c71f36ef-e18c-5ab5-93a6-f4c381e12c58",
+        "fromTable": "Payments",
+        "fromColumn": "payment_date",
+        "fromCardinality": "many",
+        "toTable": "PaymentDate",
+        "toColumn": "date",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "2d0c40a3-f11d-513c-9b58-2276d65fd67c",
+        "fromTable": "Payments",
+        "fromColumn": "invoice_id",
+        "fromCardinality": "many",
+        "toTable": "Billing",
+        "toColumn": "invoice_id",
+        "toCardinality": "many",
+        "crossFilteringBehavior": "oneDirection"
+      }
+    ]
+  }
+}

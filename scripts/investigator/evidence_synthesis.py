@@ -185,7 +185,7 @@ def cancel(agent,db,identity):
     record=read(db,identity,full=True)
     if not record or record['status']!='RUNNING':return False
     record['status']='CANCELLED';save(db,identity,record)
-    if agent.governor:agent.governor.settle(db,identity,'synthesis:1',uncertain=True)
+    if agent.governor:agent.governor.settle(db,identity,'synthesis:'+str(record.get('calls',1)),uncertain=True)
     return True
 
 
@@ -210,7 +210,7 @@ def run(agent,identity,provider):
         record={'version':1,'status':'BLOCKED','source_hash':digest(state),'recording_session_id':identity+':synthesis',
                 'calls':0,'assessment':None,'payload':None,'payload_hash':None}
         try:
-            agent.admit(state)
+            agent.admit(state,db)
             local_payload=build(state,db)
             from .synthesis_spine import build as render_spine
             payload=render_spine(local_payload,state,agent.generation_options['max_payload_characters']) if provider is azure_synthesize else local_payload
@@ -243,7 +243,7 @@ def run(agent,identity,provider):
                                       output_tokens=agent.generation_options['max_output_tokens'])
             elif agent.planner_profile.get('adapter')=='azure':raise Conflict('Live synthesis requires usage governance')
             record.update(status='RUNNING',calls=1,started=agent.clock(),
-                          deadline=agent.clock()+agent.generation_options['timeout_seconds'],
+                          deadline=min(state.get('deadline',float('inf')),agent.clock()+agent.generation_options['timeout_seconds']),
                           output_tokens_reserved=agent.generation_options['max_output_tokens'])
         except (ValueError,KeyError) as exc:
             record['error']=error_summary(exc)
@@ -256,50 +256,106 @@ def run(agent,identity,provider):
                 record['limitation']=str(exc)
         save(db,identity,record)
     if record['status']!='RUNNING':return read_result(agent,identity)
-    usage=None;assessment=None;error=None;received=False;outputs=None
-    try:
-        from .planner_recording import recording
-        with recording({'session_id':identity+':synthesis','phase':'SYNTHESIS','planner_call':1,
-                        'context_version':state.get('discovery_version'),'payload':payload,
-                        'planner_profile':agent.planner_profile,'usage_policy':agent.governor.policy if agent.governor else None,
-                        'reservation':{'key':'synthesis:1','input_characters':size,'output_tokens':agent.generation_options['max_output_tokens']},
-                        'frozen_evidence_hash':record['payload_hash']}) as tape:
-            try:assessment,usage=provider(payload,dict(agent.generation_options));received=True
-            finally:
-                if tape:tape.safe_write('runtime-return.json',encoded({'clock':agent.clock()}).encode())
-        if digest(payload)!=record['payload_hash']:raise Conflict('Provider changed frozen digest')
-        from .synthesis_narrative import Response,assemble
-        if isinstance(assessment,Response):
-            assessment,outputs=assemble(assessment,local_payload,state)
-        else:
-            # Historical injected providers retain the old local interface;
-            # the live provider wire exposes only the narrative schema.
-            declare_capabilities(assessment)
-        normalize(assessment)
-        validate(assessment,local_payload,source_state=state)
-        if outputs is not None:
-            from .question_account import validate as validate_question_account
-            validate_question_account(outputs,state)
-    except Exception as exc:
-        error=error_summary(exc)
-        if not received:usage={'usage':failure_usage(exc)}
+    reservation='synthesis:1';attempts=[]
+    for attempt in (1,2):
+        usage=None;assessment=None;error=None;received=False;outputs=None;retryable=False
+        try:
+            options=dict(agent.generation_options)
+            remaining=int(record['deadline']-agent.clock())
+            if remaining<10:raise Conflict('Synthesis call cannot fit the existing deadline')
+            options['timeout_seconds']=min(options['timeout_seconds'],remaining)
+            from .planner_recording import recording
+            from .model_transport_retry import synthesis_scope
+            with synthesis_scope(agent,identity,reservation,size,record['deadline']), recording({'session_id':identity+':synthesis','phase':'SYNTHESIS','planner_call':attempt,
+                            'context_version':state.get('discovery_version'),'payload':payload,
+                            'planner_profile':agent.planner_profile,'usage_policy':agent.governor.policy if agent.governor else None,
+                            'reservation':{'key':reservation,'input_characters':size,'output_tokens':agent.generation_options['max_output_tokens']},
+                            'generation_options':options,'frozen_evidence_hash':record['payload_hash']}) as tape:
+                try:assessment,usage=provider(payload,options);received=True
+                finally:
+                    if tape:tape.safe_write('runtime-return.json',encoded({'clock':agent.clock()}).encode())
+            if digest(payload)!=record['payload_hash']:raise Conflict('Provider changed frozen digest')
+            from .synthesis_narrative import Response,assemble
+            if isinstance(assessment,Response):
+                assessment,outputs=assemble(assessment,local_payload,state)
+            else:
+                # Historical injected providers retain the old local interface;
+                # the live provider wire exposes only the narrative schema.
+                declare_capabilities(assessment)
+            normalize(assessment)
+            validate(assessment,local_payload,source_state=state)
+            if outputs is not None:
+                from .question_account import validate as validate_question_account
+                validate_question_account(outputs,state)
+        except Exception as exc:
+            from .generation_policy import ProviderResponseError
+            from jsonschema import ValidationError
+            retryable=(received and isinstance(exc,(ValueError,ValidationError))) or (isinstance(exc,ProviderResponseError) and exc.code in ('DECISION_DECODE','INVALID_JSON','OUTPUT_TOKEN_LIMIT','INCOMPLETE'))
+            error=error_summary(exc)
+            if not received:usage={'usage':failure_usage(exc)}
+        attempts.append({'attempt':attempt,'reservation':reservation,'error':copy.deepcopy(error),
+                         'usage':copy.deepcopy((usage or {}).get('usage')),'received':received})
+        if not error or not retryable or provider is not azure_synthesize or attempt==2:break
+        # The supported assessment was validated before dispatch. Retry only
+        # composition, with a separate reservation and unchanged total deadline.
+        try:
+            with agent.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');current=read(db,identity,full=True)
+                actual=usage.get('usage') if isinstance(usage,dict) else None
+                if agent.governor:agent.governor.settle(db,identity,reservation,actual,uncertain=not received and not actual)
+                current['attempts']=copy.deepcopy(attempts)
+                save(db,identity,current)
+            reservation=None
+            if current['status']!='RUNNING':return {k:v for k,v in current.items() if k!='payload'}
+            if current['deadline']-agent.clock()<10:
+                raise Conflict('Synthesis retry cannot fit the existing deadline')
+            with agent.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE')
+                if agent.governor:agent.governor.reserve(db,identity,'synthesis:2','planner',size,
+                    output_tokens=agent.generation_options['max_output_tokens'])
+                current.update(calls=2)
+                db.execute('INSERT INTO adaptive_events(session_id,kind,detail,created) VALUES(?,?,?,?)',
+                    (identity,'SYNTHESIS_MECHANISM_RETRY',encoded({'attempt':2,'prior_error':error}),str(agent.clock())))
+                save(db,identity,current)
+            reservation='synthesis:2'
+        except (ValueError,KeyError) as exc:
+            error=error_summary(exc)
+            break
+    # Provider work has finished. Commit its non-refundable accounting before
+    # any renderer or final evidence write can fail and roll back a transaction.
+    actual=usage.get('usage') if isinstance(usage,dict) else None
+    with agent.runtime.db() as db:
+        db.execute('BEGIN IMMEDIATE')
+        if agent.governor and reservation:agent.governor.settle(db,identity,reservation,actual,uncertain=not received and not actual)
     with agent.runtime.db() as db:
         db.execute('BEGIN IMMEDIATE');current=read(db,identity,full=True)
-        actual=usage.get('usage') if isinstance(usage,dict) else None
-        if agent.governor:agent.governor.settle(db,identity,'synthesis:1',actual,uncertain=not received and not actual)
         if current['status']!='RUNNING':return {k:v for k,v in current.items() if k!='payload'}
         current['usage']={k:v for k,v in (actual or {}).items() if k in ('input_tokens','output_tokens','total_tokens') and type(v) is int and v>=0}
         current['finished']=agent.clock()
         if (actual or {}).get('output_tokens',0)>current['output_tokens_reserved']:
             error={'error_type':'PROVIDER_USAGE_LIMIT'}
+        frozen_valid=False
         try:
-            latest=agent.load(db,identity);agent.admit(latest)
+            latest=agent.load(db,identity);agent.admit(latest,db)
             if digest(latest)!=current['source_hash']:raise Conflict('Frozen investigation changed')
             latest_payload=build(latest,db)
             if provider is azure_synthesize:latest_payload=render_spine(latest_payload,latest,agent.generation_options['max_payload_characters'])
             if digest(latest_payload)!=current['payload_hash']:raise Conflict('Frozen evidence changed')
+            frozen_valid=True
             if agent.clock()>current['deadline']:raise Conflict('Synthesis deadline exceeded')
         except (ValueError,KeyError) as exc:error=error_summary(exc)
+        current['attempts']=attempts
+        if error and provider is azure_synthesize and frozen_valid:
+            from .synthesis_narrative import assemble
+            current['mechanism_error']=error
+            try:
+                assessment,outputs=assemble(None,local_payload,state)
+            except Exception as exc:
+                error=error_summary(exc)
+                current['fallback_error']=copy.deepcopy(error)
+            else:
+                current['validation']='ORIGINAL_EVIDENCE_WITHOUT_MODEL_MECHANISM'
+                error=None
         current.update(status='FAILED' if error else 'COMPLETED',error=error,
                        assessment=None if error else {**assessment,'provenance':'LLM_INFERRED','cause_verified':False})
         if outputs is not None and not error:current['outputs']=outputs

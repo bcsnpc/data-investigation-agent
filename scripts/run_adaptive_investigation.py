@@ -24,7 +24,8 @@ def local_azure_key(settings_path):
     variables=('AZURE_OPENAI_API_KEY','AZURE_OPENAI_ENDPOINT','AZURE_OPENAI_DEPLOYMENT')
     previous={k:os.environ.get(k) for k in variables}
     try:
-        result=subprocess.run([str(ROOT/'.local/azure-cli-env/Scripts/python.exe'),'-m','azure.cli',
+        from installation_secrets import root
+        result=subprocess.run([str(root(ROOT)/'.local/azure-cli-env/Scripts/python.exe'),'-m','azure.cli',
             'cognitiveservices','account','keys','list','--subscription',settings['subscription_id'],
             '--resource-group',settings['resource_group'],'--name',settings['account'],'-o','json'],
             capture_output=True,text=True,check=True,timeout=60)

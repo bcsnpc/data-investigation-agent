@@ -1,0 +1,15 @@
+FW: Monthly recurring number for the review
+
+Subject: FW: Monthly recurring number for the review
+
+Hi,
+
+Can you check the MRR All Plans card on Subscription Billing? It says 600. I added the plan prices for the four subscriptions and got 700: Aster Growth 250, Birch Starter 100, Cedar Growth 250, Dune Starter 100.
+
+Dune is marked CHURNED in the app, and leaving it out gives 600. Is that the intended rule even though the title says All Plans? Please confirm so we don't ask for the extra 100 in the review.
+
+Thanks,
+Finance
+Sent from my phone
+Please ignore the earlier request for a spreadsheet.
+

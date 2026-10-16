@@ -4,6 +4,19 @@ from investigator import path_narrative as path,synthesis_narrative as narrative
 import test_substantive_business_output as fixture
 
 class PathNarrativeTests(unittest.TestCase):
+    def test_definition_possibility_cannot_be_written_as_actual_cause(self):
+        payload={'evidence':[{'result':{'judgment':{'status':'COMPLETED',
+            'explanation':'Matching rows may multiply.',
+            'limitation':'Actual uniqueness is not established.'}}}]}
+        # Sealed A-r3's harmful attribution, without native names or tokens.
+        bad='Repeated matches at that join replicate carried movement rows and explain the higher quantity.'
+        with self.assertRaisesRegex(ValueError,'actual cause'):
+            path.validate_causal_certainty(bad,payload)
+        path.validate_causal_certainty('Repeated matches at that join can replicate carried movement rows and explain the higher quantity.',payload)
+        path.validate_causal_certainty('The retained operation is a left join.',payload)
+        # One modal elsewhere cannot launder an affirmative second sentence.
+        with self.assertRaisesRegex(ValueError,'actual cause'):
+            path.validate_causal_certainty('Matches may multiply. The join explains the difference.',payload)
     def test_possibility_is_stated_once_in_both_producer_and_consumer_rules(self):
         validator=Draft202012Validator(path.mechanism_schema(1000))
         for good in ('The join can repeat matching rows.','Matching rows are allowed to multiply at the join.'):

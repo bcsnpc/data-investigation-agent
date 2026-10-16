@@ -159,7 +159,8 @@ def run(store,plan,execute,*,receipt_id=None):
         # Revalidate immediately before dispatch, and hold results if local
         # context/enablement changed during the native read.
         if build(store.get(model['id']),plan)!=request:raise Conflict('Context changed')
-        result=extract(execute(request),request)
+        from .physical_transport_retry import execute as retry_transport
+        result=extract(retry_transport(request,execute,'bounded_dax'),request)
         if build(store.get(model['id']),plan)!=request:raise Conflict('Context changed during read')
         result.update(snapshot_comparable=False,root_cause_verified=False,gaps=request['gaps'],
                       remote_definition_version_verified=False,visual_context_reproduced=False,

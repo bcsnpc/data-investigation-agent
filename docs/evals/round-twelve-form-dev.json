@@ -1,0 +1,523 @@
+{
+  "tickets": 40,
+  "evaluated": 40,
+  "settled_within_one_round": 1,
+  "one_round_rate": 0.025,
+  "questions": 35,
+  "mean_questions": 0.875,
+  "harmful_admissions": 0,
+  "illegitimate_questions": 35,
+  "per_class": {
+    "family": {
+      "tickets": 26,
+      "evaluated": 26,
+      "settled_within_one_round": 0,
+      "questions": 21,
+      "illegitimate_questions": 21,
+      "harmful_admissions": 0
+    },
+    "question": {
+      "tickets": 3,
+      "evaluated": 3,
+      "settled_within_one_round": 0,
+      "questions": 3,
+      "illegitimate_questions": 3,
+      "harmful_admissions": 0
+    },
+    "refusal": {
+      "tickets": 7,
+      "evaluated": 7,
+      "settled_within_one_round": 1,
+      "questions": 7,
+      "illegitimate_questions": 7,
+      "harmful_admissions": 0
+    },
+    "visual": {
+      "tickets": 4,
+      "evaluated": 4,
+      "settled_within_one_round": 0,
+      "questions": 4,
+      "illegitimate_questions": 4,
+      "harmful_admissions": 0
+    }
+  },
+  "rows": [
+    {
+      "id": "original:family-B-noisy",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "NUMBER"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-B-terse",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "NUMBER"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-B-typo",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "NUMBER"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-D-noisy",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 0,
+      "illegitimate_questions": [],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-D-terse",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 0,
+      "illegitimate_questions": [],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-D-typo",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 0,
+      "illegitimate_questions": [],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-E-mention",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "NUMBER"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-E-noisy",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "REPORT_PAGE"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-E-terse",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "REPORT_PAGE"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-E-typo",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "REPORT_PAGE"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-H-noisy",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "COMPARISON"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-H-terse",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "COMPARISON"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-H-typo",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "COMPARISON"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-I-noisy",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "NUMBER"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_TECHNICAL_THEN_BUSINESS_VALIDATION",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-I-terse",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "NUMBER"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_TECHNICAL_THEN_BUSINESS_VALIDATION",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-I-typo",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "NUMBER"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_TECHNICAL_THEN_BUSINESS_VALIDATION",
+      "state": "HELD"
+    },
+    {
+      "id": "original:question-change-days",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "REPORT_PAGE"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "UNSUPPORTED_ROUTE",
+      "state": "HELD"
+    },
+    {
+      "id": "original:question-hiding-rows",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "COMPARISON"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "REPRODUCE_THEN_FILTER_EFFECT_OR_UNIMPLEMENTED_ROUTE",
+      "state": "HELD"
+    },
+    {
+      "id": "original:question-stale-no-sla",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "REPORT_PAGE"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:refusal-business-benchmark",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "REPORT_PAGE"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "BUSINESS_VALIDATION",
+      "state": "HELD"
+    },
+    {
+      "id": "original:refusal-business-intent",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "REPORT_PAGE"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "BUSINESS_VALIDATION",
+      "state": "HELD"
+    },
+    {
+      "id": "original:refusal-business-q49",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "REPORT_PAGE"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "BUSINESS_VALIDATION",
+      "state": "HELD"
+    },
+    {
+      "id": "original:refusal-two-figures",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "REPORT_PAGE"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "HOLD_TWO_REPORTED_FIGURES",
+      "state": "HELD"
+    },
+    {
+      "id": "original:refusal-unidentified-visual",
+      "evaluated": true,
+      "settled_within_one_round": true,
+      "questions": 1,
+      "illegitimate_questions": [
+        "REPORT_PAGE"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "HOLD_UNIDENTIFIED_REFERENT",
+      "state": "HELD"
+    },
+    {
+      "id": "original:refusal-unsupported-filter",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "REPORT_PAGE"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "HOLD_UNSUPPORTED_FILTER",
+      "state": "HELD"
+    },
+    {
+      "id": "original:refusal-unsupported-relative",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "REPORT_PAGE"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "HOLD_UNLESS_RELATIVE_DATE_TRANSLATION_VERIFIED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:visual-1",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "COMPARISON"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:visual-3",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "COMPARISON"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:visual-4",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "COMPARISON"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:visual-5",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "COMPARISON"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-B",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "NUMBER"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-D",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 0,
+      "illegitimate_questions": [],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-E",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "NUMBER"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-H",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "NUMBER"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "original:family-I",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "NUMBER"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_TECHNICAL_THEN_BUSINESS_VALIDATION",
+      "state": "HELD"
+    },
+    {
+      "id": "rebuilt:family-B",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "NUMBER"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "rebuilt:family-D",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 0,
+      "illegitimate_questions": [],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "rebuilt:family-E",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "NUMBER"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "rebuilt:family-H",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "NUMBER"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+      "state": "HELD"
+    },
+    {
+      "id": "rebuilt:family-I",
+      "evaluated": true,
+      "settled_within_one_round": false,
+      "questions": 1,
+      "illegitimate_questions": [
+        "NUMBER"
+      ],
+      "harmful_admission_fields": [],
+      "required_disposition": "CONTINUE_TECHNICAL_THEN_BUSINESS_VALIDATION",
+      "state": "HELD"
+    }
+  ],
+  "gate": "FAILED",
+  "lifecycle_gate": "SEPARATE_TEST_REQUIRED",
+  "fully_determined_forms": {
+    "tickets": 0,
+    "evaluated": 0,
+    "correct_zero_question_settlements": 0
+  }
+}

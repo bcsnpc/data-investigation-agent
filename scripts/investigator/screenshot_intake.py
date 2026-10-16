@@ -73,6 +73,8 @@ class Screenshots:
             ''')
 
     def upload(self, request):
+        if self.workspace.agent.config.get('_estate', {}).get('recording', {}).get('tape_class') == 'PRIVACY_PROJECTED':
+            raise Conflict('Screenshot upload is unavailable: privacy projection cannot remove sensitive values from image pixels')
         fields(request, ['name', 'mime', 'base64', 'request_key'])
         text(request['name'], 100); text(request['request_key'], 100)
         if any(c in request['name'] for c in ('/', '\\', '\r', '\n')): raise ValueError('Filename must not contain a path')

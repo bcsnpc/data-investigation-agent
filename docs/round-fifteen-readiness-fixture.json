@@ -1,0 +1,60 @@
+{
+  "approval_path": "D:\\dia-round-eleven-links\\.local\\round-fourteen\\original-pipeline-control-24000-original-inventory\\approval.json",
+  "command": [
+    "C:\\Users\\chait\\anaconda3\\python.exe",
+    "scripts/estate_readiness.py",
+    "--manifest",
+    "D:\\dia-round-eleven-links\\.local\\round-fourteen\\original-pipeline-control-24000-original-inventory\\estate.json",
+    "--approval",
+    "D:\\dia-round-eleven-links\\.local\\round-fourteen\\original-pipeline-control-24000-original-inventory\\approval.json"
+  ],
+  "interpretation": "Current prospective readiness, not revision of historical investigation or replay scores.",
+  "native_exit_code": 2,
+  "result": {
+    "estate_reads": 0,
+    "model_calls": 0,
+    "pins": {
+      "config_hash": "bc6ef21fdf3a2fef1cdcebdda0b48dee83c19c2bce9db567ac07a87689dbd172",
+      "context_hash": "e3cce421b4b694b005d9643c40dd0c66035e7a35cf0b3af0495ae655ff3e9dd5",
+      "context_identity": "a6b6b130-e955-432d-8433-f2f7203302a2",
+      "engine_hash": "3326f52096e52c07be711ed07a27ae99e3d324f17107f0bffe9145c04be11667",
+      "manifest_hash": "5462332e8ad6e52334e0c733ec0eabc9d64bd8f51e9fc2ccccf3b2d628522e9f"
+    },
+    "reason": "estate-not-fully-onboarded",
+    "scoring": "NOT_SCORED",
+    "stages": [
+      {
+        "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE",
+        "stage": "discovery",
+        "status": "BLOCKED"
+      },
+      {
+        "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE",
+        "stage": "discovery_approval",
+        "status": "BLOCKED"
+      },
+      {
+        "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE",
+        "stage": "transformations",
+        "status": "BLOCKED"
+      },
+      {
+        "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE",
+        "stage": "bindings",
+        "status": "BLOCKED"
+      },
+      {
+        "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE",
+        "stage": "reader_verification",
+        "status": "BLOCKED"
+      },
+      {
+        "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE",
+        "stage": "publication",
+        "status": "BLOCKED"
+      }
+    ],
+    "status": "BLOCKED",
+    "version": "estate-readiness-v1"
+  }
+}

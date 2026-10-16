@@ -12,8 +12,8 @@ class ModelScoresTests(unittest.TestCase):
         golden=self.golden();cases=golden['cases']
         self.assertGreaterEqual(len(cases),60);self.assertEqual(len({c['id'] for c in cases}),len(cases))
         self.assertEqual(set('ABCDEFGHI'),{c['family'] for c in cases if not c['should_hold']})
-        from investigator.question_kind import KINDS
-        self.assertEqual(set(KINDS),{c['expected']['question_kind'] for c in cases if not c['should_hold']})
+        from investigator.question_kind import LEGACY_KINDS
+        self.assertEqual(set(LEGACY_KINDS),{c['expected']['question_kind'] for c in cases if not c['should_hold']})
         self.assertTrue(any('\n' in c['text'] for c in cases))
         self.assertTrue(any(c['expected']['figure_state']=='EMPTY' for c in cases))
         self.assertTrue(any(c['expected']['dimension_ids'] for c in cases))
@@ -46,6 +46,32 @@ class ModelScoresTests(unittest.TestCase):
         with self.assertRaises(ValueError):compare(score,{**previous,'suite_hash':'changed goldens'},{'maximum_drop':0.02,'reason':'ratchet'})
         with self.assertRaises(ValueError):compare(score,{**previous,'status':'INCOMPLETE'},{'maximum_drop':0.02,'reason':'ratchet'})
         with self.assertRaises(ValueError):compare(score,previous,{'maximum_drop':0.02,'reason':''})
+
+    def test_named_semantic_hold_is_scored_but_a_budget_hold_never_is(self):
+        golden={'cases':[{'id':'missing-target','should_hold':True,
+            'expected':{'status':'HELD','error':'TARGET_UNRESOLVED'}}]}
+        row={'case_id':'missing-target','model_version':'test',
+             'intake':{'status':'HELD','error':'TARGET_UNRESOLVED'}}
+        self.assertEqual(score_intake(golden,[row],'test')['correct_holds'],1)
+        row['intake']['error']='BUDGET_LIMIT'
+        result=score_intake(golden,[row],'test')
+        self.assertEqual(result['correct_holds'],0);self.assertEqual(result['score'],0)
+
+    def test_all_thirteen_misses_are_sealed_source_cases_with_explicit_records(self):
+        import hashlib
+        root=Path(__file__).resolve().parents[1]
+        golden=json.loads((root/'acceptance/model_steps/intake-round-ten-misses.json').read_text())
+        self.assertEqual(golden['step'],'intake')
+        self.assertEqual(len(golden['cases']),13)
+        self.assertEqual(len({c['id'] for c in golden['cases']}),13)
+        fields={'status','error','target_id','cell_mode','action','model_id','measure_id','ticket_shape',
+            'comparison_mode','question_kind','dimension_ids','filters','figure_state','figure_value','figure_precision','selection_value'}
+        for case in golden['cases']:
+            self.assertEqual(set(case['expected']),fields)
+            source=root/case['source']['ticket_file']
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(),case['source']['ticket_file_sha256'])
+            self.assertEqual(json.loads(source.read_text())['ticket_text'],case['text'])
+
 
 
 if __name__=='__main__':unittest.main()

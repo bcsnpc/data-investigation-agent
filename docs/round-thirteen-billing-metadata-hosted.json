@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-10 America/Chicago / 2026-10-11 UTC",
+  "hosted_run_id": 38106997752,
+  "head_revision": "e3dda34f37df68f4a8e9601f35b034b1694f156c",
+  "status": "PASS",
+  "counts": {
+    "MATCHED_CAPTURED_OPERATION": 1,
+    "REPLAY_BLOCKED": 1,
+    "MISSING_CAPTURE": 0,
+    "REPLAY_DIFFERED": 0,
+    "CAPTURE_CHANGED_DURING_REPLAY": 0
+  },
+  "roster_matched": true,
+  "estate_reads": 0,
+  "model_calls": 0,
+  "log_sha256": "1ad10c2b4e8e68ea11ce6b9d10d52b16f1e3bb236b4199fde2e0f7aa89a8981d",
+  "manifest_sha256": "3d63f360ef10d8ec0e4bb5f60aeb62f81b2312145ff87bac16af77ddc21cc60e",
+  "scope": "Metadata V2 exact protocol/context plus retained V1 refusal; not whole-suite or live accuracy."
+}
