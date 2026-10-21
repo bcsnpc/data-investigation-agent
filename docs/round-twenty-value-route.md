@@ -74,3 +74,33 @@ The retained fixture event_day is declared `string`, so its ISO day is correctly
 rendered as text. If the current definition instead declares dateTime, that
 compiler refuses this unsupported literal representation rather than silently
 applying a string predicate. The string/dateTime regression records that bound.
+
+## Concrete mapping derivation
+
+`cloud_value_mapping.py` checks each retained owner payload against its indexed
+SHA-256 before parsing. It derives only the columns required by the measure,
+ACTIVE restrictions and their relationship keys. DirectLake mappings follow
+exact graph edges and physical asset/container identities; no display-name
+search creates a bridge. Notebook continuation uses the existing static
+`DeclaredQuantities` parser's per-column origins and exact retained ABFSS table
+locations. It never executes notebook code or uses seeded rows as live values.
+
+The retained filtered fixture produces three compilable mappings, each with nine
+semantic columns: Gold, Silver and Bronze. All four predicates remain applied
+in every query. Original Bronze is literal initialized, with no declared
+upstream read. The application binding from the separate round-two fixture is
+not attached to it.
+
+Billing produces an exact Gold mapping and an explicitly labelled mapping onto
+the Warehouse's declared Bronze views. Script activity endpoint, artifact ID
+and database declarations bind the CTAS expressions. Both matching producers
+remain alternatives; neither is asserted as the last execution. The Bronze
+views are retained CREATE VIEW declarations, not catalog-observed tables.
+Their cross-catalog reference to `billing_bronze` needs an exact endpoint-to-
+Lakehouse binding before continuing to the physical lakehouse or application.
+A matching display name is insufficient. The application Copy definitions are
+retained, but this missing hop is not silently crossed.
+
+These are offline mappings with recorded provenance, not earned confidence or
+fresh estate verification. Live query failures and numerical differences still
+determine what can be concluded.
