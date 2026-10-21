@@ -73,12 +73,23 @@ def handlers():
         from cloud_verification_run import execute
         from cloud_runner_context import prepare_for_verification, retain_dependencies
         o=plan['options']
+        overall_seconds=o.get('deadline_seconds',1800)
+        if type(overall_seconds)is not int or not 1<=overall_seconds<=1800:raise ValueError('VERIFICATION_OVERALL_BOUND')
+        started=getattr(ctx,'started_at',None)
+        overall_deadline=(time.time() if started is None else started)+overall_seconds
+        window={'seconds':o.get('verification_seconds',900),'finalization_seconds':o.get('finalization_seconds',120),
+            'demo_seconds':o.get('demo_seconds',300) if 'demo_ticket' in o else 0}
+        from cloud_binding_verifier import validate_native_window
+        validate_native_window(window)
         prepared=prepare_for_verification(plan,ctx) if 'inputs' in o else Path(o['prepared'])
         ctx.step('retain-approved-context',lambda:retain_dependencies(prepared,ctx,kind='prepared',phase='BEFORE_READS'))
         capture=ctx.root/'verification-capture'
-        result=execute(plan['manifest'],prepared,o['spec'],spec_sha256=o['spec_sha256'],session=plan['run_id'],deadline=time.time()+o.get('verification_seconds',o.get('deadline_seconds',1800)),capture=capture,
+        result=execute(plan['manifest'],prepared,o['spec'],spec_sha256=o['spec_sha256'],session=plan['run_id'],deadline=overall_deadline,native_window=window,capture=capture,
             retain=lambda folder,phase:retain_dependencies(folder,ctx,kind='verification',phase=phase))
         if 'demo_ticket' in o:
+            if time.time()+window['finalization_seconds']+window['demo_seconds']>=overall_deadline:
+                ctx.record('demo-not-admitted',{'reason':'OVERALL_DEADLINE_RESERVE','overall_deadline':overall_deadline})
+                return {'status':'DEMO_DEFERRED_FOR_DEADLINE','verification':result,'demo':None}
             from cloud_runner_context import demo_after_verification
             return demo_after_verification(result,plan,ctx,prepared)
         return result
@@ -152,6 +163,7 @@ def handlers():
     return {'verification':verification,'investigation':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke}
 
 def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
+    started_at=time.time()
     check=config['checks'].get(target)
     if check is None and Path(target).is_file():
         # The file is submitted through the same normal form contract; it never
@@ -190,7 +202,7 @@ def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
                 nonlocal attempt
                 attempt+=1
                 root=ctx.root/('attempt-'+str(attempt));root.mkdir()
-                view=SimpleNamespace(root=root,record=ctx.record,
+                view=SimpleNamespace(root=root,record=ctx.record,started_at=started_at,
                     step=lambda name,fn:retry(lambda:ctx.step(name,fn),record=ctx.record,sleep=sleep))
                 return ctx.step(check['kind'],lambda:registry[check['kind']](plan,view))
             result=retry(perform,record=ctx.record,sleep=sleep)

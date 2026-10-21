@@ -14,7 +14,7 @@ from cloud_binding_verifier import preflight
 from cloud_verification_capture import Capture
 
 
-def execute(manifest_path,prepared,spec_path,*,spec_sha256,session,deadline,capture,retain=None):
+def execute(manifest_path,prepared,spec_path,*,spec_sha256,session,deadline,capture,retain=None,native_window=None):
     if os.environ.get('INVESTIGATOR_STATE_BACKEND')!='postgresql':raise ValueError('CLOUD_POSTGRES_AUTHORITY_REQUIRED')
     from investigator.live_gateway import current
     current().check_live()
@@ -37,9 +37,13 @@ def execute(manifest_path,prepared,spec_path,*,spec_sha256,session,deadline,capt
     gov=UsageGovernor(Runtime(store,config,None,None),policy(manifest),time.time)
     if gov.shared is None:raise ValueError('SHARED_BUDGET_NOT_CONNECTED')
     if deadline<=time.time():raise ValueError('VERIFICATION_DEADLINE')
+    if native_window is not None:
+        from cloud_binding_verifier import validate_native_window
+        validate_native_window(native_window)
     inputs={'session_id':session,'engine_fingerprint':fingerprint(),'context_hash':digest(context),
         'model_context_id':model['context_id'],'verification_spec':spec,'deadline':deadline,
         'verification_cap':planned['verification_cap'],'native_route_contract':'declared-native-pair-v1'}
+    if native_window is not None:inputs['native_window']=dict(native_window)
     recorder=Capture(capture,inputs=inputs,config=config,policy=policy(manifest),engine_hash=fingerprint(),
         program=Path(__file__).with_name('cloud_binding_verifier.py'),
         files={name:prepared/name for name in ('context.json','model.json','endpoints.json')},

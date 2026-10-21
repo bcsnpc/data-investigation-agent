@@ -105,6 +105,31 @@ def preflight(spec,config,context,*,receipt_path,manifest_budgets):
         'resolved_source_asset_ids':sorted({objects[s['table']]['asset_id']for p in spec['proposals']for s in p['sources']})}
 
 
+def validate_native_window(window):
+    if (not isinstance(window,dict) or set(window)!={'seconds','finalization_seconds','demo_seconds'}
+            or any(type(v)is not int for v in window.values())
+            or not 1<=window['seconds']<=900 or not 30<=window['finalization_seconds']<=600
+            or not 0<=window['demo_seconds']<=900):
+        raise ValueError('VERIFICATION_NATIVE_WINDOW_BOUND')
+
+
+def native_inputs(inputs):
+    """Start only inside captured execution, after durable pre-read retention.
+
+    Legacy sealed inputs keep their absolute deadline and emit no new event.
+    Never mutate the sealed bootstrap; the effective deadline is a local view.
+    """
+    if 'native_window' not in inputs:return inputs
+    from investigator import process_tape as tape
+    window=inputs['native_window'];validate_native_window(window)
+    started=tape.clock('cloud-verification-native-window-start')
+    deadline=min(started+window['seconds'],inputs['deadline']-window['finalization_seconds']-window['demo_seconds'])
+    # Leave enough room to start one ordinary bounded request, not merely a
+    # positive fraction of a second. Specific pre-warm bounds remain stricter.
+    if started+60>deadline:raise ValueError('VERIFICATION_DEADLINE_NO_NATIVE_WINDOW')
+    return {**inputs,'deadline':deadline}
+
+
 def perform(bootstrap, work, budget_catalog=None, live=None):
     """Replay-compatible capture entry point, same inputs under live/replay.
 
@@ -125,7 +150,7 @@ def perform(bootstrap, work, budget_catalog=None, live=None):
     from fabric_sql_surface import read as sql_read
     journal=tape.ACTIVE.get()
     if journal is None:raise ValueError('EXACT_CAPTURE_REQUIRED')
-    i=bootstrap['state']['inputs'];spec=i['verification_spec'];config=bootstrap['config']
+    i=native_inputs(bootstrap['state']['inputs']);spec=i['verification_spec'];config=bootstrap['config']
     if fingerprint()!=i['engine_fingerprint']:raise ValueError('VERIFIER_ENGINE_DIFFERS')
     planned=plan(spec)
     if planned['verification_reads_needed']>planned['verification_cap']:raise ValueError('VERIFICATION_CAP_INSUFFICIENT')
