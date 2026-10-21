@@ -1,4 +1,4 @@
-"""Isolated, zero-network replay using an explicitly pinned Git engine revision.
+"""Isolated, zero-network replay using a pinned Git revision or verified image.
 
 Tape format and replay-engine revision are separate contracts. Legacy bindings
 are hash-bound annotations, not modifications to the sealed evidence.
@@ -18,22 +18,36 @@ ROOT = Path(__file__).resolve().parents[2]
 def replay_revision(path, output, revision, *, estate_manifest=None):
     if not isinstance(revision, str) or not re.fullmatch('[0-9a-f]{40}', revision):
         raise ValueError('Replay revision must be an immutable Git commit')
-    accounting_version=2 if subprocess.run(['git','merge-base','--is-ancestor','7abaabf37812b58cc74b684de9cafc172212c1ad',revision],cwd=ROOT,capture_output=True).returncode==0 else 1
-    actual = subprocess.check_output(['git', 'rev-parse', revision + '^{commit}'], cwd=ROOT, text=True).strip()
-    if actual != revision:raise ValueError('Replay revision differs')
-    archive = subprocess.check_output(['git', 'archive', '--format=tar', revision], cwd=ROOT)
+    installed = not (ROOT / '.git').exists()
+    if installed:
+        # Verify every declared image byte before executing installed code. A
+        # code-only image cannot serve historical revisions or tolerate drift.
+        from investigator.source_revision import committed_revision
+        if committed_revision(ROOT) != revision:
+            raise ValueError('IMAGE_REPLAY_REVISION_DIFFERS')
+        from investigator.budget_tape_contract import ACCOUNTING_VERSION
+        accounting_version = ACCOUNTING_VERSION
+        archive = None
+    else:
+        accounting_version=2 if subprocess.run(['git','merge-base','--is-ancestor','7abaabf37812b58cc74b684de9cafc172212c1ad',revision],cwd=ROOT,capture_output=True).returncode==0 else 1
+        actual = subprocess.check_output(['git', 'rev-parse', revision + '^{commit}'], cwd=ROOT, text=True).strip()
+        if actual != revision:raise ValueError('Replay revision differs')
+        archive = subprocess.check_output(['git', 'archive', '--format=tar', revision], cwd=ROOT)
     with tempfile.TemporaryDirectory(prefix='dia-recorded-engine-') as folder:
         root = Path(folder)
-        with tarfile.open(fileobj=io.BytesIO(archive)) as bundle:
-            for member in bundle.getmembers():
-                target = (root / member.name).resolve()
-                if not target.is_relative_to(root.resolve()) or member.issym() or member.islnk():
-                    raise ValueError('Unsafe replay archive member')
-            bundle.extractall(root, filter='data')
+        engine_root = ROOT if installed else root
+        if archive is not None:
+            with tarfile.open(fileobj=io.BytesIO(archive)) as bundle:
+                for member in bundle.getmembers():
+                    target = (root / member.name).resolve()
+                    if not target.is_relative_to(root.resolve()) or member.issym() or member.islnk():
+                        raise ValueError('Unsafe replay archive member')
+                bundle.extractall(root, filter='data')
         driver = root / 'replay-pinned-driver.py'
         driver.write_text("""import sys,json,socket,traceback,importlib.util
 from pathlib import Path
-root=Path(__file__).parent
+root=Path(sys.argv[11])
+installed=sys.argv[12]=='installed'
 sys.path[:0]=[str(root/'scripts'),str(root/'acceptance/unknown_domain')]
 def refused(*a,**k):raise RuntimeError('NETWORK_FORBIDDEN')
 socket.create_connection=refused;socket.socket.connect=refused
@@ -53,8 +67,12 @@ try:
  worker_spec=importlib.util.spec_from_file_location('worker_replay',sys.argv[10])
  worker=importlib.util.module_from_spec(worker_spec);worker_spec.loader.exec_module(worker)
  tape=journal.Tape(sys.argv[1])
+ if installed:
+  from investigator.source_revision import committed_revision
+  if committed_revision(root)!=sys.argv[3] or tape.engine_revision!=sys.argv[3]:
+   raise journal.TapeError('IMAGE_REPLAY_REVISION_DIFFERS')
  with worker.first_tape_error(journal,first_errors),worker.configuration_paths(journal),worker.install(journal),catalog.install(process_replay),lineage.install(process_replay,tape,sys.argv[8] or None):
-  result=process_replay.replay(sys.argv[1],sys.argv[2],allow_engine_drift=True)
+  result=process_replay.replay(sys.argv[1],sys.argv[2],allow_engine_drift=not installed)
  result['replay_engine_revision']=sys.argv[3]
  Path(sys.argv[4]).write_text(json.dumps({'result':result}))
 except Exception as exc:
@@ -64,7 +82,7 @@ except Exception as exc:
         answer = root / 'answer.json'
         done = subprocess.run([sys.executable, str(driver), str(Path(path).resolve()),
             str(Path(output).resolve()), revision, str(answer), str(ROOT/'scripts/investigator/budget_tape_contract.py'), str(ROOT/'scripts/investigator/provider_tape_contract.py'),
-            str(ROOT/'acceptance/unknown_domain/lineage_replay.py'),str(Path(estate_manifest).resolve()) if estate_manifest is not None else '',str(ROOT/'acceptance/unknown_domain/catalog_replay.py'),str(ROOT/'acceptance/unknown_domain/worker_replay.py')], cwd=ROOT, capture_output=True, text=True, timeout=900)
+            str(ROOT/'acceptance/unknown_domain/lineage_replay.py'),str(Path(estate_manifest).resolve()) if estate_manifest is not None else '',str(ROOT/'acceptance/unknown_domain/catalog_replay.py'),str(ROOT/'acceptance/unknown_domain/worker_replay.py'),str(engine_root),'installed' if installed else 'archive'], cwd=ROOT, capture_output=True, text=True, timeout=900)
         if not answer.exists():raise ValueError('Pinned replay worker failed without response: ' + str(done.returncode))
         value = json.loads(answer.read_text())
         if 'result' not in value:
