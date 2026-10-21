@@ -16,12 +16,12 @@ def coverage(graph,baseline):
         if edge['kind'] in DEPENDENCIES:edges[edge['source']].append(edge)
     def blocked(item):
         return bool({item['owner'],item.get('properties',{}).get('definition_source_owner')} & unavailable.keys())
-    def start(node_id):
+    def start(node_id,value_grade=False):
         if node_id not in nodes:return {'id':node_id,'status':'REMOVED','source_columns':[],
             'terminal_physical_columns':[],'complete_verified':False,'stops':['START_REMOVED']}
-        visited=set();active=set();stops=set();sources=set();physical=set();proof_scopes=set();all_verified=True
+        visited=set();active=set();stops=set();sources=set();physical=set();proof_scopes=set();all_verified=True;saw_value=False
         def visit(identity):
-            nonlocal all_verified
+            nonlocal all_verified,saw_value
             if identity in active:stops.add('DEPENDENCY_CYCLE');all_verified=False;return
             if identity in visited:return
             visited.add(identity);active.add(identity)
@@ -42,7 +42,9 @@ def coverage(graph,baseline):
                     stops.add('DEPLOYMENT_NOT_ESTABLISHED');all_verified=False;continue
                 if target not in nodes:stops.add('TARGET_NOT_PRESENT');all_verified=False;continue
                 proof=edge['verification']
-                if edge['confidence']!='VERIFIED' or proof['state']!='CURRENT' or not proof['evidence_ids'] or not proof['scope_hash']:
+                if edge['confidence']=='VALUE_VERIFIED':saw_value=True
+                grades=('VALUE_VERIFIED','VERIFIED')if value_grade else ('VERIFIED',)
+                if edge['confidence']not in grades or proof['state']!='CURRENT' or not proof['evidence_ids'] or not proof['scope_hash']:
                     all_verified=False
                 else:proof_scopes.add(proof['scope_hash'])
                 visit(target)
@@ -50,18 +52,19 @@ def coverage(graph,baseline):
         visit(node_id)
         return {'id':node_id,'status':'UNAVAILABLE' if 'OWNER_UNAVAILABLE' in stops else 'PRESENT',
             'source_columns':sorted(sources),'terminal_physical_columns':sorted(physical),
-            'complete_verified':bool(sources) and all_verified and not stops and len(proof_scopes)==1,
+            'complete_verified':bool(sources) and all_verified and not stops and len(proof_scopes)==1 and (not value_grade or saw_value),
             'stops':sorted(stops),'visited':len(visited)}
     current={n['id'] for n in nodes.values() if n['kind'] in ('VISUAL','SLICER')}
     baseline_ids={n['id'] for n in baseline['nodes'] if n['kind'] in ('VISUAL','SLICER')}
-    rows=[start(identity) for identity in sorted(current|baseline_ids)]
+    rows=[{**start(identity),'complete_value_verified':start(identity,value_grade=True)['complete_verified']}for identity in sorted(current|baseline_ids)]
     def totals(ids):
         selected=[row for row in rows if row['id'] in ids]
         return {'starts':len(selected),'present':sum(r['status']!='REMOVED' for r in selected),
             'unavailable':sum(r['status']=='UNAVAILABLE' for r in selected),
             'reaches_declared_source_column':sum(bool(r['source_columns']) for r in selected),
             'reaches_terminal_physical_column':sum(bool(r['terminal_physical_columns']) for r in selected),
-            'complete_verified_paths':sum(r['complete_verified'] for r in selected)}
+            'complete_verified_paths':sum(r['complete_verified'] for r in selected),
+            'complete_value_verified_paths':sum(r['complete_value_verified']for r in selected)}
     return {'nodes':len(nodes),'edges':len(graph['edges']),
         'nodes_by_kind':dict(Counter(n['kind'] for n in nodes.values())),
         'nodes_by_confidence':dict(Counter(n['confidence'] for n in nodes.values())),
@@ -90,11 +93,11 @@ def markdown(report):
     lines=['# Round Nineteen B graph coverage readback','',report['at'],'',
       'Platform PostgreSQL and hash-verified definition readback only; no estate or model calls.',
       'A successful owner refresh is not evidence that an INFO query succeeded. Query results below come from retained dependency assets.','',
-      '| Estate | Nodes / edges | Original starts present / cohort | Reaches declared source column | Complete VERIFIED | Unavailable starts |',
-      '|---|---:|---:|---:|---:|---:|']
+      '| Estate | Nodes / edges | Original starts present / cohort | Reaches declared source column | Complete VERIFIED | Complete VALUE_VERIFIED | Unavailable starts |',
+      '|---|---:|---:|---:|---:|---:|---:|']
     for estate,value in report['estates'].items():
-        s=value['baseline_cohort'];lines.append(f"| {estate} | {value['nodes']} / {value['edges']} | {s['present']} / {s['starts']} | {s['reaches_declared_source_column']} | {s['complete_verified_paths']} | {s['unavailable']} |")
-    lines+=['','Declared source means an explicit `system_of_record` column. Terminal physical columns are separately reported in JSON; they are not assumed to be the application source. Complete VERIFIED requires all traversed dependency branches to terminate at declared source columns, current edge receipts at one scope, and no UNKNOWN, unavailable, unestablished-deployment or cyclic branch. This report cannot promote an edge.','']
+        s=value['baseline_cohort'];lines.append(f"| {estate} | {value['nodes']} / {value['edges']} | {s['present']} / {s['starts']} | {s['reaches_declared_source_column']} | {s['complete_verified_paths']} | {s['complete_value_verified_paths']} | {s['unavailable']} |")
+    lines+=['','Declared source means an explicit `system_of_record` column. Terminal physical columns are separately reported in JSON; they are not assumed to be the application source. Complete VERIFIED requires all traversed dependency branches to terminate at declared source columns, current edge receipts at one scope, and no UNKNOWN, unavailable, unestablished-deployment or cyclic branch. Complete VALUE_VERIFIED is counted separately: at least one mapped-value edge, every dependency branch supported by current VALUE_VERIFIED or VERIFIED receipts at one scope, and the same source/availability requirements. It never contributes to Complete VERIFIED. This report cannot promote an edge.','']
     for estate,value in report['estates'].items():
         lines += ['## '+estate,'', 'Node kinds: `'+json.dumps(value['nodes_by_kind'],sort_keys=True)+'`.',
           'Edge kinds: `'+json.dumps(value['edges_by_kind'],sort_keys=True)+'`.',

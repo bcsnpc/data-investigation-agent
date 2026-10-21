@@ -125,6 +125,9 @@ def coverage(graph):
     return {'nodes_by_kind':dict(Counter(v['kind'] for v in graph['nodes'])),
         'edges_by_kind':dict(Counter(v['kind'] for v in graph['edges'])),
         'edges_by_confidence':dict(Counter(v['confidence'] for v in graph['edges'])),
+        'value_verification':[{'edge_id':v['id'],'confidence':v['confidence'],'state':v['verification']['state'],
+            'qualification':v['properties']['value_verification']['qualification']}for v in graph['edges']
+            if 'value_verification'in v['properties']],
         'unknown':[{'id':v['id'],'kind':v['kind'],**v['unknown']} for v in graph['nodes']+graph['edges'] if v['confidence']=='UNKNOWN'],
         'unavailable_owners':graph.get('unavailable_owners',{}),
         'truncated':graph.get('truncated',False)}
