@@ -51,7 +51,7 @@ jobs:
           docker load -i "$RUNNER_TEMP/image/dia-offline.tar"
           mkdir -p "$RUNNER_TEMP/results"
           chmod 777 "$RUNNER_TEMP/results"
-          docker run --rm --network=none --read-only --cap-drop=ALL --security-opt=no-new-privileges --tmpfs /tmp:rw,nosuid,nodev,size=256m -v "$RUNNER_TEMP/results:/results" dia-offline:${{ github.sha }} --shard ${{ matrix.shard }} --shards 8
+          docker run --rm --network=none --read-only --cap-drop=ALL --security-opt=no-new-privileges --tmpfs /tmp:rw,nosuid,nodev,size=256m --tmpfs /app/.local:rw,nosuid,nodev,noexec,size=256m,uid=10001,gid=10001 -v "$RUNNER_TEMP/results:/results" dia-offline:${{ github.sha }} --shard ${{ matrix.shard }} --shards 8
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
