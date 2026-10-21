@@ -2,7 +2,7 @@
 
 No replay-before-live gate, READY label, code execution or profile publication.
 """
-import base64,hashlib,json,re
+import base64,hashlib,json,re,tempfile,sqlite3
 from pathlib import Path
 from investigator.onboarding import digest
 
@@ -16,6 +16,21 @@ def sha(path):
     with Path(path).open('rb') as stream:
         for block in iter(lambda:stream.read(1024*1024),b''):h.update(block)
     return h.hexdigest()
+
+
+def require_exact_snapshot(source,expected):
+    """Accept exact source bytes or the exact audited SQLite backup bytes.
+
+    Backup legitimately changes SQLite header counters. Reconstruct the same
+    backup with the production snapshot routine, rather than ignoring headers
+    or weakening the comparison to row equality. Unsafe inputs write nothing.
+    """
+    if sha(source)==expected:return
+    from cloud_verification_capture import snapshot
+    with tempfile.TemporaryDirectory(prefix='dia-proof-inventory-') as folder:
+        try:actual=snapshot(source,Path(folder)/'snapshot.sqlite')
+        except sqlite3.Error as error:raise ValueError('FRESH_VERIFICATION_PREPARED_SNAPSHOT_INVALID') from error
+        if actual!=expected:raise ValueError('FRESH_VERIFICATION_PREPARED_SNAPSHOT_DIFFERS')
 
 
 def reference(prepared,capture,spec):
@@ -66,8 +81,9 @@ def validate(manifest_path,proof):
     if set(members)!=required:raise ValueError('FRESH_VERIFICATION_DEPENDENCY_INVENTORY')
     for name,expected_hash in members.items():
         if sha(capture/name)!=expected_hash:raise ValueError('FRESH_VERIFICATION_DEPENDENCY_HASH_DIFFERS')
-    for name in ('context.json','model.json','endpoints.json','inventory.sqlite'):
+    for name in ('context.json','model.json','endpoints.json'):
         if sha(prepared/name)!=members[name]:raise ValueError('FRESH_VERIFICATION_PREPARED_SOURCE_DIFFERS')
+    require_exact_snapshot(prepared/'inventory.sqlite',members['inventory.sqlite'])
     for stored,installed in (('verification_program.py','cloud_binding_verifier.py'),('code_verifier_capture.py','cloud_verification_capture.py')):
         if members[stored]!=sha(Path(__file__).with_name(installed)):raise ValueError('FRESH_VERIFICATION_PRODUCER_DIFFERS')
     if json.loads((capture/'model.json').read_bytes())!=model:raise ValueError('FRESH_VERIFICATION_MODEL_DIFFERS')

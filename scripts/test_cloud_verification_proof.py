@@ -10,7 +10,7 @@ from test_process_tape import bootstrap
 import test_binding_sample as samples
 from test_microsoft_readiness import fixture
 import test_estate_manifest as manifests
-from cloud_verification_proof import validate,reference,validate_form_scope
+from cloud_verification_proof import validate,reference,validate_form_scope,require_exact_snapshot
 
 
 class FreshProofTests(unittest.TestCase):
@@ -131,6 +131,36 @@ class FreshProofTests(unittest.TestCase):
                  patch('run_adaptive_investigation.local_azure_key') as model,patch('cloud_form_worker.run_form') as run:
                 with self.assertRaisesRegex(ValueError,'MODEL_CHANGED|SCOPE_DIFFERS'):demo_from_proof(plan,ctx)
                 model.assert_not_called();run.assert_not_called()
+
+    def test_prepared_inventory_accepts_only_exact_audited_sqlite_backup(self):
+        from contextlib import closing
+        import sqlite3
+        from cloud_verification_capture import snapshot
+        source=self.prepared/'inventory.sqlite';source.unlink()
+        with closing(sqlite3.connect(source)) as db:
+            db.execute('CREATE TABLE inventory(value TEXT)');db.execute('INSERT INTO inventory VALUES(?)',('retained fixture',));db.commit()
+            # Advance source header counters without changing its logical data.
+            db.execute('UPDATE inventory SET value=value');db.commit()
+            db.execute('PRAGMA user_version=7');db.commit()
+        target=self.capture/'inventory.sqlite';target.unlink();expected=snapshot(source,target)
+        self.assertNotEqual(self.sha(source),expected)
+        before=self.sha(source);self.seal()
+        result=validate(self.manifest_path,self.proof)
+        self.assertEqual('PROOF_REVALIDATED',result['status']);self.assertEqual(before,self.sha(source))
+        with closing(sqlite3.connect(source)) as db:
+            db.execute('UPDATE inventory SET value=?',('changed data',));db.commit()
+        with self.assertRaisesRegex(ValueError,'SNAPSHOT_DIFFERS'):validate(self.manifest_path,self.proof)
+
+    def test_inventory_backup_reconstruction_retains_secret_audit(self):
+        from contextlib import closing
+        import sqlite3
+        source=self.root/'unsafe-inventory.sqlite'
+        with closing(sqlite3.connect(source)) as db:
+            db.execute('CREATE TABLE inventory(value TEXT)');db.execute('INSERT INTO inventory VALUES(?)',('password=synthetic_credential_123',));db.commit()
+        before=self.sha(source)
+        from investigator.planner_recording import RecordingError
+        with self.assertRaises(RecordingError):require_exact_snapshot(source,'0'*64)
+        self.assertEqual(before,self.sha(source))
 
     def test_summary_strings_cannot_stand_in_for_proof(self):
         with self.assertRaisesRegex(ValueError,'REFERENCE_REQUIRED'):validate(self.manifest_path,{'status':'COMPLETED','verification_status':'VERIFIED'})
