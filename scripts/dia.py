@@ -65,6 +65,10 @@ def demo(manifest_path, case_path, port, live=False):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
+    run = commands.add_parser('run',help='Run a typed ticket or check through the pinned container runner')
+    run.add_argument('target')
+    run.add_argument('--estate',required=True,type=Path)
+    run.add_argument('--runtime',choices=('local','azure','worker'),default='local')
     retain = commands.add_parser('retain', help='Plan or apply the manifest retention policy locally')
     retain.add_argument('--manifest', required=True, type=Path)
     retain.add_argument('--root', required=True, type=Path)
@@ -78,7 +82,10 @@ def main(argv=None):
     show.add_argument('--port', type=int, default=8776)
     show.add_argument('--live', action='store_true', help='Explicitly enable existing governed execution')
     args = parser.parse_args(argv)
-    if args.command == 'retain':
+    if args.command == 'run':
+        from investigator.unified_runner import main as run_main
+        return run_main(args)
+    elif args.command == 'retain':
         from investigator.estate_manifest import load
         from investigator.retention import DEFAULT, plan, apply, summary
         manifest = load(args.manifest)

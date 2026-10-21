@@ -15,6 +15,7 @@ from .artifact_identity_cache import IdentityCache,ArtifactChanged
 from uuid import uuid4 as new_uuid, UUID
 
 ACTIVE = ContextVar('process_tape', default=None)
+EVENT_OBSERVER = ContextVar('process_tape_event_observer', default=None)
 VERSION = 'bounded-worker-tape-v14'
 SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', 'bounded-worker-tape-v2', 'bounded-worker-tape-v3', 'bounded-worker-tape-v4', 'bounded-worker-tape-v5', 'bounded-worker-tape-v6', 'bounded-worker-tape-v7','bounded-worker-tape-v8','bounded-worker-tape-v9', 'bounded-worker-tape-v10', 'bounded-worker-tape-v11', 'bounded-worker-tape-v12', 'bounded-worker-tape-v13', VERSION))
 DOLLAR_GUARDED_VERSIONS = frozenset(('bounded-worker-tape-v10', 'bounded-worker-tape-v11', 'bounded-worker-tape-v12', 'bounded-worker-tape-v13', VERSION))
@@ -164,6 +165,8 @@ class Tape:
         # and budget bodies for every clock tick amplified local I/O quadratically
         # and consumed the live procedure's deadline before it dispatched work.
         with self.journal_path.open('ab') as journal:journal.write(bytes_of(self.events[-1])+b'\n')
+        observer=EVENT_OBSERVER.get()
+        if observer is not None:observer(self,self.events[-1])
         # The append-only journal retains every event before returning. Rewriting
         # all prior bodies during each admission delayed ALLOW to the child and
         # consumed its deadline. Materialize the envelope at the two boundaries;
