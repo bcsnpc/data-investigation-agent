@@ -26,6 +26,7 @@ TEST_MODULES = (
     'test_capture_transaction_publication.py', 'test_cloud_dax_authorization.py',
     'test_cloud_value_execution.py', 'test_cloud_value_mapping.py',
     'test_cloud_value_verifier.py',
+    'test_runner_replay_materialize.py',
 )
 
 

@@ -4,6 +4,7 @@ Replay coverage deliberately excludes worker/guard/budget protocol replay.
 Those live controls remain independently retained by the runner.
 """
 import copy
+import base64
 import hashlib
 import json
 from pathlib import Path
@@ -139,8 +140,14 @@ def run(plan,context):
             result=_evaluate(compiled,transport,lambda receipt:context.record('mapped-value-observation',receipt))
             result.update(confidence_awarded=False,coverage=COVERAGE)
             tape.finish(result)
+        raw=tape.path.read_bytes()
+        from investigator.planner_recording import _safe
+        _safe(raw)
+        tape_hash=hashlib.sha256(raw).hexdigest()
+        context.record('mapped-value-tape',{'sha256':tape_hash,'bytes':len(raw),
+            'body_base64':base64.b64encode(raw).decode('ascii'),'coverage':COVERAGE})
         result.update(physical_requests=meter.used,before=before,after=meter.usage.snapshot(),model_calls=0,
-            tape_sha256=hashlib.sha256(tape.path.read_bytes()).hexdigest(),tape=str(tape.path),
+            tape_sha256=tape_hash,tape=str(tape.path),
             grade='NOT_AWARDED_REQUIRES_TRUSTED_GRAPH_RESOLVER')
         context.record('mapped-value-result',result)
         return result

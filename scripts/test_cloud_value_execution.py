@@ -1,4 +1,5 @@
 import copy
+import base64
 import hashlib
 import io
 import json
@@ -65,6 +66,11 @@ class ExecutionTests(unittest.TestCase):
             result=run(self.plan,self.context)
             self.assertEqual(result['reason'],'NATIVE_VISUAL_READ_FAILED');self.assertEqual(result['physical_requests'],1)
             lower.assert_not_called()
+            saved=next(v for k,v in self.records if k=='mapped-value-tape')
+            raw=base64.b64decode(saved['body_base64'])
+            self.assertEqual(raw,Path(result['tape']).read_bytes())
+            self.assertEqual(hashlib.sha256(raw).hexdigest(),saved['sha256'])
+            self.assertEqual(saved['bytes'],len(raw))
             with patch('cloud_value_execution._native',side_effect=AssertionError('no live replay')):
                 actual=replay(result['tape'])
         self.assertTrue(actual['matched']);self.assertEqual(actual['coverage'],COVERAGE)
