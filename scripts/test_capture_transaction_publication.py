@@ -108,5 +108,14 @@ class TransactionPublicationTests(unittest.TestCase):
             with self.state.transaction():
                 with self.assertRaisesRegex(GatewayDenied,'NETWORK_DURING_SHARED_STATE_TRANSACTION'):_network_unlocked()
 
+    def test_queued_record_hash_checked_before_remote_dispatch(self):
+        with self.assertRaisesRegex(RuntimeError,'CAPTURE_PENDING_BYTES_CHANGED'):
+            with self.state.transaction():
+                self.capture.record('tape-event',{'original':True})
+                # Simulate storage corruption, not an alternative accepted body.
+                (self.capture.root/'00000003-tape-event.json').write_bytes(bytes_of({'changed':True}))
+        self.assertEqual(len(self.sent),2)
+        with self.assertRaisesRegex(RuntimeError,'CAPTURE_PUBLICATION_FAILED_NO_SEAL'):self.capture.seal()
+
 
 if __name__=='__main__':unittest.main()

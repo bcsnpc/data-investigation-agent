@@ -36,7 +36,7 @@ class DurableCapture:
         self.records.append(ref)
         # Preserve the original event immediately, even inside an application
         # transaction. Only remote publication waits for the lock to release.
-        self._pending_publications.append((ref['key'], raw))
+        self._pending_publications.append((ref['key'], self.root/name, ref['sha256']))
         from .shared_state import after_transaction
         after_transaction(self.flush_publications)
         return ref
@@ -45,8 +45,11 @@ class DurableCapture:
         from .shared_state import TRANSACTION_ACTIVE
         if TRANSACTION_ACTIVE.get(): raise RuntimeError('CAPTURE_PUBLICATION_DURING_TRANSACTION')
         while self._pending_publications:
-            key,raw=self._pending_publications[0]
-            try:self.put(key,raw)
+            key,path,expected=self._pending_publications[0]
+            try:
+                raw=path.read_bytes()
+                if hashlib.sha256(raw).hexdigest()!=expected:raise RuntimeError('CAPTURE_PENDING_BYTES_CHANGED')
+                self.put(key,raw)
             except BaseException:
                 self._publication_failed=True
                 raise
