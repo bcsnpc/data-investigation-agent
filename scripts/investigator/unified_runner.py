@@ -33,7 +33,7 @@ def transient(error):
     if getattr(error,'code',None) in (401,403) or getattr(error,'status_code',None) in (401,403):return False
     text=str(error).lower()
     if any(s in text for s in ('billing','unauthorized','forbidden','permission denied','secret_detected')):return False
-    return isinstance(error,(TimeoutError,ConnectionError)) or getattr(error,'code',None) in (408,429,502,503,504) or any(s in text for s in ('18456','connection reset','temporarily unavailable'))
+    return isinstance(error,(TimeoutError,ConnectionError)) or getattr(error,'error_number',None)==18456 or getattr(error,'code',None) in (408,429,502,503,504) or any(s in text for s in ('18456','connection reset','temporarily unavailable'))
 
 def retry(call,*,record,sleep=time.sleep):
     for attempt in range(3):
@@ -154,7 +154,12 @@ def main(args):
         # Same digest and entrypoint as Azure. Mount only the explicitly selected
         # estate working directory; credential refs stay refs, never shell args.
         root=Path(args.estate).resolve().parent
-        cmd=['docker','run','--rm','--entrypoint','python','--mount',f'type=bind,source={root},target=/estate',config['image'],'/app/scripts/dia.py','run',args.target,'--estate','/estate/'+Path(args.estate).name,'--runtime','worker']
+        names=('DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JSON','DIA_RUNNER_ESTATE_JSON',
+               'INVESTIGATOR_STATE_BACKEND','INVESTIGATOR_PG_HOST','INVESTIGATOR_PG_DATABASE','INVESTIGATOR_PG_USER',
+               'AZURE_CLIENT_ID','DIA_GATEWAY_HTTP_IDENTITY','DIA_GATEWAY_SQL_IDENTITY','DIA_GATEWAY_MODEL_IDENTITY',
+               'DIA_GATEWAY_STATE_IDENTITY','DIA_PLATFORM_CONTROL_RECEIPTS','DIA_GATEWAY_AUDIT_FILE','DIA_LIVE_ACCESS_DISABLED')
+        forwarded=[part for name in names if name in os.environ for part in ('--env',name)]
+        cmd=['docker','run','--rm','--entrypoint','python','--mount',f'type=bind,source={root},target=/estate',*forwarded,config['image'],'/app/scripts/dia.py','run',args.target,'--estate','/estate/'+Path(args.estate).name,'--runtime','worker']
         return subprocess.run(cmd,check=False).returncode
     # Azure launches use the same fixed argv and retain job's already installed
     # managed identity/environment. No inline Python or arbitrary command.

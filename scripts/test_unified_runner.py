@@ -56,6 +56,21 @@ class RunnerTests(unittest.TestCase):
         self.assertEqual(wait,[30,45]);self.assertEqual(len(events),2)
         self.assertFalse(transient(ValueError('billing authorization failed')))
         self.assertFalse(transient(ValueError('guardrail denied')))
+        from fabric_sql_surface import LowerReadError
+        self.assertTrue(transient(LowerReadError('connect',18456,'SqlException')))
+    def test_retry_uses_new_attempt_directory_and_retains_first_failure(self):
+        with tempfile.TemporaryDirectory() as d:
+            roots=[];retained={}
+            def handler(plan,ctx):
+                roots.append(ctx.root)
+                (ctx.root/'native.json').write_text('partial')
+                if len(roots)==1:raise ConnectionError('connection reset')
+                return {'value':16}
+            result=run(self.config(Path(d)),'bronze',registry={'probe':handler},put=lambda k,v:retained.setdefault(k,v),sleep=lambda _:None)
+            self.assertEqual(result['status'],'COMPLETED')
+            self.assertNotEqual(roots[0],roots[1])
+            self.assertTrue(all((p/'native.json').is_file() for p in roots))
+            self.assertTrue(any('attempt-failure' in key for key in retained))
     def test_registry_has_no_user_code_or_shell(self):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d)/'estate.json';config=self.config(Path(d));config['checks']['bad']={'kind':'os.system','options':{}}
