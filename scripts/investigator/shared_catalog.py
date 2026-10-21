@@ -8,6 +8,35 @@ from .onboarding import digest,Conflict
 from .shared_state import sha,encoded,StateConflict
 
 
+READ_RESULTS_VERSION='READ_RESULTS_V1'
+
+
+def captured_read(environment,operation,request,producer):
+    """Record exactly the catalog result already read, not a second preload."""
+    from . import process_tape as journal
+    tape=journal.ACTIVE.get()
+    version=tape.bootstrap.get('state',{}).get('shared_catalog_capture') if tape else None
+    if version is None:return producer()
+    if version!=READ_RESULTS_VERSION:raise journal.TapeError('SHARED_CATALOG_CAPTURE_VERSION')
+    return journal.bounded_call('shared_catalog:'+operation,
+        {'version':version,'environment':environment,'request':request},producer)
+
+
+class RecordedCatalog:
+    """Read-only catalog port consuming sealed results; never consults PostgreSQL."""
+    def __init__(self,environment):self.environment=environment;self.state=None
+    @staticmethod
+    def unavailable():
+        from .process_tape import TapeError
+        raise TapeError('RECORDED_CATALOG_REQUIRES_VERSIONED_REPLAY')
+    def get(self,identity,context_pin=None):
+        return captured_read(self.environment,'get',{'identity':identity,'context_pin':context_pin},self.unavailable)
+    def context(self,identity,context_id):
+        return captured_read(self.environment,'context',{'identity':identity,'context_id':context_id},self.unavailable)
+    def list(self,enabled_only=False):
+        return captured_read(self.environment,'list',{'enabled_only':enabled_only},self.unavailable)
+
+
 class SharedCatalog:
     def __init__(self,state,environment):
         self.state=state;self.environment=environment
@@ -16,24 +45,35 @@ class SharedCatalog:
         return encoded([self.environment,*parts])
 
     def context(self,identity,context_id):
+        return captured_read(self.environment,'context',{'identity':identity,'context_id':context_id},
+            lambda:self._context(identity,context_id))
+
+    def _context(self,identity,context_id):
         saved=self.state.get('catalog_context',self._key(identity,context_id))['body']
         if digest(saved['body'])!=saved['hash']:raise Conflict('Context integrity failure')
         return saved['body']
 
     def get(self,identity,context_pin=None):
+        return captured_read(self.environment,'get',{'identity':identity,'context_pin':context_pin},
+            lambda:self._get(identity,context_pin))
+
+    def _get(self,identity,context_pin=None):
         value=self.state.get('catalog_model',self._key(identity))['body']
         if value['environment']!=self.environment or value['id']!=identity:raise Conflict('Shared catalog identity differs')
         if context_pin:
             value['context_id']=context_pin['context_id']
-        value['context']=self.context(identity,value['context_id']) if value['context_id'] else None
+        value['context']=self._context(identity,value['context_id']) if value['context_id'] else None
         if context_pin and digest(value['context'])!=context_pin['hash']:raise Conflict('Pinned context hash differs')
         return value
 
     def list(self,enabled_only=False):
+        return captured_read(self.environment,'list',{'enabled_only':enabled_only},lambda:self._list(enabled_only))
+
+    def _list(self,enabled_only=False):
         # Listing is bounded at publication, rather than silently truncating a
         # larger estate. Identifier inventory is an explicitly retained document.
         index=self.state.get('catalog_index',self.environment)['body']
-        models=[self.get(identity) for identity in index['model_ids']]
+        models=[self._get(identity) for identity in index['model_ids']]
         return sorted([m for m in models if not enabled_only or m['enabled']],key=lambda m:(m['name'],m['id']))
 
 

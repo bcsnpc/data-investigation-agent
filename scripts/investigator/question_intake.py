@@ -995,7 +995,8 @@ class Intake:
                         resolution_error=resolution_failure(exc))
             from .live_gateway import GatewayDenied
             from .usage_governance import UsageHold
-            if isinstance(exc,(GatewayDenied,UsageHold)):propagate=exc
+            from .model_spend import SpendHold
+            if isinstance(exc,(GatewayDenied,UsageHold,SpendHold)):propagate=exc
         body['quote_provenance']=usage.get('quote_provenance',[]) if isinstance(usage,dict) else []
         if body['resolution_attempts'] and body['resolution_attempts'][-1]['attempt']==2:
             body['resolution_attempts'][-1].update(metadata=usage,status=body['status'],question=body['question'])

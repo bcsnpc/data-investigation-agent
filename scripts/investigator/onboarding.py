@@ -54,6 +54,13 @@ class ModelStore:
         tape=ACTIVE.get()
         state=None if tape is not None and tape.replaying else configured_state()
         self.shared_catalog=None
+        catalog_capture=tape.bootstrap.get('state',{}).get('shared_catalog_capture') if tape and tape.replaying else None
+        if catalog_capture is not None:
+            from .shared_catalog import RecordedCatalog,READ_RESULTS_VERSION
+            if catalog_capture!=READ_RESULTS_VERSION:
+                from .process_tape import TapeError
+                raise TapeError('SHARED_CATALOG_CAPTURE_VERSION')
+            self.shared_catalog=RecordedCatalog(self.environment)
         if state is not None:
             from .shared_catalog import SharedCatalog
             self.shared_catalog=SharedCatalog(state,self.environment)

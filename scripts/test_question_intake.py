@@ -254,7 +254,8 @@ class IntakeTests(unittest.TestCase):
 
     def test_guard_and_budget_exceptions_propagate_after_reservation_settled(self):
         from investigator.live_gateway import GatewayDenied
-        for number,kind in enumerate((GatewayDenied,UsageHold)):
+        from investigator.model_spend import SpendHold
+        for number,kind in enumerate((GatewayDenied,UsageHold,SpendHold)):
             self.request['request_key']='guard-'+str(number)
             self.resolver.side_effect=kind('private-denial-detail')
             with self.assertRaises(kind):self.resolve()
