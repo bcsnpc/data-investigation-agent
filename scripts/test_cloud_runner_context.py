@@ -109,7 +109,8 @@ class DemoSnapshotTests(unittest.TestCase):
         from contextlib import nullcontext
         from cloud_runner_context import demo_after_verification
         steps=[]
-        context=SimpleNamespace(root=Path('attempt'),record=Mock(),step=lambda name,fn:(steps.append(name),fn())[1])
+        folder=tempfile.TemporaryDirectory();self.addCleanup(folder.cleanup)
+        context=SimpleNamespace(root=Path(folder.name),record=Mock(),step=lambda name,fn:(steps.append(name),fn())[1])
         from investigator.onboarding import digest
         current={'id':'model','context_id':'context','context':{}}
         proof={'model_pin':{'model_id':'model'},'model_sha256':digest(current),'constraints':{'kind':'WHOLE_ENTITY_QUANTITY','measure_ids':['measure'],'filters':[],'dimension_ids':[]}}
@@ -129,3 +130,43 @@ class DemoSnapshotTests(unittest.TestCase):
         self.assertEqual(result['status'],'DEMO_FINISHED')
         self.assertEqual(result['demo']['state'],'COMPLETE')
         self.assertIn('configured-demo',steps)
+
+
+class DurableCapturePointerTests(unittest.TestCase):
+    def test_native_pointer_and_index_are_durable_on_success_and_primary_error(self):
+        from cloud_runner_context import retaining_native_captures
+        from test_cloud_form_worker import NativeCaptureExportTests
+        for failed in (False,True):
+            helper=NativeCaptureExportTests();helper.setUp();self.addCleanup(helper.doCleanups)
+            context=SimpleNamespace(root=helper.job,record=Mock())
+            # Use the production exporter and a real sealed synthetic pointer.
+            with patch('metadata_config.ROOT',helper.root):
+                from contextlib import contextmanager
+                from cloud_form_worker import retaining_capture_pointers
+                @contextmanager
+                def bound(job,unused):
+                    with retaining_capture_pointers(job,helper.captures):yield
+                with patch('cloud_form_worker.retaining_capture_pointers',side_effect=bound):
+                    try:
+                        with retaining_native_captures(context):
+                            directory=helper.capture('11111111-1111-4111-8111-111111111111')
+                            if failed:raise RuntimeError('primary worker failure')
+                    except RuntimeError as exc:
+                        self.assertTrue(failed);self.assertEqual('primary worker failure',str(exc))
+            rows={call.args[0]:call.args[1] for call in context.record.call_args_list}
+            self.assertEqual(1,rows['native-capture-index']['body']['native_pointers'])
+            pointer=helper.job/rows['native-capture-pointer']['path']
+            self.assertEqual(pointer.read_bytes(),(directory/'slim-recording.json').read_bytes())
+            self.assertEqual(rows['native-capture-pointer']['body'],json.loads(pointer.read_bytes()))
+            import hashlib
+            self.assertEqual(rows['native-capture-pointer']['sha256'],hashlib.sha256(pointer.read_bytes()).hexdigest())
+            self.assertFalse(any(p.suffix=='.sqlite' for p in (helper.job/'captures').rglob('*')))
+
+    def test_pointer_record_failure_cannot_replace_primary_error(self):
+        from cloud_runner_context import retaining_native_captures
+        with tempfile.TemporaryDirectory() as folder:
+            context=SimpleNamespace(root=Path(folder),record=Mock(side_effect=ValueError('record upload failed')))
+            with patch('metadata_config.ROOT',Path(folder)):
+                with self.assertRaisesRegex(RuntimeError,'original worker error'):
+                    with retaining_native_captures(context):raise RuntimeError('original worker error')
+            self.assertTrue((Path(folder)/'captures/index.json').exists())

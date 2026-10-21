@@ -179,7 +179,7 @@ class FreshProofTests(unittest.TestCase):
 
     def test_forged_summary_cannot_admit_provider_or_workspace(self):
         from cloud_runner_context import demo_from_proof
-        ctx=SimpleNamespace(record=Mock(),step=lambda n,f:f())
+        ctx=SimpleNamespace(root=self.root,record=Mock(),step=lambda n,f:f())
         plan={'manifest':str(self.manifest_path),'options':{'ticket':'form.json','verification_proof':{'status':'VERIFIED'}}}
         with patch('investigator.estate_installation.build') as build:
             with self.assertRaisesRegex(ValueError,'REFERENCE_REQUIRED'):demo_from_proof(plan,ctx)
@@ -187,7 +187,7 @@ class FreshProofTests(unittest.TestCase):
 
     def test_changed_current_model_or_filtered_form_stops_before_model_admission(self):
         from cloud_runner_context import demo_from_proof
-        workspace,models,path=self.demo_workspace();ctx=SimpleNamespace(record=Mock(),step=lambda n,f:f())
+        workspace,models,path=self.demo_workspace();ctx=SimpleNamespace(root=self.root,record=Mock(),step=lambda n,f:f())
         plan={'manifest':str(self.manifest_path),'options':{'ticket':str(path),'verification_proof':self.proof}}
         for changed in ('model','scope'):
             workspace.store.get.return_value={**self.model,'unexpected':'changed'} if changed=='model' else self.model
@@ -218,7 +218,7 @@ class FreshProofTests(unittest.TestCase):
         self.failed_native_capture()
         self.manifest['budgets']['operating_mode']='BUILD_PHASE'
         self.manifest_path.write_text(json.dumps(self.manifest))
-        workspace,models,path=self.demo_workspace();ctx=SimpleNamespace(record=Mock(),step=lambda n,f:f())
+        workspace,models,path=self.demo_workspace();ctx=SimpleNamespace(root=self.root,record=Mock(),step=lambda n,f:f())
         plan={'manifest':str(self.manifest_path),'options':{'ticket':str(path),'verification_proof':self.proof,'verification_handling':'LABEL_ONLY_BUILD_PHASE'}}
         with patch('cloud_runner_context.install_private_snapshots',return_value={}), \
              patch('investigator.estate_installation.build',return_value=(self.manifest,workspace)), \
@@ -234,7 +234,7 @@ class FreshProofTests(unittest.TestCase):
 
     def test_failed_verification_remains_hard_gate_by_default(self):
         from cloud_runner_context import demo_from_proof
-        self.failed_native_capture();ctx=SimpleNamespace(record=Mock(),step=lambda n,f:f())
+        self.failed_native_capture();ctx=SimpleNamespace(root=self.root,record=Mock(),step=lambda n,f:f())
         plan={'manifest':str(self.manifest_path),'options':{'ticket':'form.json','verification_proof':self.proof}}
         with patch('investigator.estate_installation.build') as build:
             with self.assertRaisesRegex(ValueError,'NOT_COMPLETED'):demo_from_proof(plan,ctx)
@@ -243,7 +243,7 @@ class FreshProofTests(unittest.TestCase):
     def test_label_only_requires_manifest_build_phase_and_normal_guards_still_raise(self):
         from contextlib import nullcontext
         from cloud_runner_context import demo_from_proof
-        workspace,models,path=self.demo_workspace();ctx=SimpleNamespace(record=Mock(),step=lambda n,f:f())
+        workspace,models,path=self.demo_workspace();ctx=SimpleNamespace(root=self.root,record=Mock(),step=lambda n,f:f())
         plan={'manifest':str(self.manifest_path),'options':{'ticket':str(path),'verification_proof':self.proof,'verification_handling':'LABEL_ONLY_BUILD_PHASE'}}
         with patch('investigator.estate_installation.build') as build:
             with self.assertRaisesRegex(ValueError,'DECLARED_BUILD_PHASE'):demo_from_proof(plan,ctx)

@@ -3,6 +3,7 @@
 Only the owner-configured platform catalog is published. There is no estate
 write, permission change, arbitrary module, command, or resource provisioning.
 """
+from contextlib import contextmanager
 import hashlib
 import json
 import os
@@ -122,6 +123,35 @@ def demo_after_verification(verification,plan,context,prepared):
     return demo_from_proof({**plan,'options':{'ticket':options['demo_ticket'],'verification_proof':proof}},context,verification=verification)
 
 
+@contextmanager
+def retaining_native_captures(context):
+    """Publish exact native CAS pointers through durable runner records."""
+    from cloud_form_worker import retaining_capture_pointers
+    from metadata_config import ROOT as recording_root
+    root=Path(context.root);primary=None
+    try:
+        with retaining_capture_pointers(root,recording_root/'.local/process-tapes'):
+            yield
+    except BaseException as exc:
+        primary=exc
+        raise
+    finally:
+        try:
+            index=root/'captures/index.json'
+            paths=([index] if index.exists() else [])+sorted((root/'captures').glob('*/slim-recording.json'))
+            error=root/'capture-export-error.json'
+            if error.exists():paths.append(error)
+            for path in paths:
+                kind='native-capture-index' if path==index else 'native-capture-export-error' if path==error else 'native-capture-pointer'
+                raw=path.read_bytes()
+                context.record(kind,{'path':path.relative_to(root).as_posix(),
+                    'sha256':hashlib.sha256(raw).hexdigest(),'body':json.loads(raw)})
+        except Exception:
+            # Preserve the original native/model/runtime error even if the
+            # independent pointer upload also fails. Its local files remain.
+            if primary is None:raise
+
+
 def sealed_verification_label(reference):
     """Report the retained native FINAL; never upgrade a failed check to VERIFIED."""
     import base64
@@ -192,8 +222,9 @@ def demo_from_proof(plan,context,*,verification=None):
         if not label_only:guard_preview(workspace,{'scope':{'constraints':proof['constraints']}},proof['model_pin']['model_id'])
         model=manifest['model']
         settings={**model['credential'],'endpoint':model['endpoint'],'deployment':model['deployment']}
-        with local_azure_key(settings):
-            demo=context.step('configured-demo',lambda:run_form(workspace,form))
+        with retaining_native_captures(context):
+            with local_azure_key(settings):
+                demo=context.step('configured-demo',lambda:run_form(workspace,form))
     finally:
         close=getattr(workspace,'close',None)
         if close is not None:close()
