@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-21",
+  "run_id": "round20-cloud-family-a-demo-03",
+  "execution": "job-dia-worker-7jufbbe",
+  "image": "sha256:0da44613f04a2f87d8bd4a094c1796beb495f203ff20a2267e4c980239d39edf",
+  "handler_status": "DEMO_FINISHED",
+  "ticket_state": "HELD",
+  "reason": "RESOLUTION_UNCERTAIN",
+  "answer": "NOT_DELIVERED_INTAKE_HELD",
+  "technical_investigation_started": false,
+  "structured_outputs_delivered": false,
+  "original_exception": "Not retained by the original generic catch; no precise cause claimed.",
+  "verification": {
+    "capture_sha256": "a8b25ac62a72197b030fa677ff4da0fd59bd02b7016e6e7582d3e004055894d9",
+    "error": {
+      "errno": null,
+      "error_type": "ValueError",
+      "message": "NATIVE_DECLARED_ROUTE_NOT_VERIFIED"
+    },
+    "source_engine_revision": "7dd7077f324e83b045e8dbb4652b144978cd506f",
+    "status": "FAILED",
+    "verification_status": null
+  },
+  "verification_handling": "LABEL_ONLY_BUILD_PHASE",
+  "native_events": 140,
+  "native_tape_sha256": "550551c7658d8494cb160f0b27c36b529156bbe42468d7e2dd311671a09617a5",
+  "outer_records": 161,
+  "outer_seal_valid": true,
+  "provider_send_recorded": false,
+  "accounting_note": "Planner reservation settled uncertain; absence of a recorded provider send is stated separately from conservative reservation accounting. No estate read reached.",
+  "same_image_replay": {
+    "run_id": "round20-cloud-family-a-demo-replay-03",
+    "execution": "job-dia-worker-rsmx97z",
+    "status": "FAILED",
+    "reason": "TAPE_EVENT_DIFFERS:IDENTITY:CONFIGURATION",
+    "records": 7,
+    "outer_seal_valid": false,
+    "estate_or_model_requests": 0
+  },
+  "identity_permission_tenant_setting_changed": false
+}

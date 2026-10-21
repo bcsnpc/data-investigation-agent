@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-21",
+  "source_revision": "046898dd3801ff51edfef1dce4145b00da659059",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b43a34952cb3ab31a3e46ab54854dbee35d6675064aceb8141abc956a401544a",
+  "new_resource_or_role": false,
+  "reason": "Both scheduled readers must understand tool PostgreSQL confidence migration3 before any new image applies it.",
+  "updates": [
+    {
+      "name": "job-dia-worker",
+      "patch_sha256": "07f9de485d9c6425c2ec25fee18d9412019732eac663601d7c9d6822f8873ff2",
+      "before_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:006c847e78df9772a170ae3c5a3e231ef6f9bc5fa727453b866b8c70be6cbde4",
+      "after_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b43a34952cb3ab31a3e46ab54854dbee35d6675064aceb8141abc956a401544a",
+      "cron": "0 6 * * *",
+      "cpu": 0.5,
+      "memory": "1Gi",
+      "runtime": 1800
+    },
+    {
+      "name": "job-dia-graph-scan",
+      "patch_sha256": "35984b26d11976343a7fbee998d4be1eabd6c4eb4d27812e042724291733f3b7",
+      "before_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:006c847e78df9772a170ae3c5a3e231ef6f9bc5fa727453b866b8c70be6cbde4",
+      "after_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b43a34952cb3ab31a3e46ab54854dbee35d6675064aceb8141abc956a401544a",
+      "cron": "0 */6 * * *",
+      "cpu": 0.5,
+      "memory": "1Gi",
+      "runtime": 1800
+    }
+  ],
+  "validation": {
+    "status": "PASS",
+    "daily": {
+      "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-worker",
+      "cron": "0 6 * * *"
+    },
+    "graph": {
+      "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-graph-scan",
+      "cron": "0 */6 * * *"
+    },
+    "runtime_seconds": 1800
+  }
+}
