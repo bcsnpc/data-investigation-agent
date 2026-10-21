@@ -121,6 +121,7 @@ def handlers():
                 result=meter(measured)
                 ctx.record('native-result',result)
                 tape.finish(result)
+                ctx.record('sealed-tape',{'name':tape.path.name,'value':json.loads(tape.path.read_bytes())})
                 return result
         finally:meter.close()
     def smoke(plan,ctx):

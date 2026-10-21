@@ -78,3 +78,11 @@ response/result, with the expected image pin. It reports **BOUNDARY_ONLY** and
 Full scan semantic replay still needs a retained pre-scan graph-state baseline.
 New headers record BUILD_PHASE inside the configuration and the image pin in
 state; historical Tape bytes and their operating mode are untouched.
+
+`prepare_runner_probe.py` builds the non-secret deployment envelope from retained
+job/gateway/compiled-probe/slim-recording files. It narrows the original SQL grant
+to the exact endpoint/object, keeps its existing federated authentication and
+platform references, adds only the run-specific capture gateway declaration,
+and makes no network request. It requires the caller's newly published image
+digest and existing budget environment. A previous job image is a preparation
+template only: it cannot execute runner code absent from that image.
