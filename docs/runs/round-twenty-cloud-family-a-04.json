@@ -1,0 +1,70 @@
+{
+  "at": "2026-10-21",
+  "run_id": "round20-cloud-family-a-04",
+  "kind": "CLOUD_VERIFICATION",
+  "execution": "job-dia-worker-qefimdj",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:edb4214a12474205d419c148edb8053cd86748a87c4e80941d5289db9cc2b26c",
+  "azure_status": "Succeeded",
+  "capture_status": "COMPLETED_SEAL_VERIFIED",
+  "verification_status": "REFUSED",
+  "witness_counts": {
+    "VERIFIED": 15,
+    "UNVERIFIED": 1
+  },
+  "failed_observation": {
+    "error": "VERIFICATION_DEADLINE",
+    "error_type": "ValueError",
+    "side": "TARGET",
+    "status": "FAILED"
+  },
+  "accounting": {
+    "admission_enforcement": "EVERY_PHYSICAL_REQUEST_BY_SHARED_GOVERNOR",
+    "control_requests": 0,
+    "diagnostic_reads": 0,
+    "model_calls": 0,
+    "ownership": "EXACT_SESSION_AND_PREWARM_CONTROL_SESSION",
+    "pending_reservations": 0,
+    "physical_allowance": 3000,
+    "physical_requests": 72,
+    "verification_cap": 40,
+    "verification_physical_requests": 72,
+    "verification_reads": 33
+  },
+  "journal": {
+    "events": 1479,
+    "all_event_hashes_valid": true,
+    "consecutive_ordinals": true,
+    "last_kind": "FINAL",
+    "native_status": "COMPLETED",
+    "accounting": {
+      "admission_enforcement": "EVERY_PHYSICAL_REQUEST_BY_SHARED_GOVERNOR",
+      "control_requests": 0,
+      "diagnostic_reads": 0,
+      "model_calls": 0,
+      "ownership": "EXACT_SESSION_AND_PREWARM_CONTROL_SESSION",
+      "pending_reservations": 0,
+      "physical_allowance": 3000,
+      "physical_requests": 72,
+      "verification_cap": 40,
+      "verification_physical_requests": 72,
+      "verification_reads": 33
+    },
+    "outer_run_record_present": false
+  },
+  "outer_audit": {
+    "run_id": "round20-cloud-family-a-04",
+    "all_record_hashes_valid": true,
+    "seal_valid": true,
+    "records": 1753,
+    "result": null
+  },
+  "native_tape_sha256": "47ce3c7f6b5cf196141cde18dcc5505e091d14100bae81ad5ead2cd5c21426a6",
+  "runner_result": "DEMO_DEFERRED_FOR_DEADLINE",
+  "demo": "NOT_RUN",
+  "capture_representation": "EXACT_TABLE_DELTAS_V1",
+  "resources": {
+    "cpu": 0.5,
+    "memory": "1Gi"
+  },
+  "originals_unchanged": true
+}
