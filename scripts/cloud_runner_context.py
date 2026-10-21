@@ -127,5 +127,6 @@ def demo_after_verification(verification,plan,context,prepared):
         with local_azure_key(settings):
             demo=context.step('family-a-demo',lambda:run_form(workspace,read(plan['options']['demo_ticket'])))
     finally:
-        workspace.close()
+        close=getattr(workspace,'close',None)
+        if close is not None:close()
     return {'status':'DEMO_FINISHED','verification':verification,'demo':demo}

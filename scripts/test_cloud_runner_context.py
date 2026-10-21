@@ -104,3 +104,20 @@ class DemoSnapshotTests(unittest.TestCase):
             result=demo_after_verification(v,{},context,'prepared')
             self.assertIsNone(result['demo']);self.assertEqual(result['status'],'VERIFICATION_STOPPED')
         context.step.assert_not_called()
+
+    def test_real_workspace_shape_without_close_still_returns_delivered_demo(self):
+        from contextlib import nullcontext
+        from cloud_runner_context import demo_after_verification
+        context=SimpleNamespace(record=Mock(),step=lambda name,fn:fn())
+        workspace=SimpleNamespace(forms=object())
+        manifest={'model':{'credential':{'mode':'key_vault'},'endpoint':'https://model.example','deployment':'existing'}}
+        plan={'manifest':'estate.json','options':{'demo_ticket':'form.json'}}
+        verification={'status':'COMPLETED','verification_status':'VERIFIED'}
+        with patch('cloud_runner_context.install_private_snapshots',return_value={}), \
+             patch('cloud_runner_context.read',return_value={'description':'same retained family A'}), \
+             patch('investigator.estate_installation.build',return_value=(manifest,workspace)), \
+             patch('run_adaptive_investigation.local_azure_key',return_value=nullcontext()), \
+             patch('cloud_form_worker.run_form',return_value={'state':'COMPLETE','finding':'TRANSFORMATION_LOGIC'}):
+            result=demo_after_verification(verification,plan,context,'prepared')
+        self.assertEqual(result['status'],'DEMO_FINISHED')
+        self.assertEqual(result['demo']['state'],'COMPLETE')
