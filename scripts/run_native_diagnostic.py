@@ -47,7 +47,9 @@ def worker_failure(exc):
     return failure
 
 
-def execute(request,tenant,reader=None,authentication=None):
+def execute(request,tenant,reader=None,authentication=None,*,identity_observer=None):
+    if identity_observer is not None and (reader is None or not callable(identity_observer)):
+        raise ValueError('Native identity observer requires a bound reader')
     workspace=str(UUID(request['workspace']));model=str(UUID(request['native_model_id']))
     if reader is None:
         if (authentication or {}).get('mode')=='key_vault_user_cache':raise ValueError('Cached native reader identity required')
@@ -83,6 +85,12 @@ def execute(request,tenant,reader=None,authentication=None):
         claims=json.loads(base64.urlsafe_b64decode(part+'='*(-len(part)%4)))
         if claims.get('oid') != reader['principal_id']:
             raise ValueError('Native reader principal differs')
+        if identity_observer is not None:
+            # Trusted deployment observer only. Never forward the bearer,
+            # credential, roles, account claims or an arbitrary decoded object.
+            observed={key:claims[key] for key in ('aud','tid','oid','appid','azp')
+                      if isinstance(claims.get(key),str)}
+            identity_observer(observed)
     body={'queries':[{'query':request['query']}],'serializerSettings':{'includeNulls':True}}
     http=Request(f'https://api.powerbi.com/v1.0/myorg/groups/{workspace}/datasets/{model}/executeQueries',
                  data=json.dumps(body).encode(),headers={'Authorization':'Bearer '+token,'Content-Type':'application/json'})
