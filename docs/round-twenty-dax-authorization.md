@@ -55,6 +55,16 @@ service-side authorization cause is unestablished. No permission, tenant
 setting, identity, cache or schedule was changed. Owner inspection steps are
 in `owner-actions.md`; a broader grant is not justified by these receipts.
 
+DirectLake defaults to Entra SSO, but this model's actual connection SSO
+setting has not been read. Owner inspection: model Settings → Gateway and
+cloud connections → mapped connection → Authentication method and “Use SSO
+via Microsoft Entra ID for DirectQuery and Direct Lake queries.” Record the
+connection ID and checkbox value without changing them. An `Automatic`
+connection is consistent with the documented implicit SSO connection, but is
+not a readback of `credentialDetails.singleSignOnType`. See
+[DirectLake connection security](https://learn.microsoft.com/en-us/fabric/fundamentals/direct-lake-security-integration)
+and [connection metadata schema](https://learn.microsoft.com/en-us/rest/api/fabric/core/connections/get-connection).
+
 Private exact receipts remain under `.local/round-twenty/`: current control
 responses in `current-dax-authorization-controls.json`, and both run names'
 `-progress/` and `-audit.json` files. Monthly physical usage after the pair is
