@@ -157,7 +157,10 @@ class Collector:
                     def lakehouse_columns(item=item,aid=aid):
                         endpoint=f'workspaces/{workspace}/lakehouses/{item["id"]}'
                         body=self.call(endpoint)['text']
-                        if body.get('id')!=item['id']:raise ValueError('Lakehouse identity differs')
+                        if body.get('id')!=item['id'] or body.get('workspaceId')!=workspace:raise ValueError('Lakehouse identity differs')
+                        # Retain the native endpoint-to-container declaration already
+                        # read for this catalog call; listing labels are not a binding.
+                        self.replace_metadata(aid,body)
                         self.charge()
                         snapshot=self.lakehouse_catalog_reader(config,body)
                         if snapshot.get('scope')!='VISIBLE_OBJECTS_ONLY' or snapshot.get('complete_schema') is not False:
