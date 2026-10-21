@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-21",
+  "run_id": "round20-cloud-family-a-demo-01",
+  "execution_name": "job-dia-worker-17q6khq",
+  "image": "sha256:f6bffd260881680ff27b0d508c597eb9de5e67491538546edd93412ba110641b",
+  "status": "FAILED",
+  "reason": "PermissionError [Errno 13] Permission denied: '/app/.local'",
+  "outer_seal_valid": false,
+  "retained_outer_records": 19,
+  "native_captures": 0,
+  "estate_requests": 0,
+  "model_calls": 0,
+  "verification": {
+    "status": "NOT_VERIFIED",
+    "reason": "C5 NATIVE_DECLARED_ROUTE_NOT_VERIFIED; DAX HTTP401, Gold8765"
+  },
+  "same_image_replay": {
+    "status": "NOT_RUN",
+    "reason": "No native tape created"
+  },
+  "private_audit_sha256": "e2f4fd1f45035598feabb4ded1c1f8667a15d10b39b8f3634673167d5b52529d"
+}
