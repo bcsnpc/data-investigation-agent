@@ -46,6 +46,7 @@ class Meter:
         key=str(uuid4())
         self.usage.reserve(self.local,self.owner,key,'cloud',purpose=self.purpose)
         self.used += 1
+        ordinal=self.used
         uncertain=True;result=None;error_type=None
         try:
             result=execute();uncertain=False;return result
@@ -56,10 +57,10 @@ class Meter:
             observer=READ_OBSERVER.get()
             if observer is not None:
                 observation={'status':'FAILED' if uncertain else 'COMPLETED',
-                             'category':self.purpose,'ordinal':self.used}
+                             'category':self.purpose,'ordinal':ordinal}
                 if uncertain:observation['error_type']=error_type
                 else:observation['result']=result
-                observer('physical_read:'+str(self.used),observation)
+                observer('physical_read:'+str(ordinal),observation)
     def close(self): self.local.close()
 
 
