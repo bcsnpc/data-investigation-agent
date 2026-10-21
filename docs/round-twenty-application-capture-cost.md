@@ -1,0 +1,17 @@
+# Repeated application-table capture cost (offline, Round Twenty)
+
+The retained retry03 events show the dominant repeated history body is application state, not the budget delta. Events 424,440,469,485,512,528,557,573,600 and616 are `CONFIGURATION` / `shared_application:flexible_diagnostics`, each about13.15MB encoded and carrying1,458–1,462 historical rows. Example BUDGET_INPUT411 is556 bytes with `BUDGET_DELTA_V2,count=0`. Budget mirroring still fetches the full usage tables per reserve/settle, but these tapes do not establish that as the largest current delay.
+
+Four complete admission intervals431?476,476?519,519?564 and564?607 take51.755,44.367,47.408 and44.905 seconds. The two full flexible-diagnostics CONFIGURATION events within each interval account for20.43–20.59 seconds of the immediately following event gaps. Worker SEND gaps total7.56–14.42 seconds. Those timings include local serialization/audit/publication and subsequent local work, so they do not isolate Blob upload or database latency. They do establish substantial repeated-history overhead independently of SQL execution.
+
+Network-free profiling of event440 (9,855,344 decoded bytes,1,458 rows) measured1.602 seconds for `_safe` over the decoded configuration and2.308 seconds for `_safe` over its outer observer envelope. Serialization took.061 seconds, table validation.185, SQLite restore.018, export.012 and hashing.085. CPU is therefore a material cause; no claim assigns the entire cloud gap to CPU. Source event hash stayed unchanged. Profiles are local metadata only, with no row contents printed or copied into this document.
+
+## Smallest recording repair
+
+New shared captures explicitly declare `shared_application_capture=EXACT_TABLE_DELTAS_V1`. The first observed authority snapshot for each table remains complete. Subsequent observations record sorted rowid before/after changes, the prior exact snapshot hash, resulting exact snapshot hash and current authority revision. Schema or absent-table changes are explicit replacements. Replay reconstructs and validates the entire same table before existing application SQL runs. Invalid parent/before/after hashes, duplicate changes, malformed payloads and unknown versions refuse.
+
+Every live transaction still fetches the current authoritative PostgreSQL document and uses existing validation and optimistic write fencing. No historical row is removed, no authoritative write protocol changes, and no monthly budget admission or budget mirror changes. The difference is capture representation; histories stay reconstructible from baseline plus exact deltas. Tapes without the explicit marker use their original full-snapshot grammar and remain unchanged.
+
+On actual retained events440?469, the new representation contains one changed row:7,973 decoded bytes versus9,862,981 full bytes, an exact reconstruction. Offline build took.255 seconds, reconstruction/validation.451, and delta `_safe` .0036. This predicts a substantial capture saving, not a measured cloud speedup. The first full baseline, current PostgreSQL document fetches, commit checks and SQL latency remain.
+
+Tests cover real application connections and authoritative writes, concurrent revision fencing, exact replay without authority calls, legacy full event bytes, row insert/update/delete with REAL/null/JSON whitespace preserved, explicit replacement, and malformed/tampered deltas. The image's existing offline suite list includes the new tests. No estate, model, API, live budget or expectation was touched.

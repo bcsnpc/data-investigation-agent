@@ -189,7 +189,8 @@ class Connection:
                 if old is not None and old['rows']:
                     raise StateConflict('APPLICATION_MIGRATION_REQUIRED:'+table)
                 return {'revision': None, 'body': old}
-        saved = value('CONFIGURATION', 'shared_application:'+table, read)
+        from .shared_application_capture import read as capture_table
+        saved = capture_table(table,read)
         if set(saved) != {'revision', 'body'} or (saved['revision'] is not None and type(saved['revision']) is not int):
             raise StateConflict('APPLICATION_SNAPSHOT_SHAPE')
         validate_table(table, saved['body'])

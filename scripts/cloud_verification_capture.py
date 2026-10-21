@@ -85,6 +85,8 @@ class Capture:
   if shared_usage:
    from investigator.shared_application import VERSION as application_version
    state['shared_application']=application_version
+   from investigator.shared_application_capture import VERSION as capture_version
+   state['shared_application_capture']=capture_version
    from investigator.shared_usage_replay import declaration
    state['shared_usage_replay']=declaration(session)
   # Execute exactly the serialized representation replay will consume. Mapping

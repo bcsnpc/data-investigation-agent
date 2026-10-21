@@ -20,6 +20,7 @@ TEST_MODULES = (
     'test_run_database_audits.py', 'test_cloud_verification_window.py',
     'test_cloud_runner_context.py', 'test_unified_runner.py',
     'test_runner_graph_schedule.py', 'test_cloud_verification_capture.py',
+    'test_shared_application_capture.py',
 )
 
 

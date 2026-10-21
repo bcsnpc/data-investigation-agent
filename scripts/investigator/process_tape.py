@@ -233,6 +233,10 @@ class Tape:
                 fields.add('shared_application')
                 from .shared_application import VERSION as application_version
                 if state['shared_application']!=application_version:raise TapeError('TAPE_APPLICATION_STATE_VERSION')
+            if 'shared_application_capture' in state:
+                fields.add('shared_application_capture')
+                from .shared_application_capture import validate_marker
+                validate_marker(state)
             if 'shared_usage_replay' in state:
                 fields.add('shared_usage_replay')
                 from .shared_usage_replay import validate_workspace
