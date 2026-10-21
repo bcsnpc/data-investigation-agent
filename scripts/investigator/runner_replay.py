@@ -59,5 +59,10 @@ def replay(options,output):
         source=root/'acceptance/unknown_domain/recorded_engine.py'
         spec=importlib.util.spec_from_file_location('runner_recorded_engine',source)
         module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
-        return module.replay_revision(options['tape'],output,options['engine_revision'],estate_manifest=options.get('manifest'))
+        # A slim pointer may need authenticated platform CAS restoration. Do
+        # that in the parent; the isolated replay child remains socket-disabled
+        # and receives a raw tape with all exact dependencies already present.
+        from .slim_recording import materialize
+        with materialize(options['tape']) as restored:
+            return module.replay_revision(restored,output,options['engine_revision'],estate_manifest=options.get('manifest'))
     raise ValueError('RUNNER_REPLAY_FORMAT_UNSUPPORTED:'+str(kind))
