@@ -138,7 +138,9 @@ def admission(body):
     state = configured_state()
     if state is not None:
         from .shared_spend import SharedSpendBudget
-        budget = SharedSpendBudget(state, int(os.environ['INVESTIGATOR_MODEL_SPEND_MICRODOLLARS']))
+        from .build_phase import active, MODEL_MICRODOLLARS
+        ceiling = MODEL_MICRODOLLARS if active() else int(os.environ['INVESTIGATOR_MODEL_SPEND_MICRODOLLARS'])
+        budget = SharedSpendBudget(state, ceiling)
         identity = budget.reserve(body)
         try:
             yield lambda usage: boundary('MODEL_SPEND_SETTLE',lambda:budget.settle(identity, usage))
@@ -151,7 +153,9 @@ def admission(body):
         if active():raise SpendHold('MONTHLY_MODEL_LEDGER_REQUIRED')
         yield lambda usage: None
         return
-    budget = SpendBudget(path, int(os.environ['INVESTIGATOR_MODEL_SPEND_MICRODOLLARS']))
+    from .build_phase import active, MODEL_MICRODOLLARS
+    ceiling = MODEL_MICRODOLLARS if active() else int(os.environ['INVESTIGATOR_MODEL_SPEND_MICRODOLLARS'])
+    budget = SpendBudget(path, ceiling)
     identity = budget.reserve(body)
     try:
         yield lambda usage: boundary('MODEL_SPEND_SETTLE',lambda:budget.settle(identity, usage))

@@ -111,6 +111,16 @@ class MonthlyTests(unittest.TestCase):
             opening=state.get('build_phase_account_opening','model-microdollars:2026-10')['body']
             self.assertEqual(opening['historical_total_microdollars_informational'],'107957725')
 
+    def test_cloud_monthly_admission_needs_no_obsolete_round_dollar_environment(self):
+        from investigator.shared_state import SharedState
+        from investigator.model_spend import admission,SpendBudget
+        with tempfile.TemporaryDirectory() as folder:
+            state=SharedState.offline(Path(folder)/'state.sqlite');state.migrate()
+            with patch.dict(os.environ,{'INVESTIGATOR_WORKER_ID':'synthetic'},clear=True), b.operating_mode(), patch('investigator.shared_state.configured_state',return_value=state), patch.object(SpendBudget,'price',return_value=1000), patch('time.time',return_value=instant('2026-10-21')):
+                with admission({'input':'synthetic','max_output_tokens':1000}) as settle:
+                    settle({'input_tokens':1,'output_tokens':1})
+            self.assertEqual(state.snapshot('model-microdollars:2026-10')['charged'],'1000')
+
     def test_shared_model_40_dollars_stops_not_other_work(self):
         from investigator.shared_state import SharedState
         from investigator.shared_spend import SharedSpendBudget
