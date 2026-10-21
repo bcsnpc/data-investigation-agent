@@ -1,4 +1,5 @@
 import copy,json,tempfile,unittest
+import subprocess
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -53,5 +54,20 @@ class ScheduleTests(unittest.TestCase):
         self.assertEqual(result['status'],'APPLIED')
         self.assertEqual(len(calls),2)
         self.assertEqual(calls[1][:5],['python','-m','azure.cli','rest','--method'])
+    def test_patch_failure_retains_exact_safe_stderr_after_successful_show(self):
+        from investigator.adapters.control_failure import ControlCommandFailure
+        config,job=self.config();calls=[]
+        stderr='ERROR: (InvalidRequestContent) The request content was invalid.\r\nAdditional detail: expected properties.\r\n'
+        def execute(argv,**kwargs):
+            calls.append(argv)
+            if len(calls)==1:return SimpleNamespace(stdout=json.dumps(job))
+            raise subprocess.CalledProcessError(1,argv,output='{"error":{"code":"InvalidRequestContent"}}\n',stderr=stderr)
+        with patch.dict('sys.modules',{'investigator.build_phase':SimpleNamespace(admit_platform=lambda *a:None)}),self.assertRaises(ControlCommandFailure) as caught:
+            apply(config,execute=execute)
+        self.assertEqual(len(calls),2)
+        self.assertEqual(caught.exception.receipt['operation'],'schedule-patch')
+        self.assertEqual(caught.exception.receipt['stderr'],stderr)
+        self.assertFalse(caught.exception.receipt['stderr_redacted'])
+        self.assertTrue(caught.exception.__suppress_context__)
 
 if __name__=='__main__':unittest.main()

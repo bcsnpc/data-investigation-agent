@@ -57,6 +57,7 @@ def plan(config,existing):
 
 def apply(config,*,execute=subprocess.run):
     from ..build_phase import admit_platform
+    from .control_failure import execute_checked
     observation=config.get('platform_cost_observation')
     admit_platform(observation['charged_microdollars'] if observation else None,__import__('time').time())
     cli=config['deployment']['cli'];resource=config['deployment']['resource_id']
@@ -64,11 +65,11 @@ def apply(config,*,execute=subprocess.run):
     if not (cli==['az'] or isinstance(cli,list) and len(cli)==3 and cli[1:]==['-m','azure.cli'] and re.fullmatch(r'python(?:[0-9.]*)?(?:\.exe)?',Path(cli[0]).name,re.I)):raise ValueError('RUNNER_FIXED_AZURE_CLI_REQUIRED')
     # CLI is already checked by the runner loader / deployment schema; never a
     # shell string, owner command, policy endpoint, or arbitrary executable.
-    response=execute(cli+['containerapp','job','show','--ids',resource,'--output','json','--only-show-errors'],capture_output=True,text=True,check=True)
+    response=execute_checked(execute,cli+['containerapp','job','show','--ids',resource,'--output','json','--only-show-errors'],operation='schedule-show',capture_output=True,text=True,check=True)
     prepared=plan(config,json.loads(response.stdout))
     with tempfile.TemporaryDirectory(prefix='dia-smoke-schedule-') as folder:
         path=Path(folder)/'patch.json';path.write_bytes(bytes_of(prepared['body']))
-        response=execute(cli+['rest','--method','PATCH','--url',prepared['url'],'--body','@'+str(path),'--output','json','--only-show-errors'],capture_output=True,text=True,check=True)
+        response=execute_checked(execute,cli+['rest','--method','PATCH','--url',prepared['url'],'--body','@'+str(path),'--output','json','--only-show-errors'],operation='schedule-patch',capture_output=True,text=True,check=True)
     after=json.loads(response.stdout)
     actual=after['properties']['configuration']['scheduleTriggerConfig']
     if actual!=prepared['new_schedule']:raise ValueError('RUNNER_DAILY_SCHEDULE_READBACK_DIFFERS')
