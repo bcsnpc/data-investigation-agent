@@ -31,8 +31,8 @@ No bearer token or credential was recorded. Audience and tenant match the
 configured Power BI resource and model tenant; this is not the former user
 cache or SQL login.
 
-Existing isolated administrator credentials were used only for seven
-read-only control-plane requests, all HTTP 200; the administrator did not
+The current saved administrator control snapshot contains seven
+read-only control-plane responses, all HTTP 200; the administrator did not
 query estate data. Dataset users list the investigator directly with `Read`
 and security group `79c75be9-d8c3-4824-91c2-fc945041a8c3`
 (`dia-investigator-round19-api-readers`) with `ReadExplore` (Read + Build).

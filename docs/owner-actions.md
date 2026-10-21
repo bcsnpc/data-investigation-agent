@@ -76,3 +76,19 @@ Both fresh cloud requests (original and without INFO.PROPERTIES) return HTTP401 
 Owner checks in the Fabric tenant: (1) select workspace149f8d99-1c66-4a0a-9624-759be002bb60/model3484a2bc-98c5-4cef-be5c-a6215484075e, open Manage permissions, confirm dia-investigator-round19-api-readers has Read and Build; (2) Fabric Admin portal ? Tenant settings ? Service principals can use Fabric/Power BI APIs and Dataset Execute Queries REST API, confirm enabled and no security-group exclusion of79c75be9-d8c3-4824-91c2-fc945041a8c3; (3) inspect model Security and data-source SSO configuration: Microsoft does not support Execute Queries by service principal for RLS/SSO datasets. Report the actual setting before proposing a change. Do not disable RLS/SSO, add write, impersonate a user, or broaden workspace scope to obtain a demonstration. If all agree, retain the request IDs/service error for Microsoft support; the remaining cause is not established by HTTP401 alone. Continue unrelated engineering meanwhile.
 
 Specific remaining model inspection: Settings ? Gateway and cloud connections ? mapped cloud connection ? Authentication method and “Use SSO via Microsoft Entra ID for DirectQuery and Direct Lake queries.” Record connection ID and SSO checkbox value, without toggling/rebinding it. DirectLake defaults to SSO; Automatic is consistent with an implicit connection but is not an actual singleSignOnType readback. https://learn.microsoft.com/en-us/fabric/fundamentals/direct-lake-security-integration and https://learn.microsoft.com/en-us/rest/api/fabric/core/connections/get-connection .
+
+
+### 2026-10-21: provision approved monthly model policy without elevating worker
+
+Demo04 final catalog retains InsufficientPrivilege at build_phase.ensure_model_account INSERT into state_accounts. Worker intentionally has SELECT and column-level UPDATE, not INSERT. Monthly-budget code wrongly assumed it could create policy. Fix: explicit MONTHLY_MODEL_ACCOUNT_NOT_PROVISIONED hold. Do not grant account INSERT to worker.
+
+Existing owner migration connection timed out on three attempts. Current outward IP184.105.12.85 differs from existing OwnerCurrentIp firewall209.240.14.44. This supports a network cause, not proof of a password/role defect. No firewall, role, identity or server setting changed; no account was created by failed attempts.
+
+From an already allowed owner host, or Azure Cloud Shell using existing AllowAzureServices, sign in as the existing subscription owner and run:
+
+```powershell
+$env:PYTHONPATH='scripts'
+python scripts/provision_model_month.py --host pg-dia-d5dd7d65.postgres.database.azure.com --database investigator --owner leelamounika14@gmail.com
+```
+
+Uses existing owner Entra token in memory; creates only current UTC month's approved $40 account and opening audit if absent. Preserves all history; prints bounded counters, no token. No permission grant or credential storage. Repeat as owner setup at month boundary; automated least-privilege rollover is future work. A firewall update, if chosen, needs a separate owner network decision; do not widen automatically.

@@ -16,6 +16,27 @@ def instant(value):
 
 
 class MonthlyTests(unittest.TestCase):
+    def test_live_worker_never_creates_its_own_monthly_policy(self):
+        from contextlib import nullcontext
+        from unittest.mock import Mock
+        from investigator.model_spend import SpendHold
+        state=Mock(backend='postgresql')
+        state.transaction.return_value=nullcontext(object())
+        state.sql.return_value.fetchone.return_value=None
+        with self.assertRaisesRegex(SpendHold,'MONTHLY_MODEL_ACCOUNT_NOT_PROVISIONED:model-microdollars:2026-10'):
+            b.ensure_model_account(state,instant('2026-10-21'))
+        self.assertEqual(state.sql.call_count,1)
+        self.assertTrue(state.sql.call_args.args[1].startswith('SELECT '))
+
+    def test_preprovisioned_policy_needs_no_account_insert_privilege(self):
+        from contextlib import nullcontext
+        from unittest.mock import Mock
+        state=Mock(backend='postgresql')
+        state.transaction.return_value=nullcontext(object())
+        state.sql.return_value.fetchone.return_value=(1,)
+        self.assertEqual(b.ensure_model_account(state,instant('2026-10-21')),'model-microdollars:2026-10')
+        self.assertEqual(state.sql.call_count,1)
+
     def rows(self, number, category='INVESTIGATION', at='2026-10-20'):
         row={'environment':'synthetic','session_id':'session','reservation_key':'slot',
              'reserved':json.dumps({'cloud_calls':number}), 'created':instant(at)}

@@ -152,7 +152,7 @@ def admit_platform(charged, now):
     return status
 
 
-def ensure_model_account(state, now):
+def ensure_model_account(state, now, *, provision=False):
     """Fresh period account, with pre-adoption history retained informationally."""
     from .shared_state import sha, encoded
     month, _, _ = month_window(now)
@@ -160,6 +160,12 @@ def ensure_model_account(state, now):
     with state.transaction() as db:
         if state.sql(db, 'SELECT 1 FROM state_accounts WHERE identity=?', (account,)).fetchone():
             return account
+        # The live worker deliberately cannot INSERT accounts: that would let
+        # it create its own spending policy. Only the existing owner migration
+        # path provisions monthly policy, never a worker or an elevated retry.
+        if state.backend == 'postgresql' and not provision:
+            from .model_spend import SpendHold
+            raise SpendHold('MONTHLY_MODEL_ACCOUNT_NOT_PROVISIONED:'+account)
         source = None
         if month == ADOPTED_AT[:7]:
             try:
