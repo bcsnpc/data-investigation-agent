@@ -44,6 +44,9 @@ def probe(path):
 
 def replay(options,output):
     kind=options.get('format','verification')
+    if kind=='value-verification':
+        from cloud_value_execution import replay as execute
+        return execute(options['tape'])
     if kind=='verification':
         from cloud_verification_capture import replay as execute
         return execute(options['capture'],output)
