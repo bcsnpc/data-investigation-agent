@@ -36,7 +36,8 @@ def plan(config,existing):
     if config['checks'][schedule['target']]['kind']!='smoke' or config.get('per_execution')is not True:raise ValueError('RUNNER_DAILY_UNIQUE_SMOKE_REQUIRED')
     if existing['id']!=config['deployment']['resource_id']:raise ValueError('RUNNER_SCHEDULE_EXISTING_JOB_DIFFERS')
     estimate=schedule_plan(resource_id=existing['id'],image=config['image'],platform_monthly_usd=schedule['platform_monthly_usd'],smoke_monthly_usd=schedule['smoke_monthly_usd'])
-    template=copy.deepcopy(existing['properties']['template'])
+    from .runner_deployment import writable_template
+    template=writable_template(existing['properties']['template'])
     if len(template.get('containers',[]))!=1:raise ValueError('RUNNER_SINGLE_EXISTING_WORKER_REQUIRED')
     container=template['containers'][0];overrides=config.get('environment',{})
     env=[v for v in container.get('env',[]) if v['name'] not in {*overrides,'DIA_RUNNER_ESTATE_JSON','INVESTIGATOR_OPERATING_MODE'}]
@@ -44,7 +45,7 @@ def plan(config,existing):
     env.extend([{'name':'DIA_RUNNER_ESTATE_JSON','value':json.dumps(config,sort_keys=True)},
                 {'name':'INVESTIGATOR_OPERATING_MODE','value':'BUILD_PHASE'}])
     container.update(image=config['image'],command=command('/work/runner-estate.json',schedule['target']),args=[],env=env)
-    settings=copy.deepcopy(existing['properties']['configuration'])
+    settings={k:copy.deepcopy(v) for k,v in existing['properties']['configuration'].items() if k in ('eventTriggerConfig','identitySettings','manualTriggerConfig','registries','replicaRetryLimit','replicaTimeout','scheduleTriggerConfig','secrets','triggerType')}
     previous=copy.deepcopy(settings.get('scheduleTriggerConfig'))
     settings.pop('manualTriggerConfig',None);settings.pop('eventTriggerConfig',None)
     settings.update(triggerType='Schedule',scheduleTriggerConfig={'cronExpression':'0 6 * * *','parallelism':1,'replicaCompletionCount':1},replicaTimeout=1800,replicaRetryLimit=0)

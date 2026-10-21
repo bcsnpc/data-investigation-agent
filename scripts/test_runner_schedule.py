@@ -54,6 +54,16 @@ class ScheduleTests(unittest.TestCase):
         self.assertEqual(result['status'],'APPLIED')
         self.assertEqual(len(calls),2)
         self.assertEqual(calls[1][:5],['python','-m','azure.cli','rest','--method'])
+    def test_get_only_image_type_is_not_echoed_into_patch(self):
+        config,job=self.config()
+        job['properties']['template']['containers'][0]['imageType']='ContainerImage'
+        job['properties']['configuration']['dapr']=None
+        before=copy.deepcopy(job);result=plan(config,job)
+        self.assertNotIn('imageType',result['body']['properties']['template']['containers'][0])
+        self.assertNotIn('dapr',result['body']['properties']['configuration'])
+        self.assertEqual(job,before)
+        self.assertEqual(result['body']['properties']['template']['containers'][0]['image'],config['image'])
+
     def test_patch_failure_retains_exact_safe_stderr_after_successful_show(self):
         from investigator.adapters.control_failure import ControlCommandFailure
         config,job=self.config();calls=[]

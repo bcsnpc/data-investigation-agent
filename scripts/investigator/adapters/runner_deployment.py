@@ -22,7 +22,7 @@ def launch(config,target,*,execute=subprocess.run):
     if not (cli==['az'] or isinstance(cli,list) and len(cli)==3 and cli[1:]==['-m','azure.cli'] and re.fullmatch(r'python(?:[0-9.]*)?(?:\.exe)?',Path(cli[0]).name,re.I)):raise ValueError('RUNNER_FIXED_AZURE_CLI_REQUIRED')
     base=cli+['containerapp','job']
     read=execute(base+['show','--ids',resource,'--output','json','--only-show-errors'],capture_output=True,text=True,check=True)
-    job=json.loads(read.stdout);template=copy.deepcopy(job['properties']['template'])
+    job=json.loads(read.stdout);template=writable_template(job['properties']['template'])
     if len(template.get('containers',[]))!=1:raise ValueError('RUNNER_SINGLE_EXISTING_WORKER_REQUIRED')
     container=template['containers'][0]
     container['image']=config['image'];container['command']=command('/work/runner-estate.json',target);container['args']=[]
@@ -45,3 +45,14 @@ def launch(config,target,*,execute=subprocess.run):
 
 def existing_job(resource_id):
     return bool(re.fullmatch(r'/subscriptions/[0-9a-fA-F-]{36}/resourceGroups/[A-Za-z0-9_.()-]+/providers/Microsoft\.App/jobs/[a-z0-9-]+',resource_id))
+
+
+# ARM 2025-01-01 JobTemplate/Container request schema. GET enrichment such
+# as imageType is not accepted by PATCH and must never be echoed back.
+def writable_template(value):
+    template={k:copy.deepcopy(v) for k,v in value.items() if k in ('containers','initContainers','volumes')}
+    fields={'name','image','command','args','env','resources','volumeMounts','probes'}
+    for group in ('containers','initContainers'):
+        if template.get(group) is not None:
+            template[group]=[{k:v for k,v in row.items() if k in fields and (group!='initContainers' or k!='probes')} for row in template[group]]
+    return template
