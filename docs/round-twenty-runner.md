@@ -86,3 +86,18 @@ platform references, adds only the run-specific capture gateway declaration,
 and makes no network request. It requires the caller's newly published image
 digest and existing budget environment. A previous job image is a preparation
 template only: it cannot execute runner code absent from that image.
+
+Daily smoke uses `per_execution: true`. Immediately after loading the trusted
+template, and before installing its gateway, the worker gives the execution one
+fresh identifier and binds only that template's exact account/prefix/run-id
+capture grant to it. The health row and capture use the same identifier. This
+avoids a second day's create-only uploads colliding with the first day's files.
+`INVESTIGATOR_WORKER_ID` is set to that actual identifier for shared accounting.
+
+`dia schedule --estate <runner-config> --existing-job <retained-job.json>` plans
+the existing job change and verifies the supplied monthly cost estimate first.
+`--apply` uses the fixed existing Azure CLI profile, reads the job, PATCHes its
+configuration/template only, and checks the returned schedule. It changes the
+existing six-hourly metadata cron to daily **06:00 UTC** smoke; it creates no job
+or role. The owner explicitly directed that replacement. The schedule plan
+records the prior cron and the projected combined platform cost.
