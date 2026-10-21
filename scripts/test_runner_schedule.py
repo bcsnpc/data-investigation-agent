@@ -43,17 +43,22 @@ class ScheduleTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'EXCEEDS_PLATFORM'):plan(config,job)
     def test_apply_uses_existing_cli_and_readback_no_new_role_or_identity(self):
         config,job=self.config();calls=[]
+        after=None
         def execute(argv,**kwargs):
+            nonlocal after
             calls.append(argv)
-            if 'show' in argv:return SimpleNamespace(stdout=json.dumps(job))
+            if 'show' in argv:return SimpleNamespace(stdout=json.dumps(after or job))
             body=json.loads(Path(argv[argv.index('--body')+1][1:]).read_bytes())
             self.assertEqual(set(body),{'properties'})
-            return SimpleNamespace(stdout=json.dumps({'properties':body['properties']}))
+            after={'properties':body['properties']}
+            return SimpleNamespace(stdout='')
         with patch.dict('sys.modules',{'investigator.build_phase':SimpleNamespace(admit_platform=lambda *a:None)}):
             result=apply(config,execute=execute)
         self.assertEqual(result['status'],'APPLIED')
-        self.assertEqual(len(calls),2)
+        self.assertEqual(len(calls),3)
         self.assertEqual(calls[1][:5],['python','-m','azure.cli','rest','--method'])
+        self.assertIn('show',calls[2]);self.assertEqual(result['readback_attempts'],1)
+
     def test_get_only_image_type_is_not_echoed_into_patch(self):
         config,job=self.config()
         job['properties']['template']['containers'][0]['imageType']='ContainerImage'
@@ -63,6 +68,26 @@ class ScheduleTests(unittest.TestCase):
         self.assertNotIn('dapr',result['body']['properties']['configuration'])
         self.assertEqual(job,before)
         self.assertEqual(result['body']['properties']['template']['containers'][0]['image'],config['image'])
+
+    def test_async_patch_polls_updating_twice_without_repeating_patch(self):
+        config,job=self.config();calls=[];waits=[];after=None;readbacks=0
+        def execute(argv,**kwargs):
+            nonlocal after,readbacks
+            calls.append(argv)
+            if 'show' in argv:
+                if after is None:return SimpleNamespace(stdout=json.dumps(job))
+                readbacks+=1
+                result=copy.deepcopy(after)
+                result['properties']['provisioningState']='Updating' if readbacks<3 else 'Succeeded'
+                return SimpleNamespace(stdout=json.dumps(result))
+            body=json.loads(Path(argv[argv.index('--body')+1][1:]).read_bytes())
+            after={'properties':body['properties']}
+            return SimpleNamespace(stdout='')
+        with patch.dict('sys.modules',{'investigator.build_phase':SimpleNamespace(admit_platform=lambda *a:None)}):
+            result=apply(config,execute=execute,sleep=waits.append)
+        self.assertEqual(waits,[30,45]);self.assertEqual(result['readback_attempts'],3)
+        self.assertEqual(len(calls),5)
+        self.assertEqual(sum('PATCH' in call for call in calls),1)
 
     def test_patch_failure_retains_exact_safe_stderr_after_successful_show(self):
         from investigator.adapters.control_failure import ControlCommandFailure

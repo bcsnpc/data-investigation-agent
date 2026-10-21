@@ -4,6 +4,7 @@ import json
 import subprocess
 import tempfile
 import re
+import time
 from pathlib import Path
 from ..process_tape import bytes_of,uuid4
 from ..planner_recording import _safe
@@ -56,7 +57,7 @@ def plan(config,existing):
             'cost':estimate,'new_resources':[]}
 
 
-def apply(config,*,execute=subprocess.run):
+def apply(config,*,execute=subprocess.run,sleep=time.sleep):
     from ..build_phase import admit_platform
     from .control_failure import execute_checked
     observation=config.get('platform_cost_observation')
@@ -71,7 +72,15 @@ def apply(config,*,execute=subprocess.run):
     with tempfile.TemporaryDirectory(prefix='dia-smoke-schedule-') as folder:
         path=Path(folder)/'patch.json';path.write_bytes(bytes_of(prepared['body']))
         response=execute_checked(execute,cli+['rest','--method','PATCH','--url',prepared['url'],'--body','@'+str(path),'--output','json','--only-show-errors'],operation='schedule-patch',capture_output=True,text=True,check=True)
-    after=json.loads(response.stdout)
-    actual=after['properties']['configuration']['scheduleTriggerConfig']
-    if actual!=prepared['new_schedule']:raise ValueError('RUNNER_DAILY_SCHEDULE_READBACK_DIFFERS')
-    return {k:v for k,v in prepared.items()if k!='body'}|{'status':'APPLIED','actual_schedule':actual}
+    # PATCH can return HTTP 202 with no body. It is a submission receipt, not
+    # the resource readback; never parse it or repeat the mutation to poll.
+    for attempt in range(3):
+        response=execute_checked(execute,cli+['containerapp','job','show','--ids',resource,'--output','json','--only-show-errors'],operation='schedule-readback',capture_output=True,text=True,check=True)
+        after=json.loads(response.stdout)
+        actual=after['properties']['configuration']['scheduleTriggerConfig']
+        state=after['properties'].get('provisioningState')
+        pending=state in ('Updating','InProgress','Accepted','Provisioning')
+        if actual==prepared['new_schedule'] and not pending:
+            return {k:v for k,v in prepared.items()if k!='body'}|{'status':'APPLIED','actual_schedule':actual,'readback_attempts':attempt+1,'provisioning_state':state}
+        if not pending or attempt==2:raise ValueError('RUNNER_DAILY_SCHEDULE_READBACK_DIFFERS')
+        sleep(30+15*attempt)
