@@ -23,7 +23,8 @@ PUBLIC_ENV=frozenset(('DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JS
 def load(path):
     value=json.loads(Path(path).read_bytes())
     required={'version','manifest','image','capture','checks','output_root'}
-    if not isinstance(value,dict) or not required<=set(value)<=required|{'bootstrap','run_id','input','platform_cost_observation','deployment','environment'} or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
+    if not isinstance(value,dict) or not required<=set(value)<=required|{'bootstrap','run_id','input','platform_cost_observation','deployment','environment','per_execution','schedule'} or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
+    if 'per_execution' in value and type(value['per_execution'])is not bool:raise ValueError('RUNNER_PER_EXECUTION_FLAG')
     if not isinstance(value.get('environment',{}),dict) or not set(value.get('environment',{}))<=PUBLIC_ENV or any(not isinstance(v,str) for v in value.get('environment',{}).values()):raise ValueError('RUNNER_PUBLIC_ENVIRONMENT')
     if 'run_id' in value and not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',value['run_id']):raise ValueError('RUN_ID_INVALID')
     if not re.fullmatch(r'[^\s]+@sha256:[0-9a-f]{64}',value['image']):raise ValueError('RUNNER_PINNED_IMAGE_REQUIRED')
@@ -157,11 +158,12 @@ def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     sink=put or blob_sink(config['capture'])
     ctx=DurableCapture(Path(config['output_root'])/run_id,sink,run_id=run_id,bootstrap=bootstrap)
     registry=registry or handlers()
-    keys=('INVESTIGATOR_OPERATING_MODE','INVESTIGATOR_BUDGET_CATEGORY')
+    keys=('INVESTIGATOR_OPERATING_MODE','INVESTIGATOR_BUDGET_CATEGORY','INVESTIGATOR_WORKER_ID')
     previous={key:os.environ.get(key) for key in keys}
     try:
         with ctx.observing():
             os.environ['INVESTIGATOR_OPERATING_MODE']='BUILD_PHASE'
+            os.environ['INVESTIGATOR_WORKER_ID']=run_id
             os.environ['INVESTIGATOR_BUDGET_CATEGORY']='SCAN' if check['kind'] in ('scan','smoke') else 'INVESTIGATION'
             from scan_estate_graph import READ_OBSERVER
             observer_token=READ_OBSERVER.set(lambda label,value:ctx.record('physical-result',{'label':label,**value}))
@@ -216,6 +218,8 @@ def main(args):
             if not path.exists():
                 with path.open('xb') as stream:stream.write(raw)
         config=load(args.estate)
+        from .adapters.runner_schedule import bind_execution
+        config=bind_execution(config)
         for name,value in config.get('environment',{}).items():os.environ[name]=value
         install()
         try:result=run(config,args.target)
