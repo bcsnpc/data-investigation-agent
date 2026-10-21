@@ -22,6 +22,8 @@ def snapshot(source,destination):
   _safe(value if isinstance(value,bytes) else json.dumps(value,ensure_ascii=False).encode())
  source=Path(source);destination=Path(destination)
  if not source.exists():return None
+ from investigator.run_database_audits import detector_identity,certify_snapshot
+ guard=detector_identity(_safe)
  with closing(sqlite3.connect(':memory:')) as retained:
   with closing(sqlite3.connect(source.resolve().as_uri()+'?mode=ro',uri=True)) as db:
    db.backup(retained)
@@ -47,8 +49,11 @@ def snapshot(source,destination):
       except UnicodeDecodeError:raw=value
       batch.individual(raw)
    batch.flush()
+  if detector_identity(_safe)!=guard:raise ValueError('AUDIT_ENVIRONMENT_CHANGED')
   with closing(sqlite3.connect(destination)) as output:retained.backup(output)
- return hashlib.sha256(destination.read_bytes()).hexdigest()
+ result=sha(destination)
+ certify_snapshot(destination,_safe,guard,result)
+ return result
 
 def load_program(path):
  spec=importlib.util.spec_from_file_location('sealed_verification_program',path)

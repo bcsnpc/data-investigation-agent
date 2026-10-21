@@ -1,6 +1,6 @@
 # Per-run reuse of successful SQLite credential audits (proposal)
 
-No production cache is implemented by this note. The first capture's repeated full-catalog audits can dominate the worker lifetime even after batching: retaining the prepared catalog, snapshotting it, retaining both the capture baseline and working copy, then retaining baseline/working/after copies after execution. Byte-identical copies do not gain security from repeating the same successful detector against the same secret environment.
+Implementation now uses an explicit per-run in-memory scope; the requirements below remain its trust boundary. The first capture's repeated full-catalog audits can dominate the worker lifetime even after batching: retaining the prepared catalog, snapshotting it, retaining both the capture baseline and working copy, then retaining baseline/working/after copies after execution. Byte-identical copies do not gain security from repeating the same successful detector against the same secret environment.
 
 ## Required trust boundary
 
@@ -30,3 +30,12 @@ The smallest safe first implementation keeps distinct profile keys and deduplica
 - Instrument the production audit and retention paths with a synthetic SQLite fixture, not only a cache unit double. Prove unchanged CAS bytes/manifest identity and fewer full detector passes.
 
 Expected benefit is fewer repeated detector passes, not fewer physical/model requests or a larger time allowance. Every newly changed catalog (including the post-execution accounting mutation) still needs one complete audit. Keep the 1,800-second hard job limit and all native-read limits unchanged.
+
+
+## Implemented boundary and validation
+
+`investigator.run_database_audits.scope` is entered by `unified_runner.run` and reset on every exit; transient retry failures invalidate all previous successes. The stage audit's key is `(full SHA-256, explicit stage profile, detector callable, hashed current credential environment)`. The environment classifier is shared directly with `_safe`, rather than independently inferred. Every lookup rehashes all bytes; links and SQLite sidecars refuse, and successful full audits require identical before/after file and environment identities. No receipt, tape or persisted file can populate this set.
+
+Snapshot still always audits its in-memory database before writing a destination. Its schema and string checks plus raw/normalized BLOB checks form a superset of the stage profile; after successful destination backup and exact destination hashing it can register that written file for stage reuse. No trust is registered from the unexamined source main file. A changed catalog still receives a full snapshot audit. This reuses successful detector work only, not SQLite state, accounting, CAS bytes or evidence claims.
+
+The production retention regression writes real synthetic SQLite databases and real local CAS objects. Before/after retention of identical baseline and working files runs the full stage detector once instead of four times; both manifests and restored bytes remain exact. Other tests cover same-size mutation, new credential environment, changed environment during audit, new run/profile/detector, sidecars before/during audit, failed audit, schema-only credentials, raw/escaped/binary secrets before destination write, unchanged source hashes, retry invalidation and run-scope exit.

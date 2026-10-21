@@ -42,6 +42,11 @@ AUDIT_BATCH_BYTES=256*1024
 
 
 def audit_database(path,*,progress=None):
+ from investigator.run_database_audits import checked,STAGE
+ return checked(path,STAGE,_safe,lambda:_audit_database_values(path,progress=progress))
+
+
+def _audit_database_values(path,*,progress=None):
  """Audit complete normalized cell values in bounded JSON batches.
  A large cell takes the original individual path, and bytes are always audited
  individually. Batching changes no normalization or secret detector. Nothing is

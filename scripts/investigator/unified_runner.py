@@ -64,6 +64,8 @@ def retry(call,*,record,sleep=time.sleep):
     for attempt in range(3):
         try:return call()
         except Exception as exc:
+            from .run_database_audits import invalidate
+            invalidate()
             record('attempt-failure',{'attempt':attempt+1,'error_type':type(exc).__name__,'message':str(exc),'retry':attempt<2 and transient(exc)})
             if attempt==2 or not transient(exc):raise
             sleep(30+15*attempt)
@@ -163,6 +165,11 @@ def handlers():
     return {'verification':verification,'investigation':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke}
 
 def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
+    from .run_database_audits import scope
+    with scope():return _run(config,target,registry=registry,put=put,sleep=sleep,run_id=run_id)
+
+
+def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     started_at=time.time()
     check=config['checks'].get(target)
     if check is None and Path(target).is_file():
