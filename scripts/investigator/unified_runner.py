@@ -114,6 +114,8 @@ def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     sink=put or blob_sink(config['capture'])
     ctx=DurableCapture(Path(config['output_root'])/run_id,sink,run_id=run_id,bootstrap=config['bootstrap'])
     registry=registry or handlers()
+    keys=('INVESTIGATOR_OPERATING_MODE','INVESTIGATOR_BUDGET_CATEGORY')
+    previous={key:os.environ.get(key) for key in keys}
     try:
         with ctx.observing():
             os.environ['INVESTIGATOR_OPERATING_MODE']='BUILD_PHASE'
@@ -123,7 +125,8 @@ def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
                 nonlocal attempt
                 attempt+=1
                 root=ctx.root/('attempt-'+str(attempt));root.mkdir()
-                view=SimpleNamespace(root=root,record=ctx.record,step=ctx.step)
+                view=SimpleNamespace(root=root,record=ctx.record,
+                    step=lambda name,fn:retry(lambda:ctx.step(name,fn),record=ctx.record,sleep=sleep))
                 return ctx.step(check['kind'],lambda:registry[check['kind']](plan,view))
             result=retry(perform,record=ctx.record,sleep=sleep)
             # Native result is durable independently of Tape.finish/export.
@@ -133,6 +136,10 @@ def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     except BaseException as exc:
         ctx.fail(exc)
         raise
+    finally:
+        for key,value in previous.items():
+            if value is None:os.environ.pop(key,None)
+            else:os.environ[key]=value
 
 def command(estate,target):
     return ['python','/app/scripts/dia.py','run',target,'--estate',str(estate),'--runtime','worker']
@@ -148,7 +155,13 @@ def main(args):
             if not path.exists():
                 with path.open('xb') as stream:stream.write(raw)
         config=load(args.estate)
-        print(json.dumps(run(config,args.target)));return 0
+        try:result=run(config,args.target)
+        except Exception as exc:
+            # Exact safe failure lives in the durable capture. Never let an
+            # exception chain print a provider body or credential to job logs.
+            print(json.dumps({'status':'FAILED','error_type':type(exc).__name__}))
+            return 1
+        print(json.dumps(result));return 0
     config=load(args.estate)
     if args.runtime=='local':
         # Same digest and entrypoint as Azure. Mount only the explicitly selected

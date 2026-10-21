@@ -77,6 +77,13 @@ class RunnerTests(unittest.TestCase):
             p.write_text(json.dumps(config))
             with self.assertRaisesRegex(ValueError,'RUNNER_TYPED_CHECK_REQUIRED'):load(p)
             self.assertEqual(command('/inputs/runner.json','bronze'),['python','/app/scripts/dia.py','run','bronze','--estate','/inputs/runner.json','--runtime','worker'])
+    def test_budget_mode_does_not_leak_to_later_or_replayed_operations(self):
+        with tempfile.TemporaryDirectory() as d,patch.dict(os.environ,{'INVESTIGATOR_OPERATING_MODE':'LEGACY'},clear=False):
+            def handler(plan,ctx):
+                self.assertEqual(os.environ['INVESTIGATOR_OPERATING_MODE'],'BUILD_PHASE')
+                return {}
+            run(self.config(Path(d)),'bronze',registry={'probe':handler},put=lambda *_:None)
+            self.assertEqual(os.environ['INVESTIGATOR_OPERATING_MODE'],'LEGACY')
     def test_real_process_kill_preserves_partial_remote_blob_objects(self):
         # The fake Blob service is an independent filesystem durable store. The
         # child uses the real runner and is killed while the second read blocks.
