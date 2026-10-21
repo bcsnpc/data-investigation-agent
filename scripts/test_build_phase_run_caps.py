@@ -91,6 +91,25 @@ class AdaptiveCounters(unittest.TestCase):
 
 
 class ScannerMeter(unittest.TestCase):
+    def test_real_meter_uses_monthly_authority_with_historical_round_pin(self):
+        from investigator.shared_state import SharedState
+        from scan_estate_graph import Meter
+        from tempfile import TemporaryDirectory
+        from pathlib import Path
+        with TemporaryDirectory() as folder:
+            state=SharedState.offline(Path(folder)/'state.sqlite');state.migrate()
+            retained={'policy':{'environment':'test','daily_limits':{'cloud_calls':1,'planner_calls':1,'input_characters':1,'output_tokens':8000},'max_inflight_planners':1,'no_progress_limit':2},'round_policy':{'id':'historical'}}
+            state.put('usage_policy','test',retained)
+            with operating_mode(category='INVESTIGATION'):
+                meter=Meter(state,{'environment':'test'},1)
+                try:
+                    self.assertEqual(meter(lambda:7),7)
+                    self.assertEqual(meter(lambda:8),8)
+                    self.assertEqual(meter.used,2)
+                    self.assertEqual(meter.usage.snapshot()['monthly']['used']['INVESTIGATION'],2)
+                finally:meter.close()
+            self.assertEqual(state.get('usage_policy','test')['body'],retained)
+
     def test_observer_publishes_each_result_after_settlement_and_sanitizes_failure(self):
         from scan_estate_graph import Meter, READ_OBSERVER
         state=Mock();state.get.return_value={'body':{'policy':{},'round_policy':{}}}

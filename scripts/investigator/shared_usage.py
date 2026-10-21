@@ -141,7 +141,11 @@ class SharedUsage:
         if not self.owner:raise ValueError('SHARED_USAGE_WORKER_ID_REQUIRED')
         expected={'policy':governor.policy,'round_policy':governor.runtime.config.get('_estate',{}).get('round')}
         retained=state.get('usage_policy',self.environment)['body']
-        if retained!=expected:
+        from .build_phase import active
+        # The retained round pin is history in build mode; the accounting
+        # environment and imported policy still identify the same shared ledger.
+        differs = retained.get('policy') != expected['policy'] if active(governor.runtime.config) else retained != expected
+        if differs:
             raise StateConflict('SHARED_USAGE_POLICY_DIFFERS_FROM_APPROVED_IMPORT')
         self.policy_hash=sha(expected)
 
