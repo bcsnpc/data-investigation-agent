@@ -9,15 +9,52 @@ from investigator.adapters.estate_installation import configuration
 from test_process_tape import bootstrap
 import test_binding_sample as samples
 from test_microsoft_readiness import fixture
-import test_estate_manifest as manifests
+
 from cloud_verification_proof import validate,reference,validate_form_scope,require_exact_snapshot
+
+
+def synthetic_manifest():
+    """Complete synthetic schema; no estate files, real routes or credentials."""
+    from investigator.process_debugging import REQUIRED_CAPABILITIES
+    workspace='11111111-1111-4111-8111-111111111111'
+    tenant='44444444-4444-4444-8444-444444444444'
+    reader='reader@example.invalid';profile='.local/synthetic-reader'
+    fabric={'workspace_id':workspace,'auth':{'mode':'fabric_cli','tenant_id':tenant,'python':'python'},
+        'native_reader':{'mode':'isolated_reader','tenant_id':tenant,'account':reader,
+            'principal_id':'66666666-6666-4666-8666-666666666666','workspace_ids':[workspace]},
+        'sql_reader':{'account':reader,'profile':profile,'server':'synthetic.datawarehouse.fabric.microsoft.com'}}
+    assets=['fabric://'+workspace+'/'+guid+'/table/Declared' for guid in
+        ('22222222-2222-4222-8222-222222222222','33333333-3333-4333-8333-333333333333')]
+    layers=[{'id':name,'asset_id':asset,'role':role,'business_name':name,'reachable':True,
+             'reach':{'adapter':'synthetic','address':asset,'reader':'reader'}}
+            for name,asset,role in zip(('semantic','serving'),assets,('SEMANTIC','SERVING'))]
+    return {'version':'estate-manifest-v1','environment':'synthetic-proof','storage':{'catalog':'catalog.sqlite','inventory':'inventory.sqlite'},
+        'adapters':[{'id':'synthetic','implementation':'microsoft','options':{'fabric':fabric,
+            'sql':{'server':'synthetic.database.windows.net','database':'synthetic','visibility_schema':'dbo',
+                'auth':{'mode':'dpapi_file','credential_file':'.local/synthetic-reference','account':'synthetic'}}}}],
+        'layers':layers,'resources':[],'identities':[{'id':'reader','principal':reader,'credential_reference':profile,
+            'scopes':[{'resource':l['id'],'rights':['READ','BUILD']}for l in layers]}],
+        'system_of_record':None,'pipelines':[],
+        'lineage':{'bindings':[],'inference':{'enabled':False,'code_resources':[]},'code_locations':[],'code_sources':[],'source_delivery':None},
+        'capability_ceiling':sorted(REQUIRED_CAPABILITIES),
+        'model':{'provider':'azure','deployment':'synthetic','endpoint':'https://synthetic.example.invalid',
+            'generation_options':{'reasoning_effort':'low','max_output_tokens':1500,'timeout_seconds':30,'max_payload_characters':8000},
+            'credential':{'subscription_id':'77777777-7777-4777-8777-777777777777','resource_group':'synthetic','account':'synthetic'},
+            'max_planner_recoveries':0},
+        'budgets':{'diagnostic_reads_per_run':12,'input_characters_per_run':384000,'max_boundaries':4,
+            'binding_verification':{'probes_per_binding':2,'metadata_probes':1,'session_cap':40},
+            'rolling_window_seconds':86400,'rolling_physical_requests':1000,
+            'planner_daily':{'calls':20,'input_characters':100000,'output_tokens':30000,'max_inflight':1,'no_progress_limit':2},
+            'round':{'id':'synthetic','starts_at_epoch':0,'physical_requests':1000,'restoration_reserved':95}},'accepted_limits':[]}
 
 
 class FreshProofTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup);self.root=Path(self.temp.name)
         self.prepared=self.root/'prepared';self.capture=self.root/'capture';self.prepared.mkdir();self.capture.mkdir()
-        self.manifest,self.scan,self.route=fixture();self.manifest['layers']+=manifests.ManifestTests().fixture()['layers'][2:];self.manifest['lineage']['source_delivery']=None;self.manifest['lineage']['code_locations']=[];self.manifest_path=self.root/'estate.json';self.manifest_path.write_text(json.dumps(self.manifest))
+        with patch('test_estate_manifest.ManifestTests.fixture',side_effect=AssertionError('Estate fixture absent in code-only image')):
+            self.manifest,self.scan,self.route=fixture(synthetic_manifest())
+        self.manifest_path=self.root/'estate.json';self.manifest_path.write_text(json.dumps(self.manifest))
         self.config=configuration(self.manifest);self.context={'version':'approved-scan',**self.scan}
         self.model={'id':'selected-model','enabled':True,'context_id':'synthetic','context':{'id':'synthetic','model_id':'selected-model','scan_id':self.context['version']}}
         self.witness=samples.BindingSampleTests().trial('NUMERIC',[2,4],[4,2]);self.spec={'proposals':[self.witness['proposal']]}
