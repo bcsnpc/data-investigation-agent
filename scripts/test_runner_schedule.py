@@ -88,6 +88,18 @@ class ScheduleTests(unittest.TestCase):
         self.assertEqual(waits,[30,45]);self.assertEqual(result['readback_attempts'],3)
         self.assertEqual(len(calls),5)
         self.assertEqual(sum('PATCH' in call for call in calls),1)
+    def test_failed_readback_cannot_be_reported_applied_even_if_cron_matches(self):
+        config,job=self.config();after=None;calls=[]
+        def execute(argv,**kwargs):
+            nonlocal after
+            calls.append(argv)
+            if 'show' in argv:return SimpleNamespace(stdout=json.dumps(after or job))
+            body=json.loads(Path(argv[argv.index('--body')+1][1:]).read_bytes())
+            after={'properties':body['properties']|{'provisioningState':'Failed'}}
+            return SimpleNamespace(stdout='')
+        with patch.dict('sys.modules',{'investigator.build_phase':SimpleNamespace(admit_platform=lambda *a:None)}),self.assertRaisesRegex(ValueError,'PROVISIONING_FAILED'):
+            apply(config,execute=execute,sleep=lambda _:self.fail('failed resources are not pending'))
+        self.assertEqual(len(calls),3)
 
     def test_patch_failure_retains_exact_safe_stderr_after_successful_show(self):
         from investigator.adapters.control_failure import ControlCommandFailure

@@ -79,6 +79,7 @@ def apply(config,*,execute=subprocess.run,sleep=time.sleep):
         after=json.loads(response.stdout)
         actual=after['properties']['configuration']['scheduleTriggerConfig']
         state=after['properties'].get('provisioningState')
+        if state in ('Failed','Canceled','Cancelled'):raise ValueError('RUNNER_DAILY_SCHEDULE_PROVISIONING_FAILED')
         pending=state in ('Updating','InProgress','Accepted','Provisioning')
         if actual==prepared['new_schedule'] and not pending:
             return {k:v for k,v in prepared.items()if k!='body'}|{'status':'APPLIED','actual_schedule':actual,'readback_attempts':attempt+1,'provisioning_state':state}
