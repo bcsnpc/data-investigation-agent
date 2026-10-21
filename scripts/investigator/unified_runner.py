@@ -71,8 +71,17 @@ def retry(call,*,record,sleep=time.sleep):
 def handlers():
     def verification(plan,ctx):
         from cloud_verification_run import execute
+        from cloud_runner_context import prepare_for_verification, retain_dependencies
         o=plan['options']
-        return execute(plan['manifest'],o['prepared'],o['spec'],spec_sha256=o['spec_sha256'],session=plan['run_id'],deadline=time.time()+o.get('deadline_seconds',1800),capture=ctx.root/'verification')
+        prepared=prepare_for_verification(plan,ctx) if 'inputs' in o else Path(o['prepared'])
+        ctx.step('retain-approved-context',lambda:retain_dependencies(prepared,ctx,kind='prepared',phase='BEFORE_READS'))
+        capture=ctx.root/'verification-capture'
+        result=execute(plan['manifest'],prepared,o['spec'],spec_sha256=o['spec_sha256'],session=plan['run_id'],deadline=time.time()+o.get('verification_seconds',o.get('deadline_seconds',1800)),capture=capture,
+            retain=lambda folder,phase:retain_dependencies(folder,ctx,kind='verification',phase=phase))
+        if 'demo_ticket' in o:
+            from cloud_runner_context import demo_after_verification
+            return demo_after_verification(result,plan,ctx,prepared)
+        return result
     def investigation(plan,ctx):
         if 'ticket' in plan['options']:
             from .estate_installation import build

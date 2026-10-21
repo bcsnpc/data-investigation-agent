@@ -14,7 +14,7 @@ from cloud_binding_verifier import preflight
 from cloud_verification_capture import Capture
 
 
-def execute(manifest_path,prepared,spec_path,*,spec_sha256,session,deadline,capture):
+def execute(manifest_path,prepared,spec_path,*,spec_sha256,session,deadline,capture,retain=None):
     if os.environ.get('INVESTIGATOR_STATE_BACKEND')!='postgresql':raise ValueError('CLOUD_POSTGRES_AUTHORITY_REQUIRED')
     from investigator.live_gateway import current
     current().check_live()
@@ -45,9 +45,20 @@ def execute(manifest_path,prepared,spec_path,*,spec_sha256,session,deadline,capt
         files={name:prepared/name for name in ('context.json','model.json','endpoints.json')},
         databases={'catalog.sqlite':store.database,'inventory.sqlite':store.inventory},
         environment=manifest['environment'],context_identity=context['version'],shared_usage=True)
-    final=recorder.execute()
+    if retain is not None:retain(recorder.root,phase="BEFORE_READS")
+    try:
+        final=recorder.execute()
+    except BaseException as primary:
+        if retain is not None:
+            try:retain(recorder.root,phase="AFTER_EXECUTION")
+            except BaseException as retention_error:
+                primary.add_note('Verifier dependency retention also failed: '+type(retention_error).__name__)
+        raise
+    else:
+        if retain is not None:retain(recorder.root,phase="AFTER_EXECUTION")
     # The original complete capture is retained even if publication/export fails.
-    return {'status':final['status'],'accounting':final['accounting'],'error':final['error'],
+    return {'status':final['status'],'verification_status':(final.get('result') or {}).get('status'),
+            'accounting':final['accounting'],'error':final['error'],
             'tape':str(recorder.tape.path),'sha256':hashlib.sha256(recorder.tape.path.read_bytes()).hexdigest()}
 
 
