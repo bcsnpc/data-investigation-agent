@@ -18,15 +18,28 @@ KINDS=frozenset({'investigation','verification','probe','scan','replay','prepare
 
 def load(path):
     value=json.loads(Path(path).read_bytes())
-    required={'version','manifest','image','capture','checks','output_root','bootstrap'}
-    if not isinstance(value,dict) or not required<=set(value)<=required|{'run_id','input','platform_cost_observation','deployment'} or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
+    required={'version','manifest','image','capture','checks','output_root'}
+    if not isinstance(value,dict) or not required<=set(value)<=required|{'bootstrap','run_id','input','platform_cost_observation','deployment'} or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
     if 'run_id' in value and not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',value['run_id']):raise ValueError('RUN_ID_INVALID')
     if not re.fullmatch(r'[^\s]+@sha256:[0-9a-f]{64}',value['image']):raise ValueError('RUNNER_PINNED_IMAGE_REQUIRED')
-    validate_bootstrap_header(value['bootstrap'])
+    if 'bootstrap' in value:validate_bootstrap_header(value['bootstrap'])
     if not isinstance(value['checks'],dict) or not value['checks']:raise ValueError('RUNNER_CHECKS_REQUIRED')
     for name,check in value['checks'].items():
         if not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',name) or set(check)!={'kind','options'} or check['kind'] not in KINDS or not isinstance(check['options'],dict):raise ValueError('RUNNER_TYPED_CHECK_REQUIRED')
     _safe(bytes_of(value))
+    return value
+
+def capture_header(config):
+    """Construct provenance, never accept a caller's invented engine identity."""
+    from .runtime import fingerprint
+    from .source_revision import committed_revision
+    plan={k:config[k] for k in ('version','manifest','image','checks')}
+    identity=hashlib.sha256(bytes_of(plan)).hexdigest()
+    value={'entry_point':'runner_capture','context_identity':'runner-plan:'+identity,
+           'config':{'_estate':{'operating_mode':'BUILD_PHASE'}},'profile':{},'usage_policy':None,
+           'engine_hash':fingerprint(),'state':{'runner_contract':'dia-runner-capture-v1',
+           'runner_image':config['image'],'engine_revision':committed_revision(),'plan_sha256':identity}}
+    validate_bootstrap_header(value)
     return value
 
 def transient(error):
@@ -87,6 +100,7 @@ def handlers():
         if state is None:raise ValueError('RUNNER_SHARED_BUDGET_REQUIRED')
         meter=Meter(state,o['budget'],o['max_requests'])
         bootstrap=copy.deepcopy(plan['bootstrap'])
+        bootstrap['entry_point']='runner_probe'
         bootstrap['state']['runner_probe']={k:o[k] for k in ('config','database','request')}
         tape=Tape(ctx.root/'probe-tape.json',bootstrap=bootstrap)
         try:
@@ -124,13 +138,11 @@ def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
         check={'kind':'investigation','options':{'ticket':str(Path(target).resolve())}}
     if check is None:raise ValueError('RUNNER_UNKNOWN_CHECK:'+target)
     run_id=run_id or config.get('run_id') or str(uuid4())
-    validate_bootstrap_header(config['bootstrap'])
-    bootstrap=copy.deepcopy(config['bootstrap'])
-    bootstrap['config'].setdefault('_estate',{})['operating_mode']='BUILD_PHASE'
-    bootstrap['state']['runner_image']=config['image']
+    if 'bootstrap' in config:validate_bootstrap_header(config['bootstrap'])
+    bootstrap=capture_header(config)
     plan={'manifest':config['manifest'],'bootstrap':bootstrap,'run_id':run_id,**check}
     # Full header and secret validation precede capture transport and handler.
-    validate_bootstrap_header(config['bootstrap']);_safe(bytes_of(config))
+    validate_bootstrap_header(bootstrap);_safe(bytes_of(config))
     sink=put or blob_sink(config['capture'])
     ctx=DurableCapture(Path(config['output_root'])/run_id,sink,run_id=run_id,bootstrap=bootstrap)
     registry=registry or handlers()

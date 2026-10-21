@@ -109,7 +109,10 @@ class RunnerTests(unittest.TestCase):
         request={'query':'SELECT value FROM dbo.synthetic','read_only_objects':['dbo.synthetic'],'result_columns':['value'],'max_rows':2}
         result={'rows':[{'value':7}]}
         child=SimpleNamespace(stdin=io.StringIO(),stdout=io.StringIO(json.dumps(result)+'\n'),wait=lambda timeout=None:0,poll=lambda:0,kill=lambda:None)
-        bootstrap=copy.deepcopy(HEADER)
+        from investigator.unified_runner import capture_header
+        with tempfile.TemporaryDirectory() as header_root:
+            bootstrap=capture_header(self.config(Path(header_root)))
+        bootstrap['entry_point']='runner_probe'
         bootstrap['state']['runner_probe']={'config':config,'database':'db','request':request}
         with tempfile.TemporaryDirectory() as d:
             path=Path(d)/'probe.json';tape=Tape(path,bootstrap)

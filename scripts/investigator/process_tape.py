@@ -57,6 +57,21 @@ def validate_bootstrap_header(bootstrap):
         raise TapeError('TAPE_BOOTSTRAP_IDENTITY')
     if any(not isinstance(bootstrap[key],dict) for key in ('config','profile','state')) or not isinstance(bootstrap['usage_policy'],(dict,type(None))):
         raise TapeError('TAPE_BOOTSTRAP_CONFIGURATION')
+    if bootstrap['entry_point'] in ('runner_capture','runner_probe'):
+        state=bootstrap['state'];required={'runner_contract','runner_image','engine_revision','plan_sha256'}
+        if bootstrap['entry_point']=='runner_probe':required.add('runner_probe')
+        if set(state)!=required or state.get('runner_contract')!='dia-runner-capture-v1':raise TapeError('RUNNER_CAPTURE_STATE')
+        if not re.fullmatch(r'[^\s]+@sha256:[0-9a-f]{64}',str(state['runner_image'])) or not re.fullmatch('[0-9a-f]{40}',str(state['engine_revision'])) or not re.fullmatch('[0-9a-f]{64}',str(state['plan_sha256'])):raise TapeError('RUNNER_CAPTURE_IDENTITY')
+        if bootstrap['config'].get('_estate',{}).get('operating_mode')!='BUILD_PHASE':raise TapeError('RUNNER_CAPTURE_OPERATING_MODE')
+        if bootstrap['entry_point']=='runner_probe':
+            probe=state['runner_probe']
+            if not isinstance(probe,dict) or set(probe)!={'config','database','request'} or not isinstance(probe['config'],dict) or not isinstance(probe['database'],str) or not probe['database']:raise TapeError('RUNNER_PROBE_STATE')
+            request=probe['request']
+            if not isinstance(request,dict) or not {'query','read_only_objects','result_columns','max_rows'}<=set(request):raise TapeError('RUNNER_PROBE_REQUEST')
+            if type(request['max_rows'])is not int or not 2<=request['max_rows']<=251 or not isinstance(request['result_columns'],list) or not 1<=len(request['result_columns'])<=16:raise TapeError('RUNNER_PROBE_BOUNDS')
+            from .live_gateway import validate_sql
+            try:validate_sql(request['query'],request['read_only_objects'])
+            except Exception:raise TapeError('RUNNER_PROBE_READ_ONLY_REQUEST')from None
 
 
 def bytes_of(value):
@@ -122,7 +137,7 @@ class Tape:
             self.bootstrap=bootstrap
             self.engine_revision=None
             if self.version in PINNED_VERSIONS and (bootstrap['entry_point']=='workspace'
-                    or self.version in CODE_VERSIONS and bootstrap['entry_point'] in ('code_reader','code_verifier')):
+                    or self.version in CODE_VERSIONS and bootstrap['entry_point'] in ('code_reader','code_verifier','runner_capture','runner_probe')):
                 from .source_revision import committed_revision
                 try:self.engine_revision=committed_revision()
                 except ValueError as exc:raise TapeError(str(exc)) from exc
@@ -204,6 +219,8 @@ class Tape:
         for n,event in enumerate(self.events,1):validate_event(event,n)
         bootstrap=json.loads(validate_event(self.events[0],1))
         validate_bootstrap_header(bootstrap)
+        if bootstrap['entry_point'] in ('runner_capture','runner_probe') and self.engine_revision!=bootstrap['state']['engine_revision']:
+            raise TapeError('RUNNER_CAPTURE_REVISION_DIFFERS')
         if self.version in CODE_VERSIONS and bootstrap['entry_point'] in ('code_reader','code_verifier') and self.engine_revision is None:
             raise TapeError('TAPE_ENGINE_REVISION_MISSING')
         if bootstrap['entry_point']=='workspace':

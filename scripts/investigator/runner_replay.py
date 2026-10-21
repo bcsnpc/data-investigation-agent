@@ -28,7 +28,12 @@ def boundary(folder,expected_image):
 def probe(path):
     from fabric_sql_surface import read
     from .physical_reads import scope,guard_scope
-    tape=Tape(path);options=tape.bootstrap['state']['runner_probe']
+    tape=Tape(path)
+    if tape.bootstrap['entry_point']!='runner_probe':raise ValueError('RUNNER_PROBE_CAPTURE_CONTRACT_REQUIRED')
+    from .runtime import fingerprint
+    from .source_revision import committed_revision
+    if tape.bootstrap['engine_hash']!=fingerprint() or tape.bootstrap['state']['engine_revision']!=committed_revision():raise ValueError('RUNNER_REPLAY_IMAGE_RUNTIME_DIFFERS')
+    options=tape.bootstrap['state']['runner_probe']
     # The same compiled request and physical worker protocol run again. A
     # replaying Tape never launches a worker or acquires a token.
     with active(tape),scope(lambda kind,fn:fn()),guard_scope(lambda value:None):
