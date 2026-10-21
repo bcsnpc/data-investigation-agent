@@ -61,9 +61,13 @@ def validate(manifest_path,proof):
             or approval['engine_hash']!=fingerprint() or approval['context_id']!=context['version']
             or approval['context_hash']!=digest(scan)):
         raise ValueError('FRESH_VERIFICATION_APPROVAL_PIN_DIFFERS')
+    # Verify the current installation independently of the proof's historical
+    # producer commit. Exact runtime/producer bytes below remain mandatory.
+    current_image_revision=committed_revision()
     tape=Tape(tape_path);boot=tape.bootstrap;state=boot['state'];inputs=state['inputs']
     if (boot['entry_point']!='code_verifier' or boot['engine_hash']!=fingerprint()
-            or tape.engine_revision!=committed_revision() or state.get('engine_revision')!=tape.engine_revision
+            or not isinstance(tape.engine_revision,str) or not re.fullmatch('[a-f0-9]{40}',tape.engine_revision)
+            or state.get('engine_revision')!=tape.engine_revision
             or boot['config']!=config or boot['usage_policy']!=policy(manifest) or state.get('environment')!=manifest['environment'] or inputs.get('engine_fingerprint')!=fingerprint()
             or inputs.get('context_hash')!=digest(context) or inputs.get('model_context_id')!=model['context_id']
             or inputs.get('native_route_contract')!='declared-native-pair-v1'):
@@ -116,6 +120,8 @@ def validate(manifest_path,proof):
     from investigator.adapters.microsoft_readiness import validate_declared_route
     checked_route=validate_declared_route(route,manifest=manifest,scan=scan)
     return {'version':VERSION,'status':'PROOF_REVALIDATED','capture_sha256':proof['capture_sha256'],
+        'source_engine_revision':tape.engine_revision,'current_image_revision':current_image_revision,
+        'same_image_revision':tape.engine_revision==current_image_revision,
         'model_pin':{'model_id':model['id'],'context_id':model['context_id'],'context_hash':digest(model['context'])},
         'model_sha256':digest(model),'witness_count':len(witnesses),'verification_reads':result['verification_reads'],'verification_cap':planned['verification_cap'],
         'native_route':checked_route,'constraints':checked_route['constraints'],'profile_published':False,

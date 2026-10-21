@@ -120,6 +120,37 @@ class FreshProofTests(unittest.TestCase):
     def test_wrong_current_image_fingerprint_refuses(self):
         with patch('investigator.runtime.fingerprint',return_value='different'):
             with self.assertRaisesRegex(ValueError,'PIN_DIFFERS'):validate(self.manifest_path,self.proof)
+    def test_replay_utility_revision_change_keeps_exact_runtime_proof(self):
+        before=(self.capture/'tape.json').read_bytes()
+        with patch('investigator.source_revision.committed_revision',return_value='2'*40) as provenance:
+            result=validate(self.manifest_path,self.proof)
+        provenance.assert_called_once_with()
+        self.assertEqual('1'*40,result['source_engine_revision'])
+        self.assertEqual('2'*40,result['current_image_revision'])
+        self.assertFalse(result['same_image_revision'])
+        self.assertEqual(before,(self.capture/'tape.json').read_bytes())
+
+    def test_current_image_integrity_failure_still_refuses(self):
+        with patch('investigator.source_revision.committed_revision',side_effect=ValueError('IMAGE_SOURCE_CHANGED')):
+            with self.assertRaisesRegex(ValueError,'IMAGE_SOURCE_CHANGED'):validate(self.manifest_path,self.proof)
+
+    def test_source_revision_must_match_sealed_state_and_producers(self):
+        import base64
+        from investigator.process_tape import bytes_of,sha
+        original=(self.capture/'tape.json').read_bytes()
+        value=json.loads(original);event=value['events'][0]
+        boot=json.loads(base64.b64decode(event['body']));boot['state']['engine_revision']='2'*40
+        body=bytes_of(boot);event['body']=base64.b64encode(body).decode();event['sha256']=sha(body)
+        value['seal']=sha(bytes_of({k:v for k,v in value.items() if k!='seal'}))
+        # Synthetic tampering is confined to a newly sealed test copy.
+        (self.capture/'tape.events.jsonl').unlink()
+        (self.capture/'tape.json').write_bytes(bytes_of(value));self.proof=reference(self.prepared,self.capture,self.spec_path)
+        with self.assertRaisesRegex(ValueError,'RUNTIME_PIN_DIFFERS'):validate(self.manifest_path,self.proof)
+        (self.capture/'tape.json').write_bytes(original)
+        self.proof=reference(self.prepared,self.capture,self.spec_path)
+        producer=self.capture/'verification_program.py';producer.write_bytes(producer.read_bytes()+b'\n')
+        with self.assertRaisesRegex(ValueError,'DEPENDENCY_HASH_DIFFERS'):validate(self.manifest_path,self.proof)
+
     def demo_workspace(self):
         from investigator.form_intake import VERSION as form_version
         measure=self.route['selected_observations'][0]['measure_id']
