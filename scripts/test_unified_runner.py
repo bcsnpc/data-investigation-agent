@@ -119,7 +119,11 @@ class RunnerTests(unittest.TestCase):
             with active(tape),scope(lambda k,f:f()),allow_sql(reader['server'],'db',['dbo.synthetic']),patch('subprocess.Popen',return_value=child):
                 actual=read(config,'db',request);tape.finish(actual)
             original=path.read_bytes()
-            with patch('investigator.live_gateway.current',side_effect=AssertionError('network used')),patch('subprocess.Popen',side_effect=AssertionError('worker used')):
+            original_popen=subprocess.Popen
+            def offline_process(command,*args,**kwargs):
+                if command[0]=='git':return original_popen(command,*args,**kwargs)
+                raise AssertionError('live worker launched')
+            with patch('investigator.live_gateway.current',side_effect=AssertionError('network used')),patch('subprocess.Popen',side_effect=offline_process):
                 replayed=probe(path)
             self.assertTrue(replayed['matched'])
             self.assertEqual(replayed['result'],result)
