@@ -19,7 +19,8 @@ KINDS=frozenset({'investigation','verification','probe','scan','replay','prepare
 def load(path):
     value=json.loads(Path(path).read_bytes())
     required={'version','manifest','image','capture','checks','output_root','bootstrap'}
-    if not isinstance(value,dict) or set(value)!=required or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
+    if not isinstance(value,dict) or not required<=set(value)<=required|{'run_id'} or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
+    if 'run_id' in value and not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',value['run_id']):raise ValueError('RUN_ID_INVALID')
     if not re.fullmatch(r'[^\s]+@sha256:[0-9a-f]{64}',value['image']):raise ValueError('RUNNER_PINNED_IMAGE_REQUIRED')
     validate_bootstrap_header(value['bootstrap'])
     if not isinstance(value['checks'],dict) or not value['checks']:raise ValueError('RUNNER_CHECKS_REQUIRED')
@@ -110,7 +111,7 @@ def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
         # supplies a handler, script or unvalidated SQL payload.
         check={'kind':'investigation','options':{'ticket':str(Path(target).resolve())}}
     if check is None:raise ValueError('RUNNER_UNKNOWN_CHECK:'+target)
-    run_id=run_id or str(uuid4())
+    run_id=run_id or config.get('run_id') or str(uuid4())
     validate_bootstrap_header(config['bootstrap'])
     bootstrap=copy.deepcopy(config['bootstrap'])
     bootstrap['config'].setdefault('_estate',{})['operating_mode']='BUILD_PHASE'

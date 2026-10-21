@@ -16,6 +16,10 @@ handlers reuse the normal form investigation, approval verifier, graph scanner,
 compiled SQL surface, context preparation, and verification replay. The smoke
 handler uses the separately tested daily-smoke implementation.
 
+An optional `run_id` can be pinned in the deployment envelope to prepare exact
+gateway grants for immutable capture objects. A subsequent run needs a fresh
+identifier; existing capture directories and Blob objects are never overwritten.
+
 The complete seven-field tape bootstrap is checked before any transport or
 handler starts. The capture object receives a configured platform Blob sink;
 it uses the existing managed-identity transport and gateway. Every step start,
