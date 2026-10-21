@@ -397,7 +397,8 @@ def current():
 
 def authorize_http(request,*,identity=None):
     identity=identity or os.environ.get('DIA_GATEWAY_HTTP_IDENTITY','')
-    return current().http(identity,request.get_method(),request.full_url,request.data)
+    return current().http(identity,request.get_method(),request.full_url,request.data,
+                          dict(request.header_items()))
 
 
 def open_http(opener,request,*,timeout,identity=None):

@@ -69,8 +69,8 @@ def validate_bootstrap_header(bootstrap):
             request=probe['request']
             if not isinstance(request,dict) or not {'query','read_only_objects','result_columns','max_rows'}<=set(request):raise TapeError('RUNNER_PROBE_REQUEST')
             if type(request['max_rows'])is not int or not 2<=request['max_rows']<=251 or not isinstance(request['result_columns'],list) or not 1<=len(request['result_columns'])<=16:raise TapeError('RUNNER_PROBE_BOUNDS')
-            from .live_gateway import validate_sql
-            try:validate_sql(request['query'],request['read_only_objects'])
+            from .live_gateway import validate_sql,_object
+            try:validate_sql(request['query'],{_object(value) for value in request['read_only_objects']})
             except Exception:raise TapeError('RUNNER_PROBE_READ_ONLY_REQUEST')from None
 
 
