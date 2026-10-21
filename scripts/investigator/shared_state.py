@@ -7,6 +7,21 @@ from contextlib import contextmanager, closing
 from contextvars import ContextVar
 
 TRANSACTION_ACTIVE = ContextVar("shared_state_transaction_active", default=False)
+TRANSACTION_FINISHED = ContextVar("shared_state_transaction_finished", default=None)
+
+
+def after_transaction(callback):
+    """Defer external publication until commit/rollback and connection close.
+
+    This does not authorize network access. The ordinary gateway still checks
+    every request when the callback eventually executes.
+    """
+    if not TRANSACTION_ACTIVE.get():
+        callback()
+        return
+    callbacks = TRANSACTION_FINISHED.get()
+    if callbacks is None: raise RuntimeError('TRANSACTION_FINISH_QUEUE_MISSING')
+    if callback not in callbacks: callbacks.append(callback)
 from decimal import Decimal
 import hashlib
 import json
@@ -138,6 +153,11 @@ class SharedState:
     @contextmanager
     def transaction(self,*,_lease_release=False):
         db = self.connector()
+        outer_callbacks = TRANSACTION_FINISHED.get() if TRANSACTION_ACTIVE.get() else None
+        callbacks = outer_callbacks if outer_callbacks is not None else []
+        callback_marker = TRANSACTION_FINISHED.set(callbacks)
+        marker = None
+        primary = None
         try:
             from .shared_writer_lease import check as check_lease
             if self.backend == 'postgresql':
@@ -156,16 +176,28 @@ class SharedState:
                 db.execute('BEGIN IMMEDIATE')
             check_lease(self,db,release_only=_lease_release)
             marker = TRANSACTION_ACTIVE.set(True)
-            try:
-                yield db
-                db.commit()
-            finally:
-                TRANSACTION_ACTIVE.reset(marker)
-        except BaseException:
-            db.rollback()
+            yield db
+            db.commit()
+        except BaseException as error:
+            primary = error
+            try: db.rollback()
+            except BaseException as rollback_error:
+                error.add_note('Transaction rollback also failed: '+type(rollback_error).__name__)
             raise
         finally:
-            db.close()
+            closed = False
+            try:
+                db.close()
+                closed = True
+            finally:
+                if marker is not None: TRANSACTION_ACTIVE.reset(marker)
+                TRANSACTION_FINISHED.reset(callback_marker)
+                if closed and outer_callbacks is None:
+                    for callback in callbacks:
+                        try: callback()
+                        except BaseException as publication_error:
+                            if primary is None: raise
+                            primary.add_note('After-transaction publication also failed: '+type(publication_error).__name__)
 
     def migrate(self):
         text = DDL.format(number='NUMERIC' if self.backend == 'postgresql' else 'TEXT')

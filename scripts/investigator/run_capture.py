@@ -19,6 +19,8 @@ class DurableCapture:
         validate_bootstrap_header(bootstrap)
         if not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',run_id):raise ValueError('RUN_ID_INVALID')
         self.root=Path(root);self.put=put;self.run_id=run_id;self.sequence=0;self.records=[]
+        self._pending_publications=[]
+        self._publication_failed=False
         self.root.mkdir(parents=True,exist_ok=False)
         self.record('header',bootstrap)
         self.record('status',{'status':'STARTED','partial':True})
@@ -30,13 +32,31 @@ class DurableCapture:
         with (self.root/name).open('xb') as stream:
             stream.write(raw);stream.flush()
             __import__('os').fsync(stream.fileno())
-        # Unique names and create-only Blob PUT make historical entries immutable.
-        self.put(self.run_id+'/'+name,raw)
         ref={'key':self.run_id+'/'+name,'sha256':hashlib.sha256(raw).hexdigest()}
         self.records.append(ref)
+        # Preserve the original event immediately, even inside an application
+        # transaction. Only remote publication waits for the lock to release.
+        self._pending_publications.append((ref['key'], raw))
+        from .shared_state import after_transaction
+        after_transaction(self.flush_publications)
         return ref
 
+    def flush_publications(self):
+        from .shared_state import TRANSACTION_ACTIVE
+        if TRANSACTION_ACTIVE.get(): raise RuntimeError('CAPTURE_PUBLICATION_DURING_TRANSACTION')
+        while self._pending_publications:
+            key,raw=self._pending_publications[0]
+            try:self.put(key,raw)
+            except BaseException:
+                self._publication_failed=True
+                raise
+            self._pending_publications.pop(0)
+
     def seal(self):
+        from .shared_state import TRANSACTION_ACTIVE
+        if TRANSACTION_ACTIVE.get(): raise RuntimeError('CAPTURE_SEAL_DURING_TRANSACTION')
+        if self._publication_failed: raise RuntimeError('CAPTURE_PUBLICATION_FAILED_NO_SEAL')
+        self.flush_publications()
         value={'version':'dia-run-record-v1','run_id':self.run_id,'records':self.records}
         value['seal']=hashlib.sha256(bytes_of(value)).hexdigest()
         raw=bytes_of(value);_safe(raw)
