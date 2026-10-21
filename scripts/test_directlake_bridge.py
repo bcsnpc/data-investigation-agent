@@ -75,4 +75,31 @@ class DirectLakeTests(unittest.TestCase):
         assets=self.fixture();self.doc['model']['tables'][0]['columns'][0]['expression']='1+1'
         self.assertEqual(len(self.bindings(self.graph(assets))),1)
 
+class AuditTests(unittest.TestCase):
+    def test_offline_audit_pins_each_owner_and_rejects_mutation(self):
+        import tempfile,hashlib
+        from pathlib import Path
+        from audit_directlake_bridge import audit
+        from investigator.adapters.estate_graph_static import extract_partitioned
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);catalog=root/'catalog';baseline=root/'baseline';baseline.mkdir()
+            example=DirectLakeTests();assets=example.fixture()+[part('bim',M,'model.bim',example.doc)]
+            def sink(raw):return {'sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw),'uri':'cas://'+hashlib.sha256(raw).hexdigest()}
+            for estate in ('fixture','billing'):
+                destination=catalog/estate;destination.mkdir(parents=True)
+                raw=json.dumps({'assets':assets,'source_asset_ids':[]}).encode();(destination/'owner.json').write_bytes(raw)
+                index={'source_manifest_sha256':'a'*64,'owners':[{'owner':M,'observed_at':NOW,
+                    'path':str((destination/'owner.json').relative_to(root)),'sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw)}]}
+                (destination/'index.json').write_text(json.dumps(index))
+                partitions=extract_partitioned(estate,assets,sink,observed_at=NOW)
+                graph={'nodes':[n for p in partitions for n in p['nodes']],'edges':[e for p in partitions for e in p['edges']]}
+                (baseline/(estate+'-graph.json')).write_text(json.dumps(graph))
+            (root/'endpoints.json').write_text('[]')
+            report=audit(root,catalog,baseline,root/'endpoints.json',root/'output')
+            self.assertEqual(report['estate_reads'],0)
+            self.assertEqual(report['estates']['fixture']['stages']['parser_only']['bindings_by_source_kind'],{'TABLE':1,'COLUMN':1})
+            (catalog/'fixture'/'owner.json').write_text('{}')
+            with self.assertRaisesRegex(ValueError,'OWNER_PAYLOAD_PIN_DIFFERS'):
+                audit(root,catalog,baseline,root/'endpoints.json',root/'other-output')
+
 if __name__=='__main__':unittest.main()

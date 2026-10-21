@@ -26,15 +26,38 @@ change their identities. The model definitions offer 21 entity tables / 92 data
 columns in fixture and 9 / 32 in billing; these are potential declarations, not
 resolved path counts. The imported model is excluded.
 
-An initial offline check using the earlier approved fixture context plus the
-later six model-owner payloads produces no bridge without endpoint evidence.
-Adding the exact retained three-endpoint receipt binds five original-container
-tables; that older context lacks their collected physical column schemas, so
-it binds zero columns. These limited-input numbers are not a rebuild of the
-later coverage graph. Full unchanged-input graph counts require its raw retained
-owner payloads; no physical evidence is reconstructed from graph labels.
+The full immutable owner payloads were subsequently restored and SHA-256 checked:
+61 fixture owners and 12 billing owners. The offline audit rebuilds each graph
+from those exact raw assets, first with the entity bridge disabled (the previous
+behavior), then with the parser, then with the unchanged three-endpoint receipt.
+It asserts every original start ID remains and no new start is introduced.
 
-Regression checks: 74 passed across DirectLake, static extraction, collector and
+| Estate / stage | Table bindings | Column bindings | Starts reaching a terminal physical column | Complete verified source paths |
+| --- | ---: | ---: | ---: | ---: |
+| Fixture before | 0 | 0 | 0/76 | 0 |
+| Fixture parser alone | 0 | 0 | 0/76 | 0 |
+| Fixture plus retained endpoint receipt | 5 | 22 | 29/76 | 0 |
+| Billing before | 0 | 0 | 0/7 | 0 |
+| Billing parser alone | 9 | 32 | 3/7 | 0 |
+| Billing plus retained endpoint receipt | 9 | 32 | 3/7 | 0 |
+
+The other 16 fixture entity tables and 70 model columns do not get a binding:
+the three-endpoint receipt covers the original lakehouses, not the other fixture
+variants' containers. Shared SQL server and display labels cannot fill that gap.
+No start reaches a declared system-of-record column, and static reachability is
+not full source verification. The parser resolves all 9 billing table and 32
+column declarations, but only three of seven visual starts reach physical columns:
+remaining expression-dependency and route gaps remain visible.
+
+The machine receipt is `docs/runs/round-twenty-directlake-offline.json`; it pins
+the original graph bytes, catalog manifests, receipt and rebuilt graph hashes.
+The full per-owner hashes and start-by-start coverage remain in the local
+`part-d-directlake-audit/audit.json`. `scripts/audit_directlake_bridge.py`
+reproduces the check from the immutable owner payloads without estate/model calls.
+The endpoint native response contains no service timestamp; its audit time is
+explicitly labelled observation of retained metadata, not a new live observation.
+
+Regression checks: 75 passed across DirectLake, static extraction, collector and
 partition tests. Cases include renamed/duplicate container labels, unknown or
 duplicate expressions, multiple partitions, dynamic expressions, imports,
 missing sourceColumn, calculated columns, missing endpoint proof, mismatched
