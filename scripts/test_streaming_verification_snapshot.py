@@ -42,23 +42,37 @@ class StreamingSnapshotTests(unittest.TestCase):
         with patch.dict('os.environ',{'TEST_API_KEY':'synthetic_secret_123'}):
             with self.assertRaises(RecordingError):snapshot(source,target)
         self.assertFalse(target.exists());self.assertEqual(before,hashlib.sha256(source.read_bytes()).hexdigest())
-    @unittest.skipUnless(sys.platform.startswith('linux'),'Linux ru_maxrss reports KiB; Windows lacks resource')
-    def test_linux_child_peak_growth_stays_below_full_128m_database(self):
+    @unittest.skipUnless(sys.platform.startswith('linux') or sys.platform=='win32','Peak RSS adapter supports Linux and Windows')
+    def test_child_peak_growth_stays_below_full_database(self):
         code=r'''
 from contextlib import closing
-import json,resource,sqlite3,sys
+import json,sqlite3,sys
 from pathlib import Path
 from cloud_verification_capture import snapshot
+if sys.platform=='win32':
+ import ctypes
+ from ctypes import wintypes
+ class Counters(ctypes.Structure):
+  _fields_=[('cb',wintypes.DWORD),('faults',wintypes.DWORD)]+[(name,ctypes.c_size_t) for name in ('peak','working','peak_paged','paged','peak_nonpaged','nonpaged','pagefile','peak_pagefile')]
+ def peak():
+  value=Counters();value.cb=ctypes.sizeof(value)
+  get=ctypes.windll.psapi.GetProcessMemoryInfo
+  get.argtypes=[wintypes.HANDLE,ctypes.POINTER(Counters),wintypes.DWORD]
+  if not get(wintypes.HANDLE(-1),ctypes.byref(value),value.cb):raise ctypes.WinError()
+  return value.peak//1024
+else:
+ import resource
+ def peak():return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
 root=Path(sys.argv[1]);source=root/'large.sqlite'
 with closing(sqlite3.connect(source)) as db:
  db.execute('CREATE TABLE fixture(value BLOB)')
- db.executemany('INSERT INTO fixture VALUES(zeroblob(2097152))',[() for _ in range(64)]);db.commit()
-baseline=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+ db.executemany('INSERT INTO fixture VALUES(zeroblob(2097152))',[() for _ in range(48)]);db.commit()
+baseline=peak()
 snapshot(source,root/'snapshot.sqlite')
-print(json.dumps({'bytes':source.stat().st_size,'peak_growth_kib':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss-baseline}))
+print(json.dumps({'bytes':source.stat().st_size,'peak_growth_kib':peak()-baseline}))
 '''
         result=subprocess.run([sys.executable,'-c',code,str(self.root)],cwd=Path(__file__).parent,check=True,capture_output=True,text=True,timeout=180)
-        receipt=json.loads(result.stdout);self.assertGreater(receipt['bytes'],128*1024*1024)
+        receipt=json.loads(result.stdout);self.assertGreater(receipt['bytes'],96*1024*1024)
         self.assertLess(receipt['peak_growth_kib'],96*1024)
 
 

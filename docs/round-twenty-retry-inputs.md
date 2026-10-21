@@ -17,3 +17,6 @@ DECIDED WITHOUT REVIEW ? 2026-10-21: Removed the implementation's self-imposed 9
 
 
 Bounded-memory snapshot correction ? 2026-10-21: The verifier snapshot now opens the source readonly, begins a read transaction, audits schema and every row in that frozen view, and backs up the same connection only after all checks pass. It no longer copies the entire database to an in-memory SQLite database. Raw and normalized BLOB checks, before-write refusal and exact written-file attestation remain. WAL writers may commit concurrently, but their later changes cannot enter the already-audited read snapshot. Memory remains proportional to the largest row/cell and bounded audit batch rather than total database size; this does not claim arbitrary single cells have a fixed memory bound. The overall job and resource allocation are unchanged.
+
+
+Image CI includes the streaming-snapshot, batching, run-audit-reuse, native-window, current-context, unified-runner, graph-schedule and exact-capture suites alongside the original ten modules, using the same eight shards. The memory regression creates a 96MiB database (48 two-MiB BLOBs); source plus destination fit the 256MiB temporary filesystem. Linux uses peak RSS and Windows uses the standard process memory counters; both require peak growth below 96MiB. No additional resource or paid runner is created.
