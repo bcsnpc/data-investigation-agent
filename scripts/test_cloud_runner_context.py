@@ -108,7 +108,8 @@ class DemoSnapshotTests(unittest.TestCase):
     def test_real_workspace_shape_without_close_still_returns_delivered_demo(self):
         from contextlib import nullcontext
         from cloud_runner_context import demo_after_verification
-        context=SimpleNamespace(record=Mock(),step=lambda name,fn:fn())
+        steps=[]
+        context=SimpleNamespace(record=Mock(),step=lambda name,fn:(steps.append(name),fn())[1])
         workspace=SimpleNamespace(forms=object())
         manifest={'model':{'credential':{'mode':'key_vault'},'endpoint':'https://model.example','deployment':'existing'}}
         plan={'manifest':'estate.json','options':{'demo_ticket':'form.json'}}
@@ -121,3 +122,4 @@ class DemoSnapshotTests(unittest.TestCase):
             result=demo_after_verification(verification,plan,context,'prepared')
         self.assertEqual(result['status'],'DEMO_FINISHED')
         self.assertEqual(result['demo']['state'],'COMPLETE')
+        self.assertIn('configured-demo',steps)

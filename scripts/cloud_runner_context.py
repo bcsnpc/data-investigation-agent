@@ -125,7 +125,7 @@ def demo_after_verification(verification,plan,context,prepared):
         model=manifest['model']
         settings={**model['credential'],'endpoint':model['endpoint'],'deployment':model['deployment']}
         with local_azure_key(settings):
-            demo=context.step('family-a-demo',lambda:run_form(workspace,read(plan['options']['demo_ticket'])))
+            demo=context.step('configured-demo',lambda:run_form(workspace,read(plan['options']['demo_ticket'])))
     finally:
         close=getattr(workspace,'close',None)
         if close is not None:close()
