@@ -41,7 +41,7 @@ class ExecutionTests(unittest.TestCase):
 
     def test_compiler_adds_identity_without_info_metadata(self):
         with patch('cloud_value_execution.build',return_value=copy.deepcopy(self.compiled)):
-            result=_compile({},[],{})
+            result=_compile({},[],self.plan['options'])
         self.assertIn('USERPRINCIPALNAME()',result['native_statement']);self.assertNotIn('INFO.',result['native_statement'])
 
     def test_native_http_401_preserves_error_no_false_attestation(self):
