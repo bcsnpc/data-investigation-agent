@@ -59,6 +59,13 @@ class IndependentSchedules(unittest.TestCase):
         one,two=bind_execution(runner),bind_execution(runner)
         self.assertNotEqual(one['run_id'],two['run_id'])
 
+    def test_empty_resource_enrichment_is_not_an_extra_allocation(self):
+        config,job=self.inputs();prepared=plan(job,config);daily,graph=self.readbacks(prepared,job,config)
+        graph['properties']['template']['containers'][0]['resources']['ephemeralStorage']=''
+        self.assertEqual(validate_pair(daily,graph,image=config['image'])['status'],'PASS')
+        graph['properties']['template']['containers'][0]['resources']['gpu']=1
+        with self.assertRaisesRegex(ValueError,'RESOURCES_DIFFER'):validate_pair(daily,graph,image=config['image'])
+
     def test_combined_cost_is_bounded_without_free_grants(self):
         cost=costs();self.assertEqual(cost['combined_monthly_usd'],'19.077133')
         self.assertEqual(cost['graph_vCPU_seconds'],31*4*1800*.5)

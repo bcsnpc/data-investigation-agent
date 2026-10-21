@@ -1,0 +1,57 @@
+{
+  "at": "2026-10-21",
+  "kind": "DAILY_SMOKE",
+  "run_id": "round20-smoke-01",
+  "status": "FAIL",
+  "execution": "job-dia-worker-35ouzp9",
+  "result": {
+    "budget_line": "collectors",
+    "checks": {
+      "blob_write_read": {
+        "result": {
+          "file_identity": {
+            "bytes": 129,
+            "sha256": "2f06e5fa79bbda2c25c13603ada4d27e6d6f98881387e6e95785b97780521680"
+          },
+          "sha256": "2f06e5fa79bbda2c25c13603ada4d27e6d6f98881387e6e95785b97780521680",
+          "status": "PASS"
+        },
+        "status": "PASS"
+      },
+      "gold_read": {
+        "error_type": "GatewayDenied",
+        "status": "FAIL"
+      },
+      "postgres_write_read": {
+        "result": {
+          "namespace": "daily_smoke",
+          "run_id": "round20-smoke-01",
+          "status": "PASS"
+        },
+        "status": "PASS"
+      },
+      "sign_in": {
+        "result": {
+          "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+          "status": "PASS"
+        },
+        "status": "PASS"
+      }
+    },
+    "demo_included": false,
+    "investigation_reads": 0,
+    "kind": "DAILY_SMOKE",
+    "record": "round20-smoke-01 DAILY_SMOKE FAIL",
+    "recorded_at": "2026-10-21T18:05:14.288148+00:00",
+    "run_id": "round20-smoke-01",
+    "status": "FAIL"
+  },
+  "cause": "Prepared health input incorrectly selected a retained catalog query rather than an ordinary Gold value query; unchanged gateway denied it before dispatch. Corrected input uses the retained SUM(units) payload; new early validation rejects catalog/control health requests. No permissions widened.",
+  "physical_requests_charged": 1,
+  "estate_queries_dispatched": 0,
+  "diagnostic_value_reads": 0,
+  "budget_line": "SCAN",
+  "model_calls": 0,
+  "capture_seal": "b3d4a8176fe1fd8f7861410ac33de0fd1e272ed587ee6cf5da3bddddbbd3db28",
+  "immutable_records_verified": 15
+}

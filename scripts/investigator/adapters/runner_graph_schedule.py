@@ -104,7 +104,8 @@ def validate_pair(daily,graph,*,image=None):
                 or settings.get('scheduleTriggerConfig')!={'cronExpression':cron,'parallelism':1,'replicaCompletionCount':1}):
             raise ValueError('SCHEDULE_PAIR_MISSING_OR_DIFFERS:'+cron)
         containers=properties.get('template',{}).get('containers',[])
-        if len(containers)!=1 or containers[0].get('resources')!={'cpu':0.5,'memory':'1Gi'}:
+        resources={k:v for k,v in containers[0].get('resources',{}).items() if v is not None and v!=''} if len(containers)==1 else {}
+        if len(containers)!=1 or resources!={'cpu':0.5,'memory':'1Gi'}:
             raise ValueError('SCHEDULE_PAIR_RESOURCES_DIFFER')
         if image is not None and containers[0].get('image')!=image:raise ValueError('SCHEDULE_PAIR_IMAGE_DIFFERS')
         container=containers[0]

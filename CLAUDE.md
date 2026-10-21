@@ -434,6 +434,8 @@ for a week, and a client onboarding has passed.
 
 The historical cumulative model ledger total (including$107.957725 from earlier rounds) does not count against the new budget. All build-phase monthly budgets begin counting at **2026-10-19 00:00UTC** forOctober; subsequent periods reset on the first of each calendar monthUTC. Historical rows and totals remain informational, unchanged. Model calls are allowed again within$40 permonth. No new model provider this round. Any later need for more model budget is recorded in docs/owner-actions.md for the owner to decide.
 
+Owner schedule decision under ?8, 2026-10-21: retain daily06:00UTC smoke on job-dia-worker and restore six-hour graph change detection in the separately approved job-dia-graph-scan, using the same existing environment, image, managed identity, resources and1,800-second runtime. No new role or identity scope; combined conservative monthly estimate USD19.077133 remains belowUSD20. Both schedules require Azure readback; current verification/demo must not be interrupted. Executed and independently read back2026-10-21: both jobs Succeeded, daily06UTC and graph six-hourly, same image/environment/MI and0.5vCPU/1GiB; no new role. Exact control body hash and readbacks are recorded in docs/runs/round-twenty-schedule-pair.json and the local control receipts.
+
 ## Known platform limits: served-snapshot metadata (2026-09-27)
 
 These are tested limits of the current least-privilege Fabric/Power BI reader,

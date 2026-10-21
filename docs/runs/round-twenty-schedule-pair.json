@@ -1,0 +1,44 @@
+{
+  "at": "2026-10-21",
+  "status": "APPLIED",
+  "validation": {
+    "status": "PASS",
+    "daily": {
+      "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-worker",
+      "cron": "0 6 * * *"
+    },
+    "graph": {
+      "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-graph-scan",
+      "cron": "0 */6 * * *"
+    },
+    "runtime_seconds": 1800
+  },
+  "cost": {
+    "monthly_usd": {
+      "platform": "14.822133",
+      "daily": "0.857",
+      "graph": "3.348",
+      "storage": "0.05"
+    },
+    "combined_monthly_usd": "19.077133",
+    "graph_executions_31_days": 124,
+    "seconds_per_execution": 1800,
+    "graph_vCPU_seconds": 111600,
+    "graph_GiB_seconds": 223200,
+    "free_grants_assumed": false,
+    "estimate_not_invoice": true
+  },
+  "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-graph-scan",
+  "request_method": "PUT",
+  "request_url": "https://management.azure.com/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-graph-scan?api-version=2025-01-01",
+  "request_body_sha256": "29e590fe4add0f798bfa1249bd9a295defa8c0e77feeb5815c16eb45f4c755f5",
+  "same_managed_identity": true,
+  "same_environment": true,
+  "same_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f9dd427e59cbaceb6a2db8fa9ac0886d85fe73a813911b263bcd4bfff6024167",
+  "resources": {
+    "cpu": 0.5,
+    "memory": "1Gi"
+  },
+  "new_roles": [],
+  "note": "First post-create validator rejected Azure empty ephemeralStorage metadata. Re-read both jobs; normalize only empty enrichment; nonempty extra resources still refuse. Running verification was untouched."
+}
