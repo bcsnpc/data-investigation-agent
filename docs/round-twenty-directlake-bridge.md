@@ -21,7 +21,8 @@ reads for visible column discovery, so future contexts keep that relationship
 without another request. Existing Power Query extraction remains unchanged.
 
 The retained coverage-final01 graphs have **76 fixture starts** (64 VISUAL and
-12 SLICER) and **7 billing starts**, not 66 fixture starts. Static parsing cannot
+12 SLICER) and **7 billing starts**. The earlier **66** is the number of fixture starts with
+`NO_DECLARED_SOURCE_CONTINUATION`, not the whole start set. Static parsing cannot
 change their identities. The model definitions offer 21 entity tables / 92 data
 columns in fixture and 9 / 32 in billing; these are potential declarations, not
 resolved path counts. The imported model is excluded.
@@ -44,6 +45,9 @@ It asserts every original start ID remains and no new start is introduced.
 The other 16 fixture entity tables and 70 model columns do not get a binding:
 the three-endpoint receipt covers the original lakehouses, not the other fixture
 variants' containers. Shared SQL server and display labels cannot fill that gap.
+The missing-continuation count is 66 to 63 fixture starts and remains 7 billing
+starts; a start can reach a physical column while another required dependency
+still stops. Those are not 66 and 7 fully resolved paths.
 No start reaches a declared system-of-record column, and static reachability is
 not full source verification. The parser resolves all 9 billing table and 32
 column declarations, but only three of seven visual starts reach physical columns:
