@@ -132,3 +132,7 @@ these ideas only; copy no code. This document does not import its code,
 dependencies, prompts or implementation. Implementation is deferred to Round
 Twenty-One and must preserve the project's read-only, evidence, privacy,
 identity-approval and budget controls.
+
+## Ticket-path verification loading (owner direction, 2026-10-21)
+
+Verification must load only the evidence for the ticket's own path, never the whole historical catalog. Resolve the admitted target to explicit object and boundary IDs first, then load only their definitions, bindings, surface attestations and referenced evidence. Retain those IDs and hashes in the capture so scope completeness is checked without importing unrelated history. Budget admission uses counters rather than historical evidence payloads. Historical tapes remain unchanged. This is a required Round Twenty-One design constraint; it is not a claim that the current verifier already loads by path.
