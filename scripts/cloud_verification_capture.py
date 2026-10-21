@@ -24,10 +24,11 @@ def snapshot(source,destination):
  if not source.exists():return None
  from investigator.run_database_audits import detector_identity,certify_snapshot
  guard=detector_identity(_safe)
- with closing(sqlite3.connect(':memory:')) as retained:
-  with closing(sqlite3.connect(source.resolve().as_uri()+'?mode=ro',uri=True)) as db:
-   db.backup(retained)
-  # Source handle is closed before the potentially long credential audit.
+ # A readonly transaction freezes the audited view, including WAL pages,
+ # without copying the entire database into process memory. The same source
+ # connection supplies the destination backup only after every check passes.
+ with closing(sqlite3.connect(source.resolve().as_uri()+'?mode=ro',uri=True)) as retained:
+  retained.execute('BEGIN')
   for row in retained.execute('SELECT type,name,tbl_name,rootpage,sql FROM sqlite_master ORDER BY type,name'):
    safe(list(row))
   from investigator.database_audit import CompleteValues
@@ -51,6 +52,7 @@ def snapshot(source,destination):
    batch.flush()
   if detector_identity(_safe)!=guard:raise ValueError('AUDIT_ENVIRONMENT_CHANGED')
   with closing(sqlite3.connect(destination)) as output:retained.backup(output)
+  retained.rollback()
  result=sha(destination)
  certify_snapshot(destination,_safe,guard,result)
  return result
