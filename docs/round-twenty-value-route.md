@@ -53,3 +53,24 @@ and warehouse name `North`. Graph visual IDs use `/visual/`; the retained
 definition part uses `/part/`. An exact part binding is required; this compiler
 does not resolve a different visual as a fallback. These are retained metadata
 observations, not live verification results.
+
+`declared_producers(graph, table_ids)` follows every `DERIVED_IN_STEP` edge to
+QUERY_STEP and preserves owner, expression, definition hash and JSON pointer.
+It never chooses a last writer from static alternatives. On the retained billing
+graph, both `gold.subscriptions` and `gold.plans` have two Script CTAS writers:
+pipeline `62eb1a7f-19c2-466f-85ec-cda6bc231fb9` and pipeline
+`76c60248-b830-433b-9880-90593da28e7e`. Their retained expressions read directly
+from `bronze.subscriptions` and `bronze.plans`; no Silver stage or stored
+procedure is invented. Definition hashes are respectively
+`b6cf6663945807581f86d5ce8432c465c4265cdf5db9fa438945d43f9ea65e09`
+and `6a8b2cf63f4dd89c731612162da50b38507fbc9120d3b5d88507d8c0653ab6cf`.
+Both have `execution_established=false`; which one last ran remains unestablished.
+The retained MRR All Plans expression parses into the supported SUMX/RELATED
+subset using the actual Subscriptions-to-Plans relationship and exact source
+column identities. This is compiler support, not a live value-verification claim.
+
+Native date literals are delegated to the existing catalog-typed DAX compiler.
+The retained fixture event_day is declared `string`, so its ISO day is correctly
+rendered as text. If the current definition instead declares dateTime, that
+compiler refuses this unsupported literal representation rather than silently
+applying a string predicate. The string/dateTime regression records that bound.

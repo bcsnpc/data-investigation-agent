@@ -187,6 +187,11 @@ def build(model, measure_id, target_id, layer_mappings, *, tolerance):
     scope = {'report_binding': evidence['report_binding']}
     cells = addresses(model, report_predicates._document(model, target_id), target_id, measure_id, scope)
     cell = _one(cells, 'CELL_SCOPE_AMBIGUOUS')
+    part = _one([part for report in model['context']['reports'] for part in report['report_definitions'] if part['id'] == target_id], 'VISUAL_PART_UNRESOLVED')
+    path = part['metadata'].get('path', '')
+    page = re.fullmatch(r'definition/pages/([^/]+)/visuals/[^/]+/visual.json', path)
+    if page is None: raise Refused('VISUAL_PAGE_UNRESOLVED')
+    address = {'report_id': evidence['report_binding']['report_id'], 'page_id': page[1], 'target_id': target_id}
     restrictions = compose(declaration['restrictions'] + cell['key_restrictions'])
     program = measure_program(model, measure_id)
     native = report_predicates.quantity_query(model, measure_id, restrictions)
@@ -196,10 +201,10 @@ def build(model, measure_id, target_id, layer_mappings, *, tolerance):
         except (Refused, KeyError, TypeError) as error:
             layers.append({'layer_id': mapping.get('layer_id', 'UNKNOWN'), 'compilation_error': str(error), 'mapping': copy.deepcopy(mapping)})
     return {'version': VERSION, 'model_id': model['id'], 'context_id': model['context_id'], 'measure_id': measure_id,
-        'definition_hash': program['expression_hash'], 'visual_cell': cell, 'inventory': inventory,
+        'definition_hash': program['expression_hash'], 'visual_address': address, 'visual_cell': cell, 'inventory': inventory,
         'active_restrictions': declaration['restrictions'], 'restrictions': restrictions,
         'report_binding': evidence['report_binding'], 'report_catalog': evidence['report_catalog'],
-        'scope_hash': digest({'cell': cell, 'restrictions': restrictions}), 'program': program,
+        'scope_hash': digest({'visual_address': address, 'visual_cell': cell, 'inventory': inventory, 'active_restrictions': declaration['restrictions']}), 'program': program,
         'tolerance': copy.deepcopy(tolerance), 'native_statement': native, 'layers': layers,
         'qualifications': ['SNAPSHOT_UNVERIFIED'] + (['Saved slicer default positions assumed; current positions not established.']
             if any(e['assumption'] == 'SAVED_DEFAULT' and e['disposition'] == 'ACTIVE' for e in entries) else [])}
@@ -245,6 +250,28 @@ def execute(plan, read_native, read_lower, retain):
         previous = current
     return {'status': 'VALUES_AGREE_UNDER_MAPPING', 'reads': retained, 'comparisons': comparisons,
         'qualifications': plan['qualifications'], 'confidence_awarded': False}
+
+
+def declared_producers(graph, table_ids):
+    """Report every declared writer alternative; static text is not a last run."""
+    nodes = {node['id']: node for node in graph['nodes']}
+    result = []
+    for identity in table_ids:
+        table = nodes.get(identity)
+        if not table or table['kind'] != 'TABLE': raise Refused('PRODUCER_TABLE_UNRESOLVED')
+        writers = []
+        for edge in graph['edges']:
+            if edge['source'] != identity or edge['kind'] != 'DERIVED_IN_STEP': continue
+            step = nodes.get(edge['target'])
+            if not step or step['kind'] != 'QUERY_STEP': continue
+            writers.append({'step_id': step['id'], 'owner': step['owner'], 'expression': step['properties'].get('expression'),
+                'language': step['properties'].get('language'), 'provenance': copy.deepcopy(step['provenance']),
+                'execution_established': step['properties'].get('execution_established') is True})
+        result.append({'table_id': identity, 'asset_id': table['properties'].get('asset_id'),
+            'writers': sorted(writers, key=lambda writer: writer['step_id']),
+            'last_writer_established': False,
+            'remaining_gap': 'Static producer alternatives do not establish which pipeline last ran.' if writers else 'No declared producer.'})
+    return result
 
 
 def main():

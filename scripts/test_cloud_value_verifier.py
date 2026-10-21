@@ -3,7 +3,7 @@ import sqlite3
 import unittest
 from unittest.mock import Mock
 
-from cloud_value_verifier import Refused, compile_layer, execute, measure_program
+from cloud_value_verifier import Refused, compile_layer, declared_producers, execute, measure_program
 
 
 def fixture(expression='SUM(Facts[amount])'):
@@ -77,6 +77,24 @@ class CompilerTests(unittest.TestCase):
         query=compile_layer(model,measure_program(model,'measure'),[restriction('Facts.status',[])],mapping)['statement']
         self.assertIsNone(db.execute(query).fetchone()[0])
 
+    def test_native_date_text_only_for_declared_string_column(self):
+        from investigator.adapters.report_predicates import quantity_query, Refusal
+        model,_=fixture()
+        field=next(a for a in model['context']['model_assets'] if a['id']=='Facts.status')
+        query=quantity_query(model,'measure',[restriction('Facts.status',['2026-09-15'])])
+        self.assertIn('"2026-09-15"',query)
+        field['metadata']['dataType']='dateTime'
+        with self.assertRaisesRegex(Refusal,'RENDER_VALUE_TYPE_dateTime'):
+            quantity_query(model,'measure',[restriction('Facts.status',['2026-09-15'])])
+
+    def test_producer_alternatives_do_not_invent_last_execution(self):
+        graph={'nodes':[{'id':'table','kind':'TABLE','properties':{'asset_id':'physical'}},
+            *[{'id':str(i),'kind':'QUERY_STEP','owner':'pipeline'+str(i),'properties':{'expression':'CREATE TABLE x AS SELECT a FROM y','language':'TSQL','execution_established':False},'provenance':{'definition_hash':str(i)}} for i in range(2)]],
+            'edges':[{'source':'table','target':str(i),'kind':'DERIVED_IN_STEP'} for i in range(2)]}
+        result=declared_producers(graph,['table'])[0]
+        self.assertEqual(len(result['writers']),2);self.assertFalse(result['last_writer_established'])
+        self.assertTrue(all(not w['execution_established'] for w in result['writers']))
+
 
 class NativeFirstTests(unittest.TestCase):
     def plan(self):
@@ -103,6 +121,11 @@ class NativeFirstTests(unittest.TestCase):
     def test_duplicate_lookup_refuses_even_matching_value(self):
         result=execute(self.plan(),lambda q:{'status':'SUCCEEDED','value':5},lambda q:{'status':'SUCCEEDED','value':5,'duplicate_lookup_keys':1},lambda r:None)
         self.assertEqual(result['reason'],'RELATED_LOOKUP_KEYS_NOT_UNIQUE')
+
+    def test_mrr_guard_absence_is_not_unique(self):
+        plan=self.plan();plan['layers'][0]['requires_lookup_guard']=True
+        result=execute(plan,lambda q:{'status':'SUCCEEDED','value':5},lambda q:{'status':'SUCCEEDED','value':5},lambda r:None)
+        self.assertEqual(result['reason'],'RELATED_LOOKUP_GUARD_NOT_OBTAINED')
 
     def test_unexplained_difference_refuses_never_qualitative_story(self):
         result=execute(self.plan(),lambda q:{'status':'SUCCEEDED','value':16},lambda q:{'status':'SUCCEEDED','value':8},lambda r:None)
