@@ -40,6 +40,9 @@ def snapshot(source,destination):
       except json.JSONDecodeError:parsed=value
       batch.add(json.dumps(parsed,ensure_ascii=False).encode())
      elif isinstance(value,bytes):
+      # A JSON-string wrapper can hide another escape layer. Inspect the
+      # original BLOB as well as the existing normalized representation.
+      batch.individual(value)
       try:raw=json.dumps(value.decode('utf8'),ensure_ascii=False).encode()
       except UnicodeDecodeError:raw=value
       batch.individual(raw)

@@ -77,6 +77,20 @@ class BatchedDatabaseAuditTests(unittest.TestCase):
                     with self.assertRaises(RecordingError):snapshot(source,destination)
                     self.assertFalse(destination.exists())
                     self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(),before)
+    def test_snapshot_refuses_json_escaped_environment_secret_inside_utf8_blob_before_write(self):
+        from cloud_verification_capture import snapshot
+        # The secret's first character is escaped inside a JSON object stored
+        # as a BLOB. Wrapping the whole object as a JSON string would leave
+        # that escape unexpanded; the raw BLOB check must also run.
+        secret='synthetic_blob_probe_12345'
+        value=json.dumps({'note':secret}).replace(secret,'\\u0073'+secret[1:]).encode()
+        source=self.database([value]);destination=source.with_name('refused.sqlite')
+        before=hashlib.sha256(source.read_bytes()).hexdigest()
+        with patch.dict('os.environ',{'TEST_API_KEY':secret}):
+            with self.assertRaises(RecordingError):snapshot(source,destination)
+        self.assertFalse(destination.exists())
+        self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(),before)
+
     def test_capture_snapshot_keeps_all_rows_and_binary_normalization(self):
         from cloud_verification_capture import snapshot
         source=self.database([json.dumps({'ok':'fixture'}),b'plain binary',b'\xffplain'])
