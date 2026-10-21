@@ -121,6 +121,74 @@ class RunnerTests(unittest.TestCase):
             self.assertTrue(replayed['matched'])
             self.assertEqual(replayed['result'],result)
             self.assertEqual(path.read_bytes(),original)
+    def test_azure_launch_uses_pinned_image_existing_environment_and_no_inline_code(self):
+        from types import SimpleNamespace
+        from investigator.unified_runner import azure_launch
+        with tempfile.TemporaryDirectory() as d:
+            config=self.config(Path(d));config['run_id']='fixed-run'
+            config['deployment']={'resource_id':'/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/existing-rg/providers/Microsoft.App/jobs/existing-job','cli':['python','-m','azure.cli']}
+            calls=[]
+            def execute(argv,**kwargs):
+                calls.append(argv)
+                if 'show' in argv:return SimpleNamespace(stdout=json.dumps({'properties':{'template':{'containers':[{'name':'worker','image':'old','env':[{'name':'EXISTING_REF','secretRef':'existing-vault-ref'}]}]}}}))
+                template=json.loads(Path(argv[argv.index('--yaml')+1]).read_bytes())
+                container=template['containers'][0]
+                self.assertEqual(container['image'],config['image'])
+                self.assertEqual(container['command'][0:3],['python','/app/scripts/dia.py','run'])
+                self.assertEqual(container['args'],[])
+                env={v['name']:v for v in container['env']}
+                self.assertEqual(env['EXISTING_REF']['secretRef'],'existing-vault-ref')
+                self.assertEqual(json.loads(env['DIA_RUNNER_ESTATE_JSON']['value']),config)
+                return SimpleNamespace(stdout='{"name":"job-execution-1"}')
+            budget=[]
+            with patch.dict(sys.modules,{'investigator.build_phase':SimpleNamespace(admit_platform=lambda *a:budget.append(a))}):
+                result=azure_launch(config,'bronze',execute=execute)
+            self.assertEqual(result['execution_name'],'job-execution-1')
+            self.assertEqual(len(calls),2);self.assertEqual(len(budget),1)
+    def test_smoke_gold_uses_physical_meter_and_earned_demo_is_wired(self):
+        from types import SimpleNamespace
+        from investigator.unified_runner import handlers
+        from investigator.physical_reads import _scope
+        calls=[]
+        class Meter:
+            def __init__(self,*args):pass
+            def __call__(self,fn):calls.append('physical');return fn()
+            def close(self):calls.append('closed')
+        def gold(payload):
+            self.assertIsNotNone(_scope.get())
+            _scope.get()['meter']('next-request',lambda:None)
+            return {'value':7661}
+        def smoke(config,context,**kwargs):
+            self.assertEqual(kwargs['gold_read']({}),{'value':7661})
+            self.assertEqual(kwargs['demo'](),{'status':'INVESTIGATED'})
+            return {'status':'PASS'}
+        def form(argv):
+            root=Path(argv[argv.index('--job-root')+1]);root.mkdir()
+            (root/'result.json').write_text('{"status":"INVESTIGATED"}')
+        with tempfile.TemporaryDirectory() as d,patch('scan_estate_graph.Meter',Meter),patch('investigator.shared_state.configured_state',return_value=object()),patch('investigator.daily_smoke._gold_read',gold),patch('investigator.daily_smoke.run_smoke',smoke),patch('cloud_form_worker.main',form):
+            result=handlers()['smoke']({'options':{'config':{'demo_earned':True},'budget':{},'max_requests':10,'demo':{'bundle':'fixture','sha256':'a'*64}}},SimpleNamespace(root=Path(d)))
+            self.assertEqual(result['status'],'PASS')
+            self.assertEqual(calls,['physical','physical','closed'])
+
+class CaptureGatewayTests(unittest.TestCase):
+    config=RunnerTests.config
+    def gateway(self):
+        from investigator.live_gateway import Gateway
+        return Gateway({'version':1,'live_enabled':True,'identities':{'capture':{'role':'platform','runner_captures':[{'account_url':'https://synthetic.blob.core.windows.net','prefix':'round20','run_id':'run-one','max_bytes':1024}]}}})
+    def test_only_exact_run_prefix_and_immutable_bounded_json_put_is_allowed(self):
+        from investigator.live_gateway import GatewayDenied
+        gateway=self.gateway();url='https://synthetic.blob.core.windows.net/captures/round20/run-one/00000001-header.json'
+        headers={'If-None-Match':'*','x-ms-blob-type':'BlockBlob'}
+        with patch.dict(os.environ,{'DIA_LIVE_ACCESS_DISABLED':'0'},clear=False):
+            gateway.http('capture','PUT',url,b'{}',headers)
+            gateway.http('capture','GET',url)
+            gateway.http('capture','HEAD',url)
+            for method,target,body,h in [('PUT',url,b'{}',{}),('PUT',url,b'x'*1025,headers),('DELETE',url,None,{}),
+                    ('PUT',url.replace('run-one','run-two'),b'{}',headers),('PUT',url.replace('/run-one/','/run-one-adjacent/'),b'{}',headers),
+                    ('PUT',url.replace('00000001-header.json','../run-two/00000001-header.json'),b'{}',headers),
+                    ('PUT',url.replace('00000001-header.json','%2e%2e/run-two/00000001-header.json'),b'{}',headers),
+                    ('PUT',url+'?comp=metadata',b'{}',headers)]:
+                with self.subTest(method=method,target=target),self.assertRaises(GatewayDenied):gateway.http('capture',method,target,body,h)
     def test_real_process_kill_preserves_partial_remote_blob_objects(self):
         # The fake Blob service is an independent filesystem durable store. The
         # child uses the real runner and is killed while the second read blocks.

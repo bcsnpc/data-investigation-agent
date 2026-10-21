@@ -140,6 +140,10 @@ class Gateway:
                 from .adapters.platform_cas import declaration
                 if permissions.get('role')!='platform':_deny('PLATFORM_IDENTITY_REQUIRED')
                 for item in permissions['platform_cas']:declaration(item)
+            if permissions.get('runner_captures'):
+                from .adapters.runner_blobs import declaration
+                if permissions.get('role')!='platform':_deny('PLATFORM_IDENTITY_REQUIRED')
+                for item in permissions['runner_captures']:declaration(item)
             if permissions.get('platform_screenshots'):
                 from .adapters.screenshot_blobs import declaration
                 if permissions.get('role')!='platform':_deny('PLATFORM_IDENTITY_REQUIRED')
@@ -184,6 +188,9 @@ class Gateway:
                 _deny('SCANNER_RESPONSE_BINDING_REQUIRED',identity=identity,operation=method,target=url)
         if len(matches)!=1:
             if not matches and permissions.get('role')=='platform':
+                from .adapters.runner_blobs import permits as runner_permits
+                if runner_permits(self,identity,method,url,body,headers):
+                    return {'method':method,'url':url,'purpose':'runner_capture'}
                 from .adapters.platform_cas import permits
                 if permits(self,identity,method,url,body,headers):
                     return {'method':method,'url':url,'purpose':'platform_cas'}

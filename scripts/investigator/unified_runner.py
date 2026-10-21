@@ -19,7 +19,7 @@ KINDS=frozenset({'investigation','verification','probe','scan','replay','prepare
 def load(path):
     value=json.loads(Path(path).read_bytes())
     required={'version','manifest','image','capture','checks','output_root','bootstrap'}
-    if not isinstance(value,dict) or not required<=set(value)<=required|{'run_id'} or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
+    if not isinstance(value,dict) or not required<=set(value)<=required|{'run_id','input','platform_cost_observation','deployment'} or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
     if 'run_id' in value and not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',value['run_id']):raise ValueError('RUN_ID_INVALID')
     if not re.fullmatch(r'[^\s]+@sha256:[0-9a-f]{64}',value['image']):raise ValueError('RUNNER_PINNED_IMAGE_REQUIRED')
     validate_bootstrap_header(value['bootstrap'])
@@ -100,8 +100,20 @@ def handlers():
                 return result
         finally:meter.close()
     def smoke(plan,ctx):
-        from .daily_smoke import handler
-        return handler({**plan,'target':plan['options']},ctx)
+        from .daily_smoke import run_smoke,_gold_read
+        from scan_estate_graph import Meter
+        from .shared_state import configured_state
+        from .physical_reads import scope
+        o=plan['options'];state=configured_state()
+        if state is None:raise ValueError('RUNNER_SMOKE_SHARED_BUDGET_REQUIRED')
+        meter=Meter(state,o['budget'],o['max_requests'])
+        def gold(payload):
+            def execute():
+                with scope(lambda kind,fn:meter(fn)):return _gold_read(payload)
+            return meter(execute)
+        demo=(lambda:investigation({**plan,'options':o['demo']},ctx)) if o['config']['demo_earned'] else None
+        try:return run_smoke(o['config'],ctx,state=state,gold_read=gold,demo=demo)
+        finally:meter.close()
     return {'verification':verification,'investigation':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke}
 
 def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
@@ -130,6 +142,15 @@ def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
             os.environ['INVESTIGATOR_BUDGET_CATEGORY']='SCAN' if check['kind'] in ('scan','smoke') else 'INVESTIGATION'
             from scan_estate_graph import READ_OBSERVER
             observer_token=READ_OBSERVER.set(lambda label,value:ctx.record('physical-result',{'label':label,**value}))
+            if 'input' in config:
+                def materialize():
+                    from cloud_stage_worker import transport,extract
+                    o=config['input'];download,_=transport(config['capture'])
+                    raw=download(o['url'],o['compressed_limit'])
+                    if len(raw)>o['compressed_limit']:raise ValueError('RUNNER_INPUT_COMPRESSED_BOUND')
+                    extract(raw,Path(o['directory']),expected=o['sha256'],expanded_limit=o['expanded_limit'])
+                    return {'sha256':o['sha256'],'bytes':len(raw)}
+                ctx.step('input-materialization',materialize)
             attempt=0
             def perform():
                 nonlocal attempt
@@ -155,6 +176,42 @@ def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
 
 def command(estate,target):
     return ['python','/app/scripts/dia.py','run',target,'--estate',str(estate),'--runtime','worker']
+
+
+def azure_launch(config,target,*,execute=subprocess.run):
+    """Read existing job and start its pinned override; never update its roles."""
+    import tempfile
+    from .build_phase import admit_platform
+    observation=config.get('platform_cost_observation')
+    if observation is not None:
+        if set(observation)!={'charged_microdollars','observed_at','source'} or not isinstance(observation['source'],str):raise ValueError('RUNNER_PLATFORM_COST_OBSERVATION')
+        if time.time()-float(observation['observed_at'])>86400:raise ValueError('RUNNER_PLATFORM_COST_OBSERVATION_STALE')
+    admit_platform(observation['charged_microdollars'] if observation else None,time.time())
+    deployment=config['deployment']
+    if set(deployment)!={'resource_id','cli'}:raise ValueError('RUNNER_AZURE_DEPLOYMENT')
+    resource=deployment['resource_id']
+    if not re.fullmatch(r'/subscriptions/[0-9a-fA-F-]{36}/resourceGroups/[A-Za-z0-9_.()-]+/providers/Microsoft\.App/jobs/[a-z0-9-]+',resource):raise ValueError('RUNNER_EXISTING_JOB_ID')
+    cli=deployment['cli']
+    if not (cli==['az'] or isinstance(cli,list) and len(cli)==3 and cli[1:]==['-m','azure.cli'] and re.fullmatch(r'python(?:[0-9.]*)?(?:\.exe)?',Path(cli[0]).name,re.I)):raise ValueError('RUNNER_FIXED_AZURE_CLI_REQUIRED')
+    base=cli+['containerapp','job']
+    read=execute(base+['show','--ids',resource,'--output','json','--only-show-errors'],capture_output=True,text=True,check=True)
+    job=json.loads(read.stdout);template=copy.deepcopy(job['properties']['template'])
+    if len(template.get('containers',[]))!=1:raise ValueError('RUNNER_SINGLE_EXISTING_WORKER_REQUIRED')
+    container=template['containers'][0]
+    container['image']=config['image'];container['command']=command('/work/runner-estate.json',target);container['args']=[]
+    env=[row for row in container.get('env',[]) if row['name'] not in ('DIA_RUNNER_ESTATE_JSON','INVESTIGATOR_OPERATING_MODE')]
+    env.extend([{'name':'DIA_RUNNER_ESTATE_JSON','value':json.dumps(config,sort_keys=True)},
+                {'name':'INVESTIGATOR_OPERATING_MODE','value':'BUILD_PHASE'}])
+    container['env']=env
+    _safe(bytes_of(template))
+    with tempfile.TemporaryDirectory(prefix='dia-runner-launch-') as folder:
+        path=Path(folder)/'execution.yaml'
+        # JSON is valid YAML. No identity, resource, schedule, role or secret is
+        # changed; this is the existing job's per-execution template override.
+        path.write_bytes(bytes_of(template))
+        started=execute(base+['start','--ids',resource,'--yaml',str(path),'--output','json','--only-show-errors'],capture_output=True,text=True,check=True)
+    result=json.loads(started.stdout)
+    return {'run_id':config.get('run_id'),'execution_name':result.get('name'),'image':config['image'],'status':'STARTED'}
 
 def main(args):
     if args.runtime=='worker':
@@ -188,5 +245,4 @@ def main(args):
         return subprocess.run(cmd,check=False).returncode
     # Azure launches use the same fixed argv and retain job's already installed
     # managed identity/environment. No inline Python or arbitrary command.
-    output=subprocess.run(['az','containerapp','job','start','--name','job-dia-worker','--resource-group','rg-dia-platform','--command',*command(args.estate,args.target)],check=False)
-    return output.returncode
+    print(json.dumps(azure_launch(config,args.target)));return 0

@@ -9,6 +9,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import os
 from .planner_recording import _safe
 from .process_tape import bytes_of, EVENT_OBSERVER, validate_bootstrap_header
 
@@ -68,10 +69,28 @@ class DurableCapture:
 
 def blob_sink(config):
     """Use existing platform transport, managed identity and gateway allowlist."""
-    from cloud_stage_worker import transport
+    from urllib.request import Request,build_opener
+    from metadata_auth import NoRedirect
+    from .adapters.managed_identity import Tokens
+    from .live_gateway import current,open_http
     from .adapters.blob_artifacts import validate_account_url
     validate_account_url(config['account_url'])
     prefix=config['prefix'].strip('/')
     if not re.fullmatch(r'[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*',prefix):raise ValueError('RUN_CAPTURE_PREFIX_INVALID')
-    _,upload=transport(config)
-    return lambda key,raw:upload(config['account_url']+'/captures/'+prefix+'/'+key,raw)
+    tokens=Tokens(config['identity']);opener=build_opener(NoRedirect())
+    def upload(key,raw):
+        url=config['account_url']+'/captures/'+prefix+'/'+key
+        headers={'x-ms-version':'2023-11-03','x-ms-blob-type':'BlockBlob','If-None-Match':'*','Content-Type':'application/json'}
+        status=None
+        try:
+            current().http(config['channel'],'PUT',url,raw,headers)
+            headers['Authorization']='Bearer '+tokens.get_token('https://storage.azure.com/.default')
+            with open_http(opener,Request(url,data=raw,headers=headers,method='PUT'),timeout=120,identity=config['channel']) as response:
+                status=response.status
+                if status!=201:raise ValueError('RUN_CAPTURE_BLOB_PUT_FAILED')
+        finally:
+            log=Path(os.environ['DIA_PLATFORM_CONTROL_RECEIPTS']);log.parent.mkdir(parents=True,exist_ok=True)
+            with log.open('ab') as stream:
+                stream.write(bytes_of({'kind':'PLATFORM_ARTIFACT_CONTROL','method':'PUT','url':url,'http_status':status,'principal_id':config['identity']['principal_id'],'body_bytes':len(raw)})+b'\n')
+                stream.flush();os.fsync(stream.fileno())
+    return upload

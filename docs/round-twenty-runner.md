@@ -19,6 +19,20 @@ handler uses the separately tested daily-smoke implementation.
 An optional `run_id` can be pinned in the deployment envelope to prepare exact
 gateway grants for immutable capture objects. A subsequent run needs a fresh
 identifier; existing capture directories and Blob objects are never overwritten.
+The platform gateway's `runner_captures` declaration names only the account,
+capture prefix, exact run identifier and maximum object bytes. It permits
+GET/HEAD and create-only BlockBlob PUT of numbered JSON entries and the sealed
+run manifest. Adjacent runs, encoded traversal, query controls, overwrite PUT
+and other methods are refused. This adds no Azure role or identity permission.
+
+Azure deployment options declare the existing job resource ID and a fixed CLI
+tuple (`[python-path, -m, azure.cli]`, or `[az]`). The launcher reads the existing
+template, preserves environment references/resources, selects the pinned image
+and fixed command, and starts a per-execution JSON/YAML template override.
+`platform_cost_observation` carries the actual billing amount, timestamp and
+source; the monthly platform admission check runs before launch. Optional
+hash-pinned `input` configuration retrieves an existing archive through the
+gateway and existing bounded extractor, with its header already durable.
 
 The complete seven-field tape bootstrap is checked before any transport or
 handler starts. The capture object receives a configured platform Blob sink;
