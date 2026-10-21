@@ -90,7 +90,7 @@ class SmokeTests(unittest.TestCase):
         self.state=SharedState.offline(Path(self.tmp.name)/'state.sqlite');self.state.migrate()
         auth={'principal_id':'reader'}
         self.config={'version':1,'run_id':'smoke-20261021','reader_authentication':auth,
-                     'gold_payload':{'authentication':auth},'platform_blob':{},'demo_earned':False}
+                     'gold_payload':{'authentication':auth,'require_read_only':True,'query':'SELECT SUM(units) AS value FROM dbo.movements','read_only_objects':['[dbo].[movements]'],'result_columns':['value'],'max_rows':2},'platform_blob':{},'demo_earned':False}
         self.context=Mock();self.context.step.side_effect=lambda name,fn:fn()
     def test_smoke_roundtrips_own_database_and_blob_without_holding_transaction(self):
         def external(*args):

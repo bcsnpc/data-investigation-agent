@@ -31,7 +31,25 @@ def schedule_plan(*, resource_id, image, platform_monthly_usd, smoke_monthly_usd
             'marginal_smoke_estimate_usd': str(extra), 'new_resources': []}
 
 
+def validate_gold_payload(payload):
+    """Health means one ordinary bounded value read, never a catalog control."""
+    if not isinstance(payload,dict) or payload.get('require_read_only')is not True or payload.get('control_mode'):
+        raise ValueError('SMOKE_GOLD_DATA_QUERY_REQUIRED')
+    from .adapters.binding_catalog import compiled_control_objects
+    from .adapters.graph_sql_changes import compiled_control_objects as graph_controls
+    if compiled_control_objects(payload)is not None or graph_controls(payload)is not None:
+        raise ValueError('SMOKE_GOLD_DATA_QUERY_REQUIRED')
+    from .live_gateway import validate_sql,_object
+    try:
+        objects={_object(value)for value in payload['read_only_objects']}
+        if not objects or any(schema in ('sys','information_schema')for schema,_ in objects):raise ValueError('metadata object')
+        validate_sql(payload['query'],objects)
+    except Exception:raise ValueError('SMOKE_GOLD_DATA_QUERY_REQUIRED')from None
+    return payload
+
+
 def _gold_read(payload):
+    validate_gold_payload(payload)
     from .physical_reads import run
     child = run([sys.executable, str(Path(__file__).resolve().parents[1] / 'managed_sql_worker.py')],
                 input=json.dumps(payload), timeout=240, fallback=subprocess.run,
@@ -71,6 +89,7 @@ def run_smoke(config, context, *, state=None, sign_in=None, gold_read=None, blob
         raise ValueError('DAILY_SMOKE_DEMO_EARNED_FLAG')
     if config['gold_payload'].get('authentication') != config['reader_authentication']:
         raise ValueError('SMOKE_GOLD_IDENTITY_DIFFERS')
+    validate_gold_payload(config['gold_payload'])
     if config['demo_earned'] and demo is None:
         raise ValueError('EARNED_SMOKE_DEMO_HANDLER_REQUIRED')
     from .shared_state import configured_state
