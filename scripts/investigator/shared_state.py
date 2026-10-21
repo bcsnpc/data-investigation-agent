@@ -4,6 +4,9 @@ No estate data connector lives here. PostgreSQL transactions serialize budget
 admission and revision changes; there is no SQL-dialect rewriting layer.
 """
 from contextlib import contextmanager, closing
+from contextvars import ContextVar
+
+TRANSACTION_ACTIVE = ContextVar("shared_state_transaction_active", default=False)
 from decimal import Decimal
 import hashlib
 import json
@@ -152,8 +155,12 @@ class SharedState:
             else:
                 db.execute('BEGIN IMMEDIATE')
             check_lease(self,db,release_only=_lease_release)
-            yield db
-            db.commit()
+            marker = TRANSACTION_ACTIVE.set(True)
+            try:
+                yield db
+                db.commit()
+            finally:
+                TRANSACTION_ACTIVE.reset(marker)
         except BaseException:
             db.rollback()
             raise
@@ -338,13 +345,13 @@ def configured_state(environ=None):
     if any(not env.get(k) for k in required):
         raise ValueError('POSTGRES_CONNECTION_CONFIGURATION_MISSING')
     def connect():
-        import psycopg
+        from .postgres_connection import connect as postgres_connect
         from .live_gateway import authorize_platform_database
         authorize_platform_database(env.get('DIA_GATEWAY_STATE_IDENTITY','state'),env[required[0]],env[required[1]])
         from .adapters.platform_credentials import credential_type, trust_roots
         with credential_type()(client_id=env['AZURE_CLIENT_ID']) as credential:
             token = credential.get_token('https://ossrdbms-aad.database.windows.net/.default').token
-        return psycopg.connect(host=env[required[0]], dbname=env[required[1]], user=env[required[2]],
+        return postgres_connect(host=env[required[0]], dbname=env[required[1]], user=env[required[2]],
                               password=token, sslmode='verify-full', sslrootcert=trust_roots(),
                               options='-c search_path=dia_state', connect_timeout=15)
     return SharedState(connect, backend='postgresql', mode='live')

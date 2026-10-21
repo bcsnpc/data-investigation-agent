@@ -75,6 +75,8 @@ def run(command, *, input, timeout, fallback=None, **kwargs):
     from .process_tape import ACTIVE as RUN_TAPE
     replay=RUN_TAPE.get()
     if not (replay and replay.replaying):
+        from .live_gateway import _network_unlocked
+        _network_unlocked()
         candidate=json.loads(input)
         if isinstance(candidate,dict) and 'query' in candidate and 'server' in candidate:
             from .live_gateway import authorize_sql_payload, authorize_sql_control
