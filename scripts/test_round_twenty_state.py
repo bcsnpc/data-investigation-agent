@@ -117,7 +117,7 @@ class SmokeTests(unittest.TestCase):
             result=_blob_roundtrip({'account_url':'https://platform.blob.core.windows.net','identity':{},'channel':'state'},b'health')
         self.assertEqual(result['status'],'PASS')
     def test_schedule_uses_existing_job_and_refuses_cost_above_twenty(self):
-        kwargs=dict(resource_id='/subscriptions/s/resourceGroups/g/providers/Microsoft.App/jobs/worker',image='registry/image@sha256:abc',platform_monthly_usd='14.83',smoke_monthly_usd='0.05')
+        kwargs=dict(resource_id='/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/g/providers/Microsoft.App/jobs/worker',image='registry/image@sha256:abc',platform_monthly_usd='14.83',smoke_monthly_usd='0.05')
         plan=schedule_plan(**kwargs)
         self.assertEqual(plan['cron_expression'],'0 6 * * *');self.assertEqual(plan['new_resources'],[])
         self.assertEqual(plan['monthly_platform_estimate_usd'],'14.88')

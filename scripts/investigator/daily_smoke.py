@@ -19,7 +19,8 @@ def schedule_plan(*, resource_id, image, platform_monthly_usd, smoke_monthly_usd
     # Prices are an explicit dated operator estimate, never guessed in code.
     from decimal import Decimal
     base, extra = Decimal(str(platform_monthly_usd)), Decimal(str(smoke_monthly_usd))
-    if not resource_id.startswith('/subscriptions/') or '/Microsoft.App/jobs/' not in resource_id or '@sha256:' not in image:
+    from .adapters.runner_deployment import existing_job
+    if not existing_job(resource_id) or '@sha256:' not in image:
         raise ValueError('EXISTING_SMOKE_JOB_AND_PINNED_IMAGE_REQUIRED')
     if base < 0 or extra < 0 or base + extra > 20:
         raise ValueError('SMOKE_EXCEEDS_PLATFORM_MONTHLY_BUDGET')
