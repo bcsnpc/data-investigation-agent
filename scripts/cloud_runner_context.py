@@ -116,17 +116,39 @@ def demo_after_verification(verification,plan,context,prepared):
     if verification.get('status')!='COMPLETED' or verification.get('verification_status')!='VERIFIED':
         context.record('demo-not-admitted',{'reason':'FRESH_READER_VERIFICATION_NOT_COMPLETED','verification':verification})
         return {'status':'VERIFICATION_STOPPED','verification':verification,'demo':None}
+    from cloud_verification_proof import reference
+    options=plan['options']
+    proof=reference(prepared,context.root/'verification-capture',options['spec'])
+    return demo_from_proof({**plan,'options':{'ticket':options['demo_ticket'],'verification_proof':proof}},context,verification=verification)
+
+
+def demo_from_proof(plan,context,*,verification=None):
+    """Normal form execution from one exact retained reader proof, also standalone."""
+    from cloud_verification_proof import validate,validate_form_scope
+    options=plan['options']
+    if set(options)!={'ticket','verification_proof'}:raise ValueError('CLOUD_VERIFIED_DEMO_OPTIONS')
+    proof=context.step('revalidate-fresh-reader-proof',lambda:validate(plan['manifest'],options['verification_proof']))
+    context.record('fresh-reader-proof',proof)
+    prepared=Path(options['verification_proof']['prepared'])
     context.step('install-verified-private-snapshots',lambda:install_private_snapshots(plan['manifest'],prepared))
     from investigator.estate_installation import build
-    from cloud_form_worker import run_form
+    from investigator.onboarding import digest
+    from cloud_form_worker import run_form,guard_preview
     from run_adaptive_investigation import local_azure_key
     manifest,workspace=build(plan['manifest'])
     try:
+        if workspace.store.shared_catalog is None or workspace.agent.governor.shared is None:
+            raise ValueError('CLOUD_SHARED_AUTHORITY_NOT_CONNECTED')
+        current=workspace.store.get(proof['model_pin']['model_id'])
+        if digest(current)!=proof['model_sha256']:raise ValueError('CLOUD_VERIFIED_MODEL_CHANGED')
+        form=read(options['ticket'])
+        context.record('verified-form-scope',validate_form_scope(workspace,form,proof))
+        guard_preview(workspace,{'scope':{'constraints':proof['constraints']}},proof['model_pin']['model_id'])
         model=manifest['model']
         settings={**model['credential'],'endpoint':model['endpoint'],'deployment':model['deployment']}
         with local_azure_key(settings):
-            demo=context.step('configured-demo',lambda:run_form(workspace,read(plan['options']['demo_ticket'])))
+            demo=context.step('configured-demo',lambda:run_form(workspace,form))
     finally:
         close=getattr(workspace,'close',None)
         if close is not None:close()
-    return {'status':'DEMO_FINISHED','verification':verification,'demo':demo}
+    return {'status':'DEMO_FINISHED','verification':verification,'proof':proof,'demo':demo}

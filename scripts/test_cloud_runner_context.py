@@ -109,12 +109,18 @@ class DemoSnapshotTests(unittest.TestCase):
         from contextlib import nullcontext
         from cloud_runner_context import demo_after_verification
         steps=[]
-        context=SimpleNamespace(record=Mock(),step=lambda name,fn:(steps.append(name),fn())[1])
-        workspace=SimpleNamespace(forms=object())
+        context=SimpleNamespace(root=Path('attempt'),record=Mock(),step=lambda name,fn:(steps.append(name),fn())[1])
+        from investigator.onboarding import digest
+        current={'id':'model','context_id':'context','context':{}}
+        proof={'model_pin':{'model_id':'model'},'model_sha256':digest(current),'constraints':{'kind':'WHOLE_ENTITY_QUANTITY','measure_ids':['measure'],'filters':[],'dimension_ids':[]}}
+        workspace=SimpleNamespace(forms=object(),store=SimpleNamespace(shared_catalog=object(),get=lambda _:current),agent=SimpleNamespace(governor=SimpleNamespace(shared=object())),preview=Mock())
         manifest={'model':{'credential':{'mode':'key_vault'},'endpoint':'https://model.example','deployment':'existing'}}
-        plan={'manifest':'estate.json','options':{'demo_ticket':'form.json'}}
+        plan={'manifest':'estate.json','options':{'demo_ticket':'form.json','spec':'spec.json'}}
         verification={'status':'COMPLETED','verification_status':'VERIFIED'}
-        with patch('cloud_runner_context.install_private_snapshots',return_value={}), \
+        with patch('cloud_verification_proof.reference',return_value={'prepared':'prepared'}), \
+             patch('cloud_verification_proof.validate',return_value=proof), \
+             patch('cloud_verification_proof.validate_form_scope',return_value={}), \
+             patch('cloud_runner_context.install_private_snapshots',return_value={}), \
              patch('cloud_runner_context.read',return_value={'description':'same retained family A'}), \
              patch('investigator.estate_installation.build',return_value=(manifest,workspace)), \
              patch('run_adaptive_investigation.local_azure_key',return_value=nullcontext()), \

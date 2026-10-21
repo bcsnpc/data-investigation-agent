@@ -96,6 +96,9 @@ def handlers():
             return demo_after_verification(result,plan,ctx,prepared)
         return result
     def investigation(plan,ctx):
+        if 'verification_proof'in plan['options']:
+            from cloud_runner_context import demo_from_proof
+            return demo_from_proof(plan,ctx)
         if 'ticket' in plan['options']:
             from .estate_installation import build
             from cloud_form_worker import run_form
