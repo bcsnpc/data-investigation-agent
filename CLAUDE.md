@@ -349,6 +349,91 @@ answerable from pipeline evidence.
    audience or scope, without an explicit human decision.** Report what would be
    required and stop.
 
+
+## Standing operating mode: build phase (2026-10-19)
+
+Owner decision dated2026-10-19, adopted in code2026-10-21 under ?8. This section supersedes the historical per-round estate pots; rolling3,000 stop; diagnostic12 stop; per-round model ceilings/protected$10; all live-attempt limits; exact-replay-before-live gates; and the ten-request/single-attempt Bronze condition in docs/round-nineteen-b-bronze-diagnosis.md. Their text and evidence are retained as history. Identity, read-only, secret and archive safeguards remain strict.
+
+**Why:** this is a test environment. Strict gates before things work make
+fixes impossible to fit. We tighten only after the product works end to
+end.
+
+**One monthly budget (calendar month, UTC):**
+
+- **Model spend:** $40 a month.
+- **Estate physical requests:** 6,000 a month, of which 1,000 are reserved
+  for scheduled scans and collectors.
+- **Azure platform:** $20 a month. No new paid resources without owner
+  approval.
+- At 80%, warn in the next report and keep going. At 100%, stop only that
+  kind of work and continue everything else offline.
+- No per-round pots, no per-round approvals, and no attempt limits.
+
+**Hard stops: the only reasons to stop live work.**
+
+1. Any write, or attempted write, by the investigator or `dia-scanner`
+   outside its allowlist.
+2. Any guardrail or red-team test failing.
+3. A secret printed, logged or committed.
+4. Deleting a file that isn't verified against an archive manifest.
+5. A monthly budget at 100% (for that kind of work only).
+6. Model calls refused for billing or authorisation (no retries; carry on
+   with non-model work).
+
+For these: stop that work, record it, fix it with tests, then resume.
+
+**Everything else is soft: record it, fix it, retry, move on.** This
+covers:
+
+- admission or preflight mismatches;
+- replay drift and runtime-fingerprint differences;
+- timeouts and lock stalls;
+- transient sign-in or login errors (for example SQL 18456);
+- missing fields, malformed headers and path errors.
+
+For each one:
+
+1. Record it in one line in the round log.
+2. **Retry transient errors automatically,** up to twice, 30–60 seconds
+   apart.
+3. If it's a code or config bug, fix it, add a regression test, and
+   retry. There's no attempt limit; the monthly budget is the limit.
+4. If it's still blocked after three different fixes, mark it blocked
+   with the exact reason, and move on to the next part.
+
+**Replay and verification:**
+
+- **Live first, replay after.** Replay checks a live run after it
+  happens; it never gates whether the live run may start.
+- Replay must run on the **same container image** as the live run.
+  Windows-versus-Linux fingerprint differences are expected, not
+  failures.
+- A replay mismatch is a bug to fix. It doesn't invalidate the live
+  result or stop the round.
+- Admission and preflight checks **warn**, unless the problem is one of
+  the hard stops.
+
+**Records:** decisions and failures only, one line each. At most about 10
+minutes of housekeeping per part.
+
+**Still strict:**
+
+- The investigator stays read-only, with no write or admin rights; no
+  impersonation (RLS).
+- `dia-scanner` is restricted in code to read calls.
+- Secrets live only in Key Vault.
+- SQL authentication stays enabled.
+- Identity or permission changes need owner approval, recorded under §8.
+- The independent tester never reads expectations or engine code.
+
+**Harden phase, later, only when the owner says so.** Expected trigger:
+the cloud demo has passed end to end, the daily smoke test has been green
+for a week, and a client onboarding has passed.
+
+### Owner correction ? 2026-10-21
+
+The historical cumulative model ledger total (including$107.957725 from earlier rounds) does not count against the new budget. All build-phase monthly budgets begin counting at **2026-10-19 00:00UTC** forOctober; subsequent periods reset on the first of each calendar monthUTC. Historical rows and totals remain informational, unchanged. Model calls are allowed again within$40 permonth. No new model provider this round. Any later need for more model budget is recorded in docs/owner-actions.md for the owner to decide.
+
 ## Known platform limits: served-snapshot metadata (2026-09-27)
 
 These are tested limits of the current least-privilege Fabric/Power BI reader,
