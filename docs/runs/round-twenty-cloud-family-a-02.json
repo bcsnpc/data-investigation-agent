@@ -1,0 +1,37 @@
+{
+  "run_id": "round20-cloud-family-a-02",
+  "at": "2026-10-21",
+  "kind": "CLOUD_VERIFICATION",
+  "execution": "job-dia-worker-0773kje",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1edaa2f6b7dccde9aa581178d327a4f655f3a3583135e53e46653dee7e348c8c",
+  "status": "FAILED_PARTIAL",
+  "replica_error": "Container was terminated with reason: ProcessExited, exit code: 137.",
+  "azure_error_explicitly_names_oom": false,
+  "memory_maximum_bytes": 1142833152.0,
+  "configured_memory_bytes": 1073741824,
+  "cause_assessment": "Memory pressure is evidenced; Azure does not explicitly name OOM. Full in-memory SQLite snapshot is being replaced by an audited frozen readonly transaction.",
+  "log_analytics_configuration": null,
+  "journal": {
+    "run_id": "round20-cloud-family-a-02",
+    "events": 622,
+    "last_event": "CLOCK",
+    "partial": true,
+    "original_final_present": false,
+    "journal_reservations": {
+      "SETTLED": 31
+    },
+    "journal_charged_physical": 31,
+    "journal_model_calls": 0,
+    "last_admission": {
+      "cap": 40,
+      "count": 14,
+      "decision": "ADMITTED",
+      "event": "VERIFICATION_CAP",
+      "kind": "SOURCE"
+    },
+    "limitation": "Retained event-stream reconciliation, not a new PostgreSQL authority refresh."
+  },
+  "final_verification_verdict": "UNAVAILABLE_NO_FINAL",
+  "demo": "NOT_RUN",
+  "originals_unchanged": true
+}
