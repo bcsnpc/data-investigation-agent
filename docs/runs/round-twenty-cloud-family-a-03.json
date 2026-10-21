@@ -1,0 +1,63 @@
+{
+  "run_id": "round20-cloud-family-a-03",
+  "at": "2026-10-21",
+  "kind": "CLOUD_VERIFICATION",
+  "execution": "job-dia-worker-knxsmbw",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:802a5ff9d07af7e83679455e204b02281b91cf280dff2c979beda2cc6664d75c",
+  "status": "REFUSED_WITH_NATIVE_FINAL_OUTER_PARTIAL",
+  "azure_status": "Failed",
+  "native_status": "COMPLETED",
+  "verification_status": "REFUSED",
+  "witness_counts": {
+    "VERIFIED": 8,
+    "UNVERIFIED": 1
+  },
+  "failed_observation": {
+    "error": "VERIFICATION_DEADLINE",
+    "error_type": "ValueError",
+    "side": "SOURCE",
+    "status": "FAILED"
+  },
+  "accounting": {
+    "admission_enforcement": "EVERY_PHYSICAL_REQUEST_BY_SHARED_GOVERNOR",
+    "control_requests": 0,
+    "diagnostic_reads": 0,
+    "model_calls": 0,
+    "ownership": "EXACT_SESSION_AND_PREWARM_CONTROL_SESSION",
+    "pending_reservations": 0,
+    "physical_allowance": 3000,
+    "physical_requests": 45,
+    "verification_cap": 40,
+    "verification_physical_requests": 45,
+    "verification_reads": 20
+  },
+  "journal": {
+    "events": 905,
+    "all_event_hashes_valid": true,
+    "consecutive_ordinals": true,
+    "last_kind": "FINAL",
+    "native_status": "COMPLETED",
+    "accounting": {
+      "admission_enforcement": "EVERY_PHYSICAL_REQUEST_BY_SHARED_GOVERNOR",
+      "control_requests": 0,
+      "diagnostic_reads": 0,
+      "model_calls": 0,
+      "ownership": "EXACT_SESSION_AND_PREWARM_CONTROL_SESSION",
+      "pending_reservations": 0,
+      "physical_allowance": 3000,
+      "physical_requests": 45,
+      "verification_cap": 40,
+      "verification_physical_requests": 45,
+      "verification_reads": 20
+    },
+    "outer_run_record_present": false
+  },
+  "outer_failure_cause": "UNESTABLISHED: Azure returned no replicas; console request returned No replicas found for execution. No memory diagnosis is inferred.",
+  "resource_fallback_applied": false,
+  "configured_resources": {
+    "cpu": 0.5,
+    "memory": "1Gi"
+  },
+  "demo": "NOT_RUN",
+  "originals_unchanged": true
+}
