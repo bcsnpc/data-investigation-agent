@@ -22,6 +22,7 @@ TEST_MODULES = (
     'test_runner_graph_schedule.py', 'test_cloud_verification_capture.py',
     'test_shared_application_capture.py', 'test_cloud_verification_proof.py',
     'test_recorded_engine_image.py',
+    'test_cloud_runtime_storage.py',
 )
 
 
