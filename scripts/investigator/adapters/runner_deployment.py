@@ -26,7 +26,9 @@ def launch(config,target,*,execute=subprocess.run):
     if len(template.get('containers',[]))!=1:raise ValueError('RUNNER_SINGLE_EXISTING_WORKER_REQUIRED')
     container=template['containers'][0]
     container['image']=config['image'];container['command']=command('/work/runner-estate.json',target);container['args']=[]
-    env=[row for row in container.get('env',[]) if row['name'] not in ('DIA_RUNNER_ESTATE_JSON','INVESTIGATOR_OPERATING_MODE')]
+    overrides=config.get('environment',{})
+    env=[row for row in container.get('env',[]) if row['name'] not in {'DIA_RUNNER_ESTATE_JSON','INVESTIGATOR_OPERATING_MODE',*overrides}]
+    env.extend({'name':name,'value':value} for name,value in overrides.items())
     env.extend([{'name':'DIA_RUNNER_ESTATE_JSON','value':json.dumps(config,sort_keys=True)},
                 {'name':'INVESTIGATOR_OPERATING_MODE','value':'BUILD_PHASE'}])
     container['env']=env

@@ -15,11 +15,16 @@ from .run_capture import DurableCapture,blob_sink
 
 VERSION='dia-runner-estate-v1'
 KINDS=frozenset({'investigation','verification','probe','scan','replay','prepare','smoke'})
+PUBLIC_ENV=frozenset(('DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JSON',
+    'INVESTIGATOR_STATE_BACKEND','INVESTIGATOR_PG_HOST','INVESTIGATOR_PG_DATABASE','INVESTIGATOR_PG_USER',
+    'AZURE_CLIENT_ID','DIA_GATEWAY_HTTP_IDENTITY','DIA_GATEWAY_SQL_IDENTITY','DIA_GATEWAY_MODEL_IDENTITY',
+    'DIA_GATEWAY_STATE_IDENTITY','DIA_PLATFORM_CONTROL_RECEIPTS','DIA_GATEWAY_AUDIT_FILE','DIA_LIVE_ACCESS_DISABLED'))
 
 def load(path):
     value=json.loads(Path(path).read_bytes())
     required={'version','manifest','image','capture','checks','output_root'}
-    if not isinstance(value,dict) or not required<=set(value)<=required|{'bootstrap','run_id','input','platform_cost_observation','deployment'} or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
+    if not isinstance(value,dict) or not required<=set(value)<=required|{'bootstrap','run_id','input','platform_cost_observation','deployment','environment'} or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
+    if not isinstance(value.get('environment',{}),dict) or not set(value.get('environment',{}))<=PUBLIC_ENV or any(not isinstance(v,str) for v in value.get('environment',{}).values()):raise ValueError('RUNNER_PUBLIC_ENVIRONMENT')
     if 'run_id' in value and not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',value['run_id']):raise ValueError('RUN_ID_INVALID')
     if not re.fullmatch(r'[^\s]+@sha256:[0-9a-f]{64}',value['image']):raise ValueError('RUNNER_PINNED_IMAGE_REQUIRED')
     if 'bootstrap' in value:validate_bootstrap_header(value['bootstrap'])
@@ -203,7 +208,6 @@ def azure_launch(config,target,*,execute=subprocess.run):
 def main(args):
     if args.runtime=='worker':
         from cloud_stage_environment import install
-        install()
         if 'DIA_RUNNER_ESTATE_JSON' in os.environ:
             raw=os.environ['DIA_RUNNER_ESTATE_JSON'].encode();_safe(raw)
             path=Path(args.estate);path.parent.mkdir(parents=True,exist_ok=True)
@@ -211,6 +215,8 @@ def main(args):
             if not path.exists():
                 with path.open('xb') as stream:stream.write(raw)
         config=load(args.estate)
+        for name,value in config.get('environment',{}).items():os.environ[name]=value
+        install()
         try:result=run(config,args.target)
         except Exception as exc:
             # Exact safe failure lives in the durable capture. Never let an
