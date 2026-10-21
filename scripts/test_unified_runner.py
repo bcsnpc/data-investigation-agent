@@ -153,6 +153,39 @@ class RunnerTests(unittest.TestCase):
                 result=azure_launch(config,'bronze',execute=execute)
             self.assertEqual(result['execution_name'],'job-execution-1')
             self.assertEqual(len(calls),2);self.assertEqual(len(budget),1)
+    def test_approved_worker_resources_override_execution_without_changing_schedule(self):
+        import copy
+        from types import SimpleNamespace
+        from investigator.adapters.runner_deployment import launch
+        with tempfile.TemporaryDirectory() as d:
+            config=self.config(Path(d))
+            config['deployment']={'resource_id':'/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/existing-rg/providers/Microsoft.App/jobs/job-dia-worker',
+                'cli':['python','-m','azure.cli'],'execution_resources':{'cpu':1,'memory':'2Gi'}}
+            job={'properties':{'configuration':{'scheduleTriggerConfig':{'cronExpression':'0 6 * * *'}},
+                'template':{'containers':[{'name':'worker','image':'old','resources':{'cpu':0.5,'memory':'1Gi'}}]}}}
+            before=copy.deepcopy(job);calls=[]
+            def execute(argv,**kwargs):
+                calls.append(argv)
+                if 'show' in argv:return SimpleNamespace(stdout=json.dumps(job))
+                self.assertIn('start',argv);self.assertNotIn('update',argv)
+                template=json.loads(Path(argv[argv.index('--yaml')+1]).read_bytes())
+                self.assertEqual(template['containers'][0]['resources'],{'cpu':1,'memory':'2Gi'})
+                return SimpleNamespace(stdout='{"name":"larger-execution"}')
+            with patch('investigator.build_phase.admit_platform'):
+                self.assertEqual(launch(config,'bronze',execute=execute)['execution_name'],'larger-execution')
+            self.assertEqual(job,before);self.assertEqual(len(calls),2)
+
+    def test_resource_override_refuses_other_jobs_and_any_other_size(self):
+        from investigator.adapters.runner_deployment import launch
+        with tempfile.TemporaryDirectory() as d:
+            config=self.config(Path(d))
+            base='/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/existing-rg/providers/Microsoft.App/jobs/'
+            for name,resources in [('job-dia-graph-scan',{'cpu':1,'memory':'2Gi'}),
+                    ('job-dia-worker',{'cpu':2,'memory':'4Gi'}),('job-dia-worker',{'cpu':True,'memory':'2Gi'})]:
+                config['deployment']={'resource_id':base+name,'cli':['python','-m','azure.cli'],'execution_resources':resources}
+                with self.subTest(name=name,resources=resources),patch('investigator.build_phase.admit_platform'),self.assertRaisesRegex(ValueError,'RUNNER_WORKER_RESOURCE_OVERRIDE_REFUSED'):
+                    launch(config,'bronze',execute=lambda *a,**k:self.fail('No Azure call before rejection'))
+
     def test_smoke_gold_uses_physical_meter_and_earned_demo_is_wired(self):
         from types import SimpleNamespace
         from investigator.unified_runner import handlers
