@@ -13,6 +13,16 @@ from urllib.error import HTTPError
 from cloud_dax_authorization import run
 from run_native_diagnostic import execute
 
+
+class TypedAuthorizationRegistryTests(unittest.TestCase):
+    def test_runner_dispatches_only_to_fixed_authorization_reader(self):
+        from investigator.unified_runner import handlers
+        context=object();plan={'manifest':'retained-estate.json','options':{'request':'pinned.json'}}
+        with patch('cloud_dax_authorization.run',return_value={'status':'FAILED','http_status':401})as call:
+            result=handlers()['authorization-check'](plan,context)
+        call.assert_called_once_with(plan,context)
+        self.assertEqual(result['http_status'],401)
+
 TENANT='10000000-0000-0000-0000-000000000001'
 PRINCIPAL='10000000-0000-0000-0000-000000000002'
 CLIENT='10000000-0000-0000-0000-000000000003'

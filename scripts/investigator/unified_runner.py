@@ -14,7 +14,7 @@ from .planner_recording import _safe
 from .run_capture import DurableCapture,blob_sink
 
 VERSION='dia-runner-estate-v1'
-KINDS=frozenset({'investigation','verification','probe','scan','replay','prepare','smoke'})
+KINDS=frozenset({'investigation','verification','probe','scan','replay','prepare','smoke','authorization-check'})
 PUBLIC_ENV=frozenset(('DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JSON',
     'INVESTIGATOR_STATE_BACKEND','INVESTIGATOR_PG_HOST','INVESTIGATOR_PG_DATABASE','INVESTIGATOR_PG_USER',
     'AZURE_CLIENT_ID','DIA_GATEWAY_HTTP_IDENTITY','DIA_GATEWAY_SQL_IDENTITY','DIA_GATEWAY_MODEL_IDENTITY',
@@ -71,6 +71,9 @@ def retry(call,*,record,sleep=time.sleep):
             sleep(30+15*attempt)
 
 def handlers():
+    def authorization_check(plan,ctx):
+        from cloud_dax_authorization import run
+        return run(plan,ctx)
     def verification(plan,ctx):
         from cloud_verification_run import execute
         from cloud_runner_context import prepare_for_verification, retain_dependencies
@@ -165,7 +168,7 @@ def handlers():
         demo=(lambda:investigation({**plan,'options':o['demo']},ctx)) if o['config']['demo_earned'] else None
         try:return run_smoke(o['config'],ctx,state=state,gold_read=gold,demo=demo)
         finally:meter.close()
-    return {'verification':verification,'investigation':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke}
+    return {'verification':verification,'investigation':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke,'authorization-check':authorization_check}
 
 def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     from .run_database_audits import scope

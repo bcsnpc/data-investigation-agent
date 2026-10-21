@@ -23,6 +23,7 @@ TEST_MODULES = (
     'test_shared_application_capture.py', 'test_cloud_verification_proof.py',
     'test_recorded_engine_image.py',
     'test_cloud_runtime_storage.py',
+    'test_capture_transaction_publication.py', 'test_cloud_dax_authorization.py',
 )
 
 
