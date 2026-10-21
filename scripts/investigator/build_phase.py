@@ -20,7 +20,7 @@ def active(config=None):
     from .process_tape import ACTIVE
     tape = ACTIVE.get()
     if tape is not None and tape.replaying:
-        return tape.bootstrap.get('config', {}).get('_estate', {}).get('operating_mode') == MODE
+        return getattr(tape, 'bootstrap', {}).get('config', {}).get('_estate', {}).get('operating_mode') == MODE
     declared = (config or {}).get('_estate', {}).get('operating_mode')
     return declared == MODE or _mode.get() == MODE or os.environ.get('INVESTIGATOR_OPERATING_MODE') == MODE
 

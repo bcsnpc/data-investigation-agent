@@ -166,7 +166,7 @@ class UsageGovernor:
             if json.loads(prior['reserved'])!=amount or prior['kind']!=kind:raise UsageHold('Reservation key differs')
             return
         from . import build_phase
-        if build_phase.active(self.runtime.config):
+        if build_phase.active(getattr(self.runtime, "config", None)):
             category = build_phase.purpose(purpose) if purpose == 'INVESTIGATION' else purpose
             return build_phase.local_reserve(self,db,session_id,key,kind,amount,category)
         if kind=='planner':
@@ -252,7 +252,7 @@ class UsageGovernor:
                 'read_allowance':reads,'billing_cap_verified':False,
                 'limitation':'Planner reservations use UTC days; ordinary reads use rolling 24 hours, with separate expiring run credits. Initiated requests in this catalog only, not provider spend or SQL compute.'}
         from . import build_phase
-        if build_phase.active(self.runtime.config):
+        if build_phase.active(getattr(self.runtime, "config", None)):
             with self.runtime.db() as db:
                 retained=[dict(r) for r in db.execute('SELECT environment,session_id,reservation_key,reserved,created FROM adaptive_usage')]
                 allocations=[dict(r) for r in db.execute('SELECT environment,session_id,reservation_key,purpose FROM read_allocations')]
