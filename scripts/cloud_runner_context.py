@@ -124,6 +124,40 @@ def demo_after_verification(verification,plan,context,prepared):
 
 
 @contextmanager
+def demo_state_admission(plan,context):
+    """Prove short transactions/no legacy lease and preserve the 1800s boundary."""
+    import math,time
+    from investigator.live_gateway import _network_unlocked
+    from investigator.shared_writer_lease import LEASE_ENV
+    from investigator.shared_state import TRANSACTION_ACTIVE
+    _network_unlocked()
+    now=time.time();start=getattr(context,'started_at',now)
+    if type(start)not in (int,float)or not math.isfinite(start)or start>now+1:raise ValueError('DEMO_RUN_START_REQUIRED')
+    deadline=start+1800
+    key='INVESTIGATOR_CLOUD_WORK_DEADLINE';previous=os.environ.get(key)
+    if previous is not None:
+        try:prior=float(previous)
+        except ValueError:raise ValueError('DEMO_CLOUD_DEADLINE_INVALID')from None
+        if not math.isfinite(prior):raise ValueError('DEMO_CLOUD_DEADLINE_INVALID')
+        deadline=min(deadline,prior)
+    if now>=deadline:raise ValueError('DEMO_OVERALL_DEADLINE_EXPIRED')
+    admission={'run_id':plan['run_id'],'deadline':deadline,'transaction_active':TRANSACTION_ACTIVE.get(),
+        'legacy_lease_installed':bool(os.environ.get(LEASE_ENV)),'mode':'SHORT_TRANSACTIONS_NO_LONG_WRITER_LEASE'}
+    context.record('demo-state-admission',admission)
+    os.environ[key]=str(deadline);failure=None
+    try:yield admission
+    except BaseException as exc:failure=exc;raise
+    finally:
+        if previous is None:os.environ.pop(key,None)
+        else:os.environ[key]=previous
+        try:context.record('demo-state-finalization',{'run_id':plan['run_id'],'deadline':deadline,
+            'transaction_active':TRANSACTION_ACTIVE.get(),'legacy_lease_installed':bool(os.environ.get(LEASE_ENV)),
+            'status':'FAILED'if failure is not None else 'FINISHED'})
+        except Exception:
+            if failure is None:raise
+
+
+@contextmanager
 def retaining_native_captures(context):
     """Publish exact native CAS pointers through durable runner records."""
     from cloud_form_worker import retaining_capture_pointers
@@ -222,9 +256,10 @@ def demo_from_proof(plan,context,*,verification=None):
         if not label_only:guard_preview(workspace,{'scope':{'constraints':proof['constraints']}},proof['model_pin']['model_id'])
         model=manifest['model']
         settings={**model['credential'],'endpoint':model['endpoint'],'deployment':model['deployment']}
-        with retaining_native_captures(context):
-            with local_azure_key(settings):
-                demo=context.step('configured-demo',lambda:run_form(workspace,form))
+        with demo_state_admission(plan,context):
+            with retaining_native_captures(context):
+                with local_azure_key(settings):
+                    demo=context.step('configured-demo',lambda:run_form(workspace,form))
     finally:
         close=getattr(workspace,'close',None)
         if close is not None:close()

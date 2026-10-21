@@ -167,7 +167,7 @@ class FreshProofTests(unittest.TestCase):
         from contextlib import nullcontext
         from investigator.unified_runner import handlers
         workspace,models,path=self.demo_workspace();ctx=SimpleNamespace(root=self.root,record=Mock(),step=lambda n,f:f())
-        plan={'manifest':str(self.manifest_path),'run_id':'demo-only','options':{'ticket':str(path),'verification_proof':self.proof}}
+        plan={'run_id':'synthetic-demo','manifest':str(self.manifest_path),'run_id':'demo-only','options':{'ticket':str(path),'verification_proof':self.proof}}
         with patch('cloud_runner_context.install_private_snapshots',return_value={}), \
              patch('investigator.estate_installation.build',return_value=(self.manifest,workspace)), \
              patch('investigator.question_intake.snapshot',return_value={'models':models}), \
@@ -180,7 +180,7 @@ class FreshProofTests(unittest.TestCase):
     def test_forged_summary_cannot_admit_provider_or_workspace(self):
         from cloud_runner_context import demo_from_proof
         ctx=SimpleNamespace(root=self.root,record=Mock(),step=lambda n,f:f())
-        plan={'manifest':str(self.manifest_path),'options':{'ticket':'form.json','verification_proof':{'status':'VERIFIED'}}}
+        plan={'run_id':'synthetic-demo','manifest':str(self.manifest_path),'options':{'ticket':'form.json','verification_proof':{'status':'VERIFIED'}}}
         with patch('investigator.estate_installation.build') as build:
             with self.assertRaisesRegex(ValueError,'REFERENCE_REQUIRED'):demo_from_proof(plan,ctx)
         build.assert_not_called()
@@ -188,7 +188,7 @@ class FreshProofTests(unittest.TestCase):
     def test_changed_current_model_or_filtered_form_stops_before_model_admission(self):
         from cloud_runner_context import demo_from_proof
         workspace,models,path=self.demo_workspace();ctx=SimpleNamespace(root=self.root,record=Mock(),step=lambda n,f:f())
-        plan={'manifest':str(self.manifest_path),'options':{'ticket':str(path),'verification_proof':self.proof}}
+        plan={'run_id':'synthetic-demo','manifest':str(self.manifest_path),'options':{'ticket':str(path),'verification_proof':self.proof}}
         for changed in ('model','scope'):
             workspace.store.get.return_value={**self.model,'unexpected':'changed'} if changed=='model' else self.model
             if changed=='scope':
@@ -219,7 +219,7 @@ class FreshProofTests(unittest.TestCase):
         self.manifest['budgets']['operating_mode']='BUILD_PHASE'
         self.manifest_path.write_text(json.dumps(self.manifest))
         workspace,models,path=self.demo_workspace();ctx=SimpleNamespace(root=self.root,record=Mock(),step=lambda n,f:f())
-        plan={'manifest':str(self.manifest_path),'options':{'ticket':str(path),'verification_proof':self.proof,'verification_handling':'LABEL_ONLY_BUILD_PHASE'}}
+        plan={'run_id':'synthetic-demo','manifest':str(self.manifest_path),'options':{'ticket':str(path),'verification_proof':self.proof,'verification_handling':'LABEL_ONLY_BUILD_PHASE'}}
         with patch('cloud_runner_context.install_private_snapshots',return_value={}), \
              patch('investigator.estate_installation.build',return_value=(self.manifest,workspace)), \
              patch('run_adaptive_investigation.local_azure_key',return_value=nullcontext()), \
@@ -235,7 +235,7 @@ class FreshProofTests(unittest.TestCase):
     def test_failed_verification_remains_hard_gate_by_default(self):
         from cloud_runner_context import demo_from_proof
         self.failed_native_capture();ctx=SimpleNamespace(root=self.root,record=Mock(),step=lambda n,f:f())
-        plan={'manifest':str(self.manifest_path),'options':{'ticket':'form.json','verification_proof':self.proof}}
+        plan={'run_id':'synthetic-demo','manifest':str(self.manifest_path),'options':{'ticket':'form.json','verification_proof':self.proof}}
         with patch('investigator.estate_installation.build') as build:
             with self.assertRaisesRegex(ValueError,'NOT_COMPLETED'):demo_from_proof(plan,ctx)
         build.assert_not_called()
@@ -244,7 +244,7 @@ class FreshProofTests(unittest.TestCase):
         from contextlib import nullcontext
         from cloud_runner_context import demo_from_proof
         workspace,models,path=self.demo_workspace();ctx=SimpleNamespace(root=self.root,record=Mock(),step=lambda n,f:f())
-        plan={'manifest':str(self.manifest_path),'options':{'ticket':str(path),'verification_proof':self.proof,'verification_handling':'LABEL_ONLY_BUILD_PHASE'}}
+        plan={'run_id':'synthetic-demo','manifest':str(self.manifest_path),'options':{'ticket':str(path),'verification_proof':self.proof,'verification_handling':'LABEL_ONLY_BUILD_PHASE'}}
         with patch('investigator.estate_installation.build') as build:
             with self.assertRaisesRegex(ValueError,'DECLARED_BUILD_PHASE'):demo_from_proof(plan,ctx)
         build.assert_not_called()

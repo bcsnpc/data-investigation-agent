@@ -31,3 +31,10 @@ No live read, scheduling change, grant, resource provisioning or credential migr
 ## Owner correction: independent graph job (2026-10-21)
 
 Daily smoke must not remove graph change detection. The owner approved the separate consumption job `job-dia-graph-scan` in the same existing environment, image, managed identity,0.5vCPU/1GiB and1,800-second runtime. Azure readbacks confirm daily `0 6 * * *` and graph `0 */6 * * *`; the shared pair validator refuses either missing schedule. Both now use the tested2230c90 image006c847. No identity or role changed. Graph gross compute at124 full-duration executions is$3.348/month plus$0.05 retained storage; combined platform estimate$19.077133/month, with free grants not assumed. These jobs scale to zero between executions; the estimate is not an invoice. Exact receipts: docs/runs/round-twenty-schedule-pair-image-02.json.
+
+
+## Demo admission readback
+
+The cloud demo still never installs a long exclusive writer lease. Doing so would contradict the gateway's mandatory refusal of network requests during that legacy lease. Demo launch instead reads the existing worker runtime (at least 1,800 seconds) and both existing worker/graph jobs' execution lists, refusing active or unestablished competing executions before start. These are bounded control reads, with no schedule/template or role change. The resulting record explicitly says this is point-in-time admission, not a lock preventing later scheduled or external starts.
+
+Immediately before normal demo execution, the runner records its actual run ID, absolute runner-entry +1,800-second deadline, and absence of an active shared transaction or legacy writer lease. An existing tighter deadline is preserved. The bounded state-work deadline is restored on success and failure; finalization records the transaction/legacy-lease state without replacing the original runtime error. Normal short budget transactions, bounded lock waits, gateway, read-only and delivery checks remain unchanged. No PostgreSQL transaction spans model or estate I/O.

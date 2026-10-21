@@ -5,6 +5,30 @@ from ..process_tape import bytes_of
 from ..planner_recording import _safe
 from ..unified_runner import command
 
+def demo_preflight(job,resource,*,execute,cli):
+    """Bounded point-in-time control read; never install a network-blocking lease."""
+    timeout=job['properties'].get('configuration',{}).get('replicaTimeout')
+    if type(timeout)is not int or timeout<1800:raise ValueError('RUNNER_DEMO_RUNTIME_BELOW_1800')
+    if resource.rsplit('/',1)[-1]!='job-dia-worker':raise ValueError('RUNNER_DEMO_EXISTING_WORKER_REQUIRED')
+    parts=resource.split('/');subscription=parts[2];group=parts[4];observations=[]
+    for name in ('job-dia-worker','job-dia-graph-scan'):
+        response=execute(cli+['containerapp','job','execution','list','--name',name,'--resource-group',group,
+            '--subscription',subscription,'--output','json','--only-show-errors'],capture_output=True,text=True,check=True,timeout=60)
+        executions=json.loads(response.stdout)
+        if not isinstance(executions,list):raise ValueError('RUNNER_DEMO_EXECUTION_LIST_UNESTABLISHED')
+        rows=[]
+        for item in executions:
+            status=item.get('properties',{}).get('status')
+            if not isinstance(status,str):raise ValueError('RUNNER_DEMO_EXECUTION_STATUS_UNESTABLISHED')
+            rows.append({'name':item.get('name'),'status':status})
+            if status.casefold()not in ('succeeded','completed','failed','stopped','cancelled','canceled'):
+                raise ValueError('RUNNER_DEMO_COMPETING_EXECUTION:'+name+':'+status)
+        observations.append({'job':name,'executions':rows})
+    return {'status':'ADMITTED','replica_timeout':timeout,'observed_at':time.time(),'jobs':observations,
+        'isolation':'POINT_IN_TIME_EXECUTION_ADMISSION; short database transactions only; no long writer lease',
+        'limitation':'Later scheduled or external starts are not excluded by this control read.'}
+
+
 def launch(config,target,*,execute=subprocess.run):
     """Read existing job and start its pinned override; never update its roles."""
     import tempfile
@@ -26,7 +50,11 @@ def launch(config,target,*,execute=subprocess.run):
     if not (cli==['az'] or isinstance(cli,list) and len(cli)==3 and cli[1:]==['-m','azure.cli'] and re.fullmatch(r'python(?:[0-9.]*)?(?:\.exe)?',Path(cli[0]).name,re.I)):raise ValueError('RUNNER_FIXED_AZURE_CLI_REQUIRED')
     base=cli+['containerapp','job']
     read=execute(base+['show','--ids',resource,'--output','json','--only-show-errors'],capture_output=True,text=True,check=True)
-    job=json.loads(read.stdout);template=writable_template(job['properties']['template'])
+    job=json.loads(read.stdout)
+    check=config.get('checks',{}).get(target,{})
+    demo=check.get('kind')=='investigation' and 'verification_proof'in check.get('options',{})
+    admission=demo_preflight(job,resource,execute=execute,cli=cli)if demo else None
+    template=writable_template(job['properties']['template'])
     if len(template.get('containers',[]))!=1:raise ValueError('RUNNER_SINGLE_EXISTING_WORKER_REQUIRED')
     container=template['containers'][0]
     if resources is not None:container['resources']=copy.deepcopy(resources)
@@ -45,7 +73,7 @@ def launch(config,target,*,execute=subprocess.run):
         path.write_bytes(bytes_of(template))
         started=execute(base+['start','--ids',resource,'--yaml',str(path),'--output','json','--only-show-errors'],capture_output=True,text=True,check=True)
     result=json.loads(started.stdout)
-    return {'run_id':config.get('run_id'),'execution_name':result.get('name'),'image':config['image'],'status':'STARTED'}
+    return {'run_id':config.get('run_id'),'execution_name':result.get('name'),'image':config['image'],'status':'STARTED',**({'demo_admission':admission}if demo else {})}
 
 
 def existing_job(resource_id):
