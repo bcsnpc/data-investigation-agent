@@ -62,8 +62,12 @@ class ExplicitIntakeTests(unittest.TestCase):
         self.assertEqual(result['proposal']['reported_figure']['precision'],{'state':'STATED_PLACE','place':5})
 
     def test_one_planner_allowance_refuses_retry_without_refund(self):
+        from investigator.usage_governance import UsageHold
         self.h.h.agent.governor.policy['daily_limits']['planner_calls']=1
-        result,resolver=self.resolve('The ratio visual is empty for USD.',[fixture.proposal()])
+        with self.assertRaisesRegex(UsageHold,'Daily usage limit'):
+            self.resolve('The ratio visual is empty for USD.',[fixture.proposal()])
+        resolver=self.h.workspace.intake.resolver
+        result=self.h.workspace.intake.get(self.h.workspace.intake.list()['questions'][0]['id'])
         self.assertEqual(result['status'],'HELD');resolver.assert_called_once()
         self.assertEqual(self.h.h.agent.governor.snapshot()['reserved_today']['planner_calls'],1)
 

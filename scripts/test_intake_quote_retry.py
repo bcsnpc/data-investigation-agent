@@ -57,8 +57,12 @@ class QuoteRetryTests(unittest.TestCase):
         self.assertEqual(resolver.call_count,2)
 
     def test_allowance_blocks_second_call_and_does_not_refund_first(self):
+        from investigator.usage_governance import UsageHold
         self.h.h.agent.governor.policy['daily_limits']['planner_calls']=1
-        saved,resolver=self.run_case((fixture.proposal(),{}))
+        with self.assertRaisesRegex(UsageHold,'Daily usage limit'):
+            self.run_case((fixture.proposal(),{}))
+        resolver=self.h.workspace.intake.resolver
+        saved=self.h.workspace.intake.get(self.h.workspace.intake.list()['questions'][0]['id'])
         self.assertEqual(saved['status'],'HELD')
         self.assertEqual(resolver.call_count,1)
         self.assertEqual(self.h.h.agent.governor.snapshot()['reserved_today']['planner_calls'],1)
