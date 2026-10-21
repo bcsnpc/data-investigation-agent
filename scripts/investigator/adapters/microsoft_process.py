@@ -15,8 +15,10 @@ from ..refresh_comparison import whole_entity_context
 SURFACE_IDENTITY='surface_identity'
 SEMANTIC_ENGINE='OLAP Server'
 SQL_ENGINE='Microsoft Azure SQL Data Warehouse'
-SEMANTIC_REPORT={'identity':SURFACE_IDENTITY,'engine':'surface_engine','object':'surface_object'}
-SEMANTIC_TYPES={'identity':'PRINCIPAL_NAME','engine':'ENGINE_PRODUCT','object':'MODEL_CATALOG_ID'}
+# ExecuteQueries supports query-bound principal identity, not INFO metadata.
+# Engine, connection and object remain declared and explicitly unattested.
+SEMANTIC_REPORT={'identity':SURFACE_IDENTITY}
+SEMANTIC_TYPES={'identity':'PRINCIPAL_NAME'}
 SQL_TYPES={'identity':'PRINCIPAL_NAME','engine':'ENGINE_PRODUCT','object':'DATABASE_CATALOG_NAME'}
 
 
@@ -207,7 +209,7 @@ class MicrosoftProcessAdapter:
             **({'cell_address':copy.deepcopy(plan['cell_address'])} if 'cell_address' in plan else {}),
             'conditional_declarations':copy.deepcopy(declaration['evidence']['conditional_declarations'])},
             value=_quantity(rows,plan['surface_report']),query=query,execution_surface=surface,
-            surface_report=body.get('surface_report'),surface_reportable=('identity','engine','object'),
+            surface_report=body.get('surface_report'),surface_reportable=tuple(SEMANTIC_REPORT),
             surface_report_types=SEMANTIC_TYPES,surface_report_binding='VALUE_QUERY')
         return probe
 
@@ -234,7 +236,7 @@ class MicrosoftProcessAdapter:
         surface={'engine':SEMANTIC_ENGINE,'connection':self.model['workspace'],
                  'object':self.model['native_id'],'identity':self.config['fabric']['native_reader']['account']}
         if result['status']=='COMPLETED' and result['result']['completeness']=='COMPLETE_RESPONSE':
-            report=attest_surface(surface,result['result'].get('surface_report'),('identity','engine','object'))
+            report=attest_surface(surface,result['result'].get('surface_report'),tuple(SEMANTIC_REPORT))
             if report['consistency']=='MATCHED' and not report['missing_required_fields']:
                 self._native_result_cache[key]=copy.deepcopy(result)
         return result
@@ -332,7 +334,7 @@ class MicrosoftProcessAdapter:
                 'read_address':plan['read_address'],
                 'searched_value':value,'value_exists':exists,'report_id':binding['report_id'],
                 'context_id':model['context_id'],'model_revision':model['revision'],'completeness':body['completeness'],'values':rows},
-            surface_report=body.get('surface_report'),surface_reportable=('identity','engine','object'),
+            surface_report=body.get('surface_report'),surface_reportable=tuple(SEMANTIC_REPORT),
             surface_report_types=SEMANTIC_TYPES,surface_report_binding='VALUE_QUERY')
 
     def resolve_declared_source(self,declaration):
@@ -680,7 +682,7 @@ class MicrosoftProcessAdapter:
                 'independent_read_refused':layer.get('lower_refusal')} if definition_check else {})},
             value=value,query=query,
             reason='NO_INDEPENDENT_LOWER_READ' if definition_check else None,
-            execution_surface=semantic_surface,surface_report=report,surface_reportable=('identity','engine','object'),
+            execution_surface=semantic_surface,surface_report=report,surface_reportable=tuple(SEMANTIC_REPORT),
             surface_report_types=SEMANTIC_TYPES,surface_report_binding='VALUE_QUERY')
 
     def _lower_quantity(self,layer,scope):

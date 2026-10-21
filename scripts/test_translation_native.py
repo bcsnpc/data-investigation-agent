@@ -30,7 +30,7 @@ class NativeTranslationTests(unittest.TestCase):
             rows.append({'translation_key_0': None, 'translation_marker': True})
             if partial: rows = rows * 64
             for row in rows:
-                row.update(surface_identity=self.reader['account'], surface_engine='OLAP Server', surface_object=self.model['native_id'])
+                row.update(surface_identity=self.reader['account'])
             response = {'results': [{'tables': [{'rows': rows}]}]}
             response[native_identity.KEY] = native_identity.make(response, compiled, self.reader)
             return response

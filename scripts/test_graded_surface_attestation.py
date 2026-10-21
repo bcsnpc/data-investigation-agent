@@ -136,10 +136,16 @@ class GradingTests(unittest.TestCase):
                 {'id':'m','name':'Total','kind':'Measure','parent_id':'t'}]
         query=semantic_self_report('EVALUATE ROW("value",[Total])')
         compiled=query_dax.compile_query(query,assets)
-        self.assertIn('INFO.PROPERTIES()',compiled['query'])
+        self.assertNotIn('INFO.',compiled['query'])
+        self.assertIn('USERPRINCIPALNAME()',compiled['query'])
         self.assertEqual(compiled['asset_ids'],['m'])
-        for bad in ('EVALUATE INFO.PROPERTIES()',query.replace('"ProviderName"','"Password"'),
-                    query.replace('[Value]','[Secret]')):
+        from investigator.adapters.microsoft_self_report import SCALARS
+        legacy='EVALUATE ADDCOLUMNS(ROW("value",[Total]),"surface_identity",USERPRINCIPALNAME(),"surface_engine",'+SCALARS[0]+',"surface_object",'+SCALARS[1]+')'
+        historical=query_dax.compile_query(legacy,assets)
+        self.assertIn('INFO.PROPERTIES()',historical['query'])
+        self.assertEqual(historical['asset_ids'],['m'])
+        for bad in ('EVALUATE INFO.PROPERTIES()',legacy.replace('"ProviderName"','"Password"'),
+                    legacy.replace('[Value]','[Secret]')):
             with self.subTest(query=bad),self.assertRaises(ValueError):query_dax.compile_query(bad,assets)
 
     def test_grades_render_in_both_narratives_without_reducing_context_coverage(self):
