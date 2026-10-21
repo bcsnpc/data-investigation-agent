@@ -104,3 +104,25 @@ retained, but this missing hop is not silently crossed.
 These are offline mappings with recorded provenance, not earned confidence or
 fresh estate verification. Live query failures and numerical differences still
 determine what can be concluded.
+
+The typed `value-verification` runner kind accepts hash-pinned model and mapping
+files, exact measure/visual IDs, explicit tolerance and an existing shared budget.
+It regenerates the SQL and DAX; callers cannot submit executable query text. The
+native query reports its principal with USERPRINCIPALNAME, without INFO metadata.
+Identity-only attestation is labelled PARTIAL. Lower queries use the existing
+read-only SQL worker, permission guards and physical request governor. No grade
+is awarded by this utility; actual graph confidence still requires the trusted
+resolver's independent receipt checks.
+
+Value tapes replay on the same source image with coverage explicitly labelled
+`VALUE_COMPILER_AND_RECORDED_RESPONSES`. They recompute query compilation and
+numeric comparisons from the exact recorded responses, with no live calls. They
+do not replay permission-guard, worker or shared-budget protocols; those remain
+separate live control receipts. This is narrower than the demo's investigation
+replay contract.
+
+The lower compiler uses IN subqueries as dimension semijoins, within the existing
+gateway AST allowlist. It supports ASCII filter literals on this port. Non-ASCII
+values refuse pending a typed parameter port, and dimension BLANK-member scope
+refuses pending faithful unknown-member semantics. Neither limitation is repaired
+by weakening the gateway or guessing how an engine coerces a value.

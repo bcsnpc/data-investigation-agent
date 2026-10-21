@@ -29,7 +29,7 @@ class CompilerTests(unittest.TestCase):
     def test_overlap_intersects_one_predicate_per_column(self):
         model,mapping=fixture(); program=measure_program(model,'measure')
         compiled=compile_layer(model,program,[restriction('Facts.status',['A','B']),restriction('Facts.status',['B'])],mapping)
-        self.assertIn("[status] IN (N'B')",compiled['statement'])
+        self.assertIn("[status] IN ('B')",compiled['statement'])
         self.assertEqual(compiled['statement'].count('[status] IN'),1)
 
     def test_empty_intersection_is_explicit_filter(self):
@@ -40,8 +40,8 @@ class CompilerTests(unittest.TestCase):
     def test_dimension_predicate_maps_declared_relationship_not_guessed_id(self):
         model,mapping=fixture()
         compiled=compile_layer(model,measure_program(model,'measure'),[restriction('Dimension.name',["O'North"])],mapping)
-        self.assertIn('EXISTS (SELECT 1 FROM [main].[dimension] d WHERE d.[id]=f.[dim_id]',compiled['statement'])
-        self.assertIn("N'O''North'",compiled['statement'])
+        self.assertIn('f.[dim_id] IN (SELECT d.[id] FROM [main].[dimension] d WHERE',compiled['statement'])
+        self.assertIn("'O''North'",compiled['statement'])
         self.assertNotIn('dim_id IN',compiled['statement'])
 
     def test_dimension_map_missing_or_ambiguous_refuses(self):
@@ -66,7 +66,7 @@ class CompilerTests(unittest.TestCase):
         self.assertEqual(compiled['translations'][0]['operation'],'REMOVED_BY_MEASURE_REMOVEFILTERS')
         self.assertIn('HAVING COUNT_BIG(*)>1',compiled['statement'])
         self.assertIn('LEFT JOIN',compiled['statement'])
-        self.assertIn("f.[status]=N'ACTIVE'",compiled['statement'])
+        self.assertIn("f.[status]='ACTIVE'",compiled['statement'])
         self.assertIn('SUM(p.[price])',compiled['statement'])
 
     def test_related_unmatched_is_blank_not_zero_and_duplicates_are_observed(self):
@@ -103,6 +103,23 @@ class CompilerTests(unittest.TestCase):
         field['metadata']['dataType']='dateTime'
         with self.assertRaisesRegex(Refusal,'RENDER_VALUE_TYPE_dateTime'):
             quantity_query(model,'measure',[restriction('Facts.status',['2026-09-15'])])
+
+    def test_generated_queries_pass_existing_sql_gateway_without_new_ast_nodes(self):
+        from investigator.live_gateway import validate_sql,_object
+        model,mapping=fixture()
+        query=compile_layer(model,measure_program(model,'measure'),[restriction('Dimension.name',['North']),restriction('Facts.status',['A'])],mapping)['statement']
+        allowed={_object('[main].[facts]'),_object('[main].[dimension]')}
+        self.assertEqual(validate_sql(query,allowed),{('main','facts'),('main','dimension')})
+        model,mapping=fixture('CALCULATE(SUMX(FILTER(Facts, Facts[status] = "ACTIVE"), RELATED(Dimension[price])), REMOVEFILTERS(Dimension))')
+        query=compile_layer(model,measure_program(model,'measure'),[],mapping)['statement']
+        self.assertEqual(validate_sql(query,allowed),{('main','facts'),('main','dimension')})
+
+    def test_nonascii_and_dimension_blank_refuse_instead_of_lossy_comparison(self):
+        model,mapping=fixture();program=measure_program(model,'measure')
+        with self.assertRaisesRegex(Refused,'UNICODE_FILTER_REQUIRES_PARAMETER_PORT'):
+            compile_layer(model,program,[restriction('Dimension.name',['東京'])],mapping)
+        with self.assertRaisesRegex(Refused,'DIMENSION_BLANK_MEMBER_SEMANTICS_UNSUPPORTED'):
+            compile_layer(model,program,[restriction('Dimension.name',[None])],mapping)
 
     def test_producer_alternatives_do_not_invent_last_execution(self):
         graph={'nodes':[{'id':'table','kind':'TABLE','properties':{'asset_id':'physical'}},

@@ -82,7 +82,9 @@ def _ident(text):
 def _literal(value):
     if value is None: return 'NULL'
     if type(value) is bool: return '1' if value else '0'
-    if type(value) is str: return "N'" + value.replace("'", "''") + "'"
+    if type(value) is str:
+        if not value.isascii(): raise Refused('UNICODE_FILTER_REQUIRES_PARAMETER_PORT')
+        return "'" + value.replace("'", "''") + "'"
     if type(value) in (int, float):
         number = Decimal(str(value))
         if not number.is_finite(): raise Refused('NONFINITE_FILTER')
@@ -159,8 +161,9 @@ def compile_layer(model, program, restrictions, mapping):
             fact_key = mapped(_column(model, main_name, meta['fromColumn'])['id'])
             dim_key = mapped(_column(model, dim_name, meta['toColumn'])['id'])
             if fact_key['object_id'] != main or dim_key['object_id'] != entry['object_id']: raise Refused('RELATIONSHIP_MAPPING_DISAGREES')
-            predicate = ('EXISTS (SELECT 1 FROM ' + table(entry['object_id']) + ' d WHERE d.' + _ident(dim_key['column']) + '=f.' + _ident(fact_key['column'])
-                + ' AND ' + condition('d.' + _ident(entry['column'])) + ')')
+            if None in values:raise Refused('DIMENSION_BLANK_MEMBER_SEMANTICS_UNSUPPORTED')
+            predicate = ('f.' + _ident(fact_key['column']) + ' IN (SELECT d.' + _ident(dim_key['column']) + ' FROM '
+                + table(entry['object_id']) + ' d WHERE ' + condition('d.' + _ident(entry['column'])) + ')')
         where.append(predicate)
         translations.append({'restriction': restriction, 'physical': copy.deepcopy(entry), 'relationship_id': relation['id'] if relation else None, 'predicate': predicate})
     query = 'SELECT SUM(' + ref(program['column']) + ') AS [quantity], ' + ('+'.join(guards) if guards else '0') + ' AS [duplicate_lookup_keys] FROM ' + table(main) + ' f' + related_from
