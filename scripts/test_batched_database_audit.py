@@ -61,3 +61,27 @@ class BatchedDatabaseAuditTests(unittest.TestCase):
         self.assertIn(b'public binary',calls)
         self.assertEqual(progress,[{'table':'fixture','rows':0,'status':'STARTED'},{'table':'fixture','rows':3,'status':'COMPLETED'}])
         self.assertNotIn('narrative',json.dumps(progress))
+
+    def test_capture_snapshot_audits_memory_before_destination_exists(self):
+        from cloud_verification_capture import snapshot
+        cases=['password=synthetic_credential_123',
+               '{"pass\\u0077ord":"synthetic_credential_123"}',
+               json.dumps(json.dumps({'password':'synthetic_credential_123'})),
+               '{"note":"synthetic_env_\\u0073ecret_123"}',
+               b'Bearer synthetic_token_12345',b'Bearer synthetic_token_12345\xff']
+        with patch.dict('os.environ',{'TEST_API_KEY':'synthetic_env_secret_123'}):
+            for value in cases:
+                with self.subTest(kind=type(value).__name__):
+                    source=self.database([value]);destination=source.with_name('output.sqlite')
+                    before=hashlib.sha256(source.read_bytes()).hexdigest()
+                    with self.assertRaises(RecordingError):snapshot(source,destination)
+                    self.assertFalse(destination.exists())
+                    self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(),before)
+    def test_capture_snapshot_keeps_all_rows_and_binary_normalization(self):
+        from cloud_verification_capture import snapshot
+        source=self.database([json.dumps({'ok':'fixture'}),b'plain binary',b'\xffplain'])
+        before=hashlib.sha256(source.read_bytes()).hexdigest();destination=source.with_name('output.sqlite')
+        snapshot(source,destination)
+        with closing(sqlite3.connect(source)) as a,closing(sqlite3.connect(destination)) as b:
+            self.assertEqual(a.execute('SELECT * FROM fixture').fetchall(),b.execute('SELECT * FROM fixture').fetchall())
+        self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(),before)

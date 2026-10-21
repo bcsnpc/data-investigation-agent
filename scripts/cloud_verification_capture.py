@@ -28,17 +28,22 @@ def snapshot(source,destination):
   # Source handle is closed before the potentially long credential audit.
   for row in retained.execute('SELECT type,name,tbl_name,rootpage,sql FROM sqlite_master ORDER BY type,name'):
    safe(list(row))
+  from investigator.database_audit import CompleteValues
+  batch=CompleteValues(_safe)
   tables=[r[0] for r in retained.execute("SELECT name FROM sqlite_master WHERE type='table'")]
   for table in tables:
    quoted='"'+table.replace('"','""')+'"'
    for row in retained.execute('SELECT * FROM '+quoted):
     for value in row:
      if isinstance(value,str):
-      try:safe(json.loads(value))
-      except json.JSONDecodeError:safe(value)
+      try:parsed=json.loads(value)
+      except json.JSONDecodeError:parsed=value
+      batch.add(json.dumps(parsed,ensure_ascii=False).encode())
      elif isinstance(value,bytes):
-      try:safe(value.decode('utf8'))
-      except UnicodeDecodeError:safe(value)
+      try:raw=json.dumps(value.decode('utf8'),ensure_ascii=False).encode()
+      except UnicodeDecodeError:raw=value
+      batch.individual(raw)
+   batch.flush()
   with closing(sqlite3.connect(destination)) as output:retained.backup(output)
  return hashlib.sha256(destination.read_bytes()).hexdigest()
 

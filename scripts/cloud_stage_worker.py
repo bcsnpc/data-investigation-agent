@@ -49,12 +49,8 @@ def audit_database(path,*,progress=None):
  """
  import sqlite3
  from contextlib import closing
- batch=[];size=2
- def flush():
-  nonlocal size
-  if batch:
-   _safe(b'['+b','.join(batch)+b']')
-   batch.clear();size=2
+ from investigator.database_audit import CompleteValues
+ batch=CompleteValues(_safe,AUDIT_BATCH_BYTES)
  def report(table,rows,status):
   if progress is not None:progress({'table':table,'rows':rows,'status':status})
  with closing(sqlite3.connect(Path(path).resolve().as_uri()+'?mode=ro',uri=True)) as db:
@@ -67,16 +63,12 @@ def audit_database(path,*,progress=None):
       try:parsed=json.loads(value)
       except json.JSONDecodeError:parsed=value
       raw=json.dumps(parsed,ensure_ascii=False).encode()
-      if len(raw)+2>AUDIT_BATCH_BYTES:
-       flush();_safe(raw)
-      else:
-       if size+len(raw)+(1 if batch else 0)>AUDIT_BATCH_BYTES:flush()
-       size+=len(raw)+(1 if batch else 0);batch.append(raw)
+      batch.add(raw)
      elif isinstance(value,bytes):
-      flush();_safe(value)
+      batch.individual(value)
     count+=1
     if count%1000==0:report(table,count,'IN_PROGRESS')
-   flush();report(table,count,'COMPLETED')
+   batch.flush();report(table,count,'COMPLETED')
 
 
 def package(inputs,work,output):
