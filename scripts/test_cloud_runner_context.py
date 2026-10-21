@@ -132,6 +132,38 @@ class DemoSnapshotTests(unittest.TestCase):
         self.assertIn('configured-demo',steps)
 
 
+class DemoSubmissionBindingTests(unittest.TestCase):
+    def test_execution_keys_are_fresh_between_runs_stable_within_run_and_input_is_unchanged(self):
+        import copy,json
+        from cloud_runner_context import bind_demo_submission
+        form={'request_key':'original-preserved','description':'The Global card shows 8,765; compare with source.',
+              'report_id':'report','page_id':'page','visual_id':'global-card','comparing':{'kind':'APPLICATION'},
+              'value_seen':{'value':'8765','precision':{'kind':'EXACT'}},'filters':[{'name':'Region','values':['North']}]}
+        before=copy.deepcopy(form)
+        first,binding=bind_demo_submission(form,'run-one')
+        repeated,repeated_binding=bind_demo_submission(form,'run-one')
+        second,_=bind_demo_submission(form,'run-two')
+        self.assertEqual(first,repeated);self.assertEqual(binding,repeated_binding)
+        self.assertNotEqual(first['request_key'],second['request_key'])
+        self.assertLessEqual(len(first['request_key']),100)
+        self.assertEqual(binding['original_request_key'],'original-preserved')
+        self.assertEqual(binding['effective_request_key'],first['request_key'])
+        self.assertEqual(binding['run_id'],'run-one')
+        for effective in (first,second):
+            content={k:v for k,v in effective.items() if k!='request_key'}
+            original={k:v for k,v in before.items() if k!='request_key'}
+            self.assertEqual(json.dumps(content,sort_keys=True).encode(),json.dumps(original,sort_keys=True).encode())
+        self.assertEqual(form,before)
+        first['filters'][0]['values'].append('South')
+        self.assertEqual(form,before)
+
+    def test_legacy_call_without_execution_id_keeps_existing_submission_key(self):
+        from cloud_runner_context import bind_demo_submission
+        original={'request_key':'legacy','description':'unchanged'}
+        submitted,binding=bind_demo_submission(original,None)
+        self.assertEqual(submitted,original);self.assertIsNot(submitted,original);self.assertIsNone(binding)
+
+
 class DurableCapturePointerTests(unittest.TestCase):
     def test_native_pointer_and_index_are_durable_on_success_and_primary_error(self):
         from cloud_runner_context import retaining_native_captures

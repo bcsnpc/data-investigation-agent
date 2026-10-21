@@ -200,6 +200,19 @@ def sealed_verification_label(reference):
         'capture_sha256':reference['capture_sha256'],'source_engine_revision':tape.engine_revision}
 
 
+def bind_demo_submission(form,run_id):
+    """One submission identity per execution; substantive user input is immutable."""
+    import copy
+    submitted=copy.deepcopy(form)
+    if run_id is None:return submitted,None
+    if not isinstance(run_id,str) or not run_id:raise ValueError('CLOUD_DEMO_RUN_ID_INVALID')
+    effective='cloud-demo:'+hashlib.sha256(run_id.encode('utf8')).hexdigest()
+    original=submitted.get('request_key')
+    submitted['request_key']=effective
+    return submitted,{'run_id':run_id,'original_request_key':original,
+                      'effective_request_key':effective,'basis':'EXECUTION_RUN_ID_SHA256'}
+
+
 def demo_from_proof(plan,context,*,verification=None):
     """Normal form execution; BUILD_PHASE may label independent verification."""
     from cloud_verification_proof import validate,validate_form_scope
@@ -244,7 +257,8 @@ def demo_from_proof(plan,context,*,verification=None):
         except ValueError as exc:
             if not label_only:raise
             warn('current-model-handoff',exc)
-        form=read(options['ticket'])
+        form,submission_binding=bind_demo_submission(read(options['ticket']),plan.get('run_id'))
+        if submission_binding is not None:context.record('demo-submission-binding',submission_binding)
         if proof is not None:
             try:context.record('verified-form-scope',validate_form_scope(workspace,form,proof))
             except ValueError as exc:
@@ -264,4 +278,5 @@ def demo_from_proof(plan,context,*,verification=None):
         close=getattr(workspace,'close',None)
         if close is not None:close()
     return {'status':'DEMO_FINISHED','verification':verification,'proof':proof,'demo':demo,
-        'verification_handling':handling,'verification_label':label,'handoff_warnings':warnings}
+        'verification_handling':handling,'verification_label':label,'handoff_warnings':warnings,
+        'submission_binding':submission_binding}

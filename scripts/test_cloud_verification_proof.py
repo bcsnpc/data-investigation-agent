@@ -175,7 +175,11 @@ class FreshProofTests(unittest.TestCase):
              patch('cloud_form_worker.run_form',return_value={'ticket':{'state':'FINDINGS_SHARED'}}) as run:
             result=handlers()['investigation'](plan,ctx)
         self.assertEqual('DEMO_FINISHED',result['status']);self.assertEqual('NOT_ASSESSED',result['proof']['readiness'])
-        run.assert_called_once_with(workspace,json.loads(path.read_bytes()))
+        from cloud_runner_context import bind_demo_submission
+        expected,binding=bind_demo_submission(json.loads(path.read_bytes()),plan['run_id'])
+        run.assert_called_once_with(workspace,expected)
+        ctx.record.assert_any_call('demo-submission-binding',binding)
+        self.assertEqual(result['submission_binding'],binding)
 
     def test_forged_summary_cannot_admit_provider_or_workspace(self):
         from cloud_runner_context import demo_from_proof
@@ -230,7 +234,11 @@ class FreshProofTests(unittest.TestCase):
         self.assertEqual('NATIVE_DECLARED_ROUTE_NOT_VERIFIED',result['verification_label']['error']['message'])
         self.assertIsNone(result['proof']);self.assertTrue(result['handoff_warnings'])
         self.assertEqual('HELD',result['demo']['ticket']['state'])
-        run.assert_called_once_with(workspace,json.loads(path.read_bytes()));proof_guard.assert_not_called()
+        from cloud_runner_context import bind_demo_submission
+        expected,binding=bind_demo_submission(json.loads(path.read_bytes()),plan['run_id'])
+        run.assert_called_once_with(workspace,expected)
+        ctx.record.assert_any_call('demo-submission-binding',binding)
+        self.assertEqual(result['submission_binding'],binding);proof_guard.assert_not_called()
 
     def test_failed_verification_remains_hard_gate_by_default(self):
         from cloud_runner_context import demo_from_proof
