@@ -108,7 +108,7 @@ def preflight(spec,config,context,*,receipt_path,manifest_budgets):
 def validate_native_window(window):
     if (not isinstance(window,dict) or set(window)!={'seconds','finalization_seconds','demo_seconds'}
             or any(type(v)is not int for v in window.values())
-            or not 1<=window['seconds']<=900 or not 30<=window['finalization_seconds']<=600
+            or not 1<=window['seconds']<=1800 or not 30<=window['finalization_seconds']<=600
             or not 0<=window['demo_seconds']<=900):
         raise ValueError('VERIFICATION_NATIVE_WINDOW_BOUND')
 

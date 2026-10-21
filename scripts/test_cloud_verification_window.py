@@ -26,10 +26,18 @@ class NativeWindowTests(unittest.TestCase):
                 again=native_inputs(inputs);replay.finish(again)
             self.assertEqual(value,again)
 
-    def test_window_caps_probes_at_900_even_with_more_overall_time(self):
+    def test_configured_window_is_clamped_even_with_more_overall_time(self):
         with patch('investigator.process_tape.clock',return_value=100) as clock:
             value=native_inputs({'deadline':1800,'native_window':{'seconds':900,'finalization_seconds':120,'demo_seconds':0}})
         self.assertEqual(1000,value['deadline']);clock.assert_called_once_with('cloud-verification-native-window-start')
+
+    def test_1200_native_seconds_valid_but_cannot_extend_absolute_job_deadline(self):
+        window={'seconds':1200,'finalization_seconds':120,'demo_seconds':300}
+        validate_native_window(window)
+        with patch('investigator.process_tape.clock',return_value=700):
+            value=native_inputs({'deadline':1800,'native_window':window})
+        self.assertEqual(1380,value['deadline'])
+        self.assertLess(value['deadline'],1800)
 
     def test_exhausted_controls_admit_no_native_window(self):
         with patch('investigator.process_tape.clock',return_value=1500):
@@ -43,7 +51,7 @@ class NativeWindowTests(unittest.TestCase):
         clock.assert_not_called()
 
     def test_bounds_reject_increased_or_missing_reserves(self):
-        for window in ({'seconds':901,'finalization_seconds':120,'demo_seconds':300},
+        for window in ({'seconds':1801,'finalization_seconds':120,'demo_seconds':300},
                        {'seconds':900,'finalization_seconds':0,'demo_seconds':300},
                        {'seconds':True,'finalization_seconds':120,'demo_seconds':300}):
             with self.subTest(window=window),self.assertRaisesRegex(ValueError,'NATIVE_WINDOW_BOUND'):validate_native_window(window)

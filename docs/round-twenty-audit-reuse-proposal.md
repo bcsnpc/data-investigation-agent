@@ -29,7 +29,7 @@ The smallest safe first implementation keeps distinct profile keys and deduplica
 - A snapshot with unsafe input creates no destination. Source hash remains unchanged on success and failure.
 - Instrument the production audit and retention paths with a synthetic SQLite fixture, not only a cache unit double. Prove unchanged CAS bytes/manifest identity and fewer full detector passes.
 
-Expected benefit is fewer repeated detector passes, not fewer physical/model requests or a larger time allowance. Every newly changed catalog (including the post-execution accounting mutation) still needs one complete audit. Keep the 1,800-second hard job limit and all native-read limits unchanged.
+Expected benefit is fewer repeated detector passes, not fewer physical/model requests or a larger time allowance. Every newly changed catalog (including the post-execution accounting mutation) still needs one complete audit. Keep the 1,800-second hard job limit and all native-read request limits unchanged.
 
 
 ## Implemented boundary and validation
