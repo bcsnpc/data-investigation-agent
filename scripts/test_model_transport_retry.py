@@ -24,7 +24,7 @@ class RetryTests(unittest.TestCase):
             try:
                 with connection:yield connection
             finally:connection.close()
-        self.runtime=SimpleNamespace(store=SimpleNamespace(environment='test'),db=db)
+        self.runtime=SimpleNamespace(store=SimpleNamespace(environment='test'),db=db,config={})
         self.policy={'environment':'test','daily_limits':{'planner_calls':10,'cloud_calls':10,
             'input_characters':100000,'output_tokens':24000},'max_inflight_planners':4,'no_progress_limit':2}
         self.governor=UsageGovernor(self.runtime,self.policy,lambda:1000)
