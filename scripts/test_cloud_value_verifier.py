@@ -69,6 +69,23 @@ class CompilerTests(unittest.TestCase):
         self.assertIn("f.[status]=N'ACTIVE'",compiled['statement'])
         self.assertIn('SUM(p.[price])',compiled['statement'])
 
+    def test_related_unmatched_is_blank_not_zero_and_duplicates_are_observed(self):
+        expression='CALCULATE(SUMX(FILTER(Facts, Facts[status] = "ACTIVE"), RELATED(Dimension[price])), REMOVEFILTERS(Dimension))'
+        model,mapping=fixture(expression)
+        query=compile_layer(model,measure_program(model,'measure'),[],mapping)['statement'].replace("N'","'").replace('COUNT_BIG(*)','COUNT(*)')
+        db=sqlite3.connect(':memory:');self.addCleanup(db.close)
+        db.executescript('CREATE TABLE facts(amount,dim_id,status); CREATE TABLE dimension(id,name,price); INSERT INTO facts VALUES(3,999,"ACTIVE");')
+        self.assertEqual(db.execute(query).fetchone(),(None,0))
+        db.executescript('INSERT INTO dimension VALUES(999,"Unselected",7),(999,"Unselected",7);')
+        quantity,duplicates=db.execute(query).fetchone()
+        self.assertEqual((quantity,duplicates),(14,1))
+        # The measured 14 is not usable: the executor must refuse this guard.
+        plan={'native_statement':'dax','layers':[{'layer_id':'GOLD','statement':query,'requires_lookup_guard':True}],
+            'tolerance':{'kind':'ABSOLUTE','value':'0','source':'exact'},'qualifications':[]}
+        result=execute(plan,lambda q:{'status':'SUCCEEDED','value':14},
+            lambda q:{'status':'SUCCEEDED','value':quantity,'duplicate_lookup_keys':duplicates},lambda r:None)
+        self.assertEqual(result['reason'],'RELATED_LOOKUP_KEYS_NOT_UNIQUE')
+
     def test_additive_query_preserves_multiplicity_and_blank(self):
         model,mapping=fixture();db=sqlite3.connect(':memory:');self.addCleanup(db.close)
         db.executescript('CREATE TABLE facts(amount,dim_id,status); CREATE TABLE dimension(id,name,price); INSERT INTO facts VALUES(3,1,"A"),(3,1,"A"); INSERT INTO dimension VALUES(1,"North",10),(1,"North",10);')
