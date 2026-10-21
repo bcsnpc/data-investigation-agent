@@ -225,7 +225,8 @@ def execute(plan, read_native, read_lower, retain):
         try: result = reader(statement if compiled is None else compiled)
         except Exception as error:
             from investigator.live_gateway import GatewayDenied
-            if isinstance(error,GatewayDenied):raise
+            from investigator.usage_governance import UsageHold
+            if isinstance(error,(GatewayDenied,UsageHold)):raise
             result = {'status': 'FAILED', 'error': {'type': type(error).__name__, 'message': str(error)}}
         retained.append({'layer': layer, 'statement': statement, 'receipt': copy.deepcopy(result)})
         retain(copy.deepcopy(retained[-1]))

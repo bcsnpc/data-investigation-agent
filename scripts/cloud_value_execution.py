@@ -49,6 +49,7 @@ def _native(config,model,query):
     from metadata_config import worker_configuration
     from run_native_diagnostic import execute as native_execute,worker_failure
     from investigator.live_gateway import GatewayDenied
+    from investigator.usage_governance import UsageHold
     from investigator.process_debugging import attest_surface
     request={'workspace':model['workspace'],'native_model_id':model['native_id'],'query':query,'requires_native_reader':True}
     projected=worker_configuration(config,request);fabric=projected['fabric'];reader=fabric['native_reader']
@@ -65,7 +66,7 @@ def _native(config,model,query):
         return {'status':'SUCCEEDED','value':row[keys[0]],'provider_response':raw,'request':request,
             'attestation':attestation,'attestation_result':attest_surface(declared,reported,['identity']),
             'snapshot':{'query_bound':False},'confidence_awarded':False}
-    except GatewayDenied:raise
+    except (GatewayDenied,UsageHold):raise
     except Exception as error:
         return {'status':'FAILED','error':worker_failure(error),'request':request}
 
@@ -73,6 +74,7 @@ def _native(config,model,query):
 def _lower(config,compiled):
     from fabric_sql_surface import read,declared
     from investigator.live_gateway import validate_sql,_object,GatewayDenied
+    from investigator.usage_governance import UsageHold
     from investigator.process_debugging import attest_surface
     endpoint=compiled['endpoint']
     if endpoint['surface']!='FABRIC_SQL':return {'status':'FAILED','error':{'reason':'LOWER_SURFACE_UNSUPPORTED'}}
@@ -90,7 +92,7 @@ def _lower(config,compiled):
             'provider_response':body,'request':request,'attestation':{'declared':surface,'reported':reported,'reportable':['identity','engine','object'],'binding':'VALUE_QUERY'},
             'attestation_result':attest_surface(surface,reported,['identity','engine','object']),
             'snapshot':{'query_bound':False},'confidence_awarded':False}
-    except GatewayDenied:raise
+    except (GatewayDenied,UsageHold):raise
     except Exception as error:
         return {'status':'FAILED','error':{'type':type(error).__name__,'stage':getattr(error,'stage',None),
             'sql_error_number':getattr(error,'error_number',None)},'request':request}

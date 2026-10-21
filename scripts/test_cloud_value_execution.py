@@ -82,5 +82,15 @@ class ExecutionTests(unittest.TestCase):
         with patch('cloud_value_execution._file',side_effect=lambda ref:self.model if ref['path']=='model' else []),patch('cloud_value_execution._compile',return_value=self.compiled),patch('cloud_value_execution._native',side_effect=GatewayDenied('bounded guard refusal')):
             with self.assertRaises(GatewayDenied):run(self.plan,self.context)
 
+    def test_budget_category_exhaustion_is_not_a_failed_native_finding(self):
+        from investigator.usage_governance import UsageHold
+        with patch('cloud_value_execution._file',side_effect=lambda ref:self.model if ref['path']=='model' else []),patch('cloud_value_execution._compile',return_value=self.compiled),patch('cloud_value_execution._native',side_effect=UsageHold('Monthly category exhausted')):
+            with self.assertRaisesRegex(UsageHold,'Monthly category exhausted'):run(self.plan,self.context)
+
+    def test_native_budget_exception_not_wrapped_as_http_failure(self):
+        from investigator.usage_governance import UsageHold
+        with patch('metadata_config.worker_configuration',return_value=self.config),patch('run_native_diagnostic.execute',side_effect=UsageHold('Monthly limit')):
+            with self.assertRaisesRegex(UsageHold,'Monthly limit'):_native(self.config,self.model,self.compiled['native_statement'])
+
 
 if __name__=='__main__':unittest.main()
