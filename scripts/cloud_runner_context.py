@@ -122,15 +122,48 @@ def demo_after_verification(verification,plan,context,prepared):
     return demo_from_proof({**plan,'options':{'ticket':options['demo_ticket'],'verification_proof':proof}},context,verification=verification)
 
 
+def sealed_verification_label(reference):
+    """Report the retained native FINAL; never upgrade a failed check to VERIFIED."""
+    import base64
+    from cloud_verification_proof import sha
+    from investigator.process_tape import Tape
+    path=Path(reference['capture'])/'tape.json'
+    if sha(path)!=reference['capture_sha256']:raise ValueError('FRESH_VERIFICATION_SOURCE_HASH_DIFFERS')
+    tape=Tape(path)
+    final=json.loads(base64.b64decode(tape.events[-1]['body']))
+    return {'status':final['status'],'error':final.get('error'),
+        'verification_status':(final.get('result') or {}).get('status'),
+        'capture_sha256':reference['capture_sha256'],'source_engine_revision':tape.engine_revision}
+
+
 def demo_from_proof(plan,context,*,verification=None):
-    """Normal form execution from one exact retained reader proof, also standalone."""
+    """Normal form execution; BUILD_PHASE may label independent verification."""
     from cloud_verification_proof import validate,validate_form_scope
     options=plan['options']
-    if set(options)!={'ticket','verification_proof'}:raise ValueError('CLOUD_VERIFIED_DEMO_OPTIONS')
-    proof=context.step('revalidate-fresh-reader-proof',lambda:validate(plan['manifest'],options['verification_proof']))
-    context.record('fresh-reader-proof',proof)
+    if not {'ticket','verification_proof'}<=set(options) or set(options)-{'ticket','verification_proof','verification_handling'}:
+        raise ValueError('CLOUD_VERIFIED_DEMO_OPTIONS')
+    handling=options.get('verification_handling','REQUIRE_VALID_PROOF')
+    if handling not in ('REQUIRE_VALID_PROOF','LABEL_ONLY_BUILD_PHASE'):raise ValueError('CLOUD_VERIFICATION_HANDLING')
+    label_only=handling=='LABEL_ONLY_BUILD_PHASE'
+    if label_only and read(plan['manifest']).get('budgets',{}).get('operating_mode')!='BUILD_PHASE':
+        raise ValueError('CLOUD_LABEL_ONLY_REQUIRES_DECLARED_BUILD_PHASE')
+    warnings=[];label=None;proof=None
+    def warn(stage,error):
+        warning={'stage':stage,'error_type':type(error).__name__,'reason':str(error)}
+        warnings.append(warning);context.record('verification-handoff-warning',warning)
+    if label_only:
+        try:label=context.step('retained-verification-label',lambda:sealed_verification_label(options['verification_proof']))
+        except ValueError as exc:
+            warn('retained-verification-label',exc)
+            label={'status':'UNAVAILABLE','error':{'error_type':type(exc).__name__,'message':str(exc)},'verification_status':None}
+        context.record('verification-label',label)
+    try:proof=context.step('revalidate-fresh-reader-proof',lambda:validate(plan['manifest'],options['verification_proof']))
+    except ValueError as exc:
+        if not label_only:raise
+        warn('revalidate-fresh-reader-proof',exc)
+    if proof is not None:context.record('fresh-reader-proof',proof)
     prepared=Path(options['verification_proof']['prepared'])
-    context.step('install-verified-private-snapshots',lambda:install_private_snapshots(plan['manifest'],prepared))
+    context.step('install-private-snapshots',lambda:install_private_snapshots(plan['manifest'],prepared))
     from investigator.estate_installation import build
     from investigator.onboarding import digest
     from cloud_form_worker import run_form,guard_preview
@@ -139,11 +172,24 @@ def demo_from_proof(plan,context,*,verification=None):
     try:
         if workspace.store.shared_catalog is None or workspace.agent.governor.shared is None:
             raise ValueError('CLOUD_SHARED_AUTHORITY_NOT_CONNECTED')
-        current=workspace.store.get(proof['model_pin']['model_id'])
-        if digest(current)!=proof['model_sha256']:raise ValueError('CLOUD_VERIFIED_MODEL_CHANGED')
+        pin=proof if proof is not None else {'model_pin':{'model_id':read(prepared/'model.json')['id']},
+            'model_sha256':digest(read(prepared/'model.json'))}
+        try:
+            current=workspace.store.get(pin['model_pin']['model_id'])
+            if digest(current)!=pin['model_sha256']:raise ValueError('CLOUD_VERIFIED_MODEL_CHANGED')
+        except ValueError as exc:
+            if not label_only:raise
+            warn('current-model-handoff',exc)
         form=read(options['ticket'])
-        context.record('verified-form-scope',validate_form_scope(workspace,form,proof))
-        guard_preview(workspace,{'scope':{'constraints':proof['constraints']}},proof['model_pin']['model_id'])
+        if proof is not None:
+            try:context.record('verified-form-scope',validate_form_scope(workspace,form,proof))
+            except ValueError as exc:
+                if not label_only:raise
+                warn('form-scope-handoff',exc)
+        elif label_only:warn('form-scope-handoff',ValueError('NO_VALID_READER_PROOF_FOR_SCOPE_CHECK'))
+        # This wrapper binds a required reader-proof scope. In label-only mode,
+        # the normal form's own scope and delivery checks remain authoritative.
+        if not label_only:guard_preview(workspace,{'scope':{'constraints':proof['constraints']}},proof['model_pin']['model_id'])
         model=manifest['model']
         settings={**model['credential'],'endpoint':model['endpoint'],'deployment':model['deployment']}
         with local_azure_key(settings):
@@ -151,4 +197,5 @@ def demo_from_proof(plan,context,*,verification=None):
     finally:
         close=getattr(workspace,'close',None)
         if close is not None:close()
-    return {'status':'DEMO_FINISHED','verification':verification,'proof':proof,'demo':demo}
+    return {'status':'DEMO_FINISHED','verification':verification,'proof':proof,'demo':demo,
+        'verification_handling':handling,'verification_label':label,'handoff_warnings':warnings}

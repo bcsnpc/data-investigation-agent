@@ -200,6 +200,68 @@ class FreshProofTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,'MODEL_CHANGED|SCOPE_DIFFERS'):demo_from_proof(plan,ctx)
                 model.assert_not_called();run.assert_not_called()
 
+    def failed_native_capture(self):
+        import base64
+        from investigator.process_tape import bytes_of,sha
+        value=json.loads((self.capture/'tape.json').read_bytes());event=value['events'][-1]
+        final=json.loads(base64.b64decode(event['body']))
+        final.update(status='FAILED',result=None,error={'error_type':'ValueError','message':'NATIVE_DECLARED_ROUTE_NOT_VERIFIED','errno':None})
+        body=bytes_of(final);event['body']=base64.b64encode(body).decode();event['sha256']=sha(body)
+        value['seal']=sha(bytes_of({k:v for k,v in value.items() if k!='seal'}))
+        (self.capture/'tape.events.jsonl').unlink()
+        (self.capture/'tape.json').write_bytes(bytes_of(value))
+        self.proof=reference(self.prepared,self.capture,self.spec_path)
+
+    def test_build_phase_labels_failed_verification_and_runs_normal_form(self):
+        from contextlib import nullcontext
+        from cloud_runner_context import demo_from_proof
+        self.failed_native_capture()
+        self.manifest['budgets']['operating_mode']='BUILD_PHASE'
+        self.manifest_path.write_text(json.dumps(self.manifest))
+        workspace,models,path=self.demo_workspace();ctx=SimpleNamespace(record=Mock(),step=lambda n,f:f())
+        plan={'manifest':str(self.manifest_path),'options':{'ticket':str(path),'verification_proof':self.proof,'verification_handling':'LABEL_ONLY_BUILD_PHASE'}}
+        with patch('cloud_runner_context.install_private_snapshots',return_value={}), \
+             patch('investigator.estate_installation.build',return_value=(self.manifest,workspace)), \
+             patch('run_adaptive_investigation.local_azure_key',return_value=nullcontext()), \
+             patch('cloud_form_worker.guard_preview') as proof_guard, \
+             patch('cloud_form_worker.run_form',return_value={'ticket':{'state':'HELD'}}) as run:
+            result=demo_from_proof(plan,ctx)
+        self.assertEqual('FAILED',result['verification_label']['status'])
+        self.assertEqual('NATIVE_DECLARED_ROUTE_NOT_VERIFIED',result['verification_label']['error']['message'])
+        self.assertIsNone(result['proof']);self.assertTrue(result['handoff_warnings'])
+        self.assertEqual('HELD',result['demo']['ticket']['state'])
+        run.assert_called_once_with(workspace,json.loads(path.read_bytes()));proof_guard.assert_not_called()
+
+    def test_failed_verification_remains_hard_gate_by_default(self):
+        from cloud_runner_context import demo_from_proof
+        self.failed_native_capture();ctx=SimpleNamespace(record=Mock(),step=lambda n,f:f())
+        plan={'manifest':str(self.manifest_path),'options':{'ticket':'form.json','verification_proof':self.proof}}
+        with patch('investigator.estate_installation.build') as build:
+            with self.assertRaisesRegex(ValueError,'NOT_COMPLETED'):demo_from_proof(plan,ctx)
+        build.assert_not_called()
+
+    def test_label_only_requires_manifest_build_phase_and_normal_guards_still_raise(self):
+        from contextlib import nullcontext
+        from cloud_runner_context import demo_from_proof
+        workspace,models,path=self.demo_workspace();ctx=SimpleNamespace(record=Mock(),step=lambda n,f:f())
+        plan={'manifest':str(self.manifest_path),'options':{'ticket':str(path),'verification_proof':self.proof,'verification_handling':'LABEL_ONLY_BUILD_PHASE'}}
+        with patch('investigator.estate_installation.build') as build:
+            with self.assertRaisesRegex(ValueError,'DECLARED_BUILD_PHASE'):demo_from_proof(plan,ctx)
+        build.assert_not_called()
+        self.manifest['budgets']['operating_mode']='BUILD_PHASE';self.manifest_path.write_text(json.dumps(self.manifest))
+        with patch('cloud_runner_context.install_private_snapshots',return_value={}), \
+             patch('investigator.estate_installation.build',return_value=(self.manifest,workspace)), \
+             patch('run_adaptive_investigation.local_azure_key',return_value=nullcontext()), \
+             patch('cloud_form_worker.run_form',side_effect=ValueError('DELIVERY_OVERCLAIM_REFUSED')) as run:
+            with self.assertRaisesRegex(ValueError,'DELIVERY_OVERCLAIM_REFUSED'):demo_from_proof(plan,ctx)
+        run.assert_called_once()
+        workspace.agent.governor.shared=None
+        with patch('cloud_runner_context.install_private_snapshots',return_value={}), \
+             patch('investigator.estate_installation.build',return_value=(self.manifest,workspace)), \
+             patch('cloud_form_worker.run_form') as run:
+            with self.assertRaisesRegex(ValueError,'SHARED_AUTHORITY'):demo_from_proof(plan,ctx)
+        run.assert_not_called()
+
     def test_prepared_inventory_accepts_only_exact_audited_sqlite_backup(self):
         from contextlib import closing
         import sqlite3
