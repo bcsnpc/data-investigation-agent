@@ -13,3 +13,14 @@ Every read carries its actual statement and SHA-256, typed numeric value or expl
 Schema migration 3 extends only the two current node/edge confidence CHECKs. Migration 1/2 source strings and checksums remain unchanged. PostgreSQL alters the named CHECKs transactionally. Offline SQLite rebuilds the two current tables transactionally, preserving bodies, foreign keys and row values. Graph history is untouched. No deployed migration or estate read is performed by the offline tests.
 
 Producer interfaces and exact closed shapes are in `scripts/investigator/graph_value_verification.py`; the fixture in `scripts/test_graph_value_verification.py` supplies a synthetic example. Native execution failure must be retained as failure, not coerced into a successful proof-shaped read.
+
+
+## Executable attachment bridge (narrow support)
+
+The typed value route can accept optional `graph_binding: {path,sha256}`. Its closed JSON body is `version=compiled-value-attachments-v1`, `estate`, `graph_hash`, `model_hash` and `boundaries`, each exactly `{edge_id,source_layer,target_layer}`. Hash inputs are mandatory, never guessed. The graph hash is `graph_value_bridge.graph_hash` over current structural records, so attaching evidence does not manufacture a changed definition. The model hash pins the exact enabled published model/context in the shared authority.
+
+The bridge independently recompiles the actual plan and validates the original provider's scalar value, original query, query-bound identity/surface evidence and timestamp. It derives the SUM quantity's semantic column and each mapped physical column under its exact graph container; a selected existing edge must match those exact source/target nodes. Equal aggregates cannot invent an edge or establish individual row/column equivalence. Only the scoped aggregate SUM check is attached, with that limitation rendered. Successful native/SQL observations alone still cannot self-award.
+
+Original query receipts remain unchanged. A derived proof bundle binds them by content hash; it is durably retained outside any transaction before confidence publication. A second short borrowed transaction rechecks current graph/model pins and appends VALUE_VERIFIED through the existing trusted resolver/repository. No nested advisory-lock connection or Blob request occurs while that writer transaction is held. A publication failure or intervening pin change awards nothing.
+
+This is not a complete application-path claim. Indirect query-step chains lacking an exact existing edge refuse attachment. SUMX/RELATED (including billing MRR) remains supported observationally by the compiler but its graph attachment is explicitly `SUMX_RELATED_GRAPH_ATTACHMENT_NOT_IMPLEMENTED`, reported independently of whether a native query failed first. A response tape replays compiler/recorded-response observations only; graph publication is separately retained and is not claimed as covered by that replay.

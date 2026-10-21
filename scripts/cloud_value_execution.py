@@ -109,10 +109,11 @@ def run(plan,context):
     from investigator.source_revision import committed_revision
     options=plan['options']
     fields={'model','mappings','measure_id','target_id','tolerance','budget','max_requests'}
-    if set(options)!=fields:raise ValueError('VALUE_RUN_OPTIONS_DIFFER')
+    if not fields<=set(options)or set(options)-fields-{'graph_binding'}:raise ValueError('VALUE_RUN_OPTIONS_DIFFER')
     if type(options['max_requests'])is not int or not 1<=options['max_requests']<=100:raise ValueError('VALUE_PHYSICAL_CAP_REQUIRED')
     manifest=load(plan['manifest']);config=configuration(manifest)
     model=_file(options['model']);mappings=_file(options['mappings']);compiled=_compile(model,mappings,options)
+    graph_binding=_file(options['graph_binding'])if 'graph_binding'in options else None
     context.record('mapped-value-plan',compiled)
     state=configured_state()
     if state is None:raise ValueError('VALUE_SHARED_BUDGET_REQUIRED')
@@ -132,6 +133,7 @@ def run(plan,context):
             else:
                 with scope(lambda kind,call:metered(call)):
                     result=metered(lambda:_lower(config,request['compiled']))
+            result['observed_at']=journal.utc_now()
             context.record('mapped-value-query-receipt',{'layer':request['layer'],'result':result})
             return result
     try:
@@ -149,6 +151,20 @@ def run(plan,context):
         result.update(physical_requests=meter.used,before=before,after=meter.usage.snapshot(),model_calls=0,
             tape_sha256=tape_hash,tape=str(tape.path),
             grade='NOT_AWARDED_REQUIRES_TRUSTED_GRAPH_RESOLVER')
+        from investigator.graph_value_bridge import capability,attach
+        result['proof_attachment_capability']=capability(compiled)
+        if graph_binding is not None and result.get('status')=='VALUES_AGREE_UNDER_MAPPING':
+            try:
+                attachment=attach(state=state,environment=manifest['environment'],model=model,plan=compiled,result=result,binding=graph_binding,
+                    retain=context.record,observed_at=journal.utc_now())
+            except (ValueError,KeyError)as error:
+                attachment={'status':'REFUSED','confidence_awarded':False,'reason':str(error)}
+            result['graph_attachment']=attachment
+            result['confidence_awarded']=attachment['confidence_awarded']
+            result['grade']=attachment['status']if attachment['confidence_awarded']else 'NOT_AWARDED:'+attachment['reason']
+            result['graph_proof_replay_coverage']='NOT_INCLUDED_IN_COMPILER_RESPONSE_REPLAY; proof bundle separately retained'
+        elif graph_binding is not None:
+            result['graph_attachment']={'status':'REFUSED','confidence_awarded':False,'reason':result.get('reason','VALUE_OBSERVATION_NOT_SUCCESSFUL')}
         context.record('mapped-value-result',result)
         return result
     finally:meter.close()

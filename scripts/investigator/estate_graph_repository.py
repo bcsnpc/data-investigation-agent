@@ -87,10 +87,10 @@ class GraphRepository:
     def verify_edges(self,estate,evidence_ids,*,observed_at):
         return self._verify_edges(estate,evidence_ids,observed_at=observed_at)
 
-    def value_verify_edges(self,estate,evidence_ids,*,observed_at):
-        return self._verify_edges(estate,evidence_ids,observed_at=observed_at,value_grade=True)
+    def value_verify_edges(self,estate,evidence_ids,*,observed_at,_db=None):
+        return self._verify_edges(estate,evidence_ids,observed_at=observed_at,value_grade=True,_db=_db)
 
-    def _verify_edges(self,estate,evidence_ids,*,observed_at,value_grade=False):
+    def _verify_edges(self,estate,evidence_ids,*,observed_at,value_grade=False,_db=None):
         """Append earned proof without inventing a changed definition hash."""
         from .graph_verification import VerificationResolver
         from .graph_value_verification import ValueVerificationResolver
@@ -104,7 +104,7 @@ class GraphRepository:
         now=contract.timestamp(observed_at)
         proofs=[(eid,resolver(eid)) for eid in evidence_ids]
         if len({p['edge_ids'][0] for _,p in proofs})!=len(proofs):raise ValueError('GRAPH_DUPLICATE_VERIFICATION_EDGE')
-        with self.state.transaction() as db:
+        with (self.state.transaction()if _db is None else nullcontext(_db)) as db:
             current=self._current(db,estate,'edges');updates=[]
             for evidence_id,proof in proofs:
                 if proof['estate']!=estate:raise ValueError('GRAPH_VERIFIED_RECEIPT_ESTATE_DIFFERS')
