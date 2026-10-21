@@ -66,6 +66,7 @@ def validate_bootstrap_header(bootstrap):
         if bootstrap['entry_point']=='runner_probe':
             probe=state['runner_probe']
             if not isinstance(probe,dict) or set(probe)!={'config','database','request'} or not isinstance(probe['config'],dict) or not isinstance(probe['database'],str) or not probe['database']:raise TapeError('RUNNER_PROBE_STATE')
+            if probe['config'].get('_estate',{}).get('recording',{}).get('tape_class')=='PRIVACY_PROJECTED':raise TapeError('RUNNER_PROJECTED_PROBE_CAPTURE_UNSUPPORTED')
             request=probe['request']
             if not isinstance(request,dict) or not {'query','read_only_objects','result_columns','max_rows'}<=set(request):raise TapeError('RUNNER_PROBE_REQUEST')
             if type(request['max_rows'])is not int or not 2<=request['max_rows']<=251 or not isinstance(request['result_columns'],list) or not 1<=len(request['result_columns'])<=16:raise TapeError('RUNNER_PROBE_BOUNDS')

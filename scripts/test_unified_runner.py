@@ -111,9 +111,10 @@ class RunnerTests(unittest.TestCase):
         child=SimpleNamespace(stdin=io.StringIO(),stdout=io.StringIO(json.dumps(result)+'\n'),wait=lambda timeout=None:0,poll=lambda:0,kill=lambda:None)
         from investigator.unified_runner import capture_header
         with tempfile.TemporaryDirectory() as header_root:
-            bootstrap=capture_header(self.config(Path(header_root)))
-        bootstrap['entry_point']='runner_probe'
-        bootstrap['state']['runner_probe']={'config':config,'database':'db','request':request}
+            deployed=self.config(Path(header_root))
+            deployed['checks']['bronze']['options']={'config':config,'database':'db','request':request}
+            bootstrap=capture_header(deployed)
+        self.assertEqual(bootstrap['entry_point'],'runner_probe')
         with tempfile.TemporaryDirectory() as d:
             path=Path(d)/'probe.json';tape=Tape(path,bootstrap)
             with active(tape),scope(lambda k,f:f()),allow_sql(reader['server'],'db',['dbo.synthetic']),patch('subprocess.Popen',return_value=child):

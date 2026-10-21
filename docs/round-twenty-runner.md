@@ -8,8 +8,10 @@ credentials remain the existing Key Vault references and managed identity.
 Existing gateway and PostgreSQL environment configuration is retained.
 
 The versioned `dia-runner-estate-v1` deployment envelope has exactly these
-fields: `version`, `manifest`, `image`, `capture`, `checks`, `output_root`,
-`bootstrap`. It does not change the pinned investigation manifest. `image`
+fields: `version`, `manifest`, `image`, `capture`, `checks`, `output_root`.
+The runner generates its complete capture header from the deployed plan, current
+engine fingerprint and committed revision. Callers do not author engine identity.
+It does not change the pinned investigation manifest. `image`
 must use `@sha256:`. `checks` maps names to `{kind, options}`; kinds are a
 fixed code registry, never a Python module or arbitrary executable. Supported
 handlers reuse the normal form investigation, approval verifier, graph scanner,

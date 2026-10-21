@@ -29,7 +29,7 @@ def load(path):
     _safe(bytes_of(value))
     return value
 
-def capture_header(config):
+def capture_header(config,check=None):
     """Construct provenance, never accept a caller's invented engine identity."""
     from .runtime import fingerprint
     from .source_revision import committed_revision
@@ -39,6 +39,10 @@ def capture_header(config):
            'config':{'_estate':{'operating_mode':'BUILD_PHASE'}},'profile':{},'usage_policy':None,
            'engine_hash':fingerprint(),'state':{'runner_contract':'dia-runner-capture-v1',
            'runner_image':config['image'],'engine_revision':committed_revision(),'plan_sha256':identity}}
+    if check is None and len(config['checks'])==1:check=next(iter(config['checks'].values()))
+    if check and check['kind']=='probe' and {'config','database','request'}<=set(check['options']):
+        value['entry_point']='runner_probe'
+        value['state']['runner_probe']={k:check['options'][k] for k in ('config','database','request')}
     validate_bootstrap_header(value)
     return value
 
@@ -96,13 +100,14 @@ def handlers():
         from .shared_state import configured_state
         from .physical_reads import scope,guard_scope
         from .process_tape import Tape,active
-        o=plan['options'];state=configured_state()
+        o=plan['options']
+        bootstrap=copy.deepcopy(plan['bootstrap'])
+        if bootstrap['entry_point']!='runner_probe':raise ValueError('RUNNER_PROBE_HEADER_REQUIRED')
+        validate_bootstrap_header(bootstrap)
+        tape=Tape(ctx.root/'probe-tape.json',bootstrap=bootstrap)
+        state=configured_state()
         if state is None:raise ValueError('RUNNER_SHARED_BUDGET_REQUIRED')
         meter=Meter(state,o['budget'],o['max_requests'])
-        bootstrap=copy.deepcopy(plan['bootstrap'])
-        bootstrap['entry_point']='runner_probe'
-        bootstrap['state']['runner_probe']={k:o[k] for k in ('config','database','request')}
-        tape=Tape(ctx.root/'probe-tape.json',bootstrap=bootstrap)
         try:
             with active(tape),guard_scope(lambda value:ctx.record('guard',value)):
                 def measured():
@@ -139,7 +144,7 @@ def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     if check is None:raise ValueError('RUNNER_UNKNOWN_CHECK:'+target)
     run_id=run_id or config.get('run_id') or str(uuid4())
     if 'bootstrap' in config:validate_bootstrap_header(config['bootstrap'])
-    bootstrap=capture_header(config)
+    bootstrap=capture_header(config,check)
     plan={'manifest':config['manifest'],'bootstrap':bootstrap,'run_id':run_id,**check}
     # Full header and secret validation precede capture transport and handler.
     validate_bootstrap_header(bootstrap);_safe(bytes_of(config))
