@@ -1,5 +1,6 @@
 """One fixed runner registry; no user-supplied code, shell, or module imports."""
 import argparse
+import copy
 import hashlib
 import json
 import os
@@ -70,8 +71,8 @@ def handlers():
         from scan_estate_graph import execute
         return execute(plan['options']['config'])
     def replay(plan,ctx):
-        from cloud_verification_capture import replay
-        return replay(plan['options']['capture'],ctx.root/'replay')
+        from .runner_replay import replay
+        return replay(plan['options'],ctx.root/'replay')
     def prepare(plan,ctx):
         from cloud_stage_worker import prepare_phase
         return prepare_phase(Path(plan['options']['inputs']),ctx.root/'prepared')
@@ -84,7 +85,9 @@ def handlers():
         o=plan['options'];state=configured_state()
         if state is None:raise ValueError('RUNNER_SHARED_BUDGET_REQUIRED')
         meter=Meter(state,o['budget'],o['max_requests'])
-        tape=Tape(ctx.root/'probe-tape.json',bootstrap=plan['bootstrap'])
+        bootstrap=copy.deepcopy(plan['bootstrap'])
+        bootstrap['state']['runner_probe']={k:o[k] for k in ('config','database','request')}
+        tape=Tape(ctx.root/'probe-tape.json',bootstrap=bootstrap)
         try:
             with active(tape),guard_scope(lambda value:ctx.record('guard',value)):
                 def measured():
@@ -108,11 +111,15 @@ def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
         check={'kind':'investigation','options':{'ticket':str(Path(target).resolve())}}
     if check is None:raise ValueError('RUNNER_UNKNOWN_CHECK:'+target)
     run_id=run_id or str(uuid4())
-    plan={'manifest':config['manifest'],'bootstrap':config['bootstrap'],'run_id':run_id,**check}
+    validate_bootstrap_header(config['bootstrap'])
+    bootstrap=copy.deepcopy(config['bootstrap'])
+    bootstrap['config'].setdefault('_estate',{})['operating_mode']='BUILD_PHASE'
+    bootstrap['state']['runner_image']=config['image']
+    plan={'manifest':config['manifest'],'bootstrap':bootstrap,'run_id':run_id,**check}
     # Full header and secret validation precede capture transport and handler.
     validate_bootstrap_header(config['bootstrap']);_safe(bytes_of(config))
     sink=put or blob_sink(config['capture'])
-    ctx=DurableCapture(Path(config['output_root'])/run_id,sink,run_id=run_id,bootstrap=config['bootstrap'])
+    ctx=DurableCapture(Path(config['output_root'])/run_id,sink,run_id=run_id,bootstrap=bootstrap)
     registry=registry or handlers()
     keys=('INVESTIGATOR_OPERATING_MODE','INVESTIGATOR_BUDGET_CATEGORY')
     previous={key:os.environ.get(key) for key in keys}
@@ -120,6 +127,8 @@ def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
         with ctx.observing():
             os.environ['INVESTIGATOR_OPERATING_MODE']='BUILD_PHASE'
             os.environ['INVESTIGATOR_BUDGET_CATEGORY']='SCAN' if check['kind'] in ('scan','smoke') else 'INVESTIGATION'
+            from scan_estate_graph import READ_OBSERVER
+            observer_token=READ_OBSERVER.set(lambda label,value:ctx.record('physical-result',{'label':label,**value}))
             attempt=0
             def perform():
                 nonlocal attempt
@@ -132,11 +141,13 @@ def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
             # Native result is durable independently of Tape.finish/export.
             ref=ctx.record('result',result)
             ctx.record('status',{'status':'COMPLETED','partial':False,'result':ref})
+            ctx.seal()
         return {'run_id':run_id,'status':'COMPLETED','result':result}
     except BaseException as exc:
         ctx.fail(exc)
         raise
     finally:
+        if 'observer_token' in locals():READ_OBSERVER.reset(observer_token)
         for key,value in previous.items():
             if value is None:os.environ.pop(key,None)
             else:os.environ[key]=value

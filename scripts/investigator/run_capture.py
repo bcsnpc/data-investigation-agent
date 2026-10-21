@@ -17,7 +17,7 @@ class DurableCapture:
     def __init__(self, root, put, *, run_id, bootstrap):
         validate_bootstrap_header(bootstrap)
         if not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',run_id):raise ValueError('RUN_ID_INVALID')
-        self.root=Path(root);self.put=put;self.run_id=run_id;self.sequence=0
+        self.root=Path(root);self.put=put;self.run_id=run_id;self.sequence=0;self.records=[]
         self.root.mkdir(parents=True,exist_ok=False)
         self.record('header',bootstrap)
         self.record('status',{'status':'STARTED','partial':True})
@@ -31,7 +31,18 @@ class DurableCapture:
             __import__('os').fsync(stream.fileno())
         # Unique names and create-only Blob PUT make historical entries immutable.
         self.put(self.run_id+'/'+name,raw)
-        return {'key':self.run_id+'/'+name,'sha256':hashlib.sha256(raw).hexdigest()}
+        ref={'key':self.run_id+'/'+name,'sha256':hashlib.sha256(raw).hexdigest()}
+        self.records.append(ref)
+        return ref
+
+    def seal(self):
+        value={'version':'dia-run-record-v1','run_id':self.run_id,'records':self.records}
+        value['seal']=hashlib.sha256(bytes_of(value)).hexdigest()
+        raw=bytes_of(value);_safe(raw)
+        with (self.root/'run-record.json').open('xb') as stream:
+            stream.write(raw);stream.flush();__import__('os').fsync(stream.fileno())
+        self.put(self.run_id+'/run-record.json',raw)
+        return value['seal']
 
     def event(self,tape,event):
         self.record('tape-event',{'tape':str(tape.path),'event':event})

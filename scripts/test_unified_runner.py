@@ -84,6 +84,43 @@ class RunnerTests(unittest.TestCase):
                 return {}
             run(self.config(Path(d)),'bronze',registry={'probe':handler},put=lambda *_:None)
             self.assertEqual(os.environ['INVESTIGATOR_OPERATING_MODE'],'LEGACY')
+    def test_sealed_scan_boundary_replay_is_limited_and_detects_content_change(self):
+        from investigator.runner_replay import boundary
+        with tempfile.TemporaryDirectory() as d:
+            config=self.config(Path(d))
+            result=run(config,'bronze',registry={'probe':lambda *_:{'nodes':3}},put=lambda *_:None,run_id='scan-test')
+            root=Path(config['output_root'])/'scan-test'
+            report=boundary(root,config['image'])
+            self.assertEqual(report['coverage'],'BOUNDARY_ONLY')
+            self.assertFalse(report['graph_recomputed'])
+            first=next(root.glob('*-step-result.json'));first.write_text('{"nodes":4}')
+            with self.assertRaisesRegex(ValueError,'MEMBER_CHANGED'):boundary(root,config['image'])
+    def test_probe_recomputes_native_read_from_tape_without_transport(self):
+        import copy,io
+        from types import SimpleNamespace
+        from investigator.runner_replay import probe
+        from investigator.process_tape import active
+        from investigator.physical_reads import scope
+        from fabric_sql_surface import read
+        from gateway_test_support import allow_sql
+        from test_managed_sql_worker import AUTH
+        reader={**AUTH,'server':'synthetic.database.windows.net','account':'reader'}
+        config={'fabric':{'sql_reader':reader,'auth':{'tenant_id':AUTH['tenant_id']}}}
+        request={'query':'SELECT value FROM dbo.synthetic','read_only_objects':['dbo.synthetic'],'result_columns':['value'],'max_rows':2}
+        result={'rows':[{'value':7}]}
+        child=SimpleNamespace(stdin=io.StringIO(),stdout=io.StringIO(json.dumps(result)+'\n'),wait=lambda timeout=None:0,poll=lambda:0,kill=lambda:None)
+        bootstrap=copy.deepcopy(HEADER)
+        bootstrap['state']['runner_probe']={'config':config,'database':'db','request':request}
+        with tempfile.TemporaryDirectory() as d:
+            path=Path(d)/'probe.json';tape=Tape(path,bootstrap)
+            with active(tape),scope(lambda k,f:f()),allow_sql(reader['server'],'db',['dbo.synthetic']),patch('subprocess.Popen',return_value=child):
+                actual=read(config,'db',request);tape.finish(actual)
+            original=path.read_bytes()
+            with patch('investigator.live_gateway.current',side_effect=AssertionError('network used')),patch('subprocess.Popen',side_effect=AssertionError('worker used')):
+                replayed=probe(path)
+            self.assertTrue(replayed['matched'])
+            self.assertEqual(replayed['result'],result)
+            self.assertEqual(path.read_bytes(),original)
     def test_real_process_kill_preserves_partial_remote_blob_objects(self):
         # The fake Blob service is an independent filesystem durable store. The
         # child uses the real runner and is killed while the second read blocks.

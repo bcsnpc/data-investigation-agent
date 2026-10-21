@@ -47,3 +47,14 @@ Replay is a separate check after live execution. Its result cannot prevent a
 live handler from starting. Existing verifier/form internals retain their own
 semantic and permission validation: this runner does not reinterpret a refusal
 as a successful result.
+
+Replay options have an explicit format: `verification` uses the existing
+verification replay; `investigation` uses the existing immutable pinned-engine
+driver; `probe` reruns the same native surface reader and physical worker
+protocol under the sealed Tape with transport forbidden. `scan-boundary`
+validates the completed run's sealed manifest and every immutable per-read
+response/result, with the expected image pin. It reports **BOUNDARY_ONLY** and
+`graph_recomputed: false`: it does not claim the graph mutations were replayed.
+Full scan semantic replay still needs a retained pre-scan graph-state baseline.
+New headers record BUILD_PHASE inside the configuration and the image pin in
+state; historical Tape bytes and their operating mode are untouched.
