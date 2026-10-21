@@ -38,19 +38,45 @@ def extract(raw,root,*,expected,expanded_limit):
  root.chmod(0o555)
 
 
-def audit_database(path):
+AUDIT_BATCH_BYTES=256*1024
+
+
+def audit_database(path,*,progress=None):
+ """Audit complete normalized cell values in bounded JSON batches.
+ A large cell takes the original individual path, and bytes are always audited
+ individually. Batching changes no normalization or secret detector. Nothing is
+ published by this reader; progress contains only a filename/table and counts.
+ """
  import sqlite3
  from contextlib import closing
+ batch=[];size=2
+ def flush():
+  nonlocal size
+  if batch:
+   _safe(b'['+b','.join(batch)+b']')
+   batch.clear();size=2
+ def report(table,rows,status):
+  if progress is not None:progress({'table':table,'rows':rows,'status':status})
  with closing(sqlite3.connect(Path(path).resolve().as_uri()+'?mode=ro',uri=True)) as db:
   for (table,) in db.execute("SELECT name FROM sqlite_master WHERE type='table'"):
    query='SELECT * FROM '+chr(34)+table.replace(chr(34),chr(34)*2)+chr(34)
+   count=0;report(table,count,'STARTED')
    for row in db.execute(query):
     for value in row:
      if isinstance(value,str):
       try:parsed=json.loads(value)
       except json.JSONDecodeError:parsed=value
-      _safe(json.dumps(parsed,ensure_ascii=False).encode())
-     elif isinstance(value,bytes):_safe(value)
+      raw=json.dumps(parsed,ensure_ascii=False).encode()
+      if len(raw)+2>AUDIT_BATCH_BYTES:
+       flush();_safe(raw)
+      else:
+       if size+len(raw)+(1 if batch else 0)>AUDIT_BATCH_BYTES:flush()
+       size+=len(raw)+(1 if batch else 0);batch.append(raw)
+     elif isinstance(value,bytes):
+      flush();_safe(value)
+    count+=1
+    if count%1000==0:report(table,count,'IN_PROGRESS')
+   flush();report(table,count,'COMPLETED')
 
 
 def package(inputs,work,output):

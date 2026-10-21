@@ -75,7 +75,7 @@ def retain_dependencies(folder,context,*,kind,phase,config=None,files=None):
     rows=[]
     for name,path in sorted(selected):
         if path.suffix in ('.sqlite','.db'):
-            audit_database(path)
+            audit_database(path,progress=lambda value:context.record('dependency-audit-progress',{'name':name,**value}))
         else:
             audit(path)
         ref=files.capture(path)
