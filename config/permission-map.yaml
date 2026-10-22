@@ -950,6 +950,71 @@
       "probe": {
         "kind": "postgres"
       }
+    },
+    {
+      "id": "pg-estate_graph_nodes",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_graph_nodes",
+      "action": "SELECT graph projection/history as worker; graph mutation rights are governed by the migration contract",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "postgres",
+        "limitation": "Read-only effective SELECT proof; does not establish write privileges."
+      }
+    },
+    {
+      "id": "pg-estate_graph_edges",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_graph_edges",
+      "action": "SELECT graph projection/history as worker; graph mutation rights are governed by the migration contract",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "postgres",
+        "limitation": "Read-only effective SELECT proof; does not establish write privileges."
+      }
+    },
+    {
+      "id": "pg-estate_graph_history",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_graph_history",
+      "action": "SELECT graph projection/history as worker; graph mutation rights are governed by the migration contract",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "postgres",
+        "limitation": "Read-only effective SELECT proof; does not establish write privileges."
+      }
+    },
+    {
+      "id": "pg-estate_graph_changes",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_graph_changes",
+      "action": "SELECT graph projection/history as worker; graph mutation rights are governed by the migration contract",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "postgres",
+        "limitation": "Read-only effective SELECT proof; does not establish write privileges."
+      }
+    },
+    {
+      "id": "pg-estate_graph_owner_versions",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_graph_owner_versions",
+      "action": "SELECT graph projection/history as worker; graph mutation rights are governed by the migration contract",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "postgres",
+        "limitation": "Read-only effective SELECT proof; does not establish write privileges."
+      }
     }
   ]
 }
