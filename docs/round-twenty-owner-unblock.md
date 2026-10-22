@@ -87,3 +87,8 @@ are unchanged. Next order is family A demo, filtered-fixture value check,
 billing MRR value check, then same-image replay, each reported separately.
 Full engine regression remains 4,747 passed /47 skipped /1,622 subtests on
 2c3b8e2. Draft #427 remains unmerged and `v0.20` is not created.
+
+
+### Section8 executed fixed-identity credential and bindings, owner date2026-10-21
+
+Existing application531419ef-1610-415a-b8bf-01a4b6aad751 received exactly one owner-approved30-day credential, keyId958bb7e5-3f94-48fe-8e1f-5fa73165cca2, expiry2026-11-21T00:59:55Z. Value created in memory and stored/readback verified only in existing kv-dia-d5dd7d65 secret investigator-fixed-connection-20261021; never printed or logged. Existing federation/credentials preserved. Fixture and billing ShareableCloud SQL connections created with ServicePrincipal existing investigator, encryption on, singleSignOnTypeNone, connection tests enabled. IDs fixture2f322058-f720-40a0-bd1e-d174b8e7f5da; billing5099b9ff-1f27-488c-98c5-01c030dc4f3c. Both model bindings read back asShareableCloud, source server/database unchanged. Model permission listings byte-equivalent as JSON before/after; no identity or permission grant. Admin used only for control mutations, investigation reader remains federated. Exact credential metadata, requests without secrets and before/after: docs/runs/round-twenty-fixed-identity-controls.json. Connection success is not yet demo success.

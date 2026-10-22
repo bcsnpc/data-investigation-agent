@@ -149,3 +149,6 @@ Owner-approved additions, 2026-10-21; execution details in
 
 Permission-map presence is not proof of a successful DAX read or demo. Missing
 monthly policy must name the owner setup action rather than widening the worker.
+
+
+Dated prerequisite update,2026-10-21 (UTC October22): model connection=fixed identity now VERIFIED for both fixture and billing. ShareableCloud IDs2f322058-f720-40a0-bd1e-d174b8e7f5da and5099b9ff-1f27-488c-98c5-01c030dc4f3c; existing read-only investigator ServicePrincipal, SSO None, encrypted. Earlier blocked entry above remains historical. Current-month policy already verified; live value authorization still requires the recorded reruns. See ../runs/round-twenty-fixed-identity-controls.json.

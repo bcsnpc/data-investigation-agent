@@ -110,3 +110,8 @@ Alternative engineering path: evaluate a supported read-only XMLA query adapter 
 ## 2026-10-21 owner unblock: PostgreSQL completed; model connection needs browser action
 
 The earlier PostgreSQL owner action is completed: current single-IP firewall replacement and October/November $40 policy accounts verified, worker role unchanged. December onward still requires the owner monthly provisioning step above. Exact connection click steps and portal authentication error: [round-twenty-owner-unblock.md](round-twenty-owner-unblock.md). The owner has approved fixed identity; the remaining action is performing the supported OAuth connection flow, not another permission approval. No rerun or merge has occurred behind this prerequisite.
+
+
+## 2026-10-21 fixed connection action completed; credential expires November21UTC
+
+The earlier interactive-reader connection steps are superseded: owner explicitly approved a30-day secret on the existing investigator application, and both fixed connections are now bound/readback verified via documented APIs. No interactive reader password is needed. See round-twenty-fixed-identity-controls.json. The connection credential expires2026-11-21T00:59:55Z (November20,18:59Central). Before expiry, owner must decide whether to rotate this same-purpose credential or replace it with a supported secretless connection. No automatic new credential or permission grant is authorized. Existing worker federation is unchanged.
