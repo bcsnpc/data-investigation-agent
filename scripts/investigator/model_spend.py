@@ -131,6 +131,18 @@ def admission(body):
     from .local_accounting import boundary,replay_optional
     tape = ACTIVE.get()
     if tape is not None and tape.replaying:
+        # SharedSpendBudget.reserve journals its UUID before the provider's
+        # timeout clock. Replay must consume that environmental identifier even
+        # though it must never reserve money in the live ledger. Local-file
+        # spending does not emit this event. The existing bootstrap markers
+        # identify the shared backend; old tapes and their bodies stay intact.
+        state=getattr(tape,'bootstrap',{}).get('state',{})
+        from .shared_application import VERSION as shared_version
+        if state.get('shared_application')==shared_version and state.get('shared_usage_replay'):
+            pending=tape.peek('IDENTITY')
+            if pending is not None and json.loads(pending).get('name')=='uuid4':
+                from .process_tape import uuid4
+                uuid4()
         try:yield lambda usage: replay_optional('MODEL_SPEND_SETTLE')
         finally:replay_optional('MODEL_SPEND_CLEANUP')
         return
