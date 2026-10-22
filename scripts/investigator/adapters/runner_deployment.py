@@ -45,6 +45,8 @@ def demo_preflight(job,resource,*,execute,cli):
 def launch(config,target,*,execute=subprocess.run):
     """Read existing job and start its pinned override; never update its roles."""
     import tempfile
+    from .runner_schedule import bind_execution
+    config=bind_execution(config)
     input_policy_preflight(config)
     from ..build_phase import admit_platform
     observation=config.get('platform_cost_observation')

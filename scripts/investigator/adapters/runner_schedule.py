@@ -23,6 +23,9 @@ def bind_execution(config,*,identifier=None):
                 grant['run_id']=new;declaration(grant);matched+=1
     if matched!=1:raise ValueError('SCHEDULE_EXACT_CAPTURE_BINDING_REQUIRED')
     value['run_id']=new
+    # This is an execution, no longer a reusable scheduled template. Host-side
+    # binding (for readback/rotation) must survive the worker entry point.
+    value['per_execution']=False
     value['environment']['DIA_PLATFORM_GATEWAY_POLICY']=json.dumps(gateway,sort_keys=True)
     for check in value['checks'].values():
         if check['kind']=='smoke':check['options']['config']['run_id']=new

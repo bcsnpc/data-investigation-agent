@@ -22,6 +22,8 @@ class ScheduleTests(unittest.TestCase):
         self.assertNotEqual(one['run_id'],two['run_id'])
         self.assertEqual(config,original)
         for actual in (one,two):
+            self.assertFalse(actual['per_execution'])
+            self.assertEqual(bind_execution(actual),actual)
             self.assertEqual(actual['checks']['daily']['options']['config']['run_id'],actual['run_id'])
             gateway=json.loads(actual['environment']['DIA_PLATFORM_GATEWAY_POLICY'])
             grant=gateway['identities']['worker:state']['runner_captures'][0]
