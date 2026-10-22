@@ -1,0 +1,281 @@
+{
+  "estate": "fixture",
+  "evidence_class": "OFFLINE_DECLARED_REACHABILITY_NOT_VALUE_VERIFICATION",
+  "estate_reads": 0,
+  "model_calls": 0,
+  "before_graph_sha256": "919aaa2544b2c32fb82e1245820a85cf866eb82d327d08946d44a791a3a94bc9",
+  "index_sha256": "2df56afb850f1ee88b24f24179d5354ec3f54f7682edf577a45cbd065f7a4dda",
+  "context_file_sha256": "479694579df7f080626f3be6eeee5a4ec7dda4ed7fc666512a4a539a87065c45",
+  "context_version": "4cae0d14-fd5d-4ff1-89ce-adf346790084",
+  "owner_payloads": [
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60",
+      "sha256": "c82daf69969e7a27742235394394618e7edf327f0c7d6c43d545cb48469afbe0"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/01f6e7b2-9939-4f96-bf56-2c943b22e82a",
+      "sha256": "d3de77340374dec26749a7d34a0a74aa4291408bae1750042b9ab47e790f60ea"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82",
+      "sha256": "9d881eba7d8e25e4b0d3d1d939d5df4c7803d3609fbc1ca1716109e05d5149af"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+      "sha256": "844508f84c788553089d68a3ffcdcbd6018996df76c10bba2800ab2fde4125f0"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/1537c298-3727-43e6-a10f-7af59fcc2446",
+      "sha256": "843f006c7820331daa7b9dc82cb4b62c9e59f07e5ff72fe229125fe2b6d49ffe"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/15785497-e46a-4c6c-9c87-aa45c1db5a9e",
+      "sha256": "b848b6c02eb9fbb23d0db1c02e51e5e6d2d1a3be9807721007518b0fc6d135cc"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/15cb2e5b-49a6-4025-8b0a-a79d685e29e5",
+      "sha256": "cfdf63994488b78728087efc9cc422bd7b273d0e1e22f7e1311002f5344a2bfd"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/163ce520-ec47-4824-975c-96f5c749205f",
+      "sha256": "6fcfdaf772b06c218e2a020724dd6446a154c2569a8da5d14ed8edbd4805c893"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/242133bf-66e5-4b1b-864a-0d62df426518",
+      "sha256": "9d19851b01840f4f36f3a900b25f4bdd3911f60ce9cbedea0a3db35f533b0de8"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/28a0c79d-86d6-473b-8c7a-485d8b8ff404",
+      "sha256": "52a852c50d6c597067b2114e3c68b216734c37468393f6c5d4d011be59b935d8"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+      "sha256": "06006e8004049eb85bda7e640206f23ab72d00a8eb4d4b96619bb4e95d0280a6"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/32c6b358-f738-4d10-870c-a78db5b2c5f8",
+      "sha256": "a2f099dcd91b106a8b543f00a3fe488f2ac26b9c1bfa29c217b3d792bc1991db"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+      "sha256": "0ff6bda68bb5f48bdf9df979172ecfa10603c58fa7d1ac67e0135bca75583524"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e",
+      "sha256": "68e99465762a5314fcb8e7be94cef984df6a41e5c149d1cd993ad664436f1c81"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/382adacf-ba00-44cf-ab62-070b96a961f9",
+      "sha256": "cc58b64045d6e263f21540b6e98b9f4ba5c9a4f2cfbea0ff784802da8ed01158"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/4728218b-9fff-4e1a-95f5-208e0ef3e47e",
+      "sha256": "fe4c06982bc6b58926385e40329d482027febd2045092450ee09cfca4a05df6d"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/4de4fcd3-97dd-4cc7-8c9f-171a871dd1e6",
+      "sha256": "e87b7804b4a605b932b885a72138121c6420891ec33da498759e129f90c76b91"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738",
+      "sha256": "ace8a4209a0ed208b8a57aa0d78dfd9b10e2d5fac0d9d81b27243dd67c29c9a7"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/544de61d-325b-42ee-b5dc-ae61a4ad54a7",
+      "sha256": "7a9550d5113cf897f771a0dd8ad6436b5ea71dfa1c0f92cdc6e7cf6ab50754ac"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/549274ae-ac77-4ba4-95d7-818f132694f5",
+      "sha256": "abd864d0f7d2c1072165276cb2c1fa62c6a1f84905cf99e33db9a75a2603920e"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/56bd6e85-d840-4d4a-8b85-4e9e8f46bd25",
+      "sha256": "b26bbe41bc8e68346331a67426fc40ed0122b721787c9958650630f860c374c1"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+      "sha256": "5f5c14ff010296d59ce887ed7fd7a2709b1d50341728ee6a331a18d3b1e50645"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/5a3200de-8ef9-4a1b-8128-db9cacc8a779",
+      "sha256": "04c6c03f7bb8b3b03eb491b77dc5c0dd74054a53643378da20d698ae082f7476"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/5dbdbf17-eb9b-4189-9f8c-7071f365e842",
+      "sha256": "45fe58228b72d4aaa8d1d98d15b8a4d9396f72bbd1fdc33f78bba71ed52c3284"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/5f2afb96-157e-46ab-9fcb-b56a2bb37fba",
+      "sha256": "a8f4d6527298c66b6ea540b41b0532ad11ba015fa8372d3289bc548d10800931"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/5f443879-734a-4b02-8be7-4466222c6386",
+      "sha256": "4910a8837f6bd76aa1cc20e1be9cdaf770b29d948bf4ad618eafbab461b3670e"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/667dd390-1403-4b4a-8ae5-91adfc4d8ca1",
+      "sha256": "c7f0c31aa53a4fbe5454b8ef83ba18b69d1c8ef2168d4c5bfcb26affcc6d2712"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497",
+      "sha256": "ee593fd5d56122d2aa93dcf82780083404ce2d13dbb89adca4b69019253286ed"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/6cabd22c-26ec-4c98-8318-834011c1e0b3",
+      "sha256": "c3de4708e1a0c4b026e3cd24badec83952a2dbf874068ded70b9cac2279ef0de"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7050f705-e595-4708-b62b-1836dac30741",
+      "sha256": "e984eb67ade34dd1ef7e000f5e16c016326023c873572413630df99aadad2231"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/72b37e0e-0510-4226-9809-b132fdd7d9c6",
+      "sha256": "192f75ce1469a3b0770111dabfe3dc7f29fd3613d13a9986802bacef3df5633b"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/76fd529b-6cb2-4f3a-927a-bdd2407a2e80",
+      "sha256": "5b5ac59992533eb799a8603562a9a4c84ae67e4095ed91fba0e8d8681b5ba322"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/77c49180-2ef9-4558-837c-f50fdb1df8de",
+      "sha256": "ae52ed849af2b8db3c3bb905a1e0db257551e93de485b4c6fb0c066aa6417bd1"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7826f034-ab61-4d8f-8125-27c1d60a73a5",
+      "sha256": "1a0f02995b648b4df309284f5b3107e444a57c7dda363d2b4781ceb60314d02e"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/79109d35-b1f9-4ca2-9833-a43c8bf79572",
+      "sha256": "ec83635cf680d0044be64df8123204223165ba916d3aac0459ac6fbae133b4af"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25",
+      "sha256": "0bc1151ebd35bc33f5b936b8188b9d5e3a0a7adf632b065a87f041efa602582d"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7e353019-064f-4aac-9a62-a9770d1399a9",
+      "sha256": "33ec4f66ca339f442204121a9d64108209bb8ecb56e91d831b45e67aa33a6664"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/8195c990-f9ed-4190-a935-ec3fa2ef443c",
+      "sha256": "7ea2fbd4c73a1ab1de37a35f1d04b0e4a3d0cd2a65c856315abafdd158a489c8"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/8e434350-7100-47b7-a0de-2c5732385dbb",
+      "sha256": "ffb75b087d8b980bd3958443da68ef7fc6c0e69c530c37d25426dd8533196436"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+      "sha256": "ae9f1b07c6c17e1708d11ca60e8fa3420d9278ae523fa435d88138f4b74e9866"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/974791f8-3e8f-4f38-a129-b15b9030ab14",
+      "sha256": "110ff9ccc25571b344563096654f7348c6123bf23f64136099c10304a7bc7e31"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/a23c2d34-8d82-4772-ab32-bf26face4d83",
+      "sha256": "3a7135bced7700e29027afacf70cc7a2de278fda8658aa8b0f39faaafc5421b2"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/a3aca96f-d2f1-4495-8a0c-bf761774dfe4",
+      "sha256": "ba7eaa431f524710ad713ba270fbe012fdf699b5bb206a20b11757a8baa6d8f7"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/a5797c7c-d548-4f40-8b74-56a42d0c895e",
+      "sha256": "4a481820f12a1ad8b925aa0ee8572ef8fbf89cbd75a14f2d7a167f04e2146b43"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ad49e54f-50b2-4562-9c43-9e6ba0fcd5cb",
+      "sha256": "41d2694534076798301c902b437906daf4d822545fa91e18775c43209bdbf7d0"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+      "sha256": "d17b297fb933767df705508248d91b706f4781eaf3dd3783c749e824675d1cda"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c",
+      "sha256": "eae33513dbf7296815ecbdfa11d40829d058d5fb57055fc4ab594b099eaea9ff"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b71c906a-0ada-4565-adb5-81c8745f7f30",
+      "sha256": "6596d493a44654a74eaf48b874af17562a10041df8cffb1b5406dbe3de64d418"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887",
+      "sha256": "d360d3bd81391e100aa9c55f9f0f6d325040cbeea1647ce3cf8bc6bbbcf73883"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/bd1a3a47-e3b6-4104-8486-551c5d984385",
+      "sha256": "5c7f844bb541d20775b89559ae37caee32809e82c39f73ec4b9b7ef66c148d9a"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/bea673e0-a206-461e-9b2f-1b3b827e80de",
+      "sha256": "2d9d45ca2eaa5e04605f2b501fb9d392997bcf8650c6eff745a6de3033fd74b4"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/c2cb3331-b651-4447-807b-eb748c101c80",
+      "sha256": "f763bedab1a7a33e890dc577aaa1cc6e5ad530ed90a9b8b0dc7ca8363026f62a"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/c45da96d-fe88-4f2d-846c-0ce82f2e38c2",
+      "sha256": "3af44fa04a53adbc0e6871fdcf21d304ce016c87fb22bc3eb42831e50936419b"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/c463921e-64b2-488e-b8b1-e0239980c79c",
+      "sha256": "5a75b5a59a563f52cb2795931828ba2d12cafc8a36b159614fa4a4b799def0bf"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ccc6ed61-d9eb-400e-b1c4-956788508254",
+      "sha256": "a758a4df69da77be5177877ccdaa987780b06ca429ad840318c9ebfacd48d883"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ce379e11-9a02-43df-9ddd-14be119ec0ee",
+      "sha256": "21ebe14e2bd312b47323020193614335652935ca2faa9f07e7fef15b45f6fd60"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/connection/3f5891f3-092b-4c26-b838-1d024e989501",
+      "sha256": "4d4fa8564081fa588b1442c782cc2e5ae64db5aeea8589d171a3a764490a9e69"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/e74fae1b-aab8-4058-9ae1-4038b7eec18a",
+      "sha256": "661594457ca84c1652f7bcc6235f2cf02e704ebb1e3c96e127f25b1b2a0c0932"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/f8fc4bf1-84b3-455c-b9ce-120ba32e8d75",
+      "sha256": "792547c7773dbd7fa2aa3bbe4ff22b7440086576ff36a6c4091343fae91e5888"
+    },
+    {
+      "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/fbbccea4-d943-4f58-b91f-e6cbcb912620",
+      "sha256": "777531c329babf93a80e9346e08020a7a913a73c1d9de440f8191fb7cbcb01bf"
+    },
+    {
+      "owner": "sql://sql-orderops-9696025.database.windows.net/ordersops",
+      "sha256": "88dc249240c4dbc1de9b10f3a2f90a09807ff7e6caab32fec247150b55ffc188"
+    }
+  ],
+  "native_relations": 5,
+  "before": {
+    "baseline_cohort": {
+      "starts": 76,
+      "present": 76,
+      "unavailable": 0,
+      "reaches_declared_source_column": 0,
+      "reaches_terminal_physical_column": 29,
+      "complete_verified_paths": 0,
+      "complete_value_verified_paths": 0
+    }
+  },
+  "after": {
+    "baseline_cohort": {
+      "starts": 76,
+      "present": 76,
+      "unavailable": 30,
+      "reaches_declared_source_column": 0,
+      "reaches_terminal_physical_column": 29,
+      "complete_verified_paths": 0,
+      "complete_value_verified_paths": 0
+    }
+  },
+  "start_identity_unchanged": true,
+  "outputs": "C:\\Users\\chait\\AppData\\Local\\Temp\\dia-round21-directlake-continuation-01"
+}

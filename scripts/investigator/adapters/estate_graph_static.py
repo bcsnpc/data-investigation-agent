@@ -431,6 +431,34 @@ class StaticGraph:
         except (ValueError,TypeError):return refuse('catalog is not an explicit container or endpoint identifier.')
         workspace=model.rsplit('/',1)[0]
         containers=[]
+        # Reuse the legacy resolver's exact native endpoint->Lakehouse witness.
+        # A display name is never a scope. These observations are independently
+        # retained, hash-pinned item relations, not relationships proposed by a
+        # model or inferred from equal container labels.
+        endpoint_id=workspace+'/'+catalog
+        endpoint_asset=self.assets.get(endpoint_id)
+        native_relations=[]
+        if endpoint_asset and endpoint_asset['kind']=='SQLEndpoint':
+            for evidence in self.assets.values():
+                if evidence['kind']!='NativeItemRelationMetadata' or evidence.get('parent_id')!=model:continue
+                metadata=evidence.get('metadata',{});relation=metadata.get('relation',{})
+                if relation.get('source')!=endpoint_id or relation.get('relation')!='NATIVE_CASCADEDELETE':continue
+                if (relation.get('provenance')!='DISCOVERED' or not re.fullmatch('[a-f0-9]{64}',metadata.get('context_hash',''))
+                        or not any(e.get('scope')==model and e.get('source_api')=='fabric_item_relations_beta'for e in relation.get('evidence',[]))):continue
+                target=self.assets.get(relation.get('target'))
+                if not target or target['kind']!='Lakehouse' or target.get('parent_id')!=workspace:continue
+                native_endpoint=endpoint_asset.get('metadata',{})
+                if (native_endpoint.get('id')!=catalog or native_endpoint.get('workspaceId')!=workspace.split('/')[-1]
+                        or native_endpoint.get('type')!='SQLEndpoint'):continue
+                if (metadata.get('endpoint_asset_hash')!=endpoint_asset.get('content_hash')
+                        or metadata.get('container_asset_hash')!=target.get('content_hash')):
+                    return refuse('native item-relation asset hashes differ from the retained context.')
+                if metadata.get('observed_at') and c.timestamp(metadata['observed_at'])>self.at:
+                    return refuse('native item-relation observation is in the future.')
+                native_relations.append((target['id'],self.proof(evidence)))
+            if len({target for target,_ in native_relations})>1:
+                return refuse('native endpoint ownership relations conflict.')
+            containers.extend(native_relations)
         for aid,a in self.assets.items():
             if a['kind'] not in ('Warehouse','Lakehouse') or aid.rsplit('/',1)[0]!=workspace:continue
             meta=a.get('metadata',{})
@@ -447,6 +475,8 @@ class StaticGraph:
                 routes={(r.get('properties',{}).get('sqlEndpointProperties',{}).get('id'),
                          r.get('properties',{}).get('sqlEndpointProperties',{}).get('connectionString')) for r,_ in observations}
                 if len(routes)>1:return refuse('retained endpoint declarations conflict for a container.')
+                if any(aid==target for target,_ in native_relations) and routes and (catalog,server)not in routes:
+                    return refuse('native item relation conflicts with retained endpoint server or identity.')
                 for response,evidence in observations:
                     endpoint=response.get('properties',{}).get('sqlEndpointProperties',{})
                     if (response.get('id')==aid.split('/')[-1] and response.get('workspaceId')==workspace.split('/')[-1]
@@ -482,6 +512,7 @@ class StaticGraph:
         declaration={'server':server,'catalog_id':catalog,'schema':schema,'entity':entity,
             'expression_source':name,'expression_pointer':f'/model/expressions/{expression_index}',
             'container_asset_id':container,'container_binding':container_proof,
+            'container_bindings':[p for aid,p in containers if aid==container],
             'physical_definition':self.asset_proof(self.assets[physical]),'binding_kind':'DIRECTLAKE_ENTITY'}
         self.link('COMPUTED_FROM',origin,self.by_asset[physical],at,properties=declaration)
         for number,column in enumerate(table.get('columns',[])):
@@ -655,6 +686,40 @@ def retained_lakehouse_endpoint_assets(raw,*,observed_at):
             'kind':'LakehouseEndpointMetadata','name':'Retained Lakehouse endpoint declaration',
             'metadata':{'request':request,'response':response,'receipt_sha256':receipt_hash,
                 'receipt_pointer':'/'+str(index),'observed_at':observed_at}})
+    return result
+
+
+def retained_native_relation_assets(context,*,observed_at,model_ids=None):
+    """Project exact retained native item-relation evidence, with its provenance.
+
+    This is the legacy declared-source witness: an explicit endpoint ID from
+    Sql.Database plus NATIVE_CASCADEDELETE to one discovered Lakehouse. No
+    relation, endpoint or owner is synthesized by label. Callers can bound this
+    projection to the admitted model IDs; no estate read or health update occurs.
+    """
+    observed_at=c.timestamp(observed_at)
+    if not isinstance(context,dict)or not isinstance(context.get('assets'),list):raise ValueError('RETAINED_RELATION_CONTEXT_REQUIRED')
+    assets={a['id']:a for a in context['assets']}
+    if len(assets)!=len(context['assets']):raise ValueError('RETAINED_RELATION_DUPLICATE_ASSET')
+    selected=set(model_ids) if model_ids is not None else {a['id']for a in assets.values()if a['kind']=='SemanticModel'}
+    if not selected or len(selected)>1000 or any(assets.get(i,{}).get('kind')!='SemanticModel'for i in selected):
+        raise ValueError('RETAINED_RELATION_MODEL_SCOPE')
+    context_hash=hashlib.sha256(c.canonical(context).encode()).hexdigest();result=[]
+    for index,relation in enumerate(context.get('graph',{}).get('edges',[])):
+        if relation.get('relation')!='NATIVE_CASCADEDELETE' or relation.get('provenance')!='DISCOVERED':continue
+        endpoint=assets.get(relation.get('source'));lakehouse=assets.get(relation.get('target'))
+        if (not endpoint or not lakehouse or endpoint.get('availability')!='CURRENT'or lakehouse.get('availability')!='CURRENT'
+                or endpoint['kind']!='SQLEndpoint'or lakehouse['kind']!='Lakehouse'
+                or endpoint.get('parent_id')!=lakehouse.get('parent_id')):continue
+        for scope in sorted({e['scope']for e in relation.get('evidence',[])if e.get('source_api')=='fabric_item_relations_beta'and e.get('scope')in selected}):
+            if assets[scope].get('parent_id')!=endpoint.get('parent_id'):continue
+            metadata={'relation':relation,'context_hash':context_hash,'context_version':context.get('version'),
+                      'relation_pointer':'/graph/edges/'+str(index),'observed_at':observed_at,
+                      'endpoint_asset_id':endpoint['id'],'endpoint_asset_hash':endpoint.get('content_hash'),
+                      'container_asset_id':lakehouse['id'],'container_asset_hash':lakehouse.get('content_hash')}
+            result.append({'id':scope+'/native-relation/'+hashlib.sha256(c.canonical(relation).encode()).hexdigest(),
+                'parent_id':scope,'kind':'NativeItemRelationMetadata','name':'Retained native endpoint ownership relation',
+                'metadata':metadata,'availability':'CURRENT'})
     return result
 
 

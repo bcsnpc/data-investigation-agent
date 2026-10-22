@@ -1,6 +1,6 @@
 import copy,json,unittest
 from test_estate_graph_static import StaticTests,asset,part
-from investigator.adapters.estate_graph_static import retained_lakehouse_endpoint_assets
+from investigator.adapters.estate_graph_static import retained_lakehouse_endpoint_assets,retained_native_relation_assets
 
 W='fabric://00000000-0000-0000-0000-000000000001'
 C='00000000-0000-0000-0000-000000000002'
@@ -74,6 +74,45 @@ class DirectLakeTests(unittest.TestCase):
     def test_calculated_columns_are_not_bound_from_source_column(self):
         assets=self.fixture();self.doc['model']['tables'][0]['columns'][0]['expression']='1+1'
         self.assertEqual(len(self.bindings(self.graph(assets))),1)
+
+    def native_context(self,assets):
+        assets.append(asset(W+'/'+E,'SQLEndpoint','Different endpoint display name',W,
+            {'id':E,'workspaceId':W.split('/')[-1],'type':'SQLEndpoint'}))
+        for a in assets:a['availability']='CURRENT'
+        return {'version':'retained-context','assets':assets,'graph':{'edges':[{
+            'source':W+'/'+E,'target':W+'/'+C,'relation':'NATIVE_CASCADEDELETE','provenance':'DISCOVERED',
+            'evidence':[{'scope':M,'source_api':'fabric_item_relations_beta'}]}]}}
+
+    def test_legacy_exact_native_endpoint_relation_continues_declared_directlake(self):
+        assets=self.fixture(True);context=self.native_context(assets)
+        evidence=retained_native_relation_assets(context,observed_at=NOW,model_ids=[M])
+        edges=self.bindings(self.graph(assets+evidence))
+        self.assertEqual(len(edges),2)
+        self.assertTrue(all(e['confidence']=='DECLARED'for e in edges))
+        self.assertEqual(edges[0]['properties']['catalog_id'],E)
+        self.assertEqual(edges[0]['properties']['container_asset_id'],W+'/'+C)
+        self.assertTrue(all(e['properties']['container_binding']['source_id']==evidence[0]['id']for e in edges))
+        self.assertEqual(evidence[0]['metadata']['context_version'],'retained-context')
+
+    def test_native_relation_never_uses_another_model_or_label_or_undeclared_relation(self):
+        for change in ('scope','source','kind','provenance','endpoint'):
+            with self.subTest(change=change):
+                assets=self.fixture(True);context=self.native_context(assets);relation=context['graph']['edges'][0]
+                if change=='scope':relation['evidence'][0]['scope']='other-model'
+                if change=='source':relation['source']=W+'/'+C
+                if change=='kind':relation['relation']='INFERRED_SAME_NAME'
+                if change=='provenance':relation['provenance']='MODEL_PROPOSAL'
+                if change=='endpoint':assets[-1]['metadata']['id']=C
+                evidence=retained_native_relation_assets(context,observed_at=NOW,model_ids=[M])
+                self.assertEqual(self.bindings(self.graph(assets+evidence)),[])
+
+    def test_native_relation_does_not_override_conflicting_endpoint_metadata(self):
+        assets=self.fixture(True);context=self.native_context(assets)
+        evidence=retained_native_relation_assets(context,observed_at=NOW,model_ids=[M])
+        receipt=[{'request':{'workspace':W.split('/')[-1],'lakehouse':C},'response':{'id':C,'workspaceId':W.split('/')[-1],
+            'type':'Lakehouse','properties':{'sqlEndpointProperties':{'id':E,'connectionString':'different.example.invalid'}}}}]
+        evidence+=retained_lakehouse_endpoint_assets(json.dumps(receipt).encode(),observed_at=NOW)
+        self.assertEqual(self.bindings(self.graph(assets+evidence)),[])
 
 class AuditTests(unittest.TestCase):
     def test_offline_audit_pins_each_owner_and_rejects_mutation(self):
