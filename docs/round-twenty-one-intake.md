@@ -120,3 +120,18 @@ Regression coverage includes deferred comparison, unique report assumptions,
 multi-report ambiguity, one combined question and its durable reply, unchanged
 catalog hashes, precision and scope preservation, authentication and names-only
 choices. Focused essentials suite: 24 passed.
+
+### Visual-referent review
+
+The first relaxed score exposed a referent defect: R17-01 explicitly says
+"Handled Quantity card on the Unfiltered control page", but admission carried
+only the measure. The new entry point now binds a uniquely matching card on
+that explicit page to its actual visual target and retains its collected
+`declared_scopes`, grouping and form. It does not turn an explicit visual into
+an unrestricted model value. Multiple matching visual cells ask one question;
+a measure-only question with no visual referent remains a measure anchor.
+The exact R17-01 wording is a permanent regression, including a second-card
+ambiguity variant. R17-05 says card but no page and several cards fit, so it
+moves from admission to a legitimate question. The corrected final offline
+column is **3 admitted (R17-01/02/09), 8 one-question, 1 business-intent hold,
+0 quick verdicts**. No facts or values were read and no score was forced.

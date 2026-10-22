@@ -52,6 +52,8 @@ def nodes(catalog):
                            'model_id':model['id'],'report_id':visual['report_id'],
                            'page_id':visual.get('page_id'),'page_names':visual.get('page_names',[]),
                            'measure_ids':visual.get('measure_ids',[]),
+                           'form':visual.get('form'),'grouping_columns':deepcopy(visual.get('grouping_columns',[])),
+                           'declared_scopes':deepcopy(visual.get('declared_scopes',{})),
                            'unsupported':visual.get('unsupported')})
         for measure in model.get('measures',[]):
             for report in model.get('reports',[]):
@@ -138,6 +140,10 @@ def _question(request, projected, enrichment, questions_asked, catalog_hash):
         if ranked_reports and ranked_reports[0]['confidence']>=.8:
             allowed={r['id'] for r in ranked_reports if r['confidence']==ranked_reports[0]['confidence']}
     candidates=[n for n in projected if n['kind'] in ('VISUAL','MEASURE') and n['report_id'] in allowed]
+    visual_kind=_visual_kind(request)
+    if visual_kind:
+        candidates=[n for n in candidates if n['kind']=='VISUAL' and
+                    (visual_kind=='VISUAL' or (n.get('form') or '').upper()==visual_kind)]
     if request.get('page'):
         pages=rank(request['page'],[n for n in projected if n['kind']=='PAGE' and n['report_id'] in allowed],enrichment)
         if pages and pages[0]['confidence']>=.8:
@@ -167,6 +173,14 @@ def _question(request, projected, enrichment, questions_asked, catalog_hash):
             'question_count':1,'investigation_executed':False,
             'questions':[{'field':'essentials','text':'Which report and number do you want me to check?',
                           'choices':choices,'catalog_hash':catalog_hash}]}
+
+
+def _visual_kind(request):
+    text=request.get('description','')
+    if re.search(r'\bcard\b',text,re.I):return 'CARD'
+    if re.search(r'\bmatrix\b',text,re.I):return 'MATRIX'
+    if re.search(r'\b(?:visual|chart)\b',text,re.I):return 'VISUAL'
+    return None
 
 
 def admit(request, catalog, *, enrichment=(), questions_asked=0):
@@ -209,6 +223,14 @@ def admit(request, catalog, *, enrichment=(), questions_asked=0):
         if result:
             if result['status']=='CLARIFYING' or result['reason']=='AMBIGUITY_AFTER_ONE_QUESTION':return result
             return _question(request,projected,enrichment,questions_asked,catalog_hash)
+        visual_kind=_visual_kind(request)
+        if number['kind']=='MEASURE' and visual_kind:
+            matching=[n for n in eligible if n['kind']=='VISUAL' and number['id'] in n.get('measure_ids',[]) and
+                      (visual_kind=='VISUAL' or (n.get('form') or '').upper()==visual_kind)]
+            if page is None or len(matching)!=1:
+                return _question(request,projected,enrichment,questions_asked,catalog_hash)
+            number={**matching[0],'confidence':1.0,'match_source':'EXPLICIT_VISUAL_KIND_PAGE_AND_MEASURE',
+                    'matched_name':number_phrase}
         if number.get('unsupported') or number['kind']=='VISUAL' and not number.get('measure_ids'):
             return _hold('TARGET_NOT_EXECUTABLE',target=number)
         # A named measure is a measure anchor. Do not replace it with a visual,
@@ -241,9 +263,11 @@ def admit(request, catalog, *, enrichment=(), questions_asked=0):
                 'reason':'ESSENTIALS_BOUND','investigation_executed':False,
                 'catalog_hash':catalog_hash,'request_hash':digest(request),'goal':request['goal'],
                 'scope':{'model_id':report['model_id'],'report_id':report['id'],
-                         'page_id':page['id'] if page else None,'node_id':number['id'],
+                         'page_id':page['id'] if page else number.get('page_id'),'node_id':number['id'],
                          'node_kind':number['kind'],'target_id':number['id'] if number['kind']=='VISUAL' else None,
                          'measure_ids':number.get('measure_ids',[number['id']])},
+                'visual_context':{'form':number.get('form'),'grouping_columns':deepcopy(number.get('grouping_columns',[])),
+                                  'declared_scopes':deepcopy(number.get('declared_scopes',{}))} if number['kind']=='VISUAL' else None,
                 'reported_figure':figure,'comparison':deepcopy(request.get('comparison')),
                 'assumptions':assumptions,
                 'comparison_pending':request['goal']=='COMPARE' and request.get('comparison') is None,

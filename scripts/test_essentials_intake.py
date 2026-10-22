@@ -97,6 +97,27 @@ class EssentialsTests(unittest.TestCase):
         self.assertEqual(result['scope']['node_kind'],'MEASURE')
         self.assertNotIn('cell_address',result['scope'])
 
+    def test_exact_r17_01_card_referent_retains_its_visual_context(self):
+        catalog=deepcopy(CAT);model=catalog['models'][0]
+        model['reports']=[{'id':'report','name':'Declared predicate fixture 20261001'}]
+        model['measures']=[{'id':'mrr','name':'Handled Quantity'}]
+        model['visuals']=[{'target_id':'actual-unfiltered-card','report_id':'report','page_id':'control',
+            'page_names':['Unfiltered control'],'names':['Handled Quantity - unfiltered'],
+            'measure_ids':['mrr'],'form':'CARD','grouping_columns':[],
+            'declared_scopes':{'mrr':{'state':'COMPLETE','restrictions':[],
+                'context_id':'pinned-context','context_hash':'a'*64,'inventory_hash':'b'*64}}}]
+        text='Please review the Handled Quantity card on the Unfiltered control page for Declared predicate fixture 20261001. It is showing 8765, and I want the displayed count checked.'
+        result=retained_text(text,catalog,request_key='R17-01')
+        self.assertEqual(result['status'],'READY')
+        self.assertEqual(result['scope']['target_id'],'actual-unfiltered-card')
+        self.assertEqual(result['scope']['node_kind'],'VISUAL')
+        self.assertEqual(result['visual_context']['declared_scopes']['mrr'],model['visuals'][0]['declared_scopes']['mrr'])
+        duplicate=deepcopy(model['visuals'][0]);duplicate['target_id']='other-cell';duplicate['names']=['Other Handled Quantity']
+        model['visuals'].append(duplicate)
+        ambiguous=retained_text(text,catalog,request_key='ambiguous')
+        self.assertEqual(ambiguous['status'],'CLARIFYING')
+        self.assertNotIn('scope',ambiguous)
+
     def test_unknown_visual_does_not_fall_back_to_a_different_card(self):
         result=admit(request(number='Unknown Global card'),CAT)
         self.assertEqual(result['status'],'CLARIFYING')
