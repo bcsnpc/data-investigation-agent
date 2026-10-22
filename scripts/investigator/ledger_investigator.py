@@ -49,6 +49,9 @@ class Investigator:
     def run(self,ticket,*,warnings=()):
         ticket=copy.deepcopy(ticket);self.request=ticket.get('request',{'kind':'COMPARE'});self.ticket_text=ticket.get('text');started=self.clock();
         if self.request.get('kind')!=self.tools.request_kind or (self.tools.request_kind=='FACT' and self.request.get('subject')!=self.tools.visual):raise ValueError('REQUEST_KIND_OR_SUBJECT_ADMISSION_DIFFERS')
+        if self.request.get('comparison_pending')is True and (self.tools.request_kind!='COMPARE' or self.tools.comparison is not None):raise ValueError('PENDING_COMPARISON_CONTRACT_CONFLICT')
+        assumptions=ticket.get('assumptions',[])
+        if not isinstance(assumptions,list) or len(assumptions)>10 or any(not isinstance(value,str) or not 1<=len(value)<=1000 for value in assumptions):raise ValueError('ADMITTED_ASSUMPTION_LABELS_REQUIRED')
         calls=[];hypotheses=list(VERDICTS[:-1]);feedback=None;fetched=None
         def record(value):
             _safe(canonical(value).encode());receipt=self.persist(value)
@@ -98,6 +101,16 @@ class Investigator:
         for verdict in VERDICTS[:-1]:
             try:ready.append(check(verdict,known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual))
             except ValueError:continue
+        if self.request.get('comparison_pending')is True:
+            if ready:
+                # Several path producers may have operational statuses; this
+                # deterministic priority reports a qualified status, never a
+                # numeric explanation selected to fit the reported number.
+                order={'failed job':0,'waiting on job':1,'refresh stale':2,'latency':3}
+                selected=min(ready,key=lambda value:order.get(value['verdict'],99))
+                return self._finish(ticket,selected,calls,hypotheses,warnings,'OPERATIONAL_STATUS_PROVEN_COMPARISON_PENDING',started,0)
+            supported=check('not found',known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
+            return self._finish(ticket,supported,calls,hypotheses,warnings,'COMPARISON_REQUIRED_AFTER_QUICK_CHECKS',started,0)
         if len(ready)==1:return self._finish(ticket,ready[0],calls,hypotheses,warnings,'EVIDENCE_PROVEN',started,0)
         if self.decide is None:
             supported=check('not found',known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
@@ -152,7 +165,9 @@ class Investigator:
         business='Question: '+str(ticket.get('text') or ticket.get('question') or label)+'\n'
         recreation=next((r['value'] for r in evidence.values() if r['kind']=='REPRODUCTION'),None)
         answer_status='not answered' if verdict=='not found' else 'partly answered: the current declared-context investigation does not reproduce the reported figure' if recreation and recreation['status']=='NOT_REPRODUCED' else 'answered within the checked technical scope'
+        if supported.get('claim_scope')=='OPERATIONAL_STATUS_WITH_COMPARISON_PENDING':answer_status='partly answered: a current operational status was established; the numerical comparison was not checked'
         business+='Answer status: '+answer_status+'.\n'
+        for assumption in ticket.get('assumptions',[]):business+='Assumption: '+assumption+'\n'
         if recreation:business+='Reported figure recreation: '+recreation['status']+'.\n'
         business+=f'As of {at}, {label}: {verdict}. {reason}'
         if verdict=='not found':business+=' Furthest measured point: '+str(furthest or 'none')+'.'
@@ -160,6 +175,10 @@ class Investigator:
         if limits:business+='\nLabels: '+'; '.join(limits)
         gaps=[r['value']['reason'] for r in evidence.values() if r['kind']=='GAP' and r['value'].get('reason')]
         if gaps:business+='\nOpen gaps: '+'; '.join(dict.fromkeys(gaps))
+        question=None
+        if stop=='COMPARISON_REQUIRED_AFTER_QUICK_CHECKS':
+            question={'code':'COMPARISON_REQUIRED','text':'What are you comparing this number with: another report, a spreadsheet or your own count, the source, or an earlier value?'}
+            business+='\nQuestion: '+question['text']
         technical=business+'\nEvidence: '+', '.join(supported['evidence_ids'])+'\nStop: '+stop+'\nTechnical evidence pack: '+canonical(evidence)
         hypothesis_checks={}
         for hypothesis in VERDICTS[:-1]:
@@ -171,6 +190,7 @@ class Investigator:
             'stop_reason':stop,'furthest_measured_node':furthest,'warnings':limits,
             'timing':{'wall_seconds':max(0,self.clock()-started)},'cost':{'model_calls':model_calls,'currency_cost':'SEE_SHARED_PROVIDER_LEDGER'},
             'outputs':{'business':business,'technical':technical}}
+        if question:bundle['question']=question
         _safe(canonical(bundle).encode());self.persist({'event':'INVESTIGATOR_COMPLETED','bundle':bundle})
         return bundle
 

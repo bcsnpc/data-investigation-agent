@@ -112,3 +112,14 @@ contract requires an original guarded read at a graph-declared system of record,
 back-dated before/after row data for the ticket key, and checked before/after
 quantities matching the observed split. A model's boolean assertion supplies
 none of these records.
+
+Owner steer, 2026-10-22: a COMPARE request marked `comparison_pending=true`
+first recreates its admitted target, then checks current facts on its declared
+producer path. It may return a qualified failed/waiting/stale/scheduled-latency
+status without a second quantity. Both outputs explicitly say that the
+comparison was not checked and no numerical cause was established. Stale or
+unrelated failures cannot take this route. Only when no operational status is
+established does it ask what the user is comparing against. Normal numerical
+explanations retain their equivalent-context divergent-read gate unchanged.
+Admission-owned `assumptions` strings are rendered as assumption lines in both
+outputs; they never silently become observed facts.

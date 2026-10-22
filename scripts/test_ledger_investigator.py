@@ -207,6 +207,57 @@ class ToolLoopTests(unittest.TestCase):
         tools,_,reader,_=self.build();reader.side_effect=lambda *args:{**read('down',7),'route_admitted':False}
         with self.assertRaisesRegex(ValueError,'ADMISSION_OR_SCOPE'):tools.reproduce()
 
+class PendingComparisonTests(unittest.TestCase):
+    def engine(self,*,related=True,stale=False,comparison=None):
+        graph=Mock();snapshot={'nodes':[{'id':'visual','kind':'VISUAL','label':'Inventory card'},
+            {'id':'job','kind':'PIPELINE','label':'Nightly load'}],
+            'edges':[{'id':'producer','source':'visual','target':'job','kind':'DERIVED_IN_STEP',
+                'confidence':'DECLARED','provenance':{'source':'STATIC_DEFINITION'}}] if related else [],'stops':[],'truncated':False}
+        graph.path_to_source.return_value=snapshot
+        status=fact('job','JOB_RUN',{'status':'FAILED','run_id':'r','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z','error':'copy failed'})
+        if stale:status['freshness']='STALE'
+        graph.node_facts.side_effect=lambda node,**kwargs:{'facts':[status] if node=='job' else []}
+        events=[]
+        def persist(value):events.append(value);return 'record:'+str(len(events))
+        reader=Mock(side_effect=lambda node,key,context:{**read(node,8765,context),'key':key})
+        decide=Mock()
+        tools=Tools(graph,object(),visual='visual',now=NOW,persist=persist,key=None,context={'warehouse':'North'},value_reader=reader,comparison=comparison)
+        engine=Investigator(tools,decide=decide,persist=persist,admit=lambda *_:None,clock=lambda:1.0)
+        return engine,reader,decide
+    def test_missing_comparison_recreates_then_reports_only_relevant_operational_status(self):
+        engine,reader,decide=self.engine()
+        result=engine.run({'visual':'visual','text':'Inventory card shows 8765. Why?',
+            'request':{'kind':'COMPARE','comparison_pending':True},
+            'assumptions':['Report assumed from the only high-confidence graph match.']})
+        self.assertEqual(result['verdict'],'failed job');self.assertEqual(result['cost']['model_calls'],0)
+        self.assertEqual(result['support']['claim_scope'],'OPERATIONAL_STATUS_WITH_COMPARISON_PENDING')
+        self.assertEqual(reader.call_count,1);decide.assert_not_called();self.assertNotIn('question',result)
+        for output in result['outputs'].values():
+            self.assertIn('comparison has not been checked',output)
+            self.assertIn('no numerical cause has been established',output)
+            self.assertIn('Assumption: Report assumed',output)
+        reads=[entry['value'] for entry in result['evidence'].values() if entry['kind']=='READ']
+        self.assertEqual(reads[0]['value'],8765)
+    def test_unrelated_or_stale_failure_asks_only_after_the_recreation_and_checks(self):
+        for kwargs in ({'related':False},{'stale':True}):
+            with self.subTest(kwargs=kwargs):
+                engine,reader,decide=self.engine(**kwargs)
+                result=engine.run({'visual':'visual','text':'Inventory card shows 8765. Why?',
+                    'request':{'kind':'COMPARE','comparison_pending':True}})
+                self.assertEqual(result['verdict'],'not found');self.assertEqual(result['question']['code'],'COMPARISON_REQUIRED')
+                self.assertEqual(reader.call_count,1);decide.assert_not_called()
+                self.assertEqual(result['tools'][1]['tool'],'parallel_simple_hypotheses')
+    def test_normal_numeric_comparison_gate_is_unchanged_and_pending_conflict_refuses(self):
+        engine,reader,decide=self.engine()
+        engine.tools.reproduce();engine.tools.quick_checks()
+        with self.assertRaisesRegex(ValueError,'DIVERGENT_EQUIVALENT_CONTEXT'):
+            check('failed job',list(engine.tools.evidence._values),engine.tools.evidence,now=NOW,request={'kind':'COMPARE'},target='visual')
+        engine,reader,decide=self.engine(comparison={'kind':'spreadsheet','value':7})
+        with self.assertRaisesRegex(ValueError,'CONTRACT_CONFLICT'):
+            engine.run({'visual':'visual','request':{'kind':'COMPARE','comparison_pending':True}})
+        reader.assert_not_called()
+
+
 class RealGraphTests(unittest.TestCase):
     def test_explicit_operational_fact_uses_real_ledger_with_zero_queries_or_models(self):
         from investigator.shared_state import SharedState

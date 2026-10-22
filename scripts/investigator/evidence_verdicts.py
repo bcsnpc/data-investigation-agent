@@ -68,6 +68,78 @@ def current_facts(entries,now):
     return result
 
 
+def pending_comparison_status(verdict,records,reads,*,target,now):
+    """A relevant current operational fact, explicitly not a numerical cause.
+
+    This route requires the target's measured value and a declaration-backed
+    directed path to the producer. It never manufactures a second quantity.
+    """
+    if verdict not in ('latency','waiting on job','failed job','refresh stale'):
+        raise ValueError('PENDING_COMPARISON_OPERATIONAL_VERDICT_REQUIRED')
+    if target is None or not any(read['subject']==target for read in reads.values()):
+        raise ValueError('REQUESTED_TARGET_NOT_MEASURED')
+    entries=list(records.values());paths=[entry['value'] for entry in entries if entry['kind']=='PATH']
+    reachable={target};nodes={}
+    for path in paths:
+        nodes.update({node['id']:node for node in path.get('nodes',[])})
+        edges=[edge for edge in path.get('edges',[]) if edge.get('kind') not in ('CONTAINS','INTERACTS_WITH')
+            and edge.get('confidence') in ('DECLARED','VERIFIED','VALUE_VERIFIED')
+            and edge.get('provenance',{}).get('source')!='MODEL_PROPOSAL'
+            and edge.get('verification',{}).get('state')!='STALE']
+        for _ in range(len(nodes)):
+            expanded=reachable|{edge['target'] for edge in edges if edge['source'] in reachable}
+            if expanded==reachable:break
+            reachable=expanded
+    facts=current_facts(entries,now)
+    def time_of(fact,field):
+        raw=fact['value'].get(field)
+        return timestamp(raw) if raw else None
+    def latest_runs(subject,kind):
+        runs=[fact for fact in facts if fact['subject']==subject and fact['kind']==kind]
+        if not runs:return []
+        latest=max(time_of(fact,'start') or fact['observed_at'] for fact in runs)
+        return [fact for fact in runs if (time_of(fact,'start') or fact['observed_at'])==latest]
+    def supported(selected,reason,expected=None):
+        result=_supported(verdict,records,None,reason+' The comparison has not been checked; no numerical cause has been established.')
+        result.update(claim_scope='OPERATIONAL_STATUS_WITH_COMPARISON_PENDING',operational_fact=selected,comparison_checked=False)
+        if expected:result['expected_update_at']=expected
+        return result
+    for subject in sorted(reachable):
+        node=nodes.get(subject,{})
+        if node.get('kind') not in ('PIPELINE','NOTEBOOK','COPY_ACTIVITY','MODEL'):continue
+        kind='REFRESH_RUN' if node['kind']=='MODEL' else 'JOB_RUN'
+        runs=latest_runs(subject,kind)
+        # Conflicting simultaneous records cannot select the convenient status.
+        states={fact['value'].get('status') for fact in runs}
+        if len(states)>1:continue
+        latest=runs[0] if runs else None
+        if verdict=='failed job' and kind=='JOB_RUN' and latest and latest['value'].get('status')=='FAILED':
+            return supported(latest,'The latest retained run of the declared path producer '+node.get('label',subject)+' failed.')
+        if verdict=='waiting on job' and kind=='JOB_RUN':
+            if latest and latest['value'].get('status') in ('QUEUED','RUNNING'):
+                return supported(latest,'The latest retained run of the declared path producer '+node.get('label',subject)+' is '+latest['value']['status'].lower()+'.')
+            overdue=next((fact for fact in facts if fact['subject']==subject and fact['kind']=='OVERDUE'
+                and fact['value'].get('overdue')is True and time_of(fact,'due_at') and time_of(fact,'due_at')<=now
+                and (latest is None or (time_of(latest,'start') or latest['observed_at'])<time_of(fact,'due_at'))),None)
+            if overdue:return supported(overdue,'The declared path producer '+node.get('label',subject)+' has no observed start for its overdue scheduled run.')
+        if verdict=='refresh stale' and node['kind']=='MODEL':
+            stale=next((fact for fact in facts if fact['subject']==subject and fact['kind']=='REFRESH_STATE' and fact['value'].get('state',fact['value'].get('status'))=='STALE'),None)
+            if stale:return supported(stale,'The retained refresh state for the declared path model '+node.get('label',subject)+' is stale.')
+        if verdict=='latency' and latest and latest['value'].get('status')=='SUCCEEDED':
+            boundaries=[entry['value'] for entry in entries if entry['kind']=='BOUNDARY' and entry['value'].get('job')==subject
+                        and entry['value'].get('downstream') in reachable and entry['value'].get('upstream') in reachable]
+            for boundary in boundaries:
+                source=boundary['upstream']
+                changed=next((time_of(fact,'last_modified') for fact in facts if fact['subject']==source and fact['kind']=='TABLE_LOAD' and time_of(fact,'last_modified')),None)
+                schedules=[fact for fact in facts if fact['subject']==subject and fact['kind']=='SCHEDULE' and time_of(fact,'next_due') and time_of(fact,'next_due')>=now]
+                durations=[fact for fact in facts if fact['subject']==subject and fact['kind']=='TYPICAL_DURATION' and fact['value'].get('sample_count',0)>0]
+                if changed and time_of(latest,'end') and time_of(latest,'end')<changed<=now and schedules and durations:
+                    due=datetime.fromisoformat(time_of(schedules[0],'next_due').replace('Z','+00:00'))
+                    expected=timestamp((due+timedelta(seconds=durations[0]['value']['median_seconds'])).isoformat())
+                    return supported(latest,'The declared source changed after this producer last completed; its next scheduled run is not yet due.',expected)
+    raise ValueError('CURRENT_RELEVANT_OPERATIONAL_STATUS_REQUIRED')
+
+
 def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
     if verdict not in VERDICTS:raise ValueError('UNKNOWN_VERDICT')
     records=registry.resolve(ids);entries=list(records.values());now=timestamp(now)
@@ -96,6 +168,9 @@ def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
         if read.get('route_admitted') is not True or read.get('read_only_verified') is not True or not read.get('receipt_id'):raise ValueError('READ_NOT_ADMITTED')
         quantity(read)
     if target is not None and not any(read['subject']==target for read in reads.values()):raise ValueError('REQUESTED_TARGET_NOT_MEASURED')
+    if request.get('comparison_pending') is True:
+        if any(entry['kind'] in ('COMPARISON','GIVEN_COMPARISON') for entry in entries):raise ValueError('PENDING_COMPARISON_CONTRACT_CONFLICT')
+        return pending_comparison_status(verdict,records,reads,target=target,now=now)
     comparisons=[r['value'] for r in entries if r['kind']=='COMPARISON']
     facts=current_facts(entries,now)
     boundaries=[r['value'] for r in entries if r['kind']=='BOUNDARY']
