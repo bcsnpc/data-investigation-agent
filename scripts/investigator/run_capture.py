@@ -89,6 +89,18 @@ class DurableCapture:
                 raise
             self._pending_publications.pop(0)
 
+    def readback(self,ref):
+        """Read only a record this run already published, then verify its bytes."""
+        if ref not in self.records or not ref.get('key','').startswith(self.run_id+'/'):
+            raise ValueError('CAPTURE_READBACK_UNKNOWN_RECORD')
+        self.flush_publications()
+        read=getattr(self.put,'read',None)
+        if read is None:raise ValueError('CAPTURE_READBACK_TRANSPORT_UNAVAILABLE')
+        raw=read(ref['key'])
+        if not isinstance(raw,bytes) or hashlib.sha256(raw).hexdigest()!=ref['sha256']:
+            raise ValueError('CAPTURE_READBACK_BYTES_CHANGED')
+        return raw
+
     def seal(self):
         from .shared_state import TRANSACTION_ACTIVE
         if TRANSACTION_ACTIVE.get(): raise RuntimeError('CAPTURE_SEAL_DURING_TRANSACTION')

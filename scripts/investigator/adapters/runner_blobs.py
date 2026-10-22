@@ -61,4 +61,22 @@ def sink(config):
             with log.open('ab') as stream:
                 stream.write(bytes_of({'kind':'PLATFORM_ARTIFACT_CONTROL','method':'PUT','url':url,'http_status':status,'principal_id':config['identity']['principal_id'],'body_bytes':len(raw)})+b'\n')
                 stream.flush();os.fsync(stream.fileno())
+    def download(key):
+        url=config['account_url']+'/captures/'+prefix+'/'+key
+        headers={'x-ms-version':'2023-11-03'};status=None;count=0
+        try:
+            current().http(config['channel'],'GET',url,None,headers)
+            headers['Authorization']='Bearer '+tokens.get_token('https://storage.azure.com/.default')
+            with open_http(opener,Request(url,headers=headers,method='GET'),timeout=120,identity=config['channel']) as response:
+                status=response.status
+                if status!=200:raise ValueError('RUN_CAPTURE_BLOB_GET_FAILED')
+                raw=response.read(MAX_BYTES+1);count=len(raw)
+                if count>MAX_BYTES:raise ValueError('RUN_CAPTURE_BLOB_READ_BOUND')
+                return raw
+        finally:
+            log=Path(os.environ['DIA_PLATFORM_CONTROL_RECEIPTS']);log.parent.mkdir(parents=True,exist_ok=True)
+            with log.open('ab') as stream:
+                stream.write(bytes_of({'kind':'PLATFORM_ARTIFACT_CONTROL','method':'GET','url':url,'http_status':status,'principal_id':config['identity']['principal_id'],'body_bytes':count})+b'\n')
+                stream.flush();os.fsync(stream.fileno())
+    upload.read=download
     return upload

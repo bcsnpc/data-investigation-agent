@@ -79,6 +79,14 @@ def _blob_roundtrip(config, body):
     return {'status': 'PASS', 'sha256': hashlib.sha256(body).hexdigest(), 'file_identity': identity}
 
 
+def capture_roundtrip(context,body):
+    """Use this execution's approved immutable recorder, never broad CAS rights."""
+    ref=context.record('blob-health',json.loads(body))
+    if context.readback(ref)!=body:raise ValueError('SMOKE_BLOB_READBACK_DIFFERS')
+    return {'status':'PASS','sha256':hashlib.sha256(body).hexdigest(),
+            'record':ref,'surface':'RUN_BOUND_OUTER_CAPTURE'}
+
+
 def run_smoke(config, context, *, state=None, sign_in=None, gold_read=None, blob_roundtrip=None, demo=None):
     required = {'version', 'run_id', 'reader_authentication', 'gold_payload', 'platform_blob', 'demo_earned'}
     if not isinstance(config, dict) or not required <= set(config) <= required | {'access_check'} or config['version'] != 1:

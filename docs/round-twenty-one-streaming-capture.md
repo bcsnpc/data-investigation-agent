@@ -31,3 +31,11 @@ new native capture on that identical image. Existing tapes remain untouched.
 No dependency, image entrypoint, role, secret or budget configuration changes are
 needed: `dia run` enables streaming automatically and restores its environment
 on exit. Direct legacy recorders retain their existing in-memory event interface.
+
+The daily smoke's Blob challenge previously attempted `captures` through the
+CAS adapter, while its existing platform channel admitted only exact run-bound
+outer records. `PLATFORM_CAS_NOT_ALLOWED` is a scope-routing finding, not a
+reason to widen the grant. The unified smoke now stores the challenge as one
+ordinary immutable outer record, GETs that exact record through the existing
+runner channel, and verifies its retained SHA-256. Unknown or cross-run
+references refuse. No CAS container declaration, role or identity is added.

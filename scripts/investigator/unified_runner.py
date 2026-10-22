@@ -159,7 +159,7 @@ def handlers():
                 return result
         finally:meter.close()
     def smoke(plan,ctx):
-        from .daily_smoke import run_smoke,_gold_read
+        from .daily_smoke import run_smoke,_gold_read,capture_roundtrip
         from scan_estate_graph import Meter
         from .shared_state import configured_state
         from .physical_reads import scope
@@ -171,7 +171,7 @@ def handlers():
                 with scope(lambda kind,fn:meter(fn)):return _gold_read(payload)
             return meter(execute)
         demo=(lambda:investigation({**plan,'options':o['demo']},ctx)) if o['config']['demo_earned'] else None
-        try:return run_smoke(o['config'],ctx,state=state,gold_read=gold,demo=demo)
+        try:return run_smoke(o['config'],ctx,state=state,gold_read=gold,blob_roundtrip=lambda body:capture_roundtrip(ctx,body),demo=demo)
         finally:meter.close()
     return {'verification':verification,'investigation':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke,'authorization-check':authorization_check,'value-verification':value_verification}
 
@@ -229,7 +229,7 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
                 nonlocal attempt
                 attempt+=1
                 root=ctx.root/('attempt-'+str(attempt));root.mkdir()
-                view=SimpleNamespace(root=root,record=ctx.record,started_at=started_at,
+                view=SimpleNamespace(root=root,record=ctx.record,readback=ctx.readback,started_at=started_at,
                     step=lambda name,fn:retry(lambda:ctx.step(name,fn),record=ctx.record,sleep=sleep))
                 return ctx.step(check['kind'],lambda:registry[check['kind']](plan,view))
             result=retry(perform,record=ctx.record,sleep=sleep)
