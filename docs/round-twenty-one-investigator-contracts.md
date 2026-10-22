@@ -99,3 +99,16 @@ It refuses a projected installation before reading the graph or persisting raw
 material rather than bypassing the existing privacy projection boundary. This
 is a declared integration gap; no mixed exact/projected capture is accepted.
 The engine freeze is invalidated by these new code bytes.
+
+Dated tightening, 2026-10-22: a checked flag alone is insufficient for any of the
+three optional witnesses. `native_verdict_support.design_witness()` retains and
+validates the original process assessment/observations; terminal validation
+repeats the existing assessment/process gates and matches original read IDs,
+queries, execution surfaces and exact declared contexts to the new comparison.
+Missing native proof or altered mechanism refuses. The access contract requires
+original different authenticated identities, same query/expression/context/data
+surface, and different returned values without impersonation. The history
+contract requires an original guarded read at a graph-declared system of record,
+back-dated before/after row data for the ticket key, and checked before/after
+quantities matching the observed split. A model's boolean assertion supplies
+none of these records.

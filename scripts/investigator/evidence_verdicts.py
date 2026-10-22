@@ -158,10 +158,17 @@ def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
     for witness in witnesses:
         if witness.get('checked') is not True or not witness.get('support_ids') or not witness.get('mechanism'):continue
         if not comparisons:continue
-        if verdict=='as designed' and witness.get('business_correctness_claim') is not False:continue
-        if verdict=='access difference' and (witness.get('impersonated') is not False or witness.get('same_query_and_context') is not True or witness.get('observed_access_difference') is not True):continue
-        if verdict=='source changed history' and (witness.get('system_of_record') is not True or witness.get('row_history_verified') is not True):continue
-        return _supported(verdict,records,None,witness['mechanism'])
+        if verdict=='as designed':
+            from .native_verdict_support import validate_design
+            mechanism=validate_design(witness,reads,comparisons)
+            return _supported(verdict,records,None,mechanism+' This describes implemented technical logic, not a judgment of business correctness.')
+        if verdict=='access difference':
+            from .native_verdict_support import validate_access
+            return _supported(verdict,records,None,validate_access(witness,reads,comparisons))
+        if verdict=='source changed history':
+            from .native_verdict_support import validate_history
+            return _supported(verdict,records,None,validate_history(witness,reads,comparisons,entries,now))
+        raise ValueError('VERDICT_WITNESS_NOT_VALIDATED')
     raise ValueError(witness_kind+'_CHECKED_WITNESS_REQUIRED')
 
 

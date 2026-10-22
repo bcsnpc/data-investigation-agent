@@ -56,14 +56,45 @@ class VerdictTests(unittest.TestCase):
     def witness(self,kind,**extra):
         self.ids.append(self.registry.add(kind,['down','up'],{'checked':True,'mechanism':'The checked retained operation produces the observed split.','support_ids':[self.comparison],**extra}))
     def test_as_designed_requires_checked_design_not_business_correctness(self):
+        from test_process_debugging import Adapter
+        from investigator.process_debugging import vertical
+        from investigator.native_verdict_support import design_witness
+        native=vertical(Adapter(['down','up'],{'down':7,'up':8},explain=True),'measure',{})
+        observations={o['id']:o for o in native.pop('_observations')}
+        registry=Evidence(['down','up'],lambda _: 'retained');ids=[]
+        for subject,value in [('down',7),('up',8)]:
+            original=observations['read-'+subject];original['declared_context']={'warehouse':'North'};original['test_purpose']='REPRODUCE_MEASURE'
+            result={**read(subject,value),'receipt_id':original['id'],'query':original['query'],'execution_surface':original['execution_surface']}
+            ids.append(registry.add('READ',[subject],result))
+        comparison=registry.add('COMPARISON',['down','up'],{'left':ids[0],'right':ids[1],'support_ids':list(ids)})
+        witness=design_witness(native,observations);witness['support_ids']=[comparison]
+        identity=registry.add('DESIGN_CHECK',['down','up'],witness)
+        self.assertEqual(check('as designed',[identity],registry,now=NOW)['verdict'],'as designed')
         self.witness('DESIGN_CHECK',business_correctness_claim=False)
-        self.assertEqual(self.validate('as designed')['verdict'],'as designed')
+        with self.assertRaisesRegex(ValueError,'NATIVE_DESIGN_EVIDENCE_REQUIRED'):self.validate('as designed')
+        witness['native_observations']['read-down']['query']='another query'
+        changed=registry.add('DESIGN_CHECK',['down','up'],witness)
+        with self.assertRaises(ValueError):check('as designed',[changed],registry,now=NOW)
     def test_access_difference_requires_observed_scoped_reads_without_impersonation(self):
+        registry=Evidence(['visual'],lambda _: 'retained');refs=[]
+        for identity,value in [('reader-a',7),('reader-b',8)]:
+            result={**read('visual',value),'receipt_id':identity,'authenticated_identity':identity,'identity_verified':True,
+                'query':'SELECT SUM(units) FROM dbo.records','execution_surface':{'engine':'sql','connection':'same','object':'same','identity':identity}}
+            refs.append(registry.add('READ',['visual'],result))
+        comparison=registry.add('COMPARISON',['visual'],{'left':refs[0],'right':refs[1],'support_ids':refs})
+        witness=registry.add('ACCESS_CHECK',['visual'],{'checked':True,'mechanism':'Retained authorized reads.','impersonated':False,'support_ids':[comparison]})
+        self.assertEqual(check('access difference',[witness],registry,now=NOW)['verdict'],'access difference')
         self.witness('ACCESS_CHECK',same_query_and_context=True,observed_access_difference=True,impersonated=False)
-        self.assertEqual(self.validate('access difference')['verdict'],'access difference')
+        with self.assertRaisesRegex(ValueError,'ORIGINAL_PAIRED_AUTHORIZED'):self.validate('access difference')
     def test_source_changed_history_requires_verified_source_row_history(self):
-        self.witness('HISTORY_CHECK',system_of_record=True,row_history_verified=True)
+        path=self.registry.add('PATH',['up'],{'nodes':[{'id':'up','properties':{'system_of_record':True}}]})
+        history={'subject':'up','receipt_id':'native-history','read_only_verified':True,'route_admitted':True,'key':'record-1','context':{'warehouse':'North'},
+            'query':'SELECT before_units,after_units FROM dbo.source_history','read_only_objects':['[dbo].[source_history]'],'execution_surface':'declared-surface',
+            'before_quantity':7,'after_quantity':8,'changes':[{'key':'record-1','before':{'units':7},'after':{'units':8},'effective_at':'2026-10-21T00:00:00Z','changed_at':'2026-10-22T10:00:00Z'}]}
+        self.ids.append(self.registry.add('HISTORY_CHECK',['up'],{'checked':True,'mechanism':'Retained source history.','native_history':history,'support_ids':[self.comparison,path]}))
         self.assertEqual(self.validate('source changed history')['verdict'],'source changed history')
+        self.ids=self.ids[:-1];self.witness('HISTORY_CHECK',system_of_record=True,row_history_verified=True)
+        with self.assertRaisesRegex(ValueError,'ORIGINAL_HISTORY_READ'):self.validate('source changed history')
     def test_not_found_never_fabricates_a_cause(self):self.assertEqual(self.validate('not found')['verdict'],'not found')
     def test_mismatched_context_cannot_explain_stale_serving(self):
         other=self.registry.add('READ',['up'],read('up',8,{'warehouse':'South'}))
