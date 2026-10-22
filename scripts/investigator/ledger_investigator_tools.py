@@ -145,8 +145,13 @@ class Tools:
         if name not in self.schemas:raise ValueError('UNKNOWN_INVESTIGATOR_TOOL')
         Draft202012Validator(self.schemas[name]).validate(args)
         key=canonical([name,args])
-        if key in self._obtained:return {**copy.deepcopy(self._obtained[key]),'already_obtained':True}
-        if name=='get_evidence':return {'evidence_ids':[args['id']],'evidence':self.evidence.get(args['id'])}
+        if key in self._obtained:
+            if name=='get_evidence':return {'evidence_ids':[args['id']],'already_obtained':True,'note':'Already obtained this evidence; its factual summary remains in the evidence index.'}
+            return {**copy.deepcopy(self._obtained[key]),'already_obtained':True}
+        if name=='get_evidence':
+            result={'evidence_ids':[args['id']],'evidence':self.evidence.get(args['id'])}
+            self._obtained[key]=copy.deepcopy(result)
+            return result
         if name=='compare_layers':
             if len(args['layers'])<2:raise ValueError('TWO_LAYERS_REQUIRED')
             refs=[self._read(node,args['filters']) for node in args['layers']]

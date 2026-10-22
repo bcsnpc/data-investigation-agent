@@ -27,6 +27,32 @@ def budget_stop(error):
     return isinstance(error,(UsageHold,SpendHold,RetrievalBudgetExceeded,BudgetExceeded))
 
 
+def evidence_context(registry):
+    """Keep small, factual observations across stateless model requests.
+
+    Full native receipts remain behind get_evidence. A comparison summary must
+    include its observed operands, otherwise fetching it only reveals more IDs.
+    No summary manufactures a causal or verified-design judgment.
+    """
+    def read(value):
+        return {k:copy.deepcopy(value[k])for k in ('subject','state','value','context')if k in value}
+    result=[]
+    for identity,record in registry._values.items():
+        item={'id':identity,'kind':record['kind'],'subjects':record['subjects']};value=record['value'];summary={}
+        if record['kind']=='READ':summary=read(value)
+        elif record['kind']=='COMPARISON':
+            summary={k:value[k]for k in ('left','right')}
+            for side in ('left','right'):
+                operand=registry.get(value[side])
+                if operand['kind']=='READ':summary[side+'_observation']=read(operand['value'])
+        else:
+            summary={k:copy.deepcopy(value[k])for k in ('reason','status','checked','mechanism','support_ids','kind','state','freshness')if k in value}
+        if len(canonical(summary))<=3000:item['observation']=summary
+        else:item['details']='Fetch full evidence by ID; summary exceeds its bound.'
+        result.append(item)
+    return result
+
+
 def schema(tools):
     def obj(properties):return {'type':'object','properties':properties,'required':list(properties),'additionalProperties':False}
     common={'summary':{'type':'string','minLength':1,'maxLength':500},'hypotheses':{'type':'array','minItems':1,'maxItems':9,'uniqueItems':True,'items':{'type':'string','enum':list(VERDICTS)}}}
@@ -127,7 +153,7 @@ class Investigator:
             except Exception as exc:
                 if not budget_stop(exc):raise
                 record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__});break
-            compact=[{'id':identity,'kind':value['kind'],'subjects':value['subjects']} for identity,value in self.tools.evidence._values.items()]
+            compact=evidence_context(self.tools.evidence)
             try:
                 decision=self.decide({'ticket':ticket,'path_nodes':[{'id':n['id'],'label':n['label'],'kind':n['kind']} for n in self.tools.nodes.values()],
                 'evidence_index':compact,'fetched_evidence':fetched,'feedback':feedback,'steps_remaining':self.step_cap-step+1,

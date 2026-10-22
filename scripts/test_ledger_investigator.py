@@ -207,6 +207,21 @@ class ToolLoopTests(unittest.TestCase):
         self.assertTrue(second['already_obtained']);self.assertEqual(first['evidence_ids'],second['evidence_ids']);self.assertEqual(reader.call_count,2)
         for invalid in ({**args,'query':'DELETE FROM t'},{**args,'filters':{}},{**args,'layers':['unrelated','up']}):
             with self.assertRaises(Exception):tools.invoke('compare_layers',invalid)
+    def test_comparison_operands_persist_across_stateless_calls_and_repeated_fetch_is_short(self):
+        from investigator.ledger_investigator import evidence_context
+        tools,engine,reader,_=self.build()
+        refs=tools.invoke('compare_layers',{'key':'record-1','layers':['down','up'],'filters':{'warehouse':'North'}})['evidence_ids']
+        cid=refs[-1];first=tools.invoke('get_evidence',{'id':cid});second=tools.invoke('get_evidence',{'id':cid})
+        self.assertTrue(second['already_obtained']);self.assertNotIn('evidence',second);self.assertEqual(second['evidence_ids'],[cid])
+        other=tools.invoke('get_evidence',{'id':refs[0]})
+        index={r['id']:r for r in evidence_context(tools.evidence)}
+        comparison=index[cid]['observation']
+        self.assertEqual(comparison['left_observation']['value'],7)
+        self.assertEqual(comparison['right_observation']['value'],8)
+        self.assertEqual(comparison['left_observation']['context'],{'warehouse':'North'})
+        self.assertNotIn('native_evidence',str(index));self.assertEqual(reader.call_count,2)
+        self.assertNotIn('cause_verified',comparison)
+
     def test_rejected_claim_and_budget_stop_keep_outputs_and_furthest_point(self):
         tools,engine,reader,_=self.build(step_cap=1)
         engine.decide=lambda *a,**kw:{'action':'VERDICT','summary':'Unsupported guess.','hypotheses':['as designed'],'verdict':'as designed','evidence_ids':[tools.path_id]}
