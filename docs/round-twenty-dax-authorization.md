@@ -76,3 +76,10 @@ Sources: [Execute Queries and limitations](https://learn.microsoft.com/en-us/res
 [tenant settings API](https://learn.microsoft.com/rest/api/fabric/admin/tenants/list-tenant-settings),
 [dataset metadata](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-dataset-in-group),
 [item connections](https://learn.microsoft.com/en-us/rest/api/fabric/core/items/list-item-connections).
+
+
+## Dated update: SSO confirmed, 2026-10-22 00:10 UTC (owner date October21)
+
+The earlier absence of an SSO readback above is superseded by a live, read-only browser inspection as admin@skynwhy.com. On the exact demo model's Gateway and cloud connections page, Maps to is selected as **Default: Single Sign-On (Entra ID)**; Apply remains disabled. The SQL endpoint database is77c49180-2ef9-4558-837c-f50fdb1df8de, matching the retained Gold binding. No setting was changed. Exact selected-state fragment and URL: docs/runs/round-twenty-dax-sso-setting.json.
+
+This establishes a documented blocking configuration: Execute Queries does not support service principals on SSO-enabled datasets, regardless of the tenant API setting. Correct audience, tenant and Read/Build cannot remove that restriction. The generic401 does not establish that there are no additional restrictions, but a broader grant is not a justified repair. Owner-controlled alternatives are in owner-actions.md; no new demo or DAX retry is admitted merely to repeat this known incompatibility.

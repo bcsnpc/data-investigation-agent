@@ -92,3 +92,16 @@ python scripts/provision_model_month.py --host pg-dia-d5dd7d65.postgres.database
 ```
 
 Uses existing owner Entra token in memory; creates only current UTC month's approved $40 account and opening audit if absent. Preserves all history; prints bounded counters, no token. No permission grant or credential storage. Repeat as owner setup at month boundary; automated least-privilege rollover is future work. A firewall update, if chosen, needs a separate owner network decision; do not widen automatically.
+
+
+### 2026-10-22 00:10UTC (owner date October21): confirmed demo-model SSO blocker
+
+The browser now confirms Maps to = Default: Single Sign-On (Entra ID) for Warehouse Operations e1b8e1, model3484a2bc-98c5-4cef-be5c-a6215484075e. This replaces the earlier request to inspect whether SSO is present; it is present. Token/grants/two API settings are already correct. No extra tenant setting or wider reader role fixes Execute Queries' documented service-principal/SSO incompatibility.
+
+Owner-controlled connection-change path, NOT APPLIED:
+1. Open the exact model settings URL in docs/runs/round-twenty-dax-sso-setting.json, Gateway and cloud connections. Inspect model Security separately; RLS is another service-principal REST exclusion and must not be disabled for this demo.
+2. If owner chooses fixed-identity access, approve the exact existing read-only data-source identity and supported authentication method first. No new identity, secret, role or credential is authorized by this note.
+3. In Cloud connections, Maps to, choose Create a connection (the current menu has no existing fixed-identity connection). Retain the current Gold server and database77c49180-2ef9-4558-837c-f50fdb1df8de. Configure the owner-approved fixed identity with SSO off; do not impersonate a user or grant write. If the platform requires a new credential or scope, that is a separate section8 decision.
+4. After owner creates it, select that named connection under Maps to and Apply. Record before/after binding, authentication identity, affected model and approval. Re-run a bounded native authorization check as the unchanged investigator before another technical investigation.
+
+Alternative engineering path: evaluate a supported read-only XMLA query adapter without changing this model's SSO. That protocol is not implemented or authorized by the current REST receipt; do not silently substitute it. Until a path is chosen, native REST remains blocked. Documentation: https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/execute-queries-in-group .

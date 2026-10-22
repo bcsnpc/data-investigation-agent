@@ -1,0 +1,19 @@
+{
+  "observed_at": "2026-10-22T00:10:08.636Z",
+  "owner_local_date": "2026-10-21",
+  "surface": "Fabric browser, read-only control-plane inspection",
+  "browser_account": "admin@skynwhy.com",
+  "workspace": "149f8d99-1c66-4a0a-9624-759be002bb60",
+  "model": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+  "model_display_name": "Warehouse Operations e1b8e1",
+  "url": "https://app.powerbi.com/groups/149f8d99-1c66-4a0a-9624-759be002bb60/settings/datasets/3484a2bc-98c5-4cef-be5c-a6215484075e?experience=power-bi",
+  "section": "Gateway and cloud connections",
+  "selected_mapping": "Default: Single Sign-On (Entra ID)",
+  "sql_endpoint_database": "77c49180-2ef9-4558-837c-f50fdb1df8de",
+  "gateway_enabled": false,
+  "apply_enabled": false,
+  "exact_dom_fragment": "combobox \"Maps to:\":\n  - 'option \"Default: Single Sign-On (Entra ID)\" [selected]'\n  - option \"Create a connection\"",
+  "changes_applied": false,
+  "reader_identity_changed": false,
+  "limitation": "Browser metadata/control reads are not instrumented as engine investigation reads; no browser request count is invented. This was not an administrator data query or a replayable native query receipt."
+}

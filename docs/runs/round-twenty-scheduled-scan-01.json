@@ -1,0 +1,43 @@
+{
+  "run_id": "021a92ef-e722-4013-b912-dccde988c58b",
+  "execution": "job-dia-graph-scan-29877120",
+  "scheduled_at": "2026-10-22T00:00:00Z",
+  "status": "COMPLETED",
+  "physical_requests": 32,
+  "budget_line": "SCAN",
+  "model_calls": 0,
+  "outer_records": 38,
+  "outer_seal_valid": true,
+  "estates": [
+    {
+      "estate": "fixture",
+      "physical_requests": 26
+    },
+    {
+      "estate": "billing",
+      "physical_requests": 6
+    }
+  ],
+  "monthly_last_direct_observation": {
+    "limits": {
+      "INVESTIGATION": 4905,
+      "RESTORATION": 95,
+      "SCAN": 1000
+    },
+    "mode": "BUILD_PHASE",
+    "month_utc": "2026-10",
+    "restoration_remaining": 95,
+    "total": 282,
+    "total_limit": 6000,
+    "used": {
+      "INVESTIGATION": 245,
+      "RESTORATION": 0,
+      "SCAN": 37
+    },
+    "warnings": []
+  },
+  "later_smoke_sealed_physical_requests": 4,
+  "reconciled_monthly_physical_requests": 286,
+  "reconciliation_basis": "Direct shared-ledger observation282 after scheduled scan plus four later sealed smoke physical calls; not a fresh286 PostgreSQL snapshot. No other admitted manual run or active job remained.",
+  "new_permission_or_identity": false
+}

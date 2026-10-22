@@ -1,0 +1,32 @@
+{
+  "run_id": "round20-smoke-03",
+  "execution": "job-dia-worker-4fvcq0a",
+  "recorded_at": "2026-10-22T00:12:44.152155+00:00",
+  "status": "PASS",
+  "checks": {
+    "blob_write_read": "PASS",
+    "gold_read": "PASS",
+    "postgres_write_read": "PASS",
+    "sign_in": "PASS"
+  },
+  "gold_rows": [
+    {
+      "count": "406",
+      "sum": "8765"
+    }
+  ],
+  "gold_surface_report": {
+    "engine": "Microsoft Azure SQL Data Warehouse",
+    "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+    "object": "warehouse_gold_e1b8e1"
+  },
+  "read_only_verified": true,
+  "physical_requests": 4,
+  "budget_line": "SCAN",
+  "investigation_reads": 0,
+  "model_calls": 0,
+  "demo_included": false,
+  "outer_records": 18,
+  "outer_seal_valid": true,
+  "image": "sha256:e3c13ed9b1e8167a28fa53665888e3f79478260ced3c28c90fbe54bbbcc84d01"
+}
