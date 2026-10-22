@@ -11,12 +11,82 @@
       "old_status": "ERROR",
       "result": {
         "version": "investigator-essentials-v1",
-        "status": "HELD",
-        "reason": "MISSING_COMPARISON",
-        "questions": [],
+        "status": "READY",
         "question_count": 0,
+        "questions": [],
+        "reason": "ESSENTIALS_BOUND",
         "investigation_executed": false,
-        "goal": "COMPARE"
+        "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b",
+        "request_hash": "64fbe8cbc43e37711430ef0ef0945d883339520ee4c12a08f7b26116f4a16741",
+        "goal": "COMPARE",
+        "scope": {
+          "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+          "report_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+          "page_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/page/7547db8624ef59509188",
+          "node_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "node_kind": "MEASURE",
+          "target_id": null,
+          "measure_ids": [
+            "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+          ]
+        },
+        "reported_figure": {
+          "state": "NUMBER",
+          "value": "8765",
+          "precision": {
+            "state": "EXACT"
+          },
+          "source": {
+            "start": 0,
+            "end": 4,
+            "quote": "8765"
+          }
+        },
+        "comparison": null,
+        "assumptions": [],
+        "comparison_pending": true,
+        "available_steps": [
+          "RECREATE",
+          "FRESHNESS"
+        ],
+        "deferred_question": {
+          "field": "comparison",
+          "text": "What are you comparing this number with?",
+          "ask_only_if_no_quick_verdict": true
+        },
+        "filters": [],
+        "filters_authority": "USER_SUPPLIED_NOT_LOWER_PATH_ATTESTATION",
+        "selected_number": {
+          "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "kind": "MEASURE",
+          "names": [
+            "Handled Quantity",
+            "Handled Quantity"
+          ],
+          "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+          "report_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+          "page_ids": [
+            "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/page/7547db8624ef59509188",
+            "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/page/8b067ecb975e5af7a39b"
+          ],
+          "confidence": 1.0,
+          "match_source": "RETAINED_NAME",
+          "matched_name": "Handled Quantity"
+        },
+        "date": null,
+        "screenshot": null,
+        "description": "Please review the Handled Quantity card on the Unfiltered control page for Declared predicate fixture 20261001. It is showing 8765, and I want the displayed count checked.",
+        "submitted_essentials": {
+          "version": "investigator-essentials-v1",
+          "request_key": "R17-01",
+          "goal": "COMPARE",
+          "comparison": null,
+          "description": "Please review the Handled Quantity card on the Unfiltered control page for Declared predicate fixture 20261001. It is showing 8765, and I want the displayed count checked.",
+          "report": "Declared predicate fixture 20261001",
+          "number": "Handled Quantity",
+          "page": "Unfiltered control",
+          "value": "8765"
+        }
       }
     },
     {
@@ -27,12 +97,85 @@
       "old_status": "CLARIFYING",
       "result": {
         "version": "investigator-essentials-v1",
-        "status": "HELD",
-        "reason": "MISSING_COMPARISON",
-        "questions": [],
+        "status": "READY",
         "question_count": 0,
+        "questions": [],
+        "reason": "ESSENTIALS_BOUND",
         "investigation_executed": false,
-        "goal": "COMPARE"
+        "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b",
+        "request_hash": "0740d915bd19ef1cef2d1076efe242a7765f5745affec5ea408dc99132f59859",
+        "goal": "COMPARE",
+        "scope": {
+          "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+          "report_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+          "page_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/page/7547db8624ef59509188",
+          "node_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json",
+          "node_kind": "VISUAL",
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json",
+          "measure_ids": [
+            "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+          ]
+        },
+        "reported_figure": {
+          "state": "NUMBER",
+          "value": "8765",
+          "precision": {
+            "state": "EXACT"
+          },
+          "source": {
+            "start": 0,
+            "end": 4,
+            "quote": "8765"
+          }
+        },
+        "comparison": null,
+        "assumptions": [],
+        "comparison_pending": true,
+        "available_steps": [
+          "RECREATE",
+          "FRESHNESS"
+        ],
+        "deferred_question": {
+          "field": "comparison",
+          "text": "What are you comparing this number with?",
+          "ask_only_if_no_quick_verdict": true
+        },
+        "filters": [],
+        "filters_authority": "USER_SUPPLIED_NOT_LOWER_PATH_ATTESTATION",
+        "selected_number": {
+          "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json",
+          "kind": "VISUAL",
+          "names": [
+            "Handled Quantity - unfiltered"
+          ],
+          "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+          "report_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+          "page_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/page/7547db8624ef59509188",
+          "page_names": [
+            "Unfiltered control"
+          ],
+          "measure_ids": [
+            "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+          ],
+          "unsupported": null,
+          "confidence": 1.0,
+          "match_source": "RETAINED_NAME",
+          "matched_name": "Handled Quantity - unfiltered"
+        },
+        "date": null,
+        "screenshot": null,
+        "description": "Can someone verify the 8765 shown on Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered?",
+        "submitted_essentials": {
+          "version": "investigator-essentials-v1",
+          "request_key": "R17-02",
+          "goal": "COMPARE",
+          "comparison": null,
+          "description": "Can someone verify the 8765 shown on Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered?",
+          "report": "Declared predicate fixture 20261001",
+          "number": "Handled Quantity - unfiltered",
+          "page": "Unfiltered control",
+          "value": "8765"
+        }
       }
     },
     {
@@ -43,12 +186,149 @@
       "old_status": "CLARIFYING",
       "result": {
         "version": "investigator-essentials-v1",
-        "status": "HELD",
-        "reason": "MISSING_COMPARISON",
-        "questions": [],
-        "question_count": 0,
+        "status": "CLARIFYING",
+        "reason": "ESSENTIALS_NEED_CONFIRMATION",
+        "question_count": 1,
         "investigation_executed": false,
-        "goal": "COMPARE"
+        "questions": [
+          {
+            "field": "essentials",
+            "text": "Which report and number do you want me to check?",
+            "choices": [
+              {
+                "key": "6877af4b6c48a49932442610376c23f30220ec01c02139d7f83d774be6f670ad",
+                "label": "Inventory Health 23619e > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ce379e11-9a02-43df-9ddd-14be119ec0ee",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/163ce520-ec47-4824-975c-96f5c749205f/table/Material%20Events/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "9b845c8d72f099f83138879ebc87e315e8bde9e110594ed4abaf24fef4379049",
+                "label": "Declared predicate fixture 20261001 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "f3aa4a8f754b64d0ad2a5e76c67e8f69488f6f47eb75dc5309289aa99b2dd85a",
+                "label": "Round Nine translation filters 20261007 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "2d6df1823d029f2dbb58f14cb1fe8148afa5e98587b529f31d68f77d0b2e9f7a",
+                "label": "Inventory Health e1b8e1 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "0c5fdacd85b0b21d060bd4fd76e46d2ab9731a24e899b253f7826934e665351f",
+                "label": "Round Ten Visual Variety > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "fcc85c7a7fdcf8dd82beeab1f295ab17a4e16a6c84e98a26bc6f0066a368579e",
+                "label": "Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "f9de614a609bfb9e6e515ee7d292d8120668dd6304fa147c8de04792b613204e",
+                "label": "Round Nine translation filters 20261007 > Top-N verification > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "af9d27b301a7e5fb13b7ed923bca0939c64ffdb869b8ce72046f785df13c59ab",
+                "label": "Round Ten Visual Variety > Six active predicates > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F0f86b2ef08bcd78983f1%2Fvisuals%2Fe1b0664f78b177987b3a%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "95dadbf45f990742ced58ea3fcfc11692937f37cf8d5b9aca11e58eb8cb59925",
+                "label": "Round Ten Visual Variety > Warehouse and product matrix > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F5b9bd0d258d6c51b5929%2Fvisuals%2Fd72c75adb19cf1cb1f15%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "47c4ea7339c166ad71e1877055e0b6633bd04eaacd74eb444cf37826ef6c5eca",
+                "label": "Round Ten Visual Variety > Warehouse matrix total > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F7788dc14cd101535f3aa%2Fvisuals%2Fb4e3f6618f94a15d6aa6%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "b38fe497dbc7e00621b330eaabfee6842712b939f8678c0e8d140305309f852b",
+                "label": "Round Ten Visual Variety > Saved bookmark comparison > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F901f43de8897c5136b1a%2Fvisuals%2F44a8172e3ced6e201c95%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "c4a8ffb28d267009544e9efe81ab74fb33fe11089f52a6b1582c6662cff8f36d",
+                "label": "Round Ten Visual Variety > Global card > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F99d9ca357e3792ad6f70%2Fvisuals%2F45e0a944d0425fec09d0%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              }
+            ],
+            "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+          }
+        ],
+        "submitted_essentials": {
+          "version": "investigator-essentials-v1",
+          "request_key": "R17-03",
+          "goal": "COMPARE",
+          "comparison": null,
+          "description": "I have a count concern with the Handled Quantity metric on the Unfiltered control page. It currently reads 8765.",
+          "number": "Handled Quantity",
+          "page": "Unfiltered control",
+          "value": "8765"
+        }
       }
     },
     {
@@ -60,11 +340,19 @@
       "result": {
         "version": "investigator-essentials-v1",
         "status": "HELD",
-        "reason": "MISSING_COMPARISON",
+        "reason": "BUSINESS_INTENT_REQUIRES_OWNER",
         "questions": [],
         "question_count": 0,
         "investigation_executed": false,
-        "goal": "COMPARE"
+        "submitted_essentials": {
+          "version": "investigator-essentials-v1",
+          "request_key": "R17-04",
+          "goal": "COMPARE",
+          "comparison": null,
+          "description": "Handled Quantity on the unfiltered card is showing 8765. Please confirm this number is the intended value for that view.",
+          "number": "Handled Quantity",
+          "value": "8765"
+        }
       }
     },
     {
@@ -75,12 +363,71 @@
       "old_status": "ERROR",
       "result": {
         "version": "investigator-essentials-v1",
-        "status": "HELD",
-        "reason": "MISSING_COMPARISON",
-        "questions": [],
+        "status": "READY",
         "question_count": 0,
+        "questions": [],
+        "reason": "ESSENTIALS_BOUND",
         "investigation_executed": false,
-        "goal": "COMPARE"
+        "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b",
+        "request_hash": "bd23b69dfe82b61fec3cde09202324a6bd378f821a7e2eceac75e6c491a21874",
+        "goal": "COMPARE",
+        "scope": {
+          "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+          "report_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+          "page_id": null,
+          "node_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "node_kind": "MEASURE",
+          "target_id": null,
+          "measure_ids": [
+            "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+          ]
+        },
+        "reported_figure": {
+          "state": "UNSPECIFIED"
+        },
+        "comparison": null,
+        "assumptions": [],
+        "comparison_pending": true,
+        "available_steps": [
+          "RECREATE",
+          "FRESHNESS"
+        ],
+        "deferred_question": {
+          "field": "comparison",
+          "text": "What are you comparing this number with?",
+          "ask_only_if_no_quick_verdict": true
+        },
+        "filters": [],
+        "filters_authority": "USER_SUPPLIED_NOT_LOWER_PATH_ATTESTATION",
+        "selected_number": {
+          "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "kind": "MEASURE",
+          "names": [
+            "Handled Quantity",
+            "Handled Quantity"
+          ],
+          "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+          "report_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+          "page_ids": [
+            "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/page/7547db8624ef59509188",
+            "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/page/8b067ecb975e5af7a39b"
+          ],
+          "confidence": 1.0,
+          "match_source": "RETAINED_NAME",
+          "matched_name": "Handled Quantity"
+        },
+        "date": null,
+        "screenshot": null,
+        "description": "Please investigate the quantity displayed in the Handled Quantity card for Declared predicate fixture 20261001. The visible number is 8765.",
+        "submitted_essentials": {
+          "version": "investigator-essentials-v1",
+          "request_key": "R17-05",
+          "goal": "COMPARE",
+          "comparison": null,
+          "description": "Please investigate the quantity displayed in the Handled Quantity card for Declared predicate fixture 20261001. The visible number is 8765.",
+          "report": "Declared predicate fixture 20261001",
+          "number": "Handled Quantity"
+        }
       }
     },
     {
@@ -91,12 +438,148 @@
       "old_status": "CLARIFYING",
       "result": {
         "version": "investigator-essentials-v1",
-        "status": "HELD",
-        "reason": "MISSING_COMPARISON",
-        "questions": [],
-        "question_count": 0,
+        "status": "CLARIFYING",
+        "reason": "ESSENTIALS_NEED_CONFIRMATION",
+        "question_count": 1,
         "investigation_executed": false,
-        "goal": "COMPARE"
+        "questions": [
+          {
+            "field": "essentials",
+            "text": "Which report and number do you want me to check?",
+            "choices": [
+              {
+                "key": "fcc85c7a7fdcf8dd82beeab1f295ab17a4e16a6c84e98a26bc6f0066a368579e",
+                "label": "Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "f9de614a609bfb9e6e515ee7d292d8120668dd6304fa147c8de04792b613204e",
+                "label": "Round Nine translation filters 20261007 > Top-N verification > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "af9d27b301a7e5fb13b7ed923bca0939c64ffdb869b8ce72046f785df13c59ab",
+                "label": "Round Ten Visual Variety > Six active predicates > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F0f86b2ef08bcd78983f1%2Fvisuals%2Fe1b0664f78b177987b3a%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "95dadbf45f990742ced58ea3fcfc11692937f37cf8d5b9aca11e58eb8cb59925",
+                "label": "Round Ten Visual Variety > Warehouse and product matrix > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F5b9bd0d258d6c51b5929%2Fvisuals%2Fd72c75adb19cf1cb1f15%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "47c4ea7339c166ad71e1877055e0b6633bd04eaacd74eb444cf37826ef6c5eca",
+                "label": "Round Ten Visual Variety > Warehouse matrix total > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F7788dc14cd101535f3aa%2Fvisuals%2Fb4e3f6618f94a15d6aa6%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "b38fe497dbc7e00621b330eaabfee6842712b939f8678c0e8d140305309f852b",
+                "label": "Round Ten Visual Variety > Saved bookmark comparison > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F901f43de8897c5136b1a%2Fvisuals%2F44a8172e3ced6e201c95%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "c4a8ffb28d267009544e9efe81ab74fb33fe11089f52a6b1582c6662cff8f36d",
+                "label": "Round Ten Visual Variety > Global card > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F99d9ca357e3792ad6f70%2Fvisuals%2F45e0a944d0425fec09d0%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "abe417356d7015b1058ab8c8a2ca37e8cd0d8ed8ad1a5aedbabd40fc4abafd72",
+                "label": "Round Ten Visual Variety > Calculated table card > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2Fca8355a38db5ec471f39%2Fvisuals%2Fae4a2be89ac2444d9767%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "6877af4b6c48a49932442610376c23f30220ec01c02139d7f83d774be6f670ad",
+                "label": "Inventory Health 23619e > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ce379e11-9a02-43df-9ddd-14be119ec0ee",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/163ce520-ec47-4824-975c-96f5c749205f/table/Material%20Events/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "9b845c8d72f099f83138879ebc87e315e8bde9e110594ed4abaf24fef4379049",
+                "label": "Declared predicate fixture 20261001 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "f3aa4a8f754b64d0ad2a5e76c67e8f69488f6f47eb75dc5309289aa99b2dd85a",
+                "label": "Round Nine translation filters 20261007 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "2d6df1823d029f2dbb58f14cb1fe8148afa5e98587b529f31d68f77d0b2e9f7a",
+                "label": "Inventory Health e1b8e1 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              }
+            ],
+            "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+          }
+        ],
+        "submitted_essentials": {
+          "version": "investigator-essentials-v1",
+          "request_key": "R17-06",
+          "goal": "COMPARE",
+          "comparison": null,
+          "description": "The Handled Quantity - unfiltered visual on the Unfiltered control page shows 8765. I need support to review that count.",
+          "number": "Handled Quantity - unfiltered",
+          "page": "Unfiltered control"
+        }
       }
     },
     {
@@ -107,12 +590,148 @@
       "old_status": "ERROR",
       "result": {
         "version": "investigator-essentials-v1",
-        "status": "HELD",
-        "reason": "MISSING_REPORT",
-        "questions": [],
-        "question_count": 0,
+        "status": "CLARIFYING",
+        "reason": "ESSENTIALS_NEED_CONFIRMATION",
+        "question_count": 1,
         "investigation_executed": false,
-        "goal": "FRESHNESS"
+        "questions": [
+          {
+            "field": "essentials",
+            "text": "Which report and number do you want me to check?",
+            "choices": [
+              {
+                "key": "6877af4b6c48a49932442610376c23f30220ec01c02139d7f83d774be6f670ad",
+                "label": "Inventory Health 23619e > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ce379e11-9a02-43df-9ddd-14be119ec0ee",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/163ce520-ec47-4824-975c-96f5c749205f/table/Material%20Events/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "9b845c8d72f099f83138879ebc87e315e8bde9e110594ed4abaf24fef4379049",
+                "label": "Declared predicate fixture 20261001 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "f3aa4a8f754b64d0ad2a5e76c67e8f69488f6f47eb75dc5309289aa99b2dd85a",
+                "label": "Round Nine translation filters 20261007 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "2d6df1823d029f2dbb58f14cb1fe8148afa5e98587b529f31d68f77d0b2e9f7a",
+                "label": "Inventory Health e1b8e1 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "0c5fdacd85b0b21d060bd4fd76e46d2ab9731a24e899b253f7826934e665351f",
+                "label": "Round Ten Visual Variety > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "fcc85c7a7fdcf8dd82beeab1f295ab17a4e16a6c84e98a26bc6f0066a368579e",
+                "label": "Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "f9de614a609bfb9e6e515ee7d292d8120668dd6304fa147c8de04792b613204e",
+                "label": "Round Nine translation filters 20261007 > Top-N verification > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "af9d27b301a7e5fb13b7ed923bca0939c64ffdb869b8ce72046f785df13c59ab",
+                "label": "Round Ten Visual Variety > Six active predicates > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F0f86b2ef08bcd78983f1%2Fvisuals%2Fe1b0664f78b177987b3a%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "95dadbf45f990742ced58ea3fcfc11692937f37cf8d5b9aca11e58eb8cb59925",
+                "label": "Round Ten Visual Variety > Warehouse and product matrix > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F5b9bd0d258d6c51b5929%2Fvisuals%2Fd72c75adb19cf1cb1f15%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "47c4ea7339c166ad71e1877055e0b6633bd04eaacd74eb444cf37826ef6c5eca",
+                "label": "Round Ten Visual Variety > Warehouse matrix total > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F7788dc14cd101535f3aa%2Fvisuals%2Fb4e3f6618f94a15d6aa6%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "b38fe497dbc7e00621b330eaabfee6842712b939f8678c0e8d140305309f852b",
+                "label": "Round Ten Visual Variety > Saved bookmark comparison > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F901f43de8897c5136b1a%2Fvisuals%2F44a8172e3ced6e201c95%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "c4a8ffb28d267009544e9efe81ab74fb33fe11089f52a6b1582c6662cff8f36d",
+                "label": "Round Ten Visual Variety > Global card > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F99d9ca357e3792ad6f70%2Fvisuals%2F45e0a944d0425fec09d0%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              }
+            ],
+            "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+          }
+        ],
+        "submitted_essentials": {
+          "version": "investigator-essentials-v1",
+          "request_key": "R17-07",
+          "goal": "FRESHNESS",
+          "comparison": null,
+          "description": "When was the Handled Quantity value on the Unfiltered control page last refreshed?",
+          "number": "Handled Quantity",
+          "page": "Unfiltered control"
+        }
       }
     },
     {
@@ -123,12 +742,135 @@
       "old_status": "ERROR",
       "result": {
         "version": "investigator-essentials-v1",
-        "status": "HELD",
-        "reason": "MISSING_REPORT",
-        "questions": [],
-        "question_count": 0,
+        "status": "CLARIFYING",
+        "reason": "ESSENTIALS_NEED_CONFIRMATION",
+        "question_count": 1,
         "investigation_executed": false,
-        "goal": "FRESHNESS"
+        "questions": [
+          {
+            "field": "essentials",
+            "text": "Which report and number do you want me to check?",
+            "choices": [
+              {
+                "key": "f7abcfdfe92fd459d7e95e3fdd908eacbccf57cb08051315583239a6420e9265",
+                "label": "Inventory Health 23619e > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ce379e11-9a02-43df-9ddd-14be119ec0ee",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/163ce520-ec47-4824-975c-96f5c749205f/table/Material%20Events/measures/Handled%20Quantity"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "098c47ecea6894906058dc794a735f50d2b8153beb83201f7a0c8d6e87663dfb",
+                "label": "Declared predicate fixture 20261001 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "aa736da6f179c5861e48f42a9651c2d7ac1f201d9dafc3441b854a44a94f397e",
+                "label": "Round Nine translation filters 20261007 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "061523f7c6a38b74001c9ec37233a11e611559fb5eaa9e1502753caaa2b4385f",
+                "label": "Inventory Health e1b8e1 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "95c07df1805f530fd6faa345cf6f09e34af19a717085b6f612bc0acf85bdc721",
+                "label": "Round Ten Visual Variety > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "d9d398510f4bbbe12431b963538aeb06cd82c701c4da182f3b7f412ccc49402e",
+                "label": "Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "9b496aa3c04368ee6eafc95b07253f44cf3354438bc942eda3601784e14a7023",
+                "label": "Round Nine translation filters 20261007 > Top-N verification > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "64414e1825739f7f060ff6488ff53e483bf47eec2b29fbe05003baa04d1d6533",
+                "label": "Round Ten Visual Variety > Six active predicates > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F0f86b2ef08bcd78983f1%2Fvisuals%2Fe1b0664f78b177987b3a%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "1f220059dba0886bbf141b6fed5bd43f19bb6eb565bb166d97110717fd3f7cd1",
+                "label": "Round Ten Visual Variety > Warehouse and product matrix > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F5b9bd0d258d6c51b5929%2Fvisuals%2Fd72c75adb19cf1cb1f15%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "4e3f63618446f4a4e4b4245acf907ec5488de6db918be0c2f7d748944fd7d01b",
+                "label": "Round Ten Visual Variety > Warehouse matrix total > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F7788dc14cd101535f3aa%2Fvisuals%2Fb4e3f6618f94a15d6aa6%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "4c0e7a4e2c3d9b23c970bd4c1c8b09153d664eb807f329cf208e20c450a2bff5",
+                "label": "Round Ten Visual Variety > Saved bookmark comparison > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F901f43de8897c5136b1a%2Fvisuals%2F44a8172e3ced6e201c95%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "d44c4759d33f9559ce64ddf8d57e9ede4713362e550b8a7f5599b8fd9962e417",
+                "label": "Round Ten Visual Variety > Global card > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F99d9ca357e3792ad6f70%2Fvisuals%2F45e0a944d0425fec09d0%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              }
+            ],
+            "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+          }
+        ],
+        "submitted_essentials": {
+          "version": "investigator-essentials-v1",
+          "request_key": "R17-08",
+          "goal": "FRESHNESS",
+          "comparison": null,
+          "description": "Can you confirm whether the 8765 shown in Handled Quantity is based on the latest available refresh for this report view?",
+          "number": "Handled Quantity"
+        }
       }
     },
     {
@@ -162,6 +904,14 @@
           "state": "UNSPECIFIED"
         },
         "comparison": null,
+        "assumptions": [],
+        "comparison_pending": false,
+        "available_steps": [
+          "RECREATE",
+          "FRESHNESS",
+          "COMPARE"
+        ],
+        "deferred_question": null,
         "filters": [],
         "filters_authority": "USER_SUPPLIED_NOT_LOWER_PATH_ATTESTATION",
         "selected_number": {
@@ -187,11 +937,11 @@
         "submitted_essentials": {
           "version": "investigator-essentials-v1",
           "request_key": "R17-09",
-          "report": "Declared predicate fixture 20261001",
-          "number": "Handled Quantity",
           "goal": "FRESHNESS",
           "comparison": null,
           "description": "Please advise how current the Handled Quantity card is on Declared predicate fixture 20261001 > Unfiltered control.",
+          "report": "Declared predicate fixture 20261001",
+          "number": "Handled Quantity",
           "page": "Unfiltered control"
         }
       }
@@ -204,12 +954,135 @@
       "old_status": "CLARIFYING",
       "result": {
         "version": "investigator-essentials-v1",
-        "status": "HELD",
-        "reason": "MISSING_REPORT",
-        "questions": [],
-        "question_count": 0,
+        "status": "CLARIFYING",
+        "reason": "ESSENTIALS_NEED_CONFIRMATION",
+        "question_count": 1,
         "investigation_executed": false,
-        "goal": "DEFINITION"
+        "questions": [
+          {
+            "field": "essentials",
+            "text": "Which report and number do you want me to check?",
+            "choices": [
+              {
+                "key": "d9d398510f4bbbe12431b963538aeb06cd82c701c4da182f3b7f412ccc49402e",
+                "label": "Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "9b496aa3c04368ee6eafc95b07253f44cf3354438bc942eda3601784e14a7023",
+                "label": "Round Nine translation filters 20261007 > Top-N verification > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "64414e1825739f7f060ff6488ff53e483bf47eec2b29fbe05003baa04d1d6533",
+                "label": "Round Ten Visual Variety > Six active predicates > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F0f86b2ef08bcd78983f1%2Fvisuals%2Fe1b0664f78b177987b3a%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "1f220059dba0886bbf141b6fed5bd43f19bb6eb565bb166d97110717fd3f7cd1",
+                "label": "Round Ten Visual Variety > Warehouse and product matrix > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F5b9bd0d258d6c51b5929%2Fvisuals%2Fd72c75adb19cf1cb1f15%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "4e3f63618446f4a4e4b4245acf907ec5488de6db918be0c2f7d748944fd7d01b",
+                "label": "Round Ten Visual Variety > Warehouse matrix total > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F7788dc14cd101535f3aa%2Fvisuals%2Fb4e3f6618f94a15d6aa6%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "4c0e7a4e2c3d9b23c970bd4c1c8b09153d664eb807f329cf208e20c450a2bff5",
+                "label": "Round Ten Visual Variety > Saved bookmark comparison > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F901f43de8897c5136b1a%2Fvisuals%2F44a8172e3ced6e201c95%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "d44c4759d33f9559ce64ddf8d57e9ede4713362e550b8a7f5599b8fd9962e417",
+                "label": "Round Ten Visual Variety > Global card > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F99d9ca357e3792ad6f70%2Fvisuals%2F45e0a944d0425fec09d0%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "8e1e6d5ed5228ad0496436a35b690fb0928265241d7bb43715ded341b24440b5",
+                "label": "Round Ten Visual Variety > Calculated table card > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2Fca8355a38db5ec471f39%2Fvisuals%2Fae4a2be89ac2444d9767%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "f7abcfdfe92fd459d7e95e3fdd908eacbccf57cb08051315583239a6420e9265",
+                "label": "Inventory Health 23619e > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ce379e11-9a02-43df-9ddd-14be119ec0ee",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/163ce520-ec47-4824-975c-96f5c749205f/table/Material%20Events/measures/Handled%20Quantity"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "098c47ecea6894906058dc794a735f50d2b8153beb83201f7a0c8d6e87663dfb",
+                "label": "Declared predicate fixture 20261001 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "aa736da6f179c5861e48f42a9651c2d7ac1f201d9dafc3441b854a44a94f397e",
+                "label": "Round Nine translation filters 20261007 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "061523f7c6a38b74001c9ec37233a11e611559fb5eaa9e1502753caaa2b4385f",
+                "label": "Inventory Health e1b8e1 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              }
+            ],
+            "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+          }
+        ],
+        "submitted_essentials": {
+          "version": "investigator-essentials-v1",
+          "request_key": "R17-10",
+          "goal": "DEFINITION",
+          "comparison": null,
+          "description": "What exactly is included in the Handled Quantity metric on the Handled Quantity - unfiltered card?",
+          "number": "Handled Quantity - unfiltered"
+        }
       }
     },
     {
@@ -220,12 +1093,148 @@
       "old_status": "CLARIFYING",
       "result": {
         "version": "investigator-essentials-v1",
-        "status": "HELD",
-        "reason": "MISSING_REPORT",
-        "questions": [],
-        "question_count": 0,
+        "status": "CLARIFYING",
+        "reason": "ESSENTIALS_NEED_CONFIRMATION",
+        "question_count": 1,
         "investigation_executed": false,
-        "goal": "DEFINITION"
+        "questions": [
+          {
+            "field": "essentials",
+            "text": "Which report and number do you want me to check?",
+            "choices": [
+              {
+                "key": "6877af4b6c48a49932442610376c23f30220ec01c02139d7f83d774be6f670ad",
+                "label": "Inventory Health 23619e > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ce379e11-9a02-43df-9ddd-14be119ec0ee",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/163ce520-ec47-4824-975c-96f5c749205f/table/Material%20Events/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "9b845c8d72f099f83138879ebc87e315e8bde9e110594ed4abaf24fef4379049",
+                "label": "Declared predicate fixture 20261001 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "f3aa4a8f754b64d0ad2a5e76c67e8f69488f6f47eb75dc5309289aa99b2dd85a",
+                "label": "Round Nine translation filters 20261007 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "2d6df1823d029f2dbb58f14cb1fe8148afa5e98587b529f31d68f77d0b2e9f7a",
+                "label": "Inventory Health e1b8e1 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "0c5fdacd85b0b21d060bd4fd76e46d2ab9731a24e899b253f7826934e665351f",
+                "label": "Round Ten Visual Variety > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "fcc85c7a7fdcf8dd82beeab1f295ab17a4e16a6c84e98a26bc6f0066a368579e",
+                "label": "Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "f9de614a609bfb9e6e515ee7d292d8120668dd6304fa147c8de04792b613204e",
+                "label": "Round Nine translation filters 20261007 > Top-N verification > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "af9d27b301a7e5fb13b7ed923bca0939c64ffdb869b8ce72046f785df13c59ab",
+                "label": "Round Ten Visual Variety > Six active predicates > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F0f86b2ef08bcd78983f1%2Fvisuals%2Fe1b0664f78b177987b3a%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "95dadbf45f990742ced58ea3fcfc11692937f37cf8d5b9aca11e58eb8cb59925",
+                "label": "Round Ten Visual Variety > Warehouse and product matrix > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F5b9bd0d258d6c51b5929%2Fvisuals%2Fd72c75adb19cf1cb1f15%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "47c4ea7339c166ad71e1877055e0b6633bd04eaacd74eb444cf37826ef6c5eca",
+                "label": "Round Ten Visual Variety > Warehouse matrix total > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F7788dc14cd101535f3aa%2Fvisuals%2Fb4e3f6618f94a15d6aa6%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "b38fe497dbc7e00621b330eaabfee6842712b939f8678c0e8d140305309f852b",
+                "label": "Round Ten Visual Variety > Saved bookmark comparison > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F901f43de8897c5136b1a%2Fvisuals%2F44a8172e3ced6e201c95%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "c4a8ffb28d267009544e9efe81ab74fb33fe11089f52a6b1582c6662cff8f36d",
+                "label": "Round Ten Visual Variety > Global card > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F99d9ca357e3792ad6f70%2Fvisuals%2F45e0a944d0425fec09d0%2Fvisual.json",
+                  "page": "Unfiltered control"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              }
+            ],
+            "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+          }
+        ],
+        "submitted_essentials": {
+          "version": "investigator-essentials-v1",
+          "request_key": "R17-11",
+          "goal": "DEFINITION",
+          "comparison": null,
+          "description": "Please clarify the business definition of Handled Quantity on the Unfiltered control page.",
+          "number": "Handled Quantity",
+          "page": "Unfiltered control"
+        }
       }
     },
     {
@@ -236,19 +1245,144 @@
       "old_status": "ERROR",
       "result": {
         "version": "investigator-essentials-v1",
-        "status": "HELD",
-        "reason": "MISSING_REPORT",
-        "questions": [],
-        "question_count": 0,
+        "status": "CLARIFYING",
+        "reason": "ESSENTIALS_NEED_CONFIRMATION",
+        "question_count": 1,
         "investigation_executed": false,
-        "goal": "DEFINITION"
+        "questions": [
+          {
+            "field": "essentials",
+            "text": "Which report and number do you want me to check?",
+            "choices": [
+              {
+                "key": "f7abcfdfe92fd459d7e95e3fdd908eacbccf57cb08051315583239a6420e9265",
+                "label": "Inventory Health 23619e > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ce379e11-9a02-43df-9ddd-14be119ec0ee",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/163ce520-ec47-4824-975c-96f5c749205f/table/Material%20Events/measures/Handled%20Quantity"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "098c47ecea6894906058dc794a735f50d2b8153beb83201f7a0c8d6e87663dfb",
+                "label": "Declared predicate fixture 20261001 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "aa736da6f179c5861e48f42a9651c2d7ac1f201d9dafc3441b854a44a94f397e",
+                "label": "Round Nine translation filters 20261007 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "061523f7c6a38b74001c9ec37233a11e611559fb5eaa9e1502753caaa2b4385f",
+                "label": "Inventory Health e1b8e1 > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "95c07df1805f530fd6faa345cf6f09e34af19a717085b6f612bc0acf85bdc721",
+                "label": "Round Ten Visual Variety > Handled Quantity (measure)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "d9d398510f4bbbe12431b963538aeb06cd82c701c4da182f3b7f412ccc49402e",
+                "label": "Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "9b496aa3c04368ee6eafc95b07253f44cf3354438bc942eda3601784e14a7023",
+                "label": "Round Nine translation filters 20261007 > Top-N verification > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "64414e1825739f7f060ff6488ff53e483bf47eec2b29fbe05003baa04d1d6533",
+                "label": "Round Ten Visual Variety > Six active predicates > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F0f86b2ef08bcd78983f1%2Fvisuals%2Fe1b0664f78b177987b3a%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "1f220059dba0886bbf141b6fed5bd43f19bb6eb565bb166d97110717fd3f7cd1",
+                "label": "Round Ten Visual Variety > Warehouse and product matrix > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F5b9bd0d258d6c51b5929%2Fvisuals%2Fd72c75adb19cf1cb1f15%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "4e3f63618446f4a4e4b4245acf907ec5488de6db918be0c2f7d748944fd7d01b",
+                "label": "Round Ten Visual Variety > Warehouse matrix total > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F7788dc14cd101535f3aa%2Fvisuals%2Fb4e3f6618f94a15d6aa6%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "4c0e7a4e2c3d9b23c970bd4c1c8b09153d664eb807f329cf208e20c450a2bff5",
+                "label": "Round Ten Visual Variety > Saved bookmark comparison > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F901f43de8897c5136b1a%2Fvisuals%2F44a8172e3ced6e201c95%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              },
+              {
+                "key": "d44c4759d33f9559ce64ddf8d57e9ede4713362e550b8a7f5599b8fd9962e417",
+                "label": "Round Ten Visual Variety > Global card > Handled Quantity - unfiltered (visual)",
+                "bindings": {
+                  "report": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+                  "number": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F99d9ca357e3792ad6f70%2Fvisuals%2F45e0a944d0425fec09d0%2Fvisual.json"
+                },
+                "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+              }
+            ],
+            "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b"
+          }
+        ],
+        "submitted_essentials": {
+          "version": "investigator-essentials-v1",
+          "request_key": "R17-12",
+          "goal": "DEFINITION",
+          "comparison": null,
+          "description": "Does the Handled Quantity value of 8765 represent items, cases, records, or another unit on this report?",
+          "number": "Handled Quantity"
+        }
       }
     }
   ],
-  "admitted_to_investigator": 1,
+  "admitted_to_investigator": 4,
   "investigations_executed": 0,
-  "one_question": 0,
-  "held": 11,
+  "one_question": 7,
+  "held": 1,
+  "quick_verdicts": 0,
+  "quick_verdicts_note": "No operational facts or value probes were read; admission is not a verdict.",
   "harmful_findings": 0,
   "harmful_findings_note": "No investigation or technical finding was executed in this offline check.",
   "model_calls": 0,

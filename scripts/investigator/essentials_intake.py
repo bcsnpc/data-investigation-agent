@@ -25,9 +25,7 @@ SCHEMA = {'type':'object', 'additionalProperties':False,
                         'description':{'type':'string','maxLength':16000},
                         'date':TEXT, 'filters':{'type':'array','maxItems':20,'items':{'type':'object'}},
                         'screenshot':TEXT},
-          'required':['version','request_key','report','number','goal','comparison'],
-          'allOf':[{'if':{'properties':{'goal':{'const':'COMPARE'}}},
-                    'then':{'properties':{'comparison':COMPARISON}}}]}
+          'required':['version','request_key','goal']}
 
 
 def normalize(value):
@@ -129,6 +127,43 @@ def _pick(phrase, candidates, enrichment, field, questions_asked, catalog_hash):
                                'choices':choices,'catalog_hash':catalog_hash}], 'candidates':ranked}
 
 
+def _question(request, projected, enrichment, questions_asked, catalog_hash):
+    """One combined choice from actual report/number pairs, never ID prose."""
+    if questions_asked:
+        return _hold('UNRESOLVED_AFTER_ONE_QUESTION')
+    reports={n['id']:n for n in projected if n['kind']=='REPORT'}
+    allowed=set(reports)
+    if request.get('report'):
+        ranked_reports=rank(request['report'],list(reports.values()),enrichment)
+        if ranked_reports and ranked_reports[0]['confidence']>=.8:
+            allowed={r['id'] for r in ranked_reports if r['confidence']==ranked_reports[0]['confidence']}
+    candidates=[n for n in projected if n['kind'] in ('VISUAL','MEASURE') and n['report_id'] in allowed]
+    ranked=rank(request.get('number',''),candidates,enrichment) if request.get('number') else []
+    ordered=ranked+[n for n in candidates if (n['id'],n['report_id']) not in {(r['id'],r['report_id']) for r in ranked}]
+    choices=[];seen=set()
+    for row in ordered:
+        try:
+            title=label(row['names']);report=reports[row['report_id']]
+            display=label(report['names'])+' > '
+            if row.get('page_names'):display+=label(row['page_names'])+' > '
+            display+=title+' ('+row['kind'].lower()+')'
+        except (ValueError,KeyError):continue
+        bindings={'report':row['report_id'],'number':row['id']}
+        # A choice does not erase an explicitly selected page.
+        if request.get('page'):bindings['page']=request['page']
+        key=digest(bindings)
+        if key in seen:continue
+        seen.add(key)
+        choices.append({'key':key,'label':display,'bindings':bindings,'catalog_hash':catalog_hash})
+        if len(choices)==12:break
+    if not choices:return _hold('NO_NAMED_CATALOG_CHOICES')
+    if len({c['label'] for c in choices})!=len(choices):return _hold('CANDIDATE_NAMES_NOT_DISTINGUISHABLE')
+    return {'version':VERSION,'status':'CLARIFYING','reason':'ESSENTIALS_NEED_CONFIRMATION',
+            'question_count':1,'investigation_executed':False,
+            'questions':[{'field':'essentials','text':'Which report and number do you want me to check?',
+                          'choices':choices,'catalog_hash':catalog_hash}]}
+
+
 def admit(request, catalog, *, enrichment=(), questions_asked=0):
     """Return an admission or explicit held state. Never execute a query/model."""
     try:
@@ -140,16 +175,35 @@ def admit(request, catalog, *, enrichment=(), questions_asked=0):
         if type(questions_asked) is not int or questions_asked not in (0,1):
             return _hold('QUESTION_BUDGET_INVALID')
         projected=nodes(catalog);catalog_hash=digest(catalog)
-        report,result=_pick(request['report'],[n for n in projected if n['kind']=='REPORT'],enrichment,'report',questions_asked,catalog_hash)
-        if result:return result
+        assumptions=[]
+        report_phrase=request.get('report')
+        number_phrase=request.get('number')
+        if not number_phrase:
+            number_phrase=_named_span(request.get('description',''),[n for n in projected if n['kind'] in ('VISUAL','MEASURE')])
+        if not report_phrase and number_phrase:
+            number_candidates=rank(number_phrase,[n for n in projected if n['kind'] in ('VISUAL','MEASURE')],enrichment)
+            strong=[n for n in number_candidates if n['confidence']>=.9]
+            matched_reports={n['report_id'] for n in strong}
+            if len(matched_reports)==1:
+                report_phrase=next(iter(matched_reports))
+                assumed=next(n for n in projected if n['kind']=='REPORT' and n['id']==report_phrase)
+                assumptions.append({'field':'report','value':report_phrase,'basis':'UNIQUE_HIGH_CONFIDENCE_NUMBER_MATCH',
+                    'text':'Assumed report '+label(assumed['names'])+' from the uniquely matching number in the retained definitions.',
+                    'catalog_hash':catalog_hash,'confidence':max(n['confidence'] for n in strong)})
+        if not report_phrase or not number_phrase:
+            return _question(request,projected,enrichment,questions_asked,catalog_hash)
+        report,result=_pick(report_phrase,[n for n in projected if n['kind']=='REPORT'],enrichment,'report',questions_asked,catalog_hash)
+        if result:return _question(request,projected,enrichment,questions_asked,catalog_hash)
         eligible=[n for n in projected if n.get('report_id')==report['id']]
         page=None
         if request.get('page'):
             page,result=_pick(request['page'],[n for n in eligible if n['kind']=='PAGE'],enrichment,'page',questions_asked,catalog_hash)
             if result:return result
             eligible=[n for n in eligible if n.get('page_id')==page['id'] or page['id'] in n.get('page_ids',[])]
-        number,result=_pick(request['number'],[n for n in eligible if n['kind'] in ('VISUAL','MEASURE')],enrichment,'number',questions_asked,catalog_hash)
-        if result:return result
+        number,result=_pick(number_phrase,[n for n in eligible if n['kind'] in ('VISUAL','MEASURE')],enrichment,'number',questions_asked,catalog_hash)
+        if result:
+            if result['status']=='CLARIFYING' or result['reason']=='AMBIGUITY_AFTER_ONE_QUESTION':return result
+            return _question(request,projected,enrichment,questions_asked,catalog_hash)
         if number.get('unsupported') or number['kind']=='VISUAL' and not number.get('measure_ids'):
             return _hold('TARGET_NOT_EXECUTABLE',target=number)
         # A named measure is a measure anchor. Do not replace it with a visual,
@@ -185,7 +239,12 @@ def admit(request, catalog, *, enrichment=(), questions_asked=0):
                          'page_id':page['id'] if page else None,'node_id':number['id'],
                          'node_kind':number['kind'],'target_id':number['id'] if number['kind']=='VISUAL' else None,
                          'measure_ids':number.get('measure_ids',[number['id']])},
-                'reported_figure':figure,'comparison':deepcopy(request['comparison']),
+                'reported_figure':figure,'comparison':deepcopy(request.get('comparison')),
+                'assumptions':assumptions,
+                'comparison_pending':request['goal']=='COMPARE' and request.get('comparison') is None,
+                'available_steps':['RECREATE','FRESHNESS'] if request['goal']=='COMPARE' and request.get('comparison') is None else ['RECREATE','FRESHNESS','COMPARE'],
+                'deferred_question':{'field':'comparison','text':'What are you comparing this number with?',
+                    'ask_only_if_no_quick_verdict':True} if request['goal']=='COMPARE' and request.get('comparison') is None else None,
                 'filters':supplied_filters,'filters_authority':'USER_SUPPLIED_NOT_LOWER_PATH_ATTESTATION',
                 'selected_number':number,'date':request.get('date'),'screenshot':request.get('screenshot'),
                 'description':request.get('description','')}
@@ -214,26 +273,23 @@ def _named_span(text, candidates):
 def retained_text(text, catalog, *, request_key):
     """Offline compatibility adapter: exact named spans only, no made-up picks.
 
-    Historical free-text tickets are not magically complete new forms. Missing
-    essentials remain missing; definition/freshness have no numeric comparator.
+    Missing fields are resolved only from uniquely matched definitions or one
+    grounded question. Missing comparison defers the walk, not recreation/freshness.
     """
     goal=goal_from_text(text)
-    if goal=='COMPARE':return _hold('MISSING_COMPARISON',goal=goal)
     try:
         projected=nodes(catalog)
         report=_named_span(text,[n for n in projected if n['kind']=='REPORT'])
-        if report is None:return _hold('MISSING_REPORT',goal=goal)
-        report_candidates=rank(report,[n for n in projected if n['kind']=='REPORT'])
-        # A tied report remains a genuine candidate question; never choose an
-        # estate solely because the scorer knows which one a ticket meant.
-        scope_ids={r['id'] for r in report_candidates if r['confidence']==report_candidates[0]['confidence']}
-        scoped=[n for n in projected if n.get('report_id') in scope_ids]
+        scoped=[n for n in projected if report is None or n.get('report_id') in
+                {r['id'] for r in rank(report,[x for x in projected if x['kind']=='REPORT']) if r['confidence']>=.8}]
         number=_named_span(text,[n for n in scoped if n['kind'] in ('VISUAL','MEASURE')])
-        if number is None:return _hold('MISSING_NUMBER',goal=goal)
         page=_named_span(text,[n for n in scoped if n['kind']=='PAGE'])
-        request={'version':VERSION,'request_key':request_key,'report':report,'number':number,
-                 'goal':goal,'comparison':None,'description':text}
+        request={'version':VERSION,'request_key':request_key,'goal':goal,'comparison':None,'description':text}
+        if report:request['report']=report
+        if number:request['number']=number
         if page:request['page']=page
+        figures=re.findall(r'(?i)(?:showing|reads|read|value(?: is)?|verify the)\s+([0-9]+(?:\.[0-9]+)?)',text)
+        if len(set(figures))==1:request['value']=figures[0]
         result=admit(request,catalog)
         result['submitted_essentials']=request
         return result
@@ -291,7 +347,9 @@ def reply(workspace, identity, request):
         if digest(catalog)!=question['catalog_hash']:
             result=_hold('CATALOG_CHANGED_DURING_CLARIFICATION')
         else:
-            bound=deepcopy(record['request']);bound[question['field']]=choices[0]['node_id']
+            bound=deepcopy(record['request'])
+            if question['field']=='essentials':bound.update(choices[0]['bindings'])
+            else:bound[question['field']]=choices[0]['node_id']
             result=admit(bound,catalog,enrichment=getattr(workspace,'enrichment_entries',lambda:[])(),questions_asked=1)
     except Exception as exc:
         result=_hold('INTAKE_INTERNAL_ERROR',cause={'type':type(exc).__name__,'message':str(exc)})

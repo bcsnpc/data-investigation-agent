@@ -23,6 +23,7 @@ def score(tickets, catalog, *, expected_catalog_hash):
     return {'version':1,'evidence_class':'OFFLINE_INTAKE_ONLY_NOT_LIVE_INVESTIGATIONS',
             'catalog_hash':digest(catalog),'rows':rows,'admitted_to_investigator':statuses['READY'],
             'investigations_executed':0,'one_question':statuses['CLARIFYING'],'held':statuses['HELD'],
+            'quick_verdicts':0,'quick_verdicts_note':'No operational facts or value probes were read; admission is not a verdict.',
             'harmful_findings':0,'harmful_findings_note':'No investigation or technical finding was executed in this offline check.',
             'model_calls':0,'estate_requests':0}
 

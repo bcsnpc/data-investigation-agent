@@ -5,7 +5,7 @@ const goal=document.getElementById('goal');
 goal.addEventListener('change',()=>{
   const comparing=goal.value==='COMPARE';
   document.getElementById('comparison-fields').hidden=!comparing;
-  document.getElementById('comparison-reference').required=comparing;
+  document.getElementById('comparison-reference').required=false;
 });
 async function send(path,body){
   const response=await fetch('/api/workspace/essentials'+path,{method:'POST',
@@ -19,6 +19,7 @@ function show(result){
   const heading=document.createElement('h2');
   heading.textContent=result.status==='READY'?'Your question is ready to investigate':result.status==='CLARIFYING'?'One detail to confirm':'Your question is saved and held';
   output.append(heading);
+  for(const assumption of result.assumptions||[]){const note=document.createElement('p');note.textContent=assumption.text;output.append(note);}
   if(result.status==='CLARIFYING'){
     const question=result.questions[0];
     const text=document.createElement('p');text.textContent=question.text;output.append(text);
@@ -38,9 +39,9 @@ function showError(error){output.replaceChildren();const text=document.createEle
 form.addEventListener('submit',async(event)=>{
   event.preventDefault();
   const data=new FormData(form),body={version:'investigator-essentials-v1',request_key:crypto.randomUUID(),
-    report:data.get('report'),number:data.get('number'),goal:data.get('goal'),comparison:null};
-  for(const name of ['page','value','description'])if(data.get(name))body[name]=data.get(name);
-  if(body.goal==='COMPARE'){
+    goal:data.get('goal'),comparison:null};
+  for(const name of ['report','number','page','value','description'])if(data.get(name))body[name]=data.get(name);
+  if(body.goal==='COMPARE' && document.getElementById('comparison-reference').value.trim()){
     body.comparison={kind:document.getElementById('comparison-kind').value,reference:document.getElementById('comparison-reference').value};
     const value=document.getElementById('comparison-value').value;if(value)body.comparison.value=value;
   }

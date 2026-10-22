@@ -31,10 +31,34 @@ class EssentialsTests(unittest.TestCase):
         self.assertFalse(result['investigation_executed'])
         self.assertEqual(result['reported_figure']['value'],'950')
 
-    def test_missing_required_comparison_is_hold_not_an_invented_reference(self):
+    def test_missing_report_and_number_get_one_combined_grounded_question(self):
+        data=request();data.pop('report');data.pop('number');data.pop('page')
+        result=admit(data,CAT)
+        self.assertEqual(result['status'],'CLARIFYING');self.assertEqual(result['question_count'],1)
+        question=result['questions'][0]
+        self.assertEqual(question['field'],'essentials')
+        for choice in question['choices']:
+            self.assertIn('Billing > ',choice['label'])
+            self.assertEqual(choice['bindings']['report'],'report')
+            self.assertNotIn(choice['bindings']['number'],choice['label'])
+        self.assertEqual(admit(data,CAT,questions_asked=1)['reason'],'UNRESOLVED_AFTER_ONE_QUESTION')
+
+    def test_same_named_number_on_two_reports_is_question_not_assumed_report(self):
+        catalog=deepcopy(CAT);other=deepcopy(CAT['models'][0])
+        other['id']='other-model';other['reports']=[{'id':'other-report','name':'Other Billing'}]
+        for visual in other['visuals']:visual['report_id']='other-report'
+        catalog['models'].append(other)
+        data=request();data.pop('report');data.pop('page')
+        result=admit(data,catalog)
+        self.assertEqual(result['status'],'CLARIFYING')
+        self.assertNotIn('scope',result)
+
+    def test_missing_comparison_admits_recreation_and_freshness_without_invented_reference(self):
         result=admit(request(comparison=None),CAT)
-        self.assertEqual(result['status'],'HELD')
-        self.assertEqual(result['reason'],'ESSENTIALS_INVALID_OR_MISSING')
+        self.assertEqual(result['status'],'READY')
+        self.assertIsNone(result['comparison']);self.assertTrue(result['comparison_pending'])
+        self.assertEqual(result['available_steps'],['RECREATE','FRESHNESS'])
+        self.assertTrue(result['deferred_question']['ask_only_if_no_quick_verdict'])
         self.assertEqual(result['questions'],[])
 
     def test_freshness_and_definition_do_not_require_fake_numeric_comparator(self):
@@ -43,10 +67,12 @@ class EssentialsTests(unittest.TestCase):
                 result=admit(request(goal=kind,comparison=None),CAT)
                 self.assertEqual(result['status'],'READY');self.assertIsNone(result['comparison'])
 
-    def test_page_is_optional_but_report_is_not(self):
+    def test_page_optional_and_missing_report_inferred_from_unique_named_number(self):
         data=request();data.pop('page')
         self.assertEqual(admit(data,CAT)['status'],'READY')
-        data.pop('report');self.assertEqual(admit(data,CAT)['status'],'HELD')
+        data.pop('report');result=admit(data,CAT)
+        self.assertEqual(result['status'],'READY')
+        self.assertIn('Assumed report Billing',result['assumptions'][0]['text'])
 
     def test_selected_page_limits_loose_name_candidates(self):
         data=request(number='revenue')
@@ -66,7 +92,7 @@ class EssentialsTests(unittest.TestCase):
 
     def test_unknown_visual_does_not_fall_back_to_a_different_card(self):
         result=admit(request(number='Unknown Global card'),CAT)
-        self.assertEqual(result['status'],'HELD')
+        self.assertEqual(result['status'],'CLARIFYING')
         self.assertNotIn('scope',result)
 
     def test_tie_asks_once_from_real_named_candidates_then_holds(self):
@@ -111,9 +137,10 @@ class EssentialsTests(unittest.TestCase):
         global_card=next(n for n in projected if n['id']=='global-card')
         self.assertEqual(global_card['names'],['Global MRR'])
 
-    def test_historical_free_text_adapter_never_completes_omitted_report(self):
+    def test_historical_adapter_explicitly_records_uniquely_inferred_report(self):
         result=retained_text('When was the Global MRR card last refreshed?',CAT,request_key='old')
-        self.assertEqual(result['reason'],'MISSING_REPORT')
+        self.assertEqual(result['status'],'READY')
+        self.assertEqual(result['assumptions'][0]['field'],'report')
         result=retained_text('When was Billing > Overview > Global MRR last refreshed?',CAT,request_key='old')
         self.assertEqual(result['status'],'READY')
         self.assertIsNone(result['comparison'])
@@ -135,14 +162,14 @@ class EssentialsTests(unittest.TestCase):
 
     def test_unknown_synonyms_cannot_create_nodes_or_grant_scope(self):
         result=admit(request(number='secret savings'),CAT,enrichment=[{'subject':'not-a-real-node','synonyms':['secret savings'],'status':'HUMAN_CONFIRMED'}])
-        self.assertEqual(result['reason'],'NUMBER_UNRESOLVED')
+        self.assertEqual(result['status'],'CLARIFYING')
 
     def test_stale_or_recorded_stub_enrichment_cannot_admit_a_live_label(self):
         for qualification in ({'stale_definition':True},{'recording_class':'RECORDED_STUB'}):
             with self.subTest(qualification=qualification):
                 rows=[{'subject':'mrr','synonyms':['special business label'],'status':'INFERRED',**qualification}]
                 result=admit(request(number='special business label'),CAT,enrichment=rows)
-                self.assertEqual(result['reason'],'NUMBER_UNRESOLVED')
+                self.assertEqual(result['status'],'CLARIFYING')
 
     def test_server_persists_one_question_and_rejects_second_reply(self):
         from test_shared_application import store
@@ -162,6 +189,22 @@ class EssentialsTests(unittest.TestCase):
             self.assertEqual(result['status'],'READY');self.assertEqual(result['questions_asked_total'],1)
             self.assertEqual(result,repeated);self.assertEqual(second['reason'],'CLARIFICATION_ALREADY_USED')
 
+    def test_combined_question_reply_binds_report_and_number_from_catalog(self):
+        from test_shared_application import store
+        from investigator.shared_state import SharedState
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);state=SharedState.offline(root/'state.sqlite');state.migrate()
+            workspace=SimpleNamespace(store=store(root/'first.sqlite',state),agent=SimpleNamespace(config={}))
+            data=request();data.pop('report');data.pop('number');data.pop('page');data.pop('comparison')
+            with patch('investigator.question_intake.snapshot',return_value=CAT):
+                first=submit(workspace,data)
+                choice=next(c for c in first['questions'][0]['choices'] if c['bindings']['number']=='global-card')
+                answered=reply(workspace,first['intake_id'],{'choice_key':choice['key'],'request_key':'answer'})
+            self.assertEqual(answered['status'],'READY')
+            self.assertEqual(answered['scope']['report_id'],'report')
+            self.assertEqual(answered['scope']['target_id'],'global-card')
+            self.assertIsNone(answered['comparison']);self.assertTrue(answered['comparison_pending'])
+
 
 class EssentialsApiTests(unittest.TestCase):
     def setUp(self):
@@ -171,7 +214,7 @@ class EssentialsApiTests(unittest.TestCase):
     def test_schema_exposes_required_essentials_and_submit_is_authenticated(self):
         result=self.h.http('/api/workspace/essentials/schema')
         self.assertTrue(result['status'].startswith('200'))
-        self.assertTrue({'report','number','comparison'}<=set(result['body']['required']))
+        self.assertEqual(set(result['body']['required']),{'version','request_key','goal'})
         denied=self.h.http('/api/workspace/essentials',request(),token='wrong')
         self.assertTrue(denied['status'].startswith('401'))
         with patch('investigator.question_intake.snapshot',return_value=CAT):
@@ -179,12 +222,12 @@ class EssentialsApiTests(unittest.TestCase):
         self.assertTrue(submitted['status'].startswith('200'))
         self.assertEqual(submitted['body']['status'],'READY')
 
-    def test_additive_form_requires_report_number_and_comparison_reference(self):
+    def test_additive_form_allows_missing_details_for_one_grounded_question(self):
         result=self.h.http('/essentials')
         self.assertTrue(result['status'].startswith('200'))
-        self.assertIn(b'name="report" required',result['body'])
-        self.assertIn(b'name="number" required',result['body'])
-        self.assertIn(b'id="comparison-reference" required',result['body'])
+        self.assertNotIn(b'name="report" required',result['body'])
+        self.assertNotIn(b'name="number" required',result['body'])
+        self.assertNotIn(b'id="comparison-reference" required',result['body'])
         script=self.h.http('/essentials.js')['body']
         self.assertIn(b'button.textContent=choice.label',script)
         self.assertNotIn(b'localStorage',script)

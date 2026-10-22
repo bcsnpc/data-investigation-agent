@@ -1,8 +1,10 @@
 # Round Twenty-One: essentials intake
 
-The additive `investigator-essentials-v1` entry point requires the report, the
-number's visible label (visual or measure), and the comparison for a numerical
-comparison. Page is optional. Value, filters, date and screenshot are optional.
+The additive `investigator-essentials-v1` entry point accepts incomplete essentials.
+A missing comparison does not block recreation or freshness checks. A uniquely
+matched retained number can establish its report with an explicit assumption;
+otherwise one combined named-choice question resolves missing report/number.
+Page, value, filters, date and screenshot remain optional.
 The existing form, claim and model-only contracts are unchanged. The new form is
 served at `/essentials`; authenticated API endpoints are
 `/api/workspace/essentials/schema`, `/api/workspace/essentials`, and
@@ -35,7 +37,7 @@ a new PostgreSQL table or a local-only cloud cache. The table is registered in
 the shared application contract. Projected installations explicitly refuse this
 new persistence path rather than writing a raw fallback.
 
-## DECIDED WITHOUT REVIEW
+## Original decision (superseded by the dated owner steer below)
 
 Part C's blanket comparison requirement conflicts with Parts A/E's native
 freshness and calculation questions. Following the round owner's request and
@@ -45,7 +47,7 @@ inventing `LATEST_REFRESH` or `DEFINITION` as if the user had supplied a numeric
 comparator. Report remains required. A historical ticket without one is not
 silently assigned a report from the scorer's knowledge.
 
-## The twelve old tickets, offline
+## Original twelve-ticket offline check (preserved)
 
 Source text is unchanged from `docs/round-seventeen-scored-results.json`.
 Definitions are the original saved `current-fixture-catalog.json`, raw SHA-256
@@ -86,3 +88,35 @@ Offline regressions cover required fields, goal separation, page-scoped synonym
 matching, one grounded question, wrong visual prevention, precision, preserved
 filters, shared persistence, internal holds, API authorization and visible form
 choices. Original wrong-cell and comparison-span tests remain applicable.
+
+## Owner steer, 2026-10-22: investigate before demanding comparison
+
+The owner superseded the strict missing-field refusal. Missing comparison now
+admits `comparison: null`, `comparison_pending: true` and available steps
+`RECREATE`, `FRESHNESS`. The deferred comparison question explicitly says to ask
+only if no quick verdict is established. Intake itself does not fabricate a
+freshness fact, reproduce a value or issue a technical finding.
+
+Missing report is inferred only when the number's exact name/selected identity
+or accepted current synonym gives a unique report at lexical confidence >=0.9.
+The result retains the catalog hash, inferred report, confidence and a rendered
+assumption sentence; the form displays it. Multiple matching reports remain a
+question. Missing report/number gets one combined choice from real named
+report/number pairs; replies apply only the offered, catalog-pinned bindings.
+Unavailable candidate names or unresolved choices after one question remain held.
+No arbitrary default visual or scope is selected.
+
+The same immutable twelve texts and same catalog hash were re-scored offline:
+**4 admitted, 7 one-question, 1 held, 0 quick verdicts**. R17-01, R17-02,
+R17-05 and R17-09 are admitted. R17-03, R17-06, R17-07, R17-08, R17-10,
+R17-11 and R17-12 ask one grounded question because the retained number names
+occur in more than one report. R17-04 remains `BUSINESS_INTENT_REQUIRES_OWNER`:
+its explicit question is whether this is the intended value. Estate requests 0,
+model calls 0, technical investigations 0. The earlier 1/0/11 result above is
+preserved as history, not re-labelled. No expectation or ticket changed.
+
+The schema and UI accept missing details instead of browser-blocking submission.
+Regression coverage includes deferred comparison, unique report assumptions,
+multi-report ambiguity, one combined question and its durable reply, unchanged
+catalog hashes, precision and scope preservation, authentication and names-only
+choices. Focused essentials suite: 24 passed.
