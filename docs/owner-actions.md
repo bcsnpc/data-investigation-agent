@@ -121,3 +121,8 @@ Round Twenty owner-action status,2026-10-21/UTC22: fixed-identity fixture/billin
 
 
 Round Twenty release clarification, UTC2026-10-22: the approved fixed-connection credential expires2026-11-21T00:59:55Z. Any authorised rotation must update the existing app credential, its Key Vault secret and both Fabric connection credentials; Key Vault rotation alone does not update the encrypted Fabric connections. No rotation or extra permission was performed at release.
+
+
+## RoundTwenty-One enrichment key, owner2026-10-22
+
+Create an Anthropic API key in Anthropic Console using existing credit, then run: `az keyvault secret set --vault-name kv-dia-d5dd7d65 --name anthropic-api-key --file <path-to-a-file-with-the-key>`. Delete that owner-created file afterwards. Do not paste the key into chat or repository. Enrichment remains recorded-stub only until the key is present; existing investigator provider does not change. Approved enrichment spendUSD25 separately tracked.
