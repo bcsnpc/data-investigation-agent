@@ -58,6 +58,20 @@ class RunnerTests(unittest.TestCase):
         self.assertFalse(transient(ValueError('guardrail denied')))
         from fabric_sql_surface import LowerReadError
         self.assertTrue(transient(LowerReadError('connect',18456,'SqlException')))
+    def test_wrapped_url_timeout_retries_but_http_auth_and_certificate_errors_do_not(self):
+        from urllib.error import URLError,HTTPError
+        import ssl
+        calls=[];wait=[];events=[]
+        def call():
+            calls.append(1)
+            if len(calls)==1:raise URLError(TimeoutError('timed out'))
+            return 'completed'
+        self.assertEqual(retry(call,record=lambda *v:events.append(v),sleep=wait.append),'completed')
+        self.assertEqual(wait,[30])
+        self.assertTrue(events[0][1]['retry'])
+        self.assertFalse(transient(HTTPError('https://example.invalid',401,'Unauthorized',None,None)))
+        self.assertFalse(transient(URLError(ssl.SSLCertVerificationError('certificate verification failed'))))
+        self.assertFalse(transient(URLError(ValueError('unknown failure'))))
     def test_retry_uses_new_attempt_directory_and_retains_first_failure(self):
         with tempfile.TemporaryDirectory() as d:
             roots=[];retained={}
