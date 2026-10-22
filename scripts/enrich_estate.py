@@ -22,7 +22,7 @@ def tasks_from_graph(repository,estate,*,limit=10000,key_tables=(),resolve_defin
     graph=repository.records(estate,limit=limit)
     if graph['truncated']:raise ValueError('ENRICHMENT_GRAPH_ENUMERATION_TRUNCATED')
     nodes={n['id']:n for n in graph['nodes']};tasks=[]
-    kinds={'REPORT','PAGE','VISUAL','MEASURE','CALCULATED_COLUMN','TABLE'}
+    kinds={'REPORT','PAGE','VISUAL','SLICER','MEASURE','CALCULATED_COLUMN','TABLE'}
     for node in graph['nodes']:
         if node['kind'] not in kinds or node['kind']=='TABLE' and node['id'] not in key_tables:continue
         definition=node['properties'].get('definition')

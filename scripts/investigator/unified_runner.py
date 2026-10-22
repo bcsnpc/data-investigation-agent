@@ -14,7 +14,7 @@ from .planner_recording import _safe
 from .run_capture import DurableCapture,blob_sink
 
 VERSION='dia-runner-estate-v1'
-KINDS=frozenset({'investigation','verification','probe','scan','replay','prepare','smoke','authorization-check','value-verification','collect-facts','facts-dispatcher','ledger-investigation','access-check'})
+KINDS=frozenset({'investigation','verification','probe','scan','replay','prepare','smoke','authorization-check','value-verification','collect-facts','facts-dispatcher','ledger-investigation','enrichment-batch','access-check'})
 PUBLIC_ENV=frozenset(('DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JSON',
     'INVESTIGATOR_STATE_BACKEND','INVESTIGATOR_PG_HOST','INVESTIGATOR_PG_DATABASE','INVESTIGATOR_PG_USER',
     'AZURE_CLIENT_ID','DIA_GATEWAY_HTTP_IDENTITY','DIA_GATEWAY_SQL_IDENTITY','DIA_GATEWAY_MODEL_IDENTITY',
@@ -73,6 +73,9 @@ def retry(call,*,record,sleep=time.sleep):
             sleep(30+15*attempt)
 
 def handlers():
+    def enrichment_batch(plan,ctx):
+        from cloud_enrichment import execute
+        return execute(plan,ctx)
     def ledger_investigation(plan,ctx):
         from cloud_investigator import execute
         return execute(plan,ctx)
@@ -187,7 +190,7 @@ def handlers():
         demo=(lambda:investigation({**plan,'options':o['demo']},ctx)) if o['config']['demo_earned'] else None
         try:return run_smoke(o['config'],ctx,state=state,gold_read=gold,blob_roundtrip=lambda body:capture_roundtrip(ctx,body),demo=demo)
         finally:meter.close()
-    return {'verification':verification,'investigation':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke,'authorization-check':authorization_check,'value-verification':value_verification,'collect-facts':collect_facts,'facts-dispatcher':facts_dispatcher,'ledger-investigation':ledger_investigation,'access-check':access_result}
+    return {'verification':verification,'investigation':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke,'authorization-check':authorization_check,'value-verification':value_verification,'collect-facts':collect_facts,'facts-dispatcher':facts_dispatcher,'ledger-investigation':ledger_investigation,'enrichment-batch':enrichment_batch,'access-check':access_result}
 
 def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     from .run_database_audits import scope
