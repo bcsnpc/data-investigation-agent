@@ -284,6 +284,49 @@ class GraphRepository:
                     item['verification']={**item['verification'],'state':'STALE'}
         return result
 
+    def path_records(self,estate,roots,allowed,*,at=None,max_nodes=100,max_edges=250,edge_kinds=None):
+        """Load only the admitted upstream path, including its historical adjacency.
+
+        SQL filters adjacency before decoding; unrelated historical bodies are
+        never materialized. Both backends use their native JSON scalar selector.
+        """
+        if not roots or not set(roots)<=set(allowed) or len(allowed)>1000:raise ValueError('GRAPH_PATH_ALLOWLIST')
+        if len(set(roots))>max_nodes:raise ValueError('GRAPH_ROOT_SLICE_BOUND')
+        when=contract.timestamp(at) if at else None
+        nodes={};edges={};frontier=set(roots);seen=set();truncated=False
+        with self.state.transaction() as db:
+            while frontier:
+                batch=sorted(frontier-seen)
+                if not batch:break
+                seen.update(batch)
+                temporal=' AND valid_from<=? AND (valid_to IS NULL OR valid_to>?)' if when else ' AND valid_to IS NULL'
+                base_args=[estate,*([when,when] if when else [])]
+                rows=self.state.sql(db,'SELECT identity,body,body_hash,valid_from,valid_to FROM estate_graph_history WHERE estate=?'+temporal+
+                    " AND record_kind='nodes' AND identity IN ("+','.join('?' for _ in batch)+')',(*base_args,*batch)).fetchall()
+                for identity,raw,digest,start,end in rows:
+                    item=json.loads(raw)
+                    if sha(item)!=digest:raise StateConflict('GRAPH_HISTORY_HASH_DIFFERS')
+                    nodes[identity]={**item,'valid_from':start,'valid_to':end}
+                selector="(body::jsonb ->> 'source')" if self.state.backend=='postgresql' else "json_extract(body,'$.source')"
+                target_selector="(body::jsonb ->> 'target')" if self.state.backend=='postgresql' else "json_extract(body,'$.target')"
+                kind_selector="(body::jsonb ->> 'kind')" if self.state.backend=='postgresql' else "json_extract(body,'$.kind')"
+                query='SELECT identity,body,body_hash,valid_from,valid_to FROM estate_graph_history WHERE estate=?'+temporal+" AND record_kind='edges' AND "+selector+' IN ('+','.join('?' for _ in batch)+') AND '+target_selector+' IN ('+','.join('?' for _ in allowed)+')'
+                args=[*base_args,*batch,*sorted(allowed)]
+                if edge_kinds:
+                    query+=' AND '+kind_selector+' IN ('+','.join('?' for _ in edge_kinds)+')';args.extend(sorted(edge_kinds))
+                query+=' ORDER BY identity LIMIT ?';args.append(max_edges+1)
+                rows=self.state.sql(db,query,args).fetchall();frontier=set()
+                for identity,raw,digest,start,end in rows:
+                    if identity in edges:continue
+                    item=json.loads(raw)
+                    if sha(item)!=digest:raise StateConflict('GRAPH_HISTORY_HASH_DIFFERS')
+                    if len(edges)>=max_edges or len(seen|frontier|{item['target']})>max_nodes:truncated=True;continue
+                    edges[identity]={**item,'valid_from':start,'valid_to':end}
+                    if item['target'] not in seen:frontier.add(item['target'])
+        from .graph_scan_health import unavailable
+        health=unavailable(self.state,estate,{n['owner'] for n in nodes.values()},at=when)
+        return {'nodes':list(nodes.values()),'edges':list(edges.values()),'unavailable_owners':health,'truncated':truncated}
+
     def changes(self,estate,*,limit=100):
         if type(limit) is not int or not 1<=limit<=1000:raise ValueError('GRAPH_CHANGE_BOUND')
         with self.state.transaction() as db:

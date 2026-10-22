@@ -21,20 +21,22 @@ class GraphAPI:
         if len(contract.canonical(value).encode())>self.max_bytes:raise ValueError('GRAPH_SLICE_BYTE_BOUND')
         return value
 
-    def _read(self,roots):
+    def _read(self,roots,*,path=False,edge_kinds=None):
         self.gateway.graph_objects(self.estate,roots,identity=self.identity)
         if not set(roots)<=self.allowed:raise PermissionError('GRAPH_ROOT_OUTSIDE_ADMITTED_SLICE')
-        graph=self.repository.records(self.estate,at=self.at,limit=10000)
-        if graph['truncated']:raise ValueError('GRAPH_REPOSITORY_SCAN_BOUND')
+        graph=(self.repository.path_records(self.estate,roots,self.allowed,at=self.at,max_nodes=self.max_nodes,max_edges=self.max_edges,edge_kinds=edge_kinds)
+               if path else self.repository.records(self.estate,at=self.at,limit=10000))
+        if graph['truncated'] and not path:raise ValueError('GRAPH_REPOSITORY_SCAN_BOUND')
+        self.path_truncated=graph['truncated']
         nodes={node['id']:node for node in graph['nodes']}
         self.unavailable=graph.get('unavailable_owners',{})
         if not set(roots)<=nodes.keys():raise KeyError('GRAPH_OBJECT_NOT_PRESENT_AT_TIME')
         return nodes,graph['edges']
 
-    def _slice(self,roots,*,traverse=True,edge_kinds=None):
-        nodes,edges=self._read(roots)
+    def _slice(self,roots,*,traverse=True,edge_kinds=None,path=False):
+        nodes,edges=self._read(roots,path=path,edge_kinds=edge_kinds)
         if len(set(roots))>self.max_nodes:raise ValueError('GRAPH_ROOT_SLICE_BOUND')
-        seen=set(roots);queue=deque(roots);selected={};stops=[];truncated=False
+        seen=set(roots);queue=deque(roots);selected={};stops=[];truncated=self.path_truncated
         while queue:
             current=queue.popleft()
             unavailable_owner=next((owner for owner in (nodes[current]['owner'],nodes[current].get('properties',{}).get('definition_source_owner'))if owner in self.unavailable),None)
@@ -112,12 +114,35 @@ class GraphAPI:
                 'collection_unavailable':self.unavailable.get(value['owner']) or self.unavailable.get(value.get('properties',{}).get('definition_source_owner')),
                 'valid_from':value['valid_from'],'valid_to':value['valid_to']}
 
-    def freshness(self,node):
-        result=self._slice([node],edge_kinds=contract.EDGE_KINDS-{'CONTAINS','INTERACTS_WITH'})
-        return {'facts':[{'node':item['id'],'timing':item['properties']['timing'],'provenance':item['provenance']}
+    def node_facts(self,node,*,now=None,max_age_seconds=3600):
+        # Authority is checked before even a local ledger lookup.
+        self.gateway.graph_objects(self.estate,[node],identity=self.identity)
+        if node not in self.allowed:raise PermissionError('GRAPH_ROOT_OUTSIDE_ADMITTED_SLICE')
+        from .facts_ledger import FactLedger
+        return self._bounded(FactLedger(self.repository.state).read(self.estate,[node],
+            as_of=self.at,now=now,max_age_seconds=max_age_seconds))
+
+    def freshness(self,node,*,now=None,max_age_seconds=3600):
+        result=self._slice([node],edge_kinds=contract.EDGE_KINDS-{'CONTAINS','INTERACTS_WITH'},path=True)
+        from .facts_ledger import FactLedger
+        ledger=FactLedger(self.repository.state).read(self.estate,[item['id'] for item in result['nodes']],
+            as_of=self.at,now=now,max_age_seconds=max_age_seconds)
+        return self._bounded({'facts':[{'node':item['id'],'timing':item['properties']['timing'],'provenance':item['provenance']}
                 for item in result['nodes'] if 'timing' in item['properties'] and not {item['owner'],item.get('properties',{}).get('definition_source_owner')}&self.unavailable.keys()],
                 'unknown':[item['id'] for item in result['nodes'] if 'timing' not in item['properties'] or {item['owner'],item.get('properties',{}).get('definition_source_owner')}&self.unavailable.keys()],
-                'stops':result['stops'],'truncated':result['truncated'],'as_of':self.at}
+                'runtime_facts':ledger['facts'],'missing_runtime_subjects':ledger['missing_subjects'],
+                'stops':result['stops'],'truncated':result['truncated'],'as_of':self.at})
+
+    def refresh_facts(self,path,collector,*,now,max_age_seconds=3600,required_kinds=None):
+        if self.at:raise ValueError('FACT_HISTORICAL_VIEW_CANNOT_REFRESH')
+        if not isinstance(path,list)or not path or len(path)>self.max_nodes:raise ValueError('FACT_PATH_BOUND')
+        self.gateway.graph_objects(self.estate,path,identity=self.identity)
+        if not set(path)<=self.allowed:raise PermissionError('GRAPH_ROOT_OUTSIDE_ADMITTED_SLICE')
+        from .facts_collectors import refresh_facts
+        from .facts_ledger import FactLedger
+        return self._bounded(refresh_facts(FactLedger(self.repository.state),self.estate,path,collector,
+            now=now,max_age_seconds=max_age_seconds,required_kinds=required_kinds))
+
 
 
 def coverage(graph):
