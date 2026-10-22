@@ -12,6 +12,24 @@ from ..process_debugging import attest
 from ..refresh_comparison import whole_entity_context
 
 
+def installed_process(store,config,model,*,meter_read,max_boundaries=32,read_endpoint=None,judge_definition=None):
+    """Construct the installed readers without owner/alternate-identity fallback.
+
+    Callers own admitted input pins, the physical guard scope and its meter.
+    The existing isolated worker remains the only SQL/DAX execution surface.
+    """
+    from .estate_installation import transports
+    from .microsoft_process import MicrosoftProcessAdapter
+    from fabric_sql_surface import read,reader_availability
+    if not callable(meter_read):raise ValueError('GOVERNED_PROCESS_READER_REQUIRED')
+    native,source=transports(config)
+    configured=bool(config.get('fabric',{}).get('sql_reader'))
+    return MicrosoftProcessAdapter(store,config,model,native,source,meter_read=meter_read,
+        lower_surface=reader_availability(config) if configured else None,
+        execute_lower=(lambda database,request:read(config,database,request)) if configured else None,
+        read_endpoint=read_endpoint,max_boundaries=max_boundaries,judge_definition=judge_definition)
+
+
 class ProcessValues:
     """Read exact resolved layers of one admitted measure through its adapter.
 

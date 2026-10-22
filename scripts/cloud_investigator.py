@@ -1,5 +1,9 @@
 ﻿"""Trusted cloud adapter for the single ledger investigator; no dynamic imports."""
 import json
+import hashlib
+import shutil
+import time
+import os
 from pathlib import Path
 from investigator.ledger_investigator_tools import Tools
 from investigator.ledger_investigator import Investigator
@@ -21,3 +25,155 @@ def run(plan,context,*,graph,ledger,value_reader,decide,admit,collector=None,che
     # JSON run bundle is persisted through the normal outer capture before return.
     context.record('investigator-bundle',result)
     return result
+
+
+def reference(value,*,maximum=1_500_000_000):
+    """Hash pinned inputs as streams; never read a historical database in RAM."""
+    if not isinstance(value,dict) or set(value)!={'path','sha256'}:raise ValueError('INVESTIGATOR_INPUT_REFERENCE')
+    path=Path(value['path'])
+    if not path.is_file() or path.is_symlink() or path.stat().st_size>maximum:raise ValueError('INVESTIGATOR_INPUT_BOUND')
+    digest=hashlib.sha256()
+    with path.open('rb') as stream:
+        for chunk in iter(lambda:stream.read(1024*1024),b''):digest.update(chunk)
+    if digest.hexdigest()!=value['sha256']:raise ValueError('INVESTIGATOR_INPUT_HASH_DIFFERS')
+    return path
+
+
+def specification(options):
+    if set(options)!={'spec'}:raise ValueError('INVESTIGATOR_RUNNER_OPTIONS')
+    spec=json.loads(reference(options['spec'],maximum=250000).read_bytes())
+    required={'ticket','graph','budget','max_requests','model_enabled','generation_options','step_cap','wall_seconds','warnings'}
+    if not isinstance(spec,dict) or not required<=set(spec)<=required|{'native'}:raise ValueError('INVESTIGATOR_SPEC_FIELDS')
+    graph=spec['graph']
+    if (not isinstance(graph,dict) or set(graph)!={'estate','identity','allowed_objects'}
+            or not isinstance(graph['allowed_objects'],list) or not 1<=len(graph['allowed_objects'])<=200
+            or len(set(graph['allowed_objects']))!=len(graph['allowed_objects'])):raise ValueError('INVESTIGATOR_GRAPH_SCOPE')
+    if type(spec['model_enabled'])is not bool or type(spec['max_requests'])is not int or not 1<=spec['max_requests']<=100:
+        raise ValueError('INVESTIGATOR_REQUEST_ALLOWANCE')
+    if type(spec['step_cap'])is not int or not 1<=spec['step_cap']<=25 or type(spec['wall_seconds'])is not int or not 1<=spec['wall_seconds']<=3600:
+        raise ValueError('INVESTIGATOR_STEP_OR_DEADLINE_BOUND')
+    from investigator.generation_policy import validate
+    validate(spec['generation_options'])
+    if not isinstance(spec['warnings'],list) or any(not isinstance(v,str) for v in spec['warnings']):raise ValueError('INVESTIGATOR_WARNING_LABELS')
+    return spec
+
+
+class JournalGraph:
+    """Retain each bounded graph/fact response; replay never queries its source."""
+    METHODS=frozenset({'_slice','path_to_source','node_facts','definition_of','freshness','visual_context','filters_on','table_columns','definition_diff','refresh_facts'})
+    def __init__(self,graph,*,at=None):self.graph,self.at=graph,at
+    def as_of(self,at):return JournalGraph(self.graph,at=at)
+    def __getattr__(self,name):
+        if name not in self.METHODS:raise AttributeError(name)
+        def call(*args,**kwargs):
+            from investigator.process_tape import bounded_call
+            def live():
+                if self.graph is None:raise AssertionError('INVESTIGATOR_REPLAY_GRAPH_IO_FORBIDDEN')
+                source=self.graph.as_of(self.at) if self.at else self.graph
+                return getattr(source,name)(*args,**kwargs)
+            return bounded_call('ledger-investigator-graph:'+name,{'at':self.at,'args':list(args),'kwargs':kwargs},live)
+        return call
+
+
+def execute(plan,context):
+    """Installed cloud assembly. No ticket-supplied module, query or identity."""
+    from investigator.shared_state import configured_state
+    from investigator.estate_manifest import load
+    from investigator.adapters.estate_installation import configuration
+    from investigator.estate_graph_repository import GraphRepository
+    from investigator.estate_graph_api import GraphAPI
+    from investigator.facts_ledger import FactLedger
+    from investigator.live_gateway import current
+    from investigator.adapters.managed_identity import model_session
+    from investigator.adapters.ledger_investigator_ports import installed_process,ProcessValues,ProcessChecks,AzureDecision
+    from investigator.onboarding import ModelStore,digest
+    from investigator.physical_reads import guard_scope,scope
+    from investigator import process_tape as journal
+    from investigator.runtime import fingerprint
+    from investigator.source_revision import committed_revision
+    from cloud_graph_interpreter import runtime_governor
+    from scan_estate_graph import Meter
+    from contextlib import nullcontext
+    spec=specification(plan['options'])
+    ticket_path=reference(spec['ticket'],maximum=250000);ticket=json.loads(ticket_path.read_bytes())
+    request_kind=ticket.get('request',{}).get('kind','COMPARE')
+    if request_kind not in ('FACT','COMPARE','DEFINITION'):raise ValueError('INVESTIGATOR_REQUEST_KIND')
+    if request_kind=='COMPARE' and 'native' not in spec:raise ValueError('INVESTIGATOR_NATIVE_INPUT_REQUIRED')
+    manifest=load(plan['manifest']);config=configuration(manifest)
+    if spec['budget']['environment']!=manifest['environment']:raise ValueError('INVESTIGATOR_BUDGET_ENVIRONMENT_DIFFERS')
+    state=configured_state()
+    if state is None or state.backend!='postgresql':raise ValueError('INVESTIGATOR_SHARED_POSTGRES_REQUIRED')
+    root=Path(context.root);work=root/'ledger-investigator';work.mkdir(parents=True,exist_ok=True)
+    governor=runtime_governor(state,manifest['environment'],work)
+    graph_spec=spec['graph'];repository=GraphRepository(state)
+    graph_live=GraphAPI(repository,current(),identity=graph_spec['identity'],estate=graph_spec['estate'],
+                        allowed_objects=graph_spec['allowed_objects'],max_nodes=200,max_edges=500,max_bytes=256000)
+    session='ledger-investigator:'+str(journal.uuid4())
+    now=journal.utc_now();deadline=time.monotonic()+spec['wall_seconds']
+    bootstrap={'entry_point':'ledger_investigator','context_identity':graph_spec['estate']+':'+str(ticket.get('visual') or ticket['request']['subject']),
+        'config':config,'profile':{},'usage_policy':governor.policy,'engine_hash':fingerprint(),
+        'state':{'engine_revision':committed_revision(),'spec':spec,'session':session,'observed_at':now}}
+    tape=journal.Tape(work/'investigator-tape.json',bootstrap=bootstrap)
+    def retain(value):return context.record('investigator-native',value)
+    from investigator.build_phase import operating_mode
+    with operating_mode(category='INVESTIGATION'):
+        meter=Meter(state,spec['budget'],spec['max_requests'])
+    prior_record=os.environ.get('INVESTIGATOR_RECORD_PLANNER');os.environ['INVESTIGATOR_RECORD_PLANNER']='1'
+    try:
+        with journal.active(tape),guard_scope(lambda value:context.record('investigator-guard',value)):
+            graph=JournalGraph(graph_live);decision=None;values=None;checks=None
+            def admit(kind,step):
+                if time.monotonic()>=deadline:raise TimeoutError('INVESTIGATOR_RUN_DEADLINE')
+            if spec['model_enabled']:
+                decision=AzureDecision(governor,session=session,directory=work/'planner-recordings',retain=retain,options=spec['generation_options'])
+            if 'native' in spec:
+                native=spec['native']
+                if set(native)!={'model','context','catalog','inventory','endpoints','measure_id'}:raise ValueError('INVESTIGATOR_NATIVE_INPUT_FIELDS')
+                paths={name:reference(native[name]) for name in ('model','context','catalog','inventory','endpoints')}
+                model=json.loads(paths['model'].read_bytes());retained_context=json.loads(paths['context'].read_bytes())
+                catalog=work/'catalog.sqlite';shutil.copyfile(paths['catalog'],catalog)
+                # Private materialization, with shared accounting still owned by
+                # the governor/meter. No copied budget becomes an authority.
+                from cloud_stage_worker import offline
+                with offline():store=ModelStore(catalog,paths['inventory'],manifest['environment'])
+                retained=store.get(model['id'])
+                if retained['context_id']!=model['context_id'] or digest(retained['context'])!=digest(model['context']):raise ValueError('INVESTIGATOR_CATALOG_PIN_DIFFERS')
+                from investigator.context_search import latest
+                if digest(latest(store))!=digest(retained_context):raise ValueError('INVESTIGATOR_ENTERPRISE_CONTEXT_PIN_DIFFERS')
+                def physical(kind,call):
+                    admit('TOOL',0)
+                    if meter.used>=spec['max_requests']:
+                        from investigator.usage_governance import UsageHold
+                        raise UsageHold('INVESTIGATOR_PHYSICAL_CAP_REACHED')
+                    return meter(call)
+                def metered(tool,call):
+                    admit('TOOL',0)
+                    # Logical diagnostics and every actual worker/metadata
+                    # request use the same existing physical request authority.
+                    with scope(physical):return physical(tool,call)
+                from investigator.adapters.retained_endpoints import read as endpoint
+                process=installed_process(store,config,model,meter_read=metered,max_boundaries=32,
+                    read_endpoint=lambda request:endpoint(config,retained_context,request,receipt_path=paths['endpoints']),
+                    judge_definition=decision.judge_definition if decision else None)
+                visual=ticket.get('visual') or ticket['request']['subject']
+                values=ProcessValues(process,graph_slice=graph.path_to_source(visual),visual=visual,
+                                     measure_id=native['measure_id'],retain=retain)
+                checks=ProcessChecks(values)
+            call_plan={'options':{'ticket':str(ticket_path),'step_cap':spec['step_cap'],'wall_seconds':spec['wall_seconds'],'warnings':spec['warnings']}}
+            settings={**manifest['model']['credential'],'endpoint':manifest['model']['endpoint'],'deployment':manifest['model']['deployment']}
+            with model_session(settings) if decision else nullcontext():
+                result=run(call_plan,context,graph=graph,ledger=FactLedger(state),value_reader=values,
+                           decide=decision,admit=admit,checks=checks,now=now)
+            result.update(physical_requests=meter.used,before=meter.before,after=meter.usage.snapshot(),
+                          model_calls=decision.calls if decision else 0)
+            tape.finish(result)
+        from investigator.slim_recording import stores,validate,CONFIG_ENV
+        _,files=stores(validate(json.loads(Path(os.environ[CONFIG_ENV]).read_bytes())))
+        artifacts={name:files.capture(path) for name,path in [('tape',tape.path),('events',tape.journal_path)] if path.exists()}
+        context.record('investigator-tape',{'artifacts':artifacts,'entry_point':'ledger_investigator',
+                       'engine_revision':committed_revision(),'original_inputs_unchanged':True})
+        return result
+    finally:
+        meter.close()
+        if prior_record is None:os.environ.pop('INVESTIGATOR_RECORD_PLANNER',None)
+        else:os.environ['INVESTIGATOR_RECORD_PLANNER']=prior_record
