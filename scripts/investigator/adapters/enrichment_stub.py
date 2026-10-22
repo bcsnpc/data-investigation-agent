@@ -1,7 +1,18 @@
 ﻿"""Offline recorded enrichment responses; never confused with live model output."""
 import json
 from ..shared_state import sha, encoded
-from .enrichment_anthropic import request_for, price, MODEL
+from .enrichment_anthropic import request_for as live_request, price, MODEL
+from ..enrichment import SCHEMA
+
+
+def request_for(source,custom_id):
+    # Synthetic fixtures supply already-authored consumer offsets, not model
+    # source references. Declare that original protocol honestly in the stub.
+    request=live_request(source,custom_id)
+    request['params']['messages'][0]['content']=encoded(source)
+    request['params']['output_config']['format']['schema']=SCHEMA
+    request['params']['system']='Recorded offline consumer-shaped enrichment fixture; no live model call.'
+    return request
 
 
 class RecordedEnrichmentStub:

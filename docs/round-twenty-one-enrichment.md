@@ -133,3 +133,5 @@ freshly attest the existing investigator principal. This adds one configured
 fixture profile, not a collected profile or a uniqueness assertion. Billing and
 sample still have no declared profile keys. The updated preparation summary
 records this delta and the new private configuration hash.
+
+Live audit2026-10-22: initial200responses rejected unsupportedlinkvocabulary; new-schema200responses rejected199quote/offsetmismatches and1invalidspan. Originals and their model charges remain. The new enrichment-source-references-v1 producer supplies numbered200-character source segments; the model selects contiguous segment IDs, and trusted code extracts their exact original Unicode substring. The original consumer offset/quote/target/kind validator remains mandatory, links remainINFERRED, and rawproviderrows remainunchanged. This protocol only applies when the stored request explicitly uses its reference schema; historical rejected offsets are never backfilled.30enrichmenttestsPASS including actual BatchClient-to-EnrichmentJob result application and repeated/Unicode source spans. New live success notyetclaimed.

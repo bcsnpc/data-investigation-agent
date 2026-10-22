@@ -113,6 +113,10 @@ class EnrichmentJob:
                 content=message.get('content')
                 if not isinstance(content,list) or len(content)!=1 or content[0].get('type')!='text':raise ValueError('ENRICHMENT_TEXT_RESULT_REQUIRED')
                 output=json.loads(content[0]['text'])
+                normalize=getattr(self.provider,'normalize_output',None)
+                if normalize is not None:
+                    request=next(r for r in body['requests']if r['custom_id']==identity)
+                    output=normalize(output,tasks[identity],request)
                 evidence='enrichment-batches/'+batch_key+'/results/'+identity+':'+sha(row)
                 applied=self.store.apply(tasks[identity],output,at=self.clock(),producer=self.provider.provider,
                     recording_class=self.provider.recording_class,evidence_ids=[evidence])

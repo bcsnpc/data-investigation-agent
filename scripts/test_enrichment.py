@@ -45,6 +45,44 @@ class EnrichmentTests(unittest.TestCase):
         value=output();value['proposed_links'][0]['relationship']='USES_MEASURE'
         self.assertTrue(list(validator.iter_errors(value)))
         with self.assertRaisesRegex(ValueError,'ENRICHMENT_LINK_KIND'):validate_output(value,source())
+    def test_source_references_extract_exact_unicode_and_repeated_text_without_model_offsets(self):
+        from investigator.adapters.enrichment_anthropic import resolve_references,segments
+        src=source(definition=('? repeated '*50)+' SUM([units])')
+        raw=output();raw['proposed_links']=[{'target':'column','relationship':'COMPUTED_FROM','first_segment':1,'last_segment':2}]
+        before=copy.deepcopy(raw);request=request_for(src,'a'*64)
+        result=resolve_references(raw,src,request)
+        link=result['proposed_links'][0]
+        self.assertEqual(link['quote'],src['definition'][200:600]);self.assertEqual(link['start'],200)
+        self.assertEqual(link['end'],len(src['definition']));self.assertEqual(raw,before)
+        validate_output(result,src)
+        for bad in (-1,True,999):
+            wrong=copy.deepcopy(raw);wrong['proposed_links'][0]['first_segment']=bad
+            with self.assertRaisesRegex(ValueError,'REFERENCE_RANGE'):resolve_references(wrong,src,request)
+        payload=json.loads(request['params']['messages'][0]['content'])
+        self.assertEqual(payload['source'],src);self.assertEqual(payload['definition_segments'],segments(src))
+
+    def test_real_provider_reference_results_reach_consumer_as_inferred_with_exact_quote(self):
+        provider=BatchClient(secret_reference=secret_reference(),identity='enrichment',record=lambda *a:None,purpose='ENRICHMENT')
+        provider.create=Mock(return_value={'id':'msgbatch_reference','processing_status':'ended'})
+        provider.restore=Mock();provider.status=Mock(return_value={'processing_status':'ended'})
+        proposal=output();proposal['proposed_links']=[{'target':'column','relationship':'COMPUTED_FROM','first_segment':0,'last_segment':0}]
+        provider.results=lambda _: [{'custom_id':cache_key(source()),'result':{'type':'succeeded','message':{'model':MODEL,'stop_reason':'end_turn','content':[{'type':'text','text':json.dumps(proposal)}],'usage':{'input_tokens':10,'output_tokens':10}}}}]
+        job=EnrichmentJob(self.state,provider,EnrichmentSpendBudget(self.state,owner='worker',price=price),clock=lambda:T0)
+        job.submit([source()],batch_key='real-reference-port');result=job.resume('real-reference-port')
+        self.assertEqual(result['results'][0]['status'],'INFERRED')
+        row=job.store.cached(source());self.assertEqual(row['proposed_links'][0]['quote'],source()['definition'])
+        self.assertEqual(row['proposed_links'][0]['status'],'INFERRED');self.assertEqual(row['recording_class'],'EXACT')
+        raw=self.state.get('enrichment_batches','real-reference-port')['body']['result_rows'][0]
+        self.assertEqual(json.loads(raw['result']['message']['content'][0]['text']),proposal)
+
+    def test_reference_protocol_never_repairs_historical_rejected_offsets(self):
+        from investigator.adapters.enrichment_anthropic import resolve_references
+        from investigator.enrichment import SCHEMA
+        old=request_for(source(),'a'*64);old['params']['output_config']['format']['schema']=SCHEMA
+        bad=output();bad['proposed_links'][0]['quote']='invented'
+        self.assertEqual(resolve_references(bad,source(),old),bad)
+        with self.assertRaisesRegex(ValueError,'QUOTE_NOT_VERBATIM'):validate_output(bad,source())
+
     def test_dia_enrichment_forwards_csv_operations_to_existing_closed_cli(self):
         from dia import main
         for operation in ('export','import'):
