@@ -137,6 +137,13 @@ class EssentialsTests(unittest.TestCase):
         result=admit(request(number='secret savings'),CAT,enrichment=[{'subject':'not-a-real-node','synonyms':['secret savings'],'status':'HUMAN_CONFIRMED'}])
         self.assertEqual(result['reason'],'NUMBER_UNRESOLVED')
 
+    def test_stale_or_recorded_stub_enrichment_cannot_admit_a_live_label(self):
+        for qualification in ({'stale_definition':True},{'recording_class':'RECORDED_STUB'}):
+            with self.subTest(qualification=qualification):
+                rows=[{'subject':'mrr','synonyms':['special business label'],'status':'INFERRED',**qualification}]
+                result=admit(request(number='special business label'),CAT,enrichment=rows)
+                self.assertEqual(result['reason'],'NUMBER_UNRESOLVED')
+
     def test_server_persists_one_question_and_rejects_second_reply(self):
         from test_shared_application import store
         from investigator.shared_state import SharedState

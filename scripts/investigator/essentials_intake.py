@@ -70,7 +70,8 @@ def rank(phrase, candidates, enrichment=()):
     wanted=normalize(phrase);rows=[]
     by_subject={}
     for row in enrichment:
-        if row.get('status') not in ('INFERRED','HUMAN_CONFIRMED'):
+        if (row.get('status') not in ('INFERRED','HUMAN_CONFIRMED')
+                or row.get('stale_definition') is True or row.get('recording_class')=='RECORDED_STUB'):
             continue
         by_subject.setdefault(row['subject'],[]).append(row)
     for candidate in candidates:
