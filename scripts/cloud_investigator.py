@@ -123,7 +123,9 @@ def execute(plan,context):
         with journal.active(tape),guard_scope(lambda value:context.record('investigator-guard',value)):
             graph=JournalGraph(graph_live);decision=None;values=None;checks=None
             def admit(kind,step):
-                if time.monotonic()>=deadline:raise TimeoutError('INVESTIGATOR_RUN_DEADLINE')
+                if time.monotonic()>=deadline:
+                    from investigator.usage_governance import UsageHold
+                    raise UsageHold('INVESTIGATOR_RUN_DEADLINE')
             if spec['model_enabled']:
                 decision=AzureDecision(governor,session=session,directory=work/'planner-recordings',retain=retain,options=spec['generation_options'])
             if 'native' in spec:

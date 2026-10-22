@@ -80,6 +80,16 @@ class Assembly(unittest.TestCase):
         with active(tape):
             replay=worker.JournalGraph(None).node_facts('job',now='2026-10-22T00:00:00Z');tape.finish(replay)
         self.assertEqual(result,replay)
+    def test_expired_admission_finishes_not_found_without_read_or_model(self):
+        from test_ledger_investigator import ToolLoopTests
+        from investigator.usage_governance import UsageHold
+        tools,engine,reader,events=ToolLoopTests().build()
+        def expired(*args):raise UsageHold('INVESTIGATOR_RUN_DEADLINE')
+        engine.admit=expired
+        result=engine.run({'visual':'visual','text':'Why is this lower?'})
+        self.assertEqual(result['verdict'],'not found')
+        self.assertEqual(result['stop_reason'],'TICKET_BUDGET_REACHED')
+        reader.assert_not_called()
 
 
 if __name__=='__main__':unittest.main()
