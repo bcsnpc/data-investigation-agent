@@ -74,7 +74,9 @@ bodies and submission receipts survive independently of parsed cache records.
 `tasks_from_graph` is an operator enrichment enumeration, not ticket verification:
 it covers report/page/visual/measure/calculated-column nodes and explicitly
 selected key-table IDs. It pins definitions and neighbours from the existing
-graph. Inputs larger than the bounds refuse rather than being truncated.
+graph. A CAS definition reference must be resolved through the operator-provided
+resolver and its exact byte length/SHA-256 verified. A pointer is never serialized
+as a substitute for the definition text. Missing definitions refuse explicitly. Inputs larger than the bounds refuse rather than being truncated.
 
 The recorded stub is explicitly RECORDED_STUB and permitted only in private
 SQLite offline state. It cannot populate live PostgreSQL or claim live provider

@@ -13,7 +13,7 @@ from investigator.adapters.enrichment_stub import RecordedEnrichmentStub
 from investigator.shared_state import SharedState,StateConflict
 from investigator.estate_graph_repository import GraphRepository
 from investigator.live_gateway import Gateway,GatewayDenied
-from enrich_estate import plan,recorded_stub
+from enrich_estate import plan,recorded_stub,tasks_from_graph
 from test_estate_graph import graph,T0,T1
 
 
@@ -130,6 +130,17 @@ class EnrichmentTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'STUB_PRIVATE_OFFLINE_ONLY'):
             EnrichmentJob(fake,RecordedEnrichmentStub({}),Mock(),clock=lambda:T1)
         fake.put.assert_not_called()
+
+    def test_cas_pointer_is_never_sent_instead_of_definition(self):
+        raw=b'SUM([units])';reference={'sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw),'uri':'blob://retained/'+hashlib.sha256(raw).hexdigest()}
+        node={'id':'measure','kind':'MEASURE','label':'Units','properties':{'definition':reference},
+            'provenance':{'definition_hash':'a'*64,'source_id':'retained-measure'}}
+        repo=Mock();repo.records.return_value={'nodes':[node],'edges':[],'truncated':False}
+        with self.assertRaisesRegex(ValueError,'RESOLVER_REQUIRED'):tasks_from_graph(repo,'estate')
+        with self.assertRaisesRegex(ValueError,'HASH_DIFFERS'):tasks_from_graph(repo,'estate',resolve_definition=lambda ref:b'changed')
+        result=tasks_from_graph(repo,'estate',resolve_definition=lambda ref:raw)
+        self.assertEqual(result[0]['definition'],'SUM([units])')
+        self.assertEqual(result[0]['definition_hash'],'a'*64)
 
     def test_plan_has_no_reads_or_model_calls(self):
         self.assertEqual(plan([source()])['model_calls'],0)

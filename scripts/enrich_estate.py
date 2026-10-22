@@ -2,6 +2,7 @@
 import argparse
 from datetime import datetime,timezone
 import json
+import hashlib
 import os
 from pathlib import Path
 from investigator.enrichment import task,cache_key,EnrichmentStore,export_csv,import_csv
@@ -16,7 +17,7 @@ def plan(sources):
         'account':ACCOUNT,'ceiling_microdollars':CEILING,'links':'INFERRED_ONLY_QUERY_CHECK_REQUIRED'}
 
 
-def tasks_from_graph(repository,estate,*,limit=10000,key_tables=()):
+def tasks_from_graph(repository,estate,*,limit=10000,key_tables=(),resolve_definition=None):
     """Operator enrichment enumeration, not ticket verification/intake loading."""
     graph=repository.records(estate,limit=limit)
     if graph['truncated']:raise ValueError('ENRICHMENT_GRAPH_ENUMERATION_TRUNCATED')
@@ -25,8 +26,14 @@ def tasks_from_graph(repository,estate,*,limit=10000,key_tables=()):
     for node in graph['nodes']:
         if node['kind'] not in kinds or node['kind']=='TABLE' and node['id'] not in key_tables:continue
         definition=node['properties'].get('definition')
-        if not isinstance(definition,str) or not definition:
-            definition=encoded({'kind':node['kind'],'label':node['label'],'properties':node['properties']})
+        if isinstance(definition,dict):
+            if resolve_definition is None:raise ValueError('ENRICHMENT_DEFINITION_RESOLVER_REQUIRED')
+            reference=definition
+            raw=resolve_definition(reference)
+            if not isinstance(raw,bytes) or len(raw)!=reference.get('bytes') or hashlib.sha256(raw).hexdigest()!=reference.get('sha256'):
+                raise ValueError('ENRICHMENT_RETAINED_DEFINITION_HASH_DIFFERS')
+            definition=raw.decode('utf8')
+        if not isinstance(definition,str) or not definition:raise ValueError('ENRICHMENT_DEFINITION_NOT_RETAINED')
         neighbours=set()
         for edge in graph['edges']:
             if edge['source']==node['id']:neighbours.add(edge['target'])
