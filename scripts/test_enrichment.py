@@ -187,27 +187,25 @@ class ProviderGuardTests(unittest.TestCase):
     def test_provider_record_replay_never_opens_network_or_key_vault_on_replay(self):
         import io
         from contextlib import closing
-        from investigator.process_tape import ACTIVE
-        class MemoryTape:
-            replaying=False
-            def __init__(self):self.events=[]
-            def event(self,kind,body):self.events.append((kind,body))
-            def take(self,kind):
-                recorded,body=self.events.pop(0)
-                if recorded!=kind:raise AssertionError('tape kind differs')
-                return body
-        tape=MemoryTape();marker=ACTIVE.set(tape)
-        try:
+        from investigator.process_tape import Tape,active
+        with tempfile.TemporaryDirectory()as directory:
+            path=Path(directory)/'enrichment-tape.json'
+            header={'entry_point':'enrichment_batch','context_identity':'batch-test','config':{},'profile':{},
+                    'usage_policy':None,'engine_hash':'test-engine','state':{}}
+            tape=Tape(path,bootstrap=header)
             raw=json.dumps({'id':'msgbatch_replay','processing_status':'in_progress'}).encode()
-            with patch('investigator.live_gateway.open_http',return_value=closing(io.BytesIO(raw))):
+            with active(tape),patch('investigator.live_gateway.open_http',return_value=closing(io.BytesIO(raw))):
                 recorded=self.client().create([request_for(source(),'a'*64)])
-            tape.replaying=True
+                tape.finish(recorded)
+            original=path.read_bytes();tape=Tape(path)
             client=self.client();client.key_reader=Mock(side_effect=AssertionError('Key Vault must not run on replay'))
-            with patch('investigator.live_gateway.open_http',side_effect=AssertionError('network must not run on replay')):
+            with active(tape),patch('investigator.live_gateway.open_http',side_effect=AssertionError('network must not run on replay')):
                 replayed=client.create([request_for(source(),'a'*64)])
-            self.assertEqual(recorded,replayed);self.assertEqual(tape.events,[])
+                tape.finish(replayed)
+            self.assertEqual(recorded,replayed);self.assertEqual(path.read_bytes(),original)
+            self.assertNotIn(b'secret-in-memory-not-recorded',original)
+            self.assertNotIn(b'secret-in-memory-not-recorded',path.with_suffix('.events.jsonl').read_bytes())
             client.key_reader.assert_not_called()
-        finally:ACTIVE.reset(marker)
 
     def test_transport_records_no_api_key_or_headers(self):
         import io

@@ -80,7 +80,7 @@ class BatchClient:
         # Request and response bodies only; neither headers nor secret payloads
         # are passed to process/planner recording. Projection is delegated to the
         # existing CallRecord/privacy capture boundary before durable writes.
-        from ..process_tape import ACTIVE,value
+        from ..process_tape import bounded_call
         if body is not None:
             from ..planner_recording import _safe
             _safe(encoded(body).encode())
@@ -104,7 +104,7 @@ class BatchClient:
                 return {'body':None,'http_status':error.code}
             finally:
                 SESSION.reset(marker);key=None;req=None
-        envelope=value('BOUNDED_RESPONSE','enrichment_provider:'+method+':'+url,send)
+        envelope=bounded_call('enrichment_provider:'+method+':'+url,request_record,send)
         raw=envelope['body']
         # Never include response headers. JSONL results remain original bytes in
         # the recorder and are individually parsed by exact custom_id later.
