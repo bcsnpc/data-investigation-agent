@@ -1,0 +1,69 @@
+{
+  "owner_date": "2026-10-21",
+  "at": "2026-10-22",
+  "validation_class": "CORRECTED_SOURCE_OFFLINE_NOT_ORIGINAL_SAME_IMAGE",
+  "matched": 3,
+  "attempted": 3,
+  "physical_requests": 0,
+  "model_calls": 0,
+  "network_requests": 0,
+  "original_same_image_failures_unchanged": true,
+  "original_tapes_unchanged": true,
+  "intermediate_windows_path_failure_preserved": ".local/round-twenty/offline-fixed04-2-before-portable-fix.json",
+  "operations": [
+    {
+      "index": 1,
+      "matched": true,
+      "operations": [
+        "form_submit"
+      ],
+      "network_requests": 0,
+      "status": null,
+      "validation_class": "CORRECTED_SOURCE_OFFLINE, NOT ORIGINAL_SAME_IMAGE",
+      "originals_unchanged": true,
+      "sealed_endpoints_relocated_with_original_pin_validation": true,
+      "source_tape_sha256": "5b16e10fad58e677e237fa77368d45110f30d6a578fffd66db0a4aeb4870a809",
+      "source_seal": "f3f74c1e5741ea9d66b7d0a77aa7f43cc82ac6f8a2dc1a24838aadc79e6a1b5c",
+      "recorded_engine_hash": "87f5f0ba593e4c0721b07ee39dddc7f28da034fb65ebe46d052f5c84eb549c3b",
+      "replay_engine_hash": "8ecee494223f76f6aee367712bcef4b593a2250ec120b990109c894da0d9f44b",
+      "recorded_engine_identity_used": true,
+      "scope": "Replay-only accounting repair and cross-platform lexical file locations; original worker/provider content and final state compared by the existing tape contract"
+    },
+    {
+      "index": 2,
+      "matched": true,
+      "operations": [
+        "run"
+      ],
+      "network_requests": 0,
+      "status": "COMPLETED",
+      "validation_class": "CORRECTED_SOURCE_OFFLINE, NOT ORIGINAL_SAME_IMAGE",
+      "originals_unchanged": true,
+      "sealed_endpoints_relocated_with_original_pin_validation": true,
+      "source_tape_sha256": "35130abb2d4b15866abd1cfbab5a20e68491ccd7995a1b0bdfded6ec42500b96",
+      "source_seal": "6068ba1650e4504a65da18540a2ec638e2cb973670335bf082d763208eb0de29",
+      "recorded_engine_hash": "87f5f0ba593e4c0721b07ee39dddc7f28da034fb65ebe46d052f5c84eb549c3b",
+      "replay_engine_hash": "8ecee494223f76f6aee367712bcef4b593a2250ec120b990109c894da0d9f44b",
+      "recorded_engine_identity_used": true,
+      "scope": "Replay-only accounting repair and cross-platform lexical file locations; original worker/provider content and final state compared by the existing tape contract"
+    },
+    {
+      "index": 3,
+      "matched": true,
+      "operations": [
+        "ticket_finish"
+      ],
+      "network_requests": 0,
+      "status": null,
+      "validation_class": "CORRECTED_SOURCE_OFFLINE, NOT ORIGINAL_SAME_IMAGE",
+      "originals_unchanged": true,
+      "sealed_endpoints_relocated_with_original_pin_validation": true,
+      "source_tape_sha256": "52638625b5548d00dfb6c1636792d3aa36b32eadbc639a3563c24604517e84c3",
+      "source_seal": "57a8d77d99bb1f354a8463e4901426a8a8eee66506aee93a06bb6db1cbc15bf2",
+      "recorded_engine_hash": "87f5f0ba593e4c0721b07ee39dddc7f28da034fb65ebe46d052f5c84eb549c3b",
+      "replay_engine_hash": "8ecee494223f76f6aee367712bcef4b593a2250ec120b990109c894da0d9f44b",
+      "recorded_engine_identity_used": true,
+      "scope": "Replay-only accounting repair and cross-platform lexical file locations; original worker/provider content and final state compared by the existing tape contract"
+    }
+  ]
+}

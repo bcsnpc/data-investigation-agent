@@ -39,6 +39,11 @@ class NativeTenantIdentityWarningTests(unittest.TestCase):
                 probe=attest(self.probe(**changes))
                 self.assertEqual(probe.status,'UNAVAILABLE')
                 self.assertNotIn('attestation_warning',probe.evidence)
+    def test_warning_flag_without_separate_transport_proof_still_refuses(self):
+        from dataclasses import replace
+        probe=self.probe();evidence=dict(probe.evidence)
+        evidence.pop('separate_identity_verification')
+        self.assertEqual(attest(replace(probe,evidence=evidence)).status,'UNAVAILABLE')
     def test_warning_does_not_stop_walk_to_independently_attested_divergence(self):
         from test_process_debugging import Adapter
         from investigator.process_debugging import vertical
