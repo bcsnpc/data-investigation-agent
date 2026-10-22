@@ -5,6 +5,19 @@ from ..process_tape import bytes_of
 from ..planner_recording import _safe
 from ..unified_runner import command
 
+def input_policy_preflight(config):
+    """Validate generated input bindings before launch; never widen them."""
+    if 'input' not in config:return {'status':'NOT_REQUIRED'}
+    raw=config.get('environment',{}).get('DIA_PLATFORM_GATEWAY_POLICY')
+    if not raw:return {'status':'UNESTABLISHED','reason':'INPUT_POLICY_NOT_RETAINED'}
+    policy=json.loads(raw);channel=config['capture']['channel']
+    grants=policy['identities'].get(channel,{}).get('http',[])
+    matches=[x for x in grants if x.get('method')=='GET' and x.get('url')==config['input']['url']
+             and x.get('purpose') in ('platform_blob','blob_read')]
+    if len(matches)!=1:raise ValueError('RUNNER_INPUT_EXACT_READ_NOT_DECLARED')
+    return {'status':'PASS','channel':channel,'url':config['input']['url']}
+
+
 def demo_preflight(job,resource,*,execute,cli):
     """Bounded point-in-time control read; never install a network-blocking lease."""
     timeout=job['properties'].get('configuration',{}).get('replicaTimeout')
@@ -32,6 +45,7 @@ def demo_preflight(job,resource,*,execute,cli):
 def launch(config,target,*,execute=subprocess.run):
     """Read existing job and start its pinned override; never update its roles."""
     import tempfile
+    input_policy_preflight(config)
     from ..build_phase import admit_platform
     observation=config.get('platform_cost_observation')
     if observation is not None:
