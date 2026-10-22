@@ -13,6 +13,18 @@ from investigator.process_tape import Tape,bytes_of
 HEADER={'entry_point':'runner','context_identity':'fixture-context','config':{},'profile':{},'usage_policy':None,'engine_hash':'fixture-engine','state':{}}
 
 class RunnerTests(unittest.TestCase):
+    def test_failed_access_table_stops_before_handler_and_is_sealed(self):
+        with tempfile.TemporaryDirectory() as d:
+            config=self.config(Path(d));calls=[];sent=[]
+            table={'status':'FAIL','rows':[{'id':'target','status':'FAIL','reason':'HTTP_403'}]}
+            with patch('investigator.access_check.configured',return_value=table):
+                result=run(config,'bronze',registry={'probe':lambda *args:calls.append('read')},put=lambda key,raw:sent.append((key,raw)))
+            self.assertEqual(result['result']['reason'],'CHECK_ACCESS_FAILED')
+            self.assertEqual(result['result']['access_check'],table)
+            self.assertFalse(result['result']['investigation_executed'])
+            self.assertEqual(calls,[])
+            self.assertTrue(sent[-1][0].endswith('/run-record.json'))
+
     def test_access_check_handler_receives_the_already_recorded_preflight(self):
         from investigator.unified_runner import handlers
         with tempfile.TemporaryDirectory() as d:

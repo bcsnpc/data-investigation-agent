@@ -248,7 +248,15 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
                     access_result=getattr(ctx,'access_result',None),
                     step=lambda name,fn:retry(lambda:ctx.step(name,fn),record=ctx.record,sleep=sleep))
                 return ctx.step(check['kind'],lambda:registry[check['kind']](plan,view))
-            result=retry(perform,record=ctx.record,sleep=sleep)
+            if getattr(ctx,'access_result',{}).get('status')=='FAIL' and check['kind']!='access-check':
+                # A real permission/read failure is not a verification or
+                # attestation warning. Preserve the full table without starting
+                # an investigation or asking a model to work around it.
+                result={'status':'HELD','reason':'CHECK_ACCESS_FAILED','access_check':ctx.access_result,
+                        'investigation_executed':False}
+                ctx.record('admission-failure',result)
+            else:
+                result=retry(perform,record=ctx.record,sleep=sleep)
             # Native result is durable independently of Tape.finish/export.
             ref=ctx.record('result',result)
             ctx.record('status',{'status':'COMPLETED','partial':False,'result':ref})

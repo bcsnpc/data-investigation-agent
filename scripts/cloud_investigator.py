@@ -58,6 +58,26 @@ def specification(options):
     return spec
 
 
+def compiled_values(process,path,*,visual,measure_id,retain):
+    """A named unavailable definition is a retained gap, not a lost run.
+
+    An invalid target/measure binding still refuses. Only the graph consumer's
+    recorded unavailable-owner state can explain why its path omits the measure.
+    No replacement node or native read is selected in that case.
+    """
+    from investigator.adapters.ledger_investigator_ports import ProcessValues,ProcessChecks
+    try:
+        values=ProcessValues(process,graph_slice=path,visual=visual,measure_id=measure_id,retain=retain)
+    except ValueError as error:
+        if str(error)!='EXACT_MEASURE_GRAPH_BINDING_REQUIRED' or not path.get('unavailable_owners'):raise
+        gap={'reason':'CURRENT_GRAPH_DEFINITION_OWNER_UNAVAILABLE','stops':path.get('stops',[]),
+             'owners':sorted(path['unavailable_owners']),'native_value_queries':0}
+        retain({'event':'INVESTIGATOR_NATIVE_PATH_UNAVAILABLE',**gap})
+        def unavailable(*args):raise ValueError(gap['reason'])
+        return unavailable,None
+    return values,ProcessChecks(values)
+
+
 class JournalGraph:
     """Retain each bounded graph/fact response; replay never queries its source."""
     METHODS=frozenset({'_slice','path_to_source','node_facts','definition_of','freshness','visual_context','filters_on','table_columns','definition_diff','refresh_facts'})
@@ -191,9 +211,8 @@ def execute(plan,context):
                     read_endpoint=lambda request:endpoint(config,retained_context,request,receipt_path=paths['endpoints']),
                     judge_definition=decision.judge_definition if decision else None)
                 visual=ticket.get('visual') or ticket['request']['subject']
-                values=ProcessValues(process,graph_slice=graph.path_to_source(visual),visual=visual,
-                                     measure_id=native['measure_id'],retain=retain)
-                checks=ProcessChecks(values)
+                values,checks=compiled_values(process,graph.path_to_source(visual),visual=visual,
+                                              measure_id=native['measure_id'],retain=retain)
             call_plan={'options':{'ticket':str(ticket_path),'step_cap':spec['step_cap'],'wall_seconds':spec['wall_seconds'],'warnings':spec['warnings']}}
             settings={**manifest['model']['credential'],'endpoint':manifest['model']['endpoint'],'deployment':manifest['model']['deployment']}
             with model_session(settings) if decision else nullcontext():

@@ -12,6 +12,20 @@ import cloud_investigator as worker
 
 
 class Assembly(unittest.TestCase):
+    def test_unavailable_owner_becomes_explicit_no_read_port_not_a_lost_run(self):
+        retained=[]
+        path={'unavailable_owners':{'report':{'reason':'MetadataUnavailable'}},'stops':[{'node':'visual','reason':'Owner definition refresh unavailable'}]}
+        with patch('investigator.adapters.ledger_investigator_ports.ProcessValues',side_effect=ValueError('EXACT_MEASURE_GRAPH_BINDING_REQUIRED')):
+            reader,checks=worker.compiled_values(None,path,visual='visual',measure_id='measure',retain=retained.append)
+        self.assertIsNone(checks)
+        with self.assertRaisesRegex(ValueError,'CURRENT_GRAPH_DEFINITION_OWNER_UNAVAILABLE'):reader('visual',None,{})
+        self.assertEqual(retained[0]['native_value_queries'],0)
+
+    def test_wrong_measure_without_owner_unavailability_still_refuses(self):
+        with patch('investigator.adapters.ledger_investigator_ports.ProcessValues',side_effect=ValueError('EXACT_MEASURE_GRAPH_BINDING_REQUIRED')):
+            with self.assertRaisesRegex(ValueError,'EXACT_MEASURE_GRAPH_BINDING_REQUIRED'):
+                worker.compiled_values(None,{},visual='visual',measure_id='wrong',retain=lambda value:None)
+
     def setUp(self):self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup);self.root=Path(self.tmp.name)
     def ref(self,name,value):
         path=self.root/name;path.write_text(json.dumps(value));return {'path':str(path),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
