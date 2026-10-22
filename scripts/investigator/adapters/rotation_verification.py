@@ -8,6 +8,23 @@ from pathlib import Path
 import time
 
 
+def read_response(value):
+    """HTTP 200 and identity metadata alone are not a successful measure read."""
+    if isinstance(value,str):value=json.loads(value)
+    if not isinstance(value,dict) or value.get('error'):
+        raise ValueError('ROTATION_DAX_SERVICE_ERROR')
+    results=value.get('results')
+    if not isinstance(results,list) or len(results)!=1 or results[0].get('error'):
+        raise ValueError('ROTATION_DAX_RESULT_UNAVAILABLE')
+    tables=results[0].get('tables',[])
+    if len(tables)!=1 or tables[0].get('error'):
+        raise ValueError('ROTATION_DAX_TABLE_UNAVAILABLE')
+    rows=tables[0].get('rows',[])
+    if len(rows)!=1 or set(rows[0])!={'[read_probe]'}:
+        raise ValueError('ROTATION_DAX_MEASURE_VALUE_MISSING')
+    return rows[0]['[read_probe]']  # BLANK is a legitimate successful result.
+
+
 def verify(name, target, owner):
     from azure.core.credentials import AccessToken
     from azure.storage.blob import ContainerClient
@@ -77,6 +94,9 @@ def verify(name, target, owner):
                 if (actual.get('workspace')!=target['workspace_id'] or actual.get('model')!=target['model_id']
                         or value.get('http_status')!=200 or value.get('status')!='SUCCEEDED'):
                     raise ControlFailure('ROTATION_READER_MODEL_READ_FAILED:'+name)
+                try:read_response(value.get('response'))
+                except (ValueError,TypeError,KeyError):
+                    raise ControlFailure('ROTATION_READER_VALUE_NOT_OBTAINED:'+name) from None
                 proof={'status':'PASS','evidence_id':ref['sha256'],'capture_seal':seal,
                     'run_id':config['run_id'],'execution':prior['launch']['execution_name'],
                     'workspace_id':target['workspace_id'],'model_id':target['model_id'],

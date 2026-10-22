@@ -26,6 +26,14 @@ class Adapter:
 
 
 class Tests(unittest.TestCase):
+    def test_native_service_error_or_missing_value_is_not_a_rotation_read_proof(self):
+        from investigator.adapters.rotation_verification import read_response
+        for response in ({'error':{'code':'Error'}},{'results':[{'error':{'code':'Error'}}]},
+                         {'results':[{'tables':[{'rows':[]}]}]},None):
+            with self.subTest(response=response),self.assertRaises(ValueError):read_response(response)
+        for value in (0,None,8765):
+            self.assertEqual(read_response({'results':[{'tables':[{'rows':[{'[read_probe]':value}]}]}]}),value)
+
     def test_two_live_read_proofs_precede_removal(self):
         a = Adapter(); saved = []
         result = rotate(a, {}, lambda s: saved.append(copy.deepcopy(s)))
