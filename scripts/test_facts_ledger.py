@@ -106,6 +106,15 @@ class LedgerTests(unittest.TestCase):
             result=api.freshness('visual',now=T1)
         self.assertEqual(result['runtime_facts'][0]['subject'],'visual')
 
+    def test_all_agent_graph_reads_are_path_scoped(self):
+        gateway=Mock();gateway.graph_objects.side_effect=lambda estate,nodes,identity:nodes
+        api=GraphAPI(self.repo,gateway,identity='reader',estate='estate',allowed_objects=['report','page','visual','measure','column'])
+        with patch.object(self.repo,'records',side_effect=AssertionError('whole catalog forbidden')):
+            self.assertEqual(api.definition_of('measure')['node'],'measure')
+            self.assertTrue(api.path_to_source('visual')['nodes'])
+            self.assertTrue(api.visual_context('report','page','visual')['nodes'])
+            self.assertTrue(api.filters_on('page')['nodes'])
+
     def test_top_up_only_missing_or_stale_path_nodes(self):
         self.ledger.append('estate',[self.value('visual',T1),self.value('report',T0)])
         collector=Mock()

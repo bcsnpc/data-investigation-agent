@@ -310,8 +310,8 @@ class GraphRepository:
                 selector="(body::jsonb ->> 'source')" if self.state.backend=='postgresql' else "json_extract(body,'$.source')"
                 target_selector="(body::jsonb ->> 'target')" if self.state.backend=='postgresql' else "json_extract(body,'$.target')"
                 kind_selector="(body::jsonb ->> 'kind')" if self.state.backend=='postgresql' else "json_extract(body,'$.kind')"
-                query='SELECT identity,body,body_hash,valid_from,valid_to FROM estate_graph_history WHERE estate=?'+temporal+" AND record_kind='edges' AND "+selector+' IN ('+','.join('?' for _ in batch)+') AND '+target_selector+' IN ('+','.join('?' for _ in allowed)+')'
-                args=[*base_args,*batch,*sorted(allowed)]
+                query='SELECT identity,body,body_hash,valid_from,valid_to FROM estate_graph_history WHERE estate=?'+temporal+" AND record_kind='edges' AND "+selector+' IN ('+','.join('?' for _ in batch)+')'
+                args=[*base_args,*batch]
                 if edge_kinds:
                     query+=' AND '+kind_selector+' IN ('+','.join('?' for _ in edge_kinds)+')';args.extend(sorted(edge_kinds))
                 query+=' ORDER BY identity LIMIT ?';args.append(max_edges+1)
@@ -320,9 +320,9 @@ class GraphRepository:
                     if identity in edges:continue
                     item=json.loads(raw)
                     if sha(item)!=digest:raise StateConflict('GRAPH_HISTORY_HASH_DIFFERS')
-                    if len(edges)>=max_edges or len(seen|frontier|{item['target']})>max_nodes:truncated=True;continue
+                    if len(edges)>=max_edges or (item['target'] in allowed and len(seen|frontier|{item['target']})>max_nodes):truncated=True;continue
                     edges[identity]={**item,'valid_from':start,'valid_to':end}
-                    if item['target'] not in seen:frontier.add(item['target'])
+                    if item['target'] in allowed and item['target'] not in seen:frontier.add(item['target'])
         from .graph_scan_health import unavailable
         health=unavailable(self.state,estate,{n['owner'] for n in nodes.values()},at=when)
         return {'nodes':list(nodes.values()),'edges':list(edges.values()),'unavailable_owners':health,'truncated':truncated}

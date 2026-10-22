@@ -21,7 +21,7 @@ class GraphAPI:
         if len(contract.canonical(value).encode())>self.max_bytes:raise ValueError('GRAPH_SLICE_BYTE_BOUND')
         return value
 
-    def _read(self,roots,*,path=False,edge_kinds=None):
+    def _read(self,roots,*,path=True,edge_kinds=None):
         self.gateway.graph_objects(self.estate,roots,identity=self.identity)
         if not set(roots)<=self.allowed:raise PermissionError('GRAPH_ROOT_OUTSIDE_ADMITTED_SLICE')
         graph=(self.repository.path_records(self.estate,roots,self.allowed,at=self.at,max_nodes=self.max_nodes,max_edges=self.max_edges,edge_kinds=edge_kinds)
@@ -33,7 +33,7 @@ class GraphAPI:
         if not set(roots)<=nodes.keys():raise KeyError('GRAPH_OBJECT_NOT_PRESENT_AT_TIME')
         return nodes,graph['edges']
 
-    def _slice(self,roots,*,traverse=True,edge_kinds=None,path=False):
+    def _slice(self,roots,*,traverse=True,edge_kinds=None,path=True):
         nodes,edges=self._read(roots,path=path,edge_kinds=edge_kinds)
         if len(set(roots))>self.max_nodes:raise ValueError('GRAPH_ROOT_SLICE_BOUND')
         seen=set(roots);queue=deque(roots);selected={};stops=[];truncated=self.path_truncated
