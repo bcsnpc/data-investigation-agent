@@ -115,6 +115,47 @@ class VerdictTests(unittest.TestCase):
 
 
 class OperationalFactTests(unittest.TestCase):
+    def status_engine(self,values):
+        text='Did the latest Copy Job run fail?'
+        request={'kind':'FACT','subject':'job','question':'RUN_STATUS','source':{'start':0,'end':len(text),'quote':text}}
+        graph=Mock();graph._slice.return_value={'nodes':[{'id':'job','kind':'PIPELINE','label':'Primary copy'}],'edges':[],'stops':[],'truncated':False}
+        graph.node_facts.return_value={'facts':values}
+        reader=Mock();decide=Mock()
+        tools=Tools(graph,object(),visual='job',now=NOW,persist=lambda _:'retained',value_reader=reader,request_kind='FACT')
+        engine=Investigator(tools,decide=decide,persist=lambda _:'retained',admit=lambda *_:None,clock=lambda:1.0)
+        return engine,{'text':text,'request':request},reader,decide
+    def test_success_is_an_answered_operational_fact_not_a_numeric_or_business_verdict(self):
+        success=fact('job','JOB_RUN',{'status':'SUCCEEDED','run_id':'last-success','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z'})
+        engine,ticket,reader,decide=self.status_engine([success])
+        result=engine.run(ticket)
+        self.assertEqual(result['verdict'],'not found');self.assertEqual(result['support']['claim_scope'],'OPERATIONAL_FACT_ONLY')
+        self.assertEqual(result['support']['operational_fact']['value']['run_id'],'last-success')
+        self.assertEqual(result['stop_reason'],'OPERATIONAL_STATUS_PROVEN')
+        reader.assert_not_called();decide.assert_not_called()
+        for text in result['outputs'].values():
+            self.assertIn('Answer status: answered',text);self.assertIn('SUCCEEDED',text);self.assertIn('last-success',text)
+            self.assertIn('no numerical cause was established',text);self.assertNotIn('Furthest measured point',text)
+    def test_newer_unknown_stale_empty_history_or_ambiguous_status_is_not_answered(self):
+        success=fact('job','JOB_RUN',{'status':'SUCCEEDED','run_id':'r','start':'2026-10-22T09:00:00Z','end':'2026-10-22T09:01:00Z'})
+        unknown=fact('job','JOB_RUN',{'status':'UNKNOWN','run_id':'newer','start':'2026-10-22T10:00:00Z','end':None})
+        conflict={**copy.deepcopy(success),'value':{**success['value'],'status':'FAILED'}}
+        unavailable={**copy.deepcopy(success),'state':'UNAVAILABLE','collected_at':'2026-10-22T11:00:00Z'}
+        stale={**copy.deepcopy(success),'freshness':'STALE'}
+        empty=fact('job','RUN_HISTORY',{'runs':[],'listing_complete':True})
+        for values in ([success,unknown],[stale],[success,empty],[success,conflict],[success,unavailable]):
+            with self.subTest(values=values):
+                engine,ticket,reader,decide=self.status_engine(values);result=engine.run(ticket)
+                self.assertEqual(result['verdict'],'not found');self.assertNotIn('claim_scope',result['support'])
+                self.assertIn('Answer status: not answered',result['outputs']['business'])
+                reader.assert_not_called();decide.assert_not_called()
+    def test_newer_success_does_not_resurrect_old_failure_and_quote_is_verified(self):
+        old=fact('job','JOB_RUN',{'status':'FAILED','run_id':'old','start':'2026-10-22T08:00:00Z','end':'2026-10-22T08:01:00Z'})
+        success=fact('job','JOB_RUN',{'status':'COMPLETED','run_id':'new','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z'})
+        engine,ticket,reader,decide=self.status_engine([old,success]);result=engine.run(ticket)
+        self.assertEqual(result['support']['operational_fact']['value']['status'],'COMPLETED')
+        ticket['request']['source']['quote']='X'+ticket['request']['source']['quote'][1:]
+        engine,ticket2,_,_=self.status_engine([success]);ticket2['request']=ticket['request']
+        result=engine.run(ticket2);self.assertNotIn('claim_scope',result['support'])
     def test_explicit_run_status_needs_no_numeric_reads_and_cannot_explain_a_number(self):
         registry=Evidence(['job'],lambda value:'retained')
         text='Did the latest Copy Job run fail?'

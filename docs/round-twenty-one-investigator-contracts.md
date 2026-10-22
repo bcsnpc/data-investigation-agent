@@ -123,3 +123,13 @@ established does it ask what the user is comparing against. Normal numerical
 explanations retain their equivalent-context divergent-read gate unchanged.
 Admission-owned `assumptions` strings are rendered as assumption lines in both
 outputs; they never silently become observed facts.
+
+Explicit operational status questions also have a bounded negative answer:
+the latest unique current `SUCCEEDED`/`COMPLETED` run is rendered as an answered
+operational fact with its run identifier and observation time. The unchanged
+nine-verdict vocabulary uses `not found` to mean no failed/waiting/stale
+incident was established, while `claim_scope=OPERATIONAL_FACT_ONLY` records
+that the requested status itself was answered. This does not claim technical
+or business correctness or explain any quantity. Newer unknown observations,
+stale status, an empty later history, or conflicting latest records leave it
+unanswered. Direct status questions use no model or value query.

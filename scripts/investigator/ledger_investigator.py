@@ -101,6 +101,11 @@ class Investigator:
         for verdict in VERDICTS[:-1]:
             try:ready.append(check(verdict,known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual))
             except ValueError:continue
+        if self.tools.request_kind=='FACT':
+            if len(ready)==1:return self._finish(ticket,ready[0],calls,hypotheses,warnings,'OPERATIONAL_STATUS_PROVEN',started,0)
+            supported=check('not found',known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
+            return self._finish(ticket,supported,calls,hypotheses,warnings,
+                'OPERATIONAL_STATUS_PROVEN' if supported.get('claim_scope')=='OPERATIONAL_FACT_ONLY' else 'CURRENT_OPERATIONAL_STATUS_UNAVAILABLE',started,0)
         if self.request.get('comparison_pending')is True:
             if ready:
                 # Several path producers may have operational statuses; this
@@ -166,11 +171,12 @@ class Investigator:
         recreation=next((r['value'] for r in evidence.values() if r['kind']=='REPRODUCTION'),None)
         answer_status='not answered' if verdict=='not found' else 'partly answered: the current declared-context investigation does not reproduce the reported figure' if recreation and recreation['status']=='NOT_REPRODUCED' else 'answered within the checked technical scope'
         if supported.get('claim_scope')=='OPERATIONAL_STATUS_WITH_COMPARISON_PENDING':answer_status='partly answered: a current operational status was established; the numerical comparison was not checked'
+        if supported.get('claim_scope')=='OPERATIONAL_FACT_ONLY':answer_status='answered: the explicit operational status is recorded; no numerical explanation was claimed'
         business+='Answer status: '+answer_status+'.\n'
         for assumption in ticket.get('assumptions',[]):business+='Assumption: '+assumption+'\n'
         if recreation:business+='Reported figure recreation: '+recreation['status']+'.\n'
         business+=f'As of {at}, {label}: {verdict}. {reason}'
-        if verdict=='not found':business+=' Furthest measured point: '+str(furthest or 'none')+'.'
+        if verdict=='not found' and supported.get('claim_scope')!='OPERATIONAL_FACT_ONLY':business+=' Furthest measured point: '+str(furthest or 'none')+'.'
         if supported.get('expected_update_at'):business+=' Expected update from the declared schedule and observed median duration: '+supported['expected_update_at']+'.'
         if limits:business+='\nLabels: '+'; '.join(limits)
         gaps=[r['value']['reason'] for r in evidence.values() if r['kind']=='GAP' and r['value'].get('reason')]

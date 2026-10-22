@@ -140,25 +140,60 @@ def pending_comparison_status(verdict,records,reads,*,target,now):
     raise ValueError('CURRENT_RELEVANT_OPERATIONAL_STATUS_REQUIRED')
 
 
+def explicit_operational_fact(request,entries,now,ticket_text):
+    """The latest status is a fact even when it establishes no incident verdict."""
+    from .reported_figure import span
+    import re
+    if set(request)!={'kind','subject','question','source'} or request.get('kind')!='FACT' or request['question'] not in ('RUN_STATUS','REFRESH_STATUS'):
+        raise ValueError('EXPLICIT_OPERATIONAL_QUESTION_REQUIRED')
+    quote=span(request['source'],ticket_text)
+    if ticket_text is None or not re.search(r'\b(did|has|was|is|what|when|show|latest|last)\b',quote,re.I) or not re.search(r'\b(job|pipeline|run|refresh|notebook|copy)\b',quote,re.I) or not re.search(r'\b(fail(?:ed)?|succeed(?:ed)?|status|finish(?:ed)?|complete(?:d)?|queued|running)\b',quote,re.I):
+        raise ValueError('EXPLICIT_OPERATIONAL_QUESTION_REQUIRED')
+    kinds={'JOB_RUN'} if request['question']=='RUN_STATUS' else {'REFRESH_RUN','REFRESH_STATE'}
+    candidates=[entry['value'] for entry in entries if entry['kind']=='FACT' and entry['value'].get('subject')==request['subject'] and entry['value'].get('kind') in kinds
+                and timestamp(entry['value']['collected_at'])<=now and timestamp(entry['value']['observed_at'])<=now]
+    if not candidates:raise ValueError('CURRENT_OPERATIONAL_STATUS_REQUIRED')
+    newest=max(timestamp(fact['collected_at']) for fact in candidates)
+    batch=[fact for fact in candidates if timestamp(fact['collected_at'])==newest]
+    # Unknown/unavailable newer observations do not resurrect older success.
+    if any(fact.get('state') not in ('OBSERVED','OBSERVED_NEGATIVE') or fact.get('freshness')!='CURRENT' for fact in batch):
+        raise ValueError('CURRENT_OPERATIONAL_STATUS_REQUIRED')
+    current=current_facts(entries,now)
+    batch=[fact for fact in batch if fact in current and fact.get('state')=='OBSERVED']
+    if not batch:raise ValueError('CURRENT_OPERATIONAL_STATUS_REQUIRED')
+    latest=max(timestamp(fact['value'].get('start') or fact['observed_at']) for fact in batch)
+    selected=[fact for fact in batch if timestamp(fact['value'].get('start') or fact['observed_at'])==latest]
+    statuses={fact['value'].get('status',fact['value'].get('state')) for fact in selected}
+    if len(statuses)!=1 or not statuses<={'SUCCEEDED','COMPLETED','FAILED','QUEUED','RUNNING','STALE'}:
+        raise ValueError('LATEST_OPERATIONAL_STATUS_UNKNOWN_OR_CONFLICTING')
+    # Same time/status but different runs is not a uniquely established latest run.
+    if len({fact['value'].get('run_id') for fact in selected})!=1:
+        raise ValueError('LATEST_OPERATIONAL_RUN_AMBIGUOUS')
+    return selected[0]
+
+
 def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
     if verdict not in VERDICTS:raise ValueError('UNKNOWN_VERDICT')
     records=registry.resolve(ids);entries=list(records.values());now=timestamp(now)
-    if verdict=='not found':return {'verdict':verdict,'evidence_ids':list(records),'reason':'Evidence does not establish a cause within the admitted budget.'}
     request=request or {'kind':'COMPARE'}
+    if verdict=='not found':
+        result={'verdict':verdict,'evidence_ids':list(records),'reason':'Evidence does not establish a cause within the admitted budget.'}
+        if request.get('kind')=='FACT':
+            try:selected=explicit_operational_fact(request,entries,now,ticket_text)
+            except ValueError:return result
+            status=selected['value'].get('status',selected['value'].get('state'))
+            if status in ('SUCCEEDED','COMPLETED'):
+                result.update(claim_scope='OPERATIONAL_FACT_ONLY',operational_fact=selected,
+                    reason='The latest retained '+request['question'].lower().replace('_',' ')+' is '+status+
+                    ' (run '+str(selected['value'].get('run_id') or 'not recorded')+', observed '+selected['observed_at']+'). '+
+                    'No failed, waiting or stale incident is established by this status. This answers only the explicit operational question; no numerical cause was established.')
+        return result
     if request.get('kind') not in ('FACT','COMPARE','DEFINITION'):raise ValueError('REQUEST_KIND_REQUIRED')
     if request['kind']=='FACT':
-        from .reported_figure import span
-        import re
-        if set(request)!={'kind','subject','question','source'} or request['subject'] not in registry.path or request['question'] not in ('RUN_STATUS','REFRESH_STATUS'):
-            raise ValueError('EXPLICIT_OPERATIONAL_QUESTION_REQUIRED')
-        quote=span(request['source'],ticket_text)
-        if ticket_text is None or not re.search(r'\b(did|has|was|is|what|when|show|latest|last)\b',quote,re.I) or not re.search(r'\b(job|pipeline|run|refresh|notebook|copy)\b',quote,re.I) or not re.search(r'\b(fail(?:ed)?|succeed(?:ed)?|status|finish(?:ed)?|complete(?:d)?|queued|running)\b',quote,re.I):
-            raise ValueError('EXPLICIT_OPERATIONAL_QUESTION_REQUIRED')
-        kinds={'JOB_RUN'} if request['question']=='RUN_STATUS' else {'REFRESH_RUN','REFRESH_STATE'}
-        facts=[f for f in current_facts(entries,now) if f['subject']==request['subject'] and f['kind'] in kinds and f['state']=='OBSERVED']
+        if request['subject'] not in registry.path:raise ValueError('EXPLICIT_OPERATIONAL_QUESTION_REQUIRED')
+        selected=explicit_operational_fact(request,entries,now,ticket_text)
         states={'failed job':{'FAILED'},'waiting on job':{'QUEUED','RUNNING'},'refresh stale':{'STALE'}}.get(verdict,set())
-        selected=next((f for f in facts if f['value'].get('status',f['value'].get('state')) in states),None)
-        if selected is None:raise ValueError('CURRENT_OPERATIONAL_STATUS_REQUIRED')
+        if selected['value'].get('status',selected['value'].get('state')) not in states:raise ValueError('CURRENT_OPERATIONAL_STATUS_REQUIRED')
         result=_supported(verdict,records,None,'The retained '+request['question'].lower().replace('_',' ')+' is '+selected['value'].get('status',selected['value'].get('state'))+'. This answers only the explicit operational question; no numerical cause was established.')
         result['claim_scope']='OPERATIONAL_FACT_ONLY';result['operational_fact']=selected
         return result
