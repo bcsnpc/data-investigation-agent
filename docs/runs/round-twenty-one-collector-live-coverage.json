@@ -1,0 +1,185 @@
+{
+  "observed_at_utc": "2026-10-22T23:31:57Z",
+  "source": "current retained PostgreSQL facts read as owner control-plane; actual collectors use reader",
+  "coverage": [
+    {
+      "estate": "billing",
+      "kind": "COVERAGE",
+      "state": "UNAVAILABLE",
+      "count": 3
+    },
+    {
+      "estate": "billing",
+      "kind": "JOB_RUN",
+      "state": "OBSERVED",
+      "count": 3
+    },
+    {
+      "estate": "billing",
+      "kind": "JOB_RUN",
+      "state": "UNAVAILABLE",
+      "count": 1
+    },
+    {
+      "estate": "billing",
+      "kind": "REFRESH_RUN",
+      "state": "UNAVAILABLE",
+      "count": 2
+    },
+    {
+      "estate": "billing",
+      "kind": "RUN_HISTORY",
+      "state": "OBSERVED",
+      "count": 3
+    },
+    {
+      "estate": "billing",
+      "kind": "SCHEDULE",
+      "state": "OBSERVED",
+      "count": 3
+    },
+    {
+      "estate": "billing",
+      "kind": "TYPICAL_DURATION",
+      "state": "OBSERVED",
+      "count": 3
+    },
+    {
+      "estate": "dia-sample-estate",
+      "kind": "REFRESH_RUN",
+      "state": "UNAVAILABLE",
+      "count": 1
+    },
+    {
+      "estate": "fixture",
+      "kind": "COVERAGE",
+      "state": "UNAVAILABLE",
+      "count": 2
+    },
+    {
+      "estate": "fixture",
+      "kind": "JOB_RUN",
+      "state": "OBSERVED",
+      "count": 2
+    },
+    {
+      "estate": "fixture",
+      "kind": "REFRESH_RUN",
+      "state": "UNAVAILABLE",
+      "count": 1
+    },
+    {
+      "estate": "fixture",
+      "kind": "RUN_HISTORY",
+      "state": "OBSERVED",
+      "count": 2
+    },
+    {
+      "estate": "fixture",
+      "kind": "SCHEDULE",
+      "state": "OBSERVED",
+      "count": 1
+    },
+    {
+      "estate": "fixture",
+      "kind": "SCHEDULE",
+      "state": "UNAVAILABLE",
+      "count": 1
+    },
+    {
+      "estate": "fixture",
+      "kind": "TABLE_LOAD",
+      "state": "UNAVAILABLE",
+      "count": 1
+    },
+    {
+      "estate": "fixture",
+      "kind": "TYPICAL_DURATION",
+      "state": "OBSERVED",
+      "count": 2
+    }
+  ],
+  "unavailable": [
+    {
+      "estate": "billing",
+      "kind": "COVERAGE",
+      "subject": "4432af42e8bf72fcbee426cda33d04459017dbfd15123a41911f8be8d57a5e85",
+      "reason": "LOAD_ACCOUNTING_UNAVAILABLE: no declared audit table or monitoring query route; no counts estimated"
+    },
+    {
+      "estate": "billing",
+      "kind": "REFRESH_RUN",
+      "subject": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+      "reason": "READ_FAILED:MetadataUnavailable:403"
+    },
+    {
+      "estate": "fixture",
+      "kind": "TABLE_LOAD",
+      "subject": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+      "reason": "SQL_READ_FAILED:RuntimeError:None"
+    },
+    {
+      "estate": "fixture",
+      "kind": "REFRESH_RUN",
+      "subject": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f",
+      "reason": "READ_FAILED:MetadataUnavailable:403"
+    },
+    {
+      "estate": "billing",
+      "kind": "COVERAGE",
+      "subject": "11c0001e0832168c29db5eb18c2c0e0095c7450e2b2d05ceb81f3d74ee8f8f4b",
+      "reason": "LOAD_ACCOUNTING_UNAVAILABLE: no declared audit table or monitoring query route; no counts estimated"
+    },
+    {
+      "estate": "billing",
+      "kind": "REFRESH_RUN",
+      "subject": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+      "reason": "READ_FAILED:MetadataUnavailable:403"
+    },
+    {
+      "estate": "fixture",
+      "kind": "SCHEDULE",
+      "subject": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+      "reason": "READ_FAILED:MetadataUnavailable:400"
+    },
+    {
+      "estate": "fixture",
+      "kind": "COVERAGE",
+      "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+      "reason": "DECLARED_AUDIT_UNAVAILABLE:SQL_READ_FAILED:BrokenPipeError:None"
+    },
+    {
+      "estate": "fixture",
+      "kind": "COVERAGE",
+      "subject": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+      "reason": "LOAD_ACCOUNTING_UNAVAILABLE: no declared audit table or monitoring query route; no counts estimated"
+    },
+    {
+      "estate": "dia-sample-estate",
+      "kind": "REFRESH_RUN",
+      "subject": "dd56cef57fd83894ae582f0f11c345b87e14311846e26fa582d2295bfd398b66",
+      "reason": "READ_FAILED:MetadataUnavailable:403"
+    },
+    {
+      "estate": "billing",
+      "kind": "JOB_RUN",
+      "subject": "4432af42e8bf72fcbee426cda33d04459017dbfd15123a41911f8be8d57a5e85",
+      "reason": "READ_FAILED:LockNotAvailable:None"
+    },
+    {
+      "estate": "billing",
+      "kind": "COVERAGE",
+      "subject": "11c0001e0832168c29db5eb18c2c0e0095c7450e2b2d05ceb81f3d74ee8f8f4b",
+      "reason": "LOAD_ACCOUNTING_UNAVAILABLE: no declared audit table or monitoring query route; no counts estimated"
+    }
+  ],
+  "cursor_count": 9,
+  "schedule": "*/30 * * * *",
+  "job_runtime_seconds": 60,
+  "resources": {
+    "cpu": 0.25,
+    "memory": "0.5Gi"
+  },
+  "cost_estimate_monthly_usd": "19.766733",
+  "cost_limit_note": "Estimate assumes30min daily smoke; full60min daily ceiling20.603733; billing uses actual runtime."
+}

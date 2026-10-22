@@ -42,3 +42,5 @@ the count/checksum observations cannot promote a lineage link to verified.
 
 This helper prepared code and configurations only: **zero deployments, new
 grants, estate reads and model calls**.
+
+Applied and readback2026-10-22: job-dia-collectors exists with exact plannedcron/resources/runtime/managedidentity. UTC-labelledtimestamp normalization fixed the two preserved firstwake failures; laterwakes sealed andstored boundedfacts. Live coverage is partial: fixture/billing jobhistory, selected schedules/durations observed; all3estates refreshhistory403UNAVAILABLE; fixtureaudit/load SQLRuntimeErrorUNAVAILABLE. Counts of rows are not proof of availability. See runs/round-twenty-one-collector-live-coverage.json for separate OBSERVED/UNAVAILABLE counts. No refresh/job was triggered, no guessedrowcount or SQLmodifiedtime substituted.

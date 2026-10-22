@@ -222,6 +222,29 @@ class ToolLoopTests(unittest.TestCase):
         self.assertNotIn('native_evidence',str(index));self.assertEqual(reader.call_count,2)
         self.assertNotIn('cause_verified',comparison)
 
+    def test_terminal_source_gap_does_not_justify_skipping_available_prefix(self):
+        tools,engine,reader,events=self.build(step_cap=3)
+        tools.evidence.add('GAP',['up'],{'reason':'NO_LINEAGE'})
+        def decide(payload,**kw):
+            if len([x for x in events if x.get('event')=='INVESTIGATOR_DECISION'])==0:
+                return {'action':'VERDICT','summary':'Source unavailable.','hypotheses':['not found'],'verdict':'not found','evidence_ids':[tools.path_id]}
+            if payload['pending_quantity_nodes']:
+                self.assertEqual(payload['feedback']['reason'],'DECLARED_PREFIX_NOT_CHECKED')
+                return {'action':'TOOL','summary':'Read the admitted prefix.','hypotheses':['not found'],'tool':'compare_layers','arguments':{'key':'record-1','layers':['down','up','job'],'filters':{'warehouse':'North'}}}
+            return {'action':'VERDICT','summary':'No proven cause.','hypotheses':['not found'],'verdict':'not found','evidence_ids':list(tools.evidence._values)}
+        engine.decide=decide;result=engine.run({'visual':'visual'})
+        self.assertEqual(result['stop_reason'],'EVIDENCE_INSUFFICIENT');self.assertEqual(reader.call_count,4)
+        self.assertTrue(any(x.get('reason')=='DECLARED_PREFIX_NOT_CHECKED'for x in events))
+    def test_unresolved_named_comparison_keeps_valid_prefix_finding_partial(self):
+        tools,engine,reader,events=self.build(step_cap=2)
+        tools.comparison={'kind':'source','node':None}
+        def decide(payload,**kw):
+            if payload['steps_remaining']==2:return {'action':'TOOL','summary':'Compare prefix.','hypotheses':['failed job'],'tool':'compare_layers','arguments':{'key':'record-1','layers':['down','up'],'filters':{'warehouse':'North'}}}
+            return {'action':'VERDICT','summary':'Failed run on this boundary.','hypotheses':['failed job'],'verdict':'failed job','evidence_ids':list(tools.evidence._values)}
+        engine.decide=decide;result=engine.run({'visual':'visual','text':'Compare with the application.'})
+        self.assertEqual(result['verdict'],'failed job')
+        for output in result['outputs'].values():self.assertIn('partly answered: the named comparison target was unavailable',output)
+
     def test_rejected_claim_and_budget_stop_keep_outputs_and_furthest_point(self):
         tools,engine,reader,_=self.build(step_cap=1)
         engine.decide=lambda *a,**kw:{'action':'VERDICT','summary':'Unsupported guess.','hypotheses':['as designed'],'verdict':'as designed','evidence_ids':[tools.path_id]}

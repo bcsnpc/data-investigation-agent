@@ -16,7 +16,7 @@ user or judge business correctness. A failed job alone does not explain a number
 Use get_evidence to inspect details; summaries are not support. A repeated call
 returns its existing evidence without another read. Warnings are labels, not
 refusals. The consumer checks every proposed verdict and renders both outputs;
-your summary is only a public action note, not deliverable prose.'''
+Before proposing not found, check pending_quantity_nodes on the admitted prefix; a terminal source gap does not establish that the earlier boundaries agree. Do not replace the unresolved named comparison. Your summary is only a public action note, not deliverable prose.'''
 
 
 def budget_stop(error):
@@ -155,7 +155,8 @@ class Investigator:
                 record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__});break
             compact=evidence_context(self.tools.evidence)
             try:
-                decision=self.decide({'ticket':ticket,'path_nodes':[{'id':n['id'],'label':n['label'],'kind':n['kind']} for n in self.tools.nodes.values()],
+                decision=self.decide({'ticket':ticket,'path_nodes':[{'id':n['id'],'label':n['label'],'kind':n['kind'],'depth':self.tools.depth.get(n['id'])} for n in self.tools.nodes.values()],
+                'pending_quantity_nodes':self.tools.pending_quantity_nodes(),
                 'evidence_index':compact,'fetched_evidence':fetched,'feedback':feedback,'steps_remaining':self.step_cap-step+1,
                 'tool_transcript':[{'tool':c['tool'],'arguments':c['arguments'],'evidence_ids':c['result'].get('evidence_ids',[]),'status':c['result'].get('status')} for c in calls]},instructions=INSTRUCTIONS,schema=self.schema)
             except Exception as exc:
@@ -174,6 +175,10 @@ class Investigator:
                 known.extend(i for i in result.get('evidence_ids',[]) if i not in known)
                 fetched=result if decision['tool']=='get_evidence' else None;feedback=result if result.get('status')=='UNAVAILABLE' or result.get('already_obtained') else None
                 continue
+            if decision['verdict']=='not found' and self.tools.pending_quantity_nodes():
+                feedback={'reason':'DECLARED_PREFIX_NOT_CHECKED','nodes':self.tools.pending_quantity_nodes(),
+                          'detail':'The final source gap does not replace checks on the admitted prefix. Compare these nodes or retain their actual read-unavailability; budgets still apply.'}
+                record({'event':'INVESTIGATOR_REJECTED',**feedback});continue
             try:supported=check(decision['verdict'],self._citations(decision['evidence_ids']),self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
             except (ValueError,KeyError,TypeError) as exc:
                 feedback={'reason':'VERDICT_EVIDENCE_REJECTED','detail':str(exc),'verdict':decision['verdict']};record({'event':'INVESTIGATOR_REJECTED',**feedback});continue
@@ -198,6 +203,8 @@ class Investigator:
         answer_status='not answered' if verdict=='not found' else 'partly answered: the current declared-context investigation does not reproduce the reported figure' if recreation and recreation['status']=='NOT_REPRODUCED' else 'answered within the checked technical scope'
         if supported.get('claim_scope')=='OPERATIONAL_STATUS_WITH_COMPARISON_PENDING':answer_status='partly answered: a current operational status was established; the numerical comparison was not checked'
         if supported.get('claim_scope')=='OPERATIONAL_FACT_ONLY':answer_status='answered: the explicit operational status is recorded; no numerical explanation was claimed'
+        if verdict!='not found' and any(r['kind']=='GAP'and r['value'].get('code')=='COMPARISON_TARGET_UNAVAILABLE'for r in evidence.values()):
+            answer_status='partly answered: the named comparison target was unavailable; the finding concerns only the measured path boundary'
         business+='Answer status: '+answer_status+'.\n'
         for assumption in ticket.get('assumptions',[]):business+='Assumption: '+assumption+'\n'
         if recreation:business+='Reported figure recreation: '+recreation['status']+'.\n'

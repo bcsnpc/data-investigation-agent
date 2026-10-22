@@ -76,6 +76,8 @@ class Tools:
 
     def _read(self,node,context):
         if node not in self.nodes:raise ValueError('READ_OUTSIDE_TICKET_PATH')
+        if not hasattr(self,'_quantity_attempted'):self._quantity_attempted=set()
+        self._quantity_attempted.add(node)
         cache_key=canonical([node,self.key,context])
         if cache_key in self._reads:return self._reads[cache_key]
         if self.reader is None:return self.evidence.add('GAP',[node],{'reason':'No guarded compiled quantity reader is installed for this graph node.'})
@@ -91,6 +93,11 @@ class Tools:
         quantity(result)
         identity=self.evidence.add('READ',[node],result);self._reads[cache_key]=identity
         return identity
+
+    def pending_quantity_nodes(self):
+        if self.request_kind!='COMPARE' or self.reader is None:return []
+        attempted=getattr(self,'_quantity_attempted',set())
+        return [node for node in self.nodes if self.nodes[node]['kind']in ('TABLE','VIEW','SOURCE')and node not in attempted]
 
     def reproduce(self):
         if self.request_kind!='COMPARE':return []
