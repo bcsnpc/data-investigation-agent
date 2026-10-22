@@ -51,7 +51,8 @@ def recorded_stub(sources,outputs,*,database,batch_key,at):
     job=EnrichmentJob(state,provider,budget,clock=lambda:at)
     submitted=job.submit(sources,batch_key=batch_key)
     result=job.resume(batch_key) if submitted['status']=='SUBMITTED' else submitted
-    return {**result,'live_model_calls':0,'stub_model_responses':len(sources),
+    simulation_budget=result.pop('budget',None)
+    return {**result,'simulation_budget':simulation_budget,'live_enrichment_spend_microdollars':0,'live_model_calls':0,'stub_model_responses':len(sources),
             'examples':[job.store.projection(s['estate'],s['subject'],s['definition_hash']) for s in sources]}
 
 
