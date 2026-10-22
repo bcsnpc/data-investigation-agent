@@ -43,7 +43,8 @@ def specification(options):
     if set(options)!={'spec'}:raise ValueError('INVESTIGATOR_RUNNER_OPTIONS')
     spec=json.loads(reference(options['spec'],maximum=250000).read_bytes())
     required={'ticket','graph','budget','max_requests','model_enabled','generation_options','step_cap','wall_seconds','warnings'}
-    if not isinstance(spec,dict) or not required<=set(spec)<=required|{'native','collector'}:raise ValueError('INVESTIGATOR_SPEC_FIELDS')
+    if not isinstance(spec,dict) or not required<=set(spec)<=required|{'native','collector','retained_continuation'}:raise ValueError('INVESTIGATOR_SPEC_FIELDS')
+    if 'retained_continuation' in spec and 'native' not in spec:raise ValueError('RETAINED_CONTINUATION_NATIVE_REQUIRED')
     graph=spec['graph']
     if (not isinstance(graph,dict) or set(graph)!={'estate','identity','allowed_objects'}
             or not isinstance(graph['allowed_objects'],list) or not 1<=len(graph['allowed_objects'])<=200
@@ -56,6 +57,15 @@ def specification(options):
     validate(spec['generation_options'])
     if not isinstance(spec['warnings'],list) or any(not isinstance(v,str) for v in spec['warnings']):raise ValueError('INVESTIGATOR_WARNING_LABELS')
     return spec
+
+
+def retained_view(current,process,spec,*,context,visual,measure_id):
+    """Trusted opt-in, separate from current graph discovery and its refusals."""
+    if 'retained_continuation' not in spec:return current,[]
+    from investigator.adapters.retained_graph_continuation import RetainedApprovedContinuation
+    view=RetainedApprovedContinuation(current,process,context=context,pin=spec['retained_continuation'],
+                                      visual=visual,measure_id=measure_id)
+    return view,list(view.warning_labels)
 
 
 def compiled_values(process,path,*,visual,measure_id,retain):
@@ -171,7 +181,7 @@ def execute(plan,context):
     prior_record=os.environ.get('INVESTIGATOR_RECORD_PLANNER');os.environ['INVESTIGATOR_RECORD_PLANNER']='1'
     try:
         with journal.active(tape),guard_scope(lambda value:context.record('investigator-guard',value)):
-            graph=JournalGraph(graph_live);decision=None;values=None;checks=None;collector=None
+            graph=JournalGraph(graph_live);decision=None;values=None;checks=None;collector=None;retained_labels=[]
             def admit(kind,step):
                 if time.monotonic()>=deadline:
                     from investigator.usage_governance import UsageHold
@@ -211,9 +221,12 @@ def execute(plan,context):
                     read_endpoint=lambda request:endpoint(config,retained_context,request,receipt_path=paths['endpoints']),
                     judge_definition=decision.judge_definition if decision else None)
                 visual=ticket.get('visual') or ticket['request']['subject']
+                view,retained_labels=retained_view(graph_live,process,spec,context=retained_context,
+                    visual=visual,measure_id=native['measure_id'])
+                if view is not graph_live:graph=JournalGraph(view)
                 values,checks=compiled_values(process,graph.path_to_source(visual),visual=visual,
                                               measure_id=native['measure_id'],retain=retain)
-            call_plan={'options':{'ticket':str(ticket_path),'step_cap':spec['step_cap'],'wall_seconds':spec['wall_seconds'],'warnings':spec['warnings']}}
+            call_plan={'options':{'ticket':str(ticket_path),'step_cap':spec['step_cap'],'wall_seconds':spec['wall_seconds'],'warnings':[*spec['warnings'],*retained_labels]}}
             settings={**manifest['model']['credential'],'endpoint':manifest['model']['endpoint'],'deployment':manifest['model']['deployment']}
             with model_session(settings) if decision else nullcontext():
                 result=run(call_plan,context,graph=graph,ledger=FactLedger(state),value_reader=values,

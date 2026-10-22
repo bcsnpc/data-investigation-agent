@@ -12,6 +12,14 @@ import cloud_investigator as worker
 
 
 class Assembly(unittest.TestCase):
+    def test_retained_view_is_explicit_and_preserves_mandatory_labels(self):
+        current=object();process=object();context={'version':'approved'};pin={'context_id':'approved'}
+        self.assertEqual(worker.retained_view(current,process,{},context=context,visual='visual',measure_id='measure'),(current,[]))
+        view=SimpleNamespace(warning_labels=['Retained approved context; not current or value-verified.','Current graph unavailable.'])
+        with patch('investigator.adapters.retained_graph_continuation.RetainedApprovedContinuation',return_value=view)as build:
+            actual,labels=worker.retained_view(current,process,{'retained_continuation':pin},context=context,visual='visual',measure_id='measure')
+        self.assertIs(actual,view);self.assertEqual(labels,view.warning_labels);self.assertIsNot(labels,view.warning_labels)
+        build.assert_called_once_with(current,process,context=context,pin=pin,visual='visual',measure_id='measure')
     def test_unavailable_owner_becomes_explicit_no_read_port_not_a_lost_run(self):
         retained=[]
         path={'unavailable_owners':{'report':{'reason':'MetadataUnavailable'}},'stops':[{'node':'visual','reason':'Owner definition refresh unavailable'}]}
