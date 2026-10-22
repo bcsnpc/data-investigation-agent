@@ -13,6 +13,17 @@ from investigator.process_tape import Tape,bytes_of
 HEADER={'entry_point':'runner','context_identity':'fixture-context','config':{},'profile':{},'usage_policy':None,'engine_hash':'fixture-engine','state':{}}
 
 class RunnerTests(unittest.TestCase):
+    def test_access_check_handler_receives_the_already_recorded_preflight(self):
+        from investigator.unified_runner import handlers
+        with tempfile.TemporaryDirectory() as d:
+            config=self.config(Path(d));config['checks']={'access':{'kind':'access-check','options':{}}}
+            table={'status':'INCOMPLETE','rows':[{'status':'NOT_TESTABLE','reason':'UNBOUND'}]}
+            sent=[]
+            with patch('investigator.access_check.configured',return_value=table) as preflight:
+                result=run(config,'access',registry=handlers(),put=lambda key,raw:sent.append((key,raw)))
+            self.assertEqual(result['result'],table)
+            preflight.assert_called_once()
+
     def config(self,root):
         return {'version':'dia-runner-estate-v1','manifest':'/inputs/estate.json','image':'registry/worker@sha256:'+'a'*64,'capture':{},'checks':{'bronze':{'kind':'probe','options':{}}},'output_root':str(root/'results'),'bootstrap':HEADER}
     def test_header_refuses_before_any_transport_or_handler(self):

@@ -238,6 +238,7 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
                 attempt+=1
                 root=ctx.root/('attempt-'+str(attempt));root.mkdir()
                 view=SimpleNamespace(root=root,record=ctx.record,readback=ctx.readback,started_at=started_at,
+                    access_result=getattr(ctx,'access_result',None),
                     step=lambda name,fn:retry(lambda:ctx.step(name,fn),record=ctx.record,sleep=sleep))
                 return ctx.step(check['kind'],lambda:registry[check['kind']](plan,view))
             result=retry(perform,record=ctx.record,sleep=sleep)
