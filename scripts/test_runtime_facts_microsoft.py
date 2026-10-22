@@ -35,6 +35,57 @@ class MicrosoftFactsTests(unittest.TestCase):
         adapter=MicrosoftRuntimeFacts(subjects or {'visual':route()},http=http,sql=sql,retain=retained)
         return adapter,http
 
+    def test_real_fabric_utc_labelled_offsetless_runs_are_normalized_without_raw_rewrite(self):
+        # Retained physical results 4e0b5e5c... and a11aeef0..., 2026-10-22.
+        rows=[{'id':'e82f690b-6865-48b5-a38c-9a116cd9c132','status':'Completed',
+               'startTimeUtc':'2026-10-09T21:51:03.1830083','endTimeUtc':'2026-10-09T21:55:02.3066667'},
+              {'id':'8274a34e-89ba-4db6-94a3-ca06a48c7c4a','status':'Completed',
+               'startTimeUtc':'2026-10-09T21:58:32.75','endTimeUtc':'2026-10-09T21:59:35.88'}]
+        for row in rows:
+            raw=[]
+            adapter,_=self.adapter(http=lambda *a,**k:{'status_code':200,'text':{'value':[row]}})
+            adapter.retain=lambda data:(raw.append(data) or retained(data))
+            adapter.list_changes(['visual']);values=adapter.fetch('visual',now='2026-10-22T19:14:00Z')
+            run=next(v for v in values if v['kind']=='JOB_RUN')
+            self.assertTrue(run['value']['start'].endswith('Z'));self.assertTrue(run['value']['end'].endswith('Z'))
+            self.assertEqual(run['value']['status'],'SUCCEEDED')
+            self.assertIn(row['endTimeUtc'],raw[0].decode())
+            self.assertEqual(row['endTimeUtc'].count('Z'),0)
+            self.assertTrue(any(v['kind']=='TYPICAL_DURATION' for v in values))
+
+    def test_generic_naive_timestamp_without_producer_timezone_is_refused(self):
+        adapter,_=self.adapter(http=lambda *a,**k:{'status_code':200,'text':{'value':[
+            {'id':'run','status':'Completed','startTime':'2026-10-09T21:51:03','endTime':'2026-10-09T21:55:02'}]}})
+        adapter.list_changes(['visual'])
+        with self.assertRaisesRegex(ValueError,'TIMEZONE_REQUIRED'):adapter.fetch('visual',now=T1)
+
+    def test_sql_utc_columns_declare_timezone_but_generic_aliases_do_not(self):
+        from investigator.adapters.runtime_facts_microsoft import audit_times
+        row={'start':'2026-10-09T21:51:03','end':'2026-10-09T21:55:02'}
+        normalized=list(audit_times([row],{'columns':{'start':'start_time_utc','end':'end_time_utc'}}))[0]
+        self.assertEqual(normalized['end'],'2026-10-09T21:55:02.000000Z')
+        self.assertNotIn('Z',row['end'])
+        with self.assertRaisesRegex(ValueError,'TIMEZONE_REQUIRED'):
+            list(audit_times([row],{'columns':{'start':'start','end':'end'}}))
+
+    def test_recent_listing_of_old_run_is_current_status_not_recent_data(self):
+        from investigator.facts_ledger import FactLedger
+        now='2026-10-22T19:14:00Z'
+        adapter,_=self.adapter(http=lambda *a,**k:{'status_code':200,'text':{'value':[
+            {'id':'old-run','status':'Completed','startTimeUtc':'2026-10-09T21:51:03',
+             'endTimeUtc':'2026-10-09T21:55:02'}]}})
+        adapter.list_changes(['visual']);values=adapter.fetch('visual',now=now)
+        with tempfile.TemporaryDirectory() as folder:
+            state=SharedState.offline(Path(folder)/'state.sqlite');repo=GraphRepository(state);repo.migrate();repo.replace(graph())
+            ledger=FactLedger(state);ledger.append('estate',values)
+            run=next(v for v in ledger.read('estate',['visual'],now=now)['facts'] if v['kind']=='JOB_RUN')
+            self.assertEqual(run['freshness'],'CURRENT')
+            self.assertEqual(run['collected_at'],'2026-10-22T19:14:00.000000Z')
+            self.assertEqual(run['value']['end'],'2026-10-09T21:55:02.000000Z')
+            self.assertFalse(any(v['kind'] in ('TABLE_LOAD','TABLE_PROFILE') for v in values))
+            old=ledger.read('estate',['visual'],now='2026-10-22T21:14:00Z')['facts']
+            self.assertTrue(all(v['freshness']=='STALE' for v in old))
+
     def test_job_list_is_one_get_not_get_every_run_or_trigger(self):
         adapter,http=self.adapter();listing=adapter.list_changes(['visual']);values=adapter.fetch('visual',now=T1)
         self.assertEqual(http.call_count,1)

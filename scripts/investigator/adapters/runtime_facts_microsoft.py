@@ -20,6 +20,34 @@ STATUSES={'Completed':'SUCCEEDED','Succeeded':'SUCCEEDED','Failed':'FAILED','InP
           'Unknown':'UNKNOWN','Disabled':'UNKNOWN','Deduped':'CANCELLED'}
 
 
+def producer_time(value, *, utc_declared=False):
+    """Normalize only a producer-declared UTC field; generic naive times refuse.
+
+    Fabric's job API labels startTimeUtc/endTimeUtc UTC but can omit the ISO
+    offset. SQL audit aliases inherit UTC only from the explicitly declared
+    start_time_utc/end_time_utc columns. Raw receipts are retained unchanged.
+    """
+    if value is None:return None
+    from ..estate_graph_contract import timestamp
+    if isinstance(value,str) and utc_declared:
+        parsed=datetime.fromisoformat(value.replace('Z','+00:00'))
+        if parsed.tzinfo is None:value=value+'Z'
+    return timestamp(value)
+
+
+def run_time(row,utc_field,generic_field):
+    if row.get(utc_field) is not None:return producer_time(row[utc_field],utc_declared=True)
+    return producer_time(row.get(generic_field))
+
+
+def audit_times(rows,route):
+    for row in rows:
+        row=dict(row)
+        for key,column in (('start','start_time_utc'),('end','end_time_utc')):
+            row[key]=producer_time(row.get(key),utc_declared=route['columns'].get(key)==column)
+        yield row
+
+
 def ident(value):
     if not isinstance(value,str) or not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,127}',value):raise ValueError('FACT_SQL_IDENTIFIER')
     return '['+value+']'
@@ -105,6 +133,7 @@ class MicrosoftRuntimeFacts:
             if kind=='audit':
                 if any(row['pipeline_name']!=route['producer_id'] for row in rows):raise ValueError('FACT_AUDIT_PRODUCER_DIFFERS')
                 if any(row['accounting_state']!='OBSERVED_COPY_OUTPUT' for row in rows):raise ValueError('FACT_AUDIT_NOT_COPY_ACTIVITY_OUTPUT')
+                rows=list(audit_times(rows,route))
             return rows,receipt,None
         except Exception as error:
             if is_stop_condition(error):raise
@@ -163,8 +192,8 @@ class MicrosoftRuntimeFacts:
         for row in native[:20]:
             run_id=row.get('id') or row.get('requestId')
             if run_id is None:raise ValueError('FACT_NATIVE_RUN_ID')
-            runs.append({'run_id':str(run_id),'start':row.get('startTimeUtc') or row.get('startTime'),
-                'end':row.get('endTimeUtc') or row.get('endTime'),'status':STATUSES.get(row.get('status'),'UNKNOWN'),
+            runs.append({'run_id':str(run_id),'start':run_time(row,'startTimeUtc','startTime'),
+                'end':run_time(row,'endTimeUtc','endTime'),'status':STATUSES.get(row.get('status'),'UNKNOWN'),
                 'error':row.get('failureReason') or row.get('serviceExceptionJson'),
                 'rows_read':None,'rows_written':None})
         result=[observation(node,'RUN_HISTORY',{'runs':runs,'listing_complete':not truncated},now,[proof],self.identity,
