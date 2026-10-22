@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-21",
+  "run_id": "round20-cloud-family-a-demo-04",
+  "execution": "job-dia-worker-b5uxkio",
+  "image": "sha256:2c553e1766ea262ee91a28e9c1bab06ac1226f5b71bddf2856f6fbfa038604f5",
+  "ticket_state": "HELD",
+  "answer": "NOT_DELIVERED_INTAKE_HELD",
+  "technical_investigation_started": false,
+  "structured_outputs_delivered": false,
+  "reason": "RESOLUTION_UNCERTAIN",
+  "resolution_error": {
+    "error_type": "InsufficientPrivilege",
+    "frames": [
+      {
+        "function": "azure_generate",
+        "line": 98,
+        "module": "scripts/ticket_planner.py"
+      },
+      {
+        "function": "_azure_generate",
+        "line": 131,
+        "module": "scripts/ticket_planner.py"
+      },
+      {
+        "function": "dispatch",
+        "line": 92,
+        "module": "scripts/investigator/model_transport_retry.py"
+      },
+      {
+        "function": "send",
+        "line": 124,
+        "module": "scripts/ticket_planner.py"
+      },
+      {
+        "function": "admission",
+        "line": 143,
+        "module": "scripts/investigator/model_spend.py"
+      },
+      {
+        "function": "__init__",
+        "line": 20,
+        "module": "scripts/investigator/shared_spend.py"
+      },
+      {
+        "function": "ensure_model_account",
+        "line": 169,
+        "module": "scripts/investigator/build_phase.py"
+      },
+      {
+        "function": "sql",
+        "line": 146,
+        "module": "scripts/investigator/shared_state.py"
+      }
+    ]
+  },
+  "outer_records": 164,
+  "outer_seal_valid": true,
+  "native_events": 140,
+  "native_tape_sha256": "b8fc8569fe742f64b61d5779cdd3f92b98cfb9e9ab218b04fec565578335178d",
+  "same_image_replay": {
+    "run_id": "round20-cloud-family-a-demo-replay-04",
+    "execution": "job-dia-worker-c6rsiww",
+    "status": "FAILED",
+    "reason": "TAPE_EVENT_DIFFERS:IDENTITY:CONFIGURATION",
+    "records": 7,
+    "outer_seal_valid": false,
+    "estate_or_model_requests": 0
+  },
+  "provider_send_recorded": false,
+  "accounting_note": "Planner reservation settled uncertain; zero recorded provider/estate sends is not a refund of conservative reservation accounting.",
+  "verification_handling": "LABEL_ONLY_BUILD_PHASE",
+  "verification": "NATIVE_DECLARED_ROUTE_NOT_VERIFIED; native401 versus SQL8765 is not a numerical mismatch",
+  "identity_permission_tenant_setting_changed": false
+}
