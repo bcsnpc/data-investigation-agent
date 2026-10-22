@@ -65,6 +65,9 @@ def demo(manifest_path, case_path, port, live=False):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
+    ask_command = commands.add_parser('ask', help='Explain an admitted calculation or observed change history')
+    ask_command.add_argument('question')
+    ask_command.add_argument('--estate',required=True,type=Path)
     access = commands.add_parser('check-access', help='Probe the declared permission map as each real identity')
     access.add_argument('--map', type=Path, default=Path(__file__).resolve().parents[1]/'config/permission-map.yaml')
     access.add_argument('--bindings', type=Path, required=True, help='Deployment-owned identity/probe references, never secret values')
@@ -94,6 +97,9 @@ def main(argv=None):
     show.add_argument('--port', type=int, default=8776)
     show.add_argument('--live', action='store_true', help='Explicitly enable existing governed execution')
     args = parser.parse_args(argv)
+    if args.command=='ask':
+        from investigator.explain_questions import main as ask_main
+        return ask_main(args)
     if args.command=='check-access':
         from investigator.access_check import main as access_main
         return access_main(args)

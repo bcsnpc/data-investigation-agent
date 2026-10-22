@@ -23,7 +23,7 @@ PUBLIC_ENV=frozenset(('DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JS
 def load(path):
     value=json.loads(Path(path).read_bytes())
     required={'version','manifest','image','capture','checks','output_root'}
-    if not isinstance(value,dict) or not required<=set(value)<=required|{'bootstrap','run_id','input','platform_cost_observation','deployment','environment','per_execution','schedule','access_check'} or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
+    if not isinstance(value,dict) or not required<=set(value)<=required|{'bootstrap','run_id','input','platform_cost_observation','deployment','environment','per_execution','schedule','access_check','explain'} or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
     if 'per_execution' in value and type(value['per_execution'])is not bool:raise ValueError('RUNNER_PER_EXECUTION_FLAG')
     if not isinstance(value.get('environment',{}),dict) or not set(value.get('environment',{}))<=PUBLIC_ENV or any(not isinstance(v,str) for v in value.get('environment',{}).values()):raise ValueError('RUNNER_PUBLIC_ENVIRONMENT')
     if 'run_id' in value and not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',value['run_id']):raise ValueError('RUN_ID_INVALID')

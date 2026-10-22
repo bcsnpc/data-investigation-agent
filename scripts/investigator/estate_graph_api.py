@@ -75,6 +75,17 @@ class GraphAPI:
         if nodes[visual]['kind'] not in ('VISUAL','SLICER'):raise ValueError('GRAPH_VISUAL_REQUIRED')
         return self._slice([visual],edge_kinds=contract.EDGE_KINDS-{'CONTAINS','INTERACTS_WITH'})
 
+    def calculation_path(self,node):
+        """An explanation starts at an admitted visual, measure or code node.
+
+        This uses the same history-aware bounded adjacency reader as value
+        investigation; explaining a measure never loads the whole catalog.
+        """
+        nodes,_=self._read([node])
+        if nodes[node]['kind'] not in {'VISUAL','SLICER','MEASURE','CALCULATED_COLUMN','TABLE','COLUMN','QUERY_STEP','VIEW','PROCEDURE','NOTEBOOK','PIPELINE','COPY_ACTIVITY','SOURCE','BOUNDARY'}:
+            raise ValueError('GRAPH_CALCULATION_SUBJECT_REQUIRED')
+        return self._slice([node],edge_kinds=contract.EDGE_KINDS-{'CONTAINS','INTERACTS_WITH'})
+
     def visual_context(self,report,page,visual):
         nodes,edges=self._read([report,page,visual])
         if nodes[report]['kind']!='REPORT' or nodes[page]['kind']!='PAGE' or nodes[visual]['kind'] not in ('VISUAL','SLICER'):
