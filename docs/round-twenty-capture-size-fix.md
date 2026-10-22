@@ -28,3 +28,5 @@ TAPE_UNCOMMITTED_ENGINE refusals while engine files were uncommitted; those are
 not behavioral regressions or test passes. Clean-source focused/full validation
 and a fresh immutable image are required before the next demo. This engine
 change invalidates the prior freeze.
+
+Dated clarification2026-10-21/UTC22: fixed03 losslessly captured a52,580,080-byte CONFIGURATION event (shared application state/history), encoded13,249,750bytes; original bytes/hash restored. This was not a catalog READ_RESULTS event. Whole-history overhead remains a Round21 path-scoped loading concern.
