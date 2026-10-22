@@ -88,6 +88,10 @@ class DurableCapture:
                 self._publication_failed=True
                 raise
             self._pending_publications.pop(0)
+        # Every queued immutable record has now been acknowledged. A temporary
+        # transport failure must not permanently poison a later complete flush.
+        # Failed or changed records stay queued and cannot reach this point.
+        self._publication_failed=False
 
     def readback(self,ref):
         """Read only a record this run already published, then verify its bytes."""

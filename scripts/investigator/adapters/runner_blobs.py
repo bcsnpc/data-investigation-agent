@@ -7,6 +7,27 @@ from ..artifact_store import ArtifactError
 
 MAX_BYTES=32*1024*1024
 
+
+def immutable_upload(put,read,key,raw,*,sleep=None):
+    """Retry only this immutable publication, never the investigation step.
+
+    A lost PUT response may mean Azure already committed it. In that case a
+    conditional retry returns 412; accepting it requires identical stored bytes.
+    """
+    import time
+    from urllib.error import HTTPError,URLError
+    sleep=sleep or time.sleep
+    for attempt in range(3):
+        try:return put(key,raw)
+        except HTTPError as error:
+            if error.code==412:
+                if read(key)!=raw:raise ArtifactError('RUN_CAPTURE_IMMUTABLE_BYTES_DIFFER') from None
+                return
+            if error.code not in (408,429,500,502,503,504) or attempt==2:raise
+        except (URLError,TimeoutError,ConnectionError):
+            if attempt==2:raise
+        sleep(2**attempt)
+
 def declaration(value):
     from .blob_artifacts import validate_account_url
     if not isinstance(value,dict) or set(value)!={'account_url','prefix','run_id','max_bytes'}:raise ArtifactError('RUNNER_BLOB_DECLARATION')
@@ -78,5 +99,6 @@ def sink(config):
             with log.open('ab') as stream:
                 stream.write(bytes_of({'kind':'PLATFORM_ARTIFACT_CONTROL','method':'GET','url':url,'http_status':status,'principal_id':config['identity']['principal_id'],'body_bytes':count})+b'\n')
                 stream.flush();os.fsync(stream.fileno())
-    upload.read=download
-    return upload
+    def publish(key,raw):return immutable_upload(upload,download,key,raw)
+    publish.read=download
+    return publish
