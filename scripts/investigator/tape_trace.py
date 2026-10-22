@@ -11,6 +11,7 @@ import hashlib
 import json
 import re
 from .process_tape import Tape, validate_event
+from collections.abc import Sequence
 
 STAGES = ('intake', 'context', 'reproduce', 'walk', 'source', 'compose')
 OPERATIONS = {'intake': 'intake', 'preview': 'context', 'create': 'context', 'run': 'walk', 'synthesize': 'compose'}
@@ -77,11 +78,18 @@ def validate(value):
 
 def convert(path):
     tape = Tape(path)
-    return _convert(tape,hashlib.sha256(tape.path.read_bytes()).hexdigest())
+    with tape.path.open('rb') as stream:identity=hashlib.file_digest(stream,'sha256').hexdigest()
+    return _convert(tape,identity)
 
 
 def _convert(tape,tape_hash,*,check_schema=True):
-    events = [(event, validate_event(event, index + 1)) for index, event in enumerate(tape.events)]
+    class DecodedEvents(Sequence):
+        def __len__(self):return len(tape.events)
+        def __getitem__(self,index):
+            event=tape.events[index]
+            ordinal=index+1 if index>=0 else len(self)+index+1
+            return event,validate_event(event,ordinal)
+    events = DecodedEvents()
     def body(raw):
         try: return json.loads(raw)
         except (ValueError, UnicodeError): return None
@@ -229,13 +237,22 @@ def recorded_summary(tape,result):
     """
     from types import SimpleNamespace
     from .process_tape import bytes_of,sha
-    events=copy.deepcopy(tape.events[:tape.index] if getattr(tape,'replaying',False) else tape.events)
+    from .streaming_tape import digest
+    count=tape.index if getattr(tape,'replaying',False) else len(tape.events)
+    class SummaryEvents(Sequence):
+        extra=None
+        def __len__(self):return count+(self.extra is not None)
+        def __getitem__(self,index):
+            if index<0:index+=len(self)
+            if not 0<=index<len(self):raise IndexError(index)
+            return self.extra if index==count else tape.events[index]
+    events=SummaryEvents()
     if not events or events[-1]['kind']!='OPERATION_END':raise ValueError('Stage summary requires recorded operation end')
     raw=bytes_of({'result':result})
-    events.append({'kind':'FINAL','ordinal':len(events)+1,'at':events[-1]['at'],
-                   'body':base64.b64encode(raw).decode(),'sha256':sha(raw)})
+    events.extra={'kind':'FINAL','ordinal':len(events)+1,'at':events[-1]['at'],
+                   'body':base64.b64encode(raw).decode(),'sha256':sha(raw)}
     _,summary=_convert(SimpleNamespace(events=events,version=tape.version,engine_revision=tape.engine_revision),
-                       sha(bytes_of(events)),check_schema=False)
+                       digest(events),check_schema=False)
     summary['boundary']='RECORDED_SYNTHESIS_RETURN'
     return summary
 

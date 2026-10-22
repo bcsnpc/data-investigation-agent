@@ -91,12 +91,12 @@ def operation(name):
                 from .context_search import latest
                 from .runtime import fingerprint
                 context=latest(agent.store)
-                bootstrap={'entry_point':'workspace','context_identity':context['version'] if context else 'catalog-sha256:'+journal.sha((root/'catalog.sqlite').read_bytes()),
+                bootstrap={'entry_point':'workspace','context_identity':context['version'] if context else 'catalog-sha256:'+journal.Tape._file_sha(root/'catalog.sqlite'),
                     'config':agent.config,'profile':agent.planner_profile,
                     'usage_policy':agent.governor.policy if agent.governor else None,'engine_hash':fingerprint(),
                     'state':{'environment':agent.store.environment,
                         'workspace_owner':getattr(getattr(owner,'workspace',owner),'owner',None),
-                        'artifacts':{name:journal.sha((root/name).read_bytes()) for name in ('catalog.sqlite','inventory.sqlite')},
+                        'artifacts':{name:journal.Tape._file_sha(root/name) for name in ('catalog.sqlite','inventory.sqlite')},
                         'dynamic_read_limit':getattr(getattr(owner,'workspace',owner),'dynamic_read_limit',12),
                         'workspace_concurrency_limit':getattr(getattr(owner,'workspace',owner),'concurrency_limit',1),
                         'dynamic_input_limit':getattr(getattr(owner,'workspace',owner),'dynamic_input_limit',384000),
@@ -196,7 +196,7 @@ def has_smart_ticket(agent, identity):
 def retain_read_capture(agent, identity, tape):
     """Persist only a hash-pinned pointer after the actual FINAL was sealed."""
     if not tape.finished:raise journal.TapeError('READ_CAPTURE_NOT_SEALED')
-    path=str(tape.path.resolve());fingerprint=journal.sha(tape.path.read_bytes())
+    path=str(tape.path.resolve());fingerprint=journal.Tape._file_sha(tape.path)
     with agent.store.connect() as db:
         db.execute('CREATE TABLE IF NOT EXISTS smart_read_captures(id TEXT PRIMARY KEY,path TEXT NOT NULL,sha256 TEXT NOT NULL)')
         prior=db.execute('SELECT path,sha256 FROM smart_read_captures WHERE id=?',(identity,)).fetchone()
@@ -213,7 +213,7 @@ def retained_read_capture(agent, identity):
     if row is None:return None
     path=Path(row[0]).resolve();root=(ROOT/'.local/process-tapes').resolve()
     if not path.is_relative_to(root):raise journal.TapeError('READ_CAPTURE_OUTSIDE_RECORDING_ROOT')
-    if journal.sha(path.read_bytes())!=row[1]:raise journal.TapeError('READ_CAPTURE_HASH_DIFFERS')
+    if journal.Tape._file_sha(path)!=row[1]:raise journal.TapeError('READ_CAPTURE_HASH_DIFFERS')
     from .slim_recording import materialize
     with materialize(path) as restored:
         recorded=journal.Tape(restored)
@@ -267,7 +267,7 @@ def seal_read_stage(agent, identity):
             prior.finish(pending)
             from .slim_recording import publish_sealed
             with journal.active(None):publish_sealed(agent,prior)
-        return {'status':'SEALED','tape_sha256':journal.sha(prior.path.read_bytes())}
+        return {'status':'SEALED','tape_sha256':journal.Tape._file_sha(prior.path)}
     closure=journal.value('CONFIGURATION','ticket_read_stage_closure',seal)
     if closure['status']=='UNAVAILABLE':
         from .onboarding import Conflict

@@ -197,10 +197,11 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     sink=put or blob_sink(config['capture'])
     ctx=DurableCapture(Path(config['output_root'])/run_id,sink,run_id=run_id,bootstrap=bootstrap)
     registry=registry or handlers()
-    keys=('INVESTIGATOR_OPERATING_MODE','INVESTIGATOR_BUDGET_CATEGORY','INVESTIGATOR_WORKER_ID')
+    keys=('INVESTIGATOR_OPERATING_MODE','INVESTIGATOR_BUDGET_CATEGORY','INVESTIGATOR_WORKER_ID','DIA_STREAMING_CAPTURE')
     previous={key:os.environ.get(key) for key in keys}
     try:
         with ctx.observing():
+            os.environ['DIA_STREAMING_CAPTURE']='1'
             os.environ['INVESTIGATOR_OPERATING_MODE']='BUILD_PHASE'
             os.environ['INVESTIGATOR_WORKER_ID']=run_id
             os.environ['INVESTIGATOR_BUDGET_CATEGORY']='SCAN' if check['kind'] in ('scan','smoke') else 'INVESTIGATION'

@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 import time
 import math
+import os
 import re
 import sqlite3
 from contextlib import closing
@@ -110,13 +111,15 @@ class Tape:
         self.journal_path=self.path.with_suffix('.events.jsonl')
         self.exclusions=[];self.finished=False;self.version=VERSION
         if self.replaying:
-            value=json.loads(self.path.read_bytes())
+            from .streaming_tape import load
+            value=load(self.path) if self.path.stat().st_size>32*1024*1024 else json.loads(self.path.read_bytes())
             required={'version','events','exclusions','seal'}
             if value.get('version') in PINNED_VERSIONS:required.add('engine_revision')
             if value.get('version') in ACCOUNTED_VERSIONS:required.add('accounting_version')
             if set(value)!=required or value['version'] not in SUPPORTED_VERSIONS:
                 raise TapeError('TAPE_SCHEMA')
-            if value['seal']!=sha(bytes_of({k:v for k,v in value.items() if k!='seal'})):
+            from .streaming_tape import digest
+            if value['seal']!=digest({k:v for k,v in value.items() if k!='seal'}):
                 raise TapeError('TAPE_SEAL')
             self.version=value['version']
             from .budget_tape_contract import ACCOUNTING_HISTORY
@@ -128,14 +131,19 @@ class Tape:
                 raise TapeError('TAPE_ENGINE_REVISION')
             self.events=value['events'];self.exclusions=value['exclusions']
             if self.journal_path.exists():
-                recorded=[json.loads(line) for line in self.journal_path.read_bytes().splitlines()]
-                if recorded!=self.events:raise TapeError('TAPE_EVENT_JOURNAL_DIFFERS')
+                with self.journal_path.open('rb') as journal:
+                    for ordinal,line in enumerate(journal):
+                        if ordinal>=len(self.events) or json.loads(line)!=self.events[ordinal]:raise TapeError('TAPE_EVENT_JOURNAL_DIFFERS')
+                    if (ordinal+1 if 'ordinal' in locals() else 0)!=len(self.events):raise TapeError('TAPE_EVENT_JOURNAL_DIFFERS')
             self.validate()
             self.bootstrap=json.loads(self.take('BOOTSTRAP'))
         else:
             self.path.parent.mkdir(parents=True,exist_ok=True)
             if self.path.exists() or self.journal_path.exists():raise TapeError('TAPE_ALREADY_EXISTS')
             self.bootstrap=bootstrap
+            if os.environ.get('DIA_STREAMING_CAPTURE')=='1':
+                from .streaming_tape import DiskEvents
+                self.events=DiskEvents(self.journal_path)
             self.engine_revision=None
             if self.version in PINNED_VERSIONS and (bootstrap['entry_point']=='workspace'
                     or self.version in CODE_VERSIONS and bootstrap['entry_point'] in ('code_reader','code_verifier','runner_capture','runner_probe')):
@@ -151,10 +159,11 @@ class Tape:
         if self.version in ACCOUNTED_VERSIONS:
             from .budget_tape_contract import ACCOUNTING_VERSION
             value['accounting_version']=ACCOUNTING_VERSION
-        value['seal']=sha(bytes_of(value))
+        from .streaming_tape import digest,chunks
+        value['seal']=digest(value)
         # Only this still-open attempt is rewritten. Sealed tapes are immutable.
-        from .atomic_tape_publish import publish
-        publish(self.path,bytes_of(value))
+        from .atomic_tape_publish import publish_chunks
+        publish_chunks(self.path,chunks(value))
 
     def event(self,kind,body):
         if not isinstance(body,bytes):raise TypeError('Tape bodies must be bytes')
@@ -180,7 +189,9 @@ class Tape:
         # Persist every event once, including clocks. Rewriting all large worker
         # and budget bodies for every clock tick amplified local I/O quadratically
         # and consumed the live procedure's deadline before it dispatched work.
-        with self.journal_path.open('ab') as journal:journal.write(bytes_of(self.events[-1])+b'\n')
+        from .streaming_tape import DiskEvents
+        if not isinstance(self.events,DiskEvents):
+            with self.journal_path.open('ab') as journal:journal.write(bytes_of(self.events[-1])+b'\n')
         observer=EVENT_OBSERVER.get()
         if observer is not None:observer(self,self.events[-1])
         # The append-only journal retains every event before returning. Rewriting
@@ -212,6 +223,10 @@ class Tape:
         error=getattr(self,'replay_first_error',None) or TapeError(message)
         self.replay_first_error=error
         raise error
+
+    @staticmethod
+    def _file_sha(path):
+        with path.open('rb') as stream:return hashlib.file_digest(stream,'sha256').hexdigest()
 
     def validate(self):
         if self.exclusions:raise TapeError('TAPE_EXCLUDED_BODY')
@@ -354,7 +369,7 @@ class Tape:
                 known.update(v.casefold() for v in UUID_PATTERN.findall(validate_event(event,event['ordinal']).decode('utf8')))
             for name,expected in artifacts.items():
                 source=self.path.parent/name
-                if not source.exists() or sha(source.read_bytes())!=expected:
+                if not source.exists() or self._file_sha(source)!=expected:
                     raise TapeError('TAPE_BOOTSTRAP_ARTIFACT_CHANGED:'+name)
                 try:known.update(_ARTIFACT_IDENTITIES.get(source,expected))
                 except ArtifactChanged:raise TapeError('TAPE_BOOTSTRAP_ARTIFACT_CHANGED:'+name) from None

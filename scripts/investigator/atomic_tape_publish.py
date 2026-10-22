@@ -4,10 +4,18 @@ from pathlib import Path
 
 def publish(path,body):
     if not isinstance(body,bytes):raise TypeError('Atomic publication requires already serialized bytes')
+    return publish_chunks(path,(body,))
+
+
+def publish_chunks(path,chunks):
     path=Path(path);stage=None
     try:
         with tempfile.NamedTemporaryFile(mode='wb',prefix='.'+path.name+'.publishing-',suffix='.tmp',dir=path.parent,delete=False) as stream:
-            stage=Path(stream.name);stream.write(body);stream.flush();os.fsync(stream.fileno())
+            stage=Path(stream.name)
+            for body in chunks:
+                if not isinstance(body,bytes):raise TypeError('Tape chunk must be bytes')
+                stream.write(body)
+            stream.flush();os.fsync(stream.fileno())
         # Same directory/volume: readers see old complete bytes or new complete bytes.
         deadline=time.monotonic()+1.0;delay=.01
         while True:
