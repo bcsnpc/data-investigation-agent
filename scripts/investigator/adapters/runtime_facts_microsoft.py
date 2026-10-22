@@ -94,6 +94,8 @@ class MicrosoftRuntimeFacts:
         if not isinstance(subjects,dict) or not 1<=len(subjects)<=200:raise ValueError('FACT_SUBJECT_DECLARATIONS')
         self.subjects=subjects;self.http=http;self.retain=retain;self.sql=sql;self.refresh_http=refresh_http
         self.identity='microsoft-runtime:'+sha(subjects)
+        if refresh_http is not None:
+            self.identity='microsoft-runtime:'+sha({'subjects':subjects,'refresh_identity':getattr(refresh_http,'identity',None)})
         self.cache={};self.signals={};self.evidence=[]
         for node,route in subjects.items():
             if not isinstance(node,str) or not node:raise ValueError('FACT_GRAPH_NODE_REQUIRED')

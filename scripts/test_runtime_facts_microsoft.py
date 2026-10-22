@@ -39,6 +39,8 @@ class MicrosoftFactsTests(unittest.TestCase):
         adapter.list_changes(['model'])
         scanner.assert_called_once_with(f'groups/{WS}/datasets/{ITEM}/refreshes?$top=20',audience='powerbi')
         self.assertIn(b'"principal_id":"scanner"',raw[0]);reader.assert_not_called()
+        viewer=MicrosoftRuntimeFacts({'model':route('MODEL')},http=reader,retain=retained)
+        self.assertNotEqual(adapter.identity,viewer.identity)
 
     def test_scanner_refresh_wrapper_rejects_other_calls_before_credentials(self):
         from investigator.adapters.scanner_refresh import RefreshHttp
