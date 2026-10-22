@@ -1,0 +1,622 @@
+{
+  "credential": {
+    "owner_date": "2026-10-21",
+    "approval": "30-day client secret, existing investigator only, fixture/billing fixed connections, existing Key Vault; no new identity/permission grants",
+    "at": "2026-10-22T00:59:35.806610+00:00",
+    "app_id": "531419ef-1610-415a-b8bf-01a4b6aad751",
+    "app_object_id": "74f4529f-76b3-4d39-9eb9-31983f216e29",
+    "steps": [
+      {
+        "method": "GET",
+        "url": "https://graph.microsoft.com/v1.0/applications/74f4529f-76b3-4d39-9eb9-31983f216e29?$select=id,appId,displayName,passwordCredentials,keyCredentials",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://kv-dia-d5dd7d65.vault.azure.net/secrets?api-version=7.4&maxresults=1",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.powerbi.com/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/datasets/3484a2bc-98c5-4cef-be5c-a6215484075e/users",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.powerbi.com/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/datasets/3484a2bc-98c5-4cef-be5c-a6215484075e/datasources",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.fabric.microsoft.com/v1/workspaces/149f8d99-1c66-4a0a-9624-759be002bb60/items/3484a2bc-98c5-4cef-be5c-a6215484075e/connections",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.powerbi.com/v1.0/myorg/groups/7d67bb36-04f6-4182-95aa-da5d515248fa/datasets/c6c1091c-3bde-46ca-94fc-58f62d1e4188/users",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.powerbi.com/v1.0/myorg/groups/7d67bb36-04f6-4182-95aa-da5d515248fa/datasets/c6c1091c-3bde-46ca-94fc-58f62d1e4188/datasources",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.fabric.microsoft.com/v1/workspaces/7d67bb36-04f6-4182-95aa-da5d515248fa/items/c6c1091c-3bde-46ca-94fc-58f62d1e4188/connections",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "POST",
+        "url": "https://graph.microsoft.com/v1.0/applications/74f4529f-76b3-4d39-9eb9-31983f216e29/addPassword",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "PUT",
+        "url": "https://kv-dia-d5dd7d65.vault.azure.net/secrets/investigator-fixed-connection-20261021?api-version=7.4",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://kv-dia-d5dd7d65.vault.azure.net/secrets/investigator-fixed-connection-20261021/bd0b46d5fdff4ecf8365e9fdb4ffa632?api-version=7.4",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://graph.microsoft.com/v1.0/applications/74f4529f-76b3-4d39-9eb9-31983f216e29?$select=id,appId,displayName,passwordCredentials,keyCredentials",
+        "status": 200,
+        "error_code": null
+      }
+    ],
+    "models": {
+      "fixture": {
+        "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "before_users": {
+          "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/$metadata#Collection(Microsoft.PowerBI.ServiceContracts.Api.Access.DatasetUser)",
+          "value": [
+            {
+              "datasetUserAccessRight": "ReadWriteReshareExplore",
+              "identifier": "admin@skynwhy.com",
+              "principalType": "User"
+            },
+            {
+              "datasetUserAccessRight": "ReadExplore",
+              "identifier": "investigator-reader@skynwhy.com",
+              "principalType": "User"
+            },
+            {
+              "datasetUserAccessRight": "ReadWriteExplore",
+              "identifier": "dc89155f-9a9a-4daa-9c20-7eff55818ccd",
+              "principalType": "App"
+            },
+            {
+              "datasetUserAccessRight": "Read",
+              "identifier": "439ceb25-d200-4f02-95cf-4b1318faca62",
+              "principalType": "App"
+            },
+            {
+              "datasetUserAccessRight": "ReadExplore",
+              "identifier": "79c75be9-d8c3-4824-91c2-fc945041a8c3",
+              "principalType": "Group"
+            },
+            {
+              "datasetUserAccessRight": "ReadWriteExplore",
+              "identifier": "dbb49594-6c70-4989-a6c8-c4f237c4a021",
+              "principalType": "App"
+            }
+          ]
+        },
+        "before_sources": {
+          "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/$metadata#datasources",
+          "value": [
+            {
+              "datasourceType": "Sql",
+              "connectionDetails": {
+                "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "database": "77c49180-2ef9-4558-837c-f50fdb1df8de"
+              }
+            }
+          ]
+        },
+        "before_connections": {
+          "value": [
+            {
+              "connectivityType": "Automatic",
+              "connectionDetails": {
+                "path": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com;77c49180-2ef9-4558-837c-f50fdb1df8de",
+                "type": "SQL"
+              }
+            }
+          ]
+        }
+      },
+      "billing": {
+        "workspace_id": "7d67bb36-04f6-4182-95aa-da5d515248fa",
+        "model_id": "c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "before_users": {
+          "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/7d67bb36-04f6-4182-95aa-da5d515248fa/$metadata#Collection(Microsoft.PowerBI.ServiceContracts.Api.Access.DatasetUser)",
+          "value": [
+            {
+              "datasetUserAccessRight": "ReadWriteReshareExplore",
+              "identifier": "admin@skynwhy.com",
+              "principalType": "User"
+            },
+            {
+              "datasetUserAccessRight": "ReadExplore",
+              "identifier": "investigator-reader@skynwhy.com",
+              "principalType": "User"
+            },
+            {
+              "datasetUserAccessRight": "ReadWriteExplore",
+              "identifier": "dc89155f-9a9a-4daa-9c20-7eff55818ccd",
+              "principalType": "App"
+            },
+            {
+              "datasetUserAccessRight": "Read",
+              "identifier": "439ceb25-d200-4f02-95cf-4b1318faca62",
+              "principalType": "App"
+            },
+            {
+              "datasetUserAccessRight": "ReadExplore",
+              "identifier": "79c75be9-d8c3-4824-91c2-fc945041a8c3",
+              "principalType": "Group"
+            },
+            {
+              "datasetUserAccessRight": "ReadWriteExplore",
+              "identifier": "dbb49594-6c70-4989-a6c8-c4f237c4a021",
+              "principalType": "App"
+            }
+          ]
+        },
+        "before_sources": {
+          "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/7d67bb36-04f6-4182-95aa-da5d515248fa/$metadata#datasources",
+          "value": [
+            {
+              "datasourceType": "Sql",
+              "connectionDetails": {
+                "server": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com",
+                "database": "406dcb89-0526-4f48-bb77-397d52471c89"
+              }
+            }
+          ]
+        },
+        "before_connections": {
+          "value": [
+            {
+              "connectivityType": "Automatic",
+              "connectionDetails": {
+                "path": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com;406dcb89-0526-4f48-bb77-397d52471c89",
+                "type": "SQL"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "status": "CREDENTIAL_STORED_AND_VERIFIED",
+    "before_application": {
+      "id": "74f4529f-76b3-4d39-9eb9-31983f216e29",
+      "appId": "531419ef-1610-415a-b8bf-01a4b6aad751",
+      "displayName": "dia-investigator-round19",
+      "passwordCredentials": [],
+      "keyCredentialCount": 0
+    },
+    "credential_metadata": {
+      "keyId": "958bb7e5-3f94-48fe-8e1f-5fa73165cca2",
+      "displayName": "dia-fixed-readonly-fixture-billing-30d",
+      "startDateTime": "2026-10-22T00:59:55.182599Z",
+      "endDateTime": "2026-11-21T00:59:55.182599Z"
+    },
+    "vault_secret": {
+      "id": "https://kv-dia-d5dd7d65.vault.azure.net/secrets/investigator-fixed-connection-20261021/bd0b46d5fdff4ecf8365e9fdb4ffa632",
+      "attributes": {
+        "enabled": true,
+        "exp": 1795222795,
+        "created": 1792630796,
+        "updated": 1792630796,
+        "recoveryLevel": "CustomizedRecoverable+Purgeable",
+        "recoverableDays": 7
+      },
+      "contentType": "application/x-dia-fabric-fixed-identity-client-secret",
+      "tags": {
+        "purpose": "fixture-billing-fixed-readonly",
+        "ownerApproval": "2026-10-21",
+        "appId": "531419ef-1610-415a-b8bf-01a4b6aad751"
+      }
+    },
+    "vault_readback_verified": true,
+    "after_application": {
+      "id": "74f4529f-76b3-4d39-9eb9-31983f216e29",
+      "appId": "531419ef-1610-415a-b8bf-01a4b6aad751",
+      "displayName": "dia-investigator-round19",
+      "passwordCredentials": [
+        {
+          "keyId": "958bb7e5-3f94-48fe-8e1f-5fa73165cca2",
+          "displayName": "dia-fixed-readonly-fixture-billing-30d",
+          "startDateTime": "2026-10-22T00:59:55.182599Z",
+          "endDateTime": "2026-11-21T00:59:55.182599Z"
+        }
+      ],
+      "keyCredentialCount": 0
+    },
+    "existing_credentials_preserved": true,
+    "permission_grants_changed": false
+  },
+  "binding": {
+    "owner_date": "2026-10-21",
+    "at": "2026-10-22T01:01:02.318689+00:00",
+    "status": "BOTH_BOUND_AND_VERIFIED",
+    "app_id": "531419ef-1610-415a-b8bf-01a4b6aad751",
+    "credential_key_id": "958bb7e5-3f94-48fe-8e1f-5fa73165cca2",
+    "secret_value_logged": false,
+    "permission_grants_changed": false,
+    "steps": [
+      {
+        "method": "GET",
+        "url": "https://kv-dia-d5dd7d65.vault.azure.net/secrets/investigator-fixed-connection-20261021/bd0b46d5fdff4ecf8365e9fdb4ffa632?api-version=7.4",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.fabric.microsoft.com/v1/connections",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.fabric.microsoft.com/v1/workspaces/149f8d99-1c66-4a0a-9624-759be002bb60/items/3484a2bc-98c5-4cef-be5c-a6215484075e/connections",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.fabric.microsoft.com/v1/connections",
+        "status": 201,
+        "error_code": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.fabric.microsoft.com/v1/workspaces/149f8d99-1c66-4a0a-9624-759be002bb60/semanticModels/3484a2bc-98c5-4cef-be5c-a6215484075e/bindConnection",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.fabric.microsoft.com/v1/workspaces/149f8d99-1c66-4a0a-9624-759be002bb60/items/3484a2bc-98c5-4cef-be5c-a6215484075e/connections",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.fabric.microsoft.com/v1/connections/2f322058-f720-40a0-bd1e-d174b8e7f5da",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.powerbi.com/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/datasets/3484a2bc-98c5-4cef-be5c-a6215484075e/users",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.fabric.microsoft.com/v1/workspaces/7d67bb36-04f6-4182-95aa-da5d515248fa/items/c6c1091c-3bde-46ca-94fc-58f62d1e4188/connections",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.fabric.microsoft.com/v1/connections",
+        "status": 201,
+        "error_code": null
+      },
+      {
+        "method": "POST",
+        "url": "https://api.fabric.microsoft.com/v1/workspaces/7d67bb36-04f6-4182-95aa-da5d515248fa/semanticModels/c6c1091c-3bde-46ca-94fc-58f62d1e4188/bindConnection",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.fabric.microsoft.com/v1/workspaces/7d67bb36-04f6-4182-95aa-da5d515248fa/items/c6c1091c-3bde-46ca-94fc-58f62d1e4188/connections",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.fabric.microsoft.com/v1/connections/5099b9ff-1f27-488c-98c5-01c030dc4f3c",
+        "status": 200,
+        "error_code": null
+      },
+      {
+        "method": "GET",
+        "url": "https://api.powerbi.com/v1.0/myorg/groups/7d67bb36-04f6-4182-95aa-da5d515248fa/datasets/c6c1091c-3bde-46ca-94fc-58f62d1e4188/users",
+        "status": 200,
+        "error_code": null
+      }
+    ],
+    "models": {
+      "fixture": {
+        "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "before_connections": {
+          "value": [
+            {
+              "connectivityType": "Automatic",
+              "connectionDetails": {
+                "path": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com;77c49180-2ef9-4558-837c-f50fdb1df8de",
+                "type": "SQL"
+              }
+            }
+          ]
+        },
+        "source_unchanged": {
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+          "database": "77c49180-2ef9-4558-837c-f50fdb1df8de"
+        },
+        "name": "dia-fixture-readonly-fixed",
+        "status": "BOUND_AND_VERIFIED",
+        "created_connection": {
+          "allowConnectionUsageInGateway": false,
+          "allowUsageInUserControlledCode": false,
+          "id": "2f322058-f720-40a0-bd1e-d174b8e7f5da",
+          "displayName": "dia-fixture-readonly-fixed",
+          "gatewayId": "7e46fcb7-355d-42e5-a7d8-66fab5959fd2",
+          "connectivityType": "ShareableCloud",
+          "connectionDetails": {
+            "path": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com;77c49180-2ef9-4558-837c-f50fdb1df8de",
+            "type": "SQL"
+          },
+          "privacyLevel": "Organizational",
+          "credentialDetails": {
+            "credentialType": "ServicePrincipal",
+            "singleSignOnType": "None",
+            "connectionEncryption": "Encrypted",
+            "skipTestConnection": false
+          },
+          "connectionRecency": {
+            "createdDateTime": "2026-10-22T01:01:33Z",
+            "lastBoundDateTime": null,
+            "lastCredentialUsedDateTime": "2026-10-22T01:01:00Z",
+            "myLastBoundDateTime": null,
+            "myLastCredentialUsedDateTime": "2026-10-22T01:01:00Z"
+          },
+          "myRole": "Owner"
+        },
+        "bind_request": {
+          "connectionBinding": {
+            "id": "2f322058-f720-40a0-bd1e-d174b8e7f5da",
+            "connectivityType": "ShareableCloud",
+            "connectionDetails": {
+              "type": "SQL",
+              "path": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com;77c49180-2ef9-4558-837c-f50fdb1df8de"
+            }
+          }
+        },
+        "after_connections": {
+          "value": [
+            {
+              "displayName": "dia-fixture-readonly-fixed",
+              "connectivityType": "ShareableCloud",
+              "id": "2f322058-f720-40a0-bd1e-d174b8e7f5da",
+              "connectionDetails": {
+                "path": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com;77c49180-2ef9-4558-837c-f50fdb1df8de",
+                "type": "SQL"
+              }
+            }
+          ]
+        },
+        "after_connection": {
+          "allowConnectionUsageInGateway": false,
+          "allowUsageInUserControlledCode": false,
+          "id": "2f322058-f720-40a0-bd1e-d174b8e7f5da",
+          "displayName": "dia-fixture-readonly-fixed",
+          "gatewayId": "7e46fcb7-355d-42e5-a7d8-66fab5959fd2",
+          "connectivityType": "ShareableCloud",
+          "connectionDetails": {
+            "path": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com;77c49180-2ef9-4558-837c-f50fdb1df8de",
+            "type": "SQL"
+          },
+          "privacyLevel": "Organizational",
+          "credentialDetails": {
+            "credentialType": "ServicePrincipal",
+            "singleSignOnType": "None",
+            "connectionEncryption": "Encrypted",
+            "skipTestConnection": false
+          },
+          "connectionRecency": {
+            "createdDateTime": "2026-10-22T01:01:33Z",
+            "lastBoundDateTime": "2026-10-22T01:01:34Z",
+            "lastCredentialUsedDateTime": "2026-10-22T01:01:00Z",
+            "myLastBoundDateTime": "2026-10-22T01:01:34Z",
+            "myLastCredentialUsedDateTime": "2026-10-22T01:01:00Z"
+          },
+          "myRole": "Owner"
+        },
+        "after_users": {
+          "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/$metadata#Collection(Microsoft.PowerBI.ServiceContracts.Api.Access.DatasetUser)",
+          "value": [
+            {
+              "datasetUserAccessRight": "ReadWriteReshareExplore",
+              "identifier": "admin@skynwhy.com",
+              "principalType": "User"
+            },
+            {
+              "datasetUserAccessRight": "ReadExplore",
+              "identifier": "investigator-reader@skynwhy.com",
+              "principalType": "User"
+            },
+            {
+              "datasetUserAccessRight": "ReadWriteExplore",
+              "identifier": "dc89155f-9a9a-4daa-9c20-7eff55818ccd",
+              "principalType": "App"
+            },
+            {
+              "datasetUserAccessRight": "Read",
+              "identifier": "439ceb25-d200-4f02-95cf-4b1318faca62",
+              "principalType": "App"
+            },
+            {
+              "datasetUserAccessRight": "ReadExplore",
+              "identifier": "79c75be9-d8c3-4824-91c2-fc945041a8c3",
+              "principalType": "Group"
+            },
+            {
+              "datasetUserAccessRight": "ReadWriteExplore",
+              "identifier": "dbb49594-6c70-4989-a6c8-c4f237c4a021",
+              "principalType": "App"
+            }
+          ]
+        },
+        "model_permissions_unchanged": true
+      },
+      "billing": {
+        "workspace_id": "7d67bb36-04f6-4182-95aa-da5d515248fa",
+        "model_id": "c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "before_connections": {
+          "value": [
+            {
+              "connectivityType": "Automatic",
+              "connectionDetails": {
+                "path": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com;406dcb89-0526-4f48-bb77-397d52471c89",
+                "type": "SQL"
+              }
+            }
+          ]
+        },
+        "source_unchanged": {
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com",
+          "database": "406dcb89-0526-4f48-bb77-397d52471c89"
+        },
+        "name": "dia-billing-readonly-fixed",
+        "status": "BOUND_AND_VERIFIED",
+        "created_connection": {
+          "allowConnectionUsageInGateway": false,
+          "allowUsageInUserControlledCode": false,
+          "id": "5099b9ff-1f27-488c-98c5-01c030dc4f3c",
+          "displayName": "dia-billing-readonly-fixed",
+          "gatewayId": "7e46fcb7-355d-42e5-a7d8-66fab5959fd2",
+          "connectivityType": "ShareableCloud",
+          "connectionDetails": {
+            "path": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com;406dcb89-0526-4f48-bb77-397d52471c89",
+            "type": "SQL"
+          },
+          "privacyLevel": "Organizational",
+          "credentialDetails": {
+            "credentialType": "ServicePrincipal",
+            "singleSignOnType": "None",
+            "connectionEncryption": "Encrypted",
+            "skipTestConnection": false
+          },
+          "connectionRecency": {
+            "createdDateTime": "2026-10-22T01:02:05Z",
+            "lastBoundDateTime": null,
+            "lastCredentialUsedDateTime": "2026-10-22T01:02:00Z",
+            "myLastBoundDateTime": null,
+            "myLastCredentialUsedDateTime": "2026-10-22T01:02:00Z"
+          },
+          "myRole": "Owner"
+        },
+        "bind_request": {
+          "connectionBinding": {
+            "id": "5099b9ff-1f27-488c-98c5-01c030dc4f3c",
+            "connectivityType": "ShareableCloud",
+            "connectionDetails": {
+              "type": "SQL",
+              "path": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com;406dcb89-0526-4f48-bb77-397d52471c89"
+            }
+          }
+        },
+        "after_connections": {
+          "value": [
+            {
+              "displayName": "dia-billing-readonly-fixed",
+              "connectivityType": "ShareableCloud",
+              "id": "5099b9ff-1f27-488c-98c5-01c030dc4f3c",
+              "connectionDetails": {
+                "path": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com;406dcb89-0526-4f48-bb77-397d52471c89",
+                "type": "SQL"
+              }
+            }
+          ]
+        },
+        "after_connection": {
+          "allowConnectionUsageInGateway": false,
+          "allowUsageInUserControlledCode": false,
+          "id": "5099b9ff-1f27-488c-98c5-01c030dc4f3c",
+          "displayName": "dia-billing-readonly-fixed",
+          "gatewayId": "7e46fcb7-355d-42e5-a7d8-66fab5959fd2",
+          "connectivityType": "ShareableCloud",
+          "connectionDetails": {
+            "path": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com;406dcb89-0526-4f48-bb77-397d52471c89",
+            "type": "SQL"
+          },
+          "privacyLevel": "Organizational",
+          "credentialDetails": {
+            "credentialType": "ServicePrincipal",
+            "singleSignOnType": "None",
+            "connectionEncryption": "Encrypted",
+            "skipTestConnection": false
+          },
+          "connectionRecency": {
+            "createdDateTime": "2026-10-22T01:02:05Z",
+            "lastBoundDateTime": "2026-10-22T01:02:07Z",
+            "lastCredentialUsedDateTime": "2026-10-22T01:02:00Z",
+            "myLastBoundDateTime": "2026-10-22T01:02:07Z",
+            "myLastCredentialUsedDateTime": "2026-10-22T01:02:00Z"
+          },
+          "myRole": "Owner"
+        },
+        "after_users": {
+          "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/7d67bb36-04f6-4182-95aa-da5d515248fa/$metadata#Collection(Microsoft.PowerBI.ServiceContracts.Api.Access.DatasetUser)",
+          "value": [
+            {
+              "datasetUserAccessRight": "ReadWriteReshareExplore",
+              "identifier": "admin@skynwhy.com",
+              "principalType": "User"
+            },
+            {
+              "datasetUserAccessRight": "ReadExplore",
+              "identifier": "investigator-reader@skynwhy.com",
+              "principalType": "User"
+            },
+            {
+              "datasetUserAccessRight": "ReadWriteExplore",
+              "identifier": "dc89155f-9a9a-4daa-9c20-7eff55818ccd",
+              "principalType": "App"
+            },
+            {
+              "datasetUserAccessRight": "Read",
+              "identifier": "439ceb25-d200-4f02-95cf-4b1318faca62",
+              "principalType": "App"
+            },
+            {
+              "datasetUserAccessRight": "ReadExplore",
+              "identifier": "79c75be9-d8c3-4824-91c2-fc945041a8c3",
+              "principalType": "Group"
+            },
+            {
+              "datasetUserAccessRight": "ReadWriteExplore",
+              "identifier": "dbb49594-6c70-4989-a6c8-c4f237c4a021",
+              "principalType": "App"
+            }
+          ]
+        },
+        "model_permissions_unchanged": true
+      }
+    }
+  }
+}

@@ -64,21 +64,24 @@ def first_tape_error(journal, diagnostics):
 
 
 class _ReplayConfigRoot:
-    """Windows absolute config paths are lexical references, not host files."""
+    """Sealed absolute config paths retain their original platform semantics."""
     def __init__(self, root):
         self.root = root
 
     def __truediv__(self, value):
+        class Absolute:
+            def __init__(self,normalized):self.normalized=normalized
+            def resolve(self):return self.normalized
+            def __str__(self):return self.normalized
         windows = PureWindowsPath(value)
         if windows.is_absolute():
             import ntpath
-            normalized = ntpath.normpath(str(value))
-            class Absolute:
-                def resolve(self):
-                    return normalized
-            return Absolute()
+            return Absolute(ntpath.normpath(str(value)))
         if windows.drive:
             raise ValueError('REPLAY_WINDOWS_DRIVE_RELATIVE_PATH_UNSUPPORTED')
+        if PurePosixPath(value).is_absolute():
+            import posixpath
+            return Absolute(posixpath.normpath(str(value)))
         return self.root / value
 
 

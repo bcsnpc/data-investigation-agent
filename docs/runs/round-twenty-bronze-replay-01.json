@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-21",
+  "kind": "OFFLINE_REPLAY",
+  "run_id": "round20-bronze-replay-01",
+  "source_run_id": "round20-bronze-01",
+  "status": "MATCHED",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:18a635f20c9708fa7ceaca19ed9b9766dd70d95c3fb9788a52d317ddf9fbcdbc",
+  "coverage": "NATIVE_PROBE_AND_PHYSICAL_PROTOCOL",
+  "estate_reads": 0,
+  "model_calls": 0,
+  "platform_artifact_controls_separate": true,
+  "immutable_records_verified": 8,
+  "capture_seal": "ee6f4ff07cf914f35f2300ed0d949306c52c339f096851ae66dfd66354ccbad4"
+}

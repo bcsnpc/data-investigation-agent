@@ -108,6 +108,10 @@ def operation(name):
                 if getattr(agent.store, 'shared_catalog', None) is not None:
                     from .shared_application import VERSION as application_version
                     bootstrap['state']['shared_application'] = application_version
+                    from .shared_application_capture import VERSION as capture_version
+                    bootstrap['state']['shared_application_capture']=capture_version
+                    from .shared_catalog import READ_RESULTS_VERSION
+                    bootstrap['state']['shared_catalog_capture']=READ_RESULTS_VERSION
                 if shared_backend is not None:
                     bootstrap['state']['shared_usage_replay']=shared_backend
                 if agent.governor is not None:

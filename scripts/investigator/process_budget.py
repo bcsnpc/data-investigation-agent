@@ -33,15 +33,20 @@ def allocation(cap, scope):
     return {'WALK': cap - side, 'REPRODUCTION': side}
 
 
-def remaining(state):
+def remaining(state, config=None):
+    from .build_phase import active, PHYSICAL_REQUESTS
+    if active(config):
+        # Planning headroom only. Every actual read still requires the shared
+        # monthly governor; historical per-run counters remain informational.
+        return PHYSICAL_REQUESTS
     limits = allocation(state['envelope']['limits']['cloud_calls'], state['envelope'])
     name = current()
     used = state.get('diagnostic_phase_counts', {}).get(name, 0)
     return min(state['envelope']['limits']['cloud_calls'] - state['cloud_calls'], limits[name] - used)
 
 
-def admit(state, tool):
-    if remaining(state) <= 0:
+def admit(state, tool, config=None):
+    if remaining(state, config) <= 0:
         raise UsageHold('Diagnostic ' + current().lower() + ' sub-budget exhausted before ' + tool)
 
 

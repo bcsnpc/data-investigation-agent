@@ -1,3 +1,9 @@
+Round Twenty closing checkpoint, owner2026-10-21 / UTC2026-10-22: family A delivered TRANSFORMATION_LOGIC (Silver7,661 -> Gold8,765), with validated synthesis and the requested identity warning in both outputs. Retained C5 verification remains NOT_VERIFIED. Outer Azure finalization failed after delivery; all3 original sealed native tapes/databases were recovered by exact CAS hashes. Original same-image replay0/3; accounting/path repairs then matched3/3 offline, separately labelled. Filtered fixture16 and billingMRR600 agree observationally but earn0 VALUE_VERIFIED paths. Local full4791PASS/47skip; final warning/replay focused135PASS; final CI/merge/tag pending. Monthly330/6000 (INV289/SCAN41/REST0), modelUSD0.068923/40, reserve95 untouched; all6model reservations settled. Both schedules read back, daily includes earned demo; no daily-stability claim. Prior freeze invalid.
+
+Round Twenty final validation, owner date2026-10-21 (UTC2026-10-22): final engine2c3b8e2 full4747PASS/47skip/1622subtests; all8image shards and publicationPASS. Latest-image healthPASS; both daily06UTC and six-hour graph schedules readbackPASS. Midnight graph32SCAN plus later health4SCAN reconcile monthly286/6000 (last direct ledger282), restoration95untouched; no new model sends. Live browser confirms demo model maps to Default: Single Sign-On(EntraID): Microsoft excludes service-principal ExecuteQueries for SSO models, despite correct token/grants/APIsettings. No setting/grant changed. Demo04 HELD before provider dispatch on unprovisioned monthly policy; same-image replayFAILED and original retained. New per-read shared-catalog capture is regression-tested; old failed tapes not backfilled. PartD both401refusals, compiler/response replaysMATCHED, zero live VALUE_VERIFIED/completepaths. Owner alternatives in docs/owner-actions.md; merge/main validation/tag stillpending. Prior freeze invalid.
+
+Round Twenty closing checkpoint, 2026-10-21: Bronze read and same-image replay PASS; corrected cloud health PASS. Verification retry05 remains NOT_VERIFIED (native DAX401 versus Gold8765, no numeric comparison). Normal cloud demo04 HELD before model dispatch: monthly budget policy INSERT denied to worker; no investigator scope was expanded. Owner setup and unresolved SSO inspection are in docs/owner-actions.md. Both PartD checks refused native401; compiler/response replays MATCHED, zero live confidence grades or complete verified paths. Live physical last observed250/6000, restoration95untouched. Clean7f95749 full regression4742PASS/47skip/1622subtests; final capture repair and CI still pending. Daily06UTC and independent six-hour graph schedules remain; conservative platform estimateUSD19.077133/month. Prior freezes invalid. See docs/round-twenty-execution.md.
+
 Round Nineteen-B closed, 2026-10-16: #423/#424/#425/#426 merged in order; v0.19b tags verified main6fb1616. Full main regression4,463PASS/46skip/1,557subtests; CI20SUCCESS/1SKIP including30-answer replay. Scanner collected35/67owners and sample359nodes/396edges, but zero complete source paths verified; Bronze follow-up result lost at operator capture finalization, demo NOT_ADMITTED. Archive partial25.82GB original/2.33GB stored; owner cleanup script prepared, not executed. Last verified pot357/1500, reserve95, modelUSD0.074710; October16 refresh timed out, so rolling585/3000 remains an October13 observation. Prior freezes invalid. See docs/round-nineteen-b-summary.md.
 
 Round Nineteen-B checkpoint, 2026-10-13: sample scan completed359nodes/396edges but no verified source path. Bronze uses the existing investigator with Viewer; no grant changed. Its one follow-up probe charged4requests but operator tape finalization failed before upload, so Bronze remains NOT_VERIFIED and the extra full demo was not admitted. Schedule restored, no pending probe reservations. Generic early capture-header validation is under regression; prior freeze invalid. See docs/round-nineteen-b-bronze-diagnosis.md.
@@ -348,6 +354,95 @@ answerable from pipeline evidence.
 8. **No app registration is created or amended, and no identity gains a new
    audience or scope, without an explicit human decision.** Report what would be
    required and stop.
+
+
+## Standing operating mode: build phase (2026-10-19)
+
+Owner decision dated2026-10-19, adopted in code2026-10-21 under ?8. This section supersedes the historical per-round estate pots; rolling3,000 stop; diagnostic12 stop; per-round model ceilings/protected$10; all live-attempt limits; exact-replay-before-live gates; and the ten-request/single-attempt Bronze condition in docs/round-nineteen-b-bronze-diagnosis.md. Their text and evidence are retained as history. Identity, read-only, secret and archive safeguards remain strict.
+
+**Why:** this is a test environment. Strict gates before things work make
+fixes impossible to fit. We tighten only after the product works end to
+end.
+
+**One monthly budget (calendar month, UTC):**
+
+- **Model spend:** $40 a month.
+- **Estate physical requests:** 6,000 a month, of which 1,000 are reserved
+  for scheduled scans and collectors.
+- **Azure platform:** $20 a month. No new paid resources without owner
+  approval.
+- At 80%, warn in the next report and keep going. At 100%, stop only that
+  kind of work and continue everything else offline.
+- No per-round pots, no per-round approvals, and no attempt limits.
+
+**Hard stops: the only reasons to stop live work.**
+
+1. Any write, or attempted write, by the investigator or `dia-scanner`
+   outside its allowlist.
+2. Any guardrail or red-team test failing.
+3. A secret printed, logged or committed.
+4. Deleting a file that isn't verified against an archive manifest.
+5. A monthly budget at 100% (for that kind of work only).
+6. Model calls refused for billing or authorisation (no retries; carry on
+   with non-model work).
+
+For these: stop that work, record it, fix it with tests, then resume.
+
+**Everything else is soft: record it, fix it, retry, move on.** This
+covers:
+
+- admission or preflight mismatches;
+- replay drift and runtime-fingerprint differences;
+- timeouts and lock stalls;
+- transient sign-in or login errors (for example SQL 18456);
+- missing fields, malformed headers and path errors.
+
+For each one:
+
+1. Record it in one line in the round log.
+2. **Retry transient errors automatically,** up to twice, 30–60 seconds
+   apart.
+3. If it's a code or config bug, fix it, add a regression test, and
+   retry. There's no attempt limit; the monthly budget is the limit.
+4. If it's still blocked after three different fixes, mark it blocked
+   with the exact reason, and move on to the next part.
+
+**Replay and verification:**
+
+- **Live first, replay after.** Replay checks a live run after it
+  happens; it never gates whether the live run may start.
+- Replay must run on the **same container image** as the live run.
+  Windows-versus-Linux fingerprint differences are expected, not
+  failures.
+- A replay mismatch is a bug to fix. It doesn't invalidate the live
+  result or stop the round.
+- Admission and preflight checks **warn**, unless the problem is one of
+  the hard stops.
+
+**Records:** decisions and failures only, one line each. At most about 10
+minutes of housekeeping per part.
+
+**Still strict:**
+
+- The investigator stays read-only, with no write or admin rights; no
+  impersonation (RLS).
+- `dia-scanner` is restricted in code to read calls.
+- Secrets live only in Key Vault.
+- SQL authentication stays enabled.
+- Identity or permission changes need owner approval, recorded under §8.
+- The independent tester never reads expectations or engine code.
+
+**Harden phase, later, only when the owner says so.** Expected trigger:
+the cloud demo has passed end to end, the daily smoke test has been green
+for a week, and a client onboarding has passed.
+
+### Owner correction ? 2026-10-21
+
+The historical cumulative model ledger total (including$107.957725 from earlier rounds) does not count against the new budget. All build-phase monthly budgets begin counting at **2026-10-19 00:00UTC** forOctober; subsequent periods reset on the first of each calendar monthUTC. Historical rows and totals remain informational, unchanged. Model calls are allowed again within$40 permonth. No new model provider this round. Any later need for more model budget is recorded in docs/owner-actions.md for the owner to decide.
+
+Owner schedule decision under ?8, 2026-10-21: retain daily06:00UTC smoke on job-dia-worker and restore six-hour graph change detection in the separately approved job-dia-graph-scan, using the same existing environment, image, managed identity, resources and1,800-second runtime. No new role or identity scope; combined conservative monthly estimate USD19.077133 remains belowUSD20. Both schedules require Azure readback; current verification/demo must not be interrupted. Executed and independently read back2026-10-21: both jobs Succeeded, daily06UTC and graph six-hourly, same image/environment/MI and0.5vCPU/1GiB; no new role. Exact control body hash and readbacks are recorded in docs/runs/round-twenty-schedule-pair.json and the local control receipts.
+
+Owner-approved memory fallback, offline diagnosis dated2026-10-21: retry03 retained905events totaling457,749,646serialized bytes. Tape.flush bytes_of serializes resident base64 bodies into a JSON string and UTF8 bytes simultaneously, a code-based peak above1.37GB before other objects; this cannot reliably fit1GiB. ActualAzureexitcause remains unconfirmed, not an observedOOM finding. Apply the approved1vCPU/2GiB fallback only to a job-dia-worker execution override; default daily smoke and graph job remain0.5vCPU/1GiB. Tests restrict override to that job and exact size, with no PATCH/update/schedule/identity mutation. Incremental maximum30-minute computeUSD0.027 perexecution (USD0.054 versusUSD0.027); recurring platform estimateUSD19.077133 stays unchanged, additional manual executions reported separately. No identity or permission change.
 
 ## Known platform limits: served-snapshot metadata (2026-09-27)
 
@@ -858,3 +953,49 @@ Dated owner decision, 2026-10-11: agent-only per-request input ceiling approved 
 Dated owner approval, 2026-10-11: daily model output-token allowance raised from 10,000,000 to 20,000,000 for the ongoing session. The USD100 dollar guard and every other limit are unchanged; counters preserved. Applied between billing cohorts through a new hash-pinned manifest and retained-context whole-config re-approval, not by changing an active run. See docs/round-fourteen-billing-shared-intake.md and the appended ledger decision.
 
 Dated correction, 2026-10-11: the initial 20M manifest activation was refused because both the manifest and consumer had a 10M hard validation ceiling. No billing run was admitted; the subsequent launcher lacked an approval file and failed before capture/provider/estate activity. The owner decision remains approved; application awaited the ceiling change and fresh re-approval. The manifest now derives its output maximum from the consumer-owned DAILY_MAXIMUM, raised to 20M; no default allowance or other ceiling changed.
+
+Owner approval under section 8, 2026-10-21: retry the on-disk frozen snapshot repair at existing worker resources. Only if that attempt fails on memory again, job-dia-worker may use 1vCPU/2GiB instead of0.5vCPU/1GiB; smoke and graph schedules/resources remain unchanged. Prefer an execution-only template override. At consumption rates USD0.000024/vCPU-second and USD0.000003/GiB-second, a maximum1800-second attempt increases compute fromUSD0.027 toUSD0.054 (extraUSD0.027); recurring estimate remainsUSD19.077133 if defaults stay unchanged. If the estimate exceedsUSD20, record owner-actions and proceed this round under this explicit exception. No identity, permission, other job, or monthly model/estate cap changes.
+
+### §8 owner build-phase correction, 2026-10-21: verification label, not demo gate
+
+Owner explicitly directs the live family A demo despite retained retry05 NATIVE_DECLARED_ROUTE_NOT_VERIFIED. Attach its exact failed semantic-to-Gold comparison (DAX401, SQL8765) as a not-verified label; handoff checks warn in BUILD_PHASE. Normal gateway/read-only/budget, intake and delivery guards remain enabled. Use the previously approved job-dia-worker-only1CPU/2Gi executionoverride; no identity, permission, provider or schedule change. Demo answer, verification result and same-image replay are separate claims.
+
+
+### Section8 owner approval, 2026-10-21: unblock RoundTwenty before merging
+
+Owner explicitly approves changing only the fixture demo model and, if needed, billing MRR model from default EntraSSO to a shareable fixed-identity cloud connection using an existing read-only identity; no new write rights. Admin sign-in is control-plane only. Existing investigator is federated-only with no secret: use existing investigator-reader OAuth sign-in if supported, never invent a client-secret/federation credential. Record exact before/after model bindings and connection authentication without credentials.
+
+Owner also approves replacing platform PostgreSQL OwnerCurrentIp firewall range with the laptop's current single outwardIPv4 (start=end), preserving every other rule; provision October2026 and November2026 model budget accounts as existing owner, without widening worker roles or resetting historical counters. Add model fixed-identity binding and current-month policy existence to Round21 permission map. Then rerun demo, fixture/MRR checks and same-image replay before fulltests/CI/merge/tag. This approval supersedes the earlier plan to merge with those two blockers pending.
+
+
+### Section8 executed owner controls, 2026-10-21 (UTC October22)
+
+Owner-approved PostgreSQL OwnerCurrentIp replaced single209.240.14.44 with single184.105.12.85; other rules unchanged. Existing owner provisioned October and November2026 model-microdollars accounts at40,000,000 each; both previously absent, zero opening/charged. Historical balances and worker privileges unchanged (SELECT and UPDATE(violated), no INSERT/DELETE/TRUNCATE). No credentials stored or printed. Exact before/after: docs/runs/round-twenty-owner-unblock-controls.json; explanation and owner steps: docs/round-twenty-owner-unblock.md. Power BI fixed identity APPROVED BUT NOT APPLIED: embedded connection portal blank, standalone portal reports Unable to authenticate for GRAPH service. No missing Graph grant inferred, no role/secret workaround. Demo/value/replay reruns pending connection; #427 remains draft, no v0.20.
+
+
+### Section8 owner credential approval, 2026-10-21
+
+Owner explicitly approved one 30-day client secret on existing investigator application531419ef-1610-415a-b8bf-01a4b6aad751, solely for fixture and billing fixed-identity connections; store only in existing Key Vault, never print/log it. No new identity or permission grant. Preserve existing federation and all app credentials/roles. Existing owner/admin control-plane sessions may add the credential, write the vault secret, create two read-only datasource connections and bind only the approved models. Before/after metadata and expiry will be recorded without secret values. This supersedes the prior no-new-secret constraint only for this named credential and purpose.
+
+
+### Section8 executed fixed-identity credential and bindings, owner date2026-10-21
+
+Existing application531419ef-1610-415a-b8bf-01a4b6aad751 received exactly one owner-approved30-day credential, keyId958bb7e5-3f94-48fe-8e1f-5fa73165cca2, expiry2026-11-21T00:59:55Z. Value created in memory and stored/readback verified only in existing kv-dia-d5dd7d65 secret investigator-fixed-connection-20261021; never printed or logged. Existing federation/credentials preserved. Fixture and billing ShareableCloud SQL connections created with ServicePrincipal existing investigator, encryption on, singleSignOnTypeNone, connection tests enabled. IDs fixture2f322058-f720-40a0-bd1e-d174b8e7f5da; billing5099b9ff-1f27-488c-98c5-01c030dc4f3c. Both model bindings read back asShareableCloud, source server/database unchanged. Model permission listings byte-equivalent as JSON before/after; no identity or permission grant. Admin used only for control mutations, investigation reader remains federated. Exact credential metadata, requests without secrets and before/after: docs/runs/round-twenty-fixed-identity-controls.json. Connection success is not yet demo success.
+
+
+### Owner attestation policy and endpoint packaging fix, 2026-10-21 (UTC October22)
+
+Owner directs that the demonstrated DAX tenant-only identity answer is a warning, not an investigation refusal. The adapter recognizes only the exact configured tenant returned by a completed federated read whose separately validated transport identity matches the configured principal, account, workspace and model. Literal self-report and its CONTRADICTED status remain retained; no MATCHED or independent-boundary grade is manufactured. Other identity/object contradictions still refuse. Both deterministic outputs carry: "attestation limited: the engine can't self-report the calling principal; the token and connection were verified separately". Tests cover continued walk to an independently attested Gold/Silver divergence, unrelated contradictions, and both output renderings. No permission or credential changes.
+
+Fixed03 completed with a sealed capture and HELD refusal, not the expected answer: native tenant-only self-report, then FileNotFoundError entering the next layer. Its input ZIP omitted the configured /inputs/endpoints.json, although prepared/endpoints.json carried the exact approved hash. A new immutable ZIP adds those identical bytes at the declared path; configuration/approval pins and existing members remain unchanged. Pre-dispatch input admission now rejects missing, changed or linked receipt paths before a model call; it never searches, repins or fetches a replacement. Regression passes actual retained endpoint lookup after installing pinned bytes and rejects a mutation.
+
+Identity probe round20-dax-object-identity-01, one physical request/zero models: USEROBJECTID, USERNAME and USERPRINCIPALNAME all returned the literal tenant ID with leading space; none established the principal. HTTP200, 12 outer records, valid seal. Record: docs/runs/round20-dax-object-identity-01.json. Fixed03: docs/runs/round20-cloud-family-a-demo-fixed-03.json. Same-image value replays matched; failed fixed02 native replay preserves CLOCK:IDENTITY mismatch.
+
+At 2026-10-22T02:13:36Z: physical321/6000 (INV280/SCAN41/REST0), reserve95 untouched; October modelUSD0.030555/40, all3reservations settled. Prior4958 full4752PASS/47skip/1622subtests and all25CIgreen; new warning/package source full regression/image/live/replay pending. Prior freeze invalid; #427 stays draft pending live answer.
+
+
+### Dated platform observation and owner warning policy, 2026-10-21 (UTC October22)
+
+On the existing federated investigator, the one-row ExecuteQueries probe returned the Fabric tenant ID (with leading space) for USEROBJECTID, USERNAME and USERPRINCIPALNAME. None self-reported the principal. Exact query/results: docs/runs/round20-dax-object-identity-01.json. This is an observed result for these fixtures, not an assertion about all Power BI installations. The authenticated token and the fixed-identity model connection were independently checked. Owner explicitly directs this limitation to be a warning, not an investigation refusal. Literal self-report and its contradiction remain in evidence; no full/native principal attestation or independent boundary grade is invented. Other identity/object mismatches and read-only guards still refuse. Within-layer reproduction, selection and filter checks share the same warning policy, require the adapter's separate transport proof, and preserve pin/scope validation.
+
+Both fixed-identity connections and the approved30-day credential are applied; old manual connection instructions are historical, not outstanding. No extra role, reader permission or identity was granted. Credential expiry is2026-11-21T00:59:55.182599Z (November20,18:59Central); rotation needs an owner decision before then.

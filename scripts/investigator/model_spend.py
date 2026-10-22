@@ -26,8 +26,10 @@ class SpendBudget:
         return super().__new__(cls)
 
     def __init__(self, path, ceiling_microdollars):
+        from . import build_phase
+        self.build_phase=build_phase.active()
         self.path = str(path)
-        self.ceiling = ceiling_microdollars
+        self.ceiling = build_phase.MODEL_MICRODOLLARS if self.build_phase else ceiling_microdollars
         if type(self.ceiling) is not int or self.ceiling <= 0:
             raise ValueError('Positive dollar ceiling required')
         with self.connect() as db:
@@ -36,8 +38,8 @@ class SpendBudget:
                        'charged INTEGER, status TEXT, input_tokens INTEGER, output_tokens INTEGER)')
             db.execute('CREATE TABLE IF NOT EXISTS spend_policy (id INTEGER PRIMARY KEY, ceiling INTEGER)')
             db.execute('CREATE TABLE IF NOT EXISTS model_spend_deployments (id TEXT PRIMARY KEY, model TEXT)')
-            db.execute('INSERT OR IGNORE INTO spend_policy VALUES (1, ?)', (self.ceiling,))
-            if db.execute('SELECT ceiling FROM spend_policy WHERE id=1').fetchone()[0] != self.ceiling:
+            db.execute('INSERT OR IGNORE INTO spend_policy VALUES (1, ?)', (ceiling_microdollars,))
+            if not self.build_phase and db.execute('SELECT ceiling FROM spend_policy WHERE id=1').fetchone()[0] != self.ceiling:
                 raise SpendHold('Round dollar ceiling differs from sealed spending policy')
 
     @contextlib.contextmanager
@@ -64,14 +66,18 @@ class SpendBudget:
         bound = self.price(inputs, outputs, model=body.get('model'))
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE')
-            if db.execute("SELECT 1 FROM model_spend WHERE status='VIOLATION'").fetchone():
+            if not self.build_phase and db.execute("SELECT 1 FROM model_spend WHERE status='VIOLATION'").fetchone():
                 raise SpendHold('Provider cost exceeded reservation; new calls refused')
             charged = db.execute('SELECT COALESCE(SUM(charged),0) FROM model_spend').fetchone()[0]
-            margin = int(os.environ.get('INVESTIGATOR_MODEL_SPEND_MARGIN_MICRODOLLARS', '0'))
+            if self.build_phase:
+                from .build_phase import month_window
+                _,start,end=month_window(time.time())
+                charged=db.execute('SELECT COALESCE(SUM(charged),0) FROM model_spend WHERE created>=? AND created<?',(start,end)).fetchone()[0]
+            margin = 0 if self.build_phase else int(os.environ.get('INVESTIGATOR_MODEL_SPEND_MARGIN_MICRODOLLARS', '0'))
             if not 0 <= margin < self.ceiling:
                 raise SpendHold('Invalid protected model-credit margin')
             if charged + bound > self.ceiling - margin:
-                raise SpendHold('Round model-spend hard stop: request would exceed dollar ceiling')
+                raise SpendHold('MONTHLY_MODEL_EXHAUSTED' if self.build_phase else 'Round model-spend hard stop: request would exceed dollar ceiling')
             # Private spend-row identity is allocated atomically by this ledger,
             # outside investigation identities and replay events. Rows are retained.
             identity = 'cost-'+str(db.execute('SELECT COALESCE(MAX(rowid),0)+1 FROM model_spend').fetchone()[0])
@@ -101,12 +107,22 @@ class SpendBudget:
 
     def snapshot(self):
         with self.connect() as db:
-            rows = db.execute('SELECT status,charged,input_tokens,output_tokens FROM model_spend').fetchall()
-        return {'ceiling_usd': self.ceiling/1000000, 'charged_usd': sum(r[1] for r in rows)/1000000,
+            historical=db.execute('SELECT COALESCE(SUM(charged),0) FROM model_spend').fetchone()[0]
+            if self.build_phase:
+                from .build_phase import month_window
+                month,start,end=month_window(time.time())
+                rows=db.execute('SELECT status,charged,input_tokens,output_tokens FROM model_spend WHERE created>=? AND created<?',(start,end)).fetchall()
+            else:rows = db.execute('SELECT status,charged,input_tokens,output_tokens FROM model_spend').fetchall()
+        result = {'ceiling_usd': self.ceiling/1000000, 'charged_usd': sum(r[1] for r in rows)/1000000,
                 'calls': len(rows), 'input_tokens': sum(r[2] or 0 for r in rows),
                 'output_tokens': sum(r[3] or 0 for r in rows),
                 'unsettled_calls': sum(r[0] in ('RESERVED','UNCERTAIN') for r in rows),
                 'rate_card_billing_estimate': True}
+        if self.build_phase:
+            from .build_phase import model_status
+            result['monthly']=model_status(sum(r[1]for r in rows),month)
+            result['historical_cumulative_usd_informational']=historical/1000000
+        return result
 
 
 @contextlib.contextmanager
@@ -115,6 +131,18 @@ def admission(body):
     from .local_accounting import boundary,replay_optional
     tape = ACTIVE.get()
     if tape is not None and tape.replaying:
+        # SharedSpendBudget.reserve journals its UUID before the provider's
+        # timeout clock. Replay must consume that environmental identifier even
+        # though it must never reserve money in the live ledger. Local-file
+        # spending does not emit this event. The existing bootstrap markers
+        # identify the shared backend; old tapes and their bodies stay intact.
+        state=getattr(tape,'bootstrap',{}).get('state',{})
+        from .shared_application import VERSION as shared_version
+        if state.get('shared_application')==shared_version and state.get('shared_usage_replay'):
+            pending=tape.peek('IDENTITY')
+            if pending is not None and json.loads(pending).get('name')=='uuid4':
+                from .process_tape import uuid4
+                uuid4()
         try:yield lambda usage: replay_optional('MODEL_SPEND_SETTLE')
         finally:replay_optional('MODEL_SPEND_CLEANUP')
         return
@@ -122,7 +150,9 @@ def admission(body):
     state = configured_state()
     if state is not None:
         from .shared_spend import SharedSpendBudget
-        budget = SharedSpendBudget(state, int(os.environ['INVESTIGATOR_MODEL_SPEND_MICRODOLLARS']))
+        from .build_phase import active, MODEL_MICRODOLLARS
+        ceiling = MODEL_MICRODOLLARS if active() else int(os.environ['INVESTIGATOR_MODEL_SPEND_MICRODOLLARS'])
+        budget = SharedSpendBudget(state, ceiling)
         identity = budget.reserve(body)
         try:
             yield lambda usage: boundary('MODEL_SPEND_SETTLE',lambda:budget.settle(identity, usage))
@@ -131,9 +161,13 @@ def admission(body):
         return
     path = os.environ.get('INVESTIGATOR_MODEL_SPEND_DB')
     if not path:
+        from .build_phase import active
+        if active():raise SpendHold('MONTHLY_MODEL_LEDGER_REQUIRED')
         yield lambda usage: None
         return
-    budget = SpendBudget(path, int(os.environ['INVESTIGATOR_MODEL_SPEND_MICRODOLLARS']))
+    from .build_phase import active, MODEL_MICRODOLLARS
+    ceiling = MODEL_MICRODOLLARS if active() else int(os.environ['INVESTIGATOR_MODEL_SPEND_MICRODOLLARS'])
+    budget = SpendBudget(path, ceiling)
     identity = budget.reserve(body)
     try:
         yield lambda usage: boundary('MODEL_SPEND_SETTLE',lambda:budget.settle(identity, usage))

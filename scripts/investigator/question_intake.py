@@ -622,6 +622,27 @@ def validate(value, payload):
     return value
 
 
+def resolution_failure(error):
+    """Retain location/type only; exception text and frame locals may be secrets."""
+    from pathlib import Path
+    import re
+    root=Path(__file__).resolve().parents[2]
+    kind=type(error).__name__
+    if not re.fullmatch(r'[A-Za-z_][A-Za-z_0-9]{0,79}',kind):kind='Exception'
+    frames=[];trace=error.__traceback__
+    while trace is not None:
+        code=trace.tb_frame.f_code
+        try:relative=Path(code.co_filename).resolve().relative_to(root)
+        except (ValueError,OSError):pass
+        else:
+            function=code.co_name
+            if not re.fullmatch(r'[A-Za-z_][A-Za-z_0-9]{0,159}',function) and function not in ('<lambda>','<module>'):
+                function='<unknown>'
+            frames.append({'module':relative.as_posix(),'function':function,'line':trace.tb_lineno})
+        trace=trace.tb_next
+    return {'error_type':kind,'frames':frames[-8:]}
+
+
 class Intake:
     def __init__(self, workspace, resolver):
         self.workspace, self.store, self.resolver = workspace, workspace.store, resolver
@@ -833,7 +854,7 @@ class Intake:
             governor.reserve(db, 'intake:' + body['id'], 'resolve', 'planner', reservation_characters(self.resolver,payload),
                              output_tokens=reservation_output_tokens(self.resolver,payload))
             db.execute('INSERT INTO workspace_intakes VALUES (?,?,?,?)', (body['id'], request['request_key'], encoded(body), digest(body)))
-        usage = None; uncertain = True; reservation_key='resolve'
+        usage = None; uncertain = True; reservation_key='resolve';propagate=None
         body['resolution_attempts']=[]
         from .planner_recording import recording
         from .model_transport_retry import intake_scope
@@ -965,8 +986,17 @@ class Intake:
         except question_kind.UnimplementedRoute as exc:
             usage=getattr(exc,'provider_metadata',usage);uncertain=usage is None
             body.update(status='HELD',error='UNIMPLEMENTED_ROUTE',refusal_reason=str(exc),proposal=None)
-        except Exception:
-            body.update(status='HELD', error='RESOLUTION_UNCERTAIN' if uncertain else 'INVALID_OR_STALE_PROPOSAL')
+        except Exception as exc:
+            from .process_tape import TapeError
+            # A mismatched replay must stop at its actual event, never consume
+            # settlement events and accidentally reproduce a held result.
+            if isinstance(exc,TapeError):raise
+            body.update(status='HELD',error='RESOLUTION_UNCERTAIN' if uncertain else 'INVALID_OR_STALE_PROPOSAL',
+                        resolution_error=resolution_failure(exc))
+            from .live_gateway import GatewayDenied
+            from .usage_governance import UsageHold
+            from .model_spend import SpendHold
+            if isinstance(exc,(GatewayDenied,UsageHold,SpendHold)):propagate=exc
         body['quote_provenance']=usage.get('quote_provenance',[]) if isinstance(usage,dict) else []
         if body['resolution_attempts'] and body['resolution_attempts'][-1]['attempt']==2:
             body['resolution_attempts'][-1].update(metadata=usage,status=body['status'],question=body['question'])
@@ -983,6 +1013,7 @@ class Intake:
                                 ('intake:' + body['id'], reservation_key)).fetchone()[0]
             if status == 'VIOLATION': body.update(status='HELD', error='PROVIDER_USAGE_LIMIT', proposal=None, question=None)
             self.save(db, body)
+        if propagate is not None:raise propagate
         return body
 
     def hold(self, identity):

@@ -90,7 +90,8 @@ SCHEMA=obj({
         # not to the platform-neutral installation contract.
         'credential':{'type':'object'},
         'max_planner_recoveries':integer(0,1)}, optional=('region',)),
-    'budgets':obj({'diagnostic_reads_per_run':integer(*DYNAMIC_READ_BOUNDS),
+    'budgets':obj({'operating_mode':{'const':'BUILD_PHASE'},
+        'diagnostic_reads_per_run':integer(*DYNAMIC_READ_BOUNDS),
         'binding_verification':obj({'probes_per_binding':{'const':2},'metadata_probes':integer(0,32),
                                    'session_cap':integer(1,2048)}),
         'input_characters_per_run':integer(*DYNAMIC_INPUT_BOUNDS),
@@ -99,7 +100,7 @@ SCHEMA=obj({
         'planner_daily':obj({'calls':integer(1,DAILY_MAXIMUM['planner_calls']),'input_characters':integer(1,DAILY_MAXIMUM['input_characters']),
             'output_tokens':integer(1,DAILY_MAXIMUM['output_tokens']),'max_inflight':integer(1,8),'no_progress_limit':integer(1,4)}),
         'round':obj({'id':STRING,'starts_at_epoch':{'type':'number','minimum':0},
-            'physical_requests':integer(1,10000000),'restoration_reserved':integer(0,10000000)})}, optional=('binding_verification',)),
+            'physical_requests':integer(1,10000000),'restoration_reserved':integer(0,10000000)})}, optional=('binding_verification','operating_mode')),
     'accepted_limits':array(obj({'code':STRING,'resource':STRING,
         'statement':{'type':'string','minLength':1,'maxLength':STATEMENT_BOUND}})),
     # Evaluator-only declarations; not projected into tools or prompts.

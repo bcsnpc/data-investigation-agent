@@ -1,11 +1,14 @@
 """Scheduled, bounded live graph refresh. Default is a deployment plan, not reads."""
 import argparse
+from contextvars import ContextVar
 from datetime import datetime, timezone
 import json
 from pathlib import Path
 from uuid import uuid4
 
 from investigator.shared_state import sha
+
+READ_OBSERVER = ContextVar('graph_scan_read_observer', default=None)
 
 
 class Meter:
@@ -15,17 +18,22 @@ class Meter:
         from types import SimpleNamespace
         from investigator.shared_usage import SharedUsage, TABLES
         from investigator.onboarding import digest
-        if not isinstance(budget, dict) or set(budget) != {'environment', 'policy_sha256', 'round_id', 'rolling_limit'}:
+        from investigator.build_phase import active, purpose
+        self.build_phase = active()
+        self.purpose = purpose(default='SCAN') if self.build_phase else 'INVESTIGATION'
+        required = {'environment'} if self.build_phase else {'environment', 'policy_sha256', 'round_id', 'rolling_limit'}
+        if not isinstance(budget, dict) or not required <= set(budget) or (not self.build_phase and set(budget) != required):
             raise ValueError('EXISTING_SHARED_USAGE_PINS_REQUIRED')
         if type(limit) is not int or not 1 <= limit <= 100: raise ValueError('GRAPH_PHYSICAL_REQUEST_BOUND')
         retained=state.get('usage_policy',budget['environment'])['body']
-        if (sha(retained)!=budget['policy_sha256'] or retained['round_policy']['id']!=budget['round_id']
+        if not self.build_phase and (sha(retained)!=budget['policy_sha256'] or retained['round_policy']['id']!=budget['round_id']
                 or retained['policy']['daily_limits']['cloud_calls']!=budget['rolling_limit']):
             raise ValueError('GRAPH_SHARED_USAGE_APPROVAL_PIN_DIFFERS')
         self.state, self.limit, self.used = state, limit, 0
         self.owner = 'graph-scan:' + str(uuid4())
+        estate = {'operating_mode':'BUILD_PHASE'} if self.build_phase else {'round':retained['round_policy']}
         governor=SimpleNamespace(environment=budget['environment'],policy=retained['policy'],hash=digest(retained['policy']),
-            clock=clock or time.time,runtime=SimpleNamespace(config={'_estate':{'round':retained['round_policy']}}))
+            clock=clock or time.time,runtime=SimpleNamespace(config={'_estate':estate}))
         self.usage=SharedUsage(governor,state,owner=self.owner)
         # The existing authority owns admission; memory is only its reporting
         # mirror. No new budget tables, limits, or durable local ledger exist.
@@ -34,15 +42,25 @@ class Meter:
             self.local.execute('CREATE TABLE '+table+'('+','.join(columns)+')')
         self.before=self.usage.snapshot()
     def __call__(self, execute):
-        if self.used >= self.limit: raise ValueError('GRAPH_PHYSICAL_REQUEST_CAP')
+        if not self.build_phase and self.used >= self.limit: raise ValueError('GRAPH_PHYSICAL_REQUEST_CAP')
         key=str(uuid4())
-        self.usage.reserve(self.local,self.owner,key,'cloud',purpose='INVESTIGATION')
+        self.usage.reserve(self.local,self.owner,key,'cloud',purpose=self.purpose)
         self.used += 1
-        uncertain=True
+        ordinal=self.used
+        uncertain=True;result=None;error_type=None
         try:
             result=execute();uncertain=False;return result
+        except BaseException as error:
+            error_type=type(error).__name__;raise
         finally:
             self.usage.settle(self.local,self.owner,key,uncertain=uncertain)
+            observer=READ_OBSERVER.get()
+            if observer is not None:
+                observation={'status':'FAILED' if uncertain else 'COMPLETED',
+                             'category':self.purpose,'ordinal':ordinal}
+                if uncertain:observation['error_type']=error_type
+                else:observation['result']=result
+                observer('physical_read:'+str(ordinal),observation)
     def close(self): self.local.close()
 
 

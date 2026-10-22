@@ -141,7 +141,11 @@ class SharedUsage:
         if not self.owner:raise ValueError('SHARED_USAGE_WORKER_ID_REQUIRED')
         expected={'policy':governor.policy,'round_policy':governor.runtime.config.get('_estate',{}).get('round')}
         retained=state.get('usage_policy',self.environment)['body']
-        if retained!=expected:
+        from .build_phase import active
+        # The retained round pin is history in build mode; the accounting
+        # environment and imported policy still identify the same shared ledger.
+        differs = retained.get('policy') != expected['policy'] if active(governor.runtime.config) else retained != expected
+        if differs:
             raise StateConflict('SHARED_USAGE_POLICY_DIFFERS_FROM_APPROVED_IMPORT')
         self.policy_hash=sha(expected)
 
@@ -190,10 +194,15 @@ class SharedUsage:
         if kind=='planner' and purpose!='INVESTIGATION':raise ValueError('Restoration credits are read-only')
         if type(characters)is not int or characters<0:raise ValueError('Invalid input reservation')
         if type(output_tokens)is not int or not 500<=output_tokens<=MAX_OUTPUT_TOKENS:raise ValueError('Invalid output reservation')
-        if purpose not in ('INVESTIGATION','RESTORATION'):raise ValueError('Invalid read purpose')
+        from . import build_phase
+        monthly=build_phase.active(g.runtime.config)
+        if purpose not in (build_phase.PURPOSES if monthly else ('INVESTIGATION','RESTORATION')):raise ValueError('Invalid read purpose')
         amount=dict.fromkeys(KEYS,0)
         if kind=='planner':amount.update(planner_calls=1,input_characters=characters,output_tokens=output_tokens)
         else:amount['cloud_calls']=1
+        if monthly:
+            category=build_phase.purpose(purpose) if purpose=='INVESTIGATION' else purpose
+            return build_phase.shared_reserve(self,local,session,key,kind,amount,category)
         now=g.clock();today=self._day(now)
         with self.state.transaction() as db:
             usage=self._rows(db,'state_usage');allocations=self._rows(db,'state_read_allocations')
@@ -350,7 +359,16 @@ class SharedUsage:
                     for k,v in json.loads(row['reserved']).items():active[k]+=v
                 elif row['kind']=='planner' and 'output_tokens'not in json.loads(row['actual']or'{}'):unknown+=json.loads(row['reserved'])['output_tokens']
             states[row['status']]=states.get(row['status'],0)+1
-        return {'environment':self.environment,'day':today,'policy_hash':g.hash,'limits':g.policy['daily_limits'],
+        result = {'environment':self.environment,'day':today,'policy_hash':g.hash,'limits':g.policy['daily_limits'],
                 'reserved_today':total,'charged_today':used,'active_reservations':active,'unknown_output_charged':unknown,
                 'reservation_states':states,'read_allowance':reads,'billing_cap_verified':False,
                 'limitation':'Planner reservations use UTC days; ordinary reads use rolling 24 hours, with separate expiring run credits. Initiated requests in this catalog only, not provider spend or SQL compute.'}
+        from . import build_phase
+        if build_phase.active(g.runtime.config):
+            with self.state.transaction() as db:
+                usage=rows(self.state,db,'SELECT environment,session_id,reservation_key,reserved,created FROM state_usage')
+                allocations=rows(self.state,db,'SELECT environment,session_id,reservation_key,purpose FROM state_read_allocations')
+            result['monthly']=build_phase.physical_status(usage,allocations,now)
+            result['legacy_limits_informational']=True
+            result['limitation']='Monthly UTC physical categories enforce admission; old daily, rolling and round counters are informational. Model dollars use their own monthly account.'
+        return result

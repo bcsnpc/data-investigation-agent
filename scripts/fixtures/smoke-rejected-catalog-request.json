@@ -1,0 +1,25 @@
+{
+  "max_rows": 251,
+  "parameters": [
+    {
+      "name": "@schema0",
+      "value": "dbo"
+    },
+    {
+      "name": "@table0",
+      "value": "movement_values"
+    }
+  ],
+  "query": "SELECT TOP 250 s.name AS schema_name,o.name AS table_name,c.name AS column_name,t.name AS data_type,c.collation_name AS collation_name FROM sys.columns AS c JOIN sys.types AS t ON c.user_type_id=t.user_type_id JOIN sys.tables AS o ON c.object_id=o.object_id JOIN sys.schemas AS s ON o.schema_id=s.schema_id WHERE (s.name=@schema0 AND o.name=@table0) ORDER BY s.name,o.name,c.column_id",
+  "read_only_objects": [
+    "[dbo].[movement_values]"
+  ],
+  "require_read_only": true,
+  "result_columns": [
+    "schema_name",
+    "table_name",
+    "column_name",
+    "data_type",
+    "collation_name"
+  ]
+}

@@ -15,8 +15,21 @@ class CompositionTests(unittest.TestCase):
             compiled=query_dax.compile_query(semantic_self_report(base),self.model['context']['model_assets'])
             self.assertTrue(set(SEMANTIC_REPORT.values())<=set(compiled['result_columns']))
             self.assertEqual(compiled['query'].count('USERPRINCIPALNAME()'),1)
-            self.assertIn('CONCATENATEX(SELECTCOLUMNS(FILTER(INFO.PROPERTIES()',compiled['query'])
-            self.assertNotIn('MAXX(FILTER(INFO.PROPERTIES()',compiled['query'])
+            self.assertNotIn('INFO.',compiled['query'])
+            self.assertNotIn('surface_engine',compiled['query'])
+            self.assertNotIn('surface_object',compiled['query'])
+            self.assertEqual(SEMANTIC_REPORT,{'identity':'surface_identity'})
+    def test_query_bound_identity_is_partial_without_inventing_other_fields(self):
+        from investigator.process_debugging import attest
+        probe=attest(self.adapter.evaluate(self.layer,self.measure['id'],{'filters':[]}))
+        attestation=probe.evidence['surface_attestation']
+        self.assertEqual(attestation['status'],'PARTIAL')
+        self.assertEqual(attestation['attested_fields'],['identity'])
+        self.assertEqual(set(attestation['unattested_fields']),{'engine','connection','object'})
+        self.assertEqual(probe.surface_report_binding,'VALUE_QUERY')
+        self.assertEqual(probe.surface_report,{'identity':self.reader['account']})
+        self.assertEqual(probe.surface_reportable,('identity',))
+
     def test_missing_each_report_column_refuses_before_transport_or_receipt(self):
         plan={'model_id':self.model['id'],'revision':self.model['revision'],'context_id':self.model['context_id'],
               'max_rows':20,'surface_report':SEMANTIC_REPORT}
@@ -52,4 +65,4 @@ class CompositionTests(unittest.TestCase):
         for request in self.requests:
             self.assertTrue(set(SEMANTIC_REPORT.values())<=set(request['result_columns']))
             self.assertEqual(request['query'].count('USERPRINCIPALNAME()'),1)
-            self.assertEqual(request['query'].count('CONCATENATEX('),2)
+            self.assertNotIn('INFO.',request['query'])

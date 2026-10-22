@@ -22,6 +22,12 @@ def _bytes(value):
     return json.dumps(value, ensure_ascii=False, indent=2).encode('utf-8')
 
 
+def secret_environment():
+    """The exact environment credential set consulted by the detector."""
+    return [(name,secret) for name,secret in os.environ.items()
+            if len(secret)>=12 and re.search(r'(?:^|_)(?:API_KEY|ACCESS_TOKEN|REFRESH_TOKEN|TOKEN|SECRET|PASSWORD|CONNECTION_STRING|KEY)$',name,re.I)]
+
+
 def _safe(data):
     # Scan decoded JSON as well as raw bytes so escaping cannot hide a credential.
     value = data.decode('utf-8', errors='replace')
@@ -30,10 +36,8 @@ def _safe(data):
         value += '\n' + str(parsed)
     except ValueError:
         pass
-    for name, secret in os.environ.items():
-        if len(secret) >= 12 and re.search(r'(?:^|_)(?:API_KEY|ACCESS_TOKEN|REFRESH_TOKEN|TOKEN|SECRET|PASSWORD|CONNECTION_STRING|KEY)$', name, re.I):
-            if secret in value:
-                raise RecordingError('RECORDING_SECRET_DETECTED')
+    for name,secret in secret_environment():
+        if secret in value:raise RecordingError('RECORDING_SECRET_DETECTED')
     if re.search(r'(?i)(?:Bearer\s+[A-Za-z0-9_.~-]{8,}|-----BEGIN [A-Z ]*PRIVATE KEY-----|'
                  r'(?:password|pwd|api[_-]?key|client[_-]?secret|access[_-]?token)'
                  r'[\s\"\x27]*[:=][\s\"\x27]*[A-Za-z0-9+/_.~-]{8,})', value):

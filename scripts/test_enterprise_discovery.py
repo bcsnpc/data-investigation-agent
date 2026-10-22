@@ -39,11 +39,14 @@ class DiscoveryTests(unittest.TestCase):
         aid='fabric://'+self.ws+'/'+lid;old=self.transport
         def transport(endpoint,**kwargs):
             if endpoint.endswith('/lakehouses/'+lid):
-                return {'status_code':200,'text':{'id':lid,'displayName':'Landing'}}
+                return {'status_code':200,'text':{'id':lid,'workspaceId':self.ws,'type':'Lakehouse','displayName':'Landing',
+                    'properties':{'sqlEndpointProperties':{'id':str(uuid4()),'connectionString':'declared.example.invalid'}}}}
             return old(endpoint,**kwargs)
         reader=Mock(return_value={'scope':'VISIBLE_OBJECTS_ONLY','complete_schema':False,
             'tables':[{'schema_name':'dbo','name':'new_fact','columns':[{'name':'id','data_type':'int'}]}]})
         batch=Collector(self.config,transport,self.sql,lakehouse_catalog_reader=reader).run()
+        retained=next(a for a in batch['assets'] if a['id']==aid)
+        self.assertEqual(retained['metadata']['properties']['sqlEndpointProperties']['connectionString'],'declared.example.invalid')
         table=next(a for a in batch['assets'] if a['kind']=='LakehouseTable')
         self.assertEqual(table['metadata']['columns'],[{'name':'id','data_type':'int'}])
         reader.return_value['tables'].append({'schema_name':'dbo','name':'unlisted','columns':[]})

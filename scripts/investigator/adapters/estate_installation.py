@@ -89,6 +89,7 @@ def configuration(manifest):
         # Recorder configuration only, never a worker option or model prompt.
         'provider_terms':declaration(manifest['model']), 'trace_footer':True}
     if 'execution' in manifest:config['_estate']['execution']=copy.deepcopy(manifest['execution'])
+    if 'operating_mode' in manifest['budgets']:config['_estate']['operating_mode']=manifest['budgets']['operating_mode']
     if 'investigation' in manifest:config['_estate']['investigation']=copy.deepcopy(manifest['investigation'])
     if 'recording' in manifest:
         config['_estate']['recording']=copy.deepcopy(manifest['recording'])

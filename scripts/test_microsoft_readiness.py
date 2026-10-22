@@ -6,8 +6,8 @@ from investigator.process_debugging import attest_surface
 import test_estate_manifest
 
 
-def fixture():
-    manifest=test_estate_manifest.ManifestTests().fixture();manifest['system_of_record']=None;manifest['lineage']['bindings']=[]
+def fixture(manifest=None):
+    manifest=copy.deepcopy(manifest) if manifest is not None else test_estate_manifest.ManifestTests().fixture();manifest['system_of_record']=None;manifest['lineage']['bindings']=[]
     manifest['layers']=copy.deepcopy(manifest['layers'][:2])
     fabric=manifest['adapters'][0]['options']['fabric'];workspace='fabric://'+fabric['workspace_id']
     root=manifest['layers'][0]['asset_id'].split('/table/')[0]

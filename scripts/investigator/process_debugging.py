@@ -41,8 +41,11 @@ class Probe:
 
     surface_report_types: dict | None = None
     surface_report_binding: str | None = None
+    identity_reporting_limit: str | None = None
 
     def __post_init__(self):
+        if self.identity_reporting_limit not in (None,'CALLING_PRINCIPAL_UNREPORTABLE'):
+            raise ValueError('Unknown identity reporting limit')
         if self.status not in ('OBSERVED','NOT_COMPARABLE','UNAVAILABLE'):
             raise ValueError('Unknown probe status')
         if self.status == 'OBSERVED' and isinstance(self.value, NoValue):
@@ -65,6 +68,7 @@ class Probe:
 # declares what it intended to reach; the surface reports who connected and to
 # what. How a surface answers is the adapter's concern; the engine only compares.
 SURFACE_REPORT_REQUIRED=('identity',)
+IDENTITY_REPORTING_WARNING="attestation limited: the engine can't self-report the calling principal; the token and connection were verified separately"
 
 
 def attest_surface(declared, report, reportable=()):
@@ -105,6 +109,18 @@ def attest(probe):
     evidence=dict(probe.evidence,value_state=probe.value_state,surface_report=probe.surface_report,surface_attestation=result,
                   surface_report_types=probe.surface_report_types,surface_report_binding=probe.surface_report_binding,
                   surface_report_receipt_id=probe.evidence['id'] if probe.surface_report_binding=='VALUE_QUERY' else None)
+    if (probe.identity_reporting_limit=='CALLING_PRINCIPAL_UNREPORTABLE'
+            and isinstance(probe.evidence.get('separate_identity_verification'),dict)
+            and probe.evidence['separate_identity_verification']
+            and probe.surface_report_binding=='VALUE_QUERY'
+            and result.get('contradictions')
+            and all(c['field']=='identity' for c in result['contradictions'])
+            and not result.get('missing_required_fields')):
+        # Retain the literal self-report and its contradiction. This explicit
+        # owner policy does not award attestation or independent-boundary grade.
+        evidence['identity_reporting_limit']=probe.identity_reporting_limit
+        evidence['attestation_warning']=IDENTITY_REPORTING_WARNING
+        return replace(probe,evidence=evidence)
     if result['status'] in ('MATCHED','PARTIAL') and not result.get('missing_required_fields'):
         return replace(probe,evidence=evidence)
     # Deliberate: a failed attestation outranks every other status. A probe that
@@ -112,6 +128,28 @@ def attest(probe):
     # prior status is kept in the evidence so the distinction is not lost.
     evidence['status_before_attestation']=probe.status
     return replace(probe,status='UNAVAILABLE',evidence=evidence,value=NoValue('FAILED'),reason=result['reason'])
+
+
+def within_layer_surface_admitted(observation):
+    """Owner's identity warning also applies to within-layer checks, not grades.
+
+    The adapter validates its transport proof; its native vocabulary stays
+    opaque here. Preserve the literal self-report and recompute its status.
+    This never establishes an independent cross-surface boundary.
+    """
+    attestation=observation.get('surface_attestation') or {}
+    if attestation!=attest_surface(observation.get('execution_surface'),observation.get('surface_report'),attestation.get('required_fields',())):
+        return False
+    if attestation.get('missing_required_fields'):return False
+    if attestation.get('status') in ('MATCHED','PARTIAL'):return True
+    proof=observation.get('separate_identity_verification')
+    return (observation.get('identity_reporting_limit')=='CALLING_PRINCIPAL_UNREPORTABLE'
+        and observation.get('attestation_warning')==IDENTITY_REPORTING_WARNING
+        and isinstance(proof,dict) and bool(proof)
+        and observation.get('surface_report_binding')=='VALUE_QUERY'
+        and observation.get('surface_report_receipt_id')==observation.get('id')
+        and bool(attestation.get('contradictions'))
+        and all(c['field']=='identity' for c in attestation['contradictions']))
 
 
 def unattested_surface_fields(observations):
@@ -245,6 +283,8 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
                     if o.get('comparison_status') in ('NOT_COMPARABLE','WITHIN_LAYER_CHECK')
                     and o.get('check_kind')!='DECLARED_CONTEXT_REPRODUCTION']
     unattested=unattested_surface_fields(observations)
+    identity_warnings=([IDENTITY_REPORTING_WARNING] if any(
+        o.get('identity_reporting_limit')=='CALLING_PRINCIPAL_UNREPORTABLE' for o in observations) else [])
     # Which kind of binding each compared lower layer rests on stays visible;
     # an inferred binding is a hypothesis about the estate, not a fact.
     bindings=[{'upper_layer':o.get('upper_layer'),'lower_layer':o.get('lower_layer'),
@@ -257,6 +297,7 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
             'alternatives':['A different declared scope could change the comparison.'],
             'limits':[f'Checked through {deepest}; stopped because {stopped_by.lower().replace("_"," ")}.']
                      +[surface_limit(u) for u in unattested]
+                     +identity_warnings
                      +[f"The comparison {b['upper_layer']} -> {b['lower_layer']} rests on a binding INFERRED_FROM_CODE, not declared or discovered." for b in inferred],
             'support':{'mechanism':explanation or 'The deterministic process procedure matched this outcome.',
                 'mechanism_evidence_ids':evidence_ids[-2:],

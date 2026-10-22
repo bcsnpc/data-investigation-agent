@@ -33,7 +33,8 @@ class ScopedInventoryOnlyTests(unittest.TestCase):
         self.assertEqual(definitions,['report_scope.py'])
         self.assertFalse(hasattr(declaration_inventory,'validate'))
         self.assertEqual(set(calls),{'adapters/microsoft_process.py','adapters/report_predicates.py',
-            'declared_reproduction.py','definition_target.py','report_resolution.py','report_scope.py','synthesis_digest.py'})
+            'declared_reproduction.py','definition_target.py','report_resolution.py','report_scope.py','synthesis_digest.py',
+            'graph_value_verification.py'})
         self.assertGreaterEqual(len(calls),12)
 
     def test_synthesis_uses_original_scoped_inventory_consumer(self):

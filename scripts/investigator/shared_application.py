@@ -48,6 +48,9 @@ def enabled(store):
     tape = ACTIVE.get()
     if tape is not None and tape.replaying:
         return not BOOTSTRAP_REPLAY.get() and tape.bootstrap.get('state', {}).get('shared_application') == VERSION
+    # Replay controller construction can occur outside the active tape. The
+    # recorded catalog port is not a live PostgreSQL application-state source.
+    if getattr(store.__dict__.get('shared_catalog'),'replay_only',False):return False
     shared=store.__dict__.get('shared_catalog') is not None
     if shared:
         import os
@@ -189,7 +192,8 @@ class Connection:
                 if old is not None and old['rows']:
                     raise StateConflict('APPLICATION_MIGRATION_REQUIRED:'+table)
                 return {'revision': None, 'body': old}
-        saved = value('CONFIGURATION', 'shared_application:'+table, read)
+        from .shared_application_capture import read as capture_table
+        saved = capture_table(table,read)
         if set(saved) != {'revision', 'body'} or (saved['revision'] is not None and type(saved['revision']) is not int):
             raise StateConflict('APPLICATION_SNAPSHOT_SHAPE')
         validate_table(table, saved['body'])

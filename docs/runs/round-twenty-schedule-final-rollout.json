@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-21",
+  "source_revision": "2c3b8e29d299ef25438caa4ebbbae14ad5f44ab0",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e3c13ed9b1e8167a28fa53665888e3f79478260ced3c28c90fbe54bbbcc84d01",
+  "new_resource_or_role": false,
+  "reason": "Pin both existing schedules to the final tested Round Twenty image; crons, roles and resources unchanged.",
+  "updates": [
+    {
+      "name": "job-dia-worker",
+      "patch_sha256": "7bbba4ab5031bf0a8306e85083d7124d08b3b191c187bc784638f1bc3f67bbb8",
+      "before_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b43a34952cb3ab31a3e46ab54854dbee35d6675064aceb8141abc956a401544a",
+      "after_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e3c13ed9b1e8167a28fa53665888e3f79478260ced3c28c90fbe54bbbcc84d01",
+      "cron": "0 6 * * *",
+      "cpu": 0.5,
+      "memory": "1Gi",
+      "runtime": 1800
+    },
+    {
+      "name": "job-dia-graph-scan",
+      "patch_sha256": "b28ae8a6460626733bd782aa278c2980877329c004cd9b7dccb532beace72c4a",
+      "before_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b43a34952cb3ab31a3e46ab54854dbee35d6675064aceb8141abc956a401544a",
+      "after_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e3c13ed9b1e8167a28fa53665888e3f79478260ced3c28c90fbe54bbbcc84d01",
+      "cron": "0 */6 * * *",
+      "cpu": 0.5,
+      "memory": "1Gi",
+      "runtime": 1800
+    }
+  ],
+  "validation": {
+    "status": "PASS",
+    "daily": {
+      "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-worker",
+      "cron": "0 6 * * *"
+    },
+    "graph": {
+      "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-graph-scan",
+      "cron": "0 */6 * * *"
+    },
+    "runtime_seconds": 1800
+  }
+}

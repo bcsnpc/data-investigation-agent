@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-22",
+  "owner_date": "2026-10-21",
+  "run_id": "round20-value-fixture-fixed-replay-01",
+  "execution": "job-dia-worker-3hcz8ob",
+  "status": "MATCHED",
+  "image": "sha256:e3c13ed9b1e8167a28fa53665888e3f79478260ced3c28c90fbe54bbbcc84d01",
+  "records": 8,
+  "outer_seal_valid": true,
+  "coverage": "VALUE_COMPILER_AND_RECORDED_RESPONSES",
+  "limitation": "Compiler and recorded data responses replayed; worker, permission guard and shared-budget protocols are not replayed.",
+  "estate_requests": 0,
+  "model_calls": 0,
+  "originals_unchanged": true
+}

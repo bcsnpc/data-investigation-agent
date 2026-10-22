@@ -37,7 +37,14 @@ class CloudOfflineWorkerTests(unittest.TestCase):
         self.assertTrue(all(module_buckets))
         self.assertEqual(sorted(x for bucket in module_buckets for x in bucket), sorted(TEST_MODULES))
         self.assertIn('test_shared_usage_replay.py', TEST_MODULES)
+        self.assertIn('test_shared_catalog_capture.py', TEST_MODULES)
+        self.assertTrue(admitted('scripts/test_shared_catalog_capture.py'))
         self.assertIn('test_cloud_verification_first_error.py', TEST_MODULES)
+        required={'test_streaming_verification_snapshot.py','test_batched_database_audit.py',
+                  'test_run_database_audits.py','test_cloud_verification_window.py',
+                  'test_cloud_runner_context.py','test_unified_runner.py',
+                  'test_runner_graph_schedule.py','test_cloud_verification_capture.py'}
+        self.assertTrue(required<=set(TEST_MODULES))
         with self.assertRaises(ValueError): partition(entries, 8, 8)
 
     def test_hash_and_path_refuse_before_replay(self):

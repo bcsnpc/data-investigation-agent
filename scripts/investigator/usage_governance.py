@@ -165,6 +165,10 @@ class UsageGovernor:
                 if allocation and allocation['purpose']!=purpose:raise UsageHold('Reservation purpose differs')
             if json.loads(prior['reserved'])!=amount or prior['kind']!=kind:raise UsageHold('Reservation key differs')
             return
+        from . import build_phase
+        if build_phase.active(getattr(self.runtime, "config", None)):
+            category = build_phase.purpose(purpose) if purpose == 'INVESTIGATION' else purpose
+            return build_phase.local_reserve(self,db,session_id,key,kind,amount,category)
         if kind=='planner':
             active=db.execute("SELECT count(*) FROM adaptive_usage WHERE environment=? AND kind='planner' AND status='RESERVED'",(self.environment,)).fetchone()[0]
             if active>=self.policy['max_inflight_planners']:raise UsageHold('Planner concurrency limit')
@@ -242,8 +246,17 @@ class UsageGovernor:
                 elif r['kind']=='planner' and 'output_tokens' not in json.loads(r['actual'] or '{}'):
                     unknown_output+=json.loads(r['reserved'])['output_tokens']
             states[r['status']]=states.get(r['status'],0)+1
-        return {'environment':self.environment,'day':self.day() if legacy else today,'policy_hash':self.hash,
+        result = {'environment':self.environment,'day':self.day() if legacy else today,'policy_hash':self.hash,
                 'limits':self.policy['daily_limits'],'reserved_today':total,'charged_today':used,
                 'active_reservations':active,'unknown_output_charged':unknown_output,'reservation_states':states,
                 'read_allowance':reads,'billing_cap_verified':False,
                 'limitation':'Planner reservations use UTC days; ordinary reads use rolling 24 hours, with separate expiring run credits. Initiated requests in this catalog only, not provider spend or SQL compute.'}
+        from . import build_phase
+        if build_phase.active(getattr(self.runtime, "config", None)):
+            with self.runtime.db() as db:
+                retained=[dict(r) for r in db.execute('SELECT environment,session_id,reservation_key,reserved,created FROM adaptive_usage')]
+                allocations=[dict(r) for r in db.execute('SELECT environment,session_id,reservation_key,purpose FROM read_allocations')]
+            result['monthly']=build_phase.physical_status(retained,allocations,now)
+            result['legacy_limits_informational']=True
+            result['limitation']='Monthly UTC physical categories enforce admission; old daily, rolling and round counters are informational. Model dollars have a separate monthly account.'
+        return result

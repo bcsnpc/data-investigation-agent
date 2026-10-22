@@ -1,10 +1,10 @@
-"""Production visual compiler/receipts with synthetic retained definitions."""
+"""Page consumer rules with synthetic full-report transport; REST is tested separately."""
 import copy,json,unittest
 from types import SimpleNamespace
 from unittest.mock import Mock,patch
 from investigator.onboarding import digest
 from investigator.page_investigations import PageInvestigations
-from investigator.adapters import report_cells
+from investigator.adapters import report_cells,form_candidate_values
 from investigator.workspace import Workspace
 from investigator import native_identity
 import test_declared_predicate_adapter as fixture
@@ -19,6 +19,16 @@ def confirmed(catalog,model,measure,report,page):
 
 class Tests(unittest.TestCase):
     def setUp(self):
+        # Positive page-proof cases need query-bound engine/object evidence.
+        # This explicitly synthetic legacy transport supplies that historical
+        # grammar; the production ExecuteQueries route cannot and must refuse.
+        from investigator.adapters.microsoft_self_report import SCALARS
+        def legacy_report(query):
+            return 'EVALUATE ADDCOLUMNS('+query.removeprefix('EVALUATE ')+',"surface_identity",USERPRINCIPALNAME(),"surface_engine",'+SCALARS[0]+',"surface_object",'+SCALARS[1]+')'
+        self.enterContext(patch('investigator.adapters.microsoft_process.semantic_self_report',side_effect=legacy_report))
+        self.enterContext(patch('investigator.adapters.form_candidate_values.semantic_self_report',side_effect=legacy_report))
+        self.enterContext(patch.dict('investigator.adapters.microsoft_process.SEMANTIC_REPORT',
+            {'identity':'surface_identity','engine':'surface_engine','object':'surface_object'},clear=True))
         self.f=fixture.DeclaredPredicateAdapterTests();self.f.setUp();self.addCleanup(self.f.doCleanups)
         f=self.f;f.parts[:]=[f.report_doc,f.page,f.visual]
         f.modify(f.page,lambda doc:doc.update(displayName='Overview',filterConfig={'filters':[]},visualInteractions=[]))
@@ -39,6 +49,25 @@ class Tests(unittest.TestCase):
             response[native_identity.KEY]=native_identity.make(response,request,f.reader)
             return response
         self.adapter.execute_native=execute
+
+    def test_executequeries_identity_only_does_not_satisfy_full_page_attestation(self):
+        from investigator.adapters.microsoft_self_report import compose
+        def execute(request):
+            self.native_requests.append(copy.deepcopy(request))
+            response={'results':[{'tables':[{'rows':[{'quantity':next(self.values),
+                'surface_identity':self.f.reader['account']}]}]}]}
+            response[native_identity.KEY]=native_identity.make(response,request,self.f.reader)
+            return response
+        self.adapter.execute_native=execute
+        with patch('investigator.adapters.microsoft_process.semantic_self_report',side_effect=compose), \
+             patch('investigator.adapters.form_candidate_values.semantic_self_report',side_effect=compose), \
+             patch.dict('investigator.adapters.microsoft_process.SEMANTIC_REPORT',{'identity':'surface_identity'},clear=True):
+            result=self.service.consistency(self.body,self.adapter)
+        self.assertEqual(result['outcome'],'NOT_COMPARABLE')
+        self.assertEqual(result['coverage']['checked_visual_ids'],[])
+        self.assertTrue(all(d['disposition']=='UNAVAILABLE' for d in result['coverage']['dispositions']))
+        self.assertTrue(all('INFO.' not in r['query'] for r in self.native_requests))
+        self.assertFalse(result['cause_established'])
 
     def sync(self):
         self.catalog=self.service._catalog();self.body=confirmed(self.catalog,self.f.model['id'],self.f.measure['id'],self.report,self.page)

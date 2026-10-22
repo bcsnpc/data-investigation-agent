@@ -1,0 +1,42 @@
+{
+  "at": "2026-10-21",
+  "kind": "LIVE_PROBE",
+  "run_id": "round20-bronze-01",
+  "execution": "job-dia-worker-353cwla",
+  "status": "COMPLETED",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:18a635f20c9708fa7ceaca19ed9b9766dd70d95c3fb9788a52d317ddf9fbcdbc",
+  "capture_prefix": "https://diaplatformd5dd7d65.blob.core.windows.net/captures/round-twenty/runner/round20-bronze-01/",
+  "capture_seal": "f2a378911a78ef5375afe76599e40d656c92ea0d0827b1100e88dc345a2ae2f1",
+  "immutable_records_verified": 35,
+  "physical_requests": 4,
+  "diagnostic_value_reads": 1,
+  "guards_and_other_sql_controls": 3,
+  "model_calls": 0,
+  "result": {
+    "column_types": {
+      "count": "Int64",
+      "sum": "Int64"
+    },
+    "execution_identity": {
+      "database": "warehouse_bronze_e1b8e1",
+      "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+      "provenance": "SURFACE_SELF_REPORT",
+      "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+    },
+    "read_only_verified": true,
+    "rows": [
+      {
+        "count": "360",
+        "sum": "64980"
+      }
+    ],
+    "surface_report": {
+      "engine": "Microsoft Azure SQL Data Warehouse",
+      "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+      "object": "warehouse_bronze_e1b8e1"
+    },
+    "surface_report_binding": "VALUE_QUERY"
+  },
+  "replay_status": "PENDING",
+  "identity_or_permission_change": false
+}

@@ -4,6 +4,24 @@ No estate data connector lives here. PostgreSQL transactions serialize budget
 admission and revision changes; there is no SQL-dialect rewriting layer.
 """
 from contextlib import contextmanager, closing
+from contextvars import ContextVar
+
+TRANSACTION_ACTIVE = ContextVar("shared_state_transaction_active", default=False)
+TRANSACTION_FINISHED = ContextVar("shared_state_transaction_finished", default=None)
+
+
+def after_transaction(callback):
+    """Defer external publication until commit/rollback and connection close.
+
+    This does not authorize network access. The ordinary gateway still checks
+    every request when the callback eventually executes.
+    """
+    if not TRANSACTION_ACTIVE.get():
+        callback()
+        return
+    callbacks = TRANSACTION_FINISHED.get()
+    if callbacks is None: raise RuntimeError('TRANSACTION_FINISH_QUEUE_MISSING')
+    if callback not in callbacks: callbacks.append(callback)
 from decimal import Decimal
 import hashlib
 import json
@@ -135,6 +153,11 @@ class SharedState:
     @contextmanager
     def transaction(self,*,_lease_release=False):
         db = self.connector()
+        outer_callbacks = TRANSACTION_FINISHED.get() if TRANSACTION_ACTIVE.get() else None
+        callbacks = outer_callbacks if outer_callbacks is not None else []
+        callback_marker = TRANSACTION_FINISHED.set(callbacks)
+        marker = None
+        primary = None
         try:
             from .shared_writer_lease import check as check_lease
             if self.backend == 'postgresql':
@@ -152,17 +175,34 @@ class SharedState:
             else:
                 db.execute('BEGIN IMMEDIATE')
             check_lease(self,db,release_only=_lease_release)
+            marker = TRANSACTION_ACTIVE.set(True)
             yield db
             db.commit()
-        except BaseException:
-            db.rollback()
+        except BaseException as error:
+            primary = error
+            try: db.rollback()
+            except BaseException as rollback_error:
+                error.add_note('Transaction rollback also failed: '+type(rollback_error).__name__)
             raise
         finally:
-            db.close()
+            closed = False
+            try:
+                db.close()
+                closed = True
+            finally:
+                if marker is not None: TRANSACTION_ACTIVE.reset(marker)
+                TRANSACTION_FINISHED.reset(callback_marker)
+                if closed and outer_callbacks is None:
+                    for callback in callbacks:
+                        try: callback()
+                        except BaseException as publication_error:
+                            if primary is None: raise
+                            primary.add_note('After-transaction publication also failed: '+type(publication_error).__name__)
 
     def migrate(self):
         text = DDL.format(number='NUMERIC' if self.backend == 'postgresql' else 'TEXT')
-        migrations = {1:text,2:USAGE_DDL}
+        from .graph_value_migration import sql as graph_value_schema
+        migrations = {1:text,2:USAGE_DDL,3:graph_value_schema(self.backend)}
         with self.transaction() as db:
             db.execute('CREATE TABLE IF NOT EXISTS state_schema_versions(version INTEGER PRIMARY KEY, sha256 TEXT NOT NULL)')
             rows = db.execute('SELECT version,sha256 FROM state_schema_versions ORDER BY version').fetchall()
@@ -338,13 +378,13 @@ def configured_state(environ=None):
     if any(not env.get(k) for k in required):
         raise ValueError('POSTGRES_CONNECTION_CONFIGURATION_MISSING')
     def connect():
-        import psycopg
+        from .postgres_connection import connect as postgres_connect
         from .live_gateway import authorize_platform_database
         authorize_platform_database(env.get('DIA_GATEWAY_STATE_IDENTITY','state'),env[required[0]],env[required[1]])
         from .adapters.platform_credentials import credential_type, trust_roots
         with credential_type()(client_id=env['AZURE_CLIENT_ID']) as credential:
             token = credential.get_token('https://ossrdbms-aad.database.windows.net/.default').token
-        return psycopg.connect(host=env[required[0]], dbname=env[required[1]], user=env[required[2]],
+        return postgres_connect(host=env[required[0]], dbname=env[required[1]], user=env[required[2]],
                               password=token, sslmode='verify-full', sslrootcert=trust_roots(),
                               options='-c search_path=dia_state', connect_timeout=15)
     return SharedState(connect, backend='postgresql', mode='live')

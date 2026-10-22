@@ -1,0 +1,154 @@
+{
+  "estate_reads": 0,
+  "model_calls": 0,
+  "endpoint_receipt_sha256": "b2705269319477d4e7f52e0ce307d531135af28524218f4ff56decb7b380ccd3",
+  "at": "2026-10-21T22:21:02.329955Z",
+  "endpoint_time_basis": "Retained receipt observed during offline audit; native response has no service-observation timestamp.",
+  "audit_sha256": "07f3db41cc87e0f0fb4369e1cb7cc5c641d147243f3c979f1d6386f2d1f76003",
+  "estates": {
+    "fixture": {
+      "index_sha256": "2df56afb850f1ee88b24f24179d5354ec3f54f7682edf577a45cbd065f7a4dda",
+      "source_manifest_sha256": "85deb6608cbb5d4413881a047d924a526cd3838193a42d6307d240a31fd230c6",
+      "baseline_graph_sha256": "b075d618a1fcc5bcbc8e82930aa71115f5b75c0e07c113e5d500ba3569b82e3b",
+      "owner_payload_count": 61,
+      "stages": {
+        "before": {
+          "graph_sha256": "97e3dd3ac6e10ed596088c3f6f5c53199d85b1213b2171184a1b6f79b18b3356",
+          "bindings_by_source_kind": {},
+          "cohort": {
+            "starts": 76,
+            "present": 76,
+            "unavailable": 0,
+            "reaches_declared_source_column": 0,
+            "reaches_terminal_physical_column": 0,
+            "complete_verified_paths": 0
+          },
+          "nodes": 1144,
+          "edges": 1759,
+          "start_stops": {
+            "NO_DECLARED_SOURCE_CONTINUATION": 66,
+            "UNKNOWN_EDGE": 13
+          },
+          "new_start_ids": [],
+          "removed_start_ids": []
+        },
+        "parser_only": {
+          "graph_sha256": "869a9b18107ab6846b4f73ee89ee9f02653a09c92863bd3b3e967de674c0a4e8",
+          "bindings_by_source_kind": {},
+          "cohort": {
+            "starts": 76,
+            "present": 76,
+            "unavailable": 0,
+            "reaches_declared_source_column": 0,
+            "reaches_terminal_physical_column": 0,
+            "complete_verified_paths": 0
+          },
+          "nodes": 1165,
+          "edges": 1780,
+          "start_stops": {
+            "UNKNOWN_EDGE": 64,
+            "NO_DECLARED_SOURCE_CONTINUATION": 62
+          },
+          "new_start_ids": [],
+          "removed_start_ids": []
+        },
+        "with_retained_endpoints": {
+          "graph_sha256": "eca8db124e64f3bdc7958906efc6e1051b2da5ab854c53c5ef010da9a16ff4ba",
+          "bindings_by_source_kind": {
+            "TABLE": 5,
+            "COLUMN": 22
+          },
+          "cohort": {
+            "starts": 76,
+            "present": 76,
+            "unavailable": 0,
+            "reaches_declared_source_column": 0,
+            "reaches_terminal_physical_column": 29,
+            "complete_verified_paths": 0
+          },
+          "nodes": 1160,
+          "edges": 1802,
+          "start_stops": {
+            "UNKNOWN_EDGE": 43,
+            "NO_DECLARED_SOURCE_CONTINUATION": 63
+          },
+          "new_start_ids": [],
+          "removed_start_ids": []
+        }
+      }
+    },
+    "billing": {
+      "index_sha256": "b073a02c90257f192d12476cf4cac5b2462c7f2fecfb99d8024df78ee2e1f0e9",
+      "source_manifest_sha256": "516f0814c1da9b5e719f2bfb9761e680668bf818212f22d52de0be853ee44b44",
+      "baseline_graph_sha256": "cb7a70ef5d06f7df72114a5c26af2cc7e1311b459fc2dc0135de95a4f74ffe80",
+      "owner_payload_count": 12,
+      "stages": {
+        "before": {
+          "graph_sha256": "588c11c8cda3be4e210800c7afc4d60927b5fa890225824be5a8a8af202ade77",
+          "bindings_by_source_kind": {},
+          "cohort": {
+            "starts": 7,
+            "present": 7,
+            "unavailable": 0,
+            "reaches_declared_source_column": 0,
+            "reaches_terminal_physical_column": 0,
+            "complete_verified_paths": 0
+          },
+          "nodes": 402,
+          "edges": 789,
+          "start_stops": {
+            "NO_DECLARED_SOURCE_CONTINUATION": 7
+          },
+          "new_start_ids": [],
+          "removed_start_ids": []
+        },
+        "parser_only": {
+          "graph_sha256": "8e113c38d27e5e71258623eb8557dfb69e27400d0f0a3dbd00e58d3c563ea9c8",
+          "bindings_by_source_kind": {
+            "TABLE": 9,
+            "COLUMN": 32
+          },
+          "cohort": {
+            "starts": 7,
+            "present": 7,
+            "unavailable": 0,
+            "reaches_declared_source_column": 0,
+            "reaches_terminal_physical_column": 3,
+            "complete_verified_paths": 0
+          },
+          "nodes": 402,
+          "edges": 830,
+          "start_stops": {
+            "DEPLOYMENT_NOT_ESTABLISHED": 6,
+            "NO_DECLARED_SOURCE_CONTINUATION": 7
+          },
+          "new_start_ids": [],
+          "removed_start_ids": []
+        },
+        "with_retained_endpoints": {
+          "graph_sha256": "8e113c38d27e5e71258623eb8557dfb69e27400d0f0a3dbd00e58d3c563ea9c8",
+          "bindings_by_source_kind": {
+            "TABLE": 9,
+            "COLUMN": 32
+          },
+          "cohort": {
+            "starts": 7,
+            "present": 7,
+            "unavailable": 0,
+            "reaches_declared_source_column": 0,
+            "reaches_terminal_physical_column": 3,
+            "complete_verified_paths": 0
+          },
+          "nodes": 402,
+          "edges": 830,
+          "start_stops": {
+            "DEPLOYMENT_NOT_ESTABLISHED": 6,
+            "NO_DECLARED_SOURCE_CONTINUATION": 7
+          },
+          "new_start_ids": [],
+          "removed_start_ids": []
+        }
+      }
+    }
+  }
+}

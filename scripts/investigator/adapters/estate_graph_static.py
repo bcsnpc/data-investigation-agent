@@ -379,6 +379,8 @@ class StaticGraph:
                         {'scope':'RLS','table':permission.get('name'),'expression':expression,'predicate_present':True,'runtime_identity_unknown':True})
                     self.link('FILTERED_BY',node,fid,at)
         for index,table in enumerate(value.get('tables',[])):
+            if any(p.get('source',{}).get('type')=='entity' for p in table.get('partitions',[])):
+                self.entity_partition(model,value,table,index,proof)
             for number,partition in enumerate(table.get('partitions',[])):
                 source=partition.get('source',{});expression=source.get('expression')
                 if isinstance(expression,list):expression='\n'.join(expression)
@@ -396,6 +398,106 @@ class StaticGraph:
                     node=self.add('FIELD_PARAMETER',column['name'],[model,'fieldParameter',index,number],at)
                     self.link('CONTAINS',self.by_asset[model],node,at)
                     self.gap(node,'Field-parameter selection is dynamic.','Resolve the selected field from retained/report context before traversing its dependency.',at)
+
+    def entity_partition(self,model,value,table,index,proof):
+        """Only literal DirectLake declarations bind; no same-label container search."""
+        # field() resolves columns by their parent; tables need their model parent.
+        matches=[aid for aid,a in self.assets.items() if a['kind']=='SemanticTable'
+                 and a.get('parent_id')==model and a['name']==table.get('name')]
+        origin=self.by_asset.get(matches[0]) if len(matches)==1 else None
+        if origin is None:return
+        at={**proof,'span':{'kind':'JSON_POINTER','path':f'/model/tables/{index}/partitions'}}
+        def refuse(reason):
+            self.gap(origin,'DirectLake bridge unresolved: '+reason,
+                'Collect a unique literal expression source, exact container/endpoint binding and physical member catalog.',at)
+        partitions=table.get('partitions',[])
+        if len(partitions)!=1:return refuse('multiple partitions do not declare one physical source.')
+        part=partitions[0];source=part.get('source',{})
+        if part.get('mode')!='directLake' or source.get('type')!='entity':
+            return refuse('entity partition is not DirectLake.')
+        name=source.get('expressionSource')
+        expressions=[(i,e) for i,e in enumerate(value.get('expressions',[])) if e.get('name')==name]
+        if not isinstance(name,str) or len(expressions)!=1:return refuse('expressionSource is absent or ambiguous.')
+        expression_index,expression=expressions[0];raw=expression.get('expression')
+        if isinstance(raw,list):raw='\n'.join(raw)
+        # Deliberately small M grammar. Aliases are captured, never interpreted.
+        token=r'"((?:[^"]|"")*)"'
+        pattern=r'\s*let\s+([A-Za-z_][A-Za-z_0-9]*)\s*=\s*Sql\.Database\(\s*'+token+r'\s*,\s*'+token+r'\s*\)\s+in\s+\1\s*'
+        match=re.fullmatch(pattern,raw or '') if expression.get('kind')=='m' else None
+        if not match:return refuse('expression is not a supported literal Sql.Database source.')
+        server,catalog=(v.replace('""','"') for v in match.groups()[1:])
+        import uuid
+        try:catalog=str(uuid.UUID(catalog))
+        except (ValueError,TypeError):return refuse('catalog is not an explicit container or endpoint identifier.')
+        workspace=model.rsplit('/',1)[0]
+        containers=[]
+        for aid,a in self.assets.items():
+            if a['kind'] not in ('Warehouse','Lakehouse') or aid.rsplit('/',1)[0]!=workspace:continue
+            meta=a.get('metadata',{})
+            if a['kind']=='Warehouse' and aid.rsplit('/',1)[-1].lower()==catalog:
+                containers.append((aid,self.asset_proof(a)))
+            if a['kind']=='Lakehouse':
+                observations=[]
+                if meta.get('properties',{}).get('sqlEndpointProperties'):observations.append((meta,a))
+                for observation in self.assets.values():
+                    if observation['kind']!='LakehouseEndpointMetadata':continue
+                    data=observation.get('metadata',{})
+                    if data.get('request')=={'workspace':workspace.split('/')[-1],'lakehouse':aid.split('/')[-1]}:
+                        observations.append((data.get('response',{}),observation))
+                routes={(r.get('properties',{}).get('sqlEndpointProperties',{}).get('id'),
+                         r.get('properties',{}).get('sqlEndpointProperties',{}).get('connectionString')) for r,_ in observations}
+                if len(routes)>1:return refuse('retained endpoint declarations conflict for a container.')
+                for response,evidence in observations:
+                    endpoint=response.get('properties',{}).get('sqlEndpointProperties',{})
+                    if (response.get('id')==aid.split('/')[-1] and response.get('workspaceId')==workspace.split('/')[-1]
+                            and response.get('type')=='Lakehouse' and endpoint.get('id')==catalog
+                            and endpoint.get('connectionString')==server):
+                        binding_proof=self.proof(evidence)
+                        if evidence['kind']=='LakehouseEndpointMetadata' and evidence.get('metadata',{}).get('observed_at'):
+                            binding_proof['observed_at']=c.timestamp(evidence['metadata']['observed_at'])
+                            if binding_proof['observed_at']>self.at:return refuse('endpoint observation is in the future.')
+                        containers.append((aid,binding_proof))
+        identities={item[0] for item in containers}
+        if len(identities)!=1:return refuse('exact container/endpoint binding is absent or ambiguous.')
+        container=next(iter(identities));container_proof=next(p for aid,p in containers if aid==container)
+        schema,entity=source.get('schemaName'),source.get('entityName')
+        if not isinstance(schema,str) or not isinstance(entity,str):return refuse('schema or entityName is absent.')
+        physical=[]
+        for aid,a in self.assets.items():
+            if a.get('parent_id')!=container:continue
+            meta=a.get('metadata',{})
+            if a['kind']=='WarehouseTable' and a['name']==schema+'.'+entity:physical.append(aid)
+            if a['kind']=='LakehouseTable':
+                # A retained OneLake URI binds the physical path and schema. A
+                # legacy Tables/entity path exposes dbo; Tables/schema/entity
+                # is schema-enabled. Neither uses the container display name.
+                location=meta.get('location','')
+                prefix='abfss://'+workspace.split('/')[-1]+'@onelake.dfs.fabric.microsoft.com/'+container.split('/')[-1]+'/Tables/'
+                if location.startswith(prefix):
+                    tail=unquote(location[len(prefix):]).strip('/').split('/')
+                    expected=['dbo',tail[0]] if len(tail)==1 else tail
+                    if expected==[schema,entity]:physical.append(aid)
+        if len(physical)!=1:return refuse('physical schema/entity is absent or ambiguous in the bound container.')
+        physical=physical[0]
+        declaration={'server':server,'catalog_id':catalog,'schema':schema,'entity':entity,
+            'expression_source':name,'expression_pointer':f'/model/expressions/{expression_index}',
+            'container_asset_id':container,'container_binding':container_proof,
+            'physical_definition':self.asset_proof(self.assets[physical]),'binding_kind':'DIRECTLAKE_ENTITY'}
+        self.link('COMPUTED_FROM',origin,self.by_asset[physical],at,properties=declaration)
+        for number,column in enumerate(table.get('columns',[])):
+            target=self.field(model,table['name'],column.get('name'),'SemanticColumn')
+            if target is None or column.get('type')=='calculated' or column.get('expression') is not None:continue
+            column_at={**proof,'span':{'kind':'JSON_POINTER','path':f'/model/tables/{index}/columns/{number}/sourceColumn'}}
+            source_column=column.get('sourceColumn')
+            candidates=[aid for aid,a in self.assets.items() if a.get('parent_id')==physical
+                and a['kind'] in ('WarehouseColumn','LakehouseColumn') and a['name']==source_column]
+            if not isinstance(source_column,str) or len(candidates)!=1:
+                self.gap(target,'DirectLake sourceColumn is absent or ambiguous: '+str(source_column),
+                    'Collect the exact physical column under the bound table; never match the semantic display name.',column_at)
+            else:
+                self.link('COMPUTED_FROM',target,self.by_asset[candidates[0]],column_at,
+                    properties={**declaration,'source_column':source_column,
+                        'physical_column_definition':self.asset_proof(self.assets[candidates[0]])})
 
     def tmdl(self,parent,content,proof):
         """Read declaration headers and retained spans, never interpret DAX."""
@@ -524,6 +626,36 @@ class StaticGraph:
                     self.link('DERIVED_IN_STEP',node,step,at)
             self.gap(node,'Activity source/destination connection and column identities are not resolved.',
                 'Collect its exact connection metadata and dataset object definitions; explicit mapping text alone is not an object binding.',at)
+
+
+def retained_lakehouse_endpoint_assets(raw,*,observed_at):
+    """Convert an immutable native endpoint receipt to explicit evidence assets.
+
+    No listing enrichment or guessed fields. Caller passes these observations to
+    graph extraction alongside the unchanged retained catalog.
+    """
+    observed_at=c.timestamp(observed_at)
+    if not isinstance(raw,bytes):raise ValueError('ENDPOINT_RECEIPT_BYTES_REQUIRED')
+    rows=json.loads(raw);result=[];seen=set();receipt_hash=hashlib.sha256(raw).hexdigest()
+    if not isinstance(rows,list):raise ValueError('ENDPOINT_RECEIPT_LIST_REQUIRED')
+    import uuid
+    for index,row in enumerate(rows):
+        request=row.get('request',{});response=row.get('response',{})
+        workspace=str(uuid.UUID(request['workspace']));lakehouse=str(uuid.UUID(request['lakehouse']))
+        if response.get('id')!=lakehouse or response.get('workspaceId')!=workspace or response.get('type')!='Lakehouse':
+            raise ValueError('ENDPOINT_RECEIPT_IDENTITY_DIFFERS')
+        endpoint=response.get('properties',{}).get('sqlEndpointProperties',{})
+        uuid.UUID(endpoint['id'])
+        if not isinstance(endpoint.get('connectionString'),str) or not endpoint['connectionString']:
+            raise ValueError('ENDPOINT_RECEIPT_SERVER_REQUIRED')
+        identity='fabric://'+workspace+'/'+lakehouse+'/endpoint-metadata'
+        if identity in seen:raise ValueError('ENDPOINT_RECEIPT_DUPLICATE')
+        seen.add(identity)
+        result.append({'id':identity,'parent_id':'fabric://'+workspace+'/'+lakehouse,
+            'kind':'LakehouseEndpointMetadata','name':'Retained Lakehouse endpoint declaration',
+            'metadata':{'request':request,'response':response,'receipt_sha256':receipt_hash,
+                'receipt_pointer':'/'+str(index),'observed_at':observed_at}})
+    return result
 
 
 def extract(estate,assets,definition_sink,*,observed_at,owner='retained-catalog',source_asset_ids=(),source_observations=None):

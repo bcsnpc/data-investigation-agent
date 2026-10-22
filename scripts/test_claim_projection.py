@@ -31,6 +31,15 @@ class Store:
 
 class ProjectionTests(unittest.TestCase):
     def setUp(self):
+        # Consumer proof tests use an explicit synthetic legacy full-report
+        # surface, not the production REST identity-only capability.
+        from investigator.adapters.microsoft_self_report import SCALARS,compose
+        self.rest_compose=compose
+        def legacy_report(query):
+            return 'EVALUATE ADDCOLUMNS('+query.removeprefix('EVALUATE ')+',"surface_identity",USERPRINCIPALNAME(),"surface_engine",'+SCALARS[0]+',"surface_object",'+SCALARS[1]+')'
+        self.enterContext(patch('investigator.adapters.microsoft_self_report.compose',side_effect=legacy_report))
+        self.enterContext(patch.dict('investigator.adapters.microsoft_process.SEMANTIC_REPORT',
+            {'identity':'surface_identity','engine':'surface_engine','object':'surface_object'},clear=True))
         self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
         source_columns = [{'name': name, 'data_type': typ, 'computed_definition': None}
                           for name, typ in [('event_key','bigint'),('amount','bigint'),('category','int'),('memo','nvarchar')]]
@@ -69,6 +78,18 @@ class ProjectionTests(unittest.TestCase):
         self.adapter = MicrosoftProcessAdapter(self.store,self.config,self.model,
             lambda req:self.transport('semantic',req),None,execute_lower=lambda db,req:self.transport('landing',req),
             meter_read=lambda tool,execute:self.meter(tool,execute))
+    def test_rest_identity_only_does_not_earn_full_projection_attestation(self):
+        def execute(request):
+            response={'results':[{'tables':[{'rows':[{'count_0':1,'surface_identity':'reader@example.com'}]}]}]}
+            response[KEY]=make(response,request,self.config['fabric']['native_reader'])
+            return response
+        self.adapter.execute_native=execute
+        with patch('investigator.adapters.microsoft_self_report.compose',side_effect=self.rest_compose), \
+             patch.dict('investigator.adapters.microsoft_process.SEMANTIC_REPORT',{'identity':'surface_identity'},clear=True):
+            result=self.probe(self.request(),0)
+        self.assertEqual(result['status'],'UNAVAILABLE')
+        self.assertEqual(result['reason'],'CLAIM_PROJECTION_ATTESTATION_REQUIRED')
+
     def meter(self,tool,execute): self.meters.append(tool); return execute()
     def transport(self,layer,request):
         self.calls.append((layer,copy.deepcopy(request)))

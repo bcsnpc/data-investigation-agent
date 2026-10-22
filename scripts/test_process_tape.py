@@ -597,7 +597,9 @@ print(json.dumps({'status':'AVAILABLE','quantity':7}),flush=True)
         from investigator.adaptive_runtime import AdaptiveRuntime
         from investigator.adaptive_candidates import catalog
         h=fixture.DynamicTests();h.setUp();self.addCleanup(h.doCleanups)
-        agent=AdaptiveRuntime(h.runtime,lambda _:None)
+        # Compare capture effects at the same instant; elapsed wall time is
+        # intentionally visible in the payload and may cross a second here.
+        agent=AdaptiveRuntime(h.runtime,lambda _:None,clock=lambda:1000)
         state=agent.get(agent.create(h.envelope,'tape-context')['id'])
         choices,_=catalog(h.store,h.config,h.envelope)
         before=agent.payload(state,choices)

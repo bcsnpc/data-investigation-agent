@@ -19,6 +19,7 @@ from .runtime import fingerprint
 from .adaptive_candidates import catalog, available, observation, diagnostic_pairs, record_pairs
 from .adaptive_planner import validate, VERSION
 from .usage_governance import UsageGovernor,UsageHold
+from .build_phase import active as build_phase_active
 from .record_aggregate import derive as reconcile_aggregates
 
 
@@ -140,7 +141,7 @@ class AdaptiveRuntime:
             context=latest(self.store)
             if context is None:raise Conflict('Dynamic investigation needs discovered context')
             state['discovery_version']=context['version']
-            state['action_budget_version']=1
+            if not build_phase_active(self.config):state['action_budget_version']=1
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE')
             row=db.execute('SELECT id,request_hash FROM adaptive_sessions WHERE model_id=? AND request_key=?',
@@ -172,7 +173,7 @@ class AdaptiveRuntime:
                 if 'outputs' in synthesis:state['outcome']['synthesis_outputs']=synthesis['outputs']
         from .action_budget import summary,allocation
         state['trajectory_metrics']=summary(state)
-        if state.get('action_budget_version')==1:state['action_budget']=allocation(state)
+        if state.get('action_budget_version')==1 and not build_phase_active(self.config):state['action_budget']=allocation(state)
         return state
 
     def payload(self,state,candidates):
@@ -213,7 +214,7 @@ class AdaptiveRuntime:
             from .flexible_tools import capabilities
             result['tool_capabilities']=capabilities(self.store,model,self.config)
             from .action_budget import allocation
-            if state.get('action_budget_version')==1:result['action_budget']=allocation(state)
+            if state.get('action_budget_version')==1 and not build_phase_active(self.config):result['action_budget']=allocation(state)
             return enrich(self.store,state,result)
         return result
 
@@ -241,7 +242,7 @@ class AdaptiveRuntime:
             choices=([c for c in candidates if c['id'] not in state['attempted']] if dynamic else available(candidates,state['observations'],state['attempted']));limits=state['envelope']['limits']
             reason=None
             if self.clock()+self.generation_options['timeout_seconds']>state['deadline']:reason='DEADLINE'
-            elif state['planner_calls']+state.get('transport_planner_calls',0)>=limits['planner_calls'] or state['cloud_calls']>=limits['cloud_calls']:reason='BUDGET_LIMIT'
+            elif not build_phase_active(self.config) and (state['planner_calls']+state.get('transport_planner_calls',0)>=limits['planner_calls'] or state['cloud_calls']>=limits['cloud_calls']):reason='BUDGET_LIMIT'
             elif state.get('no_progress',0)>=(self.governor.policy['no_progress_limit'] if self.governor else 2):reason='NO_PROGRESS'
             elif not choices and not dynamic:reason='NO_ADMITTED_TEST'
             payload=self.payload(state,choices)
@@ -250,9 +251,9 @@ class AdaptiveRuntime:
                 payload=fit(payload,self.generation_options['max_payload_characters'])
                 from .connection_registry import attach
                 payload=attach(payload,self.config,min(self.generation_options['max_payload_characters'],
-                    limits['input_characters']-state['input_characters']))
+                    self.generation_options['max_payload_characters'] if build_phase_active(self.config) else limits['input_characters']-state['input_characters']))
             size=input_characters(payload)
-            if size>self.generation_options['max_payload_characters'] or state['input_characters']+size>limits['input_characters']:reason='BUDGET_LIMIT'
+            if size>self.generation_options['max_payload_characters'] or (not build_phase_active(self.config) and state['input_characters']+size>limits['input_characters']):reason='BUDGET_LIMIT'
             if reason:
                 self.stop(db,state,reason);return self.project_after_commit(db,state)
             if self.governor:
@@ -523,10 +524,10 @@ class AdaptiveRuntime:
             with self.runtime.db() as db:
                 db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current,db)
                 if current['status']!='EXECUTING' or self.clock()>=current['deadline']:raise UsageHold('Read cancelled or deadline exhausted')
-                if not physical_only and current['cloud_calls']>=current['envelope']['limits']['cloud_calls']:
+                if not physical_only and not build_phase_active(self.config) and current['cloud_calls']>=current['envelope']['limits']['cloud_calls']:
                     raise UsageHold('Investigation diagnostic-read limit')
                 from . import process_budget
-                if not physical_only:process_budget.admit(current,tool)
+                if not physical_only:process_budget.admit(current,tool,self.config)
                 number=current.get('physical_calls',current['cloud_calls'])+1;key='tool:process:'+str(number)
                 if self.governor:self.governor.reserve(db,identity,key,'cloud')
                 current['physical_calls']=number
@@ -567,13 +568,15 @@ class AdaptiveRuntime:
 
         def judge_once(payload,attempt):
             size=input_characters(payload)
+            if size>self.generation_options['max_payload_characters']:
+                return {'status':'UNAVAILABLE','explains':None,'reason':'Judgment payload exceeds the per-request input bound.'}
             with self.runtime.db() as db:
                 db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current,db)
                 if current['status']!='EXECUTING' or self.clock()+self.generation_options['timeout_seconds']>current['deadline']:
                     return {'status':'UNAVAILABLE','explains':None,'reason':'Judgment cancelled or deadline exhausted.'}
-                if current['planner_calls']+current.get('transport_planner_calls',0)>=current['envelope']['limits']['planner_calls']:
+                if not build_phase_active(self.config) and current['planner_calls']+current.get('transport_planner_calls',0)>=current['envelope']['limits']['planner_calls']:
                     return {'status':'UNAVAILABLE','explains':None,'reason':'Investigation planner-call limit reached.'}
-                if current['input_characters']+size>current['envelope']['limits']['input_characters']:
+                if not build_phase_active(self.config) and current['input_characters']+size>current['envelope']['limits']['input_characters']:
                     return {'status':'UNAVAILABLE','explains':None,'reason':'Investigation input-character limit reached.'}
                 number=current['planner_calls']+1;key='process-judgment:'+str(number)
                 output=self.generation_options['max_output_tokens']
@@ -692,8 +695,8 @@ class AdaptiveRuntime:
                     if current['status']!='EXECUTING' or self.clock()>=current['deadline']:
                         raise UsageHold('Local read cancelled or deadline exhausted')
                     from . import process_budget
-                    process_budget.admit(current,tool)
-                    if current['cloud_calls']>=current['envelope']['limits']['cloud_calls']:
+                    process_budget.admit(current,tool,self.config)
+                    if not build_phase_active(self.config) and current['cloud_calls']>=current['envelope']['limits']['cloud_calls']:
                         raise UsageHold('Investigation diagnostic-read limit')
                     current['cloud_calls']+=1;process_budget.charge(current)
                     current['local_diagnostic_reads']=current.get('local_diagnostic_reads',0)+1
@@ -738,7 +741,7 @@ class AdaptiveRuntime:
             with self.runtime.db() as db:
                 current=self.load(db,identity)
             from .process_budget import remaining
-            return remaining(current)
+            return remaining(current,self.config)
         adapter=MicrosoftProcessAdapter(self.store,self.config,model,
             self.runtime.native_transport,self.runtime.source_transport,
             judge_definition=judge if provider is not None else None,meter_read=meter_read,
@@ -816,7 +819,7 @@ class AdaptiveRuntime:
             if not isinstance(value,str) or len(value)!=64 or any(c not in '0123456789abcdef'for c in value):
                 raise ValueError('Confirmed claim hashes are required')
         cap=min(12,self.config.get('_estate',{}).get('budgets',{}).get('diagnostic_reads_per_run',12))
-        if envelope.get('limits',{}).get('cloud_calls',13)>cap:
+        if not build_phase_active(self.config) and envelope.get('limits',{}).get('cloud_calls',13)>cap:
             raise ValueError('Claim diagnostic ceiling exceeds the existing run cap')
         identity=self.create(envelope,key)['id']
         with self.runtime.db()as db:

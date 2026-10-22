@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-21",
+  "source_revision": "ad51816",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c9726e80a632aa25ad370bb5fcc71f5a6593d5e17c5be63db87c6dbd24659eae",
+  "new_resource_or_role": false,
+  "reason": "Pin both schedules to tested ad51816; daily smoke includes the delivered family A demo. Crons, roles, resources and 1800-second runtime unchanged. Native replay and outer-finalization failures remain separate; daily stability is not yet earned.",
+  "updates": [
+    {
+      "name": "job-dia-worker",
+      "patch_sha256": "b27ba54e5b1e1ca887add11251a5417e6ca59f143c19b4dfaa22a5fd48c658a5",
+      "before_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e3c13ed9b1e8167a28fa53665888e3f79478260ced3c28c90fbe54bbbcc84d01",
+      "after_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c9726e80a632aa25ad370bb5fcc71f5a6593d5e17c5be63db87c6dbd24659eae",
+      "cron": "0 6 * * *",
+      "cpu": 0.5,
+      "memory": "1Gi",
+      "runtime": 1800
+    },
+    {
+      "name": "job-dia-graph-scan",
+      "patch_sha256": "c564938f0ab956cd41feb630178971915ec13805b39fc70ec71834b46ffbde40",
+      "before_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e3c13ed9b1e8167a28fa53665888e3f79478260ced3c28c90fbe54bbbcc84d01",
+      "after_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c9726e80a632aa25ad370bb5fcc71f5a6593d5e17c5be63db87c6dbd24659eae",
+      "cron": "0 */6 * * *",
+      "cpu": 0.5,
+      "memory": "1Gi",
+      "runtime": 1800
+    }
+  ],
+  "validation": {
+    "status": "PASS",
+    "daily": {
+      "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-worker",
+      "cron": "0 6 * * *"
+    },
+    "graph": {
+      "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-graph-scan",
+      "cron": "0 */6 * * *"
+    },
+    "runtime_seconds": 1800
+  },
+  "daily_demo_earned": true,
+  "monthly_platform_estimate_usd": "19.077133",
+  "new_daily_demo_stability": "NOT_YET_OBSERVED"
+}

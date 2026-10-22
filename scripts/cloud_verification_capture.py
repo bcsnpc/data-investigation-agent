@@ -22,25 +22,40 @@ def snapshot(source,destination):
   _safe(value if isinstance(value,bytes) else json.dumps(value,ensure_ascii=False).encode())
  source=Path(source);destination=Path(destination)
  if not source.exists():return None
- with closing(sqlite3.connect(':memory:')) as retained:
-  with closing(sqlite3.connect(source.resolve().as_uri()+'?mode=ro',uri=True)) as db:
-   db.backup(retained)
-  # Source handle is closed before the potentially long credential audit.
+ from investigator.run_database_audits import detector_identity,certify_snapshot
+ guard=detector_identity(_safe)
+ # A readonly transaction freezes the audited view, including WAL pages,
+ # without copying the entire database into process memory. The same source
+ # connection supplies the destination backup only after every check passes.
+ with closing(sqlite3.connect(source.resolve().as_uri()+'?mode=ro',uri=True)) as retained:
+  retained.execute('BEGIN')
   for row in retained.execute('SELECT type,name,tbl_name,rootpage,sql FROM sqlite_master ORDER BY type,name'):
    safe(list(row))
+  from investigator.database_audit import CompleteValues
+  batch=CompleteValues(_safe)
   tables=[r[0] for r in retained.execute("SELECT name FROM sqlite_master WHERE type='table'")]
   for table in tables:
    quoted='"'+table.replace('"','""')+'"'
    for row in retained.execute('SELECT * FROM '+quoted):
     for value in row:
      if isinstance(value,str):
-      try:safe(json.loads(value))
-      except json.JSONDecodeError:safe(value)
+      try:parsed=json.loads(value)
+      except json.JSONDecodeError:parsed=value
+      batch.add(json.dumps(parsed,ensure_ascii=False).encode())
      elif isinstance(value,bytes):
-      try:safe(value.decode('utf8'))
-      except UnicodeDecodeError:safe(value)
+      # A JSON-string wrapper can hide another escape layer. Inspect the
+      # original BLOB as well as the existing normalized representation.
+      batch.individual(value)
+      try:raw=json.dumps(value.decode('utf8'),ensure_ascii=False).encode()
+      except UnicodeDecodeError:raw=value
+      batch.individual(raw)
+   batch.flush()
+  if detector_identity(_safe)!=guard:raise ValueError('AUDIT_ENVIRONMENT_CHANGED')
   with closing(sqlite3.connect(destination)) as output:retained.backup(output)
- return hashlib.sha256(destination.read_bytes()).hexdigest()
+  retained.rollback()
+ result=sha(destination)
+ certify_snapshot(destination,_safe,guard,result)
+ return result
 
 def load_program(path):
  spec=importlib.util.spec_from_file_location('sealed_verification_program',path)
@@ -70,6 +85,8 @@ class Capture:
   if shared_usage:
    from investigator.shared_application import VERSION as application_version
    state['shared_application']=application_version
+   from investigator.shared_application_capture import VERSION as capture_version
+   state['shared_application_capture']=capture_version
    from investigator.shared_usage_replay import declaration
    state['shared_usage_replay']=declaration(session)
   # Execute exactly the serialized representation replay will consume. Mapping

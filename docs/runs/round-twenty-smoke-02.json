@@ -1,0 +1,78 @@
+{
+  "run_id": "round20-smoke-02",
+  "execution": "job-dia-worker-piyu0ng",
+  "azure_status": "Succeeded",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:006c847e78df9772a170ae3c5a3e231ef6f9bc5fa727453b866b8c70be6cbde4",
+  "result": {
+    "budget_line": "collectors",
+    "checks": {
+      "blob_write_read": {
+        "result": {
+          "file_identity": {
+            "bytes": 129,
+            "sha256": "4e070ba52d50ad3ccacd5d16721c23c6bc811b6559a0512e5441154bab0cefbd"
+          },
+          "sha256": "4e070ba52d50ad3ccacd5d16721c23c6bc811b6559a0512e5441154bab0cefbd",
+          "status": "PASS"
+        },
+        "status": "PASS"
+      },
+      "gold_read": {
+        "result": {
+          "column_types": {
+            "count": "Int64",
+            "sum": "Int64"
+          },
+          "execution_identity": {
+            "database": "warehouse_gold_e1b8e1",
+            "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+            "provenance": "SURFACE_SELF_REPORT",
+            "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+          },
+          "read_only_verified": true,
+          "rows": [
+            {
+              "count": "406",
+              "sum": "8765"
+            }
+          ],
+          "surface_report": {
+            "engine": "Microsoft Azure SQL Data Warehouse",
+            "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+            "object": "warehouse_gold_e1b8e1"
+          },
+          "surface_report_binding": "VALUE_QUERY"
+        },
+        "status": "PASS"
+      },
+      "postgres_write_read": {
+        "result": {
+          "namespace": "daily_smoke",
+          "run_id": "round20-smoke-02",
+          "status": "PASS"
+        },
+        "status": "PASS"
+      },
+      "sign_in": {
+        "result": {
+          "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+          "status": "PASS"
+        },
+        "status": "PASS"
+      }
+    },
+    "demo_included": false,
+    "investigation_reads": 0,
+    "kind": "DAILY_SMOKE",
+    "record": "round20-smoke-02 DAILY_SMOKE PASS",
+    "recorded_at": "2026-10-21T18:36:13.466937+00:00",
+    "run_id": "round20-smoke-02",
+    "status": "PASS"
+  },
+  "capture_seal": "e9de2a8da51bc55e7be9438ea962ef86674637a74dd766391b2aaf8cbd170a46",
+  "record_count": 18,
+  "all_record_hashes_verified": true,
+  "physical_requests": 4,
+  "model_calls": 0,
+  "budget_line": "collectors"
+}

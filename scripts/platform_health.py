@@ -70,11 +70,11 @@ def permissions(config):
 
 
 def postgres_read(config, tokens):
-    import psycopg
+    from investigator.postgres_connection import connect as postgres_connect
     from investigator.adapters.platform_credentials import trust_roots
     pg = config['postgres']
     password = tokens.get_token('https://ossrdbms-aad.database.windows.net/.default')
-    with psycopg.connect(host=pg['host'], dbname=pg['database'], user=pg['user'], password=password,
+    with postgres_connect(host=pg['host'], dbname=pg['database'], user=pg['user'], password=password,
                         sslmode='verify-full', sslrootcert=trust_roots(), connect_timeout=15, autocommit=True,
                         options='-c default_transaction_read_only=on -c statement_timeout=15000') as db:
         return list(db.execute(PG_QUERY).fetchone())

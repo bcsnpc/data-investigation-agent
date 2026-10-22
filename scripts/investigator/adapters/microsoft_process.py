@@ -15,8 +15,10 @@ from ..refresh_comparison import whole_entity_context
 SURFACE_IDENTITY='surface_identity'
 SEMANTIC_ENGINE='OLAP Server'
 SQL_ENGINE='Microsoft Azure SQL Data Warehouse'
-SEMANTIC_REPORT={'identity':SURFACE_IDENTITY,'engine':'surface_engine','object':'surface_object'}
-SEMANTIC_TYPES={'identity':'PRINCIPAL_NAME','engine':'ENGINE_PRODUCT','object':'MODEL_CATALOG_ID'}
+# ExecuteQueries supports query-bound principal identity, not INFO metadata.
+# Engine, connection and object remain declared and explicitly unattested.
+SEMANTIC_REPORT={'identity':SURFACE_IDENTITY}
+SEMANTIC_TYPES={'identity':'PRINCIPAL_NAME'}
 SQL_TYPES={'identity':'PRINCIPAL_NAME','engine':'ENGINE_PRODUCT','object':'DATABASE_CATALOG_NAME'}
 
 
@@ -57,6 +59,21 @@ class MicrosoftProcessAdapter:
         self._native_result_cache={}
         self._job_history_cache={}
         self.duplicate_read_events=[]
+
+    def _semantic_probe(self,result,*args,**kwargs):
+        """Known tenant-only DAX answer: warning, never an invented principal."""
+        body=result.get('result') or {};identity=body.get('execution_identity') or {}
+        reader=(self.config or {}).get('fabric',{}).get('native_reader',{});report=body.get('surface_report') or {}
+        surface=kwargs.get('execution_surface') or {}
+        if (result.get('status')=='COMPLETED' and reader.get('mode')=='federated_reader'
+                and all(identity.get(k)==reader.get(k) for k in ('mode','tenant_id','principal_id','account'))
+                and identity.get('workspace_id')==surface.get('connection')
+                and identity.get('model_id')==surface.get('object')
+                and set(report)=={'identity'} and isinstance(report['identity'],str)
+                and report['identity'].strip()==reader['tenant_id']):
+            kwargs['identity_reporting_limit']='CALLING_PRINCIPAL_UNREPORTABLE'
+            kwargs['evidence']={**kwargs['evidence'],'separate_identity_verification':identity}
+        return Probe(*args,**kwargs)
 
     def capabilities(self):
         result={'resolve_measure_path','evaluate_scoped_quantity','presentation_context','job_history','declared_source_comparison',
@@ -198,7 +215,7 @@ class MicrosoftProcessAdapter:
             return Probe('UNAVAILABLE',layer['id'],reason='Declared reproduction read did not complete.',
                          query=query,execution_surface=surface)
         body=result['result'];rows=body['rows']
-        probe=Probe('OBSERVED',layer['id'],evidence={'id':result['id'],'tool':'bounded_dax',
+        probe=self._semantic_probe(result,'OBSERVED',layer['id'],evidence={'id':result['id'],'tool':'bounded_dax',
             'completeness':body['completeness'],'values':rows,'request_hash':result['request_hash'],
             'measure_id':measure_id,'applied_restrictions':copy.deepcopy(applied),
             'context_id':model['context_id'],'model_revision':model['revision'],
@@ -207,7 +224,7 @@ class MicrosoftProcessAdapter:
             **({'cell_address':copy.deepcopy(plan['cell_address'])} if 'cell_address' in plan else {}),
             'conditional_declarations':copy.deepcopy(declaration['evidence']['conditional_declarations'])},
             value=_quantity(rows,plan['surface_report']),query=query,execution_surface=surface,
-            surface_report=body.get('surface_report'),surface_reportable=('identity','engine','object'),
+            surface_report=body.get('surface_report'),surface_reportable=tuple(SEMANTIC_REPORT),
             surface_report_types=SEMANTIC_TYPES,surface_report_binding='VALUE_QUERY')
         return probe
 
@@ -234,7 +251,7 @@ class MicrosoftProcessAdapter:
         surface={'engine':SEMANTIC_ENGINE,'connection':self.model['workspace'],
                  'object':self.model['native_id'],'identity':self.config['fabric']['native_reader']['account']}
         if result['status']=='COMPLETED' and result['result']['completeness']=='COMPLETE_RESPONSE':
-            report=attest_surface(surface,result['result'].get('surface_report'),('identity','engine','object'))
+            report=attest_surface(surface,result['result'].get('surface_report'),tuple(SEMANTIC_REPORT))
             if report['consistency']=='MATCHED' and not report['missing_required_fields']:
                 self._native_result_cache[key]=copy.deepcopy(result)
         return result
@@ -326,13 +343,13 @@ class MicrosoftProcessAdapter:
         body=result['result']; rows=body['rows']; quantity=_quantity(rows,plan['surface_report'])
         if not isinstance(quantity,dict) or quantity.get('quantity') not in ('0','1'): raise Refusal('VALUE_EXISTENCE_RESULT')
         exists=quantity['quantity']=='1'
-        return Probe('OBSERVED',layer['id'],value=quantity,query=query,execution_surface=surface,
+        return self._semantic_probe(result,'OBSERVED',layer['id'],value=quantity,query=query,execution_surface=surface,
             evidence={'id':result['id'],'tool':'bounded_dax','check_kind':'COLUMN_VALUE_EXISTENCE','column_id':column_id,
                 'request_hash':result['request_hash'],
                 'read_address':plan['read_address'],
                 'searched_value':value,'value_exists':exists,'report_id':binding['report_id'],
                 'context_id':model['context_id'],'model_revision':model['revision'],'completeness':body['completeness'],'values':rows},
-            surface_report=body.get('surface_report'),surface_reportable=('identity','engine','object'),
+            surface_report=body.get('surface_report'),surface_reportable=tuple(SEMANTIC_REPORT),
             surface_report_types=SEMANTIC_TYPES,surface_report_binding='VALUE_QUERY')
 
     def resolve_declared_source(self,declaration):
@@ -669,7 +686,7 @@ class MicrosoftProcessAdapter:
         rows=result['result']['rows'];value=_quantity(rows,plan['surface_report'])
         report=result['result'].get('surface_report')
         definition_check=layer.get('kind')=='declared_source'
-        return Probe('NOT_COMPARABLE' if definition_check else 'OBSERVED',layer['id'],evidence={'id':result['id'],'tool':'bounded_dax',
+        return self._semantic_probe(result,'NOT_COMPARABLE' if definition_check else 'OBSERVED',layer['id'],evidence={'id':result['id'],'tool':'bounded_dax',
             'completeness':result['result']['completeness'],'values':rows,
             'request_hash':result['request_hash'],
             'declared_context':(whole_entity_context() if not scope.get('filters') and not scope.get('dimension_ids') else None),
@@ -680,7 +697,7 @@ class MicrosoftProcessAdapter:
                 'independent_read_refused':layer.get('lower_refusal')} if definition_check else {})},
             value=value,query=query,
             reason='NO_INDEPENDENT_LOWER_READ' if definition_check else None,
-            execution_surface=semantic_surface,surface_report=report,surface_reportable=('identity','engine','object'),
+            execution_surface=semantic_surface,surface_report=report,surface_reportable=tuple(SEMANTIC_REPORT),
             surface_report_types=SEMANTIC_TYPES,surface_report_binding='VALUE_QUERY')
 
     def _lower_quantity(self,layer,scope):

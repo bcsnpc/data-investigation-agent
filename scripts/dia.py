@@ -65,6 +65,14 @@ def demo(manifest_path, case_path, port, live=False):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
+    run = commands.add_parser('run',help='Run a typed ticket or check through the pinned container runner')
+    run.add_argument('target')
+    run.add_argument('--estate',required=True,type=Path)
+    run.add_argument('--runtime',choices=('local','azure','worker'),default='local')
+    schedule=commands.add_parser('schedule',help='Plan or apply daily smoke to the configured existing job')
+    schedule.add_argument('--estate',required=True,type=Path)
+    schedule.add_argument('--existing-job',type=Path)
+    schedule.add_argument('--apply',action='store_true')
     retain = commands.add_parser('retain', help='Plan or apply the manifest retention policy locally')
     retain.add_argument('--manifest', required=True, type=Path)
     retain.add_argument('--root', required=True, type=Path)
@@ -78,7 +86,27 @@ def main(argv=None):
     show.add_argument('--port', type=int, default=8776)
     show.add_argument('--live', action='store_true', help='Explicitly enable existing governed execution')
     args = parser.parse_args(argv)
-    if args.command == 'retain':
+    if args.command=='schedule':
+        from investigator.unified_runner import load
+        from investigator.adapters.runner_schedule import plan,apply
+        config=load(args.estate)
+        if args.apply:
+            from investigator.adapters.control_failure import ControlCommandFailure
+            try:result=apply(config)
+            except ControlCommandFailure as error:
+                from investigator.process_tape import bytes_of,uuid4
+                path=args.estate.resolve().parent/('control-failure-'+str(uuid4())+'.json')
+                with path.open('xb') as stream:stream.write(bytes_of(error.receipt))
+                print(json.dumps({'status':'FAILED','operation':error.receipt['operation'],'returncode':error.receipt['returncode'],'stderr':error.receipt['stderr'],'receipt':str(path)}))
+                return 1
+        else:
+            if args.existing_job is None:parser.error('Schedule planning requires --existing-job retained observation')
+            result=plan(config,json.loads(args.existing_job.read_bytes()))
+        print(json.dumps(result,sort_keys=True));return 0
+    elif args.command == 'run':
+        from investigator.unified_runner import main as run_main
+        return run_main(args)
+    elif args.command == 'retain':
         from investigator.estate_manifest import load
         from investigator.retention import DEFAULT, plan, apply, summary
         manifest = load(args.manifest)

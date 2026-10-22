@@ -32,7 +32,7 @@ class ScopedTests(unittest.TestCase):
             self.requests.append(copy.deepcopy(request))
             value=exists if 'COUNTROWS' in request['query'] else 3
             response={'results':[{'tables':[{'rows':[{'quantity':value,
-                'surface_identity':self.reader['account'],'surface_engine':'OLAP Server','surface_object':self.model['native_id']}]}]}]}
+                'surface_identity':self.reader['account']}]}]}]}
             response[native_identity.KEY]=native_identity.make(response,request,self.reader)
             return response
         self.adapter.execute_native=execute

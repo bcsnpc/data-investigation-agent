@@ -16,6 +16,18 @@ TEST_MODULES = (
     'test_keyed_readback.py', 'test_native_diagnostics.py',
     'test_budget_tape_contract.py', 'test_provider_tape_contract.py', 'test_ticket_protocol.py',
     'test_shared_usage_replay.py', 'test_cloud_verification_first_error.py',
+    'test_streaming_verification_snapshot.py', 'test_batched_database_audit.py',
+    'test_run_database_audits.py', 'test_cloud_verification_window.py',
+    'test_cloud_runner_context.py', 'test_unified_runner.py',
+    'test_runner_graph_schedule.py', 'test_cloud_verification_capture.py',
+    'test_shared_application_capture.py', 'test_cloud_verification_proof.py',
+    'test_shared_catalog_capture.py',
+    'test_recorded_engine_image.py',
+    'test_cloud_runtime_storage.py', 'test_demo_admission.py', 'test_graph_value_verification.py', 'test_graph_value_bridge.py',
+    'test_capture_transaction_publication.py', 'test_cloud_dax_authorization.py',
+    'test_cloud_value_execution.py', 'test_cloud_value_mapping.py',
+    'test_cloud_value_verifier.py',
+    'test_runner_replay_materialize.py',
 )
 
 

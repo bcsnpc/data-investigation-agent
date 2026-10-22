@@ -1,0 +1,35 @@
+{
+  "status": "APPLIED",
+  "validation": {
+    "status": "PASS",
+    "daily": {
+      "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-worker",
+      "cron": "0 6 * * *"
+    },
+    "graph": {
+      "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-graph-scan",
+      "cron": "0 */6 * * *"
+    },
+    "runtime_seconds": 1800
+  },
+  "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-graph-scan",
+  "cost": {
+    "monthly_usd": {
+      "platform": "14.822133",
+      "daily": "0.857",
+      "graph": "3.348",
+      "storage": "0.05"
+    },
+    "combined_monthly_usd": "19.077133",
+    "graph_executions_31_days": 124,
+    "seconds_per_execution": 1800,
+    "graph_vCPU_seconds": 111600,
+    "graph_GiB_seconds": 223200,
+    "free_grants_assumed": false,
+    "estimate_not_invoice": true
+  },
+  "new_roles": [],
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:006c847e78df9772a170ae3c5a3e231ef6f9bc5fa727453b866b8c70be6cbde4",
+  "control_result_sha256": "ce4557bfd0d7431423e2e375cb3c5b6a9029c2e951a1fb1fddeb95836e01a5c0",
+  "note": "Same tested audit/health-fixed image on both jobs; no schedule, resources, identity or scope change from the owner-approved pair."
+}

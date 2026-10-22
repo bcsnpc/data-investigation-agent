@@ -43,3 +43,8 @@ The earlier stdout retained the two exceptions in this session's tool record. A 
 After verifying all executions terminal, the original `0 */6 * * *` schedule was restored and read back, with1800-second runtime and zero retries. Receipt: `.local/round-nineteen-b/bronze-window-close-02/summary.json`. No new writer lease was acquired for the single probe; the previous full attempt's lease remains released. No counter was reset or refunded. Engine freeze invalidated by the fail-before-producer repair.
 
 Dated offline validation correction: e34 full regression returned4,461PASS,2FAIL,46skip,1,557subtests. The privacy-mode error must precede generic field validation; its original test is unchanged. The worker-launch test now provides a valid seven-field header, retaining all original process-policy assertions. Seven targeted tests/five subtests pass. No new live check follows.
+
+
+## Superseded operating restriction ? 2026-10-21
+
+The owner?s Round Twenty build-phase decision supersedes this document?s ten-request and single-attempt conditions, exact-replay-before-live gate and prior no-further-attempt statements. Live runs retry soft failures under the standing monthly budgets; replay follows live on the same image. Historical results, missing capture and permissions findings above are unchanged. Read-only scope and explicit permission approval remain strict. See CLAUDE.md ?8, Standing operating mode: build phase (2026-10-19), including the October21 accounting-start correction.

@@ -1,0 +1,114 @@
+{
+  "owner_date": "2026-10-21",
+  "at": "2026-10-22",
+  "run_id": "round20-cloud-family-a-demo-fixed-03",
+  "execution": "job-dia-worker-37ro8m4",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f002420b88d91b92b6c81421c6c2d79d5bc1e48cf47988670a0f57a1e70fbe6f",
+  "status": "COMPLETED_WITH_REFUSAL",
+  "answer": "HELD",
+  "expected_finding_earned": false,
+  "ticket_id": "45298fbf-19db-4c6d-8705-69bf0917c8af",
+  "session_id": "adb36208-eb43-4e5e-8dc7-43eece357843",
+  "outer_records_preserved": 986,
+  "outer_seal_valid": true,
+  "verification_label": {
+    "capture_sha256": "a8b25ac62a72197b030fa677ff4da0fd59bd02b7016e6e7582d3e004055894d9",
+    "error": {
+      "errno": null,
+      "error_type": "ValueError",
+      "message": "NATIVE_DECLARED_ROUTE_NOT_VERIFIED"
+    },
+    "source_engine_revision": "7dd7077f324e83b045e8dbb4652b144978cd506f",
+    "status": "FAILED",
+    "verification_status": null
+  },
+  "native_captures": [
+    {
+      "path": "captures/a3260304-10ce-455a-9fe1-712ed05a4d32/slim-recording.json",
+      "pointer_sha256": "6e19fcd8eb0062e6147f8fc78256fe79b5c03a4e16515c4a634cadeee34c8f2f",
+      "source_seal": "b907d98ba9cd20a2380559b8d1c5adb06fed017f35736fbf88d673b12f3c92b2",
+      "bundle_sha256": "064b87bb60121e6e25ee66e6c10a6ec07a98bb4ee4786e74dbb60a0c351995d8"
+    },
+    {
+      "path": "captures/efbba71b-b329-4554-890b-6d416e6bc10c/slim-recording.json",
+      "pointer_sha256": "50f974157ba78c679df25f82c620021ec6aa1dd799fa2c46ac50633c0f893657",
+      "source_seal": "9f1144f6c884953173b2ea605daa9c789911df0650b66400c0c0c24827638782",
+      "bundle_sha256": "42a0c94c568d647727356ea22495e301748f79b922bb8d07e34e1a95065ab698"
+    },
+    {
+      "path": "captures/f023b758-c21a-408d-9a19-5fb2d43a953f/slim-recording.json",
+      "pointer_sha256": "dc8b382a29a4e244fb6521e6c465458a4378396a6c0f80bc7293512e5088f4c7",
+      "source_seal": "3b356bdc88ba23a18e3445e1a860d306772ddab37e55a1a3507bbfdb22b54c09",
+      "bundle_sha256": "cb1d168d1b89344a8aa419976bf686206d693958064b6994c0de17776282e0f6"
+    }
+  ],
+  "observed_gold_quantity": 8765,
+  "silver_quantity_obtained": false,
+  "failure": {
+    "type": "FileNotFoundError",
+    "errno": 2,
+    "message": "No such file or directory"
+  },
+  "other_limit": "SURFACE_SELF_REPORT_CONTRADICTS_DECLARED; native identity function returned tenant, not principal",
+  "outputs": {
+    "business_output": {
+      "explanation": {
+        "evidence_ids": [
+          "process-failed-5"
+        ],
+        "text": "You asked: Description supplied by user: In Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference. Comparison selected by user: The application\nAnswer to your question: Not answered.\n\nThe investigation stopped during process failure.\nReason: No such file or directory\nNo explanation of the reported difference was established.\nRecommended action: Resolve the stated blocker before a new investigation."
+      },
+      "recommended_action": "Resolve the stated blocker before a new investigation."
+    },
+    "provenance": "DETERMINISTIC_REFUSAL_RENDERING",
+    "refusal": {
+      "evidence_id": "process-failed-5",
+      "shape": "PROCESS_FAILED",
+      "stage": "process failure",
+      "text": "No such file or directory"
+    },
+    "source_hash": "c6a092fb3753b8a4d4b03e0f9e44f9f6f12c29ab4c658be5e466d6898b99f22e",
+    "technical_output": {
+      "explanation": {
+        "evidence_ids": [
+          "process-failed-5"
+        ],
+        "text": "You asked: Description supplied by user:\nIn Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.\n\nComparison selected by user:\nThe application\nAnswer to your question: Not answered.\n\nThe investigation stopped during process failure.\nReason: No such file or directory\nNo explanation of the reported difference was established.\nRecommended action: Resolve the stated blocker before a new investigation.\nDiagnostic: FileNotFoundError at _local.py:537.\nRoles reached in path resolution: no declared layer identities were retained.\n\nPrevious runs: same ticket 022cfcc6-b6db-4a2e-8891-5cba88426995, 08d83cd7-2a49-4948-be61-6ce289a9324b, 0ebb1fd9-1be6-4d80-b5fe-95ffb474a66e, 15128277-242b-4b08-ad18-dad91d6089b3, 288b5c79-de67-483f-835a-7652c66d5da3, 37272838-7954-4a6f-a42e-c2c8f58158ef, 53036702-cc99-4d4f-8c6e-8cdf1d8a9478, 595dd549-aec8-4979-9faa-bdb739d97d57, 5cd46575-ea32-4b95-98b2-c6172dbc4523, 6a89e98b-1b6b-4c6f-80d2-c493ecb9a09a, 77ffd137-8061-4372-b323-5ee71a521b47, 964c94e9-3daa-4aac-a3e0-9a7351d1e1e3, 9a0cda78-6fb0-43f4-a744-d2d6fca63697, 9b7330e0-bf1a-4447-8739-e1a2c5b9516f, a8b69c12-db94-41c6-a85c-e81d9e43f3a4, ae42f998-2b2c-4832-9d05-f90cb7b7c233, bc32732d-4fba-46ae-9763-4522a1b3cda4, be3a2e07-66dd-49b6-b07b-4cdf29a83aa4, be6bdff8-7cdc-4132-ba1e-28507307e361, cd5c63de-b100-4f44-8a33-eddf12262935, d240c4a6-c34f-4765-9a8d-e7647e8cc0f1, e938f3eb-a853-4e51-b775-836a66e8a7b4, f64d90cd-0573-43c9-8a2a-a6cdce7fff86."
+      },
+      "previous_runs": {
+        "same_cells": [],
+        "same_ticket": [
+          "022cfcc6-b6db-4a2e-8891-5cba88426995",
+          "08d83cd7-2a49-4948-be61-6ce289a9324b",
+          "0ebb1fd9-1be6-4d80-b5fe-95ffb474a66e",
+          "15128277-242b-4b08-ad18-dad91d6089b3",
+          "288b5c79-de67-483f-835a-7652c66d5da3",
+          "37272838-7954-4a6f-a42e-c2c8f58158ef",
+          "53036702-cc99-4d4f-8c6e-8cdf1d8a9478",
+          "595dd549-aec8-4979-9faa-bdb739d97d57",
+          "5cd46575-ea32-4b95-98b2-c6172dbc4523",
+          "6a89e98b-1b6b-4c6f-80d2-c493ecb9a09a",
+          "77ffd137-8061-4372-b323-5ee71a521b47",
+          "964c94e9-3daa-4aac-a3e0-9a7351d1e1e3",
+          "9a0cda78-6fb0-43f4-a744-d2d6fca63697",
+          "9b7330e0-bf1a-4447-8739-e1a2c5b9516f",
+          "a8b69c12-db94-41c6-a85c-e81d9e43f3a4",
+          "ae42f998-2b2c-4832-9d05-f90cb7b7c233",
+          "bc32732d-4fba-46ae-9763-4522a1b3cda4",
+          "be3a2e07-66dd-49b6-b07b-4cdf29a83aa4",
+          "be6bdff8-7cdc-4132-ba1e-28507307e361",
+          "cd5c63de-b100-4f44-8a33-eddf12262935",
+          "d240c4a6-c34f-4765-9a8d-e7647e8cc0f1",
+          "e938f3eb-a853-4e51-b775-836a66e8a7b4",
+          "f64d90cd-0573-43c9-8a2a-a6cdce7fff86"
+        ],
+        "status": "RECORDED",
+        "ticket_key": "5beddea4193438e3998af2cf216d4a0ec8ae909a915ac6bbfd9605f4f50e9c47",
+        "version": 1
+      },
+      "recommended_action": "Resolve the stated blocker before a new investigation."
+    },
+    "version": 1
+  },
+  "originals_unchanged": true
+}

@@ -48,6 +48,16 @@ def _deny(reason, *, identity='', operation='', target=''):
     raise GatewayDenied(reason)
 
 
+def _network_unlocked():
+    """Budget admission commits before an external request starts."""
+    from .shared_state import TRANSACTION_ACTIVE
+    from .shared_writer_lease import LEASE_ENV
+    if TRANSACTION_ACTIVE.get():
+        _deny('NETWORK_DURING_SHARED_STATE_TRANSACTION')
+    if os.environ.get(LEASE_ENV):
+        _deny('NETWORK_DURING_EXCLUSIVE_WRITER_LEASE')
+
+
 def _url(value):
     if not isinstance(value,str):_deny('INVALID_ENDPOINT')
     try:
@@ -130,6 +140,10 @@ class Gateway:
                 from .adapters.platform_cas import declaration
                 if permissions.get('role')!='platform':_deny('PLATFORM_IDENTITY_REQUIRED')
                 for item in permissions['platform_cas']:declaration(item)
+            if permissions.get('runner_captures'):
+                from .adapters.runner_blobs import declaration
+                if permissions.get('role')!='platform':_deny('PLATFORM_IDENTITY_REQUIRED')
+                for item in permissions['runner_captures']:declaration(item)
             if permissions.get('platform_screenshots'):
                 from .adapters.screenshot_blobs import declaration
                 if permissions.get('role')!='platform':_deny('PLATFORM_IDENTITY_REQUIRED')
@@ -160,6 +174,7 @@ class Gateway:
         return permissions
 
     def http(self,identity,method,url,body=None,headers=None):
+        _network_unlocked()
         permissions=self.identity(identity);_url(url)
         method=method.upper()
         matches=[item for item in permissions.get('http',[]) if item['method']==method and item['url']==url]
@@ -173,6 +188,9 @@ class Gateway:
                 _deny('SCANNER_RESPONSE_BINDING_REQUIRED',identity=identity,operation=method,target=url)
         if len(matches)!=1:
             if not matches and permissions.get('role')=='platform':
+                from .adapters.runner_blobs import permits as runner_permits
+                if runner_permits(self,identity,method,url,body,headers):
+                    return {'method':method,'url':url,'purpose':'runner_capture'}
                 from .adapters.platform_cas import permits
                 if permits(self,identity,method,url,body,headers):
                     return {'method':method,'url':url,'purpose':'platform_cas'}
@@ -229,6 +247,7 @@ class Gateway:
         return matches[0]
 
     def native_control(self,identity,operation,target,query=None):
+        _network_unlocked()
         permissions=self.identity(identity)
         if permissions.get('role')=='scanner'and operation!='XMLA_GRAPH_METADATA':
             _deny('SCANNER_NATIVE_OPERATION_REFUSED',identity=identity,operation=operation)
@@ -255,6 +274,7 @@ class Gateway:
         return {'host':host,'database':database}
 
     def sql_control(self,identity,server,database,control):
+        _network_unlocked()
         permissions=self.identity(identity)
         matches=[item for item in permissions.get('sql',[]) if item['server']==server and item['database']==database]
         if len(matches)!=1 or control not in matches[0].get('controls',[]):
@@ -264,6 +284,7 @@ class Gateway:
         return matches[0]
 
     def sql(self,identity,server,database,query,*,objects=None,max_rows=1,timeout=30):
+        _network_unlocked()
         permissions=self.identity(identity)
         matches=[item for item in permissions.get('sql',[]) if item['server']==server and item['database']==database]
         if len(matches)!=1:_deny('SQL_CONNECTION_NOT_ALLOWED',identity=identity,target=server+'/'+database)
@@ -376,7 +397,8 @@ def current():
 
 def authorize_http(request,*,identity=None):
     identity=identity or os.environ.get('DIA_GATEWAY_HTTP_IDENTITY','')
-    return current().http(identity,request.get_method(),request.full_url,request.data)
+    return current().http(identity,request.get_method(),request.full_url,request.data,
+                          dict(request.header_items()))
 
 
 def open_http(opener,request,*,timeout,identity=None):

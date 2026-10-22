@@ -21,9 +21,10 @@ class VerificationBudget:
         self.record = record
 
     def read(self, kind, execute):
+        from .build_phase import active
         if kind not in ('TARGET', 'SOURCE', 'METADATA'):
             raise ValueError('Unknown verification read kind')
-        if self.count >= self.cap:
+        if not active() and self.count >= self.cap:
             self.record({'event': 'VERIFICATION_CAP', 'decision': 'REFUSED',
                          'count': self.count, 'cap': self.cap, 'kind': kind})
             raise UsageHold('Approval-time binding verification cap')

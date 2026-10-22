@@ -5,12 +5,12 @@ import hashlib
 import json
 import re
 
-CONFIDENCE=frozenset({'DECLARED','INFERRED','VERIFIED','UNKNOWN'})
+CONFIDENCE=frozenset({'DECLARED','INFERRED','VALUE_VERIFIED','VERIFIED','UNKNOWN'})
 NODE_KINDS=frozenset({'REPORT','PAGE','VISUAL','SLICER','FILTER','INTERACTION','MEASURE','CALCULATED_COLUMN',
     'CALCULATION_GROUP','FIELD_PARAMETER','MODEL','TABLE','COLUMN','RELATIONSHIP','SECURITY_ROLE',
     'QUERY_STEP','VIEW','PROCEDURE','NOTEBOOK','PIPELINE','COPY_ACTIVITY','SOURCE','REFRESH_SCHEDULE','BOUNDARY'})
 EDGE_KINDS=frozenset({'COMPUTED_FROM','FILTERED_BY','JOINED_VIA','COPIED_TO','DERIVED_IN_STEP','INTERACTS_WITH','CONTAINS'})
-SOURCES=frozenset({'STATIC_DEFINITION','ENGINE_DEPENDENCY','MODEL_PROPOSAL','RUNTIME_OBSERVATION','QUERY_VERIFICATION','DECLARED_CONFIG'})
+SOURCES=frozenset({'STATIC_DEFINITION','ENGINE_DEPENDENCY','MODEL_PROPOSAL','RUNTIME_OBSERVATION','QUERY_VERIFICATION','VALUE_QUERY_VERIFICATION','DECLARED_CONFIG'})
 
 
 def canonical(value):return json.dumps(value,sort_keys=True,separators=(',',':'),ensure_ascii=False,allow_nan=False)
@@ -66,17 +66,17 @@ def record(value,*,edge=False):
     if verification['state'] not in ('NOT_VERIFIED','CURRENT','STALE') or not isinstance(verification['evidence_ids'],list):
         raise ValueError('GRAPH_VERIFICATION_STATE')
     if any(not text(v) for v in verification['evidence_ids']):raise ValueError('GRAPH_VERIFICATION_EVIDENCE')
-    if value['confidence']=='VERIFIED':
+    if value['confidence'] in ('VERIFIED','VALUE_VERIFIED'):
         if (verification['state']!='CURRENT' or not verification['evidence_ids'] or
                 not isinstance(verification['scope_hash'],str) or not re.fullmatch('[0-9a-f]{64}',verification['scope_hash'])):
             raise ValueError('GRAPH_VERIFIED_QUERY_PROOF_REQUIRED')
-        if value['provenance']['source']!='QUERY_VERIFICATION':raise ValueError('GRAPH_VERIFIED_PRODUCER_REQUIRED')
+        if value['provenance']['source']!=('QUERY_VERIFICATION' if value['confidence']=='VERIFIED' else 'VALUE_QUERY_VERIFICATION'):raise ValueError('GRAPH_VERIFIED_PRODUCER_REQUIRED')
     elif verification['state']=='CURRENT':raise ValueError('GRAPH_VERIFIED_CONFIDENCE_DIFFERS')
     if value['provenance']['source']=='MODEL_PROPOSAL' and value['confidence']!='INFERRED':
         raise ValueError('GRAPH_MODEL_CANNOT_VERIFY')
     if edge:
         if any(not text(value[k]) for k in ('source','target')):raise ValueError('GRAPH_ENDPOINT_REQUIRED')
-        if value['base_confidence'] not in CONFIDENCE-{'VERIFIED'}:raise ValueError('GRAPH_BASE_CONFIDENCE')
+        if value['base_confidence'] not in CONFIDENCE-{'VERIFIED','VALUE_VERIFIED'}:raise ValueError('GRAPH_BASE_CONFIDENCE')
     return copy.deepcopy(value)
 
 

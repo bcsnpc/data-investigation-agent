@@ -237,6 +237,44 @@ class IntakeTests(unittest.TestCase):
         self.assertNotIn('secret', json.dumps(saved))
         self.assertEqual(self.h.agent.governor.snapshot()['reservation_states'], {'UNCERTAIN': 1})
 
+    def test_exception_diagnostic_keeps_type_and_relative_frames_without_message(self):
+        marker='private-credential-DO-NOT-RETAIN'
+        def provider_failure(payload):raise RuntimeError(marker)
+        self.resolver.side_effect=provider_failure
+        saved=self.resolve()
+        diagnostic=saved['resolution_error']
+        self.assertEqual(diagnostic['error_type'],'RuntimeError')
+        self.assertTrue(1<=len(diagnostic['frames'])<=8)
+        self.assertTrue(any(f['function']=='provider_failure' for f in diagnostic['frames']))
+        self.assertTrue(all(set(f)=={'module','function','line'} for f in diagnostic['frames']))
+        self.assertTrue(all(not f['module'].startswith(('/', '\\')) and ':' not in f['module'] for f in diagnostic['frames']))
+        self.assertNotIn(marker,json.dumps(saved))
+        self.assertNotIn('message',diagnostic)
+        self.assertEqual(self.workspace.intake.get(saved['id']),saved)
+
+    def test_guard_and_budget_exceptions_propagate_after_reservation_settled(self):
+        from investigator.live_gateway import GatewayDenied
+        from investigator.model_spend import SpendHold
+        for number,kind in enumerate((GatewayDenied,UsageHold,SpendHold)):
+            self.request['request_key']='guard-'+str(number)
+            self.resolver.side_effect=kind('private-denial-detail')
+            with self.assertRaises(kind):self.resolve()
+            with self.workspace.store.connect() as db:
+                row=db.execute('SELECT body FROM workspace_intakes WHERE request_key=?',(self.request['request_key'],)).fetchone()
+                saved=json.loads(row['body'])
+                status=db.execute('SELECT status FROM adaptive_usage WHERE session_id=?',('intake:'+saved['id'],)).fetchone()[0]
+            self.assertEqual(status,'UNCERTAIN')
+            self.assertEqual(saved['status'],'HELD')
+            self.assertEqual(saved['resolution_error']['error_type'],kind.__name__)
+            self.assertNotIn('private-denial-detail',json.dumps(saved))
+
+    def test_tape_mismatch_propagates_without_consuming_settlement(self):
+        from investigator.process_tape import TapeError
+        self.resolver.side_effect=TapeError('expected-event-differs')
+        with patch.object(self.h.agent.governor,'settle',wraps=self.h.agent.governor.settle) as settle:
+            with self.assertRaises(TapeError):self.resolve()
+            settle.assert_not_called()
+
     def test_crash_reservation_survives_restart_without_reissue(self):
         self.resolver.side_effect = KeyboardInterrupt()
         with self.assertRaises(KeyboardInterrupt): self.resolve()
