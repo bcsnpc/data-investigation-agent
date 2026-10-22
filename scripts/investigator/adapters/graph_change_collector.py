@@ -23,10 +23,12 @@ class Assets:
 
 
 class FabricChanges:
-    def __init__(self, workspace, owners, http, *, max_pages=5, max_items=1000, dependencies=None, retain_definition=None):
+    def __init__(self, workspace, owners, http, *, max_pages=5, max_items=1000, dependencies=None, retain_definition=None, item_observer=None):
         self.workspace = str(UUID(workspace)); self.http = http
         self.dependencies = dependencies
         self.retain_definition=retain_definition
+        self.item_observer=item_observer
+        self._observed_items={}
         if not owners or len(owners) > 100 or len(set(owners)) != len(owners): raise ValueError('GRAPH_OWNER_ALLOWLIST')
         self.owners = {str(UUID(owner)) for owner in owners}
         if type(max_pages) is not int or not 1 <= max_pages <= 10 or type(max_items) is not int or not 1 <= max_items <= 10000:
@@ -60,6 +62,7 @@ class FabricChanges:
         self.items = {key: value for key, value in items.items() if key in self.owners}
         signals = []
         for key, item in sorted(self.items.items()):
+            self._observe(self.owner(key),item)
             # Missing modified metadata means definition-hash polling, not a false unchanged assertion.
             modified = item.get('lastModifiedDateTime') or item.get('modifiedDateTime') or item.get('modifiedTime')
             signals.append({'owner': self.owner(key), 'fingerprint': sha({'modified': modified, 'item': item}) if modified else None, 'deleted': False})
@@ -69,11 +72,18 @@ class FabricChanges:
 
     def owner(self, identity): return 'fabric://' + self.workspace + '/' + identity
 
+    def _observe(self,owner,item):
+        fingerprint=sha(item)
+        if self.item_observer is not None and self._observed_items.get(owner)!=fingerprint:
+            self.item_observer(owner,item)
+            self._observed_items[owner]=fingerprint
+
     def fetch(self, owner):
         prefix = 'fabric://' + self.workspace + '/'
         key = owner.removeprefix(prefix)
         if not owner.startswith(prefix) or key not in self.items: raise ValueError('GRAPH_FETCH_OWNER_SCOPE')
         item = self.items[key]; kind = item['type']
+        self._observe(owner,item)
         if kind not in ('Report', 'SemanticModel', 'Notebook', 'DataPipeline', 'CopyJob'):
             raise RuntimeError('GRAPH_DEFINITION_KIND_UNAVAILABLE')
         endpoint = 'workspaces/' + self.workspace + '/items/' + key + '/getDefinition'
@@ -86,7 +96,8 @@ class FabricChanges:
         parts = definition(endpoint + ('?format=TMSL' if kind == 'SemanticModel' else ''), checked_call)
         assets = Assets()
         # Volatile listing clocks are not definition content.
-        metadata = {k: v for k, v in item.items() if k not in ('lastModifiedDateTime', 'modifiedDateTime', 'modifiedTime')}
+        from .item_metadata_history import VOLATILE_FIELDS
+        metadata = {k: v for k, v in item.items() if k not in VOLATILE_FIELDS}
         assets.asset(owner, kind, item['displayName'], endpoint, metadata)
         reference=(self.retain_definition(encoded({'owner':owner,'kind':kind,'endpoint':endpoint,'parts':parts}).encode('utf8'))
             if self.retain_definition is not None else None)

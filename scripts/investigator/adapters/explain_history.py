@@ -21,11 +21,20 @@ def validate(row, subject):
 
 
 class HistoryPort:
-    def __init__(self, *, activity=None, git=None):
-        self.activity,self.git=activity,git
+    def __init__(self, *, activity=None, git=None, metadata=None):
+        self.activity,self.git,self.metadata=activity,git,metadata
 
     def read(self,node):
         rows=[];gaps=[];subject=node['id'];metadata=node['properties'].get('observed_metadata',{})
+        if self.metadata is not None:
+            observed=self.metadata(node)
+            if (not isinstance(observed,dict) or set(observed)!={'observations','coverage_gaps'}
+                    or not isinstance(observed['observations'],list) or len(observed['observations'])>100
+                    or not isinstance(observed['coverage_gaps'],list) or len(observed['coverage_gaps'])>100
+                    or any(row.get('source')!='ITEM_METADATA' for row in observed['observations'])):
+                raise ValueError('EXPLAIN_HISTORY_BOUND')
+            rows.extend(validate(row,subject) for row in observed['observations'])
+            gaps.extend(observed['coverage_gaps'])
         # Native naming belongs only at this platform boundary. A modified item
         # is not automatically a changed formula, a refresh or a causal event.
         at=metadata.get('modified_at') or metadata.get('modifiedDateTime')
@@ -38,7 +47,7 @@ class HistoryPort:
             else:
                 rows.append(validate({'subject':subject,'source':'ITEM_METADATA','actor':actor,
                                       'at':at,'reason':metadata.get('reason'),'provenance':proof},subject))
-        else:gaps.append({'source':'ITEM_METADATA','reason':'NO_OBSERVED_MODIFIED_TIME'})
+        elif self.metadata is None:gaps.append({'source':'ITEM_METADATA','reason':'NO_OBSERVED_MODIFIED_TIME'})
         for source,callback in (('FABRIC_ACTIVITY',self.activity),('GIT',self.git)):
             if callback is None:
                 gaps.append({'source':source,'reason':'NO_APPROVED_READER_BINDING'})

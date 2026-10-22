@@ -211,6 +211,10 @@ def main(args):
         # The development image may predate enrichment. Missing enrichment is a
         # visible coverage gap, never a reason to invent an explanation.
         pass
-    result=ask(args.question,graph,subject=config.get('subject'),enrichment=entries)
+    from .adapters.item_metadata_history import ItemMetadataHistory
+    from .adapters.explain_history import HistoryPort
+    retained_history=ItemMetadataHistory(state)
+    history=HistoryPort(metadata=lambda node:retained_history.read(config['estate'],node))
+    result=ask(args.question,graph,subject=config.get('subject'),enrichment=entries,history_port=history)
     print(json.dumps(result,sort_keys=True))
     return 1 if result['status']=='HELD' else 0

@@ -71,3 +71,33 @@ labels, stale/stub exclusions, typed attested BLANK and CLI dispatch. They prove
 implementation behavior, not a new live activity-log permission or successful
 live explanation. No live reads, model calls, scope changes or secrets were
 used to build this part.
+
+## Retained item-metadata follow-up
+
+The existing change collector stripped modified timestamps before constructing
+definition assets. Its retained definition envelope contains the parts, not the
+served listing item, so that envelope alone cannot prove an item's modified
+time. The original HTTP tapes are unchanged; this implementation does not scan
+or backfill them into a new historical claim.
+
+The scanner now passes already served, allowlisted listing items to a separate
+observation sink. A canonical per-item projection is kept in the existing CAS
+and explicitly labelled `CANONICAL_ITEM_METADATA_PROJECTION`, not an original
+HTTP-byte receipt. Its hash, exact item fields and source pointer are preserved.
+The bounded owner index lives in the existing shared `state_documents` table;
+no new SQL table, grant, API request, schedule or identity is introduced. The
+CLI's history port reads that index and references existing CAS evidence.
+
+Modified timestamps and modifier fields are excluded from definition assets.
+The existing change fingerprint remains a notification that an item needs
+checking; it may change while the actual definition hash stays the same. Such
+an observation does not manufacture a code change or graph-definition churn.
+The index retains the latest 32 distinct observations, flags older-index
+truncation, and leaves immutable CAS originals intact. No deletion occurs.
+
+Tests serve identical code with different modified times and actors: both
+definition payloads and extracted definition hashes remain identical, while
+both metadata observations remain readable with their exact CAS references.
+Missing actors stay null. A missing modified time is never replaced by scan or
+collection time. These are offline implementation results; existing live
+history is not claimed available until an actual listing observation is retained.
