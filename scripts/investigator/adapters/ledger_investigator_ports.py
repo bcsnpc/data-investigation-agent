@@ -135,3 +135,68 @@ class AzureDecision:
             usage=failure_usage(error) if error is not None else metadata.get('usage')
             with self.governor.runtime.db() as db:
                 self.governor.settle(db,self.session,key,usage,uncertain=usage is None)
+
+    def judge_definition(self,payload):
+        from ..transformation_judgment import INSTRUCTIONS,SCHEMA,validate
+        return validate(self(payload,instructions=INSTRUCTIONS,schema=SCHEMA))
+
+
+class ProcessChecks:
+    """Check one model-selected boundary over the already obtained probes.
+
+    This is not a second pipeline walk: no quantities are re-read, and only the
+    exact requested adjacent boundary's retained definition is judged. Existing
+    native assessment validators check the resulting proof before it crosses.
+    """
+    def __init__(self,values):self.values=values
+
+    def __call__(self,kind,comparison,records):
+        if kind!='DESIGN_CHECK':raise ValueError(kind+'_NATIVE_PRODUCER_NOT_INSTALLED')
+        from ..native_verdict_support import design_witness
+        from ..process_debugging import _observation,_answer
+        from ..surface_difference import grade,BOUNDARY_GRADES
+        comparison_value=comparison['value']
+        left=records[comparison_value['left']]['value'];right=records[comparison_value['right']]['value']
+        if canonical(left['context'])!=canonical(right['context']):raise ValueError('DESIGN_CONTEXT_DIFFERS')
+        port=self.values
+        if left['receipt_id'] not in port.probes or right['receipt_id'] not in port.probes:
+            raise ValueError('DESIGN_ORIGINAL_PROBE_NOT_RETAINED')
+        upper=port.probes[left['receipt_id']];lower=port.probes[right['receipt_id']]
+        layers=port.path['layers'];pairs=[(index,a,b) for index,(a,b) in enumerate(zip(layers,layers[1:]),1)
+            if (a['id'],b['id'])==(upper.layer,lower.layer)]
+        if len(pairs)!=1:raise ValueError('DESIGN_REQUIRES_EXACT_ADJACENT_LAYERS')
+        index,upper_layer,lower_layer=pairs[0]
+        if upper.value==lower.value:raise ValueError('DESIGN_REQUIRES_OBSERVED_DIVERGENCE')
+        difference=grade(upper.evidence,lower.evidence)
+        if difference['grade'] not in BOUNDARY_GRADES:raise ValueError('DESIGN_ATTESTED_BOUNDARY_REQUIRED')
+        if port.process.judge_definition is None:raise ValueError('GOVERNED_DEFINITION_JUDGMENT_NOT_INSTALLED')
+        boundary={'upper':upper_layer,'lower':lower_layer,'index':index,'upper_probe':upper,'lower_probe':lower}
+        definition=port.process.transformation_definition(boundary)
+        if definition.get('status')!='COMPLETED' or definition.get('explains')is not True:
+            raise ValueError('RETAINED_DEFINITION_DOES_NOT_ESTABLISH_MECHANISM')
+        observations=[]
+        for probe in port.probes.values():
+            observations.append(_observation({**probe.evidence,'query':probe.query,
+                                               'execution_surface':probe.execution_surface},'baseline','established'))
+        marker={'id':'investigator-native-boundary-'+hashlib.sha256(canonical([left['receipt_id'],right['receipt_id']]).encode()).hexdigest(),
+                'tool':'process','comparison_status':'CROSS_SURFACE_VERIFIED','surface_difference':difference,'values_equal':False,
+                'lower_binding_provenance':lower.evidence.get('binding_provenance')}
+        for side,probe in (('upper',upper),('lower',lower)):
+            marker.update({side+'_layer':probe.layer,side+'_evidence_id':probe.evidence['id'],
+                side+'_execution_surface':probe.execution_surface,side+'_surface_attestation':probe.evidence['surface_attestation'],
+                side+'_declared_context':probe.evidence.get('declared_context')})
+        observations.append(_observation(marker,'comparison'))
+        observations.append(_observation(definition.get('evidence'),'transformation_definition'))
+        assessment=_answer('TRANSFORMATION_LOGIC',5,observations,lower.layer,
+            baseline={'status':'ESTABLISHED','layer':upper.layer,'reason':None,'evidence_ids':[upper.evidence['id']]},
+            roles=('transformation_definition','comparison'),explanation=definition['explanation'],
+            capabilities=port.process.capabilities())
+        # A later-layer divergence remains connected to the original measure
+        # through its actual presentation baseline, not a relabelled SQL read.
+        measure_refs=[o['id'] for o in observations if o.get('test_purpose') in
+                      ('TEST_CONTRIBUTION','ESTABLISH_BASELINE','REPRODUCE_MEASURE')]
+        if not measure_refs:raise ValueError('ORIGINAL_MEASURE_BASELINE_REQUIRED')
+        assessment['support']['measure_connection_evidence_ids']=measure_refs
+        witness=design_witness(assessment,{o['id']:o for o in observations})
+        port.retain({'event':'INVESTIGATOR_NATIVE_DEFINITION_CHECK','assessment':assessment,'witness':witness})
+        return witness

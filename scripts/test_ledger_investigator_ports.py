@@ -5,7 +5,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from investigator.adapters.ledger_investigator_ports import ProcessValues,AzureDecision
+from investigator.adapters.ledger_investigator_ports import ProcessValues,AzureDecision,ProcessChecks
 from investigator.process_debugging import Probe
 from investigator.refresh_comparison import whole_entity_context
 
@@ -95,6 +95,35 @@ class Decisions(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'INPUT_BOUND'):
             port({'ticket':'x'*40000},instructions='investigate',schema={'type':'object'})
         self.assertEqual(self.events,[])
+
+
+class NativeChecks(unittest.TestCase):
+    def test_exact_original_boundary_produces_revalidated_native_design(self):
+        from test_process_debugging import Adapter
+        from investigator.process_debugging import attest
+        from investigator.native_verdict_support import validate_design
+        adapter=Adapter(['down','up'],{'down':7,'up':8},explain=True)
+        adapter.judge_definition=lambda _:None
+        layers=[{'id':'down'},{'id':'up'}]
+        upper=attest(adapter.evaluate(layers[0],'measure',{}));lower=attest(adapter.evaluate(layers[1],'measure',{}))
+        for probe in (upper,lower):probe.evidence['declared_context']=whole_entity_context()
+        upper.evidence['test_purpose']='ESTABLISH_BASELINE'
+        originals={upper.evidence['id']:upper,lower.evidence['id']:lower};saved=[]
+        values=SimpleNamespace(probes=originals,path={'layers':layers},process=adapter,retain=saved.append)
+        records={}
+        for ref,node,probe in [('left','down',upper),('right','up',lower)]:
+            records[ref]={'value':{'subject':node,'key':None,'context':whole_entity_context(),'state':'VALUE',
+                'value':probe.value,'receipt_id':probe.evidence['id'],'query':probe.query,
+                'execution_surface':probe.execution_surface,'route_admitted':True,'read_only_verified':True}}
+        witness=ProcessChecks(values)('DESIGN_CHECK',{'value':{'left':'left','right':'right'}},records)
+        self.assertEqual(validate_design(witness,{r:v['value'] for r,v in records.items()},[{'left':'left','right':'right'}]),witness['mechanism'])
+        self.assertEqual(len(saved),1)
+        witness['native_observations'][upper.evidence['id']]['query']='changed'
+        with self.assertRaisesRegex(ValueError,'RECEIPTS_OR_CONTEXT_DIFFER'):
+            validate_design(witness,{r:v['value'] for r,v in records.items()},[{'left':'left','right':'right'}])
+        values.path={'layers':list(reversed(layers))}
+        with self.assertRaisesRegex(ValueError,'ADJACENT'):
+            ProcessChecks(values)('DESIGN_CHECK',{'value':{'left':'left','right':'right'}},records)
 
 
 if __name__=='__main__':unittest.main()
