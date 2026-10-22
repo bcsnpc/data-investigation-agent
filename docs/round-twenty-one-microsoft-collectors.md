@@ -33,11 +33,12 @@ JOB/TABLE may declare an `audit` route; TABLE may declare a `profile` route:
   "audit": {
     "reader": "<existing reader label>", "connection": "<existing SQL server>",
     "database": "<existing Warehouse database>", "principal": "<expected SQL principal>",
-    "schema": "<audit schema>", "table": "<audit table>",
+    "schema": "<audit schema>", "table": "<audit table>", "producer_id": "<pipeline GUID>",
     "columns": {
       "run_id": "<run ID column>", "start": "<start UTC column>",
       "end": "<end UTC column>", "status": "<status column>",
-      "rows_read": "<rows read column>", "rows_written": "<rows written column>"
+      "rows_read": "<rows read column>", "rows_written": "<rows written column>",
+      "pipeline_name": "<producer ID column>", "accounting_state": "<copy-output provenance column>"
     }
   }
 }
@@ -64,7 +65,7 @@ Implemented list surfaces:
 - [Fabric item job instances](https://learn.microsoft.com/en-us/rest/api/fabric/core/job-scheduler/list-item-job-instances): one recent-run list, not a request per run. Start/end/status/error retained; missing row accounting remains unavailable.
 - [Power BI grouped refresh history](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-refresh-history-in-group) and [refresh schedule](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-refresh-schedule-in-group): 403 is a retained named gap. Supported daily/weekly schedule slots use explicit Windows-to-IANA timezone mapping. Unsupported timezone/ambiguous DST slots remain unavailable; no next-due time is guessed.
 - Fabric job schedules when an exact job type is declared. Unsupported recurrence interpretation remains visible; raw returned schedule is retained rather than invented overdue evidence.
-- Declared Warehouse audit reads for exact listed run IDs, first. A different run's counts never attach. An audit denial is not permission to try another scope. Without a declared audit, load accounting is unavailable unless a separately implemented and approved monitoring route exists. The existing federated reader's token audience allowlist does not include KQL; this adapter does not add one.
+- Declared Warehouse audit reads for exact listed run IDs, first. A different run's counts never attach. The compiled query filters the declared producer ID, and every accepted row must report `accounting_state=OBSERVED_COPY_OUTPUT`; recount/manual rows cannot supply activity accounting. An audit denial is not permission to try another scope. Without a declared audit, load accounting is unavailable unless a separately implemented and approved monitoring route exists. The existing federated reader's token audience allowlist does not include KQL; this adapter does not add one.
 - Table load time derives from successful declared audit rows. SQL object modify dates are never substituted for data-load time. Delta history is unavailable through this SQL endpoint implementation unless a separately approved readable Delta route is built; this is a named gap, not proof of no loads.
 
 Successful empty histories are RUN_HISTORY/OBSERVED_NEGATIVE. Missing/unreadable

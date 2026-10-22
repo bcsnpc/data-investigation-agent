@@ -30,10 +30,11 @@ def sql_request(route,kind):
     obj=ident(route['schema'])+'.'+ident(route['table'])
     if kind=='audit':
         fields=route['columns']
-        required={'run_id','start','end','status','rows_read','rows_written'}
+        required={'run_id','start','end','status','rows_read','rows_written','pipeline_name','accounting_state'}
         if not required<=set(fields)<=required|{'error','high_watermark'}:raise ValueError('FACT_AUDIT_COLUMNS')
         columns=sorted(fields)
-        query='SELECT TOP 20 '+','.join(ident(fields[k])+' AS '+ident(k) for k in columns)+' FROM '+obj+' ORDER BY '+ident(fields['start'])+' DESC'
+        if not isinstance(route.get('producer_id'),str) or not route['producer_id']:raise ValueError('FACT_AUDIT_PRODUCER_REQUIRED')
+        query='SELECT TOP 20 '+','.join(ident(fields[k])+' AS '+ident(k) for k in columns)+' FROM '+obj+' WHERE '+ident(fields['pipeline_name'])+'=@producer ORDER BY '+ident(fields['start'])+' DESC'
     elif kind=='profile':
         keys=route['key_columns']
         if not isinstance(keys,list) or not 1<=len(keys)<=8 or len(set(keys))!=len(keys):raise ValueError('FACT_PROFILE_KEYS')
@@ -45,7 +46,7 @@ def sql_request(route,kind):
             expressions.append("SUM(CONVERT(decimal(38,0),CONVERT(bigint,SUBSTRING(HASHBYTES('SHA2_256',"+material+"),1,8)))) AS [checksum_"+str(i)+']')
         query='SELECT '+','.join(expressions)+' FROM '+obj
     else:raise ValueError('FACT_SQL_QUERY_KIND')
-    return {'query':query,'parameters':[],'read_only_objects':[obj],'max_rows':21 if kind=='audit' else 2,'result_columns':columns}
+    return {'query':query,'parameters':[{'name':'@producer','value':route['producer_id']}] if kind=='audit' else [],'read_only_objects':[obj],'max_rows':21 if kind=='audit' else 2,'result_columns':columns}
 
 
 def attested_sql(answer,route,request):
@@ -100,7 +101,11 @@ class MicrosoftRuntimeFacts:
             # Retain even rejected responses; successful data are not trusted
             # until the query-bound reader/object attestation checks pass.
             receipt=self._retain({'kind':kind,'database':route['database'],**request},answer)
-            return attested_sql(answer,route,request),receipt,None
+            rows=attested_sql(answer,route,request)
+            if kind=='audit':
+                if any(row['pipeline_name']!=route['producer_id'] for row in rows):raise ValueError('FACT_AUDIT_PRODUCER_DIFFERS')
+                if any(row['accounting_state']!='OBSERVED_COPY_OUTPUT' for row in rows):raise ValueError('FACT_AUDIT_NOT_COPY_ACTIVITY_OUTPUT')
+            return rows,receipt,None
         except Exception as error:
             if is_stop_condition(error):raise
             receipt=self._retain({'kind':kind,'database':route['database'],**request},{'status':'UNAVAILABLE','failure':safe_failure(error)})

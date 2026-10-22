@@ -21,8 +21,8 @@ def route(kind='JOB'):
     return {'kind':kind,'workspace':WS,'item':ITEM}
 
 def audit():
-    return {'reader':'r','connection':'example.datawarehouse.fabric.microsoft.com','database':'ops','schema':'dbo','table':'audit','principal':'reader-principal',
-            'columns':{key:key for key in ('run_id','start','end','status','rows_read','rows_written')}}
+    return {'reader':'r','connection':'example.datawarehouse.fabric.microsoft.com','database':'ops','schema':'dbo','table':'audit','principal':'reader-principal','producer_id':'pipeline1',
+            'columns':{key:key for key in ('run_id','start','end','status','rows_read','rows_written','pipeline_name','accounting_state')}}
 
 def answer(request,rows):
     return {'rows':rows,'read_only_verified':True,'surface_report_binding':'VALUE_QUERY',
@@ -84,7 +84,7 @@ class MicrosoftFactsTests(unittest.TestCase):
     def test_audit_counts_attested_exact_same_run_and_first_source(self):
         r=route();r['audit']=audit()
         def sql(route,request):
-            return answer(request,[{'run_id':'run1','start':T0,'end':T1,'status':'SUCCEEDED','rows_read':'360','rows_written':'359'}])
+            return answer(request,[{'run_id':'run1','start':T0,'end':T1,'status':'SUCCEEDED','rows_read':'360','rows_written':'359','pipeline_name':'pipeline1','accounting_state':'OBSERVED_COPY_OUTPUT'}])
         adapter,_=self.adapter({'visual':r},sql=sql)
         adapter.list_changes(['visual']);values=adapter.fetch('visual',now=T1)
         run=next(v for v in values if v['kind']=='JOB_RUN')
@@ -92,9 +92,21 @@ class MicrosoftFactsTests(unittest.TestCase):
         self.assertEqual(run['value']['accounting'],'DECLARED_WAREHOUSE_AUDIT')
         self.assertEqual(len(run['provenance']['evidence_ids']),2)
 
+    def test_audit_recount_or_other_producer_cannot_supply_activity_accounting(self):
+        r=route();r['audit']=audit()
+        request=sql_request(r['audit'],'audit')
+        self.assertIn('WHERE [pipeline_name]=@producer',request['query'])
+        self.assertEqual(request['parameters'],[{'name':'@producer','value':'pipeline1'}])
+        for accounting_state,pipeline_name in [('RECOUNT','pipeline1'),('OBSERVED_COPY_OUTPUT','different')]:
+            sql=Mock(side_effect=lambda route,request:answer(request,[{'run_id':'run1','start':T0,'end':T1,'status':'SUCCEEDED',
+                'rows_read':'360','rows_written':'360','accounting_state':accounting_state,'pipeline_name':pipeline_name}]))
+            adapter,_=self.adapter({'visual':r},sql=sql);adapter.list_changes(['visual']);values=adapter.fetch('visual',now=T1)
+            self.assertIsNone(next(v for v in values if v['kind']=='JOB_RUN')['value']['rows_read'])
+            self.assertIn('DECLARED_AUDIT_UNAVAILABLE',values[-1]['reason'])
+
     def test_unmatched_audit_run_does_not_supply_counts(self):
         r=route();r['audit']=audit()
-        sql=Mock(side_effect=lambda route,request:answer(request,[{'run_id':'different','start':T0,'end':T1,'status':'SUCCEEDED','rows_read':'999','rows_written':'999'}]))
+        sql=Mock(side_effect=lambda route,request:answer(request,[{'run_id':'different','start':T0,'end':T1,'status':'SUCCEEDED','rows_read':'999','rows_written':'999','pipeline_name':'pipeline1','accounting_state':'OBSERVED_COPY_OUTPUT'}]))
         adapter,_=self.adapter({'visual':r},sql=sql);adapter.list_changes(['visual']);values=adapter.fetch('visual',now=T1)
         self.assertIsNone(next(v for v in values if v['kind']=='JOB_RUN')['value']['rows_read'])
         self.assertIn('NO_ROW_FOR_LISTED_RUN',values[-1]['reason'])
