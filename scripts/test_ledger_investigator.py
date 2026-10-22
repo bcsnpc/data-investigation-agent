@@ -256,6 +256,16 @@ class PendingComparisonTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'CONTRACT_CONFLICT'):
             engine.run({'visual':'visual','request':{'kind':'COMPARE','comparison_pending':True}})
         reader.assert_not_called()
+    def test_named_unresolved_source_keeps_own_read_and_gap_in_both_outputs(self):
+        engine,reader,decide=self.engine(comparison={'kind':'source','node':None})
+        engine.decide=None
+        result=engine.run({'visual':'visual','text':'Inventory card is higher than the application source.',
+            'request':{'kind':'COMPARE'}})
+        self.assertEqual(result['verdict'],'not found');self.assertNotIn('question',result)
+        self.assertEqual(reader.call_count,1)
+        for output in result['outputs'].values():
+            self.assertIn('ticket names a source comparison',output)
+            self.assertIn('No comparison read was made',output)
 
 
 class RealGraphTests(unittest.TestCase):

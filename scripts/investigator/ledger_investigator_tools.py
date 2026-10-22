@@ -25,7 +25,7 @@ class Tools:
         self.comparison=copy.deepcopy(comparison);self.reader=value_reader;self.collector=collector;self.checks=checks
         # GraphAPI must apply its path_records query; never request repository.records.
         self.path=copy.deepcopy(graph._slice([visual],traverse=False,path=True) if request_kind=='FACT' else graph.path_to_source(visual))
-        if self.comparison and self.comparison.get('kind')=='report' and self.comparison.get('node')!=visual:
+        if self.comparison and self.comparison.get('kind')=='report' and self.comparison.get('node') and self.comparison.get('node')!=visual:
             other=graph.path_to_source(self.comparison['node'])
             combined={node['id']:node for node in [*self.path['nodes'],*other['nodes']]}
             if len(combined)>200:raise ValueError('PAIRED_TICKET_PATH_BOUND')
@@ -100,8 +100,12 @@ class Tools:
             if comparison['kind'] in ('spreadsheet','own count','earlier value'):
                 refs.append(self.evidence.add('GIVEN_COMPARISON',[self.visual],{'value':comparison['value'],'kind':comparison['kind'],'provenance':'TICKET_GIVEN_NOT_RECREATED'}))
             elif comparison['kind'] in ('report','source'):
-                target=comparison['node']
-                if target not in self.nodes:raise ValueError('COMPARISON_TARGET_REQUIRES_ITS_OWN_ADMITTED_PATH')
+                target=comparison.get('node')
+                if target not in self.nodes:
+                    refs.append(self.evidence.add('GAP',[self.visual],{'reason':'The ticket names a '+comparison['kind']+
+                        ' comparison, but no comparison target is resolved within the admitted graph path. No comparison read was made; the named comparison was not replaced.',
+                        'code':'COMPARISON_TARGET_UNAVAILABLE','comparison_kind':comparison['kind']}))
+                    return refs
                 other=self._read(target,comparison.get('context',self.context));refs.append(other)
                 if all(self.evidence.get(i)['kind']=='READ' for i in refs):
                     refs.append(self._comparison(refs[0],other))
