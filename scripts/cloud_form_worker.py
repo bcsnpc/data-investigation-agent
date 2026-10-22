@@ -199,6 +199,13 @@ def retaining_capture_pointers(job_root,capture_root):
 def run_form(workspace,form):
     """One normal form pass. Refusals/questions remain terminal for this job."""
     saved=workspace.forms.submit(form)
+    if saved['ticket']['state']=='NEW':
+        # A retained input is not a completed attempt. The form controller can
+        # resume an identical unfinished submission; do not label cached NEW
+        # as DEMO_FINISHED or turn this into an unbounded retry loop.
+        saved=workspace.forms.submit(form)
+        if saved['ticket']['state']=='NEW':
+            raise ValueError('CLOUD_FORM_PLANNING_INCOMPLETE_NEW')
     if saved['ticket']['state']!='INVESTIGATING':return saved
     identity=saved['ticket']['session_id']
     if not workspace.run_session_once(identity):

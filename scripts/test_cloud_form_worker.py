@@ -76,6 +76,20 @@ class CloudFormWorkerTests(unittest.TestCase):
             workspace.forms.submit.assert_called_once_with(form)
             workspace.run_session_once.assert_not_called()
 
+    def test_new_submission_gets_one_resume_and_never_false_terminal_success(self):
+        new={'ticket':{'state':'NEW'},'revision':1}
+        held={'ticket':{'state':'HELD'},'revision':2}
+        form={'description':'Exact original text'}
+        workspace=SimpleNamespace(forms=SimpleNamespace(submit=Mock(side_effect=[new,held])),run_session_once=Mock())
+        self.assertIs(worker.run_form(workspace,form),held)
+        self.assertEqual(workspace.forms.submit.call_args_list,[unittest.mock.call(form)]*2)
+        workspace.run_session_once.assert_not_called()
+        workspace.forms.submit=Mock(return_value=new)
+        with self.assertRaisesRegex(ValueError,'PLANNING_INCOMPLETE_NEW'):
+            worker.run_form(workspace,form)
+        self.assertEqual(workspace.forms.submit.call_count,2)
+        workspace.run_session_once.assert_not_called()
+
     def test_cloud_authority_and_durable_recording_are_required(self):
         argv=['--bundle','never-open.json','--sha256','0'*64,'--job-root','never-create']
         with patch.dict('os.environ',{},clear=True):
