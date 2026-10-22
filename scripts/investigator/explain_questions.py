@@ -69,7 +69,7 @@ def _enrichment(node,entries):
 
 def _value(probe):
     from .process_debugging import Probe,attest
-    if not isinstance(probe,Probe):return None
+    if not isinstance(probe,Probe) or probe.surface_report_binding!='VALUE_QUERY':return None
     checked=attest(probe)
     if checked.status!='OBSERVED':return None
     return {'value':deepcopy(checked.value),'value_state':checked.value_state,
@@ -156,6 +156,9 @@ def ask(question,graph,*,subject=None,enrichment=(),history_port=None,value_look
     elif re.search(r'\b(calculated|calculation|included|definition|computed)\b',question,re.I):kind='CALCULATION_EXPLANATION'
     else:return _held(question,'EXPLAIN_QUESTION_UNRECOGNIZED',now)
     candidates=_candidates(graph)
+    definitions={c['id']:c['record']['provenance']['definition_hash'] for c in candidates}
+    enrichment=[r for r in enrichment if definitions.get(r.get('subject'))==r.get('definition_hash')
+                and not r.get('stale_definition') and r.get('recording_class')!='RECORDED_STUB']
     target,reason,ranked=resolve(question,candidates,enrichment,subject)
     if reason:
         choices=[]

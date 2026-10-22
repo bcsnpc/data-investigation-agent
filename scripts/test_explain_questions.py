@@ -80,6 +80,8 @@ class ExplainTests(unittest.TestCase):
                 entry={'subject':'visual','definition_hash':'a'*64,'status':'INFERRED','calculation_explanation':'Stale description','synonyms':['special label'],**invalid}
                 result=ask('How is Quantity calculated?',self.api(),enrichment=[entry],now=T1)
                 self.assertNotIn('Stale description',result['business_answer'])
+                unresolved=ask('How is special label calculated?',self.api(),enrichment=[entry],now=T1)
+                self.assertEqual(unresolved['reason'],'QUESTION_SUBJECT_UNRESOLVED')
 
     def test_history_does_not_guess_actor_from_owner_or_graph_scan(self):
         result=ask('Who changed Units?',self.api(),now=T1)
@@ -131,6 +133,9 @@ class ExplainTests(unittest.TestCase):
         self.assertEqual(observed['value_state'],'BLANK');self.assertIsNone(observed['value'])
         refused=ask('How is Quantity calculated?',self.api(),now=T1,value_lookup=lambda _: {'attested':True,'value':0})
         self.assertIsNone(refused['technical_evidence']['steps'][0]['value'])
+        from dataclasses import replace
+        unbound=ask('How is Quantity calculated?',self.api(),now=T1,value_lookup=lambda node:replace(value(node),surface_report_binding=None))
+        self.assertIsNone(unbound['technical_evidence']['steps'][0]['value'])
 
     def test_unknown_or_conflicting_subject_stays_held(self):
         self.assertEqual(ask('How is Unknown calculated?',self.api(),now=T1)['reason'],'QUESTION_SUBJECT_UNRESOLVED')
