@@ -106,6 +106,13 @@ class LiveProbes:
             value = json.loads(raw) if raw else {}
             if isinstance(value, dict) and ('error' in value or value.get('results') and any('error' in r for r in value['results'])):
                 raise ProbeFailure('PROVIDER_REPORTED_ERROR')
+            if method == 'POST':
+                try:
+                    rows = value['results'][0]['tables'][0]['rows']
+                except (KeyError, IndexError, TypeError):
+                    raise ProbeFailure('DAX_HEALTH_VALUE_NOT_RETURNED') from None
+                if rows != [{'[access_check]': 1}]:
+                    raise ProbeFailure('DAX_HEALTH_VALUE_DIFFERS')
             for dotted, expected in binding.get('expect', {}).items():
                 actual = value
                 for part in dotted.split('.'):
@@ -167,7 +174,7 @@ class LiveProbes:
         from ..postgres_connection import connect
         from .platform_credentials import trust_roots
         from ..live_gateway import authorize_platform_database
-        if authentication['mode'] != 'managed_identity':
+        if authentication['mode'] != 'managed_identity' or binding['user'] != 'id-dia-worker':
             raise ProbeFailure('POSTGRES_REQUIRES_WORKER_MANAGED_IDENTITY')
         table = binding['table']
         if not re.fullmatch(r'dia_state\.[a-z_]+', table):

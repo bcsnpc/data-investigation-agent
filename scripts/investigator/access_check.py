@@ -89,7 +89,12 @@ def check(mapping, *, bindings=None, scope=None, backend=None, now=None):
         rows.append(row)
     close = getattr(backend, 'close', None)
     if close: close()
-    rows.extend(expiry_checks(bindings.get('secret_metadata', []), now))
+    metadata = bindings.get('secret_metadata', [])
+    rows.extend(expiry_checks(metadata, now))
+    if not metadata and any(r['id'].endswith('-fixed-connection') for r in mapping['checks']):
+        rows.append({'id':'secret-expiry-metadata', 'identity':'investigator', 'resource':'fixed connections',
+                     'action':'credential expiry', 'status':'NOT_TESTABLE', 'warning':True,
+                     'reason':'SECRET_EXPIRY_METADATA_UNAVAILABLE'})
     if now.day >= 25:
         next_month = (now.replace(day=28) + timedelta(days=4)).replace(day=1)
         # This is an owner action reminder, not evidence an account was provisioned.
@@ -116,8 +121,17 @@ def configured(spec, *, scope=None, backend=None, now=None):
                           'action': 'access preflight', 'status': 'NOT_TESTABLE', 'reason': 'ACCESS_CHECK_NOT_CONFIGURED'}]}
     if not isinstance(spec, dict) or not {'map', 'bindings'} <= set(spec) <= {'map', 'bindings', 'scope'}:
         raise ValueError('ACCESS_CHECK_CONFIGURATION')
-    bindings = json.loads(Path(spec['bindings']).read_text(encoding='utf-8-sig'))
-    return check(load(spec['map']), bindings=bindings, scope=scope or spec.get('scope'), backend=backend, now=now)
+    try:
+        bindings = json.loads(Path(spec['bindings']).read_text(encoding='utf-8-sig'))
+        mapping = load(spec['map'])
+    except (OSError, ValueError, TypeError):
+        # No live read is attempted when deployment materialization is missing.
+        # Build-phase runner retains this table as an admission warning.
+        return {'version':1, 'status':'FAIL', 'scope':scope or spec.get('scope') or 'ALL',
+                'counts':{'FAIL':1}, 'rows':[{'id':'permission-map', 'identity':'unbound',
+                    'resource':'permission-map', 'action':'access preflight', 'status':'FAIL',
+                    'reason':'ACCESS_CHECK_MAP_OR_BINDINGS_INVALID_OR_UNAVAILABLE'}]}
+    return check(mapping, bindings=bindings, scope=scope or spec.get('scope'), backend=backend, now=now)
 
 
 def main(args):

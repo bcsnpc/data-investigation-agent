@@ -101,6 +101,21 @@ class AccessTests(unittest.TestCase):
             result=check(mapping(),backend=backend)
         self.assertEqual(result['rows'][0]['reason'],'DECLARED_RESOURCE_SETTING_DIFFERS')
 
+    def test_http_200_without_dax_result_is_not_a_permission_pass(self):
+        auth={'mode':'managed_identity','principal_id':'reader'}
+        binding={'url':'https://example.invalid/model/executeQueries','scope':'declared','channel':'reader','method':'POST'}
+        backend=LiveProbes({'identities':{'investigator':auth},'probes':{'model':binding}});backend._count=lambda fn:fn()
+        class Response(io.BytesIO):status=200
+        with patch('investigator.adapters.vault_user_cache.provider') as provider,patch('investigator.live_gateway.open_http',return_value=Response(b'{}')):
+            provider.return_value.get_token.return_value='not-logged-token'
+            result=check(mapping(),backend=backend)
+        self.assertEqual(result['rows'][0]['reason'],'DAX_HEALTH_VALUE_NOT_RETURNED')
+
+    def test_missing_materialized_map_is_a_visible_preflight_failure(self):
+        result=configured({'map':'does-not-exist-map.yaml','bindings':'does-not-exist-bindings.json'})
+        self.assertEqual(result['status'],'FAIL')
+        self.assertEqual(result['rows'][0]['reason'],'ACCESS_CHECK_MAP_OR_BINDINGS_INVALID_OR_UNAVAILABLE')
+
     def test_sql_different_served_principal_refuses(self):
         auth={'mode':'managed_identity','principal_id':'reader','tenant_id':'tenant'}
         backend=LiveProbes({'identities':{'investigator':auth},'probes':{'model':{'server':'server','database':'db','account':'reader'}}},
