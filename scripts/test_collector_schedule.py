@@ -65,7 +65,8 @@ class CollectorScheduleTests(unittest.TestCase):
         original=source();p=plan(original,self.runner());readback={'id':p['resource_id'],**p['body']}
         for mutation in [lambda j:j['properties']['configuration']['scheduleTriggerConfig'].clear(),
             lambda j:j['properties']['template']['containers'][0]['resources'].update(cpu=0.5),
-            lambda j:j['properties'].update(environmentId='another')]:
+            lambda j:j['properties'].update(environmentId='another'),
+            lambda j:j['properties'].update(provisioningState='Failed')]:
             altered=copy.deepcopy(readback);mutation(altered)
             with self.assertRaises(ValueError):preflight(altered,original)
 

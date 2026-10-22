@@ -71,6 +71,8 @@ def preflight(job,existing):
     p=job.get('properties',{});c=p.get('configuration',{})
     if job.get('id','').rsplit('/',1)[-1]!=NAME or p.get('environmentId')!=existing['properties']['environmentId']:
         raise ValueError('COLLECTOR_EXACT_JOB_ENVIRONMENT_REQUIRED')
+    if p.get('provisioningState') not in (None,'Succeeded'):
+        raise ValueError('COLLECTOR_PROVISIONING_NOT_SUCCEEDED')
     if (c.get('triggerType')!='Schedule' or c.get('replicaTimeout')!=60 or c.get('replicaRetryLimit')!=0 or
         c.get('scheduleTriggerConfig')!={'cronExpression':CRON,'parallelism':1,'replicaCompletionCount':1}):
         raise ValueError('COLLECTOR_SCHEDULE_OR_RUNTIME_DIFFERS')
