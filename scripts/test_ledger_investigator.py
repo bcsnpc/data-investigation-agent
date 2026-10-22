@@ -83,10 +83,33 @@ class VerdictTests(unittest.TestCase):
         with self.assertRaises(ValueError):self.validate('failed job')
 
 
+class OperationalFactTests(unittest.TestCase):
+    def test_explicit_run_status_needs_no_numeric_reads_and_cannot_explain_a_number(self):
+        registry=Evidence(['job'],lambda value:'retained')
+        text='Did the latest Copy Job run fail?'
+        request={'kind':'FACT','subject':'job','question':'RUN_STATUS','source':{'start':0,'end':len(text),'quote':text}}
+        identity=registry.add('FACT',['job'],fact('job','JOB_RUN',{'status':'FAILED','run_id':'r','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z','error':'copy failed'}))
+        result=check('failed job',[identity],registry,now=NOW,request=request,ticket_text=text)
+        self.assertEqual(result['claim_scope'],'OPERATIONAL_FACT_ONLY')
+        self.assertIn('no numerical cause',result['reason'])
+        with self.assertRaisesRegex(ValueError,'DIVERGENT_EQUIVALENT'):check('failed job',[identity],registry,now=NOW)
+        wrong='Why is the quantity wrong?'
+        invalid={**request,'source':{'start':0,'end':len(wrong),'quote':wrong}}
+        with self.assertRaisesRegex(ValueError,'EXPLICIT_OPERATIONAL'):check('failed job',[identity],registry,now=NOW,request=invalid,ticket_text=wrong)
+    def test_newer_empty_history_cannot_resurrect_an_older_failed_run(self):
+        registry=Evidence(['job'],lambda value:'retained')
+        text='Did the latest Copy Job run fail?'
+        request={'kind':'FACT','subject':'job','question':'RUN_STATUS','source':{'start':0,'end':len(text),'quote':text}}
+        old=fact('job','JOB_RUN',{'status':'FAILED','run_id':'r','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z','error':'copy failed'})
+        old['collected_at']='2026-10-22T10:50:00Z';old['observed_at']='2026-10-22T10:01:00Z'
+        ids=[registry.add('FACT',['job'],old),registry.add('FACT',['job'],fact('job','RUN_HISTORY',{'runs':[],'listing_complete':True}))]
+        with self.assertRaisesRegex(ValueError,'CURRENT_OPERATIONAL'):check('failed job',ids,registry,now=NOW,request=request,ticket_text=text)
+
+
 class ToolLoopTests(unittest.TestCase):
     def build(self,decide=None,step_cap=3):
         graph=Mock();graph.path_to_source.return_value={'nodes':[{'id':n,'kind':'VISUAL' if n=='visual' else 'TABLE','label':n} for n in ('visual','down','up','job')],
-            'edges':[{'id':'boundary','source':'down','target':'up','properties':{'comparison_contract':{'job':'job','quantity_preserving':True,'kind':'LOAD'}}}], 'stops':[],'truncated':False}
+            'edges':[{'id':'boundary','source':'down','target':'up','confidence':'DECLARED','provenance':{'source':'STATIC_DEFINITION'},'properties':{'comparison_contract':{'job':'job','quantity_preserving':True,'kind':'LOAD'}}}], 'stops':[],'truncated':False}
         graph.node_facts.side_effect=lambda node,**kw:{'facts':[fact('up','TABLE_LOAD',{'last_modified':'2026-10-22T10:00:00Z'})] if node=='up' else [fact('job','JOB_RUN',{'status':'FAILED','run_id':'r','start':'2026-10-22T10:01:00Z','end':'2026-10-22T10:02:00Z','error':'copy failed'})] if node=='job' else []}
         events=[]
         def persist(event):events.append(copy.deepcopy(event));return 'record:'+str(len(events))
@@ -117,8 +140,90 @@ class ToolLoopTests(unittest.TestCase):
         engine.decide=lambda *a,**kw:{'action':'VERDICT','summary':'Unsupported guess.','hypotheses':['as designed'],'verdict':'as designed','evidence_ids':[tools.path_id]}
         result=engine.run({'visual':'visual'});self.assertEqual(result['verdict'],'not found');self.assertEqual(result['stop_reason'],'TICKET_BUDGET_REACHED')
         self.assertEqual(result['furthest_measured_node'],'visual');self.assertTrue(result['outputs']['technical'])
+    def test_budget_refusal_delivers_not_found_without_another_provider_send(self):
+        from investigator.usage_governance import UsageHold
+        tools,engine,reader,_=self.build()
+        engine.admit=Mock(side_effect=UsageHold('ticket budget reached'))
+        result=engine.run({'visual':'visual'})
+        self.assertEqual(result['verdict'],'not found');self.assertEqual(result['stop_reason'],'TICKET_BUDGET_REACHED');reader.assert_not_called()
+    def test_reported_precision_and_non_reproduction_are_always_rendered(self):
+        tools,engine,reader,_=self.build()
+        text='The card shows 8.'
+        reported={'state':'NUMBER','value':'8','source':{'start':15,'end':16,'quote':'8'},'precision':{'state':'EXACT'}}
+        result=engine.run({'visual':'visual','text':text,'reported_figure':reported})
+        self.assertIn('NOT_REPRODUCED',result['outputs']['business'])
+        self.assertTrue(any(r['kind']=='REPRODUCTION' for r in result['evidence'].values()))
+
+    def test_stale_operational_fact_is_topped_up_only_on_its_admitted_node(self):
+        graph=Mock();graph._slice.return_value={'nodes':[{'id':'job','kind':'PIPELINE','label':'Load'}],'edges':[],'stops':[],'truncated':False}
+        old=fact('job','JOB_RUN',{'status':'FAILED','run_id':'old'});old['freshness']='STALE'
+        current=fact('job','JOB_RUN',{'status':'FAILED','run_id':'current','error':'copy failed'})
+        graph.node_facts.return_value={'facts':[old]};graph.refresh_facts.return_value={'facts':[current]}
+        reader=Mock();collector=Mock();text='Did the latest Copy Job run fail?'
+        request={'kind':'FACT','subject':'job','question':'RUN_STATUS','source':{'start':0,'end':len(text),'quote':text}}
+        tools=Tools(graph,object(),visual='job',now=NOW,persist=lambda _: 'record',value_reader=reader,collector=collector,request_kind='FACT')
+        result=Investigator(tools,decide=None,persist=lambda _: 'record',admit=lambda *_:None,clock=lambda:1.0).run({'text':text,'request':request})
+        self.assertEqual(result['verdict'],'failed job');self.assertEqual(result['support']['operational_fact']['value']['run_id'],'current')
+        self.assertEqual(graph.refresh_facts.call_args.args[0],['job']);reader.assert_not_called()
+
+    def test_projected_capture_refuses_before_any_graph_read_or_raw_persistence(self):
+        graph=Mock();persist=Mock()
+        with self.assertRaisesRegex(ValueError,'PROJECTED_CAPTURE_NOT_INSTALLED'):
+            Tools(graph,object(),visual='visual',now=NOW,persist=persist,recording_class='PRIVACY_PROJECTED')
+        graph.path_to_source.assert_not_called();persist.assert_not_called()
+
     def test_hostile_reader_cannot_return_another_cell_or_unadmitted_read(self):
         tools,_,reader,_=self.build();reader.side_effect=lambda *args:{**read('down',7),'route_admitted':False}
         with self.assertRaisesRegex(ValueError,'ADMISSION_OR_SCOPE'):tools.reproduce()
+
+class RealGraphTests(unittest.TestCase):
+    def test_explicit_operational_fact_uses_real_ledger_with_zero_queries_or_models(self):
+        from investigator.shared_state import SharedState
+        from investigator.estate_graph_repository import GraphRepository
+        from investigator.estate_graph_api import GraphAPI
+        from investigator.facts_ledger import FactLedger
+        from investigator.facts_collectors import observation
+        from investigator.live_gateway import Gateway
+        from investigator.estate_graph_contract import node
+        from test_estate_graph import graph,proof
+        text='Did the latest Copy Job run fail?'
+        request={'kind':'FACT','subject':'job','question':'RUN_STATUS','source':{'start':0,'end':len(text),'quote':text}}
+        with tempfile.TemporaryDirectory() as temporary:
+            state=SharedState.offline(Path(temporary)/'state.sqlite');repository=GraphRepository(state);repository.migrate()
+            snapshot=graph();snapshot['nodes'].append(node('job','owner','PIPELINE','Load pipeline',proof()));repository.replace(snapshot)
+            ledger=FactLedger(state);ledger.append('estate',[observation('job','JOB_RUN',{'status':'FAILED','run_id':'r','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z','error':'copy failed'},NOW,['native-history-read'],'fixture')])
+            gateway=Gateway({'version':1,'live_enabled':False,'identities':{'reader':{'role':'investigation','graph':{'estate':['job']}}}})
+            api=GraphAPI(repository,gateway,identity='reader',estate='estate',allowed_objects=['job']);reader=Mock();decide=Mock()
+            with patch.object(repository,'records',side_effect=AssertionError('whole catalog forbidden')):
+                tools=Tools(api,ledger,visual='job',now=NOW,persist=lambda _: 'retained',value_reader=reader,request_kind='FACT')
+                result=Investigator(tools,decide=decide,persist=lambda _: 'retained',admit=lambda *_:None,clock=lambda:1.0).run({'text':text,'request':request})
+            self.assertEqual(result['verdict'],'failed job');self.assertEqual(result['support']['claim_scope'],'OPERATIONAL_FACT_ONLY');self.assertEqual(result['cost']['model_calls'],0)
+            reader.assert_not_called();decide.assert_not_called()
+
+    def test_real_ledger_and_graph_load_only_admitted_path(self):
+        from investigator.shared_state import SharedState
+        from investigator.estate_graph_repository import GraphRepository
+        from investigator.estate_graph_api import GraphAPI
+        from investigator.facts_ledger import FactLedger
+        from investigator.facts_collectors import observation
+        from investigator.live_gateway import Gateway
+        from test_estate_graph import graph
+        with tempfile.TemporaryDirectory() as temporary:
+            state=SharedState.offline(Path(temporary)/'state.sqlite')
+            repository=GraphRepository(state);repository.migrate();repository.replace(graph())
+            ledger=FactLedger(state)
+            ledger.append('estate',[observation('visual','REFRESH_STATE',{'state':'IDLE'},NOW,['real-retained-read'],'test')])
+            gateway=Gateway({'version':1,'live_enabled':False,'identities':{'reader':{'role':'investigation','graph':{'estate':['visual','measure','column']}}}})
+            api=GraphAPI(repository,gateway,identity='reader',estate='estate',allowed_objects=['visual','measure','column'])
+            recorded=[]
+            def persist(value):recorded.append(copy.deepcopy(value));return 'record:'+str(len(recorded))
+            with patch.object(repository,'records',side_effect=AssertionError('whole historical catalog forbidden')):
+                tools=Tools(api,ledger,visual='visual',now=NOW,persist=persist,value_reader=lambda node,key,context:read(node,7,context),key='record-1',context={'warehouse':'North'})
+                result=Investigator(tools,decide=None,persist=persist,admit=lambda *_:None,clock=lambda:1.0).run({'visual':'visual','text':'Why did this change?'})
+            self.assertEqual(result['verdict'],'not found')
+            self.assertEqual(set(tools.nodes),{'visual','measure','column'})
+            self.assertEqual(result['cost']['model_calls'],0)
+            self.assertIn('Question: Why did this change?',result['outputs']['business'])
+            self.assertTrue(any(entry['kind']=='FACT' for entry in result['evidence'].values()))
 
 if __name__=='__main__':unittest.main()

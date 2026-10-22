@@ -50,3 +50,52 @@ some nodes; graph edges may lack a checked quantity-preserving producer contract
 source row-history and side-by-side authorized security witnesses may not be
 available. These remain named evidence gaps, not inferred green findings. Existing
 sealed tapes, oracle records and acceptance expectations are untouched.
+
+## Typed operational facts and live adapter fields
+
+A request has kind `COMPARE`, `FACT` or `DEFINITION`. The latter is preserved as
+an explain-route request, not silently turned into a discrepancy. A `FACT`
+request additionally names its admitted subject, `RUN_STATUS` or `REFRESH_STATUS`,
+and a verbatim ticket source span. Code verifies that span explicitly asks an
+operational status question. A current failed run may then answer `failed job`
+without a numeric query, labelled `OPERATIONAL_FACT_ONLY`: it says expressly
+that no numerical cause was established. The same observation cannot support a
+`COMPARE` cause. Newer empty run-history listings suppress older run records;
+missing API retention is not proof that a job never ran.
+
+Compiler-backed read-port return shape:
+
+```text
+subject: the exact requested graph node ID
+key: the admitted ticket key (including explicit null when unkeyed)
+context: the exact admitted declared-context object
+state: VALUE or BLANK
+value: exact returned scalar, or null for BLANK
+receipt_id: original retained native read receipt ID
+read_only_verified: true only from the existing worker's verification
+route_admitted: true only after existing surface/connection/scope checks
+query, execution_surface, expression_hash, warnings: original retained details
+```
+
+For `DESIGN_CHECK`, reuse the original transformation producer after real reads:
+its `terminal_support`/`assessment_support.validate` and `process_outcomes.validate`
+must succeed. Match its native comparison receipt IDs and declared contexts to
+the new comparison's read receipts; retain the original definition observation,
+checked judgment and provenance in the witness. Return `checked=true`, the
+validated mechanism, `business_correctness_claim=false` and the registry support
+IDs. This flag is a trusted adapter result, never a field the model may submit.
+Do not implement it by accepting a free-standing model `explains=true` response
+or mapping a legacy outcome label without rechecking its native evidence.
+
+The investigator now tops up stale/missing supported runtime fact kinds only
+for nodes on the admitted path when a collector is installed. Refresh results
+become separate current immutable fact records. No collector means a named gap.
+Reported-figure spans and digit precision reuse the existing reported_figure
+contract, including EMPTY and reduced-precision qualifications; those engine
+facts always remain in both outputs even if the model omits their IDs.
+
+The new standalone outer-persistence route currently supports EXACT estates.
+It refuses a projected installation before reading the graph or persisting raw
+material rather than bypassing the existing privacy projection boundary. This
+is a declared integration gap; no mixed exact/projected capture is accepted.
+The engine freeze is invalidated by these new code bytes.

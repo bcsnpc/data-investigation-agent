@@ -26,6 +26,7 @@ class Evidence:
     def __init__(self,path,persist):self.path=frozenset(path);self._values={};self.persist=persist
     def add(self,kind,subjects,value):
         if not subjects or not set(subjects)<=self.path:raise ValueError('EVIDENCE_OUTSIDE_TICKET_PATH')
+        if kind in ('READ','FACT') and set(subjects)!={value.get('subject')}:raise ValueError('EVIDENCE_SUBJECT_DIFFERS_FROM_RECORD')
         record={'kind':kind,'subjects':sorted(set(subjects)),'value':copy.deepcopy(value)}
         from .planner_recording import _safe
         _safe(canonical(record).encode())
@@ -49,16 +50,54 @@ class Evidence:
         return result
 
 
-def check(verdict,ids,registry,*,now):
+def current_facts(entries,now):
+    values=[r['value'] for r in entries if r['kind']=='FACT' and r['value'].get('state') in ('OBSERVED','OBSERVED_NEGATIVE') and r['value'].get('freshness')=='CURRENT' and timestamp(r['value']['collected_at'])<=now and timestamp(r['value']['observed_at'])<=now]
+    histories={}
+    for value in values:
+        if value['kind']=='RUN_HISTORY':
+            old=histories.get(value['subject'])
+            if old is None or timestamp(old['collected_at'])<timestamp(value['collected_at']):histories[value['subject']]=value
+    result=[]
+    for value in values:
+        if value['kind'] in ('JOB_RUN','REFRESH_RUN') and any(value['value'].get(field) and timestamp(value['value'][field])>now for field in ('start','end')):continue
+        history=histories.get(value['subject'])
+        if value['kind'] in ('JOB_RUN','REFRESH_RUN') and history and timestamp(history['collected_at'])>=timestamp(value['collected_at']):
+            retained={run.get('run_id') for run in history['value'].get('runs',[])}
+            if value['value'].get('run_id') not in retained:continue
+        result.append(value)
+    return result
+
+
+def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
     if verdict not in VERDICTS:raise ValueError('UNKNOWN_VERDICT')
     records=registry.resolve(ids);entries=list(records.values());now=timestamp(now)
     if verdict=='not found':return {'verdict':verdict,'evidence_ids':list(records),'reason':'Evidence does not establish a cause within the admitted budget.'}
+    request=request or {'kind':'COMPARE'}
+    if request.get('kind') not in ('FACT','COMPARE','DEFINITION'):raise ValueError('REQUEST_KIND_REQUIRED')
+    if request['kind']=='FACT':
+        from .reported_figure import span
+        import re
+        if set(request)!={'kind','subject','question','source'} or request['subject'] not in registry.path or request['question'] not in ('RUN_STATUS','REFRESH_STATUS'):
+            raise ValueError('EXPLICIT_OPERATIONAL_QUESTION_REQUIRED')
+        quote=span(request['source'],ticket_text)
+        if ticket_text is None or not re.search(r'\b(did|has|was|is|what|when|show|latest|last)\b',quote,re.I) or not re.search(r'\b(job|pipeline|run|refresh|notebook|copy)\b',quote,re.I) or not re.search(r'\b(fail(?:ed)?|succeed(?:ed)?|status|finish(?:ed)?|complete(?:d)?|queued|running)\b',quote,re.I):
+            raise ValueError('EXPLICIT_OPERATIONAL_QUESTION_REQUIRED')
+        kinds={'JOB_RUN'} if request['question']=='RUN_STATUS' else {'REFRESH_RUN','REFRESH_STATE'}
+        facts=[f for f in current_facts(entries,now) if f['subject']==request['subject'] and f['kind'] in kinds and f['state']=='OBSERVED']
+        states={'failed job':{'FAILED'},'waiting on job':{'QUEUED','RUNNING'},'refresh stale':{'STALE'}}.get(verdict,set())
+        selected=next((f for f in facts if f['value'].get('status',f['value'].get('state')) in states),None)
+        if selected is None:raise ValueError('CURRENT_OPERATIONAL_STATUS_REQUIRED')
+        result=_supported(verdict,records,None,'The retained '+request['question'].lower().replace('_',' ')+' is '+selected['value'].get('status',selected['value'].get('state'))+'. This answers only the explicit operational question; no numerical cause was established.')
+        result['claim_scope']='OPERATIONAL_FACT_ONLY';result['operational_fact']=selected
+        return result
+    if request['kind']=='DEFINITION':raise ValueError('DEFINITION_ROUTE_REQUIRES_RETAINED_EXPLANATION')
     reads={identity:r['value'] for identity,r in records.items() if r['kind']=='READ'}
     for read in reads.values():
         if read.get('route_admitted') is not True or read.get('read_only_verified') is not True or not read.get('receipt_id'):raise ValueError('READ_NOT_ADMITTED')
         quantity(read)
+    if target is not None and not any(read['subject']==target for read in reads.values()):raise ValueError('REQUESTED_TARGET_NOT_MEASURED')
     comparisons=[r['value'] for r in entries if r['kind']=='COMPARISON']
-    facts=[r['value'] for r in entries if r['kind']=='FACT' and r['value'].get('state') in ('OBSERVED','OBSERVED_NEGATIVE') and r['value'].get('freshness')=='CURRENT' and timestamp(r['value']['collected_at'])<=now and timestamp(r['value']['observed_at'])<=now]
+    facts=current_facts(entries,now)
     boundaries=[r['value'] for r in entries if r['kind']=='BOUNDARY']
     def pair(comparison):
         left=reads.get(comparison.get('left'));right=reads.get(comparison.get('right'))
@@ -76,6 +115,7 @@ def check(verdict,ids,registry,*,now):
     if verdict in ('latency','waiting on job','failed job','refresh stale'):
         if not divergent:raise ValueError('FRESHNESS_REQUIRES_DIVERGENT_EQUIVALENT_CONTEXT_READS')
         for left,right in divergent:
+            if target is not None and not any(read['subject']==target and canonical(read['context'])==canonical(left['context']) and quantity(read)==quantity(left) for read in reads.values()):continue
             for boundary in boundaries:
                 if (boundary.get('downstream'),boundary.get('upstream'))!=(left['subject'],right['subject']) or boundary.get('quantity_preserving') is not True:continue
                 job=boundary.get('job');source=boundary.get('upstream');target=boundary.get('downstream')

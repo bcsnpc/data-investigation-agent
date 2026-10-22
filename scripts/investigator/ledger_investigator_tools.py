@@ -14,20 +14,45 @@ def literal_schema(value):
 
 
 class Tools:
-    def __init__(self,graph,ledger,*,visual,now,persist,value_reader=None,collector=None,key=None,context=None,comparison=None,checks=None):
+    def __init__(self,graph,ledger,*,visual,now,persist,value_reader=None,collector=None,key=None,context=None,comparison=None,checks=None,request_kind='COMPARE',recording_class='EXACT'):
+        from .privacy_capture import ACTIVE as PRIVACY_CAPTURE
+        from .privacy_projection import ProjectionError
+        if recording_class!='EXACT' or PRIVACY_CAPTURE.get() is not None:raise ProjectionError('LEDGER_INVESTIGATOR_PROJECTED_CAPTURE_NOT_INSTALLED')
         self.graph,self.ledger=graph,ledger;self.now=timestamp(now)
         self.visual,self.key,self.context=visual,key,copy.deepcopy(context or {})
+        if request_kind not in ('FACT','COMPARE','DEFINITION'):raise ValueError('REQUEST_KIND_REQUIRED')
+        self.request_kind=request_kind
         self.comparison=copy.deepcopy(comparison);self.reader=value_reader;self.collector=collector;self.checks=checks
         # GraphAPI must apply its path_records query; never request repository.records.
-        self.path=graph.path_to_source(visual)
+        self.path=copy.deepcopy(graph._slice([visual],traverse=False,path=True) if request_kind=='FACT' else graph.path_to_source(visual))
+        if self.comparison and self.comparison.get('kind')=='report' and self.comparison.get('node')!=visual:
+            other=graph.path_to_source(self.comparison['node'])
+            combined={node['id']:node for node in [*self.path['nodes'],*other['nodes']]}
+            if len(combined)>200:raise ValueError('PAIRED_TICKET_PATH_BOUND')
+            self.path['nodes']=list(combined.values())
+            self.path['edges']=list({edge['id']:edge for edge in [*self.path['edges'],*other['edges']]}.values())
+            self.path['stops']=[*self.path.get('stops',[]),*other.get('stops',[])]
+            self.path['truncated']=self.path.get('truncated',False) or other.get('truncated',False)
         self.nodes={node['id']:node for node in self.path['nodes']}
         if visual not in self.nodes:raise ValueError('TARGET_NOT_IN_DECLARED_PATH')
-        self.evidence=Evidence(self.nodes,persist);self._obtained={}
+        self.evidence=Evidence(self.nodes,persist);self._obtained={};self._reads={}
+        self.depth={visual:0};queue=[visual]
+        while queue:
+            current=queue.pop(0)
+            for edge in self.path['edges']:
+                if edge['source']==current and edge['target'] in self.nodes and edge['target'] not in self.depth:
+                    self.depth[edge['target']]=self.depth[current]+1;queue.append(edge['target'])
         self.path_id=self.evidence.add('PATH',list(self.nodes),self.path)
+        self.gap_ids=[]
+        for stop in self.path.get('stops',[]):
+            if stop.get('node') in self.nodes:self.gap_ids.append(self.evidence.add('GAP',[stop['node']],{'reason':stop['reason']}))
+        if self.path.get('truncated'):self.gap_ids.append(self.evidence.add('GAP',[visual],{'reason':'Ticket graph path is truncated at the configured slice limit.'}))
         self.boundary_ids=[]
         for edge in self.path['edges']:
             contract=edge.get('properties',{}).get('comparison_contract')
             if not contract:continue
+            if edge.get('confidence') not in ('DECLARED','VERIFIED','VALUE_VERIFIED') or edge.get('provenance',{}).get('source')=='MODEL_PROPOSAL' or edge.get('verification',{}).get('state')=='STALE':
+                self.gap_ids.append(self.evidence.add('GAP',[edge['source'],edge['target']],{'reason':'The proposed producer boundary is inferred, stale or unestablished.'}));continue
             if (set(contract)!={'job','quantity_preserving','kind'} or contract['job'] not in self.nodes
                     or type(contract['quantity_preserving'])is not bool):raise ValueError('BOUNDARY_CONTRACT_NOT_ON_PATH')
             self.boundary_ids.append(self.evidence.add('BOUNDARY',[edge['source'],edge['target'],contract['job']],
@@ -51,6 +76,8 @@ class Tools:
 
     def _read(self,node,context):
         if node not in self.nodes:raise ValueError('READ_OUTSIDE_TICKET_PATH')
+        cache_key=canonical([node,self.key,context])
+        if cache_key in self._reads:return self._reads[cache_key]
         if self.reader is None:return self.evidence.add('GAP',[node],{'reason':'No guarded compiled quantity reader is installed for this graph node.'})
         try:result=copy.deepcopy(self.reader(node,self.key,copy.deepcopy(context)))
         except Exception as exc:
@@ -62,9 +89,11 @@ class Tools:
                 or result.get('route_admitted')is not True or result.get('read_only_verified')is not True):
             raise ValueError('COMPILED_READ_ADMISSION_OR_SCOPE_DIFFERS')
         quantity(result)
-        return self.evidence.add('READ',[node],result)
+        identity=self.evidence.add('READ',[node],result);self._reads[cache_key]=identity
+        return identity
 
     def reproduce(self):
+        if self.request_kind!='COMPARE':return []
         refs=[self._read(self.visual,self.context)]
         comparison=self.comparison
         if comparison:
@@ -89,6 +118,18 @@ class Tools:
         # FactLedger.read owns its transaction; no DB connection crosses threads.
         with ThreadPoolExecutor(max_workers=min(4,len(self.nodes))) as pool:
             results=list(pool.map(lambda node:self.graph.node_facts(node,now=self.now),sorted(self.nodes)))
+        if self.collector is not None:
+            expected={'PIPELINE':('JOB_RUN',),'NOTEBOOK':('JOB_RUN',),'COPY_ACTIVITY':('JOB_RUN',),'MODEL':('REFRESH_RUN','REFRESH_STATE'),'TABLE':('TABLE_LOAD',),'VIEW':('TABLE_LOAD',),'SOURCE':('TABLE_LOAD',)}
+            needed=[]
+            for node,result in zip(sorted(self.nodes),results):
+                kinds=expected.get(self.nodes[node]['kind'],())
+                relevant=[v for v in result['facts'] if v['kind'] in kinds]
+                if kinds and (not relevant or any(v['freshness']=='STALE' or v['state']=='UNAVAILABLE' for v in relevant)):needed.append(node)
+            if needed:
+                refreshed=self.graph.refresh_facts(needed,self.collector,now=self.now,required_kinds={node:expected.get(self.nodes[node]['kind'],()) for node in needed})
+                replacements={(v['subject'],v['kind']):v for v in refreshed.get('facts',[])}
+                for node,result in zip(sorted(self.nodes),results):
+                    result['facts']=[v for v in result['facts'] if (node,v['kind']) not in replacements]+[v for (subject,_),v in replacements.items() if subject==node]
         refs=[]
         for node,result in zip(sorted(self.nodes),results):
             for value in result['facts']:
@@ -134,10 +175,13 @@ class Tools:
                 result={'evidence_ids':[self.evidence.add('GAP',args['path'],{'reason':'Path collector is not installed.'})],'status':'UNAVAILABLE'}
             else:
                 value=self.graph.refresh_facts(args['path'],self.collector,now=self.now)
-                result={'evidence_ids':[self.evidence.add('FACT_REFRESH',args['path'],value)],'result':value}
+                fact_ids=[self.evidence.add('FACT',[fact['subject']],fact) for fact in value.get('facts',[]) if fact['subject'] in args['path']]
+                result={'evidence_ids':[self.evidence.add('FACT_REFRESH',args['path'],value),*fact_ids],'result':value}
         else:
             call_args=copy.deepcopy(args);subjects=[v for k,v in args.items() if k not in ('at',)]
-            if name=='path_to_source':value=copy.deepcopy(self.path)
+            if name=='path_to_source':
+                if args['visual']!=self.visual:raise ValueError('TARGET_VISUAL_SUBSTITUTION')
+                value=copy.deepcopy(self.path)
             elif name=='as_of':value=self.graph.as_of(args['at']).definition_of(args['node'])
             elif name=='freshness':value=self.graph.freshness(args['node'],now=self.now)
             else:value=getattr(self.graph,name)(**call_args)

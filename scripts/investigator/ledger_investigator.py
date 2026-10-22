@@ -19,6 +19,14 @@ refusals. The consumer checks every proposed verdict and renders both outputs;
 your summary is only a public action note, not deliverable prose.'''
 
 
+def budget_stop(error):
+    from .usage_governance import UsageHold
+    from .model_spend import SpendHold
+    from .action_budget import RetrievalBudgetExceeded
+    from .discovery_collect import BudgetExceeded
+    return isinstance(error,(UsageHold,SpendHold,RetrievalBudgetExceeded,BudgetExceeded))
+
+
 def schema(tools):
     def obj(properties):return {'type':'object','properties':properties,'required':list(properties),'additionalProperties':False}
     common={'summary':{'type':'string','minLength':1,'maxLength':500},'hypotheses':{'type':'array','minItems':1,'maxItems':9,'uniqueItems':True,'items':{'type':'string','enum':list(VERDICTS)}}}
@@ -39,7 +47,9 @@ class Investigator:
         self.schema=schema(tools);self.validator=Draft202012Validator(self.schema)
 
     def run(self,ticket,*,warnings=()):
-        ticket=copy.deepcopy(ticket);started=self.clock();calls=[];hypotheses=list(VERDICTS[:-1]);feedback=None;fetched=None
+        ticket=copy.deepcopy(ticket);self.request=ticket.get('request',{'kind':'COMPARE'});self.ticket_text=ticket.get('text');started=self.clock();
+        if self.request.get('kind')!=self.tools.request_kind or (self.tools.request_kind=='FACT' and self.request.get('subject')!=self.tools.visual):raise ValueError('REQUEST_KIND_OR_SUBJECT_ADMISSION_DIFFERS')
+        calls=[];hypotheses=list(VERDICTS[:-1]);feedback=None;fetched=None
         def record(value):
             _safe(canonical(value).encode());receipt=self.persist(value)
             if not isinstance(receipt,str)or not receipt:raise ValueError('INVESTIGATOR_PERSISTENCE_REQUIRED')
@@ -56,55 +66,94 @@ class Investigator:
             return result
         # Recreate the ticket before interpreting job history. No arbitrary
         # native expression or alternate visual can enter through the model.
-        self.admit('TOOL',0)
-        reproduction=self.tools.reproduce()
+        try:
+            self.admit('TOOL',0)
+            before=self.clock();reproduction=self.tools.reproduce()
+            calls.append({'tool':'recreate_ticket_and_comparison','arguments':{'target':self.tools.visual},'result':{'evidence_ids':reproduction},'wall_seconds':max(0,self.clock()-before),'model_calls':0})
+        except Exception as exc:
+            if not budget_stop(exc):raise
+            record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__})
+            supported=check('not found',list(self.tools.evidence._values),self.tools.evidence,now=self.tools.now)
+            return self._finish(ticket,supported,calls,hypotheses,warnings,'TICKET_BUDGET_REACHED',started,0)
+        from .reported_figure import validate as reported_validate,label as reported_label,qualification
+        reported=reported_validate(ticket.get('reported_figure',{'state':'UNSPECIFIED'}),ticket.get('text'))
+        self.reported_labels=qualification(reported)
+        if reported['state']!='UNSPECIFIED' and reproduction:
+            actual=self.tools.evidence.get(reproduction[0])
+            if actual['kind']=='READ':
+                measured=actual['value']['value'] if actual['value']['state']=='VALUE' else None
+                reproduction.append(self.tools.evidence.add('REPRODUCTION',[self.tools.visual],{'reported':reported,'measured':measured,'status':reported_label(reported,measured),'support_ids':[reproduction[0]]}))
         record({'event':'INVESTIGATOR_REPRODUCTION','evidence_ids':reproduction})
-        quick=self.tools.quick_checks()
+        try:before=self.clock();quick=self.tools.quick_checks()
+        except Exception as exc:
+            if not budget_stop(exc):raise
+            record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__})
+            supported=check('not found',list(self.tools.evidence._values),self.tools.evidence,now=self.tools.now)
+            return self._finish(ticket,supported,calls,hypotheses,warnings,'TICKET_BUDGET_REACHED',started,0)
+        calls.append({'tool':'parallel_simple_hypotheses','arguments':{'path':sorted(self.tools.nodes)},'result':{'evidence_ids':quick},'wall_seconds':max(0,self.clock()-before),'model_calls':0})
         record({'event':'INVESTIGATOR_QUICK_CHECKS','evidence_ids':quick,'model_calls':0,'parallel':True})
-        known=list(dict.fromkeys([self.tools.path_id,*self.tools.boundary_ids,*reproduction,*quick]))
+        known=list(dict.fromkeys([self.tools.path_id,*self.tools.boundary_ids,*self.tools.gap_ids,*reproduction,*quick]))
         # Existing retained facts may settle a ticket without a model call.
         ready=[]
         for verdict in VERDICTS[:-1]:
-            try:ready.append(check(verdict,known,self.tools.evidence,now=self.tools.now))
+            try:ready.append(check(verdict,known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual))
             except ValueError:continue
         if len(ready)==1:return self._finish(ticket,ready[0],calls,hypotheses,warnings,'EVIDENCE_PROVEN',started,0)
         if self.decide is None:
-            supported=check('not found',known,self.tools.evidence,now=self.tools.now)
+            supported=check('not found',known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
             return self._finish(ticket,supported,calls,hypotheses,warnings,'GOVERNED_MODEL_NOT_INSTALLED',started,0)
         model_calls=0
         for step in range(1,self.step_cap+1):
             if self.clock()-started>=self.wall_seconds:break
-            self.admit('MODEL',step)
+            try:self.admit('MODEL',step)
+            except Exception as exc:
+                if not budget_stop(exc):raise
+                record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__});break
             compact=[{'id':identity,'kind':value['kind'],'subjects':value['subjects']} for identity,value in self.tools.evidence._values.items()]
-            decision=self.decide({'ticket':ticket,'path_nodes':[{'id':n['id'],'label':n['label'],'kind':n['kind']} for n in self.tools.nodes.values()],
+            try:
+                decision=self.decide({'ticket':ticket,'path_nodes':[{'id':n['id'],'label':n['label'],'kind':n['kind']} for n in self.tools.nodes.values()],
                 'evidence_index':compact,'fetched_evidence':fetched,'feedback':feedback,'steps_remaining':self.step_cap-step+1,
                 'tool_transcript':[{'tool':c['tool'],'arguments':c['arguments'],'evidence_ids':c['result'].get('evidence_ids',[]),'status':c['result'].get('status')} for c in calls]},instructions=INSTRUCTIONS,schema=self.schema)
+            except Exception as exc:
+                if not budget_stop(exc):raise
+                record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__});break
             model_calls+=1;fetched=None
             errors=list(self.validator.iter_errors(decision))
             if errors:
                 feedback={'reason':'INVESTIGATOR_DECISION_SCHEMA','details':[e.message for e in errors[:3]]};record({'event':'INVESTIGATOR_REJECTED',**feedback});continue
             hypotheses=copy.deepcopy(decision['hypotheses']);record({'event':'INVESTIGATOR_DECISION',**copy.deepcopy(decision)})
             if decision['action']=='TOOL':
-                result=tool(decision['tool'],decision['arguments']);known.extend(i for i in result.get('evidence_ids',[]) if i not in known)
+                try:result=tool(decision['tool'],decision['arguments'])
+                except Exception as exc:
+                    if not budget_stop(exc):raise
+                    record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__});break
+                known.extend(i for i in result.get('evidence_ids',[]) if i not in known)
                 fetched=result if decision['tool']=='get_evidence' else None;feedback=result if result.get('status')=='UNAVAILABLE' or result.get('already_obtained') else None
                 continue
-            try:supported=check(decision['verdict'],decision['evidence_ids'],self.tools.evidence,now=self.tools.now)
+            try:supported=check(decision['verdict'],self._citations(decision['evidence_ids']),self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
             except (ValueError,KeyError,TypeError) as exc:
                 feedback={'reason':'VERDICT_EVIDENCE_REJECTED','detail':str(exc),'verdict':decision['verdict']};record({'event':'INVESTIGATOR_REJECTED',**feedback});continue
             return self._finish(ticket,supported,calls,hypotheses,warnings,'EVIDENCE_PROVEN' if decision['verdict']!='not found' else 'EVIDENCE_INSUFFICIENT',started,model_calls)
-        supported=check('not found',known,self.tools.evidence,now=self.tools.now)
+        supported=check('not found',known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
         return self._finish(ticket,supported,calls,hypotheses,warnings,'TICKET_BUDGET_REACHED',started,model_calls)
 
+    def _citations(self,ids):
+        mandatory=[identity for identity,record in self.tools.evidence._values.items() if record['kind'] in ('PATH','REPRODUCTION','GIVEN_COMPARISON','GAP') or record['kind']=='READ' and record['value']['subject']==self.tools.visual]
+        return list(dict.fromkeys([*ids,*mandatory]))
+
     def _finish(self,ticket,supported,calls,hypotheses,warnings,stop,started,model_calls):
-        evidence=self.tools.evidence.resolve(supported['evidence_ids'])
+        evidence=self.tools.evidence.resolve(self._citations(supported['evidence_ids']))
         read_records=[record['value'] for record in evidence.values() if record['kind']=='READ']
-        limits=list(dict.fromkeys([*warnings,*[w for read in read_records for w in read.get('warnings',[])]]))
+        limits=list(dict.fromkeys([*getattr(self,'reported_labels',[]),*warnings,*[w for read in read_records for w in read.get('warnings',[])]]))
         if read_records and 'SNAPSHOT_UNVERIFIED' not in limits:limits.append('SNAPSHOT_UNVERIFIED')
-        furthest=read_records[-1]['subject'] if read_records else None
+        furthest=max(read_records,key=lambda read:self.tools.depth.get(read['subject'],-1))['subject'] if read_records else None
         verdict=supported['verdict'];at=self.tools.now;reason=supported['reason']
         label=self.tools.nodes[self.tools.visual]['label']
         business='Question: '+str(ticket.get('text') or ticket.get('question') or label)+'\n'
-        business+='Answer status: '+('not answered' if verdict=='not found' else 'answered within the checked technical scope')+'.\n'
+        recreation=next((r['value'] for r in evidence.values() if r['kind']=='REPRODUCTION'),None)
+        answer_status='not answered' if verdict=='not found' else 'partly answered: the current declared-context investigation does not reproduce the reported figure' if recreation and recreation['status']=='NOT_REPRODUCED' else 'answered within the checked technical scope'
+        business+='Answer status: '+answer_status+'.\n'
+        if recreation:business+='Reported figure recreation: '+recreation['status']+'.\n'
         business+=f'As of {at}, {label}: {verdict}. {reason}'
         if verdict=='not found':business+=' Furthest measured point: '+str(furthest or 'none')+'.'
         if supported.get('expected_update_at'):business+=' Expected update from the declared schedule and observed median duration: '+supported['expected_update_at']+'.'
@@ -114,7 +163,7 @@ class Investigator:
         technical=business+'\nEvidence: '+', '.join(supported['evidence_ids'])+'\nStop: '+stop+'\nTechnical evidence pack: '+canonical(evidence)
         hypothesis_checks={}
         for hypothesis in VERDICTS[:-1]:
-            try:proof=check(hypothesis,list(self.tools.evidence._values),self.tools.evidence,now=self.tools.now)
+            try:proof=check(hypothesis,list(self.tools.evidence._values),self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
             except (ValueError,KeyError,TypeError) as exc:hypothesis_checks[hypothesis]={'supported':False,'reason':str(exc)}
             else:hypothesis_checks[hypothesis]={'supported':True,'evidence_ids':proof['evidence_ids']}
         bundle={'version':'ledger-investigation-v1','ticket':ticket,'observed_at':at,'hypotheses_considered':hypotheses,
