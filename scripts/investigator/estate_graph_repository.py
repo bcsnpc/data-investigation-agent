@@ -264,10 +264,20 @@ class GraphRepository:
             item=json.loads(raw)
             if sha(item)!=hash:raise StateConflict('GRAPH_HISTORY_HASH_DIFFERS')
             result[kind].append({**item,'valid_from':valid_from,'valid_to':valid_to})
+        return self._definition_ownership_and_health(result,estate,catalog,when)
+
+    def _definition_ownership_and_health(self,result,estate,catalog,when):
+        """Apply the same code-owner health gate to full and bounded reads.
+
+        The approved catalog is an integrity-checked ownership index of source
+        observation IDs and blob references, not historical definition bodies.
+        Hydrate only records already admitted by the caller's path query.
+        """
         # Resolve code-proof ownership from the approved retained asset manifest,
         # without changing sealed graph records or their stored hashes.
+        needed_sources={item['provenance']['source_id'] for kind in ('nodes','edges') for item in result[kind]}
         source_owners={source:owner for owner,entry in catalog['owners'].items()
-            for source in entry['source_observations']}
+            for source in entry['source_observations'] if source in needed_sources}
         for kind in ('nodes','edges'):
             for item in result[kind]:
                 source_owner=source_owners.get(item['provenance']['source_id'])
@@ -325,9 +335,10 @@ class GraphRepository:
                     if len(edges)>=max_edges or (item['target'] in allowed and len(seen|frontier|{item['target']})>max_nodes):truncated=True;continue
                     edges[identity]={**item,'valid_from':start,'valid_to':end}
                     if item['target'] in allowed and item['target'] not in seen:frontier.add(item['target'])
-        from .graph_scan_health import unavailable
-        health=unavailable(self.state,estate,{n['owner'] for n in nodes.values()},at=when)
-        return {'nodes':list(nodes.values()),'edges':list(edges.values()),'unavailable_owners':health,'truncated':truncated}
+            try:catalog=self.state._get(db,'graph_asset_catalog',estate)['body']
+            except KeyError:catalog={'owners':{}}
+        result={'nodes':list(nodes.values()),'edges':list(edges.values()),'truncated':truncated}
+        return self._definition_ownership_and_health(result,estate,catalog,when)
 
     def changes(self,estate,*,limit=100):
         if type(limit) is not int or not 1<=limit<=1000:raise ValueError('GRAPH_CHANGE_BOUND')
