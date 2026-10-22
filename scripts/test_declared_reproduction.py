@@ -73,6 +73,24 @@ SCOPE = {'question_kind':{'kind':'VISUAL_CONTENT','source':{'quote':'visual','st
 
 
 class ReproductionTests(unittest.TestCase):
+    def test_transport_verified_identity_limit_warns_instead_of_refusing_within_layer_check(self):
+        from dataclasses import replace
+        class TenantOnly(NeutralAdapter):
+            def evaluate_declared_context(inner,*args):
+                probe=super().evaluate_declared_context(*args)
+                return replace(probe,evidence={**probe.evidence,'separate_identity_verification':{'opaque_receipt':'verified transport'}},
+                    surface_report={**probe.surface_report,'identity':'tenant-only'},surface_report_binding='VALUE_QUERY',
+                    identity_reporting_limit='CALLING_PRINCIPAL_UNREPORTABLE')
+        result=self.run_check(TenantOnly())
+        self.assertEqual(result['finding']['label'],'REPRODUCED')
+        originals={o['id']:o for o in result['observations']}
+        reproduction.validate(result['finding'],originals)
+        read=originals['reproduction-read-1']
+        self.assertEqual(read['surface_attestation']['consistency'],'CONTRADICTED')
+        self.assertIn('attestation limited:',read['attestation_warning'])
+        read.pop('separate_identity_verification')
+        with self.assertRaisesRegex(ValueError,'attestation'):
+            reproduction.validate(result['finding'],originals)
     def test_upstream_refusal_owns_reason_without_inventory_validation(self):
         from unittest.mock import patch
         from investigator import report_scope

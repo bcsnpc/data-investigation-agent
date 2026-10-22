@@ -115,8 +115,8 @@ def validate(marker,originals,quantities=None):
                 or surfaces[0]['identity'].casefold()!=surfaces[1]['identity'].casefold()):
             raise ValueError('Filter-effect surface differs')
         attestation=read.get('surface_attestation') or {}
-        if (attest_surface(surfaces[0],read.get('surface_report'),attestation.get('required_fields',()))!=attestation
-                or attestation.get('status') not in ('MATCHED','PARTIAL') or attestation.get('missing_required_fields')):
+        from .process_debugging import within_layer_surface_admitted
+        if not within_layer_surface_admitted(read):
             raise ValueError('Filter-effect probe is not attested')
         quantity=reproduction.number(read['reproduction_quantity'],allow_blank=True)
         if quantities is not None and (read['id'] not in quantities or reproduction.number(quantities[read['id']],allow_blank=True)!=quantity):

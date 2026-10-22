@@ -1,7 +1,7 @@
 """Windows worker descriptors retain the same meaning in Linux replay."""
 import importlib.util
 import base64
-from pathlib import Path, PurePosixPath
+from pathlib import Path, PurePosixPath, PureWindowsPath
 from types import SimpleNamespace
 import unittest
 from unittest.mock import Mock, patch
@@ -60,6 +60,20 @@ class PortableWorkerTests(unittest.TestCase):
         self.assertEqual((root/r'\\server\share\file.json').resolve(),r'\\server\share\file.json')
         with self.assertRaisesRegex(ValueError,'DRIVE_RELATIVE'):
             root/'D:relative.json'
+
+    def test_linux_config_paths_stay_linux_on_windows_instead_of_acquiring_a_drive(self):
+        import copy,json,metadata_config
+        config=json.loads((Path(__file__).resolve().parents[1]/'infra/metadata/development.json').read_text(encoding='utf-8-sig'))
+        config['sql']['auth']['credential_file']='/retained/reader.xml'
+        config['fabric']['auth']['python']='/usr/bin/python'
+        config['storage']['database']='/work/one-attempt/inventory.sqlite'
+        journal=SimpleNamespace(ACTIVE=Mock())
+        journal.ACTIVE.get.return_value=SimpleNamespace(replaying=True)
+        with patch.object(metadata_config,'ROOT',PureWindowsPath('D:/restored')),helper.configuration_paths(journal):
+            actual=metadata_config.validate_config(copy.deepcopy(config))
+        self.assertEqual(actual['storage']['database'],'/work/one-attempt/inventory.sqlite')
+        self.assertEqual(actual['fabric']['auth']['python'],'/usr/bin/python')
+        self.assertEqual(actual['sql']['auth']['credential_file'],'/retained/reader.xml')
 
     def test_configuration_path_helper_does_not_change_live_validation_root(self):
         import metadata_config

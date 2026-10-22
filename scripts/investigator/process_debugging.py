@@ -110,6 +110,8 @@ def attest(probe):
                   surface_report_types=probe.surface_report_types,surface_report_binding=probe.surface_report_binding,
                   surface_report_receipt_id=probe.evidence['id'] if probe.surface_report_binding=='VALUE_QUERY' else None)
     if (probe.identity_reporting_limit=='CALLING_PRINCIPAL_UNREPORTABLE'
+            and isinstance(probe.evidence.get('separate_identity_verification'),dict)
+            and probe.evidence['separate_identity_verification']
             and probe.surface_report_binding=='VALUE_QUERY'
             and result.get('contradictions')
             and all(c['field']=='identity' for c in result['contradictions'])
@@ -126,6 +128,28 @@ def attest(probe):
     # prior status is kept in the evidence so the distinction is not lost.
     evidence['status_before_attestation']=probe.status
     return replace(probe,status='UNAVAILABLE',evidence=evidence,value=NoValue('FAILED'),reason=result['reason'])
+
+
+def within_layer_surface_admitted(observation):
+    """Owner's identity warning also applies to within-layer checks, not grades.
+
+    The adapter validates its transport proof; its native vocabulary stays
+    opaque here. Preserve the literal self-report and recompute its status.
+    This never establishes an independent cross-surface boundary.
+    """
+    attestation=observation.get('surface_attestation') or {}
+    if attestation!=attest_surface(observation.get('execution_surface'),observation.get('surface_report'),attestation.get('required_fields',())):
+        return False
+    if attestation.get('missing_required_fields'):return False
+    if attestation.get('status') in ('MATCHED','PARTIAL'):return True
+    proof=observation.get('separate_identity_verification')
+    return (observation.get('identity_reporting_limit')=='CALLING_PRINCIPAL_UNREPORTABLE'
+        and observation.get('attestation_warning')==IDENTITY_REPORTING_WARNING
+        and isinstance(proof,dict) and bool(proof)
+        and observation.get('surface_report_binding')=='VALUE_QUERY'
+        and observation.get('surface_report_receipt_id')==observation.get('id')
+        and bool(attestation.get('contradictions'))
+        and all(c['field']=='identity' for c in attestation['contradictions']))
 
 
 def unattested_surface_fields(observations):
