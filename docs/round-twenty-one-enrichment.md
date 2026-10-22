@@ -95,3 +95,29 @@ No Anthropic key was retrieved or created by this implementation; no live batch
 was submitted and no estate request was made. Per-estate counts, actual provider
 cost and five live examples remain to be earned after the owner creates the
 approved key and the operator provisions the separate account.
+
+The resumed offline preparation resolves retained CAS bytes for fifteen selected
+objects: five each from fixture, billing and dia-sample-estate. Every byte length
+and SHA-256 is checked before building a task. The five kinds are report, page,
+visual, measure and table. Private batch results and task inputs are under
+`C:\dia-r21-facts-ledger\.local\round21-helper\enrichment-stub-examples`;
+the public [summary](runs/round-twenty-one-enrichment-stub-examples.json) labels
+every example RECORDED_STUB. This is a wiring demonstration with deliberately
+minimal placeholder prose, not fifteen model-enriched meanings. It claims no
+synonyms or hidden logic, proposes no links and promotes none. Actual provider
+calls, estate reads and enrichment spend are zero. The simulation timestamp is
+an injected test clock, not a live observation time. No shared PostgreSQL
+enrichment projection was written.
+
+Collector configurations use exact existing graph IDs. Fixture selects two
+pipelines, its demo model and the Bronze landing table; billing selects its two
+pipelines and model; sample selects its model. The fixture landing table and
+audited producer use the declared Warehouse audit source, requiring matching
+producer/run and OBSERVED_COPY_OUTPUT provenance. Configuration is not a
+collected fact: this helper made no collector read. The
+[preparation summary](runs/round-twenty-one-collector-preparation.json) records
+configuration hashes and gaps. No per-load checksum key columns are invented:
+without declared keys, the key-table list remains empty and row-count/checksum
+coverage unavailable. SQL endpoint modify time never substitutes for load
+history. Application SQL and the legacy lakehouse audit are not silently added
+as routes. Partial selected coverage is not whole-estate coverage.

@@ -1,0 +1,48 @@
+{
+  "status": "PREPARED_NOT_EXECUTED",
+  "estate_reads": 0,
+  "configs": [
+    {
+      "estate": "fixture",
+      "subjects": 4,
+      "kinds": {
+        "JOB": 2,
+        "MODEL": 1,
+        "TABLE": 1
+      },
+      "configured_key_tables": 0,
+      "profile_gap": "No key columns guessed. Exact declared key_columns required before per-load checksums.",
+      "config_sha256": "c3b9ebe4316ede9dc8733e68614fa14e74622c850a2a3243631ce926a4b7a23b",
+      "source": "current retained graph IDs; no estate collection",
+      "live_status": "PREPARED_NOT_EXECUTED"
+    },
+    {
+      "estate": "billing",
+      "subjects": 3,
+      "kinds": {
+        "JOB": 2,
+        "MODEL": 1,
+        "TABLE": 0
+      },
+      "configured_key_tables": 0,
+      "profile_gap": "No key columns guessed. Exact declared key_columns required before per-load checksums.",
+      "config_sha256": "00a04f35566c6e795e1550e12c7dc1499969a3a47f7a636ff8309e3d6455033c",
+      "source": "current retained graph IDs; no estate collection",
+      "live_status": "PREPARED_NOT_EXECUTED"
+    },
+    {
+      "estate": "dia-sample-estate",
+      "subjects": 1,
+      "kinds": {
+        "JOB": 0,
+        "MODEL": 1,
+        "TABLE": 0
+      },
+      "configured_key_tables": 0,
+      "profile_gap": "No key columns guessed. Exact declared key_columns required before per-load checksums.",
+      "config_sha256": "fac357b11e2a5596b1fdb35f599b29f76d88a45651729147fe529b8172e236e5",
+      "source": "current retained graph IDs; no estate collection",
+      "live_status": "PREPARED_NOT_EXECUTED"
+    }
+  ]
+}
