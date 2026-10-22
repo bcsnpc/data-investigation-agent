@@ -1009,3 +1009,7 @@ Build-phase monthly caps unchanged: modelUSD40, requests6000(scan1000/restoratio
 
 
 Section8 executed2026-10-22: approved application migration applied pending graphschema3 and new facts4 in dia_state. Existing id-dia-worker receives SELECT/INSERT on estate_node_facts and SELECT/INSERT/UPDATE on estate_fact_cursors only; no factsUPDATE/DELETE/TRUNCATE, no cursorDELETE/TRUNCATE, and state_accounts privileges unchanged. SET LOCAL ROLE actualworker transactional insert/read/update and permission checks PASS, all probe writes rolledback. No estate identity right changed. Exact before/after/SQLhash: docs/runs/round-twenty-one-facts-migration.json.
+
+
+### Owner intake steer, 2026-10-22
+Missing essentials prompt one combined grounded question, not an automatic hold. Unique high-confidence report/number matches may proceed with an explicit assumption. Missing comparison permits recreation and path freshness first; ask for comparison only when those checks find no supported verdict. No comparison, cause, visual or filter context may be invented. The new explicit-card regression keeps the exact collected visual context; ambiguous cards ask rather than substituting a measure-wide query. Historical scores and tapes remain unchanged.
