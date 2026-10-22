@@ -67,6 +67,7 @@ try:
  worker_spec=importlib.util.spec_from_file_location('worker_replay',sys.argv[10])
  worker=importlib.util.module_from_spec(worker_spec);worker_spec.loader.exec_module(worker)
  tape=journal.Tape(sys.argv[1])
+ worker.validate_inputs(journal,tape)
  if installed:
   from investigator.source_revision import committed_revision
   if committed_revision(root)!=sys.argv[3] or tape.engine_revision!=sys.argv[3]:

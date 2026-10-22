@@ -136,6 +136,49 @@ class PortableWorkerTests(unittest.TestCase):
         self.assertEqual(base64.b64decode(private[0]['actual_body_base64']),actual)
         self.assertEqual(base64.b64decode(private[0]['recorded_body_base64']),expected)
 
+    def test_direct_clock_take_preserves_first_error_and_original_exception_context(self):
+        body=process_tape.bytes_of({'name':'catalog','request':{}})
+        tape=process_tape.Tape.__new__(process_tape.Tape)
+        tape.replaying=True;tape.index=0
+        tape.events=[{'ordinal':1,'kind':'BOUNDED_REQUEST','at':0,
+                      'body':base64.b64encode(body).decode(),'sha256':process_tape.sha(body)}]
+        diagnostics=[]
+        with helper.first_tape_error(process_tape,diagnostics):
+            try:
+                raise FileNotFoundError('required-sidecar.json')
+            except FileNotFoundError:
+                with self.assertRaisesRegex(process_tape.TapeError,'TAPE_EVENT_DIFFERS:CLOCK:BOUNDED_REQUEST'):
+                    tape.take('CLOCK')
+            with self.assertRaises(process_tape.TapeError):tape.event('FINAL',b'{}')
+        self.assertEqual(len(diagnostics),1)
+        self.assertEqual(diagnostics[0]['requested_kind'],'CLOCK')
+        self.assertEqual(diagnostics[0]['recorded_kind'],'BOUNDED_REQUEST')
+        self.assertEqual(diagnostics[0]['index_before'],0)
+        self.assertEqual(tape.index,0)
+        self.assertIn('FileNotFoundError: required-sidecar.json',diagnostics[0]['traceback'])
+        self.assertEqual(tape.events[0]['body'],base64.b64encode(body).decode())
+
+    def test_replay_endpoint_input_is_required_and_hash_pinned_without_mutating_it(self):
+        import tempfile,json,hashlib
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'endpoints.json';raw=b'[]'
+            pin={'version':1,'receipt_path':str(path),'receipt_sha256':hashlib.sha256(raw).hexdigest(),
+                 'source_context_version':'sealed','bindings':[{
+                  'request':{'workspace':'00000000-0000-0000-0000-000000000001',
+                             'lakehouse':'00000000-0000-0000-0000-000000000002'},
+                  'container_asset_hash':'a'*64,'endpoint_asset_hash':'b'*64}]}
+            tape=SimpleNamespace(bootstrap={'config':{'fabric':{'retained_endpoints':pin}}})
+            before=json.dumps(tape.bootstrap,sort_keys=True)
+            with self.assertRaisesRegex(process_tape.TapeError,'REPLAY_RETAINED_ENDPOINT_INPUT_MISSING'):
+                helper.validate_inputs(process_tape,tape)
+            path.write_bytes(raw+b' ')
+            with self.assertRaisesRegex(process_tape.TapeError,'REPLAY_RETAINED_ENDPOINT_INPUT_HASH_DIFFERS'):
+                helper.validate_inputs(process_tape,tape)
+            path.write_bytes(raw);helper.validate_inputs(process_tape,tape)
+            self.assertEqual(path.read_bytes(),raw)
+            self.assertEqual(json.dumps(tape.bootstrap,sort_keys=True),before)
+        helper.validate_inputs(process_tape,SimpleNamespace(bootstrap={'config':{}}))
+
     def test_worker_event_bytes_remain_exact_after_portable_descriptor(self):
         # No comparison policy changes: different commands/queries still fail.
         self.assertNotEqual(process_tape.bytes_of(tape_worker.descriptor(['python', 'a.py'])),
