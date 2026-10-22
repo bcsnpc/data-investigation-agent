@@ -1,0 +1,35 @@
+{
+  "observed_at_utc": "2026-10-22T18:13:50.306143+00:00",
+  "before": null,
+  "after": {
+    "identity": "enrichment:round-twenty-one",
+    "unit": "MICRODOLLARS",
+    "ceiling": "25000000",
+    "protected": "0",
+    "opening": "0",
+    "charged": "0",
+    "violated": false
+  },
+  "proof": {
+    "source_sha256": "c1b03a8b6fe55ebcf47f90e32b0bbbc8a1fac3002bb81982bfd794bf6f8c91dc",
+    "accounts": [
+      {
+        "identity": "enrichment:round-twenty-one",
+        "before": {
+          "ceiling": "25000000",
+          "protected": "0",
+          "opening": "0"
+        },
+        "after": {
+          "ceiling": "25000000",
+          "protected": "0",
+          "opening": "0"
+        },
+        "matched": true
+      }
+    ]
+  },
+  "new_identity_or_grant": false,
+  "model_provider_changed": false,
+  "live_anthropic_calls": 0
+}

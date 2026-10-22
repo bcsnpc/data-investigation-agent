@@ -16,7 +16,7 @@ TEST_MODULES = (
     'test_connection_rotation.py', 'test_facts_ledger.py', 'test_runtime_facts_microsoft.py',
     'test_access_budget_policy.py', 'test_capture_publication_retry.py', 'test_ledger_investigator.py', 'test_enrichment.py',
     'test_essentials_intake.py', 'test_explain_questions.py', 'test_item_metadata_history.py',
-    'test_ledger_investigator_ports.py', 'test_cloud_ledger_investigator.py', 'test_collector_schedule.py',
+    'test_ledger_verdict_proof.py', 'test_ledger_investigator_ports.py', 'test_cloud_ledger_investigator.py', 'test_collector_schedule.py',
     'test_live_gateway.py', 'test_tape_decoders.py', 'test_model_transport_retry.py',
     'test_keyed_readback.py', 'test_native_diagnostics.py',
     'test_budget_tape_contract.py', 'test_provider_tape_contract.py', 'test_ticket_protocol.py',

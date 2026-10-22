@@ -1013,3 +1013,6 @@ Section8 executed2026-10-22: approved application migration applied pending grap
 
 ### Owner intake steer, 2026-10-22
 Missing essentials prompt one combined grounded question, not an automatic hold. Unique high-confidence report/number matches may proceed with an explicit assumption. Missing comparison permits recreation and path freshness first; ask for comparison only when those checks find no supported verdict. No comparison, cause, visual or filter context may be invented. The new explicit-card regression keeps the exact collected visual context; ambiguous cards ask rather than substituting a measure-wide query. Historical scores and tapes remain unchanged.
+
+
+Section8 executed2026-10-22: existing owner provisioned separate enrichment:round-twenty-one MICRODOLLARS account, ceiling25,000,000, opening0, protected0, charged0. Existing monthly model40 account untouched; worker has no new policy-creation right, no identity/grant changed. Sourcehashc1b03a8b6fe55ebcf47f90e32b0bbbc8a1fac3002bb81982bfd794bf6f8c91dc. Exactbefore/after:docs/runs/round-twenty-one-enrichment-account.json. Metadata-only KeyVault list-versions at18:14UTC confirmsanthropic-api-key absent; stub examples are not live enrichment.
