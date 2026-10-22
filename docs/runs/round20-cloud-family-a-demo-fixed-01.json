@@ -1,0 +1,22 @@
+{
+  "owner_date": "2026-10-21",
+  "date_utc": "2026-10-22",
+  "run_id": "round20-cloud-family-a-demo-fixed-01",
+  "execution": "job-dia-worker-pe5vdso",
+  "image": "sha256:e3c13ed9b1e8167a28fa53665888e3f79478260ced3c28c90fbe54bbbcc84d01",
+  "status": "FAILED",
+  "answer": "NOT_DELIVERED",
+  "outer_records_preserved": 489,
+  "outer_seal_valid": false,
+  "native_complete_capture_available": false,
+  "error": "GatewayDenied: ENDPOINT_METHOD_NOT_ALLOWED",
+  "denied_target": "00000490-tape-event.json",
+  "target_sha256": "17d8da65d3f03f0e5ea1b2ee762772b77cfefc8313b7b7c80ef3bcda3890676b",
+  "replica_reason": "ProcessExited, exit code: 1",
+  "provider_requests_recorded": 1,
+  "provider_responses_recorded": 1,
+  "physical_estate_send_recorded": false,
+  "same_image_replay": "NOT_RUN_NO_COMPLETE_NATIVE_CAPTURE",
+  "originals_unchanged": true,
+  "verification": "NOT_VERIFIED; retained DAX401 vs SQL8765 comparison unavailable, warning only"
+}

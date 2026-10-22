@@ -1,0 +1,199 @@
+{
+  "owner_date": "2026-10-21",
+  "date_utc": "2026-10-22",
+  "run_id": "round20-value-fixture-fixed-01",
+  "execution": "job-dia-worker-8hn08d5",
+  "image": "sha256:e3c13ed9b1e8167a28fa53665888e3f79478260ced3c28c90fbe54bbbcc84d01",
+  "outer_records": 60,
+  "outer_seal_valid": true,
+  "status": "VALUES_AGREE_UNDER_MAPPING",
+  "reason": null,
+  "physical_requests": 19,
+  "model_calls": 0,
+  "grade": "NOT_AWARDED_REQUIRES_TRUSTED_GRAPH_RESOLVER",
+  "confidence_awarded": false,
+  "proof_attachment_capability": {
+    "limitation": "Scoped aggregate SUM agreement only; individual rows or column values were not compared.",
+    "reason": null,
+    "scope": "SCOPED_AGGREGATE_SUM_ONLY",
+    "supported": true
+  },
+  "qualifications": [
+    "SNAPSHOT_UNVERIFIED",
+    "Saved slicer default positions assumed; current positions not established."
+  ],
+  "comparisons": [
+    {
+      "equal": true,
+      "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+      "previous": 16,
+      "value": "16"
+    },
+    {
+      "equal": true,
+      "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887",
+      "previous": "16",
+      "value": "16"
+    },
+    {
+      "equal": true,
+      "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82",
+      "previous": "16",
+      "value": "16"
+    }
+  ],
+  "coverage": "VALUE_COMPILER_AND_RECORDED_RESPONSES",
+  "tape_sha256": "f71dbc26a9166099e67c855fdb8f67875ed7bd2833f1959888f8f608071d3114",
+  "reads": [
+    {
+      "layer": "SEMANTIC",
+      "value": 16,
+      "status": "SUCCEEDED",
+      "attestation": {
+        "attested_fields": [
+          "identity"
+        ],
+        "consistency": "CONTRADICTED",
+        "contradictions": [
+          {
+            "declared": "dia-investigator-round19",
+            "field": "identity",
+            "reported": " dff91047-ebc2-4657-8dbe-5af328d57780"
+          }
+        ],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "UNATTESTED",
+          "identity": "ATTESTED",
+          "object": "UNATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": "SURFACE_SELF_REPORT_CONTRADICTS_DECLARED",
+        "required_fields": [
+          "identity"
+        ],
+        "status": "CONTRADICTED",
+        "unattested_fields": [
+          "connection",
+          "engine",
+          "object"
+        ]
+      }
+    },
+    {
+      "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+      "value": "16",
+      "status": "SUCCEEDED",
+      "attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "CONTRADICTED",
+        "contradictions": [
+          {
+            "declared": "FABRIC_SQL",
+            "field": "engine",
+            "reported": "Microsoft Azure SQL Data Warehouse"
+          }
+        ],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": "SURFACE_SELF_REPORT_CONTRADICTS_DECLARED",
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "CONTRADICTED",
+        "unattested_fields": [
+          "connection"
+        ]
+      }
+    },
+    {
+      "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887",
+      "value": "16",
+      "status": "SUCCEEDED",
+      "attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "CONTRADICTED",
+        "contradictions": [
+          {
+            "declared": "FABRIC_SQL",
+            "field": "engine",
+            "reported": "Microsoft Azure SQL Data Warehouse"
+          }
+        ],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": "SURFACE_SELF_REPORT_CONTRADICTS_DECLARED",
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "CONTRADICTED",
+        "unattested_fields": [
+          "connection"
+        ]
+      }
+    },
+    {
+      "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82",
+      "value": "16",
+      "status": "SUCCEEDED",
+      "attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "CONTRADICTED",
+        "contradictions": [
+          {
+            "declared": "FABRIC_SQL",
+            "field": "engine",
+            "reported": "Microsoft Azure SQL Data Warehouse"
+          }
+        ],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": "SURFACE_SELF_REPORT_CONTRADICTS_DECLARED",
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "CONTRADICTED",
+        "unattested_fields": [
+          "connection"
+        ]
+      }
+    }
+  ]
+}

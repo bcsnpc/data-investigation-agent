@@ -18,7 +18,8 @@ def boundary(folder,expected_image):
         if len(key.parts)!=2 or key.parts[0]!=record['run_id'] or not key.name.startswith(f'{ordinal:08d}-'):raise ValueError('RUN_RECORD_MEMBER_ORDER')
         raw=(root/key.name).read_bytes()
         if hashlib.sha256(raw).hexdigest()!=ref['sha256']:raise ValueError('RUN_RECORD_MEMBER_CHANGED')
-        values.append(json.loads(raw))
+        from .run_capture import record_value
+        values.append(record_value(raw,ref.get('encoding')))
     if values[0]['state'].get('runner_image')!=expected_image:raise ValueError('RUN_REPLAY_IMAGE_DIFFERS')
     if values[-1].get('status')!='COMPLETED' or values[-1].get('partial') is not False:raise ValueError('RUN_RECORD_PARTIAL')
     return {'matched':True,'coverage':'BOUNDARY_ONLY','graph_recomputed':False,'network_requests':0,
