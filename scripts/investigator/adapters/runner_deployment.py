@@ -21,7 +21,7 @@ def input_policy_preflight(config):
 def demo_preflight(job,resource,*,execute,cli):
     """Bounded point-in-time control read; never install a network-blocking lease."""
     timeout=job['properties'].get('configuration',{}).get('replicaTimeout')
-    if type(timeout)is not int or timeout<1800:raise ValueError('RUNNER_DEMO_RUNTIME_BELOW_1800')
+    if type(timeout)is not int or timeout<3600:raise ValueError('RUNNER_DEMO_RUNTIME_BELOW_3600')
     if resource.rsplit('/',1)[-1]!='job-dia-worker':raise ValueError('RUNNER_DEMO_EXISTING_WORKER_REQUIRED')
     parts=resource.split('/');subscription=parts[2];group=parts[4];observations=[]
     for name in ('job-dia-worker','job-dia-graph-scan'):

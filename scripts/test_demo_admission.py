@@ -57,7 +57,7 @@ class DemoLaunchAdmissionTests(unittest.TestCase):
         return {'checks':{'demo':{'kind':'investigation','options':{'verification_proof':{}}}},'run_id':'demo-run',
             'deployment':{'resource_id':'/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/existing-rg/providers/Microsoft.App/jobs/job-dia-worker','cli':['az']},
             'image':'registry/image@sha256:'+'a'*64}
-    def job(self,timeout=1800):
+    def job(self,timeout=3600):
         return {'properties':{'configuration':{'replicaTimeout':timeout},'template':{'containers':[{'name':'worker','image':'old'}]}}}
     def test_live_readback_runtime_and_no_competing_job_are_checked_before_start(self):
         config=self.config();job=self.job();before=copy.deepcopy(job);calls=[]
@@ -75,7 +75,7 @@ class DemoLaunchAdmissionTests(unittest.TestCase):
         self.assertIn('not excluded',result['demo_admission']['limitation'])
 
     def test_short_runtime_or_running_job_refuses_without_start_or_scope_change(self):
-        for timeout,rows,reason in [(900,[],'RUNTIME_BELOW'),(1800,[{'properties':{'status':'Running'}}],'COMPETING'),(1800,[{'name':'unknown'}],'STATUS_UNESTABLISHED')]:
+        for timeout,rows,reason in [(1800,[],'RUNTIME_BELOW'),(3600,[{'properties':{'status':'Running'}}],'COMPETING'),(3600,[{'name':'unknown'}],'STATUS_UNESTABLISHED')]:
             calls=[]
             def execute(args,**kwargs):
                 calls.append(args)
