@@ -321,7 +321,7 @@
         "questions": [
           {
             "field": "essentials",
-            "text": "Which report and number do you want me to check?",
+            "text": "Which number do you want me to check?",
             "choices": [
               {
                 "key": "d9d398510f4bbbe12431b963538aeb06cd82c701c4da182f3b7f412ccc49402e",
