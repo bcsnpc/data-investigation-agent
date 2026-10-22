@@ -78,6 +78,45 @@ class AccessTests(unittest.TestCase):
         result=check(mapping(),bindings=bindings)
         self.assertEqual(result['rows'][0]['reason'],'ACTUAL_IDENTITY_BINDING_MISMATCH')
 
+    def test_source_sql_rows_bind_existing_home_tenant_principal(self):
+        data=load(Path(__file__).resolve().parents[1]/'config/permission-map.yaml')
+        source=data['identities']['investigator-source']
+        fabric=data['identities']['investigator']
+        self.assertEqual(source['client_id'],fabric['client_id'])
+        self.assertNotEqual(source['principal_id'],fabric['principal_id'])
+        self.assertNotEqual(source['tenant_id'],fabric['tenant_id'])
+        self.assertEqual(source['principal_id'],'248525da-278c-4a6c-b5c3-cc3e7728d3ce')
+        for row in data['checks']:
+            if row['id'] in ('ordersops-app-connect','ordersops-app-select','billingapp-app-connect','billingapp-app-select'):
+                self.assertEqual(row['identity'],'investigator-source')
+        self.assertIn('pg-state_migrations',{r['id'] for r in data['checks']})
+
+    def test_object_permission_probe_satisfies_real_worker_row_envelope(self):
+        import managed_sql_worker as worker
+        from test_managed_sql_worker import AUTH, Cursor
+        class AccessCursor(Cursor):
+            def execute(self,query,*args):
+                super().execute(query,*args)
+                if self.quantity_active:self.description=[('access_check',int)]
+                return self
+        cursor=AccessCursor(rows=[(1,)])
+        connection=Mock();connection.cursor.return_value=cursor
+        tokens=Mock();tokens.get_token.return_value='not-logged-token'
+        binding={'server':'synthetic.database.windows.net','database':'synthetic',
+                 'account':'reader','object':'[dbo].[synthetic]'}
+        backend=LiveProbes({});backend._count=lambda fn:fn()
+        captured=[]
+        def actual_worker(payload):
+            captured.append(payload)
+            return worker.execute(payload,connect=Mock(return_value=connection),tokens=tokens)
+        with patch('investigator.daily_smoke._gold_read',side_effect=actual_worker),patch(
+                'investigator.live_gateway.authorize_sql_payload',side_effect=lambda p:p):
+            result=backend._sql_object(binding,AUTH)
+        self.assertEqual(captured[0]['max_rows'],2)
+        self.assertEqual(captured[0]['query'],'SELECT TOP (1) 1 AS access_check FROM [dbo].[synthetic]')
+        self.assertTrue(result['read_only_verified'])
+        self.assertEqual(len(cursor.calls),4)
+
     def test_http_probes_gateway_and_meter_and_never_emit_raw_body(self):
         auth={'mode':'managed_identity','principal_id':'reader'}
         binding={'url':'https://example.invalid/models/id','scope':'declared','channel':'reader'}

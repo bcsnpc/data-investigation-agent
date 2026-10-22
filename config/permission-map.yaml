@@ -14,7 +14,8 @@
     "investigator": {
       "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
       "client_id": "531419ef-1610-415a-b8bf-01a4b6aad751",
-      "role": "Viewer; model ReadExplore; SQL db_datareader and VIEW DEFINITION"
+      "role": "Viewer; model ReadExplore; SQL db_datareader and VIEW DEFINITION",
+      "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780"
     },
     "scanner": {
       "principal_id": "dbb49594-6c70-4989-a6c8-c4f237c4a021",
@@ -58,6 +59,12 @@
     "billing-tester": {
       "name": "billing_tester_reader",
       "role": "billingapp db_datareader; independent tester only"
+    },
+    "investigator-source": {
+      "principal_id": "248525da-278c-4a6c-b5c3-cc3e7728d3ce",
+      "client_id": "531419ef-1610-415a-b8bf-01a4b6aad751",
+      "tenant_id": "aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+      "role": "Existing investigator application in source tenant; approved ordersops/billingapp read roles only"
     }
   },
   "checks": [
@@ -439,7 +446,7 @@
     },
     {
       "id": "ordersops-app-connect",
-      "identity": "investigator",
+      "identity": "investigator-source",
       "resource": "sql-orderops-9696025.database.windows.net/ordersops",
       "action": "connect and self-report explicit database",
       "scopes": [
@@ -451,7 +458,7 @@
     },
     {
       "id": "ordersops-app-select",
-      "identity": "investigator",
+      "identity": "investigator-source",
       "resource": "sql-orderops-9696025.database.windows.net/ordersops",
       "action": "db_datareader; VIEW DEFINITION on declared objects",
       "scopes": [
@@ -464,7 +471,7 @@
     },
     {
       "id": "billingapp-app-connect",
-      "identity": "investigator",
+      "identity": "investigator-source",
       "resource": "sql-orderops-9696025.database.windows.net/billingapp",
       "action": "connect and self-report explicit database",
       "scopes": [
@@ -476,7 +483,7 @@
     },
     {
       "id": "billingapp-app-select",
-      "identity": "investigator",
+      "identity": "investigator-source",
       "resource": "sql-orderops-9696025.database.windows.net/billingapp",
       "action": "db_datareader; VIEW DEFINITION on declared objects",
       "scopes": [

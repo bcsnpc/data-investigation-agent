@@ -156,7 +156,10 @@ class LiveProbes:
         payload = {'server': binding['server'], 'database': binding['database'], 'authentication': authentication,
                    'query': 'SELECT TOP (1) 1 AS access_check FROM ' + obj,
                    'read_only_objects': [obj], 'result_columns': ['access_check'],
-                   'max_rows': 1, 'require_read_only': True}
+                   # The worker reserves an overflow sentinel and requires a
+                   # result envelope of at least two. TOP(1) still bounds the
+                   # actual permission probe to one row.
+                   'max_rows': 2, 'require_read_only': True}
         def execute():
             with scope(lambda kind, fn: self._count(fn)):
                 return _gold_read(payload)
