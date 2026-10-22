@@ -1016,3 +1016,5 @@ Missing essentials prompt one combined grounded question, not an automatic hold.
 
 
 Section8 executed2026-10-22: existing owner provisioned separate enrichment:round-twenty-one MICRODOLLARS account, ceiling25,000,000, opening0, protected0, charged0. Existing monthly model40 account untouched; worker has no new policy-creation right, no identity/grant changed. Sourcehashc1b03a8b6fe55ebcf47f90e32b0bbbc8a1fac3002bb81982bfd794bf6f8c91dc. Exactbefore/after:docs/runs/round-twenty-one-enrichment-account.json. Metadata-only KeyVault list-versions at18:14UTC confirmsanthropic-api-key absent; stub examples are not live enrichment.
+
+Owner steer2026-10-22: Anthropic key nowavailable; run liveenrichment onlywithinseparateUSD25 account. Reuse legacy exact declared DirectLake partition/connection continuation in newinvestigator; reportresolvedstartsdelta. Deliveredanswers withverification/attestationwarningsexit0; retain a smallBlobexitrecord(code,reason,laststep) and rerunA. Existingread-only/budgetguardsunchanged.

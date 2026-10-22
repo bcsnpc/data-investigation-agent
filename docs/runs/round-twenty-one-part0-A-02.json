@@ -1,0 +1,43 @@
+{
+  "run_id": "round21-part0-A-sealing-02",
+  "execution": "job-dia-worker-nayc8w6",
+  "azure_status": "Failed",
+  "delivery": "FINDINGS_SHARED",
+  "classification": "TRANSFORMATION_LOGIC",
+  "capture": {
+    "seal": "eb7cdeba8cd2ebdd4b3443b283459aaf8f698cfcf0d244f8fc52023874f2d028",
+    "record_count": 1294,
+    "selected_record_hashes_verified": true,
+    "azure_status": "Failed"
+  },
+  "verification": {
+    "capture_sha256": "a8b25ac62a72197b030fa677ff4da0fd59bd02b7016e6e7582d3e004055894d9",
+    "error": {
+      "errno": null,
+      "error_type": "ValueError",
+      "message": "NATIVE_DECLARED_ROUTE_NOT_VERIFIED"
+    },
+    "source_engine_revision": "7dd7077f324e83b045e8dbb4652b144978cd506f",
+    "status": "FAILED",
+    "verification_status": null
+  },
+  "handoff_warnings": [
+    {
+      "error_type": "ValueError",
+      "reason": "FRESH_VERIFICATION_APPROVAL_PIN_DIFFERS",
+      "stage": "revalidate-fresh-reader-proof"
+    },
+    {
+      "error_type": "ValueError",
+      "reason": "NO_VALID_READER_PROOF_FOR_SCOPE_CHECK",
+      "stage": "form-scope-handoff"
+    }
+  ],
+  "exit_cause": "UNESTABLISHED: execution replica/log API returns no replicas; Azure exposes no exit code",
+  "native_captures": 3,
+  "same_image_replay": "PENDING",
+  "observed_values": [
+    7661,
+    8765
+  ]
+}

@@ -194,6 +194,26 @@ def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     with scope():return _run(config,target,registry=registry,put=put,sleep=sleep,run_id=run_id)
 
 
+def delivery_exit(kind,result):
+    """Delivery, not READY/verification/attestation labels, decides ticket exit."""
+    if kind not in ('investigation','ledger-investigation','smoke'):
+        return 0,'CHECK_REPORT_DELIVERED'
+    if isinstance(result,dict):
+        outputs=result.get('outputs',{})
+        if result.get('verdict') and all(isinstance(outputs.get(k),str) and outputs[k] for k in ('business','technical')):
+            return 0,'ANSWER_DELIVERED'
+        demo=result.get('demo',{})
+        ticket=demo.get('ticket',{}) if isinstance(demo,dict) else {}
+        if ticket.get('state') in ('FINDINGS_SHARED','RESOLVED','CLOSED') and ticket.get('findings'):
+            return 0,'ANSWER_DELIVERED_WITH_LABELS' if result.get('handoff_warnings') or result.get('verification_label') else 'ANSWER_DELIVERED'
+        if result.get('status') in ('HELD','CLARIFYING','NEEDS_INPUT','NEW','FAILED','ERROR'):
+            return 1,'ANSWER_NOT_DELIVERED'
+        if result.get('status')=='DEMO_FINISHED':return 1,'ANSWER_NOT_DELIVERED'
+    # Non-ticket controls (including smoke without an earned demo) retain their
+    # existing report contract; an internal exception still exits non-zero.
+    return 0,'HANDLER_REPORT_DELIVERED'
+
+
 def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     started_at=time.time()
     check=config['checks'].get(target)
@@ -210,6 +230,7 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     validate_bootstrap_header(bootstrap);_safe(bytes_of(config))
     sink=put or blob_sink(config['capture'])
     ctx=DurableCapture(Path(config['output_root'])/run_id,sink,run_id=run_id,bootstrap=bootstrap)
+    last_step='admission'
     registry=registry or handlers()
     keys=('INVESTIGATOR_OPERATING_MODE','INVESTIGATOR_BUDGET_CATEGORY','INVESTIGATOR_WORKER_ID','DIA_STREAMING_CAPTURE')
     previous={key:os.environ.get(key) for key in keys}
@@ -256,13 +277,22 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
                         'investigation_executed':False}
                 ctx.record('admission-failure',result)
             else:
+                last_step=check['kind']
                 result=retry(perform,record=ctx.record,sleep=sleep)
             # Native result is durable independently of Tape.finish/export.
             ref=ctx.record('result',result)
+            exit_code,exit_reason=delivery_exit(check['kind'],result)
+            ctx.record('worker-exit',{'exit_code':exit_code,'reason':exit_reason,'last_step':last_step,
+                                     'result':ref,'stage':'EXIT_INTENT_BEFORE_FINAL_SEAL'})
             ctx.record('status',{'status':'COMPLETED','partial':False,'result':ref})
             ctx.seal()
-        return {'run_id':run_id,'status':'COMPLETED','result':result}
+        return {'run_id':run_id,'status':'COMPLETED','result':result,'exit_code':exit_code,'exit_reason':exit_reason}
     except BaseException as exc:
+        # Intent is durable even if publication/finalization fails. A platform
+        # kill before this point is distinguishable by the record's absence.
+        try:ctx.record('worker-exit',{'exit_code':1,'reason':'UNDELIVERED_EXCEPTION',
+                                   'error_type':type(exc).__name__,'last_step':last_step})
+        except Exception:pass
         ctx.fail(exc)
         raise
     finally:
@@ -300,7 +330,10 @@ def main(args):
             # exception chain print a provider body or credential to job logs.
             print(json.dumps({'status':'FAILED','error_type':type(exc).__name__}))
             return 1
-        print(json.dumps(result));return 0
+        # Full output already lives in the sealed capture. Do not serialize or
+        # expose provider/evidence bodies again during process shutdown.
+        print(json.dumps({k:result[k] for k in ('run_id','status','exit_code','exit_reason')}))
+        return result['exit_code']
     config=load(args.estate)
     if args.runtime=='local':
         # Same digest and entrypoint in the cloud. Mount only the explicitly selected

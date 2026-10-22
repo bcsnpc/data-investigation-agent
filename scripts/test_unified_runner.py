@@ -13,6 +13,24 @@ from investigator.process_tape import Tape,bytes_of
 HEADER={'entry_point':'runner','context_identity':'fixture-context','config':{},'profile':{},'usage_policy':None,'engine_hash':'fixture-engine','state':{}}
 
 class RunnerTests(unittest.TestCase):
+    def test_delivered_warning_answer_exits_zero_and_records_intent_in_seal(self):
+        from investigator.unified_runner import delivery_exit
+        answer={'status':'DEMO_FINISHED','demo':{'ticket':{'state':'FINDINGS_SHARED','findings':{'classification':'TRANSFORMATION_LOGIC'}}},
+                'verification_label':{'status':'NOT_VERIFIED'},'handoff_warnings':['ATTESTATION_LIMITED']}
+        self.assertEqual(delivery_exit('investigation',answer),(0,'ANSWER_DELIVERED_WITH_LABELS'))
+        with tempfile.TemporaryDirectory()as d:
+            config=self.config(Path(d));config['checks']={'answer':{'kind':'investigation','options':{}}};sent={}
+            result=run(config,'answer',registry={'investigation':lambda *_:answer},put=lambda k,v:sent.setdefault(k,v))
+            self.assertEqual(result['exit_code'],0)
+            exits=[(k,json.loads(v))for k,v in sent.items()if k.endswith('-worker-exit.json')]
+            self.assertEqual(len(exits),1);self.assertEqual(exits[0][1]['last_step'],'investigation')
+            manifest=json.loads(next(v for k,v in sent.items()if k.endswith('/run-record.json')))
+            self.assertIn(exits[0][0],[r['key']for r in manifest['records']])
+    def test_undelivered_ticket_exits_nonzero_but_not_found_answer_is_delivered(self):
+        from investigator.unified_runner import delivery_exit
+        for state in ('NEW','CLARIFYING','HELD'):
+            self.assertEqual(delivery_exit('investigation',{'status':'DEMO_FINISHED','demo':{'ticket':{'state':state}}})[0],1)
+        self.assertEqual(delivery_exit('ledger-investigation',{'verdict':'not found','outputs':{'business':'No supported cause.','technical':'Evidence gap.'}})[0],0)
     def test_failed_access_table_stops_before_handler_and_is_sealed(self):
         with tempfile.TemporaryDirectory() as d:
             config=self.config(Path(d));calls=[];sent=[]
