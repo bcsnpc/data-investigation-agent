@@ -43,6 +43,17 @@ class Timing(unittest.TestCase):
         timing.tape_event(SimpleNamespace(path='native'),{'kind':'PROVIDER_RESPONSE','at':99})
         self.assertIsNone(timing.summary()['phases']['model']['wall_seconds'])
         self.assertIsNone(timing.summary()['phases']['dependency_io']['wall_seconds'])
+    def test_failed_outer_run_publishes_partial_timing_and_retains_original_error(self):
+        from investigator.unified_runner import run
+        from test_unified_runner import RunnerTests
+        with tempfile.TemporaryDirectory() as directory:
+            config=RunnerTests().config(Path(directory));sent={}
+            def failed(*args):raise RuntimeError('synthetic original failure')
+            with self.assertRaisesRegex(RuntimeError,'synthetic original failure'):
+                run(config,'bronze',registry={'probe':failed},put=lambda key,raw:sent.setdefault(key,raw),sleep=lambda _:None)
+            timing=json.loads(next(raw for key,raw in sent.items() if key.endswith('/timing-summary.json')))
+            self.assertTrue(timing['partial']);self.assertIsNone(timing['run_record_seal'])
+            self.assertTrue(any(step['status']=='FAILED' for step in timing['steps']))
     def test_manual_demo_deadline_is_hour_and_respects_smaller_explicit_deadline(self):
         import os
         from cloud_runner_context import demo_state_admission

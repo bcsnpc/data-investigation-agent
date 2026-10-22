@@ -299,6 +299,8 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
                                    'error_type':type(exc).__name__,'last_step':last_step})
         except Exception:pass
         ctx.fail(exc)
+        try:ctx.publish_timing(None)
+        except Exception:pass # Timing cannot replace the original failed-run evidence.
         raise
     finally:
         if 'observer_token' in locals():READ_OBSERVER.reset(observer_token)
