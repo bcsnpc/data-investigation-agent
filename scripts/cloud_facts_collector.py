@@ -39,7 +39,9 @@ def execute(config):
     if os.environ.get('INVESTIGATOR_RECORDING_CLASS','EXACT')!='EXACT':raise ValueError('FACT_COLLECTOR_PROJECTED_CAPTURE_UNIMPLEMENTED')
     state=configured_state()
     if state is None or state.backend!='postgresql':raise ValueError('FACT_COLLECTOR_REQUIRES_SHARED_POSTGRESQL')
-    return collect(config,state=state)
+    from investigator.build_phase import operating_mode
+    with operating_mode(category='SCAN'):
+        return collect(config,state=state)
 
 
 def collect(config,*,state,http=None,sql=None,retain=None,meter=None,clock=None):

@@ -4,13 +4,13 @@ import hashlib
 from pathlib import Path
 import tempfile
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock,patch
 from investigator.adapters.runtime_facts_microsoft import MicrosoftRuntimeFacts,sql_request,refresh_due
 from investigator.adapters.metadata_error import MetadataUnavailable
 from investigator.live_gateway import validate_sql
 from investigator.shared_state import SharedState
 from investigator.estate_graph_repository import GraphRepository
-from cloud_facts_collector import collect
+from cloud_facts_collector import collect,execute
 from test_estate_graph import graph, T0, T1
 
 WS='149f8d99-1c66-4a0a-9624-759be002bb60';ITEM='3484a2bc-98c5-4cef-be5c-a6215484075e'
@@ -142,6 +142,15 @@ class MicrosoftFactsTests(unittest.TestCase):
     def test_no_receipt_no_fact(self):
         adapter,_=self.adapter();adapter.retain=lambda raw:None
         with self.assertRaisesRegex(ValueError,'RETAINED_RECEIPT'):adapter.list_changes(['visual'])
+
+    def test_live_entry_forces_shared_scan_category_even_inside_investigation_runner(self):
+        from investigator.build_phase import operating_mode,purpose
+        config={'estate':'estate','authentication':{},'storage':{},'receipt_uri_prefix':'blob://test','budget':{'environment':'test'},'subjects':{'visual':route()},'max_requests':2,'approval':'test'}
+        with operating_mode(category='INVESTIGATION'):
+            with patch('cloud_facts_collector.configured_state',return_value=Mock(backend='postgresql')):
+                with patch('cloud_facts_collector.collect',side_effect=lambda *a,**k:purpose()):
+                    self.assertEqual(execute(config),'SCAN')
+            self.assertEqual(purpose(),'INVESTIGATION')
 
     def test_standalone_runner_existing_graph_scopes_and_shared_budget_reporting(self):
         with tempfile.TemporaryDirectory() as folder:
