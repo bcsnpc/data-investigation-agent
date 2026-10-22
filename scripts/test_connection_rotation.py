@@ -1,5 +1,8 @@
 import copy
 import unittest
+from pathlib import Path
+import tempfile
+from unittest.mock import Mock
 from investigator.connection_rotation import rotate, RotationIncomplete
 
 
@@ -59,6 +62,29 @@ class Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'TARGETS_CHANGED'):
             rotate(a, {'targets': ['different']}, lambda _: None)
         self.assertEqual(a.calls, [])
+
+    def test_os_lock_prevents_overlapping_rotation_and_releases_without_delete(self):
+        from investigator.adapters.connection_rotation import rotation_lock, ControlFailure
+        with tempfile.TemporaryDirectory() as root:
+            p=Path(root)/'state.json'
+            with rotation_lock(p):
+                with self.assertRaisesRegex(ControlFailure,'ALREADY_RUNNING'):
+                    with rotation_lock(p,timeout=0):pass
+            with rotation_lock(p,timeout=0):pass
+            self.assertTrue(Path(str(p)+'.lock').exists())
+
+    def test_provider_failure_body_and_secret_are_not_rendered(self):
+        from investigator.adapters.connection_rotation import OwnerAdapter, ControlFailure
+        # Test only the transport seam: no identity, filesystem or network call.
+        owner=object.__new__(OwnerAdapter)
+        owner.calls=[]
+        owner.token=lambda *a,**k:'synthetic-token-never-log'
+        owner.transport=lambda *a,**k:Mock(ok=False,status_code=403,content=b'synthetic-secret-never-log')
+        with self.assertRaises(ControlFailure) as error:
+            owner.request('PATCH','https://example.invalid/connection','resource',{'secret':'synthetic-secret-never-log'})
+        self.assertEqual(str(error.exception),'CONTROL_HTTP_403')
+        self.assertNotIn('synthetic-secret',repr(owner.calls))
+        self.assertNotIn('synthetic-token',repr(owner.calls))
 
 
 if __name__ == '__main__': unittest.main()

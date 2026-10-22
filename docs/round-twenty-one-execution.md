@@ -7,3 +7,5 @@ Existing limits unchanged: USD40/month investigator model; 6000 physical request
 Part0 pending: incremental capture, same-image replay, permission map/check-access, approved fixed-connection credential rotation, monthly warnings, migration grants and smoke history. Historical failures remain immutable. No new estate refresh/job run is authorised, no investigator/scanner write rights or RLS impersonation.
 
 Offline core integrated: graph facts migration4, path-scoped reads and68-row access map; migration not yet applied. Rotation state machine5testsPASS. First integrated63-test pass refused TAPE_UNCOMMITTED_ENGINE for newly added rotation source; this is not a passing suite. Commit before replay/guard validation. Engine changes invalidate the prior freeze.
+
+Part0 migration control first pre-read failed LockNotAvailable: operator opened nested SharedState transactions, each advisory-locking separately. No DDL applied. Flattened permission reads onto the existing transaction; retrying same approved migration.

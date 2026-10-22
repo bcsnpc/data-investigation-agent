@@ -3,11 +3,13 @@
 No method from this module is registered with the investigator tool registry.
 """
 from datetime import datetime, timedelta, timezone
+from contextlib import contextmanager
 import json
 import os
 from pathlib import Path
 import re
 import subprocess
+import time
 from uuid import UUID
 
 import requests
@@ -15,6 +17,37 @@ import requests
 
 class ControlFailure(RuntimeError):
     pass
+
+
+@contextmanager
+def rotation_lock(path, timeout=5):
+    """OS-owned lock, released on crash. Lock file persists; no file deletion."""
+    with Path(str(path)+'.lock').open('a+b') as stream:
+        if stream.tell()==0:stream.write(b'0');stream.flush()
+        until=time.monotonic()+timeout
+        acquired=False
+        while not acquired:
+            try:
+                stream.seek(0)
+                if os.name=='nt':
+                    import msvcrt
+                    msvcrt.locking(stream.fileno(),msvcrt.LK_NBLCK,1)
+                else:
+                    import fcntl
+                    fcntl.flock(stream.fileno(),fcntl.LOCK_EX|fcntl.LOCK_NB)
+                acquired=True
+            except OSError:
+                if time.monotonic()>=until:raise ControlFailure('ROTATION_ALREADY_RUNNING') from None
+                time.sleep(.1)
+        try:yield
+        finally:
+            stream.seek(0)
+            if os.name=='nt':
+                import msvcrt
+                msvcrt.locking(stream.fileno(),msvcrt.LK_UNLCK,1)
+            else:
+                import fcntl
+                fcntl.flock(stream.fileno(),fcntl.LOCK_UN)
 
 
 def validate(config):
@@ -112,6 +145,8 @@ class OwnerAdapter:
                  'tags':{'purpose':'fixture-billing-fixed-readonly','ownerApproval':self.c['owner_approval'],'keyId':created['keyId']}})
             if stored.pop('value')!=secret:raise ControlFailure('VAULT_WRITE_READBACK_DIFFERS')
             ref=stored['id']
+            if not ref.startswith(self.c['vault_url']+'/secrets/'+self.c['secret_name']+'/'):
+                raise ControlFailure('VAULT_RETURNED_REFERENCE_DIFFERS')
             read=self.request('GET',ref+'?api-version=7.4','https://vault.azure.net')
             if read.pop('value')!=secret:raise ControlFailure('VAULT_READBACK_DIFFERS')
             return {'key_id':created['keyId'],'store_reference':ref,'expires_at_utc':created['endDateTime']}
@@ -152,6 +187,12 @@ def execute(path, *, apply=False):
     if not apply:return {'status':'PLAN','targets':sorted(config['targets']),'days':30,
         'old_credential_removed_only_after_both_reads':True,'owner_approval':config['owner_approval']}
     checkpoint=Path(config['checkpoint']); checkpoint.parent.mkdir(parents=True,exist_ok=True)
+    with rotation_lock(checkpoint):
+        return _apply(config,checkpoint)
+
+
+def _apply(config,checkpoint):
+    from ..connection_rotation import rotate
     state=json.loads(checkpoint.read_bytes()) if checkpoint.exists() else {}
     # No silent duplicate when a crash occurred between addPassword and vault.
     if not state.get('new_credential') and Path(config['checkpoint']+'.created-key.json').exists():
