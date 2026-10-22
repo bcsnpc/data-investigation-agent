@@ -90,6 +90,18 @@ class Assembly(unittest.TestCase):
         self.assertEqual(result['verdict'],'not found')
         self.assertEqual(result['stop_reason'],'TICKET_BUDGET_REACHED')
         reader.assert_not_called()
+    def test_top_up_only_requested_admitted_subjects_and_scan_category(self):
+        from investigator.build_phase import purpose
+        config={'estate':'fixture','subjects':{'job':{},'other':{}},'key_tables':['other']}
+        def collect(config,**kwargs):
+            self.assertEqual(set(config['subjects']),{'job'});self.assertEqual(config['key_tables'],[])
+            self.assertEqual(purpose(),'SCAN')
+            return {'collection':{'status':'COLLECTED'},'physical_requests':2}
+        with patch('cloud_facts_collector.validate',side_effect=lambda value:value),patch('cloud_facts_collector.collect',collect):
+            collector=worker.PathCollector(config,object(),['job'],lambda value:None)
+            self.assertEqual(collector.run('fixture',['job'],now='2026-10-22T00:00:00Z',force=True)['purpose'],'SCAN')
+            with self.assertRaisesRegex(ValueError,'OUTSIDE_PATH'):
+                collector.run('fixture',['other'],now='2026-10-22T00:00:00Z')
 
 
 if __name__=='__main__':unittest.main()

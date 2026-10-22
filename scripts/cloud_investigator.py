@@ -43,7 +43,7 @@ def specification(options):
     if set(options)!={'spec'}:raise ValueError('INVESTIGATOR_RUNNER_OPTIONS')
     spec=json.loads(reference(options['spec'],maximum=250000).read_bytes())
     required={'ticket','graph','budget','max_requests','model_enabled','generation_options','step_cap','wall_seconds','warnings'}
-    if not isinstance(spec,dict) or not required<=set(spec)<=required|{'native'}:raise ValueError('INVESTIGATOR_SPEC_FIELDS')
+    if not isinstance(spec,dict) or not required<=set(spec)<=required|{'native','collector'}:raise ValueError('INVESTIGATOR_SPEC_FIELDS')
     graph=spec['graph']
     if (not isinstance(graph,dict) or set(graph)!={'estate','identity','allowed_objects'}
             or not isinstance(graph['allowed_objects'],list) or not 1<=len(graph['allowed_objects'])<=200
@@ -63,6 +63,13 @@ class JournalGraph:
     METHODS=frozenset({'_slice','path_to_source','node_facts','definition_of','freshness','visual_context','filters_on','table_columns','definition_diff','refresh_facts'})
     def __init__(self,graph,*,at=None):self.graph,self.at=graph,at
     def as_of(self,at):return JournalGraph(self.graph,at=at)
+    def refresh_facts(self,path,collector,**kwargs):
+        from investigator.process_tape import bounded_call
+        def live():
+            if self.graph is None:raise AssertionError('INVESTIGATOR_REPLAY_GRAPH_IO_FORBIDDEN')
+            return self.graph.refresh_facts(path,collector,**kwargs)
+        # A trusted producer is a runtime port, never serializable ticket data.
+        return bounded_call('ledger-investigator-graph:refresh_facts',{'at':self.at,'path':path,'kwargs':kwargs},live)
     def __getattr__(self,name):
         if name not in self.METHODS:raise AttributeError(name)
         def call(*args,**kwargs):
@@ -73,6 +80,29 @@ class JournalGraph:
                 return getattr(source,name)(*args,**kwargs)
             return bounded_call('ledger-investigator-graph:'+name,{'at':self.at,'args':list(args),'kwargs':kwargs},live)
         return call
+
+
+class PathCollector:
+    """Installed metadata top-up restricted to this admitted ticket's subjects."""
+    def __init__(self,config,state,allowed,retain):
+        from cloud_facts_collector import validate
+        self.config=validate(config);self.state=state;self.allowed=frozenset(allowed);self.retain=retain
+    def run(self,estate,subjects,*,now,force=False):
+        if estate!=self.config['estate'] or not set(subjects)<=self.allowed:raise ValueError('INVESTIGATOR_COLLECTOR_OUTSIDE_PATH')
+        selected=sorted(set(subjects)&set(self.config['subjects']))
+        missing=sorted(set(subjects)-set(selected))
+        if not selected:return {'status':'UNAVAILABLE','subjects':[],'unsupported_subjects':missing,'facts':[]}
+        import copy
+        from cloud_facts_collector import collect
+        from investigator.build_phase import operating_mode
+        config=copy.deepcopy(self.config);config['subjects']={key:config['subjects'][key] for key in selected}
+        config['key_tables']=[key for key in config.get('key_tables',[]) if key in selected]
+        config['max_subjects_per_wake']=len(selected)
+        if force:config['list_interval_seconds']=1
+        with operating_mode(category='SCAN'):
+            result=collect(config,state=self.state,clock=lambda:now)
+        self.retain({'event':'INVESTIGATOR_PATH_FACT_TOP_UP','result':result,'unsupported_subjects':missing})
+        return {**result['collection'],'unsupported_subjects':missing,'purpose':'SCAN','physical_requests':result['physical_requests']}
 
 
 def execute(plan,context):
@@ -121,13 +151,16 @@ def execute(plan,context):
     prior_record=os.environ.get('INVESTIGATOR_RECORD_PLANNER');os.environ['INVESTIGATOR_RECORD_PLANNER']='1'
     try:
         with journal.active(tape),guard_scope(lambda value:context.record('investigator-guard',value)):
-            graph=JournalGraph(graph_live);decision=None;values=None;checks=None
+            graph=JournalGraph(graph_live);decision=None;values=None;checks=None;collector=None
             def admit(kind,step):
                 if time.monotonic()>=deadline:
                     from investigator.usage_governance import UsageHold
                     raise UsageHold('INVESTIGATOR_RUN_DEADLINE')
             if spec['model_enabled']:
                 decision=AzureDecision(governor,session=session,directory=work/'planner-recordings',retain=retain,options=spec['generation_options'])
+            if 'collector' in spec:
+                collector=PathCollector(json.loads(reference(spec['collector'],maximum=250000).read_bytes()),state,
+                                        graph_spec['allowed_objects'],retain)
             if 'native' in spec:
                 native=spec['native']
                 if set(native)!={'model','context','catalog','inventory','endpoints','measure_id'}:raise ValueError('INVESTIGATOR_NATIVE_INPUT_FIELDS')
@@ -165,7 +198,7 @@ def execute(plan,context):
             settings={**manifest['model']['credential'],'endpoint':manifest['model']['endpoint'],'deployment':manifest['model']['deployment']}
             with model_session(settings) if decision else nullcontext():
                 result=run(call_plan,context,graph=graph,ledger=FactLedger(state),value_reader=values,
-                           decide=decision,admit=admit,checks=checks,now=now)
+                           decide=decision,admit=admit,checks=checks,collector=collector,now=now)
             result.update(physical_requests=meter.used,before=meter.before,after=meter.usage.snapshot(),
                           model_calls=decision.calls if decision else 0)
             tape.finish(result)
