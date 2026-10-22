@@ -70,6 +70,12 @@ class RetainedContinuationTests(unittest.TestCase):
         self.context['report_bindings']['report']='model';self.pin['context_hash']=c.digest(self.context)
         self.current.allowed={self.visual}
         with self.assertRaisesRegex(PermissionError,'OUTSIDE_ADMITTED_SLICE'):self.view()
+    def test_source_connection_boundary_keeps_existing_static_owner_identity(self):
+        from investigator.adapters.retained_graph_continuation import _owner
+        assets={'connection':{'id':'connection','kind':'SourceConnection','parent_id':None},
+                'table':{'id':'table','kind':'SourceTable','parent_id':'connection'}}
+        self.assertEqual(_owner('table',assets),'table')
+
     def test_no_undeclared_or_unresolved_native_layer(self):
         self.path['layers'][1]['binding']['status']='AMBIGUOUS'
         with self.assertRaisesRegex(ValueError,'DECLARED_SOURCE_REQUIRED'):self.view()

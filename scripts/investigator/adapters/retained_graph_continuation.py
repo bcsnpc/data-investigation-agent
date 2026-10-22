@@ -4,7 +4,6 @@ Only trusted assembly may install this view. Native resolution is reused verbati
 no discovery, model proposal, label similarity or current-owner fallback occurs.
 """
 import copy
-from urllib.parse import unquote
 from .. import estate_graph_contract as c
 
 
@@ -27,7 +26,7 @@ def _owner(asset_id, assets):
     current=asset_id; seen=set()
     while current in assets and current not in seen:
         seen.add(current); parent=assets[current].get('parent_id')
-        if not parent or parent not in assets or assets[parent].get('kind')=='Workspace':return current
+        if not parent or parent not in assets or assets[parent].get('kind') in ('Workspace','SourceConnection'):return current
         current=parent
     raise ValueError('RETAINED_ASSET_OWNER_NOT_DECLARED')
 
