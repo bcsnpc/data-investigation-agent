@@ -217,6 +217,9 @@ class MicrosoftRuntimeFacts:
         if route is None:
             proof=self._retain({'node':node,'operation':'PROFILE_DECLARATION'},{'status':'UNAVAILABLE','reason':'NO_DECLARED_PROFILE_SQL_ROUTE'})
             return self._gap(node,'TABLE_PROFILE','NO_DECLARED_PROFILE_SQL_ROUTE',now,[proof])
+        metadata=route.get('metadata_evidence_ids',[])
+        if not isinstance(metadata,list) or any(not isinstance(e,str) or not re.fullmatch(r'sha256:[a-f0-9]{64}',e) for e in metadata):
+            raise ValueError('FACT_PROFILE_METADATA_EVIDENCE')
         rows,proof,error=self._sql(route,'profile')
         if error:return self._gap(node,'TABLE_PROFILE',error,now,[proof])
         if len(rows)!=1:return self._gap(node,'TABLE_PROFILE','PROFILE_AGGREGATE_NOT_SINGLE_ROW',now,[proof])
@@ -224,7 +227,8 @@ class MicrosoftRuntimeFacts:
         return observation(node,'TABLE_PROFILE',{'load_marker':load_marker,'row_count':_count(row['row_count']),
             'checksum':encoded({key:val for key,val in row.items() if key!='row_count'}),
             'checksum_method':'SUM_SHA256_64_PER_DECLARED_COLUMN_SQL_TEXT_REPRESENTATION_NOT_EQUALITY_PROOF',
-            'key_columns':route['key_columns']},now,[proof],self.identity)
+            'key_columns':route['key_columns'],'key_uniqueness':'NOT_CLAIMED',
+            'schema_metadata_evidence_ids':metadata},now,[proof,*metadata],self.identity)
 
 
 def _count(value):

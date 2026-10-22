@@ -124,7 +124,8 @@ class MicrosoftFactsTests(unittest.TestCase):
         self.assertIn('NO_DECLARED_AUDIT_OR_DELTA',value['reason'])
 
     def test_profiles_actual_aggregates_compile_under_existing_sql_guard(self):
-        profile={'reader':'r','connection':'example','database':'ops','schema':'dbo','table':'movements','principal':'reader-principal','key_columns':['id','units']}
+        profile={'reader':'r','connection':'example','database':'ops','schema':'dbo','table':'movements','principal':'reader-principal','key_columns':['id','units'],
+            'metadata_evidence_ids':['sha256:'+'a'*64]}
         request=sql_request(profile,'profile')
         self.assertEqual(validate_sql(request['query'],{('dbo','movements')}),{('dbo','movements')})
         self.assertIn('COUNT_BIG(*)',request['query']);self.assertIn('HASHBYTES',request['query'])
@@ -134,6 +135,13 @@ class MicrosoftFactsTests(unittest.TestCase):
         self.assertEqual(value['value']['row_count'],360)
         self.assertIn('NOT_EQUALITY_PROOF',value['value']['checksum_method'])
         self.assertEqual(value['provenance']['evidence_ids'][0][:7],'sha256:')
+        self.assertIn('sha256:'+'a'*64,value['provenance']['evidence_ids'])
+        self.assertEqual(value['value']['key_uniqueness'],'NOT_CLAIMED')
+
+    def test_profile_metadata_provenance_rejects_unsealed_reference(self):
+        r=route('TABLE');r['profile']={'metadata_evidence_ids':['invented metadata']}
+        adapter,_=self.adapter({'visual':r})
+        with self.assertRaisesRegex(ValueError,'METADATA_EVIDENCE'):adapter.profile('visual',load_marker='load1',now=T1)
 
     def test_profile_query_identifier_injection_refused(self):
         with self.assertRaisesRegex(ValueError,'IDENTIFIER'):

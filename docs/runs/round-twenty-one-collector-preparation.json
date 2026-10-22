@@ -10,11 +10,29 @@
         "MODEL": 1,
         "TABLE": 1
       },
-      "configured_key_tables": 0,
-      "profile_gap": "No key columns guessed. Exact declared key_columns required before per-load checksums.",
-      "config_sha256": "c3b9ebe4316ede9dc8733e68614fa14e74622c850a2a3243631ce926a4b7a23b",
+      "configured_key_tables": 1,
+      "profile_gap": null,
+      "config_sha256": "765358b1c6bd4e8b0342edb93d5ced480ff7a611866f8dacfc497c300daf0a16",
       "source": "current retained graph IDs; no estate collection",
-      "live_status": "PREPARED_NOT_EXECUTED"
+      "live_status": "PREPARED_NOT_EXECUTED",
+      "profile_declaration": {
+        "subject": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+        "database": "round_two_bronze_20261003",
+        "schema": "dbo",
+        "table": "stock_movements_round_two_20261003",
+        "checksum_columns": [
+          "movement_id",
+          "warehouse_id",
+          "product_id",
+          "units",
+          "event_day",
+          "movement_type"
+        ],
+        "key_uniqueness": "NOT_CLAIMED",
+        "definition_sha256": "ec45d792a5e5f2d5c4bd2a04f33e4e5396583c1820af85c2f99f7722d124eaab",
+        "database_source": "docs/runs/R3-final-baseline-reader-verification.json; retained prior native SQL endpoint self-report; new query must freshly attest existing investigator identity",
+        "confidence": "OBSERVATIONS_NOT_EQUALITY_PROOF"
+      }
     },
     {
       "estate": "billing",

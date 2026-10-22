@@ -121,3 +121,15 @@ without declared keys, the key-table list remains empty and row-count/checksum
 coverage unavailable. SQL endpoint modify time never substitutes for load
 history. Application SQL and the legacy lakehouse audit are not silently added
 as routes. Partial selected coverage is not whole-estate coverage.
+
+Preparation update: the owner-selected six checksum columns for fixture landing
+are now configured from retained metadata SHA
+`ec45d792a5e5f2d5c4bd2a04f33e4e5396583c1820af85c2f99f7722d124eaab`:
+movement_id, warehouse_id, product_id, units, event_day, movement_type. Schema
+and table names come from the same definition. The SQL database name is the
+retained native self-report in `docs/runs/R3-final-baseline-reader-verification.json`,
+not a transformation of a lakehouse catalog label. The next live read must
+freshly attest the existing investigator principal. This adds one configured
+fixture profile, not a collected profile or a uniqueness assertion. Billing and
+sample still have no declared profile keys. The updated preparation summary
+records this delta and the new private configuration hash.
