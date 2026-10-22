@@ -14,7 +14,7 @@ from .planner_recording import _safe
 from .run_capture import DurableCapture,blob_sink
 
 VERSION='dia-runner-estate-v1'
-KINDS=frozenset({'investigation','verification','probe','scan','replay','prepare','smoke','authorization-check','value-verification','collect-facts'})
+KINDS=frozenset({'investigation','verification','probe','scan','replay','prepare','smoke','authorization-check','value-verification','collect-facts','access-check'})
 PUBLIC_ENV=frozenset(('DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JSON',
     'INVESTIGATOR_STATE_BACKEND','INVESTIGATOR_PG_HOST','INVESTIGATOR_PG_DATABASE','INVESTIGATOR_PG_USER',
     'AZURE_CLIENT_ID','DIA_GATEWAY_HTTP_IDENTITY','DIA_GATEWAY_SQL_IDENTITY','DIA_GATEWAY_MODEL_IDENTITY',
@@ -73,6 +73,9 @@ def retry(call,*,record,sleep=time.sleep):
             sleep(30+15*attempt)
 
 def handlers():
+    def access_result(plan,ctx):
+        if plan['options']:raise ValueError('ACCESS_CHECK_RUNNER_OPTIONS')
+        return ctx.access_result
     def collect_facts(plan,ctx):
         from cloud_facts_collector import execute
         if set(plan['options'])!={'config'}:raise ValueError('FACT_COLLECTOR_RUNNER_OPTIONS')
@@ -177,7 +180,7 @@ def handlers():
         demo=(lambda:investigation({**plan,'options':o['demo']},ctx)) if o['config']['demo_earned'] else None
         try:return run_smoke(o['config'],ctx,state=state,gold_read=gold,blob_roundtrip=lambda body:capture_roundtrip(ctx,body),demo=demo)
         finally:meter.close()
-    return {'verification':verification,'investigation':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke,'authorization-check':authorization_check,'value-verification':value_verification,'collect-facts':collect_facts}
+    return {'verification':verification,'investigation':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke,'authorization-check':authorization_check,'value-verification':value_verification,'collect-facts':collect_facts,'access-check':access_result}
 
 def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     from .run_database_audits import scope
@@ -223,6 +226,7 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
             if check['kind'] != 'replay':
                 from .access_check import configured as check_access
                 access = ctx.step('check-access', lambda: check_access(config.get('access_check')))
+                ctx.access_result=access
                 # Build-phase admission mismatches warn. The gateway/read-only
                 # exceptions propagate; verification and tenant-only warnings
                 # cannot turn into capability refusals here.

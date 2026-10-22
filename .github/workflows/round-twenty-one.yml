@@ -16,4 +16,4 @@ jobs:
       - name: Synthetic access, ledger and owner-control contracts
         env:
           PYTHONPATH: scripts
-        run: python -m unittest test_access_check test_connection_rotation test_facts_ledger test_runtime_facts_microsoft test_smoke_run_bound_capture -v
+        run: python -m unittest test_access_check test_access_budget_policy test_connection_rotation test_facts_ledger test_runtime_facts_microsoft test_smoke_run_bound_capture -v

@@ -5,6 +5,19 @@ from investigator.adapters.access_probes import LiveProbes,ProbeFailure
 
 
 class Tests(unittest.TestCase):
+    def test_access_audit_returns_actual_preflight_without_duplicate_reads(self):
+        from investigator.unified_runner import handlers
+        from types import SimpleNamespace
+        table={'status':'INCOMPLETE','rows':[{'status':'NOT_TESTABLE'}]}
+        self.assertIs(handlers()['access-check']({'options':{}},SimpleNamespace(access_result=table)),table)
+
+    def test_unavailable_identity_is_not_a_failed_permission_or_owner_substitution(self):
+        from investigator.access_check import check
+        from test_access_check import mapping
+        result=check(mapping(),bindings={'probes':{'model':{'url':'https://example.invalid'}}})
+        self.assertEqual(result['rows'][0]['status'],'NOT_TESTABLE')
+        self.assertEqual(result['rows'][0]['reason'],'ACTUAL_IDENTITY_NOT_BOUND_NO_OWNER_FALLBACK')
+
     def run_probe(self, exists):
         db=Mock()
         db.execute.side_effect=[Mock(fetchone=lambda:('investigator','id-dia-worker','on',True)),

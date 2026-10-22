@@ -45,7 +45,9 @@ class LiveProbes:
         if not binding:
             raise NotTestable('NO_ACTUAL_IDENTITY_PROBE_BINDING')
         authentication = self.bindings.get('identities', {}).get(row['identity'])
-        if (not authentication or not identity.get('principal_id')
+        if not authentication:
+            raise NotTestable('ACTUAL_IDENTITY_NOT_BOUND_NO_OWNER_FALLBACK')
+        if (not identity.get('principal_id')
                 or authentication.get('principal_id') != identity['principal_id']):
             raise ProbeFailure('ACTUAL_IDENTITY_BINDING_MISMATCH')
         # Managed/federated providers verify the audience, tenant and principal

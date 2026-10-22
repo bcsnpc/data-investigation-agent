@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 TEST_MODULES = (
     'test_streaming_tape.py', 'test_smoke_run_bound_capture.py',
     'test_connection_rotation.py', 'test_facts_ledger.py', 'test_runtime_facts_microsoft.py',
+    'test_access_budget_policy.py',
     'test_live_gateway.py', 'test_tape_decoders.py', 'test_model_transport_retry.py',
     'test_keyed_readback.py', 'test_native_diagnostics.py',
     'test_budget_tape_contract.py', 'test_provider_tape_contract.py', 'test_ticket_protocol.py',
