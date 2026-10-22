@@ -1,0 +1,14 @@
+{
+  "matched": true,
+  "outcome": "TRANSFORMATION_LOGIC",
+  "network_requests": 0,
+  "replay_engine_revision": "89785fca577c1f0740a7eb9bebce7d9feb3bf2f6",
+  "recorded_engine_hash": "7bb018a313d1a1e95b81fc8b45d29d3f9eb5c033244c518951c5c25814ba7e98",
+  "replay_engine_hash": "7bb018a313d1a1e95b81fc8b45d29d3f9eb5c033244c518951c5c25814ba7e98",
+  "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+  "run_id": "round21-A02-replay-complete-input-2",
+  "seal": "166f75b172e80e7e56bf1b499d8efaae037bc8036cae878a15d37aa6cabd9e9b",
+  "original_replay": "2/3 matched; capture2 failed missing endpoint dependency",
+  "repair": "new input ZIP adds identical sealed endpoint bytes only; tape unchanged",
+  "endpoint_sha256": "b2705269319477d4e7f52e0ce307d531135af28524218f4ff56decb7b380ccd3"
+}

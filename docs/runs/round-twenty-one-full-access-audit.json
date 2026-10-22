@@ -1,0 +1,1282 @@
+{
+  "checked_at": "2026-10-22T18:49:38.773687+00:00",
+  "counts": {
+    "FAIL": 4,
+    "NOT_TESTABLE": 34,
+    "PASS": 39
+  },
+  "rows": [
+    {
+      "action": "list/read workspace items",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "response_sha256": "e1408964d17c85d79855ca258c11c18bc56b21096265fda5141b058c1b8cfdc6",
+          "status": 200,
+          "transport": "HTTP"
+        },
+        "resource": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60"
+      },
+      "id": "fixture-workspace",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60",
+      "status": "PASS"
+    },
+    {
+      "action": "read definitions via approved metadata APIs",
+      "id": "fixture-definitions",
+      "identity": "scanner",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "connect and self-report explicit database",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "limitation": "Connection and login only, not table SELECT permission.",
+          "surface_report": {
+            "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+            "object": "warehouse_bronze_e1b8e1"
+          },
+          "transport": "SQL_SELF_REPORT"
+        },
+        "resource": "fixture/bronze/declared-sql-endpoint"
+      },
+      "id": "fixture-bronze-sql",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "fixture/bronze/declared-sql-endpoint",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT on explicitly declared objects",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Only the explicitly bound object is tested; no schema-wide inference.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "execution_identity": {
+            "database": "warehouse_bronze_e1b8e1",
+            "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+            "provenance": "TRANSPORT_PERMISSION_CHECK",
+            "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+          },
+          "object": "[dbo].[stock_movements_e1b8e1]",
+          "read_only_verified": true,
+          "transport": "GUARDED_SQL"
+        },
+        "resource": "fixture/bronze/declared-objects"
+      },
+      "id": "fixture-bronze-select",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "fixture/bronze/declared-objects",
+      "status": "PASS"
+    },
+    {
+      "action": "connect and self-report explicit database",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "limitation": "Connection and login only, not table SELECT permission.",
+          "surface_report": {
+            "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+            "object": "warehouse_silver_e1b8e1"
+          },
+          "transport": "SQL_SELF_REPORT"
+        },
+        "resource": "fixture/silver/declared-sql-endpoint"
+      },
+      "id": "fixture-silver-sql",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "fixture/silver/declared-sql-endpoint",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT on explicitly declared objects",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Only the explicitly bound object is tested; no schema-wide inference.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "execution_identity": {
+            "database": "warehouse_silver_e1b8e1",
+            "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+            "provenance": "TRANSPORT_PERMISSION_CHECK",
+            "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+          },
+          "object": "[dbo].[stock_movements_e1b8e1]",
+          "read_only_verified": true,
+          "transport": "GUARDED_SQL"
+        },
+        "resource": "fixture/silver/declared-objects"
+      },
+      "id": "fixture-silver-select",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "fixture/silver/declared-objects",
+      "status": "PASS"
+    },
+    {
+      "action": "connect and self-report explicit database",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "limitation": "Connection and login only, not table SELECT permission.",
+          "surface_report": {
+            "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+            "object": "warehouse_gold_e1b8e1"
+          },
+          "transport": "SQL_SELF_REPORT"
+        },
+        "resource": "fixture/gold/declared-sql-endpoint"
+      },
+      "id": "fixture-gold-sql",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "fixture/gold/declared-sql-endpoint",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT on explicitly declared objects",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Only the explicitly bound object is tested; no schema-wide inference.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "execution_identity": {
+            "database": "warehouse_gold_e1b8e1",
+            "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+            "provenance": "TRANSPORT_PERMISSION_CHECK",
+            "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+          },
+          "object": "[dbo].[movement_values]",
+          "read_only_verified": true,
+          "transport": "GUARDED_SQL"
+        },
+        "resource": "fixture/gold/declared-objects"
+      },
+      "id": "fixture-gold-select",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "fixture/gold/declared-objects",
+      "status": "PASS"
+    },
+    {
+      "action": "list/read workspace items",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "response_sha256": "bb867fd56f4cd09aaa1781867b351e782d4f947229ba94c49d00e2155b4066a4",
+          "status": 200,
+          "transport": "HTTP"
+        },
+        "resource": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa"
+      },
+      "id": "billing-workspace",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa",
+      "status": "PASS"
+    },
+    {
+      "action": "read definitions via approved metadata APIs",
+      "id": "billing-definitions",
+      "identity": "scanner",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "connect and self-report explicit database",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "limitation": "Connection and login only, not table SELECT permission.",
+          "surface_report": {
+            "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+            "object": "billing_serving"
+          },
+          "transport": "SQL_SELF_REPORT"
+        },
+        "resource": "billing/bronze/declared-sql-endpoint"
+      },
+      "id": "billing-bronze-sql",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "billing/bronze/declared-sql-endpoint",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT on explicitly declared objects",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Only the explicitly bound object is tested; no schema-wide inference.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "execution_identity": {
+            "database": "billing_serving",
+            "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+            "provenance": "TRANSPORT_PERMISSION_CHECK",
+            "server": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com"
+          },
+          "object": "[bronze].[plans]",
+          "read_only_verified": true,
+          "transport": "GUARDED_SQL"
+        },
+        "resource": "billing/bronze/declared-objects"
+      },
+      "id": "billing-bronze-select",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "billing/bronze/declared-objects",
+      "status": "PASS"
+    },
+    {
+      "action": "connect and self-report explicit database",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "limitation": "Connection and login only, not table SELECT permission.",
+          "surface_report": {
+            "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+            "object": "billing_serving"
+          },
+          "transport": "SQL_SELF_REPORT"
+        },
+        "resource": "billing/silver/declared-sql-endpoint"
+      },
+      "id": "billing-silver-sql",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "billing/silver/declared-sql-endpoint",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT on explicitly declared objects",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Only the explicitly bound object is tested; no schema-wide inference.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "execution_identity": {
+            "database": "billing_serving",
+            "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+            "provenance": "TRANSPORT_PERMISSION_CHECK",
+            "server": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com"
+          },
+          "object": "[silver].[invoices]",
+          "read_only_verified": true,
+          "transport": "GUARDED_SQL"
+        },
+        "resource": "billing/silver/declared-objects"
+      },
+      "id": "billing-silver-select",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "billing/silver/declared-objects",
+      "status": "PASS"
+    },
+    {
+      "action": "connect and self-report explicit database",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "limitation": "Connection and login only, not table SELECT permission.",
+          "surface_report": {
+            "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+            "object": "billing_serving"
+          },
+          "transport": "SQL_SELF_REPORT"
+        },
+        "resource": "billing/gold/declared-sql-endpoint"
+      },
+      "id": "billing-gold-sql",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "billing/gold/declared-sql-endpoint",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT on explicitly declared objects",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Only the explicitly bound object is tested; no schema-wide inference.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "execution_identity": {
+            "database": "billing_serving",
+            "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+            "provenance": "TRANSPORT_PERMISSION_CHECK",
+            "server": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com"
+          },
+          "object": "[gold].[account_plan_history]",
+          "read_only_verified": true,
+          "transport": "GUARDED_SQL"
+        },
+        "resource": "billing/gold/declared-objects"
+      },
+      "id": "billing-gold-select",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "billing/gold/declared-objects",
+      "status": "PASS"
+    },
+    {
+      "action": "list/read workspace items",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "response_sha256": "25e2272137e22e33dd7cc5a749ab277c35bf5fb65b241ea8b78b34c28f84c26e",
+          "status": 200,
+          "transport": "HTTP"
+        },
+        "resource": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0"
+      },
+      "id": "rebuilt-workspace",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0",
+      "status": "PASS"
+    },
+    {
+      "action": "read definitions via approved metadata APIs",
+      "id": "rebuilt-definitions",
+      "identity": "scanner",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "connect and self-report explicit database",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "limitation": "Connection and login only, not table SELECT permission.",
+          "surface_report": {
+            "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+            "object": "rehearsal_bronze_20261008"
+          },
+          "transport": "SQL_SELF_REPORT"
+        },
+        "resource": "rebuilt/bronze/declared-sql-endpoint"
+      },
+      "id": "rebuilt-bronze-sql",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "rebuilt/bronze/declared-sql-endpoint",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT on explicitly declared objects",
+      "id": "rebuilt-bronze-select",
+      "identity": "investigator",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "rebuilt/bronze/declared-objects",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "connect and self-report explicit database",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "limitation": "Connection and login only, not table SELECT permission.",
+          "surface_report": {
+            "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+            "object": "rehearsal_silver_20261008"
+          },
+          "transport": "SQL_SELF_REPORT"
+        },
+        "resource": "rebuilt/silver/declared-sql-endpoint"
+      },
+      "id": "rebuilt-silver-sql",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "rebuilt/silver/declared-sql-endpoint",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT on explicitly declared objects",
+      "id": "rebuilt-silver-select",
+      "identity": "investigator",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "rebuilt/silver/declared-objects",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "connect and self-report explicit database",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "limitation": "Connection and login only, not table SELECT permission.",
+          "surface_report": {
+            "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+            "object": "rehearsal_gold_20261008"
+          },
+          "transport": "SQL_SELF_REPORT"
+        },
+        "resource": "rebuilt/gold/declared-sql-endpoint"
+      },
+      "id": "rebuilt-gold-sql",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "rebuilt/gold/declared-sql-endpoint",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT on explicitly declared objects",
+      "id": "rebuilt-gold-select",
+      "identity": "investigator",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "rebuilt/gold/declared-objects",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "ReadExplore: constant DAX query",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "response_sha256": "bab3413b1bb22a326f2eaaa5ffb569d6df9ec0781ffef980d81f471ca8330f04",
+          "status": 200,
+          "transport": "HTTP"
+        },
+        "resource": "powerbi://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "id": "fixture-dax",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "powerbi://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e",
+      "status": "PASS"
+    },
+    {
+      "action": "ShareableCloud / ServicePrincipal / SSO None",
+      "id": "fixture-fixed-connection",
+      "identity": "fabric-owner",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "fabric-connection://2f322058-f720-40a0-bd1e-d174b8e7f5da",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "existing model fixed-identity use",
+      "id": "fixture-connection-use",
+      "identity": "investigator",
+      "reason": "No separate connection grant inferred; successful model DAX probes actual model route",
+      "resource": "fabric-connection://2f322058-f720-40a0-bd1e-d174b8e7f5da",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "ReadExplore: constant DAX query",
+      "evidence": {
+        "identity": "investigator",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "receipt": {
+          "response_sha256": "bab3413b1bb22a326f2eaaa5ffb569d6df9ec0781ffef980d81f471ca8330f04",
+          "status": 200,
+          "transport": "HTTP"
+        },
+        "resource": "powerbi://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188"
+      },
+      "id": "billing-dax",
+      "identity": "investigator",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "powerbi://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+      "status": "PASS"
+    },
+    {
+      "action": "ShareableCloud / ServicePrincipal / SSO None",
+      "id": "billing-fixed-connection",
+      "identity": "fabric-owner",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "fabric-connection://5099b9ff-1f27-488c-98c5-01c030dc4f3c",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "existing model fixed-identity use",
+      "id": "billing-connection-use",
+      "identity": "investigator",
+      "reason": "No separate connection grant inferred; successful model DAX probes actual model route",
+      "resource": "fabric-connection://5099b9ff-1f27-488c-98c5-01c030dc4f3c",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "connect and self-report explicit database",
+      "id": "ordersops-app-connect",
+      "identity": "investigator-source",
+      "reason": "SURFACE_UNREACHABLE",
+      "resource": "sql-orderops-9696025.database.windows.net/ordersops",
+      "status": "FAIL"
+    },
+    {
+      "action": "db_datareader; VIEW DEFINITION on declared objects",
+      "id": "ordersops-app-select",
+      "identity": "investigator-source",
+      "reason": "RuntimeError",
+      "resource": "sql-orderops-9696025.database.windows.net/ordersops",
+      "status": "FAIL"
+    },
+    {
+      "action": "connect and self-report explicit database",
+      "id": "billingapp-app-connect",
+      "identity": "investigator-source",
+      "reason": "SURFACE_UNREACHABLE",
+      "resource": "sql-orderops-9696025.database.windows.net/billingapp",
+      "status": "FAIL"
+    },
+    {
+      "action": "db_datareader; VIEW DEFINITION on declared objects",
+      "id": "billingapp-app-select",
+      "identity": "investigator-source",
+      "reason": "RuntimeError",
+      "resource": "sql-orderops-9696025.database.windows.net/billingapp",
+      "status": "FAIL"
+    },
+    {
+      "action": "read setting and included investigator/scanner group",
+      "id": "tenant-service-principals-use-fabric-apis",
+      "identity": "fabric-owner",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "powerbi-tenant/dff91047-ebc2-4657-8dbe-5af328d57780/service-principals-use-fabric-apis",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "read setting and included investigator/scanner group",
+      "id": "tenant-dataset-execute-queries-api",
+      "identity": "fabric-owner",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "powerbi-tenant/dff91047-ebc2-4657-8dbe-5af328d57780/dataset-execute-queries-api",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "read setting and included investigator/scanner group",
+      "id": "tenant-enhance-admin-api-detailed-metadata",
+      "identity": "fabric-owner",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "powerbi-tenant/dff91047-ebc2-4657-8dbe-5af328d57780/enhance-admin-api-detailed-metadata",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "read setting and included investigator/scanner group",
+      "id": "tenant-enhance-admin-api-dax-mashup",
+      "identity": "fabric-owner",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "powerbi-tenant/dff91047-ebc2-4657-8dbe-5af328d57780/enhance-admin-api-dax-mashup",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "SELECT plus migration-declared platform state privileges",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.state_schema_versions",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_schema_versions"
+      },
+      "id": "pg-state_schema_versions",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_schema_versions",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT plus migration-declared platform state privileges",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.state_migrations",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_migrations"
+      },
+      "id": "pg-state_migrations",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_migrations",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT plus migration-declared platform state privileges",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.state_accounts",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_accounts"
+      },
+      "id": "pg-state_accounts",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_accounts",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT plus migration-declared platform state privileges",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.state_documents",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_documents"
+      },
+      "id": "pg-state_documents",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_documents",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT plus migration-declared platform state privileges",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.state_reservations",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_reservations"
+      },
+      "id": "pg-state_reservations",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_reservations",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT plus migration-declared platform state privileges",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.state_usage",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_usage"
+      },
+      "id": "pg-state_usage",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_usage",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT plus migration-declared platform state privileges",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.state_read_batches",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_read_batches"
+      },
+      "id": "pg-state_read_batches",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_read_batches",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT plus migration-declared platform state privileges",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.state_read_batch_runs",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_read_batch_runs"
+      },
+      "id": "pg-state_read_batch_runs",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_read_batch_runs",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT plus migration-declared platform state privileges",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.state_read_allocations",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_read_allocations"
+      },
+      "id": "pg-state_read_allocations",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_read_allocations",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT plus migration-declared platform state privileges",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.state_usage_acknowledgments",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_usage_acknowledgments"
+      },
+      "id": "pg-state_usage_acknowledgments",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_usage_acknowledgments",
+      "status": "PASS"
+    },
+    {
+      "action": "UPDATE violated only; no account INSERT",
+      "id": "pg-budget-update",
+      "identity": "worker",
+      "reason": "NO_HARMLESS_SAME_IDENTITY_READ_PROVES_THIS_CONTROL_ACTION",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_accounts",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "owner provisions monthly budget accounts",
+      "id": "pg-monthly-accounts",
+      "identity": "owner",
+      "reason": "NO_HARMLESS_SAME_IDENTITY_READ_PROVES_THIS_CONTROL_ACTION",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_accounts",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "read approved objects; platform capture write only",
+      "id": "worker-blob-captures",
+      "identity": "worker",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "https://diaplatformd5dd7d65.blob.core.windows.net/captures",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "read approved objects; platform capture write only",
+      "id": "worker-blob-archives",
+      "identity": "worker",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "https://diaplatformd5dd7d65.blob.core.windows.net/archives",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "get referenced secrets; never enumerate or output values",
+      "id": "worker-vault",
+      "identity": "worker",
+      "reason": "Secret values must not enter access receipts; exercise only approved consumer and retain sanitized outcome",
+      "resource": "https://kv-dia-d5dd7d65.vault.azure.net/secrets/declared-version-only",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "read approved objects; platform capture write only",
+      "id": "graph-scan-blob-captures",
+      "identity": "graph-scan",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "https://diaplatformd5dd7d65.blob.core.windows.net/captures",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "read approved objects; platform capture write only",
+      "id": "graph-scan-blob-archives",
+      "identity": "graph-scan",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "https://diaplatformd5dd7d65.blob.core.windows.net/archives",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "get referenced secrets; never enumerate or output values",
+      "id": "graph-scan-vault",
+      "identity": "graph-scan",
+      "reason": "Secret values must not enter access receipts; exercise only approved consumer and retain sanitized outcome",
+      "resource": "https://kv-dia-d5dd7d65.vault.azure.net/secrets/declared-version-only",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "read approved objects; platform capture write only",
+      "id": "smoke-blob-captures",
+      "identity": "smoke",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "https://diaplatformd5dd7d65.blob.core.windows.net/captures",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "read approved objects; platform capture write only",
+      "id": "smoke-blob-archives",
+      "identity": "smoke",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "https://diaplatformd5dd7d65.blob.core.windows.net/archives",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "get referenced secrets; never enumerate or output values",
+      "id": "smoke-vault",
+      "identity": "smoke",
+      "reason": "Secret values must not enter access receipts; exercise only approved consumer and retain sanitized outcome",
+      "resource": "https://kv-dia-d5dd7d65.vault.azure.net/secrets/declared-version-only",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "manage approved secret metadata",
+      "id": "owner-secret-investigator-fixed-connection-20261021",
+      "identity": "owner",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "https://kv-dia-d5dd7d65.vault.azure.net/secrets/investigator-fixed-connection-20261021",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "manage approved secret metadata",
+      "id": "owner-secret-anthropic-api-key",
+      "identity": "owner",
+      "reason": "NO_ACTUAL_IDENTITY_PROBE_BINDING",
+      "resource": "https://kv-dia-d5dd7d65.vault.azure.net/secrets/anthropic-api-key",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "rotate approved connection credential",
+      "id": "owner-app-rotation",
+      "identity": "owner",
+      "reason": "NO_HARMLESS_SAME_IDENTITY_READ_PROVES_THIS_CONTROL_ACTION",
+      "resource": "entra-application://531419ef-1610-415a-b8bf-01a4b6aad751",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "read/update only owner-approved job configuration",
+      "id": "owner-container-jobs",
+      "identity": "owner",
+      "reason": "NO_HARMLESS_SAME_IDENTITY_READ_PROVES_THIS_CONTROL_ACTION",
+      "resource": "rg-dia-platform/job-dia-worker,job-dia-graph-scan,job-dia-collectors",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "historical scope in docs/estate-reader-manifest.md",
+      "id": "legacy-sql-reader-historical",
+      "identity": "legacy-sql-reader",
+      "reason": "Not a live cloud route; never substitute this identity for configured investigator",
+      "resource": "orderops_investigator",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "historical scope in docs/estate-reader-manifest.md",
+      "id": "legacy-user-reader-historical",
+      "identity": "legacy-user-reader",
+      "reason": "Not a live cloud route; never substitute this identity for configured investigator",
+      "resource": "investigator-reader@skynwhy.com",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "historical scope in docs/estate-reader-manifest.md",
+      "id": "legacy-code-reader-historical",
+      "identity": "legacy-code-reader",
+      "reason": "Not a live cloud route; never substitute this identity for configured investigator",
+      "resource": "2dd2f5c3-f7af-4804-b79e-6019e63efa60",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "historical scope in docs/estate-reader-manifest.md",
+      "id": "legacy-kql-reader-historical",
+      "identity": "legacy-kql-reader",
+      "reason": "Not a live cloud route; never substitute this identity for configured investigator",
+      "resource": "ddd4d3cf-9cfd-440e-ac5b-be127caa46ea",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "historical scope in docs/estate-reader-manifest.md",
+      "id": "billing-tester-historical",
+      "identity": "billing-tester",
+      "reason": "Not a live cloud route; never substitute this identity for configured investigator",
+      "resource": "billing_tester_reader",
+      "status": "NOT_TESTABLE"
+    },
+    {
+      "action": "SELECT, INSERT only; no UPDATE, DELETE or TRUNCATE",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.estate_node_facts",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_node_facts"
+      },
+      "id": "pg-estate_node_facts",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_node_facts",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT, INSERT, UPDATE only; no DELETE or TRUNCATE",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.estate_fact_cursors",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_fact_cursors"
+      },
+      "id": "pg-estate_fact_cursors",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_fact_cursors",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT existence only; worker cannot create policy",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "budget_account": "model-microdollars:2026-10",
+          "budget_account_exists": true,
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.state_accounts",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/current-month-model-budget"
+      },
+      "id": "pg-current-model-account",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/current-month-model-budget",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT graph projection/history as worker; graph mutation rights are governed by the migration contract",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Read-only effective SELECT proof; does not establish write privileges.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.estate_graph_nodes",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_graph_nodes"
+      },
+      "id": "pg-estate_graph_nodes",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_graph_nodes",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT graph projection/history as worker; graph mutation rights are governed by the migration contract",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Read-only effective SELECT proof; does not establish write privileges.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.estate_graph_edges",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_graph_edges"
+      },
+      "id": "pg-estate_graph_edges",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_graph_edges",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT graph projection/history as worker; graph mutation rights are governed by the migration contract",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Read-only effective SELECT proof; does not establish write privileges.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.estate_graph_history",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_graph_history"
+      },
+      "id": "pg-estate_graph_history",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_graph_history",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT graph projection/history as worker; graph mutation rights are governed by the migration contract",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Read-only effective SELECT proof; does not establish write privileges.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.estate_graph_changes",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_graph_changes"
+      },
+      "id": "pg-estate_graph_changes",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_graph_changes",
+      "status": "PASS"
+    },
+    {
+      "action": "SELECT graph projection/history as worker; graph mutation rights are governed by the migration contract",
+      "evidence": {
+        "identity": "worker",
+        "limitation": "Read-only effective SELECT proof; does not establish write privileges.",
+        "permission_observed": true,
+        "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+        "receipt": {
+          "current_user": "id-dia-worker",
+          "database": "investigator",
+          "parameters": [
+            "dia_state.estate_graph_owner_versions",
+            "SELECT"
+          ],
+          "privilege_observed": true,
+          "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+          "transaction_read_only": "on",
+          "transport": "POSTGRES_PLATFORM_CONTROL"
+        },
+        "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_graph_owner_versions"
+      },
+      "id": "pg-estate_graph_owner_versions",
+      "identity": "worker",
+      "reason": "LIVE_READ_SUCCEEDED",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_graph_owner_versions",
+      "status": "PASS"
+    },
+    {
+      "action": "credential expiry",
+      "evidence_class": "SANITIZED_EXPIRY_METADATA",
+      "expires_at_utc": "2026-11-21T00:59:55.182599+00:00",
+      "id": "secret-expiry:958bb7e5-3f94-48fe-8e1f-5fa73165cca2",
+      "identity": "investigator",
+      "reason": "SECRET_NOT_EXPIRED",
+      "resource": "958bb7e5-3f94-48fe-8e1f-5fa73165cca2",
+      "status": "PASS",
+      "warning": false
+    }
+  ],
+  "scope": "ALL",
+  "status": "FAIL",
+  "version": 1,
+  "run_id": "round21-full-access-audit-02",
+  "seal": "a5c5c09d9c069553e1efedd4e26eb957c287520420320dd06876ee1c36ee7184",
+  "scope_change": false
+}

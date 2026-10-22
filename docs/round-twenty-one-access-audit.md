@@ -93,3 +93,87 @@ Vault metadata is `/secrets/<name>/versions`, never the secret-value endpoint. D
 ## Interrupted form planning is resumable, not a completed demo
 
 The retained cloud attempt saved its form input at revision 1, then intake capture publication raised `URLError`. The retry treated every nonzero revision as complete and returned the still-NEW ticket; the cloud form worker accepted it as a finished attempt. Submission now resumes planning only for an identical retained NEW form without an adopted intake, under its unchanged catalog hash. Already adopted, HELD, CLARIFYING, INVESTIGATING and completed tickets are not replanned. Different input or catalog refuses instead of selecting against new definitions. The cloud worker gives NEW one bounded controller resume and then raises `CLOUD_FORM_PLANNING_INCOMPLETE_NEW`; it cannot call an unfinished ticket a delivered answer. Tests preserve a simulated publication failure before resuming the same ticket, stale-catalog refusal, held-state idempotency and bounded worker retry. Focused form/controller and cloud suite: 61 passed, zero new live or model calls.
+
+## Executed audit, 2026-10-22
+
+The later cloud full-map audit is distinct from the offline binding plan above. It returned39PASS,4FAIL,34NOT_TESTABLE across76map declarations plus credential expiry. No owner identity substituted for a missing reader proof. The four application SQL connection/object failures retain SURFACE_UNREACHABLE/RuntimeError; their sanitized errors do not establish a particular missing permission. All seven family-A access checks passed separately. Exact receipts and statuses: [executed audit](runs/round-twenty-one-full-access-audit.json).
+
+| Check | Result | Reason |
+|---|---|---|
+| fixture-workspace | PASS | LIVE_READ_SUCCEEDED |
+| fixture-definitions | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| fixture-bronze-sql | PASS | LIVE_READ_SUCCEEDED |
+| fixture-bronze-select | PASS | LIVE_READ_SUCCEEDED |
+| fixture-silver-sql | PASS | LIVE_READ_SUCCEEDED |
+| fixture-silver-select | PASS | LIVE_READ_SUCCEEDED |
+| fixture-gold-sql | PASS | LIVE_READ_SUCCEEDED |
+| fixture-gold-select | PASS | LIVE_READ_SUCCEEDED |
+| billing-workspace | PASS | LIVE_READ_SUCCEEDED |
+| billing-definitions | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| billing-bronze-sql | PASS | LIVE_READ_SUCCEEDED |
+| billing-bronze-select | PASS | LIVE_READ_SUCCEEDED |
+| billing-silver-sql | PASS | LIVE_READ_SUCCEEDED |
+| billing-silver-select | PASS | LIVE_READ_SUCCEEDED |
+| billing-gold-sql | PASS | LIVE_READ_SUCCEEDED |
+| billing-gold-select | PASS | LIVE_READ_SUCCEEDED |
+| rebuilt-workspace | PASS | LIVE_READ_SUCCEEDED |
+| rebuilt-definitions | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| rebuilt-bronze-sql | PASS | LIVE_READ_SUCCEEDED |
+| rebuilt-bronze-select | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| rebuilt-silver-sql | PASS | LIVE_READ_SUCCEEDED |
+| rebuilt-silver-select | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| rebuilt-gold-sql | PASS | LIVE_READ_SUCCEEDED |
+| rebuilt-gold-select | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| fixture-dax | PASS | LIVE_READ_SUCCEEDED |
+| fixture-fixed-connection | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| fixture-connection-use | NOT_TESTABLE | No separate connection grant inferred; successful model DAX probes actual model route |
+| billing-dax | PASS | LIVE_READ_SUCCEEDED |
+| billing-fixed-connection | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| billing-connection-use | NOT_TESTABLE | No separate connection grant inferred; successful model DAX probes actual model route |
+| ordersops-app-connect | FAIL | SURFACE_UNREACHABLE |
+| ordersops-app-select | FAIL | RuntimeError |
+| billingapp-app-connect | FAIL | SURFACE_UNREACHABLE |
+| billingapp-app-select | FAIL | RuntimeError |
+| tenant-service-principals-use-fabric-apis | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| tenant-dataset-execute-queries-api | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| tenant-enhance-admin-api-detailed-metadata | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| tenant-enhance-admin-api-dax-mashup | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| pg-state_schema_versions | PASS | LIVE_READ_SUCCEEDED |
+| pg-state_migrations | PASS | LIVE_READ_SUCCEEDED |
+| pg-state_accounts | PASS | LIVE_READ_SUCCEEDED |
+| pg-state_documents | PASS | LIVE_READ_SUCCEEDED |
+| pg-state_reservations | PASS | LIVE_READ_SUCCEEDED |
+| pg-state_usage | PASS | LIVE_READ_SUCCEEDED |
+| pg-state_read_batches | PASS | LIVE_READ_SUCCEEDED |
+| pg-state_read_batch_runs | PASS | LIVE_READ_SUCCEEDED |
+| pg-state_read_allocations | PASS | LIVE_READ_SUCCEEDED |
+| pg-state_usage_acknowledgments | PASS | LIVE_READ_SUCCEEDED |
+| pg-budget-update | NOT_TESTABLE | NO_HARMLESS_SAME_IDENTITY_READ_PROVES_THIS_CONTROL_ACTION |
+| pg-monthly-accounts | NOT_TESTABLE | NO_HARMLESS_SAME_IDENTITY_READ_PROVES_THIS_CONTROL_ACTION |
+| worker-blob-captures | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| worker-blob-archives | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| worker-vault | NOT_TESTABLE | Secret values must not enter access receipts; exercise only approved consumer and retain sanitized outcome |
+| graph-scan-blob-captures | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| graph-scan-blob-archives | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| graph-scan-vault | NOT_TESTABLE | Secret values must not enter access receipts; exercise only approved consumer and retain sanitized outcome |
+| smoke-blob-captures | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| smoke-blob-archives | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| smoke-vault | NOT_TESTABLE | Secret values must not enter access receipts; exercise only approved consumer and retain sanitized outcome |
+| owner-secret-investigator-fixed-connection-20261021 | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| owner-secret-anthropic-api-key | NOT_TESTABLE | NO_ACTUAL_IDENTITY_PROBE_BINDING |
+| owner-app-rotation | NOT_TESTABLE | NO_HARMLESS_SAME_IDENTITY_READ_PROVES_THIS_CONTROL_ACTION |
+| owner-container-jobs | NOT_TESTABLE | NO_HARMLESS_SAME_IDENTITY_READ_PROVES_THIS_CONTROL_ACTION |
+| legacy-sql-reader-historical | NOT_TESTABLE | Not a live cloud route; never substitute this identity for configured investigator |
+| legacy-user-reader-historical | NOT_TESTABLE | Not a live cloud route; never substitute this identity for configured investigator |
+| legacy-code-reader-historical | NOT_TESTABLE | Not a live cloud route; never substitute this identity for configured investigator |
+| legacy-kql-reader-historical | NOT_TESTABLE | Not a live cloud route; never substitute this identity for configured investigator |
+| billing-tester-historical | NOT_TESTABLE | Not a live cloud route; never substitute this identity for configured investigator |
+| pg-estate_node_facts | PASS | LIVE_READ_SUCCEEDED |
+| pg-estate_fact_cursors | PASS | LIVE_READ_SUCCEEDED |
+| pg-current-model-account | PASS | LIVE_READ_SUCCEEDED |
+| pg-estate_graph_nodes | PASS | LIVE_READ_SUCCEEDED |
+| pg-estate_graph_edges | PASS | LIVE_READ_SUCCEEDED |
+| pg-estate_graph_history | PASS | LIVE_READ_SUCCEEDED |
+| pg-estate_graph_changes | PASS | LIVE_READ_SUCCEEDED |
+| pg-estate_graph_owner_versions | PASS | LIVE_READ_SUCCEEDED |
+| secret-expiry:958bb7e5-3f94-48fe-8e1f-5fa73165cca2 | PASS | SECRET_NOT_EXPIRED |
