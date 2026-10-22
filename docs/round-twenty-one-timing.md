@@ -49,3 +49,5 @@ The first three Round 22 runtime changes to evaluate are:
 These are investigation priorities, not measured savings or implemented Round
 22 features. Rank and quantify them from an instrumented live timing sidecar;
 do not invent missing per-phase times for existing captures.
+
+Executed control, 2026-10-22: Azure readback confirms worker3600s/daily06UTC and graph1800s/every6hours, original resources and identities unchanged. Additional maximum1800s is USD0.054/manual or USD0.027/daily; timeout alone adds no charge. The existing USD19.766733/month combined estimate assumes30min daily runtime. Full60min daily all31days would raise that conditional ceiling toUSD20.603733; actual usage is measured separately and the USD20 guard stays on.
