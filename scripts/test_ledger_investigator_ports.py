@@ -106,11 +106,13 @@ class Decisions(unittest.TestCase):
             def provider(*a,**kw):
                 wire=kw['schema'];self.assertEqual(wire['type'],'object')
                 self.assertEqual(set(wire),{'type','properties','required','additionalProperties'})
-                self.assertEqual(wire['required'],['decision']);self.assertFalse(wire['additionalProperties'])
-                self.assertEqual(wire['properties']['decision'],core)
+                self.assertEqual(wire['required'],['summary','hypotheses','decision']);self.assertFalse(wire['additionalProperties'])
+                self.assertNotIn('summary',wire['properties']['decision']['anyOf'][0]['properties'])
                 self.assertNotIn('anyOf',wire)
-                Draft202012Validator(wire).validate({'decision':decision})
-                return {'decision':copy.deepcopy(decision)},{'usage':{'input_tokens':10,'output_tokens':3}}
+                envelope={k:decision[k]for k in ('summary','hypotheses')}
+                envelope['decision']={k:v for k,v in decision.items()if k not in envelope}
+                Draft202012Validator(wire).validate(envelope)
+                return envelope,{'usage':{'input_tokens':10,'output_tokens':3}}
             port=AzureDecision(self.governor,session='s',directory=tmp,retain=lambda value:None,producer=provider)
             with patch('investigator.planner_recording.recording',recording):
                 actual=port({},instructions='investigate',schema=core)
@@ -129,6 +131,38 @@ class Decisions(unittest.TestCase):
                     with patch('investigator.planner_recording.recording',recording),self.assertRaisesRegex(ValueError,'DECISION_ENVELOPE_REQUIRED'):
                         port({},instructions='investigate',schema={'type':'object'})
                     self.assertFalse(self.events[-1][2]['uncertain'])
+
+    def test_wire_subset_does_not_weaken_consumer_bounds(self):
+        from investigator.adapters.ledger_investigator_ports import decision_transport
+        from jsonschema import ValidationError
+        core={'type':'object','properties':{'labels':{'type':'array','minItems':1,'uniqueItems':True,'items':{'type':'string','minLength':2}}},'required':['labels'],'additionalProperties':False}
+        wire,hoisted=decision_transport(core)
+        self.assertEqual(hoisted,());self.assertNotIn('minItems',wire['properties']['decision']['properties']['labels'])
+        with tempfile.TemporaryDirectory()as tmp:
+            @contextlib.contextmanager
+            def recording(*a,**k):yield SimpleNamespace(path=Path(tmp),safe_write=lambda *a:None)
+            for value in ([],['x'],['ok','ok']):
+                port=AzureDecision(self.governor,session='s',directory=tmp,retain=lambda v:None,
+                    producer=lambda *a,**kw:({'decision':{'labels':value}},{'usage':{'input_tokens':10,'output_tokens':3}}))
+                with patch('investigator.planner_recording.recording',recording),self.assertRaises(ValidationError):
+                    port({},instructions='x',schema=core)
+                self.assertFalse(self.events[-1][2]['uncertain'])
+
+    def test_real_tool_union_stays_within_azure_property_limit(self):
+        from investigator.adapters.ledger_investigator_ports import decision_transport
+        from investigator.ledger_investigator import schema
+        tools=SimpleNamespace(schemas={str(i):{'type':'object','properties':{'node':{'type':'string','minLength':1}},'required':['node'],'additionalProperties':False}for i in range(16)})
+        core=schema(tools);wire,hoisted=decision_transport(core)
+        self.assertEqual(set(hoisted),{'summary','hypotheses'})
+        def walk(v):
+            if isinstance(v,list):
+                for x in v:yield from walk(x)
+            elif isinstance(v,dict):
+                yield v
+                for x in v.values():yield from walk(x)
+        self.assertLessEqual(sum(len(x.get('properties',{}))for x in walk(wire)),100)
+        self.assertFalse(any(set(x)&{'minLength','maxLength','minItems','maxItems','uniqueItems'}for x in walk(wire)))
+        self.assertTrue(any('uniqueItems'in x for x in walk(core)))
 
     def test_oversized_provider_body_not_admitted(self):
         port=AzureDecision(self.governor,session='ticket-1',directory='unused',retain=lambda v:None)

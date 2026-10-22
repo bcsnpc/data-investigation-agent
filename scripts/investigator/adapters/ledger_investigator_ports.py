@@ -107,6 +107,39 @@ class ProcessValues:
         return result
 
 
+def decision_transport(schema):
+    """Azure's schema subset on the wire; the original validator stays strict.
+
+    Hoist repeated action metadata to avoid Azure's 100-property limit. Bounds
+    unsupported by Azure remain in the consumer schema and are checked locally.
+    """
+    unsupported={'minLength','maxLength','pattern','format','minimum','maximum',
+        'multipleOf','minItems','maxItems','uniqueItems','minProperties','maxProperties'}
+    core=copy.deepcopy(schema);hoisted={}
+    variants=core.get('anyOf')
+    if isinstance(variants,list) and variants:
+        for name in ('summary','hypotheses'):
+            first=variants[0].get('properties',{}).get(name)
+            if first is not None and all(v.get('properties',{}).get(name)==first and name in v.get('required',[]) for v in variants):
+                hoisted[name]=copy.deepcopy(first)
+                for v in variants:v['properties'].pop(name);v['required'].remove(name)
+    def project(value):
+        if isinstance(value,list):return [project(v)for v in value]
+        if not isinstance(value,dict):return copy.deepcopy(value)
+        # Property names are data, not schema keywords.
+        return {k:({n:project(s)for n,s in v.items()} if k in ('properties','$defs') else project(v))
+                for k,v in value.items()if k not in unsupported}
+    wire={'type':'object','properties':{**hoisted,'decision':core},
+          'required':[*hoisted,'decision'],'additionalProperties':False}
+    wire=project(wire)
+    def count(value):
+        if isinstance(value,list):return sum(count(v)for v in value)
+        if not isinstance(value,dict):return 0
+        return len(value.get('properties',{}))+sum(count(v)for v in value.values())
+    if count(wire)>100:raise ValueError('INVESTIGATOR_PROVIDER_SCHEMA_PROPERTY_BOUND')
+    return wire,tuple(hoisted)
+
+
 class AzureDecision:
     """One native Azure request, reserved and recorded before dispatch.
 
@@ -127,9 +160,8 @@ class AzureDecision:
         from ..generation_policy import failure_usage
         # Azure function parameters require a root object; the engine's closed
         # union remains unchanged underneath this transport-only envelope.
-        wire_schema={'type':'object','properties':{'decision':copy.deepcopy(schema)},
-                     'required':['decision'],'additionalProperties':False}
-        instruction=vocabulary(instructions,schema)+'\nReturn the schema-conforming result inside the required decision property of the transport envelope.'
+        wire_schema,hoisted=decision_transport(schema)
+        instruction=vocabulary(instructions,schema)+'\nReturn the schema-conforming result in the transport envelope: shared summary/hypotheses at its root when declared; remaining result fields inside decision.'
         body=provider_body(payload,instruction,wire_schema,'ledger_investigator_action',
                            decision_tool=True,generation_options=self.options)
         size=len(json.dumps(body,ensure_ascii=False,separators=(',',':')))
@@ -151,10 +183,14 @@ class AzureDecision:
                     max_request_characters=self.options['max_payload_characters'])
                 self.retain({'event':'INVESTIGATOR_MODEL_USAGE','call':self.calls,'metadata':metadata,
                              'input_characters':size,'recording':str(record.path)})
-                if (not isinstance(answer,dict) or set(answer)!={'decision'}
+                if (not isinstance(answer,dict) or set(answer)!={'decision',*hoisted}
                         or not isinstance(answer['decision'],dict)):
                     raise ValueError('INVESTIGATOR_PROVIDER_DECISION_ENVELOPE_REQUIRED')
-                return answer['decision']
+                if set(answer['decision'])&set(hoisted):raise ValueError('INVESTIGATOR_PROVIDER_DUPLICATE_METADATA')
+                decision={**answer['decision'],**{k:answer[k]for k in hoisted}}
+                from jsonschema import Draft202012Validator
+                Draft202012Validator(schema).validate(decision)
+                return decision
         except Exception as exc:error=exc;raise
         finally:
             # A protocol rejection after a successful response still has known
