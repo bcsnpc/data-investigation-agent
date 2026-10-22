@@ -116,7 +116,8 @@
       "resource": "fixture/silver/declared-sql-endpoint",
       "action": "connect and self-report explicit database",
       "scopes": [
-        "fixture"
+        "fixture",
+        "family-a"
       ],
       "probe": {
         "kind": "sql"
@@ -128,7 +129,8 @@
       "resource": "fixture/silver/declared-objects",
       "action": "SELECT on explicitly declared objects",
       "scopes": [
-        "fixture"
+        "fixture",
+        "family-a"
       ],
       "probe": {
         "kind": "sql_object",
@@ -141,7 +143,8 @@
       "resource": "fixture/gold/declared-sql-endpoint",
       "action": "connect and self-report explicit database",
       "scopes": [
-        "fixture"
+        "fixture",
+        "family-a"
       ],
       "probe": {
         "kind": "sql"
@@ -153,7 +156,8 @@
       "resource": "fixture/gold/declared-objects",
       "action": "SELECT on explicitly declared objects",
       "scopes": [
-        "fixture"
+        "fixture",
+        "family-a"
       ],
       "probe": {
         "kind": "sql_object",
@@ -364,7 +368,8 @@
       "resource": "powerbi://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e",
       "action": "ReadExplore: constant DAX query",
       "scopes": [
-        "fixture"
+        "fixture",
+        "family-a"
       ],
       "probe": {
         "kind": "http"
@@ -900,6 +905,43 @@
       "probe": {
         "kind": "not_testable",
         "reason": "Not a live cloud route; never substitute this identity for configured investigator"
+      }
+    },
+    {
+      "id": "pg-estate_node_facts",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_node_facts",
+      "action": "SELECT, INSERT only; no UPDATE, DELETE or TRUNCATE",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "postgres"
+      }
+    },
+    {
+      "id": "pg-estate_fact_cursors",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.estate_fact_cursors",
+      "action": "SELECT, INSERT, UPDATE only; no DELETE or TRUNCATE",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "postgres"
+      }
+    },
+    {
+      "id": "pg-current-model-account",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/current-month-model-budget",
+      "action": "SELECT existence only; worker cannot create policy",
+      "scopes": [
+        "platform",
+        "family-a"
+      ],
+      "probe": {
+        "kind": "postgres"
       }
     }
   ]

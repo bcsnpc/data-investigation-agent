@@ -189,9 +189,23 @@ class LiveProbes:
                      options='-c default_transaction_read_only=on -c statement_timeout=15000') as db:
             query = "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)"
             answer = db.execute(query, (table, privilege)).fetchone()
+            account = None
+            if 'budget_period' in binding:
+                from datetime import datetime, timezone
+                period=binding['budget_period']
+                if period not in ('current','next') or table!='dia_state.state_accounts':
+                    raise ProbeFailure('POSTGRES_BUDGET_PERIOD_NOT_DECLARED')
+                at=datetime.now(timezone.utc)
+                year,month=at.year,at.month
+                if period=='next':year,month=(year+1,1) if month==12 else (year,month+1)
+                account='model-microdollars:'+str(year)+'-'+str(month).zfill(2)
+                current_user,exists=db.execute(
+                    'SELECT current_user, EXISTS(SELECT 1 FROM dia_state.state_accounts WHERE identity=%s)',(account,)).fetchone()
+                if current_user!='id-dia-worker' or exists is not True:
+                    raise ProbeFailure('MONTHLY_MODEL_ACCOUNT_NOT_PROVISIONED:'+account)
         if (answer[0] != binding['database'] or answer[1] != binding['user'] or answer[2] != 'on'
                 or answer[3] is not True):
             raise ProbeFailure('POSTGRES_IDENTITY_OR_PRIVILEGE_DIFFERS')
         return {'transport': 'POSTGRES_PLATFORM_CONTROL', 'statement': query, 'parameters': [table, privilege],
                 'database': answer[0], 'current_user': answer[1], 'transaction_read_only': answer[2],
-                'privilege_observed': answer[3]}
+                'privilege_observed': answer[3], **({'budget_account':account,'budget_account_exists':True} if account else {})}
