@@ -74,8 +74,10 @@ class RunnerTests(unittest.TestCase):
                 run(self.config(Path(d)),'bronze',registry={'probe':handler},put=lambda k,v:retained.setdefault(k,v))
             values=[json.loads(v) for v in retained.values()]
             self.assertIn({'value':7661},values)
-            self.assertEqual(values[-1]['status'],'FAILED')
-            self.assertTrue(values[-1]['partial'])
+            status=[json.loads(v) for key,v in retained.items() if key.endswith('-status.json')][-1]
+            self.assertEqual(status['status'],'FAILED')
+            self.assertTrue(status['partial'])
+            self.assertTrue(values[-1]['not_part_of_semantic_tape'])
     def test_existing_tape_each_event_mirrored_before_read_can_return(self):
         with tempfile.TemporaryDirectory() as d:
             retained={}
