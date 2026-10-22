@@ -63,7 +63,7 @@ class MicrosoftProcessAdapter:
     def _semantic_probe(self,result,*args,**kwargs):
         """Known tenant-only DAX answer: warning, never an invented principal."""
         body=result.get('result') or {};identity=body.get('execution_identity') or {}
-        reader=self.config['fabric']['native_reader'];report=body.get('surface_report') or {}
+        reader=(self.config or {}).get('fabric',{}).get('native_reader',{});report=body.get('surface_report') or {}
         surface=kwargs.get('execution_surface') or {}
         if (result.get('status')=='COMPLETED' and reader.get('mode')=='federated_reader'
                 and all(identity.get(k)==reader.get(k) for k in ('mode','tenant_id','principal_id','account'))

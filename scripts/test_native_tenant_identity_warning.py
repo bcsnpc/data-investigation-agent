@@ -5,6 +5,11 @@ from investigator.process_debugging import attest, _answer, IDENTITY_REPORTING_W
 from investigator.surface_difference import grade, UNESTABLISHED
 
 class NativeTenantIdentityWarningTests(unittest.TestCase):
+    def test_legacy_or_injected_adapter_without_reader_gets_no_warning(self):
+        adapter=MicrosoftProcessAdapter(None,{},None,None,None)
+        probe=adapter._semantic_probe({'status':'COMPLETED','result':{}},'OBSERVED','semantic',
+            evidence={'id':'legacy'},value=1)
+        self.assertIsNone(probe.identity_reporting_limit)
     def probe(self,**changes):
         reader={'mode':'federated_reader','tenant_id':'tenant','principal_id':'principal','account':'reader'}
         adapter=MicrosoftProcessAdapter(None,{'fabric':{'native_reader':reader}},None,None,None)
