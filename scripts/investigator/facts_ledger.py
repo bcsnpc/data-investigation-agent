@@ -10,7 +10,7 @@ from .estate_graph_contract import timestamp
 from .shared_state import encoded, sha, StateConflict
 
 KINDS = frozenset({'JOB_RUN', 'REFRESH_RUN', 'REFRESH_STATE', 'SCHEDULE', 'TABLE_LOAD',
-                   'OVERDUE', 'TYPICAL_DURATION', 'TABLE_PROFILE', 'COVERAGE'})
+                   'OVERDUE', 'TYPICAL_DURATION', 'TABLE_PROFILE', 'COVERAGE', 'RUN_HISTORY'})
 STATES = frozenset({'OBSERVED', 'OBSERVED_NEGATIVE', 'UNAVAILABLE'})
 SOURCES = frozenset({'RUNTIME_OBSERVATION', 'DECLARED_CONFIG', 'DERIVED_OBSERVATIONS'})
 
