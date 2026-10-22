@@ -1,0 +1,258 @@
+{
+  "version": 1,
+  "evidence_class": "OFFLINE_INTAKE_ONLY_NOT_LIVE_INVESTIGATIONS",
+  "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b",
+  "rows": [
+    {
+      "id": "R17-01",
+      "split": "dev",
+      "topic": "quantity",
+      "ticket_text": "Please review the Handled Quantity card on the Unfiltered control page for Declared predicate fixture 20261001. It is showing 8765, and I want the displayed count checked.",
+      "old_status": "ERROR",
+      "result": {
+        "version": "investigator-essentials-v1",
+        "status": "HELD",
+        "reason": "MISSING_COMPARISON",
+        "questions": [],
+        "question_count": 0,
+        "investigation_executed": false,
+        "goal": "COMPARE"
+      }
+    },
+    {
+      "id": "R17-02",
+      "split": "held-out",
+      "topic": "quantity",
+      "ticket_text": "Can someone verify the 8765 shown on Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered?",
+      "old_status": "CLARIFYING",
+      "result": {
+        "version": "investigator-essentials-v1",
+        "status": "HELD",
+        "reason": "MISSING_COMPARISON",
+        "questions": [],
+        "question_count": 0,
+        "investigation_executed": false,
+        "goal": "COMPARE"
+      }
+    },
+    {
+      "id": "R17-03",
+      "split": "dev",
+      "topic": "quantity",
+      "ticket_text": "I have a count concern with the Handled Quantity metric on the Unfiltered control page. It currently reads 8765.",
+      "old_status": "CLARIFYING",
+      "result": {
+        "version": "investigator-essentials-v1",
+        "status": "HELD",
+        "reason": "MISSING_COMPARISON",
+        "questions": [],
+        "question_count": 0,
+        "investigation_executed": false,
+        "goal": "COMPARE"
+      }
+    },
+    {
+      "id": "R17-04",
+      "split": "held-out",
+      "topic": "quantity",
+      "ticket_text": "Handled Quantity on the unfiltered card is showing 8765. Please confirm this number is the intended value for that view.",
+      "old_status": "ERROR",
+      "result": {
+        "version": "investigator-essentials-v1",
+        "status": "HELD",
+        "reason": "MISSING_COMPARISON",
+        "questions": [],
+        "question_count": 0,
+        "investigation_executed": false,
+        "goal": "COMPARE"
+      }
+    },
+    {
+      "id": "R17-05",
+      "split": "dev",
+      "topic": "quantity",
+      "ticket_text": "Please investigate the quantity displayed in the Handled Quantity card for Declared predicate fixture 20261001. The visible number is 8765.",
+      "old_status": "ERROR",
+      "result": {
+        "version": "investigator-essentials-v1",
+        "status": "HELD",
+        "reason": "MISSING_COMPARISON",
+        "questions": [],
+        "question_count": 0,
+        "investigation_executed": false,
+        "goal": "COMPARE"
+      }
+    },
+    {
+      "id": "R17-06",
+      "split": "held-out",
+      "topic": "quantity",
+      "ticket_text": "The Handled Quantity - unfiltered visual on the Unfiltered control page shows 8765. I need support to review that count.",
+      "old_status": "CLARIFYING",
+      "result": {
+        "version": "investigator-essentials-v1",
+        "status": "HELD",
+        "reason": "MISSING_COMPARISON",
+        "questions": [],
+        "question_count": 0,
+        "investigation_executed": false,
+        "goal": "COMPARE"
+      }
+    },
+    {
+      "id": "R17-07",
+      "split": "dev",
+      "topic": "freshness",
+      "ticket_text": "When was the Handled Quantity value on the Unfiltered control page last refreshed?",
+      "old_status": "ERROR",
+      "result": {
+        "version": "investigator-essentials-v1",
+        "status": "HELD",
+        "reason": "MISSING_REPORT",
+        "questions": [],
+        "question_count": 0,
+        "investigation_executed": false,
+        "goal": "FRESHNESS"
+      }
+    },
+    {
+      "id": "R17-08",
+      "split": "held-out",
+      "topic": "freshness",
+      "ticket_text": "Can you confirm whether the 8765 shown in Handled Quantity is based on the latest available refresh for this report view?",
+      "old_status": "ERROR",
+      "result": {
+        "version": "investigator-essentials-v1",
+        "status": "HELD",
+        "reason": "MISSING_REPORT",
+        "questions": [],
+        "question_count": 0,
+        "investigation_executed": false,
+        "goal": "FRESHNESS"
+      }
+    },
+    {
+      "id": "R17-09",
+      "split": "dev",
+      "topic": "freshness",
+      "ticket_text": "Please advise how current the Handled Quantity card is on Declared predicate fixture 20261001 > Unfiltered control.",
+      "old_status": "CLARIFYING",
+      "result": {
+        "version": "investigator-essentials-v1",
+        "status": "READY",
+        "question_count": 0,
+        "questions": [],
+        "reason": "ESSENTIALS_BOUND",
+        "investigation_executed": false,
+        "catalog_hash": "834f789f87df145325248a4a12e234e435b5bb747116c45d303bf6a037fe292b",
+        "request_hash": "33f294479873accf29c16d58655b4c5013ad22875d764dfa97b19a973adb2437",
+        "goal": "FRESHNESS",
+        "scope": {
+          "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+          "report_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+          "page_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/page/7547db8624ef59509188",
+          "node_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "node_kind": "MEASURE",
+          "target_id": null,
+          "measure_ids": [
+            "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+          ]
+        },
+        "reported_figure": {
+          "state": "UNSPECIFIED"
+        },
+        "comparison": null,
+        "selected_number": {
+          "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "kind": "MEASURE",
+          "names": [
+            "Handled Quantity",
+            "Handled Quantity"
+          ],
+          "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+          "report_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
+          "page_ids": [
+            "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/page/7547db8624ef59509188",
+            "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/page/8b067ecb975e5af7a39b"
+          ],
+          "confidence": 1.0,
+          "match_source": "RETAINED_NAME",
+          "matched_name": "Handled Quantity"
+        },
+        "date": null,
+        "screenshot": null,
+        "description": "Please advise how current the Handled Quantity card is on Declared predicate fixture 20261001 > Unfiltered control.",
+        "submitted_essentials": {
+          "version": "investigator-essentials-v1",
+          "request_key": "R17-09",
+          "report": "Declared predicate fixture 20261001",
+          "number": "Handled Quantity",
+          "goal": "FRESHNESS",
+          "comparison": null,
+          "description": "Please advise how current the Handled Quantity card is on Declared predicate fixture 20261001 > Unfiltered control.",
+          "page": "Unfiltered control"
+        }
+      }
+    },
+    {
+      "id": "R17-10",
+      "split": "held-out",
+      "topic": "definition",
+      "ticket_text": "What exactly is included in the Handled Quantity metric on the Handled Quantity - unfiltered card?",
+      "old_status": "CLARIFYING",
+      "result": {
+        "version": "investigator-essentials-v1",
+        "status": "HELD",
+        "reason": "MISSING_REPORT",
+        "questions": [],
+        "question_count": 0,
+        "investigation_executed": false,
+        "goal": "DEFINITION"
+      }
+    },
+    {
+      "id": "R17-11",
+      "split": "dev",
+      "topic": "definition",
+      "ticket_text": "Please clarify the business definition of Handled Quantity on the Unfiltered control page.",
+      "old_status": "CLARIFYING",
+      "result": {
+        "version": "investigator-essentials-v1",
+        "status": "HELD",
+        "reason": "MISSING_REPORT",
+        "questions": [],
+        "question_count": 0,
+        "investigation_executed": false,
+        "goal": "DEFINITION"
+      }
+    },
+    {
+      "id": "R17-12",
+      "split": "held-out",
+      "topic": "definition",
+      "ticket_text": "Does the Handled Quantity value of 8765 represent items, cases, records, or another unit on this report?",
+      "old_status": "ERROR",
+      "result": {
+        "version": "investigator-essentials-v1",
+        "status": "HELD",
+        "reason": "MISSING_REPORT",
+        "questions": [],
+        "question_count": 0,
+        "investigation_executed": false,
+        "goal": "DEFINITION"
+      }
+    }
+  ],
+  "admitted_to_investigator": 1,
+  "investigations_executed": 0,
+  "one_question": 0,
+  "held": 11,
+  "harmful_findings": 0,
+  "harmful_findings_note": "No investigation or technical finding was executed in this offline check.",
+  "model_calls": 0,
+  "estate_requests": 0,
+  "source_files": {
+    "catalog_sha256": "4edaf69ecd5d00b4dbac203f17f74632c16810bca356cc64d4b65fdeee6b7afa",
+    "tickets_sha256": "9ce401be6215feca262322644cc61a4a842405d68c3055f377cbadac5219fb13"
+  }
+}

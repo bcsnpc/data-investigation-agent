@@ -39,6 +39,8 @@ def create_app(workspace, token, port=8776):
         assets['/form.js']=('form.js','text/javascript')
         assets['/questionnaire.js']=('questionnaire.js','text/javascript')
         assets['/claims.js']=('claims.js','text/javascript')
+        assets['/essentials']=('essentials.html','text/html; charset=utf-8')
+        assets['/essentials.js']=('essentials.js','text/javascript')
         if method == 'GET' and path in assets:
             filename, mime = assets[path]
             return respond('200 OK', (ASSETS / filename).read_bytes(), mime)
@@ -68,6 +70,17 @@ def create_app(workspace, token, port=8776):
                 result['intake_options']={'comparison_choices':settings(workspace.intake_configuration)['comparison_choices']}
             elif path == '/api/workspace/claims/catalog' and method == 'GET':
                 result = workspace.claims.catalog()
+            elif path == '/api/workspace/essentials/schema' and method == 'GET':
+                from .essentials_intake import SCHEMA
+                result = SCHEMA
+            elif path == '/api/workspace/essentials' and method == 'POST':
+                from .essentials_intake import submit
+                result = submit(workspace, body)
+            elif path.startswith('/api/workspace/essentials/') and path.endswith('/reply') and method == 'POST':
+                parts=path[len('/api/workspace/essentials/'):].split('/')
+                if len(parts)!=2:return respond('404 Not Found', {'error':'Not found'})
+                from .essentials_intake import reply
+                result=reply(workspace,parts[0],body)
             elif path == '/api/workspace/claims' and method == 'POST':
                 result = workspace.claims.submit(body)
             elif path.startswith('/api/workspace/claims/'):

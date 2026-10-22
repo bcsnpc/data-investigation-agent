@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Investigate a number</title><link rel="stylesheet" href="/style.css"></head>
+<body><main><h1>Investigate a number</h1>
+<p>Name the report and the number as you see them. A page helps when the report has several similar visuals.</p>
+<form id="essentials">
+<label>Workspace access key <input id="access-key" type="password" autocomplete="off" required></label>
+<label>Report <input name="report" required maxlength="2000"></label>
+<label>Page, if known <input name="page" maxlength="2000"></label>
+<label>Which number, visual or measure? <input name="number" required maxlength="2000"></label>
+<label>What do you want to check? <select name="goal" id="goal"><option value="COMPARE">Compare a number</option><option value="FRESHNESS">How current is it?</option><option value="DEFINITION">How is it calculated?</option></select></label>
+<fieldset id="comparison-fields"><legend>What are you comparing it with?</legend>
+<label>Comparison <select id="comparison-kind"><option value="SOURCE">A source system</option><option value="REPORT">Another report</option><option value="PAGE">Another page</option><option value="SPREADSHEET">A spreadsheet</option><option value="OWN_COUNT">My own count</option><option value="EARLIER_VALUE">An earlier value</option></select></label>
+<label>Name or description <input id="comparison-reference" required maxlength="2000"></label>
+<label>Comparison value, if given <input id="comparison-value" maxlength="2000"></label></fieldset>
+<label>Value shown, if given <input name="value" maxlength="2000"></label>
+<label>More details <textarea name="description" maxlength="16000"></textarea></label>
+<button type="submit">Review my question</button></form>
+<section id="intake-result" aria-live="polite"></section>
+<script src="/essentials.js"></script></main></body></html>
