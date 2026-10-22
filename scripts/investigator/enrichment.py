@@ -9,12 +9,13 @@ from .shared_state import encoded, sha, amount
 from .estate_graph_contract import timestamp
 
 FIELDS={'business_meaning','synonyms','calculation_explanation','hidden_logic','proposed_links'}
+LINK_KINDS=('COMPUTED_FROM','FILTERED_BY','JOINED_VIA','COPIED_TO','DERIVED_IN_STEP')
 SCHEMA={'type':'object','additionalProperties':False,'required':sorted(FIELDS),'properties':{
     'business_meaning':{'type':'string'},'synonyms':{'type':'array','items':{'type':'string'}},
     'calculation_explanation':{'type':'string'},'hidden_logic':{'type':'array','items':{'type':'string'}},
     'proposed_links':{'type':'array','items':{'type':'object','additionalProperties':False,
         'required':['target','relationship','start','end','quote'],'properties':{
-            'target':{'type':'string'},'relationship':{'type':'string'},'start':{'type':'integer'},
+            'target':{'type':'string'},'relationship':{'type':'string','enum':list(LINK_KINDS)},'start':{'type':'integer'},
             'end':{'type':'integer'},'quote':{'type':'string'}}}}}}
 
 
@@ -46,7 +47,7 @@ def validate_output(value,source):
     for link in links:
         if not isinstance(link,dict) or set(link)!={'target','relationship','start','end','quote'}:raise ValueError('ENRICHMENT_LINK_SHAPE')
         if link['target'] not in allowed or link['target']==source['subject']:raise ValueError('ENRICHMENT_LINK_TARGET_NOT_IN_INPUT')
-        if link['relationship'] not in ('COMPUTED_FROM','FILTERED_BY','JOINED_VIA','COPIED_TO','DERIVED_IN_STEP'):raise ValueError('ENRICHMENT_LINK_KIND')
+        if link['relationship'] not in LINK_KINDS:raise ValueError('ENRICHMENT_LINK_KIND')
         start,end=link['start'],link['end']
         if type(start) is not int or type(end) is not int or not 0<=start<end<=len(source['definition']):raise ValueError('ENRICHMENT_LINK_SPAN')
         if source['definition'][start:end]!=link['quote']:raise ValueError('ENRICHMENT_LINK_QUOTE_NOT_VERBATIM')

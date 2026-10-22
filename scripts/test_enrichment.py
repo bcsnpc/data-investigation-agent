@@ -34,6 +34,17 @@ def secret_reference():
 
 
 class EnrichmentTests(unittest.TestCase):
+    def test_provider_schema_and_consumer_share_exact_link_vocabulary(self):
+        from jsonschema import Draft202012Validator
+        from investigator.enrichment import SCHEMA,LINK_KINDS
+        validator=Draft202012Validator(SCHEMA)
+        for kind in LINK_KINDS:
+            value=output();value['proposed_links'][0]['relationship']=kind
+            self.assertEqual(list(validator.iter_errors(value)),[])
+            validate_output(value,source())
+        value=output();value['proposed_links'][0]['relationship']='USES_MEASURE'
+        self.assertTrue(list(validator.iter_errors(value)))
+        with self.assertRaisesRegex(ValueError,'ENRICHMENT_LINK_KIND'):validate_output(value,source())
     def test_dia_enrichment_forwards_csv_operations_to_existing_closed_cli(self):
         from dia import main
         for operation in ('export','import'):
