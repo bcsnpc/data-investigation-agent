@@ -45,7 +45,7 @@ def permits(gateway,identity,method,url,body,headers):
         prefix=scope['account_url']+'/captures/'+scope['prefix']+'/'+scope['run_id']+'/'
         if not url.startswith(prefix):continue
         leaf=url[len(prefix):]
-        if not re.fullmatch(r'(?:[0-9]{8}-[a-z-]+|run-record)\.json',leaf):return False
+        if not re.fullmatch(r'(?:[0-9]{8}-[a-z-]+|run-record|timing-summary)\.json',leaf):return False
         if method in ('GET','HEAD'):return body in (None,b'')
         if method!='PUT' or not isinstance(body,bytes) or len(body)>scope['max_bytes']:return False
         headers={k.lower():v for k,v in (headers or {}).items()}

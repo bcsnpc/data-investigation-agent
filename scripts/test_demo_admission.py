@@ -21,8 +21,8 @@ class DemoStateAdmissionTests(unittest.TestCase):
                     state.put('synthetic','budget',{'settled':True})
                     self.assertFalse(TRANSACTION_ACTIVE.get());self.assertNotIn(LEASE_ENV,os.environ)
                     _network_unlocked() # Same check used by every live gateway/worker launch.
-                    self.assertEqual(now+1770,admission['deadline'])
-                    self.assertEqual(str(now+1770),os.environ['INVESTIGATOR_CLOUD_WORK_DEADLINE'])
+                    self.assertEqual(now+2000,admission['deadline'])
+                    self.assertEqual(str(now+2000),os.environ['INVESTIGATOR_CLOUD_WORK_DEADLINE'])
                 self.assertEqual(previous,os.environ['INVESTIGATOR_CLOUD_WORK_DEADLINE'])
             rows={c.args[0]:c.args[1]for c in ctx.record.call_args_list}
             self.assertFalse(rows['demo-state-admission']['transaction_active'])
@@ -37,7 +37,7 @@ class DemoStateAdmissionTests(unittest.TestCase):
         self.assertEqual('FAILED',ctx.record.call_args_list[-1].args[1]['status'])
 
     def test_expired_absolute_deadline_or_existing_lock_refuses_before_work(self):
-        ctx=SimpleNamespace(started_at=time.time()-1801,record=Mock())
+        ctx=SimpleNamespace(started_at=time.time()-3601,record=Mock())
         with self.assertRaisesRegex(ValueError,'DEADLINE_EXPIRED'):
             with demo_state_admission({'run_id':'late'},ctx):self.fail('No admission')
         ctx.record.assert_not_called()

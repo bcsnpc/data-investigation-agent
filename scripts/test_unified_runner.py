@@ -41,7 +41,8 @@ class RunnerTests(unittest.TestCase):
             self.assertEqual(result['result']['access_check'],table)
             self.assertFalse(result['result']['investigation_executed'])
             self.assertEqual(calls,[])
-            self.assertTrue(sent[-1][0].endswith('/run-record.json'))
+            self.assertTrue(any(key.endswith('/run-record.json') for key,_ in sent))
+            self.assertTrue(sent[-1][0].endswith('/timing-summary.json'))
 
     def test_access_check_handler_receives_the_already_recorded_preflight(self):
         from investigator.unified_runner import handlers

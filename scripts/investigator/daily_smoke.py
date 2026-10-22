@@ -15,7 +15,7 @@ from pathlib import Path
 CRON = '0 6 * * *'
 
 
-def schedule_plan(*, resource_id, image, platform_monthly_usd, smoke_monthly_usd):
+def schedule_plan(*, resource_id, image, platform_monthly_usd, smoke_monthly_usd,demo_earned=False):
     # Prices are an explicit dated operator estimate, never guessed in code.
     from decimal import Decimal
     base, extra = Decimal(str(platform_monthly_usd)), Decimal(str(smoke_monthly_usd))
@@ -24,8 +24,9 @@ def schedule_plan(*, resource_id, image, platform_monthly_usd, smoke_monthly_usd
         raise ValueError('EXISTING_SMOKE_JOB_AND_PINNED_IMAGE_REQUIRED')
     if base < 0 or extra < 0 or base + extra > 20:
         raise ValueError('SMOKE_EXCEEDS_PLATFORM_MONTHLY_BUDGET')
+    if type(demo_earned)is not bool:raise ValueError('DAILY_SMOKE_DEMO_EARNED_FLAG')
     return {'resource_id': resource_id, 'image': image, 'cron_expression': CRON,
-            'timezone': 'UTC', 'replica_timeout_seconds': 1800, 'parallelism': 1,
+            'timezone': 'UTC', 'replica_timeout_seconds': 3600 if demo_earned else 1800, 'parallelism': 1,
             'completion_count': 1, 'replica_retry_limit': 0,
             'monthly_platform_estimate_usd': str(base + extra),
             'marginal_smoke_estimate_usd': str(extra), 'new_resources': []}

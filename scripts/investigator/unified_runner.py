@@ -288,8 +288,10 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
             ctx.record('worker-exit',{'exit_code':exit_code,'reason':exit_reason,'last_step':last_step,
                                      'result':ref,'stage':'EXIT_INTENT_BEFORE_FINAL_SEAL'})
             ctx.record('status',{'status':'COMPLETED','partial':False,'result':ref})
-            ctx.seal()
-        return {'run_id':run_id,'status':'COMPLETED','result':result,'exit_code':exit_code,'exit_reason':exit_reason}
+            seal=ctx.seal()
+            try:timing=ctx.publish_timing(seal)
+            except Exception as error:timing={'status':'OBSERVATIONAL_TIMING_UNAVAILABLE','error_type':type(error).__name__}
+        return {'run_id':run_id,'status':'COMPLETED','result':result,'exit_code':exit_code,'exit_reason':exit_reason,'timing':timing}
     except BaseException as exc:
         # Intent is durable even if publication/finalization fails. A platform
         # kill before this point is distinguishable by the record's absence.

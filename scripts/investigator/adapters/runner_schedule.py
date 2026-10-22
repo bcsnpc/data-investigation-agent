@@ -39,7 +39,8 @@ def plan(config,existing):
     if set(schedule)!={'target','platform_monthly_usd','smoke_monthly_usd'} or schedule['target'] not in config['checks']:raise ValueError('RUNNER_SCHEDULE_CONFIGURATION')
     if config['checks'][schedule['target']]['kind']!='smoke' or config.get('per_execution')is not True:raise ValueError('RUNNER_DAILY_UNIQUE_SMOKE_REQUIRED')
     if existing['id']!=config['deployment']['resource_id']:raise ValueError('RUNNER_SCHEDULE_EXISTING_JOB_DIFFERS')
-    estimate=schedule_plan(resource_id=existing['id'],image=config['image'],platform_monthly_usd=schedule['platform_monthly_usd'],smoke_monthly_usd=schedule['smoke_monthly_usd'])
+    estimate=schedule_plan(resource_id=existing['id'],image=config['image'],platform_monthly_usd=schedule['platform_monthly_usd'],smoke_monthly_usd=schedule['smoke_monthly_usd'],
+        demo_earned=config['checks'][schedule['target']]['options']['config']['demo_earned'])
     from .runner_deployment import writable_template
     template=writable_template(existing['properties']['template'])
     if len(template.get('containers',[]))!=1:raise ValueError('RUNNER_SINGLE_EXISTING_WORKER_REQUIRED')
@@ -52,7 +53,7 @@ def plan(config,existing):
     settings={k:copy.deepcopy(v) for k,v in existing['properties']['configuration'].items() if k in ('eventTriggerConfig','identitySettings','manualTriggerConfig','registries','replicaRetryLimit','replicaTimeout','scheduleTriggerConfig','secrets','triggerType')}
     previous=copy.deepcopy(settings.get('scheduleTriggerConfig'))
     settings.pop('manualTriggerConfig',None);settings.pop('eventTriggerConfig',None)
-    settings.update(triggerType='Schedule',scheduleTriggerConfig={'cronExpression':'0 6 * * *','parallelism':1,'replicaCompletionCount':1},replicaTimeout=1800,replicaRetryLimit=0)
+    settings.update(triggerType='Schedule',scheduleTriggerConfig={'cronExpression':'0 6 * * *','parallelism':1,'replicaCompletionCount':1},replicaTimeout=estimate['replica_timeout_seconds'],replicaRetryLimit=0)
     body={'properties':{'configuration':settings,'template':template}};_safe(bytes_of(body))
     return {'resource_id':existing['id'],'method':'PATCH','url':'https://management.azure.com'+existing['id']+'?api-version=2025-01-01',
             'body':body,'prior_schedule':previous,'new_schedule':settings['scheduleTriggerConfig'],
@@ -84,7 +85,8 @@ def apply(config,*,execute=subprocess.run,sleep=time.sleep):
         state=after['properties'].get('provisioningState')
         if state in ('Failed','Canceled','Cancelled'):raise ValueError('RUNNER_DAILY_SCHEDULE_PROVISIONING_FAILED')
         pending=state in ('Updating','InProgress','Accepted','Provisioning')
-        if actual==prepared['new_schedule'] and not pending:
-            return {k:v for k,v in prepared.items()if k!='body'}|{'status':'APPLIED','actual_schedule':actual,'readback_attempts':attempt+1,'provisioning_state':state}
+        runtime=after['properties']['configuration'].get('replicaTimeout')
+        if actual==prepared['new_schedule'] and runtime==prepared['body']['properties']['configuration']['replicaTimeout'] and not pending:
+            return {k:v for k,v in prepared.items()if k!='body'}|{'status':'APPLIED','actual_schedule':actual,'replica_timeout_seconds':runtime,'readback_attempts':attempt+1,'provisioning_state':state}
         if not pending or attempt==2:raise ValueError('RUNNER_DAILY_SCHEDULE_READBACK_DIFFERS')
         sleep(30+15*attempt)
