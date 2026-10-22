@@ -148,6 +148,19 @@ class Decisions(unittest.TestCase):
                     port({},instructions='x',schema=core)
                 self.assertFalse(self.events[-1][2]['uncertain'])
 
+    def test_declared_context_empty_arrays_are_typed_on_wire_and_exact_in_consumer(self):
+        from investigator.adapters.ledger_investigator_ports import decision_transport
+        from investigator.ledger_investigator_tools import literal_schema
+        from investigator.refresh_comparison import whole_entity_context
+        from jsonschema import Draft202012Validator,ValidationError
+        core=literal_schema(whole_entity_context());wire,_=decision_transport(core)
+        filters=wire['properties']['decision']['properties']['filters']
+        self.assertEqual(filters,{'type':'array','items':{'type':'string'}})
+        Draft202012Validator(wire).validate({'decision':whole_entity_context()})
+        changed={**whole_entity_context(),'filters':['invented']}
+        Draft202012Validator(wire).validate({'decision':changed})
+        with self.assertRaises(ValidationError):Draft202012Validator(core).validate(changed)
+
     def test_real_tool_union_stays_within_azure_property_limit(self):
         from investigator.adapters.ledger_investigator_ports import decision_transport
         from investigator.ledger_investigator import schema

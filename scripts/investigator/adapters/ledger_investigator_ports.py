@@ -127,8 +127,15 @@ def decision_transport(schema):
         if isinstance(value,list):return [project(v)for v in value]
         if not isinstance(value,dict):return copy.deepcopy(value)
         # Property names are data, not schema keywords.
-        return {k:({n:project(s)for n,s in v.items()} if k in ('properties','$defs') else project(v))
+        result={k:({n:project(s)for n,s in v.items()} if k in ('properties','$defs') else project(v))
                 for k,v in value.items()if k not in unsupported}
+        if result.get('type')=='array':
+            # Literal empty arrays in the consumer use items:{} and enum:[[]].
+            # Keep an explicitly typed provider item, then enforce the exact
+            # literal and cardinality with the original consumer validator.
+            if result.get('items')=={}:result['items']={'type':'string'}
+            if any(isinstance(v,(dict,list))for v in result.get('enum',[])):result.pop('enum')
+        return result
     wire={'type':'object','properties':{**hoisted,'decision':core},
           'required':[*hoisted,'decision'],'additionalProperties':False}
     wire=project(wire)
