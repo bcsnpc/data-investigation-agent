@@ -169,9 +169,11 @@ def _question(request, projected, enrichment, questions_asked, catalog_hash):
         if len(choices)==12:break
     if not choices:return _hold('NO_NAMED_CATALOG_CHOICES')
     if len({c['label'] for c in choices})!=len(choices):return _hold('CANDIDATE_NAMES_NOT_DISTINGUISHABLE')
+    question_text=('Which number do you want me to check?' if request.get('report') and len(allowed)==1
+                   else 'Which report and number do you want me to check?')
     return {'version':VERSION,'status':'CLARIFYING','reason':'ESSENTIALS_NEED_CONFIRMATION',
             'question_count':1,'investigation_executed':False,
-            'questions':[{'field':'essentials','text':'Which report and number do you want me to check?',
+            'questions':[{'field':'essentials','text':question_text,
                           'choices':choices,'catalog_hash':catalog_hash}]}
 
 

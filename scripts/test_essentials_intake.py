@@ -57,6 +57,7 @@ class EssentialsTests(unittest.TestCase):
         data=request();data.pop('number')
         result=admit(data,CAT)
         self.assertEqual(result['status'],'CLARIFYING')
+        self.assertEqual(result['questions'][0]['text'],'Which number do you want me to check?')
         self.assertNotIn('By Account',json.dumps(result['questions']))
         self.assertTrue(all(c['bindings']['page']=='Overview' for c in result['questions'][0]['choices']))
 
