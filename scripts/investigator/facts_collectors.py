@@ -67,18 +67,18 @@ class IncrementalFactCollector:
         written=[];results=[]
         for signal in signals:
             subject=signal['subject'];old=self.ledger.cursor(estate,identity,subject)
-            if old==signal['marker'] and not force:
-                results.append({'subject':subject,'status':'UNCHANGED_MARKER'});continue
-            if not self.budget.claim('FETCH',[subject]):
-                results.append({'subject':subject,'status':'BUDGET_EXHAUSTED'});continue
-            values=self.adapter.fetch(subject,now=now)
-            values=[fact(value) for value in values]
-            if any(value['subject']!=subject or value['collected_at']!=now for value in values):raise ValueError('FACT_FETCH_OUTSIDE_PATH_OR_TIME')
-            if not values:raise ValueError('FACT_EMPTY_FETCH_REQUIRES_EXPLICIT_GAP')
-            # Markers advance only after facts were durably appended; partial
-            # failures stay retryable and cannot become successful negatives.
-            written.extend(self.ledger.append(estate,values))
-            if all(v['state']!='UNAVAILABLE' for v in values):self.ledger.advance(estate,identity,subject,signal['marker'],now)
+            unchanged=old==signal['marker'] and not force
+            if not unchanged:
+                if not self.budget.claim('FETCH',[subject]):
+                    results.append({'subject':subject,'status':'BUDGET_EXHAUSTED'});continue
+                values=self.adapter.fetch(subject,now=now)
+                values=[fact(value) for value in values]
+                if any(value['subject']!=subject or value['collected_at']!=now for value in values):raise ValueError('FACT_FETCH_OUTSIDE_PATH_OR_TIME')
+                if not values:raise ValueError('FACT_EMPTY_FETCH_REQUIRES_EXPLICIT_GAP')
+                # Markers advance only after facts were durably appended; partial
+                # failures stay retryable and cannot become successful negatives.
+                written.extend(self.ledger.append(estate,values))
+                if all(v['state']!='UNAVAILABLE' for v in values):self.ledger.advance(estate,identity,subject,signal['marker'],now)
             load=signal['load_marker']
             if subject in self.key_tables and load is not None:
                 previous=self.ledger.cursor(estate,identity,subject+':profile')
@@ -88,7 +88,7 @@ class IncrementalFactCollector:
                     if profile['state']!='UNAVAILABLE' and profile['value'].get('load_marker')!=load:raise ValueError('FACT_PROFILE_LOAD_MARKER')
                     written.extend(self.ledger.append(estate,[profile]))
                     if profile['state']!='UNAVAILABLE':self.ledger.advance(estate,identity,subject+':profile',load,now)
-            results.append({'subject':subject,'status':'COLLECTED'})
+            results.append({'subject':subject,'status':'UNCHANGED_MARKER' if unchanged else 'COLLECTED'})
         missing=set(subjects)-{s['subject'] for s in signals}
         for subject in sorted(missing):
             value=observation(subject,'COVERAGE',None,now,listing['evidence_ids'],identity,state='UNAVAILABLE',

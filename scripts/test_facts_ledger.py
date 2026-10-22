@@ -133,6 +133,15 @@ class CollectorTests(unittest.TestCase):
         self.assertEqual(adapter.profile.call_count,2)
         self.assertEqual(self.ledger.read('estate',['visual'])['facts'][0]['value']['row_count'],4)
 
+    def test_unavailable_profile_retries_even_when_runtime_marker_unchanged(self):
+        collector,adapter,budget=self.collector()
+        adapter.profile.side_effect=lambda subject,load_marker,now:observation(subject,'TABLE_PROFILE',None,now,['failed-profile'],'test',state='UNAVAILABLE',reason='endpoint unavailable')
+        collector.run('estate',['visual'],now=T0)
+        self.assertIsNone(self.ledger.cursor('estate',adapter.identity,'visual:profile'))
+        collector.run('estate',['visual'],now=T1)
+        self.assertEqual(adapter.fetch.call_count,1)
+        self.assertEqual(adapter.profile.call_count,2)
+
     def test_exhausted_scan_budget_makes_no_adapter_call(self):
         collector,adapter,budget=self.collector();budget.claim.return_value=False
         self.assertEqual(collector.run('estate',['visual'],now=T0)['status'],'BUDGET_EXHAUSTED')
