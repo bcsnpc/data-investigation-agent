@@ -241,6 +241,8 @@ class GraphRepository:
                 if prior:self.state.sql(db,'UPDATE estate_graph_owner_versions SET definition_hash=?,observed_at=? WHERE estate=? AND owner=?',(value['definition_hash'],now,estate,owner))
                 else:self.state.sql(db,'INSERT INTO estate_graph_owner_versions VALUES(?,?,?,?)',(estate,owner,value['definition_hash'],now))
                 self.state.sql(db,'INSERT INTO estate_graph_changes VALUES(?,?,?,?,?,?)',(estate,now,owner,prior[0] if prior else None,value['definition_hash'],encoded([change for change in changed if change['owner']==owner])))
+                from .enrichment_queue import enqueue
+                enqueue(self.state,db,estate,owner,value['definition_hash'],now)
         return {'status':'UPDATED','changed':len(changed),'changes':changed}
 
     def records(self,estate,*,at=None,identities=None,limit=1000):
