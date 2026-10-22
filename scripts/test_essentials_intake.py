@@ -53,6 +53,13 @@ class EssentialsTests(unittest.TestCase):
         self.assertEqual(result['status'],'CLARIFYING')
         self.assertNotIn('scope',result)
 
+    def test_combined_missing_number_question_preserves_known_page_scope(self):
+        data=request();data.pop('number')
+        result=admit(data,CAT)
+        self.assertEqual(result['status'],'CLARIFYING')
+        self.assertNotIn('By Account',json.dumps(result['questions']))
+        self.assertTrue(all(c['bindings']['page']=='Overview' for c in result['questions'][0]['choices']))
+
     def test_missing_comparison_admits_recreation_and_freshness_without_invented_reference(self):
         result=admit(request(comparison=None),CAT)
         self.assertEqual(result['status'],'READY')

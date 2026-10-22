@@ -138,6 +138,11 @@ def _question(request, projected, enrichment, questions_asked, catalog_hash):
         if ranked_reports and ranked_reports[0]['confidence']>=.8:
             allowed={r['id'] for r in ranked_reports if r['confidence']==ranked_reports[0]['confidence']}
     candidates=[n for n in projected if n['kind'] in ('VISUAL','MEASURE') and n['report_id'] in allowed]
+    if request.get('page'):
+        pages=rank(request['page'],[n for n in projected if n['kind']=='PAGE' and n['report_id'] in allowed],enrichment)
+        if pages and pages[0]['confidence']>=.8:
+            page_ids={n['id'] for n in pages if n['confidence']==pages[0]['confidence']}
+            candidates=[n for n in candidates if n.get('page_id') in page_ids or page_ids.intersection(n.get('page_ids',[]))]
     ranked=rank(request.get('number',''),candidates,enrichment) if request.get('number') else []
     ordered=ranked+[n for n in candidates if (n['id'],n['report_id']) not in {(r['id'],r['report_id']) for r in ranked}]
     choices=[];seen=set()
