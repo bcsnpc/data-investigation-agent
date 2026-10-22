@@ -74,6 +74,11 @@ class FactLedger:
         values = [fact(v) for v in values]
         with self.state.transaction() as db:
             for value in values:
+                # Current graph nodes are replaced transactionally by the existing
+                # scanner. Validate membership here; do not FK durable history to
+                # a current projection that is legitimately deleted/reinserted.
+                subject = self.state.sql(db, 'SELECT identity FROM estate_graph_nodes WHERE estate=? AND identity=?', (estate,value['subject'])).fetchone()
+                if subject is None:raise ValueError('FACT_SUBJECT_NOT_IN_GRAPH')
                 identity = sha(value)
                 old = self.state.sql(db, 'SELECT body_hash FROM estate_node_facts WHERE estate=? AND identity=?', (estate, identity)).fetchone()
                 if old:

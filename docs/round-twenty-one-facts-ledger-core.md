@@ -4,8 +4,8 @@ This component extends the existing SharedState PostgreSQL authority and existin
 GraphRepository/GraphAPI. It is not a second catalog or a local live database.
 SQLite remains an offline test backend only.
 
-Migration 4 creates `estate_node_facts` (append-only observations, graph-node
-foreign key) and `estate_fact_cursors` (incremental collector markers). The same
+Migration 4 creates `estate_node_facts` (append-only observations, validated graph-node
+subject membership (history survives current-projection replacement)) and `estate_fact_cursors` (incremental collector markers). The same
 migration grants existing application role `id-dia-worker`:
 
 ```sql

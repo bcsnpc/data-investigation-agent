@@ -35,11 +35,20 @@ class LedgerTests(unittest.TestCase):
         self.assertIn('GRANT SELECT, INSERT, UPDATE ON TABLE estate_fact_cursors TO "id-dia-worker"',pg)
         self.assertNotIn('DELETE',pg);self.assertNotIn('state_accounts',pg)
 
-    def test_graph_subject_foreign_key_and_fact_hash(self):
+    def test_graph_subject_membership_and_fact_hash(self):
         self.ledger.append('estate',[self.value()])
         with self.assertRaises(Exception):self.ledger.append('estate',[self.value('absent')])
         with self.state.transaction() as db:db.execute("UPDATE estate_node_facts SET body_hash='wrong'")
         with self.assertRaisesRegex(StateConflict,'FACT_HASH'):self.ledger.read('estate',['visual'])
+
+    def test_graph_replacement_and_node_retirement_preserve_fact_history(self):
+        self.ledger.append('estate',[self.value()])
+        changed=copy.deepcopy(graph());changed.update(definition_hash='b'*64,observed_at=T1)
+        changed['nodes']=[n for n in changed['nodes'] if n['id']!='visual']
+        changed['edges']=[e for e in changed['edges'] if e['source']!='visual' and e['target']!='visual']
+        self.repo.replace(changed)
+        self.assertEqual(len(self.ledger.read('estate',['visual'])['facts']),1)
+        with self.assertRaisesRegex(ValueError,'SUBJECT_NOT_IN_GRAPH'):self.ledger.append('estate',[self.value(at=T2)])
 
     def test_as_of_excludes_future_collection_even_if_observed_earlier(self):
         first=self.value();second=self.value(at=T2);second['observed_at']=T0
