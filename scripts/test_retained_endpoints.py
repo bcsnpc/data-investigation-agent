@@ -37,6 +37,22 @@ class RetainedEndpointTests(unittest.TestCase):
         self.assertEqual(result['endpoint_provenance']['source_context_version'],'original')
         self.assertNotIn('surface_report',result)
 
+    def test_cloud_input_requires_receipt_at_declared_path_not_only_prepared_copy(self):
+        from cloud_runner_context import validate_retained_endpoint_input
+        raw=self.path.read_bytes()
+        prepared=self.path.parent/'prepared';prepared.mkdir()
+        (prepared/'endpoints.json').write_bytes(raw)
+        self.path.unlink()
+        with self.assertRaisesRegex(ValueError,'CLOUD_ENDPOINT_INPUT_MISSING'):
+            validate_retained_endpoint_input(self.config)
+        # Packaging installs exactly the retained bytes at the existing pin.
+        self.path.write_bytes((prepared/'endpoints.json').read_bytes())
+        self.assertEqual(validate_retained_endpoint_input(self.config)['status'],'PINNED_INPUT_PRESENT')
+        self.assertEqual(read(self.config,self.context,self.request)['id'],self.request['lakehouse'])
+        self.path.write_bytes(raw+b' ')
+        with self.assertRaisesRegex(ValueError,'CLOUD_ENDPOINT_INPUT_HASH_DIFFERS'):
+            validate_retained_endpoint_input(self.config)
+
     def test_changed_receipt_refuses(self):
         self.path.write_text(self.path.read_text()+' ')
         with self.assertRaisesRegex(ValueError,'receipt changed'):

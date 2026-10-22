@@ -1,0 +1,38 @@
+{
+  "status": "SUCCEEDED",
+  "http_status": 200,
+  "physical_requests": 1,
+  "model_calls": 0,
+  "actual_token_claims": [
+    {
+      "appid": "531419ef-1610-415a-b8bf-01a4b6aad751",
+      "aud": "https://analysis.windows.net/powerbi/api",
+      "oid": "439ceb25-d200-4f02-95cf-4b1318faca62",
+      "tid": "dff91047-ebc2-4657-8dbe-5af328d57780"
+    }
+  ],
+  "target": {
+    "method": "POST",
+    "model": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+    "query_sha256": "1186d7ba56a367801d44ab279adb772f822867bb79791d52d3356f6142ca9755",
+    "request_sha256": "1da6d0993ac58d61e2fc03f2b04d7cb758aeea311266d75642011b7632f6c74a",
+    "url": "https://api.powerbi.com/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/datasets/3484a2bc-98c5-4cef-be5c-a6215484075e/executeQueries",
+    "workspace": "149f8d99-1c66-4a0a-9624-759be002bb60"
+  },
+  "run_id": "round20-dax-object-identity-01",
+  "at": "2026-10-22",
+  "owner_date": "2026-10-21",
+  "execution": "job-dia-worker-w65sg07",
+  "query": "EVALUATE ROW(\"object_id\",USEROBJECTID(),\"username\",USERNAME(),\"upn\",USERPRINCIPALNAME())",
+  "rows": [
+    {
+      "[object_id]": " dff91047-ebc2-4657-8dbe-5af328d57780",
+      "[username]": " dff91047-ebc2-4657-8dbe-5af328d57780",
+      "[upn]": " dff91047-ebc2-4657-8dbe-5af328d57780"
+    }
+  ],
+  "outer_seal_valid": true,
+  "outer_records": 12,
+  "finding": "All three functions return tenant ID, not the caller object ID; no identity attestation awarded",
+  "identity_or_permission_changed": false
+}

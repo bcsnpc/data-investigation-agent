@@ -112,6 +112,22 @@ def install_private_snapshots(manifest_path,prepared):
     return targets
 
 
+def validate_retained_endpoint_input(config):
+    """Admit the declared artifact before model dispatch; never search or repin."""
+    from investigator.adapters.retained_endpoints import validate
+    pin=config.get('fabric',{}).get('retained_endpoints')
+    if pin is None:return None
+    validate(pin)
+    path=Path(pin['receipt_path'])
+    for component in (path,*path.parents):
+        if component.is_symlink() or (component.exists() and getattr(component.lstat(),'st_file_attributes',0)&0x400):
+            raise ValueError('CLOUD_ENDPOINT_INPUT_LINK_FORBIDDEN')
+    if not path.is_file():raise ValueError('CLOUD_ENDPOINT_INPUT_MISSING')
+    if hashlib.sha256(path.read_bytes()).hexdigest()!=pin['receipt_sha256']:
+        raise ValueError('CLOUD_ENDPOINT_INPUT_HASH_DIFFERS')
+    return {'status':'PINNED_INPUT_PRESENT','receipt_sha256':pin['receipt_sha256']}
+
+
 def demo_after_verification(verification,plan,context,prepared):
     """Separate recorded normal form step after fresh reader verification."""
     if verification.get('status')!='COMPLETED' or verification.get('verification_status')!='VERIFIED':
@@ -240,6 +256,8 @@ def demo_from_proof(plan,context,*,verification=None):
         warn('revalidate-fresh-reader-proof',exc)
     if proof is not None:context.record('fresh-reader-proof',proof)
     prepared=Path(options['verification_proof']['prepared'])
+    from investigator.adapters.estate_installation import configuration
+    context.step('admit-retained-endpoint-input',lambda:validate_retained_endpoint_input(configuration(read(plan['manifest']))))
     context.step('install-private-snapshots',lambda:install_private_snapshots(plan['manifest'],prepared))
     from investigator.estate_installation import build
     from investigator.onboarding import digest

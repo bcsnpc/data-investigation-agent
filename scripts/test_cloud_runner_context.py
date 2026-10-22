@@ -122,6 +122,7 @@ class DemoSnapshotTests(unittest.TestCase):
              patch('cloud_verification_proof.validate',return_value=proof), \
              patch('cloud_verification_proof.validate_form_scope',return_value={}), \
              patch('cloud_runner_context.install_private_snapshots',return_value={}), \
+             patch('investigator.adapters.estate_installation.configuration',return_value={}), \
              patch('cloud_runner_context.read',return_value={'description':'same retained family A'}), \
              patch('investigator.estate_installation.build',return_value=(manifest,workspace)), \
              patch('run_adaptive_investigation.local_azure_key',return_value=nullcontext()), \
