@@ -21,6 +21,7 @@ TEST_MODULES = (
     'test_cloud_runner_context.py', 'test_unified_runner.py',
     'test_runner_graph_schedule.py', 'test_cloud_verification_capture.py',
     'test_shared_application_capture.py', 'test_cloud_verification_proof.py',
+    'test_shared_catalog_capture.py',
     'test_recorded_engine_image.py',
     'test_cloud_runtime_storage.py', 'test_demo_admission.py', 'test_graph_value_verification.py', 'test_graph_value_bridge.py',
     'test_capture_transaction_publication.py', 'test_cloud_dax_authorization.py',

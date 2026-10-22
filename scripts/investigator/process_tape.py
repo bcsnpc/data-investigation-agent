@@ -237,6 +237,11 @@ class Tape:
                 fields.add('shared_application_capture')
                 from .shared_application_capture import validate_marker
                 validate_marker(state)
+            if 'shared_catalog_capture' in state:
+                fields.add('shared_catalog_capture')
+                from .shared_catalog import READ_RESULTS_VERSION
+                if state['shared_catalog_capture']!=READ_RESULTS_VERSION:
+                    raise TapeError('SHARED_CATALOG_CAPTURE_VERSION')
             if 'shared_usage_replay' in state:
                 fields.add('shared_usage_replay')
                 from .shared_usage_replay import validate_workspace
