@@ -81,7 +81,7 @@ def _blob_roundtrip(config, body):
 
 def run_smoke(config, context, *, state=None, sign_in=None, gold_read=None, blob_roundtrip=None, demo=None):
     required = {'version', 'run_id', 'reader_authentication', 'gold_payload', 'platform_blob', 'demo_earned'}
-    if not isinstance(config, dict) or set(config) != required or config['version'] != 1:
+    if not isinstance(config, dict) or not required <= set(config) <= required | {'access_check'} or config['version'] != 1:
         raise ValueError('DAILY_SMOKE_CONFIGURATION')
     if not isinstance(config['run_id'], str) or not re.fullmatch(r'[A-Za-z0-9_.:-]{1,100}', config['run_id']):
         raise ValueError('DAILY_SMOKE_RUN_ID')
@@ -105,6 +105,9 @@ def run_smoke(config, context, *, state=None, sign_in=None, gold_read=None, blob
         except Exception as exc:
             # Driver/auth errors can contain credentials: record the class only.
             checks[name] = {'status': 'FAIL', 'error_type': type(exc).__name__}
+    from .access_check import configured as check_access
+    access = context.step('check-access', lambda: check_access(config.get('access_check')))
+    checks['check_access'] = {'status':access['status'], 'result':access}
     def authenticate():
         tokens = provider(config['reader_authentication'])
         tokens.get_token('https://database.windows.net/.default')
@@ -127,7 +130,8 @@ def run_smoke(config, context, *, state=None, sign_in=None, gold_read=None, blob
     step('blob_write_read', lambda: (blob_roundtrip or _blob_roundtrip)(config['platform_blob'], raw))
     if config['demo_earned']:
         step('family_a_demo', demo)
-    status = 'PASS' if all(value['status'] == 'PASS' for value in checks.values()) else 'FAIL'
+    # An untestable legacy binding is reported, never represented as a pass.
+    status = 'FAIL' if any(value['status'] == 'FAIL' for value in checks.values()) else ('PASS' if all(value['status'] == 'PASS' for value in checks.values()) else 'INCOMPLETE')
     return {'kind': 'DAILY_SMOKE', 'status': status, 'run_id': config['run_id'],
             'recorded_at': datetime.now(timezone.utc).isoformat(), 'checks': checks,
             'record': f"{config['run_id']} DAILY_SMOKE {status}", 'demo_included': config['demo_earned'],

@@ -65,6 +65,14 @@ def demo(manifest_path, case_path, port, live=False):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
+    access = commands.add_parser('check-access', help='Probe the declared permission map as each real identity')
+    access.add_argument('--map', type=Path, default=Path(__file__).resolve().parents[1]/'config/permission-map.yaml')
+    access.add_argument('--bindings', type=Path, required=True, help='Deployment-owned identity/probe references, never secret values')
+    access.add_argument('--scope', help='Ticket route scope; omit for the complete map')
+    access.add_argument('--json', action='store_true')
+    rotate = commands.add_parser('rotate-connection-secret', help='Rotate the approved app, vault and both fixed connections')
+    rotate.add_argument('--config', type=Path, required=True)
+    rotate.add_argument('--apply', action='store_true')
     run = commands.add_parser('run',help='Run a typed ticket or check through the pinned container runner')
     run.add_argument('target')
     run.add_argument('--estate',required=True,type=Path)
@@ -86,6 +94,12 @@ def main(argv=None):
     show.add_argument('--port', type=int, default=8776)
     show.add_argument('--live', action='store_true', help='Explicitly enable existing governed execution')
     args = parser.parse_args(argv)
+    if args.command=='check-access':
+        from investigator.access_check import main as access_main
+        return access_main(args)
+    if args.command=='rotate-connection-secret':
+        from investigator.connection_rotation import main as rotation_main
+        return rotation_main(args)
     if args.command=='schedule':
         from investigator.unified_runner import load
         from investigator.adapters.runner_schedule import plan,apply

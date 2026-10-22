@@ -1,0 +1,906 @@
+{
+  "version": "dia-permission-map-v1",
+  "identities": {
+    "owner": {
+      "principal_id": "c22c5e9b-5005-4a48-af98-51d614e6021a",
+      "account": "leelamounika14@gmail.com",
+      "role": "owner controls only; never investigator substitution"
+    },
+    "fabric-owner": {
+      "principal_id": "23de217f-6e14-49cf-9acd-47dcd83cb82f",
+      "account": "admin@skynwhy.com",
+      "role": "publisher/control only"
+    },
+    "investigator": {
+      "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+      "client_id": "531419ef-1610-415a-b8bf-01a4b6aad751",
+      "role": "Viewer; model ReadExplore; SQL db_datareader and VIEW DEFINITION"
+    },
+    "scanner": {
+      "principal_id": "dbb49594-6c70-4989-a6c8-c4f237c4a021",
+      "client_id": "86a9d95a-466c-443e-9eb9-91f870ffe15a",
+      "role": "definition metadata only; Contributor required by platform, code read-only"
+    },
+    "worker": {
+      "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+      "name": "id-dia-worker",
+      "role": "platform state/Blob/Key Vault; federates to investigator for estate reads"
+    },
+    "graph-scan": {
+      "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+      "name": "job-dia-graph-scan via id-dia-worker",
+      "role": "same managed identity; scanner only for supported metadata"
+    },
+    "smoke": {
+      "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+      "name": "job-dia-worker via id-dia-worker",
+      "role": "same managed identity; estate reads as investigator"
+    },
+    "legacy-sql-reader": {
+      "name": "orderops_investigator",
+      "role": "historical SQL only; never a cloud fallback"
+    },
+    "legacy-user-reader": {
+      "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+      "name": "investigator-reader@skynwhy.com",
+      "role": "historical scoped user, not new cloud investigator"
+    },
+    "legacy-code-reader": {
+      "principal_id": "dc89155f-9a9a-4daa-9c20-7eff55818ccd",
+      "client_id": "2dd2f5c3-f7af-4804-b79e-6019e63efa60",
+      "role": "historical definition only; no diagnostic fallback"
+    },
+    "legacy-kql-reader": {
+      "principal_id": "59dd402b-1510-4289-96fb-f1d34d4494c5",
+      "client_id": "ddd4d3cf-9cfd-440e-ac5b-be127caa46ea",
+      "role": "no effective monitoring grant; retained, unused"
+    },
+    "billing-tester": {
+      "name": "billing_tester_reader",
+      "role": "billingapp db_datareader; independent tester only"
+    }
+  },
+  "checks": [
+    {
+      "id": "fixture-workspace",
+      "identity": "investigator",
+      "resource": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60",
+      "action": "list/read workspace items",
+      "scopes": [
+        "fixture"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "fixture-definitions",
+      "identity": "scanner",
+      "resource": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60",
+      "action": "read definitions via approved metadata APIs",
+      "scopes": [
+        "fixture-scan"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "fixture-bronze-sql",
+      "identity": "investigator",
+      "resource": "fixture/bronze/declared-sql-endpoint",
+      "action": "connect and self-report explicit database",
+      "scopes": [
+        "fixture"
+      ],
+      "probe": {
+        "kind": "sql"
+      }
+    },
+    {
+      "id": "fixture-bronze-select",
+      "identity": "investigator",
+      "resource": "fixture/bronze/declared-objects",
+      "action": "SELECT on explicitly declared objects",
+      "scopes": [
+        "fixture"
+      ],
+      "probe": {
+        "kind": "sql_object",
+        "limitation": "Only the explicitly bound object is tested; no schema-wide inference."
+      }
+    },
+    {
+      "id": "fixture-silver-sql",
+      "identity": "investigator",
+      "resource": "fixture/silver/declared-sql-endpoint",
+      "action": "connect and self-report explicit database",
+      "scopes": [
+        "fixture"
+      ],
+      "probe": {
+        "kind": "sql"
+      }
+    },
+    {
+      "id": "fixture-silver-select",
+      "identity": "investigator",
+      "resource": "fixture/silver/declared-objects",
+      "action": "SELECT on explicitly declared objects",
+      "scopes": [
+        "fixture"
+      ],
+      "probe": {
+        "kind": "sql_object",
+        "limitation": "Only the explicitly bound object is tested; no schema-wide inference."
+      }
+    },
+    {
+      "id": "fixture-gold-sql",
+      "identity": "investigator",
+      "resource": "fixture/gold/declared-sql-endpoint",
+      "action": "connect and self-report explicit database",
+      "scopes": [
+        "fixture"
+      ],
+      "probe": {
+        "kind": "sql"
+      }
+    },
+    {
+      "id": "fixture-gold-select",
+      "identity": "investigator",
+      "resource": "fixture/gold/declared-objects",
+      "action": "SELECT on explicitly declared objects",
+      "scopes": [
+        "fixture"
+      ],
+      "probe": {
+        "kind": "sql_object",
+        "limitation": "Only the explicitly bound object is tested; no schema-wide inference."
+      }
+    },
+    {
+      "id": "billing-workspace",
+      "identity": "investigator",
+      "resource": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa",
+      "action": "list/read workspace items",
+      "scopes": [
+        "billing"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "billing-definitions",
+      "identity": "scanner",
+      "resource": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa",
+      "action": "read definitions via approved metadata APIs",
+      "scopes": [
+        "billing-scan"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "billing-bronze-sql",
+      "identity": "investigator",
+      "resource": "billing/bronze/declared-sql-endpoint",
+      "action": "connect and self-report explicit database",
+      "scopes": [
+        "billing"
+      ],
+      "probe": {
+        "kind": "sql"
+      }
+    },
+    {
+      "id": "billing-bronze-select",
+      "identity": "investigator",
+      "resource": "billing/bronze/declared-objects",
+      "action": "SELECT on explicitly declared objects",
+      "scopes": [
+        "billing"
+      ],
+      "probe": {
+        "kind": "sql_object",
+        "limitation": "Only the explicitly bound object is tested; no schema-wide inference."
+      }
+    },
+    {
+      "id": "billing-silver-sql",
+      "identity": "investigator",
+      "resource": "billing/silver/declared-sql-endpoint",
+      "action": "connect and self-report explicit database",
+      "scopes": [
+        "billing"
+      ],
+      "probe": {
+        "kind": "sql"
+      }
+    },
+    {
+      "id": "billing-silver-select",
+      "identity": "investigator",
+      "resource": "billing/silver/declared-objects",
+      "action": "SELECT on explicitly declared objects",
+      "scopes": [
+        "billing"
+      ],
+      "probe": {
+        "kind": "sql_object",
+        "limitation": "Only the explicitly bound object is tested; no schema-wide inference."
+      }
+    },
+    {
+      "id": "billing-gold-sql",
+      "identity": "investigator",
+      "resource": "billing/gold/declared-sql-endpoint",
+      "action": "connect and self-report explicit database",
+      "scopes": [
+        "billing"
+      ],
+      "probe": {
+        "kind": "sql"
+      }
+    },
+    {
+      "id": "billing-gold-select",
+      "identity": "investigator",
+      "resource": "billing/gold/declared-objects",
+      "action": "SELECT on explicitly declared objects",
+      "scopes": [
+        "billing"
+      ],
+      "probe": {
+        "kind": "sql_object",
+        "limitation": "Only the explicitly bound object is tested; no schema-wide inference."
+      }
+    },
+    {
+      "id": "rebuilt-workspace",
+      "identity": "investigator",
+      "resource": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0",
+      "action": "list/read workspace items",
+      "scopes": [
+        "rebuilt"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "rebuilt-definitions",
+      "identity": "scanner",
+      "resource": "fabric://d028fa2b-0d1b-4dd8-b423-37dd161cd5d0",
+      "action": "read definitions via approved metadata APIs",
+      "scopes": [
+        "rebuilt-scan"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "rebuilt-bronze-sql",
+      "identity": "investigator",
+      "resource": "rebuilt/bronze/declared-sql-endpoint",
+      "action": "connect and self-report explicit database",
+      "scopes": [
+        "rebuilt"
+      ],
+      "probe": {
+        "kind": "sql"
+      }
+    },
+    {
+      "id": "rebuilt-bronze-select",
+      "identity": "investigator",
+      "resource": "rebuilt/bronze/declared-objects",
+      "action": "SELECT on explicitly declared objects",
+      "scopes": [
+        "rebuilt"
+      ],
+      "probe": {
+        "kind": "sql_object",
+        "limitation": "Only the explicitly bound object is tested; no schema-wide inference."
+      }
+    },
+    {
+      "id": "rebuilt-silver-sql",
+      "identity": "investigator",
+      "resource": "rebuilt/silver/declared-sql-endpoint",
+      "action": "connect and self-report explicit database",
+      "scopes": [
+        "rebuilt"
+      ],
+      "probe": {
+        "kind": "sql"
+      }
+    },
+    {
+      "id": "rebuilt-silver-select",
+      "identity": "investigator",
+      "resource": "rebuilt/silver/declared-objects",
+      "action": "SELECT on explicitly declared objects",
+      "scopes": [
+        "rebuilt"
+      ],
+      "probe": {
+        "kind": "sql_object",
+        "limitation": "Only the explicitly bound object is tested; no schema-wide inference."
+      }
+    },
+    {
+      "id": "rebuilt-gold-sql",
+      "identity": "investigator",
+      "resource": "rebuilt/gold/declared-sql-endpoint",
+      "action": "connect and self-report explicit database",
+      "scopes": [
+        "rebuilt"
+      ],
+      "probe": {
+        "kind": "sql"
+      }
+    },
+    {
+      "id": "rebuilt-gold-select",
+      "identity": "investigator",
+      "resource": "rebuilt/gold/declared-objects",
+      "action": "SELECT on explicitly declared objects",
+      "scopes": [
+        "rebuilt"
+      ],
+      "probe": {
+        "kind": "sql_object",
+        "limitation": "Only the explicitly bound object is tested; no schema-wide inference."
+      }
+    },
+    {
+      "id": "fixture-dax",
+      "identity": "investigator",
+      "resource": "powerbi://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e",
+      "action": "ReadExplore: constant DAX query",
+      "scopes": [
+        "fixture"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "fixture-fixed-connection",
+      "identity": "fabric-owner",
+      "resource": "fabric-connection://2f322058-f720-40a0-bd1e-d174b8e7f5da",
+      "action": "ShareableCloud / ServicePrincipal / SSO None",
+      "scopes": [
+        "fixture-controls"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "fixture-connection-use",
+      "identity": "investigator",
+      "resource": "fabric-connection://2f322058-f720-40a0-bd1e-d174b8e7f5da",
+      "action": "existing model fixed-identity use",
+      "scopes": [
+        "fixture"
+      ],
+      "probe": {
+        "kind": "not_testable",
+        "reason": "No separate connection grant inferred; successful model DAX probes actual model route"
+      }
+    },
+    {
+      "id": "billing-dax",
+      "identity": "investigator",
+      "resource": "powerbi://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+      "action": "ReadExplore: constant DAX query",
+      "scopes": [
+        "billing"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "billing-fixed-connection",
+      "identity": "fabric-owner",
+      "resource": "fabric-connection://5099b9ff-1f27-488c-98c5-01c030dc4f3c",
+      "action": "ShareableCloud / ServicePrincipal / SSO None",
+      "scopes": [
+        "billing-controls"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "billing-connection-use",
+      "identity": "investigator",
+      "resource": "fabric-connection://5099b9ff-1f27-488c-98c5-01c030dc4f3c",
+      "action": "existing model fixed-identity use",
+      "scopes": [
+        "billing"
+      ],
+      "probe": {
+        "kind": "not_testable",
+        "reason": "No separate connection grant inferred; successful model DAX probes actual model route"
+      }
+    },
+    {
+      "id": "ordersops-app-connect",
+      "identity": "investigator",
+      "resource": "sql-orderops-9696025.database.windows.net/ordersops",
+      "action": "connect and self-report explicit database",
+      "scopes": [
+        "fixture"
+      ],
+      "probe": {
+        "kind": "sql"
+      }
+    },
+    {
+      "id": "ordersops-app-select",
+      "identity": "investigator",
+      "resource": "sql-orderops-9696025.database.windows.net/ordersops",
+      "action": "db_datareader; VIEW DEFINITION on declared objects",
+      "scopes": [
+        "fixture"
+      ],
+      "probe": {
+        "kind": "sql_object",
+        "limitation": "Only the explicitly bound object is tested; no schema-wide inference."
+      }
+    },
+    {
+      "id": "billingapp-app-connect",
+      "identity": "investigator",
+      "resource": "sql-orderops-9696025.database.windows.net/billingapp",
+      "action": "connect and self-report explicit database",
+      "scopes": [
+        "billing"
+      ],
+      "probe": {
+        "kind": "sql"
+      }
+    },
+    {
+      "id": "billingapp-app-select",
+      "identity": "investigator",
+      "resource": "sql-orderops-9696025.database.windows.net/billingapp",
+      "action": "db_datareader; VIEW DEFINITION on declared objects",
+      "scopes": [
+        "billing"
+      ],
+      "probe": {
+        "kind": "sql_object",
+        "limitation": "Only the explicitly bound object is tested; no schema-wide inference."
+      }
+    },
+    {
+      "id": "tenant-service-principals-use-fabric-apis",
+      "identity": "fabric-owner",
+      "resource": "powerbi-tenant/dff91047-ebc2-4657-8dbe-5af328d57780/service-principals-use-fabric-apis",
+      "action": "read setting and included investigator/scanner group",
+      "scopes": [
+        "tenant-controls"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "tenant-dataset-execute-queries-api",
+      "identity": "fabric-owner",
+      "resource": "powerbi-tenant/dff91047-ebc2-4657-8dbe-5af328d57780/dataset-execute-queries-api",
+      "action": "read setting and included investigator/scanner group",
+      "scopes": [
+        "tenant-controls"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "tenant-enhance-admin-api-detailed-metadata",
+      "identity": "fabric-owner",
+      "resource": "powerbi-tenant/dff91047-ebc2-4657-8dbe-5af328d57780/enhance-admin-api-detailed-metadata",
+      "action": "read setting and included investigator/scanner group",
+      "scopes": [
+        "tenant-controls"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "tenant-enhance-admin-api-dax-mashup",
+      "identity": "fabric-owner",
+      "resource": "powerbi-tenant/dff91047-ebc2-4657-8dbe-5af328d57780/enhance-admin-api-dax-mashup",
+      "action": "read setting and included investigator/scanner group",
+      "scopes": [
+        "tenant-controls"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "pg-state_schema_versions",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_schema_versions",
+      "action": "SELECT plus migration-declared platform state privileges",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "postgres"
+      }
+    },
+    {
+      "id": "pg-state_migrations",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_migrations",
+      "action": "SELECT plus migration-declared platform state privileges",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "postgres"
+      }
+    },
+    {
+      "id": "pg-state_accounts",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_accounts",
+      "action": "SELECT plus migration-declared platform state privileges",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "postgres"
+      }
+    },
+    {
+      "id": "pg-state_documents",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_documents",
+      "action": "SELECT plus migration-declared platform state privileges",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "postgres"
+      }
+    },
+    {
+      "id": "pg-state_reservations",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_reservations",
+      "action": "SELECT plus migration-declared platform state privileges",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "postgres"
+      }
+    },
+    {
+      "id": "pg-state_usage",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_usage",
+      "action": "SELECT plus migration-declared platform state privileges",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "postgres"
+      }
+    },
+    {
+      "id": "pg-state_read_batches",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_read_batches",
+      "action": "SELECT plus migration-declared platform state privileges",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "postgres"
+      }
+    },
+    {
+      "id": "pg-state_read_batch_runs",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_read_batch_runs",
+      "action": "SELECT plus migration-declared platform state privileges",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "postgres"
+      }
+    },
+    {
+      "id": "pg-state_read_allocations",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_read_allocations",
+      "action": "SELECT plus migration-declared platform state privileges",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "postgres"
+      }
+    },
+    {
+      "id": "pg-state_usage_acknowledgments",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_usage_acknowledgments",
+      "action": "SELECT plus migration-declared platform state privileges",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "postgres"
+      }
+    },
+    {
+      "id": "pg-budget-update",
+      "identity": "worker",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_accounts",
+      "action": "UPDATE violated only; no account INSERT",
+      "scopes": [
+        "platform"
+      ],
+      "probe": {
+        "kind": "not_testable",
+        "reason": "NO_HARMLESS_SAME_IDENTITY_READ_PROVES_THIS_CONTROL_ACTION"
+      }
+    },
+    {
+      "id": "pg-monthly-accounts",
+      "identity": "owner",
+      "resource": "pg-dia-d5dd7d65/investigator/dia_state.state_accounts",
+      "action": "owner provisions monthly budget accounts",
+      "scopes": [
+        "owner-controls"
+      ],
+      "probe": {
+        "kind": "not_testable",
+        "reason": "NO_HARMLESS_SAME_IDENTITY_READ_PROVES_THIS_CONTROL_ACTION"
+      }
+    },
+    {
+      "id": "worker-blob-captures",
+      "identity": "worker",
+      "resource": "https://diaplatformd5dd7d65.blob.core.windows.net/captures",
+      "action": "read approved objects; platform capture write only",
+      "scopes": [
+        "worker-platform"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "worker-blob-archives",
+      "identity": "worker",
+      "resource": "https://diaplatformd5dd7d65.blob.core.windows.net/archives",
+      "action": "read approved objects; platform capture write only",
+      "scopes": [
+        "worker-platform"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "worker-vault",
+      "identity": "worker",
+      "resource": "https://kv-dia-d5dd7d65.vault.azure.net/secrets/declared-version-only",
+      "action": "get referenced secrets; never enumerate or output values",
+      "scopes": [
+        "worker-platform"
+      ],
+      "probe": {
+        "kind": "not_testable",
+        "reason": "Secret values must not enter access receipts; exercise only approved consumer and retain sanitized outcome"
+      }
+    },
+    {
+      "id": "graph-scan-blob-captures",
+      "identity": "graph-scan",
+      "resource": "https://diaplatformd5dd7d65.blob.core.windows.net/captures",
+      "action": "read approved objects; platform capture write only",
+      "scopes": [
+        "graph-scan-platform"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "graph-scan-blob-archives",
+      "identity": "graph-scan",
+      "resource": "https://diaplatformd5dd7d65.blob.core.windows.net/archives",
+      "action": "read approved objects; platform capture write only",
+      "scopes": [
+        "graph-scan-platform"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "graph-scan-vault",
+      "identity": "graph-scan",
+      "resource": "https://kv-dia-d5dd7d65.vault.azure.net/secrets/declared-version-only",
+      "action": "get referenced secrets; never enumerate or output values",
+      "scopes": [
+        "graph-scan-platform"
+      ],
+      "probe": {
+        "kind": "not_testable",
+        "reason": "Secret values must not enter access receipts; exercise only approved consumer and retain sanitized outcome"
+      }
+    },
+    {
+      "id": "smoke-blob-captures",
+      "identity": "smoke",
+      "resource": "https://diaplatformd5dd7d65.blob.core.windows.net/captures",
+      "action": "read approved objects; platform capture write only",
+      "scopes": [
+        "smoke-platform"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "smoke-blob-archives",
+      "identity": "smoke",
+      "resource": "https://diaplatformd5dd7d65.blob.core.windows.net/archives",
+      "action": "read approved objects; platform capture write only",
+      "scopes": [
+        "smoke-platform"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "smoke-vault",
+      "identity": "smoke",
+      "resource": "https://kv-dia-d5dd7d65.vault.azure.net/secrets/declared-version-only",
+      "action": "get referenced secrets; never enumerate or output values",
+      "scopes": [
+        "smoke-platform"
+      ],
+      "probe": {
+        "kind": "not_testable",
+        "reason": "Secret values must not enter access receipts; exercise only approved consumer and retain sanitized outcome"
+      }
+    },
+    {
+      "id": "owner-secret-investigator-fixed-connection-20261021",
+      "identity": "owner",
+      "resource": "https://kv-dia-d5dd7d65.vault.azure.net/secrets/investigator-fixed-connection-20261021",
+      "action": "manage approved secret metadata",
+      "scopes": [
+        "owner-controls"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "owner-secret-anthropic-api-key",
+      "identity": "owner",
+      "resource": "https://kv-dia-d5dd7d65.vault.azure.net/secrets/anthropic-api-key",
+      "action": "manage approved secret metadata",
+      "scopes": [
+        "owner-controls"
+      ],
+      "probe": {
+        "kind": "http"
+      }
+    },
+    {
+      "id": "owner-app-rotation",
+      "identity": "owner",
+      "resource": "entra-application://531419ef-1610-415a-b8bf-01a4b6aad751",
+      "action": "rotate approved connection credential",
+      "scopes": [
+        "owner-controls"
+      ],
+      "probe": {
+        "kind": "not_testable",
+        "reason": "NO_HARMLESS_SAME_IDENTITY_READ_PROVES_THIS_CONTROL_ACTION"
+      }
+    },
+    {
+      "id": "owner-container-jobs",
+      "identity": "owner",
+      "resource": "rg-dia-platform/job-dia-worker,job-dia-graph-scan,job-dia-collectors",
+      "action": "read/update only owner-approved job configuration",
+      "scopes": [
+        "owner-controls"
+      ],
+      "probe": {
+        "kind": "not_testable",
+        "reason": "NO_HARMLESS_SAME_IDENTITY_READ_PROVES_THIS_CONTROL_ACTION"
+      }
+    },
+    {
+      "id": "legacy-sql-reader-historical",
+      "identity": "legacy-sql-reader",
+      "resource": "orderops_investigator",
+      "action": "historical scope in docs/estate-reader-manifest.md",
+      "scopes": [
+        "historical"
+      ],
+      "probe": {
+        "kind": "not_testable",
+        "reason": "Not a live cloud route; never substitute this identity for configured investigator"
+      }
+    },
+    {
+      "id": "legacy-user-reader-historical",
+      "identity": "legacy-user-reader",
+      "resource": "investigator-reader@skynwhy.com",
+      "action": "historical scope in docs/estate-reader-manifest.md",
+      "scopes": [
+        "historical"
+      ],
+      "probe": {
+        "kind": "not_testable",
+        "reason": "Not a live cloud route; never substitute this identity for configured investigator"
+      }
+    },
+    {
+      "id": "legacy-code-reader-historical",
+      "identity": "legacy-code-reader",
+      "resource": "2dd2f5c3-f7af-4804-b79e-6019e63efa60",
+      "action": "historical scope in docs/estate-reader-manifest.md",
+      "scopes": [
+        "historical"
+      ],
+      "probe": {
+        "kind": "not_testable",
+        "reason": "Not a live cloud route; never substitute this identity for configured investigator"
+      }
+    },
+    {
+      "id": "legacy-kql-reader-historical",
+      "identity": "legacy-kql-reader",
+      "resource": "ddd4d3cf-9cfd-440e-ac5b-be127caa46ea",
+      "action": "historical scope in docs/estate-reader-manifest.md",
+      "scopes": [
+        "historical"
+      ],
+      "probe": {
+        "kind": "not_testable",
+        "reason": "Not a live cloud route; never substitute this identity for configured investigator"
+      }
+    },
+    {
+      "id": "billing-tester-historical",
+      "identity": "billing-tester",
+      "resource": "billing_tester_reader",
+      "action": "historical scope in docs/estate-reader-manifest.md",
+      "scopes": [
+        "historical"
+      ],
+      "probe": {
+        "kind": "not_testable",
+        "reason": "Not a live cloud route; never substitute this identity for configured investigator"
+      }
+    }
+  ]
+}
