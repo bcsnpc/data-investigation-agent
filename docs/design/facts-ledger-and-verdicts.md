@@ -136,3 +136,16 @@ identity-approval and budget controls.
 ## Ticket-path verification loading (owner direction, 2026-10-21)
 
 Verification must load only the evidence for the ticket's own path, never the whole historical catalog. Resolve the admitted target to explicit object and boundary IDs first, then load only their definitions, bindings, surface attestations and referenced evidence. Retain those IDs and hashes in the capture so scope completeness is checked without importing unrelated history. Budget admission uses counters rather than historical evidence payloads. Historical tapes remain unchanged. This is a required Round Twenty-One design constraint; it is not a claim that the current verifier already loads by path.
+
+## Round Twenty-One permission and prerequisite map
+
+Owner-approved additions, 2026-10-21; execution details in
+[the control record](../round-twenty-owner-unblock.md).
+
+| Prerequisite | Authority and boundary | Observed status |
+| --- | --- | --- |
+| Model connection = fixed identity | Owner binds an existing read-only identity; investigator retains Read/Build, never write. Fixed identity and connection ID must be recorded separately from caller identity. | Approved, NOT APPLIED: fixture still default Entra SSO; connection portal authentication blocked. Billing requires its own binding readback. |
+| Budget account exists for current month | Owner creates calendar-month $40 policy; worker consumes it without INSERT policy rights. | VERIFIED: October and November2026 accounts exist, $0 charged each at 2026-10-22T00:26:37Z. December onward requires owner provisioning until rollover is implemented. |
+
+Permission-map presence is not proof of a successful DAX read or demo. Missing
+monthly policy must name the owner setup action rather than widening the worker.

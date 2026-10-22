@@ -957,3 +957,15 @@ Owner approval under section 8, 2026-10-21: retry the on-disk frozen snapshot re
 ### §8 owner build-phase correction, 2026-10-21: verification label, not demo gate
 
 Owner explicitly directs the live family A demo despite retained retry05 NATIVE_DECLARED_ROUTE_NOT_VERIFIED. Attach its exact failed semantic-to-Gold comparison (DAX401, SQL8765) as a not-verified label; handoff checks warn in BUILD_PHASE. Normal gateway/read-only/budget, intake and delivery guards remain enabled. Use the previously approved job-dia-worker-only1CPU/2Gi executionoverride; no identity, permission, provider or schedule change. Demo answer, verification result and same-image replay are separate claims.
+
+
+### Section8 owner approval, 2026-10-21: unblock RoundTwenty before merging
+
+Owner explicitly approves changing only the fixture demo model and, if needed, billing MRR model from default EntraSSO to a shareable fixed-identity cloud connection using an existing read-only identity; no new write rights. Admin sign-in is control-plane only. Existing investigator is federated-only with no secret: use existing investigator-reader OAuth sign-in if supported, never invent a client-secret/federation credential. Record exact before/after model bindings and connection authentication without credentials.
+
+Owner also approves replacing platform PostgreSQL OwnerCurrentIp firewall range with the laptop's current single outwardIPv4 (start=end), preserving every other rule; provision October2026 and November2026 model budget accounts as existing owner, without widening worker roles or resetting historical counters. Add model fixed-identity binding and current-month policy existence to Round21 permission map. Then rerun demo, fixture/MRR checks and same-image replay before fulltests/CI/merge/tag. This approval supersedes the earlier plan to merge with those two blockers pending.
+
+
+### Section8 executed owner controls, 2026-10-21 (UTC October22)
+
+Owner-approved PostgreSQL OwnerCurrentIp replaced single209.240.14.44 with single184.105.12.85; other rules unchanged. Existing owner provisioned October and November2026 model-microdollars accounts at40,000,000 each; both previously absent, zero opening/charged. Historical balances and worker privileges unchanged (SELECT and UPDATE(violated), no INSERT/DELETE/TRUNCATE). No credentials stored or printed. Exact before/after: docs/runs/round-twenty-owner-unblock-controls.json; explanation and owner steps: docs/round-twenty-owner-unblock.md. Power BI fixed identity APPROVED BUT NOT APPLIED: embedded connection portal blank, standalone portal reports Unable to authenticate for GRAPH service. No missing Graph grant inferred, no role/secret workaround. Demo/value/replay reruns pending connection; #427 remains draft, no v0.20.

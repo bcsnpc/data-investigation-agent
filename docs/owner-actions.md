@@ -105,3 +105,8 @@ Owner-controlled connection-change path, NOT APPLIED:
 4. After owner creates it, select that named connection under Maps to and Apply. Record before/after binding, authentication identity, affected model and approval. Re-run a bounded native authorization check as the unchanged investigator before another technical investigation.
 
 Alternative engineering path: evaluate a supported read-only XMLA query adapter without changing this model's SSO. That protocol is not implemented or authorized by the current REST receipt; do not silently substitute it. Until a path is chosen, native REST remains blocked. Documentation: https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/execute-queries-in-group .
+
+
+## 2026-10-21 owner unblock: PostgreSQL completed; model connection needs browser action
+
+The earlier PostgreSQL owner action is completed: current single-IP firewall replacement and October/November $40 policy accounts verified, worker role unchanged. December onward still requires the owner monthly provisioning step above. Exact connection click steps and portal authentication error: [round-twenty-owner-unblock.md](round-twenty-owner-unblock.md). The owner has approved fixed identity; the remaining action is performing the supported OAuth connection flow, not another permission approval. No rerun or merge has occurred behind this prerequisite.
