@@ -627,3 +627,6 @@ Dated Round Fifteen owner-demo replay completion, 2026-10-11: all six original-A
 
 
 Round Twenty release `v0.20`: family A delivered Silver7,661 -> Gold8,765 with verification/attestation warning labels. Original same-image replay failed; repaired-source offline replay matched3/3. Outer capture finalization and verified graph attachment remain limitations. [Summary](docs/round-twenty-summary.md).
+
+
+Round21 active on draft#428: facts migration applied, nine controlled investigator verdicts9/9offline, owner-steer intake3admitted/8questions/1businesshold. No new live enrichment or successful cloud demo claimed. See docs/round-twenty-one-execution.md.
