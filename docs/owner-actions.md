@@ -118,3 +118,6 @@ The earlier interactive-reader connection steps are superseded: owner explicitly
 
 
 Round Twenty owner-action status,2026-10-21/UTC22: fixed-identity fixture/billing connections, approved30-day credential in existing KeyVault, current single-IP PostgreSQL firewall, and October/November budget accounts are COMPLETE; do not repeat older unblock/grant instructions above. No immediate owner action is needed. Rotate the approved fixed-connection credential before2026-11-21T00:59:55Z (Nov20,18:59Central), with a new explicit credential decision. Remaining engineering: outer job finalization failure (no exit reason retained), current-image replay confirmation after accounting repair, practical path-proof attachment and billing SUMX/RELATED graph attachment. No permission broadening is proposed for these.
+
+
+Round Twenty release clarification, UTC2026-10-22: the approved fixed-connection credential expires2026-11-21T00:59:55Z. Any authorised rotation must update the existing app credential, its Key Vault secret and both Fabric connection credentials; Key Vault rotation alone does not update the encrypted Fabric connections. No rotation or extra permission was performed at release.

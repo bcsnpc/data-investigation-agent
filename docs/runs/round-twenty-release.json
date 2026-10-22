@@ -1,0 +1,226 @@
+{
+  "owner_date": "2026-10-21",
+  "execution_date_utc": "2026-10-22",
+  "pr": 427,
+  "merge_commit": "b338080583588bc90f11fd2ea99ee7b0051af4a5",
+  "source_revision": "a9b54f23d8caa7fe05fd4b96f8662a4201ad330b",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:734f8229332e77580dd2108f9054ffb685923313b3ed6ae6c1819f6c32c734c7",
+  "schedules": {
+    "date": "2026-10-21",
+    "source_revision": "a9b54f23d8caa7fe05fd4b96f8662a4201ad330b",
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:734f8229332e77580dd2108f9054ffb685923313b3ed6ae6c1819f6c32c734c7",
+    "new_resource_or_role": false,
+    "reason": "Pin both schedules to tested a9b54f23d8caa7fe05fd4b96f8662a4201ad330b; daily smoke includes the delivered family A demo. Crons, roles, resources and 1800-second runtime unchanged. Native replay and outer-finalization failures remain separate; daily stability is not yet earned.",
+    "updates": [
+      {
+        "name": "job-dia-worker",
+        "patch_sha256": "4cfcd441938ca0fd99743e535607c7e4f450d52f15134f973ca5667b3037bd2e",
+        "before_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c9726e80a632aa25ad370bb5fcc71f5a6593d5e17c5be63db87c6dbd24659eae",
+        "after_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:734f8229332e77580dd2108f9054ffb685923313b3ed6ae6c1819f6c32c734c7",
+        "cron": "0 6 * * *",
+        "cpu": 0.5,
+        "memory": "1Gi",
+        "runtime": 1800
+      },
+      {
+        "name": "job-dia-graph-scan",
+        "patch_sha256": "d4acc3eb29205e4a39804efc5f27ccfa941a7cb33d6cc404b5a8db6d80500799",
+        "before_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c9726e80a632aa25ad370bb5fcc71f5a6593d5e17c5be63db87c6dbd24659eae",
+        "after_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:734f8229332e77580dd2108f9054ffb685923313b3ed6ae6c1819f6c32c734c7",
+        "cron": "0 */6 * * *",
+        "cpu": 0.5,
+        "memory": "1Gi",
+        "runtime": 1800
+      }
+    ],
+    "validation": {
+      "status": "PASS",
+      "daily": {
+        "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-worker",
+        "cron": "0 6 * * *"
+      },
+      "graph": {
+        "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-graph-scan",
+        "cron": "0 */6 * * *"
+      },
+      "runtime_seconds": 1800
+    }
+  },
+  "budget": {
+    "model_reservation_status_counts": [
+      {
+        "status": "SETTLED",
+        "count": 6
+      }
+    ],
+    "observed_at_utc": "2026-10-22T04:27:47.002056+00:00",
+    "physical": {
+      "mode": "BUILD_PHASE",
+      "month_utc": "2026-10",
+      "used": {
+        "RESTORATION": 0,
+        "INVESTIGATION": 289,
+        "SCAN": 41
+      },
+      "limits": {
+        "INVESTIGATION": 4905,
+        "SCAN": 1000,
+        "RESTORATION": 95
+      },
+      "total": 330,
+      "total_limit": 6000,
+      "restoration_remaining": 95,
+      "warnings": []
+    },
+    "model_accounts": {
+      "2026-10": {
+        "identity": "model-microdollars:2026-10",
+        "unit": "MICRODOLLARS",
+        "ceiling": "40000000",
+        "protected": "0",
+        "opening": "0",
+        "charged": "68923",
+        "violated": false
+      },
+      "2026-11": {
+        "identity": "model-microdollars:2026-11",
+        "unit": "MICRODOLLARS",
+        "ceiling": "40000000",
+        "protected": "0",
+        "opening": "0",
+        "charged": "0",
+        "violated": false
+      }
+    },
+    "read_only": true,
+    "authority": "existing owner control-plane platform state; not an estate read"
+  },
+  "no_new_estate_or_model_calls_for_release": true,
+  "local_test_setup_interruption": {
+    "status": "INTERRUPTED_NOT_PASS",
+    "reason": "Global DIA_LIVE_ACCESS_DISABLED blocked a synthetic gateway admission test; standard suite restarted without that unrelated process flag. Original log preserved."
+  },
+  "released_at_utc": "2026-10-22T04:59:46.502499+00:00",
+  "tag": "v0.20",
+  "tag_target": "b338080583588bc90f11fd2ea99ee7b0051af4a5",
+  "main_full_suite": {
+    "tests": 4810,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 47,
+    "junit_tests_including_subtests": 6435,
+    "passed": 4763,
+    "subtests_passed": 1625
+  },
+  "main_ci": {
+    "success": 20,
+    "skipped": 1
+  },
+  "checks": [
+    {
+      "name": "publish",
+      "conclusion": "skipped",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417496/job/119639316816"
+    },
+    {
+      "name": "offline-shards (7)",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417496/job/119638956902"
+    },
+    {
+      "name": "offline-shards (3)",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417496/job/119638956867"
+    },
+    {
+      "name": "offline-shards (6)",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417496/job/119638956839"
+    },
+    {
+      "name": "offline-shards (0)",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417496/job/119638956832"
+    },
+    {
+      "name": "offline-shards (4)",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417496/job/119638956808"
+    },
+    {
+      "name": "offline-shards (1)",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417496/job/119638956798"
+    },
+    {
+      "name": "offline-shards (2)",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417496/job/119638956784"
+    },
+    {
+      "name": "offline-shards (5)",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417496/job/119638956777"
+    },
+    {
+      "name": "build",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417496/job/119638681331"
+    },
+    {
+      "name": "round-ten-earned-3",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417521/job/119638680686"
+    },
+    {
+      "name": "model-step-regression",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417506/job/119638680676"
+    },
+    {
+      "name": "generator-tests",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417506/job/119638680648"
+    },
+    {
+      "name": "powershell-syntax",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417506/job/119638680615"
+    },
+    {
+      "name": "round-ten-earned-4",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417521/job/119638680600"
+    },
+    {
+      "name": "round-ten-earned-1",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417521/job/119638680590"
+    },
+    {
+      "name": "portal",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417506/job/119638680472"
+    },
+    {
+      "name": "round-thirteen-billing-metadata-replay",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417586/job/119638680384"
+    },
+    {
+      "name": "round-ten-earned-2",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417521/job/119638680339"
+    },
+    {
+      "name": "known-domain-acceptance",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417516/job/119638680242"
+    },
+    {
+      "name": "deny-by-default",
+      "conclusion": "success",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39722417492/job/119638680004"
+    }
+  ]
+}

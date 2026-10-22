@@ -1,0 +1,25 @@
+# Round Twenty summary
+
+Owner date: 2026-10-21; execution also spans October 22 UTC. PR #427 merged as `b338080583588bc90f11fd2ea99ee7b0051af4a5`. Release **v0.20** is tagged and pushed.
+
+**Demo answer:** family A delivered `TRANSFORMATION_LOGIC`, Silver **7,661** to Gold **8,765**. The retained left join on `product_id` permits repeated matches while carrying units unchanged. This supports a compatible transformation mechanism; intended grain, uniqueness and a common snapshot are not established. State: `FINDINGS_SHARED`, validated synthesis; 9 physical requests, 3 diagnostic reads, 3 model calls. SQL objects are distinct; engine independence was not established.
+
+**Verification warning:** retry 5 remains `NOT_VERIFIED / NATIVE_DECLARED_ROUTE_NOT_VERIFIED`: its historical DAX HTTP 401 produced no numeric result to compare with Gold 8,765. Later successful access does not change that receipt. Verification is a warning label, as directed.
+
+**Attestation warning:** both outputs say: “attestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately”. Literal tenant-only self-reports remain recorded. Other identity/object contradictions, missing separate proof and read-only guards remain enforced. No native principal attestation is fabricated.
+
+**Replay:** original same-image replay failed **0/3 matched**, `CLOCK:IDENTITY`. Repaired-source offline replay then matched **3/3**, with zero estate/model calls. The replay-only fixes consume the recorded shared-budget reservation UUID and preserve sealed Linux absolute paths on Windows. Originals, request bytes and failures remain intact. This is not an original-image replay pass.
+
+Azure failed during post-delivery finalization. Replica listing was empty; console retrieval returned no replicas. No exit code remains, so timeout versus memory is **unestablished**. All three original sealed native tapes and pinned databases reached Blob and were recovered by exact content hashes. The outer capture remains partial, 1,272 records without its final seal. [Full delivered outputs and evidence](runs/round20-cloud-family-a-demo-fixed-04.json); [corrected-source replay](runs/round20-fixed04-corrected-source-offline-replay.json).
+
+Build-phase budgets now count USD 40 per UTC calendar month; October begins October 19, excluding the historical USD 107.957725 from admission. Physical allowance: 6,000, with 1,000 scan and 95 restoration protected. The typed `dia run` runner replaces ad-hoc job-start and direct two-phase launches, preserving durable step records and short shared-state transactions. Bronze returned 360 rows and movement-key sum 64,980; its native-protocol same-image replay passed. The original SQL 18456 cause remains **unestablished**: the successful read used the same principal/database without a new grant.
+
+DirectLake resolved starts changed fixture **0 -> 29/76**, billing **0 -> 3/7**; unresolved continuations **66 -> 63**, **7 -> 7**. Complete verified source paths: **0**. Filtered fixture value **16** agrees at semantic/Gold/Silver/Bronze; billing MRR **600** agrees at semantic/Gold/declared input views. Their compiler/response replays match, but neither earns `VALUE_VERIFIED`: trusted graph attachment is incomplete; billing also lacks SUMX/RELATED attachment. A SQL engine-label declaration mismatch remains recorded. Numerical agreement is not path verification.
+
+Both scheduled jobs read back on final tested image `sha256:734f8229332e77580dd2108f9054ffb685923313b3ed6ae6c1819f6c32c734c7`: daily smoke **06:00 UTC**, now including A; graph scan **every six hours**. Existing identities, 0.5 vCPU/1 GiB and 1,800-second runtimes are unchanged. Manual demo used 1 vCPU/2 GiB. Daily stability is not yet demonstrated. Conservative recurring estimate: **USD 19.077133/month**, not an invoice.
+
+At **2026-10-22T04:27:47Z**, physical usage is **330/6,000** (investigation 289, scan 41, restoration 0); reserve 95 untouched. October model usage: **USD 0.068923/40**; all six reservations settled, none open. Repairs/replays made no estate/model calls. PostgreSQL owner setup and the two fixed model connections are complete; worker permissions unchanged. The approved secret expires **2026-11-21T00:59:55Z**. Rotation must update the app, Key Vault and both Fabric connections; changing Key Vault alone does not refresh their encrypted credentials.
+
+The Round 21 facts-ledger/verdict design is written, including ticket-path-only verification. Capture finalization, original-image replay, trusted graph attachment and sustained daily stability remain limitations; no harden-phase reliability claim is earned.
+
+Release: **v0.20** tags the validated merge. Main full suite: **4,763 passed, 47 skipped**, plus **1,625 subtests passed**, no failures/errors. Main CI: **20 passed, 1 skipped**. The initial local pass was interrupted after an incorrectly imposed global live-disable flag blocked a synthetic gateway; that log is preserved, and the standard full pass above is separate. [Release and schedule readbacks](runs/round-twenty-release.json).
