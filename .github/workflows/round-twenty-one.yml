@@ -1,0 +1,19 @@
+name: Round Twenty-One foundation
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  ledger-access-rotation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13'
+      - run: pip install -r scripts/requirements-cloud-worker.txt
+      - name: Synthetic access, ledger and owner-control contracts
+        env:
+          PYTHONPATH: scripts
+        run: python -m unittest test_access_check test_connection_rotation test_facts_ledger test_runtime_facts_microsoft test_smoke_run_bound_capture -v
