@@ -70,6 +70,13 @@ class CollectorScheduleTests(unittest.TestCase):
             altered=copy.deepcopy(readback);mutation(altered)
             with self.assertRaises(ValueError):preflight(altered,original)
 
+    def test_arm_empty_get_only_ephemeral_storage_is_not_an_allocation(self):
+        original=source();p=plan(original,self.runner());readback={'id':p['resource_id'],**p['body']}
+        readback['properties']['template']['containers'][0]['resources']['ephemeralStorage']=''
+        self.assertEqual(preflight(readback,original)['resources'],{'cpu':0.25,'memory':'0.5Gi'})
+        readback['properties']['template']['containers'][0]['resources']['ephemeralStorage']='2Gi'
+        with self.assertRaisesRegex(ValueError,'RESOURCE_BOUND'):preflight(readback,original)
+
     def test_unpinned_or_nonunique_capture_refuses(self):
         for key,value in [('image','worker:latest'),('per_execution',False)]:
             r=self.runner();r[key]=value

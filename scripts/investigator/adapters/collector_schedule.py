@@ -77,7 +77,11 @@ def preflight(job,existing):
         c.get('scheduleTriggerConfig')!={'cronExpression':CRON,'parallelism':1,'replicaCompletionCount':1}):
         raise ValueError('COLLECTOR_SCHEDULE_OR_RUNTIME_DIFFERS')
     containers=p.get('template',{}).get('containers',[])
-    if len(containers)!=1 or containers[0].get('resources')!={'cpu':0.25,'memory':'0.5Gi'}:
+    resources=containers[0].get('resources',{}) if len(containers)==1 else {}
+    # ARM echoes an empty GET-only ephemeralStorage field; it is not a
+    # requested allocation. Nonempty/unknown allocations still refuse.
+    resources={k:v for k,v in resources.items() if not(k=='ephemeralStorage' and v in ('',None))}
+    if resources!={'cpu':0.25,'memory':'0.5Gi'}:
         raise ValueError('COLLECTOR_RESOURCE_BOUND_DIFFERS')
     if set(job.get('identity',{}).get('userAssignedIdentities',{}))!=set(existing.get('identity',{}).get('userAssignedIdentities',{})):
         raise ValueError('COLLECTOR_MANAGED_IDENTITY_DIFFERS')
@@ -91,4 +95,4 @@ def preflight(job,existing):
         if container['image']!=runner['image'] or not re.fullmatch(r'[^\s]+@sha256:[a-f0-9]{64}',container['image']):raise ValueError
     except (KeyError,IndexError,StopIteration,TypeError,ValueError):
         raise ValueError('COLLECTOR_TYPED_PINNED_UNIQUE_RUNNER_REQUIRED') from None
-    return {'status':'PASS','cron':CRON,'runtime_seconds':60,'resources':containers[0]['resources']}
+    return {'status':'PASS','cron':CRON,'runtime_seconds':60,'resources':resources}
