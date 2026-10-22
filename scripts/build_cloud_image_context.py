@@ -22,6 +22,7 @@ def admitted(name):
             or (path.parts[0] in {'scripts', 'acceptance'} and path.suffix == '.py')
             or (path.parent == PurePosixPath('scripts') and path.name.startswith('requirements-') and path.suffix == '.txt')
             or (path.parent == PurePosixPath('infra/scripts') and path.suffix == '.ps1')
+            or (path.parent == PurePosixPath('apps/investigator-workspace') and path.suffix in {'.html','.js','.css'})
             or name == 'infra/cloud-worker/Dockerfile')
 
 

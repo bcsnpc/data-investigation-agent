@@ -26,6 +26,10 @@ class CloudOfflineWorkerTests(unittest.TestCase):
         self.assertTrue(admitted('infra/scripts/WorkerResponseBounds.json'))
         self.assertTrue(admitted('acceptance/model_steps/intake-resolution-policy.json'))
         self.assertTrue(admitted('scripts/investigator/windows_ocr.ps1'))
+        self.assertTrue(admitted('apps/investigator-workspace/essentials.html'))
+        self.assertTrue(admitted('apps/investigator-workspace/essentials.js'))
+        self.assertFalse(admitted('apps/investigator-workspace/credentials.json'))
+        self.assertFalse(admitted('apps/investigator-workspace/.local/private.js'))
 
     def test_eight_shards_cover_each_entry_once(self):
         entries = list(range(63))

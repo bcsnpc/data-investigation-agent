@@ -12,6 +12,7 @@ RUN pip install --no-cache-dir -r scripts/requirements-lineage.txt -r scripts/re
 COPY scripts/ /app/scripts/
 COPY acceptance/ /app/acceptance/
 COPY infra/scripts/ /app/infra/scripts/
+COPY apps/investigator-workspace/ /app/apps/investigator-workspace/
 COPY image-source-manifest.json /app/image-source-manifest.json
 RUN groupadd --gid 10001 dia && useradd --uid 10001 --gid dia --no-create-home dia \
     && mkdir /results /work /inputs /app/.local && chown dia:dia /results /work /inputs /app/.local
