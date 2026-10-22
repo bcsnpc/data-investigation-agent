@@ -30,6 +30,26 @@ def answer(request,rows):
 
 
 class MicrosoftFactsTests(unittest.TestCase):
+    def test_refresh_uses_scanner_transport_and_retains_identity_without_reader_upgrade(self):
+        raw=[]; reader=Mock(side_effect=AssertionError('Viewer must not collect refresh history'))
+        scanner=Mock(return_value={'status_code':200,'text':{'value':[]}})
+        scanner.identity={'principal_id':'scanner'}
+        adapter=MicrosoftRuntimeFacts({'model':route('MODEL')},http=reader,refresh_http=scanner,
+            retain=lambda data:(raw.append(data) or retained(data)))
+        adapter.list_changes(['model'])
+        scanner.assert_called_once_with(f'groups/{WS}/datasets/{ITEM}/refreshes?$top=20',audience='powerbi')
+        self.assertIn(b'"principal_id":"scanner"',raw[0]);reader.assert_not_called()
+
+    def test_scanner_refresh_wrapper_rejects_other_calls_before_credentials(self):
+        from investigator.adapters.scanner_refresh import RefreshHttp
+        from test_scanner_guardrails import DECL
+        wrapper=RefreshHttp(DECL,{'model':route('MODEL')},meter=Mock())
+        for path,audience in ((f'groups/{WS}/datasets/{ITEM}/refreshes','powerbi'),
+                              (f'groups/{WS}/datasets/{ITEM}/refreshSchedule','fabric'),
+                              ('workspaces/anything/items','fabric')):
+            with self.assertRaises(PermissionError):wrapper(path,audience=audience)
+        wrapper.meter.assert_not_called()
+
     def adapter(self,subjects=None,http=None,sql=None):
         http=http or Mock(return_value={'status_code':200,'text':{'value':[{'id':'run1','status':'Failed','startTimeUtc':T0,'endTimeUtc':T1,'failureReason':{'errorCode':'ExampleFailure'}}]}})
         adapter=MicrosoftRuntimeFacts(subjects or {'visual':route()},http=http,sql=sql,retain=retained)

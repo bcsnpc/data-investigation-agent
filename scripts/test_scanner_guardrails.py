@@ -30,6 +30,22 @@ def gateway(method,url,purpose='scanner_metadata'):
 
 
 class ScannerGuardrailTests(unittest.TestCase):
+    def test_refresh_history_and_schedule_only_get_with_exact_model_and_shape(self):
+        with auth.job(DECL,[W],kind='SCAN'):
+            for suffix in ('refreshes?$top=20','refreshSchedule'):
+                url=PBI+f'groups/{W}/datasets/{M}/'+suffix
+                gateway('GET',url).http('dia-scanner','GET',url)
+                for method in ('POST','PUT','PATCH','DELETE'):
+                    with self.subTest(method=method,suffix=suffix),self.assertRaises(GatewayDenied):
+                        gateway(method,url).http('dia-scanner',method,url,{})
+                with self.assertRaises(GatewayDenied):gateway('GET',url).http('dia-scanner','GET',url,{'refresh':True})
+            for path in (f'groups/{W}/datasets/{M}/refreshes',f'groups/{W}/datasets/{M}/refreshes?$top=200',
+                         f'groups/{W}/datasets/{M}/refreshes?$top=20&$top=20',
+                         f'groups/{W}/datasets/{M}/refreshSchedule?refresh=true',
+                         f'groups/{W}/datasets/{OTHER}/refreshSchedule',
+                         f'groups/{OTHER}/datasets/{M}/refreshSchedule',f'groups/{W}/datasets/{M}/datasources'):
+                with self.subTest(path=path),self.assertRaises(GatewayDenied):gateway('GET',PBI+path).http('dia-scanner','GET',PBI+path)
+
     def setUp(self):
         self.folder=tempfile.TemporaryDirectory();self.addCleanup(self.folder.cleanup)
         self.env=patch.dict(os.environ,{'DIA_GATEWAY_AUDIT_FILE':str(Path(self.folder.name)/'denials.jsonl')})

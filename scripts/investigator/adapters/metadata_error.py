@@ -26,4 +26,6 @@ def safe_failure(error):
     if type(status)is int and 100<=status<=599:result['http_status']=status
     code=provider_code(getattr(error,'provider_code',None))
     if code is not None:result['provider_code']=code
+    exit_code=getattr(error,'worker_exit_code',None)
+    if type(exit_code)is int:result['worker_exit_code']=exit_code
     return result

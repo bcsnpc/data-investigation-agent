@@ -630,3 +630,5 @@ Round Twenty release `v0.20`: family A delivered Silver7,661 -> Gold8,765 with v
 
 
 Round21 active on draft#428: facts migration applied, nine controlled investigator verdicts9/9offline, owner-steer intake3admitted/8questions/1businesshold. No new live enrichment or successful cloud demo claimed. See docs/round-twenty-one-execution.md.
+
+RoundTwenty-One checkpoint2026-10-22: oldpipelineA AzureSucceeded,32m35s, TRANSFORMATION_LOGIC7661->8765 withlabels, exit0; same-image2/3 (intakeBUDGETmismatchretained). Newledger-onlyquestionSucceeded32s,0models/0estatevaluequeries. NewA03notfoundafter18models andA04earlynotfound are retained, paritynotyetearned; contextmemory andknownprefixcoverage regressionsfixed, finalA05running. Liveenrichment199/200INFERRED,608linksnonepromoted,USD5.170482/25inclallrejectedattempts. Fullbfa62source5005PASS/48skip; finalcoveragechangefullvalidationpending. Intaketwelve3admitted/8onequestion/1held, offlineadmissionnotexecutedinvestigation. Collectorsdeployed30min,selectedjobhistoryobserved; refresh403/auditSQLunavailable. Priorfreezeinvalid; draft428unmerged.

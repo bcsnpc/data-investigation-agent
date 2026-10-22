@@ -22,13 +22,16 @@ class CollectorRequestAllowanceExhausted(ValueError):pass
 
 def validate(config):
     required={'estate','authentication','storage','receipt_uri_prefix','budget','subjects','max_requests','approval'}
-    optional={'sql_configs','list_interval_seconds','key_tables','max_subjects_per_wake'}
+    optional={'sql_configs','list_interval_seconds','key_tables','max_subjects_per_wake','refresh_authentication'}
     if not isinstance(config,dict) or not required<=set(config)<=required|optional:raise ValueError('FACT_COLLECTOR_CONFIGURATION')
     if not isinstance(config['estate'],str) or not config['estate'] or not isinstance(config['approval'],str) or not config['approval']:raise ValueError('FACT_COLLECTOR_APPROVAL')
     if type(config['max_requests']) is not int or not 1<=config['max_requests']<=100:raise ValueError('FACT_REQUEST_ALLOWANCE')
     if not isinstance(config['subjects'],dict) or not 1<=len(config['subjects'])<=200:raise ValueError('FACT_SUBJECT_ALLOWLIST')
     if type(config.get('max_subjects_per_wake',10)) is not int or not 1<=config.get('max_subjects_per_wake',10)<=200:raise ValueError('FACT_WAKE_SUBJECT_BOUND')
     if not set(config.get('key_tables',[]))<=set(config['subjects']):raise ValueError('FACT_KEY_TABLE_OUTSIDE_SCOPE')
+    if 'refresh_authentication' in config:
+        from investigator.adapters.scanner_identity import validate as validate_scanner
+        validate_scanner(config['refresh_authentication'])
     return config
 
 
@@ -44,7 +47,7 @@ def execute(config):
         return collect(config,state=state)
 
 
-def collect(config,*,state,http=None,sql=None,retain=None,meter=None,clock=None):
+def collect(config,*,state,http=None,sql=None,retain=None,meter=None,clock=None,refresh_http=None):
     """Injection seams permit deterministic replay; production defaults are guarded."""
     config=validate(config)
     from scan_estate_graph import Meter
@@ -84,7 +87,13 @@ def collect(config,*,state,http=None,sql=None,retain=None,meter=None,clock=None)
                     with scope(physical):return read(settings,route['database'],request)
                 if meter.used>=config['max_requests']:raise CollectorRequestAllowanceExhausted('FACT_PHYSICAL_ALLOWANCE_EXHAUSTED')
                 return meter(operation)
-        adapter=MicrosoftRuntimeFacts(config['subjects'],http=http,sql=sql,retain=retain)
+        if 'refresh_authentication' in config and refresh_http is None:
+            from investigator.adapters.scanner_refresh import RefreshHttp
+            def refresh_physical(operation):
+                if meter.used>=config['max_requests']:raise CollectorRequestAllowanceExhausted('FACT_PHYSICAL_ALLOWANCE_EXHAUSTED')
+                return meter(operation)
+            refresh_http=RefreshHttp(config['refresh_authentication'],config['subjects'],meter=refresh_physical)
+        adapter=MicrosoftRuntimeFacts(config['subjects'],http=http,sql=sql,retain=retain,refresh_http=refresh_http)
         all_subjects=sorted(config['subjects']);batch_size=config.get('max_subjects_per_wake',10)
         dispatcher='__dispatcher__:'+sha(all_subjects)
         cursor=ledger.cursor(config['estate'],adapter.identity,dispatcher)

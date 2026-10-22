@@ -1,0 +1,1128 @@
+{
+  "observed_at_utc": "2026-10-22T23:42:00Z",
+  "source": "live accepted Message Batches responses over retained hash-pinned definitions; no estate recollection",
+  "counts": {
+    "fixture": 144,
+    "dia-sample-estate": 38,
+    "billing": 17
+  },
+  "total": 199,
+  "links_proposed": 608,
+  "promoted_links": 0,
+  "cost_microdollars": "5170482",
+  "ceiling_microdollars": "25000000",
+  "reservation_status_counts": {
+    "SETTLED": 600
+  },
+  "first_two_generations": "400 rejected originals retained and charged; no historical correction",
+  "last_generation": "199 inferred;1 rejected ENRICHMENT_LINK_TARGET_NOT_IN_INPUT",
+  "examples": [
+    {
+      "estate": "fixture",
+      "subject": "00ccb4c74c50180c279e83af4ea43df3e02f849dc1ad8c23c4ec38927bb6b736",
+      "kind": "MEASURE",
+      "definition_hash": "594800fc77c5fc493a90b506b65b175d0a663e5fb923e0aa69ee931e8ea0371e",
+      "definition_text_sha256": "594800fc77c5fc493a90b506b65b175d0a663e5fb923e0aa69ee931e8ea0371e",
+      "business_meaning": "Flow Balance is a measure that quantifies the net difference between materials, goods, or quantities received and those dispatched within a given context. A positive value indicates a net inflow (more received than dispatched), a negative value indicates a net outflow (more dispatched than received), and zero indicates equilibrium. It is typically used in logistics, inventory, or pipeline management to monitor imbalances in flow operations.",
+      "synonyms": [
+        "Net Flow",
+        "Flow Imbalance",
+        "Volume Variance",
+        "Net Receipt",
+        "Stock Change",
+        "Inventory Delta",
+        "Receipt-Dispatch Difference"
+      ],
+      "calculation_explanation": "The measure is calculated by subtracting Dispatch Volume from Receipt Volume. Specifically: Flow Balance = [Receipt Volume] - [Dispatch Volume]. Both operands are themselves measures resolved from the same data context, and the result represents the signed net flow.",
+      "hidden_logic": [
+        "The subtraction order (Receipt minus Dispatch) means the sign convention treats inbound flow as positive and outbound flow as negative, implying an inventory or stock-accumulation perspective.",
+        "Both Receipt Volume and Dispatch Volume are referenced as named measures rather than raw column aggregations, meaning any filters, aggregations, or transformations applied to those measures are inherited by Flow Balance.",
+        "The measure resides on the Flow Entries table, implying that both receipt and dispatch events are recorded in the same table or that the table serves as the unified fact source for both volumes."
+      ],
+      "proposed_links": [
+        {
+          "definition_hash": "594800fc77c5fc493a90b506b65b175d0a663e5fb923e0aa69ee931e8ea0371e",
+          "end": 76,
+          "quote": "{\"expression\": \"[Receipt Volume]-[Dispatch Volume]\", \"name\": \"Flow Balance\"}",
+          "relationship": "COMPUTED_FROM",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "8018a76ec73923285dc7fbae04ef048592c321ba7ca1888f1329564ae7f4fd9d"
+        },
+        {
+          "definition_hash": "594800fc77c5fc493a90b506b65b175d0a663e5fb923e0aa69ee931e8ea0371e",
+          "end": 76,
+          "quote": "{\"expression\": \"[Receipt Volume]-[Dispatch Volume]\", \"name\": \"Flow Balance\"}",
+          "relationship": "COMPUTED_FROM",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "1a1ed7df0c0d9d97e568827eba388d49be485794d1b9db4f7de5f5e75ecf1335"
+        },
+        {
+          "definition_hash": "594800fc77c5fc493a90b506b65b175d0a663e5fb923e0aa69ee931e8ea0371e",
+          "end": 76,
+          "quote": "{\"expression\": \"[Receipt Volume]-[Dispatch Volume]\", \"name\": \"Flow Balance\"}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "844bf6a16d18c073d41041a7a0ec556989cdccb5bd8687dd8bcb3559d18c5bd4"
+        }
+      ],
+      "status": "INFERRED",
+      "recording_class": "EXACT",
+      "provenance": {
+        "definition_evidence_ids": [
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/8e434350-7100-47b7-a0de-2c5732385dbb/table/Flow%20Entries/measures/Flow%20Balance"
+        ],
+        "evidence_ids": [
+          "enrichment-batches/round21-live-fixture-e0a074071b66e7f9-source-refs-v3/results/246ba666ed67d440a853f868acb3af2d5f1b67b593480f828c40b5b019e5685f:f198364e75e7418ea9ea2354b0bdf13f43ba41032f03bfa8bba2105586fa74be"
+        ],
+        "producer": "anthropic"
+      }
+    },
+    {
+      "estate": "fixture",
+      "subject": "098ea1ce5475e10a7dbb7a747a5becc8d62572ca502a7dfb9372f67f25cbd1f4",
+      "kind": "PAGE",
+      "definition_hash": "bcb6a77634abc65cd519eb5a544a221976e02d96689d1d20915fe59ef9ec498b",
+      "definition_text_sha256": "bcb6a77634abc65cd519eb5a544a221976e02d96689d1d20915fe59ef9ec498b",
+      "business_meaning": "A Microsoft Fabric report page named 'Warehouse Performance' that provides a dedicated canvas for displaying warehouse-related operational metrics and KPIs. The page is configured to fit its content to the page boundaries and uses a light blue-grey background colour (#F3F6FA) with full opacity to create a clean, professional visual presentation for warehouse performance monitoring.",
+      "synonyms": [
+        "Warehouse Performance Page",
+        "Warehouse KPI Dashboard Page",
+        "Warehouse Metrics Report Page",
+        "Warehouse Operations Report Canvas"
+      ],
+      "calculation_explanation": "The page definition specifies layout properties: a fixed canvas of 1280x820 pixels with FitToPage display mode. The background is rendered using a solid fill colour expressed as a hexadecimal literal '#F3F6FA' and a transparency value of 0D (zero decimal, meaning fully opaque). No measures or aggregations are calculated at the page level; the page acts as a container hosting visuals and slicers defined as neighbours.",
+      "hidden_logic": [
+        "The transparency value '0D' uses a decimal literal suffix notation (D), indicating zero transparency and therefore a fully opaque background, which is a non-obvious encoding choice in Power BI/Fabric JSON definitions.",
+        "The internal page name '808c90e3fbe05225bef0' is a system-generated GUID-like identifier distinct from the human-readable displayName 'Warehouse Performance', meaning page references in cross-page navigation must use the internal name rather than the display name.",
+        "The displayOption 'FitToPage' means the report canvas will scale to fit the viewer's screen, which can affect the visual fidelity of pixel-precise elements placed on the 1280x820 canvas."
+      ],
+      "proposed_links": [
+        {
+          "definition_hash": "bcb6a77634abc65cd519eb5a544a221976e02d96689d1d20915fe59ef9ec498b",
+          "end": 751,
+          "quote": "{\n  \"$schema\": \"https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json\",\n  \"name\": \"808c90e3fbe05225bef0\",\n  \"displayName\": \"Warehouse Performance\",\n  \"displayOption\": \"FitToPage\",\n  \"width\": 1280,\n  \"height\": 820,\n  \"objects\": {\n    \"background\": [\n      {\n        \"properties\": {\n          \"color\": {\n            \"solid\": {\n              \"color\": {\n                \"expr\": {\n                  \"Literal\": {\n                    \"Value\": \"'#F3F6FA'\"\n                  }\n                }\n              }\n            }\n          },\n          \"transparency\": {\n            \"expr\": {\n              \"Literal\": {\n                \"Value\": \"0D\"\n              }\n            }\n          }\n        }\n      }\n    ]\n  }\n}",
+          "relationship": "JOINED_VIA",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "f6d37d97e23e7a130adaba037b6cab7ea45036593f4eb2d3e83f62b107bc49b0"
+        },
+        {
+          "definition_hash": "bcb6a77634abc65cd519eb5a544a221976e02d96689d1d20915fe59ef9ec498b",
+          "end": 751,
+          "quote": "{\n  \"$schema\": \"https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json\",\n  \"name\": \"808c90e3fbe05225bef0\",\n  \"displayName\": \"Warehouse Performance\",\n  \"displayOption\": \"FitToPage\",\n  \"width\": 1280,\n  \"height\": 820,\n  \"objects\": {\n    \"background\": [\n      {\n        \"properties\": {\n          \"color\": {\n            \"solid\": {\n              \"color\": {\n                \"expr\": {\n                  \"Literal\": {\n                    \"Value\": \"'#F3F6FA'\"\n                  }\n                }\n              }\n            }\n          },\n          \"transparency\": {\n            \"expr\": {\n              \"Literal\": {\n                \"Value\": \"0D\"\n              }\n            }\n          }\n        }\n      }\n    ]\n  }\n}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "2a9ca369c37e919068ed687030a825fd15d45724b46786cc44b4940701bb8c40"
+        },
+        {
+          "definition_hash": "bcb6a77634abc65cd519eb5a544a221976e02d96689d1d20915fe59ef9ec498b",
+          "end": 751,
+          "quote": "{\n  \"$schema\": \"https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json\",\n  \"name\": \"808c90e3fbe05225bef0\",\n  \"displayName\": \"Warehouse Performance\",\n  \"displayOption\": \"FitToPage\",\n  \"width\": 1280,\n  \"height\": 820,\n  \"objects\": {\n    \"background\": [\n      {\n        \"properties\": {\n          \"color\": {\n            \"solid\": {\n              \"color\": {\n                \"expr\": {\n                  \"Literal\": {\n                    \"Value\": \"'#F3F6FA'\"\n                  }\n                }\n              }\n            }\n          },\n          \"transparency\": {\n            \"expr\": {\n              \"Literal\": {\n                \"Value\": \"0D\"\n              }\n            }\n          }\n        }\n      }\n    ]\n  }\n}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "3d293eee171704574523451ca034e7be3a7736d33edcd3aa88c1c688f265f999"
+        },
+        {
+          "definition_hash": "bcb6a77634abc65cd519eb5a544a221976e02d96689d1d20915fe59ef9ec498b",
+          "end": 751,
+          "quote": "{\n  \"$schema\": \"https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json\",\n  \"name\": \"808c90e3fbe05225bef0\",\n  \"displayName\": \"Warehouse Performance\",\n  \"displayOption\": \"FitToPage\",\n  \"width\": 1280,\n  \"height\": 820,\n  \"objects\": {\n    \"background\": [\n      {\n        \"properties\": {\n          \"color\": {\n            \"solid\": {\n              \"color\": {\n                \"expr\": {\n                  \"Literal\": {\n                    \"Value\": \"'#F3F6FA'\"\n                  }\n                }\n              }\n            }\n          },\n          \"transparency\": {\n            \"expr\": {\n              \"Literal\": {\n                \"Value\": \"0D\"\n              }\n            }\n          }\n        }\n      }\n    ]\n  }\n}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "4f26fa3b24bd759723f42397bc28153285e94ec01df7c81e508b2e4d887db50f"
+        },
+        {
+          "definition_hash": "bcb6a77634abc65cd519eb5a544a221976e02d96689d1d20915fe59ef9ec498b",
+          "end": 751,
+          "quote": "{\n  \"$schema\": \"https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json\",\n  \"name\": \"808c90e3fbe05225bef0\",\n  \"displayName\": \"Warehouse Performance\",\n  \"displayOption\": \"FitToPage\",\n  \"width\": 1280,\n  \"height\": 820,\n  \"objects\": {\n    \"background\": [\n      {\n        \"properties\": {\n          \"color\": {\n            \"solid\": {\n              \"color\": {\n                \"expr\": {\n                  \"Literal\": {\n                    \"Value\": \"'#F3F6FA'\"\n                  }\n                }\n              }\n            }\n          },\n          \"transparency\": {\n            \"expr\": {\n              \"Literal\": {\n                \"Value\": \"0D\"\n              }\n            }\n          }\n        }\n      }\n    ]\n  }\n}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "52f8b44feacffa50c8a97bc2f898df8bc37e19c69bf2c756ffa293ed312f78b0"
+        },
+        {
+          "definition_hash": "bcb6a77634abc65cd519eb5a544a221976e02d96689d1d20915fe59ef9ec498b",
+          "end": 751,
+          "quote": "{\n  \"$schema\": \"https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json\",\n  \"name\": \"808c90e3fbe05225bef0\",\n  \"displayName\": \"Warehouse Performance\",\n  \"displayOption\": \"FitToPage\",\n  \"width\": 1280,\n  \"height\": 820,\n  \"objects\": {\n    \"background\": [\n      {\n        \"properties\": {\n          \"color\": {\n            \"solid\": {\n              \"color\": {\n                \"expr\": {\n                  \"Literal\": {\n                    \"Value\": \"'#F3F6FA'\"\n                  }\n                }\n              }\n            }\n          },\n          \"transparency\": {\n            \"expr\": {\n              \"Literal\": {\n                \"Value\": \"0D\"\n              }\n            }\n          }\n        }\n      }\n    ]\n  }\n}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "829715a2dc5e9dd37023bc1c9b6580df3d54f73e1b8bef74efb5d2eb84802941"
+        },
+        {
+          "definition_hash": "bcb6a77634abc65cd519eb5a544a221976e02d96689d1d20915fe59ef9ec498b",
+          "end": 751,
+          "quote": "{\n  \"$schema\": \"https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json\",\n  \"name\": \"808c90e3fbe05225bef0\",\n  \"displayName\": \"Warehouse Performance\",\n  \"displayOption\": \"FitToPage\",\n  \"width\": 1280,\n  \"height\": 820,\n  \"objects\": {\n    \"background\": [\n      {\n        \"properties\": {\n          \"color\": {\n            \"solid\": {\n              \"color\": {\n                \"expr\": {\n                  \"Literal\": {\n                    \"Value\": \"'#F3F6FA'\"\n                  }\n                }\n              }\n            }\n          },\n          \"transparency\": {\n            \"expr\": {\n              \"Literal\": {\n                \"Value\": \"0D\"\n              }\n            }\n          }\n        }\n      }\n    ]\n  }\n}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "ce28c82993e89812f729448d7f85b506f042d72aa2715291c8ad654cfa6ba9a1"
+        },
+        {
+          "definition_hash": "bcb6a77634abc65cd519eb5a544a221976e02d96689d1d20915fe59ef9ec498b",
+          "end": 751,
+          "quote": "{\n  \"$schema\": \"https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json\",\n  \"name\": \"808c90e3fbe05225bef0\",\n  \"displayName\": \"Warehouse Performance\",\n  \"displayOption\": \"FitToPage\",\n  \"width\": 1280,\n  \"height\": 820,\n  \"objects\": {\n    \"background\": [\n      {\n        \"properties\": {\n          \"color\": {\n            \"solid\": {\n              \"color\": {\n                \"expr\": {\n                  \"Literal\": {\n                    \"Value\": \"'#F3F6FA'\"\n                  }\n                }\n              }\n            }\n          },\n          \"transparency\": {\n            \"expr\": {\n              \"Literal\": {\n                \"Value\": \"0D\"\n              }\n            }\n          }\n        }\n      }\n    ]\n  }\n}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "f4b8e5db231e2eee3921600b51bd7b6eed79f3126f3731a8c1dabd3d730a4d42"
+        }
+      ],
+      "status": "INFERRED",
+      "recording_class": "EXACT",
+      "provenance": {
+        "definition_evidence_ids": [
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ccc6ed61-d9eb-400e-b1c4-956788508254/part/definition%2Fpages%2F808c90e3fbe05225bef0%2Fpage.json"
+        ],
+        "evidence_ids": [
+          "enrichment-batches/round21-live-fixture-e0a074071b66e7f9-source-refs-v3/results/a1a56408ad5f1fe78eee5e4f7d77e52a2e28964ea76e889de37e975af6d39c55:70b36875fac72f87db2f36608a4488ec92f90f12dbdd070f96a3dcd0b1282688"
+        ],
+        "producer": "anthropic"
+      }
+    },
+    {
+      "estate": "fixture",
+      "subject": "0284c061529c1770c19103fbbf5f2f61effaa9a56d39297f6fb66a0beb20673f",
+      "kind": "REPORT",
+      "definition_hash": "fe55d2a1182dfd92780fe273d42f2b08d435c55f49ccb1fe3930d97846b8c6ce",
+      "definition_text_sha256": "fe55d2a1182dfd92780fe273d42f2b08d435c55f49ccb1fe3930d97846b8c6ce",
+      "business_meaning": "An isolated, read-only copy of a report used as a Top-N control page within a workspace. It is named 'Round Nine translation filters 20261007', indicating it captures a specific iteration (round nine) of translation filter configurations as of the date 20261007. The report exists as a standalone snapshot so that the underlying model and data remain unaltered, and it is used to validate or govern Top-N filtering behaviour.",
+      "synonyms": [
+        "Round Nine translation filters",
+        "Top-N control report",
+        "Translation filter snapshot 20261007",
+        "Isolated report copy",
+        "Top-N verification report"
+      ],
+      "calculation_explanation": "The report is not computed dynamically. It is a static, isolated copy frozen at a point in time. Relative-date filtering is explicitly unavailable because the collected event_day field is stored as a string type rather than a date type, preventing date arithmetic. The report carries a fixed display name and is identified by a UUID within a specific workspace.",
+      "hidden_logic": [
+        "Relative-date filtering is intentionally disabled because event_day is typed as string, not a date, meaning any date-range controls would silently fail or be unsupported.",
+        "The descriptor 'Isolated copy' implies the report was deliberately forked from a source report or model to prevent changes to the original, suggesting a governance or audit pattern.",
+        "The suffix '20261007' in the display name encodes a reference date (2026-10-07), likely used to version or label the specific filter configuration captured in this copy.",
+        "The logicalId being null indicates this report has no canonical logical counterpart registered in the estate metadata, reinforcing its nature as an ad-hoc or temporary isolated copy.",
+        "The 'Top-N control page' description suggests this report contains at least one page dedicated to controlling or verifying Top-N query behaviour, linking it to the neighbouring Top-N verification page."
+      ],
+      "proposed_links": [
+        {
+          "definition_hash": "fe55d2a1182dfd92780fe273d42f2b08d435c55f49ccb1fe3930d97846b8c6ce",
+          "end": 357,
+          "quote": "{\"description\": \"Isolated copy; Top-N control page. Existing report/model/data unchanged. Relative-date unavailable because collected event_day type is string.\", \"displayName\": \"Round Nine translation filters 20261007\", \"id\": \"50d1da38-4b5f-4d69-b967-976265655738\", \"logicalId\": null, \"type\": \"Report\", \"workspaceId\": \"149f8d99-1c66-4a0a-9624-759be002bb60\"}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "2793ab8bb2e26cc5b61860b61621e596b0c19bab2d6cf24eeed03307faa2eef1"
+        },
+        {
+          "definition_hash": "fe55d2a1182dfd92780fe273d42f2b08d435c55f49ccb1fe3930d97846b8c6ce",
+          "end": 357,
+          "quote": "{\"description\": \"Isolated copy; Top-N control page. Existing report/model/data unchanged. Relative-date unavailable because collected event_day type is string.\", \"displayName\": \"Round Nine translation filters 20261007\", \"id\": \"50d1da38-4b5f-4d69-b967-976265655738\", \"logicalId\": null, \"type\": \"Report\", \"workspaceId\": \"149f8d99-1c66-4a0a-9624-759be002bb60\"}",
+          "relationship": "FILTERED_BY",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "360fc56ca4f58fc809dd812c3a5e422e8bff5c7b480351fd68f65efe6d3ba491"
+        },
+        {
+          "definition_hash": "fe55d2a1182dfd92780fe273d42f2b08d435c55f49ccb1fe3930d97846b8c6ce",
+          "end": 357,
+          "quote": "{\"description\": \"Isolated copy; Top-N control page. Existing report/model/data unchanged. Relative-date unavailable because collected event_day type is string.\", \"displayName\": \"Round Nine translation filters 20261007\", \"id\": \"50d1da38-4b5f-4d69-b967-976265655738\", \"logicalId\": null, \"type\": \"Report\", \"workspaceId\": \"149f8d99-1c66-4a0a-9624-759be002bb60\"}",
+          "relationship": "FILTERED_BY",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "9e9466a453918739a13da66ca7a089aeca2e9e8d86bef6de589b7bd6627871bb"
+        },
+        {
+          "definition_hash": "fe55d2a1182dfd92780fe273d42f2b08d435c55f49ccb1fe3930d97846b8c6ce",
+          "end": 357,
+          "quote": "{\"description\": \"Isolated copy; Top-N control page. Existing report/model/data unchanged. Relative-date unavailable because collected event_day type is string.\", \"displayName\": \"Round Nine translation filters 20261007\", \"id\": \"50d1da38-4b5f-4d69-b967-976265655738\", \"logicalId\": null, \"type\": \"Report\", \"workspaceId\": \"149f8d99-1c66-4a0a-9624-759be002bb60\"}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "d50686963d0bca39922f63e2b7be09c80d4f280fb2c9bafdb4bbfa07f40c4c6d"
+        }
+      ],
+      "status": "INFERRED",
+      "recording_class": "EXACT",
+      "provenance": {
+        "definition_evidence_ids": [
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738"
+        ],
+        "evidence_ids": [
+          "enrichment-batches/round21-live-fixture-e0a074071b66e7f9-source-refs-v3/results/c79771e5991a9c2f235cebe33ecc5d5034242479782b2ed5f296b6a97c0e857e:0fdf25e03c09998ab5cb0a0c998700b21a2a35675ab1ed49abe82e9dad35cbfd"
+        ],
+        "producer": "anthropic"
+      }
+    },
+    {
+      "estate": "fixture",
+      "subject": "0e2088472e06b3e9c85ddc5a5e368a26b11a57777ef104c2348a990c1ab2adfd",
+      "kind": "SLICER",
+      "definition_hash": "75075008339cae30d00dcc4cd3641fb2cc7a889d8b16c08d38b5568fa2fe2a9c",
+      "definition_text_sha256": "75075008339cae30d00dcc4cd3641fb2cc7a889d8b16c08d38b5568fa2fe2a9c",
+      "business_meaning": "A dropdown slicer visual that allows report users to filter data by warehouse location. It displays values from the 'warehouse_name' column of the 'Locations' entity, labelled 'Location', and has a default filter pre-selecting the value 'North'. The title is hidden and the background is white with no transparency.",
+      "synonyms": [
+        "Location slicer",
+        "Warehouse filter",
+        "Location dropdown",
+        "Warehouse name selector",
+        "North filter"
+      ],
+      "calculation_explanation": "The slicer projects the 'warehouse_name' column from the 'Locations' entity and presents it as a dropdown list. An embedded filter (Version 2) restricts the slicer's own selection to rows where 'warehouse_name' IN ('North'), effectively pre-setting the slicer to 'North' on load. No aggregation or measure calculation is involved; the slicer passes the selected warehouse_name value as a filter context to other visuals on the page.",
+      "hidden_logic": [
+        "The title text is set to 'Location' but the show property is explicitly false, meaning the label is defined but intentionally hidden from the rendered report.",
+        "A hardcoded default filter pre-selects 'North' as the warehouse_name value, so the slicer does not start in an unfiltered state; this is a declared predicate selection baked into the visual definition.",
+        "Background transparency is 0D (fully opaque white #FFFFFF), ensuring the slicer does not inherit any page background colour.",
+        "The slicer mode is 'Dropdown', meaning the list of locations is collapsed by default and must be expanded by the user to change the selection."
+      ],
+      "proposed_links": [
+        {
+          "definition_hash": "75075008339cae30d00dcc4cd3641fb2cc7a889d8b16c08d38b5568fa2fe2a9c",
+          "end": 2400,
+          "quote": "              \"Column\": {\n                  \"Expression\": {\n                    \"SourceRef\": {\n                      \"Entity\": \"Locations\"\n                    }\n                  },\n                  \"Property\": \"warehouse_name\"\n                }\n              },\n              \"queryRef\": \"Locations.warehouse_name\",\n              \"nativeQueryRef\": \"warehouse_name\",\n              \"displayName\": \"Lo",
+          "relationship": "COMPUTED_FROM",
+          "start": 2000,
+          "status": "INFERRED",
+          "target": "4257a0f152666519571527ff2f64b6e1e81172640659b3b5e8a4fdb49b18ea81"
+        },
+        {
+          "definition_hash": "75075008339cae30d00dcc4cd3641fb2cc7a889d8b16c08d38b5568fa2fe2a9c",
+          "end": 4000,
+          "quote": "\n              \"filter\": {\n                \"Version\": 2,\n                \"From\": [\n                  {\n                    \"Name\": \"s\",\n                    \"Entity\": \"Locations\",\n                    \"Type\": 0\n                  }\n                ],\n                \"Where\": [\n                  {\n                    \"Condition\": {\n                      \"In\": {\n                        \"Expressions\": [\n                          {\n                            \"Column\": {\n                              \"Expression\": {\n                                \"SourceRef\": {\n                                  \"Source\": \"s\"\n                                }\n                              },\n                              \"Property\": \"warehouse_name\"\n                            }\n                          }\n                        ],\n                        \"Values\": [\n                          [\n                            {\n                              \"Literal\": {\n                                \"Value\": \"'North'\"\n                              }\n                            }\n                          ]\n                        ]\n                      }\n                    }\n                  }\n         ",
+          "relationship": "FILTERED_BY",
+          "start": 2800,
+          "status": "INFERRED",
+          "target": "d4868bae48a3b0a7b6a5d7bcc38d7817720f736af1ae772bb0919423e1bafa79"
+        },
+        {
+          "definition_hash": "75075008339cae30d00dcc4cd3641fb2cc7a889d8b16c08d38b5568fa2fe2a9c",
+          "end": 2600,
+          "quote": "      }\n              }\n            }\n          }\n        }\n      ]\n    },\n    \"query\": {\n      \"queryState\": {\n        \"Values\": {\n          \"projections\": [\n            {\n              \"field\": {\n                \"Column\": {\n                  \"Expression\": {\n                    \"SourceRef\": {\n                      \"Entity\": \"Locations\"\n                    }\n                  },\n                  \"Property\": \"warehouse_name\"\n                }\n              },\n              \"queryRef\": \"Locations.warehouse_name\",\n              \"nativeQueryRef\": \"warehouse_name\",\n              \"displayName\": \"Location\"\n            }\n          ]\n        }\n      }\n    },\n    \"objects\": {\n      \"data\": [\n        {\n          \"properties\": {\n            \"mode\": {\n              \"expr\": {\n                \"Literal\":",
+          "relationship": "FILTERED_BY",
+          "start": 1800,
+          "status": "INFERRED",
+          "target": "41632fa762babac1c7590f0443a33b0bf0784d3fdd25975268195cd1c4fbe0ff"
+        },
+        {
+          "definition_hash": "75075008339cae30d00dcc4cd3641fb2cc7a889d8b16c08d38b5568fa2fe2a9c",
+          "end": 400,
+          "quote": "{\n  \"$schema\": \"https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json\",\n  \"name\": \"f330a73cbbdf5467ae5c\",\n  \"position\": {\n    \"x\": 24,\n    \"y\": 96,\n    \"width\": 295,\n    \"height\": 70,\n    \"z\": 2,\n    \"tabOrder\": 2\n  },\n  \"visual\": {\n    \"visualType\": \"slicer\",\n    \"visualContainerObjects\": {\n      \"title\": [\n        {\n          \"properties\": {",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "9e9466a453918739a13da66ca7a089aeca2e9e8d86bef6de589b7bd6627871bb"
+        }
+      ],
+      "status": "INFERRED",
+      "recording_class": "EXACT",
+      "provenance": {
+        "definition_evidence_ids": [
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/50d1da38-4b5f-4d69-b967-976265655738/part/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2Ff330a73cbbdf5467ae5c%2Fvisual.json"
+        ],
+        "evidence_ids": [
+          "enrichment-batches/round21-live-fixture-e0a074071b66e7f9-source-refs-v3/results/d089811ed883afa0e32f712de1f9cfae71a8d2e2e7048682c76c4a3cc1065f3e:2b81277a734289b5ecb632d6cb4002b72cfcc17010df06441116d3cfe2f70720"
+        ],
+        "producer": "anthropic"
+      }
+    },
+    {
+      "estate": "fixture",
+      "subject": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+      "kind": "TABLE",
+      "definition_hash": "ec45d792a5e5f2d5c4bd2a04f33e4e5396583c1820af85c2f99f7722d124eaab",
+      "definition_text_sha256": "ec45d792a5e5f2d5c4bd2a04f33e4e5396583c1820af85c2f99f7722d124eaab",
+      "business_meaning": "A bronze-layer Delta table in the round_two_bronze_20261003 Lakehouse that records individual stock movement events, capturing each inbound or outbound inventory transaction at the warehouse and product level. Each row represents a single movement event with its quantity, date, and type, enabling downstream inventory tracking and reconciliation.",
+      "synonyms": [
+        "inventory movements",
+        "stock transactions",
+        "warehouse movements",
+        "inventory events",
+        "stock ledger entries",
+        "inventory adjustments log"
+      ],
+      "calculation_explanation": "The table is a raw ingestion (bronze) Delta table with no derived calculations. It stores one row per stock movement event identified by movement_id, referencing warehouse_id and product_id as foreign-key integers, recording the number of units moved, the event date as a string, and the direction or category of movement via movement_type. Two audit columns (source_modified_at_utc and source_row_version) carry the source system's last-modified timestamp and row version for change-tracking purposes.",
+      "hidden_logic": [
+        "All columns are nullable and carry no default values, suggesting the table accepts partial or incomplete records as part of a landing/bronze ingestion pattern.",
+        "event_day is stored as a string rather than a date type, implying the source system delivers the date in a textual format that is not yet parsed or standardised at this layer.",
+        "source_row_version is typed as binary, indicating it is likely a SQL Server rowversion/timestamp byte array used for incremental or CDC-style extraction from the source system.",
+        "The table name includes 'round_two_20261003', suggesting it is one of multiple versioned or iterative loads, possibly a reprocessing or re-snapshot of the same data set.",
+        "partition_index is 0 for all columns, meaning no partitioning has been defined on the table despite its potential volume as a movement log."
+      ],
+      "proposed_links": [
+        {
+          "definition_hash": "ec45d792a5e5f2d5c4bd2a04f33e4e5396583c1820af85c2f99f7722d124eaab",
+          "end": 400,
+          "quote": "{\"catalog_name\": \"round_two_bronze_20261003.Lakehouse\", \"columns\": [{\"comment\": null, \"name\": \"movement_id\", \"nullable\": true, \"partition_index\": 0, \"position\": 0, \"type_interval_type\": null, \"type_json\": null, \"type_name\": \"integer\", \"type_precision\": 0, \"type_scale\": 0, \"type_text\": null}, {\"comment\": null, \"name\": \"warehouse_id\", \"nullable\": true, \"partition_index\": 0, \"position\": 1, \"type_inte",
+          "relationship": "COPIED_TO",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "f50d812c1cf56e8096a6fcac1f195880e25bcadadef78c71de1cd56483f2a02e"
+        },
+        {
+          "definition_hash": "ec45d792a5e5f2d5c4bd2a04f33e4e5396583c1820af85c2f99f7722d124eaab",
+          "end": 600,
+          "quote": "on\": null, \"type_name\": \"integer\", \"type_precision\": 0, \"type_scale\": 0, \"type_text\": null}, {\"comment\": null, \"name\": \"warehouse_id\", \"nullable\": true, \"partition_index\": 0, \"position\": 1, \"type_interval_type\": null, \"type_json\": null, \"type_name\": \"integer\", \"type_precision\": 0, \"type_scale\": 0, \"type_text\": null}, {\"comment\": null, \"name\": \"product_id\", \"nullable\": true, \"partition_index\": 0, \"",
+          "relationship": "COPIED_TO",
+          "start": 200,
+          "status": "INFERRED",
+          "target": "223fbf2804cadbb06e2afaf57edd64ae78f19938e6c2bb4dea54b5ef8c6eb705"
+        },
+        {
+          "definition_hash": "ec45d792a5e5f2d5c4bd2a04f33e4e5396583c1820af85c2f99f7722d124eaab",
+          "end": 800,
+          "quote": "rval_type\": null, \"type_json\": null, \"type_name\": \"integer\", \"type_precision\": 0, \"type_scale\": 0, \"type_text\": null}, {\"comment\": null, \"name\": \"product_id\", \"nullable\": true, \"partition_index\": 0, \"position\": 2, \"type_interval_type\": null, \"type_json\": null, \"type_name\": \"integer\", \"type_precision\": 0, \"type_scale\": 0, \"type_text\": null}, {\"comment\": null, \"name\": \"units\", \"nullable\": true, \"par",
+          "relationship": "COPIED_TO",
+          "start": 400,
+          "status": "INFERRED",
+          "target": "92b4723080260428597b0efded7d8c1f13ec93b2d462248d946ed6ed042b8cc4"
+        },
+        {
+          "definition_hash": "ec45d792a5e5f2d5c4bd2a04f33e4e5396583c1820af85c2f99f7722d124eaab",
+          "end": 1000,
+          "quote": "position\": 2, \"type_interval_type\": null, \"type_json\": null, \"type_name\": \"integer\", \"type_precision\": 0, \"type_scale\": 0, \"type_text\": null}, {\"comment\": null, \"name\": \"units\", \"nullable\": true, \"partition_index\": 0, \"position\": 3, \"type_interval_type\": null, \"type_json\": null, \"type_name\": \"integer\", \"type_precision\": 0, \"type_scale\": 0, \"type_text\": null}, {\"comment\": null, \"name\": \"event_day\",",
+          "relationship": "COPIED_TO",
+          "start": 600,
+          "status": "INFERRED",
+          "target": "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c"
+        },
+        {
+          "definition_hash": "ec45d792a5e5f2d5c4bd2a04f33e4e5396583c1820af85c2f99f7722d124eaab",
+          "end": 1400,
+          "quote": "tition_index\": 0, \"position\": 3, \"type_interval_type\": null, \"type_json\": null, \"type_name\": \"integer\", \"type_precision\": 0, \"type_scale\": 0, \"type_text\": null}, {\"comment\": null, \"name\": \"event_day\", \"nullable\": true, \"partition_index\": 0, \"position\": 4, \"type_interval_type\": null, \"type_json\": null, \"type_name\": \"string\", \"type_precision\": 0, \"type_scale\": 0, \"type_text\": null}, {\"comment\": null, \"name\": \"movement_type\", \"nullable\": true, \"partition_index\": 0, \"position\": 5, \"type_interval_type\": null, \"type_json\": null, \"type_name\": \"string\", \"type_precision\": 0, \"type_scale\": 0, \"type_text",
+          "relationship": "COPIED_TO",
+          "start": 800,
+          "status": "INFERRED",
+          "target": "f6564b532f0242feccb148580dfbf18e91f245221de01bbc33c897fe4e40c03e"
+        },
+        {
+          "definition_hash": "ec45d792a5e5f2d5c4bd2a04f33e4e5396583c1820af85c2f99f7722d124eaab",
+          "end": 1600,
+          "quote": ", \"name\": \"movement_type\", \"nullable\": true, \"partition_index\": 0, \"position\": 5, \"type_interval_type\": null, \"type_json\": null, \"type_name\": \"string\", \"type_precision\": 0, \"type_scale\": 0, \"type_text\": null}, {\"comment\": null, \"name\": \"source_modified_at_utc\", \"nullable\": true, \"partition_index\": 0, \"position\": 6, \"type_interval_type\": null, \"type_json\": null, \"type_name\": \"timestamp\", \"type_prec",
+          "relationship": "COPIED_TO",
+          "start": 1200,
+          "status": "INFERRED",
+          "target": "7ecef04486bc633a08cfad687f312837f426aa5381ce65295b1330914325146b"
+        },
+        {
+          "definition_hash": "ec45d792a5e5f2d5c4bd2a04f33e4e5396583c1820af85c2f99f7722d124eaab",
+          "end": 1800,
+          "quote": "\": null}, {\"comment\": null, \"name\": \"source_modified_at_utc\", \"nullable\": true, \"partition_index\": 0, \"position\": 6, \"type_interval_type\": null, \"type_json\": null, \"type_name\": \"timestamp\", \"type_precision\": 0, \"type_scale\": 0, \"type_text\": null}, {\"comment\": null, \"name\": \"source_row_version\", \"nullable\": true, \"partition_index\": 0, \"position\": 7, \"type_interval_type\": null, \"type_json\": null, \"t",
+          "relationship": "COPIED_TO",
+          "start": 1400,
+          "status": "INFERRED",
+          "target": "b63211443198551dc1812c8a78ca0f9535cd304b4bfaa40823c5a65692804a9c"
+        },
+        {
+          "definition_hash": "ec45d792a5e5f2d5c4bd2a04f33e4e5396583c1820af85c2f99f7722d124eaab",
+          "end": 2000,
+          "quote": "ision\": 0, \"type_scale\": 0, \"type_text\": null}, {\"comment\": null, \"name\": \"source_row_version\", \"nullable\": true, \"partition_index\": 0, \"position\": 7, \"type_interval_type\": null, \"type_json\": null, \"type_name\": \"binary\", \"type_precision\": 0, \"type_scale\": 0, \"type_text\": null}], \"comment\": \"\", \"created_at\": 1791071197000, \"created_by\": null, \"data_source_format\": \"DELTA\", \"name\": \"stock_movements_",
+          "relationship": "COPIED_TO",
+          "start": 1600,
+          "status": "INFERRED",
+          "target": "bd13596cd0db7d6c0d816191b3eaff6542e98decc01b33f329990347fb12e8ac"
+        },
+        {
+          "definition_hash": "ec45d792a5e5f2d5c4bd2a04f33e4e5396583c1820af85c2f99f7722d124eaab",
+          "end": 2382,
+          "quote": "ype_name\": \"binary\", \"type_precision\": 0, \"type_scale\": 0, \"type_text\": null}], \"comment\": \"\", \"created_at\": 1791071197000, \"created_by\": null, \"data_source_format\": \"DELTA\", \"name\": \"stock_movements_round_two_20261003\", \"owner\": null, \"properties\": null, \"schema_name\": \"dbo\", \"storage_location\": \"https://onelake.dfs.fabric.microsoft.com/149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/Tables/dbo/stock_movements_round_two_20261003\", \"table_id\": \"c210125b-6b46-4c95-bc43-5b28253554d5\", \"table_type\": null, \"updated_at\": 1791071198000, \"updated_by\": null}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 1800,
+          "status": "INFERRED",
+          "target": "f8aa2933fb2967c7d6a4fd73d57fa574cdafa8bdad45d3e38c3cd528e5bb5b90"
+        }
+      ],
+      "status": "INFERRED",
+      "recording_class": "EXACT",
+      "provenance": {
+        "definition_evidence_ids": [
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+        ],
+        "evidence_ids": [
+          "enrichment-batches/round21-live-fixture-ce21587c3eec8d8f-source-refs-v3/results/1531167ab6b67851060f043b5f36c03c39f52e40cfaad97ad4b06d92b54cb562:ab234407f7a0ebacaf7cdcbbb5f485ad3af52113abe09d521f123e66030b79b9"
+        ],
+        "producer": "anthropic"
+      }
+    },
+    {
+      "estate": "billing",
+      "subject": "0532113507705dcd143663c4e93c281c5e2d80468d9b875945e162954f3616c7",
+      "kind": "MEASURE",
+      "definition_hash": "9c8c12c7288086825a87bdd15dcd0e4c4d71cb80da05eced36d4885aae18f277",
+      "definition_text_sha256": "9c8c12c7288086825a87bdd15dcd0e4c4d71cb80da05eced36d4885aae18f277",
+      "business_meaning": "Monthly Recurring Revenue (MRR) aggregated across all subscription plans, ignoring any plan-level filter context. It sums the monthly price of every active subscription regardless of which plan dimension is currently selected in a report, giving a single total MRR figure across the entire plan catalogue.",
+      "synonyms": [
+        "Total MRR",
+        "All Plans MRR",
+        "Unfiltered Monthly Recurring Revenue",
+        "Gross MRR All Plans",
+        "MRR Across All Plans"
+      ],
+      "calculation_explanation": "FILTER restricts the Subscriptions table to rows where status equals 'ACTIVE'. SUMX then iterates over those filtered rows and retrieves the related monthly_price from the Plans table for each subscription via RELATED. CALCULATE wraps the expression and REMOVEFILTERS(Plans) ensures that any external filter on the Plans table is stripped away before evaluation, so the result always reflects all plans.",
+      "hidden_logic": [
+        "Only subscriptions with status exactly equal to 'ACTIVE' (case-sensitive string match) are included; any other status values such as 'CANCELLED', 'PAUSED', or 'TRIAL' are silently excluded.",
+        "REMOVEFILTERS(Plans) overrides report-level or slicer-driven plan filters, meaning the measure will return the same total regardless of which plan a user has selected in a visual.",
+        "The revenue unit is whatever currency and period 'monthly_price' is stored in; the measure implicitly assumes monthly_price is already a monthly figure and does not perform any pro-ration or time-based adjustment.",
+        "RELATED requires an active relationship between Subscriptions and Plans; if that relationship were inactive or missing, the measure would fail or return blank without an explicit warning in this definition."
+      ],
+      "proposed_links": [
+        {
+          "definition_hash": "9c8c12c7288086825a87bdd15dcd0e4c4d71cb80da05eced36d4885aae18f277",
+          "end": 170,
+          "quote": "{\"expression\": \"CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status] = \\\"ACTIVE\\\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans))\", \"name\": \"MRR All Plans\"}",
+          "relationship": "FILTERED_BY",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "395a5812df5ab67115c3a2a109c776b574405bb4afa61b624985674d87e9b225"
+        },
+        {
+          "definition_hash": "9c8c12c7288086825a87bdd15dcd0e4c4d71cb80da05eced36d4885aae18f277",
+          "end": 170,
+          "quote": "{\"expression\": \"CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status] = \\\"ACTIVE\\\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans))\", \"name\": \"MRR All Plans\"}",
+          "relationship": "COMPUTED_FROM",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "8d6d0ea0953b4cfe06b27a3dd86ea43547ca414c7408bfbbf436660b58d95305"
+        },
+        {
+          "definition_hash": "9c8c12c7288086825a87bdd15dcd0e4c4d71cb80da05eced36d4885aae18f277",
+          "end": 170,
+          "quote": "{\"expression\": \"CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status] = \\\"ACTIVE\\\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans))\", \"name\": \"MRR All Plans\"}",
+          "relationship": "JOINED_VIA",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "d2f8d173f9baa2b2af13ed8c0dbf2555504118f5681544dc244bf441c3e8d35a"
+        },
+        {
+          "definition_hash": "9c8c12c7288086825a87bdd15dcd0e4c4d71cb80da05eced36d4885aae18f277",
+          "end": 170,
+          "quote": "{\"expression\": \"CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status] = \\\"ACTIVE\\\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans))\", \"name\": \"MRR All Plans\"}",
+          "relationship": "JOINED_VIA",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "e08aea88ef54263a14b6a8850ba22639fd646b531f7615decd0f5dbfee56387d"
+        },
+        {
+          "definition_hash": "9c8c12c7288086825a87bdd15dcd0e4c4d71cb80da05eced36d4885aae18f277",
+          "end": 170,
+          "quote": "{\"expression\": \"CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status] = \\\"ACTIVE\\\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans))\", \"name\": \"MRR All Plans\"}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "2b9e6f88834911285e6dae466b9c4be7276b7b7db1351f77049801776ead04ca"
+        }
+      ],
+      "status": "INFERRED",
+      "recording_class": "EXACT",
+      "provenance": {
+        "definition_evidence_ids": [
+          "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/measures/MRR%20All%20Plans"
+        ],
+        "evidence_ids": [
+          "enrichment-batches/round21-live-billing-0c0a57bffd4da366-source-refs-v3/results/ec8aa757d4546fd0eea38ec8c20b8cf3449d8d9c1546819bd7dfaf297e64dea2:e3adc2a9389132181f3fba3dda029695e9a11947ed61ecd89be98b7bfba7ecd3"
+        ],
+        "producer": "anthropic"
+      }
+    },
+    {
+      "estate": "billing",
+      "subject": "5572b12692dd31e0841e71fbfa35312d2d2ad69d1c23ee8d01c99343889b24f4",
+      "kind": "PAGE",
+      "definition_hash": "5630f5adf7565195f24ebdfaae52d81fd4349026a094213be95d47e1b4dd8963",
+      "definition_text_sha256": "5630f5adf7565195f24ebdfaae52d81fd4349026a094213be95d47e1b4dd8963",
+      "business_meaning": "This is a report page named 'Recent Collections' within the 'Subscription Billing' report in the billing estate. It is configured to display at a resolution of 1280x820 pixels with a FitToPage display option, meaning all content is scaled to fit the page canvas. The page likely presents a summary or listing of recently processed billing collections for subscription-based services.",
+      "synonyms": [
+        "Recent Collections Page",
+        "Collections Report Page",
+        "Subscription Collections View",
+        "Recent Billing Collections",
+        "Collections Summary Page"
+      ],
+      "calculation_explanation": "No calculations are performed by this artifact. It is a layout definition for a Microsoft Fabric report page, specifying the page name, display name, display mode (FitToPage), and canvas dimensions (width: 1280, height: 820). These are purely presentational configuration values.",
+      "hidden_logic": [
+        "The 'FitToPage' displayOption implies that visuals on this page are automatically scaled to fit the viewport, which may affect how data is visually presented to end users.",
+        "The internal name 'e02da1e0c071513ea847' differs from the display name 'Recent Collections', indicating the system uses a generated identifier for referencing the page programmatically while showing a user-friendly label.",
+        "The page is part of a report scoped to the 'billing' estate, suggesting the collections displayed are financial or transactional in nature related to subscription billing cycles."
+      ],
+      "proposed_links": [
+        {
+          "definition_hash": "5630f5adf7565195f24ebdfaae52d81fd4349026a094213be95d47e1b4dd8963",
+          "end": 255,
+          "quote": "{\n  \"$schema\": \"https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json\",\n  \"name\": \"e02da1e0c071513ea847\",\n  \"displayName\": \"Recent Collections\",\n  \"displayOption\": \"FitToPage\",\n  \"width\": 1280,\n  \"height\": 820\n}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "44dc6baac12f79e0f4a1c4474c63bb2867262137212e4061f4ce0882c4a90257"
+        },
+        {
+          "definition_hash": "5630f5adf7565195f24ebdfaae52d81fd4349026a094213be95d47e1b4dd8963",
+          "end": 255,
+          "quote": "{\n  \"$schema\": \"https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json\",\n  \"name\": \"e02da1e0c071513ea847\",\n  \"displayName\": \"Recent Collections\",\n  \"displayOption\": \"FitToPage\",\n  \"width\": 1280,\n  \"height\": 820\n}",
+          "relationship": "JOINED_VIA",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "9f0b8c4f3dfecd18cac101a5908ff709ef7543a18b44b96e76726d6b91724811"
+        }
+      ],
+      "status": "INFERRED",
+      "recording_class": "EXACT",
+      "provenance": {
+        "definition_evidence_ids": [
+          "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/part/definition%2Fpages%2Fe02da1e0c071513ea847%2Fpage.json"
+        ],
+        "evidence_ids": [
+          "enrichment-batches/round21-live-billing-0c0a57bffd4da366-source-refs-v3/results/d1bf3f216d59a84e2b8559bf21973dff36adefea53058013e142a4b63814a697:cba1916441739c122a5b7fdb84a832a89cfc59f12a6e315e4a86cd296a31c4cb"
+        ],
+        "producer": "anthropic"
+      }
+    },
+    {
+      "estate": "billing",
+      "subject": "44dc6baac12f79e0f4a1c4474c63bb2867262137212e4061f4ce0882c4a90257",
+      "kind": "REPORT",
+      "definition_hash": "e04c6df34bdbff76cc9e1e98275b38bbb0cf8ed9111ee2c512ec517e45b24391",
+      "definition_text_sha256": "e04c6df34bdbff76cc9e1e98275b38bbb0cf8ed9111ee2c512ec517e45b24391",
+      "business_meaning": "A Power BI Report named 'Subscription Billing' residing in a specific workspace within a billing estate. It serves as a consolidated reporting asset focused on subscription billing operations, likely providing visibility into recurring charges, account statuses, and recent collection activities.",
+      "synonyms": [
+        "Subscription Billing Report",
+        "Recurring Billing Report",
+        "Subscription Collections Report",
+        "Billing Summary Report"
+      ],
+      "calculation_explanation": "This asset is a Report type with no additional computed logic described in the definition. It aggregates information across its constituent pages \u2014 Recent Collections, Subscription Billing, and Accounts \u2014 to present billing-related data to end users. No formula or transformation logic is specified at the report level itself.",
+      "hidden_logic": [
+        "The report has a null logicalId, suggesting it may not be linked to a logical dataset or lineage chain explicitly within the metadata model.",
+        "The empty description field indicates documentation has not been provided for this report, which may reduce discoverability.",
+        "The workspaceId ties this report to a specific Power BI workspace, implying access and governance are scoped at the workspace level."
+      ],
+      "proposed_links": [
+        {
+          "definition_hash": "e04c6df34bdbff76cc9e1e98275b38bbb0cf8ed9111ee2c512ec517e45b24391",
+          "end": 196,
+          "quote": "{\"description\": \"\", \"displayName\": \"Subscription Billing\", \"id\": \"e995a2cf-7748-45f7-bde1-47510ddc509a\", \"logicalId\": null, \"type\": \"Report\", \"workspaceId\": \"7d67bb36-04f6-4182-95aa-da5d515248fa\"}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "5572b12692dd31e0841e71fbfa35312d2d2ad69d1c23ee8d01c99343889b24f4"
+        },
+        {
+          "definition_hash": "e04c6df34bdbff76cc9e1e98275b38bbb0cf8ed9111ee2c512ec517e45b24391",
+          "end": 196,
+          "quote": "{\"description\": \"\", \"displayName\": \"Subscription Billing\", \"id\": \"e995a2cf-7748-45f7-bde1-47510ddc509a\", \"logicalId\": null, \"type\": \"Report\", \"workspaceId\": \"7d67bb36-04f6-4182-95aa-da5d515248fa\"}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "69271186d3ccfbba0cccf5a28033b28f779e8c46e00b6f45adad14d97507539e"
+        },
+        {
+          "definition_hash": "e04c6df34bdbff76cc9e1e98275b38bbb0cf8ed9111ee2c512ec517e45b24391",
+          "end": 196,
+          "quote": "{\"description\": \"\", \"displayName\": \"Subscription Billing\", \"id\": \"e995a2cf-7748-45f7-bde1-47510ddc509a\", \"logicalId\": null, \"type\": \"Report\", \"workspaceId\": \"7d67bb36-04f6-4182-95aa-da5d515248fa\"}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "f7a5777102d10ad0f8713f2881214e82e164434d4555f6c848ae9d00aa83a220"
+        }
+      ],
+      "status": "INFERRED",
+      "recording_class": "EXACT",
+      "provenance": {
+        "definition_evidence_ids": [
+          "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a"
+        ],
+        "evidence_ids": [
+          "enrichment-batches/round21-live-billing-0c0a57bffd4da366-source-refs-v3/results/09b7ba344ea4307dbfd81b912697cf6ce93f17a0eb3d5bd2c8f3b40eeca75984:05eded07a79fb4f2b6e19ad9dc7a604e230f26a8dd4bea6fbb5a28430946dfe2"
+        ],
+        "producer": "anthropic"
+      }
+    },
+    {
+      "estate": "billing",
+      "subject": "01bca5b114e2a561d56d1010ae38978fa8ac5ca3ffaf8ee731856fa51e0104e9",
+      "kind": "VISUAL",
+      "definition_hash": "e05eb432252e34823719b7a35a7e33a0c1ba5acc139e5abc442f9af292af93d9",
+      "definition_text_sha256": "e05eb432252e34823719b7a35a7e33a0c1ba5acc139e5abc442f9af292af93d9",
+      "business_meaning": "A clustered bar chart titled 'Top Accounts by Invoice Value' that displays the two accounts with the highest total invoiced amounts. It is designed to give a quick at-a-glance view of the most valuable billing customers, restricting the display to only the top 2 accounts ranked by their invoiced amount measure.",
+      "synonyms": [
+        "Top 2 Accounts by Invoiced Amount",
+        "Highest Value Billing Accounts",
+        "Top Accounts Bar Chart",
+        "Top Billing Customers",
+        "Top Accounts by Invoice Value Chart"
+      ],
+      "calculation_explanation": "The visual projects account_name from the Accounts entity on the category axis and the 'Invoiced Amount' measure from the Billing entity on the value axis. A TopN filter named 'billing_top_two_accounts' is applied to the account_name column: a subquery selects account_name from Accounts joined with Billing, orders the results descending (Direction 2) by the 'Invoiced Amount' measure, and takes the top 2 rows. The outer filter then restricts the visual to only those 2 account names using an IN condition.",
+      "hidden_logic": [
+        "The TopN filter is user-created (howCreated: User), meaning it was explicitly added rather than being auto-generated by the report engine.",
+        "Direction 2 in the OrderBy clause represents descending order, so the two accounts with the largest invoiced amounts are selected, not the smallest.",
+        "The filter operates via a correlated subquery rather than a simple Top N visual-level setting, giving it precise control over which accounts are included before rendering.",
+        "The filter references both the Accounts and Billing entities in its From clause, indicating an implicit join between the two entities is required to rank accounts by the billing measure.",
+        "The visual tab order and z-index (tabOrder: 1, z: 1) suggest this is the primary or first visual on the page in terms of navigation and layering."
+      ],
+      "proposed_links": [
+        {
+          "definition_hash": "e05eb432252e34823719b7a35a7e33a0c1ba5acc139e5abc442f9af292af93d9",
+          "end": 2400,
+          "quote": "ount\",\n              \"displayName\": \"Invoiced Amount\"\n            }\n          ]\n        }\n      }\n    }\n  },\n  \"filterConfig\": {\n    \"filters\": [\n      {\n        \"name\": \"billing_top_two_accounts\",\n        \"field\": {\n          \"Column\": {\n            \"Expression\": {\n              \"SourceRef\": {\n                \"Entity\": \"Accounts\"\n              }\n            },\n            \"Property\": \"account_name\"\n          }\n        },\n        \"type\": \"TopN\",\n        \"howCreated\": \"User\",\n        \"filter\": {\n          \"Version\": 2,\n          \"From\": [\n            {\n              \"Name\": \"a\",\n              \"",
+          "relationship": "FILTERED_BY",
+          "start": 1800,
+          "status": "INFERRED",
+          "target": "41a2188fe2808d3627a1c030cacd819a4d9b715a7863d1858fab89b0f6ac02a6"
+        },
+        {
+          "definition_hash": "e05eb432252e34823719b7a35a7e33a0c1ba5acc139e5abc442f9af292af93d9",
+          "end": 1400,
+          "quote": "ery\": {\n      \"queryState\": {\n        \"Category\": {\n          \"projections\": [\n            {\n              \"field\": {\n                \"Column\": {\n                  \"Expression\": {\n                    \"SourceRef\": {\n                      \"Entity\": \"Accounts\"\n                    }\n                  },\n                  \"Property\": \"account_name\"\n                }\n              },\n              \"queryRef\": \"Accounts.account_name\",\n              \"nativeQueryRef\": \"account_name\",\n              \"displayName\": \"Account\"\n            }\n          ]\n        },\n        \"Y\": {\n          \"projections\": [\n  ",
+          "relationship": "COMPUTED_FROM",
+          "start": 800,
+          "status": "INFERRED",
+          "target": "6284762df205955f1f183fd858316ef1a00f9cc9cb2606193e7eca99ff166e99"
+        },
+        {
+          "definition_hash": "e05eb432252e34823719b7a35a7e33a0c1ba5acc139e5abc442f9af292af93d9",
+          "end": 2000,
+          "quote": "          {\n              \"field\": {\n                \"Measure\": {\n                  \"Expression\": {\n                    \"SourceRef\": {\n                      \"Entity\": \"Billing\"\n                    }\n                  },\n                  \"Property\": \"Invoiced Amount\"\n                }\n              },\n              \"queryRef\": \"Billing.Invoiced Amount\",\n              \"nativeQueryRef\": \"Invoiced Amount\",\n              \"displayName\": \"Invoiced Amount\"\n            }\n          ]\n        }\n      }\n    }\n  },\n  \"filterConfig\": {\n    \"filters\": [\n      {\n        \"name\": \"billing_top_two_accounts\",\n  ",
+          "relationship": "COMPUTED_FROM",
+          "start": 1400,
+          "status": "INFERRED",
+          "target": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe"
+        },
+        {
+          "definition_hash": "e05eb432252e34823719b7a35a7e33a0c1ba5acc139e5abc442f9af292af93d9",
+          "end": 4800,
+          "quote": "     {\n                            \"Direction\": 2,\n                            \"Expression\": {\n                              \"Measure\": {\n                                \"Expression\": {\n                                  \"SourceRef\": {\n                                    \"Source\": \"b\"\n                                  }\n                                },\n                                \"Property\": \"Invoiced Amount\"\n                              }\n                            }\n                          }\n                        ],\n                        \"Top\": 2\n                      }\n        ",
+          "relationship": "COMPUTED_FROM",
+          "start": 4200,
+          "status": "INFERRED",
+          "target": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe"
+        },
+        {
+          "definition_hash": "e05eb432252e34823719b7a35a7e33a0c1ba5acc139e5abc442f9af292af93d9",
+          "end": 800,
+          "quote": "{\n  \"$schema\": \"https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json\",\n  \"name\": \"c0daabb8323e576e96a5\",\n  \"position\": {\n    \"x\": 24,\n    \"y\": 80,\n    \"width\": 1000,\n    \"height\": 480,\n    \"z\": 1,\n    \"tabOrder\": 1\n  },\n  \"visual\": {\n    \"visualType\": \"clusteredBarChart\",\n    \"visualContainerObjects\": {\n      \"title\": [\n        {\n          \"properties\": {\n            \"show\": {\n              \"expr\": {\n                \"Literal\": {\n                  \"Value\": \"true\"\n                }\n              }\n            },\n            \"text\": {\n              \"expr\": {\n                \"Literal\": {\n                  \"Value\": \"'Top Accounts by Invoice Value'\"\n                }\n              }\n            }\n          }\n        }\n      ]\n    },\n    \"qu",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "f7a5777102d10ad0f8713f2881214e82e164434d4555f6c848ae9d00aa83a220"
+        }
+      ],
+      "status": "INFERRED",
+      "recording_class": "EXACT",
+      "provenance": {
+        "definition_evidence_ids": [
+          "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/part/definition%2Fpages%2F5051e1ac7f7e58d89f5c%2Fvisuals%2Fc0daabb8323e576e96a5%2Fvisual.json"
+        ],
+        "evidence_ids": [
+          "enrichment-batches/round21-live-billing-0c0a57bffd4da366-source-refs-v3/results/f03fef4eb1c669827c6fd7bd5a38d9e08cd822b5704963c169252e2b648cba58:789577a91ab0c934f9d74128c70a3b3ef50365e6dbade90666393e701bc836bf"
+        ],
+        "producer": "anthropic"
+      }
+    },
+    {
+      "estate": "billing",
+      "subject": "128b43612d9962a190bb3ef4dab66cd4f4c54c107824a30f1f8a450422c2fc5c",
+      "kind": "MEASURE",
+      "definition_hash": "b386f069cc34612171495efd7c3925548bae35f787de144ffb20723eb3917d39",
+      "definition_text_sha256": "b386f069cc34612171495efd7c3925548bae35f787de144ffb20723eb3917d39",
+      "business_meaning": "Usage Overage measures the total number of units consumed beyond what is included in a customer's plan. For each usage record, it calculates how many units exceeded the plan's included allowance, summing those excesses across all usage rows. It is used in billing contexts to quantify billable overage consumption.",
+      "synonyms": [
+        "billable overage",
+        "excess usage",
+        "overage units",
+        "usage excess",
+        "units over plan",
+        "plan overage"
+      ],
+      "calculation_explanation": "SUMX iterates over every row in the Usage table. For each row it retrieves the related plan's included_units via RELATED(Plans[included_units]) and subtracts it from Usage[units]. MAX(0, \u2026) floors the result at zero so rows where actual usage is within the plan allowance contribute nothing. The resulting non-negative excesses are then summed to produce the total overage units.",
+      "hidden_logic": [
+        "Rows where Usage[units] is less than or equal to Plans[included_units] are effectively treated as zero overage, meaning under-utilisation of a plan does not offset overages in other rows.",
+        "The measure assumes a many-to-one relationship between the Usage table and the Plans table, relying on an active relationship for RELATED to resolve correctly.",
+        "No time or customer filter is embedded in the expression, so the measure's scope is entirely determined by the filter context applied externally (e.g. by a visual or slicer)."
+      ],
+      "proposed_links": [
+        {
+          "definition_hash": "b386f069cc34612171495efd7c3925548bae35f787de144ffb20723eb3917d39",
+          "end": 109,
+          "quote": "{\"expression\": \"SUMX(Usage, MAX(0, Usage[units] - RELATED(Plans[included_units])))\", \"name\": \"Usage Overage\"}",
+          "relationship": "COMPUTED_FROM",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "36aa0abaf9d9bdbf3bbbe1ab672e31caf1f1effaefaf28186a09723c1a3260a5"
+        },
+        {
+          "definition_hash": "b386f069cc34612171495efd7c3925548bae35f787de144ffb20723eb3917d39",
+          "end": 109,
+          "quote": "{\"expression\": \"SUMX(Usage, MAX(0, Usage[units] - RELATED(Plans[included_units])))\", \"name\": \"Usage Overage\"}",
+          "relationship": "COMPUTED_FROM",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "9a40f84a2eaa9ed968e64352acf2f845626934c53acd81d221952b23b8dc1630"
+        },
+        {
+          "definition_hash": "b386f069cc34612171495efd7c3925548bae35f787de144ffb20723eb3917d39",
+          "end": 109,
+          "quote": "{\"expression\": \"SUMX(Usage, MAX(0, Usage[units] - RELATED(Plans[included_units])))\", \"name\": \"Usage Overage\"}",
+          "relationship": "FILTERED_BY",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "a1c0c3dc58853822b3e05c30eb0469a54b05b48086fb682c3119d686df1f6414"
+        },
+        {
+          "definition_hash": "b386f069cc34612171495efd7c3925548bae35f787de144ffb20723eb3917d39",
+          "end": 109,
+          "quote": "{\"expression\": \"SUMX(Usage, MAX(0, Usage[units] - RELATED(Plans[included_units])))\", \"name\": \"Usage Overage\"}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7"
+        },
+        {
+          "definition_hash": "b386f069cc34612171495efd7c3925548bae35f787de144ffb20723eb3917d39",
+          "end": 109,
+          "quote": "{\"expression\": \"SUMX(Usage, MAX(0, Usage[units] - RELATED(Plans[included_units])))\", \"name\": \"Usage Overage\"}",
+          "relationship": "COPIED_TO",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "42205721330d77b319c5d3fd1a60289652b088d632996dd780af3baa62dfe113"
+        }
+      ],
+      "status": "INFERRED",
+      "recording_class": "EXACT",
+      "provenance": {
+        "definition_evidence_ids": [
+          "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/measures/Usage%20Overage"
+        ],
+        "evidence_ids": [
+          "enrichment-batches/round21-live-billing-0c0a57bffd4da366-source-refs-v3/results/0099ed529f138f6ea67cb1e8b82117594f203e4f74096eac4690a772d4b25fbc:5c290619601db7d1784898823cb5d7a304c9cdbd69a8d57d91317cca1339b39d"
+        ],
+        "producer": "anthropic"
+      }
+    },
+    {
+      "estate": "dia-sample-estate",
+      "subject": "05279bbb6759ae5bb360393d7f7f67920efa11936f009b1043a9c25545cf8512",
+      "kind": "CALCULATED_COLUMN",
+      "definition_hash": "dc082e995c035326e6520dab5ab5f3daabc44ca569546f3c4ba7c419cde38f23",
+      "definition_text_sha256": "dc082e995c035326e6520dab5ab5f3daabc44ca569546f3c4ba7c419cde38f23",
+      "business_meaning": "A hidden calculated column that produces a human-readable quarter label (e.g. 'Qtr 1', 'Qtr 2') for use in date intelligence and time-based reporting. It belongs to a local auto-generated date table and is intended to be consumed by visuals or hierarchies that display fiscal or calendar quarter breakdowns. Because it is hidden, it serves as a supporting label column rather than a directly user-selectable field.",
+      "synonyms": [
+        "Quarter Label",
+        "Qtr Label",
+        "Quarter Display Name",
+        "Calendar Quarter",
+        "Quarter String",
+        "Q Label"
+      ],
+      "calculation_explanation": "The column concatenates the literal string 'Qtr ' with the integer value from the [QuarterNo] column using the DAX string concatenation operator '&', producing a formatted quarter string such as 'Qtr 1' through 'Qtr 4'. The result is sorted by the [QuarterNo] column so that quarters appear in numeric order rather than alphabetical string order. SummarizationSetBy is User and summarizeBy is none, meaning aggregation is explicitly suppressed.",
+      "hidden_logic": [
+        "The column is marked isHidden: true, meaning it does not appear directly in field lists for end users but is still usable by other model objects.",
+        "The sortByColumn is set to QuarterNo, which means the string label 'Qtr 1' etc. sorts numerically rather than alphabetically, preventing incorrect ordering such as 'Qtr 1', 'Qtr 10'.",
+        "The dataCategory is set to 'Quarters', signalling to reporting engines that this column represents quarter-level granularity for time intelligence purposes.",
+        "The TemplateId annotation value of 'Quarter' indicates this column was generated from a standard Power BI date table template rather than written manually.",
+        "isDataTypeInferred: true suggests the string return type was inferred by the engine from the expression rather than explicitly declared by the author."
+      ],
+      "proposed_links": [
+        {
+          "definition_hash": "dc082e995c035326e6520dab5ab5f3daabc44ca569546f3c4ba7c419cde38f23",
+          "end": 393,
+          "quote": "{\"annotations\": [{\"name\": \"SummarizationSetBy\", \"value\": \"User\"}, {\"name\": \"TemplateId\", \"value\": \"Quarter\"}], \"dataCategory\": \"Quarters\", \"dataType\": \"string\", \"expression\": \"\\\"Qtr \\\" & [QuarterNo]\", \"isDataTypeInferred\": true, \"isHidden\": true, \"lineageTag\": \"2f447337-4fc3-4fdd-876b-04105ce1c754\", \"name\": \"Quarter\", \"sortByColumn\": \"QuarterNo\", \"summarizeBy\": \"none\", \"type\": \"calculated\"}",
+          "relationship": "COMPUTED_FROM",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "58d45324809060fcf05615d3fead94f5c1e4cbeddb7f4b3cbd91f8c8262e81cd"
+        },
+        {
+          "definition_hash": "dc082e995c035326e6520dab5ab5f3daabc44ca569546f3c4ba7c419cde38f23",
+          "end": 393,
+          "quote": " \"isDataTypeInferred\": true, \"isHidden\": true, \"lineageTag\": \"2f447337-4fc3-4fdd-876b-04105ce1c754\", \"name\": \"Quarter\", \"sortByColumn\": \"QuarterNo\", \"summarizeBy\": \"none\", \"type\": \"calculated\"}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 200,
+          "status": "INFERRED",
+          "target": "b6c55da506ecfe5d9b212a10a273d02471b1a66d4ff17c953273bfa8f655dffd"
+        }
+      ],
+      "status": "INFERRED",
+      "recording_class": "EXACT",
+      "provenance": {
+        "definition_evidence_ids": [
+          "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/10431c90-79c8-4508-8c17-48ec6d08e638/table/LocalDateTable_1635aca9-f5cf-4673-8bd0-6cbe59eca959/columns/Quarter"
+        ],
+        "evidence_ids": [
+          "enrichment-batches/round21-live-dia-sample-estate-e99925fc87d7dac9-source-refs-v3/results/76e78d8b2d4d37e5aefc6d8d04a8fabc5b280dc292d44acbabc0e810782753f4:579ed5583949fbf76b669708fe60ec49a8d81f779f9f17fa0f89e9eb32f79d23"
+        ],
+        "producer": "anthropic"
+      }
+    },
+    {
+      "estate": "dia-sample-estate",
+      "subject": "f382eaa164f8dc224d5a3c819cf9f9b26414b921023b59d893d7764b8f774d7a",
+      "kind": "MEASURE",
+      "definition_hash": "8b542b831d96ab37d72431d6d586717fe6c5bb2b7a4ddc57a9423e50848bf0dc",
+      "definition_text_sha256": "8b542b831d96ab37d72431d6d586717fe6c5bb2b7a4ddc57a9423e50848bf0dc",
+      "business_meaning": "A measure that calculates the total sales amount attributed to the due date of each transaction, rather than the order or ship date. This allows users to analyse revenue performance based on when payment or delivery was due, enabling due-date-driven financial reporting and cash flow analysis.",
+      "synonyms": [
+        "Sales by Due Date",
+        "Revenue by Due Date",
+        "Due Date Sales",
+        "Amount Due by Date",
+        "Sales Total Due Date"
+      ],
+      "calculation_explanation": "The measure uses CALCULATE to evaluate SUM of Sales[Sales Amount] within a modified filter context. USERELATIONSHIP activates an inactive relationship between Sales[DueDateKey] and Date[DateKey], overriding the default active date relationship so that the date table filters the Sales table via the due date key instead of the standard date key.",
+      "hidden_logic": [
+        "USERELATIONSHIP implies that the relationship between Sales[DueDateKey] and Date[DateKey] is inactive by default, meaning there is at least one other active relationship between the Sales and Date tables (likely on OrderDateKey or ShipDateKey).",
+        "The measure does not apply any explicit additional filters beyond the relationship activation, so all existing report-level and page-level filters still apply.",
+        "The pattern is a standard role-playing dimension technique, treating the single Date table as multiple logical date roles (order date, ship date, due date) via inactive relationships."
+      ],
+      "proposed_links": [
+        {
+          "definition_hash": "8b542b831d96ab37d72431d6d586717fe6c5bb2b7a4ddc57a9423e50848bf0dc",
+          "end": 196,
+          "quote": "{\"expression\": \"CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey])) \", \"lineageTag\": \"c2fe3283-9d89-4bee-b219-09de50cc38c5\", \"name\": \"Sales Amount by Due Date\"}",
+          "relationship": "COMPUTED_FROM",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "0325018a8b897e9a448756c7bebffc51966217fe51e21a71cf49176058c7f681"
+        },
+        {
+          "definition_hash": "8b542b831d96ab37d72431d6d586717fe6c5bb2b7a4ddc57a9423e50848bf0dc",
+          "end": 196,
+          "quote": "{\"expression\": \"CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey])) \", \"lineageTag\": \"c2fe3283-9d89-4bee-b219-09de50cc38c5\", \"name\": \"Sales Amount by Due Date\"}",
+          "relationship": "JOINED_VIA",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "b2deb91cf7a7a435974e615311e486a60a63dc3894c7f9ec2d425120800942f9"
+        },
+        {
+          "definition_hash": "8b542b831d96ab37d72431d6d586717fe6c5bb2b7a4ddc57a9423e50848bf0dc",
+          "end": 196,
+          "quote": "{\"expression\": \"CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey])) \", \"lineageTag\": \"c2fe3283-9d89-4bee-b219-09de50cc38c5\", \"name\": \"Sales Amount by Due Date\"}",
+          "relationship": "JOINED_VIA",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "f613e384223bec9a63617b9628344a8fd6ca0bf4dcbefcd1968d7b6389713d88"
+        },
+        {
+          "definition_hash": "8b542b831d96ab37d72431d6d586717fe6c5bb2b7a4ddc57a9423e50848bf0dc",
+          "end": 196,
+          "quote": "{\"expression\": \"CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey])) \", \"lineageTag\": \"c2fe3283-9d89-4bee-b219-09de50cc38c5\", \"name\": \"Sales Amount by Due Date\"}",
+          "relationship": "FILTERED_BY",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "5284ba376742160b201c1f4a99572315ba09fceaf8b4072040ce1ee04eb72246"
+        },
+        {
+          "definition_hash": "8b542b831d96ab37d72431d6d586717fe6c5bb2b7a4ddc57a9423e50848bf0dc",
+          "end": 196,
+          "quote": "{\"expression\": \"CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey])) \", \"lineageTag\": \"c2fe3283-9d89-4bee-b219-09de50cc38c5\", \"name\": \"Sales Amount by Due Date\"}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "6b117f0a826d4c0100b0350083a2a510d64be47608533aef50439fdfc75044ae"
+        }
+      ],
+      "status": "INFERRED",
+      "recording_class": "EXACT",
+      "provenance": {
+        "definition_evidence_ids": [
+          "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/10431c90-79c8-4508-8c17-48ec6d08e638/table/Sales/measures/Sales%20Amount%20by%20Due%20Date"
+        ],
+        "evidence_ids": [
+          "enrichment-batches/round21-live-dia-sample-estate-e99925fc87d7dac9-source-refs-v3/results/e05db1914d297a27dc0e854570f5f3eac7179ff7c17880797ec6333346ad9d73:c7e0acc6c02d29b8a24ca9e7b513dbc37ee488e76cc652248602243d61c64207"
+        ],
+        "producer": "anthropic"
+      }
+    },
+    {
+      "estate": "dia-sample-estate",
+      "subject": "263c7be9b31b2117681fc4ccdda9f2a0e6eb91b9490e96e86976159907a41dcc",
+      "kind": "PAGE",
+      "definition_hash": "e2f2446afca944059dcf74cb94e3e8dd0fbcc070c9b66d7c30f3476112a56cae",
+      "definition_text_sha256": "e2f2446afca944059dcf74cb94e3e8dd0fbcc070c9b66d7c30f3476112a56cae",
+      "business_meaning": "A Power BI report page definition (layout JSON) describing three report pages \u2014 Page 1 (Executive Summary), Page 2, and Page 3 \u2014 each containing one or more visuals built on AdventureWorks Sales data. Page 1 hosts a pivot table of Sales Amount by Product Category and Reseller Business Type, a map of Order Quantity by Reseller Country, an area chart of Sales Amount by Order Date/Due Date over fiscal months, a fiscal year/month slicer pre-filtered to FY2019, a title textbox labelled 'Executive Summary - Sales Report', and a header rectangle shape. Page 2 holds a similar pivot table sorted descending by Sales Amount. Page 3 holds a smaller area chart of Sales Amount by fiscal month. All pages share the NewExecutive built-in theme layered over the CY20SU09 base theme, and cross-visual drill filtering is enabled globally.",
+      "synonyms": [
+        "Power BI page layout",
+        "report page definition",
+        "PBI report JSON",
+        "page canvas config",
+        "visual container layout",
+        "PBIR page spec"
+      ],
+      "calculation_explanation": "No numeric measures are calculated within this layout definition itself. The layout references pre-defined aggregations from the data model: Sum(Sales.Sales Amount) uses aggregation Function 0 (SUM) over the Sales Amount column in the Sales entity; Sum(Sales.Order Quantity) uses Function 0 (SUM) over the Order Quantity column; Sales.Sales Amount by Due Date is referenced as a named measure from the Sales entity. The fiscal date axis is derived from the Fiscal hierarchy (Year \u2192 Month) of the Date entity. Row axes in pivot tables join Product.Category and Reseller.Business Type. The slicer carries a cached default filter scoping to Fiscal Year = FY2019. Pivot tables on Page 1 and Page 2 both carry a visual-level filter excluding Reseller.Business Type = '[Not Applicable]' via a NOT IN condition.",
+      "hidden_logic": [
+        "The slicer (visual 75c624f501f3c20eb760) has a cached/persisted filter set to FY2019, meaning the report opens with data pre-filtered to that fiscal year even though the slicer visually shows all years as collapsed (segments 54\u201360).",
+        "The filter excluding '[Not Applicable]' Reseller Business Type is marked isHiddenInViewMode: false, meaning it is visible in the filter pane but was created programmatically (howCreated: 0) rather than by a user drag-and-drop (segments 18\u201321, 85\u201388).",
+        "Cross-visual drill filtering (drillFilterOtherVisuals: true) is enabled both at the report level (defaultDrillFilterOtherVisuals: true) and individually on every visual, so selecting any data point on any visual will filter all other visuals on the same page (segments 1, 12, 29, 42, 56, 96).",
+        "The header rectangle shape (e62f8d740cd4f569300d) uses a ThemeDataColor fill (ColorId 6) with 100% line transparency, acting as a purely decorative branded banner behind the title textbox (segments 68\u201370).",
+        "The title textbox (ddc669d1ed997bf82754) has its background explicitly set to show: false, making it visually floating over the rectangle shape rather than having its own box (segments 65\u201367).",
+        "The pivot table on Page 2 adds an OrderBy clause sorting Sum(Sales.Sales Amount) descending (Direction 2), which is absent from the otherwise identical Page 1 pivot table, indicating Page 2 is a ranked/sorted variant of the same view (segments 78\u201379).",
+        "The area chart on Page 3 uses ThemeDataColor ColorId 9 for the Sales Amount by Due Date series, whereas Page 1's area chart uses ColorId 5, suggesting deliberate per-page colour differentiation for the same measure (segments 97, 43).",
+        "The outspacePane is configured as expanded: false at the report level, hiding the filter pane side panel by default (segments 1\u20132)."
+      ],
+      "proposed_links": [
+        {
+          "definition_hash": "e2f2446afca944059dcf74cb94e3e8dd0fbcc070c9b66d7c30f3476112a56cae",
+          "end": 1200,
+          "quote": "{\n  \"config\": \"{\\\"version\\\":\\\"5.15\\\",\\\"themeCollection\\\":{\\\"baseTheme\\\":{\\\"name\\\":\\\"CY20SU09\\\",\\\"version\\\":\\\"5.17\\\",\\\"type\\\":2},\\\"customTheme\\\":{\\\"name\\\":\\\"NewExecutive\\\",\\\"version\\\":\\\"5.17\\\",\\\"type\\\":2}},\\\"activeSectionIndex\\\":0,\\\"defaultDrillFilterOtherVisuals\\\":true,\\\"linguisticSchemaSyncVersion\\\":2,\\\"settings\\\":{\\\"useNewFilterPaneExperience\\\":true,\\\"allowChangeFilterTypes\\\":true,\\\"useStylableVisualContainerHeader\\\":true,\\\"exportDataMode\\\":1,\\\"allowDataPointLassoSelect\\\":true},\\\"objects\\\":{\\\"section\\\":[{\\\"properties\\\":{\\\"verticalAlignment\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'Top'\\\"}}}}}],\\\"outspacePane\\\":[{\\\"properties\\\":{\\\"expanded\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"false\\\"}}}}}]}}\",\n  \"layoutOptimization\": 0,\n  \"resourcePackages\": [\n    {\n      \"resourcePackage\": {\n        \"disabled\": false,\n        \"items\": [\n          {\n            \"name\": \"CY20SU09\",\n            \"path\": \"BaseThemes/CY20SU09.json\",\n            \"type\": 202\n          },\n          {\n            \"name\": \"NewExecutive\",\n            \"path\": \"BuiltInThemes/NewExecutive.json\",\n            \"type\": 201\n          }\n        ],\n        \"name\": \"SharedResources\",\n        \"type\": 2\n      }\n    }\n  ],\n  \"sections\": [\n ",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "23e97d9b5109ef97afffa9dfbce20404ba08f218400f198e4d081488c40f228b"
+        },
+        {
+          "definition_hash": "e2f2446afca944059dcf74cb94e3e8dd0fbcc070c9b66d7c30f3476112a56cae",
+          "end": 20376,
+          "quote": "d8\",\n      \"ordinal\": 2,\n      \"visualContainers\": [\n        {\n          \"config\": \"{\\\"name\\\":\\\"ec25b2f7759b3fd44c1d\\\",\\\"layouts\\\":[{\\\"id\\\":0,\\\"position\\\":{\\\"x\\\":853.6661466458659,\\\"y\\\":95.85023400936038,\\\"z\\\":0,\\\"width\\\":380.405616224649,\\\"height\\\":299.53198127925117}}],\\\"singleVisual\\\":{\\\"visualType\\\":\\\"areaChart\\\",\\\"projections\\\":{\\\"Category\\\":[{\\\"queryRef\\\":\\\"Date.Fiscal.Month\\\",\\\"active\\\":true}],\\\"Y\\\":[{\\\"queryRef\\\":\\\"Sum(Sales.Sales Amount)\\\"},{\\\"queryRef\\\":\\\"Sales.Sales Amount by Due Date\\\"}]},\\\"prototypeQuery\\\":{\\\"Version\\\":2,\\\"From\\\":[{\\\"Name\\\":\\\"d\\\",\\\"Entity\\\":\\\"Date\\\",\\\"Type\\\":0},{\\\"Name\\\":\\\"s\\\",\\\"Entity\\\":\\\"Sales\\\",\\\"Type\\\":0}],\\\"Select\\\":[{\\\"HierarchyLevel\\\":{\\\"Expression\\\":{\\\"Hierarchy\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"d\\\"}},\\\"Hierarchy\\\":\\\"Fiscal\\\"}},\\\"Level\\\":\\\"Month\\\"},\\\"Name\\\":\\\"Date.Fiscal.Month\\\"},{\\\"Aggregation\\\":{\\\"Expression\\\":{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"s\\\"}},\\\"Property\\\":\\\"Sales Amount\\\"}},\\\"Function\\\":0},\\\"Name\\\":\\\"Sum(Sales.Sales Amount)\\\"},{\\\"Measure\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"s\\\"}},\\\"Property\\\":\\\"Sales Amount by Due Date\\\"},\\\"Name\\\":\\\"Sales.Sales Amount by Due Date\\\"}],\\\"OrderBy\\\":[{\\\"Direction\\\":1,\\\"Expression\\\":{\\\"HierarchyLevel\\\":{\\\"Expression\\\":{\\\"Hierarchy\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"d\\\"}},\\\"Hierarchy\\\":\\\"Fiscal\\\"}},\\\"Level\\\":\\\"Month\\\"}}}]},\\\"drillFilterOtherVisuals\\\":true,\\\"hasDefaultSort\\\":true,\\\"objects\\\":{\\\"dataPoint\\\":[{\\\"properties\\\":{\\\"fill\\\":{\\\"solid\\\":{\\\"color\\\":{\\\"expr\\\":{\\\"ThemeDataColor\\\":{\\\"ColorId\\\":9,\\\"Percent\\\":0}}}}}},\\\"selector\\\":{\\\"metadata\\\":\\\"Sales.Sales Amount by Due Date\\\"}}]}}}\",\n          \"filters\": \"[]\",\n          \"height\": 299.53,\n          \"queryBinary\": \"H4sIAAAAAAAEAK1STW/CMAz9K5VPmxQhQDv1xvjYDjAxOnGZegitVzI1SZWPaVXV/74kLVAEx91iv2e/Z8cNzCXnVOQa4s8GEnRvw7J3i6peUEOTI62wp0DcQAD8Y49KMykgnhJYKclD+RvlCDHkQGDp2hjHBNcFXfxRVw4at+TM0kNWQkvUA1pKnJcSMxP6vjJUVGXHeo0/WHr55W+lUHcOBvgtlEirMtzh1yUIDtuWDMtgxXRGy5DuRWAjhTmCS/SG/SSjjjc6YQ3MikJhQU2vd60+l6Xld/L3Xekgv1WyQnXZSjTj0goTsJUVWac0vvhKLH8IzNGQ/xjcbZBqq/BfHESHOlpYjMKPDuRvpK+JqaM+M5EzUXitrWKcdjf0oqStXLq7Paf6jWE6H4/JhEzTUOzvcIe5zU479om936yTfyLDjk5HYL5mAhPKq9LP3fqJztc6cWHa/gFrOAh49gIAAA==\",\n          \"width\": 380.41,\n          \"x\": 853.67,\n          \"y\": 95.85,\n          \"z\": 0.00\n        }\n      ],\n      \"width\": 1280.00\n    }\n  ],\n  \"theme\": \"NewExecutive\"\n}",
+          "relationship": "COPIED_TO",
+          "start": 18000,
+          "status": "INFERRED",
+          "target": "ecbda5f4d09d48b7e541e90e65df0cc21626b56e6897ba3ee4fc90cdd47f028b"
+        },
+        {
+          "definition_hash": "e2f2446afca944059dcf74cb94e3e8dd0fbcc070c9b66d7c30f3476112a56cae",
+          "end": 20376,
+          "quote": "{\n  \"config\": \"{\\\"version\\\":\\\"5.15\\\",\\\"themeCollection\\\":{\\\"baseTheme\\\":{\\\"name\\\":\\\"CY20SU09\\\",\\\"version\\\":\\\"5.17\\\",\\\"type\\\":2},\\\"customTheme\\\":{\\\"name\\\":\\\"NewExecutive\\\",\\\"version\\\":\\\"5.17\\\",\\\"type\\\":2}},\\\"activeSectionIndex\\\":0,\\\"defaultDrillFilterOtherVisuals\\\":true,\\\"linguisticSchemaSyncVersion\\\":2,\\\"settings\\\":{\\\"useNewFilterPaneExperience\\\":true,\\\"allowChangeFilterTypes\\\":true,\\\"useStylableVisualContainerHeader\\\":true,\\\"exportDataMode\\\":1,\\\"allowDataPointLassoSelect\\\":true},\\\"objects\\\":{\\\"section\\\":[{\\\"properties\\\":{\\\"verticalAlignment\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'Top'\\\"}}}}}],\\\"outspacePane\\\":[{\\\"properties\\\":{\\\"expanded\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"false\\\"}}}}}]}}\",\n  \"layoutOptimization\": 0,\n  \"resourcePackages\": [\n    {\n      \"resourcePackage\": {\n        \"disabled\": false,\n        \"items\": [\n          {\n            \"name\": \"CY20SU09\",\n            \"path\": \"BaseThemes/CY20SU09.json\",\n            \"type\": 202\n          },\n          {\n            \"name\": \"NewExecutive\",\n            \"path\": \"BuiltInThemes/NewExecutive.json\",\n            \"type\": 201\n          }\n        ],\n        \"name\": \"SharedResources\",\n        \"type\": 2\n      }\n    }\n  ],\n  \"sections\": [\n    {\n      \"config\": \"{}\",\n      \"displayName\": \"Page 1\",\n      \"displayOption\": 1,\n      \"filters\": \"[]\",\n      \"height\": 720.00,\n      \"name\": \"ReportSection\",\n      \"visualContainers\": [\n        {\n          \"config\": \"{\\\"name\\\":\\\"3a1aeaede6fc79fe5066\\\",\\\"layouts\\\":[{\\\"id\\\":0,\\\"position\\\":{\\\"x\\\":186.884176182708,\\\"y\\\":338.2707993474715,\\\"z\\\":2000,\\\"width\\\":1079.5432300163134,\\\"height\\\":363.3278955954323}}],\\\"singleVisual\\\":{\\\"visualType\\\":\\\"pivotTable\\\",\\\"projections\\\":{\\\"Rows\\\":[{\\\"queryRef\\\":\\\"Product.Category\\\",\\\"active\\\":true},{\\\"queryRef\\\":\\\"Reseller.Business Type\\\",\\\"active\\\":true}],\\\"Values\\\":[{\\\"queryRef\\\":\\\"Sum(Sales.Sales Amount)\\\"}]},\\\"prototypeQuery\\\":{\\\"Version\\\":2,\\\"From\\\":[{\\\"Name\\\":\\\"p\\\",\\\"Entity\\\":\\\"Product\\\",\\\"Type\\\":0},{\\\"Name\\\":\\\"r\\\",\\\"Entity\\\":\\\"Reseller\\\",\\\"Type\\\":0},{\\\"Name\\\":\\\"s\\\",\\\"Entity\\\":\\\"Sales\\\",\\\"Type\\\":0}],\\\"Select\\\":[{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"p\\\"}},\\\"Property\\\":\\\"Category\\\"},\\\"Name\\\":\\\"Product.Category\\\"},{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"r\\\"}},\\\"Property\\\":\\\"Business Type\\\"},\\\"Name\\\":\\\"Reseller.Business Type\\\"},{\\\"Aggregation\\\":{\\\"Expression\\\":{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"s\\\"}},\\\"Property\\\":\\\"Sales Amount\\\"}},\\\"Function\\\":0},\\\"Name\\\":\\\"Sum(Sales.Sales Amount)\\\"}]},\\\"drillFilterOtherVisuals\\\":true,\\\"objects\\\":{\\\"columnFormatting\\\":[{\\\"properties\\\":{\\\"dataBars\\\":{\\\"positiveColor\\\":{\\\"solid\\\":{\\\"color\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'#c4d3e9'\\\"}}}}},\\\"negativeColor\\\":{\\\"solid\\\":{\\\"color\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'minColor'\\\"}}}}},\\\"axisColor\\\":{\\\"solid\\\":{\\\"color\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'foreground'\\\"}}}}},\\\"reverseDirection\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"false\\\"}}},\\\"hideText\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"false\\\"}}}}},\\\"selector\\\":{\\\"metadata\\\":\\\"Sum(Sales.Sales Amount)\\\"}}],\\\"columnWidth\\\":[{\\\"properties\\\":{\\\"value\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"893.5191749529135D\\\"}}}},\\\"selector\\\":{\\\"metadata\\\":\\\"Sum(Sales.Sales Amount)\\\"}}]},\\\"vcObjects\\\":{\\\"title\\\":[{\\\"properties\\\":{\\\"text\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'Sales Amount by Category and Reseller Business Type'\\\"}}},\\\"fontSize\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"16D\\\"}}}}}],\\\"dropShadow\\\":[{\\\"properties\\\":{\\\"show\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"true\\\"}}}}}]}}}\",\n          \"filters\": \"[{\\\"name\\\":\\\"Filterf32699ca5c7851734a77\\\",\\\"expression\\\":{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Entity\\\":\\\"Reseller\\\"}},\\\"Property\\\":\\\"Business Type\\\"}},\\\"filter\\\":{\\\"Version\\\":2,\\\"From\\\":[{\\\"Name\\\":\\\"r\\\",\\\"Entity\\\":\\\"Reseller\\\",\\\"Type\\\":0}],\\\"Where\\\":[{\\\"Condition\\\":{\\\"Not\\\":{\\\"Expression\\\":{\\\"In\\\":{\\\"Expressions\\\":[{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"r\\\"}},\\\"Property\\\":\\\"Business Type\\\"}}],\\\"Values\\\":[[{\\\"Literal\\\":{\\\"Value\\\":\\\"'[Not Applicable]'\\\"}}]]}}}}}]},\\\"type\\\":\\\"Categorical\\\",\\\"howCreated\\\":0,\\\"objects\\\":{\\\"general\\\":[{\\\"properties\\\":{\\\"isInvertedSelectionMode\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"true\\\"}}}}}]},\\\"isHiddenInViewMode\\\":false}]\",\n          \"height\": 363.33,\n          \"queryBinary\": \"H4sIAAAAAAAEAK1U32vbMBD+V4JeuoEITsoe5rc0a8boUrpkpJTiB9W+uRqyZU4Sawn533cnO4nrFtaW+Um+++6+735IWzG3VaXqwon0divWQGev8x8B8PGL8mp9rxroICLdiujgwwbQaVuLdCrFAm0Vwy9VBSIVjZDinNJ4QoortEXIPZl+PjbkTXbyAMQ+cAUOjAF8Een6yLUy4F6EFX0Y6YceKpNUngGSwlLn1oSq5krOHxoE1xZDHbABc1jBr+NPrGi3k1xKAxhzzyl3aakVZO64u0LHPddbaXBIcxacrilqFIs4cu17NR4CtmJWlgil8h3RU9q3yXFDObHxo1llQ+2jbxHqvGVKjuLWofoQkeM+/qPgCVzfA0I3gLrQe5WX1j8X9W0g1L1jcP/qKGvaKBOAk1P279oDKhM3nM0UcXJL6kazpjE6V3cGshMOy3b8yUEd/0NyMZS80C5XZnQDCl8neHEzTSafDzIzSnemSWVdMuwKdaXaS/wVbWjI3Mokyt8Qx8n/Cd+XcOet5+wTLvUpYCKnAwgT8aOxAr4IXZFs2HADSNqp7LNfkyb7p11LXqj0U5JwTw8rDPtHqb21U9lf7ta31EwSB7FUD/GYxRbtnycSTl2HPHDMEjzq3F1ofswmDP0LQakSNgAFAAA=\",\n          \"width\": 1079.54,\n          \"x\": 186.88,\n          \"y\": 338.27,\n          \"z\": 2000.00\n        },\n        {\n          \"config\": \"{\\\"name\\\":\\\"43718bfbc9b53930dbee\\\",\\\"layouts\\\":[{\\\"id\\\":0,\\\"position\\\":{\\\"x\\\":819.5758564437194,\\\"y\\\":73.08319738988581,\\\"z\\\":1000,\\\"width\\\":446.8515497553018,\\\"height\\\":247.4388254486134}}],\\\"singleVisual\\\":{\\\"visualType\\\":\\\"map\\\",\\\"projections\\\":{\\\"Size\\\":[{\\\"queryRef\\\":\\\"Sum(Sales.Order Quantity)\\\"}],\\\"Category\\\":[{\\\"queryRef\\\":\\\"Reseller.Country-Region\\\",\\\"active\\\":true}]},\\\"prototypeQuery\\\":{\\\"Version\\\":2,\\\"From\\\":[{\\\"Name\\\":\\\"s\\\",\\\"Entity\\\":\\\"Sales\\\",\\\"Type\\\":0},{\\\"Name\\\":\\\"r\\\",\\\"Entity\\\":\\\"Reseller\\\",\\\"Type\\\":0}],\\\"Select\\\":[{\\\"Aggregation\\\":{\\\"Expression\\\":{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"s\\\"}},\\\"Property\\\":\\\"Order Quantity\\\"}},\\\"Function\\\":0},\\\"Name\\\":\\\"Sum(Sales.Order Quantity)\\\"},{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"r\\\"}},\\\"Property\\\":\\\"Country-Region\\\"},\\\"Name\\\":\\\"Reseller.Country-Region\\\"}]},\\\"drillFilterOtherVisuals\\\":true,\\\"objects\\\":{\\\"mapStyles\\\":[{\\\"properties\\\":{\\\"mapTheme\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'grayscale'\\\"}}}}}]},\\\"vcObjects\\\":{\\\"title\\\":[{\\\"properties\\\":{\\\"text\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'Order Quantity by Reseller Country'\\\"}}},\\\"fontSize\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"16D\\\"}}}}}],\\\"dropShadow\\\":[{\\\"properties\\\":{\\\"show\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"true\\\"}}}}}]}}}\",\n          \"filters\": \"[]\",\n          \"height\": 247.44,\n          \"queryBinary\": \"H4sIAAAAAAAEAMWTTW/CMAyG/wrKhU3qEKBdxm18TdO+gCImNHGIWq9kapvKaaQh1P8+O6VQKi6cdmrivLYfv032YqSTRKahEYOvvfCB1rkK5hZwN5a59Lcyg4NEDPbCHfBiBWiUTsWg74kp6sSlv8sExEAY4YkJlclJKXwZAweWu4zOuoV3lGFdtgADcQx4URnWlYQFNdXGI+oYgtwRPEYRQiRzh7YXk98MwZjDbqRjm1yI+9piAAv4Pm3cFEXhiRnqDNA1/sAQsDW3siTh06lNg7IX4Va0vk1u3NSd84xbwSNdB4FNiJG2aY67uwVEnHjqWhnYaSrIoM8tIDh/RjoNVeXOcwPDHCTXAIZNwKkygYxba5DMTs1XMrbApan2q8oBZewuEIdJ356u+93eQ5vFm8JlONuGO0czVggHi+mmnRP9488mTooMFbmZRlxphiqR5dN4Qm0zCpd2Us2fcgLed73exqXy41pAaIOKngMrZiace69eb6kz+hSMcHx1vYLNgMBy+hvkqALzoviN9hjtDztxejTXAwAA\",\n          \"width\": 446.85,\n          \"x\": 819.58,\n          \"y\": 73.08,\n          \"z\": 1000.00\n        },\n        {\n          \"config\": \"{\\\"name\\\":\\\"4815acfc1f588ed839c4\\\",\\\"layouts\\\":[{\\\"id\\\":0,\\\"position\\\":{\\\"x\\\":185.84013050570962,\\\"y\\\":73.08319738988581,\\\"z\\\":0,\\\"width\\\":609.7226753670474,\\\"height\\\":247.4388254486134}}],\\\"singleVisual\\\":{\\\"visualType\\\":\\\"areaChart\\\",\\\"projections\\\":{\\\"Category\\\":[{\\\"queryRef\\\":\\\"Date.Fiscal.Month\\\",\\\"active\\\":true}],\\\"Y\\\":[{\\\"queryRef\\\":\\\"Sum(Sales.Sales Amount)\\\"},{\\\"queryRef\\\":\\\"Sales.Sales Amount by Due Date\\\"}]},\\\"prototypeQuery\\\":{\\\"Version\\\":2,\\\"From\\\":[{\\\"Name\\\":\\\"d\\\",\\\"Entity\\\":\\\"Date\\\",\\\"Type\\\":0},{\\\"Name\\\":\\\"s\\\",\\\"Entity\\\":\\\"Sales\\\",\\\"Type\\\":0}],\\\"Select\\\":[{\\\"Aggregation\\\":{\\\"Expression\\\":{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"s\\\"}},\\\"Property\\\":\\\"Sales Amount\\\"}},\\\"Function\\\":0},\\\"Name\\\":\\\"Sum(Sales.Sales Amount)\\\"},{\\\"Measure\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"s\\\"}},\\\"Property\\\":\\\"Sales Amount by Due Date\\\"},\\\"Name\\\":\\\"Sales.Sales Amount by Due Date\\\"},{\\\"HierarchyLevel\\\":{\\\"Expression\\\":{\\\"Hierarchy\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"d\\\"}},\\\"Hierarchy\\\":\\\"Fiscal\\\"}},\\\"Level\\\":\\\"Month\\\"},\\\"Name\\\":\\\"Date.Fiscal.Month\\\"}],\\\"OrderBy\\\":[{\\\"Direction\\\":1,\\\"Expression\\\":{\\\"HierarchyLevel\\\":{\\\"Expression\\\":{\\\"Hierarchy\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"d\\\"}},\\\"Hierarchy\\\":\\\"Fiscal\\\"}},\\\"Level\\\":\\\"Month\\\"}}}]},\\\"drillFilterOtherVisuals\\\":true,\\\"hasDefaultSort\\\":true,\\\"objects\\\":{\\\"dataPoint\\\":[{\\\"properties\\\":{\\\"fill\\\":{\\\"solid\\\":{\\\"color\\\":{\\\"expr\\\":{\\\"ThemeDataColor\\\":{\\\"ColorId\\\":5,\\\"Percent\\\":0}}}}}},\\\"selector\\\":{\\\"metadata\\\":\\\"Sales.Sales Amount by Due Date\\\"}}]},\\\"vcObjects\\\":{\\\"title\\\":[{\\\"properties\\\":{\\\"text\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'Sales Amount by Order Date / Due Date'\\\"}}},\\\"fontSize\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"16D\\\"}}}}}],\\\"dropShadow\\\":[{\\\"properties\\\":{\\\"show\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"true\\\"}}}}}]}}}\",\n          \"filters\": \"[]\",\n          \"height\": 247.44,\n          \"queryBinary\": \"H4sIAAAAAAAEAK1TTW/bMAz9KwYv7QAjSIJdllubJt2wZOjqIkNR5KDKXKLBkgx9DA0M//eRspMa6Q4b0Ithkk/vPZJSA3OrtTClh9lTAwXSf1Dye0R3uBFBFHtRYw+BWQOpwD8bdF5ZA7NpDktndTr+TWiEGZSQw4JoAiGBWJDih0NNpXGbn1B+iCpEhX4A2+bkpUIZEu/VbudwJ0ISbGDxUjv0vo/mtor6L/nCRifxHn++Bkm1bXO4c7ZG96qcXWkbTUi1ZTSyUyK3R7NF1JcJORriPwD3s0bho8N3cZA9H7KbiFma2kD+jfQZsIHPCp1wcn9Y4W+s3po51f/VZ5l8Do7BUnkpqpTuRWBtTdgPjLKdUYcb9TVa5Y898nyeeFmmVMc9fjnbmu8h/7PP8nyanXj2iMJRicQ3oorI1MS9UoHaSdNJacJfLB+n48mnCwZvW/oQ3bUil2bHsDuntOiu/K2zsaZ0Z5Mkf2G6KByP80k+3abD/GzusYzy2CYnNtwUyX3Mh4ykY7BcKYOF0HXFV6jldk6Pa0LB4gVlZK41Bqek/6r4KU7Y6R9lxrpEvgMAAA==\",\n          \"width\": 609.72,\n          \"x\": 185.84,\n          \"y\": 73.08,\n          \"z\": 0.00\n        },\n        {\n          \"config\": \"{\\\"name\\\":\\\"75c624f501f3c20eb760\\\",\\\"layouts\\\":[{\\\"id\\\":0,\\\"position\\\":{\\\"x\\\":0,\\\"y\\\":78.87675507020282,\\\"z\\\":3000,\\\"width\\\":186.70826833073323,\\\"height\\\":173.7285491419657}}],\\\"singleVisual\\\":{\\\"visualType\\\":\\\"slicer\\\",\\\"projections\\\":{\\\"Values\\\":[{\\\"queryRef\\\":\\\"Date.Fiscal.Year\\\",\\\"active\\\":true},{\\\"queryRef\\\":\\\"Date.Fiscal.Month\\\"}]},\\\"prototypeQuery\\\":{\\\"Version\\\":2,\\\"From\\\":[{\\\"Name\\\":\\\"d\\\",\\\"Entity\\\":\\\"Date\\\",\\\"Type\\\":0}],\\\"Select\\\":[{\\\"HierarchyLevel\\\":{\\\"Expression\\\":{\\\"Hierarchy\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"d\\\"}},\\\"Hierarchy\\\":\\\"Fiscal\\\"}},\\\"Level\\\":\\\"Year\\\"},\\\"Name\\\":\\\"Date.Fiscal.Year\\\"},{\\\"HierarchyLevel\\\":{\\\"Expression\\\":{\\\"Hierarchy\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"d\\\"}},\\\"Hierarchy\\\":\\\"Fiscal\\\"}},\\\"Level\\\":\\\"Month\\\"},\\\"Name\\\":\\\"Date.Fiscal.Month\\\"}],\\\"OrderBy\\\":[{\\\"Direction\\\":1,\\\"Expression\\\":{\\\"HierarchyLevel\\\":{\\\"Expression\\\":{\\\"Hierarchy\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"d\\\"}},\\\"Hierarchy\\\":\\\"Fiscal\\\"}},\\\"Level\\\":\\\"Year\\\"}}}]},\\\"expansionStates\\\":[{\\\"roles\\\":[\\\"Values\\\"],\\\"levels\\\":[{\\\"queryRefs\\\":[\\\"Date.Fiscal.Year\\\"],\\\"isCollapsed\\\":true,\\\"identityKeys\\\":[{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Entity\\\":\\\"Date\\\"}},\\\"Property\\\":\\\"Fiscal Year\\\"}}],\\\"isPinned\\\":true},{\\\"queryRefs\\\":[\\\"Date.Fiscal.Month\\\"],\\\"isCollapsed\\\":true,\\\"isPinned\\\":true}],\\\"root\\\":{\\\"identityValues\\\":null}}],\\\"drillFilterOtherVisuals\\\":true,\\\"hasDefaultSort\\\":true,\\\"objects\\\":{\\\"data\\\":[{\\\"properties\\\":{\\\"mode\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'Basic'\\\"}}}}}],\\\"selection\\\":[{\\\"properties\\\":{\\\"selectAllCheckboxEnabled\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"true\\\"}}}}}],\\\"header\\\":[{\\\"properties\\\":{\\\"textSize\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"16D\\\"}}}}}],\\\"general\\\":[{\\\"properties\\\":{\\\"filter\\\":{\\\"filter\\\":{\\\"Version\\\":2,\\\"From\\\":[{\\\"Name\\\":\\\"d\\\",\\\"Entity\\\":\\\"Date\\\",\\\"Type\\\":0}],\\\"Where\\\":[{\\\"Condition\\\":{\\\"In\\\":{\\\"Expressions\\\":[{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"d\\\"}},\\\"Property\\\":\\\"Fiscal Year\\\"}}],\\\"Values\\\":[[{\\\"Literal\\\":{\\\"Value\\\":\\\"'FY2019'\\\"}}]]}}}]}}}}]},\\\"cachedFilterDisplayItems\\\":[{\\\"id\\\":{\\\"scopeId\\\":{\\\"Comparison\\\":{\\\"ComparisonKind\\\":0,\\\"Left\\\":{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Entity\\\":\\\"Date\\\"}},\\\"Property\\\":\\\"Fiscal Year\\\"}},\\\"Right\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'FY2019'\\\"}}}}},\\\"displayName\\\":\\\"FY2019\\\"}]}}\",\n          \"filters\": \"[]\",\n          \"height\": 173.73,\n          \"queryBinary\": \"H4sIAAAAAAAEAMVSy07DMBD8lz1HVQLikmNfgKBQWlSEUA/GWYhRYkcbG4gi/ztrJ1IroZ572+fM7Gp6mJm6FrpoIX/rYYscWyWfHFI3F1ZsS9HgOAJ5D7ERgh1Sq4yG/CKBJZk6rj+IGiGHAhJYMIzlSWAU5Py5a7iV+n3CJBVKGxduFJIgWXb3+I1VwF38NoTtAH3U/9/aGkcSN/hxSCK198nxGixVK0UVyyMJvKIg4HyUGxROhrHJ2DqXspXRtjwhbezxAx+pQJp28YNzRfzMyJwlpzSe4bve77k2VbpQ+jOArEnVYvDONRnXcHnw3JrM13BCyNNgEPdujWXYPIsowYgbLNx4Zx8LO1O58KPL5Bj6hQnNT4hmxmk22VWa+qDuVsvKFbioG9tFfiaz5DA5ODnz4YEoXaBZoSUl2zsVfJ+Fa/4A5JDrnysDAAA=\",\n          \"width\": 186.71,\n          \"x\": 0.00,\n          \"y\": 78.88,\n          \"z\": 3000.00\n        },\n        {\n          \"config\": \"{\\\"name\\\":\\\"ddc669d1ed997bf82754\\\",\\\"layouts\\\":[{\\\"id\\\":0,\\\"position\\\":{\\\"x\\\":16.937618147448017,\\\"y\\\":0,\\\"z\\\":5000,\\\"width\\\":489.98109640831757,\\\"height\\\":53.232514177693766}}],\\\"singleVisual\\\":{\\\"visualType\\\":\\\"textbox\\\",\\\"drillFilterOtherVisuals\\\":true,\\\"objects\\\":{\\\"general\\\":[{\\\"properties\\\":{\\\"paragraphs\\\":[{\\\"textRuns\\\":[{\\\"value\\\":\\\"Executive Summary - Sales Report\\\",\\\"textStyle\\\":{\\\"fontWeight\\\":\\\"bold\\\",\\\"fontSize\\\":\\\"20pt\\\",\\\"color\\\":\\\"#ffffff\\\"}}]}]}}]},\\\"vcObjects\\\":{\\\"background\\\":[{\\\"properties\\\":{\\\"show\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"false\\\"}}}}}]}}}\",\n          \"filters\": \"[]\",\n          \"height\": 53.23,\n          \"width\": 489.98,\n          \"x\": 16.94,\n          \"y\": 0.00,\n          \"z\": 5000.00\n        },\n        {\n          \"config\": \"{\\\"name\\\":\\\"e62f8d740cd4f569300d\\\",\\\"layouts\\\":[{\\\"id\\\":0,\\\"position\\\":{\\\"x\\\":0,\\\"y\\\":0,\\\"z\\\":4000,\\\"width\\\":1280,\\\"height\\\":50.81285444234405}}],\\\"singleVisual\\\":{\\\"visualType\\\":\\\"basicShape\\\",\\\"drillFilterOtherVisuals\\\":true,\\\"objects\\\":{\\\"general\\\":[{\\\"properties\\\":{\\\"shapeType\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'rectangle'\\\"}}}}}],\\\"line\\\":[{\\\"properties\\\":{\\\"transparency\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"100D\\\"}}}}}],\\\"fill\\\":[{\\\"properties\\\":{\\\"fillColor\\\":{\\\"solid\\\":{\\\"color\\\":{\\\"expr\\\":{\\\"ThemeDataColor\\\":{\\\"ColorId\\\":6,\\\"Percent\\\":0}}}}}}}]}}}\",\n          \"filters\": \"[]\",\n          \"height\": 50.81,\n          \"width\": 1280.00,\n          \"x\": 0.00,\n          \"y\": 0.00,\n          \"z\": 4000.00\n        }\n      ],\n      \"width\": 1280.00\n    },\n    {\n      \"config\": \"{}\",\n      \"displayName\": \"Page 2\",\n      \"displayOption\": 1,\n      \"filters\": \"[]\",\n      \"height\": 720.00,\n      \"name\": \"ReportSection350b6b55132e00f8ba89\",\n      \"ordinal\": 1,\n      \"visualContainers\": [\n        {\n          \"config\": \"{\\\"name\\\":\\\"81c88ed0eeabf5421b8f\\\",\\\"layouts\\\":[{\\\"id\\\":0,\\\"position\\\":{\\\"x\\\":158.91491985203453,\\\"y\\\":331.14673242909987,\\\"z\\\":0,\\\"width\\\":1107.9654747225647,\\\"height\\\":370.209617755857}}],\\\"singleVisual\\\":{\\\"visualType\\\":\\\"pivotTable\\\",\\\"projections\\\":{\\\"Rows\\\":[{\\\"queryRef\\\":\\\"Product.Category\\\",\\\"active\\\":true},{\\\"queryRef\\\":\\\"Reseller.Business Type\\\",\\\"active\\\":true}],\\\"Values\\\":[{\\\"queryRef\\\":\\\"Sum(Sales.Sales Amount)\\\"}]},\\\"prototypeQuery\\\":{\\\"Version\\\":2,\\\"From\\\":[{\\\"Name\\\":\\\"p\\\",\\\"Entity\\\":\\\"Product\\\",\\\"Type\\\":0},{\\\"Name\\\":\\\"r\\\",\\\"Entity\\\":\\\"Reseller\\\",\\\"Type\\\":0},{\\\"Name\\\":\\\"s\\\",\\\"Entity\\\":\\\"Sales\\\",\\\"Type\\\":0}],\\\"Select\\\":[{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"p\\\"}},\\\"Property\\\":\\\"Category\\\"},\\\"Name\\\":\\\"Product.Category\\\"},{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"r\\\"}},\\\"Property\\\":\\\"Business Type\\\"},\\\"Name\\\":\\\"Reseller.Business Type\\\"},{\\\"Aggregation\\\":{\\\"Expression\\\":{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"s\\\"}},\\\"Property\\\":\\\"Sales Amount\\\"}},\\\"Function\\\":0},\\\"Name\\\":\\\"Sum(Sales.Sales Amount)\\\"}],\\\"OrderBy\\\":[{\\\"Direction\\\":2,\\\"Expression\\\":{\\\"Aggregation\\\":{\\\"Expression\\\":{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"s\\\"}},\\\"Property\\\":\\\"Sales Amount\\\"}},\\\"Function\\\":0}}}]},\\\"drillFilterOtherVisuals\\\":true,\\\"objects\\\":{\\\"columnWidth\\\":[{\\\"properties\\\":{\\\"value\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"906.8906950523353D\\\"}}}},\\\"selector\\\":{\\\"metadata\\\":\\\"Sum(Sales.Sales Amount)\\\"}}],\\\"columnFormatting\\\":[{\\\"properties\\\":{\\\"dataBars\\\":{\\\"positiveColor\\\":{\\\"solid\\\":{\\\"color\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'#c4d3e9'\\\"}}}}},\\\"negativeColor\\\":{\\\"solid\\\":{\\\"color\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'minColor'\\\"}}}}},\\\"axisColor\\\":{\\\"solid\\\":{\\\"color\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'foreground'\\\"}}}}},\\\"reverseDirection\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"false\\\"}}},\\\"hideText\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"false\\\"}}}}},\\\"selector\\\":{\\\"metadata\\\":\\\"Sum(Sales.Sales Amount)\\\"}}]},\\\"vcObjects\\\":{\\\"title\\\":[{\\\"properties\\\":{\\\"text\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'Sales Amount by Category and Reseller Business Type'\\\"}}},\\\"fontSize\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"16D\\\"}}}}}],\\\"dropShadow\\\":[{\\\"properties\\\":{\\\"show\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"true\\\"}}}}}]}}}\",\n          \"filters\": \"[{\\\"name\\\":\\\"Filterf32699ca5c7851734a77\\\",\\\"expression\\\":{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Entity\\\":\\\"Reseller\\\"}},\\\"Property\\\":\\\"Business Type\\\"}},\\\"filter\\\":{\\\"Version\\\":2,\\\"From\\\":[{\\\"Name\\\":\\\"r\\\",\\\"Entity\\\":\\\"Reseller\\\",\\\"Type\\\":0}],\\\"Where\\\":[{\\\"Condition\\\":{\\\"Not\\\":{\\\"Expression\\\":{\\\"In\\\":{\\\"Expressions\\\":[{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"r\\\"}},\\\"Property\\\":\\\"Business Type\\\"}}],\\\"Values\\\":[[{\\\"Literal\\\":{\\\"Value\\\":\\\"'[Not Applicable]'\\\"}}]]}}}}}]},\\\"type\\\":\\\"Categorical\\\",\\\"howCreated\\\":0,\\\"objects\\\":{\\\"general\\\":[{\\\"properties\\\":{\\\"isInvertedSelectionMode\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"true\\\"}}}}}]},\\\"isHiddenInViewMode\\\":false}]\",\n          \"height\": 370.21,\n          \"width\": 1107.97,\n          \"x\": 158.91,\n          \"y\": 331.15,\n          \"z\": 0.00\n        }\n      ],\n      \"width\": 1280.00\n    },\n    {\n      \"config\": \"{}\",\n      \"displayName\": \"Page 3\",\n      \"displayOption\": 1,\n      \"filters\": \"[]\",\n      \"height\": 720.00,\n      \"name\": \"ReportSectiona113e22f3ad54b8397d8\",\n      \"ordinal\": 2,\n      \"visualContainers\": [\n        {\n          \"config\": \"{\\\"name\\\":\\\"ec25b2f7759b3fd44c1d\\\",\\\"layouts\\\":[{\\\"id\\\":0,\\\"position\\\":{\\\"x\\\":853.6661466458659,\\\"y\\\":95.85023400936038,\\\"z\\\":0,\\\"width\\\":380.405616224649,\\\"height\\\":299.53198127925117}}],\\\"singleVisual\\\":{\\\"visualType\\\":\\\"areaChart\\\",\\\"projections\\\":{\\\"Category\\\":[{\\\"queryRef\\\":\\\"Date.Fiscal.Month\\\",\\\"active\\\":true}],\\\"Y\\\":[{\\\"queryRef\\\":\\\"Sum(Sales.Sales Amount)\\\"},{\\\"queryRef\\\":\\\"Sales.Sales Amount by Due Date\\\"}]},\\\"prototypeQuery\\\":{\\\"Version\\\":2,\\\"From\\\":[{\\\"Name\\\":\\\"d\\\",\\\"Entity\\\":\\\"Date\\\",\\\"Type\\\":0},{\\\"Name\\\":\\\"s\\\",\\\"Entity\\\":\\\"Sales\\\",\\\"Type\\\":0}],\\\"Select\\\":[{\\\"HierarchyLevel\\\":{\\\"Expression\\\":{\\\"Hierarchy\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"d\\\"}},\\\"Hierarchy\\\":\\\"Fiscal\\\"}},\\\"Level\\\":\\\"Month\\\"},\\\"Name\\\":\\\"Date.Fiscal.Month\\\"},{\\\"Aggregation\\\":{\\\"Expression\\\":{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"s\\\"}},\\\"Property\\\":\\\"Sales Amount\\\"}},\\\"Function\\\":0},\\\"Name\\\":\\\"Sum(Sales.Sales Amount)\\\"},{\\\"Measure\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"s\\\"}},\\\"Property\\\":\\\"Sales Amount by Due Date\\\"},\\\"Name\\\":\\\"Sales.Sales Amount by Due Date\\\"}],\\\"OrderBy\\\":[{\\\"Direction\\\":1,\\\"Expression\\\":{\\\"HierarchyLevel\\\":{\\\"Expression\\\":{\\\"Hierarchy\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"d\\\"}},\\\"Hierarchy\\\":\\\"Fiscal\\\"}},\\\"Level\\\":\\\"Month\\\"}}}]},\\\"drillFilterOtherVisuals\\\":true,\\\"hasDefaultSort\\\":true,\\\"objects\\\":{\\\"dataPoint\\\":[{\\\"properties\\\":{\\\"fill\\\":{\\\"solid\\\":{\\\"color\\\":{\\\"expr\\\":{\\\"ThemeDataColor\\\":{\\\"ColorId\\\":9,\\\"Percent\\\":0}}}}}},\\\"selector\\\":{\\\"metadata\\\":\\\"Sales.Sales Amount by Due Date\\\"}}]}}}\",\n          \"filters\": \"[]\",\n          \"height\": 299.53,\n          \"queryBinary\": \"H4sIAAAAAAAEAK1STW/CMAz9K5VPmxQhQDv1xvjYDjAxOnGZegitVzI1SZWPaVXV/74kLVAEx91iv2e/Z8cNzCXnVOQa4s8GEnRvw7J3i6peUEOTI62wp0DcQAD8Y49KMykgnhJYKclD+RvlCDHkQGDp2hjHBNcFXfxRVw4at+TM0kNWQkvUA1pKnJcSMxP6vjJUVGXHeo0/WHr55W+lUHcOBvgtlEirMtzh1yUIDtuWDMtgxXRGy5DuRWAjhTmCS/SG/SSjjjc6YQ3MikJhQU2vd60+l6Xld/L3Xekgv1WyQnXZSjTj0goTsJUVWac0vvhKLH8IzNGQ/xjcbZBqq/BfHESHOlpYjMKPDuRvpK+JqaM+M5EzUXitrWKcdjf0oqStXLq7Paf6jWE6H4/JhEzTUOzvcIe5zU479om936yTfyLDjk5HYL5mAhPKq9LP3fqJztc6cWHa/gFrOAh49gIAAA==\",\n          \"width\": 380.41,\n          \"x\": 853.67,\n          \"y\": 95.85,\n          \"z\": 0.00\n        }\n      ],\n      \"width\": 1280.00\n    }\n  ],\n  \"theme\": \"NewExecutive\"\n}",
+          "relationship": "FILTERED_BY",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "2d3f55ad647275e26412ca5008f23f4516774ce2c8b5434b9146232d8068d8ce"
+        }
+      ],
+      "status": "INFERRED",
+      "recording_class": "EXACT",
+      "provenance": {
+        "definition_evidence_ids": [
+          "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32/part/report.json"
+        ],
+        "evidence_ids": [
+          "enrichment-batches/round21-live-dia-sample-estate-e99925fc87d7dac9-source-refs-v3/results/78a9303bc514d3d75efe964b6f3a3ce5a14d5c8dbebefa4e97c7ca4a0505918b:8ec92c5592eb2d3a0694e72c47f544c35a7b57864402ab12cda243f97abd0041"
+        ],
+        "producer": "anthropic"
+      }
+    },
+    {
+      "estate": "dia-sample-estate",
+      "subject": "23e97d9b5109ef97afffa9dfbce20404ba08f218400f198e4d081488c40f228b",
+      "kind": "REPORT",
+      "definition_hash": "cc720be065a3901110ead1b0b133c82833412fe8272043762305ed367c796fbe",
+      "definition_text_sha256": "cc720be065a3901110ead1b0b133c82833412fe8272043762305ed367c796fbe",
+      "business_meaning": "AdventureWorks Sales is a Power BI report residing in a specific workspace. It serves as a self-contained analytical report for the AdventureWorks business domain, likely covering sales performance metrics and related data visualisations spread across multiple pages.",
+      "synonyms": [
+        "AdventureWorks Sales Report",
+        "AW Sales",
+        "AdventureWorks Power BI Report",
+        "Sales Report"
+      ],
+      "calculation_explanation": "No calculations are defined within this artifact. It is a report container object identified by a unique ID and workspace ID, with no description provided. Its content is organised into pages (Page 1, Page 2, Page 3) and is subject to legacy PBIR structure constraints meaning embedded query, filter, and interaction semantics are not interpreted.",
+      "hidden_logic": [
+        "The logicalId field is null, suggesting the report has not been assigned a logical identifier and may not be linked to a lineage or promotion pipeline.",
+        "The empty description field indicates that no documentation or metadata annotation has been provided for this report, which may hinder discoverability.",
+        "The PBIR-Legacy boundary neighbour signals that the report was authored in or migrated from a legacy Power BI format, meaning certain advanced semantic features may be unavailable or unreliable."
+      ],
+      "proposed_links": [
+        {
+          "definition_hash": "cc720be065a3901110ead1b0b133c82833412fe8272043762305ed367c796fbe",
+          "end": 196,
+          "quote": "{\"description\": \"\", \"displayName\": \"AdventureWorks Sales\", \"id\": \"c1c5c1d2-8f46-403a-b057-29d06b204d32\", \"logicalId\": null, \"type\": \"Report\", \"workspaceId\": \"220708c4-6b51-4be7-ba1a-fb91bbd09e0f\"}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "56cb7cf339f1d598012527e83aab3aa92a858172d230647edcf277d6db9873b4"
+        },
+        {
+          "definition_hash": "cc720be065a3901110ead1b0b133c82833412fe8272043762305ed367c796fbe",
+          "end": 196,
+          "quote": "{\"description\": \"\", \"displayName\": \"AdventureWorks Sales\", \"id\": \"c1c5c1d2-8f46-403a-b057-29d06b204d32\", \"logicalId\": null, \"type\": \"Report\", \"workspaceId\": \"220708c4-6b51-4be7-ba1a-fb91bbd09e0f\"}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "c75fc5648655914d0e481e5a2f82019b2420d5bb5c130347561b12e5b576d596"
+        },
+        {
+          "definition_hash": "cc720be065a3901110ead1b0b133c82833412fe8272043762305ed367c796fbe",
+          "end": 196,
+          "quote": "{\"description\": \"\", \"displayName\": \"AdventureWorks Sales\", \"id\": \"c1c5c1d2-8f46-403a-b057-29d06b204d32\", \"logicalId\": null, \"type\": \"Report\", \"workspaceId\": \"220708c4-6b51-4be7-ba1a-fb91bbd09e0f\"}",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "263c7be9b31b2117681fc4ccdda9f2a0e6eb91b9490e96e86976159907a41dcc"
+        },
+        {
+          "definition_hash": "cc720be065a3901110ead1b0b133c82833412fe8272043762305ed367c796fbe",
+          "end": 196,
+          "quote": "{\"description\": \"\", \"displayName\": \"AdventureWorks Sales\", \"id\": \"c1c5c1d2-8f46-403a-b057-29d06b204d32\", \"logicalId\": null, \"type\": \"Report\", \"workspaceId\": \"220708c4-6b51-4be7-ba1a-fb91bbd09e0f\"}",
+          "relationship": "FILTERED_BY",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "a8f79f8237fac44ec96853afca093272d376da10531a3d17cd15d3f1e873472e"
+        }
+      ],
+      "status": "INFERRED",
+      "recording_class": "EXACT",
+      "provenance": {
+        "definition_evidence_ids": [
+          "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32"
+        ],
+        "evidence_ids": [
+          "enrichment-batches/round21-live-dia-sample-estate-e99925fc87d7dac9-source-refs-v3/results/c54105529c856a92cb5668adaf74456c4419e6052cd9f2fd79676d2eaddb16d5:7566475e53556dc51a1272b100e0ccc1d55040b98c9261e6c0c3cb8ed279e134"
+        ],
+        "producer": "anthropic"
+      }
+    },
+    {
+      "estate": "dia-sample-estate",
+      "subject": "4d91f0636f2a17d6165f9fb96e4c1fd08267d4b5b1f41daae9417f669759ba88",
+      "kind": "SLICER",
+      "definition_hash": "e2f2446afca944059dcf74cb94e3e8dd0fbcc070c9b66d7c30f3476112a56cae",
+      "definition_text_sha256": "e2f2446afca944059dcf74cb94e3e8dd0fbcc070c9b66d7c30f3476112a56cae",
+      "business_meaning": "A hierarchical fiscal-date slicer on Page 1 of an Executive Summary Sales Report that lets report consumers filter all cross-filtering visuals by Fiscal Year and Fiscal Month. It is pre-set to FY2019 and exposes a 'Select All' checkbox in Basic mode, making it the primary time-period control for the page.",
+      "synonyms": [
+        "Fiscal Date Slicer",
+        "Time Period Filter",
+        "Fiscal Year / Month Selector",
+        "Date Hierarchy Slicer",
+        "FY2019 Slicer",
+        "Temporal Filter Control"
+      ],
+      "calculation_explanation": "The slicer draws from the Date entity using the Fiscal hierarchy, projecting two hierarchy levels: Date.Fiscal.Year (active, top level) and Date.Fiscal.Month (subordinate level). Both levels are ordered ascending by Fiscal Year (Direction 1). An embedded general filter pre-selects the value 'FY2019' via an In-condition on the Fiscal Year column, so the slicer opens with FY2019 already chosen. Each level is initially collapsed (isCollapsed true) and pinned (isPinned true), giving a compact tree view. The mode is set to 'Basic' and selectAllCheckboxEnabled is true. Because drillFilterOtherVisuals is true, any selection the user makes propagates cross-filter interactions to every other visual on the page.",
+      "hidden_logic": [
+        "The slicer carries an embedded general-object filter that hard-codes 'FY2019' as the default selected value (segments 57-60), meaning first-time viewers always see FY2019 data without needing to interact with the slicer.",
+        "Both hierarchy levels are flagged isCollapsed:true and isPinned:true (segments 54-55), so the tree appears collapsed at load time, saving vertical space while still allowing drill-down to month.",
+        "The z-order value of 3000 (segment 49) places the slicer above the area chart (z=0) and map (z=1000) but below the pivot table (z=2000 on Page 1 is actually lower\u2014wait, pivot is 2000, slicer is 3000) and below the header rectangle (z=4000) and title textbox (z=5000), establishing a deliberate layering stack.",
+        "drillFilterOtherVisuals is set to true at both the report level (segment 1) and on the slicer itself (segment 56), reinforcing that slicer selections will cross-filter all other visuals on the page.",
+        "The cachedFilterDisplayItems entry stores 'FY2019' as the display name for the pre-selected scope (segments 59-60), enabling the filter pane to show a human-readable label without re-querying the model."
+      ],
+      "proposed_links": [
+        {
+          "definition_hash": "e2f2446afca944059dcf74cb94e3e8dd0fbcc070c9b66d7c30f3476112a56cae",
+          "end": 12800,
+          "quote": "         \"config\": \"{\\\"name\\\":\\\"75c624f501f3c20eb760\\\",\\\"layouts\\\":[{\\\"id\\\":0,\\\"position\\\":{\\\"x\\\":0,\\\"y\\\":78.87675507020282,\\\"z\\\":3000,\\\"width\\\":186.70826833073323,\\\"height\\\":173.7285491419657}}],\\\"singleVisual\\\":{\\\"visualType\\\":\\\"slicer\\\",\\\"projections\\\":{\\\"Values\\\":[{\\\"queryRef\\\":\\\"Date.Fiscal.Year\\\",\\\"active\\\":true},{\\\"queryRef\\\":\\\"Date.Fiscal.Month\\\"}]},\\\"prototypeQuery\\\":{\\\"Version\\\":2,\\\"From\\\":[{\\\"Name\\\":\\\"d\\\",\\\"Entity\\\":\\\"Date\\\",\\\"Type\\\":0}],\\\"Select\\\":[{\\\"HierarchyLevel\\\":{\\\"Expression\\\":{\\\"Hierarchy\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"d\\\"}},\\\"Hierarchy\\\":\\\"Fiscal\\\"}},\\\"Level\\\":\\\"Year\\\"},\\\"Name\\\":\\\"Date.Fiscal.Year\\\"},{\\\"HierarchyLevel\\\":{\\\"Expression\\\":{\\\"Hierarchy\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"d\\\"}},\\\"Hierarchy\\\":\\\"Fiscal\\\"}},\\\"Level\\\":\\\"Month\\\"},\\\"Name\\\":\\\"Date.Fiscal.Month\\\"}],\\\"OrderBy\\\":[{\\\"Direction\\\":1,\\\"Expression\\\":{\\\"HierarchyLevel\\\":{\\\"Expression\\\":{\\\"Hierarchy\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"d\\\"}},\\\"Hierarchy\\\":\\\"Fiscal\\\"}},\\\"Level\\\":\\\"Year\\\"}}}]},\\\"expansionStates\\\":[{\\\"roles\\\":[\\\"Values\\\"],\\\"levels\\\":[{\\\"queryRefs\\\":[\\\"Date.Fiscal.Year\\\"],\\\"isCollapsed\\\":true,\\\"identityKeys\\\":[{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Entity\\\":\\\"Date\\\"}},\\\"Property\\\":\\\"Fiscal Year\\\"}}],\\\"isPinned\\\":true},{\\\"queryRefs\\\":[\\\"Date.Fiscal.Month\\\"],\\\"isCollapsed\\\":true,\\\"isPinned\\\":true}],\\\"root\\\":{\\\"identityValues\\\":null}}],\\\"drillFilterOtherVisuals\\\":true,\\\"hasDefaultSort\\\":true,\\\"objects\\\":{\\\"data\\\":[{\\\"properties\\\":{\\\"mode\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'Basic'\\\"}}}}}],\\\"selection\\\":[{\\\"properties\\\":{\\\"selectAllCheckboxEnabled\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"true\\\"}}}}}],\\\"header\\\":[{\\\"properties\\\":{\\\"textSize\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"16D\\\"}}}}}],\\\"general\\\":[{\\\"properties\\\":{\\\"filter\\\":{\\\"filter\\\":{\\\"Version\\\":2,\\\"From\\\":[{\\\"Name\\\":\\\"d\\\",\\\"Entity\\\":\\\"Date\\\",\\\"Type\\\":0}],\\\"Where\\\":[{\\\"Condition\\\":{\\\"In\\\":{\\\"Expressions\\\":[{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Source\\\":\\\"d\\\"}},\\\"Property\\\":\\\"Fiscal Year\\\"}}],\\\"Values\\\":[[{\\\"Literal\\\":{\\\"Value\\\":\\\"'FY2019'\\\"}}]]}}}]}}}}]},\\\"cachedFilterDisplayItems\\\":[{\\\"id\\\":{\\\"scopeId\\\":{\\\"Comparison\\\":{\\\"ComparisonKind\\\":0,\\\"Left\\\":{\\\"Column\\\":{\\\"Expression\\\":{\\\"SourceRef\\\":{\\\"Entity\\\":\\\"Date\\\"}},\\\"Property\\\":\\\"Fiscal Year\\\"}},\\\"Right\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'FY2019'\\\"}}}}},\\\"displayName\\\":\\\"FY2019\\\"}]}}\",\n          \"filters\": \"[]\",\n          \"height\": 173.73,\n          \"queryBinary\": \"H4sIAAAAAAAEAMVSy07DMBD8lz1HVQLikmNfgKBQWlSEUA/GWYhRYkcbG4gi/ztrJ1IroZ572+fM7Gp6mJm6FrpoIX/rYYscWyWfHFI3F1ZsS9HgOAJ5D7ERgh1Sq4yG/CKBJZk6rj+IGiGHAhJYMIzlSWAU5Py5a7iV+n3CJBVKGxduFJIgWXb3+I1VwF38NoTtAH3U/9/aGkcSN/hxSCK198nxGixVK0UVyyMJvKIg4HyUGxROhrHJ2DqXspXRtjwhbezxAx+pQJp28YNzRfzMyJwlpzSe4bve77k2VbpQ+jOArEnVYvDONRnXcHnw3JrM13BCyNNgEPdujWXYPIsowYgbLNx4Zx8LO1O58KPL5Bj6hQnNT4hmxmk22VWa+qDuVsvKFbioG9tFfiaz5DA5ODnz4YEoXaBZoSUl2zsVfJ+Fa/4A5JDrnysDAAA=\",\n          \"width\": 186.71,\n          \"x\": 0.00,\n          \"y\": 78.88,\n          \"z\": 3000.00\n     ",
+          "relationship": "FILTERED_BY",
+          "start": 9800,
+          "status": "INFERRED",
+          "target": "56cb7cf339f1d598012527e83aab3aa92a858172d230647edcf277d6db9873b4"
+        },
+        {
+          "definition_hash": "e2f2446afca944059dcf74cb94e3e8dd0fbcc070c9b66d7c30f3476112a56cae",
+          "end": 1200,
+          "quote": "{\n  \"config\": \"{\\\"version\\\":\\\"5.15\\\",\\\"themeCollection\\\":{\\\"baseTheme\\\":{\\\"name\\\":\\\"CY20SU09\\\",\\\"version\\\":\\\"5.17\\\",\\\"type\\\":2},\\\"customTheme\\\":{\\\"name\\\":\\\"NewExecutive\\\",\\\"version\\\":\\\"5.17\\\",\\\"type\\\":2}},\\\"activeSectionIndex\\\":0,\\\"defaultDrillFilterOtherVisuals\\\":true,\\\"linguisticSchemaSyncVersion\\\":2,\\\"settings\\\":{\\\"useNewFilterPaneExperience\\\":true,\\\"allowChangeFilterTypes\\\":true,\\\"useStylableVisualContainerHeader\\\":true,\\\"exportDataMode\\\":1,\\\"allowDataPointLassoSelect\\\":true},\\\"objects\\\":{\\\"section\\\":[{\\\"properties\\\":{\\\"verticalAlignment\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"'Top'\\\"}}}}}],\\\"outspacePane\\\":[{\\\"properties\\\":{\\\"expanded\\\":{\\\"expr\\\":{\\\"Literal\\\":{\\\"Value\\\":\\\"false\\\"}}}}}]}}\",\n  \"layoutOptimization\": 0,\n  \"resourcePackages\": [\n    {\n      \"resourcePackage\": {\n        \"disabled\": false,\n        \"items\": [\n          {\n            \"name\": \"CY20SU09\",\n            \"path\": \"BaseThemes/CY20SU09.json\",\n            \"type\": 202\n          },\n          {\n            \"name\": \"NewExecutive\",\n            \"path\": \"BuiltInThemes/NewExecutive.json\",\n            \"type\": 201\n          }\n        ],\n        \"name\": \"SharedResources\",\n        \"type\": 2\n      }\n    }\n  ],\n  \"sections\": [\n ",
+          "relationship": "DERIVED_IN_STEP",
+          "start": 0,
+          "status": "INFERRED",
+          "target": "3f629d5f3b9f398d1980253c8cf264fdc5149d357ee121ee7b854c86a84c4201"
+        }
+      ],
+      "status": "INFERRED",
+      "recording_class": "EXACT",
+      "provenance": {
+        "definition_evidence_ids": [
+          "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32/part/report.json"
+        ],
+        "evidence_ids": [
+          "enrichment-batches/round21-live-dia-sample-estate-e99925fc87d7dac9-source-refs-v3/results/ba71bdecd058573a31ae42f21314faf5e323d0fc6339018d065e72d6464ad4c5:9ba178886f8d8fe1eb7290b2e171f7624ebe17db64b98af434a391994e3bb434"
+        ],
+        "producer": "anthropic"
+      }
+    }
+  ]
+}

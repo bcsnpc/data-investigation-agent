@@ -8,6 +8,19 @@ from investigator import physical_transport_retry as retry
 class Throttle(Exception):http_status=429
 class Denied(Exception):http_status=403
 class PhysicalRetryTests(unittest.TestCase):
+    def test_worker_eof_retains_exit_code_instead_of_looking_like_sql_permission_denial(self):
+        from io import StringIO
+        from unittest.mock import Mock
+        from investigator.adapters.metadata_error import safe_failure
+        child=Mock(stdin=StringIO(),stdout=StringIO(''))
+        child.wait.return_value=-11;child.poll.return_value=-11
+        with physical_reads.scope(lambda kind,fn:fn()),patch('investigator.live_gateway._network_unlocked'),patch('investigator.tape_worker.popen',return_value=child):
+            with self.assertRaises(physical_reads.PhysicalWorkerExited) as caught:
+                physical_reads.run(['worker'],input='{}',timeout=2)
+        self.assertEqual(caught.exception.worker_exit_code,-11)
+        self.assertEqual(safe_failure(caught.exception)['worker_exit_code'],-11)
+        self.assertNotIn('error_number',safe_failure(caught.exception))
+
     def test_each_retry_is_admitted_and_first_failed_receipt_preserved(self):
         sends=[];reservations=[];receipts=[]
         def meter(tool,call):

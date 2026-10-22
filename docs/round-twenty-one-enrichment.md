@@ -1,4 +1,6 @@
-﻿# Enrichment pass: implementation and deferred live proof
+﻿# Enrichment pass: live results and contracts
+
+Live result,2026-10-22: **199/200 INFERRED** (fixture144/145, billing17/17, sample38/38),608 proposedlinks, zero promotedlinks. Separateaccount chargeUSD5.170482/25 includes all400 rejected earlierresponses plus the latest200. All600reservationsSETTLED. One latestfixtureproposal remainsrejected for a targetoutside its suppliedneighbours. Five realexamples perestate and exactprovenance: [liveenrichment](runs/round-twenty-one-live-enrichment.json). These replace the active stubexamples; the original RECORDED_STUB file remains historical, unchanged and excludedfromlivecounts. Definitions are retained/hash-pinned, not newlycollected or automaticallyverified.
 
 The enrichment job has its own provider adapter and a separate owner-provisioned
 account, `enrichment:round-twenty-one`, MICRODOLLARS, ceiling25,000,000,

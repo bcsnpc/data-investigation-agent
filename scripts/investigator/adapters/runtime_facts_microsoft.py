@@ -90,9 +90,9 @@ def attested_sql(answer,route,request):
 
 
 class MicrosoftRuntimeFacts:
-    def __init__(self,subjects,*,http,retain,sql=None,now=None):
+    def __init__(self,subjects,*,http,retain,sql=None,now=None,refresh_http=None):
         if not isinstance(subjects,dict) or not 1<=len(subjects)<=200:raise ValueError('FACT_SUBJECT_DECLARATIONS')
-        self.subjects=subjects;self.http=http;self.retain=retain;self.sql=sql
+        self.subjects=subjects;self.http=http;self.retain=retain;self.sql=sql;self.refresh_http=refresh_http
         self.identity='microsoft-runtime:'+sha(subjects)
         self.cache={};self.signals={};self.evidence=[]
         for node,route in subjects.items():
@@ -109,8 +109,10 @@ class MicrosoftRuntimeFacts:
 
     def _get(self,path,audience='fabric'):
         request={'method':'GET','audience':audience,'endpoint':path}
+        transport=self.refresh_http if audience=='powerbi' and self.refresh_http is not None else self.http
+        if transport is self.refresh_http:request['identity']=getattr(transport,'identity',None)
         try:
-            response=self.http(path,audience=audience)
+            response=transport(path,audience=audience)
         except Exception as error:
             if is_stop_condition(error):raise
             receipt=self._retain(request,{'status':'UNAVAILABLE','failure':safe_failure(error)})

@@ -17,6 +17,12 @@ _scope=ContextVar('physical_read_scope',default=None)
 _guards=ContextVar('run_guard_cache',default=None)
 
 
+class PhysicalWorkerExited(RuntimeError):
+    def __init__(self,code):
+        self.worker_exit_code=code if type(code)is int else None
+        super().__init__('Physical read worker exited without response; exit='+str(self.worker_exit_code))
+
+
 def decode_completion(raw,kind,*,guard=False):
     done=json.loads(raw)
     if not isinstance(done,dict):raise RuntimeError('Physical request completion unavailable')
@@ -124,7 +130,9 @@ def run(command, *, input, timeout, fallback=None, **kwargs):
         if not value:
             from .tape_worker import check_deadline
             check_deadline(child)
-        if not value or len(value)>2*1024*1024: raise RuntimeError('Physical read response unavailable')
+        if not value:
+            raise PhysicalWorkerExited(child.wait(timeout=5))
+        if len(value)>2*1024*1024: raise RuntimeError('Physical read response unavailable')
         return value
     final=None
     try:

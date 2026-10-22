@@ -86,6 +86,14 @@ def http(permissions,grant,method,url,body):
         elif method!='GET'or body or set(query)-{'continuationToken'}:raise ValueError('SCANNER_METADATA_READ_REQUIRED')
         return
     if parsed.netloc=='api.powerbi.com':
+        refresh=re.fullmatch(r'/v1.0/myorg/groups/([0-9a-f-]{36})/datasets/([0-9a-f-]{36})/(refreshes|refreshSchedule)',path)
+        if refresh:
+            if ({'workspace':refresh[1],'model':refresh[2]} not in d['models']
+                    or method!='GET' or body
+                    or (query!={'$top':['20']} if refresh[3]=='refreshes' else bool(query))):
+                raise ValueError('SCANNER_REFRESH_READ_REFUSED')
+            identity.require_job(d['authentication'],[refresh[1]])
+            return
         match=re.fullmatch(r'/v1.0/myorg/admin/workspaces/(getInfo|scanStatus/[0-9a-f-]{36}|scanResult/[0-9a-f-]{36})',path)
         if not match:raise ValueError('SCANNER_ADMIN_ENDPOINT_REFUSED')
         if match[1]=='getInfo':
