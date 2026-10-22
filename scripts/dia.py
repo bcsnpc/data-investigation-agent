@@ -63,8 +63,14 @@ def demo(manifest_path, case_path, port, live=False):
 
 
 def main(argv=None):
+    import sys
+    argv=list(sys.argv[1:] if argv is None else argv)
+    if argv and argv[0]=='enrichment':
+        from enrich_estate import main as enrichment_main
+        return enrichment_main(argv[1:])
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
+    commands.add_parser('enrichment',help='Plan or run enrichment, or export/import human corrections')
     ask_command = commands.add_parser('ask', help='Explain an admitted calculation or observed change history')
     ask_command.add_argument('question')
     ask_command.add_argument('--estate',required=True,type=Path)

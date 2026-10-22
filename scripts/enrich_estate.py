@@ -72,13 +72,13 @@ def live_job(config,*,record):
     return EnrichmentJob(state,provider,budget,clock=lambda:datetime.now(timezone.utc).isoformat().replace('+00:00','Z'))
 
 
-def main():
+def main(argv=None):
     parser=argparse.ArgumentParser()
     parser.add_argument('operation',choices=['plan','stub','submit','resume','export','import'])
     parser.add_argument('--tasks');parser.add_argument('--outputs');parser.add_argument('--config');parser.add_argument('--csv')
     parser.add_argument('--reviewer');parser.add_argument('--batch-key');parser.add_argument('--database')
     parser.add_argument('--recording-dir',default='.local/enrichment-recordings')
-    args=parser.parse_args()
+    args=parser.parse_args(argv)
     sources=json.loads(Path(args.tasks).read_text(encoding='utf8')) if args.tasks else None
     if args.operation=='plan':result=plan(sources)
     elif args.operation=='stub':

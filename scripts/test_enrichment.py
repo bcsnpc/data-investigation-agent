@@ -34,6 +34,13 @@ def secret_reference():
 
 
 class EnrichmentTests(unittest.TestCase):
+    def test_dia_enrichment_forwards_csv_operations_to_existing_closed_cli(self):
+        from dia import main
+        for operation in ('export','import'):
+            with self.subTest(operation=operation),patch('enrich_estate.main',return_value=0)as entry:
+                self.assertEqual(main(['enrichment',operation,'--csv','owner edits.csv','--reviewer','owner']),0)
+                entry.assert_called_once_with([operation,'--csv','owner edits.csv','--reviewer','owner'])
+
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
         self.state=SharedState.offline(Path(self.tmp.name)/'state.sqlite');self.state.migrate();self.store=EnrichmentStore(self.state)
