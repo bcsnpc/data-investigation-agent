@@ -24,6 +24,7 @@ def captured_read(environment,operation,request,producer):
 
 class RecordedCatalog:
     """Read-only catalog port consuming sealed results; never consults PostgreSQL."""
+    replay_only=True
     def __init__(self,environment):self.environment=environment;self.state=None
     @staticmethod
     def unavailable():

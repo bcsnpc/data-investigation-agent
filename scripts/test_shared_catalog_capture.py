@@ -74,5 +74,10 @@ class CatalogCaptureTests(unittest.TestCase):
         with journal.active(tape),patch.object(self.state,'get',side_effect=AssertionError('Must not read')), \
              self.assertRaisesRegex(journal.TapeError,'SHARED_CATALOG_CAPTURE_VERSION'):
             self.catalog.list(True)
+    def test_recorded_port_outside_tape_never_enables_live_application_state(self):
+        from investigator.shared_application import enabled
+        class Store:pass
+        store=Store();store.shared_catalog=RecordedCatalog('test')
+        self.assertFalse(enabled(store))
 
 if __name__=='__main__':unittest.main()
