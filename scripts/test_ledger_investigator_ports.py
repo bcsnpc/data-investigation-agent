@@ -77,7 +77,7 @@ class Decisions(unittest.TestCase):
             def recording(*a,**k):
                 self.events.append(('capture',));yield SimpleNamespace(path=Path(tmp),safe_write=lambda *a:None)
             def provider(*a,**kw):
-                self.events.append(('send',));return {'action':'VERDICT'},{'usage':{'input_tokens':10,'output_tokens':3}}
+                self.events.append(('send',));return {'decision':{'action':'VERDICT'}},{'usage':{'input_tokens':10,'output_tokens':3}}
             port=AzureDecision(self.governor,session='ticket-1',directory=tmp,retain=lambda v:None,producer=provider)
             with patch('investigator.planner_recording.recording',recording):
                 self.assertEqual(port({'ticket':'x'},instructions='investigate',schema={'type':'object'})['action'],'VERDICT')
@@ -89,6 +89,46 @@ class Decisions(unittest.TestCase):
             with patch('investigator.planner_recording.recording',recording),self.assertRaises(RuntimeError):
                 port({},instructions='investigate',schema={'type':'object'})
             self.assertTrue(self.events[-1][2]['uncertain'])
+
+    def test_provider_object_envelope_leaves_core_union_and_decision_unchanged(self):
+        import copy,json
+        from jsonschema import Draft202012Validator
+        from investigator.ledger_investigator import schema as decision_schema
+        from investigator.estate_graph_contract import canonical
+        core=decision_schema(SimpleNamespace(schemas={}));before=copy.deepcopy(core)
+        decision={'action':'VERDICT','summary':'No supported cause.','hypotheses':['not found'],
+                  'verdict':'not found','evidence_ids':[]}
+        Draft202012Validator(core).validate(decision)
+        with tempfile.TemporaryDirectory() as tmp:
+            captures=[]
+            @contextlib.contextmanager
+            def recording(*a,**k):yield SimpleNamespace(path=Path(tmp),safe_write=lambda name,data:captures.append((name,data)))
+            def provider(*a,**kw):
+                wire=kw['schema'];self.assertEqual(wire['type'],'object')
+                self.assertEqual(set(wire),{'type','properties','required','additionalProperties'})
+                self.assertEqual(wire['required'],['decision']);self.assertFalse(wire['additionalProperties'])
+                self.assertEqual(wire['properties']['decision'],core)
+                self.assertNotIn('anyOf',wire)
+                Draft202012Validator(wire).validate({'decision':decision})
+                return {'decision':copy.deepcopy(decision)},{'usage':{'input_tokens':10,'output_tokens':3}}
+            port=AzureDecision(self.governor,session='s',directory=tmp,retain=lambda value:None,producer=provider)
+            with patch('investigator.planner_recording.recording',recording):
+                actual=port({},instructions='investigate',schema=core)
+            self.assertEqual(canonical(actual),canonical(decision));self.assertEqual(core,before)
+            Draft202012Validator(core).validate(actual)
+            body=json.loads(captures[0][1]);self.assertEqual(body['tools'][0]['parameters']['type'],'object')
+
+    def test_malformed_provider_envelopes_refuse_and_known_usage_settles(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            @contextlib.contextmanager
+            def recording(*a,**k):yield SimpleNamespace(path=Path(tmp),safe_write=lambda *a:None)
+            for invalid in ({'action':'VERDICT'},{'decision':{} ,'extra':True},{'decision':None},[],{'decision':[]}):
+                with self.subTest(answer=invalid):
+                    port=AzureDecision(self.governor,session='s',directory=tmp,retain=lambda v:None,
+                        producer=lambda *a,**kw:(invalid,{'usage':{'input_tokens':10,'output_tokens':3}}))
+                    with patch('investigator.planner_recording.recording',recording),self.assertRaisesRegex(ValueError,'DECISION_ENVELOPE_REQUIRED'):
+                        port({},instructions='investigate',schema={'type':'object'})
+                    self.assertFalse(self.events[-1][2]['uncertain'])
 
     def test_oversized_provider_body_not_admitted(self):
         port=AzureDecision(self.governor,session='ticket-1',directory='unused',retain=lambda v:None)

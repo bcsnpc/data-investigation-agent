@@ -1,0 +1,7 @@
+# Azure investigator decision envelope
+
+The first new-investigator A attempt retained HTTP 400 `invalid_function_parameters`: Azure rejected the root `anyOf` of `ledger_investigator_action`. The engine's action union is valid JSON Schema but Azure function parameters require an object at the root. The failed attempt remains failed; its capture is not rewritten.
+
+The AzureDecision transport now nests the unchanged union beneath one required `decision` property of a closed root object. The compiled captured request and dispatched request use the same wrapper. Only a wrapper with exactly that one dict-valued property is accepted; its inner object is returned unchanged to the existing engine validator. Core actions, verdict vocabulary, evidence checks, synthesis and expectations are unchanged. Definition judgments made through the same port use the identical transport envelope and retain their existing inner schema validator. A successful provider response with a malformed wrapper still settles its recorded usage rather than treating known usage as unknown.
+
+Offline targeted validation: 51 tests PASS across ledger investigator ports, core investigator, and cloud assembly. Tests verify the provider receives an object-root schema, the original union is not mutated, the unwrapped decision is byte-identical in canonical form, and malformed wrappers refuse. No estate or model call was made for these tests.

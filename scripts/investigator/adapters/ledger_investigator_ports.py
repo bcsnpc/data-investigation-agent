@@ -125,8 +125,12 @@ class AzureDecision:
         from ..contract_vocabulary import instructions as vocabulary
         from ..planner_recording import recording
         from ..generation_policy import failure_usage
-        instruction=vocabulary(instructions,schema)
-        body=provider_body(payload,instruction,schema,'ledger_investigator_action',
+        # Azure function parameters require a root object; the engine's closed
+        # union remains unchanged underneath this transport-only envelope.
+        wire_schema={'type':'object','properties':{'decision':copy.deepcopy(schema)},
+                     'required':['decision'],'additionalProperties':False}
+        instruction=vocabulary(instructions,schema)+'\nReturn the schema-conforming result inside the required decision property of the transport envelope.'
+        body=provider_body(payload,instruction,wire_schema,'ledger_investigator_action',
                            decision_tool=True,generation_options=self.options)
         size=len(json.dumps(body,ensure_ascii=False,separators=(',',':')))
         if size>self.options['max_payload_characters']:raise ValueError('INVESTIGATOR_PROVIDER_INPUT_BOUND')
@@ -142,15 +146,20 @@ class AzureDecision:
                            distinct=True,directory=self.directory) as record:
                 if record is None:raise ValueError('INVESTIGATOR_PROVIDER_CAPTURE_REQUIRED')
                 record.safe_write('compiled-provider-body.json',json.dumps(body,sort_keys=True).encode())
-                answer,metadata=(self.producer or _azure_generate)(payload,instructions=instruction,schema=schema,
+                answer,metadata=(self.producer or _azure_generate)(payload,instructions=instruction,schema=wire_schema,
                     name='ledger_investigator_action',decision_tool=True,generation_options=self.options,
                     max_request_characters=self.options['max_payload_characters'])
                 self.retain({'event':'INVESTIGATOR_MODEL_USAGE','call':self.calls,'metadata':metadata,
                              'input_characters':size,'recording':str(record.path)})
-                return answer
+                if (not isinstance(answer,dict) or set(answer)!={'decision'}
+                        or not isinstance(answer['decision'],dict)):
+                    raise ValueError('INVESTIGATOR_PROVIDER_DECISION_ENVELOPE_REQUIRED')
+                return answer['decision']
         except Exception as exc:error=exc;raise
         finally:
-            usage=failure_usage(error) if error is not None else metadata.get('usage')
+            # A protocol rejection after a successful response still has known
+            # usage; settle it rather than replacing it with uncertain usage.
+            usage=metadata.get('usage') or (failure_usage(error) if error is not None else None)
             with self.governor.runtime.db() as db:
                 self.governor.settle(db,self.session,key,usage,uncertain=usage is None)
 
