@@ -15,6 +15,17 @@ from threading import Timer
 
 _scope=ContextVar('physical_read_scope',default=None)
 _guards=ContextVar('run_guard_cache',default=None)
+WORKER_OBSERVER=ContextVar('physical_worker_observer',default=None)
+
+
+def worker_frame(value):
+    if (set(value)!={'worker_event','pid','last_action'}
+            or value['worker_event']not in ('START','HEARTBEAT','EXIT')
+            or type(value['pid'])is not int or value['pid']<=0
+            or value['last_action']not in ('setup','token','connect','query','sql_identity',
+                'sql_database_permissions','sql_object_permissions','sql_quantity')):
+        raise ValueError('WORKER_TELEMETRY_INVALID')
+    return value
 
 
 class PhysicalWorkerExited(RuntimeError):
@@ -125,21 +136,44 @@ def _run(command, *, input, timeout, fallback=None, **kwargs):
     else:connection=secret_connection()
     guards=_guards.get()
     from .tape_worker import popen
-    child=popen(command,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,
-                           text=True,encoding='utf-8',worker_timeout=timeout)
+    from uuid import uuid4 as trace_id
+    from datetime import datetime,timezone
+    info={'worker_id':str(trace_id()),'pid':None,'last_action':'spawn','timeout_seconds':timeout}
+    def observe(event,**values):
+        callback=WORKER_OBSERVER.get()
+        if callback:callback({**info,'event':event,'observed_at':datetime.now(timezone.utc).isoformat(),**values})
+    observe('START')
+    try:
+        child=popen(command,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,
+                               text=True,encoding='utf-8',worker_timeout=timeout)
+    except BaseException as exc:
+        observe('EXIT',worker_exit_code=None,error_type=type(exc).__name__)
+        raise
+    info['pid']=getattr(child,'pid',getattr(getattr(child,'child',None),'pid',None))
     def expire():
         child.deadline_expired=True
         child.kill()
     timer=Timer(timeout,expire);timer.daemon=True;timer.start()
     def line():
-        value=child.stdout.readline(2*1024*1024+1)
-        if not value:
-            from .tape_worker import check_deadline
-            check_deadline(child)
-        if not value:
-            raise PhysicalWorkerExited(child.wait(timeout=5))
-        if len(value)>2*1024*1024: raise RuntimeError('Physical read response unavailable')
-        return value
+        while True:
+            value=child.stdout.readline(2*1024*1024+1)
+            if not value:
+                from .tape_worker import check_deadline
+                check_deadline(child)
+            if not value:raise PhysicalWorkerExited(child.wait(timeout=5))
+            if len(value)>2*1024*1024: raise RuntimeError('Physical read response unavailable')
+            message=json.loads(value)
+            if isinstance(message,dict)and 'worker_event'in message:
+                frame=worker_frame(message)
+                # A Windows venv launcher can have a different PID from its
+                # Python interpreter. Keep both observations, never attest one
+                # as the other; subsequent frames must retain the same PID.
+                if info.get('reported_pid')is not None and frame['pid']!=info['reported_pid']:
+                    raise ValueError('WORKER_TELEMETRY_PID_CHANGED')
+                info.update(reported_pid=frame['pid'],last_action=frame['last_action'])
+                observe({'START':'CHILD_STARTED','EXIT':'CHILD_STOPPING'}.get(frame['worker_event'],frame['worker_event']))
+                continue
+            return value
     final=None
     try:
         child.stdin.write(input+'\n');child.stdin.flush()
@@ -152,6 +186,7 @@ def _run(command, *, input, timeout, fallback=None, **kwargs):
             if kind not in ('sql_identity','sql_database_permissions','sql_object_permissions',
                             'sql_quantity','onelake_listing','onelake_commit','metadata_read'):
                 raise ValueError('Unknown physical request')
+            info['last_action']=kind
             cache_key=(connection,kind,message.get('object'))
             cacheable=kind in ('sql_database_permissions','sql_object_permissions') and message.get('cache_guard') is True
             if cacheable and kind=='sql_object_permissions' and message.get('object') not in payload.get('read_only_objects',[]):
@@ -190,6 +225,8 @@ def _run(command, *, input, timeout, fallback=None, **kwargs):
             if child.poll() is None: child.kill()
         except OSError: pass
         child.wait()
+        observe('EXIT',worker_exit_code=child.returncode,
+                deadline_expired=getattr(child,'deadline_expired',False) is True)
         for pipe in (child.stdin,child.stdout):
             try: pipe.close()
             except OSError: pass  # Cleanup must not replace an admission refusal.

@@ -15,7 +15,8 @@ class WorkerPublicationTests(unittest.TestCase):
     def test_actual_child_finishes_before_parent_publishes_its_budget_records(self):
         child=[];published=[]
         def put(key,raw):
-            if child:self.assertIsNotNone(child[0].poll(), 'publication blocked a waiting SQL child')
+            if child and not key.endswith('-worker-lifecycle.json'):
+                self.assertIsNotNone(child[0].poll(), 'publication blocked a waiting SQL child')
             published.append(key)
         def popen(command,**kwargs):
             kwargs.pop('worker_timeout',None)
@@ -33,13 +34,13 @@ print(json.dumps({'value':7}),flush=True)
             initial=len(published)
             def meter(kind,execute):
                 capture.record('budget',{'kind':kind})
-                self.assertEqual(len(published),initial)
+                self.assertEqual(len([k for k in published if not k.endswith('-worker-lifecycle.json')]),initial)
                 return execute()
             with capture.observing(),scope(meter),patch('investigator.tape_worker.popen',side_effect=popen):
                 result=run([sys.executable,'-c',program],input='{}',timeout=5)
             self.assertEqual(result.returncode,0)
             self.assertEqual(json.loads(result.stdout),{'value':7})
-            self.assertEqual(len(published),initial+3)
+            self.assertEqual(len([k for k in published if not k.endswith('-worker-lifecycle.json')]),initial+3)
             self.assertEqual(capture._pending_publications,[])
             self.assertTrue(capture.seal())
 

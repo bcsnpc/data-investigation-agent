@@ -9,6 +9,8 @@ import json
 import re
 import struct
 import sys
+from contextlib import contextmanager
+from threading import Event, RLock, Thread
 
 from investigator.adapters.managed_identity import FIELDS, Tokens, validate
 
@@ -26,12 +28,36 @@ class Protocol:
     def __init__(self, metered=False, source=None, sink=None):
         self.metered = metered
         self.source, self.sink = source or sys.stdin, sink or sys.stdout
+        self.lock=RLock()
+        self.last_action=None
 
     def emit(self, value):
-        self.sink.write(json.dumps(value, separators=(',', ':')) + '\n')
-        self.sink.flush()
+        with self.lock:
+            self.sink.write(json.dumps(value, separators=(',', ':')) + '\n')
+            self.sink.flush()
+
+    @contextmanager
+    def lifecycle(self,progress,interval=10):
+        if not self.metered:
+            yield
+            return
+        import os
+        stop=Event()
+        def frame(event):
+            self.emit({'worker_event':event,'pid':os.getpid(),
+                       'last_action':self.last_action or progress['stage']})
+        def heartbeat():
+            while not stop.wait(interval):
+                try:frame('HEARTBEAT')
+                except OSError:return
+        frame('START')
+        worker=Thread(target=heartbeat,daemon=True);worker.start()
+        try:yield
+        finally:
+            stop.set();worker.join(timeout=1);frame('EXIT')
 
     def before(self, kind, obj=None, guard=False):
+        self.last_action=kind
         if not self.metered:
             return True
         self.emit({'physical_read':'REQUEST','kind':kind,
@@ -192,20 +218,22 @@ def execute(payload, *, connect=None, tokens=None, protocol=None, progress=None)
 def main():
     protocol = Protocol('--metered' in sys.argv)
     progress = {'stage':'setup'}
-    try:
-        payload = json.loads(sys.stdin.readline(2*1024*1024))
-        result = execute(payload, protocol=protocol, progress=progress)
-    except Exception as exc:
-        # Preserve numeric SQL error and SQLSTATE, never driver text/token/query.
-        args = getattr(exc, 'args', ())
-        sqlstate = args[0] if args and re.fullmatch(r'[A-Z0-9]{5}', str(args[0])) else None
-        numbers = re.findall(r'\((-?\d+)\)', str(args[1])) if len(args)>1 else []
-        protocol.emit({'error':'ManagedSqlReadFailed','stage':progress['stage'],
-                       'error_number':(-2 if sqlstate in ('HYT00','HYT01') else int(numbers[-1]) if numbers else None),
-                       'error_kind':'SqlException' if sqlstate else 'InvalidOperationException', 'sqlstate':sqlstate})
-        return 1
+    code=0
+    with protocol.lifecycle(progress):
+        try:
+            payload = json.loads(sys.stdin.readline(2*1024*1024))
+            result = execute(payload, protocol=protocol, progress=progress)
+        except Exception as exc:
+            # Preserve numeric SQL error and SQLSTATE, never driver text/token/query.
+            args = getattr(exc, 'args', ())
+            sqlstate = args[0] if args and re.fullmatch(r'[A-Z0-9]{5}', str(args[0])) else None
+            numbers = re.findall(r'\((-?\d+)\)', str(args[1])) if len(args)>1 else []
+            result={'error':'ManagedSqlReadFailed','stage':progress['stage'],
+                    'error_number':(-2 if sqlstate in ('HYT00','HYT01') else int(numbers[-1]) if numbers else None),
+                    'error_kind':'SqlException' if sqlstate else 'InvalidOperationException','sqlstate':sqlstate}
+            code=1
     protocol.emit(result)
-    return 0
+    return code
 
 
 if __name__ == '__main__':

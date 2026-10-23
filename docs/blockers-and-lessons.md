@@ -9,6 +9,10 @@ rather than changing assertions or reducing the database. Source preservation,
 concurrent-WAL consistency, unsafe-value refusal and the less-than-96-MiB
 peak-growth assertion remain unchanged. Full parallel validation follows.
 
+Validation: frozen `129556e` completed all 5,067 tests in 683.747 seconds:
+5,019 PASS, 48 skipped, zero failures/errors. The snapshot module passed inside
+its parallel shard; no isolated retry was needed.
+
 ## Round 22: daily SQL worker deadline consumed by parent capture
 
 Recovered the immutable Round 21 investigation event journal, SHA-256
@@ -33,3 +37,33 @@ an unpublished capture from sealing. Live three-run confirmation is pending.
 The first new publication-failure test expected OSError from seal; the existing
 seal correctly refused with CAPTURE_PUBLICATION_FAILED_NO_SEAL instead. Corrected
 that test assertion to the stronger existing refusal; no implementation bypass.
+
+## Round 22: original audit worker evidence and new diagnostics
+
+Examined original collector capture `0a43cb29-6221-42f0-a119-6acb31ec003d`,
+SQL failure receipt SHA-256
+`60915ef651f155f0cba18b275bba321f56c976fbecb1361563a7fcff324cf5bd`,
+and the retained input/access/physical-read/dispatcher timeline. Database and
+object guards passed; the quantity step returned RuntimeError, "Physical read
+response unavailable". The two dispatcher observations lasted 26.728 and
+27.075 seconds. No SQL permission error or original child exit code survives.
+
+Azure's 21:00 UTC October 22 execution `job-dia-collectors-29878380` has the
+matching retained image/input and is Failed; its end time is absent. Replica
+listing returns `[]`; log retrieval returns `ERROR: No replicas found for
+execution`. These controls cannot establish a child termination reason.
+The collector's 60-second container deadline is not proof that it caused this
+EOF. Original stderr, child exit code and platform termination reason are
+missing. Cause remains UNESTABLISHED; no OOM or permission diagnosis is made.
+
+New bounded, value-free protocol frames report worker start, ten-second
+heartbeats and last action. Parent wait separately records the actual exit
+code and whether its own deadline fired. The capture publishes these small
+diagnostics promptly, without draining the deferred evidence queue, and never
+inside a platform transaction. Query text, parameters, tokens and result values
+are excluded. Frames do not consume investigation reads or satisfy a value or
+identity evidence contract. Launch PID and child-reported interpreter PID remain
+distinct: the first real Windows test exposed the venv launcher's separate PID;
+requiring them to match was incorrect. Later frames must retain one reported PID.
+All 30 lifecycle/publication/managed-worker tests pass. Live audit confirmation
+is pending; this item is not yet closed.

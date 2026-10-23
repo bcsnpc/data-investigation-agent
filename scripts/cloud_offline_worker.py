@@ -12,6 +12,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 TEST_MODULES = (
+    'test_worker_capture_publication.py', 'test_worker_lifecycle.py', 'test_smoke_demo_expectation.py',
     'test_streaming_tape.py', 'test_smoke_run_bound_capture.py',
     'test_connection_rotation.py', 'test_facts_ledger.py', 'test_runtime_facts_microsoft.py',
     'test_access_budget_policy.py', 'test_capture_publication_retry.py', 'test_ledger_investigator.py', 'test_enrichment.py',
