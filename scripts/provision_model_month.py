@@ -12,14 +12,14 @@ def main():
     parser.add_argument('--owner',required=True)
     args=parser.parse_args()
     import certifi
-    import psycopg
+    from investigator.postgres_connection import connect as postgres_connect
     from investigator.shared_state import SharedState
     from investigator.build_phase import ensure_model_account
     token=subprocess.run(['az','account','get-access-token','--resource',
         'https://ossrdbms-aad.database.windows.net','--query','accessToken','-o','tsv',
         '--only-show-errors'],capture_output=True,text=True,check=True).stdout.strip()
     def connect():
-        return psycopg.connect(host=args.host,dbname=args.database,user=args.owner,password=token,
+        return postgres_connect(host=args.host,dbname=args.database,user=args.owner,password=token,
             sslmode='verify-full',sslrootcert=certifi.where(),connect_timeout=20,
             options='-c search_path=dia_state,pg_catalog -c statement_timeout=30000 -c lock_timeout=5000')
     state=SharedState(connect,backend='postgresql',mode='live')

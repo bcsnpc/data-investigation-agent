@@ -4,6 +4,16 @@ import time
 CONNECT_TIMEOUT_SECONDS = 15
 STATEMENT_TIMEOUT_MS = 30000
 
+def dropped_connection(error):
+    if getattr(error,'postgres_connect_attempts',0):return False
+    if isinstance(error,(ConnectionError,TimeoutError)):return True
+    try:from psycopg import Error,OperationalError
+    except ImportError:return False
+    if not isinstance(error,Error):return False
+    code=getattr(error,'sqlstate',None)
+    return (code is None and isinstance(error,OperationalError)) or (code is not None and
+        (code.startswith('08') or code in ('25P03','57P01','57P02','57P03')))
+
 
 def connection_timeout(exc):
     # Only connection acquisition is retried. Auth, SQL, and transactions are not.
@@ -19,13 +29,55 @@ def connect(*, connector=None, sleep=None, **kwargs):
         connector = psycopg.connect
     sleep = sleep or time.sleep
     kwargs['connect_timeout'] = CONNECT_TIMEOUT_SECONDS
+    kwargs.update(keepalives=1,keepalives_idle=30,keepalives_interval=10,keepalives_count=3)
     options = kwargs.get('options', '')
     # Startup options cover the very first statement, before SET LOCAL exists.
     kwargs['options'] = options + ' -c statement_timeout=30000 -c lock_timeout=5000 -c idle_in_transaction_session_timeout=30000'
-    for attempt in range(3):
+    for attempt in range(2):
         try:
             return connector(**kwargs)
         except Exception as exc:
-            if attempt == 2 or not connection_timeout(exc):
+            if attempt == 1 or not connection_timeout(exc):
+                exc.postgres_connect_attempts=attempt+1
                 raise
-            sleep((30, 60)[attempt])
+            sleep(30)
+
+
+class ObservedConnection:
+    """No arguments or SQL text in drop diagnostics; no statement replay.
+
+    The interval is client-observed time since the last response, not a claim
+    about server-side session state. Used for one short shared transaction.
+    """
+    def __init__(self,connection,*,clock=time.monotonic):
+        self.connection=connection;self.clock=clock
+        self.opened=self.responded=clock()
+
+    def __getattr__(self,name):return getattr(self.connection,name)
+
+    def _call(self,operation,call,*args,**kwargs):
+        started=self.clock();idle=max(0,started-self.responded)
+        try:result=call(*args,**kwargs)
+        except Exception as error:
+            timing={'operation':operation,'idle_before_request_seconds':round(idle,6),
+                'failed_request_seconds':round(max(0,self.clock()-started),6),
+                'connection_age_seconds':round(max(0,self.clock()-self.opened),6),
+                'meaning':'Client interval since last response; server idle-drop cause unproven.'}
+            error.postgres_connection_timing=timing
+            import json
+            error.add_note('POSTGRES_CONNECTION_TIMING '+json.dumps(timing,sort_keys=True))
+            raise
+        self.responded=self.clock()
+        return result
+
+    def execute(self,*args,**kwargs):return self._call('execute',self.connection.execute,*args,**kwargs)
+    def commit(self):return self._call('commit',self.connection.commit)
+    def rollback(self):return self._call('rollback',self.connection.rollback)
+    def cursor(self,*args,**kwargs):return ObservedCursor(self,self.connection.cursor(*args,**kwargs))
+
+
+class ObservedCursor:
+    def __init__(self,connection,cursor):self.connection,self.raw=connection,cursor
+    def __getattr__(self,name):return getattr(self.raw,name)
+    def execute(self,*args,**kwargs):return self.connection._call('cursor.execute',self.raw.execute,*args,**kwargs)
+    def executemany(self,*args,**kwargs):return self.connection._call('cursor.executemany',self.raw.executemany,*args,**kwargs)

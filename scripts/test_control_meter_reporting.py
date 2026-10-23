@@ -36,7 +36,7 @@ class ControlMeterTests(unittest.TestCase):
   with self.state.transaction()as db:
    self.assertEqual(db.execute('SELECT status FROM state_usage').fetchall(),[('SETTLED',)])
  def test_reservation_transport_retries_are_bounded_and_policy_refusals_never_retry(self):
-  for error,attempts in ((ConnectionError('transport'),3),(UsageHold('MONTHLY_PHYSICAL_SCAN_EXHAUSTED'),1),(ValueError('query error'),1)):
+  for error,attempts in ((ConnectionError('transport'),2),(UsageHold('MONTHLY_PHYSICAL_SCAN_EXHAUSTED'),1),(ValueError('query error'),1)):
    with self.subTest(error=type(error).__name__),operating_mode(category='INVESTIGATION'):
     meter=Meter(self.state,{'environment':'test'},1,clock=lambda:self.at,reporting_mirror=False);self.addCleanup(meter.close);operation=Mock()
     with patch('investigator.build_phase.shared_reserve',side_effect=error)as reserve,patch('time.sleep')as sleep:
