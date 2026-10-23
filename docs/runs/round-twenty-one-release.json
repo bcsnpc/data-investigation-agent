@@ -1,0 +1,394 @@
+{
+  "owner_date": "2026-10-22",
+  "merge_commit": "602a459153bd4592dff8ba1f99700e2422a1c806",
+  "tag": "v0.21",
+  "full_main": {
+    "revision": "602a459153bd4592dff8ba1f99700e2422a1c806",
+    "elapsed_seconds": 1024.4173310000006,
+    "statuses": [
+      {
+        "shard": 0,
+        "exit_code": 0
+      },
+      {
+        "shard": 1,
+        "exit_code": 1
+      },
+      {
+        "shard": 2,
+        "exit_code": 0
+      },
+      {
+        "shard": 3,
+        "exit_code": 0
+      }
+    ],
+    "results": [
+      {
+        "tests": 1267,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0,
+        "successful": true
+      },
+      {
+        "tests": 1267,
+        "failures": 0,
+        "errors": 1,
+        "skips": 1,
+        "successful": false
+      },
+      {
+        "tests": 1267,
+        "failures": 0,
+        "errors": 0,
+        "skips": 46,
+        "successful": true
+      },
+      {
+        "tests": 1266,
+        "failures": 0,
+        "errors": 0,
+        "skips": 1,
+        "successful": true
+      }
+    ]
+  },
+  "main_validation": {
+    "revision": "602a459153bd4592dff8ba1f99700e2422a1c806",
+    "status": "PASS_AFTER_TARGETED_RETRY",
+    "raw_full_passed": 5018,
+    "raw_full_skipped": 48,
+    "raw_full_errors": 1,
+    "original_failed_test": "test_streaming_verification_snapshot.StreamingSnapshotTests.test_child_peak_growth_stays_below_full_database",
+    "isolated_retry": {
+      "revision": "602a459153bd4592dff8ba1f99700e2422a1c806",
+      "reason": "One180-second child timeout in four-way main full suite; retry identical complete module after all shards exited. No code, timeout or expectation change.",
+      "original_full_result": "full-main-final-result.json",
+      "test_ids": [
+        "test_streaming_verification_snapshot.StreamingSnapshotTests.test_child_peak_growth_stays_below_full_database",
+        "test_streaming_verification_snapshot.StreamingSnapshotTests.test_concurrent_wal_change_cannot_enter_already_audited_snapshot",
+        "test_streaming_verification_snapshot.StreamingSnapshotTests.test_readonly_transaction_preserves_source_and_repeated_backups_exact",
+        "test_streaming_verification_snapshot.StreamingSnapshotTests.test_unsafe_value_refuses_before_any_destination_write"
+      ],
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "successful": true,
+      "elapsed_seconds": 106.89305460000105
+    },
+    "original_full_result_preserved": true,
+    "code_timeout_and_expectations_changed": false
+  },
+  "main_ci": [
+    {
+      "name": "publish",
+      "status": "completed",
+      "conclusion": "skipped",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662029/job/120206739140"
+    },
+    {
+      "name": "offline-shards (3)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662029/job/120206384509"
+    },
+    {
+      "name": "offline-shards (0)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662029/job/120206384498"
+    },
+    {
+      "name": "offline-shards (4)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662029/job/120206384497"
+    },
+    {
+      "name": "offline-shards (7)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662029/job/120206384452"
+    },
+    {
+      "name": "offline-shards (2)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662029/job/120206384441"
+    },
+    {
+      "name": "offline-shards (1)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662029/job/120206384396"
+    },
+    {
+      "name": "offline-shards (5)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662029/job/120206384354"
+    },
+    {
+      "name": "offline-shards (6)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662029/job/120206384329"
+    },
+    {
+      "name": "model-step-regression",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662194/job/120206123106"
+    },
+    {
+      "name": "generator-tests",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662194/job/120206122967"
+    },
+    {
+      "name": "portal",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662194/job/120206122892"
+    },
+    {
+      "name": "powershell-syntax",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662194/job/120206122739"
+    },
+    {
+      "name": "ledger-access-rotation",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662065/job/120206122468"
+    },
+    {
+      "name": "round-thirteen-billing-metadata-replay",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662092/job/120206122455"
+    },
+    {
+      "name": "round-ten-earned-2",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662019/job/120206122364"
+    },
+    {
+      "name": "round-ten-earned-3",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662019/job/120206122278"
+    },
+    {
+      "name": "round-ten-earned-1",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662019/job/120206122269"
+    },
+    {
+      "name": "round-ten-earned-4",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662019/job/120206122125"
+    },
+    {
+      "name": "build",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662029/job/120206122092"
+    },
+    {
+      "name": "known-domain-acceptance",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889662026/job/120206122036"
+    },
+    {
+      "name": "deny-by-default",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/39889661972/job/120206121812"
+    }
+  ],
+  "branch_full": {
+    "revision": "24539b332a1bff3e44dba78774cfac8b0c1c33bf",
+    "elapsed_seconds": 1006.803403599999,
+    "statuses": [
+      {
+        "shard": 0,
+        "exit_code": 0
+      },
+      {
+        "shard": 1,
+        "exit_code": 0
+      },
+      {
+        "shard": 2,
+        "exit_code": 0
+      },
+      {
+        "shard": 3,
+        "exit_code": 0
+      }
+    ],
+    "results": [
+      {
+        "tests": 1267,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0,
+        "successful": true
+      },
+      {
+        "tests": 1267,
+        "failures": 0,
+        "errors": 0,
+        "skips": 1,
+        "successful": true
+      },
+      {
+        "tests": 1267,
+        "failures": 0,
+        "errors": 0,
+        "skips": 46,
+        "successful": true
+      },
+      {
+        "tests": 1266,
+        "failures": 0,
+        "errors": 0,
+        "skips": 1,
+        "successful": true
+      }
+    ]
+  },
+  "branch_later_changes": "Documentation only after tested24539b3",
+  "tested_image": {
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:cef17492e4e1c0843187120e622359e102203ed2ceeb276baa30eaa820eb0377",
+    "source_revision": "c30a27901fdc3fcb59a45ea33888ba7518389373",
+    "workflow": 39887367877,
+    "all8shards": "PASS"
+  },
+  "rollout": {
+    "owner_date": "2026-10-22",
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:cef17492e4e1c0843187120e622359e102203ed2ceeb276baa30eaa820eb0377",
+    "reason": "Final tested consumer and smoke-outcome guard; daily expectation remains TRANSFORMATION_LOGIC. No original capture or running execution changed.",
+    "new_estate_grants": [],
+    "updates": [
+      {
+        "name": "job-dia-worker",
+        "cron": "0 6 * * *",
+        "runtime": 3600,
+        "resource_allocation": {
+          "cpu": 0.5,
+          "memory": "1Gi"
+        },
+        "patch_sha256": "e647bf5ea89a255e1560375536bd953e73a5f8ad785dbab0c9f9eb5985e35a51"
+      },
+      {
+        "name": "job-dia-graph-scan",
+        "cron": "0 */6 * * *",
+        "runtime": 1800,
+        "resource_allocation": {
+          "cpu": 0.5,
+          "memory": "1Gi"
+        },
+        "patch_sha256": "38e588302356227ee53da58f571e2ed51b3cf1dc9bc258104fff4eb648fb9db0"
+      },
+      {
+        "name": "job-dia-collectors",
+        "cron": "*/30 * * * *",
+        "runtime": 60,
+        "resource_allocation": {
+          "cpu": 0.25,
+          "memory": "0.5Gi"
+        },
+        "patch_sha256": "959facefbefdcceba37a3f5837165b8c420504398daf87c0b2698d3783b315bb"
+      }
+    ],
+    "schedules": {
+      "status": "PASS",
+      "daily": {
+        "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-worker",
+        "cron": "0 6 * * *",
+        "runtime_seconds": 3600
+      },
+      "graph": {
+        "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-graph-scan",
+        "cron": "0 */6 * * *",
+        "runtime_seconds": 1800
+      },
+      "runtime_seconds": 1800
+    }
+  },
+  "monthly_usage": {
+    "model_reservation_status_counts": [
+      {
+        "status": "SETTLED",
+        "count": 41
+      },
+      {
+        "status": "UNCERTAIN",
+        "count": 2
+      }
+    ],
+    "observed_at_utc": "2026-10-23T02:49:12.151936+00:00",
+    "physical": {
+      "mode": "BUILD_PHASE",
+      "month_utc": "2026-10",
+      "used": {
+        "SCAN": 283,
+        "INVESTIGATION": 466,
+        "RESTORATION": 0
+      },
+      "limits": {
+        "INVESTIGATION": 4905,
+        "SCAN": 1000,
+        "RESTORATION": 95
+      },
+      "total": 749,
+      "total_limit": 6000,
+      "restoration_remaining": 95,
+      "warnings": []
+    },
+    "model_accounts": {
+      "2026-10": {
+        "identity": "model-microdollars:2026-10",
+        "unit": "MICRODOLLARS",
+        "ceiling": "40000000",
+        "protected": "0",
+        "opening": "0",
+        "charged": "1817798",
+        "violated": false
+      },
+      "2026-11": {
+        "identity": "model-microdollars:2026-11",
+        "unit": "MICRODOLLARS",
+        "ceiling": "40000000",
+        "protected": "0",
+        "opening": "0",
+        "charged": "0",
+        "violated": false
+      }
+    },
+    "read_only": true,
+    "authority": "existing owner control-plane platform state; not an estate read"
+  },
+  "enrichment_usd": "5.170482",
+  "enrichment_ceiling_usd": "25",
+  "soft_failures_preserved": [
+    "A03 original same-image replay2/3, CONFIGURATION:BUDGET difference",
+    "A05 exact native replay not earned",
+    "Daily expected demo not met: NO_COMPARABLE_PATH instead of TRANSFORMATION_LOGIC",
+    "Application SQL access4FAIL with exact cause unestablished",
+    "DirectLake starts29/76 unchanged, zero VALUE_VERIFIED paths",
+    "New investigator projected capture explicitly unsupported"
+  ],
+  "original_tapes_and_expectations_unchanged": true,
+  "new_live_run_after_final_smoke_guard": false
+}
