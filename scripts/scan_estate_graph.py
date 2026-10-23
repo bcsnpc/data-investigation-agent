@@ -10,6 +10,16 @@ from investigator.shared_state import sha
 
 READ_OBSERVER = ContextVar('graph_scan_read_observer', default=None)
 
+def reservation_connection_failure(error):
+    """Only platform transport loss; never retry policy, SQL or auth refusal."""
+    if isinstance(error,(ConnectionError,TimeoutError)):return True
+    try:from psycopg import Error,OperationalError
+    except ImportError:return False
+    if not isinstance(error,Error):return False
+    code=getattr(error,'sqlstate',None)
+    return (code is None and isinstance(error,OperationalError)) or (code is not None and
+        (code.startswith('08') or code in ('25P03','57P01','57P02','57P03')))
+
 
 class Meter:
     def __init__(self, state, budget, limit, *, clock=None, reporting_mirror=True):
@@ -34,13 +44,26 @@ class Meter:
                 or retained['policy']['daily_limits']['cloud_calls']!=budget['rolling_limit']):
             raise ValueError('GRAPH_SHARED_USAGE_APPROVAL_PIN_DIFFERS')
         self.state, self.limit, self.used = state, limit, 0
+        self.reservation_retries=[]
         self.owner = 'graph-scan:' + str(uuid4())
         estate = {'operating_mode':'BUILD_PHASE'} if self.build_phase else {'round':retained['round_policy']}
         governor=SimpleNamespace(environment=budget['environment'],policy=retained['policy'],hash=digest(retained['policy']),
             clock=clock or time.time,runtime=SimpleNamespace(config={'_estate':estate}))
         usage_type=SharedUsage
         if not reporting_mirror:
+            retry_events=self.reservation_retries
             class ControlUsage(SharedUsage):
+                def reserve(self,*args,**kwargs):
+                    # The exact owner/key/request is reused. A lost commit ACK
+                    # is reconciled by shared_reserve before any HTTP dispatch.
+                    for attempt in range(3):
+                        try:return super().reserve(*args,**kwargs)
+                        except Exception as error:
+                            if attempt==2 or not reservation_connection_failure(error):raise
+                            delay=(30,45)[attempt]
+                            retry_events.append({'stage':'SHARED_RESERVATION_BEFORE_DISPATCH','error_type':type(error).__name__,
+                                'sqlstate':getattr(error,'sqlstate',None),'attempt':attempt+1,'wait_seconds':delay})
+                            time.sleep(delay)
                 def mirror(self,local):
                     # This meter never admits from its private presentation DB.
                     # reserve/settle remain the same authoritative shared methods.

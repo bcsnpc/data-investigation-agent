@@ -19,6 +19,36 @@ class ControlMeterTests(unittest.TestCase):
    self.assertEqual(meter.usage.snapshot()['monthly']['used']['INVESTIGATION'],1)
   with self.state.transaction()as db:
    row=db.execute('SELECT status,owner FROM state_usage').fetchone();self.assertEqual(row[0],'SETTLED');self.assertEqual(row[1],meter.owner)
+ def test_lost_reservation_commit_ack_reuses_key_and_dispatches_once(self):
+  from investigator import build_phase
+  original=build_phase.shared_reserve;keys=[]
+  def reserve(*args,**kwargs):
+   keys.append(args[3]);result=original(*args,**kwargs)
+   if len(keys)==1:raise ConnectionError('lost commit acknowledgement')
+   return result
+  operation=Mock(return_value=17)
+  with operating_mode(category='INVESTIGATION'):
+   meter=Meter(self.state,{'environment':'test'},1,clock=lambda:self.at,reporting_mirror=False);self.addCleanup(meter.close)
+   with patch('investigator.build_phase.shared_reserve',side_effect=reserve),patch('time.sleep')as sleep:
+    self.assertEqual(meter(operation),17)
+   sleep.assert_called_once_with(30);self.assertEqual(len(set(keys)),1);operation.assert_called_once()
+   self.assertEqual(meter.usage.snapshot()['monthly']['total'],1);self.assertEqual(len(meter.reservation_retries),1)
+  with self.state.transaction()as db:
+   self.assertEqual(db.execute('SELECT status FROM state_usage').fetchall(),[('SETTLED',)])
+ def test_reservation_transport_retries_are_bounded_and_policy_refusals_never_retry(self):
+  for error,attempts in ((ConnectionError('transport'),3),(UsageHold('MONTHLY_PHYSICAL_SCAN_EXHAUSTED'),1),(ValueError('query error'),1)):
+   with self.subTest(error=type(error).__name__),operating_mode(category='INVESTIGATION'):
+    meter=Meter(self.state,{'environment':'test'},1,clock=lambda:self.at,reporting_mirror=False);self.addCleanup(meter.close);operation=Mock()
+    with patch('investigator.build_phase.shared_reserve',side_effect=error)as reserve,patch('time.sleep')as sleep:
+     with self.assertRaises(type(error)):meter(operation)
+     self.assertEqual(reserve.call_count,attempts);self.assertEqual(sleep.call_count,attempts-1)
+    operation.assert_not_called();self.assertEqual(meter.used,0)
+ def test_postgres_authentication_and_query_errors_are_not_transport_retries(self):
+  from scan_estate_graph import reservation_connection_failure
+  import psycopg
+  for error in (psycopg.errors.InvalidPassword('auth'),psycopg.errors.InsufficientPrivilege('permission'),psycopg.errors.SyntaxError('query')):
+   self.assertFalse(reservation_connection_failure(error))
+  self.assertTrue(reservation_connection_failure(psycopg.errors.IdleInTransactionSessionTimeout('idle')))
  def test_real_shared_monthly_limit_still_refuses_before_dispatch_without_reporting_mirror(self):
   reserved=json.dumps({'cloud_calls':1,'planner_calls':0,'input_characters':0,'output_tokens':0})
   with self.state.transaction()as db:
