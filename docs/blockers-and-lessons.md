@@ -67,3 +67,9 @@ distinct: the first real Windows test exposed the venv launcher's separate PID;
 requiring them to match was incorrect. Later frames must retain one reported PID.
 All 30 lifecycle/publication/managed-worker tests pass. Live audit confirmation
 is pending; this item is not yet closed.
+
+The first Linux image run exposed a test-launch error: pytest added scripts to
+the parent's import path, but the test's fresh interpreter could not import
+managed_sql_worker. Bind that same tracked scripts directory explicitly in the
+synthetic child. No production path, permission or expected result changed;
+the failed image is not published or deployed.

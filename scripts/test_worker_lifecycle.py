@@ -36,6 +36,9 @@ with p.lifecycle({'stage':'connect'},interval=.01):
  p.before('sql_quantity');p.done('sql_quantity')
 p.emit({'value':7})
 '''
+        # pytest's parent import path is not inherited by a fresh interpreter
+        # in the read-only Linux image. Bind the test worker's code path too.
+        program='import sys;sys.path.insert(0,'+repr(str(Path(__file__).resolve().parent))+')\n'+program
         token=WORKER_OBSERVER.set(events.append)
         try:
             def meter(kind,fn):physical.append(kind);return fn()
