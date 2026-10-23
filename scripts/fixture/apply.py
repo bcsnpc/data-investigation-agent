@@ -14,6 +14,7 @@ from pathlib import Path
 from uuid import UUID, uuid5, NAMESPACE_URL
 from datetime import datetime, timezone
 from .definitions import bind, definition, model_slots
+from .source_history import SourceHistoryScenario
 from .seed import notebook_template
 from investigator.onboarding import digest
 

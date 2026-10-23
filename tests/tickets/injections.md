@@ -31,3 +31,10 @@ Microsoft documents [getting a pipeline definition](https://learn.microsoft.com/
 ## Observed failed-job receipts
 
 All three fixed faults returned the named controlled error2011. Existing investigator collected matching FAILED job IDs and error messages into the fact ledger: fixture2physical requests; billing4physical requests, each within the unchanged manual4request allowance. Full exact job errors, fact IDs, reader provenance, seals and original/restored hashes are in docs/runs/round-twenty-two-failure-controls.json. Original data activities were blocked; no history was removed. Two local control-reporting stalls were preserved and recovered; one conservatively charged original reservation remains RESERVED, not released or silently settled by another worker. No fault definition remains applied. Other verdict controls remain pending.
+
+
+## Source-history preparation, 2026-10-23
+
+Source preimage verified as existing owner:360rows,7,661units; full rows/schema/hash retained privately and public summary in docs/runs/round-twenty-two-source-baseline.json. No source mutation yet. SourceHistoryScenario is exposed through the existing fixture builder: insertion only of at most3 new synthetic IDs, with serializable count/sum/max-rowversion preimage guards; restoration deletes only those IDs after matching native inserted versions and unchanged original rows. Original row versions are untouched; the database-wide rowversion counter would advance and cannot be rewound. Concurrent changes cause refusal, never overwrite. Four new regressions plus existing fixture/control/apply/rebuild tests pass26tests. The first test invocation used a nonexistent plural module name; the corrected complete selection passes.
+
+The old local SQL-reader helper failed at query stage with no SQL error number; no permission or credential change was made. Its failure is not an investigator observation of source unavailability. Verify through the existing cloud federated reader before any source mutation. Do not promote the owner preimage into reader evidence. No held-out ticket wording or expectation was inspected or changed.
