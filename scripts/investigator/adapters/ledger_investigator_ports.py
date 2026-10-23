@@ -128,7 +128,7 @@ class ProcessValues:
         return result
 
 
-def decision_transport(schema):
+def decision_transport(schema,*,scoped_tools=False):
     """Azure's schema subset on the wire; the original validator stays strict.
 
     Hoist repeated action metadata to avoid Azure's 100-property limit. Bounds
@@ -138,6 +138,15 @@ def decision_transport(schema):
         'multipleOf','minItems','maxItems','uniqueItems','minProperties','maxProperties'}
     core=copy.deepcopy(schema);hoisted={}
     variants=core.get('anyOf')
+    if scoped_tools and isinstance(variants,list):
+        for variant in variants:
+            arguments=variant.get('properties',{}).get('arguments',{}).get('properties',{})
+            for field in ('node','job','model','visual','table','page','report'):
+                if field in arguments:arguments[field]={'type':'string'}
+            for field in ('layers','path'):
+                if field in arguments:arguments[field]={'type':'array','items':{'type':'string'}}
+            for field,reference in (('filters','admitted_context'),('key','admitted_key')):
+                if field in arguments:arguments[field]={'type':'string','enum':[reference]}
     if isinstance(variants,list) and variants:
         for name in ('summary','hypotheses'):
             first=variants[0].get('properties',{}).get(name)
@@ -179,9 +188,17 @@ class AzureDecision:
         from ..generation_policy import validate
         if not callable(retain) or not session:raise ValueError('GOVERNED_MODEL_SESSION_REQUIRED')
         self.governor=governor;self.session=session;self.directory=directory;self.retain=retain
-        self.options=validate(options);self.producer=producer;self.calls=0
+        self.options=validate(options);self.producer=producer;self.calls=0;self.cache_usage=[]
         from ..normal_audit import mode
         self.recording_mode=mode(recording_mode)
+
+    def cache_metrics(self):
+        known=[v for v in self.cache_usage if type(v.get('input_tokens'))is int and type(v.get('cached_tokens'))is int and 0<=v['cached_tokens']<=v['input_tokens']]
+        inputs=sum(v['input_tokens']for v in known);cached=sum(v['cached_tokens']for v in known)
+        return {'reported_calls':len(known),'unknown_calls':self.calls-len(known),'input_tokens':inputs,
+                'cached_input_tokens':cached,'cached_token_rate':cached/inputs if inputs else None,
+                'calls_with_cache':sum(v['cached_tokens']>0 for v in known),
+                'call_hit_rate':sum(v['cached_tokens']>0 for v in known)/len(known)if known else None}
 
     def bind_case(self,case,retain):
         self.case=case;self.case_retain=retain
@@ -193,16 +210,20 @@ class AzureDecision:
         from ..generation_policy import failure_usage
         # Azure function parameters require a root object; the engine's closed
         # union remains unchanged underneath this transport-only envelope.
-        wire_schema,hoisted=decision_transport(schema)
+        scoped_tools=isinstance(payload,dict) and 'admitted_context'in payload and 'admitted_key'in payload
+        wire_schema,hoisted=decision_transport(schema,scoped_tools=scoped_tools)
         case=getattr(self,'case',None)
         if case is not None:
             payload={**copy.deepcopy(payload),'code_case_state':{'plan':case.value['plan'],'current_step':case.value['current_step']}}
             wire_schema['properties']['recitation']={'type':'object','properties':{'plan':{'type':'array','items':{'type':'string'}},'current_step':{'type':'string'}},'required':['plan','current_step'],'additionalProperties':False}
             wire_schema['required'].append('recitation')
-        instruction=vocabulary(instructions,schema)+'\nReturn the schema-conforming result in the transport envelope: shared summary/hypotheses at its root when declared; remaining result fields inside decision.'
+        instruction=vocabulary(instructions,wire_schema if scoped_tools else schema)+'\nReturn the schema-conforming result in the transport envelope: shared summary/hypotheses at its root when declared; remaining result fields inside decision.'
+        if scoped_tools:instruction+='\nUse only the admitted_identifiers supplied after this prefix. filters and key are references: admitted_context and admitted_key; code expands them and validates the original exact scope.'
         if case is not None:instruction+='\nRestate the code_case_state plan and current_step in recitation. Code owns both; restatement does not change them.'
         body=provider_body(payload,instruction,wire_schema,'ledger_investigator_action',
                            decision_tool=True,generation_options=self.options)
+        prefix=canonical({key:value for key,value in body.items()if key!='input'}).encode()
+        prefix_hash=hashlib.sha256(prefix).hexdigest()
         size=len(json.dumps(body,ensure_ascii=False,separators=(',',':')))
         if size>self.options['max_payload_characters']:raise ValueError('INVESTIGATOR_PROVIDER_INPUT_BOUND')
         self.calls+=1;key='ledger-investigator:'+str(self.calls)
@@ -222,8 +243,9 @@ class AzureDecision:
                 answer,metadata=(self.producer or _azure_generate)(payload,instructions=instruction,schema=wire_schema,
                     name='ledger_investigator_action',decision_tool=True,generation_options=self.options,
                     max_request_characters=self.options['max_payload_characters'])
+                usage=metadata.get('usage',{});self.cache_usage.append({'input_tokens':usage.get('input_tokens'),'cached_tokens':usage.get('input_tokens_details',{}).get('cached_tokens')})
                 self.retain({'event':'INVESTIGATOR_MODEL_USAGE','call':self.calls,'metadata':metadata,
-                             'input_characters':size,'recording':str(record.path)if record is not None else 'NORMAL_AUDIT_NO_BYTE_EXACT_PROVIDER_TAPE'})
+                             'input_characters':size,'prompt_prefix_sha256':prefix_hash,'prompt_prefix_bytes':len(prefix),'recording':str(record.path)if record is not None else 'NORMAL_AUDIT_NO_BYTE_EXACT_PROVIDER_TAPE'})
                 if case is not None:
                     event=case.recite(answer.get('recitation') if isinstance(answer,dict) else None)
                     if event:self.case_retain(event)
@@ -233,6 +255,13 @@ class AzureDecision:
                     raise ValueError('INVESTIGATOR_PROVIDER_DECISION_ENVELOPE_REQUIRED')
                 if set(answer['decision'])&set(hoisted):raise ValueError('INVESTIGATOR_PROVIDER_DUPLICATE_METADATA')
                 decision={**answer['decision'],**{k:answer[k]for k in hoisted}}
+                if scoped_tools and decision.get('action')=='TOOL':
+                    args=copy.deepcopy(decision.get('arguments',{}))
+                    for field,reference in (('filters','admitted_context'),('key','admitted_key')):
+                        if field in args:
+                            if args[field]!=reference:raise ValueError('PROVIDER_ADMITTED_SCOPE_REFERENCE_REQUIRED')
+                            args[field]=copy.deepcopy(payload[reference])
+                    decision['arguments']=args
                 from jsonschema import Draft202012Validator
                 Draft202012Validator(schema).validate(decision)
                 return decision

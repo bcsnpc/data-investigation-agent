@@ -1,0 +1,9 @@
+{
+  "source": "Preserved5c25dc6 first NORMAL smoke, before stable-prefix pattern; failed at a later provider-input guard. Not the new-pattern live rate.",
+  "reported_calls": 6,
+  "input_tokens": 79705,
+  "cached_input_tokens": 52096,
+  "cached_token_rate": 0.653610187566652,
+  "calls_with_cache": 4,
+  "new_pattern_live_measurement": "PENDING section2j"
+}

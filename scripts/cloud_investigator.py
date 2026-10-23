@@ -289,6 +289,7 @@ def _execute(plan,context):
             with model_session(settings) if decision else nullcontext():
                 result=run(call_plan,context,graph=graph,ledger=FactLedger(state),value_reader=values,
                            decide=decision,admit=admit,checks=checks,collector=collector,now=now,checkpoint=checkpoint)
+            if decision is not None:result.setdefault('cost',{})['provider_cache']=decision.cache_metrics()
             result['checkpoint_accounting']={'prior_completed_physical_requests':restored_physical[0],'this_execution_physical_requests':meter.used-restored_physical[0],'note':'Prior reads remain charged in the shared ledger; restoring the case does not reissue or uncharge them.'}
             result.update(physical_requests=meter.used,before=meter.before,after=meter.usage.snapshot(),
                           model_calls=decision.calls if decision else 0)

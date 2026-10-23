@@ -82,6 +82,42 @@ class Decisions(unittest.TestCase):
             reserve=lambda *a,**k:self.events.append(('reserve',a[1:],k)),
             settle=lambda *a,**k:self.events.append(('settle',a[1:],k)))
 
+    def test_two_tickets_have_identical_prefix_and_scope_references_expand_before_validation(self):
+        import copy,json
+        from investigator.ledger_investigator import schema
+        from investigator.estate_graph_contract import canonical
+        from investigator.ledger_investigator_tools import literal_schema
+        from investigator.investigator_case import CaseFile
+        prefixes=[];usage=[]
+        for suffix,context,key in [('',{'warehouse':'North'},'record-1'),('-two',{'warehouse':'South','period':'month'},None)]:
+            arguments={'type':'object','properties':{'layers':{'type':'array','items':{'type':'string','enum':['down'+suffix,'up'+suffix]}},'filters':literal_schema(context),'key':literal_schema(key)},'required':['layers','filters','key'],'additionalProperties':False}
+            core=schema(SimpleNamespace(schemas={'compare_layers':arguments}))
+            case=CaseFile({'id':'ticket'+suffix});case.advance('investigate')
+            def provider(payload,**kwargs):
+                prefixes.append(canonical({'instructions':kwargs['instructions'],'tools':kwargs['schema']}))
+                return {'summary':'Compare admitted layers','hypotheses':['not found'],'recitation':{'plan':case.value['plan'],'current_step':'investigate'},'decision':{'action':'TOOL','tool':'compare_layers','arguments':{'layers':['down'+suffix,'up'+suffix],'filters':'admitted_context','key':'admitted_key'}}},{'usage':{'input_tokens':100,'input_tokens_details':{'cached_tokens':80},'output_tokens':3}}
+            with tempfile.TemporaryDirectory()as tmp:
+                port=AzureDecision(self.governor,session='ticket'+suffix,directory=tmp,retain=usage.append,producer=provider,recording_mode='NORMAL');port.bind_case(case,usage.append)
+                actual=port({'ticket':{'text':'ticket'+suffix},'admitted_identifiers':['down'+suffix,'up'+suffix],'admitted_context':context,'admitted_key':key},instructions='Only admitted scope',schema=core)
+                self.assertEqual(actual['arguments']['filters'],context);self.assertEqual(actual['arguments']['key'],key)
+                self.assertEqual(port.cache_metrics()['cached_token_rate'],0.8)
+        self.assertEqual(prefixes[0],prefixes[1]);self.assertNotIn('North',prefixes[0]);self.assertNotIn('down-two',prefixes[0])
+        hashes=[v['prompt_prefix_sha256']for v in usage if v.get('event')=='INVESTIGATOR_MODEL_USAGE']
+        self.assertEqual(hashes[0],hashes[1])
+
+    def test_scope_reference_transport_does_not_admit_invented_ids_or_scope(self):
+        from investigator.ledger_investigator import schema
+        from investigator.ledger_investigator_tools import literal_schema
+        from jsonschema import ValidationError
+        arguments={'type':'object','properties':{'layers':{'type':'array','items':{'enum':['a','b']}},'filters':literal_schema({}),'key':literal_schema(None)},'required':['layers','filters','key'],'additionalProperties':False}
+        core=schema(SimpleNamespace(schemas={'compare_layers':arguments}))
+        for layers,filters,error in [(['invented','b'],'admitted_context',ValidationError),(['a','b'],{},ValueError)]:
+            def provider(*args,**kwargs):return {'summary':'Compare','hypotheses':['not found'],'decision':{'action':'TOOL','tool':'compare_layers','arguments':{'layers':layers,'filters':filters,'key':'admitted_key'}}},{'usage':{'input_tokens':10,'output_tokens':3}}
+            with tempfile.TemporaryDirectory()as tmp:
+                port=AzureDecision(self.governor,session='scope',directory=tmp,retain=lambda _:None,producer=provider,recording_mode='NORMAL')
+                with self.assertRaises(error):port({'admitted_context':{},'admitted_key':None},instructions='Read only',schema=core)
+            self.assertEqual(self.events[-1][0],'settle');self.assertFalse(self.events[-1][2]['uncertain'])
+
     def test_bound_case_recitation_is_required_on_wire_and_mismatch_cannot_change_state(self):
         from investigator.investigator_case import CaseFile
         case=CaseFile({'id':'one'});events=[]

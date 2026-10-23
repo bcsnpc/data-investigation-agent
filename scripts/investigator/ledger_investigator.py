@@ -117,6 +117,7 @@ class Investigator:
                     prior=saved['operations'][-1]['state']
                     if callable(getattr(self.checkpoint,'restore_extra',None)):self.checkpoint.restore_extra(prior['extra'])
                     if prior['decision_calls']is not None:self.decide.calls=prior['decision_calls']
+                    if prior.get('decision_cache')is not None:self.decide.cache_usage=copy.deepcopy(prior['decision_cache'])
                 self.persist({'event':'INVESTIGATOR_CHECKPOINT_ALREADY_COMPLETE','ticket_id':self.case.value['ticket_id']})
                 return saved['outcome']
             started-=saved['elapsed_seconds']
@@ -130,10 +131,11 @@ class Investigator:
             count=getattr(self.decide,'calls',None)
             extra=self.checkpoint.export_extra() if callable(getattr(self.checkpoint,'export_extra',None))else None
             return {'case_file':self.case.snapshot(),'tools':self.tools.checkpoint_state(),
-                    'decision_calls':count if type(count)is int else None,'extra':extra}
+                    'decision_calls':count if type(count)is int else None,'decision_cache':copy.deepcopy(self.decide.cache_usage)if isinstance(getattr(self.decide,'cache_usage',None),list)else None,'extra':extra}
         def restore(value):
             self.case.value=copy.deepcopy(value['case_file']);self.tools.restore_checkpoint(value['tools'])
             if value['decision_calls']is not None:self.decide.calls=value['decision_calls']
+            if value.get('decision_cache')is not None:self.decide.cache_usage=copy.deepcopy(value['decision_cache'])
             if callable(getattr(self.checkpoint,'restore_extra',None)):self.checkpoint.restore_extra(value['extra'])
         def operation(name,args,fn):
             if self.checkpoint is None:return fn()
@@ -247,6 +249,7 @@ class Investigator:
             try:
                 decision=operation('model',{'step':step},lambda:self.decide({'ticket':ticket,'path_nodes':[{'id':n['id'],'label':n['label'],'kind':n['kind'],'depth':self.tools.depth.get(n['id'])} for n in self.tools.nodes.values()],
                 'pending_quantity_nodes':self.tools.pending_quantity_nodes(),'allowed_tools':sorted(permitted),
+                'admitted_identifiers':sorted(self.tools.nodes),'admitted_context':self.tools.context,'admitted_key':self.tools.key,
                 'case_file':self.case.model_view(),'fetched_evidence':fetched,'feedback':{k:copy.deepcopy(v)for k,v in (feedback or {}).items()if k in ('reason','detail','error_type','status','evidence_ids','nodes')},'steps_remaining':self.step_cap-step+1,
                 'tool_history':[{'tool':c['tool'],'arguments':c['arguments'],'evidence_ids':c['result'].get('evidence_ids',[]),'status':c['result'].get('status')} for c in calls[-3:]]},instructions=INSTRUCTIONS,schema=self.schema))
             except Exception as exc:
