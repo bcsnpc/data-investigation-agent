@@ -147,3 +147,6 @@ Owner frontier confirmation2026-10-23: exactly one A rerun, `job-dia-worker-6u1a
 
 
 Frontier source8611703 full regression:5,143 tests/48skip,zero failures/errors,1116.59s; all4local shards exit0. Independent fairness batch completed12/12 schema-valid judgments atUSD0.041762 enrichment,0estate reads. Several judgments confuse the ability to investigate with answering from labels alone; originals retained and independent criteria clarification pending. No exclusions adopted or scored tickets admitted.
+
+
+Section3 control checkpoint2026-10-23: three real failed-job controls acrossfixture/billing now collector-confirmed with matchingrunIDs/error2011. Original pipeline definitions restored and servedhashes match; no originaldata activity ran or history was removed. Readercollectors used2fixture+4billing SCAN requests, within unchangedmanual4perjob. Two local reporting stalls preserved; secondstack establishes SharedUsage.mirror wait before nextAPI dispatch, notFabric latency. One originalphysical reservation stays conservativelycharged RESERVED. Bothfairnessreviews preserved; all12oldquestions remaininset dueunsupported/inconsistentexclusions, notrewritten. EnrichmentUSD5.259538/25 before ticketwriter. Otherverdictcontrols/setseal/scoringstillpending. Receipt docs/runs/round-twenty-two-failure-controls.json.

@@ -1,0 +1,274 @@
+{
+  "status": "COMPLETED",
+  "batch_key": "round22-r17-fairness-clarified-v1",
+  "execution": {
+    "name": "job-dia-worker-8kozdl5",
+    "status": "Succeeded",
+    "startTime": "2026-10-23T17:24:58+00:00",
+    "endTime": "2026-10-23T17:25:46+00:00"
+  },
+  "seal": "105525de2d7b517de065bf46916119b693b41274a8765f42127a5c6e7e92c7ba",
+  "judgments": [
+    {
+      "case_id": "R17-01",
+      "answerable": true,
+      "missing_essentials": [],
+      "reason": "The ticket names a specific report (Declared predicate fixture 20261001), a specific page (Unfiltered control), and a specific measure (Handled Quantity) with a specific displayed value (8765). All three referents match catalog labels, and the investigator can retrieve the visual's actual rendered value, the measure definition, and any filter context to verify the displayed count. Nothing essential is missing.",
+      "status": "VALIDATED",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1882,
+        "output_tokens": 105,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-02",
+      "answerable": true,
+      "missing_essentials": [],
+      "reason": "The ticket names a specific report ('Declared predicate fixture 20261001'), a specific page ('Unfiltered control'), and a specific measure ('Handled Quantity') with a specific value (8765) to verify. All three referents appear in the catalog labels. The investigator can attempt to access the report, retrieve the visual value on that page, check the measure definition, and confirm or dispute the stated figure. No essential information is ambiguous or missing.",
+      "status": "VALIDATED",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1876,
+        "output_tokens": 117,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-03",
+      "answerable": true,
+      "missing_essentials": [],
+      "reason": "The ticket names a specific measure (Handled Quantity), a specific page (Unfiltered control), and provides the observed value (8765). Both the measure and the page appear in the catalog labels. An investigator can query the model definition of Handled Quantity, inspect the report/page, verify the current value, and check refresh/job metadata to assess whether the count is anomalous. Nothing essential is missing; any formula, lineage, or data freshness details are tool-retrieval tasks, not ticket prerequisites.",
+      "status": "VALIDATED",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1868,
+        "output_tokens": 130,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-04",
+      "answerable": true,
+      "missing_essentials": [
+        "report"
+      ],
+      "reason": "The ticket names a specific measure (Handled Quantity), a specific page or card context (unfiltered), and a specific value (8765), which is enough to anchor an investigation. The catalog contains 'fixture: MEASURE Handled Quantity' and a 'fixture: PAGE Unfiltered control' page, so the referents are plausible and not indeterminate. The missing report name is a retrievable detail \u2014 the investigator can identify which report hosts that page \u2014 and does not make the request unfair. The user is asking for a technical confirmation of a value against expected scope, which is within investigable bounds.",
+      "status": "VALIDATED",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1868,
+        "output_tokens": 155,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-05",
+      "answerable": true,
+      "missing_essentials": [],
+      "reason": "The ticket names a specific report ('Declared predicate fixture 20261001'), a specific measure ('Handled Quantity'), and a specific visual context ('card'), and supplies the observed value (8765) as an anchor for investigation. All three artifacts appear in the catalog labels. The investigator can query the model, retrieve the measure definition, check the report page and visual, and verify whether the displayed value matches the underlying data. No essential is missing; the comparison baseline (8765) is provided by the user as the value to verify.",
+      "status": "VALIDATED",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1871,
+        "output_tokens": 131,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-06",
+      "answerable": true,
+      "missing_essentials": [],
+      "reason": "The ticket names a specific measure (Handled Quantity), a specific page (Unfiltered control), and a specific visual context (unfiltered), and provides a concrete observed value (8765) to investigate. Both 'fixture: MEASURE Handled Quantity' and 'fixture: PAGE Unfiltered control' appear in the catalog labels, giving the investigator clear anchors. The request is to review/verify the count, which is a legitimate technical investigation (checking the visual value, model definition, and data freshness) that an investigator can pursue with read-only access. No ambiguity exists about the referent, and no business correctness judgment outside technical evidence is demanded.",
+      "status": "VALIDATED",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1871,
+        "output_tokens": 166,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-07",
+      "answerable": true,
+      "missing_essentials": [],
+      "reason": "The ticket names a specific measure (Handled Quantity) and a specific page (Unfiltered control), both of which appear in the catalog labels. An investigator can look up the relevant report's last refresh or dataset refresh timestamp using read-only metadata queries. No business correctness judgment is required, and any access or value retrieval outcome is an investigation result, not a ticket deficiency.",
+      "status": "VALIDATED",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1860,
+        "output_tokens": 101,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-08",
+      "answerable": true,
+      "missing_essentials": [
+        "report"
+      ],
+      "reason": "The ticket names a specific measure (Handled Quantity) and a specific value (8765) and asks whether that value reflects the latest refresh. An investigator can look up refresh/job metadata and compare timestamps to the displayed value. The only genuine gap is that the ticket does not specify which report or page is being viewed \u2014 multiple reports and pages in the catalog carry Handled Quantity \u2014 but this is a retrievable scope detail, not a reason to mark the ticket unfair. A named measure plus a specific value is enough to anchor the investigation, and a missing report reference is a single grounded missing essential that does not make the request indeterminate.",
+      "status": "VALIDATED",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1867,
+        "output_tokens": 156,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-09",
+      "answerable": false,
+      "missing_essentials": [
+        "report"
+      ],
+      "reason": "The report 'Declared predicate fixture 20261001' is in the catalog and has a PAGE 'Unfiltered control', but no MEASURE named 'Handled Quantity' is listed under that report's fixture scope \u2014 the Handled Quantity measures appear under different report/model fixtures. More critically, there is no VISUAL or CARD labeled 'Handled Quantity' under 'Declared predicate fixture 20261001 > Unfiltered control' in the catalog, making the specific visual referent genuinely indeterminate. The investigator cannot safely assume which visual or data binding is intended without fabricating a relationship absent from the labels.",
+      "status": "VALIDATED",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1870,
+        "output_tokens": 164,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-10",
+      "answerable": true,
+      "missing_essentials": [],
+      "reason": "The ticket names a specific measure ('Handled Quantity') and a specific visual context ('Handled Quantity - unfiltered card'), both of which are grounded in catalog labels (MEASURE Handled Quantity appears multiple times). An investigator can retrieve the measure's DAX/formula definition from the model and inspect the named visual on the relevant report page to determine exactly what is included. No business-correctness judgment is required, and the formula and scope are facts for the investigator to retrieve, not ticket essentials the user must supply.",
+      "status": "VALIDATED",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1863,
+        "output_tokens": 132,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-11",
+      "answerable": false,
+      "missing_essentials": [
+        "report"
+      ],
+      "reason": "The PAGE 'Unfiltered control' exists only under 'REPORT Declared predicate fixture 20261001', while MEASURE 'Handled Quantity' appears in multiple models and reports. A definition question anchored to a named measure is legitimate, but the ticket additionally scopes the question to the 'Unfiltered control' page, implying a report-specific visual context. Since 'Handled Quantity' appears in more than one model and the page itself belongs to a fixture report rather than any of the Inventory Health or Warehouse Performance reports, the intended semantic scope (which model's definition of Handled Quantity applies in that page context) is resolvable only by identifying the backing model of 'REPORT Declared predicate fixture 20261001'. An investigator can retrieve that, so this is borderline; however, the ticket asks for the 'business definition' specifically as surfaced on that page, which is answerable from the model definition once the correct model is confirmed. On balance the ticket is fair and answerable: the page name is unique in the catalog, the measure name is present, and an investigator can resolve the model linkage and retrieve the definition without any fabrication.",
+      "status": "VALIDATED",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1860,
+        "output_tokens": 280,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-12",
+      "answerable": true,
+      "missing_essentials": [
+        "report"
+      ],
+      "reason": "The ticket asks about the unit definition of the measure 'Handled Quantity', which appears in the catalog. A named measure can anchor a model-only definition question without a report being mandatory. However, the ticket also references a specific value (8765) and says 'on this report', implying a report-scoped context that is ambiguous since multiple reports and pages contain Handled Quantity across different models. This ambiguity about which specific report is intended introduces a missing report referent, but the core definition question about what unit Handled Quantity represents remains investigable from the model definition alone. The question is grounded enough for an investigator to retrieve the measure definition and check unit metadata, making it fair but with a noted missing report anchor for the value-specific portion.",
+      "status": "VALIDATED",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1866,
+        "output_tokens": 184,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    }
+  ],
+  "actual_enrichment_usd": 0.047294,
+  "enrichment_cumulative_usd": 5.259538,
+  "estate_reads": 0,
+  "investigator_model_calls": 0,
+  "exclusions_adopted": [],
+  "inclusion_policy": "Keep all12 original questions unchanged in the scored set. An independent unfair label without grounded ambiguity is not used to remove a denominator. Missing essentials may legitimately ask one question; this does not mean every question must immediately yield a verdict.",
+  "reviewer_quality_findings": [
+    "R17-09 rejects a named report/page/measure using relationships not supplied in flat labels; initial review accepted equally anchored tickets. No grounded exclusion is established.",
+    "R17-11 answerable=false contradicts its own concluding reason: on balance fair and answerable. Original boolean and prose both preserved."
+  ],
+  "not_runtime_evidence": true
+}
