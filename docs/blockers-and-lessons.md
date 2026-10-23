@@ -211,3 +211,5 @@ The Azure adapter validates ticket-specific consumer scope after stable wire-ref
 
 2026-10-23 standalone harness preparation refused before I/O: operator changed template run_id without the exact matching capture grant. Original config/log retained; bind_execution regression assertion reproduced the error offline, complete Azure listing confirmed no new submission. Corrected configuration preserves template/grant binding and lets existing per-execution binding generate a new ID.
 2026-10-23 independent evaluation preparation: initial synthetic batch test caught a missing optimistic revision on submission receipt update; explicit revisions now guard both submission and completion, with uncertain submission/duplicate-key tests. No live batch was submitted before repair.
+
+2026-10-23 user harness A:18model steps,1quantity read,not found; consumer refused unsupported refresh-stale verdict, then repeated evidence fetches exhausted the ticket budget without comparing pending layers. No harmful cause delivered. Record as development evidence; do not count as a successful investigation, soften validation, or substitute the earlier smoke answer.
