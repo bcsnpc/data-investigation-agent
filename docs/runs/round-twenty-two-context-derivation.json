@@ -1,0 +1,82 @@
+{
+  "status": "INDEPENDENT_DERIVATION_BEFORE_NATIVE_READS",
+  "source": "Committed synthetic notebook literals, not compiled engine answers",
+  "seed_sha256": "313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1",
+  "source_business_rows_match_sealed_baseline": true,
+  "source_rows": 360,
+  "source_quantity": 7661,
+  "cases": [
+    {
+      "id": "context-warehouse",
+      "column": "warehouse_id",
+      "values": [
+        1,
+        2
+      ],
+      "totals": [
+        {
+          "scope": {
+            "warehouse_id": 1
+          },
+          "row_count": 139,
+          "quantity": 2948
+        },
+        {
+          "scope": {
+            "warehouse_id": 2
+          },
+          "row_count": 102,
+          "quantity": 2084
+        }
+      ]
+    },
+    {
+      "id": "context-product",
+      "column": "product_id",
+      "values": [
+        7,
+        8
+      ],
+      "totals": [
+        {
+          "scope": {
+            "product_id": 7
+          },
+          "row_count": 46,
+          "quantity": 1104
+        },
+        {
+          "scope": {
+            "product_id": 8
+          },
+          "row_count": 56,
+          "quantity": 1258
+        }
+      ]
+    },
+    {
+      "id": "context-day",
+      "column": "event_day",
+      "values": [
+        "2026-09-14",
+        "2026-09-15"
+      ],
+      "totals": [
+        {
+          "scope": {
+            "event_day": "2026-09-14"
+          },
+          "row_count": 44,
+          "quantity": 923
+        },
+        {
+          "scope": {
+            "event_day": "2026-09-15"
+          },
+          "row_count": 38,
+          "quantity": 772
+        }
+      ]
+    }
+  ]
+}
