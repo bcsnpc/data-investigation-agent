@@ -31,4 +31,16 @@ class PipelineScenarios(unittest.TestCase):
   before=self.definition();d=PipelineFailureScenario.content(before);d['properties']['activities']=d['properties']['activities'][:1];before['definition']['parts'][0]['payload']=base64.b64encode(bytes_of(d)).decode()
   with self.assertRaisesRegex(ValueError,'EXISTING_SCRIPT_CONNECTION'):PipelineFailureScenario.failure(before)
 
+ def test_job_submission_is_durable_and_location_bound_to_the_same_pipeline(self):
+  before=self.definition();control,calls,state=self.control(before);scenario=PipelineFailureScenario(control,'22222222-2222-2222-2222-222222222222');run='33333333-3333-3333-3333-333333333333'
+  endpoint='workspaces/'+control.workspace+'/items/'+scenario.item_id+'/jobs/instances/'+run
+  def call(path,method='GET',body=None,**kwargs):
+   calls.append((path,method,body,kwargs))
+   return {'status_code':202,'headers':{'Location':'https://api.fabric.microsoft.com/v1/'+endpoint},'text':{}}if method=='POST'else {'status_code':200,'text':{'id':run,'status':'Failed'}}
+  control.call=call
+  submitted=scenario.start_failure(key='one-real-run');self.assertEqual(submitted['endpoint'],endpoint);self.assertEqual(calls[-1][3]['key'],'one-real-run');self.assertEqual(scenario.job(endpoint)['status'],'Failed')
+  with self.assertRaisesRegex(ValueError,'OUTSIDE_PIPELINE'):scenario.job(endpoint.replace(scenario.item_id,run))
+  control.call=lambda *args,**kwargs:{'status_code':202,'headers':{'location':'https://example.org/elsewhere'},'text':{}}
+  with self.assertRaisesRegex(ValueError,'OUTSIDE_WORKSPACE'):scenario.start_failure(key='refused-location')
+
 if __name__=='__main__':unittest.main()

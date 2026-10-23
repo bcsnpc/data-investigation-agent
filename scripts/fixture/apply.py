@@ -391,3 +391,30 @@ class PipelineFailureScenario:
         served=self.observe()
         if self.semantic_hash(served)!=old_hash:raise ValueError('SCENARIO_RESTORE_READBACK_DIFFERS')
         return {'status':'RESTORED_DEFINITION','before_hash':old_hash,'served_hash':self.semantic_hash(served),'mutations':1,'run_history_preserved':True}
+
+
+    def start_failure(self,*,key):
+        """Start exactly one controlled job; durable key preserves uncertainty."""
+        response=self.control.call(self.root+'/jobs/instances?jobType=Pipeline','POST',{},key=key)
+        location={k.lower():v for k,v in response.get('headers',{}).items()}.get('location','')
+        prefix='https://api.fabric.microsoft.com/v1/workspaces/'+self.control.workspace+'/'
+        if not location.startswith(prefix):raise ValueError('SCENARIO_JOB_LOCATION_OUTSIDE_WORKSPACE')
+        from urllib.parse import urlsplit
+        parsed=urlsplit(location)
+        if parsed.query or parsed.fragment:raise ValueError('SCENARIO_JOB_LOCATION_UNEXPECTED_QUERY')
+        endpoint=parsed.path.removeprefix('/v1/')
+        # A returned job URI must identify this pipeline, not merely its workspace.
+        allowed=('workspaces/'+self.control.workspace+'/items/'+self.item_id+'/jobs/instances/',
+                 self.root+'/jobs/instances/')
+        if not any(endpoint.startswith(root)for root in allowed):raise ValueError('SCENARIO_JOB_LOCATION_OUTSIDE_PIPELINE')
+        from uuid import UUID
+        UUID(endpoint.rsplit('/',1)[-1])
+        return {'endpoint':endpoint,'submission':response}
+
+    def job(self,endpoint):
+        allowed=('workspaces/'+self.control.workspace+'/items/'+self.item_id+'/jobs/instances/',
+                 self.root+'/jobs/instances/')
+        if not any(endpoint.startswith(root)for root in allowed)or '?'in endpoint or '#'in endpoint:raise ValueError('SCENARIO_JOB_LOCATION_OUTSIDE_PIPELINE')
+        from uuid import UUID
+        UUID(endpoint.rsplit('/',1)[-1])
+        return self.control.call(endpoint)['text']
