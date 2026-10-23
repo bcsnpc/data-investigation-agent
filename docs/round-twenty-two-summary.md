@@ -160,3 +160,6 @@ Owner frontier completion, 2026-10-23: one A validation reached as designed/nati
 
 
 Section3 continuation2026-10-23: six independently written baseline drafts preserved unchanged as DEV only; three provider messages,USD0.006628,zero estate reads. Full set/held-out sealing and scoring still pending. Owner approved and verified one existing SQL laptop /32 firewall replacement, no other scope change; original40613/40615 controls preserved.
+
+
+Source before-state completed2026-10-23T19:09:44UTC: existing owner control read360syntheticrows,7,661units, complete row/schema preimage retained. One INV physical request,zero diagnostic/model calls or source mutations. Firewall replacement readback verified. A later40613 occurred during serverless resumption; after Azure reported Online, the bounded retry completed in8.47s. Two earlier report-preflight connection failures dispatched no SQL and remain preserved. Source receipt docs/runs/round-twenty-two-source-baseline.json; pre-writer40/20allocation in docs/round-twenty-two-set-construction.md. Not a scored result.
