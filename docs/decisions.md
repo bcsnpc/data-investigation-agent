@@ -84,3 +84,11 @@ on the same named nodes and a checked non-business DESIGN_CHECK for that pair.
 This is a taxonomy adapter and a stronger smoke assertion, not a looser outcome
 expectation. A label alone, missing definition, equal operands, unavailable
 result or wrong native classification fails. Old smoke captures are unchanged.
+
+The amended soft-gate/source-availability rule applies to access preflight too:
+new investigations and daily smokes retain a failed source-access table as a
+warning and inspect reachable layers. Standalone probes keep their failed
+access report. Gateway, scope, identity, read-only and secret guards still run
+on every native read and still propagate hard stops. No owner/alternate-reader
+fallback or permission is added; the inaccessible layer becomes blocked in
+the delivered result. Regression preserves this distinction.

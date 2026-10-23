@@ -18,6 +18,16 @@ class RunnerTests(unittest.TestCase):
         registry=handlers()
         self.assertIs(registry['investigation'],registry['ledger-investigation'])
         self.assertIsNot(registry['legacy-baseline'],registry['investigation'])
+    def test_source_access_failure_is_warning_for_new_investigator_not_a_whole_run_hold(self):
+        with tempfile.TemporaryDirectory()as d:
+            config=self.config(Path(d));config['checks']={'answer':{'kind':'ledger-investigation','options':{}}};seen=[]
+            table={'status':'FAIL','rows':[{'id':'source','status':'FAIL','reason':'HTTP_403'}]}
+            answer={'verdict':'not found','status':'blocked','outputs':{'business':'Source permission refused; reachable model checked.','technical':'Retained refused source read.'}}
+            def investigate(plan,ctx):seen.append(ctx.access_result);return answer
+            with patch('investigator.access_check.configured',return_value=table):
+                result=run(config,'answer',registry={'ledger-investigation':investigate},put=lambda *_:None)
+            self.assertEqual(seen,[table]);self.assertEqual(result['result'],answer)
+            self.assertEqual(result['exit_code'],0)
     def test_delivered_warning_answer_exits_zero_and_records_intent_in_seal(self):
         from investigator.unified_runner import delivery_exit
         answer={'status':'DEMO_FINISHED','demo':{'ticket':{'state':'FINDINGS_SHARED','findings':{'classification':'TRANSFORMATION_LOGIC'}}},

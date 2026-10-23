@@ -277,10 +277,12 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
                     access_result=getattr(ctx,'access_result',None),
                     step=lambda name,fn:retry(lambda:ctx.step(name,fn),record=ctx.record,sleep=sleep))
                 return ctx.step(check['kind'],lambda:registry[check['kind']](plan,view))
-            if getattr(ctx,'access_result',{}).get('status')=='FAIL' and check['kind']!='access-check':
-                # A real permission/read failure is not a verification or
-                # attestation warning. Preserve the full table without starting
-                # an investigation or asking a model to work around it.
+            if getattr(ctx,'access_result',{}).get('status')=='FAIL' and check['kind']not in ('access-check','investigation','ledger-investigation','smoke'):
+                # Standalone probes still return their failed access report.
+                # Investigations retain that report but check reachable layers:
+                # each native read still verifies its own identity/read-only
+                # guards and records blocked source availability. No fallback
+                # identity or permission is introduced by a preflight warning.
                 result={'status':'HELD','reason':'CHECK_ACCESS_FAILED','access_check':ctx.access_result,
                         'investigation_executed':False}
                 ctx.record('admission-failure',result)
