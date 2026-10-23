@@ -4490,3 +4490,4 @@
 {"experiment": "ROUND22_TEMPORAL_FOLLOWUP_TESTS", "status": "PASS", "tests": 42, "estate_reads": 0, "model_calls": 0, "receipt": "docs/runs/round-twenty-two-temporal-enabled.json"}
 {"experiment": "ROUND22_SOURCE_TEMPORAL_HISTORY_CONTROL_01", "status": "READER_OBSERVED_NATIVE_HISTORY_AFTER_SOURCE_RESTORATION", "physical_control_requests": 4, "model_calls": 0, "receipt": ".local\\round-twenty-two\\injections\\source-temporal-history-pilot-01\\status.json", "source_restored": true}
 {"experiment": "ROUND22_TEMPORAL_COMPARISON_COMPILER_TESTS", "status": "PASS", "tests": 43, "estate_reads": 0, "model_calls": 0, "receipt": "docs/runs/round-twenty-two-native-temporal-history.json"}
+{"experiment": "ROUND22_NATIVE_TEMPORAL_BEFORE_AFTER", "status": "SUCCEEDED", "run_id": "dc0f394f-bd4c-4e75-b11e-c5cda6523434", "native_cases": 3, "model_calls": 0, "receipt": "docs/runs/round-twenty-two-temporal-before-after.json"}

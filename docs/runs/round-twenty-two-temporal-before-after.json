@@ -1,0 +1,107 @@
+{
+  "status": "NATIVE_BEFORE_AFTER_OBSERVED",
+  "capture": {
+    "name": "job-dia-worker-ph830vc",
+    "status": "Succeeded",
+    "startTime": "2026-10-23T22:57:57+00:00",
+    "endTime": "2026-10-23T22:59:21+00:00",
+    "seal": "dca7320b359762f27a8e05737541066c421c3a6cacdcc077db6ef931b3164533",
+    "capture_prefix": "round-twenty-two/runner/dc0f394f-bd4c-4e75-b11e-c5cda6523434",
+    "records": 77,
+    "output": ".local\\round-twenty-two\\source-temporal-comparison-reader-01.log"
+  },
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c21e46a010ec7a1adebe6e92585ae82e0bc18ec501f0ef0f1dc51f3ad4c52981",
+  "request": {
+    "max_rows": 4,
+    "parameters": [
+      {
+        "name": "@case_id_0",
+        "value": 900201
+      },
+      {
+        "name": "@case_id_1",
+        "value": 900202
+      },
+      {
+        "name": "@case_id_2",
+        "value": 900203
+      },
+      {
+        "name": "@as_of_before",
+        "value": "2026-10-23T22:49:20Z"
+      },
+      {
+        "name": "@as_of_after",
+        "value": "2026-10-23T22:49:28Z"
+      }
+    ],
+    "query": "SELECT TOP (4) movement_id,CONVERT(varchar(33),(SELECT MIN([r22_valid_from]) FROM [app].[stock_movements_round_two_20261003]),126) AS history_coverage_from,COUNT(CASE WHEN [r22_valid_from]<=CONVERT(datetime2(7),@as_of_before,127) AND [r22_valid_to]>CONVERT(datetime2(7),@as_of_before,127) THEN 1 END) AS before_rows,SUM(CASE WHEN [r22_valid_from]<=CONVERT(datetime2(7),@as_of_before,127) AND [r22_valid_to]>CONVERT(datetime2(7),@as_of_before,127) THEN CONVERT(bigint,units) END) AS before_quantity,COUNT(CASE WHEN [r22_valid_from]<=CONVERT(datetime2(7),@as_of_after,127) AND [r22_valid_to]>CONVERT(datetime2(7),@as_of_after,127) THEN 1 END) AS after_rows,SUM(CASE WHEN [r22_valid_from]<=CONVERT(datetime2(7),@as_of_after,127) AND [r22_valid_to]>CONVERT(datetime2(7),@as_of_after,127) THEN CONVERT(bigint,units) END) AS after_quantity FROM [app].[stock_movements_round_two_20261003] FOR SYSTEM_TIME ALL WHERE movement_id IN (@case_id_0,@case_id_1,@case_id_2) GROUP BY movement_id ORDER BY movement_id",
+    "read_only_objects": [
+      "[app].[stock_movements_round_two_20261003]"
+    ],
+    "result_columns": [
+      "movement_id",
+      "history_coverage_from",
+      "before_rows",
+      "before_quantity",
+      "after_rows",
+      "after_quantity"
+    ]
+  },
+  "native_result": {
+    "column_types": {
+      "after_quantity": "Int64",
+      "after_rows": "Int64",
+      "before_quantity": "Int64",
+      "before_rows": "Int64",
+      "history_coverage_from": "String",
+      "movement_id": "Int64"
+    },
+    "execution_identity": {
+      "database": "ordersops",
+      "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+      "provenance": "SURFACE_SELF_REPORT",
+      "server": "sql-orderops-9696025.database.windows.net"
+    },
+    "read_only_verified": true,
+    "rows": [
+      {
+        "after_quantity": "7",
+        "after_rows": "1",
+        "before_quantity": null,
+        "before_rows": "0",
+        "history_coverage_from": "2026-10-23T22:43:47.9434148",
+        "movement_id": "900201"
+      },
+      {
+        "after_quantity": "11",
+        "after_rows": "1",
+        "before_quantity": null,
+        "before_rows": "0",
+        "history_coverage_from": "2026-10-23T22:43:47.9434148",
+        "movement_id": "900202"
+      },
+      {
+        "after_quantity": "13",
+        "after_rows": "1",
+        "before_quantity": null,
+        "before_rows": "0",
+        "history_coverage_from": "2026-10-23T22:43:47.9434148",
+        "movement_id": "900203"
+      }
+    ],
+    "surface_report": {
+      "engine": "Microsoft SQL Azure",
+      "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+      "object": "ordersops"
+    },
+    "surface_report_binding": "VALUE_QUERY"
+  },
+  "current_source_restored": true,
+  "native_history_retained": true,
+  "permissions_changed": false,
+  "model_calls": 0,
+  "scored": false,
+  "distinction": "Before has zero matched rows and BLANK SUM, not a numeric0; after has one matched row with authored7/11/13units.",
+  "remaining_engine_gap": "ProcessChecks installs DESIGN_CHECK only. validate_history also constructs VALUE around before_quantity, so a BLANK-before insertion requires consumer work after the scored dev baseline; do not silently encode BLANK as0."
+}
