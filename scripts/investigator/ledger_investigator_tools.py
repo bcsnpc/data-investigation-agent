@@ -179,7 +179,7 @@ class Tools:
             node=args.get('node') or args.get('job') or args.get('model');value=self.graph.node_facts(node,now=self.now)
             kinds={'last_run':{'JOB_RUN','RUN_HISTORY','COVERAGE'},'last_refresh':{'REFRESH_RUN','REFRESH_STATE','RUN_HISTORY','COVERAGE'}}.get(name)
             values=[v for v in value['facts'] if kinds is None or v['kind'] in kinds]
-            available=any(v.get('state')!='UNAVAILABLE' and v.get('freshness')!='STALE' for v in values)
+            available=any(v.get('state') in ('OBSERVED','OBSERVED_NEGATIVE') and v.get('freshness')=='CURRENT' for v in values)
             result={'evidence_ids':[self.evidence.add('FACT',[node],v) for v in values],'facts':values,'status':'OBSERVED' if available else 'UNAVAILABLE'}
             if not result['evidence_ids']:result['evidence_ids']=[self.evidence.add('GAP',[node],{'reason':'No retained '+name+' observation.'})]
         elif name=='definition_diff':

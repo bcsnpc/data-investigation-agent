@@ -186,6 +186,7 @@ class ToolLoopTests(unittest.TestCase):
         tools,_,reader,_=self.build()
         # Subject substitution is test-only; captured values/status/times stay intact.
         for row in rows:row['subject']='job'
+        tools.now=max(row['collected_at'] for row in rows)
         tools.graph.node_facts.side_effect=lambda node,**kw:{'facts':copy.deepcopy(rows)}
         for name,args in (('last_refresh',{'model':'job'}),('last_run',{'job':'job'})):
             result=tools.invoke(name,args)
@@ -197,7 +198,7 @@ class ToolLoopTests(unittest.TestCase):
         reader.assert_not_called()
 
     def test_failed_or_stale_facts_do_not_become_observed_tool_results(self):
-        for state,freshness in (('UNAVAILABLE','CURRENT'),('OBSERVED','STALE')):
+        for state,freshness in (('UNAVAILABLE','CURRENT'),('OBSERVED','STALE'),('UNKNOWN','CURRENT'),('OBSERVED',None)):
             tools,_,reader,_=self.build()
             row=fact('job','REFRESH_RUN',{'status':'SUCCEEDED','run_id':'old'})
             row.update(state=state,freshness=freshness)
