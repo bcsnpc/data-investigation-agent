@@ -34,6 +34,16 @@ class CloudEnrichment(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'RUNNER_OPTIONS'):worker.validate_options(invalid)
         options=self.options();Path(options['tasks']['path']).write_text('changed')
         with self.assertRaisesRegex(ValueError,'HASH_DIFFERS'):worker.validate_options(options)
+    def test_evaluation_tasks_use_separate_writer_shape_and_cannot_receive_expectations(self):
+        from investigator.adapters.evaluation_anthropic import PROTOCOL
+        options=self.options();options['operation']='evaluation-submit'
+        task={'protocol':PROTOCOL,'purpose':'WRITE_TICKETS','case_id':'one','description':'A job failed before this report updated.','labels':['Report'],'variations':['plain']}
+        options['tasks']=self.ref('evaluation-tasks.json',[task]);self.assertEqual(worker.validate_options(options)[2],[task])
+        task['expected']={'verdict':'failed job'};options['tasks']=self.ref('evaluation-forbidden.json',[task])
+        with self.assertRaisesRegex(ValueError,'LABELS_ONLY'):worker.validate_options(options)
+        options={'operation':'evaluation-resume','config':self.options()['config'],'batch_key':'writer-one'}
+        self.assertIsNone(worker.validate_options(options)[2])
+
     def test_cloud_execute_records_bodies_and_independent_budget_without_key(self):
         events=[];context=SimpleNamespace(root=self.root,record=lambda kind,value:events.append((kind,value)) or {'key':str(len(events))})
         budget=SimpleNamespace(snapshot=lambda:{'identity':'enrichment:round-twenty-one','ceiling':'25000000','charged':'0'})
