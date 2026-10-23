@@ -1,0 +1,59 @@
+{
+  "owner_date": "2026-10-22",
+  "observation_date_utc": "2026-10-23",
+  "expectation": "TRANSFORMATION_LOGIC",
+  "expectation_changed": false,
+  "originals_unchanged": true,
+  "runs": [
+    {
+      "label": "first",
+      "execution": "job-dia-worker-4x0kpys",
+      "azure_status": "Succeeded",
+      "recorded_smoke_status": "FAIL",
+      "checks": {
+        "blob_write_read": "FAIL",
+        "check_access": "INCOMPLETE",
+        "family_a_demo": "PASS",
+        "gold_read": "PASS",
+        "postgres_write_read": "PASS",
+        "sign_in": "PASS"
+      },
+      "delivered_classification": "NO_COMPARABLE_PATH",
+      "expected_demo_met": false,
+      "corrected_assessment": "FAIL",
+      "seal": "882954612e3cf52ba2aa939cc05775c2451636830a70741a7947a7556ee92871",
+      "capture_prefix": "round-twenty/runner/668bf2b8-74bd-4a01-9cc2-4a69fb4a8ba6",
+      "wall_seconds": 2961.3727457900004,
+      "provider_calls": 1,
+      "independent_read_failure_reasons": [
+        "The independent lower-layer read did not complete."
+      ]
+    },
+    {
+      "label": "corrected",
+      "execution": "job-dia-worker-0bv0na4",
+      "azure_status": "Succeeded",
+      "recorded_smoke_status": "PASS",
+      "checks": {
+        "blob_write_read": "PASS",
+        "check_access": "PASS",
+        "family_a_demo": "PASS",
+        "gold_read": "PASS",
+        "postgres_write_read": "PASS",
+        "sign_in": "PASS"
+      },
+      "delivered_classification": "NO_COMPARABLE_PATH",
+      "expected_demo_met": false,
+      "corrected_assessment": "FAIL",
+      "seal": "98724e26460b2621710069658d91f2d9c8f9211f0c3343bafa5e02f3bb36232e",
+      "capture_prefix": "round-twenty/runner/0d43cf46-6ca6-4469-a8ce-7e2666d0daaf",
+      "wall_seconds": 2677.8187089299972,
+      "provider_calls": 1,
+      "independent_read_failure_reasons": [
+        "The independent lower-layer read did not complete."
+      ]
+    }
+  ],
+  "diagnosis": "Original Blob callback arity and unbound check-access fixed; corrected run passes both. Both returned NO_COMPARABLE_PATH because independent lower reads did not complete. The smoke rollup falsely accepted any returned demo; new generic operator-declared outcome check rejects this. Exact underlying lower-read failure remains unestablished; allocation difference is not evidence of memory failure.",
+  "new_live_attempt_after_outcome_guard": false
+}
