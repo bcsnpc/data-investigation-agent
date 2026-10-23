@@ -157,3 +157,6 @@ Raw operational entry wiring, offline before scoreddev: exact graph-name admissi
 
 
 Owner frontier completion, 2026-10-23: one A validation reached as designed/native TRANSFORMATION_LOGIC with 4 provider calls versus 18; original preserved. Six frontier tests plus core/cloud tests pass (64 total), including short evidence-only feedback on successful raw retrieval repeats. Pre-score source9c770d3 full5168/48skip/zero failures and all8 image shards pass; final feedback change separately focused-tested. Full evidence and limits: docs/round-twenty-two-frontier-confirmation.md. No scored dev run yet. Prior freeze invalid.
+
+
+Section3 continuation2026-10-23: six independently written baseline drafts preserved unchanged as DEV only; three provider messages,USD0.006628,zero estate reads. Full set/held-out sealing and scoring still pending. Owner approved and verified one existing SQL laptop /32 firewall replacement, no other scope change; original40613/40615 controls preserved.

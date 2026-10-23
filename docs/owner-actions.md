@@ -137,3 +137,6 @@ az sql server firewall-rule update --resource-group rg-investigator-dev --server
 `
 
 Not executed. Do not change AllowAllWindowsAzureIps or the separate QueryEditor rule. Readback and current outward-IP confirmation are required before an approved update; the address can change. Continue cloud-reader and offline work meanwhile. Both original SQL errors and their charges remain in the run ledger. No identity, role, credential or firewall was changed.
+
+
+Round22 firewall action completed2026-10-23 after explicit owner approval: only investigator-client-20260918 replaced50.172.159.187/32 with confirmed184.105.12.85/32. Exact before/after and approval in runs/round-twenty-two-approved-source-firewall.json; other rules unchanged. Do not repeat the prepared command above.
