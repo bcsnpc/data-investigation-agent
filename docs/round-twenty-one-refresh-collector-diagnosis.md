@@ -21,3 +21,6 @@ The exact fixture audit query succeeded on the standard manual worker allocation
 
 
 The allocation-matched retry also succeeded: job-dia-collectors,0.25vCPU/0.5Gi, same pinned image and investigator identity,6physical SCAN requests covering the audit and fixture refresh calls. Seal `ddee9d9746fc4f0def3242d6fdb3aed543df712e24a12be3766235c4606db845`. The audit again returned11rows with latest360/360. Original EOF could not be reproduced; no permission, resource, query or data change was necessary. Only safe failure diagnostics were added. Do not retrospectively attribute the original to memory or permissions. [Allocation-matched result](runs/round-twenty-one-audit-collector-retry.json).
+
+
+Closing consumer check: successful empty history is now visible through last_refresh and last_run as current RUN_HISTORY/COVERAGE observations; preserved old403facts are not overwritten and no fake REFRESH_RUN is invented. Tool availability requires explicit CURRENT plus OBSERVED or OBSERVED_NEGATIVE, rather than treating unknown state as evidence. The saved billing403-to-empty200 regression passes separately from the code-only image synthetic test; captured evidence is not staged into the public image. The separate daily smoke mismatch is retained in docs/runs/round-twenty-one-daily-smoke-results.json and does not undo these HTTP/SQL collector observations.
