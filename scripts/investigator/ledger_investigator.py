@@ -243,6 +243,14 @@ class Investigator:
             supported=check('not found',known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
             return self._finish(ticket,supported,calls,hypotheses,warnings,'GOVERNED_MODEL_NOT_INSTALLED',started,0)
         self.case.advance('investigate')
+        def decide_model(payload):
+            from jsonschema import ValidationError
+            try:return self.decide(payload,instructions=INSTRUCTIONS,schema=self.schema)
+            except ValidationError as error:
+                return {'_consumer_rejection':True,'reason':'PROVIDER_DECISION_SCHEMA','detail':error.message[:1000]}
+            except ValueError as error:
+                if str(error) not in ('INVESTIGATOR_PROVIDER_DECISION_ENVELOPE_REQUIRED','INVESTIGATOR_PROVIDER_DUPLICATE_METADATA','PROVIDER_ADMITTED_SCOPE_REFERENCE_REQUIRED'):raise
+                return {'_consumer_rejection':True,'reason':str(error),'detail':'Use the current schema and admitted references.'}
         model_calls=0
         for step in range(1,self.step_cap+1):
             if self.clock()-started>=self.wall_seconds and not(self.checkpoint is not None and self.checkpoint.replaying):break
@@ -255,15 +263,18 @@ class Investigator:
             self.schema=schema(self.tools,permitted);self.validator=Draft202012Validator(self.schema)
             compact=evidence_context(self.tools.evidence)
             try:
-                decision=operation('model',{'step':step},lambda:self.decide({'ticket':ticket,'path_nodes':[{'id':n['id'],'label':n['label'],'kind':n['kind'],'depth':self.tools.depth.get(n['id'])} for n in self.tools.nodes.values()],
+                decision=operation('model',{'step':step},lambda:decide_model({'ticket':ticket,'path_nodes':[{'id':n['id'],'label':n['label'],'kind':n['kind'],'depth':self.tools.depth.get(n['id'])} for n in self.tools.nodes.values()],
                 'pending_quantity_nodes':self.tools.pending_quantity_nodes(),'allowed_tools':sorted(permitted),
                 'admitted_identifiers':sorted(self.tools.nodes),'admitted_context':self.tools.context,'admitted_key':self.tools.key,
                 'case_file':self.case.model_view(),'fetched_evidence':fetched,'feedback':{k:copy.deepcopy(v)for k,v in (feedback or {}).items()if k in ('reason','detail','error_type','status','evidence_ids','nodes')},'steps_remaining':self.step_cap-step+1,
-                'tool_history':[{'tool':c['tool'],'arguments':c['arguments'],'evidence_ids':c['result'].get('evidence_ids',[]),'status':c['result'].get('status')} for c in calls[-3:]]},instructions=INSTRUCTIONS,schema=self.schema))
+                'tool_history':[{'tool':c['tool'],'arguments':c['arguments'],'evidence_ids':c['result'].get('evidence_ids',[]),'status':c['result'].get('status')} for c in calls[-3:]]}))
             except Exception as exc:
                 if not budget_stop(exc):raise
                 record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__});break
             model_calls+=1;fetched=None
+            if isinstance(decision,dict)and decision.get('_consumer_rejection')is True:
+                feedback={k:v for k,v in decision.items()if k!='_consumer_rejection'}
+                record({'event':'INVESTIGATOR_REJECTED',**feedback});continue
             if not case_bound:
                 event=self.case.recite(decision.pop('recitation',None) if isinstance(decision,dict) else None)
                 if event:record(event)

@@ -511,4 +511,21 @@ class FailedRepeatTests(unittest.TestCase):
         self.assertEqual([v['arguments']['node']for v in errors],['down','up'])
         self.assertTrue(errors[0]['result']['evidence_ids'])
 
+class ProviderRejectionTests(unittest.TestCase):
+    def test_consumer_schema_rejection_returns_feedback_then_valid_call_can_complete(self):
+        from jsonschema import ValidationError
+        tools,engine,_,_=ToolLoopTests().build();calls=[]
+        def decide(payload,**kwargs):
+            calls.append(1)
+            if len(calls)==1:raise ValidationError('Unknown admitted node')
+            self.assertTrue(any(e['reason']=='PROVIDER_DECISION_SCHEMA'for e in payload['case_file']['errors']))
+            if len(calls)==2:return {'action':'TOOL','summary':'Compare admitted nodes','hypotheses':['failed job'],'tool':'compare_layers','arguments':{'key':'record-1','layers':['down','up'],'filters':tools.context}}
+            return {'action':'VERDICT','verdict':'failed job','summary':'Report evidenced failure','hypotheses':['failed job'],'evidence_ids':list(tools.evidence._values)}
+        engine.decide=decide;answer=engine.run({'visual':'visual'})
+        self.assertEqual(answer['verdict'],'failed job');self.assertEqual(answer['cost']['model_calls'],3)
+    def test_secret_or_unrelated_value_error_is_not_converted_to_schema_feedback(self):
+        tools,engine,_,_=ToolLoopTests().build()
+        engine.decide=lambda *_a,**_k:(_ for _ in ()).throw(ValueError('SECRET_DETECTED'))
+        with self.assertRaisesRegex(ValueError,'SECRET_DETECTED'):engine.run({'visual':'visual'})
+
 if __name__=='__main__':unittest.main()
