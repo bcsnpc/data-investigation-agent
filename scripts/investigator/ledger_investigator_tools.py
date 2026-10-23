@@ -89,7 +89,15 @@ class Tools:
                     # A concrete FactLedger carries the configured estate; graph
                     # wrappers expose it through the trusted assembly, not tickets.
                     estate=getattr(self,'estate',None)
-                    if estate:self.ledger.append(estate,[self.evidence.get(ref)['value']])
+                    if estate:
+                        try:self.ledger.append(estate,[self.evidence.get(ref)['value']])
+                        except ValueError as error:
+                            if str(error)!='FACT_SUBJECT_NOT_IN_GRAPH':raise
+                            # A retained approved continuation can supply a
+                            # historical node, never authority to insert it into
+                            # today's graph. Keep the observation in the run's
+                            # immutable evidence, without masking a good read.
+                            self.evidence.persist({'event':'AVAILABILITY_NOT_CURRENT_GRAPH_MEMBER','subject':node,'evidence_id':ref})
             result=copy.deepcopy(source_call(lambda:self.reader(node,self.key,copy.deepcopy(context)),observe=observe,clock=lambda:self.now))
         except Exception as exc:
             from .estate_graph_incremental import is_stop_condition

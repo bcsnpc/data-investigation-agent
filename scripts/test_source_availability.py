@@ -69,5 +69,11 @@ class AvailabilityTests(unittest.TestCase):
         answer=engine.run(ticket)
         self.assertEqual(events[0]['stage'],'QUICK_FACTS');self.assertEqual(events[0]['facts'][0]['observation']['status'],'FAILED')
         self.assertEqual(answer['verdict'],'failed job');decide.assert_not_called();reader.assert_not_called()
+    def test_retained_node_cannot_create_current_graph_membership_or_mask_good_read(self):
+        tools,_,reader,events=fixtures.ToolLoopTests().build();tools.estate='fixture'
+        tools.ledger=Mock();tools.ledger.append.side_effect=ValueError('FACT_SUBJECT_NOT_IN_GRAPH')
+        ref=tools._read('up',tools.context)
+        self.assertEqual(tools.evidence.get(ref)['kind'],'READ')
+        self.assertTrue(any(e.get('event')=='AVAILABILITY_NOT_CURRENT_GRAPH_MEMBER'for e in events))
 
 if __name__=='__main__':unittest.main()
