@@ -47,4 +47,25 @@ class ControlMeterTests(unittest.TestCase):
    with self.assertRaisesRegex(ValueError,'UNTAPED_BUILD_CONTROL'):Meter(self.state,{'environment':'test'},1,reporting_mirror=False)
   with self.assertRaisesRegex(ValueError,'BOOLEAN'):Meter(self.state,{'environment':'test'},1,reporting_mirror='false')
 
+ def test_admission_period_query_preserves_all_current_charges_and_originals(self):
+  from investigator.build_phase import shared_physical_rows,physical_status
+  reserved=json.dumps({'cloud_calls':1,'planner_calls':0,'input_characters':0,'output_tokens':0})
+  cases=[('old',self.at-86400*10,'SETTLED','SCAN'),('pending',self.at,'RESERVED','SCAN'),('uncertain',self.at,'UNCERTAIN','INVESTIGATION'),('future',datetime(2026,11,1,tzinfo=timezone.utc).timestamp(),'RESERVED','RESTORATION')]
+  with self.state.transaction() as db:
+   for key,created,status,purpose in cases:
+    db.execute('INSERT INTO state_usage VALUES(?,?,?,?,?,?,?,?,?,?,?)',('other',key,'one','recorded','cloud',reserved,None,status,'historic',created,'other-owner'))
+    db.execute('INSERT INTO state_read_allocations VALUES(?,?,?,?,?)',('other',key,'one',None,purpose))
+   # Legacy reservations without allocation must still count, as investigation.
+   db.execute('INSERT INTO state_usage VALUES(?,?,?,?,?,?,?,?,?,?,?)',('unclassified','legacy','one','recorded','cloud',reserved,None,'RESERVED','historic',self.at,'another-owner'))
+   cursor=db.execute('SELECT environment,session_id,reservation_key,reserved,created FROM state_usage');all_rows=[dict(zip([x[0]for x in cursor.description],r))for r in cursor.fetchall()]
+   cursor=db.execute('SELECT environment,session_id,reservation_key,purpose FROM state_read_allocations');all_alloc=[dict(zip([x[0]for x in cursor.description],r))for r in cursor.fetchall()]
+   kept,allocations=shared_physical_rows(self.state,db,self.at)
+   self.assertEqual(physical_status(kept,allocations,self.at),physical_status(all_rows,all_alloc,self.at))
+   self.assertEqual({x['session_id']for x in kept},{'pending','uncertain','legacy'})
+   self.assertEqual(len(allocations),2)
+  with operating_mode(category='INVESTIGATION'):
+   meter=Meter(self.state,{'environment':'test'},1,clock=lambda:self.at,reporting_mirror=False);self.addCleanup(meter.close)
+   meter(lambda:17);self.assertEqual(meter.usage.snapshot()['monthly']['total'],4)
+  with self.state.transaction()as db:self.assertEqual(db.execute('SELECT COUNT(*) FROM state_usage').fetchone()[0],6)
+
 if __name__=='__main__':unittest.main()

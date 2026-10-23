@@ -49,12 +49,10 @@ class Meter:
                     # An untaped build control needs current shared counters,
                     # not the legacy daily/model presentation reconstructed by
                     # the full historical snapshot. Admission is unchanged.
-                    from investigator.build_phase import month_window,physical_status
-                    from investigator.shared_usage import rows
-                    now=self.governor.clock();_,start,end=month_window(now)
+                    from investigator.build_phase import shared_physical_rows,physical_status
+                    now=self.governor.clock()
                     with self.state.transaction()as db:
-                        usage=rows(self.state,db,'SELECT environment,session_id,reservation_key,reserved,created FROM state_usage WHERE created>=? AND created<?',(start,end))
-                        allocations=rows(self.state,db,'SELECT environment,session_id,reservation_key,purpose FROM state_read_allocations')
+                        usage,allocations=shared_physical_rows(self.state,db,now)
                     return {'environment':self.environment,'monthly':physical_status(usage,allocations,now),
                             'legacy_limits_informational':True,
                             'limitation':'Current shared monthly counters only; untaped build-control report. Reservation and settlement use the unchanged shared authority.'}

@@ -1,0 +1,3 @@
+# Round 22 delivery record
+
+2026-10-23 source profile04 Succeeded (20:55:34-20:58:35UTC), sealed24ffa60f3705aadab6e65313b02ce1b7a94bcc719642a31e2eef8b78a319211f. Schema-typed compiler54e8a91 query executed through tested cloud transport19bd668: row_count360, eight checksums, read_only_verified=true, VALUE_QUERY self-report identifies expected investigator531419ef@aeb4d0a9, ordersops and Microsoft SQL Azure. Startup access audit and probe are counted separately in the capture (all physical results recorded); zero model calls or source mutations. This confirms typed-query transport, not end-to-end collector wiring, semantic equality or the units sum. Prior failed captures remain unchanged. Receipt docs/runs/round-twenty-two-source-profile-success.json.
