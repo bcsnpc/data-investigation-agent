@@ -181,3 +181,9 @@ blocking the numerical comparison. The source-outage timestamp must lie inside
 that failed run, and the producer must be on the admitted target path. A later
 diagnostic outage cannot explain an earlier failure. Tests exercise both the
 explicit status and comparison paths; no fabricated quantity or scope change.
+
+Normal mode must not bypass the new investigator's inherited projected-capture
+limit. Reject a PRIVACY_PROJECTED estate before state/native reads, even when
+no tape is requested; do not quietly record raw audit values. The existing
+projected engine limitation remains open, with a regression at cloud assembly.
+All estates used for this round's current synthetic exact inputs remain EXACT.

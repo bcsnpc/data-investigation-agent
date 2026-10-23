@@ -114,6 +114,14 @@ class Assembly(unittest.TestCase):
         self.assertEqual(answer['model_calls'],0);self.assertFalse(any(k=='investigator-tape'for k,_ in events))
         self.assertTrue(any(k=='normal-audit-batch'for k,_ in events))
         self.assertEqual([v['stage']for k,v in events if k=='progress'],['ACKNOWLEDGED','ANSWER'])
+    def test_normal_mode_cannot_bypass_existing_projected_installation_refusal(self):
+        from investigator.privacy_projection import ProjectionError
+        options=self.specification(recording_mode='NORMAL');events=[]
+        context=SimpleNamespace(root=self.root,record=lambda k,v:events.append((k,v))or {'key':str(len(events))})
+        with patch('investigator.estate_manifest.load',return_value={'recording':{'tape_class':'PRIVACY_PROJECTED'}}),patch('investigator.shared_state.configured_state',side_effect=AssertionError('No source/state call before privacy admission')):
+            with self.assertRaisesRegex(ProjectionError,'PROJECTED_CAPTURE_NOT_INSTALLED'):
+                worker.execute({'options':options,'manifest':'unused','run_id':'projected'},context)
+        self.assertFalse(any(k in ('investigator-native','investigator-bundle')for k,_ in events))
     def test_graph_wrapper_records_then_replays_with_network_source_absent(self):
         from investigator.process_tape import Tape,active
         path=self.root/'graph-tape.json'

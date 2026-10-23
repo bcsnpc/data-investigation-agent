@@ -181,7 +181,11 @@ def _execute(plan,context):
     request_kind=ticket.get('request',{}).get('kind','COMPARE')
     if request_kind not in ('FACT','COMPARE','DEFINITION'):raise ValueError('INVESTIGATOR_REQUEST_KIND')
     if request_kind=='COMPARE' and 'native' not in spec:raise ValueError('INVESTIGATOR_NATIVE_INPUT_REQUIRED')
-    manifest=load(plan['manifest']);config=configuration(manifest)
+    manifest=load(plan['manifest'])
+    if manifest.get('recording',{}).get('tape_class','EXACT')!='EXACT':
+        from investigator.privacy_projection import ProjectionError
+        raise ProjectionError('LEDGER_INVESTIGATOR_PROJECTED_CAPTURE_NOT_INSTALLED')
+    config=configuration(manifest)
     if spec['budget']['environment']!=manifest['environment']:raise ValueError('INVESTIGATOR_BUDGET_ENVIRONMENT_DIFFERS')
     state=configured_state()
     if state is None or state.backend!='postgresql':raise ValueError('INVESTIGATOR_SHARED_POSTGRES_REQUIRED')
