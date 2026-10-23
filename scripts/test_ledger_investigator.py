@@ -495,4 +495,20 @@ class JustInTimeTests(unittest.TestCase):
         self.assertEqual(''.join(chunks),raw)
         self.assertEqual(canonical(tools.evidence.get(identity)),raw)
 
+class FailedRepeatTests(unittest.TestCase):
+    def test_same_failed_signature_is_blocked_different_arguments_are_allowed(self):
+        tools,engine,_,_=ToolLoopTests().build();tools.graph.definition_of.side_effect=ValueError('definition unavailable')
+        steps=[]
+        def decide(payload,**kwargs):
+            steps.append(1)
+            return {'action':'TOOL','summary':'Inspect retained definition','hypotheses':['not found'],'tool':'definition_of','arguments':{'node':'up'if len(steps)==3 else 'down'}}
+        engine.decide=decide;engine.step_cap=3
+        result=engine.run({'visual':'visual'})
+        self.assertEqual(tools.graph.definition_of.call_count,2)
+        self.assertEqual(len(result['case_file']['calls_blocked']),1)
+        self.assertEqual(result['case_file']['calls_blocked'][0]['arguments'],{'node':'down'})
+        errors=[v for v in result['case_file']['errors']if v.get('tool')=='definition_of']
+        self.assertEqual([v['arguments']['node']for v in errors],['down','up'])
+        self.assertTrue(errors[0]['result']['evidence_ids'])
+
 if __name__=='__main__':unittest.main()

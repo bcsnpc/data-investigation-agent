@@ -117,12 +117,25 @@ class Investigator:
             if not isinstance(receipt,str)or not receipt:raise ValueError('INVESTIGATOR_PERSISTENCE_REQUIRED')
             return receipt
         def tool(name,args):
+            failed=self.case.failed_call(name,args)
+            if failed is not None:
+                import hashlib
+                signature=hashlib.sha256(canonical([name,args]).encode()).hexdigest()
+                result={'status':'UNAVAILABLE','already_failed':True,'reason':'Identical failed call blocked; use its retained evidence or choose different arguments.',
+                        'evidence_ids':failed['result'].get('evidence_ids',[]),'call_signature':signature}
+                record({'event':'INVESTIGATOR_CALL_BLOCKED','tool':name,'arguments':copy.deepcopy(args),'call_signature':signature,'reason':'IDENTICAL_FAILED_CALL'})
+                calls.append({'tool':name,'arguments':copy.deepcopy(args),'result':result,'wall_seconds':0,'model_calls':0})
+                return result
             self.admit('TOOL',len(calls)+1);before=self.clock()
             try:result=self.tools.invoke(name,args)
             except Exception as exc:
                 from .estate_graph_incremental import is_stop_condition
                 if is_stop_condition(exc):raise
-                result={'status':'UNAVAILABLE','error_type':type(exc).__name__,'reason':str(exc),'evidence_ids':[]}
+                candidates=[args.get(field)for field in ('node','job','model','visual','table','page','report')]
+                candidates += [node for field in ('layers','path')for node in args.get(field,[]) if isinstance(args.get(field),list)]
+                subjects=list(dict.fromkeys(node for node in candidates if isinstance(node,str)and node in self.tools.nodes)) or [self.tools.visual]
+                gap=self.tools.evidence.add('GAP',subjects,{'code':'FAILED_TOOL_CALL','tool':name,'error_type':type(exc).__name__,'reason':str(exc)})
+                result={'status':'UNAVAILABLE','error_type':type(exc).__name__,'reason':str(exc),'evidence_ids':[gap]}
             call={'tool':name,'arguments':copy.deepcopy(args),'result':result,'wall_seconds':max(0,self.clock()-before),'model_calls':0}
             call['receipt_id']=record({'event':'INVESTIGATOR_TOOL',**call});calls.append(call)
             return result

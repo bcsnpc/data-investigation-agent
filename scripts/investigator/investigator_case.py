@@ -81,6 +81,14 @@ class CaseFile:
         self.value['errors'].append(event)
         return event
 
+    def failed_call(self, tool, arguments):
+        signature = canonical([tool, arguments])
+        for error in reversed(self.value['errors']):
+            if (error.get('result', {}).get('status') == 'UNAVAILABLE'
+                    and canonical([error.get('tool'), error.get('arguments')]) == signature):
+                return copy.deepcopy(error)
+        return None
+
     def observe(self, event):
         kind = event.get('event')
         if kind == 'INVESTIGATOR_DECISION':
