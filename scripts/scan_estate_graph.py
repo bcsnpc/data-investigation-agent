@@ -12,7 +12,7 @@ READ_OBSERVER = ContextVar('graph_scan_read_observer', default=None)
 
 
 class Meter:
-    def __init__(self, state, budget, limit, *, clock=None):
+    def __init__(self, state, budget, limit, *, clock=None, reporting_mirror=True):
         import sqlite3
         import time
         from types import SimpleNamespace
@@ -20,6 +20,10 @@ class Meter:
         from investigator.onboarding import digest
         from investigator.build_phase import active, purpose
         self.build_phase = active()
+        if type(reporting_mirror)is not bool:raise ValueError('REPORTING_MIRROR_BOOLEAN_REQUIRED')
+        if not reporting_mirror:
+            from investigator.process_tape import ACTIVE
+            if not self.build_phase or ACTIVE.get()is not None:raise ValueError('REPORTING_MIRROR_OPT_OUT_REQUIRES_UNTAPED_BUILD_CONTROL')
         self.purpose = purpose(default='SCAN') if self.build_phase else 'INVESTIGATION'
         required = {'environment'} if self.build_phase else {'environment', 'policy_sha256', 'round_id', 'rolling_limit'}
         if not isinstance(budget, dict) or not required <= set(budget) or (not self.build_phase and set(budget) != required):
@@ -34,7 +38,15 @@ class Meter:
         estate = {'operating_mode':'BUILD_PHASE'} if self.build_phase else {'round':retained['round_policy']}
         governor=SimpleNamespace(environment=budget['environment'],policy=retained['policy'],hash=digest(retained['policy']),
             clock=clock or time.time,runtime=SimpleNamespace(config={'_estate':estate}))
-        self.usage=SharedUsage(governor,state,owner=self.owner)
+        usage_type=SharedUsage
+        if not reporting_mirror:
+            class ControlUsage(SharedUsage):
+                def mirror(self,local):
+                    # This meter never admits from its private presentation DB.
+                    # reserve/settle remain the same authoritative shared methods.
+                    return None
+            usage_type=ControlUsage
+        self.usage=usage_type(governor,state,owner=self.owner)
         # The existing authority owns admission; memory is only its reporting
         # mirror. No new budget tables, limits, or durable local ledger exist.
         self.local=sqlite3.connect(':memory:')
