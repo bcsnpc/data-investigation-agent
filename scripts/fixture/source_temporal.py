@@ -69,7 +69,9 @@ class TemporalSourceScenario:
         values=[row(r)for r in values];ids=[r['movement_id']for r in values]
         if len(set(ids))!=len(ids):raise ValueError('SOURCE_CASE_DUPLICATE_ID')
         parameters=[{'name':'@case_id_'+str(i),'value':identity}for i,identity in enumerate(ids)]
-        fields=[*FIELDS,'source_modified_at_utc','CONVERT(bigint,source_row_version) AS source_row_version',START,END]
+        fields=[*FIELDS,'source_modified_at_utc','CONVERT(bigint,source_row_version) AS source_row_version',
+                'CONVERT(varchar(33),['+START+'],126) AS '+START,
+                'CONVERT(varchar(33),['+END+'],126) AS '+END]
         return {'query':'SELECT TOP (101) '+','.join(fields)+' FROM '+TABLE+' FOR SYSTEM_TIME ALL WHERE movement_id IN ('+
                 ','.join(p['name']for p in parameters)+') ORDER BY movement_id,'+START,
                 'parameters':parameters,'read_only_objects':[TABLE],'max_rows':101,
@@ -80,7 +82,7 @@ class TemporalSourceScenario:
         # Native digest binds cleanup to exactly the history that was retained.
         fields=[*FIELDS,'source_modified_at_utc','CONVERT(bigint,source_row_version) AS source_row_version',START,END]
         rows='SELECT '+','.join(fields)+' FROM '+HISTORY+' ORDER BY movement_id,'+START+','+END+' FOR JSON PATH,INCLUDE_NULL_VALUES'
-        return "CONVERT(varchar(64),HASHBYTES('SHA2_256',CONVERT(nvarchar(max),("+rows+'))),2)'
+        return "CONVERT(varchar(64),HASHBYTES('SHA2_256',CONVERT(nvarchar(max),COALESCE(("+rows+"),N'[]'))),2)"
 
     def disable(self,*,history_object_id,history_rows,history_sha256):
         history_object_id=number(history_object_id,1);history_rows=number(history_rows,0,10000)

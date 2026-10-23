@@ -651,3 +651,5 @@ Round22 preparation: the cloud source profile returned360rows with native invest
 2026-10-23: PostgreSQL short-lived transaction/keepalive/safe-once retry policy tested; frozen regression5148passed/48skipped. Earlier disconnect cause remains open; Round22 scored set is still pending. See docs/runs/round-twenty-two-postgres-validation.json.
 
 2026-10-23: native temporal-history fixture plans and narrow read-only SQL history validation tested47checks; compatible rollback probe preserved original rows/schema. Feature enablement and scored history verdicts are not yet earned. Prior freeze invalid.
+
+2026-10-23: practice source native temporal history enabled under owner approval; original360rows/7661units preserved. Investigator history read and scored history verdicts remain pending. Guarded cleanup waits for dependent scores.

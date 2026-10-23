@@ -4486,3 +4486,5 @@
 {"experiment": "ROUND22_SOURCE_TEMPORAL_INSPECTION_02", "status": "COMPLETED", "physical_requests": 1, "model_calls": 0, "receipt": ".local\\round-twenty-two\\source-controls\\temporal-inspection-02.json"}
 {"experiment": "ROUND22_TEMPORAL_DDL_ROLLBACK_PROBE", "status": "COMPATIBLE_ROLLED_BACK", "physical_requests": 2, "model_calls": 0, "receipt": ".local\\round-twenty-two\\injections\\source-temporal-probe-01\\status.json"}
 {"experiment": "ROUND22_TEMPORAL_PLANS_GUARD_TESTS", "status": "PASS_AFTER_NARROW_READ_MODIFIER_SUPPORT", "tests": 47, "estate_reads": 0, "model_calls": 0, "receipt": "docs/runs/round-twenty-two-temporal-preparation.json"}
+{"experiment": "ROUND22_TEMPORAL_HISTORY_ENABLE", "status": "TEMPORAL_ENABLED_SOURCE_PREIMAGE_MATCHED", "physical_requests": 3, "model_calls": 0, "receipt": ".local\\round-twenty-two\\injections\\source-temporal-enabled-01\\status.json", "temporal_feature_retained_for_scoring": true}
+{"experiment": "ROUND22_TEMPORAL_FOLLOWUP_TESTS", "status": "PASS", "tests": 42, "estate_reads": 0, "model_calls": 0, "receipt": "docs/runs/round-twenty-two-temporal-enabled.json"}

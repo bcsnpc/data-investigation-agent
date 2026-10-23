@@ -1,14 +1,14 @@
 import copy,unittest
 from fixture.apply import TemporalSourceScenario
 from fixture.source_temporal import HISTORY,START,END
-from test_fixture_failure_scenarios import SourceHistoryPlans
+import test_fixture_failure_scenarios as fixtures
 from investigator.live_gateway import validate_sql,_object
 from investigator.live_gateway import GatewayDenied
 
 
 class TemporalPlans(unittest.TestCase):
     def setUp(self):
-        self.baseline=SourceHistoryPlans().baseline()
+        self.baseline=fixtures.SourceHistoryPlans().baseline()
         names=['movement_id','warehouse_id','product_id','units','event_day','movement_type','source_modified_at_utc','source_row_version']
         self.inspection={'read_only':True,'exit_code':0,'body':{'status':'COMPLETED','sets':[
             [{'object_id':'123','temporal_type':'0','history_table_id':None,'proposed_history_id':None,'is_memory_optimized':'False','primary_keys':'1','triggers':'0'}],
@@ -38,9 +38,13 @@ class TemporalPlans(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'PROBE_BOOLEAN'):self.builder().enable(rollback_probe='true')
 
     def test_history_read_is_native_parameterized_and_read_only_with_overflow(self):
-        request=self.builder().observation([SourceHistoryPlans().added()])
+        request=self.builder().observation([fixtures.SourceHistoryPlans().added()])
         self.assertIn('FOR SYSTEM_TIME ALL',request['query'])
         self.assertIn(START,request['result_columns']);self.assertIn(END,request['result_columns'])
+        # Native SQL text preserves datetime2(7); Python datetime transport
+        # would otherwise discard the seventh fractional digit.
+        self.assertIn('CONVERT(varchar(33),['+START+'],126)',request['query'])
+        self.assertIn('CONVERT(varchar(33),['+END+'],126)',request['query'])
         self.assertNotIn('900101',request['query']);self.assertEqual(request['parameters'][0]['value'],900101)
         self.assertEqual(request['max_rows'],101)
         validate_sql(request['query'],{_object(v)for v in request['read_only_objects']})
@@ -65,6 +69,15 @@ class TemporalPlans(unittest.TestCase):
         for invalid in ('','a'*63,"';DROP TABLE x;--"):
             with self.assertRaisesRegex(ValueError,'DIGEST_REQUIRED'):self.builder().disable(history_object_id=456,history_rows=3,history_sha256=invalid)
         with self.assertRaises(ValueError):self.builder().disable(history_object_id=456,history_rows=10001,history_sha256='a'*64)
+
+    def test_empty_native_history_still_has_a_cleanup_digest(self):
+        digest=self.builder().history_digest()
+        self.assertIn("COALESCE((SELECT ",digest)
+        self.assertIn("),N'[]')",digest)
+        import hashlib
+        empty=hashlib.sha256('[]'.encode('utf-16le')).hexdigest()
+        sql=self.builder().disable(history_object_id=456,history_rows=0,history_sha256=empty)
+        self.assertIn("<>UPPER('"+empty+"')",sql)
 
 
 if __name__=='__main__':unittest.main()
