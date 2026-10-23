@@ -60,6 +60,7 @@ def transient(error):
     if any(s in text for s in ('billing','unauthorized','forbidden','permission denied','secret_detected')):return False
     from urllib.error import URLError
     if isinstance(error,URLError) and isinstance(error.reason,(TimeoutError,ConnectionError)):return True
+    if getattr(error,'stage',None)=='connect'and getattr(error,'error_number',None)==40613:return True
     return isinstance(error,(TimeoutError,ConnectionError)) or getattr(error,'error_number',None)==18456 or getattr(error,'code',None) in (408,429,502,503,504) or any(s in text for s in ('18456','connection reset','temporarily unavailable'))
 
 def retry(call,*,record,sleep=time.sleep):

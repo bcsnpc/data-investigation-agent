@@ -117,6 +117,18 @@ class RunnerTests(unittest.TestCase):
         self.assertFalse(transient(ValueError('guardrail denied')))
         from fabric_sql_surface import LowerReadError
         self.assertTrue(transient(LowerReadError('connect',18456,'SqlException')))
+        self.assertTrue(transient(LowerReadError('connect',40613,'SqlException')))
+        self.assertFalse(transient(LowerReadError('query',40613,'SqlException')))
+        self.assertFalse(transient(LowerReadError('connect',229,'SqlException')))
+    def test_serverless_resume_retries_once_with_failure_preserved_and_no_limit_raise(self):
+        from fabric_sql_surface import LowerReadError
+        calls=[];wait=[];events=[]
+        def read():
+            calls.append(1)
+            if len(calls)==1:raise LowerReadError('connect',40613,'SqlException')
+            return {'status':'CONNECTED'}
+        self.assertEqual(retry(read,record=lambda *v:events.append(v),sleep=wait.append),{'status':'CONNECTED'})
+        self.assertEqual(len(calls),2);self.assertEqual(wait,[30]);self.assertEqual(events[0][0],'attempt-failure');self.assertTrue(events[0][1]['retry'])
     def test_wrapped_url_timeout_retries_but_http_auth_and_certificate_errors_do_not(self):
         from urllib.error import URLError,HTTPError
         import ssl
