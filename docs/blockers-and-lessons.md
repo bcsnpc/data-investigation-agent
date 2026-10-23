@@ -165,3 +165,19 @@ image39899480797 was not published or deployed. Session-catalog test also
 exposed a real Windows open-file leak: a sqlite connection context commits but
 does not close; use closing() for the read-only source. Preserve the selected
 model's discovery deny/policy fields in the reduced session catalog.
+
+Availability review found two producer/consumer edge cases before new live
+admission. Persist only the final reachability after retries (all failed
+attempts stay in the run evidence); otherwise equal collection timestamps can
+select a failed attempt after recovery. Use recorded actual observation times
+in the cloud. Retained continuation nodes may not be current graph members:
+retain their availability in the run, but never insert a graph node merely to
+make a ledger write pass, or mask a successful native read as a source failure.
+Tests cover both.
+
+A failed load may carry a recorded source outage. Report failed job with the
+outage cause even when its source quantity cannot be read, while explicitly
+blocking the numerical comparison. The source-outage timestamp must lie inside
+that failed run, and the producer must be on the admitted target path. A later
+diagnostic outage cannot explain an earlier failure. Tests exercise both the
+explicit status and comparison paths; no fabricated quantity or scope change.

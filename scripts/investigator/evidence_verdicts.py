@@ -12,6 +12,20 @@ VERDICTS=('as designed','latency','waiting on job','failed job','refresh stale',
           'different question','access difference','source changed history','not found')
 
 
+def load_source_outage(run):
+    """Only an explicitly recorded outage during this failed run is a cause.
+
+    A source that fails a later diagnostic does not explain an earlier job.
+    Generic connection errors cannot distinguish source from destination.
+    """
+    value=run.get('source_availability')
+    if not isinstance(value,dict) or value.get('failure_class')!='UNREACHABLE' or value.get('reachable')is not False:return None
+    try:
+        at=timestamp(value['last_observed_at']);start=timestamp(run['start']);end=timestamp(run['end'])
+    except (ValueError,TypeError,KeyError):return None
+    return value if run.get('status')=='FAILED' and start<=at<=end else None
+
+
 def quantity(value):
     state=value.get('state')
     if state=='BLANK' and value.get('value') is None:return ('BLANK',None)
@@ -203,6 +217,14 @@ def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
         if read.get('route_admitted') is not True or read.get('read_only_verified') is not True or not read.get('receipt_id'):raise ValueError('READ_NOT_ADMITTED')
         quantity(read)
     if target is not None and not any(read['subject']==target for read in reads.values()):raise ValueError('REQUESTED_TARGET_NOT_MEASURED')
+    if verdict=='failed job' and any(entry['kind']=='GAP' and entry['value'].get('availability',{}).get('failure_class')=='UNREACHABLE'for entry in entries):
+        try:operational=pending_comparison_status(verdict,records,reads,target=target,now=now)
+        except ValueError:pass
+        else:
+            outage=load_source_outage(operational.get('operational_fact',{}).get('value',{}))
+            if outage:
+                operational.update(claim_scope='OPERATIONAL_STATUS_WITH_BLOCKED_SOURCE',reason='The linked load failed; its recorded root cause is source unreachable at '+outage['last_observed_at']+'. The source comparison is blocked; no numerical cause was established.')
+                return operational
     if request.get('comparison_pending') is True:
         if any(entry['kind'] in ('COMPARISON','GIVEN_COMPARISON') for entry in entries):raise ValueError('PENDING_COMPARISON_CONTRACT_CONFLICT')
         return pending_comparison_status(verdict,records,reads,target=target,now=now)

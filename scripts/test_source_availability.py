@@ -57,12 +57,38 @@ class AvailabilityTests(unittest.TestCase):
             self.assertIn('Blocked: up',output);self.assertIn(tools.now,output);self.assertIn('Owner:',output);self.assertIn('Reachable layers checked:',output)
             self.assertNotIn('private route',output)
     def test_load_failure_with_observed_outage_keeps_failed_job_verdict_and_root_cause(self):
-        outage=result(ConnectionError(),at=NOW,attempts=3)
+        at='2026-10-22T10:01:00Z';outage=result(ConnectionError(),at=at,attempts=3)
         run=runtime_fact('job','JOB_RUN',{'status':'FAILED','run_id':'failed-copy','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z','error':'source connection failed','source_availability':outage})
         engine,ticket,reader,decide=fixtures.OperationalFactTests().status_engine([run])
         answer=engine.run(ticket)
         self.assertEqual(answer['verdict'],'failed job');reader.assert_not_called();decide.assert_not_called()
-        for output in answer['outputs'].values():self.assertIn('source unreachable at '+NOW,output)
+        for output in answer['outputs'].values():self.assertIn('source unreachable at '+at,output)
+    def test_outage_observed_after_load_is_not_attributed_as_its_cause(self):
+        from investigator.evidence_verdicts import load_source_outage
+        self.assertIsNone(load_source_outage({'status':'FAILED','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z','source_availability':result(ConnectionError(),at=NOW)}))
+    def test_compare_with_unreachable_source_reports_linked_failed_load_without_numeric_cause(self):
+        tools,engine,reader,_=fixtures.ToolLoopTests().build();tools.nodes['job']['kind']='PIPELINE'
+        tools.path['edges'] += [{'id':'visual-load','source':'visual','target':'job','confidence':'DECLARED','provenance':{'source':'STATIC_DEFINITION'}}]
+        tools.graph.path_to_source.return_value=tools.path
+        from investigator.ledger_investigator_tools import Tools
+        tools=Tools(tools.graph,object(),visual='visual',key='record-1',context=tools.context,now=NOW,persist=engine.persist,value_reader=reader)
+        engine.tools=tools
+        run=runtime_fact('job','JOB_RUN',{'status':'FAILED','run_id':'failed-copy','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z','error':'source connection failed','source_availability':result(ConnectionError(),at='2026-10-22T10:01:00Z',attempts=3)})
+        tools.graph.node_facts.side_effect=lambda node,**kw:{'facts':[run]if node=='job'else []}
+        def fetch(node,key,context):
+            if node=='up':raise ConnectionError()
+            return read(node,7,context)
+        reader.side_effect=fetch
+        calls=[]
+        def decide(*args,**kwargs):
+            calls.append(1)
+            if len(calls)==1:return {'action':'TOOL','tool':'compare_layers','arguments':{'key':'record-1','layers':['down','up'],'filters':tools.context},'summary':'Check the linked load','hypotheses':['failed job']}
+            return {'action':'VERDICT','verdict':'failed job','evidence_ids':list(tools.evidence._values),'summary':'Report the recorded failed load with a blocked source comparison','hypotheses':['failed job']}
+        engine.decide=decide
+        with patch('investigator.model_transport_retry.backoff'):answer=engine.run({'visual':'visual'})
+        self.assertEqual(answer['verdict'],'failed job',str(answer['hypothesis_checks']));self.assertEqual(answer['status'],'blocked')
+        self.assertEqual(answer['support']['claim_scope'],'OPERATIONAL_STATUS_WITH_BLOCKED_SOURCE')
+        for text in answer['outputs'].values():self.assertIn('no numerical cause was established',text)
     def test_quick_ledger_facts_are_progress_events_before_status_answer_without_model(self):
         run=runtime_fact('job','JOB_RUN',{'status':'FAILED','run_id':'failed-copy','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z','error':'source connection failed'})
         engine,ticket,reader,decide=fixtures.OperationalFactTests().status_engine([run]);events=[];engine.progress=events.append

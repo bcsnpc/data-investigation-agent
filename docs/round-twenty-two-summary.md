@@ -25,10 +25,14 @@ re-read, completed work retained):
   fresh-load test.
 - **1d green:** exact two scanner refresh GETs recorded in decisions.md;
   investigator remains Viewer. Existing scanner guard/transport suite28PASS.
-- **1d-2 in progress:** closed source failure classes, metered transient retry,
-  availability facts and blocked output implemented; focused validation under
-  way. **1d-3 pending:** normal/test recording, staged replies and measured
-  cloud speed. These added items precede section2. New ledger investigator is
+- **1d-2 implemented, live confirmation pending:** closed source failure classes,
+  metered transient retry, availability facts and blocked output;12 focused
+  tests PASS, including failed-load cause/time checks and comparison blocked
+  without inventing a numerical cause. **1d-3 implemented, cloud timings pending:**
+  normal/test recording, batched audit, staged replies, current-context-only
+  catalog materialization;5 focused audit/catalog tests PASS. The new input
+  archive is15,330,618bytes versus116MB previously; originals unchanged, stored
+  MD5 verified. These added items precede section2. New ledger investigator is
   the default engine; legacy remains baseline only. The old-config smoke
   monitor was stopped before further admissions; its active cloud execution
   was not interrupted.

@@ -211,6 +211,7 @@ class Investigator:
         answer_status='not answered' if verdict=='not found' else 'partly answered: the current declared-context investigation does not reproduce the reported figure' if recreation and recreation['status']=='NOT_REPRODUCED' else 'answered within the checked technical scope'
         if supported.get('claim_scope')=='OPERATIONAL_STATUS_WITH_COMPARISON_PENDING':answer_status='partly answered: a current operational status was established; the numerical comparison was not checked'
         if supported.get('claim_scope')=='OPERATIONAL_FACT_ONLY':answer_status='answered: the explicit operational status is recorded; no numerical explanation was claimed'
+        if supported.get('claim_scope')=='OPERATIONAL_STATUS_WITH_BLOCKED_SOURCE':answer_status='partly answered: the linked load failure and recorded source outage are established; the source quantity could not be compared'
         if verdict!='not found' and any(r['kind']=='GAP'and r['value'].get('code')=='COMPARISON_TARGET_UNAVAILABLE'for r in evidence.values()):
             answer_status='partly answered: the named comparison target was unavailable; the finding concerns only the measured path boundary'
         business+='Answer status: '+answer_status+'.\n'
@@ -236,7 +237,8 @@ class Investigator:
             reached=[self.tools.nodes[r['subject']]['label'] for r in read_records]
             business+='\nReachable layers checked: '+(', '.join(dict.fromkeys(reached)) or 'none')+'. Remaining conclusion: '+supported['reason']
         selected=supported.get('operational_fact',{}).get('value',{})
-        cause=selected.get('source_availability') if verdict=='failed job' else None
+        from .evidence_verdicts import load_source_outage
+        cause=load_source_outage(selected) if verdict=='failed job' else None
         if cause and cause.get('failure_class')=='UNREACHABLE':business+='\nRecorded load root cause: source unreachable at '+cause['last_observed_at']+'.'
         question=None
         if stop=='COMPARISON_REQUIRED_AFTER_QUICK_CHECKS':
