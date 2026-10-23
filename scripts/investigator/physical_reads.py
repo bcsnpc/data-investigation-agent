@@ -76,6 +76,12 @@ def connection_failure(number):
 
 
 def run(command, *, input, timeout, fallback=None, **kwargs):
+    from .run_capture import protocol_publications
+    with protocol_publications():
+        return _run(command,input=input,timeout=timeout,fallback=fallback,**kwargs)
+
+
+def _run(command, *, input, timeout, fallback=None, **kwargs):
     # Replay consumes the originally sealed worker bytes; no live transport is
     # opened and no retrospective policy alters those receipts.
     from .process_tape import ACTIVE as RUN_TAPE

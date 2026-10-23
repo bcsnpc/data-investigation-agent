@@ -48,6 +48,7 @@ class DurableCapture:
         self.timing=RunTiming(clock)
         self._pending_publications=[]
         self._publication_failed=False
+        self._publication_holds=0
         self.root.mkdir(parents=True,exist_ok=False)
         self.record('header',bootstrap)
         self.record('status',{'status':'STARTED','partial':True})
@@ -82,6 +83,7 @@ class DurableCapture:
     def flush_publications(self):
         from .shared_state import TRANSACTION_ACTIVE
         if TRANSACTION_ACTIVE.get(): raise RuntimeError('CAPTURE_PUBLICATION_DURING_TRANSACTION')
+        if self._publication_holds:return
         while self._pending_publications:
             key,path,expected=self._pending_publications[0]
             try:
@@ -100,6 +102,23 @@ class DurableCapture:
         # transport failure must not permanently poison a later complete flush.
         # Failed or changed records stay queued and cannot reach this point.
         self._publication_failed=False
+
+    @contextmanager
+    def protocol_publications(self):
+        """Persist locally now; acknowledge remotely after the child is closed.
+
+        A timed child must not wait for its parent's Blob publication between
+        REQUEST and ALLOW. The enclosing step still cannot return or seal until
+        every original record is acknowledged. A crash leaves the previously
+        published step-start and an incomplete execution, never a fake result.
+        """
+        self._publication_holds+=1
+        try:yield
+        finally:
+            self._publication_holds-=1
+            if not self._publication_holds:
+                from .shared_state import after_transaction
+                after_transaction(self.flush_publications)
 
     def readback(self,ref):
         """Read only a record this run already published, then verify its bytes."""
@@ -174,3 +193,12 @@ class DurableCapture:
 def blob_sink(config):
     from .adapters.runner_blobs import sink
     return sink(config)
+
+
+@contextmanager
+def protocol_publications():
+    observer=EVENT_OBSERVER.get()
+    capture=getattr(observer,'__self__',None)
+    if isinstance(capture,DurableCapture):
+        with capture.protocol_publications():yield
+    else:yield
