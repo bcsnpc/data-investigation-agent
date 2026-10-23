@@ -102,3 +102,5 @@ Full corrected-image 5c25dc6 suite: 5,050 PASS / 48 skipped, no errors, 683.078s
 
 ### Owner status-job timing target ? 2026-10-23
 For this round only, accept job-based status runs below60s total and record startup/investigation/publication separately. Do not optimize container startup; a future warm service is deferred. Full-investigation target remains below120s. The measured52s status run therefore meets the amended target; original measurements and the prior30s target are retained in its receipt. No runtime budget, quota or resource configuration changed.
+
+2026-10-23 owner steer before first Section3 dev score: successful exact calls now reuse the stored case result; verdict rejection transfers next-step selection to code; phase progress limits advance or end honestly. Initial exploratory no-progress limit3; each deterministic frontier action is attempted once before advancing. Budgets, comparison context and evidence requirements unchanged. This explicitly amends the earlier prohibition on adding per-phase limits for this behaviour; it adds no expense authority. Old captures and the18-call not-found result remain unchanged.

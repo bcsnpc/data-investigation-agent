@@ -255,7 +255,7 @@ class ToolLoopTests(unittest.TestCase):
                 return {'action':'TOOL','summary':'Read the admitted prefix.','hypotheses':['not found'],'tool':'compare_layers','arguments':{'key':'record-1','layers':['down','up','job'],'filters':{'warehouse':'North'}}}
             return {'action':'VERDICT','summary':'No proven cause.','hypotheses':['not found'],'verdict':'not found','evidence_ids':list(tools.evidence._values)}
         engine.decide=decide;result=engine.run({'visual':'visual'})
-        self.assertEqual(result['stop_reason'],'EVIDENCE_INSUFFICIENT');self.assertEqual(reader.call_count,4)
+        self.assertEqual(result['stop_reason'],'EVIDENCE_PROVEN_CODE_FRONTIER');self.assertEqual(result['verdict'],'failed job');self.assertEqual(reader.call_count,4)
         self.assertTrue(any(x.get('reason')=='DECLARED_PREFIX_NOT_CHECKED'for x in events))
     def test_unresolved_named_comparison_keeps_valid_prefix_finding_partial(self):
         tools,engine,reader,events=self.build(step_cap=2)
@@ -464,7 +464,7 @@ class JustInTimeTests(unittest.TestCase):
         self.assertEqual(result['evidence']['value']['definition']['source'],raw)
     def test_explicit_raw_fetch_is_cleared_after_the_next_model_call(self):
         import json
-        tools,engine,_,_=ToolLoopTests().build();raw='TRANSIENT_RAW_DEFINITION_SENTINEL'
+        tools,engine,_,_=ToolLoopTests().build(step_cap=5);engine.phase_limit=5;raw='TRANSIENT_RAW_DEFINITION_SENTINEL'
         tools.graph.definition_of.return_value={'definition':{'source':raw}};payloads=[]
         def decide(payload,**kwargs):
             payloads.append(copy.deepcopy(payload));step=len(payloads)

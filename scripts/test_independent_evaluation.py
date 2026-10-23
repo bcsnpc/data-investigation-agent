@@ -46,6 +46,11 @@ class IndependentEvaluationTests(unittest.TestCase):
         self.assertIn('harmful',request['params']['output_config']['format']['schema']['required'])
         with self.assertRaisesRegex(ValueError,'LABELS_ONLY'):task({**source(),'expected':value['expected']})
 
+    def test_fairness_sees_only_original_ticket_visible_labels_and_fixed_criteria(self):
+        value={'protocol':PROTOCOL,'purpose':'ASSESS_FAIRNESS','case_id':'R17-01','ticket':'Check Total in Report','labels':['Report','Total'],'criteria':'Explicit target and scope; no invented comparison.'}
+        request=request_for(value,'c'*64);self.assertIn('answerable',request['params']['output_config']['format']['schema']['required'])
+        with self.assertRaisesRegex(ValueError,'CRITERIA_ONLY'):task({**value,'expected':{'verdict':'as designed'}})
+
     def test_uncertain_submission_cannot_duplicate(self):
         # Real shared-state fixture, no provider or estate request.
         with tempfile.TemporaryDirectory()as tmp:

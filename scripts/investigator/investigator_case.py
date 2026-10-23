@@ -7,26 +7,29 @@ from .estate_graph_contract import canonical
 PLAN = ('recreate', 'quick_facts', 'investigate', 'deliver')
 FIELDS = {'version', 'ticket_id', 'plan', 'current_step', 'evidence_summaries',
           'decisions', 'calls_blocked', 'errors', 'notes', 'final_outcome'}
+V2_FIELDS=FIELDS|{'tool_results','phase_state'}
 
 
 class CaseFile:
     def __init__(self, ticket):
         identity = ticket.get('id') or hashlib.sha256(canonical(ticket).encode()).hexdigest()
-        self.value = {'version': 'ledger-case-v1', 'ticket_id': identity,
+        self.value = {'version': 'ledger-case-v2', 'ticket_id': identity,
                       'plan': list(PLAN), 'current_step': PLAN[0],
                       'evidence_summaries': {}, 'decisions': [], 'calls_blocked': [],
-                      'errors': [], 'notes': [], 'final_outcome': None}
+                      'errors': [], 'notes': [], 'final_outcome': None, 'tool_results':{},
+                      'phase_state':{'name':'explore','limit':3,'without_progress':0}}
 
     @classmethod
     def loads(cls, raw):
         value = json.loads(raw)
-        if (not isinstance(value, dict) or set(value) != FIELDS
-                or value['version'] != 'ledger-case-v1' or value['plan'] != list(PLAN)
+        if (not isinstance(value, dict) or set(value) != (FIELDS if value.get('version')=='ledger-case-v1' else V2_FIELDS)
+                or value['version'] not in ('ledger-case-v1','ledger-case-v2') or value['plan'] != list(PLAN)
                 or value['current_step'] not in PLAN
                 or not isinstance(value['ticket_id'], str) or not value['ticket_id']
                 or not isinstance(value['evidence_summaries'], dict)
                 or any(not isinstance(value[key], list) for key in
                        ('decisions', 'calls_blocked', 'errors', 'notes'))
+                or value.get('version')=='ledger-case-v2' and (not isinstance(value.get('tool_results'),dict) or not isinstance(value.get('phase_state'),dict))
                 or value['final_outcome'] is not None and not isinstance(value['final_outcome'], dict)):
             raise ValueError('CASE_FILE_CONTRACT')
         result = cls.__new__(cls)
@@ -49,6 +52,8 @@ class CaseFile:
                             ('event', 'reason', 'tool', 'arguments', 'error_type', 'expected') if key in row}
                            for row in value['errors']]
         value['notes'] = value['notes'][-3:]
+        # Full stored tool results stay in the case, never in each model request.
+        if 'tool_results'in value:value['tool_results']={key:{k:row[k]for k in ('tool','arguments','evidence_ids')if k in row}for key,row in value['tool_results'].items()}
         return value
 
     def advance(self, step):
@@ -89,7 +94,13 @@ class CaseFile:
                 return copy.deepcopy(error)
         return None
 
+    def successful_call(self, tool, arguments):
+        row=self.value.get('tool_results',{}).get(canonical([tool,arguments]))
+        return copy.deepcopy(row) if row is not None else None
+
     def observe(self, event):
+        if self.value['version']=='ledger-case-v1':
+            self.value.update(version='ledger-case-v2',tool_results={},phase_state={'name':'explore','limit':3,'without_progress':0})
         kind = event.get('event')
         if kind == 'INVESTIGATOR_DECISION':
             self.value['decisions'].append(copy.deepcopy(event))
@@ -97,6 +108,8 @@ class CaseFile:
             self.value['errors'].append(copy.deepcopy(event))
         elif kind == 'INVESTIGATOR_CALL_BLOCKED':
             self.value['calls_blocked'].append(copy.deepcopy(event))
+        elif kind == 'INVESTIGATOR_TOOL' and event['result'].get('status') != 'UNAVAILABLE':
+            self.value.setdefault('tool_results',{})[canonical([event['tool'],event['arguments']])]={'tool':event['tool'],'arguments':copy.deepcopy(event['arguments']),'result':copy.deepcopy(event['result']),'evidence_ids':copy.deepcopy(event['result'].get('evidence_ids',[]))}
         elif kind == 'INVESTIGATOR_TOOL' and event['result'].get('status') == 'UNAVAILABLE':
             self.value['errors'].append({key: copy.deepcopy(event[key]) for key in
                                          ('tool', 'arguments', 'result')})

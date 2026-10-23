@@ -3,7 +3,7 @@ import copy
 import json
 from jsonschema import Draft202012Validator
 from .shared_state import sha
-from .adapters.evaluation_anthropic import task, PROTOCOL, WRITER_SCHEMA, GRADER_SCHEMA
+from .adapters.evaluation_anthropic import task, PROTOCOL, WRITER_SCHEMA, GRADER_SCHEMA, FAIRNESS_SCHEMA
 
 NAMESPACE='independent_evaluation_batches'
 
@@ -46,7 +46,7 @@ class EvaluationJob:
             if row['type']=='succeeded' and message.get('model')==self.provider.model and message.get('stop_reason')=='end_turn':
                 try:
                     output=json.loads(''.join(p['text']for p in message['content']if p['type']=='text'))
-                    schema=WRITER_SCHEMA if source['purpose']=='WRITE_TICKETS'else GRADER_SCHEMA
+                    schema=WRITER_SCHEMA if source['purpose']=='WRITE_TICKETS'else FAIRNESS_SCHEMA if source['purpose']=='ASSESS_FAIRNESS'else GRADER_SCHEMA
                     Draft202012Validator(schema).validate(output)
                     if source['purpose']=='WRITE_TICKETS'and sorted(x['variation']for x in output['tickets'])!=sorted(source['variations']):raise ValueError('WRITER_VARIATIONS_DIFFER')
                     result.update(status='VALIDATED',output=output)

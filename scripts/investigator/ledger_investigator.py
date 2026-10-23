@@ -3,7 +3,7 @@ import copy
 import time
 from jsonschema import Draft202012Validator
 from .estate_graph_contract import timestamp,canonical
-from .evidence_verdicts import VERDICTS,check
+from .evidence_verdicts import VERDICTS,check,quantity
 from .agent_loop import closed_wire_schema
 from .planner_recording import _safe
 
@@ -89,10 +89,12 @@ def schema(tools,allowed_tools=None):
 
 
 class Investigator:
-    def __init__(self,tools,*,decide,persist,admit,step_cap=12,wall_seconds=900,clock=time.monotonic,progress=None,checkpoint=None,heavy_reader=None):
+    def __init__(self,tools,*,decide,persist,admit,step_cap=12,wall_seconds=900,clock=time.monotonic,progress=None,checkpoint=None,heavy_reader=None,phase_limit=3):
         if not all(callable(v) for v in (persist,admit)):raise ValueError('GOVERNED_INVESTIGATOR_BOUNDARIES_REQUIRED')
         if decide is not None and not callable(decide):raise ValueError('GOVERNED_DECISION_REQUIRED')
         if type(step_cap)is not int or not 1<=step_cap<=25 or type(wall_seconds)is not int or not 1<=wall_seconds<=3600:raise ValueError('INVESTIGATOR_LIMIT')
+        if type(phase_limit)is not int or not 1<=phase_limit<=25:raise ValueError('INVESTIGATOR_PHASE_LIMIT')
+        self.phase_limit=phase_limit
         self.tools,self.decide,self.persist,self.admit=tools,decide,persist,admit
         self.progress=progress or (lambda value:None)
         self.checkpoint=checkpoint;self.heavy_reader=heavy_reader
@@ -109,6 +111,7 @@ class Investigator:
         if not isinstance(assumptions,list) or len(assumptions)>10 or any(not isinstance(value,str) or not 1<=len(value)<=1000 for value in assumptions):raise ValueError('ADMITTED_ASSUMPTION_LABELS_REQUIRED')
         from .investigator_case import CaseFile
         self.case=CaseFile(ticket)
+        self.case.value['phase_state']['limit']=self.phase_limit
         self.tools.step_provider=lambda:self.case.value['current_step']
         if self.checkpoint is not None:
             from .estate_graph_contract import digest
@@ -149,6 +152,14 @@ class Investigator:
             if not isinstance(receipt,str)or not receipt:raise ValueError('INVESTIGATOR_PERSISTENCE_REQUIRED')
             return receipt
         def tool(name,args):
+            from .investigator_playbook import require
+            require(self.case.value['current_step'],name)
+            stored=self.case.successful_call(name,args)
+            if stored is not None:
+                result=copy.deepcopy(stored['result']);result.update(already_obtained=True,detail='Already have this as evidence '+', '.join(stored['evidence_ids']))
+                record({'event':'INVESTIGATOR_CALL_BLOCKED','tool':name,'arguments':copy.deepcopy(args),'reason':'SUCCESSFUL_CALL_ALREADY_RETAINED','evidence_ids':stored['evidence_ids']})
+                calls.append({'tool':name,'arguments':copy.deepcopy(args),'result':result,'wall_seconds':0,'model_calls':0})
+                return result
             failed=self.case.failed_call(name,args)
             if failed is not None:
                 import hashlib
@@ -251,8 +262,60 @@ class Investigator:
             except ValueError as error:
                 if str(error) not in ('INVESTIGATOR_PROVIDER_DECISION_ENVELOPE_REQUIRED','INVESTIGATOR_PROVIDER_DUPLICATE_METADATA','PROVIDER_ADMITTED_SCOPE_REFERENCE_REQUIRED'):raise
                 return {'_consumer_rejection':True,'reason':str(error),'detail':'Use the current schema and admitted references.'}
-        model_calls=0
+        def progress_signature():
+            return (tuple(sorted(getattr(self.tools,'_quantity_attempted',set()))),tuple(sorted(i for i,r in self.tools.evidence._values.items()if r['kind']in ('READ','COMPARISON','DESIGN_CHECK','ACCESS_CHECK','HISTORY_CHECK'))))
+        def recover_rejected_verdict():
+            # Code, not another free-form lookup, advances the unresolved frontier.
+            attempted=set()
+            while True:
+                pending=sorted(self.tools.pending_quantity_nodes(),key=lambda n:(self.tools.depth.get(n,10000),n))
+                if pending:
+                    node=pending[0];reads=[r['value']['subject']for r in self.tools.evidence._values.values()if r['kind']=='READ']
+                    incoming=[e['source']for e in self.tools.path['edges']if e['target']==node and e['source']in reads]
+                    anchors=incoming or [n for n in reads if self.tools.depth.get(n,-1)<self.tools.depth.get(node,10000)]
+                    anchor=max(anchors,key=lambda n:self.tools.depth.get(n,-1))if anchors else self.tools.visual
+                    name='compare_layers';args={'key':self.tools.key,'layers':[anchor,node],'filters':self.tools.context};phase='measure'
+                else:
+                    task=None
+                    comparisons=[(i,r)for i,r in self.tools.evidence._values.items()if r['kind']=='COMPARISON' and quantity(self.tools.evidence.get(r['value']['left'])['value'])!=quantity(self.tools.evidence.get(r['value']['right'])['value'])]
+                    comparisons.sort(key=lambda pair:min(self.tools.depth.get(n,10000)for n in pair[1]['subjects']))
+                    for identity,comparison in comparisons:
+                        for kind in ('DESIGN_CHECK','ACCESS_CHECK','HISTORY_CHECK'):
+                            candidate={'comparison_id':identity,'kind':kind}
+                            if canonical(['check_explanation',candidate])not in attempted and self.case.successful_call('check_explanation',candidate)is None and self.case.failed_call('check_explanation',candidate)is None:
+                                task=('check_explanation',candidate,'hypothesis:'+kind);break
+                        if task:break
+                    if task is None:return None
+                    name,args,phase=task
+                signature=canonical([name,args])
+                if signature in attempted:return None
+                attempted.add(signature);before_progress=progress_signature()
+                self.case.value['phase_state']={'name':phase,'limit':1,'without_progress':0,'allowed_tools':[name]}
+                record({'event':'INVESTIGATOR_CODE_NEXT_STEP','phase':phase,'allowed_tools':[name],'tool':name,'arguments':args})
+                try:result=tool(name,args)
+                except Exception as exc:
+                    if not budget_stop(exc):raise
+                    record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__});return None
+                known.extend(i for i in result.get('evidence_ids',[])if i not in known)
+                ready=[]
+                for verdict in VERDICTS[:-1]:
+                    try:ready.append(check(verdict,self._citations(known),self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual))
+                    except (ValueError,KeyError,TypeError):pass
+                if len(ready)==1:return ready[0]
+                if progress_signature()==before_progress:
+                    self.case.value['phase_state']['without_progress']=1
+                    record({'event':'INVESTIGATOR_PHASE_LIMIT','phase':phase,'limit':1,'next':'advance frontier or finish not found'})
+        model_calls=0;guided=False;previous_progress=progress_signature()
         for step in range(1,self.step_cap+1):
+            current_progress=progress_signature();phase=self.case.value['phase_state']
+            if step>1:phase['without_progress']=phase['without_progress']+1 if current_progress==previous_progress else 0
+            previous_progress=current_progress
+            if guided or phase['without_progress']>=phase['limit']:
+                record({'event':'INVESTIGATOR_PHASE_LIMIT','phase':phase['name'],'limit':phase['limit'],'next':'code-owned unresolved frontier'})
+                supported=recover_rejected_verdict()
+                if supported is not None:return self._finish(ticket,supported,calls,hypotheses,warnings,'EVIDENCE_PROVEN_CODE_FRONTIER',started,model_calls)
+                supported=check('not found',known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
+                return self._finish(ticket,supported,calls,hypotheses,warnings,'PHASE_PROGRESS_LIMIT',started,model_calls)
             if self.clock()-started>=self.wall_seconds and not(self.checkpoint is not None and self.checkpoint.replaying):break
             try:self.admit('MODEL',step)
             except Exception as exc:
@@ -289,15 +352,15 @@ class Investigator:
                     if not budget_stop(exc):raise
                     record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__});break
                 known.extend(i for i in result.get('evidence_ids',[]) if i not in known)
-                fetched=fetched_context(result) if decision['tool'] in ('get_evidence','get_evidence_part') else None;feedback=result if result.get('status')=='UNAVAILABLE' or result.get('already_obtained') else None
+                fetched=fetched_context(result) if decision['tool'] in ('get_evidence','get_evidence_part') and not result.get('already_obtained') else None;feedback=result if result.get('status')=='UNAVAILABLE' or result.get('already_obtained') else None
                 continue
             if decision['verdict']=='not found' and self.tools.pending_quantity_nodes():
                 feedback={'reason':'DECLARED_PREFIX_NOT_CHECKED','nodes':self.tools.pending_quantity_nodes(),
                           'detail':'The final source gap does not replace checks on the admitted prefix. Compare these nodes or retain their actual read-unavailability; budgets still apply.'}
-                record({'event':'INVESTIGATOR_REJECTED',**feedback});continue
+                record({'event':'INVESTIGATOR_REJECTED',**feedback});guided=True;continue
             try:supported=check(decision['verdict'],self._citations(decision['evidence_ids']),self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
             except (ValueError,KeyError,TypeError) as exc:
-                feedback={'reason':'VERDICT_EVIDENCE_REJECTED','detail':str(exc),'verdict':decision['verdict']};record({'event':'INVESTIGATOR_REJECTED',**feedback});continue
+                feedback={'reason':'VERDICT_EVIDENCE_REJECTED','detail':str(exc),'verdict':decision['verdict']};record({'event':'INVESTIGATOR_REJECTED',**feedback});guided=True;continue
             return self._finish(ticket,supported,calls,hypotheses,warnings,'EVIDENCE_PROVEN' if decision['verdict']!='not found' else 'EVIDENCE_INSUFFICIENT',started,model_calls)
         supported=check('not found',known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
         return self._finish(ticket,supported,calls,hypotheses,warnings,'TICKET_BUDGET_REACHED',started,model_calls)
