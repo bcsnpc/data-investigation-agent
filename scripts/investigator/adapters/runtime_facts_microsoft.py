@@ -72,11 +72,20 @@ def sql_request(route,kind):
     elif kind=='profile':
         keys=route['key_columns']
         if not isinstance(keys,list) or not 1<=len(keys)<=8 or len(set(keys))!=len(keys):raise ValueError('FACT_PROFILE_KEYS')
+        types=route.get('column_types')
+        binary={'binary','varbinary','image','timestamp','rowversion'}
+        text={'bigint','bit','char','date','datetime','datetime2','datetimeoffset','decimal','float','int','money','nchar','ntext','numeric','nvarchar','real','smalldatetime','smallint','smallmoney','sysname','text','time','tinyint','uniqueidentifier','varchar','xml'}
+        if types is not None:
+            if not isinstance(types,dict)or set(types)!=set(keys):raise ValueError('FACT_PROFILE_COLUMN_TYPES_COVERAGE')
+            if any(not isinstance(t,str)or t not in binary|text for t in types.values()):raise ValueError('FACT_PROFILE_COLUMN_TYPE_UNSUPPORTED')
         columns=['row_count']+['checksum_'+str(i) for i in range(len(keys))]
         expressions=['COUNT_BIG(*) AS [row_count]']
         for i,key in enumerate(keys):
             column=ident(key)
-            material="CASE WHEN "+column+" IS NULL THEN 'NULL' ELSE 'VALUE'+CONVERT(nvarchar(max),"+column+') END'
+            # Native rowversion/timestamp cannot convert directly to nvarchar.
+            # The declared schema, never a column-name heuristic, selects hex.
+            representation=('CONVERT(varchar(max),CONVERT(varbinary(max),'+column+'),2)'if types is not None and types[key]in binary else'CONVERT(nvarchar(max),'+column+')')
+            material="CASE WHEN "+column+" IS NULL THEN 'NULL' ELSE 'VALUE'+"+representation+' END'
             expressions.append("SUM(CONVERT(decimal(38,0),CONVERT(bigint,SUBSTRING(HASHBYTES('SHA2_256',"+material+"),1,8)))) AS [checksum_"+str(i)+']')
         query='SELECT '+','.join(expressions)+' FROM '+obj
     else:raise ValueError('FACT_SQL_QUERY_KIND')
@@ -287,13 +296,15 @@ class MicrosoftRuntimeFacts:
         metadata=route.get('metadata_evidence_ids',[])
         if not isinstance(metadata,list) or any(not isinstance(e,str) or not re.fullmatch(r'sha256:[a-f0-9]{64}',e) for e in metadata):
             raise ValueError('FACT_PROFILE_METADATA_EVIDENCE')
+        if route.get('column_types')is not None and not metadata:raise ValueError('FACT_PROFILE_TYPED_METADATA_EVIDENCE_REQUIRED')
         rows,proof,error=self._sql(route,'profile')
         if error:return self._gap(node,'TABLE_PROFILE',error,now,[proof])
         if len(rows)!=1:return self._gap(node,'TABLE_PROFILE','PROFILE_AGGREGATE_NOT_SINGLE_ROW',now,[proof])
         row=rows[0]
         return observation(node,'TABLE_PROFILE',{'load_marker':load_marker,'row_count':_count(row['row_count']),
             'checksum':encoded({key:val for key,val in row.items() if key!='row_count'}),
-            'checksum_method':'SUM_SHA256_64_PER_DECLARED_COLUMN_SQL_TEXT_REPRESENTATION_NOT_EQUALITY_PROOF',
+            'checksum_method':('SUM_SHA256_64_PER_DECLARED_COLUMN_SQL_TEXT_AND_BINARY_HEX_NOT_EQUALITY_PROOF'if route.get('column_types')is not None else'SUM_SHA256_64_PER_DECLARED_COLUMN_SQL_TEXT_REPRESENTATION_NOT_EQUALITY_PROOF'),
+            **({'declared_column_types':route['column_types']}if route.get('column_types')is not None else{}),
             'key_columns':route['key_columns'],'key_uniqueness':'NOT_CLAIMED',
             'schema_metadata_evidence_ids':metadata},now,[proof,*metadata],self.identity)
 

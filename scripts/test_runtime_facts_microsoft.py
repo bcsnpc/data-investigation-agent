@@ -216,6 +216,37 @@ class MicrosoftFactsTests(unittest.TestCase):
         adapter,_=self.adapter({'visual':r})
         with self.assertRaisesRegex(ValueError,'METADATA_EVIDENCE'):adapter.profile('visual',load_marker='load1',now=T1)
 
+    def test_profile_binary_representation_comes_from_complete_schema_not_column_name(self):
+        base={'reader':'r','connection':'example','database':'ops','schema':'dbo','table':'movements','principal':'reader-principal','key_columns':['ordinary_name','timestamp_named_int'],
+              'column_types':{'ordinary_name':'timestamp','timestamp_named_int':'int'},'metadata_evidence_ids':['sha256:'+'a'*64]}
+        request=sql_request(base,'profile')
+        self.assertEqual(validate_sql(request['query'],{('dbo','movements')}),{('dbo','movements')})
+        self.assertIn('CONVERT(varchar(max),CONVERT(varbinary(max),[ordinary_name]),2)',request['query'])
+        self.assertIn('CONVERT(nvarchar(max),[timestamp_named_int])',request['query'])
+        self.assertNotIn('CONVERT(nvarchar(max),[ordinary_name])',request['query'])
+        r=route('TABLE');r['profile']=base
+        adapter,_=self.adapter({'visual':r},sql=lambda route,request:answer(request,[{'row_count':'1','checksum_0':'123','checksum_1':'456'}]))
+        value=adapter.profile('visual',load_marker='load1',now=T1)
+        self.assertIn('BINARY_HEX_NOT_EQUALITY_PROOF',value['value']['checksum_method'])
+        self.assertEqual(value['value']['declared_column_types'],base['column_types'])
+
+    def test_profile_types_refuse_missing_extra_and_unsupported_declarations_before_dispatch(self):
+        base={'schema':'dbo','table':'movements','key_columns':['id','version']}
+        for types in ({'id':'int'},{'id':'int','version':'timestamp','extra':'int'},{'id':'int','version':'geometry'},{'id':'int','version':'timestamp); DELETE FROM x'}):
+            with self.subTest(types=types),self.assertRaisesRegex(ValueError,'FACT_PROFILE_COLUMN_TYPE'):sql_request({**base,'column_types':types},'profile')
+        r=route('TABLE');r['profile']={**base,'column_types':{'id':'int','version':'timestamp'}}
+        sql=Mock(side_effect=AssertionError('No read without schema evidence'));adapter,_=self.adapter({'visual':r},sql=sql)
+        with self.assertRaisesRegex(ValueError,'TYPED_METADATA_EVIDENCE_REQUIRED'):adapter.profile('visual',load_marker='load1',now=T1)
+        sql.assert_not_called()
+
+    def test_existing_untyped_profile_and_scalar_sql_bytes_are_preserved(self):
+        route={'schema':'dbo','table':'movements','key_columns':['id','units']}
+        before=sql_request(route,'profile')
+        self.assertEqual(before,sql_request({**route,'column_types':{'id':'int','units':'decimal'}},'profile'))
+        for binary in ('timestamp','rowversion','binary','varbinary','image'):
+            query=sql_request({'schema':'dbo','table':'movements','key_columns':['id'],'column_types':{'id':binary}},'profile')['query']
+            self.assertIn('CONVERT(varchar(max),CONVERT(varbinary(max),[id]),2)',query)
+
     def test_profile_query_identifier_injection_refused(self):
         with self.assertRaisesRegex(ValueError,'IDENTIFIER'):
             sql_request({'schema':'dbo','table':'t; DROP TABLE x','key_columns':['id']},'profile')
