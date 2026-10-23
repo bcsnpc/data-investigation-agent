@@ -352,7 +352,9 @@ class Investigator:
                     if not budget_stop(exc):raise
                     record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__});break
                 known.extend(i for i in result.get('evidence_ids',[]) if i not in known)
-                fetched=fetched_context(result) if decision['tool'] in ('get_evidence','get_evidence_part') and not result.get('already_obtained') else None;feedback=result if result.get('status')=='UNAVAILABLE' or result.get('already_obtained') else None
+                fetched=fetched_context(result) if decision['tool'] in ('get_evidence','get_evidence_part') and not result.get('already_obtained') else None
+                feedback=({k:copy.deepcopy(result[k])for k in ('status','already_obtained','reason','detail','evidence_ids')if k in result}
+                          if result.get('already_obtained')else result if result.get('status')=='UNAVAILABLE'else None)
                 continue
             if decision['verdict']=='not found' and self.tools.pending_quantity_nodes():
                 feedback={'reason':'DECLARED_PREFIX_NOT_CHECKED','nodes':self.tools.pending_quantity_nodes(),

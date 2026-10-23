@@ -18,6 +18,17 @@ class FrontierSteerTests(unittest.TestCase):
         self.assertTrue(any(e.get('reason')=='SUCCESSFUL_CALL_ALREADY_RETAINED'for e in events))
         retained=answer['case_file']['tool_results'];self.assertIn('ORIGINAL_STORED_DEFINITION',json.dumps(retained))
         self.assertNotIn('ORIGINAL_STORED_DEFINITION',json.dumps(payloads[2]['case_file']))
+    def test_successful_raw_evidence_repeat_returns_only_reference_feedback_to_model(self):
+        tools,engine,reader,events=fixtures.ToolLoopTests().build(step_cap=6);engine.phase_limit=9;raw='ORIGINAL_RAW_BODY_RETAINED';tools.graph.definition_of.return_value={'definition':{'source':raw}};payloads=[];ids=[];original=tools.invoke;tools.invoke=Mock(wraps=original)
+        def decide(payload,**kwargs):
+            payloads.append(copy.deepcopy(payload));step=len(payloads)
+            if step==1:return {'action':'TOOL','summary':'Inspect definition','hypotheses':['not found'],'tool':'definition_of','arguments':{'node':'down'}}
+            if step==2:ids.append(next(i for i,r in tools.evidence._values.items()if r['kind']=='GRAPH'))
+            if step in(2,3):return {'action':'TOOL','summary':'Read retained evidence','hypotheses':['not found'],'tool':'get_evidence','arguments':{'id':ids[0]}}
+            self.assertIn('Already have this as evidence',payload['feedback']['detail']);self.assertNotIn(raw,json.dumps(payload));return {'action':'VERDICT','summary':'Evidence is incomplete','hypotheses':['not found'],'verdict':'not found','evidence_ids':[tools.path_id]}
+        engine.decide=decide;answer=engine.run({'visual':'visual'})
+        self.assertEqual(sum(c.args[0]=='get_evidence'for c in tools.invoke.call_args_list),1);self.assertIn(raw,json.dumps(answer['case_file']['tool_results']));self.assertIn(raw,json.dumps(tools.evidence.get(ids[0])))
+
     def test_rejected_verdict_code_measures_first_unmeasured_boundary_and_delivers_checked_finding(self):
         tools,engine,reader,events=fixtures.ToolLoopTests().build(step_cap=18)
         engine.decide=Mock(return_value={'action':'VERDICT','summary':'Refresh seems stale','hypotheses':['refresh stale'],'verdict':'refresh stale','evidence_ids':[tools.path_id]})

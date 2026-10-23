@@ -126,3 +126,14 @@ Round Twenty release clarification, UTC2026-10-22: the approved fixed-connection
 ## RoundTwenty-One enrichment key, owner2026-10-22
 
 Create an Anthropic API key in Anthropic Console using existing credit, then run: `az keyvault secret set --vault-name kv-dia-d5dd7d65 --name anthropic-api-key --file <path-to-a-file-with-the-key>`. Delete that owner-created file afterwards. Do not paste the key into chat or repository. Enrichment remains recorded-stub only until the key is present; existing investigator provider does not change. Approved enrichment spendUSD25 separately tracked.
+
+
+## Round22 source-control firewall, 2026-10-23
+
+No source mutation occurred. The existing SQL owner control first returned40613 while ordersops was unavailable; Azure then reported Online/resumed18:40:18UTC. The next control returned40615: client184.105.12.85 is not allowed. Current investigator-client-20260918 permits only50.172.159.187/32. This is a network rule, not a SQL role failure. A new network scope is not inferred from reversible fault authority. If the owner approves replacing that existing laptop rule only, the prepared command is:
+
+`powershell
+az sql server firewall-rule update --resource-group rg-investigator-dev --server sql-orderops-9696025 --name investigator-client-20260918 --start-ip-address 184.105.12.85 --end-ip-address 184.105.12.85
+`
+
+Not executed. Do not change AllowAllWindowsAzureIps or the separate QueryEditor rule. Readback and current outward-IP confirmation are required before an approved update; the address can change. Continue cloud-reader and offline work meanwhile. Both original SQL errors and their charges remain in the run ledger. No identity, role, credential or firewall was changed.
