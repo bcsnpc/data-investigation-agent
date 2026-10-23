@@ -114,6 +114,23 @@ class Assembly(unittest.TestCase):
         self.assertEqual(answer['model_calls'],0);self.assertFalse(any(k=='investigator-tape'for k,_ in events))
         self.assertTrue(any(k=='normal-audit-batch'for k,_ in events))
         self.assertEqual([v['stage']for k,v in events if k=='progress'],['ACKNOWLEDGED','ANSWER'])
+    def test_raw_cloud_status_is_admitted_from_graph_names_and_passed_through_existing_typed_port(self):
+        from unittest.mock import Mock
+        text='Did pipeline Primary copy run on 2026-10-20T01:02:03Z fail?'
+        options=self.specification(ticket=self.ref('raw.json',{'id':'raw','text':text}),recording_mode='NORMAL',model_enabled=True)
+        events=[];context=SimpleNamespace(root=self.root,record=lambda k,v:events.append((k,v))or{'key':str(len(events))})
+        meter=SimpleNamespace(used=0,before={},usage=SimpleNamespace(snapshot=lambda:{}),close=lambda:None)
+        graph=Mock();graph.intake_candidates.return_value={'estate':'fixture','as_of':None,'candidates':[{'id':'job','kind':'PIPELINE','label':'Primary copy'}]}
+        manifest={'environment':'development','model':{'credential':{},'endpoint':'unused','deployment':'unused'}}
+        with contextlib.ExitStack()as stack:
+            for target,value in [('investigator.shared_state.configured_state',SimpleNamespace(backend='postgresql')),('investigator.estate_manifest.load',manifest),('investigator.adapters.estate_installation.configuration',{}),('investigator.estate_graph_repository.GraphRepository',object()),('investigator.estate_graph_api.GraphAPI',graph),('investigator.live_gateway.current',object()),('cloud_graph_interpreter.runtime_governor',SimpleNamespace(policy={})),('scan_estate_graph.Meter',meter),('investigator.runtime.fingerprint','a'*64),('investigator.source_revision.committed_revision','b'*40)]:stack.enter_context(patch(target,return_value=value))
+            for target in('investigator.adapters.ledger_investigator_ports.installed_process','investigator.adapters.ledger_investigator_ports.AzureDecision'):stack.enter_context(patch(target,side_effect=AssertionError('No native or model call for status intake')))
+            def consume(plan,ctx,**ports):
+                submitted=json.loads(Path(plan['options']['ticket']).read_bytes());self.assertEqual(submitted['text'],text);self.assertEqual(submitted['request']['subject'],'job');self.assertEqual(submitted['request']['run_selector']['at'],'2026-10-20T01:02:03Z');return {'ticket':submitted,'verdict':'failed job','outputs':{'business':'checked status','technical':'retained status'}}
+            stack.enter_context(patch('cloud_investigator.run',consume))
+            answer=worker.execute({'options':options,'manifest':'unused','run_id':'raw-status'},context)
+        self.assertEqual(answer['ticket']['text'],text);self.assertEqual(answer['model_calls'],0);self.assertTrue(any(k=='normal-audit-batch'for k,v in events))
+
     def test_normal_mode_cannot_bypass_existing_projected_installation_refusal(self):
         from investigator.privacy_projection import ProjectionError
         options=self.specification(recording_mode='NORMAL');events=[]

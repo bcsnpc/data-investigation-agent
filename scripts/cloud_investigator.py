@@ -187,7 +187,7 @@ def _execute(plan,context):
     ticket_path=reference(spec['ticket'],maximum=250000);ticket=json.loads(ticket_path.read_bytes())
     request_kind=ticket.get('request',{}).get('kind','COMPARE')
     if request_kind not in ('FACT','COMPARE','DEFINITION'):raise ValueError('INVESTIGATOR_REQUEST_KIND')
-    if request_kind=='COMPARE' and 'native' not in spec:raise ValueError('INVESTIGATOR_NATIVE_INPUT_REQUIRED')
+    if 'request'in ticket and request_kind=='COMPARE' and 'native' not in spec:raise ValueError('INVESTIGATOR_NATIVE_INPUT_REQUIRED')
     manifest=load(plan['manifest'])
     if manifest.get('recording',{}).get('tape_class','EXACT')!='EXACT':
         from investigator.privacy_projection import ProjectionError
@@ -201,6 +201,23 @@ def _execute(plan,context):
     graph_spec=spec['graph'];repository=GraphRepository(state)
     graph_live=GraphAPI(repository,current(),identity=graph_spec['identity'],estate=graph_spec['estate'],
                         allowed_objects=graph_spec['allowed_objects'],max_nodes=200,max_edges=500,max_bytes=256000)
+    if 'request'not in ticket:
+        if recording_mode!='NORMAL':raise ValueError('RAW_INTAKE_REQUIRES_NORMAL_RECORDING')
+        from investigator.operational_intake import admit as admit_raw,response as intake_response
+        try:catalog=graph_live.intake_candidates()
+        except ValueError as error:
+            if str(error)not in('INTAKE_CANDIDATE_SCOPE_BOUND','INTAKE_CANDIDATE_GRAPH_TRUNCATED'):raise
+            admission={'status':'HELD','reason':str(error),'questions':[]}
+            context.record('investigator-intake',{'submitted':ticket,'admission':admission})
+            return intake_response(ticket,admission)
+        admission=admit_raw(ticket,catalog)
+        context.record('investigator-intake',{'submitted':ticket,'catalog':catalog,'admission':admission})
+        if admission['status']!='READY':return intake_response(ticket,admission)
+        ticket=admission['ticket'];ticket_path=work/'admitted-ticket.json'
+        from investigator.process_tape import bytes_of
+        from investigator.planner_recording import _safe
+        encoded=bytes_of(ticket);_safe(encoded);ticket_path.write_bytes(encoded)
+        request_kind=ticket['request']['kind']
     session='ledger-investigator:'+str(journal.uuid4())
     now=journal.utc_now();deadline=time.monotonic()+spec['wall_seconds']
     bootstrap={'entry_point':'ledger_investigator','context_identity':graph_spec['estate']+':'+str(ticket.get('visual') or ticket['request']['subject']),

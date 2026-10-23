@@ -13,6 +13,15 @@ class GraphAPI:
         self.allowed=set(gateway.graph_objects(estate,allowed_objects,identity=identity))
         self.at=contract.timestamp(at) if at else None;self.max_nodes=max_nodes;self.max_edges=max_edges
 
+    def intake_candidates(self):
+        """Names only from the explicitly allowed current graph; no full scan."""
+        if len(self.allowed)>200:raise ValueError('INTAKE_CANDIDATE_SCOPE_BOUND')
+        self.gateway.graph_objects(self.estate,self.allowed,identity=self.identity)
+        graph=self.repository.records(self.estate,at=self.at,identities=self.allowed,limit=1000)
+        if graph['truncated']:raise ValueError('INTAKE_CANDIDATE_GRAPH_TRUNCATED')
+        candidates=[{'id':n['id'],'kind':n['kind'],'label':n['label']}for n in graph['nodes']if n['id']in self.allowed and n['kind']in {'PIPELINE','COPY_ACTIVITY','NOTEBOOK','MODEL','REPORT','PAGE','VISUAL','MEASURE'}]
+        return self._bounded({'estate':self.estate,'as_of':self.at,'candidates':candidates})
+
     def as_of(self,time):
         return GraphAPI(self.repository,self.gateway,identity=self.identity,estate=self.estate,
             allowed_objects=self.allowed,at=time,max_nodes=self.max_nodes,max_edges=self.max_edges,max_bytes=self.max_bytes)
