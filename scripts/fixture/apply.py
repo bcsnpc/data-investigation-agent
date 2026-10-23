@@ -419,3 +419,33 @@ class PipelineFailureScenario:
         from uuid import UUID
         UUID(endpoint.rsplit('/',1)[-1])
         return self.control.call(endpoint)['text']
+
+
+class PipelineWaitScenario(PipelineFailureScenario):
+    """Real running-job control; original data activities cannot execute.
+
+    Only the selected pipeline's activities are temporarily replaced. The
+    existing before/readback/concurrency/restoration journal is unchanged.
+    """
+    WAIT_MARKER='round22_observed_wait_only'
+
+    def __init__(self,control,item_id,*,seconds=300):
+        super().__init__(control,item_id)
+        if type(seconds)is not int or not 60<=seconds<=600:raise ValueError('SCENARIO_WAIT_BOUND')
+        self.seconds=seconds
+
+    @classmethod
+    def waiting(cls,before,*,seconds):
+        import base64
+        from investigator.process_tape import bytes_of
+        if type(seconds)is not int or not 60<=seconds<=600:raise ValueError('SCENARIO_WAIT_BOUND')
+        result=copy.deepcopy(before);content=cls.content(before)
+        if not content['properties'].get('activities'):raise ValueError('SCENARIO_ORIGINAL_ACTIVITIES_REQUIRED')
+        # Removing all original activities also prevents on-skipped/error paths
+        # from accidentally running. Wait has no connection or data operation.
+        content['properties']['activities']=[{'name':cls.WAIT_MARKER,'type':'Wait','dependsOn':[],
+                                              'typeProperties':{'waitTimeInSeconds':seconds}}]
+        next(p for p in result['definition']['parts']if p['path']=='pipeline-content.json')['payload']=base64.b64encode(bytes_of(content)).decode()
+        return result
+
+    def failure(self,before):return self.waiting(before,seconds=self.seconds)

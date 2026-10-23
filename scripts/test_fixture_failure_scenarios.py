@@ -1,6 +1,6 @@
 ﻿import base64,copy,json,unittest
 from types import SimpleNamespace
-from fixture.apply import PipelineFailureScenario
+from fixture.apply import PipelineFailureScenario,PipelineWaitScenario
 from investigator.process_tape import bytes_of
 from fixture.apply import SourceHistoryScenario
 import hashlib
@@ -37,6 +37,21 @@ class SourceHistoryPlans(unittest.TestCase):
   self.assertLess(sql.index('Inserted rows changed'),sql.index('DELETE FROM'));self.assertIn('DELETE FROM [app].[stock_movements_round_two_20261003] WHERE movement_id IN (900101)',sql)
 
 class PipelineScenarios(unittest.TestCase):
+ def test_wait_control_contains_no_original_work_even_on_skip_paths(self):
+  before=self.definition();preserved=copy.deepcopy(before);content=PipelineFailureScenario.content(before)
+  content['properties']['activities'][1]['dependsOn']=[{'activity':'Copy','dependencyConditions':['Skipped']}]
+  before['definition']['parts'][0]['payload']=base64.b64encode(bytes_of(content)).decode();original=copy.deepcopy(before)
+  after=PipelineWaitScenario.waiting(before,seconds=300);activities=PipelineWaitScenario.content(after)['properties']['activities']
+  self.assertEqual(activities,[{'name':PipelineWaitScenario.WAIT_MARKER,'type':'Wait','dependsOn':[],'typeProperties':{'waitTimeInSeconds':300}}])
+  self.assertEqual(before,original);self.assertEqual(after['definition']['parts'][1],preserved['definition']['parts'][1])
+  self.assertNotIn('Copy',json.dumps(activities));self.assertNotIn('existing writer SQL',json.dumps(activities))
+ def test_wait_bound_and_restoration_use_existing_concurrency_checks(self):
+  before=self.definition();control,calls,state=self.control(before);item='22222222-2222-2222-2222-222222222222'
+  for seconds in (True,59,601,'300'):
+   with self.subTest(seconds=seconds),self.assertRaisesRegex(ValueError,'WAIT_BOUND'):PipelineWaitScenario(control,item,seconds=seconds)
+  scenario=PipelineWaitScenario(control,item,seconds=60);applied=scenario.apply(before,key='wait-apply')
+  self.assertEqual(PipelineWaitScenario.content(state[0])['properties']['activities'][0]['type'],'Wait')
+  restored=scenario.restore(before,applied['injected_hash'],key='wait-restore');self.assertEqual(restored['status'],'RESTORED_DEFINITION');self.assertEqual(state[0],before)
  def definition(self):
   value={'properties':{'activities':[{'name':'Copy','type':'Copy','dependsOn':[]},{'name':'Audit','type':'Script','dependsOn':[{'activity':'Copy','dependencyConditions':['Succeeded']}],'linkedService':{'connection':'existing-connection'},'typeProperties':{'database':'existing-audit','scripts':[{'type':'NonQuery','text':'existing writer SQL'}]}}]}}
   return {'definition':{'parts':[{'path':'pipeline-content.json','payloadType':'InlineBase64','payload':base64.b64encode(bytes_of(value)).decode()},{'path':'.platform','payloadType':'InlineBase64','payload':base64.b64encode(b'{"metadata":"unchanged"}').decode()}]}}
