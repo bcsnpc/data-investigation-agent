@@ -1,0 +1,68 @@
+{
+  "source": "Retained Viewer403 followed by scannerHTTP200 emptycompletehistory; original receipts unchanged.",
+  "facts": [
+    {
+      "collected_at": "2026-10-22T21:30:26.512592Z",
+      "kind": "REFRESH_RUN",
+      "observed_at": "2026-10-22T21:30:26.512592Z",
+      "provenance": {
+        "collector": "microsoft-runtime:2371d9c38f26eedae886894b88479559429576afebe26b204dd3aea5ecab33e6",
+        "evidence_ids": [
+          "sha256:1c71c9de17d2851e22ec789cdf6062343990c8382b0fb6661c1090548c5e7d4c"
+        ],
+        "locator": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8"
+      },
+      "reason": "READ_FAILED:MetadataUnavailable:403",
+      "source": "RUNTIME_OBSERVATION",
+      "state": "UNAVAILABLE",
+      "subject": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+      "value": null,
+      "freshness": "STALE"
+    },
+    {
+      "collected_at": "2026-10-23T00:06:39.839565Z",
+      "freshness": "CURRENT",
+      "id": "a3330bea29af229cb0a8799fa9f79e93d1a242559e3316b9cd0ae22938c4d81d",
+      "kind": "COVERAGE",
+      "observed_at": "2026-10-23T00:06:39.839565Z",
+      "provenance": {
+        "collector": "microsoft-runtime:8b8add39b1b3bbf05051200684642bc68ee0c9695580165440fd17fca6875167",
+        "evidence_ids": [
+          "sha256:f07ba12b647d243432c0179e98cee582a9675225c5d5c059ffc4679e2bd054ed"
+        ],
+        "locator": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8"
+      },
+      "reason": null,
+      "source": "RUNTIME_OBSERVATION",
+      "state": "OBSERVED_NEGATIVE",
+      "subject": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+      "value": {
+        "gaps": [],
+        "history_empty": true,
+        "listing_complete": true
+      }
+    },
+    {
+      "collected_at": "2026-10-23T00:06:39.839565Z",
+      "freshness": "CURRENT",
+      "id": "b0ff729fadac2ee3300dc42c652bf6cafabdd000fa241e6953ac65fc12bbc3cb",
+      "kind": "RUN_HISTORY",
+      "observed_at": "2026-10-23T00:06:39.839565Z",
+      "provenance": {
+        "collector": "microsoft-runtime:8b8add39b1b3bbf05051200684642bc68ee0c9695580165440fd17fca6875167",
+        "evidence_ids": [
+          "sha256:f07ba12b647d243432c0179e98cee582a9675225c5d5c059ffc4679e2bd054ed"
+        ],
+        "locator": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8"
+      },
+      "reason": null,
+      "source": "RUNTIME_OBSERVATION",
+      "state": "OBSERVED_NEGATIVE",
+      "subject": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+      "value": {
+        "listing_complete": true,
+        "runs": []
+      }
+    }
+  ]
+}

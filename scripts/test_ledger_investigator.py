@@ -179,6 +179,33 @@ class OperationalFactTests(unittest.TestCase):
 
 
 class ToolLoopTests(unittest.TestCase):
+    def test_live_billing_empty_refresh_history_reaches_tool_despite_older_viewer_403(self):
+        from pathlib import Path
+        import json
+        rows=json.loads((Path(__file__).parent/'fixtures/r21-billing-empty-refresh-history.json').read_text())['facts']
+        tools,_,reader,_=self.build()
+        # Subject substitution is test-only; captured values/status/times stay intact.
+        for row in rows:row['subject']='job'
+        tools.graph.node_facts.side_effect=lambda node,**kw:{'facts':copy.deepcopy(rows)}
+        for name,args in (('last_refresh',{'model':'job'}),('last_run',{'job':'job'})):
+            result=tools.invoke(name,args)
+            self.assertEqual(result['status'],'OBSERVED')
+            history=next(f for f in result['facts']if f['kind']=='RUN_HISTORY')
+            self.assertEqual(history['value'],{'runs':[],'listing_complete':True})
+            self.assertEqual(history['state'],'OBSERVED_NEGATIVE')
+            if name=='last_refresh':self.assertTrue(any(f['state']=='UNAVAILABLE'for f in result['facts']))
+        reader.assert_not_called()
+
+    def test_failed_or_stale_facts_do_not_become_observed_tool_results(self):
+        for state,freshness in (('UNAVAILABLE','CURRENT'),('OBSERVED','STALE')):
+            tools,_,reader,_=self.build()
+            row=fact('job','REFRESH_RUN',{'status':'SUCCEEDED','run_id':'old'})
+            row.update(state=state,freshness=freshness)
+            if state=='UNAVAILABLE':row.update(value=None,reason='READ_FAILED:MetadataUnavailable:403')
+            tools.graph.node_facts.side_effect=lambda node,**kw:{'facts':[row]}
+            self.assertEqual(tools.invoke('last_refresh',{'model':'job'})['status'],'UNAVAILABLE')
+            reader.assert_not_called()
+
     def build(self,decide=None,step_cap=3):
         graph=Mock();graph.path_to_source.return_value={'nodes':[{'id':n,'kind':'VISUAL' if n=='visual' else 'TABLE','label':n} for n in ('visual','down','up','job')],
             'edges':[{'id':'boundary','source':'down','target':'up','confidence':'DECLARED','provenance':{'source':'STATIC_DEFINITION'},'properties':{'comparison_contract':{'job':'job','quantity_preserving':True,'kind':'LOAD'}}}], 'stops':[],'truncated':False}

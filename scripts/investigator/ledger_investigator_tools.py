@@ -177,9 +177,10 @@ class Tools:
                 ref=self.evidence.add(args['kind'],comparison['subjects'],value);result={'evidence_ids':[ref],'status':'OBSERVED'}
         elif name in ('node_facts','last_run','last_refresh'):
             node=args.get('node') or args.get('job') or args.get('model');value=self.graph.node_facts(node,now=self.now)
-            kinds={'last_run':{'JOB_RUN'},'last_refresh':{'REFRESH_RUN','REFRESH_STATE'}}.get(name)
+            kinds={'last_run':{'JOB_RUN','RUN_HISTORY','COVERAGE'},'last_refresh':{'REFRESH_RUN','REFRESH_STATE','RUN_HISTORY','COVERAGE'}}.get(name)
             values=[v for v in value['facts'] if kinds is None or v['kind'] in kinds]
-            result={'evidence_ids':[self.evidence.add('FACT',[node],v) for v in values],'facts':values,'status':'OBSERVED' if values else 'UNAVAILABLE'}
+            available=any(v.get('state')!='UNAVAILABLE' and v.get('freshness')!='STALE' for v in values)
+            result={'evidence_ids':[self.evidence.add('FACT',[node],v) for v in values],'facts':values,'status':'OBSERVED' if available else 'UNAVAILABLE'}
             if not result['evidence_ids']:result['evidence_ids']=[self.evidence.add('GAP',[node],{'reason':'No retained '+name+' observation.'})]
         elif name=='definition_diff':
             if timestamp(args['from_time'])>=timestamp(args['to_time']):raise ValueError('DEFINITION_DIFF_TIME_ORDER')
