@@ -93,7 +93,7 @@ def collect(config,*,state,http=None,sql=None,retain=None,meter=None,clock=None,
                 if meter.used>=config['max_requests']:raise CollectorRequestAllowanceExhausted('FACT_PHYSICAL_ALLOWANCE_EXHAUSTED')
                 return meter(operation)
             refresh_http=RefreshHttp(config['refresh_authentication'],config['subjects'],meter=refresh_physical)
-        adapter=MicrosoftRuntimeFacts(config['subjects'],http=http,sql=sql,retain=retain,refresh_http=refresh_http)
+        adapter=MicrosoftRuntimeFacts(config['subjects'],http=http,sql=sql,retain=retain,refresh_http=refresh_http,now=lambda:at)
         all_subjects=sorted(config['subjects']);batch_size=config.get('max_subjects_per_wake',10)
         dispatcher='__dispatcher__:'+sha(all_subjects)
         cursor=ledger.cursor(config['estate'],adapter.identity,dispatcher)

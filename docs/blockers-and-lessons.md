@@ -131,3 +131,28 @@ not a successful load observation. Do not treat Azure success as fresh-fact
 verification. Keep the earlier four-request FETCH limitation and scheduled
 six-hour test unchanged. Local output: audit-lifecycle-04.log; ARM before,
 single-field PATCH and after: collector-envelope-{before,patch,after}.json.
+
+## Round22 amendment - availability and amended gates
+
+The amended owner prompt was re-read2026-10-22. Keep completed work; new ledger
+investigator is the engine under test. Legacy is comparison only. Add1d-2 and
+1d-3 before section2; a gate still blocked after three distinct fixes must be
+recorded before proceeding. No safety gate is softened. Collector envelope
+confirmation does not turn unavailable facts into successful observations.
+
+Availability classes are closed and value-free; transient source reads retry
+twice through their existing meters. A typed permission refusal is never an
+empty result. Source failure appears as a separate blocked status alongside
+the supported verdict, with layer/name, times, attempts, reachable conclusion
+and owner. A recorded load's source-outage cause stays attached to failed job.
+Do not infer a source outage from a generic connection-failure code: Microsoft
+also documents session-limit causes for UserErrorFailedToConnectToSqlServer
+([SQL connector](https://learn.microsoft.com/en-us/azure/data-factory/connector-sql-server)).
+Native failure receipts remain authoritative; no root cause is manufactured.
+
+Access checks can append availability facts only for explicitly bound graph
+subjects in their deployment bindings; no source node or permission is
+invented. Collector facts retain the failed call separately from unavailable
+run history. Old tests that assumed COVERAGE was the last returned fact now
+select it by kind, retaining all negative-accounting assertions. Initial new
+test failure was ISO formatting in its assertion; compare canonical times.

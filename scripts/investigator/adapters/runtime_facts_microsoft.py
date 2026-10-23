@@ -93,10 +93,12 @@ class MicrosoftRuntimeFacts:
     def __init__(self,subjects,*,http,retain,sql=None,now=None,refresh_http=None):
         if not isinstance(subjects,dict) or not 1<=len(subjects)<=200:raise ValueError('FACT_SUBJECT_DECLARATIONS')
         self.subjects=subjects;self.http=http;self.retain=retain;self.sql=sql;self.refresh_http=refresh_http
+        from ..process_tape import utc_now
+        self.now=now or utc_now
         self.identity='microsoft-runtime:'+sha(subjects)
         if refresh_http is not None:
             self.identity='microsoft-runtime:'+sha({'subjects':subjects,'refresh_identity':getattr(refresh_http,'identity',None)})
-        self.cache={};self.signals={};self.evidence=[]
+        self.cache={};self.signals={};self.evidence=[];self.availability={};self.last_availability=None
         for node,route in subjects.items():
             if not isinstance(node,str) or not node:raise ValueError('FACT_GRAPH_NODE_REQUIRED')
             if route.get('kind') not in ('JOB','MODEL','TABLE'):raise ValueError('FACT_NATIVE_NODE_KIND')
@@ -113,12 +115,20 @@ class MicrosoftRuntimeFacts:
         request={'method':'GET','audience':audience,'endpoint':path}
         transport=self.refresh_http if audience=='powerbi' and self.refresh_http is not None else self.http
         if transport is self.refresh_http:request['identity']=getattr(transport,'identity',None)
-        try:
+        from ..source_availability import call as source_call
+        attempts=[]
+        def read():
             response=transport(path,audience=audience)
+            if response.get('status_code')!=200:raise MetadataUnavailable(response.get('status_code'),response.get('text'))
+            return response
+        try:
+            response=source_call(read,observe=attempts.append,clock=self.now)
         except Exception as error:
             if is_stop_condition(error):raise
+            self.last_availability=attempts[-1] if attempts else None
             receipt=self._retain(request,{'status':'UNAVAILABLE','failure':safe_failure(error)})
-            return None,receipt,'READ_FAILED:'+type(error).__name__+':'+str(getattr(error,'http_status',None))
+            return None,receipt,('HTTP_'+str(error.http_status) if isinstance(error,MetadataUnavailable) else 'READ_FAILED:'+type(error).__name__+':'+str(getattr(error,'http_status',None)))
+        self.last_availability=attempts[-1]
         receipt=self._retain(request,response)
         if response.get('status_code')!=200:return None,receipt,'HTTP_'+str(response.get('status_code'))
         return response['text'],receipt,None
@@ -129,7 +139,10 @@ class MicrosoftRuntimeFacts:
             receipt=self._retain({'kind':kind,'route':{k:route[k] for k in ('database','schema','table')}},{'status':'UNAVAILABLE','reason':'SQL_READ_ROUTE_NOT_CONFIGURED'})
             return None,receipt,'SQL_READ_ROUTE_NOT_CONFIGURED'
         try:
-            answer=self.sql(route,request)
+            from ..source_availability import call as source_call
+            attempts=[]
+            answer=source_call(lambda:self.sql(route,request),observe=attempts.append,clock=self.now)
+            self.last_availability=attempts[-1]
             # Retain even rejected responses; successful data are not trusted
             # until the query-bound reader/object attestation checks pass.
             receipt=self._retain({'kind':kind,'database':route['database'],**request},answer)
@@ -141,6 +154,8 @@ class MicrosoftRuntimeFacts:
             return rows,receipt,None
         except Exception as error:
             if is_stop_condition(error):raise
+            from ..source_availability import result as availability_result
+            self.last_availability=getattr(error,'source_availability',None) or availability_result(error,at=self.now())
             receipt=self._retain({'kind':kind,'database':route['database'],**request},{'status':'UNAVAILABLE','failure':safe_failure(error)})
             return None,receipt,'SQL_READ_FAILED:'+type(error).__name__+':'+str(getattr(error,'error_number',None))
 
@@ -153,6 +168,7 @@ class MicrosoftRuntimeFacts:
         # Each route uses the provider's bounded recent-run list, not a GET per
         # run. Caller selects due subjects and applies a shared scan budget.
         for node in subjects:
+            self.last_availability=None
             route=self.subjects[node];kind=route['kind'];workspace=route['workspace'];item=route['item']
             if kind=='JOB':
                 body,proof,error=self._get('workspaces/'+workspace+'/items/'+item+'/jobs/instances')
@@ -168,6 +184,7 @@ class MicrosoftRuntimeFacts:
                     proof=self._retain({'node':node,'operation':'TABLE_LOAD_DECLARATION'},{'status':'UNAVAILABLE','reason':'NO_DECLARED_AUDIT_OR_DELTA_HISTORY_ROUTE'})
                     body=None;error='NO_DECLARED_AUDIT_OR_DELTA_HISTORY_ROUTE'
             self.cache[node]=(body,proof,error)
+            if self.last_availability:self.availability[node]=(self.last_availability,proof)
             marker=sha({'body':body,'error':error})
             load=None
             if kind=='TABLE' and body and body.get('audit_rows'):
@@ -177,6 +194,17 @@ class MicrosoftRuntimeFacts:
         return {'items':items,'complete':True,'evidence_ids':list(self.evidence)}
 
     def fetch(self,node,*,now):
+        self.last_availability=self.availability.get(node,(None,None))[0]
+        values=self._fetch(node,now=now)
+        if self.last_availability and self.evidence and self.last_availability!=self.availability.get(node,(None,None))[0]:
+            self.availability[node]=(self.last_availability,self.evidence[-1])
+        if node in self.availability:
+            from ..source_availability import fact as availability_fact
+            value,proof=self.availability[node]
+            values.append(availability_fact(node,value,at=now,evidence=[proof],collector=self.identity))
+        return values
+
+    def _fetch(self,node,*,now):
         if node not in self.cache:raise ValueError('FACT_FETCH_NOT_LISTED')
         route=self.subjects[node];body,proof,error=self.cache[node];kind=route['kind']
         fact_kind={'JOB':'JOB_RUN','MODEL':'REFRESH_RUN','TABLE':'TABLE_LOAD'}[kind]

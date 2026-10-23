@@ -256,7 +256,7 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
                 ctx.step('input-materialization',materialize)
             if check['kind'] != 'replay':
                 from .access_check import configured as check_access
-                access = ctx.step('check-access', lambda: check_access(config.get('access_check')))
+                access = ctx.step('check-access', lambda: check_access(config.get('access_check'),retain=ctx.record))
                 ctx.access_result=access
                 # Build-phase admission mismatches warn. The gateway/read-only
                 # exceptions propagate; verification and tenant-only warnings

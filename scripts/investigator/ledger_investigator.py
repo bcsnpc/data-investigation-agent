@@ -187,7 +187,7 @@ class Investigator:
         return self._finish(ticket,supported,calls,hypotheses,warnings,'TICKET_BUDGET_REACHED',started,model_calls)
 
     def _citations(self,ids):
-        mandatory=[identity for identity,record in self.tools.evidence._values.items() if record['kind'] in ('PATH','REPRODUCTION','GIVEN_COMPARISON','GAP') or record['kind']=='READ' and record['value']['subject']==self.tools.visual]
+        mandatory=[identity for identity,record in self.tools.evidence._values.items() if record['kind'] in ('PATH','REPRODUCTION','GIVEN_COMPARISON','GAP') or record['kind']=='READ' and record['value']['subject']==self.tools.visual or record['kind']=='FACT' and record['value'].get('kind')=='AVAILABILITY']
         return list(dict.fromkeys([*ids,*mandatory]))
 
     def _finish(self,ticket,supported,calls,hypotheses,warnings,stop,started,model_calls):
@@ -214,6 +214,22 @@ class Investigator:
         if limits:business+='\nLabels: '+'; '.join(limits)
         gaps=[r['value']['reason'] for r in evidence.values() if r['kind']=='GAP' and r['value'].get('reason')]
         if gaps:business+='\nOpen gaps: '+'; '.join(dict.fromkeys(gaps))
+        availability={}
+        for record in self.tools.evidence._values.values():
+            if record['kind']=='FACT' and record['value'].get('kind')=='AVAILABILITY':
+                row=record['value']
+                if row.get('freshness','CURRENT')=='CURRENT' and row.get('state')=='OBSERVED':availability[row['subject']]=row['value']
+        blocked=[]
+        for node,value in availability.items():
+            if value['reachable']:continue
+            entry={'layer':node,'layer_label':self.tools.nodes[node]['label'],**copy.deepcopy(value)};blocked.append(entry)
+            business+='\nBlocked: '+entry['layer_label']+'; '+entry['failure_class']+'; '+entry['message']+' Observed '+entry['first_observed_at']+' through '+entry['last_observed_at']+' after '+str(entry['attempts'])+' attempt(s). Owner: '+entry['owner']+'.'
+        if blocked:
+            reached=[self.tools.nodes[r['subject']]['label'] for r in read_records]
+            business+='\nReachable layers checked: '+(', '.join(dict.fromkeys(reached)) or 'none')+'. Remaining conclusion: '+supported['reason']
+        selected=supported.get('operational_fact',{}).get('value',{})
+        cause=selected.get('source_availability') if verdict=='failed job' else None
+        if cause and cause.get('failure_class')=='UNREACHABLE':business+='\nRecorded load root cause: source unreachable at '+cause['last_observed_at']+'.'
         question=None
         if stop=='COMPARISON_REQUIRED_AFTER_QUICK_CHECKS':
             question={'code':'COMPARISON_REQUIRED','text':'What are you comparing this number with: another report, a spreadsheet or your own count, the source, or an earlier value?'}
@@ -226,7 +242,7 @@ class Investigator:
             else:hypothesis_checks[hypothesis]={'supported':True,'evidence_ids':proof['evidence_ids']}
         bundle={'version':'ledger-investigation-v1','ticket':ticket,'observed_at':at,'hypotheses_considered':hypotheses,
             'evidence':evidence,'hypothesis_checks':hypothesis_checks,'tools':copy.deepcopy(calls),'verdict':verdict,'support':supported,
-            'stop_reason':stop,'furthest_measured_node':furthest,'warnings':limits,
+            'stop_reason':stop,'furthest_measured_node':furthest,'warnings':limits,'status':'blocked' if blocked else 'answered','blocked':blocked,
             'timing':{'wall_seconds':max(0,self.clock()-started)},'cost':{'model_calls':model_calls,'currency_cost':'SEE_SHARED_PROVIDER_LEDGER'},
             'outputs':{'business':business,'technical':technical}}
         if question:bundle['question']=question

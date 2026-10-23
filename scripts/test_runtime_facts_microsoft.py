@@ -129,13 +129,13 @@ class MicrosoftFactsTests(unittest.TestCase):
         adapter.list_changes(['visual']);values=adapter.fetch('visual',now=T1)
         self.assertEqual(values[0]['kind'],'RUN_HISTORY');self.assertEqual(values[0]['state'],'OBSERVED_NEGATIVE')
         self.assertEqual(values[0]['value']['runs'],[])
-        self.assertIn('LOAD_ACCOUNTING_UNAVAILABLE',values[-1]['reason'])
+        self.assertIn('LOAD_ACCOUNTING_UNAVAILABLE',next(v for v in values if v['kind']=='COVERAGE')['reason'])
 
     def test_partial_list_is_not_absence_or_overdue_proof(self):
         adapter,_=self.adapter(http=Mock(return_value={'status_code':200,'text':{'value':[],'continuationToken':'more'}}))
         adapter.list_changes(['visual']);values=adapter.fetch('visual',now=T1)
-        self.assertEqual(values[-1]['state'],'UNAVAILABLE')
-        self.assertIn('CONTINUATION',values[-1]['reason'])
+        self.assertEqual(next(v for v in values if v['kind']=='COVERAGE')['state'],'UNAVAILABLE')
+        self.assertIn('CONTINUATION',next(v for v in values if v['kind']=='COVERAGE')['reason'])
 
     def test_refresh_history_and_schedule_real_routes_readonly(self):
         schedule={'enabled':True,'localTimeZoneId':'UTC','days':['Tuesday'],'times':['00:30','02:00']}
@@ -175,21 +175,21 @@ class MicrosoftFactsTests(unittest.TestCase):
                 'rows_read':'360','rows_written':'360','accounting_state':accounting_state,'pipeline_name':pipeline_name}]))
             adapter,_=self.adapter({'visual':r},sql=sql);adapter.list_changes(['visual']);values=adapter.fetch('visual',now=T1)
             self.assertIsNone(next(v for v in values if v['kind']=='JOB_RUN')['value']['rows_read'])
-            self.assertIn('DECLARED_AUDIT_UNAVAILABLE',values[-1]['reason'])
+            self.assertIn('DECLARED_AUDIT_UNAVAILABLE',next(v for v in values if v['kind']=='COVERAGE')['reason'])
 
     def test_unmatched_audit_run_does_not_supply_counts(self):
         r=route();r['audit']=audit()
         sql=Mock(side_effect=lambda route,request:answer(request,[{'run_id':'different','start':T0,'end':T1,'status':'SUCCEEDED','rows_read':'999','rows_written':'999','pipeline_name':'pipeline1','accounting_state':'OBSERVED_COPY_OUTPUT'}]))
         adapter,_=self.adapter({'visual':r},sql=sql);adapter.list_changes(['visual']);values=adapter.fetch('visual',now=T1)
         self.assertIsNone(next(v for v in values if v['kind']=='JOB_RUN')['value']['rows_read'])
-        self.assertIn('NO_ROW_FOR_LISTED_RUN',values[-1]['reason'])
+        self.assertIn('NO_ROW_FOR_LISTED_RUN',next(v for v in values if v['kind']=='COVERAGE')['reason'])
 
     def test_sql_attestation_failure_refuses_counts(self):
         r=route();r['audit']=audit()
         def sql(route,request):
             result=answer(request,[]);result['surface_report']['identity']='wrong';return result
         adapter,_=self.adapter({'visual':r},sql=sql);adapter.list_changes(['visual']);values=adapter.fetch('visual',now=T1)
-        self.assertIn('DECLARED_AUDIT_UNAVAILABLE',values[-1]['reason'])
+        self.assertIn('DECLARED_AUDIT_UNAVAILABLE',next(v for v in values if v['kind']=='COVERAGE')['reason'])
 
     def test_table_definition_modified_date_never_becomes_load(self):
         adapter,http=self.adapter({'visual':route('TABLE')});adapter.list_changes(['visual']);value=adapter.fetch('visual',now=T1)[0]

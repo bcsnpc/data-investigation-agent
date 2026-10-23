@@ -81,7 +81,9 @@ class ProcessValues:
         self.retain({'event':'INVESTIGATOR_NATIVE_PROBE','subject':node,'status':probe.status,
                      'reason':probe.reason,'failure':probe.failure,'evidence':probe.evidence,
                      'query':probe.query,'execution_surface':probe.execution_surface})
-        if probe.status!='OBSERVED':raise ValueError(probe.reason or 'COMPILED_QUANTITY_NOT_OBTAINED')
+        if probe.status!='OBSERVED':
+            from ..source_availability import SourceReadUnavailable
+            raise SourceReadUnavailable(probe.reason or 'COMPILED_QUANTITY_NOT_OBTAINED',probe.failure)
         evidence=probe.evidence or {}
         if not evidence.get('id') or not probe.query:raise ValueError('ORIGINAL_NATIVE_READ_RECEIPT_REQUIRED')
         if scope.get('filters') or scope.get('dimension_ids'):

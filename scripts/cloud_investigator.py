@@ -21,6 +21,7 @@ def run(plan,context,*,graph,ledger,value_reader,decide,admit,collector=None,che
         return reference['key']
     tools=Tools(graph,ledger,visual=ticket.get('visual') or ticket['request']['subject'],key=ticket.get('key'),context=ticket.get('filters',{}),
         comparison=ticket.get('comparison'),persist=persist,now=now,value_reader=value_reader,collector=collector,checks=checks,request_kind=ticket.get('request',{}).get('kind','COMPARE'),recording_class=recording_class)
+    tools.estate=plan.get('estate')
     result=Investigator(tools,decide=decide,persist=persist,admit=admit,step_cap=options.get('step_cap',12),wall_seconds=options.get('wall_seconds',900)).run(ticket,warnings=options.get('warnings',[]))
     # JSON run bundle is persisted through the normal outer capture before return.
     context.record('investigator-bundle',result)
@@ -226,7 +227,7 @@ def execute(plan,context):
                 if view is not graph_live:graph=JournalGraph(view)
                 values,checks=compiled_values(process,graph.path_to_source(visual),visual=visual,
                                               measure_id=native['measure_id'],retain=retain)
-            call_plan={'options':{'ticket':str(ticket_path),'step_cap':spec['step_cap'],'wall_seconds':spec['wall_seconds'],'warnings':[*spec['warnings'],*retained_labels]}}
+            call_plan={'estate':graph_spec['estate'],'options':{'ticket':str(ticket_path),'step_cap':spec['step_cap'],'wall_seconds':spec['wall_seconds'],'warnings':[*spec['warnings'],*retained_labels]}}
             settings={**manifest['model']['credential'],'endpoint':manifest['model']['endpoint'],'deployment':manifest['model']['deployment']}
             with model_session(settings) if decision else nullcontext():
                 result=run(call_plan,context,graph=graph,ledger=FactLedger(state),value_reader=values,

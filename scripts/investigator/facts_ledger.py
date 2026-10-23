@@ -10,7 +10,7 @@ from .estate_graph_contract import timestamp
 from .shared_state import encoded, sha, StateConflict
 
 KINDS = frozenset({'JOB_RUN', 'REFRESH_RUN', 'REFRESH_STATE', 'SCHEDULE', 'TABLE_LOAD',
-                   'OVERDUE', 'TYPICAL_DURATION', 'TABLE_PROFILE', 'COVERAGE', 'RUN_HISTORY'})
+                   'OVERDUE', 'TYPICAL_DURATION', 'TABLE_PROFILE', 'COVERAGE', 'RUN_HISTORY', 'AVAILABILITY'})
 STATES = frozenset({'OBSERVED', 'OBSERVED_NEGATIVE', 'UNAVAILABLE'})
 SOURCES = frozenset({'RUNTIME_OBSERVATION', 'DECLARED_CONFIG', 'DERIVED_OBSERVATIONS'})
 
@@ -44,6 +44,12 @@ def fact(value):
     if value['state'] != 'UNAVAILABLE':
         payload=value['value']
         if not isinstance(payload,dict):raise ValueError('FACT_VALUE_OBJECT_REQUIRED')
+        if value['kind']=='AVAILABILITY':
+            from .source_availability import MESSAGES
+            if (type(payload.get('reachable'))is not bool or type(payload.get('attempts'))is not int or payload['attempts']<1
+                    or (payload['failure_class'] is not None if payload['reachable'] else payload.get('failure_class') not in MESSAGES)):
+                raise ValueError('FACT_AVAILABILITY_SHAPE')
+            for field in ('first_observed_at','last_observed_at'):timestamp(payload[field])
         if value['kind'] in ('JOB_RUN','REFRESH_RUN'):
             if payload.get('status') not in ('SUCCEEDED','FAILED','RUNNING','QUEUED','CANCELLED','UNKNOWN') or not payload.get('run_id'):
                 raise ValueError('FACT_RUN_STATUS_OR_ID')

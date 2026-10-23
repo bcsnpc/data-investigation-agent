@@ -81,11 +81,22 @@ class Tools:
         cache_key=canonical([node,self.key,context])
         if cache_key in self._reads:return self._reads[cache_key]
         if self.reader is None:return self.evidence.add('GAP',[node],{'reason':'No guarded compiled quantity reader is installed for this graph node.'})
-        try:result=copy.deepcopy(self.reader(node,self.key,copy.deepcopy(context)))
+        try:
+            from .source_availability import call as source_call, fact as availability_fact
+            def observe(value):
+                ref=self.evidence.add('FACT',[node],availability_fact(node,value,at=self.now,evidence=[self.path_id],collector='investigator-read'))
+                if hasattr(self.ledger,'append') and self.graph is not None:
+                    # A concrete FactLedger carries the configured estate; graph
+                    # wrappers expose it through the trusted assembly, not tickets.
+                    estate=getattr(self,'estate',None)
+                    if estate:self.ledger.append(estate,[self.evidence.get(ref)['value']])
+            result=copy.deepcopy(source_call(lambda:self.reader(node,self.key,copy.deepcopy(context)),observe=observe,clock=lambda:self.now))
         except Exception as exc:
             from .estate_graph_incremental import is_stop_condition
             if is_stop_condition(exc):raise
-            return self.evidence.add('GAP',[node],{'reason':str(exc),'error_type':type(exc).__name__})
+            from .source_availability import result as availability_result
+            unavailable=getattr(exc,'source_availability',None) or availability_result(exc,at=self.now)
+            return self.evidence.add('GAP',[node],{'reason':unavailable['message'],'error_type':type(exc).__name__,'availability':unavailable})
         if (not isinstance(result,dict) or result.get('subject')!=node or result.get('key')!=self.key
                 or canonical(result.get('context'))!=canonical(context) or not result.get('receipt_id')
                 or result.get('route_admitted')is not True or result.get('read_only_verified')is not True):
