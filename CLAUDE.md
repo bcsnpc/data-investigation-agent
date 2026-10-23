@@ -1039,3 +1039,5 @@ Round21 closed, owner2026-10-22 / executionUTC2026-10-23: #428 merged as 602a459
 
 
 Section8 owner approval2026-10-23: replace only SQL firewall rule investigator-client-20260918 on sql-orderops-9696025, laptop50.172.159.187/32 to confirmed184.105.12.85/32. Applied as existing Azure owner; all other rules readback unchanged. No identity, role, credential or database permission changed. Exact approval/command/before/after: docs/runs/round-twenty-two-approved-source-firewall.json. This supersedes the pending firewall action, not the retained40613/40615 control failures.
+
+Owner standing approval under section8, 2026-10-23: whenever the laptop public IP changes, replace only the existing laptop /32 firewall rules on sql-orderops-9696025 (investigator-client-20260918) and pg-dia-d5dd7d65 (OwnerCurrentIp) with the independently confirmed current IP, then read back. Never add a rule or widen a range; do not change AllowAzureServices or any identity/permission. Record before/after for every replacement. PostgreSQL diagnostic read today already matches184.105.12.85/32, so no PostgreSQL mutation was made. Receipt docs/runs/round-twenty-two-postgres-diagnosis.json.
