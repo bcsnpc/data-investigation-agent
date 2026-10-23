@@ -138,6 +138,14 @@ class StatusRefreshTests(unittest.TestCase):
         self.assertEqual(answer['status'],'blocked');self.assertEqual(answer['blocked'][0]['failure_class'],'QUERY_ERROR')
         self.assertIn("couldn't refresh",answer['outputs']['business'])
 
+    def test_successful_empty_history_is_not_falsely_a_refresh_failure(self):
+        engine,ticket,_,_=self.stale_status();engine.tools.collector=Mock()
+        empty=runtime_fact('job','RUN_HISTORY',{'runs':[],'listing_complete':True})
+        empty['state']='OBSERVED_NEGATIVE'
+        engine.tools.graph.refresh_facts.return_value={'facts':[empty]}
+        answer=engine.run(ticket)
+        self.assertFalse(answer['blocked']);self.assertNotIn("couldn't refresh",answer['outputs']['business'])
+
     def test_fresh_status_does_not_refresh(self):
         engine,ticket,_,_=self.stale_status();engine.tools.graph.node_facts.return_value['facts'][0]['freshness']='CURRENT'
         engine.run(ticket);engine.tools.graph.refresh_facts.assert_not_called()

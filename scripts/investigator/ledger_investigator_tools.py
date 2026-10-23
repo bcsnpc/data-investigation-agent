@@ -152,7 +152,7 @@ class Tools:
         needed=[]
         for node,result in zip(sorted(self.nodes),results):
             kinds=expected.get(self.nodes[node]['kind'],())
-            relevant=[v for v in result['facts'] if v['kind'] in kinds]
+            relevant=[v for v in result['facts'] if v['kind'] in kinds or v['kind']=='RUN_HISTORY' and self.nodes[node]['kind'] in ('PIPELINE','NOTEBOOK','COPY_ACTIVITY','MODEL')]
             if kinds and (not relevant or any(v['freshness']=='STALE' or v['state']=='UNAVAILABLE' for v in relevant)):needed.append(node)
         if needed and (self.collector is not None or self.request_kind=='FACT'):
             # A status answer must attempt its bounded, admitted path top-up.
@@ -170,7 +170,7 @@ class Tools:
                 if any(v['subject'] not in needed for v in values):raise ValueError('FACT_REFRESH_OUTSIDE_TICKET_PATH')
                 self.evidence.add('FACT_REFRESH',needed,refreshed)
                 for node in needed:
-                    relevant=[v for v in values if v['subject']==node and v['kind'] in expected.get(self.nodes[node]['kind'],()) and v.get('freshness')=='CURRENT' and v.get('state') in ('OBSERVED','OBSERVED_NEGATIVE')]
+                    relevant=[v for v in values if v['subject']==node and (v['kind'] in expected.get(self.nodes[node]['kind'],()) or v['kind']=='RUN_HISTORY') and v.get('freshness')=='CURRENT' and v.get('state') in ('OBSERVED','OBSERVED_NEGATIVE')]
                     classified=any(v['subject']==node and v['kind']=='AVAILABILITY' and v.get('value',{}).get('reachable') is False for v in values)
                     if not relevant and not classified:
                         from .source_availability import result as availability_result,fact as availability_fact
