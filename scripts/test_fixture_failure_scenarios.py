@@ -10,6 +10,16 @@ class SourceHistoryPlans(unittest.TestCase):
   rows=[{'movement_id':'1','warehouse_id':'1','product_id':'8','units':'16','event_day':'2026-09-11','movement_type':'RECEIPT','source_modified_at_utc':'2026-10-03T00:00:00Z','source_row_version':'28001'}]
   v={'status':'READ_ONLY_BASELINE_COMPLETE','table':'[app].[stock_movements_round_two_20261003]','row_count':1,'source_units':16,'rows_sha256':hashlib.sha256(bytes_of(rows)).hexdigest(),'result':{'body':{'sets':[[{}],rows,[]]}}};v['seal']=hashlib.sha256(bytes_of(v)).hexdigest();return v
  def added(self):return {'movement_id':900101,'warehouse_id':1,'product_id':8,'units':7,'event_day':'2026-09-11','movement_type':'RECEIPT'}
+ def test_reader_observes_only_new_control_ids_with_parameters_and_binary_version_conversion(self):
+  plan=SourceHistoryScenario(self.baseline());rows=[self.added(),{**self.added(),'movement_id':900102}]
+  request=plan.observation(rows)
+  self.assertEqual(request['read_only_objects'],['[app].[stock_movements_round_two_20261003]'])
+  self.assertEqual(request['max_rows'],3)
+  self.assertEqual(request['parameters'],[{'name':'@case_id_0','value':900101},{'name':'@case_id_1','value':900102}])
+  self.assertNotIn('900101',request['query']);self.assertTrue(request['query'].startswith('SELECT '))
+  self.assertIn('CONVERT(bigint,source_row_version)',request['query']);self.assertIn('source_row_version',request['result_columns'])
+  for invalid in ([],[self.added()]*4,[self.added(),self.added()],[{**self.added(),'movement_id':1}]):
+   with self.assertRaises(ValueError):plan.observation(invalid)
  def test_corrupt_or_incomplete_preimage_refuses_before_producing_mutation(self):
   v=self.baseline();v['source_units']=17
   with self.assertRaisesRegex(ValueError,'SEAL_DIFFERS'):SourceHistoryScenario(v)

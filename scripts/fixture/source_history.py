@@ -54,6 +54,24 @@ class SourceHistoryScenario:
         sql+='SELECT '+','.join(FIELDS)+',source_modified_at_utc,CONVERT(bigint,source_row_version) AS source_row_version FROM '+TABLE+' WHERE movement_id IN ('+','.join(map(str,ids))+') ORDER BY movement_id; COMMIT;'
         return {'rows':values,'query':sql,'restoration':'Delete only these rows after matching their native row versions and the unchanged original preimage. Database-wide rowversion advances are not reversible.'}
 
+    def observation(self,values):
+        """Bounded investigator read for the exact independently authored rows.
+
+        This is fixture control input, not a ticket-selected SQL expression.
+        The ordinary managed SQL worker still enforces its read-only guards
+        and query-bound surface report. A missing row remains observable.
+        """
+        if not isinstance(values,list)or not 1<=len(values)<=3:raise ValueError('SOURCE_CASE_ROW_BOUND')
+        values=[row(r)for r in values];ids=[r['movement_id']for r in values]
+        if len(set(ids))!=len(ids)or self.ids.intersection(ids):raise ValueError('SOURCE_CASE_ID_NOT_NEW')
+        columns=[*FIELDS,'source_modified_at_utc','source_row_version']
+        fields=[*FIELDS[:4],'CONVERT(varchar(10),event_day,23) AS event_day','movement_type',
+                'source_modified_at_utc','CONVERT(bigint,source_row_version) AS source_row_version']
+        parameters=[{'name':'@case_id_'+str(i),'value':identity}for i,identity in enumerate(ids)]
+        return {'query':'SELECT '+','.join(fields)+' FROM '+TABLE+' WHERE movement_id IN ('+
+            ','.join(p['name']for p in parameters)+') ORDER BY movement_id',
+            'parameters':parameters,'read_only_objects':[TABLE],'max_rows':len(ids)+1,'result_columns':columns}
+
     def restore(self,planned,observed):
         expected=[row(r)for r in planned]
         if not isinstance(observed,list)or len(observed)!=len(expected)or not observed:raise ValueError('SOURCE_NATIVE_INSERT_RECEIPT_REQUIRED')
