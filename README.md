@@ -649,3 +649,5 @@ Round22 pre-score checkpoint (2026-10-23): family A reached as designed/native T
 Round22 preparation: the cloud source profile returned360rows with native investigator identity/read-only attestation; this is not a scored reproduction. PostgreSQL laptop firewall already matches184.105.12.85/32; credit/connection exhaustion not observed, disconnect cause remains open. Bounded same-key control reservation retry is tested; no monthly caps or scopes changed. Final60ticket set and held-out score remain pending.
 
 2026-10-23: PostgreSQL short-lived transaction/keepalive/safe-once retry policy tested; frozen regression5148passed/48skipped. Earlier disconnect cause remains open; Round22 scored set is still pending. See docs/runs/round-twenty-two-postgres-validation.json.
+
+2026-10-23: native temporal-history fixture plans and narrow read-only SQL history validation tested47checks; compatible rollback probe preserved original rows/schema. Feature enablement and scored history verdicts are not yet earned. Prior freeze invalid.
