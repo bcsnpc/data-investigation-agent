@@ -73,3 +73,31 @@ the parent's import path, but the test's fresh interpreter could not import
 managed_sql_worker. Bind that same tracked scripts directory explicitly in the
 synthetic child. No production path, permission or expected result changed;
 the failed image is not published or deployed.
+
+## Round 22: audit logging live proof, with outer failures retained
+
+The first two logging launches returned NOT_DUE (zero SQL requests); neither
+counts as a logging probe. The table-only configuration matched an earlier
+collector identity/cursor too. For the actual one-off read, use the existing
+direct collect-facts route with a one-second manual listing interval; scheduled
+configuration stays at six hours. No cursor or fact was deleted or rewritten.
+
+`round22-audit-lifecycle-03` / `job-dia-collectors-hfpp65n` on tested image
+`604867fc` recorded START at03:29:37Z, heartbeats at03:29:48Z (connect) and
+03:29:58Z (sql_quantity), CHILD_STOPPING and actual parent-wait EXIT at03:30:02Z:
+exit0, deadline_expired=false, last_action=sql_quantity. Four physical SCAN
+requests were charged. Seal
+`95b17941a5de54ee7c1d134aedda9ef9305081d2e1b10a6987b619b5461cb1d5`.
+Full original output: .local/round-twenty-two/audit-lifecycle-03.log.
+This satisfies the unknown-cause branch of1c: missing original evidence is
+listed, new start/heartbeat/exit/last-action logging is observed live. The
+original EOF cause is still UNESTABLISHED.
+
+Do not conflate this with collector success: Azure marked this execution
+Failed; its60-second job began03:29:02Z and child completion was after61s.
+The outer captured exit intent is0 and sealed; no platform termination reason
+establishes why Azure marked it Failed. Also the operator's unnecessarily
+narrow four-request allowance was consumed by LIST's guarded SQL read, so
+FETCH returned BUDGET_EXHAUSTED and appended no fresh fact. Preserve both.
+The scheduled dispatcher still has its original eight-request allowance.
+No claim of a new attested load value is made from this logging-only proof.
