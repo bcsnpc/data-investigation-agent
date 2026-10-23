@@ -1,0 +1,406 @@
+{
+  "run_id": "round21-audit-collector-size-01",
+  "seal": "ddee9d9746fc4f0def3242d6fdb3aed543df712e24a12be3766235c4606db845",
+  "resource_allocation": {
+    "cpu": 0.25,
+    "memory": "0.5Gi"
+  },
+  "result": {
+    "collection": {
+      "approval": "Owner Round Twenty-One2026-10-22: collectors, existing read-only identities, SCAN line; no runs/refreshes/writes. Owner2026-10-22 approves existing dia-scanner for refresh history/schedule GET only; investigator unchanged.",
+      "collection": {
+        "facts": [
+          "759a094a8103646868306b3307e9ed33387260efff36f2837445daa6048f8dae",
+          "6ae38d0b03b671df245702c92cbacd179fa237ab8467e02c70c26301de5fe6cd",
+          "2dc8c18a4f579c89b91cb9accdf4a9c4ef836f1a73b1990ad4b5b126742d6d68",
+          "5de96f4a25e0a98c928b2200da373157a5f6ec23d43da7f9942d4b8aaf133e88",
+          "1058a56d99fbd10f9573dd66bd649c757ca1bb8bd8984203b1d39617ca4e6cf9",
+          "9600a3f54a6bf683617840671563508fbef66f10a692c19206bfc61951d971ad",
+          "7dbdbe02d64e1e83af99545b0a5919f7d38afd4a165d79cf0bcdf38b55362f52"
+        ],
+        "listing_complete": true,
+        "status": "COLLECTED",
+        "subjects": [
+          {
+            "status": "COLLECTED",
+            "subject": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6"
+          },
+          {
+            "status": "COLLECTED",
+            "subject": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f"
+          }
+        ]
+      },
+      "collector": "microsoft-runtime:d78b9a93b70f835afc6fc520ff86e44c7a9c3a0a3950b28cffcb0e7648260765",
+      "config_hash": "76248808b87a85720ee87a0bd3051445e547b5f7506d15c868bc721361e636ae",
+      "continuous_30_minute_freshness_claim": false,
+      "coverage": {
+        "as_of": null,
+        "facts": [
+          {
+            "collected_at": "2026-10-23T00:10:13.661967Z",
+            "freshness": "CURRENT",
+            "id": "1058a56d99fbd10f9573dd66bd649c757ca1bb8bd8984203b1d39617ca4e6cf9",
+            "kind": "REFRESH_STATE",
+            "observed_at": "2026-10-23T00:10:13.661967Z",
+            "provenance": {
+              "collector": "microsoft-runtime:d78b9a93b70f835afc6fc520ff86e44c7a9c3a0a3950b28cffcb0e7648260765",
+              "evidence_ids": [
+                "sha256:25fdd28d9ed0dbec27fa70a0cf065d863f686cf382dee62a8be32bdd273b9cde"
+              ],
+              "locator": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f"
+            },
+            "reason": null,
+            "source": "RUNTIME_OBSERVATION",
+            "state": "OBSERVED",
+            "subject": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f",
+            "value": {
+              "last_end": "2026-10-07T21:15:37.357000Z",
+              "run_id": "754776194",
+              "state": "SUCCEEDED"
+            }
+          },
+          {
+            "collected_at": "2026-10-23T00:10:13.661967Z",
+            "freshness": "CURRENT",
+            "id": "2dc8c18a4f579c89b91cb9accdf4a9c4ef836f1a73b1990ad4b5b126742d6d68",
+            "kind": "REFRESH_RUN",
+            "observed_at": "2026-10-23T00:10:13.661967Z",
+            "provenance": {
+              "collector": "microsoft-runtime:d78b9a93b70f835afc6fc520ff86e44c7a9c3a0a3950b28cffcb0e7648260765",
+              "evidence_ids": [
+                "sha256:25fdd28d9ed0dbec27fa70a0cf065d863f686cf382dee62a8be32bdd273b9cde"
+              ],
+              "locator": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f"
+            },
+            "reason": null,
+            "source": "RUNTIME_OBSERVATION",
+            "state": "OBSERVED",
+            "subject": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f",
+            "value": {
+              "accounting": "UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA",
+              "end": "2026-10-07T21:15:37.357000Z",
+              "error": null,
+              "recent_runs": [
+                {
+                  "end": "2026-10-07T21:15:37.357000Z",
+                  "error": null,
+                  "rows_read": null,
+                  "rows_written": null,
+                  "run_id": "754776194",
+                  "start": "2026-10-07T21:15:32.983000Z",
+                  "status": "SUCCEEDED"
+                },
+                {
+                  "end": "2026-10-07T21:11:37.567000Z",
+                  "error": null,
+                  "rows_read": null,
+                  "rows_written": null,
+                  "run_id": "754775334",
+                  "start": "2026-10-07T21:11:31.983000Z",
+                  "status": "SUCCEEDED"
+                }
+              ],
+              "rows_read": null,
+              "rows_written": null,
+              "run_id": "754776194",
+              "start": "2026-10-07T21:15:32.983000Z",
+              "status": "SUCCEEDED"
+            }
+          },
+          {
+            "collected_at": "2026-10-23T00:10:13.661967Z",
+            "freshness": "CURRENT",
+            "id": "5de96f4a25e0a98c928b2200da373157a5f6ec23d43da7f9942d4b8aaf133e88",
+            "kind": "TYPICAL_DURATION",
+            "observed_at": "2026-10-23T00:10:13.661967Z",
+            "provenance": {
+              "collector": "microsoft-runtime:d78b9a93b70f835afc6fc520ff86e44c7a9c3a0a3950b28cffcb0e7648260765",
+              "evidence_ids": [
+                "sha256:25fdd28d9ed0dbec27fa70a0cf065d863f686cf382dee62a8be32bdd273b9cde"
+              ],
+              "locator": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f"
+            },
+            "reason": null,
+            "source": "DERIVED_OBSERVATIONS",
+            "state": "OBSERVED",
+            "subject": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f",
+            "value": {
+              "median_seconds": 4.978999999999999,
+              "sample_count": 2
+            }
+          },
+          {
+            "collected_at": "2026-10-23T00:10:13.661967Z",
+            "freshness": "CURRENT",
+            "id": "6ae38d0b03b671df245702c92cbacd179fa237ab8467e02c70c26301de5fe6cd",
+            "kind": "RUN_HISTORY",
+            "observed_at": "2026-10-23T00:10:13.661967Z",
+            "provenance": {
+              "collector": "microsoft-runtime:d78b9a93b70f835afc6fc520ff86e44c7a9c3a0a3950b28cffcb0e7648260765",
+              "evidence_ids": [
+                "sha256:25fdd28d9ed0dbec27fa70a0cf065d863f686cf382dee62a8be32bdd273b9cde"
+              ],
+              "locator": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f"
+            },
+            "reason": null,
+            "source": "RUNTIME_OBSERVATION",
+            "state": "OBSERVED",
+            "subject": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f",
+            "value": {
+              "listing_complete": true,
+              "runs": [
+                {
+                  "end": "2026-10-07T21:15:37.357000Z",
+                  "error": null,
+                  "rows_read": null,
+                  "rows_written": null,
+                  "run_id": "754776194",
+                  "start": "2026-10-07T21:15:32.983000Z",
+                  "status": "SUCCEEDED"
+                },
+                {
+                  "end": "2026-10-07T21:11:37.567000Z",
+                  "error": null,
+                  "rows_read": null,
+                  "rows_written": null,
+                  "run_id": "754775334",
+                  "start": "2026-10-07T21:11:31.983000Z",
+                  "status": "SUCCEEDED"
+                }
+              ]
+            }
+          },
+          {
+            "collected_at": "2026-10-23T00:10:13.661967Z",
+            "freshness": "CURRENT",
+            "id": "759a094a8103646868306b3307e9ed33387260efff36f2837445daa6048f8dae",
+            "kind": "TABLE_LOAD",
+            "observed_at": "2026-10-23T00:10:13.661967Z",
+            "provenance": {
+              "collector": "microsoft-runtime:d78b9a93b70f835afc6fc520ff86e44c7a9c3a0a3950b28cffcb0e7648260765",
+              "evidence_ids": [
+                "sha256:b455ef02f5964ebc2dc6ebce4a92b360309de5e49fd46ff7b4c0743b2bc6752b"
+              ],
+              "locator": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6"
+            },
+            "reason": null,
+            "source": "RUNTIME_OBSERVATION",
+            "state": "OBSERVED",
+            "subject": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+            "value": {
+              "accounting_source": "DECLARED_WAREHOUSE_AUDIT",
+              "audit_runs": [
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-06T04:14:33.533262Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "360",
+                  "rows_written": "360",
+                  "run_id": "37b546ca-863d-45ce-b63b-015d5cdccf61",
+                  "start": "2026-10-06T04:14:11.519678Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-06T03:33:21.871118Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "360",
+                  "rows_written": "360",
+                  "run_id": "264dc405-ff58-451b-9f87-adb49a00f99d",
+                  "start": "2026-10-06T03:32:58.969472Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-06T03:24:14.487954Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "361",
+                  "rows_written": "361",
+                  "run_id": "1d03c0b1-651c-4056-839e-e0c16b5d2781",
+                  "start": "2026-10-06T03:23:50.598417Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-04T23:19:23.535012Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "360",
+                  "rows_written": "360",
+                  "run_id": "aa7c2284-e36d-49d8-87aa-18d4161ae7fe",
+                  "start": "2026-10-04T23:19:02.389568Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-04T23:01:36.983185Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "361",
+                  "rows_written": "361",
+                  "run_id": "abb412d6-0d88-49ae-ad61-e13336548935",
+                  "start": "2026-10-04T23:01:10.352392Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-04T22:14:27.265197Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "360",
+                  "rows_written": "360",
+                  "run_id": "f559ab75-23f9-4b6c-88a8-7f3f1f235150",
+                  "start": "2026-10-04T22:14:06.593411Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-04T22:10:58.483227Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "361",
+                  "rows_written": "361",
+                  "run_id": "8b1802c0-040a-463e-8bb4-b35ac8734594",
+                  "start": "2026-10-04T22:10:38.095796Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-04T22:08:35.335552Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "360",
+                  "rows_written": "360",
+                  "run_id": "1a019a05-73c0-4db9-b915-bf3138aa9161",
+                  "start": "2026-10-04T22:08:04.235674Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-04T16:48:22.238604Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "360",
+                  "rows_written": "360",
+                  "run_id": "234ec7cc-0324-49e0-86c9-764202be00dc",
+                  "start": "2026-10-04T16:48:01.102449Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-04T16:36:16.108957Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "361",
+                  "rows_written": "361",
+                  "run_id": "cd38c792-a779-4edb-88b9-abd6ec49b375",
+                  "start": "2026-10-04T16:35:53.962695Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-04T15:30:55.295941Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "360",
+                  "rows_written": "360",
+                  "run_id": "ac4b3e8d-9cdb-427e-a9dc-380ac15a50ec",
+                  "start": "2026-10-04T15:29:43.792896Z",
+                  "status": "Succeeded"
+                }
+              ],
+              "delta_history": "UNAVAILABLE_FROM_SQL_ENDPOINT",
+              "latest_successful_end": "2026-10-06T04:14:33.533262Z"
+            }
+          },
+          {
+            "collected_at": "2026-10-23T00:10:13.661967Z",
+            "freshness": "CURRENT",
+            "id": "7dbdbe02d64e1e83af99545b0a5919f7d38afd4a165d79cf0bcdf38b55362f52",
+            "kind": "COVERAGE",
+            "observed_at": "2026-10-23T00:10:13.661967Z",
+            "provenance": {
+              "collector": "microsoft-runtime:d78b9a93b70f835afc6fc520ff86e44c7a9c3a0a3950b28cffcb0e7648260765",
+              "evidence_ids": [
+                "sha256:25fdd28d9ed0dbec27fa70a0cf065d863f686cf382dee62a8be32bdd273b9cde"
+              ],
+              "locator": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f"
+            },
+            "reason": null,
+            "source": "RUNTIME_OBSERVATION",
+            "state": "OBSERVED",
+            "subject": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f",
+            "value": {
+              "gaps": [],
+              "history_empty": false,
+              "listing_complete": true
+            }
+          },
+          {
+            "collected_at": "2026-10-23T00:10:13.661967Z",
+            "freshness": "CURRENT",
+            "id": "9600a3f54a6bf683617840671563508fbef66f10a692c19206bfc61951d971ad",
+            "kind": "SCHEDULE",
+            "observed_at": "2026-10-23T00:10:13.661967Z",
+            "provenance": {
+              "collector": "microsoft-runtime:d78b9a93b70f835afc6fc520ff86e44c7a9c3a0a3950b28cffcb0e7648260765",
+              "evidence_ids": [
+                "sha256:91823c6472aae930e8362768bd9eb97e88424495490859cadefca18bdbc58d4e"
+              ],
+              "locator": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f"
+            },
+            "reason": null,
+            "source": "RUNTIME_OBSERVATION",
+            "state": "OBSERVED",
+            "subject": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f",
+            "value": {
+              "enabled": false,
+              "native_schedule": {
+                "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+                "days": [
+                  "Sunday",
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday"
+                ],
+                "enabled": false,
+                "localTimeZoneId": "UTC",
+                "notifyOption": "MailOnFailure",
+                "times": [
+                  "04:30"
+                ]
+              },
+              "next_due": null,
+              "previous_due": null
+            }
+          }
+        ],
+        "missing_subjects": []
+      },
+      "estate": "fixture",
+      "listing_interval_seconds": 21600,
+      "model_calls": 0,
+      "not_selected_subjects": [],
+      "observed_at": "2026-10-23T00:10:13.661967Z",
+      "physical_requests": 6,
+      "purpose": "SCAN",
+      "selected_subjects": [
+        "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+        "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f"
+      ]
+    },
+    "max_physical_requests_this_wake": 8,
+    "next_index": 0,
+    "other_estates_not_read": [],
+    "purpose": "SCAN",
+    "selected_estate": "fixture",
+    "status": "COLLECTED"
+  }
+}
