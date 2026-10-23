@@ -15,7 +15,7 @@ from pathlib import Path
 CRON = '0 6 * * *'
 
 
-def schedule_plan(*, resource_id, image, platform_monthly_usd, smoke_monthly_usd):
+def schedule_plan(*, resource_id, image, platform_monthly_usd, smoke_monthly_usd,demo_earned=False):
     # Prices are an explicit dated operator estimate, never guessed in code.
     from decimal import Decimal
     base, extra = Decimal(str(platform_monthly_usd)), Decimal(str(smoke_monthly_usd))
@@ -24,8 +24,9 @@ def schedule_plan(*, resource_id, image, platform_monthly_usd, smoke_monthly_usd
         raise ValueError('EXISTING_SMOKE_JOB_AND_PINNED_IMAGE_REQUIRED')
     if base < 0 or extra < 0 or base + extra > 20:
         raise ValueError('SMOKE_EXCEEDS_PLATFORM_MONTHLY_BUDGET')
+    if type(demo_earned)is not bool:raise ValueError('DAILY_SMOKE_DEMO_EARNED_FLAG')
     return {'resource_id': resource_id, 'image': image, 'cron_expression': CRON,
-            'timezone': 'UTC', 'replica_timeout_seconds': 1800, 'parallelism': 1,
+            'timezone': 'UTC', 'replica_timeout_seconds': 3600 if demo_earned else 1800, 'parallelism': 1,
             'completion_count': 1, 'replica_retry_limit': 0,
             'monthly_platform_estimate_usd': str(base + extra),
             'marginal_smoke_estimate_usd': str(extra), 'new_resources': []}
@@ -79,9 +80,17 @@ def _blob_roundtrip(config, body):
     return {'status': 'PASS', 'sha256': hashlib.sha256(body).hexdigest(), 'file_identity': identity}
 
 
+def capture_roundtrip(context,body):
+    """Use this execution's approved immutable recorder, never broad CAS rights."""
+    ref=context.record('blob-health',json.loads(body))
+    if context.readback(ref)!=body:raise ValueError('SMOKE_BLOB_READBACK_DIFFERS')
+    return {'status':'PASS','sha256':hashlib.sha256(body).hexdigest(),
+            'record':ref,'surface':'RUN_BOUND_OUTER_CAPTURE'}
+
+
 def run_smoke(config, context, *, state=None, sign_in=None, gold_read=None, blob_roundtrip=None, demo=None):
     required = {'version', 'run_id', 'reader_authentication', 'gold_payload', 'platform_blob', 'demo_earned'}
-    if not isinstance(config, dict) or set(config) != required or config['version'] != 1:
+    if not isinstance(config, dict) or not required <= set(config) <= required | {'access_check', 'demo_expected_classification'} or config['version'] != 1:
         raise ValueError('DAILY_SMOKE_CONFIGURATION')
     if not isinstance(config['run_id'], str) or not re.fullmatch(r'[A-Za-z0-9_.:-]{1,100}', config['run_id']):
         raise ValueError('DAILY_SMOKE_RUN_ID')
@@ -105,6 +114,9 @@ def run_smoke(config, context, *, state=None, sign_in=None, gold_read=None, blob
         except Exception as exc:
             # Driver/auth errors can contain credentials: record the class only.
             checks[name] = {'status': 'FAIL', 'error_type': type(exc).__name__}
+    from .access_check import configured as check_access
+    access = context.step('check-access', lambda: check_access(config.get('access_check')))
+    checks['check_access'] = {'status':access['status'], 'result':access}
     def authenticate():
         tokens = provider(config['reader_authentication'])
         tokens.get_token('https://database.windows.net/.default')
@@ -127,7 +139,22 @@ def run_smoke(config, context, *, state=None, sign_in=None, gold_read=None, blob
     step('blob_write_read', lambda: (blob_roundtrip or _blob_roundtrip)(config['platform_blob'], raw))
     if config['demo_earned']:
         step('family_a_demo', demo)
-    status = 'PASS' if all(value['status'] == 'PASS' for value in checks.values()) else 'FAIL'
+        # A delivered refusal is a legitimate investigation result, but cannot
+        # prove an operator's earned demonstration still works. Preserve it.
+        check = checks['family_a_demo']
+        if check['status'] == 'PASS':
+            result = check['result']
+            ticket = result.get('demo', {}).get('ticket', {}) if isinstance(result, dict) else {}
+            actual = ticket.get('findings', {}).get('classification')
+            expected = config.get('demo_expected_classification')
+            check['expected_classification'] = expected
+            check['observed_classification'] = actual
+            if not isinstance(expected, str) or not expected:
+                check.update(status='FAIL', reason='SMOKE_DEMO_EXPECTATION_MISSING')
+            elif ticket.get('state') != 'FINDINGS_SHARED' or actual != expected:
+                check.update(status='FAIL', reason='SMOKE_DEMO_EXPECTATION_NOT_MET')
+    # An untestable legacy binding is reported, never represented as a pass.
+    status = 'FAIL' if any(value['status'] == 'FAIL' for value in checks.values()) else ('PASS' if all(value['status'] == 'PASS' for value in checks.values()) else 'INCOMPLETE')
     return {'kind': 'DAILY_SMOKE', 'status': status, 'run_id': config['run_id'],
             'recorded_at': datetime.now(timezone.utc).isoformat(), 'checks': checks,
             'record': f"{config['run_id']} DAILY_SMOKE {status}", 'demo_included': config['demo_earned'],

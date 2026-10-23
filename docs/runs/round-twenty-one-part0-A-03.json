@@ -1,0 +1,707 @@
+{
+  "run_id": "cloud-demo:627d6fa63799b61d9d33b891c05366604aca0b368e26708c5ce929924d57e6aa",
+  "execution_run_id": "round21-part0-A-sealing-03",
+  "azure_execution": "job-dia-worker-a2glqt6",
+  "azure_status": "Succeeded",
+  "azure_started": "2026-10-22T19:17:12Z",
+  "azure_ended": "2026-10-22T19:49:47Z",
+  "end_to_end_seconds": 1955,
+  "classification": "TRANSFORMATION_LOGIC",
+  "state": "FINDINGS_SHARED",
+  "outputs": {
+    "business_output": {
+      "additional_limitations": [],
+      "conclusion": {
+        "checked_depth": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+        "compared_bindings": [
+          {
+            "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+            "provenance": "DECLARED_BY_DEFINITION",
+            "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+          }
+        ],
+        "conclusion": "The definition includes a left join on product_id where matching rows may multiply because uniqueness is not assumed. That row multiplication can increase the total of the unchanged additive units quantity when carried from the lower table into the upper entity, which is compatible with 7661 becoming 8765.",
+        "depth_ceiling": 3,
+        "failures": [],
+        "mandatory_limits": [
+          "Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1; stopped because reached.",
+          "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+          "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+          "Unattested surface field object on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+          "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it.",
+          "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1: the surface did not report it.",
+          "attestation limited: the engine can't self-report the calling principal; the token and connection were verified separately",
+          "The supplied definition does not establish key uniqueness, other business rules, or a shared snapshot, so it shows a mechanism that can account for the difference but does not prove exactly which rows produced it.",
+          "Comparison 1: SNAPSHOT_UNVERIFIED; the upper and lower served data version is not attested to its quantity read; different update timing was not excluded as a cause of the difference.",
+          "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: QUANTITY_BOUND_SELF_REPORT_REQUIRED.",
+          "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1 -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1: Investigation terminated before this boundary.",
+          "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1 -> unresolved upstream: No declared upstream read for this quantity (literal initialization or derived/unsupported column).",
+          "Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established."
+        ],
+        "recommended_action": "CONFIRM_INTENT_OR_REQUEST_ENHANCEMENT",
+        "skipped_steps": [
+          {
+            "capability": "presentation_freshness",
+            "reason": "Refresh timestamps are unavailable to the diagnostic reader: REST requires dataset Write and XMLA requires administrator; both were tested and refused.",
+            "step": 1
+          }
+        ],
+        "snapshot_attestations": [
+          {
+            "comparison_id": "boundary-2-comparison",
+            "lower": null,
+            "reason": "QUERY_BOUND_VERSION_MISSING",
+            "status": "SNAPSHOT_UNVERIFIED",
+            "unverified_sides": [
+              "upper",
+              "lower"
+            ],
+            "upper": null,
+            "version": 1
+          }
+        ],
+        "surface_difference_grades": [
+          {
+            "comparison_id": "boundary-2-comparison",
+            "differing_field": "object",
+            "grade": "OBJECT_DISTINCT",
+            "lower_value": "warehouse_silver_e1b8e1",
+            "reason": null,
+            "self_report_kind": "DATABASE_CATALOG_NAME",
+            "upper_value": "warehouse_gold_e1b8e1"
+          }
+        ],
+        "unattested_surface_fields": [
+          {
+            "evidence_id": "956764de-5283-4125-a67d-1f310f72956e",
+            "field": "connection",
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+          },
+          {
+            "evidence_id": "956764de-5283-4125-a67d-1f310f72956e",
+            "field": "engine",
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+          },
+          {
+            "evidence_id": "956764de-5283-4125-a67d-1f310f72956e",
+            "field": "object",
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+          },
+          {
+            "evidence_id": "2a620cf9-2805-4540-86b4-0e6b4b6bd06b",
+            "field": "connection",
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+          },
+          {
+            "evidence_id": "c65d4708-6752-4b04-bd08-dae06110f631",
+            "field": "connection",
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1"
+          }
+        ],
+        "unverified_boundaries": [
+          {
+            "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+            "reason": "QUANTITY_BOUND_SELF_REPORT_REQUIRED",
+            "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+          },
+          {
+            "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1",
+            "reason": "Investigation terminated before this boundary",
+            "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1"
+          },
+          {
+            "lower_layer": "unresolved upstream",
+            "reason": "No declared upstream read for this quantity (literal initialization or derived/unsupported column)",
+            "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1"
+          }
+        ]
+      },
+      "explanation": {
+        "evidence_ids": [
+          "transformation-definition-f96bc456-f63a-48be-9b1c-cb981c97d4b1",
+          "boundary-2-comparison"
+        ],
+        "text": "You asked: Description supplied by user:\nIn Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.\n\nComparison selected by user:\nThe application\nAnswer to your question: Partly answered.\nRegarding the requested comparison: Independent quantities were compared within the checked scope; remaining boundaries, timing and business intent are limited by the recorded evidence.\nWhat the investigation established:\n\nThe checked declared layer value was 8,765. The available evidence did not establish a boundary comparison with the total used to prepare the report. A difference between the report and its input therefore remains possible. A documented processing rule can explain the difference, but its intended meaning, the original entries and update timing remain unverified. For the serving data and the refined data, the checks read different data sources; different calculation engines were not established, so a shared calculation fault could affect both. Recommended action: Ask the responsible business owner whether this behavior is intended; request a change if it is not."
+      },
+      "mandatory_limits": [
+        "Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1; stopped because reached.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+        "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+        "Unattested surface field object on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1: the surface did not report it.",
+        "attestation limited: the engine can't self-report the calling principal; the token and connection were verified separately",
+        "The supplied definition does not establish key uniqueness, other business rules, or a shared snapshot, so it shows a mechanism that can account for the difference but does not prove exactly which rows produced it.",
+        "Comparison 1: SNAPSHOT_UNVERIFIED; the upper and lower served data version is not attested to its quantity read; different update timing was not excluded as a cause of the difference.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: QUANTITY_BOUND_SELF_REPORT_REQUIRED.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1 -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1: Investigation terminated before this boundary.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1 -> unresolved upstream: No declared upstream read for this quantity (literal initialization or derived/unsupported column).",
+        "Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established."
+      ],
+      "provenance": "DETERMINISTIC_OUTCOME_RENDERING",
+      "question_account": {
+        "authority": "DETERMINISTIC_EVIDENCE_COVERAGE",
+        "finding_outcome": "TRANSFORMATION_LOGIC",
+        "question": "Description supplied by user:\nIn Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.\n\nComparison selected by user:\nThe application",
+        "question_hash": "1f604e661eaae7f6cd0c2b6ecb967eaa079a75ebf97d8607a9966291306e3977",
+        "status": "PARTLY_ANSWERED",
+        "subject_provenance": "DECLARED_QUESTION_KIND",
+        "subjects": [
+          {
+            "evidence_ids": [
+              "boundary-2-comparison"
+            ],
+            "reason": "Independent quantities were compared within the checked scope; remaining boundaries, timing and business intent are limited by the recorded evidence.",
+            "status": "PARTLY_ANSWERED",
+            "subject": "comparison"
+          }
+        ],
+        "version": 1
+      },
+      "recommended_action": {
+        "code": "CONFIRM_INTENT_OR_REQUEST_ENHANCEMENT",
+        "text": "Ask the responsible business owner whether this behavior is intended; request a change if it is not."
+      },
+      "snapshot_attestations": [
+        {
+          "lower": null,
+          "reason": "QUERY_BOUND_VERSION_MISSING",
+          "status": "SNAPSHOT_UNVERIFIED",
+          "unverified_sides": [
+            "upper",
+            "lower"
+          ],
+          "upper": null,
+          "version": 1
+        }
+      ],
+      "vocabulary_evidence": [
+        {
+          "evidence_id": "transformation-definition-f96bc456-f63a-48be-9b1c-cb981c97d4b1",
+          "terms": {
+            "matched": {
+              "definition_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py",
+              "definition_hash": "313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1",
+              "operation_index": 0,
+              "source_end": 20,
+              "source_start": 15,
+              "text": "rates"
+            },
+            "subject": {
+              "definition_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py",
+              "definition_hash": "313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1",
+              "operation_index": 0,
+              "source_end": 9,
+              "source_start": 0,
+              "text": "movements"
+            }
+          }
+        }
+      ]
+    },
+    "provenance": "LLM_INFERRED",
+    "source_assessment_hash": "d1ae8e6d74c6ef198de9316deeb9e7bbafeaea07676217b7de88a91ed19a3925",
+    "technical_output": {
+      "additional_limitations": [],
+      "conclusion": {
+        "boundary_summary": {
+          "comparisons_executed": 1,
+          "not_comparable": [
+            {
+              "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+              "reason": "QUANTITY_BOUND_SELF_REPORT_REQUIRED",
+              "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+            }
+          ],
+          "resolved_boundaries": 1,
+          "within_layer_checks": 0
+        },
+        "capabilities_declared": [
+          "declared_context_reproduction",
+          "declared_filter_effects",
+          "declared_source_comparison",
+          "evaluate_scoped_quantity",
+          "expected_record_presence",
+          "independent_lower_surface",
+          "ingestion",
+          "job_history",
+          "presentation_context",
+          "resolve_measure_path",
+          "source_delivery",
+          "transformation_definition"
+        ],
+        "checked_depth": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+        "compared_bindings": [
+          {
+            "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+            "provenance": "DECLARED_BY_DEFINITION",
+            "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+          }
+        ],
+        "depth_ceiling": 3,
+        "failures": [],
+        "layer_labels": {
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1": {
+            "business_name": "landing table",
+            "container_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82",
+            "container_name": "warehouse_bronze_e1b8e1",
+            "name": "stock_movements_e1b8e1",
+            "provenance": "DISCOVERED_PARENT_ID",
+            "role": "LANDING"
+          },
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity": {
+            "business_name": "reported calculation",
+            "container_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e",
+            "container_name": "Warehouse Operations e1b8e1",
+            "name": "Activity",
+            "provenance": "DISCOVERED_PARENT_ID",
+            "role": "SEMANTIC"
+          },
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values": {
+            "business_name": "serving data",
+            "container_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+            "container_name": "warehouse_gold_e1b8e1",
+            "name": "movement_values",
+            "provenance": "DISCOVERED_PARENT_ID",
+            "role": "SERVING"
+          },
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1": {
+            "business_name": "refined data",
+            "container_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887",
+            "container_name": "warehouse_silver_e1b8e1",
+            "name": "stock_movements_e1b8e1",
+            "provenance": "DISCOVERED_PARENT_ID",
+            "role": "REFINED"
+          }
+        },
+        "mandatory_limits": [
+          "Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1; stopped because reached.",
+          "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+          "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+          "Unattested surface field object on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+          "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it.",
+          "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1: the surface did not report it.",
+          "attestation limited: the engine can't self-report the calling principal; the token and connection were verified separately",
+          "The supplied definition does not establish key uniqueness, other business rules, or a shared snapshot, so it shows a mechanism that can account for the difference but does not prove exactly which rows produced it.",
+          "Comparison 1: SNAPSHOT_UNVERIFIED; the upper and lower served data version is not attested to its quantity read; different update timing was not excluded as a cause of the difference.",
+          "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: QUANTITY_BOUND_SELF_REPORT_REQUIRED.",
+          "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1 -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1: Investigation terminated before this boundary.",
+          "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1 -> unresolved upstream: No declared upstream read for this quantity (literal initialization or derived/unsupported column).",
+          "Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established."
+        ],
+        "queries": [
+          {
+            "evidence_id": "956764de-5283-4125-a67d-1f310f72956e",
+            "query": "EVALUATE ADDCOLUMNS(ROW(\"baseline\", [Handled Quantity]),\"surface_identity\",USERPRINCIPALNAME())"
+          },
+          {
+            "evidence_id": "2a620cf9-2805-4540-86b4-0e6b4b6bd06b",
+            "query": "SELECT SUM([units]) AS [quantity] FROM [dbo].[movement_values]"
+          },
+          {
+            "evidence_id": "c65d4708-6752-4b04-bd08-dae06110f631",
+            "query": "SELECT SUM([units]) AS [quantity] FROM [dbo].[stock_movements_e1b8e1]"
+          }
+        ],
+        "recommended_action": "CONFIRM_INTENT_OR_REQUEST_ENHANCEMENT",
+        "skipped_steps": [
+          {
+            "capability": "presentation_freshness",
+            "reason": "Refresh timestamps are unavailable to the diagnostic reader: REST requires dataset Write and XMLA requires administrator; both were tested and refused.",
+            "step": 1
+          }
+        ],
+        "snapshot_attestations": [
+          {
+            "comparison_id": "boundary-2-comparison",
+            "lower": null,
+            "reason": "QUERY_BOUND_VERSION_MISSING",
+            "status": "SNAPSHOT_UNVERIFIED",
+            "unverified_sides": [
+              "upper",
+              "lower"
+            ],
+            "upper": null,
+            "version": 1
+          }
+        ],
+        "surface_difference_grades": [
+          {
+            "comparison_id": "boundary-2-comparison",
+            "differing_field": "object",
+            "grade": "OBJECT_DISTINCT",
+            "lower_value": "warehouse_silver_e1b8e1",
+            "reason": null,
+            "self_report_kind": "DATABASE_CATALOG_NAME",
+            "upper_value": "warehouse_gold_e1b8e1"
+          }
+        ],
+        "unattested_surface_fields": [
+          {
+            "evidence_id": "956764de-5283-4125-a67d-1f310f72956e",
+            "field": "connection",
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+          },
+          {
+            "evidence_id": "956764de-5283-4125-a67d-1f310f72956e",
+            "field": "engine",
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+          },
+          {
+            "evidence_id": "956764de-5283-4125-a67d-1f310f72956e",
+            "field": "object",
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+          },
+          {
+            "evidence_id": "2a620cf9-2805-4540-86b4-0e6b4b6bd06b",
+            "field": "connection",
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+          },
+          {
+            "evidence_id": "c65d4708-6752-4b04-bd08-dae06110f631",
+            "field": "connection",
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1"
+          }
+        ],
+        "unverified_boundaries": [
+          {
+            "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+            "reason": "QUANTITY_BOUND_SELF_REPORT_REQUIRED",
+            "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+          },
+          {
+            "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1",
+            "reason": "Investigation terminated before this boundary",
+            "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1"
+          },
+          {
+            "lower_layer": "unresolved upstream",
+            "reason": "No declared upstream read for this quantity (literal initialization or derived/unsupported column)",
+            "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1"
+          }
+        ],
+        "visibility_boundary": {
+          "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+          "evidence_ids": [
+            "boundary-2-comparison",
+            "transformation-definition-f96bc456-f63a-48be-9b1c-cb981c97d4b1"
+          ],
+          "stopped_by": "REACHED"
+        }
+      },
+      "explanation": {
+        "boundary_evidence_id": "boundary-2-comparison",
+        "evidence_ids": [
+          "transformation-definition-f96bc456-f63a-48be-9b1c-cb981c97d4b1",
+          "boundary-2-comparison"
+        ],
+        "text": "You asked: Description supplied by user:\nIn Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.\n\nComparison selected by user:\nThe application\nAnswer to your question: Partly answered.\nRegarding the requested comparison: Independent quantities were compared within the checked scope; remaining boundaries, timing and business intent are limited by the recorded evidence.\nWhat the investigation established:\n\nMeasure: Handled Quantity.\nRoles reached in path resolution: L0 (SERVING), L1 (REFINED), L2 (SEMANTIC), L3 (LANDING). These labels do not establish successful reads.\nB1 diverges: L1 (stock movements e1b8e1 in warehouse silver e1b8e1; role REFINED, upstream input) 7,661 -> L0 (movement values in warehouse gold e1b8e1; role SERVING, downstream output) 8,765.\nOBJECT_DISTINCT: comparable quantity-bound object self-reports differ; this verifies a data-path boundary, not engine-level independence. Shared computation faults are not excluded. (receipt boundary-2-comparison).\nDeclared-context reproduction unavailable: Declared-context reproduction is undeclared for question kind FIGURE_DIFFERENCE.\n\nAt L1 (REFINED), the retained definition applies a left join on product_id before deriving a value column. The traced quantity column remains unchanged through that step, so repeated matches on the join key may duplicate carried rows and raise the summed quantity when it is represented at L0 (SERVING).\n\nLayers:\nL0 - movement values in warehouse gold e1b8e1; role SERVING: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values\nL1 - stock movements e1b8e1 in warehouse silver e1b8e1; role REFINED: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1\nL2 - Activity in Warehouse Operations e1b8e1; role SEMANTIC: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity\nL3 - stock movements e1b8e1 in warehouse bronze e1b8e1; role LANDING: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1\n\nLimits:\n- Unattested connection, engine, object on L2 (receipt 956764de-5283-4125-a67d-1f310f72956e).\n- Unattested connection on L0 (receipt 2a620cf9-2805-4540-86b4-0e6b4b6bd06b).\n- Unattested connection on L1 (receipt c65d4708-6752-4b04-bd08-dae06110f631).\n- SNAPSHOT_UNVERIFIED for B1: the reads cannot be tied to matching data versions; agreement does not prove currency, and different update timing was not excluded as a cause of divergence.\n- Checked through L1; stopped because reached.\n- attestation limited: the engine can't self-report the calling principal; the token and connection were verified separately\n- The supplied definition does not establish key uniqueness, other business rules, or a shared snapshot, so it shows a mechanism that can account for the difference but does not prove exactly which rows produced it.\n- Unchecked L2 -> L0: QUANTITY_BOUND_SELF_REPORT_REQUIRED.\n- Unchecked L1 -> L3: Investigation terminated before this boundary.\n- Unchecked L3 -> unresolved upstream: No declared upstream read for this quantity (literal initialization or derived/unsupported column).\n- Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established.\n\nRecommended action: Ask the responsible business owner whether this behavior is intended; request a change if it is not.\n\nPrevious runs: same ticket 022cfcc6-b6db-4a2e-8891-5cba88426995, 08d83cd7-2a49-4948-be61-6ce289a9324b, 0ebb1fd9-1be6-4d80-b5fe-95ffb474a66e, 15128277-242b-4b08-ad18-dad91d6089b3, 288b5c79-de67-483f-835a-7652c66d5da3, 37272838-7954-4a6f-a42e-c2c8f58158ef, 53036702-cc99-4d4f-8c6e-8cdf1d8a9478, 595dd549-aec8-4979-9faa-bdb739d97d57, 5cd46575-ea32-4b95-98b2-c6172dbc4523, 61f1c795-ada8-49c3-bc74-26de4410cade, 6a89e98b-1b6b-4c6f-80d2-c493ecb9a09a, 77ffd137-8061-4372-b323-5ee71a521b47, 7d5362f1-4462-4d68-9007-45695985ccd9, 964c94e9-3daa-4aac-a3e0-9a7351d1e1e3, 9a0cda78-6fb0-43f4-a744-d2d6fca63697, 9b7330e0-bf1a-4447-8739-e1a2c5b9516f, a8b69c12-db94-41c6-a85c-e81d9e43f3a4, adb36208-eb43-4e5e-8dc7-43eece357843, ae42f998-2b2c-4832-9d05-f90cb7b7c233, bc32732d-4fba-46ae-9763-4522a1b3cda4, be3a2e07-66dd-49b6-b07b-4cdf29a83aa4, be6bdff8-7cdc-4132-ba1e-28507307e361, cd5c63de-b100-4f44-8a33-eddf12262935, d240c4a6-c34f-4765-9a8d-e7647e8cc0f1, e938f3eb-a853-4e51-b775-836a66e8a7b4, f64d90cd-0573-43c9-8a2a-a6cdce7fff86, feee2495-ae96-44bc-b2e8-b46d06af68d1."
+      },
+      "mandatory_limits": [
+        "Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1; stopped because reached.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+        "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+        "Unattested surface field object on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1: the surface did not report it.",
+        "attestation limited: the engine can't self-report the calling principal; the token and connection were verified separately",
+        "The supplied definition does not establish key uniqueness, other business rules, or a shared snapshot, so it shows a mechanism that can account for the difference but does not prove exactly which rows produced it.",
+        "Comparison 1: SNAPSHOT_UNVERIFIED; the upper and lower served data version is not attested to its quantity read; different update timing was not excluded as a cause of the difference.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: QUANTITY_BOUND_SELF_REPORT_REQUIRED.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1 -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1: Investigation terminated before this boundary.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1 -> unresolved upstream: No declared upstream read for this quantity (literal initialization or derived/unsupported column).",
+        "Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established."
+      ],
+      "model_mechanism": {
+        "evidence_ids": [
+          "transformation-definition-f96bc456-f63a-48be-9b1c-cb981c97d4b1",
+          "boundary-2-comparison"
+        ],
+        "provenance": "PROVIDER_MECHANISM",
+        "text": "At L1 (REFINED), the retained definition applies a left join on product_id before deriving a value column. The traced quantity column remains unchanged through that step, so repeated matches on the join key may duplicate carried rows and raise the summed quantity when it is represented at L0 (SERVING)."
+      },
+      "path_order": [
+        {
+          "comparison_id": "boundary-2-comparison",
+          "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+          "input": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+            "quantity": "7,661",
+            "term": "L1"
+          },
+          "output": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+            "quantity": "8,765",
+            "term": "L0"
+          },
+          "values_equal": false
+        }
+      ],
+      "previous_runs": {
+        "same_cells": [],
+        "same_ticket": [
+          "022cfcc6-b6db-4a2e-8891-5cba88426995",
+          "08d83cd7-2a49-4948-be61-6ce289a9324b",
+          "0ebb1fd9-1be6-4d80-b5fe-95ffb474a66e",
+          "15128277-242b-4b08-ad18-dad91d6089b3",
+          "288b5c79-de67-483f-835a-7652c66d5da3",
+          "37272838-7954-4a6f-a42e-c2c8f58158ef",
+          "53036702-cc99-4d4f-8c6e-8cdf1d8a9478",
+          "595dd549-aec8-4979-9faa-bdb739d97d57",
+          "5cd46575-ea32-4b95-98b2-c6172dbc4523",
+          "61f1c795-ada8-49c3-bc74-26de4410cade",
+          "6a89e98b-1b6b-4c6f-80d2-c493ecb9a09a",
+          "77ffd137-8061-4372-b323-5ee71a521b47",
+          "7d5362f1-4462-4d68-9007-45695985ccd9",
+          "964c94e9-3daa-4aac-a3e0-9a7351d1e1e3",
+          "9a0cda78-6fb0-43f4-a744-d2d6fca63697",
+          "9b7330e0-bf1a-4447-8739-e1a2c5b9516f",
+          "a8b69c12-db94-41c6-a85c-e81d9e43f3a4",
+          "adb36208-eb43-4e5e-8dc7-43eece357843",
+          "ae42f998-2b2c-4832-9d05-f90cb7b7c233",
+          "bc32732d-4fba-46ae-9763-4522a1b3cda4",
+          "be3a2e07-66dd-49b6-b07b-4cdf29a83aa4",
+          "be6bdff8-7cdc-4132-ba1e-28507307e361",
+          "cd5c63de-b100-4f44-8a33-eddf12262935",
+          "d240c4a6-c34f-4765-9a8d-e7647e8cc0f1",
+          "e938f3eb-a853-4e51-b775-836a66e8a7b4",
+          "f64d90cd-0573-43c9-8a2a-a6cdce7fff86",
+          "feee2495-ae96-44bc-b2e8-b46d06af68d1"
+        ],
+        "status": "RECORDED",
+        "ticket_key": "5beddea4193438e3998af2cf216d4a0ec8ae909a915ac6bbfd9605f4f50e9c47",
+        "version": 1
+      },
+      "question_account": {
+        "authority": "DETERMINISTIC_EVIDENCE_COVERAGE",
+        "finding_outcome": "TRANSFORMATION_LOGIC",
+        "question": "Description supplied by user:\nIn Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.\n\nComparison selected by user:\nThe application",
+        "question_hash": "1f604e661eaae7f6cd0c2b6ecb967eaa079a75ebf97d8607a9966291306e3977",
+        "status": "PARTLY_ANSWERED",
+        "subject_provenance": "DECLARED_QUESTION_KIND",
+        "subjects": [
+          {
+            "evidence_ids": [
+              "boundary-2-comparison"
+            ],
+            "reason": "Independent quantities were compared within the checked scope; remaining boundaries, timing and business intent are limited by the recorded evidence.",
+            "status": "PARTLY_ANSWERED",
+            "subject": "comparison"
+          }
+        ],
+        "version": 1
+      },
+      "recommended_action": {
+        "code": "CONFIRM_INTENT_OR_REQUEST_ENHANCEMENT",
+        "text": "Ask the responsible business owner whether this behavior is intended; request a change if it is not."
+      },
+      "snapshot_attestations": [
+        {
+          "lower": null,
+          "reason": "QUERY_BOUND_VERSION_MISSING",
+          "status": "SNAPSHOT_UNVERIFIED",
+          "unverified_sides": [
+            "upper",
+            "lower"
+          ],
+          "upper": null,
+          "version": 1
+        }
+      ]
+    },
+    "version": 5
+  },
+  "verification": {
+    "capture_sha256": "a8b25ac62a72197b030fa677ff4da0fd59bd02b7016e6e7582d3e004055894d9",
+    "error": {
+      "errno": null,
+      "error_type": "ValueError",
+      "message": "NATIVE_DECLARED_ROUTE_NOT_VERIFIED"
+    },
+    "source_engine_revision": "7dd7077f324e83b045e8dbb4652b144978cd506f",
+    "status": "FAILED",
+    "verification_status": null
+  },
+  "handoff_warnings": [
+    {
+      "error_type": "ValueError",
+      "reason": "FRESH_VERIFICATION_APPROVAL_PIN_DIFFERS",
+      "stage": "revalidate-fresh-reader-proof"
+    },
+    {
+      "error_type": "ValueError",
+      "reason": "NO_VALID_READER_PROOF_FOR_SCOPE_CHECK",
+      "stage": "form-scope-handoff"
+    }
+  ],
+  "exit": {
+    "exit_code": 0,
+    "last_step": "investigation",
+    "reason": "ANSWER_DELIVERED_WITH_LABELS",
+    "result": {
+      "key": "round21-part0-A-sealing-03/00001293-result.json",
+      "sha256": "7f3ac7758c990ca770b6dc5018471c6c099ce922b57d76babbf02892b9ccfba7"
+    },
+    "stage": "EXIT_INTENT_BEFORE_FINAL_SEAL"
+  },
+  "seal": "88daab9ec8f048a9fcdc4d951e49e633144c896e07226694e8543c04fac63bb6",
+  "sealed_records": 1295,
+  "timing": {
+    "excludes_its_own_publication": true,
+    "model_calls": [
+      {
+        "ended_epoch": 1792696792.5431054,
+        "source": "EXISTING_NATIVE_TAPE_PROVIDER_EVENT_TIMESTAMPS",
+        "started_epoch": 1792696789.32837,
+        "status": "RESPONSE",
+        "wall_seconds": 3.214735269546509
+      },
+      {
+        "ended_epoch": 1792697869.6779149,
+        "source": "EXISTING_NATIVE_TAPE_PROVIDER_EVENT_TIMESTAMPS",
+        "started_epoch": 1792697864.3199756,
+        "status": "RESPONSE",
+        "wall_seconds": 5.35793924331665
+      },
+      {
+        "ended_epoch": 1792698276.1548274,
+        "source": "EXISTING_NATIVE_TAPE_PROVIDER_EVENT_TIMESTAMPS",
+        "started_epoch": 1792698269.3404408,
+        "status": "RESPONSE",
+        "wall_seconds": 6.814386606216431
+      }
+    ],
+    "not_part_of_semantic_tape": true,
+    "overlap": "Inclusive phases overlap; do not add them. Publication during investigation/model observation is included in those wall times.",
+    "partial": false,
+    "phases": {
+      "capture_local": {
+        "source": "SERIALIZATION_SECRET_AUDIT_AND_FSYNC_CLOCK",
+        "wall_seconds": 68.54589814700333
+      },
+      "capture_publish": {
+        "inclusive": true,
+        "publications": 1296,
+        "source": "OUTER_CAPTURE_TRANSPORT_CLOCK",
+        "wall_seconds": 333.65627263900154
+      },
+      "dependency_io": {
+        "inclusive": true,
+        "source": "OUTER_CAPTURE_STEP_CLOCK",
+        "wall_seconds": 6.870344516999978
+      },
+      "intake": {
+        "inclusive": true,
+        "source": "NOT_SEPARATELY_OBSERVED",
+        "wall_seconds": null
+      },
+      "investigation": {
+        "inclusive": true,
+        "source": "OUTER_CAPTURE_STEP_CLOCK",
+        "wall_seconds": 1863.8270543959998
+      },
+      "model": {
+        "inclusive": true,
+        "source": "EXISTING_NATIVE_TAPE_PROVIDER_EVENT_TIMESTAMPS",
+        "wall_seconds": 15.38706111907959
+      },
+      "seal": {
+        "source": "OUTER_SEAL_CLOCK",
+        "wall_seconds": 0.3352412260001074
+      },
+      "startup": {
+        "source": "AZURE_START_AND_IMAGE_PULL_TIME_NOT_AVAILABLE_INSIDE_WORKER",
+        "wall_seconds": null
+      }
+    },
+    "run_id": "round21-part0-A-sealing-03",
+    "run_record_seal": "88daab9ec8f048a9fcdc4d951e49e633144c896e07226694e8543c04fac63bb6",
+    "semantic_tapes_changed": false,
+    "steps": [
+      {
+        "name": "input-materialization",
+        "status": "COMPLETED",
+        "wall_seconds": 6.870344516999978
+      },
+      {
+        "name": "check-access",
+        "status": "COMPLETED",
+        "wall_seconds": 49.142690558
+      },
+      {
+        "name": "retained-verification-label",
+        "status": "COMPLETED",
+        "wall_seconds": 0.3541082999999787
+      },
+      {
+        "name": "revalidate-fresh-reader-proof",
+        "status": "FAILED",
+        "wall_seconds": 0.271667769000004
+      },
+      {
+        "name": "admit-retained-endpoint-input",
+        "status": "COMPLETED",
+        "wall_seconds": 0.0031339359999833505
+      },
+      {
+        "name": "install-private-snapshots",
+        "status": "COMPLETED",
+        "wall_seconds": 1.0043715460000158
+      },
+      {
+        "name": "configured-demo",
+        "status": "COMPLETED",
+        "wall_seconds": 1830.535693042
+      },
+      {
+        "name": "investigation",
+        "status": "COMPLETED",
+        "wall_seconds": 1863.8270543959998
+      }
+    ],
+    "unpaired_model_requests": 0,
+    "version": "dia-run-timing-v1",
+    "wall_seconds": 1923.018383907
+  },
+  "native_operation_seconds": {
+    "form_submit": 254.0758466720581,
+    "run": 693.364884853363,
+    "ticket_finish": 152.00772714614868
+  },
+  "startup_to_first_capture_seconds": 25,
+  "startup_measurement_limit": "Azure reported start to first Blob last-modified, one-second resolution; includes pre-capture setup, not pure image pull.",
+  "timing_sidecar_sha256": "598a33852d0bff833e088e0a71d2446fab7e3b647199a53d42dfcc426c8934a1",
+  "same_image_replay": {
+    "matched": 2,
+    "total": 3,
+    "rows": [
+      {
+        "capture": 1,
+        "run_id": "round21-A03-replay-fixed-1",
+        "seal": null,
+        "matched": false,
+        "network_requests": null,
+        "failure": [
+          "TAPE_EVENT_DIFFERS:CONFIGURATION:BUDGET"
+        ]
+      },
+      {
+        "capture": 2,
+        "run_id": "round21-A03-replay-fixed-2",
+        "seal": "b2a17ac367a51c903b37e9c40bdb766a3d382b43f769c0e68b8af96e3fbb50f9",
+        "matched": true,
+        "network_requests": 0,
+        "failure": []
+      },
+      {
+        "capture": 3,
+        "run_id": "round21-A03-replay-fixed-3",
+        "seal": "5ce492afde02b9c14e66f58957ea7b50f5f5e469733a13bfecdcfa4733834df8",
+        "matched": true,
+        "network_requests": 0,
+        "failure": []
+      }
+    ],
+    "original_tapes_unchanged": true
+  }
+}

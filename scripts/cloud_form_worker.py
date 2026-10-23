@@ -130,12 +130,13 @@ def export_capture_pointers(root,before,job_root):
             if not tape_path.exists():row['status']='MISSING_TAPE';continue
             if not stat.S_ISREG(_plain(tape_path).st_mode):raise ValueError('CLOUD_CAPTURE_TAPE_NOT_FILE')
             try:
-                sealed=json.loads(tape_path.read_bytes())
+                from investigator.streaming_tape import load,digest
+                sealed=load(tape_path)
                 # Full Tape validation requires retired SQLite snapshots. This
                 # export validates only the native sealed envelope/event journal;
                 # CAS restoration and complete engine replay remain separate.
                 if (sealed.get('version') not in SUPPORTED_VERSIONS
-                        or sealed.get('seal')!=sha(bytes_of({k:v for k,v in sealed.items() if k!='seal'}))):
+                        or sealed.get('seal')!=digest({k:v for k,v in sealed.items() if k!='seal'})):
                     raise ValueError('CLOUD_CAPTURE_TAPE_SEAL')
                 events=sealed.get('events',[])
                 if not events or events[0]['kind']!='BOOTSTRAP' or events[-1]['kind']!='FINAL':
@@ -144,8 +145,12 @@ def export_capture_pointers(root,before,job_root):
                 journal=tape_path.with_suffix('.events.jsonl')
                 if journal.exists():
                     if not stat.S_ISREG(_plain(journal).st_mode):raise ValueError('CLOUD_CAPTURE_JOURNAL_NOT_FILE')
-                    if [json.loads(line) for line in journal.read_bytes().splitlines()]!=events:
-                        raise ValueError('CLOUD_CAPTURE_JOURNAL_DIFFERS')
+                    with journal.open('rb') as source:
+                        count=0
+                        for count,line in enumerate(source,1):
+                            if count>len(events) or json.loads(line)!=events[count-1]:
+                                raise ValueError('CLOUD_CAPTURE_JOURNAL_DIFFERS')
+                        if count!=len(events):raise ValueError('CLOUD_CAPTURE_JOURNAL_DIFFERS')
             except Exception as error:
                 row.update(status='UNSEALED_OR_INVALID_TAPE',error_type=type(error).__name__,reason=str(error));continue
             row['source_seal']=sealed['seal']
@@ -194,6 +199,13 @@ def retaining_capture_pointers(job_root,capture_root):
 def run_form(workspace,form):
     """One normal form pass. Refusals/questions remain terminal for this job."""
     saved=workspace.forms.submit(form)
+    if saved['ticket']['state']=='NEW':
+        # A retained input is not a completed attempt. The form controller can
+        # resume an identical unfinished submission; do not label cached NEW
+        # as DEMO_FINISHED or turn this into an unbounded retry loop.
+        saved=workspace.forms.submit(form)
+        if saved['ticket']['state']=='NEW':
+            raise ValueError('CLOUD_FORM_PLANNING_INCOMPLETE_NEW')
     if saved['ticket']['state']!='INVESTIGATING':return saved
     identity=saved['ticket']['session_id']
     if not workspace.run_session_once(identity):

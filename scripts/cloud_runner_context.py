@@ -141,7 +141,7 @@ def demo_after_verification(verification,plan,context,prepared):
 
 @contextmanager
 def demo_state_admission(plan,context):
-    """Prove short transactions/no legacy lease and preserve the 1800s boundary."""
+    """Prove short transactions/no legacy lease under the owner-approved hour."""
     import math,time
     from investigator.live_gateway import _network_unlocked
     from investigator.shared_writer_lease import LEASE_ENV
@@ -149,7 +149,7 @@ def demo_state_admission(plan,context):
     _network_unlocked()
     now=time.time();start=getattr(context,'started_at',now)
     if type(start)not in (int,float)or not math.isfinite(start)or start>now+1:raise ValueError('DEMO_RUN_START_REQUIRED')
-    deadline=start+1800
+    deadline=start+3600
     key='INVESTIGATOR_CLOUD_WORK_DEADLINE';previous=os.environ.get(key)
     if previous is not None:
         try:prior=float(previous)

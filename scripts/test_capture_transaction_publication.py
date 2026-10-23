@@ -93,6 +93,16 @@ class TransactionPublicationTests(unittest.TestCase):
         self.assertFalse(TRANSACTION_ACTIVE.get())
         self.assertTrue(self.connections[-1].closed)
 
+    def test_recovered_full_publication_flush_can_seal_original_records(self):
+        self.fail=True
+        with self.assertRaises(OSError):self.capture.record('observed',{'value':7})
+        self.fail=False
+        self.capture.flush_publications()
+        self.capture.seal()
+        sealed=json.loads(self.sent[-1][1])
+        self.assertEqual(len(sealed['records']),3)
+        self.assertEqual(json.loads(self.sent[-2][1]),{'value':7})
+
     def test_seal_inside_transaction_refuses_without_blob_exception(self):
         with self.state.transaction():
             self.capture.record('tape-event',{'value':1})

@@ -1,0 +1,1056 @@
+{
+  "owner_decision_date": "2026-10-22",
+  "mode": "SCAN",
+  "new_estate_permission_grants": [],
+  "investigator_still_viewer": true,
+  "before": {
+    "fixture": "REFRESH_RUN UNAVAILABLE READ_FAILED:MetadataUnavailable:403",
+    "billing": "REFRESH_RUN UNAVAILABLE READ_FAILED:MetadataUnavailable:403",
+    "dia-sample-estate": "REFRESH_RUN UNAVAILABLE READ_FAILED:MetadataUnavailable:403"
+  },
+  "runs": [
+    {
+      "estate": "fixture",
+      "kind": "model",
+      "run_id": "round21-refresh-fixture-model-01",
+      "seal": "09f2a2fa4bdaac628c7d1aebacbf0277c79ef92cd749cc9f90419623971c35e7",
+      "observed_at": "2026-10-23T00:05:50.419503Z",
+      "physical_requests": 2,
+      "model_calls": 0,
+      "config_hash": "3d7bcbc6e5bc96726cfcb74a0b853e808e8a83fda8870387f726738296203804",
+      "new_facts": [
+        {
+          "collected_at": "2026-10-23T00:05:50.419503Z",
+          "freshness": "CURRENT",
+          "id": "6ea49bd6d71ecc1cc33630eb5e26a7689522052c35e66f206e86b1f220cf7cff",
+          "kind": "REFRESH_RUN",
+          "observed_at": "2026-10-23T00:05:50.419503Z",
+          "provenance": {
+            "collector": "microsoft-runtime:d8a533331fa0b0ed436347fe37acba3a8e6012ab924456b95d4c1492224ca171",
+            "evidence_ids": [
+              "sha256:f0b5f40efdbd7b8b001823a112db2e384a7f47adc46bf245c8af8ebf108ea89a"
+            ],
+            "locator": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f",
+          "value": {
+            "accounting": "UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA",
+            "end": "2026-10-07T21:15:37.357000Z",
+            "error": null,
+            "recent_runs": [
+              {
+                "end": "2026-10-07T21:15:37.357000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "754776194",
+                "start": "2026-10-07T21:15:32.983000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-07T21:11:37.567000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "754775334",
+                "start": "2026-10-07T21:11:31.983000Z",
+                "status": "SUCCEEDED"
+              }
+            ],
+            "rows_read": null,
+            "rows_written": null,
+            "run_id": "754776194",
+            "start": "2026-10-07T21:15:32.983000Z",
+            "status": "SUCCEEDED"
+          }
+        },
+        {
+          "collected_at": "2026-10-23T00:05:50.419503Z",
+          "freshness": "CURRENT",
+          "id": "88670b1fa35a83d5b80dab59b8c5439ad79097e4a0b99efc1c0478776487bfda",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-23T00:05:50.419503Z",
+          "provenance": {
+            "collector": "microsoft-runtime:d8a533331fa0b0ed436347fe37acba3a8e6012ab924456b95d4c1492224ca171",
+            "evidence_ids": [
+              "sha256:17631b4928916ed61679cf05c06a95980112f7c0e2043c69dbdd31040012b965"
+            ],
+            "locator": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f",
+          "value": {
+            "enabled": false,
+            "native_schedule": {
+              "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+              "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ],
+              "enabled": false,
+              "localTimeZoneId": "UTC",
+              "notifyOption": "MailOnFailure",
+              "times": [
+                "04:30"
+              ]
+            },
+            "next_due": null,
+            "previous_due": null
+          }
+        },
+        {
+          "collected_at": "2026-10-23T00:05:50.419503Z",
+          "freshness": "CURRENT",
+          "id": "cfd0c917780babccb9fcfa0cda2cba2b71e9eba3d0172c747525361664a56788",
+          "kind": "COVERAGE",
+          "observed_at": "2026-10-23T00:05:50.419503Z",
+          "provenance": {
+            "collector": "microsoft-runtime:d8a533331fa0b0ed436347fe37acba3a8e6012ab924456b95d4c1492224ca171",
+            "evidence_ids": [
+              "sha256:f0b5f40efdbd7b8b001823a112db2e384a7f47adc46bf245c8af8ebf108ea89a"
+            ],
+            "locator": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f",
+          "value": {
+            "gaps": [],
+            "history_empty": false,
+            "listing_complete": true
+          }
+        },
+        {
+          "collected_at": "2026-10-23T00:05:50.419503Z",
+          "freshness": "CURRENT",
+          "id": "e39265aee30962c2dc2547ff44e528aa8f6544edbd64d314c043275772d14618",
+          "kind": "REFRESH_STATE",
+          "observed_at": "2026-10-23T00:05:50.419503Z",
+          "provenance": {
+            "collector": "microsoft-runtime:d8a533331fa0b0ed436347fe37acba3a8e6012ab924456b95d4c1492224ca171",
+            "evidence_ids": [
+              "sha256:f0b5f40efdbd7b8b001823a112db2e384a7f47adc46bf245c8af8ebf108ea89a"
+            ],
+            "locator": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f",
+          "value": {
+            "last_end": "2026-10-07T21:15:37.357000Z",
+            "run_id": "754776194",
+            "state": "SUCCEEDED"
+          }
+        },
+        {
+          "collected_at": "2026-10-23T00:05:50.419503Z",
+          "freshness": "CURRENT",
+          "id": "fb4cd54636549cdb7bf9181abe9b97d36c01ad912d9819473c1e753be7d63927",
+          "kind": "RUN_HISTORY",
+          "observed_at": "2026-10-23T00:05:50.419503Z",
+          "provenance": {
+            "collector": "microsoft-runtime:d8a533331fa0b0ed436347fe37acba3a8e6012ab924456b95d4c1492224ca171",
+            "evidence_ids": [
+              "sha256:f0b5f40efdbd7b8b001823a112db2e384a7f47adc46bf245c8af8ebf108ea89a"
+            ],
+            "locator": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f",
+          "value": {
+            "listing_complete": true,
+            "runs": [
+              {
+                "end": "2026-10-07T21:15:37.357000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "754776194",
+                "start": "2026-10-07T21:15:32.983000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-07T21:11:37.567000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "754775334",
+                "start": "2026-10-07T21:11:31.983000Z",
+                "status": "SUCCEEDED"
+              }
+            ]
+          }
+        },
+        {
+          "collected_at": "2026-10-23T00:05:50.419503Z",
+          "freshness": "CURRENT",
+          "id": "ff68f5dae713f79d2d1fc8eb7a265f3f1f49492c5c7e9ad50b8181eb3da539ba",
+          "kind": "TYPICAL_DURATION",
+          "observed_at": "2026-10-23T00:05:50.419503Z",
+          "provenance": {
+            "collector": "microsoft-runtime:d8a533331fa0b0ed436347fe37acba3a8e6012ab924456b95d4c1492224ca171",
+            "evidence_ids": [
+              "sha256:f0b5f40efdbd7b8b001823a112db2e384a7f47adc46bf245c8af8ebf108ea89a"
+            ],
+            "locator": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f"
+          },
+          "reason": null,
+          "source": "DERIVED_OBSERVATIONS",
+          "state": "OBSERVED",
+          "subject": "fecbe6862a76e62aaba0121de6e053b19c2c230407a77fdee3a4e2b77af8744f",
+          "value": {
+            "median_seconds": 4.978999999999999,
+            "sample_count": 2
+          }
+        }
+      ],
+      "physical_receipts": [
+        {
+          "name": "00000009-physical-result.json",
+          "body": {
+            "category": "SCAN",
+            "label": "physical_read:1",
+            "ordinal": 1,
+            "result": {
+              "headers": {
+                "Access-Control-Expose-Headers": "RequestId,Date",
+                "Cache-Control": "no-store, must-revalidate, no-cache",
+                "Connection": "close",
+                "Content-Type": "application/json; odata.metadata=minimal; odata.streaming=true",
+                "Date": "Fri, 23 Oct 2026 00:05:55 GMT",
+                "OData-Version": "4.0",
+                "Pragma": "no-cache",
+                "RequestId": "97947d68-97bf-4770-aa35-4b72b0742afc",
+                "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+                "Transfer-Encoding": "chunked",
+                "X-Content-Type-Options": "nosniff",
+                "X-Frame-Options": "deny",
+                "home-cluster-uri": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/",
+                "request-redirected": "true"
+              },
+              "status_code": 200,
+              "text": {
+                "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/$metadata#refreshes",
+                "value": [
+                  {
+                    "endTime": "2026-10-07T21:15:37.357Z",
+                    "extendedStatus": "Completed",
+                    "id": 754776194,
+                    "refreshAttempts": [
+                      {
+                        "attemptId": 1,
+                        "endTime": "2026-10-07T21:15:37.3569457Z",
+                        "executionMetrics": [],
+                        "startTime": "2026-10-07T21:15:34.5270577Z",
+                        "type": "Data"
+                      }
+                    ],
+                    "refreshType": "ViaEnhancedApi",
+                    "requestId": "b295714e-6a4d-4e35-afc1-fb7763f3e91d",
+                    "startTime": "2026-10-07T21:15:32.983Z",
+                    "status": "Completed"
+                  },
+                  {
+                    "endTime": "2026-10-07T21:11:37.567Z",
+                    "extendedStatus": "Completed",
+                    "id": 754775334,
+                    "refreshAttempts": [
+                      {
+                        "attemptId": 1,
+                        "endTime": "2026-10-07T21:11:37.5669184Z",
+                        "executionMetrics": [],
+                        "startTime": "2026-10-07T21:11:33.5465988Z",
+                        "type": "Data"
+                      }
+                    ],
+                    "refreshType": "ViaEnhancedApi",
+                    "requestId": "5d19c53b-ac65-43b0-8b79-626b4240eb5e",
+                    "startTime": "2026-10-07T21:11:31.983Z",
+                    "status": "Completed"
+                  }
+                ]
+              }
+            },
+            "status": "COMPLETED"
+          }
+        },
+        {
+          "name": "00000010-physical-result.json",
+          "body": {
+            "category": "SCAN",
+            "label": "physical_read:2",
+            "ordinal": 2,
+            "result": {
+              "headers": {
+                "Access-Control-Expose-Headers": "RequestId,Date",
+                "Cache-Control": "no-store, must-revalidate, no-cache",
+                "Connection": "close",
+                "Content-Type": "application/json; odata.metadata=minimal; odata.streaming=true",
+                "Date": "Fri, 23 Oct 2026 00:05:59 GMT",
+                "OData-Version": "4.0",
+                "Pragma": "no-cache",
+                "RequestId": "52405de4-abb3-4ee6-bc75-d56911b2b0b6",
+                "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+                "Transfer-Encoding": "chunked",
+                "X-Content-Type-Options": "nosniff",
+                "X-Frame-Options": "deny",
+                "home-cluster-uri": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/",
+                "request-redirected": "true"
+              },
+              "status_code": 200,
+              "text": {
+                "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+                "days": [
+                  "Sunday",
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday"
+                ],
+                "enabled": false,
+                "localTimeZoneId": "UTC",
+                "notifyOption": "MailOnFailure",
+                "times": [
+                  "04:30"
+                ]
+              }
+            },
+            "status": "COMPLETED"
+          }
+        }
+      ]
+    },
+    {
+      "estate": "billing",
+      "kind": "model",
+      "run_id": "round21-refresh-billing-model-01",
+      "seal": "0e84e1a543c073becf4ae791913390a8975d86ffa4d46b00ac799843646f3505",
+      "observed_at": "2026-10-23T00:06:39.839565Z",
+      "physical_requests": 2,
+      "model_calls": 0,
+      "config_hash": "638a3dd3dcaa1f92d0d2dad95df69e8714ac2b002c8b5ba9d632dee48395bc70",
+      "new_facts": [
+        {
+          "collected_at": "2026-10-23T00:06:39.839565Z",
+          "freshness": "CURRENT",
+          "id": "9227111acc5ed9e67fc692e4975d26801e230f0f17bbd73949f12e1ea6e42a35",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-23T00:06:39.839565Z",
+          "provenance": {
+            "collector": "microsoft-runtime:8b8add39b1b3bbf05051200684642bc68ee0c9695580165440fd17fca6875167",
+            "evidence_ids": [
+              "sha256:b8105ca72cfe9acedac9324e29a5d359e05124237e3eb2a389d6d4db3976bb7b"
+            ],
+            "locator": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+          "value": {
+            "enabled": false,
+            "native_schedule": {
+              "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/7d67bb36-04f6-4182-95aa-da5d515248fa/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+              "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ],
+              "enabled": false,
+              "localTimeZoneId": "UTC",
+              "notifyOption": "MailOnFailure",
+              "times": [
+                "19:00"
+              ]
+            },
+            "next_due": null,
+            "previous_due": null
+          }
+        },
+        {
+          "collected_at": "2026-10-23T00:06:39.839565Z",
+          "freshness": "CURRENT",
+          "id": "a3330bea29af229cb0a8799fa9f79e93d1a242559e3316b9cd0ae22938c4d81d",
+          "kind": "COVERAGE",
+          "observed_at": "2026-10-23T00:06:39.839565Z",
+          "provenance": {
+            "collector": "microsoft-runtime:8b8add39b1b3bbf05051200684642bc68ee0c9695580165440fd17fca6875167",
+            "evidence_ids": [
+              "sha256:f07ba12b647d243432c0179e98cee582a9675225c5d5c059ffc4679e2bd054ed"
+            ],
+            "locator": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED_NEGATIVE",
+          "subject": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+          "value": {
+            "gaps": [],
+            "history_empty": true,
+            "listing_complete": true
+          }
+        },
+        {
+          "collected_at": "2026-10-23T00:06:39.839565Z",
+          "freshness": "CURRENT",
+          "id": "b0ff729fadac2ee3300dc42c652bf6cafabdd000fa241e6953ac65fc12bbc3cb",
+          "kind": "RUN_HISTORY",
+          "observed_at": "2026-10-23T00:06:39.839565Z",
+          "provenance": {
+            "collector": "microsoft-runtime:8b8add39b1b3bbf05051200684642bc68ee0c9695580165440fd17fca6875167",
+            "evidence_ids": [
+              "sha256:f07ba12b647d243432c0179e98cee582a9675225c5d5c059ffc4679e2bd054ed"
+            ],
+            "locator": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED_NEGATIVE",
+          "subject": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+          "value": {
+            "listing_complete": true,
+            "runs": []
+          }
+        }
+      ],
+      "physical_receipts": [
+        {
+          "name": "00000009-physical-result.json",
+          "body": {
+            "category": "SCAN",
+            "label": "physical_read:1",
+            "ordinal": 1,
+            "result": {
+              "headers": {
+                "Access-Control-Expose-Headers": "RequestId,Date",
+                "Cache-Control": "no-store, must-revalidate, no-cache",
+                "Connection": "close",
+                "Content-Type": "application/json; odata.metadata=minimal; odata.streaming=true",
+                "Date": "Fri, 23 Oct 2026 00:06:41 GMT",
+                "OData-Version": "4.0",
+                "Pragma": "no-cache",
+                "RequestId": "12b8c01e-69c9-458c-9498-c11e795641f5",
+                "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+                "Transfer-Encoding": "chunked",
+                "X-Content-Type-Options": "nosniff",
+                "X-Frame-Options": "deny",
+                "home-cluster-uri": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/",
+                "request-redirected": "true"
+              },
+              "status_code": 200,
+              "text": {
+                "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/7d67bb36-04f6-4182-95aa-da5d515248fa/$metadata#refreshes",
+                "value": []
+              }
+            },
+            "status": "COMPLETED"
+          }
+        },
+        {
+          "name": "00000010-physical-result.json",
+          "body": {
+            "category": "SCAN",
+            "label": "physical_read:2",
+            "ordinal": 2,
+            "result": {
+              "headers": {
+                "Access-Control-Expose-Headers": "RequestId,Date",
+                "Cache-Control": "no-store, must-revalidate, no-cache",
+                "Connection": "close",
+                "Content-Type": "application/json; odata.metadata=minimal; odata.streaming=true",
+                "Date": "Fri, 23 Oct 2026 00:06:45 GMT",
+                "OData-Version": "4.0",
+                "Pragma": "no-cache",
+                "RequestId": "cecd8e52-71f7-4c70-adc7-210ecfb99851",
+                "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+                "Transfer-Encoding": "chunked",
+                "X-Content-Type-Options": "nosniff",
+                "X-Frame-Options": "deny",
+                "home-cluster-uri": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/",
+                "request-redirected": "true"
+              },
+              "status_code": 200,
+              "text": {
+                "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/7d67bb36-04f6-4182-95aa-da5d515248fa/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+                "days": [
+                  "Sunday",
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday"
+                ],
+                "enabled": false,
+                "localTimeZoneId": "UTC",
+                "notifyOption": "MailOnFailure",
+                "times": [
+                  "19:00"
+                ]
+              }
+            },
+            "status": "COMPLETED"
+          }
+        }
+      ]
+    },
+    {
+      "estate": "dia-sample-estate",
+      "kind": "model",
+      "run_id": "round21-refresh-dia-sample-estate-model-01",
+      "seal": "0c7c34c2626d9ab2d405d2c6ccdbf0d87cd957877efb00f1952e912ad42ef80a",
+      "observed_at": "2026-10-23T00:07:29.096464Z",
+      "physical_requests": 2,
+      "model_calls": 0,
+      "config_hash": "78b8a1503d0af7c28a2ee1dbaf76e8ff4ccda9cd7101204cb6e1ff267e033936",
+      "new_facts": [
+        {
+          "collected_at": "2026-10-23T00:07:29.096464Z",
+          "freshness": "CURRENT",
+          "id": "3b364e13396f02a6b9a551e2aea2a869e38f938db60f01640b0fb5b69e9f3909",
+          "kind": "RUN_HISTORY",
+          "observed_at": "2026-10-23T00:07:29.096464Z",
+          "provenance": {
+            "collector": "microsoft-runtime:aa9f4171b64333db6516371dd800ca3243cf34b9034f6e5815a42515bc5e3410",
+            "evidence_ids": [
+              "sha256:e41cd4ef3c0a1543269dda1198a75d0522567a0a4cc91e35d60f1bef0b670fc6"
+            ],
+            "locator": "dd56cef57fd83894ae582f0f11c345b87e14311846e26fa582d2295bfd398b66"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED_NEGATIVE",
+          "subject": "dd56cef57fd83894ae582f0f11c345b87e14311846e26fa582d2295bfd398b66",
+          "value": {
+            "listing_complete": true,
+            "runs": []
+          }
+        },
+        {
+          "collected_at": "2026-10-23T00:07:29.096464Z",
+          "freshness": "CURRENT",
+          "id": "401a9745cdeda67e79a940c48506da8a66b9bf23cf7a3ce8985b3e35b3bfe7d9",
+          "kind": "COVERAGE",
+          "observed_at": "2026-10-23T00:07:29.096464Z",
+          "provenance": {
+            "collector": "microsoft-runtime:aa9f4171b64333db6516371dd800ca3243cf34b9034f6e5815a42515bc5e3410",
+            "evidence_ids": [
+              "sha256:e41cd4ef3c0a1543269dda1198a75d0522567a0a4cc91e35d60f1bef0b670fc6"
+            ],
+            "locator": "dd56cef57fd83894ae582f0f11c345b87e14311846e26fa582d2295bfd398b66"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED_NEGATIVE",
+          "subject": "dd56cef57fd83894ae582f0f11c345b87e14311846e26fa582d2295bfd398b66",
+          "value": {
+            "gaps": [],
+            "history_empty": true,
+            "listing_complete": true
+          }
+        },
+        {
+          "collected_at": "2026-10-23T00:07:29.096464Z",
+          "freshness": "CURRENT",
+          "id": "9158e9f81216f4ed2472ed693f208c71db9eb28a0046437f68ac37d5948dd551",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-23T00:07:29.096464Z",
+          "provenance": {
+            "collector": "microsoft-runtime:aa9f4171b64333db6516371dd800ca3243cf34b9034f6e5815a42515bc5e3410",
+            "evidence_ids": [
+              "sha256:5be04ddde6796edfdcb46f3f85192a51f082479251058b0c163823d56b4c7e1b"
+            ],
+            "locator": "dd56cef57fd83894ae582f0f11c345b87e14311846e26fa582d2295bfd398b66"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "dd56cef57fd83894ae582f0f11c345b87e14311846e26fa582d2295bfd398b66",
+          "value": {
+            "enabled": false,
+            "native_schedule": {
+              "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/220708c4-6b51-4be7-ba1a-fb91bbd09e0f/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+              "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ],
+              "enabled": false,
+              "localTimeZoneId": "UTC",
+              "notifyOption": "MailOnFailure",
+              "times": [
+                "11:30"
+              ]
+            },
+            "next_due": null,
+            "previous_due": null
+          }
+        }
+      ],
+      "physical_receipts": [
+        {
+          "name": "00000009-physical-result.json",
+          "body": {
+            "category": "SCAN",
+            "label": "physical_read:1",
+            "ordinal": 1,
+            "result": {
+              "headers": {
+                "Access-Control-Expose-Headers": "RequestId,Date",
+                "Cache-Control": "no-store, must-revalidate, no-cache",
+                "Connection": "close",
+                "Content-Type": "application/json; odata.metadata=minimal; odata.streaming=true",
+                "Date": "Fri, 23 Oct 2026 00:07:31 GMT",
+                "OData-Version": "4.0",
+                "Pragma": "no-cache",
+                "RequestId": "2d0fc61b-cedb-4a86-99d6-1ae12db07e37",
+                "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+                "Transfer-Encoding": "chunked",
+                "X-Content-Type-Options": "nosniff",
+                "X-Frame-Options": "deny",
+                "home-cluster-uri": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/",
+                "request-redirected": "true"
+              },
+              "status_code": 200,
+              "text": {
+                "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/220708c4-6b51-4be7-ba1a-fb91bbd09e0f/$metadata#refreshes",
+                "value": []
+              }
+            },
+            "status": "COMPLETED"
+          }
+        },
+        {
+          "name": "00000010-physical-result.json",
+          "body": {
+            "category": "SCAN",
+            "label": "physical_read:2",
+            "ordinal": 2,
+            "result": {
+              "headers": {
+                "Access-Control-Expose-Headers": "RequestId,Date",
+                "Cache-Control": "no-store, must-revalidate, no-cache",
+                "Connection": "close",
+                "Content-Type": "application/json; odata.metadata=minimal; odata.streaming=true",
+                "Date": "Fri, 23 Oct 2026 00:07:35 GMT",
+                "OData-Version": "4.0",
+                "Pragma": "no-cache",
+                "RequestId": "d517ac9c-25d8-4556-8a40-7e6d88911452",
+                "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+                "Transfer-Encoding": "chunked",
+                "X-Content-Type-Options": "nosniff",
+                "X-Frame-Options": "deny",
+                "home-cluster-uri": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/",
+                "request-redirected": "true"
+              },
+              "status_code": 200,
+              "text": {
+                "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/220708c4-6b51-4be7-ba1a-fb91bbd09e0f/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+                "days": [
+                  "Sunday",
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday"
+                ],
+                "enabled": false,
+                "localTimeZoneId": "UTC",
+                "notifyOption": "MailOnFailure",
+                "times": [
+                  "11:30"
+                ]
+              }
+            },
+            "status": "COMPLETED"
+          }
+        }
+      ]
+    },
+    {
+      "estate": "fixture",
+      "kind": "table",
+      "run_id": "round21-refresh-fixture-table-01",
+      "seal": "3f802697a903569c85686984f796071c1707e5725bc59a524c99fc713ba41e2f",
+      "observed_at": "2026-10-23T00:08:04.644404Z",
+      "physical_requests": 4,
+      "model_calls": 0,
+      "config_hash": "1cd03239e04cf587a07aab047e34581edabe46303a3e4876b332d6caa13b10c2",
+      "new_facts": [
+        {
+          "collected_at": "2026-10-23T00:08:04.644404Z",
+          "freshness": "CURRENT",
+          "id": "9bd62239bc502789ff90a9057f0e260534adc7d9d3319684c3a326bf0c4c5d15",
+          "kind": "TABLE_LOAD",
+          "observed_at": "2026-10-23T00:08:04.644404Z",
+          "provenance": {
+            "collector": "microsoft-runtime:62d52bea505cbce2daaa22984cd31fb0166632c387e2ee5db01b2f99635ca5e1",
+            "evidence_ids": [
+              "sha256:b455ef02f5964ebc2dc6ebce4a92b360309de5e49fd46ff7b4c0743b2bc6752b"
+            ],
+            "locator": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+          "value": {
+            "accounting_source": "DECLARED_WAREHOUSE_AUDIT",
+            "audit_runs": [
+              {
+                "accounting_state": "OBSERVED_COPY_OUTPUT",
+                "end": "2026-10-06T04:14:33.533262Z",
+                "high_watermark": null,
+                "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                "rows_read": "360",
+                "rows_written": "360",
+                "run_id": "37b546ca-863d-45ce-b63b-015d5cdccf61",
+                "start": "2026-10-06T04:14:11.519678Z",
+                "status": "Succeeded"
+              },
+              {
+                "accounting_state": "OBSERVED_COPY_OUTPUT",
+                "end": "2026-10-06T03:33:21.871118Z",
+                "high_watermark": null,
+                "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                "rows_read": "360",
+                "rows_written": "360",
+                "run_id": "264dc405-ff58-451b-9f87-adb49a00f99d",
+                "start": "2026-10-06T03:32:58.969472Z",
+                "status": "Succeeded"
+              },
+              {
+                "accounting_state": "OBSERVED_COPY_OUTPUT",
+                "end": "2026-10-06T03:24:14.487954Z",
+                "high_watermark": null,
+                "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                "rows_read": "361",
+                "rows_written": "361",
+                "run_id": "1d03c0b1-651c-4056-839e-e0c16b5d2781",
+                "start": "2026-10-06T03:23:50.598417Z",
+                "status": "Succeeded"
+              },
+              {
+                "accounting_state": "OBSERVED_COPY_OUTPUT",
+                "end": "2026-10-04T23:19:23.535012Z",
+                "high_watermark": null,
+                "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                "rows_read": "360",
+                "rows_written": "360",
+                "run_id": "aa7c2284-e36d-49d8-87aa-18d4161ae7fe",
+                "start": "2026-10-04T23:19:02.389568Z",
+                "status": "Succeeded"
+              },
+              {
+                "accounting_state": "OBSERVED_COPY_OUTPUT",
+                "end": "2026-10-04T23:01:36.983185Z",
+                "high_watermark": null,
+                "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                "rows_read": "361",
+                "rows_written": "361",
+                "run_id": "abb412d6-0d88-49ae-ad61-e13336548935",
+                "start": "2026-10-04T23:01:10.352392Z",
+                "status": "Succeeded"
+              },
+              {
+                "accounting_state": "OBSERVED_COPY_OUTPUT",
+                "end": "2026-10-04T22:14:27.265197Z",
+                "high_watermark": null,
+                "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                "rows_read": "360",
+                "rows_written": "360",
+                "run_id": "f559ab75-23f9-4b6c-88a8-7f3f1f235150",
+                "start": "2026-10-04T22:14:06.593411Z",
+                "status": "Succeeded"
+              },
+              {
+                "accounting_state": "OBSERVED_COPY_OUTPUT",
+                "end": "2026-10-04T22:10:58.483227Z",
+                "high_watermark": null,
+                "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                "rows_read": "361",
+                "rows_written": "361",
+                "run_id": "8b1802c0-040a-463e-8bb4-b35ac8734594",
+                "start": "2026-10-04T22:10:38.095796Z",
+                "status": "Succeeded"
+              },
+              {
+                "accounting_state": "OBSERVED_COPY_OUTPUT",
+                "end": "2026-10-04T22:08:35.335552Z",
+                "high_watermark": null,
+                "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                "rows_read": "360",
+                "rows_written": "360",
+                "run_id": "1a019a05-73c0-4db9-b915-bf3138aa9161",
+                "start": "2026-10-04T22:08:04.235674Z",
+                "status": "Succeeded"
+              },
+              {
+                "accounting_state": "OBSERVED_COPY_OUTPUT",
+                "end": "2026-10-04T16:48:22.238604Z",
+                "high_watermark": null,
+                "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                "rows_read": "360",
+                "rows_written": "360",
+                "run_id": "234ec7cc-0324-49e0-86c9-764202be00dc",
+                "start": "2026-10-04T16:48:01.102449Z",
+                "status": "Succeeded"
+              },
+              {
+                "accounting_state": "OBSERVED_COPY_OUTPUT",
+                "end": "2026-10-04T16:36:16.108957Z",
+                "high_watermark": null,
+                "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                "rows_read": "361",
+                "rows_written": "361",
+                "run_id": "cd38c792-a779-4edb-88b9-abd6ec49b375",
+                "start": "2026-10-04T16:35:53.962695Z",
+                "status": "Succeeded"
+              },
+              {
+                "accounting_state": "OBSERVED_COPY_OUTPUT",
+                "end": "2026-10-04T15:30:55.295941Z",
+                "high_watermark": null,
+                "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                "rows_read": "360",
+                "rows_written": "360",
+                "run_id": "ac4b3e8d-9cdb-427e-a9dc-380ac15a50ec",
+                "start": "2026-10-04T15:29:43.792896Z",
+                "status": "Succeeded"
+              }
+            ],
+            "delta_history": "UNAVAILABLE_FROM_SQL_ENDPOINT",
+            "latest_successful_end": "2026-10-06T04:14:33.533262Z"
+          }
+        }
+      ],
+      "physical_receipts": [
+        {
+          "name": "00000009-physical-result.json",
+          "body": {
+            "category": "SCAN",
+            "label": "physical_read:2",
+            "ordinal": 2,
+            "result": {
+              "guard_receipt": "b7638406-9c8e-4fb8-b5eb-2ad74d8df93c",
+              "request_kind": "sql_database_permissions",
+              "status": "AVAILABLE"
+            },
+            "status": "COMPLETED"
+          }
+        },
+        {
+          "name": "00000010-physical-result.json",
+          "body": {
+            "category": "SCAN",
+            "label": "physical_read:3",
+            "ordinal": 3,
+            "result": {
+              "guard_receipt": "2667da5e-fa61-4270-8fd9-35e609820de4",
+              "request_kind": "sql_object_permissions",
+              "status": "AVAILABLE"
+            },
+            "status": "COMPLETED"
+          }
+        },
+        {
+          "name": "00000011-physical-result.json",
+          "body": {
+            "category": "SCAN",
+            "label": "physical_read:4",
+            "ordinal": 4,
+            "result": {
+              "guard_receipt": null,
+              "request_kind": "sql_quantity",
+              "status": "AVAILABLE"
+            },
+            "status": "COMPLETED"
+          }
+        },
+        {
+          "name": "00000012-physical-result.json",
+          "body": {
+            "category": "SCAN",
+            "label": "physical_read:1",
+            "ordinal": 1,
+            "result": {
+              "column_types": {
+                "accounting_state": "String",
+                "end": "String",
+                "high_watermark": "String",
+                "pipeline_name": "String",
+                "rows_read": "Int64",
+                "rows_written": "Int64",
+                "run_id": "String",
+                "start": "String",
+                "status": "String"
+              },
+              "execution_identity": {
+                "database": "round_three_ops_audit_20261004",
+                "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+                "provenance": "SURFACE_SELF_REPORT",
+                "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+              },
+              "read_only_verified": true,
+              "rows": [
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-06T04:14:33.5332626Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "360",
+                  "rows_written": "360",
+                  "run_id": "37b546ca-863d-45ce-b63b-015d5cdccf61",
+                  "start": "2026-10-06T04:14:11.5196789Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-06T03:33:21.8711186Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "360",
+                  "rows_written": "360",
+                  "run_id": "264dc405-ff58-451b-9f87-adb49a00f99d",
+                  "start": "2026-10-06T03:32:58.9694728Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-06T03:24:14.4879545Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "361",
+                  "rows_written": "361",
+                  "run_id": "1d03c0b1-651c-4056-839e-e0c16b5d2781",
+                  "start": "2026-10-06T03:23:50.5984173Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-04T23:19:23.5350123Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "360",
+                  "rows_written": "360",
+                  "run_id": "aa7c2284-e36d-49d8-87aa-18d4161ae7fe",
+                  "start": "2026-10-04T23:19:02.389568Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-04T23:01:36.9831858Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "361",
+                  "rows_written": "361",
+                  "run_id": "abb412d6-0d88-49ae-ad61-e13336548935",
+                  "start": "2026-10-04T23:01:10.3523923Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-04T22:14:27.2651979Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "360",
+                  "rows_written": "360",
+                  "run_id": "f559ab75-23f9-4b6c-88a8-7f3f1f235150",
+                  "start": "2026-10-04T22:14:06.5934115Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-04T22:10:58.483227Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "361",
+                  "rows_written": "361",
+                  "run_id": "8b1802c0-040a-463e-8bb4-b35ac8734594",
+                  "start": "2026-10-04T22:10:38.0957961Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-04T22:08:35.3355521Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "360",
+                  "rows_written": "360",
+                  "run_id": "1a019a05-73c0-4db9-b915-bf3138aa9161",
+                  "start": "2026-10-04T22:08:04.2356745Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-04T16:48:22.2386045Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "360",
+                  "rows_written": "360",
+                  "run_id": "234ec7cc-0324-49e0-86c9-764202be00dc",
+                  "start": "2026-10-04T16:48:01.1024494Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-04T16:36:16.1089576Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "361",
+                  "rows_written": "361",
+                  "run_id": "cd38c792-a779-4edb-88b9-abd6ec49b375",
+                  "start": "2026-10-04T16:35:53.9626954Z",
+                  "status": "Succeeded"
+                },
+                {
+                  "accounting_state": "OBSERVED_COPY_OUTPUT",
+                  "end": "2026-10-04T15:30:55.2959412Z",
+                  "high_watermark": null,
+                  "pipeline_name": "b4871498-bd35-45be-916c-9a642568012c",
+                  "rows_read": "360",
+                  "rows_written": "360",
+                  "run_id": "ac4b3e8d-9cdb-427e-a9dc-380ac15a50ec",
+                  "start": "2026-10-04T15:29:43.7928961Z",
+                  "status": "Succeeded"
+                }
+              ],
+              "surface_report": {
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+                "object": "round_three_ops_audit_20261004"
+              },
+              "surface_report_binding": "VALUE_QUERY"
+            },
+            "status": "COMPLETED"
+          }
+        }
+      ]
+    }
+  ]
+}

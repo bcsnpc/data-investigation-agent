@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-22",
+  "owner": "Chaitu",
+  "approval": "Existing dia-scanner only: get refresh history and get refresh schedule GET; no write or investigator elevation.",
+  "before_policy_sha256": "9f9ea9aecafc7ecbbaa51dc357b8e1488b61546417d77d38cc89691e18971d35",
+  "after_policy_sha256": "1e0504511a4b31563408725b9f592f1521139fcfb959bd5aaa18df8eb08d42d6",
+  "scanner": {
+    "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+    "client_id": "86a9d95a-466c-443e-9eb9-91f870ffe15a",
+    "principal_id": "dbb49594-6c70-4989-a6c8-c4f237c4a021"
+  },
+  "new_estate_grants": [],
+  "investigator_policy_unchanged": true,
+  "get_routes": [
+    "https://api.powerbi.com/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/datasets/3484a2bc-98c5-4cef-be5c-a6215484075e/refreshes?$top=20",
+    "https://api.powerbi.com/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/datasets/3484a2bc-98c5-4cef-be5c-a6215484075e/refreshSchedule",
+    "https://api.powerbi.com/v1.0/myorg/groups/7d67bb36-04f6-4182-95aa-da5d515248fa/datasets/c6c1091c-3bde-46ca-94fc-58f62d1e4188/refreshes?$top=20",
+    "https://api.powerbi.com/v1.0/myorg/groups/7d67bb36-04f6-4182-95aa-da5d515248fa/datasets/c6c1091c-3bde-46ca-94fc-58f62d1e4188/refreshSchedule",
+    "https://api.powerbi.com/v1.0/myorg/groups/220708c4-6b51-4be7-ba1a-fb91bbd09e0f/datasets/10431c90-79c8-4508-8c17-48ec6d08e638/refreshes?$top=20",
+    "https://api.powerbi.com/v1.0/myorg/groups/220708c4-6b51-4be7-ba1a-fb91bbd09e0f/datasets/10431c90-79c8-4508-8c17-48ec6d08e638/refreshSchedule"
+  ],
+  "before_refresh": "All three estates REFRESH_RUN UNAVAILABLE, READ_FAILED:MetadataUnavailable:403",
+  "audit_before": {
+    "receipt_sha256": "60915ef651f155f0cba18b275bba321f56c976fbecb1361563a7fcff324cf5bd",
+    "error_type": "RuntimeError",
+    "module": "physical_reads.py",
+    "line": 127,
+    "message": "Physical read response unavailable",
+    "permissions": "Database and object read-only guards AVAILABLE; no permission error retained."
+  }
+}

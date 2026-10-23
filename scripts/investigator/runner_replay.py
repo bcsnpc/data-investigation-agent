@@ -12,18 +12,20 @@ def boundary(folder,expected_image):
     claimed=record.pop('seal',None)
     if claimed!=hashlib.sha256(bytes_of(record)).hexdigest():raise ValueError('RUN_RECORD_SEAL_DIFFERS')
     if record.get('version')!='dia-run-record-v1':raise ValueError('RUN_RECORD_VERSION')
-    values=[]
+    first=None;last=None;count=0
     for ordinal,ref in enumerate(record['records'],1):
         key=Path(ref['key'])
         if len(key.parts)!=2 or key.parts[0]!=record['run_id'] or not key.name.startswith(f'{ordinal:08d}-'):raise ValueError('RUN_RECORD_MEMBER_ORDER')
         raw=(root/key.name).read_bytes()
         if hashlib.sha256(raw).hexdigest()!=ref['sha256']:raise ValueError('RUN_RECORD_MEMBER_CHANGED')
         from .run_capture import record_value
-        values.append(record_value(raw,ref.get('encoding')))
-    if values[0]['state'].get('runner_image')!=expected_image:raise ValueError('RUN_REPLAY_IMAGE_DIFFERS')
-    if values[-1].get('status')!='COMPLETED' or values[-1].get('partial') is not False:raise ValueError('RUN_RECORD_PARTIAL')
+        value=record_value(raw,ref.get('encoding'))
+        if first is None:first=value
+        last=value;count+=1
+    if first['state'].get('runner_image')!=expected_image:raise ValueError('RUN_REPLAY_IMAGE_DIFFERS')
+    if last.get('status')!='COMPLETED' or last.get('partial') is not False:raise ValueError('RUN_RECORD_PARTIAL')
     return {'matched':True,'coverage':'BOUNDARY_ONLY','graph_recomputed':False,'network_requests':0,
-            'records':len(values),'limit':'Sealed scan responses and results replayed; graph mutation semantics were not recomputed.'}
+            'records':count,'limit':'Sealed scan responses and results replayed; graph mutation semantics were not recomputed.'}
 
 
 def probe(path):

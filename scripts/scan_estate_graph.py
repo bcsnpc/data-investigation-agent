@@ -242,7 +242,10 @@ def _execute_one_scoped(config):
     sink = DefinitionSink(files, config['definition_uri_prefix'], recording_class='EXACT')
     dependencies=scanner_dependencies(config,tokens,meter,sink) if mode=='federated_scanner' else None
     definition_owners=definition_owner_ids(config)
-    collector = FabricChanges(config['workspace'],definition_owners,http,dependencies=dependencies,retain_definition=sink) if definition_owners else None
+    from investigator.adapters.item_metadata_history import ItemMetadataHistory
+    item_history=ItemMetadataHistory(state,sink)
+    observe_item=lambda owner,item:item_history.observe(config['estate'],owner,item,collected_at=datetime.now(timezone.utc).isoformat())
+    collector = FabricChanges(config['workspace'],definition_owners,http,dependencies=dependencies,retain_definition=sink,item_observer=observe_item) if definition_owners else None
     from investigator.graph_asset_catalog import AssetCatalog
     allowed={'fabric://'+config['workspace']+'/'+key for key in config['owners']}
     for group in config.get('sql',[]):allowed.update(group['objects'])

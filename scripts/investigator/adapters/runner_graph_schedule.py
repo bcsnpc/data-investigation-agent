@@ -52,6 +52,9 @@ def plan(existing,daily_config,*,estimate=None):
     except (KeyError,TypeError,ValueError):raise ValueError('GRAPH_JOB_RETAINED_SCAN_DECLARATIONS_REQUIRED') from None
     validate(graph_config);Gateway(gateway)
     runner=bind_execution(daily_config,identifier='graph-scan-template')
+    # This is a newly authored recurring template, unlike the concrete launch
+    # produced by bind_execution. Every scheduled graph execution must rebind.
+    runner['per_execution']=True
     runner.pop('schedule',None)
     runner['checks']={'graph':{'kind':'scan','options':{'config':graph_config}}}
     resource=existing['id'].rsplit('/',1)[0]+'/'+GRAPH_NAME
@@ -99,7 +102,7 @@ def validate_pair(daily,graph,*,image=None):
     for job,cron,kind in ((daily,DAILY_CRON,'smoke'),(graph,GRAPH_CRON,'scan')):
         properties=job.get('properties',{});settings=properties.get('configuration',{})
         if properties.get('provisioningState')!='Succeeded':raise ValueError('SCHEDULE_PAIR_PROVISIONING_NOT_SUCCEEDED')
-        if (settings.get('triggerType')!='Schedule' or settings.get('replicaTimeout')!=1800
+        if (settings.get('triggerType')!='Schedule'
                 or settings.get('replicaRetryLimit')!=0
                 or settings.get('scheduleTriggerConfig')!={'cronExpression':cron,'parallelism':1,'replicaCompletionCount':1}):
             raise ValueError('SCHEDULE_PAIR_MISSING_OR_DIFFERS:'+cron)
@@ -117,6 +120,9 @@ def validate_pair(daily,graph,*,image=None):
         except (KeyError,TypeError,ValueError,IndexError):raise ValueError('SCHEDULE_PAIR_TYPED_RUNNER_REQUIRED') from None
         if argv!=command('/work/runner-estate.json',target) or typed!=kind:
             raise ValueError('SCHEDULE_PAIR_TYPED_ROUTE_DIFFERS')
+        earned=kind=='smoke' and runner['checks'][target].get('options',{}).get('config',{}).get('demo_earned')is True
+        expected_runtime=3600 if earned else 1800
+        if settings.get('replicaTimeout')!=expected_runtime:raise ValueError('SCHEDULE_PAIR_MISSING_OR_DIFFERS:'+cron)
     if daily['identity']!=graph['identity']:
         # ARM readbacks include principalId/clientId; compare declared identity
         # resource IDs, not mutable enrichment or ordering.
@@ -125,8 +131,8 @@ def validate_pair(daily,graph,*,image=None):
             raise ValueError('SCHEDULE_PAIR_IDENTITY_DIFFERS')
     if daily['properties'].get('environmentId')!=graph['properties'].get('environmentId'):
         raise ValueError('SCHEDULE_PAIR_ENVIRONMENT_DIFFERS')
-    return {'status':'PASS','daily':{'resource_id':daily['id'],'cron':DAILY_CRON},
-            'graph':{'resource_id':graph['id'],'cron':GRAPH_CRON},'runtime_seconds':1800}
+    return {'status':'PASS','daily':{'resource_id':daily['id'],'cron':DAILY_CRON,'runtime_seconds':daily['properties']['configuration']['replicaTimeout']},
+            'graph':{'resource_id':graph['id'],'cron':GRAPH_CRON,'runtime_seconds':1800},'runtime_seconds':1800}
 
 
 def apply(prepared,*,execute=subprocess.run,sleep=time.sleep):

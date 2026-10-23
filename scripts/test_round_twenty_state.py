@@ -96,12 +96,13 @@ class SmokeTests(unittest.TestCase):
         def external(*args):
             self.assertFalse(TRANSACTION_ACTIVE.get());return {'status':'PASS'}
         result=run_smoke(self.config,self.context,state=self.state,sign_in=external,gold_read=external,blob_roundtrip=external)
-        self.assertEqual(result['status'],'PASS');self.assertFalse(result['demo_included'])
+        self.assertEqual(result['status'],'INCOMPLETE');self.assertFalse(result['demo_included'])
+        self.assertEqual(result['checks']['check_access']['result']['rows'][0]['reason'],'ACCESS_CHECK_NOT_CONFIGURED')
         self.assertEqual(result['budget_line'],'collectors')
         self.assertEqual([call.args[0] for call in self.context.step.call_args_list],
-                         ['sign_in','gold_read','postgres_write_read','blob_write_read'])
+                         ['check-access','sign_in','gold_read','postgres_write_read','blob_write_read'])
         # A transient retry with the same run identity remains safe and exercises a write.
-        self.assertEqual(run_smoke(self.config,self.context,state=self.state,sign_in=external,gold_read=external,blob_roundtrip=external)['status'],'PASS')
+        self.assertEqual(run_smoke(self.config,self.context,state=self.state,sign_in=external,gold_read=external,blob_roundtrip=external)['status'],'INCOMPLETE')
     def test_earned_demo_is_explicit_and_failure_has_no_sensitive_error_message(self):
         kwargs=dict(state=self.state,sign_in=lambda:{},gold_read=lambda _: {},blob_roundtrip=lambda *_:{})
         self.config['demo_earned']=True

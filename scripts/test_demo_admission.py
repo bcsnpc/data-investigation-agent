@@ -21,8 +21,8 @@ class DemoStateAdmissionTests(unittest.TestCase):
                     state.put('synthetic','budget',{'settled':True})
                     self.assertFalse(TRANSACTION_ACTIVE.get());self.assertNotIn(LEASE_ENV,os.environ)
                     _network_unlocked() # Same check used by every live gateway/worker launch.
-                    self.assertEqual(now+1770,admission['deadline'])
-                    self.assertEqual(str(now+1770),os.environ['INVESTIGATOR_CLOUD_WORK_DEADLINE'])
+                    self.assertEqual(now+2000,admission['deadline'])
+                    self.assertEqual(str(now+2000),os.environ['INVESTIGATOR_CLOUD_WORK_DEADLINE'])
                 self.assertEqual(previous,os.environ['INVESTIGATOR_CLOUD_WORK_DEADLINE'])
             rows={c.args[0]:c.args[1]for c in ctx.record.call_args_list}
             self.assertFalse(rows['demo-state-admission']['transaction_active'])
@@ -37,7 +37,7 @@ class DemoStateAdmissionTests(unittest.TestCase):
         self.assertEqual('FAILED',ctx.record.call_args_list[-1].args[1]['status'])
 
     def test_expired_absolute_deadline_or_existing_lock_refuses_before_work(self):
-        ctx=SimpleNamespace(started_at=time.time()-1801,record=Mock())
+        ctx=SimpleNamespace(started_at=time.time()-3601,record=Mock())
         with self.assertRaisesRegex(ValueError,'DEADLINE_EXPIRED'):
             with demo_state_admission({'run_id':'late'},ctx):self.fail('No admission')
         ctx.record.assert_not_called()
@@ -57,7 +57,7 @@ class DemoLaunchAdmissionTests(unittest.TestCase):
         return {'checks':{'demo':{'kind':'investigation','options':{'verification_proof':{}}}},'run_id':'demo-run',
             'deployment':{'resource_id':'/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/existing-rg/providers/Microsoft.App/jobs/job-dia-worker','cli':['az']},
             'image':'registry/image@sha256:'+'a'*64}
-    def job(self,timeout=1800):
+    def job(self,timeout=3600):
         return {'properties':{'configuration':{'replicaTimeout':timeout},'template':{'containers':[{'name':'worker','image':'old'}]}}}
     def test_live_readback_runtime_and_no_competing_job_are_checked_before_start(self):
         config=self.config();job=self.job();before=copy.deepcopy(job);calls=[]
@@ -75,7 +75,7 @@ class DemoLaunchAdmissionTests(unittest.TestCase):
         self.assertIn('not excluded',result['demo_admission']['limitation'])
 
     def test_short_runtime_or_running_job_refuses_without_start_or_scope_change(self):
-        for timeout,rows,reason in [(900,[],'RUNTIME_BELOW'),(1800,[{'properties':{'status':'Running'}}],'COMPETING'),(1800,[{'name':'unknown'}],'STATUS_UNESTABLISHED')]:
+        for timeout,rows,reason in [(1800,[],'RUNTIME_BELOW'),(3600,[{'properties':{'status':'Running'}}],'COMPETING'),(3600,[{'name':'unknown'}],'STATUS_UNESTABLISHED')]:
             calls=[]
             def execute(args,**kwargs):
                 calls.append(args)

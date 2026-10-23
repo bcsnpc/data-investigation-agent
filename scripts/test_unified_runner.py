@@ -13,6 +13,48 @@ from investigator.process_tape import Tape,bytes_of
 HEADER={'entry_point':'runner','context_identity':'fixture-context','config':{},'profile':{},'usage_policy':None,'engine_hash':'fixture-engine','state':{}}
 
 class RunnerTests(unittest.TestCase):
+    def test_delivered_warning_answer_exits_zero_and_records_intent_in_seal(self):
+        from investigator.unified_runner import delivery_exit
+        answer={'status':'DEMO_FINISHED','demo':{'ticket':{'state':'FINDINGS_SHARED','findings':{'classification':'TRANSFORMATION_LOGIC'}}},
+                'verification_label':{'status':'NOT_VERIFIED'},'handoff_warnings':['ATTESTATION_LIMITED']}
+        self.assertEqual(delivery_exit('investigation',answer),(0,'ANSWER_DELIVERED_WITH_LABELS'))
+        with tempfile.TemporaryDirectory()as d:
+            config=self.config(Path(d));config['checks']={'answer':{'kind':'investigation','options':{}}};sent={}
+            result=run(config,'answer',registry={'investigation':lambda *_:answer},put=lambda k,v:sent.setdefault(k,v))
+            self.assertEqual(result['exit_code'],0)
+            exits=[(k,json.loads(v))for k,v in sent.items()if k.endswith('-worker-exit.json')]
+            self.assertEqual(len(exits),1);self.assertEqual(exits[0][1]['last_step'],'investigation')
+            manifest=json.loads(next(v for k,v in sent.items()if k.endswith('/run-record.json')))
+            self.assertIn(exits[0][0],[r['key']for r in manifest['records']])
+    def test_undelivered_ticket_exits_nonzero_but_not_found_answer_is_delivered(self):
+        from investigator.unified_runner import delivery_exit
+        for state in ('NEW','CLARIFYING','HELD'):
+            self.assertEqual(delivery_exit('investigation',{'status':'DEMO_FINISHED','demo':{'ticket':{'state':state}}})[0],1)
+        self.assertEqual(delivery_exit('ledger-investigation',{'verdict':'not found','outputs':{'business':'No supported cause.','technical':'Evidence gap.'}})[0],0)
+    def test_failed_access_table_stops_before_handler_and_is_sealed(self):
+        with tempfile.TemporaryDirectory() as d:
+            config=self.config(Path(d));calls=[];sent=[]
+            table={'status':'FAIL','rows':[{'id':'target','status':'FAIL','reason':'HTTP_403'}]}
+            with patch('investigator.access_check.configured',return_value=table):
+                result=run(config,'bronze',registry={'probe':lambda *args:calls.append('read')},put=lambda key,raw:sent.append((key,raw)))
+            self.assertEqual(result['result']['reason'],'CHECK_ACCESS_FAILED')
+            self.assertEqual(result['result']['access_check'],table)
+            self.assertFalse(result['result']['investigation_executed'])
+            self.assertEqual(calls,[])
+            self.assertTrue(any(key.endswith('/run-record.json') for key,_ in sent))
+            self.assertTrue(sent[-1][0].endswith('/timing-summary.json'))
+
+    def test_access_check_handler_receives_the_already_recorded_preflight(self):
+        from investigator.unified_runner import handlers
+        with tempfile.TemporaryDirectory() as d:
+            config=self.config(Path(d));config['checks']={'access':{'kind':'access-check','options':{}}}
+            table={'status':'INCOMPLETE','rows':[{'status':'NOT_TESTABLE','reason':'UNBOUND'}]}
+            sent=[]
+            with patch('investigator.access_check.configured',return_value=table) as preflight:
+                result=run(config,'access',registry=handlers(),put=lambda key,raw:sent.append((key,raw)))
+            self.assertEqual(result['result'],table)
+            preflight.assert_called_once()
+
     def config(self,root):
         return {'version':'dia-runner-estate-v1','manifest':'/inputs/estate.json','image':'registry/worker@sha256:'+'a'*64,'capture':{},'checks':{'bronze':{'kind':'probe','options':{}}},'output_root':str(root/'results'),'bootstrap':HEADER}
     def test_header_refuses_before_any_transport_or_handler(self):
@@ -32,8 +74,10 @@ class RunnerTests(unittest.TestCase):
                 run(self.config(Path(d)),'bronze',registry={'probe':handler},put=lambda k,v:retained.setdefault(k,v))
             values=[json.loads(v) for v in retained.values()]
             self.assertIn({'value':7661},values)
-            self.assertEqual(values[-1]['status'],'FAILED')
-            self.assertTrue(values[-1]['partial'])
+            status=[json.loads(v) for key,v in retained.items() if key.endswith('-status.json')][-1]
+            self.assertEqual(status['status'],'FAILED')
+            self.assertTrue(status['partial'])
+            self.assertTrue(values[-1]['not_part_of_semantic_tape'])
     def test_existing_tape_each_event_mirrored_before_read_can_return(self):
         with tempfile.TemporaryDirectory() as d:
             retained={}
@@ -216,14 +260,16 @@ class RunnerTests(unittest.TestCase):
         def smoke(config,context,**kwargs):
             self.assertEqual(kwargs['gold_read']({}),{'value':7661})
             self.assertEqual(kwargs['demo'](),{'status':'INVESTIGATED'})
+            self.assertEqual(kwargs['blob_roundtrip']({'legacy_blob_config':'unused'},b'{"kind":"DAILY_SMOKE"}'),{'status':'PASS'})
             return {'status':'PASS'}
         def form(argv):
             root=Path(argv[argv.index('--job-root')+1]);root.mkdir()
             (root/'result.json').write_text('{"status":"INVESTIGATED"}')
-        with tempfile.TemporaryDirectory() as d,patch('scan_estate_graph.Meter',Meter),patch('investigator.shared_state.configured_state',return_value=object()),patch('investigator.daily_smoke._gold_read',gold),patch('investigator.daily_smoke.run_smoke',smoke),patch('cloud_form_worker.main',form):
+        with tempfile.TemporaryDirectory() as d,patch('scan_estate_graph.Meter',Meter),patch('investigator.shared_state.configured_state',return_value=object()),patch('investigator.daily_smoke._gold_read',gold),patch('investigator.daily_smoke.run_smoke',smoke),patch('investigator.daily_smoke.capture_roundtrip',return_value={'status':'PASS'}) as blob,patch('cloud_form_worker.main',form):
             result=handlers()['smoke']({'options':{'config':{'demo_earned':True},'budget':{},'max_requests':10,'demo':{'bundle':'fixture','sha256':'a'*64}}},SimpleNamespace(root=Path(d)))
             self.assertEqual(result['status'],'PASS')
             self.assertEqual(calls,['physical','physical','closed'])
+            blob.assert_called_once_with(unittest.mock.ANY,b'{"kind":"DAILY_SMOKE"}')
 
 class CaptureGatewayTests(unittest.TestCase):
     config=RunnerTests.config

@@ -22,6 +22,8 @@ class ScheduleTests(unittest.TestCase):
         self.assertNotEqual(one['run_id'],two['run_id'])
         self.assertEqual(config,original)
         for actual in (one,two):
+            self.assertFalse(actual['per_execution'])
+            self.assertEqual(bind_execution(actual),actual)
             self.assertEqual(actual['checks']['daily']['options']['config']['run_id'],actual['run_id'])
             gateway=json.loads(actual['environment']['DIA_PLATFORM_GATEWAY_POLICY'])
             grant=gateway['identities']['worker:state']['runner_captures'][0]
@@ -41,6 +43,15 @@ class ScheduleTests(unittest.TestCase):
         self.assertEqual(result['cost']['monthly_platform_estimate_usd'],'15.677')
         config['schedule']['smoke_monthly_usd']='6'
         with self.assertRaisesRegex(ValueError,'EXCEEDS_PLATFORM'):plan(config,job)
+    def test_earned_a_daily_gets_owner_approved_hour_without_resource_or_cron_change(self):
+        config,job=self.config();job['properties']['template']['containers'][0]['resources']={'cpu':0.5,'memory':'1Gi'}
+        before=copy.deepcopy(job['properties']['template']['containers'][0]['resources'])
+        self.assertEqual(plan(config,job)['body']['properties']['configuration']['replicaTimeout'],1800)
+        config['checks']['daily']['options']['config']['demo_earned']=True
+        result=plan(config,job)
+        self.assertEqual(result['body']['properties']['configuration']['replicaTimeout'],3600)
+        self.assertEqual(result['body']['properties']['configuration']['scheduleTriggerConfig']['cronExpression'],'0 6 * * *')
+        self.assertEqual(result['body']['properties']['template']['containers'][0]['resources'],before)
     def test_apply_uses_existing_cli_and_readback_no_new_role_or_identity(self):
         config,job=self.config();calls=[]
         after=None

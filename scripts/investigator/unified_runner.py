@@ -14,7 +14,7 @@ from .planner_recording import _safe
 from .run_capture import DurableCapture,blob_sink
 
 VERSION='dia-runner-estate-v1'
-KINDS=frozenset({'investigation','verification','probe','scan','replay','prepare','smoke','authorization-check','value-verification'})
+KINDS=frozenset({'investigation','verification','probe','scan','replay','prepare','smoke','authorization-check','value-verification','collect-facts','facts-dispatcher','ledger-investigation','enrichment-batch','access-check'})
 PUBLIC_ENV=frozenset(('DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JSON',
     'INVESTIGATOR_STATE_BACKEND','INVESTIGATOR_PG_HOST','INVESTIGATOR_PG_DATABASE','INVESTIGATOR_PG_USER',
     'AZURE_CLIENT_ID','DIA_GATEWAY_HTTP_IDENTITY','DIA_GATEWAY_SQL_IDENTITY','DIA_GATEWAY_MODEL_IDENTITY',
@@ -23,7 +23,7 @@ PUBLIC_ENV=frozenset(('DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JS
 def load(path):
     value=json.loads(Path(path).read_bytes())
     required={'version','manifest','image','capture','checks','output_root'}
-    if not isinstance(value,dict) or not required<=set(value)<=required|{'bootstrap','run_id','input','platform_cost_observation','deployment','environment','per_execution','schedule'} or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
+    if not isinstance(value,dict) or not required<=set(value)<=required|{'bootstrap','run_id','input','platform_cost_observation','deployment','environment','per_execution','schedule','access_check','explain'} or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
     if 'per_execution' in value and type(value['per_execution'])is not bool:raise ValueError('RUNNER_PER_EXECUTION_FLAG')
     if not isinstance(value.get('environment',{}),dict) or not set(value.get('environment',{}))<=PUBLIC_ENV or any(not isinstance(v,str) for v in value.get('environment',{}).values()):raise ValueError('RUNNER_PUBLIC_ENVIRONMENT')
     if 'run_id' in value and not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',value['run_id']):raise ValueError('RUN_ID_INVALID')
@@ -73,6 +73,23 @@ def retry(call,*,record,sleep=time.sleep):
             sleep(30+15*attempt)
 
 def handlers():
+    def enrichment_batch(plan,ctx):
+        from cloud_enrichment import execute
+        return execute(plan,ctx)
+    def ledger_investigation(plan,ctx):
+        from cloud_investigator import execute
+        return execute(plan,ctx)
+    def facts_dispatcher(plan,ctx):
+        from cloud_facts_dispatcher import execute
+        if set(plan['options'])!={'configs'}:raise ValueError('FACT_DISPATCHER_RUNNER_OPTIONS')
+        return ctx.step('facts-dispatcher',lambda:execute(plan['options']['configs']))
+    def access_result(plan,ctx):
+        if plan['options']:raise ValueError('ACCESS_CHECK_RUNNER_OPTIONS')
+        return ctx.access_result
+    def collect_facts(plan,ctx):
+        from cloud_facts_collector import execute
+        if set(plan['options'])!={'config'}:raise ValueError('FACT_COLLECTOR_RUNNER_OPTIONS')
+        return ctx.step('collect-facts',lambda:execute(plan['options']['config']))
     def value_verification(plan,ctx):
         from cloud_value_execution import run
         return run(plan,ctx)
@@ -159,7 +176,7 @@ def handlers():
                 return result
         finally:meter.close()
     def smoke(plan,ctx):
-        from .daily_smoke import run_smoke,_gold_read
+        from .daily_smoke import run_smoke,_gold_read,capture_roundtrip
         from scan_estate_graph import Meter
         from .shared_state import configured_state
         from .physical_reads import scope
@@ -171,13 +188,33 @@ def handlers():
                 with scope(lambda kind,fn:meter(fn)):return _gold_read(payload)
             return meter(execute)
         demo=(lambda:investigation({**plan,'options':o['demo']},ctx)) if o['config']['demo_earned'] else None
-        try:return run_smoke(o['config'],ctx,state=state,gold_read=gold,demo=demo)
+        try:return run_smoke(o['config'],ctx,state=state,gold_read=gold,blob_roundtrip=lambda config,body:capture_roundtrip(ctx,body),demo=demo)
         finally:meter.close()
-    return {'verification':verification,'investigation':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke,'authorization-check':authorization_check,'value-verification':value_verification}
+    return {'verification':verification,'investigation':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke,'authorization-check':authorization_check,'value-verification':value_verification,'collect-facts':collect_facts,'facts-dispatcher':facts_dispatcher,'ledger-investigation':ledger_investigation,'enrichment-batch':enrichment_batch,'access-check':access_result}
 
 def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     from .run_database_audits import scope
     with scope():return _run(config,target,registry=registry,put=put,sleep=sleep,run_id=run_id)
+
+
+def delivery_exit(kind,result):
+    """Delivery, not READY/verification/attestation labels, decides ticket exit."""
+    if kind not in ('investigation','ledger-investigation','smoke'):
+        return 0,'CHECK_REPORT_DELIVERED'
+    if isinstance(result,dict):
+        outputs=result.get('outputs',{})
+        if result.get('verdict') and all(isinstance(outputs.get(k),str) and outputs[k] for k in ('business','technical')):
+            return 0,'ANSWER_DELIVERED'
+        demo=result.get('demo',{})
+        ticket=demo.get('ticket',{}) if isinstance(demo,dict) else {}
+        if ticket.get('state') in ('FINDINGS_SHARED','RESOLVED','CLOSED') and ticket.get('findings'):
+            return 0,'ANSWER_DELIVERED_WITH_LABELS' if result.get('handoff_warnings') or result.get('verification_label') else 'ANSWER_DELIVERED'
+        if result.get('status') in ('HELD','CLARIFYING','NEEDS_INPUT','NEW','FAILED','ERROR'):
+            return 1,'ANSWER_NOT_DELIVERED'
+        if result.get('status')=='DEMO_FINISHED':return 1,'ANSWER_NOT_DELIVERED'
+    # Non-ticket controls (including smoke without an earned demo) retain their
+    # existing report contract; an internal exception still exits non-zero.
+    return 0,'HANDLER_REPORT_DELIVERED'
 
 
 def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
@@ -196,11 +233,13 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     validate_bootstrap_header(bootstrap);_safe(bytes_of(config))
     sink=put or blob_sink(config['capture'])
     ctx=DurableCapture(Path(config['output_root'])/run_id,sink,run_id=run_id,bootstrap=bootstrap)
+    last_step='admission'
     registry=registry or handlers()
-    keys=('INVESTIGATOR_OPERATING_MODE','INVESTIGATOR_BUDGET_CATEGORY','INVESTIGATOR_WORKER_ID')
+    keys=('INVESTIGATOR_OPERATING_MODE','INVESTIGATOR_BUDGET_CATEGORY','INVESTIGATOR_WORKER_ID','DIA_STREAMING_CAPTURE')
     previous={key:os.environ.get(key) for key in keys}
     try:
         with ctx.observing():
+            os.environ['DIA_STREAMING_CAPTURE']='1'
             os.environ['INVESTIGATOR_OPERATING_MODE']='BUILD_PHASE'
             os.environ['INVESTIGATOR_WORKER_ID']=run_id
             os.environ['INVESTIGATOR_BUDGET_CATEGORY']='SCAN' if check['kind'] in ('scan','smoke') else 'INVESTIGATION'
@@ -215,22 +254,53 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
                     extract(raw,Path(o['directory']),expected=o['sha256'],expanded_limit=o['expanded_limit'])
                     return {'sha256':o['sha256'],'bytes':len(raw)}
                 ctx.step('input-materialization',materialize)
+            if check['kind'] != 'replay':
+                from .access_check import configured as check_access
+                access = ctx.step('check-access', lambda: check_access(config.get('access_check')))
+                ctx.access_result=access
+                # Build-phase admission mismatches warn. The gateway/read-only
+                # exceptions propagate; verification and tenant-only warnings
+                # cannot turn into capability refusals here.
+                if access['status'] != 'PASS':
+                    ctx.record('admission-warning', {'kind':'CHECK_ACCESS', 'table':access})
             attempt=0
             def perform():
                 nonlocal attempt
                 attempt+=1
                 root=ctx.root/('attempt-'+str(attempt));root.mkdir()
-                view=SimpleNamespace(root=root,record=ctx.record,started_at=started_at,
+                view=SimpleNamespace(root=root,record=ctx.record,readback=ctx.readback,started_at=started_at,
+                    access_result=getattr(ctx,'access_result',None),
                     step=lambda name,fn:retry(lambda:ctx.step(name,fn),record=ctx.record,sleep=sleep))
                 return ctx.step(check['kind'],lambda:registry[check['kind']](plan,view))
-            result=retry(perform,record=ctx.record,sleep=sleep)
+            if getattr(ctx,'access_result',{}).get('status')=='FAIL' and check['kind']!='access-check':
+                # A real permission/read failure is not a verification or
+                # attestation warning. Preserve the full table without starting
+                # an investigation or asking a model to work around it.
+                result={'status':'HELD','reason':'CHECK_ACCESS_FAILED','access_check':ctx.access_result,
+                        'investigation_executed':False}
+                ctx.record('admission-failure',result)
+            else:
+                last_step=check['kind']
+                result=retry(perform,record=ctx.record,sleep=sleep)
             # Native result is durable independently of Tape.finish/export.
             ref=ctx.record('result',result)
+            exit_code,exit_reason=delivery_exit(check['kind'],result)
+            ctx.record('worker-exit',{'exit_code':exit_code,'reason':exit_reason,'last_step':last_step,
+                                     'result':ref,'stage':'EXIT_INTENT_BEFORE_FINAL_SEAL'})
             ctx.record('status',{'status':'COMPLETED','partial':False,'result':ref})
-            ctx.seal()
-        return {'run_id':run_id,'status':'COMPLETED','result':result}
+            seal=ctx.seal()
+            try:timing=ctx.publish_timing(seal)
+            except Exception as error:timing={'status':'OBSERVATIONAL_TIMING_UNAVAILABLE','error_type':type(error).__name__}
+        return {'run_id':run_id,'status':'COMPLETED','result':result,'exit_code':exit_code,'exit_reason':exit_reason,'timing':timing}
     except BaseException as exc:
+        # Intent is durable even if publication/finalization fails. A platform
+        # kill before this point is distinguishable by the record's absence.
+        try:ctx.record('worker-exit',{'exit_code':1,'reason':'UNDELIVERED_EXCEPTION',
+                                   'error_type':type(exc).__name__,'last_step':last_step})
+        except Exception:pass
         ctx.fail(exc)
+        try:ctx.publish_timing(None)
+        except Exception:pass # Timing cannot replace the original failed-run evidence.
         raise
     finally:
         if 'observer_token' in locals():READ_OBSERVER.reset(observer_token)
@@ -267,7 +337,10 @@ def main(args):
             # exception chain print a provider body or credential to job logs.
             print(json.dumps({'status':'FAILED','error_type':type(exc).__name__}))
             return 1
-        print(json.dumps(result));return 0
+        # Full output already lives in the sealed capture. Do not serialize or
+        # expose provider/evidence bodies again during process shutdown.
+        print(json.dumps({k:result[k] for k in ('run_id','status','exit_code','exit_reason')}))
+        return result['exit_code']
     config=load(args.estate)
     if args.runtime=='local':
         # Same digest and entrypoint in the cloud. Mount only the explicitly selected

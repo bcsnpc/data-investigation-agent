@@ -19,7 +19,8 @@ def pack(directory, files, *, tape_class, final_files=None):
         # arbitrary legacy tape is projected because an operator says so.
         raise ArtifactError('PROJECTED_BUNDLE_REQUIRES_INSTALLATION_CAPTURE_ADAPTER')
     tape = root / 'tape.json'
-    source = json.loads(tape.read_bytes())
+    from .streaming_tape import load
+    source = load(tape)
     from .process_tape import Tape
     sealed = Tape(tape)  # original seal, event conservation and snapshot hashes
     entries = {}
@@ -78,7 +79,8 @@ def materialize(bundle, files, *, temporary_parent=None):
             path = files.restore(reference['sha256'], root / name)
             if path.stat().st_size != reference['bytes']:
                 raise ArtifactError('BUNDLE_SIZE_DIFFERS')
-        source = json.loads((root / 'tape.json').read_bytes())
+        from .streaming_tape import load
+        source = load(root / 'tape.json')
         if source['seal'] != value['source_seal'] or source['version'] != value['source_tape_version']:
             raise ArtifactError('BUNDLE_SOURCE_DIFFERS')
         from .process_tape import Tape

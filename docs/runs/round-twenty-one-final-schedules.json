@@ -1,0 +1,80 @@
+{
+  "rollout": {
+    "owner_date": "2026-10-22",
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c6d6fde101a470e6c6679777c9573dce76ed229fc7528ed4500b7d7ba06beaea",
+    "reason": "Fix recorded Blob callback defect; install existing family-A permission map in daily smoke; no original input changed.",
+    "new_estate_grants": [],
+    "updates": [
+      {
+        "name": "job-dia-worker",
+        "cron": "0 6 * * *",
+        "runtime": 3600,
+        "resource_allocation": {
+          "cpu": 0.5,
+          "memory": "1Gi"
+        },
+        "patch_sha256": "501168de1b75bff8e834ff927995d8854f1b9a30cf36ed23b64c44097b9427bf"
+      },
+      {
+        "name": "job-dia-graph-scan",
+        "cron": "0 */6 * * *",
+        "runtime": 1800,
+        "resource_allocation": {
+          "cpu": 0.5,
+          "memory": "1Gi"
+        },
+        "patch_sha256": "ef18a50391debfe81f6a85001ba90aa380aaf86fe5162da16a16355a4321707d"
+      },
+      {
+        "name": "job-dia-collectors",
+        "cron": "*/30 * * * *",
+        "runtime": 60,
+        "resource_allocation": {
+          "cpu": 0.25,
+          "memory": "0.5Gi"
+        },
+        "patch_sha256": "b032a5d8b0179cbf2a2eb39d3b6838f32d2d257c75609110248afab56cc28d2a"
+      }
+    ],
+    "schedules": {
+      "status": "PASS",
+      "daily": {
+        "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-worker",
+        "cron": "0 6 * * *",
+        "runtime_seconds": 3600
+      },
+      "graph": {
+        "resource_id": "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.App/jobs/job-dia-graph-scan",
+        "cron": "0 */6 * * *",
+        "runtime_seconds": 1800
+      },
+      "runtime_seconds": 1800
+    }
+  },
+  "input": {
+    "owner_date": "2026-10-22",
+    "purpose": "Add earned family-A check-access material to existing scheduled daily input; no original entry altered.",
+    "original_sha256": "a1f78814bac14385a958102896642e996ea827b78ca5373647e16850c5068330",
+    "new_sha256": "59f72a2224063c592f1d1aeaee4eef9ae1408c2ccb836cf6c888f880485c6c2e",
+    "new_file": "C:\\Users\\chait\\AppData\\Local\\Temp\\dia-round21-daily-access-inputs-01.zip",
+    "original_entries_preserved": 20,
+    "added": [
+      "permission-map.yaml",
+      "access-bindings.json"
+    ],
+    "compressed_bytes": 116396757,
+    "expanded_bytes": 1030125403,
+    "url": "https://diaplatformd5dd7d65.blob.core.windows.net/captures/round-twenty-one/inputs/dia-round21-daily-access-inputs-01.zip",
+    "stored_content_md5_hex": "5531dbe62e697ad998f9f02a961c3d57",
+    "verified_without_download": true
+  },
+  "tested_image": {
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c6d6fde101a470e6c6679777c9573dce76ed229fc7528ed4500b7d7ba06beaea",
+    "source_revision": "b988d1ecccf895545e9046f6af54c084697db324",
+    "workflow": 39877402657,
+    "all8shards": "PASS"
+  },
+  "estate_permission_changes": [],
+  "original_smoke": "In progress at recording; Blob callback TypeError and unbound check-access already retained.",
+  "corrected_smoke": "One retry prepared, after original finishes; no pass claimed before actual result."
+}

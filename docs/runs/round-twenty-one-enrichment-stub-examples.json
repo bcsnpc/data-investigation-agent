@@ -1,0 +1,158 @@
+{
+  "source": "current retained application graph; no new estate collection",
+  "status": "RECORDED_STUB_ONLY_NOT_LIVE_ENRICHMENT",
+  "estate_reads": 0,
+  "live_model_calls": 0,
+  "live_spend_microdollars": 0,
+  "estates": [
+    {
+      "estate": "billing",
+      "selected_objects": 5,
+      "recording_class": "RECORDED_STUB",
+      "live_model_calls": 0,
+      "live_enrichment_spend_microdollars": 0,
+      "examples": [
+        {
+          "subject": "0532113507705dcd143663c4e93c281c5e2d80468d9b875945e162954f3616c7",
+          "label": "MRR All Plans",
+          "kind": "MEASURE",
+          "definition_sha256": "9c8c12c7288086825a87bdd15dcd0e4c4d71cb80da05eced36d4885aae18f277",
+          "business_meaning": "RECORDED_STUB: MRR All Plans. Meaning has not been model-enriched or human-confirmed.",
+          "status": "INFERRED"
+        },
+        {
+          "subject": "5572b12692dd31e0841e71fbfa35312d2d2ad69d1c23ee8d01c99343889b24f4",
+          "label": "Recent Collections",
+          "kind": "PAGE",
+          "definition_sha256": "5630f5adf7565195f24ebdfaae52d81fd4349026a094213be95d47e1b4dd8963",
+          "business_meaning": "RECORDED_STUB: Recent Collections. Meaning has not been model-enriched or human-confirmed.",
+          "status": "INFERRED"
+        },
+        {
+          "subject": "44dc6baac12f79e0f4a1c4474c63bb2867262137212e4061f4ce0882c4a90257",
+          "label": "Subscription Billing",
+          "kind": "REPORT",
+          "definition_sha256": "e04c6df34bdbff76cc9e1e98275b38bbb0cf8ed9111ee2c512ec517e45b24391",
+          "business_meaning": "RECORDED_STUB: Subscription Billing. Meaning has not been model-enriched or human-confirmed.",
+          "status": "INFERRED"
+        },
+        {
+          "subject": "072efb563a80031fb6ed6773a44b89662672682c6b0a16ef8c309b8e477485fb",
+          "label": "invoices",
+          "kind": "TABLE",
+          "definition_sha256": "ab15c7afa25e113c01bfb1da86109ba2d05b7e565b1febe526d3bbe5c4fa9aa6",
+          "business_meaning": "RECORDED_STUB: invoices. Meaning has not been model-enriched or human-confirmed.",
+          "status": "INFERRED"
+        },
+        {
+          "subject": "01bca5b114e2a561d56d1010ae38978fa8ac5ca3ffaf8ee731856fa51e0104e9",
+          "label": "c0daabb8323e576e96a5",
+          "kind": "VISUAL",
+          "definition_sha256": "e05eb432252e34823719b7a35a7e33a0c1ba5acc139e5abc442f9af292af93d9",
+          "business_meaning": "RECORDED_STUB: c0daabb8323e576e96a5. Meaning has not been model-enriched or human-confirmed.",
+          "status": "INFERRED"
+        }
+      ]
+    },
+    {
+      "estate": "dia-sample-estate",
+      "selected_objects": 5,
+      "recording_class": "RECORDED_STUB",
+      "live_model_calls": 0,
+      "live_enrichment_spend_microdollars": 0,
+      "examples": [
+        {
+          "subject": "f382eaa164f8dc224d5a3c819cf9f9b26414b921023b59d893d7764b8f774d7a",
+          "label": "Sales Amount by Due Date",
+          "kind": "MEASURE",
+          "definition_sha256": "8b542b831d96ab37d72431d6d586717fe6c5bb2b7a4ddc57a9423e50848bf0dc",
+          "business_meaning": "RECORDED_STUB: Sales Amount by Due Date. Meaning has not been model-enriched or human-confirmed.",
+          "status": "INFERRED"
+        },
+        {
+          "subject": "263c7be9b31b2117681fc4ccdda9f2a0e6eb91b9490e96e86976159907a41dcc",
+          "label": "Page 3",
+          "kind": "PAGE",
+          "definition_sha256": "e2f2446afca944059dcf74cb94e3e8dd0fbcc070c9b66d7c30f3476112a56cae",
+          "business_meaning": "RECORDED_STUB: Page 3. Meaning has not been model-enriched or human-confirmed.",
+          "status": "INFERRED"
+        },
+        {
+          "subject": "23e97d9b5109ef97afffa9dfbce20404ba08f218400f198e4d081488c40f228b",
+          "label": "AdventureWorks Sales",
+          "kind": "REPORT",
+          "definition_sha256": "cc720be065a3901110ead1b0b133c82833412fe8272043762305ed367c796fbe",
+          "business_meaning": "RECORDED_STUB: AdventureWorks Sales. Meaning has not been model-enriched or human-confirmed.",
+          "status": "INFERRED"
+        },
+        {
+          "subject": "19a07a10f56cdc0a2a4badd0ebb12dcc4596426eec936cb7dbb3b81824541948",
+          "label": "Sales Order",
+          "kind": "TABLE",
+          "definition_sha256": "2821cababd3f678b4bd2b4d2f8a6dff00dd975e4c42b392fbfedaef91b4ce283",
+          "business_meaning": "RECORDED_STUB: Sales Order. Meaning has not been model-enriched or human-confirmed.",
+          "status": "INFERRED"
+        },
+        {
+          "subject": "08f8182053d4f1ec4bfb0d837af31f1a4ee8a5e9d0c51f8bf3308bb9d4bb144e",
+          "label": "ddc669d1ed997bf82754",
+          "kind": "VISUAL",
+          "definition_sha256": "e2f2446afca944059dcf74cb94e3e8dd0fbcc070c9b66d7c30f3476112a56cae",
+          "business_meaning": "RECORDED_STUB: ddc669d1ed997bf82754. Meaning has not been model-enriched or human-confirmed.",
+          "status": "INFERRED"
+        }
+      ]
+    },
+    {
+      "estate": "fixture",
+      "selected_objects": 5,
+      "recording_class": "RECORDED_STUB",
+      "live_model_calls": 0,
+      "live_enrichment_spend_microdollars": 0,
+      "examples": [
+        {
+          "subject": "00ccb4c74c50180c279e83af4ea43df3e02f849dc1ad8c23c4ec38927bb6b736",
+          "label": "Flow Balance",
+          "kind": "MEASURE",
+          "definition_sha256": "594800fc77c5fc493a90b506b65b175d0a663e5fb923e0aa69ee931e8ea0371e",
+          "business_meaning": "RECORDED_STUB: Flow Balance. Meaning has not been model-enriched or human-confirmed.",
+          "status": "INFERRED"
+        },
+        {
+          "subject": "098ea1ce5475e10a7dbb7a747a5becc8d62572ca502a7dfb9372f67f25cbd1f4",
+          "label": "Warehouse Performance",
+          "kind": "PAGE",
+          "definition_sha256": "bcb6a77634abc65cd519eb5a544a221976e02d96689d1d20915fe59ef9ec498b",
+          "business_meaning": "RECORDED_STUB: Warehouse Performance. Meaning has not been model-enriched or human-confirmed.",
+          "status": "INFERRED"
+        },
+        {
+          "subject": "0284c061529c1770c19103fbbf5f2f61effaa9a56d39297f6fb66a0beb20673f",
+          "label": "Round Nine translation filters 20261007",
+          "kind": "REPORT",
+          "definition_sha256": "fe55d2a1182dfd92780fe273d42f2b08d435c55f49ccb1fe3930d97846b8c6ce",
+          "business_meaning": "RECORDED_STUB: Round Nine translation filters 20261007. Meaning has not been model-enriched or human-confirmed.",
+          "status": "INFERRED"
+        },
+        {
+          "subject": "00a95c80a9629bc790b6c4a00441d8d4c7204f2d4a6c092f3dcd3b818bd300e8",
+          "label": "app.payments",
+          "kind": "TABLE",
+          "definition_sha256": "fadb2f21a6764403c6ac5b7f257227e1512db71066eb53c36a816729095d9632",
+          "business_meaning": "RECORDED_STUB: app.payments. Meaning has not been model-enriched or human-confirmed.",
+          "status": "INFERRED"
+        },
+        {
+          "subject": "0a22c8f7e8d3593e00c384a88451467e68553e31895933b82eac89016749f78a",
+          "label": "2eced3b0f85c5f69a539",
+          "kind": "VISUAL",
+          "definition_sha256": "933389ef41193c0c7c83b1e58cae8064dcdd6bcfc9563a661b48c38f0a42fd76",
+          "business_meaning": "RECORDED_STUB: 2eced3b0f85c5f69a539. Meaning has not been model-enriched or human-confirmed.",
+          "status": "INFERRED"
+        }
+      ]
+    }
+  ],
+  "scope": "Five selected retained objects per estate, not full-estate coverage; no links proposed or promoted.",
+  "simulation_at": "2026-10-22T17:30:00Z"
+}

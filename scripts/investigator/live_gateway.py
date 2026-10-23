@@ -119,6 +119,11 @@ class Gateway:
                 from .adapters.scanner_policy import declaration
                 try:declaration(permissions)
                 except Exception:_deny('INVALID_SCANNER_POLICY',identity=identity)
+            if permissions.get('enrichment_batches'):
+                from .adapters.enrichment_anthropic import declaration
+                if permissions.get('role')!='enrichment':_deny('ENRICHMENT_IDENTITY_REQUIRED')
+                try:declaration(permissions['enrichment_batches'])
+                except Exception:_deny('INVALID_ENRICHMENT_PROVIDER_POLICY')
             for endpoint in permissions.get('http',[]):
                 _url(endpoint['url'])
                 if endpoint.get('method') not in ('GET','HEAD','POST','PUT'):
@@ -186,6 +191,10 @@ class Gateway:
             from .adapters.scanner_policy import response_bound_only,followup
             if response_bound_only(url) and followup(identity,method,url) is None:
                 _deny('SCANNER_RESPONSE_BINDING_REQUIRED',identity=identity,operation=method,target=url)
+        if not matches and permissions.get('role')=='enrichment':
+            from .adapters.enrichment_anthropic import permits
+            if permits(self,identity,method,url,body,headers):
+                return {'method':method,'url':url,'purpose':'ENRICHMENT_ONLY'}
         if len(matches)!=1:
             if not matches and permissions.get('role')=='platform':
                 from .adapters.runner_blobs import permits as runner_permits

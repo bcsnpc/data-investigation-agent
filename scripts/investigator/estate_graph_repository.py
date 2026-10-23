@@ -241,6 +241,8 @@ class GraphRepository:
                 if prior:self.state.sql(db,'UPDATE estate_graph_owner_versions SET definition_hash=?,observed_at=? WHERE estate=? AND owner=?',(value['definition_hash'],now,estate,owner))
                 else:self.state.sql(db,'INSERT INTO estate_graph_owner_versions VALUES(?,?,?,?)',(estate,owner,value['definition_hash'],now))
                 self.state.sql(db,'INSERT INTO estate_graph_changes VALUES(?,?,?,?,?,?)',(estate,now,owner,prior[0] if prior else None,value['definition_hash'],encoded([change for change in changed if change['owner']==owner])))
+                from .enrichment_queue import enqueue
+                enqueue(self.state,db,estate,owner,value['definition_hash'],now)
         return {'status':'UPDATED','changed':len(changed),'changes':changed}
 
     def records(self,estate,*,at=None,identities=None,limit=1000):
@@ -262,10 +264,20 @@ class GraphRepository:
             item=json.loads(raw)
             if sha(item)!=hash:raise StateConflict('GRAPH_HISTORY_HASH_DIFFERS')
             result[kind].append({**item,'valid_from':valid_from,'valid_to':valid_to})
+        return self._definition_ownership_and_health(result,estate,catalog,when)
+
+    def _definition_ownership_and_health(self,result,estate,catalog,when):
+        """Apply the same code-owner health gate to full and bounded reads.
+
+        The approved catalog is an integrity-checked ownership index of source
+        observation IDs and blob references, not historical definition bodies.
+        Hydrate only records already admitted by the caller's path query.
+        """
         # Resolve code-proof ownership from the approved retained asset manifest,
         # without changing sealed graph records or their stored hashes.
+        needed_sources={item['provenance']['source_id'] for kind in ('nodes','edges') for item in result[kind]}
         source_owners={source:owner for owner,entry in catalog['owners'].items()
-            for source in entry['source_observations']}
+            for source in entry['source_observations'] if source in needed_sources}
         for kind in ('nodes','edges'):
             for item in result[kind]:
                 source_owner=source_owners.get(item['provenance']['source_id'])
@@ -283,6 +295,50 @@ class GraphRepository:
                     item['confidence']=item['base_confidence']
                     item['verification']={**item['verification'],'state':'STALE'}
         return result
+
+    def path_records(self,estate,roots,allowed,*,at=None,max_nodes=100,max_edges=250,edge_kinds=None):
+        """Load only the admitted upstream path, including its historical adjacency.
+
+        SQL filters adjacency before decoding; unrelated historical bodies are
+        never materialized. Both backends use their native JSON scalar selector.
+        """
+        if not roots or not set(roots)<=set(allowed) or len(allowed)>1000:raise ValueError('GRAPH_PATH_ALLOWLIST')
+        if len(set(roots))>max_nodes:raise ValueError('GRAPH_ROOT_SLICE_BOUND')
+        when=contract.timestamp(at) if at else None
+        nodes={};edges={};frontier=set(roots);seen=set();truncated=False
+        with self.state.transaction() as db:
+            while frontier:
+                batch=sorted(frontier-seen)
+                if not batch:break
+                seen.update(batch)
+                temporal=' AND valid_from<=? AND (valid_to IS NULL OR valid_to>?)' if when else ' AND valid_to IS NULL'
+                base_args=[estate,*([when,when] if when else [])]
+                rows=self.state.sql(db,'SELECT identity,body,body_hash,valid_from,valid_to FROM estate_graph_history WHERE estate=?'+temporal+
+                    " AND record_kind='nodes' AND identity IN ("+','.join('?' for _ in batch)+')',(*base_args,*batch)).fetchall()
+                for identity,raw,digest,start,end in rows:
+                    item=json.loads(raw)
+                    if sha(item)!=digest:raise StateConflict('GRAPH_HISTORY_HASH_DIFFERS')
+                    nodes[identity]={**item,'valid_from':start,'valid_to':end}
+                selector="(body::jsonb ->> 'source')" if self.state.backend=='postgresql' else "json_extract(body,'$.source')"
+                target_selector="(body::jsonb ->> 'target')" if self.state.backend=='postgresql' else "json_extract(body,'$.target')"
+                kind_selector="(body::jsonb ->> 'kind')" if self.state.backend=='postgresql' else "json_extract(body,'$.kind')"
+                query='SELECT identity,body,body_hash,valid_from,valid_to FROM estate_graph_history WHERE estate=?'+temporal+" AND record_kind='edges' AND "+selector+' IN ('+','.join('?' for _ in batch)+')'
+                args=[*base_args,*batch]
+                if edge_kinds:
+                    query+=' AND '+kind_selector+' IN ('+','.join('?' for _ in edge_kinds)+')';args.extend(sorted(edge_kinds))
+                query+=' ORDER BY identity LIMIT ?';args.append(max_edges+1)
+                rows=self.state.sql(db,query,args).fetchall();frontier=set()
+                for identity,raw,digest,start,end in rows:
+                    if identity in edges:continue
+                    item=json.loads(raw)
+                    if sha(item)!=digest:raise StateConflict('GRAPH_HISTORY_HASH_DIFFERS')
+                    if len(edges)>=max_edges or (item['target'] in allowed and len(seen|frontier|{item['target']})>max_nodes):truncated=True;continue
+                    edges[identity]={**item,'valid_from':start,'valid_to':end}
+                    if item['target'] in allowed and item['target'] not in seen:frontier.add(item['target'])
+            try:catalog=self.state._get(db,'graph_asset_catalog',estate)['body']
+            except KeyError:catalog={'owners':{}}
+        result={'nodes':list(nodes.values()),'edges':list(edges.values()),'truncated':truncated}
+        return self._definition_ownership_and_health(result,estate,catalog,when)
 
     def changes(self,estate,*,limit=100):
         if type(limit) is not int or not 1<=limit<=1000:raise ValueError('GRAPH_CHANGE_BOUND')

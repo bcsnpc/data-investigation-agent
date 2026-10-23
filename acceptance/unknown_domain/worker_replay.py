@@ -33,33 +33,63 @@ def install(journal):
         yield
 
 
+def validate_inputs(journal, tape):
+    """Admit hash-pinned local metadata before replaying any operation.
+
+    These bytes are inputs to the original reader, not bounded responses. A
+    missing sidecar must not first surface as a later cleanup CLOCK mismatch.
+    The sealed tape and its config are never rewritten or supplemented here.
+    """
+    from pathlib import Path
+    import hashlib
+    pin = tape.bootstrap.get('config', {}).get('fabric', {}).get('retained_endpoints')
+    if pin is None:return
+    from investigator.adapters.retained_endpoints import validate
+    validate(pin)
+    path = Path(pin['receipt_path'])
+    if not path.is_file():
+        raise journal.TapeError('REPLAY_RETAINED_ENDPOINT_INPUT_MISSING:' + str(path))
+    with path.open('rb') as stream:
+        actual = hashlib.file_digest(stream, 'sha256').hexdigest()
+    if actual != pin['receipt_sha256']:
+        raise journal.TapeError('REPLAY_RETAINED_ENDPOINT_INPUT_HASH_DIFFERS:' + str(path))
+
+
 @contextmanager
 def first_tape_error(journal, diagnostics):
-    """Retain the original mismatch even if engine recovery masks it later.
-
-    Only the separate private replay diagnostics receive these bytes. This is
-    observation, not normalization: the original exception is always re-raised.
-    """
+    """Observe the original event or direct-value mismatch without changing it."""
     import base64
     import traceback
-    original = journal.Tape.event
+    original_event, original_take = journal.Tape.event, journal.Tape.take
+    event_depth = 0
+    def record(self, kind, index, expected, error, body=None):
+        if diagnostics:return
+        detail = {'error_type': type(error).__name__, 'reason': str(error),
+                  'requested_kind': kind, 'index_before': index, 'index_after': self.index,
+                  'recorded_kind': expected['kind'] if expected else None,
+                  'traceback': traceback.format_exc()}
+        if kind == 'WORKER_START':
+            detail['actual_body_base64'] = base64.b64encode(body or b'').decode()
+            detail['recorded_body_base64'] = expected.get('body') if expected else None
+        diagnostics.append(detail)
     def event(self, kind, body=None):
+        nonlocal event_depth
         index = self.index
         expected = self.events[index] if index < len(self.events) else None
-        try:
-            return original(self, kind, body)
+        event_depth += 1
+        try:return original_event(self, kind, body)
         except journal.TapeError as error:
-            if not diagnostics:
-                detail = {'error_type': type(error).__name__, 'reason': str(error),
-                          'requested_kind': kind, 'index_before': index, 'index_after': self.index,
-                          'recorded_kind': expected['kind'] if expected else None,
-                          'traceback': traceback.format_exc()}
-                if kind == 'WORKER_START':
-                    detail['actual_body_base64'] = base64.b64encode(body or b'').decode()
-                    detail['recorded_body_base64'] = expected.get('body') if expected else None
-                diagnostics.append(detail)
+            record(self, kind, index, expected, error, body)
             raise
-    with patch.object(journal.Tape, 'event', event):
+        finally:event_depth -= 1
+    def take(self, kind):
+        index = self.index
+        expected = self.events[index] if index < len(self.events) else None
+        try:return original_take(self, kind)
+        except journal.TapeError as error:
+            if not event_depth:record(self, kind, index, expected, error)
+            raise
+    with patch.object(journal.Tape, 'event', event), patch.object(journal.Tape, 'take', take):
         yield
 
 

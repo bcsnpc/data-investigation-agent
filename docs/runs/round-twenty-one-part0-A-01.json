@@ -1,0 +1,87 @@
+{
+  "run_id": "round21-part0-A-sealing-01",
+  "observed_at_utc": "2026-10-22T17:48:31.845973Z",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:ecb9d0fc08d6d3adf896c375e5105bfda8effa67a8c7eb3ec307651657f7773d",
+  "source_commit": "572f42a51d4dc5fefb8c018733def372a63b5d40",
+  "execution": "job-dia-worker-3ncu939",
+  "azure_status": "Failed",
+  "outer_seal": false,
+  "outer_records": 220,
+  "technical_finding_delivered": false,
+  "returned_ticket_state": "NEW",
+  "physical_requests_delta": 5,
+  "model_calls_charged_delta": 0,
+  "model_spend_delta_usd": "0.000000",
+  "restoration_requests_delta": 0,
+  "warnings": [
+    "NATIVE_DECLARED_ROUTE_NOT_VERIFIED",
+    "FRESH_VERIFICATION_APPROVAL_PIN_DIFFERS"
+  ],
+  "errors": [
+    {
+      "attempt": 1,
+      "error_type": "ValueError",
+      "message": "FRESH_VERIFICATION_APPROVAL_PIN_DIFFERS",
+      "retry": false
+    },
+    {
+      "attempt": 1,
+      "error_type": "URLError",
+      "message": "<urlopen error timed out>",
+      "retry": true
+    },
+    {
+      "error_type": "RuntimeError",
+      "message": "CAPTURE_PUBLICATION_FAILED_NO_SEAL",
+      "partial": true,
+      "status": "FAILED"
+    }
+  ],
+  "access_check": {
+    "counts": {
+      "FAIL": 2,
+      "NOT_TESTABLE": 0,
+      "PASS": 5
+    },
+    "rows": [
+      {
+        "id": "fixture-silver-sql",
+        "status": "PASS",
+        "reason": "LIVE_READ_SUCCEEDED"
+      },
+      {
+        "id": "fixture-silver-select",
+        "status": "FAIL",
+        "reason": "RuntimeError"
+      },
+      {
+        "id": "fixture-gold-sql",
+        "status": "PASS",
+        "reason": "LIVE_READ_SUCCEEDED"
+      },
+      {
+        "id": "fixture-gold-select",
+        "status": "FAIL",
+        "reason": "RuntimeError"
+      },
+      {
+        "id": "fixture-dax",
+        "status": "PASS",
+        "reason": "LIVE_READ_SUCCEEDED"
+      },
+      {
+        "id": "pg-current-model-account",
+        "status": "PASS",
+        "reason": "LIVE_READ_SUCCEEDED"
+      },
+      {
+        "id": "secret-expiry:958bb7e5-3f94-48fe-8e1f-5fa73165cca2",
+        "status": "PASS",
+        "reason": "SECRET_NOT_EXPIRED"
+      }
+    ]
+  },
+  "original_evidence": "captures/round-twenty-one/runner/round21-part0-A-sealing-01/",
+  "interruption_classification": "Azure continued independently of laptop restart; not classified as owner/laptop interruption",
+  "replay": "NOT_RUN: outer capture unsealed; native pointers retained separately"
+}

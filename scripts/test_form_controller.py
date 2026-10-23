@@ -46,6 +46,37 @@ class FormControllerTests(unittest.TestCase):
         first=self.submit();self.assertEqual(self.submit(),first)
         with self.assertRaises(Conflict):self.submit(value_seen='17')
 
+    def test_publication_failure_after_retaining_form_resumes_same_new_ticket(self):
+        from urllib.error import URLError
+        forms=self.workspace.forms
+        original=forms._plan
+        with patch.object(forms,'_plan',side_effect=URLError('publication timed out')):
+            with self.assertRaises(URLError):self.submit()
+        resumed=self.submit()
+        self.assertIn('intake_id',resumed['ticket'])
+        self.assertEqual(self.proposal(resumed)['proposal']['target_visual']['target_id'],'card')
+        history=resumed['ticket']['history']
+        self.assertEqual(sum('form_input_hash' in row.get('detail',{}) for row in history),1)
+        with patch.object(forms,'_plan',wraps=original) as planner:
+            self.assertEqual(self.submit(),resumed)
+            planner.assert_not_called()
+
+    def test_unfinished_form_cannot_resume_against_changed_catalog(self):
+        from urllib.error import URLError
+        with patch.object(self.workspace.forms,'_plan',side_effect=URLError('publication timed out')):
+            with self.assertRaises(URLError):self.submit()
+        self.catalog['versions'].append('changed')
+        with patch.object(self.workspace.forms,'_plan') as planner:
+            with self.assertRaisesRegex(Conflict,'catalog changed'):self.submit()
+            planner.assert_not_called()
+
+    def test_held_submission_is_never_replanned(self):
+        saved=self.submit(target_id='matrix',cell_mode='KEYED')
+        self.assertEqual(saved['ticket']['state'],'HELD')
+        with patch.object(self.workspace.forms,'_plan') as planner:
+            self.assertEqual(self.submit(target_id='matrix',cell_mode='KEYED'),saved)
+            planner.assert_not_called()
+
     def test_measure_text_uses_existing_port_without_report_or_visual_authority(self):
         request={**self.request,'subject':'MEASURE_TEXT','report_id':None,'page_id':None,
                  'target_id':None,'cell_mode':None,'description':'Why is Quantity stale?'}

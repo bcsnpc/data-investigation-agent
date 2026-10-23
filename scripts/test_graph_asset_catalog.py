@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock,patch
 from investigator.shared_state import SharedState,StateConflict,sha
 from investigator.artifact_store import Files,LocalObjects
 from investigator.graph_definitions import DefinitionSink
@@ -146,6 +146,30 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual(result['stops'][0]['reason'],'code unavailable')
         self.assertIn('book',result['unavailable_owners'])
         self.assertEqual(result['edges'],[])
+
+    def test_bounded_path_hydrates_code_owner_health_without_full_graph_fallback(self):
+        from investigator.estate_graph_api import GraphAPI
+        initial=self.repo.records('estate')
+        value=next(n for n in initial['nodes']if n['label']=='value')
+        allowed=[n['id']for n in initial['nodes']]
+        health(self.state,'estate','book',T[1],'UNAVAILABLE','code unavailable')
+        # Poison an unrelated graph body: the bounded path must not decode it.
+        unrelated=next(n for n in initial['nodes']if n['owner']=='unrelated')
+        with self.state.transaction()as db:
+            self.state.sql(db,"UPDATE estate_graph_history SET body=? WHERE estate=? AND record_kind='nodes' AND identity=?",
+                ('not-json','estate',unrelated['id']))
+        gateway=Mock();gateway.graph_objects.side_effect=lambda estate,objects,**kw:list(objects)
+        with patch.object(self.repo,'records',side_effect=AssertionError('full graph fallback forbidden')):
+            raw=self.repo.path_records('estate',[value['id']],allowed)
+            root=next(n for n in raw['nodes']if n['id']==value['id'])
+            self.assertEqual(root['owner'],'lake')
+            self.assertEqual(root['properties']['definition_source_owner'],'book')
+            self.assertIn('book',raw['unavailable_owners'])
+            api=GraphAPI(self.repo,gateway,identity='reader',estate='estate',allowed_objects=allowed)
+            result=api._slice([value['id']])
+        self.assertEqual(result['edges'],[])
+        self.assertEqual([n['id']for n in result['nodes']],[value['id']])
+        self.assertEqual(result['stops'][0]['reason'],'code unavailable')
 
     def test_multiple_owner_refreshes_use_distinct_real_observation_times(self):
         source=Mock(identity='source',configured_owners=('book','lake'))

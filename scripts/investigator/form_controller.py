@@ -85,7 +85,18 @@ class Forms:
                 return ticket
             return self.smart.tickets.update(saved['ticket']['id'],saved['revision'],retain_origin)
         saved=self.smart.tickets.submit(original_request,request['request_key'])
-        if saved['revision']!=0:return saved
+        if saved['revision']!=0:
+            if saved['ticket']['state']!='NEW' or saved['ticket'].get('intake_id'):
+                return saved
+            catalog=snapshot(self.workspace)
+            # Persisting the input and planning it are separate durable steps.
+            # A publication/transport failure between them leaves NEW, not a
+            # completed idempotent response. Resume only the identical pinned
+            # form; a changed catalog cannot silently reinterpret its target.
+            if (saved['ticket'].get('form_input')!=request
+                    or saved['ticket'].get('form_catalog_hash')!=digest(catalog)):
+                raise Conflict('Unfinished form input or catalog changed before resume')
+            return self._continue_submit(saved,catalog,questionnaire)
         catalog=snapshot(self.workspace)
         def retain(ticket):
             ticket['form_input']=copy.deepcopy(request)
@@ -98,6 +109,9 @@ class Forms:
                 'detail':{'form_input_hash':digest(request),'catalog_hash':digest(catalog)}})
             return ticket
         saved=self.smart.tickets.update(saved['ticket']['id'],saved['revision'],retain)
+        return self._continue_submit(saved,catalog,questionnaire)
+
+    def _continue_submit(self,saved,catalog,questionnaire):
         from .agent_ticket import AgentTicket, selected
         if selected(self.workspace):return AgentTicket(self.workspace).run(saved)
         if questionnaire is not None and questionnaire['comparing']['kind'] in ('OTHER_REPORT','OTHER_PAGE'):

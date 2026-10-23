@@ -40,10 +40,12 @@ def record_value(raw,encoding=None):
 
 
 class DurableCapture:
-    def __init__(self, root, put, *, run_id, bootstrap):
+    def __init__(self, root, put, *, run_id, bootstrap,clock=None):
         validate_bootstrap_header(bootstrap)
         if not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',run_id):raise ValueError('RUN_ID_INVALID')
         self.root=Path(root);self.put=put;self.run_id=run_id;self.sequence=0;self.records=[]
+        from .run_timing import RunTiming
+        self.timing=RunTiming(clock)
         self._pending_publications=[]
         self._publication_failed=False
         self.root.mkdir(parents=True,exist_ok=False)
@@ -51,6 +53,7 @@ class DurableCapture:
         self.record('status',{'status':'STARTED','partial':True})
 
     def record(self,kind,value):
+        started=self.timing.clock()
         raw=bytes_of(value);_safe(raw)
         encoding=None
         if len(raw)>MAX_BLOB_BYTES:
@@ -71,6 +74,7 @@ class DurableCapture:
         # Preserve the original event immediately, even inside an application
         # transaction. Only remote publication waits for the lock to release.
         self._pending_publications.append((ref['key'], self.root/name, ref['sha256']))
+        self.timing.local_seconds+=max(0,self.timing.clock()-started)
         from .shared_state import after_transaction
         after_transaction(self.flush_publications)
         return ref
@@ -81,15 +85,36 @@ class DurableCapture:
         while self._pending_publications:
             key,path,expected=self._pending_publications[0]
             try:
+                started=self.timing.clock()
                 raw=path.read_bytes()
                 if hashlib.sha256(raw).hexdigest()!=expected:raise RuntimeError('CAPTURE_PENDING_BYTES_CHANGED')
                 self.put(key,raw)
             except BaseException:
                 self._publication_failed=True
                 raise
+            finally:
+                self.timing.publication_seconds+=max(0,self.timing.clock()-started)
+                self.timing.publications+=1
             self._pending_publications.pop(0)
+        # Every queued immutable record has now been acknowledged. A temporary
+        # transport failure must not permanently poison a later complete flush.
+        # Failed or changed records stay queued and cannot reach this point.
+        self._publication_failed=False
+
+    def readback(self,ref):
+        """Read only a record this run already published, then verify its bytes."""
+        if ref not in self.records or not ref.get('key','').startswith(self.run_id+'/'):
+            raise ValueError('CAPTURE_READBACK_UNKNOWN_RECORD')
+        self.flush_publications()
+        read=getattr(self.put,'read',None)
+        if read is None:raise ValueError('CAPTURE_READBACK_TRANSPORT_UNAVAILABLE')
+        raw=read(ref['key'])
+        if not isinstance(raw,bytes) or hashlib.sha256(raw).hexdigest()!=ref['sha256']:
+            raise ValueError('CAPTURE_READBACK_BYTES_CHANGED')
+        return raw
 
     def seal(self):
+        started=self.timing.clock()
         from .shared_state import TRANSACTION_ACTIVE
         if TRANSACTION_ACTIVE.get(): raise RuntimeError('CAPTURE_SEAL_DURING_TRANSACTION')
         if self._publication_failed: raise RuntimeError('CAPTURE_PUBLICATION_FAILED_NO_SEAL')
@@ -99,10 +124,27 @@ class DurableCapture:
         raw=bytes_of(value);_safe(raw)
         with (self.root/'run-record.json').open('xb') as stream:
             stream.write(raw);stream.flush();__import__('os').fsync(stream.fileno())
-        self.put(self.run_id+'/run-record.json',raw)
+        publication=self.timing.clock()
+        try:self.put(self.run_id+'/run-record.json',raw)
+        finally:
+            self.timing.publication_seconds+=max(0,self.timing.clock()-publication)
+            self.timing.publications+=1
+            self.timing.seal_seconds=max(0,self.timing.clock()-started)
         return value['seal']
 
+    def publish_timing(self,seal=None):
+        """Post-seal observational sidecar; original index/tapes stay immutable."""
+        value={'run_id':self.run_id,'run_record_seal':seal,'partial':seal is None,
+               'not_part_of_semantic_tape':True,'excludes_its_own_publication':True,**self.timing.summary()}
+        raw=bytes_of(value);_safe(raw)
+        path=self.root/'timing-summary.json'
+        with path.open('xb') as stream:
+            stream.write(raw);stream.flush();os.fsync(stream.fileno())
+        self.put(self.run_id+'/timing-summary.json',raw)
+        return {'key':self.run_id+'/timing-summary.json','sha256':hashlib.sha256(raw).hexdigest(),'summary':value}
+
     def event(self,tape,event):
+        self.timing.tape_event(tape,event)
         self.record('tape-event',{'tape':str(tape.path),'event':event})
 
     @contextmanager
@@ -113,8 +155,13 @@ class DurableCapture:
 
     def step(self,name,call):
         self.record('step-start',{'name':name,'partial':True})
-        result=call()
-        self.record('step-result',{'name':name,'result':result})
+        started=self.timing.clock()
+        try:result=call()
+        except BaseException:
+            self.timing.step(name,self.timing.clock()-started,'FAILED')
+            raise
+        elapsed=max(0,self.timing.clock()-started);self.timing.step(name,elapsed,'COMPLETED')
+        self.record('step-result',{'name':name,'result':result,'observed_wall_seconds':elapsed})
         return result
 
     def fail(self,error):

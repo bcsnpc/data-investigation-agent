@@ -1,0 +1,1372 @@
+{
+  "cost": {
+    "currency_cost": "SEE_SHARED_PROVIDER_LEDGER",
+    "model_calls": 2
+  },
+  "evidence": {
+    "evidence:03220ad5f003f49bb81246083396fff22242e9c5d14b424884477c20aea7f5f9": {
+      "kind": "PATH",
+      "receipt_id": "round21-new-investigator-A-04/00000025-investigator-event.json",
+      "subjects": [
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+      ],
+      "value": {
+        "as_of": "2026-10-21T21:33:21.054850+00:00",
+        "context_basis": {
+          "approval": {
+            "decision": "Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.",
+            "metadata_not_recollected": true,
+            "owner": "owner",
+            "source_context": "942ae95f-367f-4d11-bb1a-701bb955930c",
+            "source_hash": "87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493"
+          },
+          "as_of": "2026-10-21T21:33:21.054850+00:00",
+          "context_hash": "42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6",
+          "context_id": "4cae0d14-fd5d-4ff1-89ce-adf346790084",
+          "current_graph_stops": [
+            {
+              "node": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+              "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+              "remedy": "Refresh this owner definition successfully before treating its path as current."
+            }
+          ],
+          "current_unavailable_owners": {
+            "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497": {
+              "at": "2026-10-22T18:01:43.977413Z",
+              "failure": {
+                "errno": null,
+                "error_type": "MetadataUnavailable",
+                "http_status": 404,
+                "line": 99,
+                "message": "Metadata provider request unavailable",
+                "message_redacted": false,
+                "module": "metadata_auth.py",
+                "provider_code": "EntityNotFound"
+              },
+              "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+              "status": "UNAVAILABLE"
+            }
+          },
+          "kind": "RETAINED_APPROVED_CONTEXT",
+          "limitation": "Not a current graph repair; retained definitions may differ from the served estate.",
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "verified": false,
+          "visual": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+        },
+        "edges": [
+          {
+            "base_confidence": "DECLARED",
+            "confidence": "DECLARED",
+            "id": "6276e9b32a971761e2a4cc901dd2952b6d71842a576a740f1a1b4bc0b556a5c1",
+            "kind": "COMPUTED_FROM",
+            "label": "COMPUTED_FROM",
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497",
+            "properties": {
+              "context_basis": {
+                "approval": {
+                  "decision": "Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.",
+                  "metadata_not_recollected": true,
+                  "owner": "owner",
+                  "source_context": "942ae95f-367f-4d11-bb1a-701bb955930c",
+                  "source_hash": "87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493"
+                },
+                "as_of": "2026-10-21T21:33:21.054850+00:00",
+                "context_hash": "42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6",
+                "context_id": "4cae0d14-fd5d-4ff1-89ce-adf346790084",
+                "current_graph_stops": [
+                  {
+                    "node": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "remedy": "Refresh this owner definition successfully before treating its path as current."
+                  }
+                ],
+                "current_unavailable_owners": {
+                  "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497": {
+                    "at": "2026-10-22T18:01:43.977413Z",
+                    "failure": {
+                      "errno": null,
+                      "error_type": "MetadataUnavailable",
+                      "http_status": 404,
+                      "line": 99,
+                      "message": "Metadata provider request unavailable",
+                      "message_redacted": false,
+                      "module": "metadata_auth.py",
+                      "provider_code": "EntityNotFound"
+                    },
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "status": "UNAVAILABLE"
+                  }
+                },
+                "kind": "RETAINED_APPROVED_CONTEXT",
+                "limitation": "Not a current graph repair; retained definitions may differ from the served estate.",
+                "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                "verified": false,
+                "visual": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+              },
+              "retained_declaration": {
+                "exact_model_binding": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e",
+                "field_reference": [
+                  "Activity",
+                  "Handled Quantity"
+                ]
+              }
+            },
+            "provenance": {
+              "definition_hash": "2bfc2141cf5e85263865843b4c0ff765ac9194a5b8f9969236a538609e551afb",
+              "observed_at": "2026-10-21T21:33:21.054850+00:00",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497/visual/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2F25189fcc5fe05539b3b6%2Fvisual.json",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            },
+            "source": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+            "target": "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+            "unknown": null,
+            "valid_from": "2026-10-21T21:33:21.054850Z",
+            "valid_to": null,
+            "verification": {
+              "evidence_ids": [],
+              "scope_hash": null,
+              "state": "NOT_VERIFIED"
+            }
+          },
+          {
+            "base_confidence": "DECLARED",
+            "confidence": "DECLARED",
+            "id": "5075fa9ea4dc17f3074379f97a73da4ab440df8743923a695823600644920dc4",
+            "kind": "COMPUTED_FROM",
+            "label": "COMPUTED_FROM",
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e",
+            "properties": {
+              "context_basis": {
+                "approval": {
+                  "decision": "Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.",
+                  "metadata_not_recollected": true,
+                  "owner": "owner",
+                  "source_context": "942ae95f-367f-4d11-bb1a-701bb955930c",
+                  "source_hash": "87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493"
+                },
+                "as_of": "2026-10-21T21:33:21.054850+00:00",
+                "context_hash": "42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6",
+                "context_id": "4cae0d14-fd5d-4ff1-89ce-adf346790084",
+                "current_graph_stops": [
+                  {
+                    "node": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "remedy": "Refresh this owner definition successfully before treating its path as current."
+                  }
+                ],
+                "current_unavailable_owners": {
+                  "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497": {
+                    "at": "2026-10-22T18:01:43.977413Z",
+                    "failure": {
+                      "errno": null,
+                      "error_type": "MetadataUnavailable",
+                      "http_status": 404,
+                      "line": 99,
+                      "message": "Metadata provider request unavailable",
+                      "message_redacted": false,
+                      "module": "metadata_auth.py",
+                      "provider_code": "EntityNotFound"
+                    },
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "status": "UNAVAILABLE"
+                  }
+                },
+                "kind": "RETAINED_APPROVED_CONTEXT",
+                "limitation": "Not a current graph repair; retained definitions may differ from the served estate.",
+                "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                "verified": false,
+                "visual": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+              },
+              "retained_declaration": {
+                "expression": "SUM('Activity'[units])"
+              }
+            },
+            "provenance": {
+              "definition_hash": "cb8ae306e95a996a2eba0a0ffdbb40d5bbc3ce13de43ff63d3dd74259d7dd039",
+              "observed_at": "2026-10-21T21:33:21.054850+00:00",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            },
+            "source": "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+            "target": "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+            "unknown": null,
+            "valid_from": "2026-10-21T21:33:21.054850Z",
+            "valid_to": null,
+            "verification": {
+              "evidence_ids": [],
+              "scope_hash": null,
+              "state": "NOT_VERIFIED"
+            }
+          },
+          {
+            "base_confidence": "DECLARED",
+            "confidence": "DECLARED",
+            "id": "9eca51514bfe3615b8eb933ff7939d0a5bc56bdb823ebe443fafe85fcdd8e1a9",
+            "kind": "COMPUTED_FROM",
+            "label": "COMPUTED_FROM",
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e",
+            "properties": {
+              "context_basis": {
+                "approval": {
+                  "decision": "Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.",
+                  "metadata_not_recollected": true,
+                  "owner": "owner",
+                  "source_context": "942ae95f-367f-4d11-bb1a-701bb955930c",
+                  "source_hash": "87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493"
+                },
+                "as_of": "2026-10-21T21:33:21.054850+00:00",
+                "context_hash": "42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6",
+                "context_id": "4cae0d14-fd5d-4ff1-89ce-adf346790084",
+                "current_graph_stops": [
+                  {
+                    "node": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "remedy": "Refresh this owner definition successfully before treating its path as current."
+                  }
+                ],
+                "current_unavailable_owners": {
+                  "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497": {
+                    "at": "2026-10-22T18:01:43.977413Z",
+                    "failure": {
+                      "errno": null,
+                      "error_type": "MetadataUnavailable",
+                      "http_status": 404,
+                      "line": 99,
+                      "message": "Metadata provider request unavailable",
+                      "message_redacted": false,
+                      "module": "metadata_auth.py",
+                      "provider_code": "EntityNotFound"
+                    },
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "status": "UNAVAILABLE"
+                  }
+                },
+                "kind": "RETAINED_APPROVED_CONTEXT",
+                "limitation": "Not a current graph repair; retained definitions may differ from the served estate.",
+                "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                "verified": false,
+                "visual": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+              },
+              "retained_declaration": {
+                "binding": {
+                  "asset": {
+                    "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                    "kind": "LakehouseTable",
+                    "name": "movement_values",
+                    "parent_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a"
+                  },
+                  "candidates": [
+                    {
+                      "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                      "kind": "LakehouseTable",
+                      "name": "movement_values",
+                      "parent_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a"
+                    }
+                  ],
+                  "declared_connection_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/77c49180-2ef9-4558-837c-f50fdb1df8de",
+                  "declared_partition": {
+                    "entity_name": "movement_values",
+                    "mode": "directLake",
+                    "partition_count": 1,
+                    "schema_name": "dbo",
+                    "source_type": "entity"
+                  },
+                  "declared_role_count": 0,
+                  "definition_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/part/model.bim",
+                  "definition_offset": 3708,
+                  "external_source_declaration": {
+                    "reason": "Application-source declaration inspection is not implemented for this path; absence is not established.",
+                    "status": "CAPABILITY_NOT_IMPLEMENTED"
+                  },
+                  "provenance": "DECLARED_BY_DEFINITION",
+                  "relation_cross_check": {
+                    "relations": [
+                      {
+                        "relation": "NATIVE_CASCADEDELETE",
+                        "source": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/77c49180-2ef9-4558-837c-f50fdb1df8de",
+                        "target": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a"
+                      }
+                    ],
+                    "status": "AGREES"
+                  },
+                  "scope_ids": [
+                    "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a"
+                  ],
+                  "status": "RESOLVED",
+                  "unchanged_connection": {
+                    "definition_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/part/model.bim",
+                    "definition_hash": "cd57bef217c522fc979bc42b242350a9564df0db58029dcb7d1ffd7c409dd369",
+                    "endpoint": "77c49180-2ef9-4558-837c-f50fdb1df8de",
+                    "semantic_table_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                    "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                    "storage_mode": "directLake"
+                  },
+                  "upstream_declarations": [
+                    {
+                      "asset": {
+                        "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/product_rates_e1b8e1",
+                        "kind": "LakehouseTable",
+                        "name": "product_rates_e1b8e1",
+                        "parent_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887"
+                      },
+                      "candidates": [
+                        {
+                          "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/product_rates_e1b8e1",
+                          "kind": "LakehouseTable",
+                          "name": "product_rates_e1b8e1",
+                          "parent_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887"
+                        }
+                      ],
+                      "definition_evidence": [
+                        {
+                          "asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py",
+                          "detail": {
+                            "destination": "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/b0ab76f7-20c7-410e-90e4-2c4eb104059a/Tables/movement_values",
+                            "line": 18,
+                            "proofs": [
+                              {
+                                "expression": "movements.join(rates, ['product_id'], 'left').withColumn('movement_value', F.col('units')*F.col('unit_cost'))",
+                                "line": 17
+                              },
+                              {
+                                "expression": "movements.join(rates, ['product_id'], 'left')",
+                                "line": 17
+                              }
+                            ],
+                            "sources": [
+                              "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/product_rates_e1b8e1",
+                              "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/stock_movements_e1b8e1"
+                            ]
+                          },
+                          "hash": "5f61cd4e0cdac7801df4bfdd0ca74f053fed0ef143a66b6eab4f2d0a3616f011"
+                        }
+                      ],
+                      "provenance": "DECLARED_BY_DEFINITION",
+                      "status": "RESOLVED"
+                    },
+                    {
+                      "asset": {
+                        "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                        "kind": "LakehouseTable",
+                        "name": "stock_movements_e1b8e1",
+                        "parent_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887"
+                      },
+                      "candidates": [
+                        {
+                          "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                          "kind": "LakehouseTable",
+                          "name": "stock_movements_e1b8e1",
+                          "parent_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887"
+                        }
+                      ],
+                      "definition_evidence": [
+                        {
+                          "asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py",
+                          "detail": {
+                            "destination": "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/b0ab76f7-20c7-410e-90e4-2c4eb104059a/Tables/movement_values",
+                            "line": 18,
+                            "proofs": [
+                              {
+                                "expression": "movements.join(rates, ['product_id'], 'left').withColumn('movement_value', F.col('units')*F.col('unit_cost'))",
+                                "line": 17
+                              },
+                              {
+                                "expression": "movements.join(rates, ['product_id'], 'left')",
+                                "line": 17
+                              }
+                            ],
+                            "sources": [
+                              "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/product_rates_e1b8e1",
+                              "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/stock_movements_e1b8e1"
+                            ]
+                          },
+                          "hash": "5f61cd4e0cdac7801df4bfdd0ca74f053fed0ef143a66b6eab4f2d0a3616f011"
+                        }
+                      ],
+                      "provenance": "DECLARED_BY_DEFINITION",
+                      "status": "RESOLVED"
+                    }
+                  ]
+                },
+                "direct_source_proof": {
+                  "aggregate": "SUM",
+                  "basis": "UNCHANGED_DECLARED_SOURCE",
+                  "definition_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/part/model.bim",
+                  "definition_hash": "cd57bef217c522fc979bc42b242350a9564df0db58029dcb7d1ffd7c409dd369",
+                  "endpoint": "77c49180-2ef9-4558-837c-f50fdb1df8de",
+                  "intervening_operations": [],
+                  "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                  "presentation_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                  "provenance": "DECLARED_BY_DEFINITION",
+                  "scope": "WHOLE_ENTITY",
+                  "semantic_table_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                  "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                  "source_column": "units",
+                  "source_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                  "storage_mode": "directLake",
+                  "version": 1
+                }
+              }
+            },
+            "provenance": {
+              "definition_hash": "1276ecd856bcad70211d847a11c8c8cc4e2267e467202a02769a467b4d3d66bb",
+              "observed_at": "2026-10-21T21:33:21.054850+00:00",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/part/model.bim",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            },
+            "source": "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+            "target": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+            "unknown": null,
+            "valid_from": "2026-10-21T21:33:21.054850Z",
+            "valid_to": null,
+            "verification": {
+              "evidence_ids": [],
+              "scope_hash": null,
+              "state": "NOT_VERIFIED"
+            }
+          },
+          {
+            "base_confidence": "DECLARED",
+            "confidence": "DECLARED",
+            "id": "edb9cd7aba559bd3cee11990ea0dda54d7a0549165da4999e2397df060127d65",
+            "kind": "COMPUTED_FROM",
+            "label": "COMPUTED_FROM",
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+            "properties": {
+              "context_basis": {
+                "approval": {
+                  "decision": "Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.",
+                  "metadata_not_recollected": true,
+                  "owner": "owner",
+                  "source_context": "942ae95f-367f-4d11-bb1a-701bb955930c",
+                  "source_hash": "87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493"
+                },
+                "as_of": "2026-10-21T21:33:21.054850+00:00",
+                "context_hash": "42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6",
+                "context_id": "4cae0d14-fd5d-4ff1-89ce-adf346790084",
+                "current_graph_stops": [
+                  {
+                    "node": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "remedy": "Refresh this owner definition successfully before treating its path as current."
+                  }
+                ],
+                "current_unavailable_owners": {
+                  "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497": {
+                    "at": "2026-10-22T18:01:43.977413Z",
+                    "failure": {
+                      "errno": null,
+                      "error_type": "MetadataUnavailable",
+                      "http_status": 404,
+                      "line": 99,
+                      "message": "Metadata provider request unavailable",
+                      "message_redacted": false,
+                      "module": "metadata_auth.py",
+                      "provider_code": "EntityNotFound"
+                    },
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "status": "UNAVAILABLE"
+                  }
+                },
+                "kind": "RETAINED_APPROVED_CONTEXT",
+                "limitation": "Not a current graph repair; retained definitions may differ from the served estate.",
+                "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                "verified": false,
+                "visual": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+              },
+              "retained_declaration": {
+                "column": "units",
+                "definition_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py",
+                "definition_hash": "313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1",
+                "kind": "UNCHANGED_ADDITIVE_COLUMN",
+                "limitation": "Row multiplicity and whole-row deduplication may change the total; agreement does not establish intended grain, key uniqueness or a common snapshot.",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                "operations": [
+                  {
+                    "expression": "movements.join(rates, ['product_id'], 'left')",
+                    "grain": "matching rows may multiply; uniqueness is not assumed",
+                    "how": "left",
+                    "inputs": [
+                      "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/product_rates_e1b8e1",
+                      "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/stock_movements_e1b8e1"
+                    ],
+                    "keys": [
+                      "product_id"
+                    ],
+                    "line": 17,
+                    "operation": "JOIN"
+                  },
+                  {
+                    "column": "movement_value",
+                    "expression": "movements.join(rates, ['product_id'], 'left').withColumn('movement_value', F.col('units')*F.col('unit_cost'))",
+                    "line": 17,
+                    "operation": "DERIVED_COLUMN"
+                  }
+                ],
+                "scope": "whole entity, no filters or grouping",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+              }
+            },
+            "provenance": {
+              "definition_hash": "5f61cd4e0cdac7801df4bfdd0ca74f053fed0ef143a66b6eab4f2d0a3616f011",
+              "observed_at": "2026-10-21T21:33:21.054850+00:00",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            },
+            "source": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+            "target": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+            "unknown": null,
+            "valid_from": "2026-10-21T21:33:21.054850Z",
+            "valid_to": null,
+            "verification": {
+              "evidence_ids": [],
+              "scope_hash": null,
+              "state": "NOT_VERIFIED"
+            }
+          },
+          {
+            "base_confidence": "DECLARED",
+            "confidence": "DECLARED",
+            "id": "56837161e3fb4e7a2b0ee43d5730b1356b7d9be5dc0593c7e514cb764e5ef856",
+            "kind": "COMPUTED_FROM",
+            "label": "COMPUTED_FROM",
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887",
+            "properties": {
+              "context_basis": {
+                "approval": {
+                  "decision": "Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.",
+                  "metadata_not_recollected": true,
+                  "owner": "owner",
+                  "source_context": "942ae95f-367f-4d11-bb1a-701bb955930c",
+                  "source_hash": "87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493"
+                },
+                "as_of": "2026-10-21T21:33:21.054850+00:00",
+                "context_hash": "42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6",
+                "context_id": "4cae0d14-fd5d-4ff1-89ce-adf346790084",
+                "current_graph_stops": [
+                  {
+                    "node": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "remedy": "Refresh this owner definition successfully before treating its path as current."
+                  }
+                ],
+                "current_unavailable_owners": {
+                  "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497": {
+                    "at": "2026-10-22T18:01:43.977413Z",
+                    "failure": {
+                      "errno": null,
+                      "error_type": "MetadataUnavailable",
+                      "http_status": 404,
+                      "line": 99,
+                      "message": "Metadata provider request unavailable",
+                      "message_redacted": false,
+                      "module": "metadata_auth.py",
+                      "provider_code": "EntityNotFound"
+                    },
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "status": "UNAVAILABLE"
+                  }
+                },
+                "kind": "RETAINED_APPROVED_CONTEXT",
+                "limitation": "Not a current graph repair; retained definitions may differ from the served estate.",
+                "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                "verified": false,
+                "visual": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+              },
+              "retained_declaration": {
+                "column": "units",
+                "definition_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py",
+                "definition_hash": "313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1",
+                "kind": "UNCHANGED_ADDITIVE_COLUMN",
+                "limitation": "Row multiplicity and whole-row deduplication may change the total; agreement does not establish intended grain, key uniqueness or a common snapshot.",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1",
+                "operations": [
+                  {
+                    "expression": "spark.read.format('delta').load(paths['bronze']+table['name']).dropDuplicates()",
+                    "grain": "whole-row duplicates removed",
+                    "keys": [
+                      "event_day",
+                      "movement_id",
+                      "movement_type",
+                      "product_id",
+                      "units",
+                      "warehouse_id"
+                    ],
+                    "line": 14,
+                    "operation": "DEDUPE"
+                  }
+                ],
+                "scope": "whole entity, no filters or grouping",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1"
+              }
+            },
+            "provenance": {
+              "definition_hash": "5f61cd4e0cdac7801df4bfdd0ca74f053fed0ef143a66b6eab4f2d0a3616f011",
+              "observed_at": "2026-10-21T21:33:21.054850+00:00",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            },
+            "source": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+            "target": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+            "unknown": null,
+            "valid_from": "2026-10-21T21:33:21.054850Z",
+            "valid_to": null,
+            "verification": {
+              "evidence_ids": [],
+              "scope_hash": null,
+              "state": "NOT_VERIFIED"
+            }
+          }
+        ],
+        "estate": "fixture",
+        "nodes": [
+          {
+            "confidence": "DECLARED",
+            "id": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+            "kind": "VISUAL",
+            "label": "25189fcc5fe05539b3b6",
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497",
+            "properties": {
+              "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497/visual/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2F25189fcc5fe05539b3b6%2Fvisual.json",
+              "context_basis": {
+                "approval": {
+                  "decision": "Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.",
+                  "metadata_not_recollected": true,
+                  "owner": "owner",
+                  "source_context": "942ae95f-367f-4d11-bb1a-701bb955930c",
+                  "source_hash": "87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493"
+                },
+                "as_of": "2026-10-21T21:33:21.054850+00:00",
+                "context_hash": "42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6",
+                "context_id": "4cae0d14-fd5d-4ff1-89ce-adf346790084",
+                "current_graph_stops": [
+                  {
+                    "node": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "remedy": "Refresh this owner definition successfully before treating its path as current."
+                  }
+                ],
+                "current_unavailable_owners": {
+                  "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497": {
+                    "at": "2026-10-22T18:01:43.977413Z",
+                    "failure": {
+                      "errno": null,
+                      "error_type": "MetadataUnavailable",
+                      "http_status": 404,
+                      "line": 99,
+                      "message": "Metadata provider request unavailable",
+                      "message_redacted": false,
+                      "module": "metadata_auth.py",
+                      "provider_code": "EntityNotFound"
+                    },
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "status": "UNAVAILABLE"
+                  }
+                },
+                "kind": "RETAINED_APPROVED_CONTEXT",
+                "limitation": "Not a current graph repair; retained definitions may differ from the served estate.",
+                "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                "verified": false,
+                "visual": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+              },
+              "native_kind": "ReportVisual"
+            },
+            "provenance": {
+              "definition_hash": "2bfc2141cf5e85263865843b4c0ff765ac9194a5b8f9969236a538609e551afb",
+              "observed_at": "2026-10-21T21:33:21.054850+00:00",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497/visual/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2F25189fcc5fe05539b3b6%2Fvisual.json",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            },
+            "unknown": null,
+            "valid_from": "2026-10-21T21:33:21.054850Z",
+            "valid_to": null,
+            "verification": {
+              "evidence_ids": [],
+              "scope_hash": null,
+              "state": "NOT_VERIFIED"
+            }
+          },
+          {
+            "confidence": "DECLARED",
+            "id": "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+            "kind": "MEASURE",
+            "label": "Handled Quantity",
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e",
+            "properties": {
+              "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+              "context_basis": {
+                "approval": {
+                  "decision": "Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.",
+                  "metadata_not_recollected": true,
+                  "owner": "owner",
+                  "source_context": "942ae95f-367f-4d11-bb1a-701bb955930c",
+                  "source_hash": "87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493"
+                },
+                "as_of": "2026-10-21T21:33:21.054850+00:00",
+                "context_hash": "42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6",
+                "context_id": "4cae0d14-fd5d-4ff1-89ce-adf346790084",
+                "current_graph_stops": [
+                  {
+                    "node": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "remedy": "Refresh this owner definition successfully before treating its path as current."
+                  }
+                ],
+                "current_unavailable_owners": {
+                  "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497": {
+                    "at": "2026-10-22T18:01:43.977413Z",
+                    "failure": {
+                      "errno": null,
+                      "error_type": "MetadataUnavailable",
+                      "http_status": 404,
+                      "line": 99,
+                      "message": "Metadata provider request unavailable",
+                      "message_redacted": false,
+                      "module": "metadata_auth.py",
+                      "provider_code": "EntityNotFound"
+                    },
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "status": "UNAVAILABLE"
+                  }
+                },
+                "kind": "RETAINED_APPROVED_CONTEXT",
+                "limitation": "Not a current graph repair; retained definitions may differ from the served estate.",
+                "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                "verified": false,
+                "visual": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+              },
+              "native_kind": "Measure"
+            },
+            "provenance": {
+              "definition_hash": "cb8ae306e95a996a2eba0a0ffdbb40d5bbc3ce13de43ff63d3dd74259d7dd039",
+              "observed_at": "2026-10-21T21:33:21.054850+00:00",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            },
+            "unknown": null,
+            "valid_from": "2026-10-21T21:33:21.054850Z",
+            "valid_to": null,
+            "verification": {
+              "evidence_ids": [],
+              "scope_hash": null,
+              "state": "NOT_VERIFIED"
+            }
+          },
+          {
+            "confidence": "DECLARED",
+            "id": "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+            "kind": "TABLE",
+            "label": "Activity",
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e",
+            "properties": {
+              "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+              "context_basis": {
+                "approval": {
+                  "decision": "Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.",
+                  "metadata_not_recollected": true,
+                  "owner": "owner",
+                  "source_context": "942ae95f-367f-4d11-bb1a-701bb955930c",
+                  "source_hash": "87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493"
+                },
+                "as_of": "2026-10-21T21:33:21.054850+00:00",
+                "context_hash": "42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6",
+                "context_id": "4cae0d14-fd5d-4ff1-89ce-adf346790084",
+                "current_graph_stops": [
+                  {
+                    "node": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "remedy": "Refresh this owner definition successfully before treating its path as current."
+                  }
+                ],
+                "current_unavailable_owners": {
+                  "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497": {
+                    "at": "2026-10-22T18:01:43.977413Z",
+                    "failure": {
+                      "errno": null,
+                      "error_type": "MetadataUnavailable",
+                      "http_status": 404,
+                      "line": 99,
+                      "message": "Metadata provider request unavailable",
+                      "message_redacted": false,
+                      "module": "metadata_auth.py",
+                      "provider_code": "EntityNotFound"
+                    },
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "status": "UNAVAILABLE"
+                  }
+                },
+                "kind": "RETAINED_APPROVED_CONTEXT",
+                "limitation": "Not a current graph repair; retained definitions may differ from the served estate.",
+                "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                "verified": false,
+                "visual": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+              },
+              "native_kind": "SemanticTable"
+            },
+            "provenance": {
+              "definition_hash": "6e288d2e953c3f9fc203a0858dfcde949ce416323daceb6cb8d8d0e37152be94",
+              "observed_at": "2026-10-21T21:33:21.054850+00:00",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            },
+            "unknown": null,
+            "valid_from": "2026-10-21T21:33:21.054850Z",
+            "valid_to": null,
+            "verification": {
+              "evidence_ids": [],
+              "scope_hash": null,
+              "state": "NOT_VERIFIED"
+            }
+          },
+          {
+            "confidence": "DECLARED",
+            "id": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+            "kind": "TABLE",
+            "label": "movement_values",
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+            "properties": {
+              "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+              "context_basis": {
+                "approval": {
+                  "decision": "Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.",
+                  "metadata_not_recollected": true,
+                  "owner": "owner",
+                  "source_context": "942ae95f-367f-4d11-bb1a-701bb955930c",
+                  "source_hash": "87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493"
+                },
+                "as_of": "2026-10-21T21:33:21.054850+00:00",
+                "context_hash": "42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6",
+                "context_id": "4cae0d14-fd5d-4ff1-89ce-adf346790084",
+                "current_graph_stops": [
+                  {
+                    "node": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "remedy": "Refresh this owner definition successfully before treating its path as current."
+                  }
+                ],
+                "current_unavailable_owners": {
+                  "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497": {
+                    "at": "2026-10-22T18:01:43.977413Z",
+                    "failure": {
+                      "errno": null,
+                      "error_type": "MetadataUnavailable",
+                      "http_status": 404,
+                      "line": 99,
+                      "message": "Metadata provider request unavailable",
+                      "message_redacted": false,
+                      "module": "metadata_auth.py",
+                      "provider_code": "EntityNotFound"
+                    },
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "status": "UNAVAILABLE"
+                  }
+                },
+                "kind": "RETAINED_APPROVED_CONTEXT",
+                "limitation": "Not a current graph repair; retained definitions may differ from the served estate.",
+                "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                "verified": false,
+                "visual": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+              },
+              "native_kind": "LakehouseTable"
+            },
+            "provenance": {
+              "definition_hash": "6268ca68efab22fe14dce85a83e4f4f03d0495aecaee758c1cc76a2cc47d3ab3",
+              "observed_at": "2026-10-21T21:33:21.054850+00:00",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            },
+            "unknown": null,
+            "valid_from": "2026-10-21T21:33:21.054850Z",
+            "valid_to": null,
+            "verification": {
+              "evidence_ids": [],
+              "scope_hash": null,
+              "state": "NOT_VERIFIED"
+            }
+          },
+          {
+            "confidence": "DECLARED",
+            "id": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+            "kind": "TABLE",
+            "label": "stock_movements_e1b8e1",
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887",
+            "properties": {
+              "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+              "context_basis": {
+                "approval": {
+                  "decision": "Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.",
+                  "metadata_not_recollected": true,
+                  "owner": "owner",
+                  "source_context": "942ae95f-367f-4d11-bb1a-701bb955930c",
+                  "source_hash": "87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493"
+                },
+                "as_of": "2026-10-21T21:33:21.054850+00:00",
+                "context_hash": "42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6",
+                "context_id": "4cae0d14-fd5d-4ff1-89ce-adf346790084",
+                "current_graph_stops": [
+                  {
+                    "node": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "remedy": "Refresh this owner definition successfully before treating its path as current."
+                  }
+                ],
+                "current_unavailable_owners": {
+                  "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497": {
+                    "at": "2026-10-22T18:01:43.977413Z",
+                    "failure": {
+                      "errno": null,
+                      "error_type": "MetadataUnavailable",
+                      "http_status": 404,
+                      "line": 99,
+                      "message": "Metadata provider request unavailable",
+                      "message_redacted": false,
+                      "module": "metadata_auth.py",
+                      "provider_code": "EntityNotFound"
+                    },
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "status": "UNAVAILABLE"
+                  }
+                },
+                "kind": "RETAINED_APPROVED_CONTEXT",
+                "limitation": "Not a current graph repair; retained definitions may differ from the served estate.",
+                "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                "verified": false,
+                "visual": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+              },
+              "native_kind": "LakehouseTable"
+            },
+            "provenance": {
+              "definition_hash": "0c1e2f893d15ad3d6e60851669cd4d3881170c7806ac3b1e903b67260f604695",
+              "observed_at": "2026-10-21T21:33:21.054850+00:00",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            },
+            "unknown": null,
+            "valid_from": "2026-10-21T21:33:21.054850Z",
+            "valid_to": null,
+            "verification": {
+              "evidence_ids": [],
+              "scope_hash": null,
+              "state": "NOT_VERIFIED"
+            }
+          },
+          {
+            "confidence": "DECLARED",
+            "id": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+            "kind": "TABLE",
+            "label": "stock_movements_e1b8e1",
+            "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82",
+            "properties": {
+              "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1",
+              "context_basis": {
+                "approval": {
+                  "decision": "Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.",
+                  "metadata_not_recollected": true,
+                  "owner": "owner",
+                  "source_context": "942ae95f-367f-4d11-bb1a-701bb955930c",
+                  "source_hash": "87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493"
+                },
+                "as_of": "2026-10-21T21:33:21.054850+00:00",
+                "context_hash": "42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6",
+                "context_id": "4cae0d14-fd5d-4ff1-89ce-adf346790084",
+                "current_graph_stops": [
+                  {
+                    "node": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "remedy": "Refresh this owner definition successfully before treating its path as current."
+                  }
+                ],
+                "current_unavailable_owners": {
+                  "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497": {
+                    "at": "2026-10-22T18:01:43.977413Z",
+                    "failure": {
+                      "errno": null,
+                      "error_type": "MetadataUnavailable",
+                      "http_status": 404,
+                      "line": 99,
+                      "message": "Metadata provider request unavailable",
+                      "message_redacted": false,
+                      "module": "metadata_auth.py",
+                      "provider_code": "EntityNotFound"
+                    },
+                    "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+                    "status": "UNAVAILABLE"
+                  }
+                },
+                "kind": "RETAINED_APPROVED_CONTEXT",
+                "limitation": "Not a current graph repair; retained definitions may differ from the served estate.",
+                "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+                "verified": false,
+                "visual": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+              },
+              "native_kind": "LakehouseTable"
+            },
+            "provenance": {
+              "definition_hash": "16738a513d1aca01d622ad0ba8efeb4ce895a47ad6bc467351aacc213bf792f2",
+              "observed_at": "2026-10-21T21:33:21.054850+00:00",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            },
+            "unknown": null,
+            "valid_from": "2026-10-21T21:33:21.054850Z",
+            "valid_to": null,
+            "verification": {
+              "evidence_ids": [],
+              "scope_hash": null,
+              "state": "NOT_VERIFIED"
+            }
+          }
+        ],
+        "stops": [
+          {
+            "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+            "reason": "NO_LINEAGE"
+          }
+        ],
+        "truncated": false,
+        "unavailable_owners": {}
+      }
+    },
+    "evidence:5c32f37f9541c33b1f9c636b20d5c6af33754dbc448984d856b45f1e2ec4c898": {
+      "kind": "GAP",
+      "receipt_id": "round21-new-investigator-A-04/00000026-investigator-event.json",
+      "subjects": [
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01"
+      ],
+      "value": {
+        "reason": "NO_LINEAGE"
+      }
+    },
+    "evidence:e746b9af512c419e389168f5067f89b75b2776542f413f0e6f10c47b2db1855c": {
+      "kind": "READ",
+      "receipt_id": "round21-new-investigator-A-04/00000037-investigator-event.json",
+      "subjects": [
+        "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+      ],
+      "value": {
+        "context": {
+          "dimension_ids": [],
+          "filters": [],
+          "scope": "WHOLE_ENTITY",
+          "version": 1
+        },
+        "execution_surface": {
+          "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+          "engine": "OLAP Server",
+          "identity": "dia-investigator-round19",
+          "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+        },
+        "expression_hash": "da4a1bc76f81e4e1f34c32c8f07d5004ee290ae63c637714611b9ecbc9d79fee",
+        "key": null,
+        "native_evidence": {
+          "attestation_warning": "attestation limited: the engine can't self-report the calling principal; the token and connection were verified separately",
+          "completeness": "COMPLETE_RESPONSE",
+          "declared_context": {
+            "dimension_ids": [],
+            "filters": [],
+            "scope": "WHOLE_ENTITY",
+            "version": 1
+          },
+          "dimension_id": null,
+          "id": "e2889e1c-8cb7-42ee-82cb-00b17c3a4e55",
+          "identity_reporting_limit": "CALLING_PRINCIPAL_UNREPORTABLE",
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "read_address": {
+            "kind": "BASELINE",
+            "restrictions": []
+          },
+          "request_hash": "86c8330646de7dea9735d8ff4a00b000af1a4d6a49e0e999a2e6d1271af2f6fd",
+          "separate_identity_verification": {
+            "account": "dia-investigator-round19",
+            "captured_at": "2026-10-22T23:33:32.246309+00:00",
+            "mode": "federated_reader",
+            "model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+            "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+            "query_hash": "a80d1123f38aa85e11b90ed006bd879d5249287669057d44871b88cd97486bb1",
+            "response_hash": "e0a123cfa080cc1a105108b20580bf3462e12bc8f1beb93f8b75b7bf21638a06",
+            "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+            "version": "native-reader-execution-v1",
+            "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+          },
+          "surface_attestation": {
+            "attested_fields": [
+              "identity"
+            ],
+            "consistency": "CONTRADICTED",
+            "contradictions": [
+              {
+                "declared": "dia-investigator-round19",
+                "field": "identity",
+                "reported": " dff91047-ebc2-4657-8dbe-5af328d57780"
+              }
+            ],
+            "coverage": "PARTIAL",
+            "field_states": {
+              "connection": "UNATTESTED",
+              "engine": "UNATTESTED",
+              "identity": "ATTESTED",
+              "object": "UNATTESTED"
+            },
+            "missing_required_fields": [],
+            "reason": "SURFACE_SELF_REPORT_CONTRADICTS_DECLARED",
+            "required_fields": [
+              "identity"
+            ],
+            "status": "CONTRADICTED",
+            "unattested_fields": [
+              "connection",
+              "engine",
+              "object"
+            ]
+          },
+          "surface_report": {
+            "identity": " dff91047-ebc2-4657-8dbe-5af328d57780"
+          },
+          "surface_report_binding": "VALUE_QUERY",
+          "surface_report_receipt_id": "e2889e1c-8cb7-42ee-82cb-00b17c3a4e55",
+          "surface_report_types": {
+            "identity": "PRINCIPAL_NAME"
+          },
+          "test_purpose": "ESTABLISH_BASELINE",
+          "tool": "bounded_dax",
+          "value_state": "MEASURED",
+          "values": [
+            {
+              "[baseline]": {
+                "type": "decimal",
+                "value": "8765"
+              }
+            }
+          ]
+        },
+        "query": "EVALUATE ADDCOLUMNS(ROW(\"baseline\", [Handled Quantity]),\"surface_identity\",USERPRINCIPALNAME())",
+        "read_only_verified": true,
+        "receipt_id": "e2889e1c-8cb7-42ee-82cb-00b17c3a4e55",
+        "route_admitted": true,
+        "state": "VALUE",
+        "subject": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+        "value": "8765",
+        "warnings": [
+          "SNAPSHOT_UNVERIFIED",
+          "attestation limited: the engine can't self-report the calling principal; the token and connection were verified separately"
+        ]
+      }
+    },
+    "evidence:f75fe897c07bed7801c1df8b86d530d15a95c5026698d875d5e529e080d5dd28": {
+      "kind": "GAP",
+      "receipt_id": "round21-new-investigator-A-04/00000038-investigator-event.json",
+      "subjects": [
+        "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+      ],
+      "value": {
+        "code": "COMPARISON_TARGET_UNAVAILABLE",
+        "comparison_kind": "source",
+        "reason": "The ticket names a source comparison, but no comparison target is resolved within the admitted graph path. No comparison read was made; the named comparison was not replaced."
+      }
+    }
+  },
+  "furthest_measured_node": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+  "hypotheses_considered": [
+    "not found",
+    "different question",
+    "as designed"
+  ],
+  "hypothesis_checks": {
+    "access difference": {
+      "reason": "ACCESS_CHECK_CHECKED_WITNESS_REQUIRED",
+      "supported": false
+    },
+    "as designed": {
+      "reason": "DESIGN_CHECK_CHECKED_WITNESS_REQUIRED",
+      "supported": false
+    },
+    "different question": {
+      "reason": "CONTEXT_EFFECT_NOT_ESTABLISHED",
+      "supported": false
+    },
+    "failed job": {
+      "reason": "FRESHNESS_REQUIRES_DIVERGENT_EQUIVALENT_CONTEXT_READS",
+      "supported": false
+    },
+    "latency": {
+      "reason": "FRESHNESS_REQUIRES_DIVERGENT_EQUIVALENT_CONTEXT_READS",
+      "supported": false
+    },
+    "refresh stale": {
+      "reason": "FRESHNESS_REQUIRES_DIVERGENT_EQUIVALENT_CONTEXT_READS",
+      "supported": false
+    },
+    "source changed history": {
+      "reason": "HISTORY_CHECK_CHECKED_WITNESS_REQUIRED",
+      "supported": false
+    },
+    "waiting on job": {
+      "reason": "FRESHNESS_REQUIRES_DIVERGENT_EQUIVALENT_CONTEXT_READS",
+      "supported": false
+    }
+  },
+  "model_calls": 2,
+  "observed_at": "2026-10-22T23:33:10.033117Z",
+  "outputs": {
+    "business": "Question: In Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.\nAnswer status: not answered.\nAs of 2026-10-22T23:33:10.033117Z, 25189fcc5fe05539b3b6: not found. Evidence does not establish a cause within the admitted budget. Furthest measured point: 876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072.\nLabels: verification: not verified, retained reader verification NATIVE_DECLARED_ROUTE_NOT_VERIFIED; label only; attestation limited: the engine can\u2019t self-report the calling principal; the token and connection were verified separately; Retained approved context: 4cae0d14-fd5d-4ff1-89ce-adf346790084; hash 42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6; as of 2026-10-21T21:33:21.054850+00:00. Definitions were not recollected; this path is not current or value-verified.; Current graph limitations: {\"stops\":[{\"node\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"remedy\":\"Refresh this owner definition successfully before treating its path as current.\"}],\"unavailable_owners\":{\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497\":{\"at\":\"2026-10-22T18:01:43.977413Z\",\"failure\":{\"errno\":null,\"error_type\":\"MetadataUnavailable\",\"http_status\":404,\"line\":99,\"message\":\"Metadata provider request unavailable\",\"message_redacted\":false,\"module\":\"metadata_auth.py\",\"provider_code\":\"EntityNotFound\"},\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"status\":\"UNAVAILABLE\"}}}; SNAPSHOT_UNVERIFIED; attestation limited: the engine can't self-report the calling principal; the token and connection were verified separately\nOpen gaps: The ticket names a source comparison, but no comparison target is resolved within the admitted graph path. No comparison read was made; the named comparison was not replaced.; NO_LINEAGE",
+    "technical": "Question: In Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.\nAnswer status: not answered.\nAs of 2026-10-22T23:33:10.033117Z, 25189fcc5fe05539b3b6: not found. Evidence does not establish a cause within the admitted budget. Furthest measured point: 876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072.\nLabels: verification: not verified, retained reader verification NATIVE_DECLARED_ROUTE_NOT_VERIFIED; label only; attestation limited: the engine can\u2019t self-report the calling principal; the token and connection were verified separately; Retained approved context: 4cae0d14-fd5d-4ff1-89ce-adf346790084; hash 42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6; as of 2026-10-21T21:33:21.054850+00:00. Definitions were not recollected; this path is not current or value-verified.; Current graph limitations: {\"stops\":[{\"node\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"remedy\":\"Refresh this owner definition successfully before treating its path as current.\"}],\"unavailable_owners\":{\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497\":{\"at\":\"2026-10-22T18:01:43.977413Z\",\"failure\":{\"errno\":null,\"error_type\":\"MetadataUnavailable\",\"http_status\":404,\"line\":99,\"message\":\"Metadata provider request unavailable\",\"message_redacted\":false,\"module\":\"metadata_auth.py\",\"provider_code\":\"EntityNotFound\"},\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"status\":\"UNAVAILABLE\"}}}; SNAPSHOT_UNVERIFIED; attestation limited: the engine can't self-report the calling principal; the token and connection were verified separately\nOpen gaps: The ticket names a source comparison, but no comparison target is resolved within the admitted graph path. No comparison read was made; the named comparison was not replaced.; NO_LINEAGE\nEvidence: evidence:e746b9af512c419e389168f5067f89b75b2776542f413f0e6f10c47b2db1855c, evidence:5c32f37f9541c33b1f9c636b20d5c6af33754dbc448984d856b45f1e2ec4c898, evidence:03220ad5f003f49bb81246083396fff22242e9c5d14b424884477c20aea7f5f9, evidence:f75fe897c07bed7801c1df8b86d530d15a95c5026698d875d5e529e080d5dd28\nStop: EVIDENCE_INSUFFICIENT\nTechnical evidence pack: {\"evidence:03220ad5f003f49bb81246083396fff22242e9c5d14b424884477c20aea7f5f9\":{\"kind\":\"PATH\",\"receipt_id\":\"round21-new-investigator-A-04/00000025-investigator-event.json\",\"subjects\":[\"3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04\",\"461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab\",\"4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01\",\"5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d\",\"6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356\",\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\"],\"value\":{\"as_of\":\"2026-10-21T21:33:21.054850+00:00\",\"context_basis\":{\"approval\":{\"decision\":\"Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.\",\"metadata_not_recollected\":true,\"owner\":\"owner\",\"source_context\":\"942ae95f-367f-4d11-bb1a-701bb955930c\",\"source_hash\":\"87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493\"},\"as_of\":\"2026-10-21T21:33:21.054850+00:00\",\"context_hash\":\"42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6\",\"context_id\":\"4cae0d14-fd5d-4ff1-89ce-adf346790084\",\"current_graph_stops\":[{\"node\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"remedy\":\"Refresh this owner definition successfully before treating its path as current.\"}],\"current_unavailable_owners\":{\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497\":{\"at\":\"2026-10-22T18:01:43.977413Z\",\"failure\":{\"errno\":null,\"error_type\":\"MetadataUnavailable\",\"http_status\":404,\"line\":99,\"message\":\"Metadata provider request unavailable\",\"message_redacted\":false,\"module\":\"metadata_auth.py\",\"provider_code\":\"EntityNotFound\"},\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"status\":\"UNAVAILABLE\"}},\"kind\":\"RETAINED_APPROVED_CONTEXT\",\"limitation\":\"Not a current graph repair; retained definitions may differ from the served estate.\",\"measure_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity\",\"verified\":false,\"visual\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\"},\"edges\":[{\"base_confidence\":\"DECLARED\",\"confidence\":\"DECLARED\",\"id\":\"6276e9b32a971761e2a4cc901dd2952b6d71842a576a740f1a1b4bc0b556a5c1\",\"kind\":\"COMPUTED_FROM\",\"label\":\"COMPUTED_FROM\",\"owner\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497\",\"properties\":{\"context_basis\":{\"approval\":{\"decision\":\"Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.\",\"metadata_not_recollected\":true,\"owner\":\"owner\",\"source_context\":\"942ae95f-367f-4d11-bb1a-701bb955930c\",\"source_hash\":\"87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493\"},\"as_of\":\"2026-10-21T21:33:21.054850+00:00\",\"context_hash\":\"42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6\",\"context_id\":\"4cae0d14-fd5d-4ff1-89ce-adf346790084\",\"current_graph_stops\":[{\"node\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"remedy\":\"Refresh this owner definition successfully before treating its path as current.\"}],\"current_unavailable_owners\":{\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497\":{\"at\":\"2026-10-22T18:01:43.977413Z\",\"failure\":{\"errno\":null,\"error_type\":\"MetadataUnavailable\",\"http_status\":404,\"line\":99,\"message\":\"Metadata provider request unavailable\",\"message_redacted\":false,\"module\":\"metadata_auth.py\",\"provider_code\":\"EntityNotFound\"},\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"status\":\"UNAVAILABLE\"}},\"kind\":\"RETAINED_APPROVED_CONTEXT\",\"limitation\":\"Not a current graph repair; retained definitions may differ from the served estate.\",\"measure_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity\",\"verified\":false,\"visual\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\"},\"retained_declaration\":{\"exact_model_binding\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e\",\"field_reference\":[\"Activity\",\"Handled Quantity\"]}},\"provenance\":{\"definition_hash\":\"2bfc2141cf5e85263865843b4c0ff765ac9194a5b8f9969236a538609e551afb\",\"observed_at\":\"2026-10-21T21:33:21.054850+00:00\",\"source\":\"STATIC_DEFINITION\",\"source_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497/visual/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2F25189fcc5fe05539b3b6%2Fvisual.json\",\"span\":{\"kind\":\"JSON_POINTER\",\"path\":\"\"}},\"source\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"target\":\"3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04\",\"unknown\":null,\"valid_from\":\"2026-10-21T21:33:21.054850Z\",\"valid_to\":null,\"verification\":{\"evidence_ids\":[],\"scope_hash\":null,\"state\":\"NOT_VERIFIED\"}},{\"base_confidence\":\"DECLARED\",\"confidence\":\"DECLARED\",\"id\":\"5075fa9ea4dc17f3074379f97a73da4ab440df8743923a695823600644920dc4\",\"kind\":\"COMPUTED_FROM\",\"label\":\"COMPUTED_FROM\",\"owner\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e\",\"properties\":{\"context_basis\":{\"approval\":{\"decision\":\"Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.\",\"metadata_not_recollected\":true,\"owner\":\"owner\",\"source_context\":\"942ae95f-367f-4d11-bb1a-701bb955930c\",\"source_hash\":\"87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493\"},\"as_of\":\"2026-10-21T21:33:21.054850+00:00\",\"context_hash\":\"42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6\",\"context_id\":\"4cae0d14-fd5d-4ff1-89ce-adf346790084\",\"current_graph_stops\":[{\"node\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"remedy\":\"Refresh this owner definition successfully before treating its path as current.\"}],\"current_unavailable_owners\":{\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497\":{\"at\":\"2026-10-22T18:01:43.977413Z\",\"failure\":{\"errno\":null,\"error_type\":\"MetadataUnavailable\",\"http_status\":404,\"line\":99,\"message\":\"Metadata provider request unavailable\",\"message_redacted\":false,\"module\":\"metadata_auth.py\",\"provider_code\":\"EntityNotFound\"},\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"status\":\"UNAVAILABLE\"}},\"kind\":\"RETAINED_APPROVED_CONTEXT\",\"limitation\":\"Not a current graph repair; retained definitions may differ from the served estate.\",\"measure_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity\",\"verified\":false,\"visual\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\"},\"retained_declaration\":{\"expression\":\"SUM('Activity'[units])\"}},\"provenance\":{\"definition_hash\":\"cb8ae306e95a996a2eba0a0ffdbb40d5bbc3ce13de43ff63d3dd74259d7dd039\",\"observed_at\":\"2026-10-21T21:33:21.054850+00:00\",\"source\":\"STATIC_DEFINITION\",\"source_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity\",\"span\":{\"kind\":\"JSON_POINTER\",\"path\":\"\"}},\"source\":\"3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04\",\"target\":\"6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356\",\"unknown\":null,\"valid_from\":\"2026-10-21T21:33:21.054850Z\",\"valid_to\":null,\"verification\":{\"evidence_ids\":[],\"scope_hash\":null,\"state\":\"NOT_VERIFIED\"}},{\"base_confidence\":\"DECLARED\",\"confidence\":\"DECLARED\",\"id\":\"9eca51514bfe3615b8eb933ff7939d0a5bc56bdb823ebe443fafe85fcdd8e1a9\",\"kind\":\"COMPUTED_FROM\",\"label\":\"COMPUTED_FROM\",\"owner\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e\",\"properties\":{\"context_basis\":{\"approval\":{\"decision\":\"Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.\",\"metadata_not_recollected\":true,\"owner\":\"owner\",\"source_context\":\"942ae95f-367f-4d11-bb1a-701bb955930c\",\"source_hash\":\"87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493\"},\"as_of\":\"2026-10-21T21:33:21.054850+00:00\",\"context_hash\":\"42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6\",\"context_id\":\"4cae0d14-fd5d-4ff1-89ce-adf346790084\",\"current_graph_stops\":[{\"node\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"remedy\":\"Refresh this owner definition successfully before treating its path as current.\"}],\"current_unavailable_owners\":{\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497\":{\"at\":\"2026-10-22T18:01:43.977413Z\",\"failure\":{\"errno\":null,\"error_type\":\"MetadataUnavailable\",\"http_status\":404,\"line\":99,\"message\":\"Metadata provider request unavailable\",\"message_redacted\":false,\"module\":\"metadata_auth.py\",\"provider_code\":\"EntityNotFound\"},\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"status\":\"UNAVAILABLE\"}},\"kind\":\"RETAINED_APPROVED_CONTEXT\",\"limitation\":\"Not a current graph repair; retained definitions may differ from the served estate.\",\"measure_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity\",\"verified\":false,\"visual\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\"},\"retained_declaration\":{\"binding\":{\"asset\":{\"id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values\",\"kind\":\"LakehouseTable\",\"name\":\"movement_values\",\"parent_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a\"},\"candidates\":[{\"id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values\",\"kind\":\"LakehouseTable\",\"name\":\"movement_values\",\"parent_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a\"}],\"declared_connection_asset_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/77c49180-2ef9-4558-837c-f50fdb1df8de\",\"declared_partition\":{\"entity_name\":\"movement_values\",\"mode\":\"directLake\",\"partition_count\":1,\"schema_name\":\"dbo\",\"source_type\":\"entity\"},\"declared_role_count\":0,\"definition_asset_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/part/model.bim\",\"definition_offset\":3708,\"external_source_declaration\":{\"reason\":\"Application-source declaration inspection is not implemented for this path; absence is not established.\",\"status\":\"CAPABILITY_NOT_IMPLEMENTED\"},\"provenance\":\"DECLARED_BY_DEFINITION\",\"relation_cross_check\":{\"relations\":[{\"relation\":\"NATIVE_CASCADEDELETE\",\"source\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/77c49180-2ef9-4558-837c-f50fdb1df8de\",\"target\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a\"}],\"status\":\"AGREES\"},\"scope_ids\":[\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a\"],\"status\":\"RESOLVED\",\"unchanged_connection\":{\"definition_asset_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/part/model.bim\",\"definition_hash\":\"cd57bef217c522fc979bc42b242350a9564df0db58029dcb7d1ffd7c409dd369\",\"endpoint\":\"77c49180-2ef9-4558-837c-f50fdb1df8de\",\"semantic_table_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity\",\"server\":\"i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com\",\"storage_mode\":\"directLake\"},\"upstream_declarations\":[{\"asset\":{\"id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/product_rates_e1b8e1\",\"kind\":\"LakehouseTable\",\"name\":\"product_rates_e1b8e1\",\"parent_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887\"},\"candidates\":[{\"id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/product_rates_e1b8e1\",\"kind\":\"LakehouseTable\",\"name\":\"product_rates_e1b8e1\",\"parent_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887\"}],\"definition_evidence\":[{\"asset\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py\",\"detail\":{\"destination\":\"abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/b0ab76f7-20c7-410e-90e4-2c4eb104059a/Tables/movement_values\",\"line\":18,\"proofs\":[{\"expression\":\"movements.join(rates, ['product_id'], 'left').withColumn('movement_value', F.col('units')*F.col('unit_cost'))\",\"line\":17},{\"expression\":\"movements.join(rates, ['product_id'], 'left')\",\"line\":17}],\"sources\":[\"abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/product_rates_e1b8e1\",\"abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/stock_movements_e1b8e1\"]},\"hash\":\"5f61cd4e0cdac7801df4bfdd0ca74f053fed0ef143a66b6eab4f2d0a3616f011\"}],\"provenance\":\"DECLARED_BY_DEFINITION\",\"status\":\"RESOLVED\"},{\"asset\":{\"id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1\",\"kind\":\"LakehouseTable\",\"name\":\"stock_movements_e1b8e1\",\"parent_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887\"},\"candidates\":[{\"id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1\",\"kind\":\"LakehouseTable\",\"name\":\"stock_movements_e1b8e1\",\"parent_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887\"}],\"definition_evidence\":[{\"asset\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py\",\"detail\":{\"destination\":\"abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/b0ab76f7-20c7-410e-90e4-2c4eb104059a/Tables/movement_values\",\"line\":18,\"proofs\":[{\"expression\":\"movements.join(rates, ['product_id'], 'left').withColumn('movement_value', F.col('units')*F.col('unit_cost'))\",\"line\":17},{\"expression\":\"movements.join(rates, ['product_id'], 'left')\",\"line\":17}],\"sources\":[\"abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/product_rates_e1b8e1\",\"abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/stock_movements_e1b8e1\"]},\"hash\":\"5f61cd4e0cdac7801df4bfdd0ca74f053fed0ef143a66b6eab4f2d0a3616f011\"}],\"provenance\":\"DECLARED_BY_DEFINITION\",\"status\":\"RESOLVED\"}]},\"direct_source_proof\":{\"aggregate\":\"SUM\",\"basis\":\"UNCHANGED_DECLARED_SOURCE\",\"definition_asset_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/part/model.bim\",\"definition_hash\":\"cd57bef217c522fc979bc42b242350a9564df0db58029dcb7d1ffd7c409dd369\",\"endpoint\":\"77c49180-2ef9-4558-837c-f50fdb1df8de\",\"intervening_operations\":[],\"measure_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity\",\"presentation_layer\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity\",\"provenance\":\"DECLARED_BY_DEFINITION\",\"scope\":\"WHOLE_ENTITY\",\"semantic_table_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity\",\"server\":\"i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com\",\"source_column\":\"units\",\"source_layer\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values\",\"storage_mode\":\"directLake\",\"version\":1}}},\"provenance\":{\"definition_hash\":\"1276ecd856bcad70211d847a11c8c8cc4e2267e467202a02769a467b4d3d66bb\",\"observed_at\":\"2026-10-21T21:33:21.054850+00:00\",\"source\":\"STATIC_DEFINITION\",\"source_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/part/model.bim\",\"span\":{\"kind\":\"JSON_POINTER\",\"path\":\"\"}},\"source\":\"6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356\",\"target\":\"5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d\",\"unknown\":null,\"valid_from\":\"2026-10-21T21:33:21.054850Z\",\"valid_to\":null,\"verification\":{\"evidence_ids\":[],\"scope_hash\":null,\"state\":\"NOT_VERIFIED\"}},{\"base_confidence\":\"DECLARED\",\"confidence\":\"DECLARED\",\"id\":\"edb9cd7aba559bd3cee11990ea0dda54d7a0549165da4999e2397df060127d65\",\"kind\":\"COMPUTED_FROM\",\"label\":\"COMPUTED_FROM\",\"owner\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a\",\"properties\":{\"context_basis\":{\"approval\":{\"decision\":\"Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.\",\"metadata_not_recollected\":true,\"owner\":\"owner\",\"source_context\":\"942ae95f-367f-4d11-bb1a-701bb955930c\",\"source_hash\":\"87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493\"},\"as_of\":\"2026-10-21T21:33:21.054850+00:00\",\"context_hash\":\"42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6\",\"context_id\":\"4cae0d14-fd5d-4ff1-89ce-adf346790084\",\"current_graph_stops\":[{\"node\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"remedy\":\"Refresh this owner definition successfully before treating its path as current.\"}],\"current_unavailable_owners\":{\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497\":{\"at\":\"2026-10-22T18:01:43.977413Z\",\"failure\":{\"errno\":null,\"error_type\":\"MetadataUnavailable\",\"http_status\":404,\"line\":99,\"message\":\"Metadata provider request unavailable\",\"message_redacted\":false,\"module\":\"metadata_auth.py\",\"provider_code\":\"EntityNotFound\"},\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"status\":\"UNAVAILABLE\"}},\"kind\":\"RETAINED_APPROVED_CONTEXT\",\"limitation\":\"Not a current graph repair; retained definitions may differ from the served estate.\",\"measure_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity\",\"verified\":false,\"visual\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\"},\"retained_declaration\":{\"column\":\"units\",\"definition_asset_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py\",\"definition_hash\":\"313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1\",\"kind\":\"UNCHANGED_ADDITIVE_COLUMN\",\"limitation\":\"Row multiplicity and whole-row deduplication may change the total; agreement does not establish intended grain, key uniqueness or a common snapshot.\",\"lower_layer\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1\",\"operations\":[{\"expression\":\"movements.join(rates, ['product_id'], 'left')\",\"grain\":\"matching rows may multiply; uniqueness is not assumed\",\"how\":\"left\",\"inputs\":[\"abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/product_rates_e1b8e1\",\"abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/stock_movements_e1b8e1\"],\"keys\":[\"product_id\"],\"line\":17,\"operation\":\"JOIN\"},{\"column\":\"movement_value\",\"expression\":\"movements.join(rates, ['product_id'], 'left').withColumn('movement_value', F.col('units')*F.col('unit_cost'))\",\"line\":17,\"operation\":\"DERIVED_COLUMN\"}],\"scope\":\"whole entity, no filters or grouping\",\"upper_layer\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values\"}},\"provenance\":{\"definition_hash\":\"5f61cd4e0cdac7801df4bfdd0ca74f053fed0ef143a66b6eab4f2d0a3616f011\",\"observed_at\":\"2026-10-21T21:33:21.054850+00:00\",\"source\":\"STATIC_DEFINITION\",\"source_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py\",\"span\":{\"kind\":\"JSON_POINTER\",\"path\":\"\"}},\"source\":\"5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d\",\"target\":\"461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab\",\"unknown\":null,\"valid_from\":\"2026-10-21T21:33:21.054850Z\",\"valid_to\":null,\"verification\":{\"evidence_ids\":[],\"scope_hash\":null,\"state\":\"NOT_VERIFIED\"}},{\"base_confidence\":\"DECLARED\",\"confidence\":\"DECLARED\",\"id\":\"56837161e3fb4e7a2b0ee43d5730b1356b7d9be5dc0593c7e514cb764e5ef856\",\"kind\":\"COMPUTED_FROM\",\"label\":\"COMPUTED_FROM\",\"owner\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887\",\"properties\":{\"context_basis\":{\"approval\":{\"decision\":\"Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.\",\"metadata_not_recollected\":true,\"owner\":\"owner\",\"source_context\":\"942ae95f-367f-4d11-bb1a-701bb955930c\",\"source_hash\":\"87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493\"},\"as_of\":\"2026-10-21T21:33:21.054850+00:00\",\"context_hash\":\"42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6\",\"context_id\":\"4cae0d14-fd5d-4ff1-89ce-adf346790084\",\"current_graph_stops\":[{\"node\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"remedy\":\"Refresh this owner definition successfully before treating its path as current.\"}],\"current_unavailable_owners\":{\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497\":{\"at\":\"2026-10-22T18:01:43.977413Z\",\"failure\":{\"errno\":null,\"error_type\":\"MetadataUnavailable\",\"http_status\":404,\"line\":99,\"message\":\"Metadata provider request unavailable\",\"message_redacted\":false,\"module\":\"metadata_auth.py\",\"provider_code\":\"EntityNotFound\"},\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"status\":\"UNAVAILABLE\"}},\"kind\":\"RETAINED_APPROVED_CONTEXT\",\"limitation\":\"Not a current graph repair; retained definitions may differ from the served estate.\",\"measure_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity\",\"verified\":false,\"visual\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\"},\"retained_declaration\":{\"column\":\"units\",\"definition_asset_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py\",\"definition_hash\":\"313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1\",\"kind\":\"UNCHANGED_ADDITIVE_COLUMN\",\"limitation\":\"Row multiplicity and whole-row deduplication may change the total; agreement does not establish intended grain, key uniqueness or a common snapshot.\",\"lower_layer\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1\",\"operations\":[{\"expression\":\"spark.read.format('delta').load(paths['bronze']+table['name']).dropDuplicates()\",\"grain\":\"whole-row duplicates removed\",\"keys\":[\"event_day\",\"movement_id\",\"movement_type\",\"product_id\",\"units\",\"warehouse_id\"],\"line\":14,\"operation\":\"DEDUPE\"}],\"scope\":\"whole entity, no filters or grouping\",\"upper_layer\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1\"}},\"provenance\":{\"definition_hash\":\"5f61cd4e0cdac7801df4bfdd0ca74f053fed0ef143a66b6eab4f2d0a3616f011\",\"observed_at\":\"2026-10-21T21:33:21.054850+00:00\",\"source\":\"STATIC_DEFINITION\",\"source_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py\",\"span\":{\"kind\":\"JSON_POINTER\",\"path\":\"\"}},\"source\":\"461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab\",\"target\":\"4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01\",\"unknown\":null,\"valid_from\":\"2026-10-21T21:33:21.054850Z\",\"valid_to\":null,\"verification\":{\"evidence_ids\":[],\"scope_hash\":null,\"state\":\"NOT_VERIFIED\"}}],\"estate\":\"fixture\",\"nodes\":[{\"confidence\":\"DECLARED\",\"id\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"kind\":\"VISUAL\",\"label\":\"25189fcc5fe05539b3b6\",\"owner\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497\",\"properties\":{\"asset_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497/visual/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2F25189fcc5fe05539b3b6%2Fvisual.json\",\"context_basis\":{\"approval\":{\"decision\":\"Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.\",\"metadata_not_recollected\":true,\"owner\":\"owner\",\"source_context\":\"942ae95f-367f-4d11-bb1a-701bb955930c\",\"source_hash\":\"87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493\"},\"as_of\":\"2026-10-21T21:33:21.054850+00:00\",\"context_hash\":\"42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6\",\"context_id\":\"4cae0d14-fd5d-4ff1-89ce-adf346790084\",\"current_graph_stops\":[{\"node\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"remedy\":\"Refresh this owner definition successfully before treating its path as current.\"}],\"current_unavailable_owners\":{\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497\":{\"at\":\"2026-10-22T18:01:43.977413Z\",\"failure\":{\"errno\":null,\"error_type\":\"MetadataUnavailable\",\"http_status\":404,\"line\":99,\"message\":\"Metadata provider request unavailable\",\"message_redacted\":false,\"module\":\"metadata_auth.py\",\"provider_code\":\"EntityNotFound\"},\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"status\":\"UNAVAILABLE\"}},\"kind\":\"RETAINED_APPROVED_CONTEXT\",\"limitation\":\"Not a current graph repair; retained definitions may differ from the served estate.\",\"measure_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity\",\"verified\":false,\"visual\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\"},\"native_kind\":\"ReportVisual\"},\"provenance\":{\"definition_hash\":\"2bfc2141cf5e85263865843b4c0ff765ac9194a5b8f9969236a538609e551afb\",\"observed_at\":\"2026-10-21T21:33:21.054850+00:00\",\"source\":\"STATIC_DEFINITION\",\"source_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497/visual/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2F25189fcc5fe05539b3b6%2Fvisual.json\",\"span\":{\"kind\":\"JSON_POINTER\",\"path\":\"\"}},\"unknown\":null,\"valid_from\":\"2026-10-21T21:33:21.054850Z\",\"valid_to\":null,\"verification\":{\"evidence_ids\":[],\"scope_hash\":null,\"state\":\"NOT_VERIFIED\"}},{\"confidence\":\"DECLARED\",\"id\":\"3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04\",\"kind\":\"MEASURE\",\"label\":\"Handled Quantity\",\"owner\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e\",\"properties\":{\"asset_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity\",\"context_basis\":{\"approval\":{\"decision\":\"Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.\",\"metadata_not_recollected\":true,\"owner\":\"owner\",\"source_context\":\"942ae95f-367f-4d11-bb1a-701bb955930c\",\"source_hash\":\"87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493\"},\"as_of\":\"2026-10-21T21:33:21.054850+00:00\",\"context_hash\":\"42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6\",\"context_id\":\"4cae0d14-fd5d-4ff1-89ce-adf346790084\",\"current_graph_stops\":[{\"node\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"remedy\":\"Refresh this owner definition successfully before treating its path as current.\"}],\"current_unavailable_owners\":{\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497\":{\"at\":\"2026-10-22T18:01:43.977413Z\",\"failure\":{\"errno\":null,\"error_type\":\"MetadataUnavailable\",\"http_status\":404,\"line\":99,\"message\":\"Metadata provider request unavailable\",\"message_redacted\":false,\"module\":\"metadata_auth.py\",\"provider_code\":\"EntityNotFound\"},\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"status\":\"UNAVAILABLE\"}},\"kind\":\"RETAINED_APPROVED_CONTEXT\",\"limitation\":\"Not a current graph repair; retained definitions may differ from the served estate.\",\"measure_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity\",\"verified\":false,\"visual\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\"},\"native_kind\":\"Measure\"},\"provenance\":{\"definition_hash\":\"cb8ae306e95a996a2eba0a0ffdbb40d5bbc3ce13de43ff63d3dd74259d7dd039\",\"observed_at\":\"2026-10-21T21:33:21.054850+00:00\",\"source\":\"STATIC_DEFINITION\",\"source_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity\",\"span\":{\"kind\":\"JSON_POINTER\",\"path\":\"\"}},\"unknown\":null,\"valid_from\":\"2026-10-21T21:33:21.054850Z\",\"valid_to\":null,\"verification\":{\"evidence_ids\":[],\"scope_hash\":null,\"state\":\"NOT_VERIFIED\"}},{\"confidence\":\"DECLARED\",\"id\":\"6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356\",\"kind\":\"TABLE\",\"label\":\"Activity\",\"owner\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e\",\"properties\":{\"asset_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity\",\"context_basis\":{\"approval\":{\"decision\":\"Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.\",\"metadata_not_recollected\":true,\"owner\":\"owner\",\"source_context\":\"942ae95f-367f-4d11-bb1a-701bb955930c\",\"source_hash\":\"87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493\"},\"as_of\":\"2026-10-21T21:33:21.054850+00:00\",\"context_hash\":\"42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6\",\"context_id\":\"4cae0d14-fd5d-4ff1-89ce-adf346790084\",\"current_graph_stops\":[{\"node\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"remedy\":\"Refresh this owner definition successfully before treating its path as current.\"}],\"current_unavailable_owners\":{\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497\":{\"at\":\"2026-10-22T18:01:43.977413Z\",\"failure\":{\"errno\":null,\"error_type\":\"MetadataUnavailable\",\"http_status\":404,\"line\":99,\"message\":\"Metadata provider request unavailable\",\"message_redacted\":false,\"module\":\"metadata_auth.py\",\"provider_code\":\"EntityNotFound\"},\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"status\":\"UNAVAILABLE\"}},\"kind\":\"RETAINED_APPROVED_CONTEXT\",\"limitation\":\"Not a current graph repair; retained definitions may differ from the served estate.\",\"measure_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity\",\"verified\":false,\"visual\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\"},\"native_kind\":\"SemanticTable\"},\"provenance\":{\"definition_hash\":\"6e288d2e953c3f9fc203a0858dfcde949ce416323daceb6cb8d8d0e37152be94\",\"observed_at\":\"2026-10-21T21:33:21.054850+00:00\",\"source\":\"STATIC_DEFINITION\",\"source_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity\",\"span\":{\"kind\":\"JSON_POINTER\",\"path\":\"\"}},\"unknown\":null,\"valid_from\":\"2026-10-21T21:33:21.054850Z\",\"valid_to\":null,\"verification\":{\"evidence_ids\":[],\"scope_hash\":null,\"state\":\"NOT_VERIFIED\"}},{\"confidence\":\"DECLARED\",\"id\":\"5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d\",\"kind\":\"TABLE\",\"label\":\"movement_values\",\"owner\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a\",\"properties\":{\"asset_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values\",\"context_basis\":{\"approval\":{\"decision\":\"Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.\",\"metadata_not_recollected\":true,\"owner\":\"owner\",\"source_context\":\"942ae95f-367f-4d11-bb1a-701bb955930c\",\"source_hash\":\"87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493\"},\"as_of\":\"2026-10-21T21:33:21.054850+00:00\",\"context_hash\":\"42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6\",\"context_id\":\"4cae0d14-fd5d-4ff1-89ce-adf346790084\",\"current_graph_stops\":[{\"node\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"remedy\":\"Refresh this owner definition successfully before treating its path as current.\"}],\"current_unavailable_owners\":{\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497\":{\"at\":\"2026-10-22T18:01:43.977413Z\",\"failure\":{\"errno\":null,\"error_type\":\"MetadataUnavailable\",\"http_status\":404,\"line\":99,\"message\":\"Metadata provider request unavailable\",\"message_redacted\":false,\"module\":\"metadata_auth.py\",\"provider_code\":\"EntityNotFound\"},\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"status\":\"UNAVAILABLE\"}},\"kind\":\"RETAINED_APPROVED_CONTEXT\",\"limitation\":\"Not a current graph repair; retained definitions may differ from the served estate.\",\"measure_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity\",\"verified\":false,\"visual\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\"},\"native_kind\":\"LakehouseTable\"},\"provenance\":{\"definition_hash\":\"6268ca68efab22fe14dce85a83e4f4f03d0495aecaee758c1cc76a2cc47d3ab3\",\"observed_at\":\"2026-10-21T21:33:21.054850+00:00\",\"source\":\"STATIC_DEFINITION\",\"source_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values\",\"span\":{\"kind\":\"JSON_POINTER\",\"path\":\"\"}},\"unknown\":null,\"valid_from\":\"2026-10-21T21:33:21.054850Z\",\"valid_to\":null,\"verification\":{\"evidence_ids\":[],\"scope_hash\":null,\"state\":\"NOT_VERIFIED\"}},{\"confidence\":\"DECLARED\",\"id\":\"461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab\",\"kind\":\"TABLE\",\"label\":\"stock_movements_e1b8e1\",\"owner\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887\",\"properties\":{\"asset_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1\",\"context_basis\":{\"approval\":{\"decision\":\"Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.\",\"metadata_not_recollected\":true,\"owner\":\"owner\",\"source_context\":\"942ae95f-367f-4d11-bb1a-701bb955930c\",\"source_hash\":\"87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493\"},\"as_of\":\"2026-10-21T21:33:21.054850+00:00\",\"context_hash\":\"42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6\",\"context_id\":\"4cae0d14-fd5d-4ff1-89ce-adf346790084\",\"current_graph_stops\":[{\"node\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"remedy\":\"Refresh this owner definition successfully before treating its path as current.\"}],\"current_unavailable_owners\":{\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497\":{\"at\":\"2026-10-22T18:01:43.977413Z\",\"failure\":{\"errno\":null,\"error_type\":\"MetadataUnavailable\",\"http_status\":404,\"line\":99,\"message\":\"Metadata provider request unavailable\",\"message_redacted\":false,\"module\":\"metadata_auth.py\",\"provider_code\":\"EntityNotFound\"},\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"status\":\"UNAVAILABLE\"}},\"kind\":\"RETAINED_APPROVED_CONTEXT\",\"limitation\":\"Not a current graph repair; retained definitions may differ from the served estate.\",\"measure_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity\",\"verified\":false,\"visual\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\"},\"native_kind\":\"LakehouseTable\"},\"provenance\":{\"definition_hash\":\"0c1e2f893d15ad3d6e60851669cd4d3881170c7806ac3b1e903b67260f604695\",\"observed_at\":\"2026-10-21T21:33:21.054850+00:00\",\"source\":\"STATIC_DEFINITION\",\"source_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1\",\"span\":{\"kind\":\"JSON_POINTER\",\"path\":\"\"}},\"unknown\":null,\"valid_from\":\"2026-10-21T21:33:21.054850Z\",\"valid_to\":null,\"verification\":{\"evidence_ids\":[],\"scope_hash\":null,\"state\":\"NOT_VERIFIED\"}},{\"confidence\":\"DECLARED\",\"id\":\"4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01\",\"kind\":\"TABLE\",\"label\":\"stock_movements_e1b8e1\",\"owner\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82\",\"properties\":{\"asset_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1\",\"context_basis\":{\"approval\":{\"decision\":\"Owner build-phase retry with approved execution-only worker resources; separate verification from demo so each has its own existing 1800-second bound. Exact retained parent, no estate or identity change.\",\"metadata_not_recollected\":true,\"owner\":\"owner\",\"source_context\":\"942ae95f-367f-4d11-bb1a-701bb955930c\",\"source_hash\":\"87ec081a1433990e99757a954634bd674c6015fda78eea569395e867c7974493\"},\"as_of\":\"2026-10-21T21:33:21.054850+00:00\",\"context_hash\":\"42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6\",\"context_id\":\"4cae0d14-fd5d-4ff1-89ce-adf346790084\",\"current_graph_stops\":[{\"node\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"remedy\":\"Refresh this owner definition successfully before treating its path as current.\"}],\"current_unavailable_owners\":{\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497\":{\"at\":\"2026-10-22T18:01:43.977413Z\",\"failure\":{\"errno\":null,\"error_type\":\"MetadataUnavailable\",\"http_status\":404,\"line\":99,\"message\":\"Metadata provider request unavailable\",\"message_redacted\":false,\"module\":\"metadata_auth.py\",\"provider_code\":\"EntityNotFound\"},\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"status\":\"UNAVAILABLE\"}},\"kind\":\"RETAINED_APPROVED_CONTEXT\",\"limitation\":\"Not a current graph repair; retained definitions may differ from the served estate.\",\"measure_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity\",\"verified\":false,\"visual\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\"},\"native_kind\":\"LakehouseTable\"},\"provenance\":{\"definition_hash\":\"16738a513d1aca01d622ad0ba8efeb4ce895a47ad6bc467351aacc213bf792f2\",\"observed_at\":\"2026-10-21T21:33:21.054850+00:00\",\"source\":\"STATIC_DEFINITION\",\"source_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1\",\"span\":{\"kind\":\"JSON_POINTER\",\"path\":\"\"}},\"unknown\":null,\"valid_from\":\"2026-10-21T21:33:21.054850Z\",\"valid_to\":null,\"verification\":{\"evidence_ids\":[],\"scope_hash\":null,\"state\":\"NOT_VERIFIED\"}}],\"stops\":[{\"node\":\"4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01\",\"reason\":\"NO_LINEAGE\"}],\"truncated\":false,\"unavailable_owners\":{}}},\"evidence:5c32f37f9541c33b1f9c636b20d5c6af33754dbc448984d856b45f1e2ec4c898\":{\"kind\":\"GAP\",\"receipt_id\":\"round21-new-investigator-A-04/00000026-investigator-event.json\",\"subjects\":[\"4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01\"],\"value\":{\"reason\":\"NO_LINEAGE\"}},\"evidence:e746b9af512c419e389168f5067f89b75b2776542f413f0e6f10c47b2db1855c\":{\"kind\":\"READ\",\"receipt_id\":\"round21-new-investigator-A-04/00000037-investigator-event.json\",\"subjects\":[\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\"],\"value\":{\"context\":{\"dimension_ids\":[],\"filters\":[],\"scope\":\"WHOLE_ENTITY\",\"version\":1},\"execution_surface\":{\"connection\":\"149f8d99-1c66-4a0a-9624-759be002bb60\",\"engine\":\"OLAP Server\",\"identity\":\"dia-investigator-round19\",\"object\":\"3484a2bc-98c5-4cef-be5c-a6215484075e\"},\"expression_hash\":\"da4a1bc76f81e4e1f34c32c8f07d5004ee290ae63c637714611b9ecbc9d79fee\",\"key\":null,\"native_evidence\":{\"attestation_warning\":\"attestation limited: the engine can't self-report the calling principal; the token and connection were verified separately\",\"completeness\":\"COMPLETE_RESPONSE\",\"declared_context\":{\"dimension_ids\":[],\"filters\":[],\"scope\":\"WHOLE_ENTITY\",\"version\":1},\"dimension_id\":null,\"id\":\"e2889e1c-8cb7-42ee-82cb-00b17c3a4e55\",\"identity_reporting_limit\":\"CALLING_PRINCIPAL_UNREPORTABLE\",\"measure_id\":\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity\",\"read_address\":{\"kind\":\"BASELINE\",\"restrictions\":[]},\"request_hash\":\"86c8330646de7dea9735d8ff4a00b000af1a4d6a49e0e999a2e6d1271af2f6fd\",\"separate_identity_verification\":{\"account\":\"dia-investigator-round19\",\"captured_at\":\"2026-10-22T23:33:32.246309+00:00\",\"mode\":\"federated_reader\",\"model_id\":\"3484a2bc-98c5-4cef-be5c-a6215484075e\",\"principal_id\":\"439ceb25-d200-4f02-95cf-4b1318faca62\",\"query_hash\":\"a80d1123f38aa85e11b90ed006bd879d5249287669057d44871b88cd97486bb1\",\"response_hash\":\"e0a123cfa080cc1a105108b20580bf3462e12bc8f1beb93f8b75b7bf21638a06\",\"tenant_id\":\"dff91047-ebc2-4657-8dbe-5af328d57780\",\"version\":\"native-reader-execution-v1\",\"workspace_id\":\"149f8d99-1c66-4a0a-9624-759be002bb60\"},\"surface_attestation\":{\"attested_fields\":[\"identity\"],\"consistency\":\"CONTRADICTED\",\"contradictions\":[{\"declared\":\"dia-investigator-round19\",\"field\":\"identity\",\"reported\":\" dff91047-ebc2-4657-8dbe-5af328d57780\"}],\"coverage\":\"PARTIAL\",\"field_states\":{\"connection\":\"UNATTESTED\",\"engine\":\"UNATTESTED\",\"identity\":\"ATTESTED\",\"object\":\"UNATTESTED\"},\"missing_required_fields\":[],\"reason\":\"SURFACE_SELF_REPORT_CONTRADICTS_DECLARED\",\"required_fields\":[\"identity\"],\"status\":\"CONTRADICTED\",\"unattested_fields\":[\"connection\",\"engine\",\"object\"]},\"surface_report\":{\"identity\":\" dff91047-ebc2-4657-8dbe-5af328d57780\"},\"surface_report_binding\":\"VALUE_QUERY\",\"surface_report_receipt_id\":\"e2889e1c-8cb7-42ee-82cb-00b17c3a4e55\",\"surface_report_types\":{\"identity\":\"PRINCIPAL_NAME\"},\"test_purpose\":\"ESTABLISH_BASELINE\",\"tool\":\"bounded_dax\",\"value_state\":\"MEASURED\",\"values\":[{\"[baseline]\":{\"type\":\"decimal\",\"value\":\"8765\"}}]},\"query\":\"EVALUATE ADDCOLUMNS(ROW(\\\"baseline\\\", [Handled Quantity]),\\\"surface_identity\\\",USERPRINCIPALNAME())\",\"read_only_verified\":true,\"receipt_id\":\"e2889e1c-8cb7-42ee-82cb-00b17c3a4e55\",\"route_admitted\":true,\"state\":\"VALUE\",\"subject\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"value\":\"8765\",\"warnings\":[\"SNAPSHOT_UNVERIFIED\",\"attestation limited: the engine can't self-report the calling principal; the token and connection were verified separately\"]}},\"evidence:f75fe897c07bed7801c1df8b86d530d15a95c5026698d875d5e529e080d5dd28\":{\"kind\":\"GAP\",\"receipt_id\":\"round21-new-investigator-A-04/00000038-investigator-event.json\",\"subjects\":[\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\"],\"value\":{\"code\":\"COMPARISON_TARGET_UNAVAILABLE\",\"comparison_kind\":\"source\",\"reason\":\"The ticket names a source comparison, but no comparison target is resolved within the admitted graph path. No comparison read was made; the named comparison was not replaced.\"}}}"
+  },
+  "physical_requests": 1,
+  "stop_reason": "EVIDENCE_INSUFFICIENT",
+  "support": {
+    "evidence_ids": [
+      "evidence:e746b9af512c419e389168f5067f89b75b2776542f413f0e6f10c47b2db1855c",
+      "evidence:5c32f37f9541c33b1f9c636b20d5c6af33754dbc448984d856b45f1e2ec4c898",
+      "evidence:03220ad5f003f49bb81246083396fff22242e9c5d14b424884477c20aea7f5f9",
+      "evidence:f75fe897c07bed7801c1df8b86d530d15a95c5026698d875d5e529e080d5dd28"
+    ],
+    "reason": "Evidence does not establish a cause within the admitted budget.",
+    "verdict": "not found"
+  },
+  "ticket": {
+    "comparison": {
+      "kind": "source",
+      "node": null
+    },
+    "filters": {
+      "dimension_ids": [],
+      "filters": [],
+      "scope": "WHOLE_ENTITY",
+      "version": 1
+    },
+    "reported_figure": {
+      "state": "UNSPECIFIED"
+    },
+    "request": {
+      "kind": "COMPARE"
+    },
+    "text": "In Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.",
+    "visual": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+  },
+  "timing": {
+    "wall_seconds": 76.15199642700003
+  },
+  "tools": [
+    {
+      "arguments": {
+        "target": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+      },
+      "model_calls": 0,
+      "result": {
+        "evidence_ids": [
+          "evidence:e746b9af512c419e389168f5067f89b75b2776542f413f0e6f10c47b2db1855c",
+          "evidence:f75fe897c07bed7801c1df8b86d530d15a95c5026698d875d5e529e080d5dd28"
+        ]
+      },
+      "tool": "recreate_ticket_and_comparison",
+      "wall_seconds": 18.574946807999993
+    },
+    {
+      "arguments": {
+        "path": [
+          "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+          "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+          "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+        ]
+      },
+      "model_calls": 0,
+      "result": {
+        "evidence_ids": []
+      },
+      "tool": "parallel_simple_hypotheses",
+      "wall_seconds": 0.5674407550000069
+    },
+    {
+      "arguments": {
+        "id": "evidence:f75fe897c07bed7801c1df8b86d530d15a95c5026698d875d5e529e080d5dd28"
+      },
+      "model_calls": 0,
+      "receipt_id": "round21-new-investigator-A-04/00000060-investigator-event.json",
+      "result": {
+        "evidence": {
+          "kind": "GAP",
+          "receipt_id": "round21-new-investigator-A-04/00000038-investigator-event.json",
+          "subjects": [
+            "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072"
+          ],
+          "value": {
+            "code": "COMPARISON_TARGET_UNAVAILABLE",
+            "comparison_kind": "source",
+            "reason": "The ticket names a source comparison, but no comparison target is resolved within the admitted graph path. No comparison read was made; the named comparison was not replaced."
+          }
+        },
+        "evidence_ids": [
+          "evidence:f75fe897c07bed7801c1df8b86d530d15a95c5026698d875d5e529e080d5dd28"
+        ]
+      },
+      "tool": "get_evidence",
+      "wall_seconds": 0.15816199699997924
+    }
+  ],
+  "verdict": "not found",
+  "version": "ledger-investigation-v1",
+  "warnings": [
+    "verification: not verified, retained reader verification NATIVE_DECLARED_ROUTE_NOT_VERIFIED; label only",
+    "attestation limited: the engine can\u2019t self-report the calling principal; the token and connection were verified separately",
+    "Retained approved context: 4cae0d14-fd5d-4ff1-89ce-adf346790084; hash 42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6; as of 2026-10-21T21:33:21.054850+00:00. Definitions were not recollected; this path is not current or value-verified.",
+    "Current graph limitations: {\"stops\":[{\"node\":\"876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072\",\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"remedy\":\"Refresh this owner definition successfully before treating its path as current.\"}],\"unavailable_owners\":{\"fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497\":{\"at\":\"2026-10-22T18:01:43.977413Z\",\"failure\":{\"errno\":null,\"error_type\":\"MetadataUnavailable\",\"http_status\":404,\"line\":99,\"message\":\"Metadata provider request unavailable\",\"message_redacted\":false,\"module\":\"metadata_auth.py\",\"provider_code\":\"EntityNotFound\"},\"reason\":\"Owner definition refresh unavailable: MetadataUnavailable\",\"status\":\"UNAVAILABLE\"}}}",
+    "SNAPSHOT_UNVERIFIED",
+    "attestation limited: the engine can't self-report the calling principal; the token and connection were verified separately"
+  ],
+  "run_id": "round21-new-investigator-A-04",
+  "outer_seal": "19f44a70eabd83a19bd460d18ac110f8b9724fea4701506b92dd7a6d68869468",
+  "azure_execution": "job-dia-worker-ymwarcb",
+  "parity_with_old_pipeline": "NOT_MET: ended not found before reading the available declared prefix"
+}

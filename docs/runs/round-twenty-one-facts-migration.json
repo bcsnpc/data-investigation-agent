@@ -1,0 +1,89 @@
+{
+  "at_utc": "2026-10-22T16:42:27.823440+00:00",
+  "owner_approval": "RoundTwentyOne PartA1 and Part0item7,2026-10-22",
+  "actor": "existing application schema owner leelamounika14@gmail.com",
+  "schema": "dia_state",
+  "migration_sql_sha256": "cb2ce3881419a47dbf6e2f534482b66235d181f3ee86f1f1748cf2b39ae8e5f3",
+  "exact_grants": [
+    "GRANT SELECT, INSERT ON TABLE estate_node_facts TO \"id-dia-worker\"",
+    "GRANT SELECT, INSERT, UPDATE ON TABLE estate_fact_cursors TO \"id-dia-worker\""
+  ],
+  "before": {
+    "versions": [
+      [
+        1,
+        "9b56f874eaa2c7cff725d7d9e1684bd81c0c84af7602aaa152be1df348bbc8f7"
+      ],
+      [
+        2,
+        "4b505f6329b7425d758b623e2d7f4c9e3179197f89bbf78f67d20faa111b7cc9"
+      ]
+    ],
+    "tables": [
+      null,
+      null
+    ],
+    "budget_privileges": [
+      false,
+      true,
+      false,
+      false,
+      true
+    ]
+  },
+  "after": {
+    "versions": [
+      [
+        1,
+        "9b56f874eaa2c7cff725d7d9e1684bd81c0c84af7602aaa152be1df348bbc8f7"
+      ],
+      [
+        2,
+        "4b505f6329b7425d758b623e2d7f4c9e3179197f89bbf78f67d20faa111b7cc9"
+      ],
+      [
+        3,
+        "1628277d34878f41739f3707f860e0093ceca853cd177e889c4458373886f809"
+      ],
+      [
+        4,
+        "cb2ce3881419a47dbf6e2f534482b66235d181f3ee86f1f1748cf2b39ae8e5f3"
+      ]
+    ],
+    "tables": [
+      "estate_node_facts",
+      "estate_fact_cursors"
+    ],
+    "budget_privileges": [
+      false,
+      true,
+      false,
+      false,
+      true
+    ]
+  },
+  "worker_test": {
+    "status": "PASS",
+    "role": "id-dia-worker",
+    "privileges": {
+      "estate_node_facts": {
+        "SELECT": true,
+        "INSERT": true,
+        "UPDATE": false,
+        "DELETE": false,
+        "TRUNCATE": false
+      },
+      "estate_fact_cursors": {
+        "SELECT": true,
+        "INSERT": true,
+        "UPDATE": true,
+        "DELETE": false,
+        "TRUNCATE": false
+      }
+    },
+    "writes": "ROLLED_BACK"
+  },
+  "estate_identity_permissions_changed": false,
+  "budget_policy_permissions_unchanged": true,
+  "new_role_created": false
+}

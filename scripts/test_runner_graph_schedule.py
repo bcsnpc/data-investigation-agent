@@ -73,6 +73,14 @@ class IndependentSchedules(unittest.TestCase):
         self.assertFalse(cost['free_grants_assumed'])
         with self.assertRaisesRegex(ValueError,'EXCEED_PLATFORM'):costs(platform='16')
         with self.assertRaisesRegex(ValueError,'INVALID'):costs(graph='NaN')
+    def test_earned_daily_hour_does_not_extend_graph_half_hour(self):
+        config,job=self.inputs();config['checks']['daily']['options']['config']['demo_earned']=True
+        prepared=plan(job,config);daily,graph=self.readbacks(prepared,job,config)
+        self.assertEqual(daily['properties']['configuration']['replicaTimeout'],3600)
+        self.assertEqual(graph['properties']['configuration']['replicaTimeout'],1800)
+        self.assertEqual(validate_pair(daily,graph)['status'],'PASS')
+        graph['properties']['configuration']['replicaTimeout']=3600
+        with self.assertRaisesRegex(ValueError,'MISSING_OR_DIFFERS'):validate_pair(daily,graph)
 
     def test_preflight_requires_both_independent_schedules(self):
         config,job=self.inputs();prepared=plan(job,config);daily,graph=self.readbacks(prepared,job,config)

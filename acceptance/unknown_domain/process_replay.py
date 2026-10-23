@@ -41,7 +41,7 @@ def _replay(path,output,*,allow_engine_drift=False,native_transport=None,source_
         raise journal.TapeError('ENGINE_VERSION_MISMATCH')
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
     for name in ('catalog.sqlite','inventory.sqlite'):
-        if journal.sha((Path(path).parent/name).read_bytes())!=bootstrap['state']['artifacts'][name]:
+        if journal.Tape._file_sha(Path(path).parent/name)!=bootstrap['state']['artifacts'][name]:
             raise journal.TapeError('TAPE_BOOTSTRAP_ARTIFACT_CHANGED:'+name)
         shutil.copyfile(Path(path).parent/name,output/name)
     config=bootstrap['config'];settings=bootstrap['state']

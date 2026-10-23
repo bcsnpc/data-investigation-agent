@@ -627,3 +627,13 @@ Dated Round Fifteen owner-demo replay completion, 2026-10-11: all six original-A
 
 
 Round Twenty release `v0.20`: family A delivered Silver7,661 -> Gold8,765 with verification/attestation warning labels. Original same-image replay failed; repaired-source offline replay matched3/3. Outer capture finalization and verified graph attachment remain limitations. [Summary](docs/round-twenty-summary.md).
+
+
+Round21 active on draft#428: facts migration applied, nine controlled investigator verdicts9/9offline, owner-steer intake3admitted/8questions/1businesshold. No new live enrichment or successful cloud demo claimed. See docs/round-twenty-one-execution.md.
+
+RoundTwenty-One checkpoint2026-10-22: oldpipelineA AzureSucceeded,32m35s, TRANSFORMATION_LOGIC7661->8765 withlabels, exit0; same-image2/3 (intakeBUDGETmismatchretained). Newledger-onlyquestionSucceeded32s,0models/0estatevaluequeries. NewA03notfoundafter18models andA04earlynotfound are retained, paritynotyetearned; contextmemory andknownprefixcoverage regressionsfixed, finalA05running. Liveenrichment199/200INFERRED,608linksnonepromoted,USD5.170482/25inclallrejectedattempts. Fullbfa62source5005PASS/48skip; finalcoveragechangefullvalidationpending. Intaketwelve3admitted/8onequestion/1held, offlineadmissionnotexecutedinvestigation. Collectorsdeployed30min,selectedjobhistoryobserved; refresh403/auditSQLunavailable. Priorfreezeinvalid; draft428unmerged.
+
+Round21 collector correction (owner2026-10-22, UTC2026-10-23): existing scanner refresh GETs200 on all3estates; fixture2successfulruns, billing/sample emptyhistory, all3schedulesdisabled. Investigator remainsViewer. Warehouseaudit11rows/latest360read360written, matchedcollectorallocationretryPASS; originalEOFcauseunknown. NewinvestigatorA05 AzureSucceeded353s, measured7661->8765, technicalas-designed mechanism with explicitpartial/source-comparisonlimit. FinalCI/mainmerge/tagpending; priorfreezeinvalid. See docs/round-twenty-one-refresh-collector-diagnosis.md.
+
+
+Round21 closing observation, owner2026-10-22 / UTC2026-10-23: scanner refresh GETs succeeded for all3 estates with investigatorViewer unchanged; fixture audit11rows/latest360read360written, samecollectorallocation passed. New metadata consumer exposes current empty history without inventing a refresh run. Daily smoke remains NOT_GREEN: both executions deliveredNO_COMPARABLE_PATH rather than earnedTRANSFORMATION_LOGIC; old rollup falselypassed the returned demo. Generic configured-outcome check now rejects that mismatch, originals unchanged; no new live smoke pass claimed. ManualA03/newA05 intermediate join evidence remains distinct. Merge/main validation pending; prior freeze invalid. See docs/runs/round-twenty-one-daily-smoke-results.json.

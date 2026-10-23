@@ -202,7 +202,8 @@ class SharedState:
     def migrate(self):
         text = DDL.format(number='NUMERIC' if self.backend == 'postgresql' else 'TEXT')
         from .graph_value_migration import sql as graph_value_schema
-        migrations = {1:text,2:USAGE_DDL,3:graph_value_schema(self.backend)}
+        from .facts_migration import sql as facts_schema
+        migrations = {1:text,2:USAGE_DDL,3:graph_value_schema(self.backend),4:facts_schema(self.backend)}
         with self.transaction() as db:
             db.execute('CREATE TABLE IF NOT EXISTS state_schema_versions(version INTEGER PRIMARY KEY, sha256 TEXT NOT NULL)')
             rows = db.execute('SELECT version,sha256 FROM state_schema_versions ORDER BY version').fetchall()
