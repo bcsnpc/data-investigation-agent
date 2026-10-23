@@ -163,7 +163,7 @@ class FreshProofTests(unittest.TestCase):
             agent=SimpleNamespace(governor=SimpleNamespace(shared=object())),intake_configuration=None,preview=Mock())
         return workspace,models,path
 
-    def test_standalone_typed_handoff_consumes_real_proof_then_normal_form(self):
+    def test_legacy_baseline_typed_handoff_consumes_real_proof_then_normal_form(self):
         from contextlib import nullcontext
         from investigator.unified_runner import handlers
         workspace,models,path=self.demo_workspace();ctx=SimpleNamespace(root=self.root,record=Mock(),step=lambda n,f:f())
@@ -173,7 +173,7 @@ class FreshProofTests(unittest.TestCase):
              patch('investigator.question_intake.snapshot',return_value={'models':models}), \
              patch('run_adaptive_investigation.local_azure_key',return_value=nullcontext()), \
              patch('cloud_form_worker.run_form',return_value={'ticket':{'state':'FINDINGS_SHARED'}}) as run:
-            result=handlers()['investigation'](plan,ctx)
+            result=handlers()['legacy-baseline'](plan,ctx)
         self.assertEqual('DEMO_FINISHED',result['status']);self.assertEqual('NOT_ASSESSED',result['proof']['readiness'])
         from cloud_runner_context import bind_demo_submission
         expected,binding=bind_demo_submission(json.loads(path.read_bytes()),plan['run_id'])

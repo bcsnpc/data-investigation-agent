@@ -156,3 +156,12 @@ invented. Collector facts retain the failed call separately from unavailable
 run history. Old tests that assumed COVERAGE was the last returned fact now
 select it by kind, retaining all negative-accounting assertions. Initial new
 test failure was ISO formatting in its assertion; compare canonical times.
+
+The first amended image failed one legacy handoff test: it invoked the renamed
+default investigation route with a legacy proof/form. Keep that proof test,
+explicitly invoking legacy-baseline; a separate registry test enforces the new
+default. No expectation, reader scope or proof assertion was loosened. Failed
+image39899480797 was not published or deployed. Session-catalog test also
+exposed a real Windows open-file leak: a sqlite connection context commits but
+does not close; use closing() for the read-only source. Preserve the selected
+model's discovery deny/policy fields in the reduced session catalog.
