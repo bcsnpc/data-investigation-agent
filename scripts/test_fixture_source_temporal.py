@@ -79,5 +79,15 @@ class TemporalPlans(unittest.TestCase):
         sql=self.builder().disable(history_object_id=456,history_rows=0,history_sha256=empty)
         self.assertIn("<>UPPER('"+empty+"')",sql)
 
+    def test_native_time_comparison_retains_blank_separately_from_zero_and_exact_precision(self):
+        request=self.builder().comparison([fixtures.SourceHistoryPlans().added()],before='2026-10-23T22:49:27.1219695Z',after='2026-10-23T22:49:27.1219696Z')
+        validate_sql(request['query'],{_object(v)for v in request['read_only_objects']})
+        self.assertIn('before_rows',request['result_columns']);self.assertIn('before_quantity',request['result_columns'])
+        self.assertNotIn('ELSE 0',request['query']);self.assertNotIn('COALESCE',request['query'])
+        self.assertEqual(request['parameters'][-2]['value'],'2026-10-23T22:49:27.1219695Z')
+        self.assertNotIn('2026-10-23',request['query'])
+        for before,after in [('2026-10-23T22:49:27Z','2026-10-23T22:49:26Z'),('2026-10-23T22:49:27Z','2026-10-23T22:49:27.0000000Z'),('2026-10-23T22:49:27+00:00','2026-10-23T22:49:28Z'),("2026-10-23T22:49:27Z';DROP TABLE x",'2026-10-23T22:49:28Z')]:
+            with self.subTest(before=before),self.assertRaises(ValueError):self.builder().comparison([fixtures.SourceHistoryPlans().added()],before=before,after=after)
+
 
 if __name__=='__main__':unittest.main()

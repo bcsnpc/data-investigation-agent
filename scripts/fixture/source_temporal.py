@@ -5,6 +5,7 @@ The publisher must journal dispatch and verify the returned native metadata.
 History stays available until every dependent scored case has finished.
 """
 import re
+from datetime import datetime
 from .source_history import SourceHistoryScenario,TABLE,number,row,FIELDS
 
 HISTORY='[app].[stock_movements_round22_history]'
@@ -83,6 +84,34 @@ class TemporalSourceScenario:
         fields=[*FIELDS,'source_modified_at_utc','CONVERT(bigint,source_row_version) AS source_row_version',START,END]
         rows='SELECT '+','.join(fields)+' FROM '+HISTORY+' ORDER BY movement_id,'+START+','+END+' FOR JSON PATH,INCLUDE_NULL_VALUES'
         return "CONVERT(varchar(64),HASHBYTES('SHA2_256',CONVERT(nvarchar(max),COALESCE(("+rows+"),N'[]'))),2)"
+
+    @classmethod
+    def comparison(cls,values,*,before,after):
+        """Native point-in-time quantities; absence stays NULL plus count zero.
+
+        This is a bounded fixture observation, not ticket admission or a model
+        authored query. Both times must fall within the retained history epoch.
+        The scored harness must verify that epoch before admitting the case.
+        """
+        def instant(value):
+            if not isinstance(value,str):raise ValueError('TEMPORAL_EXACT_UTC_REQUIRED')
+            match=re.fullmatch(r'(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(?:\.(\d{1,7}))?Z',value)
+            if not match:raise ValueError('TEMPORAL_EXACT_UTC_REQUIRED')
+            datetime.fromisoformat(value.replace('Z','+00:00'))
+            return match[1],(match[2]or'').ljust(7,'0')
+        if instant(before)>=instant(after):raise ValueError('TEMPORAL_COMPARISON_ORDER')
+        request=cls.observation(values)
+        fields=['movement_id','CONVERT(varchar(33),(SELECT MIN(['+START+']) FROM '+TABLE+'),126) AS history_coverage_from']
+        for label in ('before','after'):
+            at='CONVERT(datetime2(7),@as_of_'+label+',127)'
+            condition='['+START+']<='+at+' AND ['+END+']>'+at
+            fields.extend(['COUNT(CASE WHEN '+condition+' THEN 1 END) AS '+label+'_rows',
+                           'SUM(CASE WHEN '+condition+' THEN CONVERT(bigint,units) END) AS '+label+'_quantity'])
+        request['query']='SELECT TOP ('+str(len(values)+1)+') '+','.join(fields)+' FROM '+TABLE+' FOR SYSTEM_TIME ALL WHERE movement_id IN ('+','.join(p['name']for p in request['parameters'])+') GROUP BY movement_id ORDER BY movement_id'
+        request['parameters'] += [{'name':'@as_of_before','value':before},{'name':'@as_of_after','value':after}]
+        request['max_rows']=len(values)+1
+        request['result_columns']=['movement_id','history_coverage_from','before_rows','before_quantity','after_rows','after_quantity']
+        return request
 
     def disable(self,*,history_object_id,history_rows,history_sha256):
         history_object_id=number(history_object_id,1);history_rows=number(history_rows,0,10000)
