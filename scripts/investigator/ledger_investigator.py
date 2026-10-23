@@ -79,10 +79,10 @@ def fetched_context(result):
     return value
 
 
-def schema(tools):
+def schema(tools,allowed_tools=None):
     def obj(properties):return {'type':'object','properties':properties,'required':list(properties),'additionalProperties':False}
     common={'summary':{'type':'string','minLength':1,'maxLength':500},'hypotheses':{'type':'array','minItems':1,'maxItems':9,'uniqueItems':True,'items':{'type':'string','enum':list(VERDICTS)}}}
-    variants=[obj({'action':{'const':'TOOL'},**common,'tool':{'const':name},'arguments':args}) for name,args in sorted(tools.schemas.items())]
+    variants=[obj({'action':{'const':'TOOL'},**common,'tool':{'const':name},'arguments':args}) for name,args in sorted(tools.schemas.items()) if allowed_tools is None or name in allowed_tools]
     variants.append(obj({'action':{'const':'VERDICT'},**common,'verdict':{'type':'string','enum':list(VERDICTS)},'evidence_ids':{'type':'array','maxItems':100,'uniqueItems':True,'items':{'type':'string'}}}))
     return closed_wire_schema({'anyOf':variants})
 
@@ -107,6 +107,7 @@ class Investigator:
         if not isinstance(assumptions,list) or len(assumptions)>10 or any(not isinstance(value,str) or not 1<=len(value)<=1000 for value in assumptions):raise ValueError('ADMITTED_ASSUMPTION_LABELS_REQUIRED')
         from .investigator_case import CaseFile
         self.case=CaseFile(ticket)
+        self.tools.step_provider=lambda:self.case.value['current_step']
         case_bound=callable(getattr(type(self.decide),'bind_case',None))
         if case_bound:self.decide.bind_case(self.case,self.persist)
         calls=[];hypotheses=list(VERDICTS[:-1]);feedback=None;fetched=None
@@ -208,10 +209,13 @@ class Investigator:
             except Exception as exc:
                 if not budget_stop(exc):raise
                 record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__});break
+            from .investigator_playbook import allowed
+            permitted=allowed(self.case.value['current_step'])
+            self.schema=schema(self.tools,permitted);self.validator=Draft202012Validator(self.schema)
             compact=evidence_context(self.tools.evidence)
             try:
                 decision=self.decide({'ticket':ticket,'path_nodes':[{'id':n['id'],'label':n['label'],'kind':n['kind'],'depth':self.tools.depth.get(n['id'])} for n in self.tools.nodes.values()],
-                'pending_quantity_nodes':self.tools.pending_quantity_nodes(),
+                'pending_quantity_nodes':self.tools.pending_quantity_nodes(),'allowed_tools':sorted(permitted),
                 'case_file':self.case.model_view(),'fetched_evidence':fetched,'feedback':{k:copy.deepcopy(v)for k,v in (feedback or {}).items()if k in ('reason','detail','error_type','status','evidence_ids','nodes')},'steps_remaining':self.step_cap-step+1,
                 'tool_history':[{'tool':c['tool'],'arguments':c['arguments'],'evidence_ids':c['result'].get('evidence_ids',[]),'status':c['result'].get('status')} for c in calls[-3:]]},instructions=INSTRUCTIONS,schema=self.schema)
             except Exception as exc:

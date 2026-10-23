@@ -42,6 +42,7 @@ class Tools:
             for edge in self.path['edges']:
                 if edge['source']==current and edge['target'] in self.nodes and edge['target'] not in self.depth:
                     self.depth[edge['target']]=self.depth[current]+1;queue.append(edge['target'])
+        self.step_provider=lambda:'investigate'
         self.path_id=self.evidence.add('PATH',list(self.nodes),self.path)
         self.gap_ids=[]
         for stop in self.path.get('stops',[]):
@@ -198,6 +199,8 @@ class Tools:
 
     def invoke(self,name,args):
         if name not in self.schemas:raise ValueError('UNKNOWN_INVESTIGATOR_TOOL')
+        from .investigator_playbook import require
+        require(self.step_provider(),name)
         Draft202012Validator(self.schemas[name]).validate(args)
         key=canonical([name,args])
         if key in self._obtained:
