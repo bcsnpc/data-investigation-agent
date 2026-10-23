@@ -202,3 +202,5 @@ Budget at05:35:41UTC: **1003/6000 physical** (INV466/SCAN537/REST0), reserve95 u
 
 ### Pattern validation: rejected model decision must stay in the loop ? 2026-10-23
 The Azure adapter validates ticket-specific consumer scope after stable wire-reference expansion. Its ValidationError previously escaped the investigator loop rather than becoming feedback. The model operation now records that known protocol/schema rejection as a completed failed decision and retries within the existing overall run controls. It does not weaken the validator, resend a completed native read, change an expectation, or catch secret/billing/auth failures. Two regressions prove corrected decisions can complete and SECRET_DETECTED still propagates. This is a validation follow-up, not an extra state-pattern commit.
+
+2026-10-23 Section 2 validation: full suite caught a storage-provider URL above the adapter boundary in the new user harness. Moved the cloud CLI port into adapters; generic submit/poll/outcome and the sealed literal ratchet remain unchanged. No allowance or expectation changed.
