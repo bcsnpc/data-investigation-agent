@@ -419,4 +419,19 @@ class RealGraphTests(unittest.TestCase):
             self.assertIn('Question: Why did this change?',result['outputs']['business'])
             self.assertTrue(any(entry['kind']=='FACT' for entry in result['evidence'].values()))
 
+class FetchedWitnessTests(unittest.TestCase):
+    def test_model_view_omits_duplicate_native_receipts_without_changing_sealed_witness(self):
+        import json
+        from investigator.ledger_investigator import fetched_context
+        original={'evidence_ids':['proof'],'evidence':{'id':'proof','kind':'DESIGN_CHECK','subjects':['down','up'],'value':{
+            'checked':True,'mechanism':'A retained join repeats the carried quantity.','support_ids':['comparison'],
+            'business_correctness_claim':False,'native_assessment':{'classification':'TRANSFORMATION_LOGIC','support':{'ids':['comparison']},'observations':['large native receipt'*10000]},
+            'native_observations':['duplicate native receipt'*10000]}}}
+        before=copy.deepcopy(original);view=fetched_context(original)
+        self.assertEqual(original,before)
+        self.assertEqual(view['evidence']['value']['native_assessment']['classification'],'TRANSFORMATION_LOGIC')
+        self.assertEqual(view['evidence']['value']['support_ids'],['comparison'])
+        self.assertLess(len(json.dumps(view)),2000)
+        self.assertNotIn('native_observations',view['evidence']['value'])
+
 if __name__=='__main__':unittest.main()

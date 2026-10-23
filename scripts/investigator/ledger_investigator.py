@@ -53,6 +53,23 @@ def evidence_context(registry):
     return result
 
 
+def fetched_context(result):
+    """Model view of a checked witness; sealed native proof stays in registry.
+
+    Native assessments duplicate query bodies, outputs and observations already
+    held by the engine. Send their checked classification and references, never
+    a second copy of all probe receipts. Validation still consumes the original.
+    """
+    value=copy.deepcopy(result)
+    record=value.get('evidence',{})
+    if record.get('kind')=='DESIGN_CHECK':
+        proof=record['value'];native=proof.get('native_assessment',{})
+        proof['native_assessment']={k:copy.deepcopy(native[k]) for k in ('classification','support','explanation') if k in native}
+        proof.pop('native_observations',None)
+        record['detail_projection']='Checked design witness; native probe receipts remain sealed and are validated by the engine.'
+    return value
+
+
 def schema(tools):
     def obj(properties):return {'type':'object','properties':properties,'required':list(properties),'additionalProperties':False}
     common={'summary':{'type':'string','minLength':1,'maxLength':500},'hypotheses':{'type':'array','minItems':1,'maxItems':9,'uniqueItems':True,'items':{'type':'string','enum':list(VERDICTS)}}}
@@ -181,7 +198,7 @@ class Investigator:
                     if not budget_stop(exc):raise
                     record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__});break
                 known.extend(i for i in result.get('evidence_ids',[]) if i not in known)
-                fetched=result if decision['tool']=='get_evidence' else None;feedback=result if result.get('status')=='UNAVAILABLE' or result.get('already_obtained') else None
+                fetched=fetched_context(result) if decision['tool']=='get_evidence' else None;feedback=result if result.get('status')=='UNAVAILABLE' or result.get('already_obtained') else None
                 continue
             if decision['verdict']=='not found' and self.tools.pending_quantity_nodes():
                 feedback={'reason':'DECLARED_PREFIX_NOT_CHECKED','nodes':self.tools.pending_quantity_nodes(),

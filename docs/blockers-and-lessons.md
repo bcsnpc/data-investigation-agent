@@ -187,3 +187,7 @@ limit. Reject a PRIVACY_PROJECTED estate before state/native reads, even when
 no tape is requested; do not quietly record raw audit values. The existing
 projected engine limitation remains open, with a regression at cloud assembly.
 All estates used for this round's current synthetic exact inputs remain EXACT.
+
+
+### NORMAL smoke witness transport ? 2026-10-23
+The sealed first amended-engine smoke reached the measured 8,765/7,661 boundary and a checked native TRANSFORMATION_LOGIC witness. It then failed at the provider-input admission guard: fetching that witness duplicated 58,675 characters of native assessment/observations into the next model request (configured bound48,000). The bound was not raised. The model view now supplies the checked mechanism, classification, support and evidence IDs, excluding duplicated native observations and rendered outputs. Original full witness/tape bytes remain unchanged in evidence storage and consumer validation still uses them. Retained real witness projects to3,587 characters. Regression proves the input witness is untouched and the model receives the proof classification/references. This is a reliability transport repair; the section2 pattern programme has not been declared complete.
