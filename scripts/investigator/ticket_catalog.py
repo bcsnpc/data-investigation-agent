@@ -17,6 +17,10 @@ def materialize(source,target,*,model,context,inventory,environment):
         if saved is None or digest(json.loads(saved['body']))!=saved['hash'] or saved['hash']!=digest(model['context']):raise ValueError('TICKET_MODEL_CONTEXT_HASH_DIFFERS')
         for table,value in (('models',row),('model_contexts',saved)):
             columns=list(value.keys());dest.execute('INSERT INTO '+table+'('+','.join(columns)+') VALUES('+','.join('?'for _ in columns)+')',tuple(value))
+        if origin.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='discovery_models'").fetchone():
+            dest.execute('CREATE TABLE discovery_models(model_id TEXT,denied INTEGER,policy_hash TEXT)')
+            policy=origin.execute('SELECT model_id,denied,policy_hash FROM discovery_models WHERE model_id=?',(model['id'],)).fetchone()
+            if policy is not None:dest.execute('INSERT INTO discovery_models VALUES(?,?,?)',tuple(policy))
         dest.execute('CREATE TABLE enterprise_scans(id,environment,status,started,body,hash)')
         dest.execute('INSERT INTO enterprise_scans VALUES(?,?,?,?,?,?)',(context['version'],environment,'PARTIAL',0,encoded(context),digest(context)))
     # This cache retains only the approved current context, no past observations,

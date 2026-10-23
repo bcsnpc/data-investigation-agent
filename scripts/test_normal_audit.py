@@ -48,6 +48,8 @@ class NormalAuditTests(unittest.TestCase):
             db.execute('INSERT INTO models VALUES(?,?,?,?,?,?,?,?,?,?)',(model_id,'development','workspace','native','fixture','[]',1,1,context_id,'{}'))
             db.execute('INSERT INTO model_contexts VALUES(?,?,?,?,?,?)',(context_id,model_id,'scan',encoded(model['context']),digest(model['context']),'2026-10-22T00:00:00Z'))
             db.execute('CREATE TABLE unrelated_history(body)')
+            db.execute('CREATE TABLE discovery_models(model_id,denied,policy_hash)')
+            db.execute('INSERT INTO discovery_models VALUES(?,?,?)',(model_id,1,'approved-policy-hash'))
             db.executemany('INSERT INTO unrelated_history VALUES(?)',[('old private evidence'*1000,)]*100)
         current={'version':'scan','assets':[],'graph':{'edges':[]}}
         store,summary=materialize(source,self.root/'session.sqlite',model=model,context=current,inventory=inventory,environment='development')
@@ -57,6 +59,7 @@ class NormalAuditTests(unittest.TestCase):
             self.assertFalse(db.execute("SELECT 1 FROM sqlite_master WHERE name='unrelated_history'").fetchone())
         from investigator.context_search import latest
         self.assertEqual(latest(store),current)
+        self.assertEqual(store.get(model_id)['discovery'],{'denied':1,'policy_hash':'approved-policy-hash'})
         self.assertLess(store.database.stat().st_size,source.stat().st_size/4)
 
 if __name__=='__main__':unittest.main()
