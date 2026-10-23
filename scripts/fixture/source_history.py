@@ -68,7 +68,9 @@ class SourceHistoryScenario:
         fields=[*FIELDS[:4],'CONVERT(varchar(10),event_day,23) AS event_day','movement_type',
                 'source_modified_at_utc','CONVERT(bigint,source_row_version) AS source_row_version']
         parameters=[{'name':'@case_id_'+str(i),'value':identity}for i,identity in enumerate(ids)]
-        return {'query':'SELECT '+','.join(fields)+' FROM '+TABLE+' WHERE movement_id IN ('+
+        # The managed reader attests in an outer SELECT. TOP makes this inner
+        # ORDER BY legal in SQL Server; keep one overflow row for the consumer.
+        return {'query':'SELECT TOP ('+str(len(ids)+1)+') '+','.join(fields)+' FROM '+TABLE+' WHERE movement_id IN ('+
             ','.join(p['name']for p in parameters)+') ORDER BY movement_id',
             'parameters':parameters,'read_only_objects':[TABLE],'max_rows':len(ids)+1,'result_columns':columns}
 

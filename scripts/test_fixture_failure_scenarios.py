@@ -16,10 +16,15 @@ class SourceHistoryPlans(unittest.TestCase):
   self.assertEqual(request['read_only_objects'],['[app].[stock_movements_round_two_20261003]'])
   self.assertEqual(request['max_rows'],3)
   self.assertEqual(request['parameters'],[{'name':'@case_id_0','value':900101},{'name':'@case_id_1','value':900102}])
-  self.assertNotIn('900101',request['query']);self.assertTrue(request['query'].startswith('SELECT '))
+  self.assertNotIn('900101',request['query']);self.assertTrue(request['query'].startswith('SELECT TOP (3) '))
   self.assertIn('CONVERT(bigint,source_row_version)',request['query']);self.assertIn('source_row_version',request['result_columns'])
   for invalid in ([],[self.added()]*4,[self.added(),self.added()],[{**self.added(),'movement_id':1}]):
    with self.assertRaises(ValueError):plan.observation(invalid)
+ def test_ordered_observation_keeps_overflow_row_for_outer_attestation_select(self):
+  request=SourceHistoryScenario(self.baseline()).observation([self.added()])
+  self.assertTrue(request['query'].startswith('SELECT TOP (2) '))
+  self.assertEqual(request['max_rows'],2)
+  self.assertIn('ORDER BY movement_id',request['query'])
  def test_corrupt_or_incomplete_preimage_refuses_before_producing_mutation(self):
   v=self.baseline();v['source_units']=17
   with self.assertRaisesRegex(ValueError,'SEAL_DIFFERS'):SourceHistoryScenario(v)
