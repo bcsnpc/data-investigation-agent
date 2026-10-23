@@ -659,3 +659,5 @@ Round22 preparation: the cloud source profile returned360rows with native invest
 2026-10-23: frozen temporal checkpoint5155passed/48skipped; source before/after history remains queryable after restoration.32independent/original ticket drafts exist; final60set and scoring remain pending.
 
 2026-10-23: three source-context control pairs derived independently from committed seed; native observations/scoring pending. Existing history remains enabled.
+
+2026-10-23: three same-source context controls matched independent seed arithmetic; engine scoring still pending. A data-visibility access fixture is prepared using two existing billing readers, without permission changes; not yet applied.

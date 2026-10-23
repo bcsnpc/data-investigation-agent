@@ -1,0 +1,174 @@
+{
+  "cases": [
+    {
+      "capture": {
+        "capture_prefix": "round-twenty-two/runner/d6466583-6fc3-48e1-81ae-cdd81c0ef5c8",
+        "endTime": "2026-10-23T23:24:35+00:00",
+        "name": "job-dia-worker-2wc56mf",
+        "output": ".local\\round-twenty-two\\source-context-warehouse-reader-01.log",
+        "records": 97,
+        "seal": "e449ed42dc542df499a299b69fa1530572ce7f76412fa8d96145ea7acbbbf1bd",
+        "startTime": "2026-10-23T23:21:44+00:00",
+        "status": "Succeeded"
+      },
+      "case_id": "context-warehouse",
+      "diagnostic_value_requests": 1,
+      "execution": {
+        "endTime": "2026-10-23T23:24:35+00:00",
+        "startTime": "2026-10-23T23:21:44+00:00",
+        "status": "Succeeded"
+      },
+      "launch": {
+        "execution_name": "job-dia-worker-2wc56mf",
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c21e46a010ec7a1adebe6e92585ae82e0bc18ec501f0ef0f1dc51f3ad4c52981",
+        "run_id": "d6466583-6fc3-48e1-81ae-cdd81c0ef5c8",
+        "status": "STARTED"
+      },
+      "native_result": {
+        "column_types": {
+          "quantity": "Int64",
+          "scope_key": "String"
+        },
+        "execution_identity": {
+          "database": "ordersops",
+          "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+          "provenance": "SURFACE_SELF_REPORT",
+          "server": "sql-orderops-9696025.database.windows.net"
+        },
+        "read_only_verified": true,
+        "rows": [
+          {
+            "quantity": "2948",
+            "scope_key": "1"
+          },
+          {
+            "quantity": "2084",
+            "scope_key": "2"
+          }
+        ],
+        "surface_report": {
+          "engine": "Microsoft SQL Azure",
+          "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+          "object": "ordersops"
+        },
+        "surface_report_binding": "VALUE_QUERY"
+      },
+      "status": "NATIVE_GROUPS_MATCH_INDEPENDENT_DERIVATION"
+    },
+    {
+      "capture": {
+        "capture_prefix": "round-twenty-two/runner/44014707-c491-4ae6-84c6-0afc6d435437",
+        "endTime": "2026-10-23T23:26:56+00:00",
+        "name": "job-dia-worker-6hyuryu",
+        "output": ".local\\round-twenty-two\\source-context-product-reader-01.log",
+        "records": 78,
+        "seal": "1110420b6ea0a33e46b2e480aebe991eff9aeb2e6e7547210a06238193826af0",
+        "startTime": "2026-10-23T23:25:14+00:00",
+        "status": "Succeeded"
+      },
+      "case_id": "context-product",
+      "diagnostic_value_requests": 1,
+      "execution": {
+        "endTime": "2026-10-23T23:26:56+00:00",
+        "startTime": "2026-10-23T23:25:14+00:00",
+        "status": "Succeeded"
+      },
+      "launch": {
+        "execution_name": "job-dia-worker-6hyuryu",
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c21e46a010ec7a1adebe6e92585ae82e0bc18ec501f0ef0f1dc51f3ad4c52981",
+        "run_id": "44014707-c491-4ae6-84c6-0afc6d435437",
+        "status": "STARTED"
+      },
+      "native_result": {
+        "column_types": {
+          "quantity": "Int64",
+          "scope_key": "String"
+        },
+        "execution_identity": {
+          "database": "ordersops",
+          "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+          "provenance": "SURFACE_SELF_REPORT",
+          "server": "sql-orderops-9696025.database.windows.net"
+        },
+        "read_only_verified": true,
+        "rows": [
+          {
+            "quantity": "1104",
+            "scope_key": "7"
+          },
+          {
+            "quantity": "1258",
+            "scope_key": "8"
+          }
+        ],
+        "surface_report": {
+          "engine": "Microsoft SQL Azure",
+          "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+          "object": "ordersops"
+        },
+        "surface_report_binding": "VALUE_QUERY"
+      },
+      "status": "NATIVE_GROUPS_MATCH_INDEPENDENT_DERIVATION"
+    },
+    {
+      "capture": {
+        "capture_prefix": "round-twenty-two/runner/4bf0f51c-4718-4f17-a9df-880425431238",
+        "endTime": "2026-10-23T23:29:16+00:00",
+        "name": "job-dia-worker-9uh9dkx",
+        "output": ".local\\round-twenty-two\\source-context-day-reader-01.log",
+        "records": 78,
+        "seal": "075f551c779477b7a718b2c968c28a07f7820a6df0ebf68178033b661c75cc9f",
+        "startTime": "2026-10-23T23:27:39+00:00",
+        "status": "Succeeded"
+      },
+      "case_id": "context-day",
+      "diagnostic_value_requests": 1,
+      "execution": {
+        "endTime": "2026-10-23T23:29:16+00:00",
+        "startTime": "2026-10-23T23:27:39+00:00",
+        "status": "Succeeded"
+      },
+      "launch": {
+        "execution_name": "job-dia-worker-9uh9dkx",
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c21e46a010ec7a1adebe6e92585ae82e0bc18ec501f0ef0f1dc51f3ad4c52981",
+        "run_id": "4bf0f51c-4718-4f17-a9df-880425431238",
+        "status": "STARTED"
+      },
+      "native_result": {
+        "column_types": {
+          "quantity": "Int64",
+          "scope_key": "String"
+        },
+        "execution_identity": {
+          "database": "ordersops",
+          "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+          "provenance": "SURFACE_SELF_REPORT",
+          "server": "sql-orderops-9696025.database.windows.net"
+        },
+        "read_only_verified": true,
+        "rows": [
+          {
+            "quantity": "923",
+            "scope_key": "2026-09-14"
+          },
+          {
+            "quantity": "772",
+            "scope_key": "2026-09-15"
+          }
+        ],
+        "surface_report": {
+          "engine": "Microsoft SQL Azure",
+          "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+          "object": "ordersops"
+        },
+        "surface_report_binding": "VALUE_QUERY"
+      },
+      "status": "NATIVE_GROUPS_MATCH_INDEPENDENT_DERIVATION"
+    }
+  ],
+  "ended_at_utc": "2026-10-23T23:29:35.082263+00:00",
+  "estate_mutations": 0,
+  "model_calls": 0,
+  "started_at_utc": "2026-10-23T23:21:23.123480+00:00",
+  "status": "THREE_NATIVE_CONTEXT_CASES_OBSERVED"
+}
