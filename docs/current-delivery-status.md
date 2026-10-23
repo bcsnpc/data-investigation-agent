@@ -692,3 +692,6 @@ Round21 closed, owner2026-10-22 / executionUTC2026-10-23: #428 merged as 602a459
 
 
 Round22 control2026-10-23: owner-approved single SQL laptop /32 firewall replacement applied/readback verified; no other rule or database permission changed. Receipt docs/runs/round-twenty-two-approved-source-firewall.json. Independent baseline writer completed6 unchanged DEV drafts, not scored or held-out. Frontier A remains4calls versus18; no repeat harness run. Prior freeze invalid.
+
+
+Round22 source readiness2026-10-23: sourceprofile control on existing cloud investigator failed before value query at its permission guard;64unsealed partial records retained. Native SQL permission hierarchy explains two omitted read-metadata children of already-granted VIEW DEFINITION. Guard fix and safe refusal details50focusedtestsPASS; corrected-image live confirmation pending, no role/grant/credential change. Three guarded source-history plans remain unapplied; first scoreddev/setseal still pending. Prior freeze invalid.

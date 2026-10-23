@@ -16,12 +16,23 @@ from investigator.adapters.managed_identity import FIELDS, Tokens, validate
 
 DB_GUARD = """SELECT COUNT(*) FROM sys.fn_my_permissions(NULL,'DATABASE')
 WHERE permission_name NOT IN ('CONNECT','SELECT','VIEW DEFINITION','VIEW DATABASE STATE',
-'VIEW DATABASE PERFORMANCE STATE','VIEW DATABASE SECURITY STATE')"""
+'VIEW DATABASE PERFORMANCE STATE','VIEW DATABASE SECURITY STATE',
+'VIEW PERFORMANCE DEFINITION','VIEW SECURITY DEFINITION')"""
 OBJECT_GUARD = """SELECT COUNT(*) FROM sys.fn_my_permissions(?,'OBJECT')
 WHERE permission_name NOT IN ('SELECT','VIEW DEFINITION')"""
 IDENTITY = 'SELECT SUSER_SNAME() AS login_name, DB_NAME() AS database_name'
 TYPES = {str:'String', int:'Int64', float:'Double', Decimal:'Decimal', bool:'Boolean',
          datetime.datetime:'DateTime', datetime.date:'DateTime', bytes:'Byte[]'}
+
+
+class ReadOnlyGuardRefused(ValueError):
+    """Bounded own-session evidence, without driver text or query contents."""
+    def __init__(self,kind,identity,database,row):
+        super().__init__('Read-only permission guard refused')
+        count=row[0]if row and type(row[0])is int and 0<=row[0]<=10000 else None
+        self.details={'guard':kind,'principal':str(identity)[:256],
+                      'database':database,'unexpected_permission_count':count,
+                      'reason':'UNRECOGNIZED_EFFECTIVE_PERMISSION_OR_INVALID_GUARD_RESPONSE'}
 
 
 class Protocol:
@@ -168,7 +179,7 @@ def execute(payload, *, connect=None, tokens=None, protocol=None, progress=None)
                     cursor.execute(query, *args)
                     row = cursor.fetchone()
                     if not row or row[0] != 0 or cursor.fetchone() is not None or cursor.nextset():
-                        raise ValueError('Read-only permission guard refused')
+                        raise ReadOnlyGuardRefused(kind,identity[0],payload['database'],row)
                     protocol.done(kind, guard=True)
             query, values = bind_parameters(payload['query'], payload.get('parameters', []))
             columns = payload['result_columns']
@@ -231,6 +242,7 @@ def main():
             result={'error':'ManagedSqlReadFailed','stage':progress['stage'],
                     'error_number':(-2 if sqlstate in ('HYT00','HYT01') else int(numbers[-1]) if numbers else None),
                     'error_kind':'SqlException' if sqlstate else 'InvalidOperationException','sqlstate':sqlstate}
+            if isinstance(exc,ReadOnlyGuardRefused):result['read_only_guard']=exc.details
             code=1
     protocol.emit(result)
     return code
