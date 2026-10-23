@@ -71,6 +71,21 @@ class Decisions(unittest.TestCase):
             reserve=lambda *a,**k:self.events.append(('reserve',a[1:],k)),
             settle=lambda *a,**k:self.events.append(('settle',a[1:],k)))
 
+    def test_bound_case_recitation_is_required_on_wire_and_mismatch_cannot_change_state(self):
+        from investigator.investigator_case import CaseFile
+        case=CaseFile({'id':'one'});events=[]
+        def provider(payload,**kwargs):
+            self.assertEqual(payload['code_case_state']['current_step'],'recreate')
+            self.assertIn('recitation',kwargs['schema']['required'])
+            return {'decision':{'action':'VERDICT'},'recitation':{'plan':['wrong'],'current_step':'deliver'}},{'usage':{'input_tokens':10,'output_tokens':3}}
+        with tempfile.TemporaryDirectory()as tmp:
+            port=AzureDecision(self.governor,session='one',directory=tmp,retain=events.append,producer=provider,recording_mode='NORMAL')
+            port.bind_case(case,events.append)
+            self.assertEqual(port({},instructions='Read only',schema={'type':'object'})['action'],'VERDICT')
+        self.assertEqual(case.snapshot()['current_step'],'recreate')
+        self.assertTrue(any(v.get('event')=='INVESTIGATOR_RECITATION_MISMATCH'for v in events))
+        self.assertEqual(self.events[-1][0],'settle')
+
     def test_reserve_capture_send_settle_and_unknown_usage_on_error(self):
         with tempfile.TemporaryDirectory() as tmp:
             @contextlib.contextmanager

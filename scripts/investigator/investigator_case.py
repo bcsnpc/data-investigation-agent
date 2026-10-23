@@ -60,6 +60,15 @@ class CaseFile:
         self.value['notes'].append(copy.deepcopy(update))
         return True
 
+    def recite(self, value):
+        expected = {'plan': self.value['plan'], 'current_step': self.value['current_step']}
+        if value == expected:
+            return None
+        event = {'event': 'INVESTIGATOR_RECITATION_MISMATCH', 'reason': 'CODE_CASE_FILE_WINS',
+                 'expected': copy.deepcopy(expected), 'received': copy.deepcopy(value)}
+        self.value['errors'].append(event)
+        return event
+
     def observe(self, event):
         kind = event.get('event')
         if kind == 'INVESTIGATOR_DECISION':

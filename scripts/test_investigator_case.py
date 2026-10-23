@@ -24,5 +24,15 @@ class CaseTests(unittest.TestCase):
         self.assertEqual(len(value['errors']), 3)
 
 
+class RecitationTests(unittest.TestCase):
+    def test_matching_recitation_is_silent_mismatch_is_logged_and_cannot_advance(self):
+        case=CaseFile({'id':'ticket-1'})
+        self.assertIsNone(case.recite({'plan':case.snapshot()['plan'],'current_step':'recreate'}))
+        self.assertEqual(case.snapshot()['errors'],[])
+        event=case.recite({'plan':['invented'],'current_step':'deliver'})
+        self.assertEqual(event['reason'],'CODE_CASE_FILE_WINS')
+        self.assertEqual(case.snapshot()['current_step'],'recreate')
+        self.assertEqual(case.snapshot()['errors'],[event])
+
 if __name__ == '__main__':
     unittest.main()

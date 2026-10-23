@@ -98,6 +98,8 @@ class Investigator:
         if not isinstance(assumptions,list) or len(assumptions)>10 or any(not isinstance(value,str) or not 1<=len(value)<=1000 for value in assumptions):raise ValueError('ADMITTED_ASSUMPTION_LABELS_REQUIRED')
         from .investigator_case import CaseFile
         self.case=CaseFile(ticket)
+        case_bound=callable(getattr(type(self.decide),'bind_case',None))
+        if case_bound:self.decide.bind_case(self.case,self.persist)
         calls=[];hypotheses=list(VERDICTS[:-1]);feedback=None;fetched=None
         def record(value):
             _safe(canonical(value).encode());self.case.observe(value);receipt=self.persist(value)
@@ -194,6 +196,9 @@ class Investigator:
                 if not budget_stop(exc):raise
                 record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__});break
             model_calls+=1;fetched=None
+            if not case_bound:
+                event=self.case.recite(decision.pop('recitation',None) if isinstance(decision,dict) else None)
+                if event:record(event)
             errors=list(self.validator.iter_errors(decision))
             if errors:
                 feedback={'reason':'INVESTIGATOR_DECISION_SCHEMA','details':[e.message for e in errors[:3]]};record({'event':'INVESTIGATOR_REJECTED',**feedback});continue

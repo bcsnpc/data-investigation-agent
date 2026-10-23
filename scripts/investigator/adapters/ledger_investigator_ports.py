@@ -164,6 +164,9 @@ class AzureDecision:
         from ..normal_audit import mode
         self.recording_mode=mode(recording_mode)
 
+    def bind_case(self,case,retain):
+        self.case=case;self.case_retain=retain
+
     def __call__(self,payload,*,instructions,schema):
         from ticket_planner import _azure_generate,provider_body
         from ..contract_vocabulary import instructions as vocabulary
@@ -172,7 +175,13 @@ class AzureDecision:
         # Azure function parameters require a root object; the engine's closed
         # union remains unchanged underneath this transport-only envelope.
         wire_schema,hoisted=decision_transport(schema)
+        case=getattr(self,'case',None)
+        if case is not None:
+            payload={**copy.deepcopy(payload),'code_case_state':{'plan':case.value['plan'],'current_step':case.value['current_step']}}
+            wire_schema['properties']['recitation']={'type':'object','properties':{'plan':{'type':'array','items':{'type':'string'}},'current_step':{'type':'string'}},'required':['plan','current_step'],'additionalProperties':False}
+            wire_schema['required'].append('recitation')
         instruction=vocabulary(instructions,schema)+'\nReturn the schema-conforming result in the transport envelope: shared summary/hypotheses at its root when declared; remaining result fields inside decision.'
+        if case is not None:instruction+='\nRestate the code_case_state plan and current_step in recitation. Code owns both; restatement does not change them.'
         body=provider_body(payload,instruction,wire_schema,'ledger_investigator_action',
                            decision_tool=True,generation_options=self.options)
         size=len(json.dumps(body,ensure_ascii=False,separators=(',',':')))
@@ -196,6 +205,10 @@ class AzureDecision:
                     max_request_characters=self.options['max_payload_characters'])
                 self.retain({'event':'INVESTIGATOR_MODEL_USAGE','call':self.calls,'metadata':metadata,
                              'input_characters':size,'recording':str(record.path)if record is not None else 'NORMAL_AUDIT_NO_BYTE_EXACT_PROVIDER_TAPE'})
+                if case is not None:
+                    event=case.recite(answer.get('recitation') if isinstance(answer,dict) else None)
+                    if event:self.case_retain(event)
+                    if isinstance(answer,dict):answer={k:v for k,v in answer.items()if k!='recitation'}
                 if (not isinstance(answer,dict) or set(answer)!={'decision',*hoisted}
                         or not isinstance(answer['decision'],dict)):
                     raise ValueError('INVESTIGATOR_PROVIDER_DECISION_ENVELOPE_REQUIRED')
