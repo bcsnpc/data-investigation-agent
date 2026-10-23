@@ -13,6 +13,24 @@ from investigator.process_tape import Tape,bytes_of
 HEADER={'entry_point':'runner','context_identity':'fixture-context','config':{},'profile':{},'usage_policy':None,'engine_hash':'fixture-engine','state':{}}
 
 class RunnerTests(unittest.TestCase):
+    def test_collector_options_reject_before_launch_and_dispatch(self):
+        from investigator.unified_runner import handlers
+        from unittest.mock import Mock
+        with tempfile.TemporaryDirectory()as d:
+            config=self.config(Path(d));bad={'config':{},'force':True}
+            config['checks']={'facts':{'kind':'collect-facts','options':bad}}
+            p=Path(d)/'runner.json';p.write_text(json.dumps(config))
+            with patch('cloud_facts_collector.execute')as execute:
+                with self.assertRaisesRegex(ValueError,'FACT_COLLECTOR_RUNNER_OPTIONS'):load(p)
+                with self.assertRaisesRegex(ValueError,'FACT_COLLECTOR_RUNNER_OPTIONS'):handlers()['collect-facts']({'options':bad},Mock())
+                execute.assert_not_called()
+    def test_collector_preflight_uses_consumer_configuration_validation(self):
+        with tempfile.TemporaryDirectory()as d:
+            config=self.config(Path(d));check={'kind':'collect-facts','options':{'config':{'estate':'test','authentication':{},'storage':{},'receipt_uri_prefix':'receipt','budget':{},'subjects':{'pipeline':{}},'max_requests':4,'approval':'owner'}}}
+            config['checks']={'facts':check};p=Path(d)/'runner.json';p.write_text(json.dumps(config))
+            self.assertEqual(load(p)['checks']['facts'],check)
+            check['options']['config']['max_requests']=0;p.write_text(json.dumps(config))
+            with self.assertRaisesRegex(ValueError,'FACT_REQUEST_ALLOWANCE'):load(p)
     def test_default_investigation_registry_is_new_engine_legacy_is_explicit_baseline(self):
         from investigator.unified_runner import handlers
         registry=handlers()

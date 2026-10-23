@@ -20,6 +20,12 @@ PUBLIC_ENV=frozenset(('DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JS
     'AZURE_CLIENT_ID','DIA_GATEWAY_HTTP_IDENTITY','DIA_GATEWAY_SQL_IDENTITY','DIA_GATEWAY_MODEL_IDENTITY',
     'DIA_GATEWAY_STATE_IDENTITY','DIA_PLATFORM_CONTROL_RECEIPTS','DIA_GATEWAY_AUDIT_FILE','DIA_LIVE_ACCESS_DISABLED'))
 
+def collector_options(options):
+    """Use the consumer's contract before launching a paid cloud execution."""
+    from cloud_facts_collector import validate
+    if set(options)!={'config'}:raise ValueError('FACT_COLLECTOR_RUNNER_OPTIONS')
+    return validate(options['config'])
+
 def load(path):
     value=json.loads(Path(path).read_bytes())
     required={'version','manifest','image','capture','checks','output_root'}
@@ -32,6 +38,7 @@ def load(path):
     if not isinstance(value['checks'],dict) or not value['checks']:raise ValueError('RUNNER_CHECKS_REQUIRED')
     for name,check in value['checks'].items():
         if not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',name) or set(check)!={'kind','options'} or check['kind'] not in KINDS or not isinstance(check['options'],dict):raise ValueError('RUNNER_TYPED_CHECK_REQUIRED')
+        if check['kind']=='collect-facts':collector_options(check['options'])
     _safe(bytes_of(value))
     return value
 
@@ -89,8 +96,8 @@ def handlers():
         return ctx.access_result
     def collect_facts(plan,ctx):
         from cloud_facts_collector import execute
-        if set(plan['options'])!={'config'}:raise ValueError('FACT_COLLECTOR_RUNNER_OPTIONS')
-        return ctx.step('collect-facts',lambda:execute(plan['options']['config']))
+        config=collector_options(plan['options'])
+        return ctx.step('collect-facts',lambda:execute(config))
     def value_verification(plan,ctx):
         from cloud_value_execution import run
         return run(plan,ctx)
