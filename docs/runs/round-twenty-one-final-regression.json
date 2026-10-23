@@ -1,0 +1,189 @@
+{
+  "source_revision": "b988d1ecccf895545e9046f6af54c084697db324",
+  "discovered_tests": 5061,
+  "passed": 5013,
+  "skipped": 48,
+  "failures": 0,
+  "errors": 0,
+  "elapsed_seconds": 1071.6905900000002,
+  "source_worktree": "C:/temp/dia-r21-final-validation",
+  "subsequent_changes": "workflow dependency installation and Markdown findings only; application Python unchanged",
+  "synthetic_verdicts": {
+    "cases": [
+      {
+        "actual": "as designed",
+        "estate_reads": 0,
+        "event_count": 8,
+        "expected": "as designed",
+        "matched": true,
+        "model_calls": 0,
+        "stop_reason": "EVIDENCE_PROVEN",
+        "support_ids": [
+          "evidence:4580bb39f085d8a353094834b624c9c3fc4a3b4d37b7315dbb9ce6c9f32aff78",
+          "evidence:502dbbd0a300cd2d28ddb74b230ab4c1d8705e48dc5720f3e42e901db485e4e9",
+          "evidence:74d3205db78b41f3e7a066658c79f1fb2878057da1cc6be657c860c2347586c2",
+          "evidence:2c122353f471004ef8c3f591db723bece0510731f1693516bb6a7894dd3a8a74",
+          "evidence:8b750a3678e643aa0b8d50c5270bae9b817c2f485fc38828207173eda2214a76"
+        ]
+      },
+      {
+        "actual": "latency",
+        "estate_reads": 0,
+        "event_count": 13,
+        "expected": "latency",
+        "matched": true,
+        "model_calls": 0,
+        "stop_reason": "EVIDENCE_PROVEN",
+        "support_ids": [
+          "evidence:3ef5be5aec0a34e0333d4cbadf1c058b31a219e03f133f29f0e5af733df3df3a",
+          "evidence:2bd775f5baf1aa293fba424d9743d64a6c7dc396452ffdabd6b223cacc01a933",
+          "evidence:5d8e206758d3de72f24fbe58c7ae85a65bdbe4c140406c2623e5e9451481c16a",
+          "evidence:754bfbbde1f67b2040f0551cab8292695444163d87e6a910a8801776a298432e",
+          "evidence:28fea9733b96263059b373c823bc1725ed41ac381edbadd7ed3bf89ab2d38668",
+          "evidence:5079c44d7d58d56e35d0e7a0de80e107e1d642c00d3ad8448ab703676cae7fb7",
+          "evidence:d265100eb7c2217a10ce931a26206a541568325918ac3971118cdfbc62400a1d",
+          "evidence:b984f8b201f47418c5e5f877560b3b6e02392ab0f54789b208528a5c5653cf91",
+          "evidence:a9b9c44e5cf038edfc830eaf078b79e65df44535e685fdf6be842f86ca10d72b",
+          "evidence:db2c771a75d0ed7b64c629e0ed7080ca83213d7da404c4c9de0ad48a88c7c543"
+        ]
+      },
+      {
+        "actual": "waiting on job",
+        "estate_reads": 0,
+        "event_count": 11,
+        "expected": "waiting on job",
+        "matched": true,
+        "model_calls": 0,
+        "stop_reason": "EVIDENCE_PROVEN",
+        "support_ids": [
+          "evidence:dc8e9edbc59ff71249aade6849de403b6839257db7cdba2319ea86285a6e71f8",
+          "evidence:754bfbbde1f67b2040f0551cab8292695444163d87e6a910a8801776a298432e",
+          "evidence:28fea9733b96263059b373c823bc1725ed41ac381edbadd7ed3bf89ab2d38668",
+          "evidence:5079c44d7d58d56e35d0e7a0de80e107e1d642c00d3ad8448ab703676cae7fb7",
+          "evidence:d265100eb7c2217a10ce931a26206a541568325918ac3971118cdfbc62400a1d",
+          "evidence:b984f8b201f47418c5e5f877560b3b6e02392ab0f54789b208528a5c5653cf91",
+          "evidence:a9b9c44e5cf038edfc830eaf078b79e65df44535e685fdf6be842f86ca10d72b",
+          "evidence:db2c771a75d0ed7b64c629e0ed7080ca83213d7da404c4c9de0ad48a88c7c543"
+        ]
+      },
+      {
+        "actual": "failed job",
+        "estate_reads": 0,
+        "event_count": 11,
+        "expected": "failed job",
+        "matched": true,
+        "model_calls": 0,
+        "stop_reason": "EVIDENCE_PROVEN",
+        "support_ids": [
+          "evidence:9e1f38dcb2ca5fc1ea11e15a4baca8c4a8937583d773c90e72c1b4f13e151f37",
+          "evidence:754bfbbde1f67b2040f0551cab8292695444163d87e6a910a8801776a298432e",
+          "evidence:28fea9733b96263059b373c823bc1725ed41ac381edbadd7ed3bf89ab2d38668",
+          "evidence:5079c44d7d58d56e35d0e7a0de80e107e1d642c00d3ad8448ab703676cae7fb7",
+          "evidence:d265100eb7c2217a10ce931a26206a541568325918ac3971118cdfbc62400a1d",
+          "evidence:b984f8b201f47418c5e5f877560b3b6e02392ab0f54789b208528a5c5653cf91",
+          "evidence:a9b9c44e5cf038edfc830eaf078b79e65df44535e685fdf6be842f86ca10d72b",
+          "evidence:db2c771a75d0ed7b64c629e0ed7080ca83213d7da404c4c9de0ad48a88c7c543"
+        ]
+      },
+      {
+        "actual": "refresh stale",
+        "estate_reads": 0,
+        "event_count": 11,
+        "expected": "refresh stale",
+        "matched": true,
+        "model_calls": 0,
+        "stop_reason": "EVIDENCE_PROVEN",
+        "support_ids": [
+          "evidence:91de5bcaecc5d76df4475b5887f8c79a0f0f7c8a6cee88335d4089cdd62c97ea",
+          "evidence:754bfbbde1f67b2040f0551cab8292695444163d87e6a910a8801776a298432e",
+          "evidence:895d7223f01e0023fa487d8c5dfb82cb43f6c6cf95bd5291d5a876e3d58b1066",
+          "evidence:5079c44d7d58d56e35d0e7a0de80e107e1d642c00d3ad8448ab703676cae7fb7",
+          "evidence:d265100eb7c2217a10ce931a26206a541568325918ac3971118cdfbc62400a1d",
+          "evidence:b984f8b201f47418c5e5f877560b3b6e02392ab0f54789b208528a5c5653cf91",
+          "evidence:a9b9c44e5cf038edfc830eaf078b79e65df44535e685fdf6be842f86ca10d72b",
+          "evidence:db2c771a75d0ed7b64c629e0ed7080ca83213d7da404c4c9de0ad48a88c7c543"
+        ]
+      },
+      {
+        "actual": "different question",
+        "estate_reads": 0,
+        "event_count": 12,
+        "expected": "different question",
+        "matched": true,
+        "model_calls": 0,
+        "stop_reason": "EVIDENCE_PROVEN",
+        "support_ids": [
+          "evidence:4355504aefaf6bd6204bd0bb955bf54747b114dcf1598cd8059b537af189f4ab",
+          "evidence:cc1f2ec456cbd3d36ba8dd02ecc36fb607c44716b16e9373a3c03dc563f4e56a",
+          "evidence:b984f8b201f47418c5e5f877560b3b6e02392ab0f54789b208528a5c5653cf91",
+          "evidence:754bfbbde1f67b2040f0551cab8292695444163d87e6a910a8801776a298432e",
+          "evidence:28fea9733b96263059b373c823bc1725ed41ac381edbadd7ed3bf89ab2d38668",
+          "evidence:5079c44d7d58d56e35d0e7a0de80e107e1d642c00d3ad8448ab703676cae7fb7",
+          "evidence:d265100eb7c2217a10ce931a26206a541568325918ac3971118cdfbc62400a1d",
+          "evidence:a9b9c44e5cf038edfc830eaf078b79e65df44535e685fdf6be842f86ca10d72b",
+          "evidence:db2c771a75d0ed7b64c629e0ed7080ca83213d7da404c4c9de0ad48a88c7c543"
+        ]
+      },
+      {
+        "actual": "access difference",
+        "estate_reads": 0,
+        "event_count": 8,
+        "expected": "access difference",
+        "matched": true,
+        "model_calls": 0,
+        "stop_reason": "EVIDENCE_PROVEN",
+        "support_ids": [
+          "evidence:e116991396e689e4992ff4e8e66f42b545d0e9f52e30cbc206ee32716445e431",
+          "evidence:9b89f5ad9130fb79b0532977ea8a4075f57428fbee12e595744d11b4a05de644",
+          "evidence:56d6743c46011126ddeaa4f1d0c468ebca2547aff80e1732816e657f5e69534b",
+          "evidence:452a5526eabb0361ab630f482941f5d478f184c3cb2b710dc5dc7690a8813fd0",
+          "evidence:db2c771a75d0ed7b64c629e0ed7080ca83213d7da404c4c9de0ad48a88c7c543"
+        ]
+      },
+      {
+        "actual": "source changed history",
+        "estate_reads": 0,
+        "event_count": 12,
+        "expected": "source changed history",
+        "matched": true,
+        "model_calls": 0,
+        "stop_reason": "EVIDENCE_PROVEN",
+        "support_ids": [
+          "evidence:6cfba6346591e979ec9e8fa28c64b8636ffb550ad8c9a655cd8b21771c5910a8",
+          "evidence:5bdc1495555bba50a38de9db4f8b65c25a23ad686796eeadfee7d78a3249abba",
+          "evidence:5079c44d7d58d56e35d0e7a0de80e107e1d642c00d3ad8448ab703676cae7fb7",
+          "evidence:d265100eb7c2217a10ce931a26206a541568325918ac3971118cdfbc62400a1d",
+          "evidence:b984f8b201f47418c5e5f877560b3b6e02392ab0f54789b208528a5c5653cf91",
+          "evidence:a9b9c44e5cf038edfc830eaf078b79e65df44535e685fdf6be842f86ca10d72b",
+          "evidence:754bfbbde1f67b2040f0551cab8292695444163d87e6a910a8801776a298432e",
+          "evidence:28fea9733b96263059b373c823bc1725ed41ac381edbadd7ed3bf89ab2d38668",
+          "evidence:db2c771a75d0ed7b64c629e0ed7080ca83213d7da404c4c9de0ad48a88c7c543"
+        ]
+      },
+      {
+        "actual": "not found",
+        "estate_reads": 0,
+        "event_count": 10,
+        "expected": "not found",
+        "matched": true,
+        "model_calls": 0,
+        "stop_reason": "GOVERNED_MODEL_NOT_INSTALLED",
+        "support_ids": [
+          "evidence:754bfbbde1f67b2040f0551cab8292695444163d87e6a910a8801776a298432e",
+          "evidence:28fea9733b96263059b373c823bc1725ed41ac381edbadd7ed3bf89ab2d38668",
+          "evidence:5079c44d7d58d56e35d0e7a0de80e107e1d642c00d3ad8448ab703676cae7fb7",
+          "evidence:d265100eb7c2217a10ce931a26206a541568325918ac3971118cdfbc62400a1d",
+          "evidence:b984f8b201f47418c5e5f877560b3b6e02392ab0f54789b208528a5c5653cf91",
+          "evidence:a9b9c44e5cf038edfc830eaf078b79e65df44535e685fdf6be842f86ca10d72b",
+          "evidence:db2c771a75d0ed7b64c629e0ed7080ca83213d7da404c4c9de0ad48a88c7c543"
+        ]
+      }
+    ],
+    "consumer": "Investigator.run",
+    "estate_reads": 0,
+    "kind": "SYNTHETIC_CONTROLLED_EVIDENCE_NOT_LIVE",
+    "model_calls": 0,
+    "passed": 9,
+    "total": 9
+  }
+}
