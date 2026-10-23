@@ -13,6 +13,11 @@ from investigator.process_tape import Tape,bytes_of
 HEADER={'entry_point':'runner','context_identity':'fixture-context','config':{},'profile':{},'usage_policy':None,'engine_hash':'fixture-engine','state':{}}
 
 class RunnerTests(unittest.TestCase):
+    def test_default_investigation_registry_is_new_engine_legacy_is_explicit_baseline(self):
+        from investigator.unified_runner import handlers
+        registry=handlers()
+        self.assertIs(registry['investigation'],registry['ledger-investigation'])
+        self.assertIsNot(registry['legacy-baseline'],registry['investigation'])
     def test_delivered_warning_answer_exits_zero_and_records_intent_in_seal(self):
         from investigator.unified_runner import delivery_exit
         answer={'status':'DEMO_FINISHED','demo':{'ticket':{'state':'FINDINGS_SHARED','findings':{'classification':'TRANSFORMATION_LOGIC'}}},

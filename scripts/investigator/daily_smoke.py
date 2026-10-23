@@ -88,9 +88,31 @@ def capture_roundtrip(context,body):
             'record':ref,'surface':'RUN_BOUND_OUTER_CAPTURE'}
 
 
+def ledger_demo_matches(bundle,expected):
+    """New engine, same earned operands and named producer; no label-only pass."""
+    from decimal import Decimal,InvalidOperation
+    if (not isinstance(expected,dict) or set(expected)!={'verdict','boundary','values','native_classification'}
+            or expected['verdict']!='as designed' or not isinstance(expected['boundary'],dict)
+            or expected['native_classification']!='TRANSFORMATION_LOGIC'
+            or set(expected['boundary'])!={'downstream','upstream'}
+            or set(expected['values'])!={expected['boundary']['downstream'],expected['boundary']['upstream']}):
+        raise ValueError('SMOKE_LEDGER_EXPECTATION_SHAPE')
+    if bundle.get('verdict')!=expected['verdict'] or bundle.get('status')=='blocked' or not all(bundle.get('outputs',{}).get(k)for k in ('business','technical')):return False
+    checks=[row for row in bundle.get('evidence',{}).values()if row.get('kind')=='DESIGN_CHECK'
+        and set(row.get('subjects',[]))==set(expected['values']) and row['value'].get('checked')is True
+        and row['value'].get('business_correctness_claim')is False
+        and row['value'].get('native_assessment',{}).get('classification')==expected['native_classification']]
+    if not checks:return False
+    reads=[row['value']for row in bundle.get('evidence',{}).values()if row.get('kind')=='READ']
+    try:
+        return all(any(row.get('subject')==node and row.get('state')=='VALUE' and row.get('read_only_verified')is True and row.get('route_admitted')is True
+            and Decimal(str(row.get('value')))==Decimal(str(value))for row in reads)for node,value in expected['values'].items())
+    except (InvalidOperation,ValueError,TypeError):return False
+
+
 def run_smoke(config, context, *, state=None, sign_in=None, gold_read=None, blob_roundtrip=None, demo=None):
     required = {'version', 'run_id', 'reader_authentication', 'gold_payload', 'platform_blob', 'demo_earned'}
-    if not isinstance(config, dict) or not required <= set(config) <= required | {'access_check', 'demo_expected_classification'} or config['version'] != 1:
+    if not isinstance(config, dict) or not required <= set(config) <= required | {'access_check', 'demo_expected_classification','demo_ledger_expectation'} or config['version'] != 1:
         raise ValueError('DAILY_SMOKE_CONFIGURATION')
     if not isinstance(config['run_id'], str) or not re.fullmatch(r'[A-Za-z0-9_.:-]{1,100}', config['run_id']):
         raise ValueError('DAILY_SMOKE_RUN_ID')
@@ -142,7 +164,11 @@ def run_smoke(config, context, *, state=None, sign_in=None, gold_read=None, blob
         # A delivered refusal is a legitimate investigation result, but cannot
         # prove an operator's earned demonstration still works. Preserve it.
         check = checks['family_a_demo']
-        if check['status'] == 'PASS':
+        if check['status']=='PASS' and 'demo_ledger_expectation'in config:
+            result=check['result'];expected=config['demo_ledger_expectation']
+            check.update(expected_verdict=expected['verdict'],observed_verdict=result.get('verdict'))
+            if not ledger_demo_matches(result,expected):check.update(status='FAIL',reason='SMOKE_LEDGER_BOUNDARY_EXPECTATION_NOT_MET')
+        elif check['status'] == 'PASS':
             result = check['result']
             ticket = result.get('demo', {}).get('ticket', {}) if isinstance(result, dict) else {}
             actual = ticket.get('findings', {}).get('classification')

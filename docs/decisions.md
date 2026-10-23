@@ -58,3 +58,29 @@ child exit0 and enclosing exit intent0. max_requests stayed4. No fresh load
 fact was appended (UNCHANGED_MARKER); original FETCH limitation retained.
 Preflight regression11/11PASS. Full suite is running on ec59eef; three daily
 smokes are still required before section2.
+
+## 2026-10-22 amendment - new engine and recording modes
+
+Owner's amended Round22 prompt makes the ledger investigator the default.
+`dia run` investigation dispatch now selects it; legacy execution is named
+`legacy-baseline` and used only for the requested comparison. A file submission
+requires the deployment's pinned investigator_spec; no silent legacy fallback
+or invented graph/native scope. The ticket reference changes only the ticket,
+not the spec's permitted path or identities.
+
+Real tickets default NORMAL: safe local audit journal, batched immutable audit
+uploads/index, queries and retained evidence, answer and bundle. Logical audit
+IDs are labelled; they are not Blob URLs or byte-exact tapes. TEST is explicit
+and retains full native/provider recording. Existing exact tapes stay unchanged;
+NORMAL results cannot be labelled exact replay. The current model context and
+one current enterprise context are materialized into a fresh session catalog;
+historical scans, observations and other model rows are not copied.
+
+The corrected daily smoke will use the new ledger route. Its result vocabulary
+is `as designed` (technical implementation only), rather than the legacy
+TRANSFORMATION_LOGIC top-level field. Keep TRANSFORMATION_LOGIC as a required
+retained native definition assessment, plus the exact Gold8765/Silver7661 reads
+on the same named nodes and a checked non-business DESIGN_CHECK for that pair.
+This is a taxonomy adapter and a stronger smoke assertion, not a looser outcome
+expectation. A label alone, missing definition, equal operands, unavailable
+result or wrong native classification fails. Old smoke captures are unchanged.

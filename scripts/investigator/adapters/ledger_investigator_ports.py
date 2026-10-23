@@ -156,11 +156,13 @@ class AzureDecision:
     port also owns the existing UsageGovernor's daily reservation and settlement.
     No credentials or provider are selected by ticket/model text.
     """
-    def __init__(self, governor, *, session, directory, retain, options=None, producer=None):
+    def __init__(self, governor, *, session, directory, retain, options=None, producer=None,recording_mode='TEST'):
         from ..generation_policy import validate
         if not callable(retain) or not session:raise ValueError('GOVERNED_MODEL_SESSION_REQUIRED')
         self.governor=governor;self.session=session;self.directory=directory;self.retain=retain
         self.options=validate(options);self.producer=producer;self.calls=0
+        from ..normal_audit import mode
+        self.recording_mode=mode(recording_mode)
 
     def __call__(self,payload,*,instructions,schema):
         from ticket_planner import _azure_generate,provider_body
@@ -181,17 +183,19 @@ class AzureDecision:
                                   output_tokens=self.options['max_output_tokens'])
         metadata={};error=None
         try:
-            with recording({'session_id':self.session,'planner_call':self.calls,
+            from contextlib import nullcontext
+            capture=recording({'session_id':self.session,'planner_call':self.calls,
                             'call_kind':'ledger_investigator_action','payload':payload,
                             'reservation':{'input_characters':size,'output_tokens':self.options['max_output_tokens']}},
-                           distinct=True,directory=self.directory) as record:
-                if record is None:raise ValueError('INVESTIGATOR_PROVIDER_CAPTURE_REQUIRED')
-                record.safe_write('compiled-provider-body.json',json.dumps(body,sort_keys=True).encode())
+                           distinct=True,directory=self.directory)if self.recording_mode=='TEST'else nullcontext(None)
+            with capture as record:
+                if record is None and self.recording_mode=='TEST':raise ValueError('INVESTIGATOR_PROVIDER_CAPTURE_REQUIRED')
+                if record is not None:record.safe_write('compiled-provider-body.json',json.dumps(body,sort_keys=True).encode())
                 answer,metadata=(self.producer or _azure_generate)(payload,instructions=instruction,schema=wire_schema,
                     name='ledger_investigator_action',decision_tool=True,generation_options=self.options,
                     max_request_characters=self.options['max_payload_characters'])
                 self.retain({'event':'INVESTIGATOR_MODEL_USAGE','call':self.calls,'metadata':metadata,
-                             'input_characters':size,'recording':str(record.path)})
+                             'input_characters':size,'recording':str(record.path)if record is not None else 'NORMAL_AUDIT_NO_BYTE_EXACT_PROVIDER_TAPE'})
                 if (not isinstance(answer,dict) or set(answer)!={'decision',*hoisted}
                         or not isinstance(answer['decision'],dict)):
                     raise ValueError('INVESTIGATOR_PROVIDER_DECISION_ENVELOPE_REQUIRED')

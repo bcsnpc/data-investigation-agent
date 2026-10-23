@@ -22,7 +22,10 @@ def run(plan,context,*,graph,ledger,value_reader,decide,admit,collector=None,che
     tools=Tools(graph,ledger,visual=ticket.get('visual') or ticket['request']['subject'],key=ticket.get('key'),context=ticket.get('filters',{}),
         comparison=ticket.get('comparison'),persist=persist,now=now,value_reader=value_reader,collector=collector,checks=checks,request_kind=ticket.get('request',{}).get('kind','COMPARE'),recording_class=recording_class)
     tools.estate=plan.get('estate')
-    result=Investigator(tools,decide=decide,persist=persist,admit=admit,step_cap=options.get('step_cap',12),wall_seconds=options.get('wall_seconds',900)).run(ticket,warnings=options.get('warnings',[]))
+    engine=Investigator(tools,decide=decide,persist=persist,admit=admit,step_cap=options.get('step_cap',12),wall_seconds=options.get('wall_seconds',900),
+        progress=lambda value:context.progress(value)if hasattr(context,'progress')else context.record('progress',value))
+    invoke=lambda:engine.run(ticket,warnings=options.get('warnings',[]))
+    result=context.step('investigation',invoke)if hasattr(context,'step')else invoke()
     # JSON run bundle is persisted through the normal outer capture before return.
     context.record('investigator-bundle',result)
     return result
@@ -41,10 +44,15 @@ def reference(value,*,maximum=1_500_000_000):
 
 
 def specification(options):
-    if set(options)!={'spec'}:raise ValueError('INVESTIGATOR_RUNNER_OPTIONS')
+    if not {'spec'}<=set(options)<={'spec','ticket'}:raise ValueError('INVESTIGATOR_RUNNER_OPTIONS')
     spec=json.loads(reference(options['spec'],maximum=250000).read_bytes())
+    if 'ticket'in options:
+        reference(options['ticket'],maximum=250000)
+        spec['ticket']=dict(options['ticket'])
     required={'ticket','graph','budget','max_requests','model_enabled','generation_options','step_cap','wall_seconds','warnings'}
-    if not isinstance(spec,dict) or not required<=set(spec)<=required|{'native','collector','retained_continuation'}:raise ValueError('INVESTIGATOR_SPEC_FIELDS')
+    if not isinstance(spec,dict) or not required<=set(spec)<=required|{'native','collector','retained_continuation','recording_mode'}:raise ValueError('INVESTIGATOR_SPEC_FIELDS')
+    from investigator.normal_audit import mode
+    mode(spec.get('recording_mode','NORMAL'))
     if 'retained_continuation' in spec and 'native' not in spec:raise ValueError('RETAINED_CONTINUATION_NATIVE_REQUIRED')
     graph=spec['graph']
     if (not isinstance(graph,dict) or set(graph)!={'estate','identity','allowed_objects'}
@@ -137,6 +145,14 @@ class PathCollector:
 
 
 def execute(plan,context):
+    from investigator.normal_audit import mode,normal_context
+    chosen=mode(specification(plan['options']).get('recording_mode','NORMAL'))
+    if chosen=='TEST':return _execute(plan,context)
+    with normal_context(context,plan.get('run_id','investigation'))as audit:
+        return _execute(plan,audit)
+
+
+def _execute(plan,context):
     """Installed cloud assembly. No ticket-supplied module, query or identity."""
     from investigator.shared_state import configured_state
     from investigator.estate_manifest import load
@@ -155,7 +171,10 @@ def execute(plan,context):
     from cloud_graph_interpreter import runtime_governor
     from scan_estate_graph import Meter
     from contextlib import nullcontext
+    started=time.monotonic();phases=[]
     spec=specification(plan['options'])
+    recording_mode=spec.get('recording_mode','NORMAL')
+    if hasattr(context,'progress'):context.progress({'stage':'ACKNOWLEDGED','message':'Investigation received; checking the declared path and current ledger facts.'})
     ticket_path=reference(spec['ticket'],maximum=250000);ticket=json.loads(ticket_path.read_bytes())
     request_kind=ticket.get('request',{}).get('kind','COMPARE')
     if request_kind not in ('FACT','COMPARE','DEFINITION'):raise ValueError('INVESTIGATOR_REQUEST_KIND')
@@ -174,12 +193,12 @@ def execute(plan,context):
     bootstrap={'entry_point':'ledger_investigator','context_identity':graph_spec['estate']+':'+str(ticket.get('visual') or ticket['request']['subject']),
         'config':config,'profile':{},'usage_policy':governor.policy,'engine_hash':fingerprint(),
         'state':{'engine_revision':committed_revision(),'spec':spec,'session':session,'observed_at':now}}
-    tape=journal.Tape(work/'investigator-tape.json',bootstrap=bootstrap)
+    tape=journal.Tape(work/'investigator-tape.json',bootstrap=bootstrap)if recording_mode=='TEST' else None
     def retain(value):return context.record('investigator-native',value)
     from investigator.build_phase import operating_mode
     with operating_mode(category='INVESTIGATION'):
         meter=Meter(state,spec['budget'],spec['max_requests'])
-    prior_record=os.environ.get('INVESTIGATOR_RECORD_PLANNER');os.environ['INVESTIGATOR_RECORD_PLANNER']='1'
+    prior_record=os.environ.get('INVESTIGATOR_RECORD_PLANNER');os.environ['INVESTIGATOR_RECORD_PLANNER']='1'if recording_mode=='TEST'else '0'
     try:
         with journal.active(tape),guard_scope(lambda value:context.record('investigator-guard',value)):
             graph=JournalGraph(graph_live);decision=None;values=None;checks=None;collector=None;retained_labels=[]
@@ -187,8 +206,8 @@ def execute(plan,context):
                 if time.monotonic()>=deadline:
                     from investigator.usage_governance import UsageHold
                     raise UsageHold('INVESTIGATOR_RUN_DEADLINE')
-            if spec['model_enabled']:
-                decision=AzureDecision(governor,session=session,directory=work/'planner-recordings',retain=retain,options=spec['generation_options'])
+            if spec['model_enabled'] and request_kind!='FACT':
+                decision=AzureDecision(governor,session=session,directory=work/'planner-recordings',retain=retain,options=spec['generation_options'],recording_mode=recording_mode)
             if 'collector' in spec:
                 collector=PathCollector(json.loads(reference(spec['collector'],maximum=250000).read_bytes()),state,
                                         graph_spec['allowed_objects'],retain)
@@ -197,11 +216,13 @@ def execute(plan,context):
                 if set(native)!={'model','context','catalog','inventory','endpoints','measure_id'}:raise ValueError('INVESTIGATOR_NATIVE_INPUT_FIELDS')
                 paths={name:reference(native[name]) for name in ('model','context','catalog','inventory','endpoints')}
                 model=json.loads(paths['model'].read_bytes());retained_context=json.loads(paths['context'].read_bytes())
-                catalog=work/'catalog.sqlite';shutil.copyfile(paths['catalog'],catalog)
+                catalog=work/'catalog.sqlite'
                 # Private materialization, with shared accounting still owned by
                 # the governor/meter. No copied budget becomes an authority.
-                from cloud_stage_worker import offline
-                with offline():store=ModelStore(catalog,paths['inventory'],manifest['environment'])
+                from investigator.ticket_catalog import materialize
+                store,catalog_summary=materialize(paths['catalog'],catalog,model=model,context=retained_context,
+                    inventory=paths['inventory'],environment=manifest['environment'])
+                context.record('ticket-catalog',catalog_summary)
                 retained=store.get(model['id'])
                 if retained['context_id']!=model['context_id'] or digest(retained['context'])!=digest(model['context']):raise ValueError('INVESTIGATOR_CATALOG_PIN_DIFFERS')
                 from investigator.context_search import latest
@@ -227,6 +248,8 @@ def execute(plan,context):
                 if view is not graph_live:graph=JournalGraph(view)
                 values,checks=compiled_values(process,graph.path_to_source(visual),visual=visual,
                                               measure_id=native['measure_id'],retain=retain)
+            phases.append({'phase':'admission_and_path_materialization','wall_seconds':max(0,time.monotonic()-started)})
+            investigation_started=time.monotonic()
             call_plan={'estate':graph_spec['estate'],'options':{'ticket':str(ticket_path),'step_cap':spec['step_cap'],'wall_seconds':spec['wall_seconds'],'warnings':[*spec['warnings'],*retained_labels]}}
             settings={**manifest['model']['credential'],'endpoint':manifest['model']['endpoint'],'deployment':manifest['model']['deployment']}
             with model_session(settings) if decision else nullcontext():
@@ -234,12 +257,18 @@ def execute(plan,context):
                            decide=decision,admit=admit,checks=checks,collector=collector,now=now)
             result.update(physical_requests=meter.used,before=meter.before,after=meter.usage.snapshot(),
                           model_calls=decision.calls if decision else 0)
-            tape.finish(result)
-        from investigator.slim_recording import stores,validate,CONFIG_ENV
-        _,files=stores(validate(json.loads(Path(os.environ[CONFIG_ENV]).read_bytes())))
-        artifacts={name:files.capture(path) for name,path in [('tape',tape.path),('events',tape.journal_path)] if path.exists()}
-        context.record('investigator-tape',{'artifacts':artifacts,'entry_point':'ledger_investigator',
-                       'engine_revision':committed_revision(),'original_inputs_unchanged':True})
+            phases.append({'phase':'investigation','wall_seconds':max(0,time.monotonic()-investigation_started)})
+            if recording_mode=='NORMAL':result.setdefault('timing',{})['phases']=phases
+            else:context.record('observational-phase-timing',{'not_part_of_semantic_tape':True,'phases':phases})
+            result['recording']={'mode':recording_mode,'byte_exact_replay':recording_mode=='TEST'}
+            if tape is not None:tape.finish(result)
+        if tape is not None:
+            from investigator.slim_recording import stores,validate,CONFIG_ENV
+            _,files=stores(validate(json.loads(Path(os.environ[CONFIG_ENV]).read_bytes())))
+            artifacts={name:files.capture(path) for name,path in [('tape',tape.path),('events',tape.journal_path)] if path.exists()}
+            context.record('investigator-tape',{'artifacts':artifacts,'entry_point':'ledger_investigator',
+                           'engine_revision':committed_revision(),'original_inputs_unchanged':True})
+        if hasattr(context,'progress'):context.progress({'stage':'ANSWER','message':'Investigation finished.','verdict':result.get('verdict'),'status':result.get('status')})
         return result
     finally:
         meter.close()

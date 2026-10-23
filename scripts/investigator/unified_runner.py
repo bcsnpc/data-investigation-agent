@@ -14,7 +14,7 @@ from .planner_recording import _safe
 from .run_capture import DurableCapture,blob_sink
 
 VERSION='dia-runner-estate-v1'
-KINDS=frozenset({'investigation','verification','probe','scan','replay','prepare','smoke','authorization-check','value-verification','collect-facts','facts-dispatcher','ledger-investigation','enrichment-batch','access-check'})
+KINDS=frozenset({'investigation','legacy-baseline','verification','probe','scan','replay','prepare','smoke','authorization-check','value-verification','collect-facts','facts-dispatcher','ledger-investigation','enrichment-batch','access-check'})
 PUBLIC_ENV=frozenset(('DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JSON',
     'INVESTIGATOR_STATE_BACKEND','INVESTIGATOR_PG_HOST','INVESTIGATOR_PG_DATABASE','INVESTIGATOR_PG_USER',
     'AZURE_CLIENT_ID','DIA_GATEWAY_HTTP_IDENTITY','DIA_GATEWAY_SQL_IDENTITY','DIA_GATEWAY_MODEL_IDENTITY',
@@ -23,7 +23,7 @@ PUBLIC_ENV=frozenset(('DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JS
 def load(path):
     value=json.loads(Path(path).read_bytes())
     required={'version','manifest','image','capture','checks','output_root'}
-    if not isinstance(value,dict) or not required<=set(value)<=required|{'bootstrap','run_id','input','platform_cost_observation','deployment','environment','per_execution','schedule','access_check','explain'} or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
+    if not isinstance(value,dict) or not required<=set(value)<=required|{'bootstrap','run_id','input','platform_cost_observation','deployment','environment','per_execution','schedule','access_check','explain','investigator_spec'} or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
     if 'per_execution' in value and type(value['per_execution'])is not bool:raise ValueError('RUNNER_PER_EXECUTION_FLAG')
     if not isinstance(value.get('environment',{}),dict) or not set(value.get('environment',{}))<=PUBLIC_ENV or any(not isinstance(v,str) for v in value.get('environment',{}).values()):raise ValueError('RUNNER_PUBLIC_ENVIRONMENT')
     if 'run_id' in value and not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',value['run_id']):raise ValueError('RUN_ID_INVALID')
@@ -187,10 +187,13 @@ def handlers():
             def execute():
                 with scope(lambda kind,fn:meter(fn)):return _gold_read(payload)
             return meter(execute)
-        demo=(lambda:investigation({**plan,'options':o['demo']},ctx)) if o['config']['demo_earned'] else None
+        demo_kind=o.get('demo_kind','ledger-investigation')
+        if demo_kind not in ('ledger-investigation','legacy-baseline'):raise ValueError('SMOKE_ENGINE_KIND')
+        demo_handler=ledger_investigation if demo_kind=='ledger-investigation' else investigation
+        demo=(lambda:demo_handler({**plan,'options':o['demo']},ctx)) if o['config']['demo_earned'] else None
         try:return run_smoke(o['config'],ctx,state=state,gold_read=gold,blob_roundtrip=lambda config,body:capture_roundtrip(ctx,body),demo=demo)
         finally:meter.close()
-    return {'verification':verification,'investigation':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke,'authorization-check':authorization_check,'value-verification':value_verification,'collect-facts':collect_facts,'facts-dispatcher':facts_dispatcher,'ledger-investigation':ledger_investigation,'enrichment-batch':enrichment_batch,'access-check':access_result}
+    return {'verification':verification,'investigation':ledger_investigation,'legacy-baseline':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke,'authorization-check':authorization_check,'value-verification':value_verification,'collect-facts':collect_facts,'facts-dispatcher':facts_dispatcher,'ledger-investigation':ledger_investigation,'enrichment-batch':enrichment_batch,'access-check':access_result}
 
 def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     from .run_database_audits import scope
@@ -223,7 +226,9 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     if check is None and Path(target).is_file():
         # The file is submitted through the same normal form contract; it never
         # supplies a handler, script or unvalidated SQL payload.
-        check={'kind':'investigation','options':{'ticket':str(Path(target).resolve())}}
+        if 'investigator_spec' not in config:raise ValueError('RUNNER_DEFAULT_INVESTIGATOR_SPEC_REQUIRED')
+        path=Path(target).resolve()
+        check={'kind':'ledger-investigation','options':{'spec':config['investigator_spec'],'ticket':{'path':str(path),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}}}
     if check is None:raise ValueError('RUNNER_UNKNOWN_CHECK:'+target)
     run_id=run_id or config.get('run_id') or str(uuid4())
     if 'bootstrap' in config:validate_bootstrap_header(config['bootstrap'])

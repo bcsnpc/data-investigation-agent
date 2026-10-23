@@ -63,5 +63,11 @@ class AvailabilityTests(unittest.TestCase):
         answer=engine.run(ticket)
         self.assertEqual(answer['verdict'],'failed job');reader.assert_not_called();decide.assert_not_called()
         for output in answer['outputs'].values():self.assertIn('source unreachable at '+NOW,output)
+    def test_quick_ledger_facts_are_progress_events_before_status_answer_without_model(self):
+        run=runtime_fact('job','JOB_RUN',{'status':'FAILED','run_id':'failed-copy','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z','error':'source connection failed'})
+        engine,ticket,reader,decide=fixtures.OperationalFactTests().status_engine([run]);events=[];engine.progress=events.append
+        answer=engine.run(ticket)
+        self.assertEqual(events[0]['stage'],'QUICK_FACTS');self.assertEqual(events[0]['facts'][0]['observation']['status'],'FAILED')
+        self.assertEqual(answer['verdict'],'failed job');decide.assert_not_called();reader.assert_not_called()
 
 if __name__=='__main__':unittest.main()

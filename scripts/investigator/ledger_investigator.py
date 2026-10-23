@@ -62,11 +62,12 @@ def schema(tools):
 
 
 class Investigator:
-    def __init__(self,tools,*,decide,persist,admit,step_cap=12,wall_seconds=900,clock=time.monotonic):
+    def __init__(self,tools,*,decide,persist,admit,step_cap=12,wall_seconds=900,clock=time.monotonic,progress=None):
         if not all(callable(v) for v in (persist,admit)):raise ValueError('GOVERNED_INVESTIGATOR_BOUNDARIES_REQUIRED')
         if decide is not None and not callable(decide):raise ValueError('GOVERNED_DECISION_REQUIRED')
         if type(step_cap)is not int or not 1<=step_cap<=25 or type(wall_seconds)is not int or not 1<=wall_seconds<=3600:raise ValueError('INVESTIGATOR_LIMIT')
         self.tools,self.decide,self.persist,self.admit=tools,decide,persist,admit
+        self.progress=progress or (lambda value:None)
         self.step_cap,self.wall_seconds=step_cap,wall_seconds
         from .process_tape import clock as recorded_clock
         self.clock=lambda:recorded_clock('ledger-investigator-monotonic',clock)
@@ -121,6 +122,13 @@ class Investigator:
             return self._finish(ticket,supported,calls,hypotheses,warnings,'TICKET_BUDGET_REACHED',started,0)
         calls.append({'tool':'parallel_simple_hypotheses','arguments':{'path':sorted(self.tools.nodes)},'result':{'evidence_ids':quick},'wall_seconds':max(0,self.clock()-before),'model_calls':0})
         record({'event':'INVESTIGATOR_QUICK_CHECKS','evidence_ids':quick,'model_calls':0,'parallel':True})
+        self.progress({'stage':'QUICK_FACTS','evidence_ids':quick,'facts':[
+            {'evidence_id':identity,'subject':self.tools.evidence.get(identity)['value'].get('subject'),
+             'kind':self.tools.evidence.get(identity)['value'].get('kind'),
+             'state':self.tools.evidence.get(identity)['value'].get('state'),
+             'observation':{k:v for k,v in (self.tools.evidence.get(identity)['value'].get('value')or {}).items()
+                if k in ('status','state','last_end','latest_successful_end','next_due','overdue')}}
+            for identity in quick if self.tools.evidence.get(identity)['kind']=='FACT']})
         known=list(dict.fromkeys([self.tools.path_id,*self.tools.boundary_ids,*self.tools.gap_ids,*reproduction,*quick]))
         # Existing retained facts may settle a ticket without a model call.
         ready=[]

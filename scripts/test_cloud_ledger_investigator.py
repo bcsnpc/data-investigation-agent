@@ -42,7 +42,7 @@ class Assembly(unittest.TestCase):
             'request':{'kind':'FACT','subject':'job','question':'RUN_STATUS'}}),
             'graph':{'estate':'fixture','identity':'reader','allowed_objects':['job']},
             'budget':{'environment':'development'},'max_requests':12,'model_enabled':False,
-            'generation_options':{},'step_cap':3,'wall_seconds':60,'warnings':[]}
+            'generation_options':{},'step_cap':3,'wall_seconds':60,'warnings':[],'recording_mode':'TEST'}
         value.update(updates);return {'spec':self.ref('spec.json',value)}
     def test_spec_requires_exact_hashed_scope_no_query_or_dynamic_handler(self):
         options=self.specification()
@@ -88,6 +88,32 @@ class Assembly(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'NATIVE_INPUT_REQUIRED'):
                 worker.execute({'options':options},SimpleNamespace(root=self.root))
             state.assert_not_called()
+    def test_real_ticket_mode_defaults_to_normal_and_rejects_unknown_label(self):
+        options=self.specification();path=Path(options['spec']['path']);value=json.loads(path.read_bytes());value.pop('recording_mode')
+        options={'spec':self.ref('normal-spec.json',value)}
+        self.assertNotIn('recording_mode',worker.specification(options))
+        value['recording_mode']='not-exact-but-call-it-replay'
+        with self.assertRaisesRegex(ValueError,'RECORDING_MODE'):worker.specification({'spec':self.ref('invalid-mode.json',value)})
+    def test_normal_status_assembly_has_no_native_tape_provider_or_catalog(self):
+        options=self.specification(recording_mode='NORMAL',model_enabled=True);events=[]
+        context=SimpleNamespace(root=self.root,record=lambda name,value:events.append((name,value))or {'key':str(len(events))})
+        meter=SimpleNamespace(used=0,before={},usage=SimpleNamespace(snapshot=lambda:{}),close=lambda:None)
+        manifest={'environment':'development','model':{'credential':{},'endpoint':'unused','deployment':'unused'}}
+        with contextlib.ExitStack()as stack:
+            for target,value in [('investigator.shared_state.configured_state',SimpleNamespace(backend='postgresql')),
+                ('investigator.estate_manifest.load',manifest),('investigator.adapters.estate_installation.configuration',{}),
+                ('investigator.estate_graph_repository.GraphRepository',object()),('investigator.estate_graph_api.GraphAPI',object()),
+                ('investigator.live_gateway.current',object()),('cloud_graph_interpreter.runtime_governor',SimpleNamespace(policy={})),
+                ('scan_estate_graph.Meter',meter),('investigator.runtime.fingerprint','a'*64),('investigator.source_revision.committed_revision','b'*40)]:
+                stack.enter_context(patch(target,return_value=value))
+            for target in ('investigator.process_tape.Tape','investigator.adapters.ledger_investigator_ports.AzureDecision','investigator.ticket_catalog.materialize','investigator.slim_recording.stores'):
+                stack.enter_context(patch(target,side_effect=AssertionError('Not used by a normal ledger-only question')))
+            stack.enter_context(patch('cloud_investigator.run',return_value={'verdict':'failed job','outputs':{'business':'failed job','technical':'retained ledger fact'}}))
+            answer=worker.execute({'options':options,'manifest':'unused','run_id':'normal-status'},context)
+        self.assertEqual(answer['recording'],{'mode':'NORMAL','byte_exact_replay':False})
+        self.assertEqual(answer['model_calls'],0);self.assertFalse(any(k=='investigator-tape'for k,_ in events))
+        self.assertTrue(any(k=='normal-audit-batch'for k,_ in events))
+        self.assertEqual([v['stage']for k,v in events if k=='progress'],['ACKNOWLEDGED','ANSWER'])
     def test_graph_wrapper_records_then_replays_with_network_source_absent(self):
         from investigator.process_tape import Tape,active
         path=self.root/'graph-tape.json'
