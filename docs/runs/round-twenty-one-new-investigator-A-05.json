@@ -1,7 +1,10 @@
 {
   "cost": {
     "currency_cost": "SEE_SHARED_PROVIDER_LEDGER",
-    "model_calls": 5
+    "model_calls": 5,
+    "provider_model_calls_including_rejections": 6,
+    "charged_usd": 0.248779,
+    "internal_model_calls_field": "Accepted investigator decision iterations; outer model_calls includes provider validation retries."
   },
   "evidence": {
     "evidence:03220ad5f003f49bb81246083396fff22242e9c5d14b424884477c20aea7f5f9": {

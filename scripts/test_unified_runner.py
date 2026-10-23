@@ -260,14 +260,16 @@ class RunnerTests(unittest.TestCase):
         def smoke(config,context,**kwargs):
             self.assertEqual(kwargs['gold_read']({}),{'value':7661})
             self.assertEqual(kwargs['demo'](),{'status':'INVESTIGATED'})
+            self.assertEqual(kwargs['blob_roundtrip']({'legacy_blob_config':'unused'},b'{"kind":"DAILY_SMOKE"}'),{'status':'PASS'})
             return {'status':'PASS'}
         def form(argv):
             root=Path(argv[argv.index('--job-root')+1]);root.mkdir()
             (root/'result.json').write_text('{"status":"INVESTIGATED"}')
-        with tempfile.TemporaryDirectory() as d,patch('scan_estate_graph.Meter',Meter),patch('investigator.shared_state.configured_state',return_value=object()),patch('investigator.daily_smoke._gold_read',gold),patch('investigator.daily_smoke.run_smoke',smoke),patch('cloud_form_worker.main',form):
+        with tempfile.TemporaryDirectory() as d,patch('scan_estate_graph.Meter',Meter),patch('investigator.shared_state.configured_state',return_value=object()),patch('investigator.daily_smoke._gold_read',gold),patch('investigator.daily_smoke.run_smoke',smoke),patch('investigator.daily_smoke.capture_roundtrip',return_value={'status':'PASS'}) as blob,patch('cloud_form_worker.main',form):
             result=handlers()['smoke']({'options':{'config':{'demo_earned':True},'budget':{},'max_requests':10,'demo':{'bundle':'fixture','sha256':'a'*64}}},SimpleNamespace(root=Path(d)))
             self.assertEqual(result['status'],'PASS')
             self.assertEqual(calls,['physical','physical','closed'])
+            blob.assert_called_once_with(unittest.mock.ANY,b'{"kind":"DAILY_SMOKE"}')
 
 class CaptureGatewayTests(unittest.TestCase):
     config=RunnerTests.config

@@ -188,7 +188,7 @@ def handlers():
                 with scope(lambda kind,fn:meter(fn)):return _gold_read(payload)
             return meter(execute)
         demo=(lambda:investigation({**plan,'options':o['demo']},ctx)) if o['config']['demo_earned'] else None
-        try:return run_smoke(o['config'],ctx,state=state,gold_read=gold,blob_roundtrip=lambda body:capture_roundtrip(ctx,body),demo=demo)
+        try:return run_smoke(o['config'],ctx,state=state,gold_read=gold,blob_roundtrip=lambda config,body:capture_roundtrip(ctx,body),demo=demo)
         finally:meter.close()
     return {'verification':verification,'investigation':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke,'authorization-check':authorization_check,'value-verification':value_verification,'collect-facts':collect_facts,'facts-dispatcher':facts_dispatcher,'ledger-investigation':ledger_investigation,'enrichment-batch':enrichment_batch,'access-check':access_result}
 
