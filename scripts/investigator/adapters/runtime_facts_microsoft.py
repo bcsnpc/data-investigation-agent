@@ -32,7 +32,13 @@ def producer_time(value, *, utc_declared=False):
     if isinstance(value,str) and utc_declared:
         parsed=datetime.fromisoformat(value.replace('Z','+00:00'))
         if parsed.tzinfo is None:value=value+'Z'
-    return timestamp(value)
+    if isinstance(value,str)and re.search(r'\.[0-9]{10,}(?=Z|[+-][0-9]{2}:[0-9]{2}$)',value,re.I):raise ValueError('FACT_TIMESTAMP_PRECISION_UNSUPPORTED')
+    normalized=timestamp(value)
+    # Validation normalizes to microseconds; retain any finer producer precision
+    # in the payload so an explicit run reference cannot silently lose its target.
+    fraction=re.search(r'\.([0-9]{7,9})(?=Z|[+-][0-9]{2}:[0-9]{2}$)',value,re.I)if isinstance(value,str)else None
+    if fraction:normalized=normalized.split('.')[0].removesuffix('Z')+'.'+fraction.group(1)+'Z'
+    return normalized
 
 
 def run_time(row,utc_field,generic_field):

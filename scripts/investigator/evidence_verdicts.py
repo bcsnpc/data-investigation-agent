@@ -158,10 +158,10 @@ def explicit_operational_fact(request,entries,now,ticket_text):
     """The latest status is a fact even when it establishes no incident verdict."""
     from .reported_figure import span
     import re
-    if set(request)!={'kind','subject','question','source'} or request.get('kind')!='FACT' or request['question'] not in ('RUN_STATUS','REFRESH_STATUS'):
+    if not {'kind','subject','question','source'}<=set(request)<={'kind','subject','question','source','run_selector'} or request.get('kind')!='FACT' or request['question'] not in ('RUN_STATUS','REFRESH_STATUS'):
         raise ValueError('EXPLICIT_OPERATIONAL_QUESTION_REQUIRED')
     quote=span(request['source'],ticket_text)
-    if ticket_text is None or not re.search(r'\b(did|has|was|is|what|when|show|latest|last)\b',quote,re.I) or not re.search(r'\b(job|pipeline|run|refresh|notebook|copy)\b',quote,re.I) or not re.search(r'\b(fail(?:ed)?|succeed(?:ed)?|status|finish(?:ed)?|complete(?:d)?|queued|running)\b',quote,re.I):
+    if ticket_text is None or not re.search(r'\b(did|has|was|is|what|when|show|latest|last|need|please|explain|why|check|confirm)\b',quote,re.I) or not re.search(r'\b(job|pipeline|run|refresh|notebook|copy)\b',quote,re.I) or not re.search(r'\b(fail(?:ed)?|succeed(?:ed)?|status|finish(?:ed)?|complete(?:d)?|queued|running)\b',quote,re.I):
         raise ValueError('EXPLICIT_OPERATIONAL_QUESTION_REQUIRED')
     kinds={'JOB_RUN'} if request['question']=='RUN_STATUS' else {'REFRESH_RUN','REFRESH_STATE'}
     candidates=[entry['value'] for entry in entries if entry['kind']=='FACT' and entry['value'].get('subject')==request['subject'] and entry['value'].get('kind') in kinds
@@ -175,6 +175,9 @@ def explicit_operational_fact(request,entries,now,ticket_text):
     current=current_facts(entries,now)
     batch=[fact for fact in batch if fact in current and fact.get('state')=='OBSERVED']
     if not batch:raise ValueError('CURRENT_OPERATIONAL_STATUS_REQUIRED')
+    from .operational_run_selection import from_text,select
+    if 'run_selector'in request:return select(request['run_selector'],batch,ticket_text)
+    if from_text(quote)is not None:raise ValueError('EXPLICIT_RUN_SELECTOR_REQUIRED_NO_LATEST_SUBSTITUTION')
     latest=max(timestamp(fact['value'].get('start') or fact['observed_at']) for fact in batch)
     selected=[fact for fact in batch if timestamp(fact['value'].get('start') or fact['observed_at'])==latest]
     statuses={fact['value'].get('status',fact['value'].get('state')) for fact in selected}
@@ -194,7 +197,11 @@ def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
         result={'verdict':verdict,'evidence_ids':list(records),'reason':'Evidence does not establish a cause within the admitted budget.'}
         if request.get('kind')=='FACT':
             try:selected=explicit_operational_fact(request,entries,now,ticket_text)
-            except ValueError:return result
+            except ValueError as error:
+                if 'run_selector'in request:
+                    result['reason']='The requested run status could not be established: '+str(error)+'. No other run was substituted.'
+                    result['requested_run_unavailable_reason']=str(error)
+                return result
             status=selected['value'].get('status',selected['value'].get('state'))
             if status in ('SUCCEEDED','COMPLETED'):
                 result.update(claim_scope='OPERATIONAL_FACT_ONLY',operational_fact=selected,

@@ -407,6 +407,10 @@ class Investigator:
         if blocked:
             reached=[self.tools.nodes[r['subject']]['label'] for r in read_records]
             business+='\nReachable layers checked: '+(', '.join(dict.fromkeys(reached)) or 'none')+'. Remaining conclusion: '+supported['reason']
+        selection=supported.get('operational_fact',{}).get('selection')
+        if selection:
+            precision=selection['timestamp_fraction_digits']
+            business+='\nRun identity: selected from retained history by the stated start time at '+('whole-second precision'if precision==0 else str(precision)+' fractional-second digits')+'; not selected as the latest run.'
         selected=supported.get('operational_fact',{}).get('value',{})
         from .evidence_verdicts import load_source_outage
         cause=load_source_outage(selected) if verdict=='failed job' else None
