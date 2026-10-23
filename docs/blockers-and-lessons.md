@@ -118,3 +118,16 @@ The runtime preflight regression rejects the obsolete60s configuration when
 180s is pinned. Manual4-request FETCH refusal remains a limitation, not a
 failed database permission check; scheduled six-hour collection remains the
 real load-fact test.
+
+Confirmation: job-dia-collectors-ue92850 / round22-audit-lifecycle-04 finished
+Azure Succeeded,03:44:57-03:45:53UTC,56s, on image604867fc with the180s enclosing
+limit. Actual child exit0, deadline_expired=false, last_action=sql_quantity;
+exit record0/CHECK_REPORT_DELIVERED. Seal
+3bd5ece6215588bd9784ec631b72cc90b9451d6740cb63a77d1e142fd1195a74.
+Four SCAN requests, zero model calls. LIST read the Warehouse successfully;
+the collector returned UNCHANGED_MARKER and appended no fresh fact. Existing
+coverage still names SQL_READ_FAILED:LockNotAvailable:None from03:30:30UTC,
+not a successful load observation. Do not treat Azure success as fresh-fact
+verification. Keep the earlier four-request FETCH limitation and scheduled
+six-hour test unchanged. Local output: audit-lifecycle-04.log; ARM before,
+single-field PATCH and after: collector-envelope-{before,patch,after}.json.

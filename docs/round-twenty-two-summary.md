@@ -15,8 +15,9 @@
   exceeded the60s enclosing limit; the live child exited0 without a deadline
   expiry. Record the outer job limit as cause, correcting the earlier unknown
   conclusion without altering evidence. Changed only the enclosing limit to
-  180s, read back with unchanged image/resources/schedule/identity. One audit
-  confirmation is in flight. Its manual allowance stays4; FETCH exhaustion
+  180s, read back with unchanged image/resources/schedule/identity. Confirmation
+  job-dia-collectors-ue92850 Succeeded in56s (03:44:57-03:45:53UTC), child exit0
+  without deadline expiry; seal3bd5ece6. Its manual allowance stays4; FETCH exhaustion
   remains a probe limitation. The scheduled six-hour collector is the real
   fresh-load test.
 - **1d green:** exact two scanner refresh GETs recorded in decisions.md;
@@ -52,8 +53,10 @@ _pending_
 Inherited unresolved application-source access checks and native replay drift
 remain. Daily smoke's expected TRANSFORMATION_LOGIC has not yet been earned
 three consecutive times; the before run remains in flight. Audit enclosing
-runtime correction awaits one Azure-success confirmation. No fresh load fact
-is claimed from the four-request manual probe.
+runtime correction confirmed Azure Succeeded. No fresh load fact is claimed
+from the four-request manual probe: UNCHANGED_MARKER and retained unavailable
+coverage (SQL_READ_FAILED:LockNotAvailable:None). Scheduled six-hour collection
+remains the real test.
 
 ## Deferred
 

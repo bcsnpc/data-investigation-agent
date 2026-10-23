@@ -49,3 +49,12 @@ Manual confirmation retains max_requests=4. Its FETCH limitation remains a
 probe limitation; do not widen it or claim new load facts. The existing
 six-hour scheduled collector is the real collector test. Record deployment
 readback and confirmation outcome separately. Section1e remains binding.
+
+Applied/read back: replicaTimeout180; other configuration/template/identity
+byte-equivalent as structured values. PATCH SHA-256
+a0d114ee6403c180a896c056540f55f8a8045e26092a381423617a97705f00f1.
+One confirmation execution job-dia-collectors-ue92850: Azure Succeeded in56s,
+child exit0 and enclosing exit intent0. max_requests stayed4. No fresh load
+fact was appended (UNCHANGED_MARKER); original FETCH limitation retained.
+Preflight regression11/11PASS. Full suite is running on ec59eef; three daily
+smokes are still required before section2.
