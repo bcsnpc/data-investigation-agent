@@ -88,12 +88,13 @@ def schema(tools,allowed_tools=None):
 
 
 class Investigator:
-    def __init__(self,tools,*,decide,persist,admit,step_cap=12,wall_seconds=900,clock=time.monotonic,progress=None):
+    def __init__(self,tools,*,decide,persist,admit,step_cap=12,wall_seconds=900,clock=time.monotonic,progress=None,checkpoint=None):
         if not all(callable(v) for v in (persist,admit)):raise ValueError('GOVERNED_INVESTIGATOR_BOUNDARIES_REQUIRED')
         if decide is not None and not callable(decide):raise ValueError('GOVERNED_DECISION_REQUIRED')
         if type(step_cap)is not int or not 1<=step_cap<=25 or type(wall_seconds)is not int or not 1<=wall_seconds<=3600:raise ValueError('INVESTIGATOR_LIMIT')
         self.tools,self.decide,self.persist,self.admit=tools,decide,persist,admit
         self.progress=progress or (lambda value:None)
+        self.checkpoint=checkpoint
         self.step_cap,self.wall_seconds=step_cap,wall_seconds
         from .process_tape import clock as recorded_clock
         self.clock=lambda:recorded_clock('ledger-investigator-monotonic',clock)
@@ -108,13 +109,40 @@ class Investigator:
         from .investigator_case import CaseFile
         self.case=CaseFile(ticket)
         self.tools.step_provider=lambda:self.case.value['current_step']
+        if self.checkpoint is not None:
+            from .estate_graph_contract import digest
+            saved=self.checkpoint.begin({'ticket':digest(ticket),'path':digest(self.tools.path),'context':digest([self.tools.key,self.tools.context,self.tools.comparison])})
+            if saved['outcome']is not None:
+                if saved['operations']:
+                    prior=saved['operations'][-1]['state']
+                    if callable(getattr(self.checkpoint,'restore_extra',None)):self.checkpoint.restore_extra(prior['extra'])
+                    if prior['decision_calls']is not None:self.decide.calls=prior['decision_calls']
+                self.persist({'event':'INVESTIGATOR_CHECKPOINT_ALREADY_COMPLETE','ticket_id':self.case.value['ticket_id']})
+                return saved['outcome']
+            started-=saved['elapsed_seconds']
+            if saved['operations']:self.persist({'event':'INVESTIGATOR_CHECKPOINT_RESUMED','completed_operations':len(saved['operations']),'case_file':saved['case_file']})
+        self._checkpoint_elapsed=lambda:max(0,self.clock()-started)
         case_bound=callable(getattr(type(self.decide),'bind_case',None))
         if case_bound:self.decide.bind_case(self.case,self.persist)
         calls=[];hypotheses=list(VERDICTS[:-1]);feedback=None;fetched=None
+        def snapshot():
+            self.case.evidence(evidence_context(self.tools.evidence))
+            count=getattr(self.decide,'calls',None)
+            extra=self.checkpoint.export_extra() if callable(getattr(self.checkpoint,'export_extra',None))else None
+            return {'case_file':self.case.snapshot(),'tools':self.tools.checkpoint_state(),
+                    'decision_calls':count if type(count)is int else None,'extra':extra}
+        def restore(value):
+            self.case.value=copy.deepcopy(value['case_file']);self.tools.restore_checkpoint(value['tools'])
+            if value['decision_calls']is not None:self.decide.calls=value['decision_calls']
+            if callable(getattr(self.checkpoint,'restore_extra',None)):self.checkpoint.restore_extra(value['extra'])
+        def operation(name,args,fn):
+            if self.checkpoint is None:return fn()
+            return self.checkpoint.step(name,args,fn,snapshot=snapshot,restore=restore,elapsed=self._checkpoint_elapsed)
         def record(value):
             _safe(canonical(value).encode());self.case.observe(value);receipt=self.persist(value)
             self.case.evidence(evidence_context(self.tools.evidence))
             self.persist({'event':'INVESTIGATOR_CASE_FILE','case_file':self.case.snapshot()})
+            if self.checkpoint is not None:self.checkpoint.note_case(self.case.snapshot(),elapsed=self._checkpoint_elapsed)
             if not isinstance(receipt,str)or not receipt:raise ValueError('INVESTIGATOR_PERSISTENCE_REQUIRED')
             return receipt
         def tool(name,args):
@@ -128,15 +156,18 @@ class Investigator:
                 calls.append({'tool':name,'arguments':copy.deepcopy(args),'result':result,'wall_seconds':0,'model_calls':0})
                 return result
             self.admit('TOOL',len(calls)+1);before=self.clock()
-            try:result=self.tools.invoke(name,args)
-            except Exception as exc:
-                from .estate_graph_incremental import is_stop_condition
-                if is_stop_condition(exc):raise
-                candidates=[args.get(field)for field in ('node','job','model','visual','table','page','report')]
-                candidates += [node for field in ('layers','path')for node in args.get(field,[]) if isinstance(args.get(field),list)]
-                subjects=list(dict.fromkeys(node for node in candidates if isinstance(node,str)and node in self.tools.nodes)) or [self.tools.visual]
-                gap=self.tools.evidence.add('GAP',subjects,{'code':'FAILED_TOOL_CALL','tool':name,'error_type':type(exc).__name__,'reason':str(exc)})
-                result={'status':'UNAVAILABLE','error_type':type(exc).__name__,'reason':str(exc),'evidence_ids':[gap]}
+            def perform_tool():
+                try:return self.tools.invoke(name,args)
+                except Exception as exc:
+                    from .estate_graph_incremental import is_stop_condition
+                    if is_stop_condition(exc):raise
+                    candidates=[args.get(field)for field in ('node','job','model','visual','table','page','report')]
+                    candidates += [node for field in ('layers','path')for node in args.get(field,[]) if isinstance(args.get(field),list)]
+                    subjects=list(dict.fromkeys(node for node in candidates if isinstance(node,str)and node in self.tools.nodes)) or [self.tools.visual]
+                    gap=self.tools.evidence.add('GAP',subjects,{'code':'FAILED_TOOL_CALL','tool':name,'error_type':type(exc).__name__,'reason':str(exc)})
+                    result={'status':'UNAVAILABLE','error_type':type(exc).__name__,'reason':str(exc),'evidence_ids':[gap]}
+                return result
+            result=operation('tool:'+name,args,perform_tool)
             call={'tool':name,'arguments':copy.deepcopy(args),'result':result,'wall_seconds':max(0,self.clock()-before),'model_calls':0}
             call['receipt_id']=record({'event':'INVESTIGATOR_TOOL',**call});calls.append(call)
             return result
@@ -144,7 +175,7 @@ class Investigator:
         # native expression or alternate visual can enter through the model.
         try:
             self.admit('TOOL',0)
-            before=self.clock();reproduction=self.tools.reproduce()
+            before=self.clock();reproduction=operation('recreate',{'target':self.tools.visual},self.tools.reproduce)
             calls.append({'tool':'recreate_ticket_and_comparison','arguments':{'target':self.tools.visual},'result':{'evidence_ids':reproduction},'wall_seconds':max(0,self.clock()-before),'model_calls':0})
         except Exception as exc:
             if not budget_stop(exc):raise
@@ -161,7 +192,7 @@ class Investigator:
                 reproduction.append(self.tools.evidence.add('REPRODUCTION',[self.tools.visual],{'reported':reported,'measured':measured,'status':reported_label(reported,measured),'support_ids':[reproduction[0]]}))
         record({'event':'INVESTIGATOR_REPRODUCTION','evidence_ids':reproduction})
         self.case.advance('quick_facts')
-        try:before=self.clock();quick=self.tools.quick_checks()
+        try:before=self.clock();quick=operation('quick_facts',{'path':sorted(self.tools.nodes)},self.tools.quick_checks)
         except Exception as exc:
             if not budget_stop(exc):raise
             record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__})
@@ -204,7 +235,7 @@ class Investigator:
         self.case.advance('investigate')
         model_calls=0
         for step in range(1,self.step_cap+1):
-            if self.clock()-started>=self.wall_seconds:break
+            if self.clock()-started>=self.wall_seconds and not(self.checkpoint is not None and self.checkpoint.replaying):break
             try:self.admit('MODEL',step)
             except Exception as exc:
                 if not budget_stop(exc):raise
@@ -214,10 +245,10 @@ class Investigator:
             self.schema=schema(self.tools,permitted);self.validator=Draft202012Validator(self.schema)
             compact=evidence_context(self.tools.evidence)
             try:
-                decision=self.decide({'ticket':ticket,'path_nodes':[{'id':n['id'],'label':n['label'],'kind':n['kind'],'depth':self.tools.depth.get(n['id'])} for n in self.tools.nodes.values()],
+                decision=operation('model',{'step':step},lambda:self.decide({'ticket':ticket,'path_nodes':[{'id':n['id'],'label':n['label'],'kind':n['kind'],'depth':self.tools.depth.get(n['id'])} for n in self.tools.nodes.values()],
                 'pending_quantity_nodes':self.tools.pending_quantity_nodes(),'allowed_tools':sorted(permitted),
                 'case_file':self.case.model_view(),'fetched_evidence':fetched,'feedback':{k:copy.deepcopy(v)for k,v in (feedback or {}).items()if k in ('reason','detail','error_type','status','evidence_ids','nodes')},'steps_remaining':self.step_cap-step+1,
-                'tool_history':[{'tool':c['tool'],'arguments':c['arguments'],'evidence_ids':c['result'].get('evidence_ids',[]),'status':c['result'].get('status')} for c in calls[-3:]]},instructions=INSTRUCTIONS,schema=self.schema)
+                'tool_history':[{'tool':c['tool'],'arguments':c['arguments'],'evidence_ids':c['result'].get('evidence_ids',[]),'status':c['result'].get('status')} for c in calls[-3:]]},instructions=INSTRUCTIONS,schema=self.schema))
             except Exception as exc:
                 if not budget_stop(exc):raise
                 record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__});break
@@ -314,6 +345,7 @@ class Investigator:
         self.case.evidence(evidence_context(self.tools.evidence));self.case.finish(bundle)
         bundle['case_file']=self.case.snapshot()
         self.persist({'event':'INVESTIGATOR_CASE_FILE','case_file':self.case.snapshot()})
+        if self.checkpoint is not None:self.checkpoint.complete(bundle,elapsed=self._checkpoint_elapsed)
         _safe(canonical(bundle).encode());self.persist({'event':'INVESTIGATOR_COMPLETED','bundle':bundle})
         return bundle
 

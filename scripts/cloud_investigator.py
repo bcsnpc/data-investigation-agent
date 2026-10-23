@@ -9,7 +9,7 @@ from investigator.ledger_investigator_tools import Tools
 from investigator.ledger_investigator import Investigator
 
 
-def run(plan,context,*,graph,ledger,value_reader,decide,admit,collector=None,checks=None,now,recording_class='EXACT'):
+def run(plan,context,*,graph,ledger,value_reader,decide,admit,collector=None,checks=None,now,recording_class='EXACT',checkpoint=None):
     """Root's registry supplies installed guarded ports, never the ticket/model.
 
     No refresh/run/write handler exists. In particular, value_reader must be a
@@ -25,7 +25,7 @@ def run(plan,context,*,graph,ledger,value_reader,decide,admit,collector=None,che
     from investigator.process_tape import utc_now
     tools.availability_clock=utc_now
     engine=Investigator(tools,decide=decide,persist=persist,admit=admit,step_cap=options.get('step_cap',12),wall_seconds=options.get('wall_seconds',900),
-        progress=lambda value:context.progress(value)if hasattr(context,'progress')else context.record('progress',value))
+        progress=lambda value:context.progress(value)if hasattr(context,'progress')else context.record('progress',value),checkpoint=checkpoint)
     invoke=lambda:engine.run(ticket,warnings=options.get('warnings',[]))
     result=context.step('investigation',invoke)if hasattr(context,'step')else invoke()
     # JSON run bundle is persisted through the normal outer capture before return.
@@ -52,10 +52,14 @@ def specification(options):
         reference(options['ticket'],maximum=250000)
         spec['ticket']=dict(options['ticket'])
     required={'ticket','graph','budget','max_requests','model_enabled','generation_options','step_cap','wall_seconds','warnings'}
-    if not isinstance(spec,dict) or not required<=set(spec)<=required|{'native','collector','retained_continuation','recording_mode'}:raise ValueError('INVESTIGATOR_SPEC_FIELDS')
+    if not isinstance(spec,dict) or not required<=set(spec)<=required|{'native','collector','retained_continuation','recording_mode','checkpoint'}:raise ValueError('INVESTIGATOR_SPEC_FIELDS')
     from investigator.normal_audit import mode
     mode(spec.get('recording_mode','NORMAL'))
     if 'retained_continuation' in spec and 'native' not in spec:raise ValueError('RETAINED_CONTINUATION_NATIVE_REQUIRED')
+    if 'checkpoint' in spec:
+        import re
+        value=spec['checkpoint']
+        if not isinstance(value,dict) or set(value)!={'id','resume'} or type(value['resume'])is not bool or not isinstance(value['id'],str) or not re.fullmatch(r'[A-Za-z0-9_.:-]{1,100}',value['id']):raise ValueError('INVESTIGATOR_CHECKPOINT_CONFIGURATION')
     graph=spec['graph']
     if (not isinstance(graph,dict) or set(graph)!={'estate','identity','allowed_objects'}
             or not isinstance(graph['allowed_objects'],list) or not 1<=len(graph['allowed_objects'])<=200
@@ -258,9 +262,34 @@ def _execute(plan,context):
             investigation_started=time.monotonic()
             call_plan={'estate':graph_spec['estate'],'options':{'ticket':str(ticket_path),'step_cap':spec['step_cap'],'wall_seconds':spec['wall_seconds'],'warnings':[*spec['warnings'],*retained_labels]}}
             settings={**manifest['model']['credential'],'endpoint':manifest['model']['endpoint'],'deployment':manifest['model']['deployment']}
+            from investigator.investigator_checkpoint import Checkpoint,SharedStore
+            from investigator.estate_graph_contract import digest
+            checkpoint_settings=spec.get('checkpoint',{'id':plan.get('run_id',getattr(context,'run_id',root.name)),'resume':True})
+            case_identity=digest([manifest['environment'],graph_spec['estate'],checkpoint_settings['id']])
+            checkpoint=Checkpoint(SharedStore(state,case_identity,resume=checkpoint_settings['resume']),
+                {'source_revision':committed_revision(),'configuration':digest(config),
+                 'specification':digest({k:v for k,v in spec.items()if k!='checkpoint'})})
+            restored_physical=[0];reconciled_prior=[None]
+            checkpoint.export_extra=lambda:{'physical_requests':meter.used,'physical_owner':getattr(meter,'owner',None)}
+            def restore_extra(value):
+                from investigator.shared_state import StateConflict
+                count=value.get('physical_requests')if isinstance(value,dict)else None
+                if type(count)is not int or count<0:raise StateConflict('CHECKPOINT_PHYSICAL_COUNT_INVALID')
+                if reconciled_prior[0]is None:
+                    owners=checkpoint.value.get('physical_owners',[])
+                    def charged_reads():
+                        if not owners:return 0
+                        from investigator.shared_usage import rows
+                        with state.transaction()as db:
+                            values=rows(state,db,'SELECT reserved FROM state_usage WHERE kind=? AND session_id IN ('+','.join('?'for _ in owners)+')',('cloud',*owners))
+                        return sum(json.loads(v['reserved']).get('cloud_calls',0)for v in values)
+                    reconciled_prior[0]=journal.bounded_call('checkpoint-prior-read-accounting',{'owners':owners},charged_reads)
+                count=max(count,reconciled_prior[0]);meter.used=max(meter.used,count);restored_physical[0]=max(restored_physical[0],count)
+            checkpoint.restore_extra=restore_extra
             with model_session(settings) if decision else nullcontext():
                 result=run(call_plan,context,graph=graph,ledger=FactLedger(state),value_reader=values,
-                           decide=decision,admit=admit,checks=checks,collector=collector,now=now)
+                           decide=decision,admit=admit,checks=checks,collector=collector,now=now,checkpoint=checkpoint)
+            result['checkpoint_accounting']={'prior_completed_physical_requests':restored_physical[0],'this_execution_physical_requests':meter.used-restored_physical[0],'note':'Prior reads remain charged in the shared ledger; restoring the case does not reissue or uncharge them.'}
             result.update(physical_requests=meter.used,before=meter.before,after=meter.usage.snapshot(),
                           model_calls=decision.calls if decision else 0)
             phases.append({'phase':'investigation','wall_seconds':max(0,time.monotonic()-investigation_started)})

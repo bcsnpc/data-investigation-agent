@@ -38,6 +38,17 @@ class Values(unittest.TestCase):
         self.assertEqual(result['value'],'16');self.assertEqual(result['receipt_id'],'receipt')
         self.assertEqual(self.calls[0][0]['id'],'physical');self.assertIn('SNAPSHOT_UNVERIFIED',result['warnings'])
 
+    def test_checkpoint_restores_original_native_probes_for_later_design_checks(self):
+        from investigator.shared_state import StateConflict
+        first=self.port();first('lower',None,{})
+        snapshot=first.checkpoint_state();second=self.port();second.restore_checkpoint(snapshot)
+        self.assertEqual(second.probes['receipt'].query,first.probes['receipt'].query)
+        self.assertEqual(second.probes['receipt'].value,first.probes['receipt'].value)
+        self.assertEqual(second.probes['receipt'].execution_surface,first.probes['receipt'].execution_surface)
+        self.assertEqual(len(self.calls),1)
+        snapshot['path_sha256']='wrong'
+        with self.assertRaises(StateConflict):second.restore_checkpoint(snapshot)
+
     def test_blank_is_value_and_failure_is_not_blank(self):
         self.value=None;self.assertEqual(self.port()('visual',None,{})['state'],'BLANK')
         self.process.evaluate=lambda *a:Probe('UNAVAILABLE','semantic',reason='query failed')

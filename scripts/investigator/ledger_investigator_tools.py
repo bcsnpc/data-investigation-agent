@@ -76,6 +76,34 @@ class Tools:
             self.schemas[name]={'type':'object','properties':props,'required':fields,'additionalProperties':False}
         self.schemas['get_evidence_part']={'type':'object','properties':{'id':{'type':'string','minLength':1},'offset':{'type':'integer','minimum':0},'limit':{'type':'integer','minimum':1,'maximum':4096}},'required':['id','offset','limit'],'additionalProperties':False}
 
+    def checkpoint_state(self):
+        reader_state=None
+        if callable(getattr(type(self.reader),'checkpoint_state',None)):reader_state=self.reader.checkpoint_state()
+        return {'evidence':copy.deepcopy(self.evidence._values),'obtained':copy.deepcopy(self._obtained),
+                'reads':copy.deepcopy(self._reads),'quantity_attempted':sorted(getattr(self,'_quantity_attempted',set())),
+                'now':self.now,'reader_state':reader_state}
+
+    def restore_checkpoint(self,value):
+        from .estate_graph_contract import digest
+        from .shared_state import StateConflict
+        for identity,record in value['evidence'].items():
+            core={key:record[key]for key in ('kind','subjects','value')}
+            if (identity!='evidence:'+digest(core) or not set(record['subjects'])<=set(self.nodes)
+                    or not isinstance(record.get('receipt_id'),str) or not record['receipt_id']):
+                raise StateConflict('CHECKPOINT_EVIDENCE_ID_OR_SCOPE_DIFFERS')
+        for signature,identity in value['reads'].items():
+            if identity not in value['evidence'] or value['evidence'][identity]['kind']!='READ':
+                raise StateConflict('CHECKPOINT_READ_REFERENCE_DIFFERS')
+            import json
+            node,key,context=json.loads(signature);read=value['evidence'][identity]['value']
+            if node!=read['subject']or key!=read['key']or canonical(context)!=canonical(read['context']):
+                raise StateConflict('CHECKPOINT_READ_CONTEXT_DIFFERS')
+        self.evidence._values=copy.deepcopy(value['evidence']);self._obtained=copy.deepcopy(value['obtained'])
+        self._reads=copy.deepcopy(value['reads']);self._quantity_attempted=set(value['quantity_attempted']);self.now=timestamp(value['now'])
+        if value['reader_state']is not None:
+            if not callable(getattr(type(self.reader),'restore_checkpoint',None)):raise StateConflict('CHECKPOINT_NATIVE_RESTORE_NOT_INSTALLED')
+            self.reader.restore_checkpoint(value['reader_state'])
+
     def _read(self,node,context):
         if node not in self.nodes:raise ValueError('READ_OUTSIDE_TICKET_PATH')
         if not hasattr(self,'_quantity_attempted'):self._quantity_attempted=set()

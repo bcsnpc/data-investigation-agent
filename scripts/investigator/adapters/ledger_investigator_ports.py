@@ -62,6 +62,25 @@ class ProcessValues:
             if len(matches)==1:self.layers[node['id']]=matches[0]
         self.layers[measures[0]['id']]=layers[0]
 
+    def checkpoint_state(self):
+        from dataclasses import asdict
+        from ..estate_graph_contract import digest
+        return {'path_sha256':digest(self.path),'probes':{key:asdict(value)for key,value in self.probes.items()}}
+
+    def restore_checkpoint(self,value):
+        from ..estate_graph_contract import digest
+        from ..shared_state import StateConflict
+        from ..process_debugging import Probe
+        if value['path_sha256']!=digest(self.path):raise StateConflict('CHECKPOINT_NATIVE_PATH_DIFFERS')
+        probes={}
+        for key,raw in value['probes'].items():
+            item=copy.deepcopy(raw);item['surface_reportable']=tuple(item['surface_reportable'])
+            probe=Probe(**item)
+            if key!=probe.evidence['id']or probe.layer not in {layer['id']for layer in self.path['layers']}:
+                raise StateConflict('CHECKPOINT_NATIVE_PROBE_SCOPE_DIFFERS')
+            probes[key]=probe
+        self.probes=probes
+
     @staticmethod
     def scope(context):
         if context=={}:return {'filters':[],'dimension_ids':[]}
