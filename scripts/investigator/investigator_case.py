@@ -39,6 +39,18 @@ class CaseFile:
     def snapshot(self):
         return copy.deepcopy(self.value)
 
+    def model_view(self):
+        """Summaries and short action history; full state stays in its capture."""
+        value = self.snapshot()
+        value['decisions'] = [{key: row[key] for key in
+                               ('action', 'tool', 'arguments', 'verdict', 'summary') if key in row}
+                              for row in value['decisions'][-3:]]
+        value['errors'] = [{key: row[key] for key in
+                            ('event', 'reason', 'tool', 'arguments', 'error_type', 'expected') if key in row}
+                           for row in value['errors']]
+        value['notes'] = value['notes'][-3:]
+        return value
+
     def advance(self, step):
         if step not in PLAN or PLAN.index(step) < PLAN.index(self.value['current_step']):
             raise ValueError('CASE_STEP_BACKWARD_OR_UNKNOWN')

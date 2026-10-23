@@ -60,13 +60,22 @@ def fetched_context(result):
     held by the engine. Send their checked classification and references, never
     a second copy of all probe receipts. Validation still consumes the original.
     """
+    import hashlib
     value=copy.deepcopy(result)
     record=value.get('evidence',{})
+    original=canonical(record) if record else ''
     if record.get('kind')=='DESIGN_CHECK':
         proof=record['value'];native=proof.get('native_assessment',{})
         proof['native_assessment']={k:copy.deepcopy(native[k]) for k in ('classification','support','explanation') if k in native}
         proof.pop('native_observations',None)
         record['detail_projection']='Checked design witness; native probe receipts remain sealed and are validated by the engine.'
+    if len(original)>6000:
+        identity=value['evidence_ids'][0]
+        descriptor={'id':identity,'characters':len(original),'sha256':hashlib.sha256(original.encode()).hexdigest(),
+                    'tool':'get_evidence_part','arguments':{'id':identity,'offset':0,'limit':4096}}
+        if record.get('kind')!='DESIGN_CHECK':
+            value['evidence']={k:record[k] for k in ('kind','subjects','receipt_id') if k in record}
+        value['raw_details']=descriptor
     return value
 
 
@@ -190,8 +199,8 @@ class Investigator:
             try:
                 decision=self.decide({'ticket':ticket,'path_nodes':[{'id':n['id'],'label':n['label'],'kind':n['kind'],'depth':self.tools.depth.get(n['id'])} for n in self.tools.nodes.values()],
                 'pending_quantity_nodes':self.tools.pending_quantity_nodes(),
-                'case_file':self.case.snapshot(),'evidence_index':compact,'fetched_evidence':fetched,'feedback':feedback,'steps_remaining':self.step_cap-step+1,
-                'tool_transcript':[{'tool':c['tool'],'arguments':c['arguments'],'evidence_ids':c['result'].get('evidence_ids',[]),'status':c['result'].get('status')} for c in calls]},instructions=INSTRUCTIONS,schema=self.schema)
+                'case_file':self.case.model_view(),'fetched_evidence':fetched,'feedback':{k:copy.deepcopy(v)for k,v in (feedback or {}).items()if k in ('reason','detail','error_type','status','evidence_ids','nodes')},'steps_remaining':self.step_cap-step+1,
+                'tool_history':[{'tool':c['tool'],'arguments':c['arguments'],'evidence_ids':c['result'].get('evidence_ids',[]),'status':c['result'].get('status')} for c in calls[-3:]]},instructions=INSTRUCTIONS,schema=self.schema)
             except Exception as exc:
                 if not budget_stop(exc):raise
                 record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__});break
@@ -210,7 +219,7 @@ class Investigator:
                     if not budget_stop(exc):raise
                     record({'event':'INVESTIGATOR_BUDGET_STOP','error_type':type(exc).__name__});break
                 known.extend(i for i in result.get('evidence_ids',[]) if i not in known)
-                fetched=fetched_context(result) if decision['tool']=='get_evidence' else None;feedback=result if result.get('status')=='UNAVAILABLE' or result.get('already_obtained') else None
+                fetched=fetched_context(result) if decision['tool'] in ('get_evidence','get_evidence_part') else None;feedback=result if result.get('status')=='UNAVAILABLE' or result.get('already_obtained') else None
                 continue
             if decision['verdict']=='not found' and self.tools.pending_quantity_nodes():
                 feedback={'reason':'DECLARED_PREFIX_NOT_CHECKED','nodes':self.tools.pending_quantity_nodes(),

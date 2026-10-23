@@ -445,4 +445,54 @@ class IntegratedCaseTests(unittest.TestCase):
         self.assertTrue(answer['case_file']['evidence_summaries'])
         self.assertTrue(any(v.get('event')=='INVESTIGATOR_CASE_FILE'for v in events))
 
+class JustInTimeTests(unittest.TestCase):
+    def test_ordinary_tool_context_contains_summary_and_id_not_raw_definition(self):
+        import json
+        tools,engine,_,_=ToolLoopTests().build();raw='PRIVATE_RAW_DEFINITION_SENTINEL'
+        tools.graph.definition_of.return_value={'definition':{'source':raw}}
+        payloads=[]
+        def decide(payload,**kwargs):
+            payloads.append(copy.deepcopy(payload))
+            if len(payloads)==1:return {'action':'TOOL','summary':'Read definition','hypotheses':['not found'],'tool':'definition_of','arguments':{'node':'down'}}
+            return {'action':'VERDICT','verdict':'not found','summary':'No supported cause','hypotheses':['not found'],'evidence_ids':list(tools.evidence._values)}
+        engine.decide=decide;engine.step_cap=2;engine.run({'visual':'visual'})
+        self.assertEqual(len(payloads),2)
+        self.assertNotIn(raw,json.dumps(payloads[1]))
+        ids=[key for key,row in payloads[1]['case_file']['evidence_summaries'].items()if row['kind']=='GRAPH']
+        self.assertTrue(ids)
+        result=tools.invoke('get_evidence',{'id':ids[-1]})
+        self.assertEqual(result['evidence']['value']['definition']['source'],raw)
+    def test_explicit_raw_fetch_is_cleared_after_the_next_model_call(self):
+        import json
+        tools,engine,_,_=ToolLoopTests().build();raw='TRANSIENT_RAW_DEFINITION_SENTINEL'
+        tools.graph.definition_of.return_value={'definition':{'source':raw}};payloads=[]
+        def decide(payload,**kwargs):
+            payloads.append(copy.deepcopy(payload));step=len(payloads)
+            if step==1:return {'action':'TOOL','summary':'Read definition','hypotheses':['not found'],'tool':'definition_of','arguments':{'node':'down'}}
+            if step==2:
+                identity=next(k for k,v in payload['case_file']['evidence_summaries'].items()if v['kind']=='GRAPH')
+                return {'action':'TOOL','summary':'Read retained details','hypotheses':['not found'],'tool':'get_evidence','arguments':{'id':identity}}
+            if step==3:return {'action':'TOOL','summary':'Inspect declared path','hypotheses':['not found'],'tool':'path_to_source','arguments':{'visual':'visual'}}
+            return {'action':'VERDICT','verdict':'not found','summary':'No supported cause','hypotheses':['not found'],'evidence_ids':list(tools.evidence._values)}
+        engine.decide=decide;engine.step_cap=4;engine.run({'visual':'visual'})
+        self.assertIn(raw,json.dumps(payloads[2]['fetched_evidence']))
+        self.assertNotIn(raw,json.dumps(payloads[3]))
+
+    def test_large_raw_result_is_retrievable_in_exact_hash_bound_parts_without_context_growth(self):
+        import json,hashlib
+        from investigator.ledger_investigator import fetched_context
+        from investigator.estate_graph_contract import canonical
+        tools,_,_,_=ToolLoopTests().build()
+        identity=tools.evidence.add('GRAPH',['down'],{'definition':'raw-secret-free-fixture-'*10000})
+        full=tools.invoke('get_evidence',{'id':identity});raw=canonical(full['evidence'])
+        view=fetched_context(full)
+        self.assertLess(len(json.dumps(view)),2000)
+        self.assertEqual(view['raw_details']['sha256'],hashlib.sha256(raw.encode()).hexdigest())
+        chunks=[];offset=0
+        while offset is not None:
+            result=tools.invoke('get_evidence_part',{'id':identity,'offset':offset,'limit':4096})
+            chunks.append(result['raw_part']);offset=result['next_offset']
+        self.assertEqual(''.join(chunks),raw)
+        self.assertEqual(canonical(tools.evidence.get(identity)),raw)
+
 if __name__=='__main__':unittest.main()

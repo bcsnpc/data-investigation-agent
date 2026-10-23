@@ -73,6 +73,7 @@ class Tools:
                 elif field in ('from_time','to_time','at','id','comparison_id'):props[field]={'type':'string','minLength':1}
                 else:props[field]={'type':'string','enum':sorted(self.nodes)}
             self.schemas[name]={'type':'object','properties':props,'required':fields,'additionalProperties':False}
+        self.schemas['get_evidence_part']={'type':'object','properties':{'id':{'type':'string','minLength':1},'offset':{'type':'integer','minimum':0},'limit':{'type':'integer','minimum':1,'maximum':4096}},'required':['id','offset','limit'],'additionalProperties':False}
 
     def _read(self,node,context):
         if node not in self.nodes:raise ValueError('READ_OUTSIDE_TICKET_PATH')
@@ -202,6 +203,13 @@ class Tools:
         if key in self._obtained:
             if name=='get_evidence':return {'evidence_ids':[args['id']],'already_obtained':True,'note':'Already obtained this evidence; its factual summary remains in the evidence index.'}
             return {**copy.deepcopy(self._obtained[key]),'already_obtained':True}
+        if name=='get_evidence_part':
+            import hashlib
+            raw=canonical(self.evidence.get(args['id']));end=min(len(raw),args['offset']+args['limit'])
+            if args['offset']>len(raw):raise ValueError('EVIDENCE_OFFSET_OUTSIDE_RESULT')
+            result={'evidence_ids':[args['id']],'raw_part':raw[args['offset']:end],'offset':args['offset'],
+                    'next_offset':end if end<len(raw)else None,'total_characters':len(raw),'sha256':hashlib.sha256(raw.encode()).hexdigest()}
+            self._obtained[key]=copy.deepcopy(result);return result
         if name=='get_evidence':
             result={'evidence_ids':[args['id']],'evidence':self.evidence.get(args['id'])}
             self._obtained[key]=copy.deepcopy(result)
