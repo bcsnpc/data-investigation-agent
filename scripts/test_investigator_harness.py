@@ -32,7 +32,7 @@ class HarnessTests(unittest.TestCase):
             def outcome(self, run, state):
                 calls.append('outcome'); return engine.run({'visual': 'visual', 'text': 'Why is this lower?'})
         with tempfile.TemporaryDirectory() as tmp:
-            log = CaseLog(Path(tmp)/'case.jsonl'); ticket = {'id': 'fixture-1', 'target': 'fixture-A'}
+            log = CaseLog(Path(tmp)/'case.jsonl'); ticket = {'id': 'fixture-1', 'target': 'fixture-A', 'text':'Why is this lower?'}
             result = RunHarness(User(), log, admit=lambda _: None, sleep=lambda _: None).run(ticket)
             self.assertEqual(result['verdict'], 'failed job')
             self.assertEqual(result['case_file']['current_step'], 'deliver')
@@ -61,6 +61,24 @@ class HarnessTests(unittest.TestCase):
         self.assertIn('execution-one',commands[1])
         with self.assertRaises(ValueError):user.submit({'target':'not-declared'})
         self.assertEqual(len(commands),2)
+
+    def test_wrong_ticket_echo_is_refused_and_logged_not_scored(self):
+        class User:
+            def submit(self,ticket):return {'run_id':'one'}
+            def poll(self,run):return {'status':'Succeeded'}
+            def outcome(self,run,state):return {'ticket':{'text':'A different question'},'verdict':'as designed'}
+        with tempfile.TemporaryDirectory()as tmp:
+            log=CaseLog(Path(tmp)/'case.jsonl')
+            with self.assertRaisesRegex(StateConflict,'TICKET_TEXT_DIFFERS'):
+                RunHarness(User(),log,admit=lambda _:None).run({'text':'The question actually submitted'})
+            self.assertEqual(log.events[-1]['event'],'BLOCK')
+            self.assertFalse(any(e['event']=='OUTCOME'for e in log.events))
+
+    def test_new_submission_requires_fresh_capture_binding(self):
+        from unittest.mock import patch
+        with patch('investigator.unified_runner.load',return_value={'per_execution':False}):
+            with self.assertRaisesRegex(ValueError,'FRESH_EXECUTION_BINDING'):
+                AzureCLIUser('fixture.json')
 
     def test_uncertain_submission_never_silently_starts_a_second_execution(self):
         calls = []

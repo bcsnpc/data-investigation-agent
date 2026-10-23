@@ -74,6 +74,10 @@ class RunHarness:
                 try:result = self.user.outcome(run, state)
                 except Exception as error:
                     self.log.append('BLOCK',{'stage':'OUTCOME','error_type':type(error).__name__,'reason':str(error)});raise
+                delivered=result.get('result',result)
+                if ticket.get('text')is not None and delivered.get('ticket',{}).get('text')!=ticket['text']:
+                    self.log.append('BLOCK',{'stage':'OUTCOME_BINDING','reason':'DELIVERED_TICKET_TEXT_DIFFERS'})
+                    raise StateConflict('DELIVERED_TICKET_TEXT_DIFFERS')
                 self.log.append('OUTCOME', {'result': result, 'elapsed_seconds': self.clock()-started,
                                            'execution_status': state['status']})
                 return result
@@ -89,6 +93,7 @@ class AzureCLIUser:
         from .unified_runner import load
         from .adapters.runner_deployment import existing_job, input_policy_preflight
         self.runner = Path(runner).resolve(); self.config = load(self.runner)
+        if self.config.get('per_execution')is not True:raise ValueError('HARNESS_FRESH_EXECUTION_BINDING_REQUIRED')
         input_policy_preflight(self.config)
         resource = self.config['deployment']['resource_id']
         if not existing_job(resource): raise ValueError('HARNESS_EXISTING_JOB_REQUIRED')
