@@ -1,0 +1,53 @@
+{
+  "execution": {
+    "name": "job-dia-worker-hm27jiu",
+    "status": "Succeeded",
+    "startTime": "2026-10-23T05:11:35+00:00",
+    "endTime": "2026-10-23T05:12:27+00:00"
+  },
+  "source_revision": "7d9653f17f9243ef08e68c57d6fd21243f3b002b",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e93a69cbe8cae912d3a013a2c0bf69964f30742613c7878cbe8831b71bf71a02",
+  "seal": "9b0a87c07fe38cefd1bf189e04203526285d29a2a9037a600abb26dc809a00d1",
+  "question": "Did the latest run of round_two_application_load_audited_20261003 fail?",
+  "status": "answered",
+  "stop_reason": "OPERATIONAL_STATUS_PROVEN",
+  "latest_run_status": "SUCCEEDED",
+  "latest_run_id": "37b546ca-863d-45ce-b63b-015d5cdccf61",
+  "refreshed_at": "2026-10-23T05:12:07.277535Z",
+  "model_calls": 0,
+  "value_probes": 0,
+  "refresh_physical_requests": 2,
+  "refreshed_subjects": [
+    "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+  ],
+  "timing": {
+    "azure_total_seconds": 52.0,
+    "startup_to_capture_clock_seconds": 27.485616,
+    "investigation_seconds": 10.773939801001688,
+    "remaining_setup_publication_shutdown_seconds": 13.740444198998311,
+    "worker_clock_started_at": "2026-10-23T05:12:02.485616+00:00",
+    "outer_steps": [
+      {
+        "name": "input-materialization",
+        "status": "COMPLETED",
+        "wall_seconds": 1.417852472000959
+      },
+      {
+        "name": "check-access",
+        "status": "COMPLETED",
+        "wall_seconds": 0.021798437999677844
+      },
+      {
+        "name": "ledger-investigation",
+        "status": "COMPLETED",
+        "wall_seconds": 14.0225825790003
+      }
+    ],
+    "publication_inclusive_seconds": 4.1027643350062135,
+    "target_total_seconds": 60,
+    "target_met": true,
+    "note": "Startup includes image/container/Python/setup before DurableCapture clock; remaining includes admission, capture and shutdown; inclusive phases are not summed.",
+    "previous_target_total_seconds": 30,
+    "target_authority": "Owner steer2026-10-23: job-based status runs under60s accepted this round; full investigations under120s unchanged."
+  }
+}

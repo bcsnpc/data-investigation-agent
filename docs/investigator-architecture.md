@@ -25,3 +25,6 @@ copies only the selected model/current context and one approved current scan
 into a fresh on-disk session. No historical scan/run or unrelated model is
 loaded. Graph queries already use admitted path_records, never records().
 The nine state patterns below remain gated by section1e; not implemented yet.
+
+
+Status quick checks top up stale/missing facts through GraphAPI.refresh_facts on the admitted ticket subjects before selecting a status. The trusted cloud spec supplies a hash-pinned PathCollector; force propagates into the incremental collector so unchanged markers cannot suppress renewed observations. A failed top-up produces typed availability evidence and blocked output; successfully refreshed empty history is a distinct no-record observation. Observational timing includes UTC capture-clock start for correlation with Azure execution start; native tapes remain unchanged.
