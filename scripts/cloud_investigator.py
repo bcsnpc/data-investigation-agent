@@ -9,7 +9,7 @@ from investigator.ledger_investigator_tools import Tools
 from investigator.ledger_investigator import Investigator
 
 
-def run(plan,context,*,graph,ledger,value_reader,decide,admit,collector=None,checks=None,now,recording_class='EXACT',checkpoint=None):
+def run(plan,context,*,graph,ledger,value_reader,decide,admit,collector=None,checks=None,now,recording_class='EXACT',checkpoint=None,heavy_reader=None):
     """Root's registry supplies installed guarded ports, never the ticket/model.
 
     No refresh/run/write handler exists. In particular, value_reader must be a
@@ -25,7 +25,7 @@ def run(plan,context,*,graph,ledger,value_reader,decide,admit,collector=None,che
     from investigator.process_tape import utc_now
     tools.availability_clock=utc_now
     engine=Investigator(tools,decide=decide,persist=persist,admit=admit,step_cap=options.get('step_cap',12),wall_seconds=options.get('wall_seconds',900),
-        progress=lambda value:context.progress(value)if hasattr(context,'progress')else context.record('progress',value),checkpoint=checkpoint)
+        progress=lambda value:context.progress(value)if hasattr(context,'progress')else context.record('progress',value),checkpoint=checkpoint,heavy_reader=heavy_reader)
     invoke=lambda:engine.run(ticket,warnings=options.get('warnings',[]))
     result=context.step('investigation',invoke)if hasattr(context,'step')else invoke()
     # JSON run bundle is persisted through the normal outer capture before return.
@@ -52,7 +52,7 @@ def specification(options):
         reference(options['ticket'],maximum=250000)
         spec['ticket']=dict(options['ticket'])
     required={'ticket','graph','budget','max_requests','model_enabled','generation_options','step_cap','wall_seconds','warnings'}
-    if not isinstance(spec,dict) or not required<=set(spec)<=required|{'native','collector','retained_continuation','recording_mode','checkpoint'}:raise ValueError('INVESTIGATOR_SPEC_FIELDS')
+    if not isinstance(spec,dict) or not required<=set(spec)<=required|{'native','collector','retained_continuation','recording_mode','checkpoint','heavy_reader'}:raise ValueError('INVESTIGATOR_SPEC_FIELDS')
     from investigator.normal_audit import mode
     mode(spec.get('recording_mode','NORMAL'))
     if 'retained_continuation' in spec and 'native' not in spec:raise ValueError('RETAINED_CONTINUATION_NATIVE_REQUIRED')
@@ -60,6 +60,9 @@ def specification(options):
         import re
         value=spec['checkpoint']
         if not isinstance(value,dict) or set(value)!={'id','resume'} or type(value['resume'])is not bool or not isinstance(value['id'],str) or not re.fullmatch(r'[A-Za-z0-9_.:-]{1,100}',value['id']):raise ValueError('INVESTIGATOR_CHECKPOINT_CONFIGURATION')
+    if 'heavy_reader' in spec:
+        value=spec['heavy_reader']
+        if not isinstance(value,dict)or set(value)!={'enabled_steps'}or not isinstance(value['enabled_steps'],list)or len(set(value['enabled_steps']))!=len(value['enabled_steps'])or not set(value['enabled_steps'])<={'investigate'}or value['enabled_steps']and not spec['model_enabled']:raise ValueError('INVESTIGATOR_HEAVY_READER_CONFIGURATION')
     graph=spec['graph']
     if (not isinstance(graph,dict) or set(graph)!={'estate','identity','allowed_objects'}
             or not isinstance(graph['allowed_objects'],list) or not 1<=len(graph['allowed_objects'])<=200
@@ -286,9 +289,11 @@ def _execute(plan,context):
                     reconciled_prior[0]=journal.bounded_call('checkpoint-prior-read-accounting',{'owners':owners},charged_reads)
                 count=max(count,reconciled_prior[0]);meter.used=max(meter.used,count);restored_physical[0]=max(restored_physical[0],count)
             checkpoint.restore_extra=restore_extra
+            from investigator.investigator_heavy_reader import HeavyReader
+            heavy=HeavyReader(decision,enabled_steps=spec.get('heavy_reader',{}).get('enabled_steps',[]),admit=admit)if decision is not None else None
             with model_session(settings) if decision else nullcontext():
                 result=run(call_plan,context,graph=graph,ledger=FactLedger(state),value_reader=values,
-                           decide=decision,admit=admit,checks=checks,collector=collector,now=now,checkpoint=checkpoint)
+                           decide=decision,admit=admit,checks=checks,collector=collector,now=now,checkpoint=checkpoint,heavy_reader=heavy)
             if decision is not None:result.setdefault('cost',{})['provider_cache']=decision.cache_metrics()
             result['checkpoint_accounting']={'prior_completed_physical_requests':restored_physical[0],'this_execution_physical_requests':meter.used-restored_physical[0],'note':'Prior reads remain charged in the shared ledger; restoring the case does not reissue or uncharge them.'}
             result.update(physical_requests=meter.used,before=meter.before,after=meter.usage.snapshot(),

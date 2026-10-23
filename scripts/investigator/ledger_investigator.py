@@ -40,6 +40,7 @@ def evidence_context(registry):
     for identity,record in registry._values.items():
         item={'id':identity,'kind':record['kind'],'subjects':record['subjects']};value=record['value'];summary={}
         if record['kind']=='READ':summary=read(value)
+        elif record['kind']=='READING_NOTE':summary={k:copy.deepcopy(value[k])for k in ('summary','support_ids','not_finding')if k in value}
         elif record['kind']=='COMPARISON':
             summary={k:value[k]for k in ('left','right')}
             for side in ('left','right'):
@@ -88,13 +89,13 @@ def schema(tools,allowed_tools=None):
 
 
 class Investigator:
-    def __init__(self,tools,*,decide,persist,admit,step_cap=12,wall_seconds=900,clock=time.monotonic,progress=None,checkpoint=None):
+    def __init__(self,tools,*,decide,persist,admit,step_cap=12,wall_seconds=900,clock=time.monotonic,progress=None,checkpoint=None,heavy_reader=None):
         if not all(callable(v) for v in (persist,admit)):raise ValueError('GOVERNED_INVESTIGATOR_BOUNDARIES_REQUIRED')
         if decide is not None and not callable(decide):raise ValueError('GOVERNED_DECISION_REQUIRED')
         if type(step_cap)is not int or not 1<=step_cap<=25 or type(wall_seconds)is not int or not 1<=wall_seconds<=3600:raise ValueError('INVESTIGATOR_LIMIT')
         self.tools,self.decide,self.persist,self.admit=tools,decide,persist,admit
         self.progress=progress or (lambda value:None)
-        self.checkpoint=checkpoint
+        self.checkpoint=checkpoint;self.heavy_reader=heavy_reader
         self.step_cap,self.wall_seconds=step_cap,wall_seconds
         from .process_tape import clock as recorded_clock
         self.clock=lambda:recorded_clock('ledger-investigator-monotonic',clock)
@@ -159,7 +160,14 @@ class Investigator:
                 return result
             self.admit('TOOL',len(calls)+1);before=self.clock()
             def perform_tool():
-                try:return self.tools.invoke(name,args)
+                try:
+                    result=self.tools.invoke(name,args)
+                    if name=='get_evidence'and 'evidence'in result and self.heavy_reader is not None:
+                        note=self.heavy_reader.read(args['id'],result['evidence'],step=self.case.value['current_step'])
+                        if note is not None:
+                            identity=self.tools.evidence.add('READING_NOTE',result['evidence']['subjects'],note)
+                            result={'evidence_ids':[args['id'],identity],'reader_summary':note,'summary_is_untrusted':True}
+                    return result
                 except Exception as exc:
                     from .estate_graph_incremental import is_stop_condition
                     if is_stop_condition(exc):raise

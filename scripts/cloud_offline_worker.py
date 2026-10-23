@@ -17,7 +17,7 @@ TEST_MODULES = (
     'test_worker_capture_publication.py', 'test_worker_lifecycle.py', 'test_smoke_demo_expectation.py',
     'test_streaming_tape.py', 'test_smoke_run_bound_capture.py',
     'test_connection_rotation.py', 'test_facts_ledger.py', 'test_runtime_facts_microsoft.py',
-    'test_access_budget_policy.py', 'test_capture_publication_retry.py', 'test_ledger_investigator.py', 'test_investigator_case.py', 'test_investigator_playbook.py', 'test_investigator_checkpoint.py', 'test_enrichment.py',
+    'test_access_budget_policy.py', 'test_capture_publication_retry.py', 'test_ledger_investigator.py', 'test_investigator_case.py', 'test_investigator_playbook.py', 'test_investigator_checkpoint.py', 'test_investigator_heavy_reader.py', 'test_enrichment.py',
     'test_essentials_intake.py', 'test_explain_questions.py', 'test_item_metadata_history.py',
     'test_ledger_verdict_proof.py', 'test_ledger_investigator_ports.py', 'test_cloud_ledger_investigator.py', 'test_collector_schedule.py',
     'test_live_gateway.py', 'test_tape_decoders.py', 'test_model_transport_retry.py',
