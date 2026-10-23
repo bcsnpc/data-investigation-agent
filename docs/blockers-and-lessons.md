@@ -101,3 +101,20 @@ narrow four-request allowance was consumed by LIST's guarded SQL read, so
 FETCH returned BUDGET_EXHAUSTED and appended no fresh fact. Preserve both.
 The scheduled dispatcher still has its original eight-request allowance.
 No claim of a new attested load value is made from this logging-only proof.
+
+## 2026-10-22 correction: enclosing audit job limit established
+
+Following the owner's duration test, the original run0a43cb29 began21:00:00Z
+and was still publishing its immutable final capture at21:01:09Z: at least69s
+against a60s enclosing job. The live probe round22-audit-lifecycle-03 began
+03:29:02Z and sealed at03:30:12Z: at least70s against the same60s limit. Its
+child exited0, deadline_expired=false. These recorded lower bounds establish
+the outer job limit as the failure cause, not the child's own deadline. This
+supersedes the earlier UNESTABLISHED conclusion; original receipts stay intact.
+Azure's missing endTime still prevents an exact full-duration claim. Evidence:
+.local/round-twenty-two/audit-duration-evidence.json and both original sealed
+captures. Raise only the enclosing limit to180s, read it back and confirm once.
+The runtime preflight regression rejects the obsolete60s configuration when
+180s is pinned. Manual4-request FETCH refusal remains a limitation, not a
+failed database permission check; scheduled six-hour collection remains the
+real load-fact test.
