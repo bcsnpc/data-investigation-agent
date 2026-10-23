@@ -29,6 +29,16 @@ class ControlMeterTests(unittest.TestCase):
    meter=Meter(self.state,{'environment':'test'},1,clock=lambda:self.at,reporting_mirror=False);self.addCleanup(meter.close)
    with self.assertRaisesRegex(UsageHold,'MONTHLY_PHYSICAL_SCAN_EXHAUSTED'):meter(operation)
   operation.assert_not_called();self.assertEqual(meter.used,0)
+ def test_control_report_skips_legacy_snapshot_and_counts_other_environments_and_pending_reads(self):
+  reserved=json.dumps({'cloud_calls':1,'planner_calls':0,'input_characters':0,'output_tokens':0})
+  with self.state.transaction()as db:
+   db.execute('INSERT INTO state_usage VALUES(?,?,?,?,?,?,?,?,?,?,?)',('other-estate','pending','one','2026-10-23','cloud',reserved,None,'RESERVED','historic',self.at,'other'))
+   db.execute('INSERT INTO state_read_allocations VALUES(?,?,?,?,?)',('other-estate','pending','one',None,'INVESTIGATION'))
+   db.execute('INSERT INTO state_usage VALUES(?,?,?,?,?,?,?,?,?,?,?)',('other-estate','historical','old','2026-10-01','cloud',reserved,'{}','SETTLED','historic',datetime(2026,10,1,tzinfo=timezone.utc).timestamp(),'other'))
+  with operating_mode(category='INVESTIGATION'),patch('investigator.shared_usage.SharedUsage.snapshot',side_effect=RuntimeError('legacy historical report stalled'))as legacy:
+   meter=Meter(self.state,{'environment':'test'},1,clock=lambda:self.at,reporting_mirror=False);self.addCleanup(meter.close)
+   self.assertEqual(meter.before['monthly']['total'],1);self.assertEqual(meter.before['monthly']['used']['INVESTIGATION'],1)
+   meter(lambda:17);self.assertEqual(meter.usage.snapshot()['monthly']['total'],2);legacy.assert_not_called()
  def test_exact_tape_legacy_and_invalid_flags_cannot_disable_their_mirror(self):
   with operating_mode(category='INVESTIGATION'),patch('investigator.process_tape.ACTIVE')as active:
    active.get.return_value=SimpleNamespace(replaying=False)

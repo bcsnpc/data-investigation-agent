@@ -45,6 +45,19 @@ class Meter:
                     # This meter never admits from its private presentation DB.
                     # reserve/settle remain the same authoritative shared methods.
                     return None
+                def snapshot(self):
+                    # An untaped build control needs current shared counters,
+                    # not the legacy daily/model presentation reconstructed by
+                    # the full historical snapshot. Admission is unchanged.
+                    from investigator.build_phase import month_window,physical_status
+                    from investigator.shared_usage import rows
+                    now=self.governor.clock();_,start,end=month_window(now)
+                    with self.state.transaction()as db:
+                        usage=rows(self.state,db,'SELECT environment,session_id,reservation_key,reserved,created FROM state_usage WHERE created>=? AND created<?',(start,end))
+                        allocations=rows(self.state,db,'SELECT environment,session_id,reservation_key,purpose FROM state_read_allocations')
+                    return {'environment':self.environment,'monthly':physical_status(usage,allocations,now),
+                            'legacy_limits_informational':True,
+                            'limitation':'Current shared monthly counters only; untaped build-control report. Reservation and settlement use the unchanged shared authority.'}
             usage_type=ControlUsage
         self.usage=usage_type(governor,state,owner=self.owner)
         # The existing authority owns admission; memory is only its reporting
