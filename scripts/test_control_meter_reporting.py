@@ -35,6 +35,21 @@ class ControlMeterTests(unittest.TestCase):
    self.assertEqual(meter.usage.snapshot()['monthly']['total'],1);self.assertEqual(len(meter.reservation_retries),1)
   with self.state.transaction()as db:
    self.assertEqual(db.execute('SELECT status FROM state_usage').fetchall(),[('SETTLED',)])
+ def test_lost_settlement_ack_reconnects_once_without_reissuing_estate_call(self):
+  from investigator.shared_usage import SharedUsage
+  original=SharedUsage.settle;keys=[]
+  def settle(*args,**kwargs):
+   keys.append(args[3]);result=original(*args,**kwargs)
+   if len(keys)==1:raise ConnectionError('lost settlement acknowledgement')
+   return result
+  operation=Mock(return_value=17)
+  with operating_mode(category='INVESTIGATION'):
+   meter=Meter(self.state,{'environment':'test'},1,clock=lambda:self.at,reporting_mirror=False);self.addCleanup(meter.close)
+   with patch.object(SharedUsage,'settle',side_effect=settle,autospec=True),patch('time.sleep')as sleep:
+    self.assertEqual(meter(operation),17)
+   operation.assert_called_once();sleep.assert_called_once_with(30);self.assertEqual(len(set(keys)),1)
+   self.assertEqual(meter.reservation_retries[0]['stage'],'SHARED_SETTLEMENT_AFTER_DISPATCH')
+   self.assertEqual(meter.usage.snapshot()['monthly']['total'],1)
  def test_reservation_transport_retries_are_bounded_and_policy_refusals_never_retry(self):
   for error,attempts in ((ConnectionError('transport'),2),(UsageHold('MONTHLY_PHYSICAL_SCAN_EXHAUSTED'),1),(ValueError('query error'),1)):
    with self.subTest(error=type(error).__name__),operating_mode(category='INVESTIGATION'):

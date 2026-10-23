@@ -24,6 +24,15 @@ class FixtureControlTest(unittest.TestCase):
         send=Mock();c=self.make(send);self.g.hold=True
         with self.assertRaisesRegex(RuntimeError,'approved cap'):c.call('workspaces/'+W+'/items')
         send.assert_not_called();self.assertEqual(c.record['requests'][0]['error'],'approved cap reached')
+    def test_platform_drop_idle_timing_is_persisted_without_dispatch(self):
+        import json
+        send=Mock();c=self.make(send);error=ConnectionError('platform connection dropped')
+        error.postgres_connection_timing={'idle_before_request_seconds':41,'failed_request_seconds':0.2,'operation':'execute'}
+        self.g.metered_read=Mock(side_effect=error)
+        with self.assertRaises(ConnectionError):c.call('workspaces/'+W+'/items')
+        saved=json.loads(c.path.read_text())['requests'][0]
+        self.assertEqual(saved['platform_connection_timing'],error.postgres_connection_timing)
+        send.assert_not_called()
     def test_uncertain_mutation_cannot_be_retried(self):
         send=Mock(side_effect=TimeoutError('connection lost'));c=self.make(send)
         with self.assertRaises(TimeoutError):c.call('workspaces/'+W+'/lakehouses','POST',{},key='create-once')

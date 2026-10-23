@@ -79,5 +79,7 @@ class ObservedConnection:
 class ObservedCursor:
     def __init__(self,connection,cursor):self.connection,self.raw=connection,cursor
     def __getattr__(self,name):return getattr(self.raw,name)
+    def __enter__(self):self.raw.__enter__();return self
+    def __exit__(self,*args):return self.raw.__exit__(*args)
     def execute(self,*args,**kwargs):return self.connection._call('cursor.execute',self.raw.execute,*args,**kwargs)
     def executemany(self,*args,**kwargs):return self.connection._call('cursor.executemany',self.raw.executemany,*args,**kwargs)

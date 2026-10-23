@@ -81,6 +81,14 @@ class ConnectionTests(unittest.TestCase):
         with patch.object(state,'transaction',side_effect=lambda:nullcontext(Mock()))as transaction,patch.object(state,'_get',side_effect=ConnectionError('drop')),patch('time.sleep')as sleep:
             with self.assertRaises(ConnectionError):state.put('namespace','id',{})
             self.assertEqual(transaction.call_count,1);sleep.assert_not_called()
+    def test_observed_cursor_keeps_context_manager_and_batch_execution(self):
+        from unittest.mock import MagicMock
+        from investigator.postgres_connection import ObservedConnection
+        raw=MagicMock();cursor=raw.cursor.return_value
+        db=ObservedConnection(raw)
+        with db.cursor()as observed:observed.executemany('synthetic query',[(1,)])
+        cursor.__enter__.assert_called_once();cursor.__exit__.assert_called_once()
+        cursor.executemany.assert_called_once_with('synthetic query',[(1,)])
 
 
 class LockTests(unittest.TestCase):

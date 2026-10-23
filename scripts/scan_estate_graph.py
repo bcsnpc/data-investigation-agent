@@ -48,18 +48,23 @@ class Meter:
         if not reporting_mirror:
             retry_events=self.reservation_retries
             class ControlUsage(SharedUsage):
-                def reserve(self,*args,**kwargs):
-                    # The exact owner/key/request is reused. A lost commit ACK
-                    # is reconciled by shared_reserve before any HTTP dispatch.
+                def _keyed_operation(self,stage,call):
                     for attempt in range(2):
-                        try:return super().reserve(*args,**kwargs)
+                        try:return call()
                         except Exception as error:
                             if attempt==1 or not reservation_connection_failure(error):raise
                             delay=30
-                            retry_events.append({'stage':'SHARED_RESERVATION_BEFORE_DISPATCH','error_type':type(error).__name__,
+                            retry_events.append({'stage':stage,'error_type':type(error).__name__,
                                 'sqlstate':getattr(error,'sqlstate',None),'attempt':attempt+1,'wait_seconds':delay,
                                 'connection_timing':getattr(error,'postgres_connection_timing',None)})
                             time.sleep(delay)
+                def reserve(self,*args,**kwargs):
+                    # Same owner/key/request, including lost commit ACKs.
+                    return self._keyed_operation('SHARED_RESERVATION_BEFORE_DISPATCH',
+                        lambda:super(ControlUsage,self).reserve(*args,**kwargs))
+                def settle(self,*args,**kwargs):
+                    return self._keyed_operation('SHARED_SETTLEMENT_AFTER_DISPATCH',
+                        lambda:super(ControlUsage,self).settle(*args,**kwargs))
                 def mirror(self,local):
                     # This meter never admits from its private presentation DB.
                     # reserve/settle remain the same authoritative shared methods.
@@ -70,11 +75,12 @@ class Meter:
                     # the full historical snapshot. Admission is unchanged.
                     from investigator.build_phase import shared_physical_rows,physical_status
                     now=self.governor.clock()
-                    with self.state.transaction()as db:
+                    def read(db):
                         usage,allocations=shared_physical_rows(self.state,db,now)
-                    return {'environment':self.environment,'monthly':physical_status(usage,allocations,now),
+                        return {'environment':self.environment,'monthly':physical_status(usage,allocations,now),
                             'legacy_limits_informational':True,
                             'limitation':'Current shared monthly counters only; untaped build-control report. Reservation and settlement use the unchanged shared authority.'}
+                    return self.state._read_transaction(read)
             usage_type=ControlUsage
         self.usage=usage_type(governor,state,owner=self.owner)
         # The existing authority owns admission; memory is only its reporting

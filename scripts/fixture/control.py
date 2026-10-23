@@ -73,7 +73,10 @@ class FixtureControl:
                 raise ControlError('HTTP '+str(response.get('status_code'))+': '+json.dumps(response.get('text')))
             return response
         except Exception as exc:
-            entry.update(error_type=type(exc).__name__,error=str(exc));self.save();raise
+            entry.update(error_type=type(exc).__name__,error=str(exc))
+            timing=getattr(exc,'postgres_connection_timing',None)
+            if timing is not None:entry['platform_connection_timing']=timing
+            self.save();raise
 
     def resolve(self, response, *, expect_result=True):
         if response['status_code']!=202:return response['text']
