@@ -22,6 +22,8 @@ def run(plan,context,*,graph,ledger,value_reader,decide,admit,collector=None,che
     tools=Tools(graph,ledger,visual=ticket.get('visual') or ticket['request']['subject'],key=ticket.get('key'),context=ticket.get('filters',{}),
         comparison=ticket.get('comparison'),persist=persist,now=now,value_reader=value_reader,collector=collector,checks=checks,request_kind=ticket.get('request',{}).get('kind','COMPARE'),recording_class=recording_class)
     tools.estate=plan.get('estate')
+    from investigator.process_tape import utc_now
+    tools.availability_clock=utc_now
     engine=Investigator(tools,decide=decide,persist=persist,admit=admit,step_cap=options.get('step_cap',12),wall_seconds=options.get('wall_seconds',900),
         progress=lambda value:context.progress(value)if hasattr(context,'progress')else context.record('progress',value))
     invoke=lambda:engine.run(ticket,warnings=options.get('warnings',[]))

@@ -75,5 +75,13 @@ class AvailabilityTests(unittest.TestCase):
         ref=tools._read('up',tools.context)
         self.assertEqual(tools.evidence.get(ref)['kind'],'READ')
         self.assertTrue(any(e.get('event')=='AVAILABILITY_NOT_CURRENT_GRAPH_MEMBER'for e in events))
+    def test_recovered_retry_persists_final_reachability_not_a_same_time_failed_attempt(self):
+        tools,_,reader,events=fixtures.ToolLoopTests().build();tools.estate='fixture';tools.ledger=Mock()
+        reader.side_effect=[ConnectionError(),read('up',8,tools.context)]
+        with patch('investigator.model_transport_retry.backoff'):tools._read('up',tools.context)
+        tools.ledger.append.assert_called_once()
+        final=tools.ledger.append.call_args.args[1][0]
+        self.assertTrue(final['value']['reachable']);self.assertEqual(final['value']['attempts'],2)
+        self.assertEqual(sum(e.get('event')=='INVESTIGATOR_EVIDENCE'and e.get('kind')=='FACT'for e in events),2)
 
 if __name__=='__main__':unittest.main()

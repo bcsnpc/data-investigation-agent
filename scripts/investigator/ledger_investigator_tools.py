@@ -81,30 +81,30 @@ class Tools:
         cache_key=canonical([node,self.key,context])
         if cache_key in self._reads:return self._reads[cache_key]
         if self.reader is None:return self.evidence.add('GAP',[node],{'reason':'No guarded compiled quantity reader is installed for this graph node.'})
+        from .source_availability import call as source_call, fact as availability_fact
+        observations=[]
+        def observe(value):
+            ref=self.evidence.add('FACT',[node],availability_fact(node,value,at=value['last_observed_at'],evidence=[self.path_id],collector='investigator-read'))
+            observations.append(ref)
+        def settle_availability():
+            estate=getattr(self,'estate',None)
+            if not observations or not estate or not hasattr(self.ledger,'append'):return
+            ref=observations[-1]
+            try:self.ledger.append(estate,[self.evidence.get(ref)['value']])
+            except ValueError as error:
+                if str(error)!='FACT_SUBJECT_NOT_IN_GRAPH':raise
+                # Retained continuation is not current graph-insertion authority.
+                self.evidence.persist({'event':'AVAILABILITY_NOT_CURRENT_GRAPH_MEMBER','subject':node,'evidence_id':ref})
         try:
-            from .source_availability import call as source_call, fact as availability_fact
-            def observe(value):
-                ref=self.evidence.add('FACT',[node],availability_fact(node,value,at=self.now,evidence=[self.path_id],collector='investigator-read'))
-                if hasattr(self.ledger,'append') and self.graph is not None:
-                    # A concrete FactLedger carries the configured estate; graph
-                    # wrappers expose it through the trusted assembly, not tickets.
-                    estate=getattr(self,'estate',None)
-                    if estate:
-                        try:self.ledger.append(estate,[self.evidence.get(ref)['value']])
-                        except ValueError as error:
-                            if str(error)!='FACT_SUBJECT_NOT_IN_GRAPH':raise
-                            # A retained approved continuation can supply a
-                            # historical node, never authority to insert it into
-                            # today's graph. Keep the observation in the run's
-                            # immutable evidence, without masking a good read.
-                            self.evidence.persist({'event':'AVAILABILITY_NOT_CURRENT_GRAPH_MEMBER','subject':node,'evidence_id':ref})
-            result=copy.deepcopy(source_call(lambda:self.reader(node,self.key,copy.deepcopy(context)),observe=observe,clock=lambda:self.now))
+            result=copy.deepcopy(source_call(lambda:self.reader(node,self.key,copy.deepcopy(context)),observe=observe,clock=getattr(self,'availability_clock',lambda:self.now)))
         except Exception as exc:
             from .estate_graph_incremental import is_stop_condition
             if is_stop_condition(exc):raise
+            settle_availability()
             from .source_availability import result as availability_result
             unavailable=getattr(exc,'source_availability',None) or availability_result(exc,at=self.now)
             return self.evidence.add('GAP',[node],{'reason':unavailable['message'],'error_type':type(exc).__name__,'availability':unavailable})
+        settle_availability()
         if (not isinstance(result,dict) or result.get('subject')!=node or result.get('key')!=self.key
                 or canonical(result.get('context'))!=canonical(context) or not result.get('receipt_id')
                 or result.get('route_admitted')is not True or result.get('read_only_verified')is not True):
