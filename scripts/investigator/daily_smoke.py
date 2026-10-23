@@ -90,7 +90,7 @@ def capture_roundtrip(context,body):
 
 def run_smoke(config, context, *, state=None, sign_in=None, gold_read=None, blob_roundtrip=None, demo=None):
     required = {'version', 'run_id', 'reader_authentication', 'gold_payload', 'platform_blob', 'demo_earned'}
-    if not isinstance(config, dict) or not required <= set(config) <= required | {'access_check'} or config['version'] != 1:
+    if not isinstance(config, dict) or not required <= set(config) <= required | {'access_check', 'demo_expected_classification'} or config['version'] != 1:
         raise ValueError('DAILY_SMOKE_CONFIGURATION')
     if not isinstance(config['run_id'], str) or not re.fullmatch(r'[A-Za-z0-9_.:-]{1,100}', config['run_id']):
         raise ValueError('DAILY_SMOKE_RUN_ID')
@@ -139,6 +139,20 @@ def run_smoke(config, context, *, state=None, sign_in=None, gold_read=None, blob
     step('blob_write_read', lambda: (blob_roundtrip or _blob_roundtrip)(config['platform_blob'], raw))
     if config['demo_earned']:
         step('family_a_demo', demo)
+        # A delivered refusal is a legitimate investigation result, but cannot
+        # prove an operator's earned demonstration still works. Preserve it.
+        check = checks['family_a_demo']
+        if check['status'] == 'PASS':
+            result = check['result']
+            ticket = result.get('demo', {}).get('ticket', {}) if isinstance(result, dict) else {}
+            actual = ticket.get('findings', {}).get('classification')
+            expected = config.get('demo_expected_classification')
+            check['expected_classification'] = expected
+            check['observed_classification'] = actual
+            if not isinstance(expected, str) or not expected:
+                check.update(status='FAIL', reason='SMOKE_DEMO_EXPECTATION_MISSING')
+            elif ticket.get('state') != 'FINDINGS_SHARED' or actual != expected:
+                check.update(status='FAIL', reason='SMOKE_DEMO_EXPECTATION_NOT_MET')
     # An untestable legacy binding is reported, never represented as a pass.
     status = 'FAIL' if any(value['status'] == 'FAIL' for value in checks.values()) else ('PASS' if all(value['status'] == 'PASS' for value in checks.values()) else 'INCOMPLETE')
     return {'kind': 'DAILY_SMOKE', 'status': status, 'run_id': config['run_id'],
