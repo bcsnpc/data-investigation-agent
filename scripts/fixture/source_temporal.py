@@ -120,9 +120,9 @@ class TemporalSourceScenario:
         # are sealed. Never silently drop somebody else's history table.
         return ('SET NOCOUNT ON; SET XACT_ABORT ON; SET LOCK_TIMEOUT 5000; BEGIN TRY BEGIN TRANSACTION;\n'+self.source.guard()+
             'IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE object_id='+str(self.object_id)+' AND temporal_type=2 AND history_table_id='+str(history_object_id)+
-            ") OR OBJECT_ID(N'app.stock_movements_round22_history')<>"+str(history_object_id)+
+            ") OR COALESCE(OBJECT_ID(N'app.stock_movements_round22_history'),-1)<>"+str(history_object_id)+
             " THROW 51022, 'Owned temporal relationship changed', 1;\nIF (SELECT COUNT_BIG(*) FROM "+HISTORY+')<>'+str(history_rows)+
-            ' OR '+self.history_digest()+"<>UPPER('"+history_sha256+"') THROW 51022, 'Native history changed since capture', 1;\n"+
+            ' OR COALESCE('+self.history_digest()+",'')<>UPPER('"+history_sha256+"') THROW 51022, 'Native history changed since capture', 1;\n"+
             'ALTER TABLE '+TABLE+' SET (SYSTEM_VERSIONING=OFF);\nALTER TABLE '+TABLE+' DROP PERIOD FOR SYSTEM_TIME;\n'+
             'ALTER TABLE '+TABLE+' DROP CONSTRAINT ['+DEFAULT_START+'],['+DEFAULT_END+'];\n'+
             'ALTER TABLE '+TABLE+' DROP COLUMN ['+START+'],['+END+'];\nDROP TABLE '+HISTORY+';\n'+self.source.guard()+

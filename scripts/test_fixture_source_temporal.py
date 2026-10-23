@@ -64,6 +64,8 @@ class TemporalPlans(unittest.TestCase):
         sql=self.builder().disable(history_object_id=456,history_rows=3,history_sha256='a'*64)
         self.assertLess(sql.index('Native history changed since capture'),sql.index('SYSTEM_VERSIONING=OFF'))
         self.assertIn('history_table_id=456',sql)
+        self.assertIn("COALESCE(OBJECT_ID(N'app.stock_movements_round22_history'),-1)",sql)
+        self.assertIn("OR COALESCE(CONVERT(varchar(64),HASHBYTES",sql)
         self.assertIn('DROP TABLE '+HISTORY,sql)
         self.assertNotIn('DROP TABLE [app].[stock_movements_round_two_20261003]',sql)
         for invalid in ('','a'*63,"';DROP TABLE x;--"):
