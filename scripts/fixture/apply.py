@@ -314,3 +314,80 @@ def inspect_existing(control,parameters,manifest):
     return {'status':'EXISTING_ARTIFACTS_LISTED_NOT_A_FROM_ZERO_APPLY','manifest_hash':digest(manifest),
             'workspace_id':control.workspace,'artifacts':sorted(roots),'items':listing,
             'manual_steps_preserved':True}
+
+class PipelineFailureScenario:
+    """Reversible owner-authorized fixture fault, through the existing builder.
+
+    The only new SQL is a fixed THROW before any original activity. Connection
+    and database settings are copied from an existing Script activity. Original
+    definition bytes remain in the caller's retained before record.
+    """
+    MARKER='round22_controlled_failure_before_original_activities'
+    THROW="THROW 51022, 'Round22 controlled fixture failure before original activities', 1;"
+
+    def __init__(self,control,item_id):
+        from uuid import UUID
+        UUID(item_id);self.control=control;self.item_id=item_id
+        self.root='workspaces/'+control.workspace+'/dataPipelines/'+item_id
+
+    @staticmethod
+    def content(definition):
+        import base64
+        from investigator.planner_recording import _safe
+        from investigator.process_tape import bytes_of
+        _safe(bytes_of(definition))
+        parts=definition['definition']['parts']
+        if len({p['path']for p in parts})!=len(parts):raise ValueError('SCENARIO_DUPLICATE_PART')
+        rows=[p for p in parts if p['path']=='pipeline-content.json'and p['payloadType']=='InlineBase64']
+        if len(rows)!=1:raise ValueError('SCENARIO_PIPELINE_CONTENT_REQUIRED')
+        return json.loads(base64.b64decode(rows[0]['payload'],validate=True))
+
+    @classmethod
+    def semantic_hash(cls,definition):
+        import base64
+        from investigator.onboarding import digest
+        parts=[]
+        for part in definition['definition']['parts']:
+            raw=base64.b64decode(part['payload'],validate=True)
+            try:value=json.loads(raw)
+            except (ValueError,UnicodeDecodeError):value={'exact_bytes_sha256':__import__('hashlib').sha256(raw).hexdigest()}
+            parts.append({'path':part['path'],'value':value})
+        return digest(sorted(parts,key=lambda p:p['path']))
+
+    @classmethod
+    def failure(cls,before):
+        import base64
+        from investigator.process_tape import bytes_of
+        result=copy.deepcopy(before);content=cls.content(before);activities=content['properties']['activities']
+        if not activities or any(a['name']==cls.MARKER for a in activities):raise ValueError('SCENARIO_ORIGINAL_ACTIVITIES_REQUIRED')
+        scripts=[a for a in activities if a.get('type')=='Script'and a.get('typeProperties',{}).get('scripts')]
+        if not scripts:raise ValueError('SCENARIO_EXISTING_SCRIPT_CONNECTION_REQUIRED')
+        fault=copy.deepcopy(scripts[0]);fault['name']=cls.MARKER;fault['dependsOn']=[]
+        fault['typeProperties']['scripts']=[{'type':'NonQuery','text':cls.THROW}]
+        # No original root can run unless the fault succeeded, which THROW cannot.
+        for activity in activities:
+            if not activity.get('dependsOn'):activity['dependsOn']=[{'activity':cls.MARKER,'dependencyConditions':['Succeeded']}]
+        content['properties']['activities']=[fault,*activities]
+        part=next(p for p in result['definition']['parts']if p['path']=='pipeline-content.json')
+        part['payload']=base64.b64encode(bytes_of(content)).decode()
+        return result
+
+    def observe(self):return self.control.resolve(self.control.call(self.root+'/getDefinition','POST',None))
+
+    def apply(self,before,*,key):
+        expected=self.semantic_hash(before);current=self.observe()
+        if self.semantic_hash(current)!=expected:raise ValueError('SCENARIO_BEFORE_DEFINITION_CHANGED_NO_WRITE')
+        changed=self.failure(before)
+        self.control.resolve(self.control.call(self.root+'/updateDefinition','POST',{'definition':changed['definition']},key=key),expect_result=False)
+        served=self.observe()
+        if self.semantic_hash(served)!=self.semantic_hash(changed):raise ValueError('SCENARIO_APPLY_READBACK_DIFFERS_RESTORE_REQUIRED')
+        return {'before_hash':expected,'injected_hash':self.semantic_hash(served),'definition':served,'item_id':self.item_id}
+
+    def restore(self,before,injected_hash,*,key):
+        current=self.observe();old_hash=self.semantic_hash(before);current_hash=self.semantic_hash(current)
+        if current_hash==old_hash:return {'status':'ALREADY_RESTORED','before_hash':old_hash,'mutations':0}
+        if current_hash!=injected_hash:raise ValueError('SCENARIO_CONCURRENT_CHANGE_REQUIRES_OWNER_NO_WRITE')
+        self.control.resolve(self.control.call(self.root+'/updateDefinition','POST',{'definition':before['definition']},key=key),expect_result=False)
+        served=self.observe()
+        if self.semantic_hash(served)!=old_hash:raise ValueError('SCENARIO_RESTORE_READBACK_DIFFERS')
+        return {'status':'RESTORED_DEFINITION','before_hash':old_hash,'served_hash':self.semantic_hash(served),'mutations':1,'run_history_preserved':True}
