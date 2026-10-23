@@ -148,18 +148,46 @@ class Tools:
         # FactLedger.read owns its transaction; no DB connection crosses threads.
         with ThreadPoolExecutor(max_workers=min(4,len(self.nodes))) as pool:
             results=list(pool.map(lambda node:self.graph.node_facts(node,now=self.now),sorted(self.nodes)))
-        if self.collector is not None:
-            expected={'PIPELINE':('JOB_RUN',),'NOTEBOOK':('JOB_RUN',),'COPY_ACTIVITY':('JOB_RUN',),'MODEL':('REFRESH_RUN','REFRESH_STATE'),'TABLE':('TABLE_LOAD',),'VIEW':('TABLE_LOAD',),'SOURCE':('TABLE_LOAD',)}
-            needed=[]
-            for node,result in zip(sorted(self.nodes),results):
-                kinds=expected.get(self.nodes[node]['kind'],())
-                relevant=[v for v in result['facts'] if v['kind'] in kinds]
-                if kinds and (not relevant or any(v['freshness']=='STALE' or v['state']=='UNAVAILABLE' for v in relevant)):needed.append(node)
-            if needed:
-                refreshed=self.graph.refresh_facts(needed,self.collector,now=self.now,required_kinds={node:expected.get(self.nodes[node]['kind'],()) for node in needed})
-                replacements={(v['subject'],v['kind']):v for v in refreshed.get('facts',[])}
+        expected={'PIPELINE':('JOB_RUN',),'NOTEBOOK':('JOB_RUN',),'COPY_ACTIVITY':('JOB_RUN',),'MODEL':('REFRESH_RUN','REFRESH_STATE'),'TABLE':('TABLE_LOAD',),'VIEW':('TABLE_LOAD',),'SOURCE':('TABLE_LOAD',)}
+        needed=[]
+        for node,result in zip(sorted(self.nodes),results):
+            kinds=expected.get(self.nodes[node]['kind'],())
+            relevant=[v for v in result['facts'] if v['kind'] in kinds]
+            if kinds and (not relevant or any(v['freshness']=='STALE' or v['state']=='UNAVAILABLE' for v in relevant)):needed.append(node)
+        if needed and (self.collector is not None or self.request_kind=='FACT'):
+            # A status answer must attempt its bounded, admitted path top-up.
+            # Missing route is a failed refresh, never permission to reuse stale facts.
+            def unavailable_collector():raise ValueError('PATH_FACT_COLLECTOR_NOT_INSTALLED')
+            collector=self.collector
+            if collector is None:
+                class MissingCollector:
+                    def run(self,*args,**kwargs):return unavailable_collector()
+                collector=MissingCollector()
+            try:
+                refreshed=self.graph.refresh_facts(needed,collector,now=self.now,required_kinds={node:expected.get(self.nodes[node]['kind'],()) for node in needed})
+                if not isinstance(refreshed,dict):raise ValueError('PATH_FACT_REFRESH_RESPONSE_INVALID')
+                values=copy.deepcopy(refreshed.get('facts',[]))
+                if any(v['subject'] not in needed for v in values):raise ValueError('FACT_REFRESH_OUTSIDE_TICKET_PATH')
+                self.evidence.add('FACT_REFRESH',needed,refreshed)
+                for node in needed:
+                    relevant=[v for v in values if v['subject']==node and v['kind'] in expected.get(self.nodes[node]['kind'],()) and v.get('freshness')=='CURRENT' and v.get('state') in ('OBSERVED','OBSERVED_NEGATIVE')]
+                    classified=any(v['subject']==node and v['kind']=='AVAILABILITY' and v.get('value',{}).get('reachable') is False for v in values)
+                    if not relevant and not classified:
+                        from .source_availability import result as availability_result,fact as availability_fact
+                        values.append(availability_fact(node,availability_result(ValueError(),at=self.now),at=self.now,evidence=[self.path_id],collector='status-path-refresh'))
+                replacements={(v['subject'],v['kind']):v for v in values}
                 for node,result in zip(sorted(self.nodes),results):
                     result['facts']=[v for v in result['facts'] if (node,v['kind']) not in replacements]+[v for (subject,_),v in replacements.items() if subject==node]
+            except Exception as error:
+                from .estate_graph_incremental import is_stop_condition
+                if is_stop_condition(error):raise
+                from .source_availability import result as availability_result,fact as availability_fact
+                value=copy.deepcopy(getattr(error,'source_availability',None) or availability_result(error,at=self.now))
+                value['message']="Ledger facts are stale or missing; couldn't refresh. "+value['message']
+                for node,result in zip(sorted(self.nodes),results):
+                    if node in needed:
+                        result['facts'].append(availability_fact(node,value,at=self.now,evidence=[self.path_id],collector='status-path-refresh'))
+                        self.evidence.add('GAP',[node],{'reason':"Ledger facts are stale or missing; couldn't refresh. "+value['message'],'availability':value})
         refs=[]
         for node,result in zip(sorted(self.nodes),results):
             for value in result['facts']:

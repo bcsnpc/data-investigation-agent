@@ -151,7 +151,7 @@ class Assembly(unittest.TestCase):
         config={'estate':'fixture','subjects':{'job':{},'other':{}},'key_tables':['other']}
         def collect(config,**kwargs):
             self.assertEqual(set(config['subjects']),{'job'});self.assertEqual(config['key_tables'],[])
-            self.assertEqual(purpose(),'SCAN')
+            self.assertEqual(purpose(),'SCAN');self.assertTrue(kwargs['force'])
             return {'collection':{'status':'COLLECTED'},'physical_requests':2}
         with patch('cloud_facts_collector.validate',side_effect=lambda value:value),patch('cloud_facts_collector.collect',collect):
             collector=worker.PathCollector(config,object(),['job'],lambda value:None)

@@ -1,10 +1,12 @@
 """Observational outer timings; never native tape clocks or semantic inputs."""
 import time
+from datetime import datetime,timezone
 
 
 class RunTiming:
     def __init__(self,clock=None):
         self.clock=clock or time.perf_counter;self.started=self.clock()
+        self.started_at=datetime.now(timezone.utc).isoformat()
         self.local_seconds=0.0;self.publication_seconds=0.0;self.publications=0
         self.seal_seconds=None;self.steps=[];self.pending_models={};self.models=[]
     def step(self,name,elapsed,status):
@@ -22,7 +24,7 @@ class RunTiming:
             selected=[step for step in self.steps if step['name'] in names]
             return {'wall_seconds':sum(step['wall_seconds'] for step in selected) if selected else None,
                     'source':'OUTER_CAPTURE_STEP_CLOCK' if selected else 'NOT_SEPARATELY_OBSERVED','inclusive':True}
-        return {'version':'dia-run-timing-v1','wall_seconds':max(0,self.clock()-self.started),
+        return {'version':'dia-run-timing-v1','worker_timing_started_at':self.started_at,'wall_seconds':max(0,self.clock()-self.started),
             'phases':{'startup':{'wall_seconds':None,'source':'AZURE_START_AND_IMAGE_PULL_TIME_NOT_AVAILABLE_INSIDE_WORKER'},
                 'dependency_io':phase({'input-materialization','retained-context-current-image','retain-approved-context','retain-verification-capture'}),
                 'intake':phase({'intake','form-intake','claim-intake'}),

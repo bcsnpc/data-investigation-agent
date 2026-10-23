@@ -110,4 +110,36 @@ class AvailabilityTests(unittest.TestCase):
         self.assertTrue(final['value']['reachable']);self.assertEqual(final['value']['attempts'],2)
         self.assertEqual(sum(e.get('event')=='INVESTIGATOR_EVIDENCE'and e.get('kind')=='FACT'for e in events),2)
 
+class StatusRefreshTests(unittest.TestCase):
+    def stale_status(self):
+        old=runtime_fact('job','JOB_RUN',{'status':'SUCCEEDED','run_id':'old','start':'2026-10-22T09:00:00Z','end':'2026-10-22T09:01:00Z'})
+        old['freshness']='STALE'
+        return fixtures.OperationalFactTests().status_engine([old])
+    def test_stale_status_refreshes_only_ticket_path_before_answering(self):
+        engine,ticket,reader,model=self.stale_status();collector=Mock();engine.tools.collector=collector
+        fresh=runtime_fact('job','JOB_RUN',{'status':'FAILED','run_id':'fresh','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z'})
+        engine.tools.graph.refresh_facts.return_value={'facts':[fresh],'refreshed_subjects':['job']}
+        answer=engine.run(ticket)
+        engine.tools.graph.refresh_facts.assert_called_once_with(['job'],collector,now=engine.tools.now,required_kinds={'job':('JOB_RUN',)})
+        self.assertEqual(answer['verdict'],'failed job');self.assertEqual(answer['support']['operational_fact']['value']['run_id'],'fresh')
+        reader.assert_not_called();model.assert_not_called()
+    def test_failed_status_refresh_is_classified_not_answered_from_stale_run(self):
+        engine,ticket,reader,model=self.stale_status();engine.tools.collector=Mock()
+        engine.tools.graph.refresh_facts.side_effect=MetadataUnavailable(403)
+        answer=engine.run(ticket)
+        self.assertEqual(answer['status'],'blocked');self.assertEqual(answer['blocked'][0]['failure_class'],'PERMISSION_REFUSED')
+        self.assertNotIn('operational_fact',answer['support']);reader.assert_not_called();model.assert_not_called()
+    def test_missing_route_still_attempts_refresh_and_classifies_failure(self):
+        engine,ticket,_,_=self.stale_status()
+        def refresh(path,collector,**kwargs):return collector.run('fixture',path,now=kwargs['now'],force=True)
+        engine.tools.graph.refresh_facts.side_effect=refresh
+        answer=engine.run(ticket)
+        engine.tools.graph.refresh_facts.assert_called_once()
+        self.assertEqual(answer['status'],'blocked');self.assertEqual(answer['blocked'][0]['failure_class'],'QUERY_ERROR')
+        self.assertIn("couldn't refresh",answer['outputs']['business'])
+
+    def test_fresh_status_does_not_refresh(self):
+        engine,ticket,_,_=self.stale_status();engine.tools.graph.node_facts.return_value['facts'][0]['freshness']='CURRENT'
+        engine.run(ticket);engine.tools.graph.refresh_facts.assert_not_called()
+
 if __name__=='__main__':unittest.main()

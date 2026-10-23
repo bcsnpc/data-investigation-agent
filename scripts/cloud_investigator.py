@@ -141,7 +141,7 @@ class PathCollector:
         config['max_subjects_per_wake']=len(selected)
         if force:config['list_interval_seconds']=1
         with operating_mode(category='SCAN'):
-            result=collect(config,state=self.state,clock=lambda:now)
+            result=collect(config,state=self.state,clock=lambda:now,force=force)
         self.retain({'event':'INVESTIGATOR_PATH_FACT_TOP_UP','result':result,'unsupported_subjects':missing})
         return {**result['collection'],'unsupported_subjects':missing,'purpose':'SCAN','physical_requests':result['physical_requests']}
 
