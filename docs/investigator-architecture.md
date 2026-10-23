@@ -28,3 +28,8 @@ The nine state patterns below remain gated by section1e; not implemented yet.
 
 
 Status quick checks top up stale/missing facts through GraphAPI.refresh_facts on the admitted ticket subjects before selecting a status. The trusted cloud spec supplies a hash-pinned PathCollector; force propagates into the incremental collector so unchanged markers cannot suppress renewed observations. A failed top-up produces typed availability evidence and blocked output; successfully refreshed empty history is a distinct no-record observation. Observational timing includes UTC capture-clock start for correlation with Azure execution start; native tapes remain unchanged.
+
+
+## 2a ? Code-owned case file
+`investigator_case.CaseFile` owns one versioned record per ticket: code plan/current step, evidence summaries keyed by ID, decisions, blocked calls, errors, validated model action notes and final outcome. The investigator retains snapshots after recorded actions and returns its final case in the delivery bundle. The model reads a snapshot and proposes its action summary as an annotation; it cannot write steps, evidence or final outcome. `propose` rejects invalid fields or unknown citations and logs the rejection. Serialization round-trips all fields without loss. This is retained state; resumable checkpoint loading is still section2f.
+Tests: CaseTests.test_round_trip_preserves_every_code_owned_field; CaseTests.test_model_cannot_rewrite_step_evidence_or_outcome_and_rejection_is_logged; IntegratedCaseTests.test_status_run_delivers_its_code_owned_case_and_retains_snapshots.

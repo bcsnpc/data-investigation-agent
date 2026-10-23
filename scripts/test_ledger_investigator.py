@@ -434,4 +434,15 @@ class FetchedWitnessTests(unittest.TestCase):
         self.assertLess(len(json.dumps(view)),2000)
         self.assertNotIn('native_observations',view['evidence']['value'])
 
+class IntegratedCaseTests(unittest.TestCase):
+    def test_status_run_delivers_its_code_owned_case_and_retains_snapshots(self):
+        success=fact('job','JOB_RUN',{'status':'SUCCEEDED','run_id':'last','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z'})
+        engine,ticket,_,_=OperationalFactTests().status_engine([success]);events=[]
+        engine.persist=lambda event:events.append(copy.deepcopy(event)) or 'retained'
+        answer=engine.run(ticket)
+        self.assertEqual(answer['case_file']['current_step'],'deliver')
+        self.assertEqual(answer['case_file']['final_outcome']['status'],answer['status'])
+        self.assertTrue(answer['case_file']['evidence_summaries'])
+        self.assertTrue(any(v.get('event')=='INVESTIGATOR_CASE_FILE'for v in events))
+
 if __name__=='__main__':unittest.main()

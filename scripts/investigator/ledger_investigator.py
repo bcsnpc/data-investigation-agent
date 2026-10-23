@@ -96,9 +96,13 @@ class Investigator:
         if self.request.get('comparison_pending')is True and (self.tools.request_kind!='COMPARE' or self.tools.comparison is not None):raise ValueError('PENDING_COMPARISON_CONTRACT_CONFLICT')
         assumptions=ticket.get('assumptions',[])
         if not isinstance(assumptions,list) or len(assumptions)>10 or any(not isinstance(value,str) or not 1<=len(value)<=1000 for value in assumptions):raise ValueError('ADMITTED_ASSUMPTION_LABELS_REQUIRED')
+        from .investigator_case import CaseFile
+        self.case=CaseFile(ticket)
         calls=[];hypotheses=list(VERDICTS[:-1]);feedback=None;fetched=None
         def record(value):
-            _safe(canonical(value).encode());receipt=self.persist(value)
+            _safe(canonical(value).encode());self.case.observe(value);receipt=self.persist(value)
+            self.case.evidence(evidence_context(self.tools.evidence))
+            self.persist({'event':'INVESTIGATOR_CASE_FILE','case_file':self.case.snapshot()})
             if not isinstance(receipt,str)or not receipt:raise ValueError('INVESTIGATOR_PERSISTENCE_REQUIRED')
             return receipt
         def tool(name,args):
@@ -131,6 +135,7 @@ class Investigator:
                 measured=actual['value']['value'] if actual['value']['state']=='VALUE' else None
                 reproduction.append(self.tools.evidence.add('REPRODUCTION',[self.tools.visual],{'reported':reported,'measured':measured,'status':reported_label(reported,measured),'support_ids':[reproduction[0]]}))
         record({'event':'INVESTIGATOR_REPRODUCTION','evidence_ids':reproduction})
+        self.case.advance('quick_facts')
         try:before=self.clock();quick=self.tools.quick_checks()
         except Exception as exc:
             if not budget_stop(exc):raise
@@ -171,6 +176,7 @@ class Investigator:
         if self.decide is None:
             supported=check('not found',known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
             return self._finish(ticket,supported,calls,hypotheses,warnings,'GOVERNED_MODEL_NOT_INSTALLED',started,0)
+        self.case.advance('investigate')
         model_calls=0
         for step in range(1,self.step_cap+1):
             if self.clock()-started>=self.wall_seconds:break
@@ -182,7 +188,7 @@ class Investigator:
             try:
                 decision=self.decide({'ticket':ticket,'path_nodes':[{'id':n['id'],'label':n['label'],'kind':n['kind'],'depth':self.tools.depth.get(n['id'])} for n in self.tools.nodes.values()],
                 'pending_quantity_nodes':self.tools.pending_quantity_nodes(),
-                'evidence_index':compact,'fetched_evidence':fetched,'feedback':feedback,'steps_remaining':self.step_cap-step+1,
+                'case_file':self.case.snapshot(),'evidence_index':compact,'fetched_evidence':fetched,'feedback':feedback,'steps_remaining':self.step_cap-step+1,
                 'tool_transcript':[{'tool':c['tool'],'arguments':c['arguments'],'evidence_ids':c['result'].get('evidence_ids',[]),'status':c['result'].get('status')} for c in calls]},instructions=INSTRUCTIONS,schema=self.schema)
             except Exception as exc:
                 if not budget_stop(exc):raise
@@ -191,6 +197,7 @@ class Investigator:
             errors=list(self.validator.iter_errors(decision))
             if errors:
                 feedback={'reason':'INVESTIGATOR_DECISION_SCHEMA','details':[e.message for e in errors[:3]]};record({'event':'INVESTIGATOR_REJECTED',**feedback});continue
+            self.case.propose({'note':decision['summary'],'evidence_ids':[]})
             hypotheses=copy.deepcopy(decision['hypotheses']);record({'event':'INVESTIGATOR_DECISION',**copy.deepcopy(decision)})
             if decision['action']=='TOOL':
                 try:result=tool(decision['tool'],decision['arguments'])
@@ -273,6 +280,9 @@ class Investigator:
             'timing':{'wall_seconds':max(0,self.clock()-started)},'cost':{'model_calls':model_calls,'currency_cost':'SEE_SHARED_PROVIDER_LEDGER'},
             'outputs':{'business':business,'technical':technical}}
         if question:bundle['question']=question
+        self.case.evidence(evidence_context(self.tools.evidence));self.case.finish(bundle)
+        bundle['case_file']=self.case.snapshot()
+        self.persist({'event':'INVESTIGATOR_CASE_FILE','case_file':self.case.snapshot()})
         _safe(canonical(bundle).encode());self.persist({'event':'INVESTIGATOR_COMPLETED','bundle':bundle})
         return bundle
 
