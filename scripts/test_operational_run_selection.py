@@ -31,6 +31,13 @@ class ExplicitRunTests(unittest.TestCase):
  def test_missing_zone_or_precision_and_duplicate_reference_provenance(self):
   with self.assertRaisesRegex(ValueError,'PRECISION_OR_ZONE'):from_text('Did the job on 2026-10-20 fail?')
   text='Did the job at 2026-10-20T01:02:03Z fail? Same run 2026-10-20T01:02:03Z.';selector=from_text(text);self.assertEqual(text[selector['source']['start']:selector['source']['end']],selector['source']['quote'])
+ def test_ticket_context_timestamp_is_not_a_historical_run_reference(self):
+  text='Did the latest pipeline Example run fail? Ticket opened at 2026-10-20T01:02:03Z.'
+  self.assertIsNone(from_text(text))
+  with self.assertRaisesRegex(ValueError,'ROLE_UNRESOLVED'):from_text('Did the pipeline Example run fail? Reference 2026-10-20T01:02:03Z.')
+  target='Did pipeline Example run at 2026-10-20T01:02:03Z fail? Ticket opened at 2026-10-21T01:02:03Z.';self.assertEqual(from_text(target)['at'],'2026-10-20T01:02:03Z')
+  selector=from_text(target);position=target.rfind('2026-10-21T01:02:03Z');selector['at']='2026-10-21T01:02:03Z';selector['source']={'start':position,'end':position+20,'quote':'2026-10-21T01:02:03Z'}
+  with self.assertRaisesRegex(ValueError,'QUOTED_TARGET'):select(selector,[self.fact()],target)
  def test_native_producer_retains_seventh_digit_for_exact_run_identity(self):
   self.assertEqual(producer_time('2026-10-20T01:02:03.1234567',utc_declared=True),'2026-10-20T01:02:03.1234567Z')
   self.assertEqual(producer_time('2026-10-20T02:02:03.1234567+01:00'),'2026-10-20T01:02:03.1234567Z')

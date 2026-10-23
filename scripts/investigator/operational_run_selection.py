@@ -14,15 +14,27 @@ def parsed(match):
     value=base.strftime('%Y-%m-%dT%H:%M:%S')+('.'+fraction if fraction else'')+'Z'
     return value,seconds,fraction
 
+def _role(text,start):
+    prefix=re.split(r'[.!?;\n]',text[max(0,start-120):start])[-1]
+    if re.search(r'\b(?:ticket|request|screenshot|message)\s+(?:was\s+)?(?:logged|created|opened|captured|written)(?:\s+(?:on|at))?\s*$',prefix,re.I):return 'CONTEXT'
+    if re.search(r'\b(?:(?:run|job|refresh)\s+(?:(?:that|which)\s+)?(?:(?:started|starting|began|on|at|from|dated)\s+){0,3}|start(?:ed|ing)?(?:\s+(?:on|at|time|of))*\s*)$',prefix,re.I):return 'TARGET'
+    return 'UNRESOLVED'
+
 def from_text(text):
     if not isinstance(text,str):raise ValueError('OPERATIONAL_TICKET_TEXT_REQUIRED')
-    matches=list(STAMP.finditer(text))
-    if not matches:
-        if DATE.search(text):raise ValueError('RUN_TIME_PRECISION_OR_ZONE_UNRESOLVED')
-        return None
-    values={parsed(m)[0]for m in matches}
+    stamps=list(STAMP.finditer(text));target=[];unknown=[]
+    for match in stamps:
+        role=_role(text,match.start())
+        if role=='TARGET':target.append(match)
+        elif role=='UNRESOLVED':unknown.append(match)
+    for day in DATE.finditer(text):
+        if any(m.start()<=day.start()<m.end()for m in stamps):continue
+        if _role(text,day.start())!='CONTEXT':raise ValueError('RUN_TIME_PRECISION_OR_ZONE_UNRESOLVED')
+    if unknown:raise ValueError('RUN_REFERENCE_AMBIGUOUS'if target else'RUN_TIME_ROLE_UNRESOLVED')
+    if not target:return None
+    values={parsed(m)[0]for m in target}
     if len(values)!=1:raise ValueError('RUN_REFERENCE_AMBIGUOUS')
-    m=matches[0]
+    m=target[0]
     return {'kind':'START_TIME','at':parsed(m)[0],'source':{'start':m.start(),'end':m.end(),'quote':m.group()}}
 
 def validate(selector,text):
@@ -31,6 +43,7 @@ def validate(selector,text):
     if len(matches)!=1 or matches[0].span()!=(0,len(quote)):raise ValueError('RUN_SELECTOR_QUOTED_TIME_REQUIRED')
     value,seconds,fraction=parsed(matches[0])
     if value!=selector['at']:raise ValueError('RUN_SELECTOR_DIFFERS_FROM_QUOTE')
+    if from_text(text)!=selector:raise ValueError('RUN_SELECTOR_DIFFERS_FROM_QUOTED_TARGET')
     return seconds,fraction
 
 def select(selector,facts,text):
