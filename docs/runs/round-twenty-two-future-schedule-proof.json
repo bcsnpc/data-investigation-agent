@@ -1,0 +1,51 @@
+{
+  "definition_mutations": 0,
+  "ended_at_utc": "2026-10-24T01:00:25.914840+00:00",
+  "model_calls": 0,
+  "owned": {
+    "before": [],
+    "expected": {
+      "configuration": {
+        "endDateTime": "2026-10-25T13:00:41Z",
+        "interval": 60,
+        "localTimeZoneId": "UTC",
+        "startDateTime": "2026-10-25T12:59:41Z",
+        "type": "Cron"
+      },
+      "enabled": true
+    },
+    "id": "3b08c1eb-5600-496e-9076-7b5b65d600c0",
+    "served": {
+      "configuration": {
+        "endDateTime": "2026-10-25T13:00:41",
+        "interval": 60,
+        "localTimeZoneId": "UTC",
+        "startDateTime": "2026-10-25T12:59:41",
+        "type": "Cron"
+      },
+      "createdDateTime": "2026-10-24T01:00:05.07",
+      "enabled": true,
+      "enabledDetail": {
+        "enabledControlType": "UserEnabled",
+        "enabledEvalState": "Normal"
+      },
+      "id": "3b08c1eb-5600-496e-9076-7b5b65d600c0",
+      "owner": {
+        "id": "23de217f-6e14-49cf-9acd-47dcd83cb82f",
+        "type": "User"
+      }
+    }
+  },
+  "physical_requests": 6,
+  "restoration": {
+    "mutations": 1,
+    "other_schedules": [],
+    "status": "OWNED_SCHEDULE_REMOVED"
+  },
+  "source_mutations": 0,
+  "source_revision": "202659b",
+  "start": "2026-10-25T12:59:41+00:00",
+  "started_at_utc": "2026-10-24T00:59:41+00:00",
+  "status": "FUTURE_SCHEDULE_CREATED_AND_REMOVED_BEFORE_DUE",
+  "limitation": "Reversibility prototype only; no scored latency conclusion. Owned schedule removed before due. Future scored cases must retain their own live source injection and schedule during execution."
+}

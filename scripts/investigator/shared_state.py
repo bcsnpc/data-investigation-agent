@@ -152,7 +152,9 @@ class SharedState:
             cursor.executemany(query.replace('?', '%s') if self.backend == 'postgresql' else query, rows)
 
     @contextmanager
-    def transaction(self,*,_lease_release=False):
+    def transaction(self,*,_lease_release=False,_read_only=False):
+        if type(_read_only)is not bool or (_read_only and _lease_release):
+            raise ValueError('READ_TRANSACTION_MODE_INVALID')
         db = self.connector()
         if self.backend=='postgresql':
             from .postgres_connection import ObservedConnection
@@ -165,9 +167,11 @@ class SharedState:
         try:
             from .shared_writer_lease import check as check_lease
             if self.backend == 'postgresql':
-                # The post-lock lease read must see an acquisition committed
-                # while this connection waited; do not inherit snapshot mode.
-                db.execute('SET TRANSACTION ISOLATION LEVEL READ COMMITTED')
+                # Writers must see leases committed while waiting for the lock.
+                # Readers take one coherent, database-enforced read-only snapshot
+                # without blocking reservation writers.
+                db.execute('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ, READ ONLY'if _read_only
+                           else'SET TRANSACTION ISOLATION LEVEL READ COMMITTED')
                 db.execute("SET LOCAL lock_timeout = '5s'")
                 db.execute("SET LOCAL statement_timeout = '30s'")
                 db.execute("SET LOCAL idle_in_transaction_session_timeout = '30s'")
@@ -175,9 +179,10 @@ class SharedState:
                 # One application-state lock gives portable serializable writes
                 # including absent-row creation. It is held only for short local
                 # state operations, never while a model or estate request runs.
-                db.execute('SELECT pg_advisory_xact_lock(183746812)')
+                if not _read_only:db.execute('SELECT pg_advisory_xact_lock(183746812)')
             else:
-                db.execute('BEGIN IMMEDIATE')
+                if _read_only:db.execute('PRAGMA query_only=ON')
+                db.execute('BEGIN'if _read_only else'BEGIN IMMEDIATE')
             check_lease(self,db,release_only=_lease_release)
             marker = TRANSACTION_ACTIVE.set(True)
             yield db
@@ -243,7 +248,7 @@ class SharedState:
         import time
         for attempt in range(2):
             try:
-                with self.transaction()as db:return read(db)
+                with self.transaction(_read_only=True)as db:return read(db)
             except Exception as error:
                 if self.backend!='postgresql' or not dropped_connection(error):raise
                 self.connection_failures.append({'operation':'READ_TRANSACTION','attempt':attempt+1,
