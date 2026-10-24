@@ -24,11 +24,11 @@ ROLE={'type':'string','enum':['PRIMARY','COMPARISON','CONTEXT']}
 SCHEMA=obj({
  'kind':{'type':'string','enum':['CALCULATION','DEFINITION','BUSINESS_MEANING','FILTER_EFFECT','FRESHNESS','TEMPORAL_COMPARISON']},
  'primary':copy.deepcopy(REFERENCE),
- 'targets':array({'words':REFERENCE,'kind':{'enum':sorted(KINDS)},'role':ROLE}),
+ 'targets':array({'words':REFERENCE,'kind':{'type':'string','enum':sorted(KINDS)},'role':ROLE}),
  'figures':array({'words':REFERENCE,'role':ROLE},8),
  'filters':array({'words':REFERENCE,'column':REFERENCE,'value':REFERENCE,'role':ROLE}),
  'periods':{'type':'array','maxItems':8,'items':REFERENCE},
- 'comparison':obj({'kind':{'enum':['NONE','report','source','spreadsheet','own count','earlier value']},
+ 'comparison':obj({'kind':{'type':'string','enum':['NONE','report','source','spreadsheet','own count','earlier value']},
                    'words':{'anyOf':[REFERENCE,{'type':'null'}]}})})
 
 INSTRUCTIONS='''Interpret the primary ask and setup in this raw ticket. Return only

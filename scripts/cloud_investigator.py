@@ -73,9 +73,11 @@ def specification(options):
         value=spec['heavy_reader']
         if not isinstance(value,dict)or set(value)!={'enabled_steps'}or not isinstance(value['enabled_steps'],list)or len(set(value['enabled_steps']))!=len(value['enabled_steps'])or not set(value['enabled_steps'])<={'investigate'}or value['enabled_steps']and not spec['model_enabled']:raise ValueError('INVESTIGATOR_HEAVY_READER_CONFIGURATION')
     graph=spec['graph']
-    if (not isinstance(graph,dict) or set(graph)!={'estate','identity','allowed_objects'}
-            or not isinstance(graph['allowed_objects'],list) or not 1<=len(graph['allowed_objects'])<=200
+    if (not isinstance(graph,dict) or not {'estate','identity','allowed_objects'}<=set(graph)<={'estate','identity','allowed_objects','candidate_objects'}
+            or not isinstance(graph['allowed_objects'],list) or not 1<=len(graph['allowed_objects'])<=1000
             or len(set(graph['allowed_objects']))!=len(graph['allowed_objects'])):raise ValueError('INVESTIGATOR_GRAPH_SCOPE')
+    if 'candidate_objects'in graph and (not isinstance(graph['candidate_objects'],list)or not 1<=len(graph['candidate_objects'])<=200
+            or not set(graph['candidate_objects'])<=set(graph['allowed_objects'])):raise ValueError('INVESTIGATOR_GRAPH_SCOPE')
     if type(spec['model_enabled'])is not bool or type(spec['max_requests'])is not int or not 1<=spec['max_requests']<=100:
         raise ValueError('INVESTIGATOR_REQUEST_ALLOWANCE')
     if type(spec['step_cap'])is not int or not 1<=spec['step_cap']<=25 or type(spec['wall_seconds'])is not int or not 1<=spec['wall_seconds']<=3600:
@@ -231,7 +233,8 @@ def _execute(plan,context):
     if 'request'not in ticket:
         if recording_mode!='NORMAL':raise ValueError('RAW_INTAKE_REQUIRES_NORMAL_RECORDING')
         from investigator.operational_intake import admit as admit_raw,response as intake_response
-        try:catalog=graph_live.intake_candidates()
+        candidate_options={'identities':graph_spec['candidate_objects']}if 'candidate_objects'in graph_spec else {}
+        try:catalog=graph_live.intake_candidates(**candidate_options)
         except ValueError as error:
             if str(error)not in('INTAKE_CANDIDATE_SCOPE_BOUND','INTAKE_CANDIDATE_GRAPH_TRUNCATED'):raise
             admission={'status':'HELD','reason':str(error),'questions':[]}
@@ -240,7 +243,7 @@ def _execute(plan,context):
         admission=admit_raw(ticket,catalog)
         if admission.get('reason')=='RAW_CALCULATION_ADMISSION_NOT_INSTALLED'and spec['model_enabled']:
             from investigator.calculation_intake import admit as calculation_admit
-            catalog=graph_live.intake_candidates(enriched=True)
+            catalog=graph_live.intake_candidates(enriched=True,**candidate_options)
             intake_session='ledger-investigator:'+str(journal.uuid4())
             intake_decision=AzureDecision(governor,session=intake_session,directory=work/'intake-recordings',
                 retain=lambda value:context.record('investigator-intake-model',value),

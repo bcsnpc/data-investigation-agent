@@ -249,7 +249,7 @@ class CalculationAdmission(unittest.TestCase):
     def test_enriched_catalog_still_obeys_graph_scope_and_uses_recorded_search_provenance(self):
         from investigator.estate_graph_api import GraphAPI
         repo=Mock();gateway=Mock();gateway.graph_objects.side_effect=lambda estate,ids,identity:list(ids)
-        repo.records.return_value={'nodes':[{'id':'v','kind':'VISUAL','label':'Net receipts','properties':{},'provenance':{'definition_hash':'a'*64}},
+        repo.path_records.return_value={'nodes':[{'id':'v','kind':'VISUAL','label':'Net receipts','properties':{},'provenance':{'definition_hash':'a'*64}},
             {'id':'outside','kind':'VISUAL','label':'Outside'}],'edges':[],'truncated':False}
         graph=GraphAPI(repo,gateway,identity='reader',estate='cash',allowed_objects=['v'])
         with patch('investigator.enrichment.EnrichmentStore.projections',return_value={'v':{
@@ -260,5 +260,31 @@ class CalculationAdmission(unittest.TestCase):
         self.assertEqual([n['id']for n in result['candidates']],['v'])
         self.assertEqual(result['candidates'][0]['enrichment']['status'],'INFERRED')
         self.assertEqual(intake.rank('money received',result)[0]['id'],'v')
+
+class GraphIntakeIntegrationTests(unittest.TestCase):
+    def test_real_repository_keeps_container_edges_and_only_named_candidates_from_wider_path_scope(self):
+        import tempfile
+        from pathlib import Path
+        from investigator.shared_state import SharedState
+        from investigator.estate_graph_repository import GraphRepository
+        from investigator.estate_graph_api import GraphAPI
+        from investigator.live_gateway import Gateway
+        from test_estate_graph import graph
+        with tempfile.TemporaryDirectory()as temporary:
+            state=SharedState.offline(Path(temporary)/'state.sqlite')
+            repo=GraphRepository(state);repo.migrate();repo.replace(graph())
+            scope=['report','page','visual','measure','column']
+            gateway=Gateway({'version':1,'live_enabled':False,'identities':{'reader':{'role':'investigation','graph':{'estate':scope}}}})
+            api=GraphAPI(repo,gateway,identity='reader',estate='estate',allowed_objects=scope)
+            catalog=api.intake_candidates(enriched=True,identities=['report','page','visual','measure'])
+            self.assertNotIn('column',{n['id']for n in catalog['candidates']})
+            self.assertIn({'source':'report','target':'page','kind':'CONTAINS'},catalog['edges'])
+            self.assertIn({'source':'page','target':'visual','kind':'CONTAINS'},catalog['edges'])
+            self.assertIn({'source':'visual','target':'measure','kind':'COMPUTED_FROM'},catalog['edges'])
+            # Container names can now constrain a target without inventing an
+            # ancestry from labels. Its numerical value is never consulted.
+            self.assertEqual(api.path_to_source('visual')['nodes'][-1]['id'],'visual')
+            with self.assertRaises(PermissionError):api.intake_candidates(identities=['outside'])
+
 
 if __name__=='__main__':unittest.main()

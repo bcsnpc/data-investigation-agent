@@ -13,15 +13,21 @@ class GraphAPI:
         self.allowed=set(gateway.graph_objects(estate,allowed_objects,identity=identity))
         self.at=contract.timestamp(at) if at else None;self.max_nodes=max_nodes;self.max_edges=max_edges
 
-    def intake_candidates(self,*,enriched=False):
+    def intake_candidates(self,*,enriched=False,identities=None):
         """Names only from the explicitly allowed current graph; no full scan."""
-        if len(self.allowed)>200:raise ValueError('INTAKE_CANDIDATE_SCOPE_BOUND')
-        self.gateway.graph_objects(self.estate,self.allowed,identity=self.identity)
-        graph=self.repository.records(self.estate,at=self.at,identities=self.allowed,limit=1000)
+        selected=self.allowed if identities is None else set(identities)
+        if len(selected)>200:raise ValueError('INTAKE_CANDIDATE_SCOPE_BOUND')
+        if not selected<=self.allowed:raise PermissionError('INTAKE_CANDIDATES_OUTSIDE_GRAPH_SCOPE')
+        self.gateway.graph_objects(self.estate,selected,identity=self.identity)
+        # Node IDs are not edge IDs. A records(identities=node_ids) query loses
+        # every containment edge, making a named report/page look unresolved.
+        graph=(self.repository.path_records(self.estate,selected,selected,at=self.at,max_nodes=200,
+                max_edges=500,edge_kinds={'CONTAINS','COMPUTED_FROM'}) if enriched and selected else
+               self.repository.records(self.estate,at=self.at,identities=selected,limit=1000))
         if graph['truncated']:raise ValueError('INTAKE_CANDIDATE_GRAPH_TRUNCATED')
         kinds={'PIPELINE','COPY_ACTIVITY','NOTEBOOK','MODEL','REPORT','PAGE','VISUAL','MEASURE'}
         if enriched:kinds|={'TABLE','VIEW','SOURCE','COLUMN','CALCULATED_COLUMN'}
-        nodes=[n for n in graph['nodes']if n['id']in self.allowed and n['kind']in kinds]
+        nodes=[n for n in graph['nodes']if n['id']in selected and n['kind']in kinds]
         candidates=[{'id':n['id'],'kind':n['kind'],'label':n['label']}for n in nodes]
         result={'estate':self.estate,'as_of':self.at,'candidates':candidates}
         if enriched:
@@ -35,7 +41,7 @@ class GraphAPI:
                     candidate['enrichment']={**row,'synonyms':[s[:120]for s in row['synonyms'][:8]],
                         'business_meaning':row['business_meaning'][:512],'search_aid_only':True}
             result['edges']=[{'source':e['source'],'target':e['target'],'kind':e['kind']}for e in graph['edges']
-                             if e['source']in self.allowed and e['target']in self.allowed]
+                             if e['source']in selected and e['target']in selected]
         return self._bounded(result)
 
     def as_of(self,time):
