@@ -369,7 +369,7 @@ end.
 **One monthly budget (calendar month, UTC):**
 
 - **Model spend:** $40 a month.
-- **Estate physical requests:** 6,000 a month, of which 1,000 are reserved
+- **Estate physical requests:** 6,000 a month, of which 2,000 are reserved
   for scheduled scans and collectors.
 - **Azure platform:** $20 a month. No new paid resources without owner
   approval.
@@ -1051,3 +1051,7 @@ Executed owner temporal decision2026-10-23: practice source system-versioning ON
 ### Section8 owner scan-allocation decision, 2026-10-23
 
 2026-10-23 owner decision (UTC2026-10-24): monthly scan/collector allocation1000 ->2000 inside unchanged6000 total, so investigation4905 ->3905 and restoration95 unchanged. Effective clock2026-10-24T01:24:00Z; historical tape clocks retain original allocations. Counters, reservation ownership and model/platform ceilings are unchanged. Reason: keep collectors running through October31 while scoring. Code and regression tests enforce both new category ceilings and the original replay-time policy; deployment/readback follows the tested image.
+
+### Section8 approved stale-refresh fixture, owner 2026-10-23
+
+2026-10-23 owner approval applied (UTCOctober24): Application load fixture20261003 model0c89889c-6fe6-49ab-91e9-4b00a51070e6 automatic DirectLake updates ON ->OFF using existing publisher portal. OriginalON01:21:45.627, ApplyOFF01:22:14.535, reloadedOFF01:23:28.322. Chosen because original Copy Jobb4871498 targets this model's isolated Bronze source; no unrelated mainA lakehouse is claimed updated. Owner model refresh25e695e2 completed01:27:55.313, followed by real copy9869fbd1 Completed01:28:49.6055106-01:31:14.56. Native read-only investigator audit row matches run:360read/360written,OBSERVED_COPY_OUTPUT, no recount. Source/pipeline definition, identities and permissions unchanged. OFF remains intentionally through dependent scored tickets; then restoreON, trigger this model's own refresh and verify native completion. No numerical staleness or scored verdict claimed; existing SP DAX401 remains separate. Both fixture preimage and live retained-state obligations in docs/runs/round-twenty-two-stale-refresh-control.json.
