@@ -53,6 +53,33 @@ class RetainedContinuationTests(unittest.TestCase):
         self.assertEqual(len(view.warning_labels),2);self.assertIn('hash '+self.pin['context_hash'],view.warning_labels[0])
         self.assertIn('HTTP 403',view.warning_labels[1]);self.assertEqual(view.node_facts('x'),{'current_fact':'x'})
         self.assertEqual(view.as_of(self.time),('current',self.time))
+
+    def test_build_mode_reuses_existing_approved_compiler_path_without_new_pin_or_authority(self):
+        from cloud_investigator import retained_view
+        from investigator.build_phase import operating_mode
+        with operating_mode():
+            view,labels=retained_view(self.current,self.process,{},context=self.context,
+                visual=self.visual,measure_id=self.measure)
+            self.assertIsInstance(view,RetainedApprovedContinuation)
+            self.assertIn('not current or value-verified',labels[0])
+            self.assertEqual(self.current.path_to_source(self.visual),self.original)
+            self.current.allowed={self.visual}
+            fallback,labels=retained_view(self.current,self.process,{},context=self.context,
+                visual=self.visual,measure_id=self.measure)
+            self.assertIs(fallback,self.current)
+            self.assertIn('OUTSIDE_ADMITTED_SLICE',labels[0])
+            unapproved={**self.context};unapproved.pop('retained_metadata_approval')
+            self.assertEqual(retained_view(self.current,self.process,{},context=unapproved,
+                visual=self.visual,measure_id=self.measure),(self.current,[]))
+
+    def test_build_mode_does_not_replace_a_healthy_current_graph(self):
+        from cloud_investigator import retained_view
+        from investigator.build_phase import operating_mode
+        healthy={**self.original,'unavailable_owners':{}}
+        self.current.path_to_source=lambda visual:copy.deepcopy(healthy)
+        with operating_mode():
+            self.assertEqual(retained_view(self.current,self.process,{},context=self.context,
+                visual=self.visual,measure_id=self.measure),(self.current,[]))
     def test_wrong_context_hash_visual_measure_or_asof_refuses(self):
         for key in self.pin:
             bad={**self.pin,key:'wrong'}

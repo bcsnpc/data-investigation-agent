@@ -113,6 +113,10 @@ class Tools:
         cache_key=canonical([node,self.key,context])
         if cache_key in self._reads:return self._reads[cache_key]
         if self.reader is None:return self.evidence.add('GAP',[node],{'reason':'No guarded compiled quantity reader is installed for this graph node.'})
+        compiled=getattr(self.reader,'layers',None)
+        if isinstance(compiled,dict) and node not in compiled:
+            return self.evidence.add('GAP',[node],{'reason':'No compiled quantity route is installed for this graph node.',
+                'code':'QUANTITY_ROUTE_NOT_INSTALLED'})
         from .source_availability import call as source_call, fact as availability_fact
         observations=[]
         def observe(value):
@@ -148,7 +152,9 @@ class Tools:
     def pending_quantity_nodes(self):
         if self.request_kind!='COMPARE' or self.reader is None or getattr(self,'scope_gap',None):return []
         attempted=getattr(self,'_quantity_attempted',set())
-        return [node for node in self.nodes if self.nodes[node]['kind']in ('TABLE','VIEW','SOURCE')and node not in attempted]
+        compiled=getattr(self.reader,'layers',None)
+        return [node for node in self.nodes if self.nodes[node]['kind']in ('TABLE','VIEW','SOURCE')and node not in attempted
+            and (not isinstance(compiled,dict)or node in compiled)]
 
     def reproduce(self):
         if self.request_kind!='COMPARE':return []

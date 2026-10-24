@@ -70,11 +70,17 @@ class VerdictTests(unittest.TestCase):
         witness=design_witness(native,observations);witness['support_ids']=[comparison]
         identity=registry.add('DESIGN_CHECK',['down','up'],witness)
         self.assertEqual(check('as designed',[identity],registry,now=NOW)['verdict'],'as designed')
+        pending={'kind':'COMPARE','comparison_pending':True,'comparison_pending_kind':'own count'}
+        qualified=check('as designed',[identity],registry,now=NOW,request=pending)
+        self.assertEqual(qualified['claim_scope'],'NATIVE_FINDING_WITH_EXTERNAL_COMPARISON_PENDING')
+        self.assertFalse(qualified['comparison_checked'])
+        self.assertIn('external comparison has not been checked',qualified['reason'])
         self.witness('DESIGN_CHECK',business_correctness_claim=False)
         with self.assertRaisesRegex(ValueError,'NATIVE_DESIGN_EVIDENCE_REQUIRED'):self.validate('as designed')
         witness['native_observations']['read-down']['query']='another query'
         changed=registry.add('DESIGN_CHECK',['down','up'],witness)
         with self.assertRaises(ValueError):check('as designed',[changed],registry,now=NOW)
+        with self.assertRaises(ValueError):check('as designed',[changed],registry,now=NOW,request=pending)
     def test_access_difference_requires_observed_scoped_reads_without_impersonation(self):
         registry=Evidence(['visual'],lambda _: 'retained');refs=[]
         for identity,value in [('reader-a',7),('reader-b',8)]:
@@ -218,6 +224,18 @@ class OperationalFactTests(unittest.TestCase):
 
 
 class ToolLoopTests(unittest.TestCase):
+    def test_unmapped_graph_table_is_a_route_gap_not_a_source_outage(self):
+        tools,engine,reader,_=self.build();reader.layers={'visual':{},'up':{}}
+        ref=tools._read('down',tools.context)
+        gap=tools.evidence.get(ref)
+        self.assertEqual(gap['kind'],'GAP')
+        self.assertEqual(gap['value']['code'],'QUANTITY_ROUTE_NOT_INSTALLED')
+        self.assertNotIn('availability',gap['value'])
+        self.assertEqual(tools.pending_quantity_nodes(),['up'])
+        reader.assert_not_called()
+        self.assertEqual(tools.evidence.get(tools._read('up',tools.context))['kind'],'READ')
+        reader.assert_called_once()
+
     def test_saved_definition_gap_does_not_invent_a_user_filter_question(self):
         tools,engine,reader,_=self.build();tools.scope_gap='Saved visual scope unavailable.'
         result=engine.run({'visual':'visual','text':'Verify this card.',
@@ -485,6 +503,34 @@ class OperationalDeliveryTests(unittest.TestCase):
 
 
 class PendingComparisonTests(unittest.TestCase):
+    def test_native_split_is_not_confused_with_the_missing_external_value(self):
+        tools,engine,reader,_=ToolLoopTests().build()
+        decisions=[{'action':'TOOL','summary':'Compare the native boundary.','hypotheses':['failed job'],
+            'tool':'compare_layers','arguments':{'key':'record-1','layers':['down','up'],'filters':tools.context}}]
+        def decide(payload,**kwargs):
+            if decisions:return decisions.pop()
+            return {'action':'VERDICT','verdict':'failed job','summary':'Report only the measured native split.',
+                'hypotheses':['failed job'],'evidence_ids':list(tools.evidence._values)}
+        engine.decide=decide
+        answer=engine.run({'visual':'visual','text':'The report differs from my own count.',
+            'request':{'kind':'COMPARE','comparison_pending':True,'comparison_pending_kind':'own count'}})
+        self.assertEqual(answer['verdict'],'failed job')
+        self.assertEqual(answer['support']['claim_scope'],'NATIVE_FINDING_WITH_EXTERNAL_COMPARISON_PENDING')
+        for output in answer['outputs'].values():
+            self.assertIn('partly answered',output)
+            self.assertIn('external comparison has not been checked',output)
+        self.assertFalse(any(e['kind']=='GIVEN_COMPARISON'for e in answer['evidence'].values()))
+
+    def test_named_external_count_without_value_still_allows_the_native_investigation(self):
+        decide=Mock(return_value={'action':'VERDICT','verdict':'not found','summary':'No checked mechanism yet.',
+            'hypotheses':[],'evidence_ids':[]})
+        tools,engine,reader,_=ToolLoopTests().build(decide=decide,step_cap=1)
+        answer=engine.run({'visual':'visual','text':'The report differs from my own count.',
+            'request':{'kind':'COMPARE','comparison_pending':True,'comparison_pending_kind':'own count'}})
+        decide.assert_called()
+        self.assertNotEqual(answer['stop_reason'],'COMPARISON_REQUIRED_AFTER_QUICK_CHECKS')
+        self.assertFalse(any(e['kind']=='GIVEN_COMPARISON'for e in answer['evidence'].values()))
+
     def engine(self,*,related=True,stale=False,comparison=None):
         graph=Mock();snapshot={'nodes':[{'id':'visual','kind':'VISUAL','label':'Inventory card'},
             {'id':'job','kind':'PIPELINE','label':'Nightly load'}],

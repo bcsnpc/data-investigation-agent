@@ -117,10 +117,17 @@ class MicrosoftProcessAdapter:
         from .report_predicates import pinned, _extract, Refusal
         from .report_cells import catalog
         model=pinned(self)
-        matches=[c for c in catalog(model)if c['target_id']==target_id and measure_id in c['measure_ids']]
+        from urllib.parse import quote
+        targets={target_id}
+        for report in model['context'].get('reports',[]):
+            report_id=report.get('report',{}).get('id')
+            if not report_id:continue
+            targets.update(part['id']for part in report.get('report_definitions',[])
+                if report_id+'/visual/'+quote(part['name'],safe='')==target_id)
+        matches=[c for c in catalog(model)if c['target_id']in targets and measure_id in c['measure_ids']]
         if len(matches)!=1:raise Refusal('GRAPH_VISUAL_MEASURE_BINDING')
         if matches[0]['grouping_columns']:raise Refusal('KEYED_CELL_ADDRESS_REQUIRED')
-        result=_extract(model,measure_id,{},target_id)
+        result=_extract(model,measure_id,{},matches[0]['target_id'])
         forms=sorted({json.loads(e['opaque_provenance'])['form']for e in result['inventory']['entries']if e['disposition']=='UNSUPPORTED'})
         if forms:result['unsupported_form']=', '.join(forms)
         return result

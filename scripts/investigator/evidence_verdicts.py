@@ -210,6 +210,17 @@ def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
     if verdict not in VERDICTS:raise ValueError('UNKNOWN_VERDICT')
     records=registry.resolve(ids);entries=list(records.values());now=timestamp(now)
     request=request or {'kind':'COMPARE'}
+    # A missing external count does not erase measured pipeline comparisons.
+    # Reuse the existing native evidence checks, then limit the delivered claim.
+    named_pending=(request.get('comparison_pending')is True and request.get('comparison_pending_kind')in
+        ('spreadsheet','own count','earlier value'))
+    if named_pending and verdict!='not found' and any(r['kind']=='COMPARISON'for r in entries):
+        if any(r['kind']=='GIVEN_COMPARISON'for r in entries):raise ValueError('PENDING_COMPARISON_CONTRACT_CONFLICT')
+        native_request={k:v for k,v in request.items()if k not in ('comparison_pending','comparison_pending_kind')}
+        result=check(verdict,ids,registry,now=now,request=native_request,ticket_text=ticket_text,target=target)
+        result.update(claim_scope='NATIVE_FINDING_WITH_EXTERNAL_COMPARISON_PENDING',comparison_checked=False)
+        result['reason']+=' This finding concerns the measured native path only; your external comparison has not been checked.'
+        return result
     if verdict=='not found':
         result={'verdict':verdict,'evidence_ids':list(records),'reason':'Evidence does not establish a cause within the admitted budget.'}
         if request.get('kind')=='FACT':

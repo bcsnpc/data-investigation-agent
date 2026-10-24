@@ -269,8 +269,9 @@ class Investigator:
                 order={'failed job':0,'waiting on job':1,'refresh stale':2,'latency':3}
                 selected=min(ready,key=lambda value:order.get(value['verdict'],99))
                 return self._finish(ticket,selected,calls,hypotheses,warnings,'OPERATIONAL_STATUS_PROVEN_COMPARISON_PENDING',started,0)
-            supported=check('not found',known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
-            return self._finish(ticket,supported,calls,hypotheses,warnings,'COMPARISON_REQUIRED_AFTER_QUICK_CHECKS',started,0)
+            if self.request.get('comparison_pending_kind')not in ('spreadsheet','own count','earlier value'):
+                supported=check('not found',known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
+                return self._finish(ticket,supported,calls,hypotheses,warnings,'COMPARISON_REQUIRED_AFTER_QUICK_CHECKS',started,0)
         if len(ready)==1:return self._finish(ticket,ready[0],calls,hypotheses,warnings,'EVIDENCE_PROVEN',started,0)
         if self.decide is None:
             supported=check('not found',known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
@@ -408,6 +409,7 @@ class Investigator:
         if supported.get('claim_scope')=='OPERATIONAL_FACT_ONLY':answer_status='answered: the explicit operational-status question'
         if supported.get('claim_scope')=='OPERATIONAL_STATUS_WITH_BLOCKED_SOURCE':answer_status='partly answered: the linked load failure and recorded source outage are established; the source quantity could not be compared'
         if supported.get('claim_scope')=='RETAINED_DEFINITION_ONLY':answer_status='answered: the retained implementation is quoted; numerical behavior and business correctness were not tested'
+        if supported.get('claim_scope')=='NATIVE_FINDING_WITH_EXTERNAL_COMPARISON_PENDING':answer_status='partly answered: a finding on the measured native path; your external comparison was not checked'
         if verdict!='not found' and any(r['kind']=='GAP'and r['value'].get('code')=='COMPARISON_TARGET_UNAVAILABLE'for r in evidence.values()):
             answer_status='partly answered: the named comparison target was unavailable; the finding concerns only the measured path boundary'
         business+='Answer status: '+answer_status+'.\n'

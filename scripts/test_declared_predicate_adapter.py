@@ -67,6 +67,15 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
             visual_declaration(self.adapter,self.measure['id'],node)
         self.assertEqual(self.requests,[])
 
+    def test_native_visual_alias_resolves_only_inside_its_exact_report(self):
+        from urllib.parse import quote
+        alias=self.report['report']['id']+'/visual/'+quote(self.visual['name'],safe='')
+        result=self.adapter.declared_visual_scope(self.measure['id'],alias)
+        self.assertEqual(result['evidence']['metadata']['definition_target_id'],self.visual['id'])
+        with self.assertRaisesRegex(ValueError,'GRAPH_VISUAL_MEASURE_BINDING'):
+            self.adapter.declared_visual_scope(self.measure['id'],'other-report/visual/'+quote(self.visual['name'],safe=''))
+        self.assertEqual(self.requests,[])
+
     def test_graph_resolved_visual_scope_reuses_inventory_without_any_value_read(self):
         from investigator.calculation_intake import apply_saved_scope
         declaration=self.adapter.declared_visual_scope(self.measure['id'],self.visual['id'])

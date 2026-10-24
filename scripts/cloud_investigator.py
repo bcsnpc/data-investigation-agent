@@ -119,11 +119,22 @@ def visual_declaration(process,measure_id,node):
 
 
 def retained_view(current,process,spec,*,context,visual,measure_id):
-    """Trusted opt-in, separate from current graph discovery and its refusals."""
-    if 'retained_continuation' not in spec:return current,[]
+    """Reuse approved compiler paths in dev, without rewriting the current graph."""
+    pin=spec.get('retained_continuation')
+    automatic=pin is None
+    if automatic:
+        from investigator.build_phase import active
+        if not active()or not context.get('retained_metadata_approval'):return current,[]
+        if not current.path_to_source(visual).get('unavailable_owners'):return current,[]
+        from investigator.estate_graph_contract import digest
+        pin={'context_id':context['version'],'context_hash':digest(context),'as_of':context['created'],
+             'visual':visual,'measure_id':measure_id}
     from investigator.adapters.retained_graph_continuation import RetainedApprovedContinuation
-    view=RetainedApprovedContinuation(current,process,context=context,pin=spec['retained_continuation'],
-                                      visual=visual,measure_id=measure_id)
+    try:
+        view=RetainedApprovedContinuation(current,process,context=context,pin=pin,visual=visual,measure_id=measure_id)
+    except (ValueError,PermissionError) as error:
+        if not automatic:raise
+        return current,['Retained compiled continuation unavailable: '+str(error)+'. The current graph path is retained.']
     return view,list(view.warning_labels)
 
 
@@ -356,8 +367,10 @@ def _execute(plan,context):
                     read_endpoint=lambda request:endpoint(config,retained_context,request,receipt_path=paths['endpoints']),
                     judge_definition=decision.judge_definition if decision else None)
                 visual=ticket.get('visual') or ticket['request']['subject']
-                view,retained_labels=retained_view(graph_live,process,spec,context=retained_context,
-                    visual=visual,measure_id=native['measure_id'])
+                view,retained_labels=(graph_live,[])
+                if request_kind=='COMPARE'or 'retained_continuation'in spec:
+                    view,retained_labels=retained_view(graph_live,process,spec,context=retained_context,
+                        visual=visual,measure_id=native['measure_id'])
                 if view is not graph_live:graph=JournalGraph(view)
                 values,checks=compiled_values(process,graph.path_to_source(visual),visual=visual,
                                               measure_id=native['measure_id'],retain=retain)
