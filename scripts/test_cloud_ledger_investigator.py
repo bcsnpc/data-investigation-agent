@@ -12,6 +12,15 @@ import cloud_investigator as worker
 
 
 class Assembly(unittest.TestCase):
+    def test_selected_retained_definition_is_journalled_without_replacing_other_graph_operations(self):
+        from unittest.mock import Mock
+        graph=Mock();definition={'node':'visual','content':'retained exact expression'}
+        view=worker.JournalGraph(graph,definitions={'visual':definition})
+        self.assertEqual(view.definition_of(node='visual'),definition)
+        graph.definition_of.assert_not_called()
+        view.definition_of(node='other');graph.definition_of.assert_called_once_with(node='other')
+        view.path_to_source('visual');graph.path_to_source.assert_called_once_with('visual')
+
     def test_raw_calculation_reaches_existing_playbook_with_validated_spans_and_shared_model_port(self):
         from unittest.mock import Mock
         from test_calculation_intake import raw,catalog

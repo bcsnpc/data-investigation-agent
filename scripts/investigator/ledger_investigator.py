@@ -269,9 +269,8 @@ class Investigator:
                 order={'failed job':0,'waiting on job':1,'refresh stale':2,'latency':3}
                 selected=min(ready,key=lambda value:order.get(value['verdict'],99))
                 return self._finish(ticket,selected,calls,hypotheses,warnings,'OPERATIONAL_STATUS_PROVEN_COMPARISON_PENDING',started,0)
-            if self.request.get('comparison_pending_kind')not in ('spreadsheet','own count','earlier value'):
-                supported=check('not found',known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
-                return self._finish(ticket,supported,calls,hypotheses,warnings,'COMPARISON_REQUIRED_AFTER_QUICK_CHECKS',started,0)
+            # A missing external number is not a missing native comparison:
+            # follow the admitted producer path, without inventing a value.
         if len(ready)==1:return self._finish(ticket,ready[0],calls,hypotheses,warnings,'EVIDENCE_PROVEN',started,0)
         if self.decide is None:
             supported=check('not found',known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
@@ -328,7 +327,7 @@ class Investigator:
                 if progress_signature()==before_progress:
                     self.case.value['phase_state']['without_progress']=1
                     record({'event':'INVESTIGATOR_PHASE_LIMIT','phase':phase,'limit':1,'next':'advance frontier or finish not found'})
-        model_calls=0;guided=False;previous_progress=progress_signature()
+        model_calls=0;guided=self.request.get('comparison_pending')is True;previous_progress=progress_signature()
         for step in range(1,self.step_cap+1):
             current_progress=progress_signature();phase=self.case.value['phase_state']
             if step>1:phase['without_progress']=phase['without_progress']+1 if current_progress==previous_progress else 0
@@ -402,7 +401,9 @@ class Investigator:
         furthest=max(read_records,key=lambda read:self.tools.depth.get(read['subject'],-1))['subject'] if read_records else None
         verdict=supported['verdict'];at=self.tools.now;reason=supported['reason']
         label=self.tools.nodes[self.tools.visual]['label']
-        business='Question: '+str(ticket.get('text') or ticket.get('question') or label)+'\n'
+        from .operational_delivery import failure_sentence
+        leading=failure_sentence(supported,self.tools.nodes)
+        business=(leading+'\n'if leading else '')+'Question: '+str(ticket.get('text') or ticket.get('question') or label)+'\n'
         recreation=next((r['value'] for r in evidence.values() if r['kind']=='REPRODUCTION'),None)
         answer_status='not answered' if verdict=='not found' else 'partly answered: the current declared-context investigation does not reproduce the reported figure' if recreation and recreation['status']=='NOT_REPRODUCED' else 'answered within the checked technical scope'
         if supported.get('claim_scope')=='OPERATIONAL_STATUS_WITH_COMPARISON_PENDING':answer_status='partly answered: a current operational status was established; the numerical comparison was not checked'
@@ -451,7 +452,11 @@ class Investigator:
                 and (stated_scope.get('filters')or stated_scope.get('periods'))):
             question={'code':'SCOPE_REQUIRED','text':'Which field should I use for the filter or period you stated?'}
             business+='\nQuestion: '+question['text']
-        elif stop=='COMPARISON_REQUIRED_AFTER_QUICK_CHECKS':
+        elif (self.request.get('comparison_pending')is True and verdict=='not found'
+                and not self.tools.pending_quantity_nodes()
+                and len(read_records)>1
+                and not any(r['kind']=='GAP' for r in evidence.values())
+                and len({canonical(r.get('value')) for r in read_records})==1):
             question={'code':'COMPARISON_REQUIRED','text':'What are you comparing this number with: another report, a spreadsheet or your own count, the source, or an earlier value?'}
             if self.request.get('comparison_pending_kind')in('spreadsheet','own count','earlier value'):
                 question['text']='What value does your '+self.request['comparison_pending_kind']+' show?'

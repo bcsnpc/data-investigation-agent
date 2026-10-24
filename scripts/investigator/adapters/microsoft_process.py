@@ -468,6 +468,22 @@ class MicrosoftProcessAdapter:
                 'reason':'The model declares the Warehouse item directly; no Lakehouse ownership relation is inferred.'}
         return resolved
 
+    def retained_measure_definition(self,measure_id,*,node):
+        metadata=context_search.measure_path(self.store,self.model,measure_id)
+        measure=metadata['measure']
+        if measure['id']!=measure_id:raise ValueError('RETAINED_MEASURE_TARGET_DIFFERS')
+        expression=measure.get('metadata',{}).get('expression')
+        if isinstance(expression,list):expression='\n'.join(expression)
+        if not isinstance(expression,str)or not expression.strip():raise ValueError('RETAINED_MEASURE_EXPRESSION_UNAVAILABLE')
+        match=re.fullmatch(r'\s*SUM\s*\(\s*(.*?)\s*\[([^\]]+)\]\s*\)\s*',expression,re.I)
+        explanation=('Add the values in '+match[1]+'.'+match[2]+' within the active filter context.'if match else
+            'Evaluate the saved expression below in the measure filter context; no numerical execution was performed.')
+        return {'node':node,'provenance':{'source':'STATIC_DEFINITION','source_id':measure_id,
+                    'definition_hash':measure.get('content_hash')},
+                'definition':{'sha256':hashlib.sha256(expression.encode('utf8')).hexdigest()},
+                'content':expression,'plain_language':explanation,
+                'collection_unavailable':{'reason':'Retained context, not recollected for this answer.'}}
+
     def resolve_path(self,measure_id):
         if measure_id in self._paths:return self._paths[measure_id]
         result=context_search.measure_path(self.store,self.model,measure_id)

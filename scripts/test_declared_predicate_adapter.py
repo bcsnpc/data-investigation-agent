@@ -53,6 +53,21 @@ class Store:
 
 
 class DeclaredPredicateAdapterTests(unittest.TestCase):
+    def test_retained_measure_definition_preserves_expression_and_provenance_without_a_read(self):
+        from unittest.mock import Mock
+        process=MicrosoftProcessAdapter.__new__(MicrosoftProcessAdapter)
+        process.store=Mock();process.model={'id':'native-model'}
+        measure={'id':'native-measure','name':'Quantity','content_hash':'native-source-hash',
+                 'metadata':{'expression':['SUM(Entries[units])']}}
+        with patch('investigator.context_search.measure_path',return_value={'measure':measure})as resolve:
+            definition=process.retained_measure_definition('native-measure',node='selected-visual')
+        self.assertEqual(definition['content'],'SUM(Entries[units])')
+        self.assertEqual(definition['plain_language'],'Add the values in Entries.units within the active filter context.')
+        self.assertEqual(definition['node'],'selected-visual')
+        self.assertEqual(definition['provenance']['source_id'],'native-measure')
+        self.assertEqual(definition['definition']['sha256'],hashlib.sha256(definition['content'].encode()).hexdigest())
+        resolve.assert_called_once_with(process.store,process.model,'native-measure')
+
     def test_graph_visual_alias_uses_its_exact_retained_part_for_saved_scope(self):
         from cloud_investigator import visual_declaration
         node={'properties':{'asset_id':'report/visual/native-card'},

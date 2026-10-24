@@ -179,3 +179,6 @@ Restored prototypes establish control feasibility only. Each scored latency tick
 
 
 2026-10-24 owner focus steer: remaining Round22 work is calculation intake, deterministic answer detail and investigation reasoning. Dev remains NORMAL only; no scored-dev byte-exact replay gate. Attestation is a warning, not a dev admission condition. Non-safety blockers are logged and bypassed for dev without changing read-only/secret/monthly-cap enforcement or sealed held-out/independent grading. No new guard/receipt/attestation/admission framework is authorized.
+
+### Owner resume steer: native comparison before questions, 2026-10-24
+A missing comparison number now starts the existing code-owned frontier across the admitted declared native path. It never creates a GIVEN_COMPARISON value. A native finding remains explicitly separate from an unmeasured external comparison; a comparison question is emitted only after multiple equal reads, no outstanding measured layer and no recorded path gap. An unavailable native route remains a route gap, not a query failure. No golden or held-out expectation changes. Failed-job answers lead with the exact recorded name, run, end/start time and error. Definition answers reuse the exact retained measure expression and its native provenance, with a retained-not-recollected label.

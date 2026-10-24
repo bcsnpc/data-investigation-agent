@@ -161,7 +161,7 @@ def compiled_values(process,path,*,visual,measure_id,retain):
 class JournalGraph:
     """Retain each bounded graph/fact response; replay never queries its source."""
     METHODS=frozenset({'_slice','path_to_source','node_facts','definition_of','freshness','visual_context','filters_on','table_columns','definition_diff','refresh_facts'})
-    def __init__(self,graph,*,at=None):self.graph,self.at=graph,at
+    def __init__(self,graph,*,at=None,definitions=None):self.graph,self.at,self.definitions=graph,at,definitions or {}
     def as_of(self,at):return JournalGraph(self.graph,at=at)
     def refresh_facts(self,path,collector,**kwargs):
         from investigator.process_tape import bounded_call
@@ -176,6 +176,9 @@ class JournalGraph:
             from investigator.process_tape import bounded_call
             def live():
                 if self.graph is None:raise AssertionError('INVESTIGATOR_REPLAY_GRAPH_IO_FORBIDDEN')
+                if name=='definition_of'and self.at is None:
+                    node=kwargs.get('node')or (args[0]if args else None)
+                    if node in self.definitions:return copy.deepcopy(self.definitions[node])
                 source=self.graph.as_of(self.at) if self.at else self.graph
                 return getattr(source,name)(*args,**kwargs)
             return bounded_call('ledger-investigator-graph:'+name,{'at':self.at,'args':list(args),'kwargs':kwargs},live)
@@ -374,6 +377,8 @@ def _execute(plan,context):
                 if view is not graph_live:graph=JournalGraph(view)
                 values,checks=compiled_values(process,graph.path_to_source(visual),visual=visual,
                                               measure_id=native['measure_id'],retain=retain)
+                if request_kind=='DEFINITION'and hasattr(values,'layers'):
+                    graph=JournalGraph(graph_live,definitions={visual:process.retained_measure_definition(native['measure_id'],node=visual)})
             if 'intake_scope'in ticket:
                 from investigator.calculation_intake import compile_scope,apply_saved_scope
                 ticket=compile_scope(ticket,model if 'native'in spec else None)

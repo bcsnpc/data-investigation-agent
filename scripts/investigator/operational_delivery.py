@@ -6,6 +6,18 @@ An expected completion is an estimate, never the scheduled start itself.
 from .estate_graph_contract import canonical
 
 
+def failure_sentence(support,nodes):
+    if support.get('verdict')!='failed job':return ''
+    fact=support.get('operational_fact')
+    if not fact:return ''
+    value=fact['value'];error=value.get('error')
+    if not error:return ''
+    name=nodes.get(fact['subject'],{}).get('label') or 'name unavailable'
+    message=error if isinstance(error,str)else canonical(error)
+    return ('The '+name+' run '+str(value.get('run_id')or 'unavailable')+' failed at '+
+            str(value.get('end')or value.get('start')or 'time unavailable')+': '+message)
+
+
 def details(support,nodes):
     if support['verdict'] not in ('failed job','waiting on job','latency'):return ''
     fact=support.get('operational_fact')

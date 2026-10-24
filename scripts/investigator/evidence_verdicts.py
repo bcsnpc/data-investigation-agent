@@ -212,8 +212,7 @@ def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
     request=request or {'kind':'COMPARE'}
     # A missing external count does not erase measured pipeline comparisons.
     # Reuse the existing native evidence checks, then limit the delivered claim.
-    named_pending=(request.get('comparison_pending')is True and request.get('comparison_pending_kind')in
-        ('spreadsheet','own count','earlier value'))
+    named_pending=request.get('comparison_pending')is True
     if named_pending and verdict!='not found' and any(r['kind']=='COMPARISON'for r in entries):
         if any(r['kind']=='GIVEN_COMPARISON'for r in entries):raise ValueError('PENDING_COMPARISON_CONTRACT_CONFLICT')
         native_request={k:v for k,v in request.items()if k not in ('comparison_pending','comparison_pending_kind')}
@@ -260,6 +259,8 @@ def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
         if verdict!='as designed' or len(matching)!=1:raise ValueError('DEFINITION_ROUTE_REQUIRES_RETAINED_EXPLANATION')
         result=_supported(verdict,records,None,'The retained implementation is:\n'+matching[0]['content']+
             '\nThis describes the authored calculation only. It does not establish a numerical result, business correctness or the policy the owner intended.')
+        if matching[0].get('plain_language'):result['reason']=matching[0]['plain_language']+'\n'+result['reason']
+        result['reason']+='\nDefinition provenance: '+canonical(matching[0]['provenance'])
         if matching[0].get('collection_unavailable'):
             result['reason']+=' Current definition collection is unavailable; this describes the retained version, not a newly collected definition.'
         result.update(claim_scope='RETAINED_DEFINITION_ONLY',definition_subject=request['subject'])

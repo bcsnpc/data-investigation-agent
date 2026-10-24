@@ -503,6 +503,25 @@ class OperationalDeliveryTests(unittest.TestCase):
 
 
 class PendingComparisonTests(unittest.TestCase):
+    def test_missing_comparison_walks_declared_path_without_inventing_a_value(self):
+        tools,engine,reader,_=ToolLoopTests().build(step_cap=5)
+        tools.nodes['job']['kind']='PIPELINE'
+        decisions=[{'action':'TOOL','summary':'Compare the declared layers.','hypotheses':['failed job'],
+            'tool':'compare_layers','arguments':{'key':tools.key,'layers':['down','up'],'filters':tools.context}}]
+        def decide(payload,**kwargs):
+            if decisions:return decisions.pop()
+            return {'action':'VERDICT','verdict':'failed job','summary':'The measured boundary and job agree.',
+                'hypotheses':['failed job'],'evidence_ids':list(tools.evidence._values)}
+        engine.decide=decide
+        result=engine.run({'visual':'visual','text':'Why is this number wrong?',
+            'request':{'kind':'COMPARE','comparison_pending':True}})
+        self.assertEqual(result['verdict'],'failed job')
+        self.assertNotIn('question',result)
+        self.assertEqual({c.args[0]for c in reader.call_args_list},{'visual','down','up'})
+        self.assertFalse(any(r['kind']=='GIVEN_COMPARISON'for r in result['evidence'].values()))
+        for output in result['outputs'].values():
+            self.assertTrue(output.startswith('The job run r failed at 2026-10-22T10:02:00Z: copy failed'))
+
     def test_native_split_is_not_confused_with_the_missing_external_value(self):
         tools,engine,reader,_=ToolLoopTests().build()
         decisions=[{'action':'TOOL','summary':'Compare the native boundary.','hypotheses':['failed job'],
@@ -527,7 +546,7 @@ class PendingComparisonTests(unittest.TestCase):
         tools,engine,reader,_=ToolLoopTests().build(decide=decide,step_cap=1)
         answer=engine.run({'visual':'visual','text':'The report differs from my own count.',
             'request':{'kind':'COMPARE','comparison_pending':True,'comparison_pending_kind':'own count'}})
-        decide.assert_called()
+        self.assertGreater(reader.call_count,1)
         self.assertNotEqual(answer['stop_reason'],'COMPARISON_REQUIRED_AFTER_QUICK_CHECKS')
         self.assertFalse(any(e['kind']=='GIVEN_COMPARISON'for e in answer['evidence'].values()))
 
@@ -561,13 +580,14 @@ class PendingComparisonTests(unittest.TestCase):
             self.assertIn('Assumption: Report assumed',output)
         reads=[entry['value'] for entry in result['evidence'].values() if entry['kind']=='READ']
         self.assertEqual(reads[0]['value'],8765)
-    def test_unrelated_or_stale_failure_asks_only_after_the_recreation_and_checks(self):
+    def test_unrelated_or_stale_failure_does_not_substitute_for_native_path_checks(self):
         for kwargs in ({'related':False},{'stale':True}):
             with self.subTest(kwargs=kwargs):
                 engine,reader,decide=self.engine(**kwargs)
+                engine.decide=None
                 result=engine.run({'visual':'visual','text':'Inventory card shows 8765. Why?',
                     'request':{'kind':'COMPARE','comparison_pending':True}})
-                self.assertEqual(result['verdict'],'not found');self.assertEqual(result['question']['code'],'COMPARISON_REQUIRED')
+                self.assertEqual(result['verdict'],'not found');self.assertNotIn('question',result)
                 self.assertEqual(reader.call_count,1);decide.assert_not_called()
                 self.assertEqual(result['tools'][1]['tool'],'parallel_simple_hypotheses')
     def test_normal_numeric_comparison_gate_is_unchanged_and_pending_conflict_refuses(self):
