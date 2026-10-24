@@ -185,7 +185,7 @@ class GraphAPITests(GraphRepositoryTests):
         self.assertEqual(reads,[reference,reference])
         from unittest.mock import patch
         api.unavailable={'owner':{'reason':'Current collection unavailable'}}
-        with patch.object(api,'_read',return_value=({'measure':record['nodes'][3]},[])):
+        with patch.object(api,'_read',return_value=({'measure':{**record['nodes'][3],'valid_from':T0,'valid_to':None}},[])):
             retained=api.definition_of('measure')
         self.assertEqual(retained['content'],raw.decode())
         self.assertEqual(retained['collection_unavailable']['reason'],'Current collection unavailable')
