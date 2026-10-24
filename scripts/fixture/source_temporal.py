@@ -94,6 +94,18 @@ class TemporalSourceScenario:
         return "CONVERT(varchar(64),HASHBYTES('SHA2_256',CONVERT(nvarchar(max),COALESCE(("+rows+"),N'[]'))),2)"
 
     @classmethod
+    def coverage_observation(cls,values):
+        """Current originals plus the earliest retained epoch, without faking a past value."""
+        request=cls.observation(values)
+        ids=','.join(p['name']for p in request['parameters'])
+        request['query']=('SELECT TOP ('+str(len(values)+1)+') movement_id,units,'
+            'CONVERT(varchar(33),['+START+'],126) AS row_valid_from,'
+            'CONVERT(varchar(33),(SELECT MIN(['+START+']) FROM '+TABLE+' FOR SYSTEM_TIME ALL),126) AS earliest_retained_version '
+            'FROM '+TABLE+' WHERE movement_id IN ('+ids+') ORDER BY movement_id')
+        request['result_columns']=['movement_id','units','row_valid_from','earliest_retained_version']
+        return request
+
+    @classmethod
     def comparison(cls,values,*,before,after):
         """Native point-in-time quantities; absence stays NULL plus count zero.
 

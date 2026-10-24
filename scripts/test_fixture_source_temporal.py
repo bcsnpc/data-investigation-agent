@@ -81,6 +81,17 @@ class TemporalPlans(unittest.TestCase):
         sql=self.builder().disable(history_object_id=456,history_rows=0,history_sha256=empty)
         self.assertIn("<>UPPER('"+empty+"')",sql)
 
+    def test_pre_tracking_gap_observation_does_not_turn_unavailable_history_into_zero(self):
+        value=fixtures.SourceHistoryPlans().added();value['movement_id']=1
+        request=TemporalSourceScenario.coverage_observation([value])
+        validate_sql(request['query'],{_object(v)for v in request['read_only_objects']})
+        self.assertEqual(request['parameters'],[{'name':'@case_id_0','value':1}])
+        self.assertEqual(request['result_columns'],['movement_id','units','row_valid_from','earliest_retained_version'])
+        self.assertIn('FOR SYSTEM_TIME ALL',request['query'])
+        self.assertNotIn('before_quantity',request['query'])
+        self.assertNotIn('COALESCE',request['query'])
+        self.assertNotIn('THEN 0',request['query'])
+
     def test_native_time_comparison_retains_blank_separately_from_zero_and_exact_precision(self):
         request=self.builder().comparison([fixtures.SourceHistoryPlans().added()],before='2026-10-23T22:49:27.1219695Z',after='2026-10-23T22:49:27.1219696Z')
         validate_sql(request['query'],{_object(v)for v in request['read_only_objects']})
