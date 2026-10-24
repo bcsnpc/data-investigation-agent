@@ -95,7 +95,14 @@ def native_profile(spec,path,subject):
     the harness cannot select another measure to obtain an available reader.
     """
     if 'native'in spec or not spec.get('native_profiles'):return spec
-    measures={n.get('properties',{}).get('asset_id')for n in path['nodes']if n['kind']=='MEASURE'}-{None}
+    nodes={n['id']:n for n in path['nodes']}
+    target=nodes.get(subject,{})
+    if target.get('kind')=='MEASURE':selected=[target]
+    elif 'edges'in path:
+        direct={e['target']for e in path['edges']if e['source']==subject and e.get('kind')=='COMPUTED_FROM'}
+        selected=[nodes[i]for i in direct if i in nodes and nodes[i]['kind']=='MEASURE']
+    else:selected=[n for n in path['nodes']if n['kind']=='MEASURE']
+    measures={n.get('properties',{}).get('asset_id')for n in selected}-{None}
     if len(measures)!=1:return spec
     measure=next(iter(measures));profile=spec['native_profiles'].get(measure)
     if profile is None:return spec

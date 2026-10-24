@@ -57,6 +57,18 @@ class Assembly(unittest.TestCase):
         path['nodes'].append({'id':'other','kind':'MEASURE','properties':{'asset_id':'native-b'}})
         self.assertNotIn('native',worker.native_profile(spec,path,'named-card'))
 
+    def test_native_profile_preserves_resolved_measure_when_it_has_measure_dependencies(self):
+        spec={'native_profiles':{k:{'native':{'measure_id':k}}for k in ('selected','dependency')}}
+        nodes=[{'id':'visual','kind':'VISUAL'},
+               {'id':'m','kind':'MEASURE','properties':{'asset_id':'selected'}},
+               {'id':'d','kind':'MEASURE','properties':{'asset_id':'dependency'}}]
+        path={'nodes':nodes,'edges':[{'source':'visual','target':'m','kind':'COMPUTED_FROM'},
+                                    {'source':'m','target':'d','kind':'COMPUTED_FROM'}]}
+        self.assertEqual(worker.native_profile(spec,path,'m')['native']['measure_id'],'selected')
+        self.assertEqual(worker.native_profile(spec,path,'visual')['native']['measure_id'],'selected')
+        path['edges'].append({'source':'visual','target':'d','kind':'COMPUTED_FROM'})
+        self.assertNotIn('native',worker.native_profile(spec,path,'visual'))
+
     def test_retained_view_is_explicit_and_preserves_mandatory_labels(self):
         current=object();process=object();context={'version':'approved'};pin={'context_id':'approved'}
         self.assertEqual(worker.retained_view(current,process,{},context=context,visual='visual',measure_id='measure'),(current,[]))
