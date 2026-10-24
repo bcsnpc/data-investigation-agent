@@ -28,6 +28,22 @@ class CalculationAdmission(unittest.TestCase):
     def extract(self,text,value):
         return intake.extract(text,Mock(return_value=value),catalog(),retain=lambda _:None)
 
+    def test_filter_span_retry_names_the_wrong_field_and_preserves_selection(self):
+        text='Net receipts shows 950 for invoice_id 321.'
+        value=raw(text,figure='950')
+        value['filters']=[{'words':ref(text,'321'),'column':ref(text,'invoice_id'),
+                           'value':ref(text,'321'),'role':'PRIMARY'}]
+        corrected=copy.deepcopy(value);corrected['filters'][0]['words']=ref(text,'invoice_id 321')
+        decide=Mock(side_effect=[value,corrected]);events=[]
+        result=intake.extract(text,decide,catalog(),retain=events.append)
+        feedback=decide.call_args_list[1].args[0]['previous_rejection']
+        self.assertIn('filters[0] words=',feedback)
+        self.assertIn('column=',feedback);self.assertIn('value=',feedback)
+        self.assertIn('do not invent a relationship',feedback)
+        self.assertEqual(result['filters'][0]['words']['quote'],'invoice_id 321')
+        self.assertEqual(result['reported_figure']['value'],'950')
+        self.assertEqual(decide.call_count,2)
+
     def test_graph_name_alias_and_meaning_are_ranked_search_evidence(self):
         self.assertEqual(intake.rank('Net receipts',catalog())[0]['basis'],'NAME')
         match=intake.rank('money received',catalog())[0]

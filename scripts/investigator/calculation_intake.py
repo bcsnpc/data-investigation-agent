@@ -119,11 +119,14 @@ def extract(text,decide,catalog,*,retain):
             Draft202012Validator(SCHEMA).validate(raw)
             value=copy.deepcopy(raw);value['primary']=reference(raw['primary'],text)
             for key in ('targets','figures','filters'):
-                for item in value[key]:
+                for index,item in enumerate(value[key]):
                     for field in ('words','column','value'):
                         if field in item:item[field]=reference(item[field],text)
                     if key=='filters'and any(not item['words']['start']<=item[f]['start']<item[f]['end']<=item['words']['end']for f in ('column','value')):
-                        raise ValueError('FILTER_REFERENCE_OUTSIDE_RELATIONSHIP')
+                        raise ValueError('FILTER_REFERENCE_OUTSIDE_RELATIONSHIP: filters['+str(index)+'] words='+
+                            str(raw[key][index]['words'])+' does not contain column='+str(raw[key][index]['column'])+
+                            ' and value='+str(raw[key][index]['value'])+'. Return the enclosing verbatim selection relationship, '+
+                            'with both column and value inside words. A mere mention is CONTEXT, not a selected restriction; do not invent a relationship.')
             value['periods']=[reference(p,text)for p in raw['periods']]
             if raw['comparison']['words']is not None:value['comparison']['words']=reference(raw['comparison']['words'],text)
             if (value['comparison']['kind']=='NONE')!=(value['comparison']['words']is None):
