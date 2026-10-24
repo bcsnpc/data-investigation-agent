@@ -103,6 +103,27 @@ class CalculationAdmission(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'NEEDS_INPUT'):
             intake.extract(text,Mock(return_value=bad),catalog(),retain=lambda _:None)
 
+    def test_enumerated_span_keeps_exact_referent_without_asking_the_user(self):
+        text='Please check Net receipts today.';value=raw(text)
+        first,last=value['primary'];value['primary']=list(range(first,last+1))
+        parsed=self.extract(text,value)
+        self.assertEqual(parsed['primary']['quote'],text)
+        self.assertEqual(intake.reference([2,3,4],text),intake.reference([2,4],text))
+        for invalid in ([1,3,4],[4,3,2],[1,10**12,10**13]):
+            with self.assertRaisesRegex(ValueError,'CONTIGUOUS'):intake.reference(invalid,text)
+
+    def test_context_page_locates_measure_without_becoming_a_filter_or_comparator(self):
+        text='Net amount on Daily overview shows 950.';value=raw(text,target='Net amount',figure='950')
+        value['targets'][0]['kind']='MEASURE'
+        value['targets'].append({'words':ref(text,'Daily overview'),'kind':'PAGE','role':'CONTEXT'})
+        c=catalog();c['candidates'].append({'id':'other-measure','kind':'MEASURE','label':'Net amount'})
+        admitted=intake.resolve({'text':text},c,self.extract(text,value))
+        self.assertEqual(admitted['status'],'READY');self.assertEqual(admitted['ticket']['request']['subject'],'m')
+        self.assertEqual(admitted['ticket']['intake_scope']['filters'],[])
+        value['targets'][-1]['role']='COMPARISON'
+        tied=intake.resolve({'text':text},c,self.extract(text,value))
+        self.assertEqual(tied['reason'],'CALCULATION_TARGET_TIED')
+
     def test_provider_schema_rejection_retries_but_real_provider_errors_do_not(self):
         from jsonschema import ValidationError
         text='Net receipts shows 950.';value=raw(text,figure='950')
