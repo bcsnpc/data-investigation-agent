@@ -183,10 +183,16 @@ class GraphAPITests(GraphRepositoryTests):
             self.assertEqual(result['definition'],reference)
             self.assertEqual(result['provenance'],record['nodes'][3]['provenance'])
         self.assertEqual(reads,[reference,reference])
+        from unittest.mock import patch
+        api.unavailable={'owner':{'reason':'Current collection unavailable'}}
+        with patch.object(api,'_read',return_value=({'measure':record['nodes'][3]},[])):
+            retained=api.definition_of('measure')
+        self.assertEqual(retained['content'],raw.decode())
+        self.assertEqual(retained['collection_unavailable']['reason'],'Current collection unavailable')
         self.assertNotIn('content',self.api().definition_of('measure'))
         limited=self.api(['visual'],definition_reader=read)
         with self.assertRaises(GatewayDenied):limited.definition_of('measure')
-        self.assertEqual(len(reads),2)
+        self.assertEqual(len(reads),3)
 
     def api(self,allowed=None,**kwargs):
         allowed=allowed or ['report','page','visual','measure','column']

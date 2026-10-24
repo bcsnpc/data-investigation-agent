@@ -238,7 +238,7 @@ class ToolLoopTests(unittest.TestCase):
     def test_definition_reference_or_proposal_never_becomes_implemented_answer(self):
         import hashlib
         for change in ({'content':None},{'provenance':{'source':'MODEL_PROPOSAL'}},
-                       {'content':'different'},{'node':'up'},{'collection_unavailable':{'reason':'unavailable'}}):
+                       {'content':'different'},{'node':'up'}):
             with self.subTest(change=change):
                 tools,engine,reader,_=self.build();tools.request_kind='DEFINITION';engine.decide=Mock()
                 body='retained implementation'
@@ -250,6 +250,19 @@ class ToolLoopTests(unittest.TestCase):
                 self.assertEqual(result['verdict'],'not found')
                 self.assertIn('No calculation or business policy was inferred',result['outputs']['business'])
                 reader.assert_not_called();engine.decide.assert_not_called()
+
+    def test_definition_collection_gap_qualifies_retained_content_without_blocking(self):
+        import hashlib
+        tools,engine,reader,_=self.build();tools.request_kind='DEFINITION';engine.decide=Mock()
+        body='retained implementation'
+        tools.graph.definition_of.return_value={'node':'visual','provenance':{'source':'STATIC_DEFINITION'},
+            'definition':{'sha256':hashlib.sha256(body.encode()).hexdigest()},'content':body,
+            'collection_unavailable':{'reason':'Metadata collection unavailable'}}
+        result=engine.run({'visual':'visual','request':{'kind':'DEFINITION','subject':'visual'}})
+        self.assertEqual(result['verdict'],'as designed')
+        for output in result['outputs'].values():
+            self.assertIn('retained version, not a newly collected definition',output)
+        reader.assert_not_called();engine.decide.assert_not_called()
 
     def test_empty_complete_history_reaches_tool_despite_older_unavailable_run(self):
         old=fact('job','REFRESH_RUN',None);old.update(state='UNAVAILABLE',reason='READ_FAILED:MetadataUnavailable:403',freshness='STALE')

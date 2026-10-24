@@ -160,7 +160,7 @@ class GraphAPI:
         # A content-addressed reference alone cannot explain a calculation.
         # Resolve it through the installation's existing immutable Files reader;
         # never ask the model to infer the missing body from a name or hash.
-        if self.definition_reader is not None and result['definition'] and not result['collection_unavailable']:
+        if self.definition_reader is not None and result['definition']:
             result['content']=self.definition_reader(result['definition']).decode('utf-8')
         return self._bounded(result)
 
