@@ -1,0 +1,49 @@
+{
+  "method": "Sum retained original source rows directly; partition with integer equality. Add the three literal inserted units. No engine compiled query or probe value used to derive figures.",
+  "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+  "inserted_rows": [
+    {
+      "event_day": "2026-10-23",
+      "movement_id": 900401,
+      "movement_type": "RECEIPT",
+      "product_id": 1,
+      "units": 7,
+      "warehouse_id": 3
+    },
+    {
+      "event_day": "2026-10-23",
+      "movement_id": 900402,
+      "movement_type": "RECEIPT",
+      "product_id": 1,
+      "units": 11,
+      "warehouse_id": 3
+    },
+    {
+      "event_day": "2026-10-23",
+      "movement_id": 900403,
+      "movement_type": "RECEIPT",
+      "product_id": 1,
+      "units": 13,
+      "warehouse_id": 3
+    }
+  ],
+  "scopes": {
+    "total": {
+      "stale_model_expected": 7661,
+      "added": 31,
+      "new_lakehouse_expected": 7692
+    },
+    "warehouse3": {
+      "stale_model_expected": 2629,
+      "added": 31,
+      "new_lakehouse_expected": 2660
+    },
+    "product1": {
+      "stale_model_expected": 643,
+      "added": 31,
+      "new_lakehouse_expected": 674
+    }
+  },
+  "fixture_only": true,
+  "reported_figures_fixture_authored": true
+}
