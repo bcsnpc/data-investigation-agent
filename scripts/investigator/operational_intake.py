@@ -39,5 +39,7 @@ def response(ticket,admission):
     if questions:
         business=questions[0]['text'];choices=questions[0]['choices']
         if choices:business+=' Choices: '+', '.join(c['label']for c in choices)+'.'
+    elif admission.get('reason')=='BUSINESS_INTENT_REQUIRES_OWNER':
+        business='This asks what the business rule or meaning should be. That decision belongs to the business owner; an investigation cannot establish business correctness. I can describe the implemented calculation, but cannot decide which rule should be used. No investigation value was evaluated.'
     else:business="I couldn't resolve this request to a supported investigation target. No investigation value was evaluated."
     return {'ticket':copy.deepcopy(ticket),'status':admission['status'],'intake':copy.deepcopy(admission),'investigation_executed':False,'model_calls':0,'physical_requests':0,'outputs':{'business':business,'technical':business+' Admission: '+admission['reason']},'recording':{'mode':'NORMAL','byte_exact_replay':False}}

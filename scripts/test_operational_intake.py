@@ -5,6 +5,14 @@ from investigator.estate_graph_api import GraphAPI
 import test_ledger_investigator as fixtures
 
 class RawOperationalTests(unittest.TestCase):
+ def test_business_policy_refusal_names_the_actual_limit_not_a_missing_target(self):
+  ticket={'text':'Please decide the business rule for including failed runs of pipeline Primary copy.'}
+  result=response(ticket,admit(ticket,self.catalog()))
+  self.assertEqual(result['status'],'HELD');self.assertFalse(result['investigation_executed'])
+  for output in result['outputs'].values():
+   self.assertIn('business owner',output);self.assertIn('cannot establish business correctness',output)
+   self.assertNotIn("couldn't resolve",output)
+  self.assertNotIn('verdict',result)
  def catalog(self,*nodes):return {'estate':'fixture','as_of':None,'candidates':list(nodes)or[{'id':'job','kind':'PIPELINE','label':'Primary copy'}]}
  def test_raw_named_run_reaches_real_consumer_without_manually_supplied_target_or_latest_substitution(self):
   old={'run_id':'old','start':'2026-10-20T01:02:03.1234567Z','end':'2026-10-20T01:03:00Z','status':'FAILED'};new={'run_id':'new','start':'2026-10-21T01:02:03Z','end':'2026-10-21T01:03:00Z','status':'SUCCEEDED'}
