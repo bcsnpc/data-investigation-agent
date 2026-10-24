@@ -5,7 +5,7 @@ producer returns token references only; code owns identity, precision and scope.
 """
 import copy
 import re
-from jsonschema import Draft202012Validator
+from jsonschema import Draft202012Validator,ValidationError
 from .intake_span_references import tokens, wire_tokens
 from .reported_figure import from_candidates, AmbiguousFigure, UnavailablePrecision
 
@@ -108,7 +108,6 @@ def extract(text,decide,catalog,*,retain):
                  'previous_rejection':feedback}
         try:raw=decide(payload,instructions=INSTRUCTIONS,schema=SCHEMA)
         except Exception as error:
-            from jsonschema import ValidationError
             protocol=isinstance(error,ValueError)and str(error)in(
                 'INVESTIGATOR_PROVIDER_DECISION_ENVELOPE_REQUIRED','INVESTIGATOR_PROVIDER_DUPLICATE_METADATA')
             if not isinstance(error,ValidationError)and not protocol:raise
@@ -144,12 +143,8 @@ def extract(text,decide,catalog,*,retain):
             # A retry must never invite the producer to discard a real rival
             # value or choose precision that makes an estate value match.
             raise
-        except (ValueError,KeyError,TypeError)as error:
-            feedback=str(error)
-        except Exception as error:
-            from jsonschema import ValidationError
-            if not isinstance(error,ValidationError):raise
-            feedback=error.message
+        except (ValueError,KeyError,TypeError,ValidationError)as error:
+            feedback=(error.json_path+': '+error.message)[:1000]if isinstance(error,ValidationError)else str(error)
         retain({'event':'RAW_CALCULATION_EXTRACTION_REJECTED','attempt':attempt+1,'reason':feedback})
     raise ExtractionNeedsInput('RAW_CALCULATION_EXTRACTION_NEEDS_INPUT:'+feedback)
 

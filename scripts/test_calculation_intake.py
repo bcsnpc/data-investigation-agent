@@ -28,6 +28,18 @@ class CalculationAdmission(unittest.TestCase):
     def extract(self,text,value):
         return intake.extract(text,Mock(return_value=value),catalog(),retain=lambda _:None)
 
+    def test_malformed_producer_shape_retries_with_field_feedback_instead_of_crashing(self):
+        text='Net receipts shows 950.';correct=raw(text,figure='950');invalid=copy.deepcopy(correct)
+        invalid['targets']='not an array'
+        decide=Mock(side_effect=[invalid,correct])
+        result=intake.extract(text,decide,catalog(),retain=lambda _:None)
+        self.assertEqual(result['reported_figure']['value'],'950')
+        feedback=decide.call_args_list[1].args[0]['previous_rejection']
+        self.assertIn('$.targets',feedback);self.assertNotIn('additionalProperties',feedback)
+        self.assertEqual(decide.call_count,2)
+        with self.assertRaises(intake.ExtractionNeedsInput):
+            intake.extract(text,Mock(return_value=invalid),catalog(),retain=lambda _:None)
+
     def test_filter_span_retry_names_the_wrong_field_and_preserves_selection(self):
         text='Net receipts shows 950 for invoice_id 321.'
         value=raw(text,figure='950')
