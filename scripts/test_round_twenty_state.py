@@ -74,9 +74,10 @@ class ConnectionTests(unittest.TestCase):
         from contextlib import nullcontext
         state=SharedState(Mock(),backend='postgresql',mode='live')
         failure=ConnectionError('lost response');failure.postgres_connection_timing={'idle_before_request_seconds':41}
-        with patch.object(state,'transaction',side_effect=lambda:nullcontext(Mock()))as transaction,patch.object(state,'_get',side_effect=[failure,{'revision':1,'body':{}}]),patch('time.sleep')as sleep:
+        with patch.object(state,'transaction',side_effect=lambda **kwargs:nullcontext(Mock()))as transaction,patch.object(state,'_get',side_effect=[failure,{'revision':1,'body':{}}]),patch('time.sleep')as sleep:
             self.assertEqual(state.get('namespace','id')['revision'],1)
             self.assertEqual(transaction.call_count,2);sleep.assert_called_once_with(30)
+            self.assertTrue(all(c.kwargs=={'_read_only':True}for c in transaction.call_args_list))
         self.assertEqual(state.connection_failures[0]['connection_timing']['idle_before_request_seconds'],41)
         with patch.object(state,'transaction',side_effect=lambda:nullcontext(Mock()))as transaction,patch.object(state,'_get',side_effect=ConnectionError('drop')),patch('time.sleep')as sleep:
             with self.assertRaises(ConnectionError):state.put('namespace','id',{})

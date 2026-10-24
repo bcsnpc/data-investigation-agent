@@ -12,6 +12,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 TEST_MODULES = (
+    'test_round_twenty_state.py', 'test_shared_read_transactions.py',
+    'test_build_phase.py', 'test_scan_budget_reallocation.py',
     'test_source_availability.py',
     'test_investigator_frontier.py', 'test_fixture_failure_scenarios.py',
     'test_operational_run_selection.py', 'test_operational_intake.py', 'test_control_meter_reporting.py',
