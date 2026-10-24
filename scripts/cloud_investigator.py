@@ -112,6 +112,12 @@ def native_profile(spec,path,subject):
     return result
 
 
+def visual_declaration(process,measure_id,node):
+    """Use the selected visual's retained definition pointer, not its asset alias."""
+    target=node.get('provenance',{}).get('source_id') or node.get('properties',{}).get('asset_id')
+    return process.declared_visual_scope(measure_id,target)
+
+
 def retained_view(current,process,spec,*,context,visual,measure_id):
     """Trusted opt-in, separate from current graph discovery and its refusals."""
     if 'retained_continuation' not in spec:return current,[]
@@ -362,7 +368,7 @@ def _execute(plan,context):
                     node=next((n for n in graph.path_to_source(ticket['visual'])['nodes']if n['id']==ticket['visual']),None)
                     try:
                         if node is None:raise ValueError('Resolved visual is outside the admitted native graph path.')
-                        declaration=process.declared_visual_scope(spec['native']['measure_id'],node.get('properties',{}).get('asset_id'))
+                        declaration=visual_declaration(process,spec['native']['measure_id'],node)
                         context.record('investigator-saved-visual-declaration',declaration)
                         ticket=apply_saved_scope(ticket,declaration)
                     except ValueError as error:

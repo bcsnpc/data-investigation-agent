@@ -251,7 +251,8 @@ class CalculationAdmission(unittest.TestCase):
     def test_unresolved_scope_never_calls_a_value_reader_but_keeps_quick_checks(self):
         from test_ledger_investigator import ToolLoopTests
         tools,engine,reader,events=ToolLoopTests().build();tools.scope_gap='Period has no declared binding.'
-        answer=engine.run({'visual':'visual','text':'Check my selected period.'})
+        answer=engine.run({'visual':'visual','text':'Check my selected period.',
+            'intake_scope':{'filters':[],'periods':[{'quote':'selected period'}]}})
         reader.assert_not_called()
         self.assertTrue(tools.graph.node_facts.called)
         self.assertEqual(answer['verdict'],'not found');self.assertEqual(answer['question']['code'],'SCOPE_REQUIRED')
@@ -357,6 +358,10 @@ class GraphIntakeIntegrationTests(unittest.TestCase):
         result=intake.resolve({'text':text},cat,value)
         self.assertEqual(result['status'],'READY')
         self.assertEqual(result['ticket']['visual'],'v')
+        # The model need not repeat a named visual's measure as a second target.
+        without_duplicate=copy.deepcopy(value)
+        without_duplicate['targets']=[n for n in value['targets']if n['kind']!='MEASURE']
+        self.assertEqual(intake.resolve({'text':text},cat,without_duplicate)['ticket']['visual'],'v')
         second=copy.deepcopy(cat['candidates'][2]);second['id']='other'
         cat['candidates'].append(second);cat['edges'] +=[
             {'source':'p','target':'other','kind':'CONTAINS'},

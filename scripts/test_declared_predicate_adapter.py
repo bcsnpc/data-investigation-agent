@@ -53,6 +53,20 @@ class Store:
 
 
 class DeclaredPredicateAdapterTests(unittest.TestCase):
+    def test_graph_visual_alias_uses_its_exact_retained_part_for_saved_scope(self):
+        from cloud_investigator import visual_declaration
+        node={'properties':{'asset_id':'report/visual/native-card'},
+            'provenance':{'source_id':self.visual['id']}}
+        declaration=visual_declaration(self.adapter,self.measure['id'],node)
+        from investigator.calculation_intake import apply_saved_scope
+        admitted=apply_saved_scope({'text':'Check this card.'},declaration)
+        self.assertNotIn('scope_gap',admitted)
+        self.assertEqual(admitted['filters']['filters'][0]['values'],['North'])
+        node['provenance']['source_id']='different-part'
+        with self.assertRaisesRegex(ValueError,'GRAPH_VISUAL_MEASURE_BINDING'):
+            visual_declaration(self.adapter,self.measure['id'],node)
+        self.assertEqual(self.requests,[])
+
     def test_graph_resolved_visual_scope_reuses_inventory_without_any_value_read(self):
         from investigator.calculation_intake import apply_saved_scope
         declaration=self.adapter.declared_visual_scope(self.measure['id'],self.visual['id'])

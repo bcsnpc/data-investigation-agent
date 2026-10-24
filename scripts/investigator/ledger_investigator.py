@@ -444,7 +444,9 @@ class Investigator:
         cause=load_source_outage(selected) if verdict=='failed job' else None
         if cause and cause.get('failure_class')=='UNREACHABLE':business+='\nRecorded load root cause: source unreachable at '+cause['last_observed_at']+'.'
         question=None
-        if getattr(self.tools,'scope_gap',None)and verdict=='not found':
+        stated_scope=ticket.get('intake_scope',{})
+        if (getattr(self.tools,'scope_gap',None)and verdict=='not found'
+                and (stated_scope.get('filters')or stated_scope.get('periods'))):
             question={'code':'SCOPE_REQUIRED','text':'Which field should I use for the filter or period you stated?'}
             business+='\nQuestion: '+question['text']
         elif stop=='COMPARISON_REQUIRED_AFTER_QUICK_CHECKS':

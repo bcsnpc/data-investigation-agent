@@ -218,6 +218,20 @@ class OperationalFactTests(unittest.TestCase):
 
 
 class ToolLoopTests(unittest.TestCase):
+    def test_saved_definition_gap_does_not_invent_a_user_filter_question(self):
+        tools,engine,reader,_=self.build();tools.scope_gap='Saved visual scope unavailable.'
+        result=engine.run({'visual':'visual','text':'Verify this card.',
+            'intake_scope':{'filters':[],'periods':[]}})
+        self.assertEqual(result['verdict'],'not found')
+        self.assertNotIn('question',result)
+        self.assertNotIn('filter or period you stated',result['outputs']['business'])
+        reader.assert_not_called()
+        tools,engine,reader,_=self.build();tools.scope_gap='Unbound selected field.'
+        result=engine.run({'visual':'visual','text':'Verify the selected period.',
+            'intake_scope':{'filters':[],'periods':[{'quote':'selected period'}]}})
+        self.assertEqual(result['question']['code'],'SCOPE_REQUIRED')
+        reader.assert_not_called()
+
     def test_planner_never_receives_correlation_label_and_output_keeps_original_ticket(self):
         tools,engine,reader,events=self.build(step_cap=1);requests=[]
         def decide(payload,**kwargs):

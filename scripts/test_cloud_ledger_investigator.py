@@ -59,6 +59,20 @@ class Assembly(unittest.TestCase):
         definitions.assert_called_once_with(files,'https://approved.blob.core.windows.net/snapshots',
             recording_class='EXACT',scratch=self.root/'ledger-investigator')
 
+    def test_visual_scope_uses_the_selected_definitions_pointer_not_the_visual_asset_alias(self):
+        from unittest.mock import Mock
+        process=Mock();node={'id':'selected-card','kind':'VISUAL',
+            'properties':{'asset_id':'native-visual'},'provenance':{'source_id':'native-definition-part'}}
+        before=json.loads(json.dumps(node))
+        process.declared_visual_scope.return_value={'inventory':'original'}
+        self.assertEqual(worker.visual_declaration(process,'measure',node),{'inventory':'original'})
+        process.declared_visual_scope.assert_called_once_with('measure','native-definition-part')
+        self.assertEqual(node,before)
+        process.declared_visual_scope.side_effect=ValueError('wrong retained definition')
+        with self.assertRaisesRegex(ValueError,'wrong retained definition'):
+            worker.visual_declaration(process,'measure',node)
+        self.assertEqual(process.declared_visual_scope.call_count,2)
+
     def test_native_profile_registry_uses_only_exact_connected_measure_and_keeps_target_pin(self):
         native={'measure_id':'native-a','model':{'path':'approved','sha256':'a'*64}}
         spec={'native_profiles':{'native-a':{'native':native,'retained_continuation':{'visual':'named-card'}}}}

@@ -268,11 +268,15 @@ def resolve(ticket,catalog,extraction):
         # Keep every non-presentation qualifier, and require the actual graph
         # connection in the named location. Never select using the value.
         named=set()
+        presentation_words={'card','chart','visual','table','value'}
+        for match in rank(target_text,catalog,kinds={'MEASURE'}):
+            if match['basis']=='NAME' and match['confidence']>=.9 and (
+                words(target_text)-presentation_words)==words(match['label']):named.add(match['id'])
         for item in extraction['targets']:
             if item['kind']!='MEASURE' or item['role']=='COMPARISON':continue
             for match in rank(item['words']['quote'],catalog,kinds={'MEASURE'}):
                 if match['basis']=='NAME' and match['confidence']>=.9 and (
-                    words(target_text)-{'card','chart','visual','table','value'})<=words(match['label']):named.add(match['id'])
+                    words(target_text)-presentation_words)<=words(match['label']):named.add(match['id'])
         if named:
             choices=[{k:n[k]for k in('id','label','kind')}|{'confidence':1.0,
                 'basis':'NAMED_MEASURE_IN_NAMED_LOCATION','search_aid_only':True}
