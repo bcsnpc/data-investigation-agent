@@ -45,6 +45,9 @@ class CaseFile:
     def model_view(self):
         """Summaries and short action history; full state stays in its capture."""
         value = self.snapshot()
+        # Correlation keys can contain operator or experiment labels. They are
+        # durable bookkeeping, not evidence about the user's question.
+        value.pop('ticket_id',None)
         value['decisions'] = [{key: row[key] for key in
                                ('action', 'tool', 'arguments', 'verdict', 'summary') if key in row}
                               for row in value['decisions'][-3:]]

@@ -216,6 +216,20 @@ class OperationalFactTests(unittest.TestCase):
 
 
 class ToolLoopTests(unittest.TestCase):
+    def test_planner_never_receives_correlation_label_and_output_keeps_original_ticket(self):
+        tools,engine,reader,events=self.build(step_cap=1);requests=[]
+        def decide(payload,**kwargs):
+            requests.append(payload)
+            self.assertNotIn('id',payload['ticket']);self.assertNotIn('ticket_id',payload['case_file'])
+            self.assertEqual(payload['ticket']['text'],'Why does this number differ?')
+            return {'action':'VERDICT','summary':'Need support.','hypotheses':['not found'],
+                'verdict':'not found','evidence_ids':list(tools.evidence._values)}
+        engine.decide=decide
+        result=engine.run({'id':'expected-latency-experiment','visual':'visual','text':'Why does this number differ?'})
+        self.assertTrue(requests)
+        self.assertEqual(result['ticket']['id'],'expected-latency-experiment')
+        self.assertEqual(result['case_file']['ticket_id'],'expected-latency-experiment')
+
     def test_definition_question_quotes_implementation_without_quantity_or_model_calls(self):
         import hashlib
         tools,engine,reader,_=self.build();tools.request_kind='DEFINITION'

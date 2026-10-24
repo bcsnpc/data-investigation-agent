@@ -348,7 +348,7 @@ class Investigator:
             self.schema=schema(self.tools,permitted);self.validator=Draft202012Validator(self.schema)
             compact=evidence_context(self.tools.evidence)
             try:
-                decision=operation('model',{'step':step},lambda:decide_model({'ticket':ticket,'path_nodes':[{'id':n['id'],'label':n['label'],'kind':n['kind'],'depth':self.tools.depth.get(n['id'])} for n in self.tools.nodes.values()],
+                decision=operation('model',{'step':step},lambda:decide_model({'ticket':{k:v for k,v in ticket.items()if k!='id'},'path_nodes':[{'id':n['id'],'label':n['label'],'kind':n['kind'],'depth':self.tools.depth.get(n['id'])} for n in self.tools.nodes.values()],
                 'pending_quantity_nodes':self.tools.pending_quantity_nodes(),'allowed_tools':sorted(permitted),
                 'admitted_identifiers':sorted(self.tools.nodes),'admitted_context':self.tools.context,'admitted_key':self.tools.key,
                 'case_file':self.case.model_view(),'fetched_evidence':fetched,'feedback':{k:copy.deepcopy(v)for k,v in (feedback or {}).items()if k in ('reason','detail','error_type','status','evidence_ids','nodes')},'steps_remaining':self.step_cap-step+1,

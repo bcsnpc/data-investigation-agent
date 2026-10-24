@@ -3,6 +3,12 @@ from investigator.investigator_case import CaseFile
 
 
 class CaseTests(unittest.TestCase):
+    def test_model_view_omits_correlation_label_but_durable_case_preserves_it(self):
+        case=CaseFile({'id':'expected-latency-experiment','text':'Where is the record?'})
+        self.assertNotIn('ticket_id',case.model_view())
+        self.assertEqual(case.snapshot()['ticket_id'],'expected-latency-experiment')
+        self.assertEqual(CaseFile.loads(case.dumps()).snapshot()['ticket_id'],'expected-latency-experiment')
+
     def test_round_trip_preserves_every_code_owned_field(self):
         case = CaseFile({'id': 'ticket-1', 'text': 'Did the load fail?'})
         case.advance('quick_facts')
