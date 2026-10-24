@@ -242,8 +242,8 @@ def resolve(ticket,catalog,extraction):
         if item['role']=='PRIMARY':return True
         if item['role']!='CONTEXT':return False
         prefix=text[max(0,item['words']['start']-40):item['words']['start']]
-        positive=r'\b(on|in|from|under|at)\s+(?:the\s+)?$'
-        negative=r'\b(not|never|except)\s+(on|in|from|under|at)\s+(?:the\s+)?$'
+        positive=r'\b(on|in|from|under|at|for)\s+(?:the\s+)?$'
+        negative=r'\b(not|never|except)\s+(on|in|from|under|at|for)\s+(?:the\s+)?$'
         return bool(re.search(positive,prefix,re.I)and not re.search(negative,prefix,re.I))
     locations=[n for n in extraction['targets']if n['kind']in('REPORT','PAGE')and current_location(n)]
     for item in [*references,*[n for n in locations if n not in references]]:
@@ -263,6 +263,22 @@ def resolve(ticket,catalog,extraction):
                     seen.add(edge['target']);queue.append(edge['target'])
         return identity in seen
     if containers:ranked=[n for n in ranked if all(within(n['id'],c)for c in containers)]
+    if specific and kind=='VISUAL' and containers and (not ranked or ranked[0]['confidence']<.9):
+        # "Amount card on Daily" can identify a visual by its named measure.
+        # Keep every non-presentation qualifier, and require the actual graph
+        # connection in the named location. Never select using the value.
+        named=set()
+        for item in extraction['targets']:
+            if item['kind']!='MEASURE' or item['role']=='COMPARISON':continue
+            for match in rank(item['words']['quote'],catalog,kinds={'MEASURE'}):
+                if match['basis']=='NAME' and match['confidence']>=.9 and (
+                    words(target_text)-{'card','chart','visual','table','value'})<=words(match['label']):named.add(match['id'])
+        if named:
+            choices=[{k:n[k]for k in('id','label','kind')}|{'confidence':1.0,
+                'basis':'NAMED_MEASURE_IN_NAMED_LOCATION','search_aid_only':True}
+                for n in catalog['candidates']if n['kind']=='VISUAL' and all(within(n['id'],c)for c in containers)
+                and any(e['source']==n['id'] and e['target']in named and e['kind']=='COMPUTED_FROM'for e in catalog.get('edges',[]))]
+            if choices:ranked=choices
     if not ranked or ranked[0]['confidence']<.9:
         return question('CALCULATION_TARGET_UNRESOLVED',ranked)
     if len(ranked)>1 and round(ranked[0]['confidence']-ranked[1]['confidence'],4)<.1:

@@ -67,6 +67,8 @@ class GraphAPI:
         return nodes,graph['edges']
 
     def _slice(self,roots,*,traverse=True,edge_kinds=None,path=True):
+        from .build_phase import active as build_phase
+        retained_warning_only=build_phase()
         nodes,edges=self._read(roots,path=path,edge_kinds=edge_kinds)
         if len(set(roots))>self.max_nodes:raise ValueError('GRAPH_ROOT_SLICE_BOUND')
         seen=set(roots);queue=deque(roots);selected={};stops=[];truncated=self.path_truncated
@@ -76,8 +78,9 @@ class GraphAPI:
             if unavailable_owner:
                 observation=self.unavailable[unavailable_owner]
                 stops.append({'node':current,'reason':observation['reason'],
-                    'remedy':'Refresh this owner definition successfully before treating its path as current.'})
-                continue
+                    'remedy':('Warning: using the retained definition; current collection failed.' if retained_warning_only else
+                        'Refresh this owner definition successfully before treating its path as current.')})
+                if not retained_warning_only:continue
             linked=[edge for edge in edges if edge['source']==current and (edge_kinds is None or edge['kind'] in edge_kinds)]
             if not linked and nodes[current]['kind'] not in ('FILTER','SECURITY_ROLE','REFRESH_SCHEDULE') and not nodes[current]['properties'].get('system_of_record'):
                 stops.append({'node':current,'reason':'No retained upstream dependency is declared for this object.'})
@@ -85,7 +88,9 @@ class GraphAPI:
                 unavailable_owner=next((owner for owner in (edge['owner'],edge.get('properties',{}).get('definition_source_owner'))if owner in self.unavailable),None)
                 if unavailable_owner:
                     stops.append({'node':current,'reason':self.unavailable[unavailable_owner]['reason'],
-                        'remedy':'Refresh the unavailable edge owner before following this dependency.'});continue
+                        'remedy':('Warning: following the retained dependency; current collection failed.' if retained_warning_only else
+                            'Refresh the unavailable edge owner before following this dependency.')})
+                    if not retained_warning_only:continue
                 target=edge['target']
                 if target not in self.allowed:
                     stops.append({'node':current,'reason':'Upstream object lies outside the admitted graph slice.'});continue

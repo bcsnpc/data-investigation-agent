@@ -203,6 +203,23 @@ class GraphAPITests(GraphRepositoryTests):
         self.assertEqual({n['id'] for n in api.path_to_source('visual')['nodes']},{'visual','measure','column'})
         self.assertEqual(api.visual_context('report','page','visual')['edges'][0]['id'],'vm')
         self.assertEqual(api.as_of(T0).definition_of('visual')['provenance']['definition_hash'],'a'*64)
+
+    def test_build_dev_keeps_retained_path_after_refresh_failure_without_promoting_verification(self):
+        from investigator.graph_scan_health import record
+        from investigator.build_phase import operating_mode
+        self.repo.replace(graph())
+        record(self.state,'estate','owner',T1,'UNAVAILABLE','MetadataUnavailable')
+        ordinary=self.api().path_to_source('visual')
+        self.assertEqual(ordinary['edges'],[])
+        with operating_mode():
+            retained=self.api().path_to_source('visual')
+            self.assertEqual({n['id']for n in retained['nodes']},{'visual','measure','column'})
+            self.assertEqual({e['id']for e in retained['edges']},{'vm','mc'})
+            self.assertTrue(retained['unavailable_owners'])
+            self.assertTrue(any('Warning:'in s.get('remedy','')for s in retained['stops']))
+            self.assertTrue(all(e['confidence']=='DECLARED'for e in retained['edges']))
+            restricted=self.api(['visual']).path_to_source('visual')
+            self.assertEqual(restricted['edges'],[])
     def test_unauthorized_neighbor_not_returned_and_root_refused(self):
         self.repo.replace(graph());api=self.api(['visual'])
         result=api.path_to_source('visual')

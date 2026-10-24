@@ -347,6 +347,28 @@ class CalculationAdmission(unittest.TestCase):
         self.assertEqual(intake.rank('money received',result)[0]['id'],'v')
 
 class GraphIntakeIntegrationTests(unittest.TestCase):
+    def test_card_reference_uses_named_measure_and_location_without_dropping_qualifiers(self):
+        text='Check the Net amount card on Daily overview for Cash report: 50.'
+        extracted=raw(text,'Net amount card',figure='50')
+        for kind,quote in [('MEASURE','Net amount'),('PAGE','Daily overview'),('REPORT','Cash report')]:
+            extracted['targets'].append({'words':ref(text,quote),'kind':kind,'role':'CONTEXT'})
+        cat=catalog();cat['candidates'][2]['label']='Net amount - current'
+        value=intake.extract(text,lambda *a,**k:extracted,cat,retain=lambda _:None)
+        result=intake.resolve({'text':text},cat,value)
+        self.assertEqual(result['status'],'READY')
+        self.assertEqual(result['ticket']['visual'],'v')
+        second=copy.deepcopy(cat['candidates'][2]);second['id']='other'
+        cat['candidates'].append(second);cat['edges'] +=[
+            {'source':'p','target':'other','kind':'CONTAINS'},
+            {'source':'other','target':'m','kind':'COMPUTED_FROM'}]
+        self.assertEqual(intake.resolve({'text':text},cat,value)['reason'],'CALCULATION_TARGET_TIED')
+        qualified=text.replace('Net amount card','Global Net amount card',1)
+        q=raw(qualified,'Global Net amount card',figure='50')
+        for kind,quote in [('MEASURE','Net amount'),('PAGE','Daily overview'),('REPORT','Cash report')]:
+            q['targets'].append({'words':ref(qualified,quote),'kind':kind,'role':'CONTEXT'})
+        value=intake.extract(qualified,lambda *a,**k:q,cat,retain=lambda _:None)
+        self.assertEqual(intake.resolve({'text':qualified},cat,value)['status'],'CLARIFYING')
+
     def test_candidate_names_do_not_load_unrelated_outgoing_dependencies(self):
         import tempfile
         from pathlib import Path
