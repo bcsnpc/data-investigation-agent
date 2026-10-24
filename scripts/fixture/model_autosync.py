@@ -4,6 +4,7 @@ This follows Microsoft's semantic-link-labs directlake.set_autosync route.
 No credential, network executor or investigation capability is installed here.
 """
 import re
+from datetime import datetime,timezone
 from urllib.parse import urlsplit
 from uuid import UUID
 
@@ -49,3 +50,26 @@ class ModelAutoSyncScenario:
         if expected==enabled:return {'status':'ALREADY_AT_REQUESTED_SETTING','mutations':0}
         return {'method':'POST','url':request['url'],'body':{'directLakeAutoSync':enabled},
                 'expected_status_code':204}
+
+    def change_from_portal(self,model,metadata,observation,*,expected,enabled,now=None):
+        """Use the actual publisher UI preimage when the GET is unsupported.
+
+        This is control-plane observation, not investigator attestation or a
+        server-side compare-and-swap. The operator must own the control window
+        and read back the same switch after the SDK's single-property POST.
+        """
+        target=self.settings_read(model,metadata)
+        if type(expected)is not bool or type(enabled)is not bool:
+            raise ValueError('AUTOSYNC_BOOLEAN_REQUIRED')
+        url='https://app.powerbi.com/groups/'+self.workspace+'/settings/datasets/'+str(UUID(model))+'?experience=power-bi'
+        if (not isinstance(observation,dict)or set(observation)!={'source','url','control','checked','observed_at_utc'}
+                or observation['source']!='PUBLISHER_PORTAL'
+                or observation['url']!=url or observation['control']!='Keep your Direct Lake data up to date'
+                or observation['checked']is not expected):
+            raise ValueError('AUTOSYNC_PORTAL_PREIMAGE_REQUIRED')
+        at=datetime.fromisoformat(observation['observed_at_utc'].replace('Z','+00:00'))
+        now=now or datetime.now(timezone.utc)
+        if at.tzinfo is None or now.tzinfo is None or not 0<=(now-at).total_seconds()<=120:
+            raise ValueError('AUTOSYNC_PORTAL_OBSERVATION_STALE')
+        if expected==enabled:return {'status':'ALREADY_AT_REQUESTED_SETTING','mutations':0}
+        return {'method':'POST','url':target['url'],'body':{'directLakeAutoSync':enabled},'expected_status_code':204}

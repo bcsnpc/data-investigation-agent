@@ -37,4 +37,20 @@ class AutoSyncPlans(unittest.TestCase):
         self.assertEqual(b.change(M,metadata,settings,expected=False,enabled=False)['mutations'],0)
         with self.assertRaisesRegex(ValueError,'BOOLEAN_REQUIRED'):b.change(M,metadata,settings,expected=False,enabled=1)
 
+    def test_portal_preimage_is_scoped_fresh_and_distinct_from_query_attestation(self):
+        from datetime import datetime,timezone,timedelta
+        b=self.builder();metadata={'request':b.model_read(M),'status_code':200,'text':{'model':{'id':123}}}
+        now=datetime(2026,10,24,1,tzinfo=timezone.utc)
+        observation={'source':'PUBLISHER_PORTAL','url':'https://app.powerbi.com/groups/'+W+'/settings/datasets/'+M+'?experience=power-bi',
+          'control':'Keep your Direct Lake data up to date','checked':True,'observed_at_utc':now.isoformat()}
+        change=b.change_from_portal(M,metadata,observation,expected=True,enabled=False,now=now)
+        self.assertEqual(change['body'],{'directLakeAutoSync':False});self.assertEqual(change['method'],'POST')
+        for key,value in [('source','VALUE_QUERY'),('url',observation['url'].replace(M,OTHER)),('control','grant access'),('checked',False)]:
+            invalid={**observation,key:value}
+            with self.subTest(key=key),self.assertRaisesRegex(ValueError,'PREIMAGE_REQUIRED'):
+                b.change_from_portal(M,metadata,invalid,expected=True,enabled=False,now=now)
+        for at in (now-timedelta(seconds=121),now+timedelta(seconds=1),now.replace(tzinfo=None)):
+            with self.subTest(at=at),self.assertRaisesRegex(ValueError,'OBSERVATION_STALE'):
+                b.change_from_portal(M,metadata,{**observation,'observed_at_utc':at.isoformat()},expected=True,enabled=False,now=now)
+
 if __name__=='__main__':unittest.main()
