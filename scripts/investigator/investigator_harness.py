@@ -55,7 +55,13 @@ class RunHarness:
         else:
             if any(v['event']=='SUBMIT_ATTEMPT'for v in self.log.events):
                 raise RunStillActive('SUBMISSION_UNCERTAIN_RECONCILE_BEFORE_RETRY')
-            self.admit(ticket); self.log.append('SUBMIT_ATTEMPT', {'ticket_sha256': identity})
+            try:
+                admission = self.admit(ticket)
+                if admission is not None:self.log.append('ADMISSION', admission)
+            except Exception as error:
+                self.log.append('BLOCK', {'stage':'ADMISSION','error_type':type(error).__name__,'reason':str(error)})
+                raise
+            self.log.append('SUBMIT_ATTEMPT', {'ticket_sha256': identity})
             try: run = self.user.submit(ticket)
             except Exception as error:
                 self.log.append('BLOCK', {'stage': 'SUBMIT', 'error_type': type(error).__name__, 'reason': str(error)})

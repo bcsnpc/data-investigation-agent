@@ -109,12 +109,20 @@ class TemporalPlans(unittest.TestCase):
             def poll(self,run):return {'status':'Succeeded'}
             def outcome(self,run,status):return {'verdict':'not found'}
         with tempfile.TemporaryDirectory()as directory:
-            RunHarness(User(),CaseLog(Path(directory)/'available'),admit=admit).run({'id':'live'})
+            available=CaseLog(Path(directory)/'available')
+            RunHarness(User(),available,admit=admit).run({'id':'live'})
             self.assertEqual(calls,['live read','submit'])
+            admission=next(x for x in available.events if x['event']=='ADMISSION')
+            self.assertEqual(admission['value']['native_result'],native)
+            self.assertEqual(admission['value']['native_result']['rows'][0]['before_quantity'],None)
+            self.assertLess([x['event']for x in available.events].index('ADMISSION'),[x['event']for x in available.events].index('SUBMIT_ATTEMPT'))
             state['rows']=[]
+            removed=CaseLog(Path(directory)/'removed')
             with self.assertRaisesRegex(ValueError,'LIVE_HISTORY_MISSING'):
-                RunHarness(User(),CaseLog(Path(directory)/'removed'),admit=admit).run({'id':'removed'})
+                RunHarness(User(),removed,admit=admit).run({'id':'removed'})
             self.assertEqual(calls,['live read','submit','live read'])
+            self.assertEqual(removed.events[-1]['value']['stage'],'ADMISSION')
+            self.assertNotIn('SUBMIT_ATTEMPT',[x['event']for x in removed.events])
         for field,changed,error in [('history_coverage_from','2026-10-23T22:49:21','OUTSIDE_RETAINED'),
                                     ('before_quantity','0','EMPTY_RESULT_COLLAPSED'),
                                     ('after_quantity',None,'EMPTY_RESULT_COLLAPSED')]:
