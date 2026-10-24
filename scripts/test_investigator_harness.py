@@ -13,6 +13,22 @@ import test_ledger_investigator as fixtures
 
 
 class HarnessTests(unittest.TestCase):
+    def test_legacy_request_envelope_binds_without_rewriting_the_output(self):
+        result={'request':{'text':'Original question'},'revision':1,
+            'ticket':{'version':'smart-ticket-v1','state':'HELD'}}
+        class User:
+            def submit(self,ticket):return {'run_id':'one'}
+            def poll(self,run):return {'status':'Succeeded'}
+            def outcome(self,run,state):return copy.deepcopy(result)
+        with tempfile.TemporaryDirectory()as tmp:
+            log=CaseLog(Path(tmp)/'case.jsonl')
+            actual=RunHarness(User(),log,admit=lambda _:None).run({'text':'Original question'})
+            self.assertEqual(actual,result)
+            self.assertNotIn('text',actual['ticket'])
+            result['request']['text']='Different question'
+            with self.assertRaisesRegex(StateConflict,'TICKET_TEXT_DIFFERS'):
+                RunHarness(User(),CaseLog(Path(tmp)/'other.jsonl'),admit=lambda _:None).run({'text':'Original question'})
+
     def test_fixture_ticket_submits_polls_and_receives_real_engine_case_log(self):
         calls = []; tools, engine, _, _ = fixtures.ToolLoopTests().build()
         def decide(payload, **kwargs):

@@ -80,7 +80,10 @@ class RunHarness:
                 except Exception as error:
                     self.log.append('BLOCK',{'stage':'OUTCOME','error_type':type(error).__name__,'reason':str(error)});raise
                 delivered=result.get('result',result)
-                if ticket.get('text')is not None and delivered.get('ticket',{}).get('text')!=ticket['text']:
+                returned_text=delivered.get('ticket',{}).get('text')
+                if returned_text is None and delivered.get('ticket',{}).get('version')=='smart-ticket-v1':
+                    returned_text=delivered.get('request',{}).get('text')
+                if ticket.get('text')is not None and returned_text!=ticket['text']:
                     self.log.append('BLOCK',{'stage':'OUTCOME_BINDING','reason':'DELIVERED_TICKET_TEXT_DIFFERS'})
                     raise StateConflict('DELIVERED_TICKET_TEXT_DIFFERS')
                 self.log.append('OUTCOME', {'result': result, 'elapsed_seconds': self.clock()-started,

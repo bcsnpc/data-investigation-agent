@@ -1,0 +1,53 @@
+{
+  "revision": "71b71fafd9c2ec62b6f35c4dd5e8699e8adaa688",
+  "elapsed_seconds": 614.4653044999977,
+  "statuses": [
+    {
+      "shard": 0,
+      "exit_code": 0
+    },
+    {
+      "shard": 1,
+      "exit_code": 1
+    },
+    {
+      "shard": 2,
+      "exit_code": 0
+    },
+    {
+      "shard": 3,
+      "exit_code": 0
+    }
+  ],
+  "results": [
+    {
+      "tests": 1324,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "successful": true
+    },
+    {
+      "tests": 1324,
+      "failures": 0,
+      "errors": 2,
+      "skips": 7,
+      "successful": false
+    },
+    {
+      "tests": 1324,
+      "failures": 0,
+      "errors": 0,
+      "skips": 14,
+      "successful": true
+    },
+    {
+      "tests": 1323,
+      "failures": 0,
+      "errors": 0,
+      "skips": 27,
+      "successful": true
+    }
+  ],
+  "interpretation": "Not green: two quality-evaluation module import errors in isolated shards. No assertion or safety failure. Other5245 tests pass;48 skip. Fixed package-relative import then focused73PASS; new full run pending."
+}

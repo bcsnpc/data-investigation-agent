@@ -347,6 +347,35 @@ class CalculationAdmission(unittest.TestCase):
         self.assertEqual(intake.rank('money received',result)[0]['id'],'v')
 
 class GraphIntakeIntegrationTests(unittest.TestCase):
+    def test_candidate_names_do_not_load_unrelated_outgoing_dependencies(self):
+        import tempfile
+        from pathlib import Path
+        from investigator.shared_state import SharedState
+        from investigator.estate_graph_repository import GraphRepository
+        from investigator.estate_graph_api import GraphAPI
+        from investigator.live_gateway import Gateway
+        from test_estate_graph import graph,proof
+        from investigator import estate_graph_contract as contract
+        with tempfile.TemporaryDirectory()as temporary:
+            state=SharedState.offline(Path(temporary)/'state.sqlite')
+            repo=GraphRepository(state);repo.migrate();body=graph()
+            for i in range(510):
+                identity='external'+str(i)
+                body['nodes'].append(contract.node(identity,'owner','COLUMN',identity,proof()))
+                body['edges'].append(contract.edge('extra'+str(i),'owner','COMPUTED_FROM','measure',identity,proof()))
+            repo.replace(body)
+            selected=['report','page','visual','measure']
+            gateway=Gateway({'version':1,'live_enabled':False,'identities':{'reader':{'role':'investigation','graph':{'estate':selected}}}})
+            api=GraphAPI(repo,gateway,identity='reader',estate='estate',allowed_objects=selected)
+            catalog=api.intake_candidates(enriched=True,identities=selected)
+            self.assertEqual({n['id']for n in catalog['candidates']},set(selected))
+            self.assertEqual({(e['source'],e['target'])for e in catalog['edges']},
+                {('report','page'),('page','visual'),('visual','measure')})
+            # A real upstream walk still preserves its external boundaries.
+            path=repo.path_records('estate',['measure'],selected,max_edges=20)
+            self.assertTrue(path['truncated'])
+            self.assertTrue(any(e['target'].startswith('external')for e in path['edges']))
+
     def test_real_repository_keeps_container_edges_and_only_named_candidates_from_wider_path_scope(self):
         import tempfile
         from pathlib import Path

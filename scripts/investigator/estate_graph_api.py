@@ -23,7 +23,7 @@ class GraphAPI:
         # Node IDs are not edge IDs. A records(identities=node_ids) query loses
         # every containment edge, making a named report/page look unresolved.
         graph=(self.repository.path_records(self.estate,selected,selected,at=self.at,max_nodes=200,
-                max_edges=500,edge_kinds={'CONTAINS','COMPUTED_FROM'}) if enriched and selected else
+                max_edges=500,edge_kinds={'CONTAINS','COMPUTED_FROM'},edge_targets=selected) if enriched and selected else
                self.repository.records(self.estate,at=self.at,identities=selected,limit=1000))
         if graph['truncated']:raise ValueError('INTAKE_CANDIDATE_GRAPH_TRUNCATED')
         kinds={'PIPELINE','COPY_ACTIVITY','NOTEBOOK','MODEL','REPORT','PAGE','VISUAL','MEASURE'}
