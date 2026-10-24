@@ -235,7 +235,23 @@ def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
         result=_supported(verdict,records,None,'The retained '+request['question'].lower().replace('_',' ')+' is '+selected['value'].get('status',selected['value'].get('state'))+'. This answers only the explicit operational question; no numerical cause was established.')
         result['claim_scope']='OPERATIONAL_FACT_ONLY';result['operational_fact']=selected
         return operational_support(result,selected,current_facts(entries,now))
-    if request['kind']=='DEFINITION':raise ValueError('DEFINITION_ROUTE_REQUIRES_RETAINED_EXPLANATION')
+    if request['kind']=='DEFINITION':
+        # Describing the authored calculation is a different question from
+        # proving a numerical divergence. Quote the retained implementation;
+        # neither model prose nor equal values can substitute for its contents.
+        import hashlib
+        definitions=[entry['value']for entry in entries if entry['kind']=='GRAPH'
+            and entry['value'].get('node')==request['subject']
+            and entry['value'].get('provenance',{}).get('source')=='STATIC_DEFINITION'
+            and not entry['value'].get('collection_unavailable')
+            and isinstance(entry['value'].get('content'),str)]
+        matching=[value for value in definitions if hashlib.sha256(value['content'].encode('utf-8')).hexdigest()
+            ==value.get('definition',{}).get('sha256')]
+        if verdict!='as designed' or len(matching)!=1:raise ValueError('DEFINITION_ROUTE_REQUIRES_RETAINED_EXPLANATION')
+        result=_supported(verdict,records,None,'The retained implementation is:\n'+matching[0]['content']+
+            '\nThis describes the authored calculation only. It does not establish a numerical result, business correctness or the policy the owner intended.')
+        result.update(claim_scope='RETAINED_DEFINITION_ONLY',definition_subject=request['subject'])
+        return result
     reads={identity:r['value'] for identity,r in records.items() if r['kind']=='READ'}
     for read in reads.values():
         if read.get('route_admitted') is not True or read.get('read_only_verified') is not True or not read.get('receipt_id'):raise ValueError('READ_NOT_ADMITTED')

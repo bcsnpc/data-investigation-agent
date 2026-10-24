@@ -216,6 +216,41 @@ class OperationalFactTests(unittest.TestCase):
 
 
 class ToolLoopTests(unittest.TestCase):
+    def test_definition_question_quotes_implementation_without_quantity_or_model_calls(self):
+        import hashlib
+        tools,engine,reader,_=self.build();tools.request_kind='DEFINITION'
+        body='{"expression":"AGGREGATE(Entries[Quantity])"}'
+        value={'node':'visual','provenance':{'source':'STATIC_DEFINITION'},
+               'definition':{'sha256':hashlib.sha256(body.encode()).hexdigest()},
+               'content':body,'collection_unavailable':None}
+        tools.graph.definition_of.return_value=value;engine.decide=Mock()
+        result=engine.run({'visual':'visual','text':'How is this calculation implemented?',
+                           'request':{'kind':'DEFINITION','subject':'visual'}})
+        self.assertEqual(result['verdict'],'as designed')
+        self.assertEqual(result['support']['claim_scope'],'RETAINED_DEFINITION_ONLY')
+        for output in result['outputs'].values():
+            self.assertIn(body,output)
+            self.assertIn('does not establish a numerical result, business correctness',output)
+        reader.assert_not_called();engine.decide.assert_not_called()
+        tools.graph.definition_of.assert_called_once_with(node='visual')
+        self.assertEqual(result['cost']['model_calls'],0)
+
+    def test_definition_reference_or_proposal_never_becomes_implemented_answer(self):
+        import hashlib
+        for change in ({'content':None},{'provenance':{'source':'MODEL_PROPOSAL'}},
+                       {'content':'different'},{'node':'up'},{'collection_unavailable':{'reason':'unavailable'}}):
+            with self.subTest(change=change):
+                tools,engine,reader,_=self.build();tools.request_kind='DEFINITION';engine.decide=Mock()
+                body='retained implementation'
+                value={'node':'visual','provenance':{'source':'STATIC_DEFINITION'},
+                       'definition':{'sha256':hashlib.sha256(body.encode()).hexdigest()},'content':body}
+                value.update(change);tools.graph.definition_of.return_value=value
+                result=engine.run({'visual':'visual','text':'How is this implemented?',
+                    'request':{'kind':'DEFINITION','subject':'visual'}})
+                self.assertEqual(result['verdict'],'not found')
+                self.assertIn('No calculation or business policy was inferred',result['outputs']['business'])
+                reader.assert_not_called();engine.decide.assert_not_called()
+
     def test_empty_complete_history_reaches_tool_despite_older_unavailable_run(self):
         old=fact('job','REFRESH_RUN',None);old.update(state='UNAVAILABLE',reason='READ_FAILED:MetadataUnavailable:403',freshness='STALE')
         history=fact('job','RUN_HISTORY',{'runs':[],'listing_complete':True});history['state']='OBSERVED_NEGATIVE'

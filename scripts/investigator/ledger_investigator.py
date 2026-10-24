@@ -215,6 +215,21 @@ class Investigator:
                 measured=actual['value']['value'] if actual['value']['state']=='VALUE' else None
                 reproduction.append(self.tools.evidence.add('REPRODUCTION',[self.tools.visual],{'reported':reported,'measured':measured,'status':reported_label(reported,measured),'support_ids':[reproduction[0]]}))
         record({'event':'INVESTIGATOR_REPRODUCTION','evidence_ids':reproduction})
+        if self.tools.request_kind=='DEFINITION':
+            # There is no value comparison to recreate and no freshness incident
+            # to infer. Read the named implementation once, rather than spending
+            # several model turns proposing conclusions this route cannot prove.
+            self.case.advance('quick_facts');self.case.advance('investigate')
+            definition=tool('definition_of',{'node':self.tools.visual})
+            known=list(dict.fromkeys([self.tools.path_id,*self.tools.gap_ids,*definition.get('evidence_ids',[])]))
+            try:
+                supported=check('as designed',known,self.tools.evidence,now=self.tools.now,
+                    request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
+            except ValueError:
+                supported=check('not found',known,self.tools.evidence,now=self.tools.now,
+                    request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
+                supported['reason']='The retained implementation contents could not be obtained for the named target. No calculation or business policy was inferred from its name.'
+            return self._finish(ticket,supported,calls,hypotheses,warnings,'RETAINED_DEFINITION_READ',started,0)
         if self.request.get('question_kind')=='FILTER_EFFECT':
             gap=self.tools.evidence.add('GAP',[self.tools.visual],{'reason':'Filter-effect routing is not installed; no pipeline walk was made.','code':'UNIMPLEMENTED_ROUTE'})
             supported=check('not found',[self.tools.path_id,*reproduction,gap],self.tools.evidence,now=self.tools.now)
@@ -392,6 +407,7 @@ class Investigator:
         if supported.get('claim_scope')=='OPERATIONAL_STATUS_WITH_COMPARISON_PENDING':answer_status='partly answered: a current operational status was established; the numerical comparison was not checked'
         if supported.get('claim_scope')=='OPERATIONAL_FACT_ONLY':answer_status='answered: the explicit operational status is recorded; no numerical explanation was claimed'
         if supported.get('claim_scope')=='OPERATIONAL_STATUS_WITH_BLOCKED_SOURCE':answer_status='partly answered: the linked load failure and recorded source outage are established; the source quantity could not be compared'
+        if supported.get('claim_scope')=='RETAINED_DEFINITION_ONLY':answer_status='answered: the retained implementation is quoted; numerical behavior and business correctness were not tested'
         if verdict!='not found' and any(r['kind']=='GAP'and r['value'].get('code')=='COMPARISON_TARGET_UNAVAILABLE'for r in evidence.values()):
             answer_status='partly answered: the named comparison target was unavailable; the finding concerns only the measured path boundary'
         business+='Answer status: '+answer_status+'.\n'
