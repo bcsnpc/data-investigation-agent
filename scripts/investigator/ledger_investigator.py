@@ -272,7 +272,7 @@ class Investigator:
             # A missing external number is not a missing native comparison:
             # follow the admitted producer path, without inventing a value.
         if len(ready)==1:return self._finish(ticket,ready[0],calls,hypotheses,warnings,'EVIDENCE_PROVEN',started,0)
-        if self.decide is None:
+        if self.decide is None and self.request.get('comparison_pending')is not True:
             supported=check('not found',known,self.tools.evidence,now=self.tools.now,request=self.request,ticket_text=self.ticket_text,target=self.tools.visual)
             return self._finish(ticket,supported,calls,hypotheses,warnings,'GOVERNED_MODEL_NOT_INSTALLED',started,0)
         self.case.advance('investigate')

@@ -122,6 +122,7 @@ class Assembly(unittest.TestCase):
             reader,checks=worker.compiled_values(None,path,visual='visual',measure_id='measure',retain=retained.append)
         self.assertIsNone(checks)
         with self.assertRaisesRegex(ValueError,'CURRENT_GRAPH_DEFINITION_OWNER_UNAVAILABLE'):reader('visual',None,{})
+        self.assertEqual(reader.layers,{})
         self.assertEqual(retained[0]['native_value_queries'],0)
 
     def test_wrong_measure_without_owner_unavailability_still_refuses(self):

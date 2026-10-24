@@ -121,7 +121,9 @@ class CalculationAdmission(unittest.TestCase):
         request=copy.deepcopy(admitted['request']);request['subject']='visual'
         answer=engine.run({'visual':'visual','text':text,'request':request})
         self.assertTrue(reader.called);self.assertTrue(tools.graph.node_facts.called)
-        self.assertEqual(answer['question']['text'],'What value does your spreadsheet show?')
+        self.assertGreater(reader.call_count,1)
+        self.assertNotIn('question',answer)
+        self.assertFalse(any(r['kind']=='GIVEN_COMPARISON'for r in answer['evidence'].values()))
 
     def test_compare_subject_cannot_point_at_a_different_visual_than_the_reader(self):
         from test_ledger_investigator import ToolLoopTests
@@ -264,8 +266,9 @@ class CalculationAdmission(unittest.TestCase):
         answer=engine.run({'visual':'visual','text':'Check my number.','request':{
             'kind':'COMPARE','subject':'visual','comparison_pending':True}})
         self.assertTrue(reader.called);self.assertTrue(tools.graph.node_facts.called)
-        self.assertEqual(answer['stop_reason'],'COMPARISON_REQUIRED_AFTER_QUICK_CHECKS')
-        self.assertEqual(answer['question']['code'],'COMPARISON_REQUIRED')
+        self.assertGreater(reader.call_count,1)
+        self.assertNotEqual(answer['stop_reason'],'COMPARISON_REQUIRED_AFTER_QUICK_CHECKS')
+        self.assertNotIn('question',answer)
         self.assertTrue(any(r['kind']=='READ'for r in answer['evidence'].values()))
 
     def test_filter_effect_recreates_but_never_turns_into_a_pipeline_finding(self):

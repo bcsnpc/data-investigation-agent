@@ -503,6 +503,17 @@ class OperationalDeliveryTests(unittest.TestCase):
 
 
 class PendingComparisonTests(unittest.TestCase):
+    def test_comparison_question_waits_until_every_declared_read_agrees(self):
+        tools,engine,reader,_=ToolLoopTests().build()
+        tools.nodes['job']['kind']='PIPELINE'
+        tools.graph.node_facts.side_effect=lambda node,**kwargs:{'facts':[]}
+        reader.side_effect=lambda node,key,context:read(node,7,context)
+        result=engine.run({'visual':'visual','text':'Why is this wrong?',
+            'request':{'kind':'COMPARE','comparison_pending':True}})
+        self.assertEqual(result['question']['code'],'COMPARISON_REQUIRED')
+        self.assertEqual({c.args[0]for c in reader.call_args_list},{'visual','down','up'})
+        self.assertFalse(any(r['kind']=='GIVEN_COMPARISON'for r in result['evidence'].values()))
+
     def test_missing_comparison_walks_declared_path_without_inventing_a_value(self):
         tools,engine,reader,_=ToolLoopTests().build(step_cap=5)
         tools.nodes['job']['kind']='PIPELINE'

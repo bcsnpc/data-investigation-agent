@@ -154,6 +154,7 @@ def compiled_values(process,path,*,visual,measure_id,retain):
              'owners':sorted(path['unavailable_owners']),'native_value_queries':0}
         retain({'event':'INVESTIGATOR_NATIVE_PATH_UNAVAILABLE',**gap})
         def unavailable(*args):raise ValueError(gap['reason'])
+        unavailable.layers={}
         return unavailable,None
     return values,ProcessChecks(values)
 
