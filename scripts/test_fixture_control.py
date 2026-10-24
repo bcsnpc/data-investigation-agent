@@ -47,6 +47,11 @@ class FixtureControlTest(unittest.TestCase):
         body={'errorCode':'ScopeRefused','message':'Precisely refused'};c=self.make(Mock(return_value={'status_code':403,'text':body}))
         with self.assertRaisesRegex(ControlError,'Precisely refused'):c.call('workspaces/'+W+'/items')
         self.assertEqual(c.record['requests'][0]['response']['text'],body)
+    def test_successful_no_content_cleanup_is_not_reported_as_failure(self):
+        response={'status_code':204,'text':{}}
+        c=self.make(Mock(return_value=response))
+        result=c.call('workspaces/'+W+'/items/'+W+'/jobs/Pipeline/schedules/'+W,'DELETE',None,key='owned-schedule-cleanup')
+        self.assertEqual(result,response);self.assertEqual(c.finish('RESTORED')['physical_requests'],1)
     def test_other_sessions_are_not_counted_as_this_control(self):
         c=self.make(Mock(return_value={'status_code':200,'text':{}}))
         c.call('workspaces/'+W+'/items')

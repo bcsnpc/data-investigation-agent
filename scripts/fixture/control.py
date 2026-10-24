@@ -69,7 +69,7 @@ class FixtureControl:
         try:
             response=self.journal.mutation(key,request,send) if key else send()
             entry.update(response=response,ended=datetime.now(timezone.utc).isoformat());self.save()
-            if response.get('status_code') not in (200,201,202):
+            if response.get('status_code') not in (200,201,202,204):
                 raise ControlError('HTTP '+str(response.get('status_code'))+': '+json.dumps(response.get('text')))
             return response
         except Exception as exc:
