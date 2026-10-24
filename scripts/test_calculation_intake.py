@@ -109,6 +109,10 @@ class CalculationAdmission(unittest.TestCase):
         parsed=self.extract(text,value)
         self.assertEqual(parsed['primary']['quote'],text)
         self.assertEqual(intake.reference([2,3,4],text),intake.reference([2,4],text))
+        self.assertEqual(intake.reference([2],text),intake.reference([2,2],text))
+        one='Net receipts shows 950.';value=raw(one,figure='950')
+        value['figures'][0]['words']=[ref(one,'950')[0]]
+        self.assertEqual(self.extract(one,value)['reported_figure']['value'],'950')
         for invalid in ([1,3,4],[4,3,2],[1,10**12,10**13]):
             with self.assertRaisesRegex(ValueError,'CONTIGUOUS'):intake.reference(invalid,text)
 

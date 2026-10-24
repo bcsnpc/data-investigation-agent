@@ -23,7 +23,7 @@ def array(properties,maximum=16):
 ROLE={'type':'string','enum':['PRIMARY','COMPARISON','CONTEXT']}
 # Producers sometimes enumerate the tokens of a span. Contiguous enumeration
 # has exactly the same referent as its two endpoints; it is not user ambiguity.
-REFERENCE={'type':'array','items':{'type':'integer','minimum':1},'minItems':2,'maxItems':256}
+REFERENCE={'type':'array','items':{'type':'integer','minimum':1},'minItems':1,'maxItems':256}
 SCHEMA=obj({
  'kind':{'type':'string','enum':['CALCULATION','DEFINITION','BUSINESS_MEANING','FILTER_EFFECT','FRESHNESS','TEMPORAL_COMPARISON']},
  'primary':copy.deepcopy(REFERENCE),
