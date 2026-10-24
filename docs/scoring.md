@@ -18,7 +18,7 @@ Claude grades the sealed expected and delivered answers through a separate evalu
 
 ## Budget and time
 
-One overall physical-request allowance per scored batch is ticket count times40:1600for40dev;800for20held-out, increased only by the actual held-out ticket count if larger. Actual physical requests remain charged to the shared monthly6000authority; scheduled SCAN1000and restoration95are unchanged. These batch ceilings confer no extra monthly allowance. Do not introduce per-round-trip expense caps. If a monthly cap is reached, preserve completed results and mark the rest not run against the unchanged denominator.
+One overall physical-request allowance per scored batch is ticket count times40:1600for40dev;800for20held-out, increased only by the actual held-out ticket count if larger. Actual physical requests remain charged to the shared monthly6000authority. Owner reallocated scheduled SCAN1000 to2000 on2026-10-23 (effective2026-10-24T01:24UTC), leaving INVESTIGATION3905 and restoration95; no counter reset. These batch ceilings confer no extra monthly allowance. Do not introduce per-round-trip expense caps. If a monthly cap is reached, preserve completed results and mark the rest not run against the unchanged denominator.
 
 Investigator models use the shared monthlyUSD40account. Independent writing/grading uses the existing enrichmentUSD25account, with USD5.170482historically charged at opening. Reservations, exact provider usage and unknown costs remain visible. No new provider, identity, grant or secret is authorized by this scoring contract.
 
