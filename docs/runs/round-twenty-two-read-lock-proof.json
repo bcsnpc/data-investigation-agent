@@ -1,0 +1,12 @@
+{
+  "observed_at_utc": "2026-10-24T01:15:21.901286+00:00",
+  "status": "PASS",
+  "transaction_read_only": "on",
+  "transaction_isolation": "repeatable read",
+  "second_connection_writer_lock_available": true,
+  "persistent_writes": 0,
+  "estate_reads": 0,
+  "model_calls": 0,
+  "elapsed_seconds": 1.9576906000002054,
+  "limitation": "Proves lock separation now, not the identity of the earlier lock holder."
+}
