@@ -107,8 +107,15 @@ class LockTests(unittest.TestCase):
             with self.state.transaction():
                 with self.assertRaisesRegex(GatewayDenied,'NETWORK_DURING_SHARED_STATE_TRANSACTION'): invoke()
         self.assertFalse(TRANSACTION_ACTIVE.get())
-        with self.assertRaisesRegex(GatewayDenied,'IDENTITY_NOT_ALLOWED'):
-            self.gateway.sql('reader','sql','db','SELECT 1')
+        # The offline container deliberately sets the global kill switch.
+        # Isolate this identity-denial assertion without changing that switch
+        # for any other test or allowing a transport call.
+        with patch.dict(os.environ,{'DIA_LIVE_ACCESS_DISABLED':'0'}):
+            with self.assertRaisesRegex(GatewayDenied,'IDENTITY_NOT_ALLOWED'):
+                self.gateway.sql('reader','sql','db','SELECT 1')
+        with patch.dict(os.environ,{'DIA_LIVE_ACCESS_DISABLED':'1'}):
+            with self.assertRaisesRegex(GatewayDenied,'LIVE_ACCESS_DISABLED'):
+                self.gateway.sql('reader','sql','db','SELECT 1')
     def test_parent_refuses_worker_before_spawn_inside_transaction(self):
         from investigator.physical_reads import run
         fallback=Mock()
