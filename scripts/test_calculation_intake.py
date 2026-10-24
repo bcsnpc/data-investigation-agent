@@ -122,11 +122,30 @@ class CalculationAdmission(unittest.TestCase):
         value['targets'].append({'words':ref(text,'Daily overview'),'kind':'PAGE','role':'CONTEXT'})
         c=catalog();c['candidates'].append({'id':'other-measure','kind':'MEASURE','label':'Net amount'})
         admitted=intake.resolve({'text':text},c,self.extract(text,value))
-        self.assertEqual(admitted['status'],'READY');self.assertEqual(admitted['ticket']['request']['subject'],'m')
+        self.assertEqual(admitted['status'],'READY');self.assertEqual(admitted['ticket']['request']['subject'],'v')
         self.assertEqual(admitted['ticket']['intake_scope']['filters'],[])
         value['targets'][-1]['role']='COMPARISON'
         tied=intake.resolve({'text':text},c,self.extract(text,value))
         self.assertEqual(tied['reason'],'CALCULATION_TARGET_TIED')
+
+    def test_same_measure_in_multiple_visuals_never_uses_reported_value_to_pick_a_cell(self):
+        text='Net amount on Daily overview shows 950.';value=raw(text,target='Net amount',figure='950')
+        value['targets'][0]['kind']='MEASURE'
+        value['targets'].append({'words':ref(text,'Daily overview'),'kind':'PAGE','role':'CONTEXT'})
+        c=catalog();c['candidates'].append({'id':'north','kind':'VISUAL','label':'North card'})
+        c['edges'] += [{'source':'p','target':'north','kind':'CONTAINS'},
+                       {'source':'north','target':'m','kind':'COMPUTED_FROM'}]
+        result=intake.resolve({'text':text},c,self.extract(text,value))
+        self.assertEqual(result['reason'],'CALCULATION_VISUAL_SCOPE_UNRESOLVED')
+        self.assertEqual({n['label']for n in result['questions'][0]['choices']},{'Net receipts','North card'})
+        self.assertNotIn('ticket',result)
+
+    def test_negated_page_mention_does_not_supply_a_target_location(self):
+        text='Net amount, not on Daily overview, shows 950.';value=raw(text,target='Net amount',figure='950')
+        value['targets'][0]['kind']='MEASURE';value['targets'].append({'words':ref(text,'Daily overview'),'kind':'PAGE','role':'CONTEXT'})
+        c=catalog();c['candidates'].append({'id':'other','kind':'MEASURE','label':'Net amount'})
+        result=intake.resolve({'text':text},c,self.extract(text,value))
+        self.assertEqual(result['reason'],'CALCULATION_TARGET_TIED')
 
     def test_provider_schema_rejection_retries_but_real_provider_errors_do_not(self):
         from jsonschema import ValidationError

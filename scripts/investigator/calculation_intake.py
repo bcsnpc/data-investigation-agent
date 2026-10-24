@@ -236,7 +236,14 @@ def resolve(ticket,catalog,extraction):
     containers=[]
     # A named current report/page locates the target even when it is context
     # rather than the primary ask. This adds no filter or whole-page scope.
-    locations=[n for n in extraction['targets']if n['role']!='COMPARISON'and n['kind']in('REPORT','PAGE')]
+    def current_location(item):
+        if item['role']=='PRIMARY':return True
+        if item['role']!='CONTEXT':return False
+        prefix=text[max(0,item['words']['start']-40):item['words']['start']]
+        positive=r'\b(on|in|from|under|at)\s+(?:the\s+)?$'
+        negative=r'\b(not|never|except)\s+(on|in|from|under|at)\s+(?:the\s+)?$'
+        return bool(re.search(positive,prefix,re.I)and not re.search(negative,prefix,re.I))
+    locations=[n for n in extraction['targets']if n['kind']in('REPORT','PAGE')and current_location(n)]
     for item in [*references,*[n for n in locations if n not in references]]:
         if item['kind']not in('REPORT','PAGE','TABLE','VIEW','SOURCE'):continue
         if specific and all(n['kind']==item['kind']for n in specific):continue
@@ -259,6 +266,16 @@ def resolve(ticket,catalog,extraction):
     if len(ranked)>1 and round(ranked[0]['confidence']-ranked[1]['confidence'],4)<.1:
         return question('CALCULATION_TARGET_TIED',ranked)
     target=ranked[0]
+    if target['kind']=='MEASURE'and locations and extraction['reported_figure']['state']!='UNSPECIFIED':
+        # A number on a report/page is not a bare model-wide measure. Bind its
+        # sole matching visual structurally, or ask; never choose by its value.
+        visuals=[n for n in catalog['candidates']if n['kind']=='VISUAL'
+            and all(within(n['id'],c)for c in containers)
+            and any(e['source']==n['id']and e['target']==target['id']and e['kind']=='COMPUTED_FROM'for e in catalog.get('edges',[]))]
+        choices=[{k:n[k]for k in('id','label','kind')}|{'confidence':target['confidence'],
+            'basis':'NAMED_MEASURE_IN_NAMED_LOCATION','search_aid_only':True}for n in visuals]
+        if len(choices)!=1:return question('CALCULATION_VISUAL_SCOPE_UNRESOLVED',choices)
+        target=choices[0]
     admitted=copy.deepcopy(ticket)
     request={'kind':'DEFINITION'if extraction['kind']=='DEFINITION'else'COMPARE','subject':target['id'],
              'source':copy.deepcopy(extraction['primary']),'question_kind':extraction['kind']}
