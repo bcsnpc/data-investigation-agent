@@ -35,6 +35,19 @@ class CalculationAdmission(unittest.TestCase):
         self.assertGreater(intake.rank('returned payments',catalog())[0]['confidence'],0)
         self.assertTrue(match['search_aid_only'])
 
+    def test_name_search_treats_separators_as_words_without_erasing_suffixes(self):
+        c=catalog();c['candidates'][2]['label']='Net_receipts'
+        self.assertEqual(intake.rank('Net receipts',c)[0]['confidence'],1)
+        self.assertEqual(intake.rank('Net-receipts',c)[0]['confidence'],1)
+        self.assertEqual(intake.words('Net_receipts'),{'net','receipts'})
+        text='Net receipts shows 950.'
+        value=self.extract(text,raw(text,figure='950'))
+        self.assertEqual(intake.resolve({'text':text},c,value)['ticket']['visual'],'v')
+        c['candidates'].append({'id':'second','kind':'VISUAL','label':'Net-receipts'})
+        self.assertEqual(intake.resolve({'text':text},c,value)['reason'],'CALCULATION_TARGET_TIED')
+        c['candidates']=[{'id':'suffixed','kind':'VISUAL','label':'Net_receipts_archived'}]
+        self.assertLess(intake.rank('Net receipts',c)[0]['confidence'],.9)
+
     def test_high_confidence_admits_assumption_exact_number_and_pending_comparison(self):
         text='Net receipts shows 950.';ticket={'id':'raw','text':text};before=copy.deepcopy(ticket)
         result=intake.resolve(ticket,catalog(),self.extract(text,raw(text,figure='950')))

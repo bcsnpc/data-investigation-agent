@@ -56,10 +56,14 @@ FRESHNESS asks currency or refresh facts; TEMPORAL_COMPARISON compares two times
 Preserve these primary asks instead of replacing them with a pipeline question.'''
 
 def words(text):
-    return {v for v in re.findall(r'\w+',text.casefold())if v not in STOP}
+    return {v for v in re.findall(r'[^\W_]+',text.casefold())if v not in STOP}
 
 def phrase(needle,text):
-    return bool(needle and re.search(r'(?<!\w)'+re.escape(needle)+r'(?!\w)',text,re.I))
+    # A visible name written with spaces and its underscore/hyphen spelling
+    # identify the same words. Keep every word and suffix: never strip an ID
+    # or select between two normalized names on the user's behalf.
+    normalize=lambda value:re.sub(r'[_\s-]+',' ',value).strip()
+    return bool(needle and re.search(r'(?<!\w)'+re.escape(normalize(needle))+r'(?!\w)',normalize(text),re.I))
 
 def rank(text,catalog,*,kinds=KINDS):
     """Deterministic ranked search. A semantic description cannot certify a match."""
