@@ -55,6 +55,20 @@ class Values(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'query failed'):self.port()('visual',None,{})
         self.assertEqual(self.saved[-1]['status'],'UNAVAILABLE')
 
+    def test_build_phase_attestation_is_a_warning_and_query_failure_remains_failure(self):
+        from dataclasses import replace
+        from investigator.build_phase import operating_mode
+        evaluate=self.evaluate
+        self.process.evaluate=lambda *args:replace(evaluate(*args),surface_report={'identity':'different','object':'db'})
+        with self.assertRaises(ValueError):self.port()('visual',None,{})
+        with operating_mode():
+            result=self.port()('visual',None,{})
+            self.assertEqual(result['value'],'16')
+            self.assertTrue(any('without an attestation claim'in label for label in result['warnings']))
+            self.assertEqual(result['native_evidence']['surface_attestation']['status'],'CONTRADICTED')
+            self.process.evaluate=lambda *args:Probe('UNAVAILABLE','semantic',reason='query failed')
+            with self.assertRaisesRegex(ValueError,'query failed'):self.port()('visual',None,{})
+
     def test_unknown_target_measure_key_and_scope_never_dispatch(self):
         port=self.port()
         for args in [('unknown',None,{}),('visual','record1',{}),('visual',None,{'SQL':'injected'})]:

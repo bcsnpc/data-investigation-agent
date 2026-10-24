@@ -95,7 +95,16 @@ class ProcessValues:
         if key is not None:raise ValueError('KEYED_QUANTITY_ROUTE_NOT_INSTALLED')
         if node not in self.layers:raise ValueError('NO_EXACT_COMPILED_LAYER_FOR_GRAPH_NODE')
         scope=self.scope(context)
-        probe=attest(self.process.evaluate(copy.deepcopy(self.layers[node]),self.measure_id,scope))
+        original=self.process.evaluate(copy.deepcopy(self.layers[node]),self.measure_id,scope)
+        probe=attest(original)
+        from ..build_phase import active as build_phase
+        if original.status=='OBSERVED' and probe.status=='UNAVAILABLE' and build_phase(getattr(self.process,'config',{})):
+            # Owner2026-10-24: attestation warns in dev; it cannot erase a
+            # successful read. Query failures and faithful-scope refusals stay.
+            from dataclasses import replace
+            evidence={**probe.evidence,'attestation_warning':'Attestation warning: '+str(probe.reason)+
+                      '; the observed quantity is retained without an attestation claim.'}
+            probe=replace(original,evidence=evidence)
         # Preserve original failures and receipts even when no quantity exists.
         self.retain({'event':'INVESTIGATOR_NATIVE_PROBE','subject':node,'status':probe.status,
                      'reason':probe.reason,'failure':probe.failure,'evidence':probe.evidence,
