@@ -9,6 +9,7 @@ import io
 import json
 import subprocess
 import tempfile
+import time
 from pathlib import Path
 from typing import Protocol
 from urllib.parse import urlsplit
@@ -30,12 +31,14 @@ class AzureCredentialTokens:
 
 
 class FabricCliTokens:
-    def __init__(self, tenant):
+    def __init__(self, tenant, *, clock=time.time):
         self.tenant = tenant.lower()
         self.cache = {}
+        self.expires = {}
+        self.clock = clock
 
     def get_token(self, scope):
-        if scope not in self.cache:
+        if scope not in self.cache or self.expires.get(scope,0)<=self.clock()+120:
             from fabric_cli.core.fab_auth import FabAuth
             with contextlib.redirect_stdout(io.StringIO()):
                 token = FabAuth().get_access_token([scope], interactive_renew=False)
@@ -46,7 +49,11 @@ class FabricCliTokens:
             claims = json.loads(base64.urlsafe_b64decode(payload + '=' * (-len(payload) % 4)))
             if claims.get('tid', '').lower() != self.tenant:
                 raise RuntimeError('Authenticated tenant differs from configuration')
+            expiry=claims.get('exp')
+            if type(expiry)is not int or expiry<=self.clock()+30:
+                raise RuntimeError('Authentication token expiry unavailable or already expired')
             self.cache[scope] = token
+            self.expires[scope] = expiry
         return self.cache[scope]
 
 
