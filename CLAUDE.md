@@ -1047,3 +1047,7 @@ Owner PostgreSQL operating direction, 2026-10-23: laptop budget and ledger opera
 Owner approval under section8,2026-10-23: reversible native temporal/change-history feature on the existing practice source is approved for source-changed-history cases. Chosen: system-versioned temporal history, preserving before/after evidence until all dependent scored tickets finish; no investigator write privilege or new identity scope. Compatibility rollback verified; enabling/cleanup must be journaled and hash-verified. Choice and bounds: docs/decisions.md; receipt docs/runs/round-twenty-two-temporal-preparation.json.
 
 Executed owner temporal decision2026-10-23: practice source system-versioning ON, history510624862, original business rows/schema preserved, no grants. Keep native history until all dependent scores finish, then guarded publisher cleanup. Receipt docs/runs/round-twenty-two-temporal-enabled.json.
+
+### Section8 owner scan-allocation decision, 2026-10-23
+
+2026-10-23 owner decision (UTC2026-10-24): monthly scan/collector allocation1000 ->2000 inside unchanged6000 total, so investigation4905 ->3905 and restoration95 unchanged. Effective clock2026-10-24T01:24:00Z; historical tape clocks retain original allocations. Counters, reservation ownership and model/platform ceilings are unchanged. Reason: keep collectors running through October31 while scoring. Code and regression tests enforce both new category ceilings and the original replay-time policy; deployment/readback follows the tested image.

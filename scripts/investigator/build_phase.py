@@ -9,6 +9,8 @@ MODEL_MICRODOLLARS = 40_000_000
 PLATFORM_MICRODOLLARS = 20_000_000
 PHYSICAL_REQUESTS = 6000
 SCAN_REQUESTS = 1000
+REALLOCATED_SCAN_REQUESTS = 2000
+SCAN_REALLOCATION_AT = '2026-10-24T01:24:00+00:00'
 RESTORATION_REQUESTS = 95
 ADOPTED_AT = '2026-10-19'
 _mode = ContextVar('build_phase_mode', default=None)
@@ -68,8 +70,12 @@ def physical_status(rows, allocations, now):
         if category not in used:
             raise ValueError('MONTHLY_HISTORICAL_CATEGORY_UNKNOWN')
         used[category] += count
-    limits = {'INVESTIGATION': PHYSICAL_REQUESTS - SCAN_REQUESTS - RESTORATION_REQUESTS,
-              'SCAN': SCAN_REQUESTS, 'RESTORATION': RESTORATION_REQUESTS}
+    # Preserve historical decisions under their recorded clock. This reallocates
+    # the existing total; it never clears usage or borrows the restoration line.
+    scan_limit = (REALLOCATED_SCAN_REQUESTS if now >= datetime.fromisoformat(SCAN_REALLOCATION_AT).timestamp()
+                  else SCAN_REQUESTS)
+    limits = {'INVESTIGATION': PHYSICAL_REQUESTS - scan_limit - RESTORATION_REQUESTS,
+              'SCAN': scan_limit, 'RESTORATION': RESTORATION_REQUESTS}
     total = sum(used.values())
     return {'mode': MODE, 'month_utc': month, 'used': used, 'limits': limits,
             'total': total, 'total_limit': PHYSICAL_REQUESTS,
