@@ -140,6 +140,12 @@ def handlers():
             try:
                 m=manifest['model'];settings={**m['credential'],'endpoint':m['endpoint'],'deployment':m['deployment']}
                 with local_azure_key(settings):
+                    from .normal_audit import mode,normal_context
+                    if mode(plan['options'].get('recording_mode','NORMAL'))=='NORMAL':
+                        with normal_context(ctx,plan.get('run_id','legacy-baseline'))as audit:
+                            result=run_form(workspace,json.loads(Path(plan['options']['ticket']).read_bytes()))
+                            audit.record('legacy-baseline-result',result)
+                            return result
                     return run_form(workspace,json.loads(Path(plan['options']['ticket']).read_bytes()))
             finally:
                 close=getattr(workspace,'close',None)

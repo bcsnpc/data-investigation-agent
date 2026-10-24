@@ -1,4 +1,4 @@
-import contextlib,hashlib,json,sqlite3,tempfile,unittest
+import contextlib,hashlib,json,sqlite3,tempfile,unittest,os
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import Mock,patch
@@ -7,6 +7,47 @@ from investigator.ticket_catalog import materialize
 from investigator.onboarding import ModelStore,digest,encoded
 
 class NormalAuditTests(unittest.TestCase):
+    def test_normal_mode_disables_legacy_exact_recording_and_restores_switches(self):
+        from investigator.run_recording import operation
+        agent=SimpleNamespace(config={},planner_profile={'adapter':'azure'})
+        original=Mock(return_value={'status':'DELIVERED'})
+        decorated=operation('intake')(original)
+        with patch.dict(os.environ,{'INVESTIGATOR_RECORD_RUNS':'1','INVESTIGATOR_RECORD_PLANNER':'1'}):
+            with normal_context(self.parent,'legacy'):
+                self.assertEqual(os.environ['INVESTIGATOR_RECORD_RUNS'],'0')
+                self.assertEqual(os.environ['INVESTIGATOR_RECORD_PLANNER'],'0')
+                self.assertEqual(decorated(agent,{'text':'Describe the named calculation.'}),{'status':'DELIVERED'})
+            self.assertEqual(os.environ['INVESTIGATOR_RECORD_RUNS'],'1')
+            self.assertEqual(os.environ['INVESTIGATOR_RECORD_PLANNER'],'1')
+        original.assert_called_once()
+        self.assertFalse(hasattr(agent,'_run_tapes'))
+
+    def test_failed_normal_run_restores_recording_switches(self):
+        with patch.dict(os.environ,{'INVESTIGATOR_RECORD_RUNS':'1'}):
+            with self.assertRaisesRegex(ValueError,'failed'):
+                with normal_context(self.parent,'legacy-failed'):
+                    raise ValueError('failed')
+            self.assertEqual(os.environ['INVESTIGATOR_RECORD_RUNS'],'1')
+
+    def test_legacy_comparison_handler_uses_normal_mode_without_changing_intake(self):
+        from investigator.unified_runner import handlers
+        ticket={'id':'baseline-case','text':'Describe the named calculation.'}
+        path=self.root/'ticket.json';path.write_text(json.dumps(ticket))
+        workspace=SimpleNamespace(close=Mock())
+        manifest={'model':{'credential':{},'endpoint':'configured','deployment':'configured'}}
+        def submit(actual_workspace,actual_ticket):
+            self.assertIs(actual_workspace,workspace);self.assertEqual(actual_ticket,ticket)
+            self.assertEqual(os.environ['INVESTIGATOR_RECORD_RUNS'],'0')
+            return {'status':'CLARIFYING','question':'Original intake question.'}
+        with patch('investigator.estate_installation.build',return_value=(manifest,workspace)), \
+             patch('run_adaptive_investigation.local_azure_key',return_value=contextlib.nullcontext()), \
+             patch('cloud_form_worker.run_form',side_effect=submit)as intake:
+            result=handlers()['legacy-baseline']({'manifest':'unused','run_id':'legacy-one',
+                'options':{'ticket':str(path)}},self.parent)
+        self.assertEqual(result['question'],'Original intake question.')
+        intake.assert_called_once();workspace.close.assert_called_once()
+        self.assertTrue(any(k=='normal-audit-batch'for k,v in self.sent))
+
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup);self.root=Path(self.tmp.name);self.sent=[]
         self.parent=SimpleNamespace(root=self.root,record=lambda kind,value:self.sent.append((kind,value))or {'key':'outer:'+str(len(self.sent))})

@@ -54,6 +54,9 @@ class AuditContext:
 @contextmanager
 def normal_context(parent,run_id):
     audit=AuditContext(parent,run_id)
+    keys=('INVESTIGATOR_RECORD_RUNS','INVESTIGATOR_RECORD_PLANNER')
+    previous={key:os.environ.get(key)for key in keys}
+    for key in keys:os.environ[key]='0'
     try:yield audit
     except BaseException as original:
         try:audit.flush(partial=True)
@@ -61,3 +64,7 @@ def normal_context(parent,run_id):
             original.add_note('Partial normal-audit publication failed: '+type(publication).__name__)
         raise
     else:audit.flush(partial=False)
+    finally:
+        for key,value in previous.items():
+            if value is None:os.environ.pop(key,None)
+            else:os.environ[key]=value
