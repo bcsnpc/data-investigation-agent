@@ -163,7 +163,7 @@ class OperationalFactTests(unittest.TestCase):
         identity=registry.add('FACT',['job'],fact('job','JOB_RUN',{'status':'FAILED','run_id':'r','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z','error':'copy failed'}))
         result=check('failed job',[identity],registry,now=NOW,request=request,ticket_text=text)
         self.assertEqual(result['claim_scope'],'OPERATIONAL_FACT_ONLY')
-        self.assertIn('no numerical cause',result['reason'])
+        self.assertEqual(result['claim_scope'],'OPERATIONAL_FACT_ONLY')
         with self.assertRaisesRegex(ValueError,'DIVERGENT_EQUIVALENT'):check('failed job',[identity],registry,now=NOW)
         wrong='Why is the quantity wrong?'
         invalid={**request,'source':{'start':0,'end':len(wrong),'quote':wrong}}
@@ -177,7 +177,9 @@ class OperationalFactTests(unittest.TestCase):
         for output in result['outputs'].values():
             for literal in ('Primary copy','run-specific','FAILED',run['start'],run['end'],'Source rejected row 900','2011'):
                 self.assertIn(literal,output)
-            self.assertIn('no numerical cause was established',output)
+            self.assertIn('answered: the explicit operational-status question',output)
+            self.assertIn('Job-reported failure cause:',output)
+            self.assertIn('The ledger establishes this reported operational failure.',output)
         reader.assert_not_called();decide.assert_not_called()
 
     def test_declarative_still_running_status_reports_recorded_schedule_not_speculated_lock(self):
@@ -432,7 +434,7 @@ class OperationalDeliveryTests(unittest.TestCase):
                 self.assertEqual(answer['support']['operational_fact']['value'],run)
                 for output in answer['outputs'].values():
                     for literal in ('Ledger job details: job','run ID: selected-run','status: '+run['status'],run['start']):self.assertIn(literal,output)
-                    if verdict=='failed job':self.assertIn('Recorded job error: copy rejected source row',output)
+                    if verdict=='failed job':self.assertIn('Job-reported failure cause: copy rejected source row',output)
                     else:self.assertIn('Next scheduled run: 2026-10-22T12:00:00Z',output)
                     if verdict=='latency':self.assertIn('Estimated update after the scheduled start',output)
 
@@ -464,7 +466,7 @@ class OperationalDeliveryTests(unittest.TestCase):
             # The full technical pack also preserves other observed runs; only
             # the answer must select the requested witness.
             answer=output.split('\nTechnical evidence pack:')[0]
-            self.assertIn('run ID: requested',answer);self.assertIn('Recorded job error: requested error',answer)
+            self.assertIn('run ID: requested',answer);self.assertIn('Job-reported failure cause: requested error',answer)
             self.assertNotIn('unrelated newer error',answer)
 
 

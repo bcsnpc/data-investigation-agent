@@ -232,7 +232,7 @@ def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
         selected=explicit_operational_fact(request,entries,now,ticket_text)
         states={'failed job':{'FAILED'},'waiting on job':{'QUEUED','RUNNING'},'refresh stale':{'STALE'}}.get(verdict,set())
         if selected['value'].get('status',selected['value'].get('state')) not in states:raise ValueError('CURRENT_OPERATIONAL_STATUS_REQUIRED')
-        result=_supported(verdict,records,None,'The retained '+request['question'].lower().replace('_',' ')+' is '+selected['value'].get('status',selected['value'].get('state'))+'. This answers only the explicit operational question; no numerical cause was established.')
+        result=_supported(verdict,records,None,'The retained '+request['question'].lower().replace('_',' ')+' is '+selected['value'].get('status',selected['value'].get('state'))+'.')
         result['claim_scope']='OPERATIONAL_FACT_ONLY';result['operational_fact']=selected
         return operational_support(result,selected,current_facts(entries,now))
     if request['kind']=='DEFINITION':

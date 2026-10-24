@@ -405,7 +405,7 @@ class Investigator:
         recreation=next((r['value'] for r in evidence.values() if r['kind']=='REPRODUCTION'),None)
         answer_status='not answered' if verdict=='not found' else 'partly answered: the current declared-context investigation does not reproduce the reported figure' if recreation and recreation['status']=='NOT_REPRODUCED' else 'answered within the checked technical scope'
         if supported.get('claim_scope')=='OPERATIONAL_STATUS_WITH_COMPARISON_PENDING':answer_status='partly answered: a current operational status was established; the numerical comparison was not checked'
-        if supported.get('claim_scope')=='OPERATIONAL_FACT_ONLY':answer_status='answered: the explicit operational status is recorded; no numerical explanation was claimed'
+        if supported.get('claim_scope')=='OPERATIONAL_FACT_ONLY':answer_status='answered: the explicit operational-status question'
         if supported.get('claim_scope')=='OPERATIONAL_STATUS_WITH_BLOCKED_SOURCE':answer_status='partly answered: the linked load failure and recorded source outage are established; the source quantity could not be compared'
         if supported.get('claim_scope')=='RETAINED_DEFINITION_ONLY':answer_status='answered: the retained implementation is quoted; numerical behavior and business correctness were not tested'
         if verdict!='not found' and any(r['kind']=='GAP'and r['value'].get('code')=='COMPARISON_TARGET_UNAVAILABLE'for r in evidence.values()):

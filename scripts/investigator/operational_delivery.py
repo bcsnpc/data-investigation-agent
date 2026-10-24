@@ -21,7 +21,10 @@ def details(support,nodes):
            '; start: '+start+'; end: '+end+'; observed: '+fact['observed_at']+'.']
     error=value.get('error')
     message=error if isinstance(error,str) else canonical(error) if error else 'unavailable (not recorded)'
-    lines.append('Recorded job error: '+message)
+    if support['verdict']=='failed job' and error:
+        lines.append('Job-reported failure cause: '+message)
+        lines.append('The ledger establishes this reported operational failure. A numerical discrepancy requires a separate comparison.')
+    else:lines.append('Recorded job error: '+message)
     if support['verdict'] in ('waiting on job','latency'):
         schedule=support.get('operational_schedule');scheduled=schedule.get('value',{}) if schedule else {}
         due=scheduled.get('next_due')
