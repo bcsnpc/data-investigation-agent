@@ -53,6 +53,30 @@ class Store:
 
 
 class DeclaredPredicateAdapterTests(unittest.TestCase):
+    def test_graph_resolved_visual_scope_reuses_inventory_without_any_value_read(self):
+        from investigator.calculation_intake import apply_saved_scope
+        declaration=self.adapter.declared_visual_scope(self.measure['id'],self.visual['id'])
+        admitted=apply_saved_scope({'text':'Check the selected number.'},declaration)
+        self.assertNotIn('scope_gap',admitted)
+        self.assertEqual(len(admitted['filters']['filters']),1)
+        self.assertEqual(admitted['filters']['filters'][0]['values'],['North'])
+        self.assertTrue(any('saved default positions'in text for text in admitted['assumptions']))
+        self.assertEqual(self.requests,[]);self.assertEqual(self.meters,[])
+
+    def test_graph_resolved_scope_never_substitutes_another_native_visual(self):
+        with self.assertRaisesRegex(ValueError,'GRAPH_VISUAL_MEASURE_BINDING'):
+            self.adapter.declared_visual_scope(self.measure['id'],'unrelated-visual')
+        self.assertEqual(self.requests,[])
+
+    def test_raw_intake_unknown_visual_kind_is_inventoried_and_blocked_by_consumer(self):
+        from investigator.calculation_intake import apply_saved_scope
+        self.modify(self.visual,lambda doc:doc['visual'].update(visualType='SyntheticFutureSelectionForm'))
+        declaration=self.adapter.declared_visual_scope(self.measure['id'],self.visual['id'])
+        self.assertTrue(any(e['disposition']=='UNSUPPORTED'for e in declaration['inventory']['entries']))
+        admitted=apply_saved_scope({'text':'Check this number.'},declaration)
+        self.assertIn('SyntheticFutureSelectionForm',admitted['scope_gap'])
+        self.assertEqual(self.requests,[])
+
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
         ws, mid = str(uuid4()), str(uuid4())

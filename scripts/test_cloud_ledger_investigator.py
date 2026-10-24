@@ -12,6 +12,51 @@ import cloud_investigator as worker
 
 
 class Assembly(unittest.TestCase):
+    def test_raw_calculation_reaches_existing_playbook_with_validated_spans_and_shared_model_port(self):
+        from unittest.mock import Mock
+        from test_calculation_intake import raw,catalog
+        text='Net receipts shows 950.'
+        options=self.specification(ticket=self.ref('raw-calculation.json',{'id':'raw','text':text}),
+                                   recording_mode='NORMAL',model_enabled=True)
+        events=[];context=SimpleNamespace(root=self.root,record=lambda k,v:events.append((k,v))or{'key':str(len(events))})
+        meter=SimpleNamespace(used=0,before={},usage=SimpleNamespace(snapshot=lambda:{}),close=lambda:None)
+        graph=Mock();graph.intake_candidates.side_effect=[catalog(),catalog()]
+        decision=Mock(calls=1);decision.return_value=raw(text,figure='950');decision.cache_metrics.return_value={}
+        manifest={'environment':'development','model':{'credential':{},'endpoint':'configured','deployment':'configured'}}
+        with contextlib.ExitStack()as stack:
+            for target,value in [('investigator.shared_state.configured_state',SimpleNamespace(backend='postgresql')),
+                ('investigator.estate_manifest.load',manifest),('investigator.adapters.estate_installation.configuration',{}),
+                ('investigator.estate_graph_repository.GraphRepository',object()),('investigator.estate_graph_api.GraphAPI',graph),
+                ('investigator.live_gateway.current',object()),('cloud_graph_interpreter.runtime_governor',SimpleNamespace(policy={})),
+                ('scan_estate_graph.Meter',meter),('investigator.runtime.fingerprint','a'*64),
+                ('investigator.source_revision.committed_revision','b'*40),('investigator.adapters.ledger_investigator_ports.AzureDecision',decision)]:
+                stack.enter_context(patch(target,return_value=value))
+            stack.enter_context(patch('investigator.adapters.managed_identity.model_session',side_effect=lambda _:contextlib.nullcontext()))
+            def consume(plan,ctx,**ports):
+                submitted=json.loads(Path(plan['options']['ticket']).read_bytes())
+                self.assertEqual(submitted['text'],text);self.assertEqual(submitted['visual'],'v')
+                self.assertEqual(submitted['reported_figure']['value'],'950')
+                self.assertTrue(submitted['request']['comparison_pending']);self.assertIs(ports['decide'],decision)
+                self.assertIn('Net receipts',submitted['assumptions'][0])
+                return {'ticket':submitted,'verdict':'not found','outputs':{'business':'Recreation and freshness checked; comparison requested.','technical':'Existing playbook consumer.'}}
+            consumer=stack.enter_context(patch('cloud_investigator.run',side_effect=consume))
+            answer=worker.execute({'options':options,'manifest':'unused','run_id':'raw-calc'},context)
+        self.assertEqual(answer['model_calls'],1);consumer.assert_called_once();decision.assert_called_once()
+        self.assertEqual(graph.intake_candidates.call_args_list[-1].kwargs,{'enriched':True})
+
+    def test_native_profile_registry_uses_only_exact_connected_measure_and_keeps_target_pin(self):
+        native={'measure_id':'native-a','model':{'path':'approved','sha256':'a'*64}}
+        spec={'native_profiles':{'native-a':{'native':native,'retained_continuation':{'visual':'named-card'}}}}
+        path={'nodes':[{'id':'named-card','kind':'VISUAL'},
+                       {'id':'measure','kind':'MEASURE','properties':{'asset_id':'native-a'}}]}
+        result=worker.native_profile(spec,path,'named-card')
+        self.assertEqual(result['native'],native);self.assertEqual(result['retained_continuation']['visual'],'named-card')
+        other=worker.native_profile(spec,path,'another-card')
+        self.assertEqual(other['native'],native);self.assertNotIn('retained_continuation',other)
+        self.assertNotIn('native',spec)
+        path['nodes'].append({'id':'other','kind':'MEASURE','properties':{'asset_id':'native-b'}})
+        self.assertNotIn('native',worker.native_profile(spec,path,'named-card'))
+
     def test_retained_view_is_explicit_and_preserves_mandatory_labels(self):
         current=object();process=object();context={'version':'approved'};pin={'context_id':'approved'}
         self.assertEqual(worker.retained_view(current,process,{},context=context,visual='visual',measure_id='measure'),(current,[]))

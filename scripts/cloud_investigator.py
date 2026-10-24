@@ -1,6 +1,7 @@
 ﻿"""Trusted cloud adapter for the single ledger investigator; no dynamic imports."""
 import json
 import hashlib
+import copy
 import shutil
 import time
 import os
@@ -22,6 +23,7 @@ def run(plan,context,*,graph,ledger,value_reader,decide,admit,collector=None,che
     tools=Tools(graph,ledger,visual=ticket.get('visual') or ticket['request']['subject'],key=ticket.get('key'),context=ticket.get('filters',{}),
         comparison=ticket.get('comparison'),persist=persist,now=now,value_reader=value_reader,collector=collector,checks=checks,request_kind=ticket.get('request',{}).get('kind','COMPARE'),recording_class=recording_class)
     tools.estate=plan.get('estate')
+    tools.scope_gap=ticket.get('scope_gap')
     from investigator.process_tape import utc_now
     tools.availability_clock=utc_now
     engine=Investigator(tools,decide=decide,persist=persist,admit=admit,step_cap=options.get('step_cap',12),wall_seconds=options.get('wall_seconds',900),
@@ -52,7 +54,14 @@ def specification(options):
         reference(options['ticket'],maximum=250000)
         spec['ticket']=dict(options['ticket'])
     required={'ticket','graph','budget','max_requests','model_enabled','generation_options','step_cap','wall_seconds','warnings'}
-    if not isinstance(spec,dict) or not required<=set(spec)<=required|{'native','collector','retained_continuation','recording_mode','checkpoint','heavy_reader'}:raise ValueError('INVESTIGATOR_SPEC_FIELDS')
+    if not isinstance(spec,dict) or not required<=set(spec)<=required|{'native','native_profiles','collector','retained_continuation','recording_mode','checkpoint','heavy_reader'}:raise ValueError('INVESTIGATOR_SPEC_FIELDS')
+    if 'native_profiles'in spec:
+        profiles=spec['native_profiles']
+        if not isinstance(profiles,dict)or not 1<=len(profiles)<=200:raise ValueError('INVESTIGATOR_NATIVE_PROFILE_REGISTRY')
+        for measure,profile in profiles.items():
+            if not isinstance(measure,str)or not isinstance(profile,dict)or not {'native'}<=set(profile)<={'native','retained_continuation'}:
+                raise ValueError('INVESTIGATOR_NATIVE_PROFILE_REGISTRY')
+            if not isinstance(profile['native'],dict)or profile['native'].get('measure_id')!=measure:raise ValueError('INVESTIGATOR_NATIVE_PROFILE_MEASURE_DIFFERS')
     from investigator.normal_audit import mode
     mode(spec.get('recording_mode','NORMAL'))
     if 'retained_continuation' in spec and 'native' not in spec:raise ValueError('RETAINED_CONTINUATION_NATIVE_REQUIRED')
@@ -75,6 +84,23 @@ def specification(options):
     validate(spec['generation_options'])
     if not isinstance(spec['warnings'],list) or any(not isinstance(v,str) for v in spec['warnings']):raise ValueError('INVESTIGATOR_WARNING_LABELS')
     return spec
+
+
+def native_profile(spec,path,subject):
+    """A trusted installation registry binds exact graph assets, never names.
+
+    This is configuration for measures, not a set of ticket answers. A model or
+    the harness cannot select another measure to obtain an available reader.
+    """
+    if 'native'in spec or not spec.get('native_profiles'):return spec
+    measures={n.get('properties',{}).get('asset_id')for n in path['nodes']if n['kind']=='MEASURE'}-{None}
+    if len(measures)!=1:return spec
+    measure=next(iter(measures));profile=spec['native_profiles'].get(measure)
+    if profile is None:return spec
+    result=copy.deepcopy(spec);result['native']=copy.deepcopy(profile['native'])
+    pin=profile.get('retained_continuation')
+    if pin is not None and pin.get('visual')==subject:result['retained_continuation']=copy.deepcopy(pin)
+    return result
 
 
 def retained_view(current,process,spec,*,context,visual,measure_id):
@@ -201,6 +227,7 @@ def _execute(plan,context):
     graph_spec=spec['graph'];repository=GraphRepository(state)
     graph_live=GraphAPI(repository,current(),identity=graph_spec['identity'],estate=graph_spec['estate'],
                         allowed_objects=graph_spec['allowed_objects'],max_nodes=200,max_edges=500,max_bytes=256000)
+    intake_decision=None;intake_session=None
     if 'request'not in ticket:
         if recording_mode!='NORMAL':raise ValueError('RAW_INTAKE_REQUIRES_NORMAL_RECORDING')
         from investigator.operational_intake import admit as admit_raw,response as intake_response
@@ -211,14 +238,39 @@ def _execute(plan,context):
             context.record('investigator-intake',{'submitted':ticket,'admission':admission})
             return intake_response(ticket,admission)
         admission=admit_raw(ticket,catalog)
+        if admission.get('reason')=='RAW_CALCULATION_ADMISSION_NOT_INSTALLED'and spec['model_enabled']:
+            from investigator.calculation_intake import admit as calculation_admit
+            catalog=graph_live.intake_candidates(enriched=True)
+            intake_session='ledger-investigator:'+str(journal.uuid4())
+            intake_decision=AzureDecision(governor,session=intake_session,directory=work/'intake-recordings',
+                retain=lambda value:context.record('investigator-intake-model',value),
+                options=spec['generation_options'],recording_mode=recording_mode)
+            settings={**manifest['model']['credential'],'endpoint':manifest['model']['endpoint'],'deployment':manifest['model']['deployment']}
+            with model_session(settings):
+                admission=calculation_admit(ticket,catalog,decide=intake_decision,
+                    retain=lambda value:context.record('investigator-intake-extraction',value))
         context.record('investigator-intake',{'submitted':ticket,'catalog':catalog,'admission':admission})
-        if admission['status']!='READY':return intake_response(ticket,admission)
+        phases.append({'phase':'intake','wall_seconds':max(0,time.monotonic()-started)})
+        if admission['status']!='READY':
+            result=intake_response(ticket,admission)
+            result['model_calls']=intake_decision.calls if intake_decision else 0
+            result['timing']={'wall_seconds':max(0,time.monotonic()-started),'phases':phases}
+            return result
         ticket=admission['ticket'];ticket_path=work/'admitted-ticket.json'
         from investigator.process_tape import bytes_of
         from investigator.planner_recording import _safe
         encoded=bytes_of(ticket);_safe(encoded);ticket_path.write_bytes(encoded)
         request_kind=ticket['request']['kind']
-    session='ledger-investigator:'+str(journal.uuid4())
+    if request_kind!='FACT'and 'native_profiles'in spec:
+        subject=ticket.get('visual')or ticket['request']['subject']
+        path=graph_live.path_to_source(subject)
+        spec=native_profile(spec,path,subject)
+        context.record('investigator-native-profile-selection',{'subject':subject,
+            'selected_measure':spec.get('native',{}).get('measure_id'),
+            'basis':'Exact declared graph asset identity; no ticket-id or expected-value lookup.'})
+    materialization_started=time.monotonic()
+    intake_model_calls=intake_decision.calls if intake_decision else 0
+    session=intake_session or 'ledger-investigator:'+str(journal.uuid4())
     now=journal.utc_now();deadline=time.monotonic()+spec['wall_seconds']
     bootstrap={'entry_point':'ledger_investigator','context_identity':graph_spec['estate']+':'+str(ticket.get('visual') or ticket['request']['subject']),
         'config':config,'profile':{},'usage_policy':governor.policy,'engine_hash':fingerprint(),
@@ -231,12 +283,12 @@ def _execute(plan,context):
     prior_record=os.environ.get('INVESTIGATOR_RECORD_PLANNER');os.environ['INVESTIGATOR_RECORD_PLANNER']='1'if recording_mode=='TEST'else '0'
     try:
         with journal.active(tape),guard_scope(lambda value:context.record('investigator-guard',value)):
-            graph=JournalGraph(graph_live);decision=None;values=None;checks=None;collector=None;retained_labels=[]
+            graph=JournalGraph(graph_live);decision=intake_decision;values=None;checks=None;collector=None;retained_labels=[]
             def admit(kind,step):
                 if time.monotonic()>=deadline:
                     from investigator.usage_governance import UsageHold
                     raise UsageHold('INVESTIGATOR_RUN_DEADLINE')
-            if spec['model_enabled'] and request_kind!='FACT':
+            if decision is None and spec['model_enabled'] and request_kind!='FACT':
                 decision=AzureDecision(governor,session=session,directory=work/'planner-recordings',retain=retain,options=spec['generation_options'],recording_mode=recording_mode)
             if 'collector' in spec:
                 collector=PathCollector(json.loads(reference(spec['collector'],maximum=250000).read_bytes()),state,
@@ -278,7 +330,22 @@ def _execute(plan,context):
                 if view is not graph_live:graph=JournalGraph(view)
                 values,checks=compiled_values(process,graph.path_to_source(visual),visual=visual,
                                               measure_id=native['measure_id'],retain=retain)
-            phases.append({'phase':'admission_and_path_materialization','wall_seconds':max(0,time.monotonic()-started)})
+            if 'intake_scope'in ticket:
+                from investigator.calculation_intake import compile_scope,apply_saved_scope
+                ticket=compile_scope(ticket,model if 'native'in spec else None)
+                if 'native'in spec and ticket.get('visual'):
+                    node=next((n for n in graph.path_to_source(ticket['visual'])['nodes']if n['id']==ticket['visual']),None)
+                    try:
+                        if node is None:raise ValueError('Resolved visual is outside the admitted native graph path.')
+                        declaration=process.declared_visual_scope(spec['native']['measure_id'],node.get('properties',{}).get('asset_id'))
+                        context.record('investigator-saved-visual-declaration',declaration)
+                        ticket=apply_saved_scope(ticket,declaration)
+                    except ValueError as error:
+                        ticket['scope_gap']='Saved visual scope unavailable: '+str(error)
+                from investigator.process_tape import bytes_of
+                from investigator.planner_recording import _safe
+                raw=bytes_of(ticket);_safe(raw);ticket_path.write_bytes(raw)
+            phases.append({'phase':'admission_and_path_materialization','wall_seconds':max(0,time.monotonic()-materialization_started)})
             investigation_started=time.monotonic()
             call_plan={'estate':graph_spec['estate'],'options':{'ticket':str(ticket_path),'step_cap':spec['step_cap'],'wall_seconds':spec['wall_seconds'],'warnings':[*spec['warnings'],*retained_labels]}}
             settings={**manifest['model']['credential'],'endpoint':manifest['model']['endpoint'],'deployment':manifest['model']['deployment']}
@@ -312,6 +379,7 @@ def _execute(plan,context):
                 result=run(call_plan,context,graph=graph,ledger=FactLedger(state),value_reader=values,
                            decide=decision,admit=admit,checks=checks,collector=collector,now=now,checkpoint=checkpoint,heavy_reader=heavy)
             if decision is not None:result.setdefault('cost',{})['provider_cache']=decision.cache_metrics()
+            result.setdefault('cost',{}).update(model_calls=decision.calls if decision else 0,intake_model_calls=intake_model_calls)
             result['checkpoint_accounting']={'prior_completed_physical_requests':restored_physical[0],'this_execution_physical_requests':meter.used-restored_physical[0],'note':'Prior reads remain charged in the shared ledger; restoring the case does not reissue or uncharge them.'}
             result.update(physical_requests=meter.used,before=meter.before,after=meter.usage.snapshot(),
                           model_calls=decision.calls if decision else 0)

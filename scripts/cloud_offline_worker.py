@@ -16,7 +16,7 @@ TEST_MODULES = (
     'test_build_phase.py', 'test_scan_budget_reallocation.py',
     'test_source_availability.py',
     'test_investigator_frontier.py', 'test_fixture_failure_scenarios.py', 'test_fixture_source_latency.py',
-    'test_operational_run_selection.py', 'test_operational_intake.py', 'test_control_meter_reporting.py',
+    'test_operational_run_selection.py', 'test_operational_intake.py', 'test_calculation_intake.py', 'test_control_meter_reporting.py',
     'test_normal_audit.py',
     'test_worker_capture_publication.py', 'test_worker_lifecycle.py', 'test_smoke_demo_expectation.py',
     'test_streaming_tape.py', 'test_smoke_run_bound_capture.py',

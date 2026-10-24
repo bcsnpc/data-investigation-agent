@@ -112,6 +112,19 @@ class MicrosoftProcessAdapter:
                 'No independent lower surface is configured.')
         return result
 
+    def declared_visual_scope(self,measure_id,target_id):
+        """Extract saved scope for an exact graph-resolved visual, without reads."""
+        from .report_predicates import pinned, _extract, Refusal
+        from .report_cells import catalog
+        model=pinned(self)
+        matches=[c for c in catalog(model)if c['target_id']==target_id and measure_id in c['measure_ids']]
+        if len(matches)!=1:raise Refusal('GRAPH_VISUAL_MEASURE_BINDING')
+        if matches[0]['grouping_columns']:raise Refusal('KEYED_CELL_ADDRESS_REQUIRED')
+        result=_extract(model,measure_id,{},target_id)
+        forms=sorted({json.loads(e['opaque_provenance'])['form']for e in result['inventory']['entries']if e['disposition']=='UNSUPPORTED'})
+        if forms:result['unsupported_form']=', '.join(forms)
+        return result
+
     def declared_context(self,layer,measure_id,scope):
         from .report_predicates import pinned, extract, quantity_query, Refusal
         from ..declared_reproduction import compose, UnsupportedRestriction

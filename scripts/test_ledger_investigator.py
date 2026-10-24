@@ -168,6 +168,43 @@ class OperationalFactTests(unittest.TestCase):
         wrong='Why is the quantity wrong?'
         invalid={**request,'source':{'start':0,'end':len(wrong),'quote':wrong}}
         with self.assertRaisesRegex(ValueError,'EXPLICIT_OPERATIONAL'):check('failed job',[identity],registry,now=NOW,request=invalid,ticket_text=wrong)
+
+    def test_specific_error_and_times_appear_in_both_outputs_without_model_or_value_read(self):
+        run={'status':'FAILED','run_id':'run-specific','start':'2026-10-22T10:00:00Z',
+             'end':'2026-10-22T10:01:00Z','error':{'code':'2011','message':'Source rejected row 900'}}
+        engine,ticket,reader,decide=self.status_engine([fact('job','JOB_RUN',run)])
+        result=engine.run(ticket)
+        for output in result['outputs'].values():
+            for literal in ('Primary copy','run-specific','FAILED',run['start'],run['end'],'Source rejected row 900','2011'):
+                self.assertIn(literal,output)
+            self.assertIn('no numerical cause was established',output)
+        reader.assert_not_called();decide.assert_not_called()
+
+    def test_declarative_still_running_status_reports_recorded_schedule_not_speculated_lock(self):
+        values=[fact('job','JOB_RUN',{'status':'RUNNING','run_id':'in-flight','start':'2026-10-22T10:00:00Z','end':None}),
+                fact('job','SCHEDULE',{'next_due':'2026-10-22T12:00:00Z'})]
+        engine,ticket,reader,decide=self.status_engine(values)
+        ticket['text']='Pipeline Primary copy still running. Stuck because of a lock?'
+        ticket['request']['source']={'start':0,'end':len(ticket['text']),'quote':ticket['text']}
+        result=engine.run(ticket)
+        self.assertEqual(result['verdict'],'waiting on job')
+        for output in result['outputs'].values():
+            self.assertIn('run ID: in-flight; status: RUNNING',output)
+            self.assertIn('end: not finished at observation',output)
+            self.assertIn('Next scheduled run: 2026-10-22T12:00:00Z',output)
+            self.assertIn('Recorded job error: unavailable (not recorded)',output)
+        self.assertNotIn('lock',result['support']['reason'])
+        reader.assert_not_called();decide.assert_not_called()
+
+    def test_missing_run_fields_are_explicitly_unavailable_never_filled_from_other_run(self):
+        old=fact('job','JOB_RUN',{'status':'FAILED','run_id':'older','start':'2026-10-22T08:00:00Z',
+                               'end':'2026-10-22T08:01:00Z','error':'old error must not substitute'})
+        current=fact('job','JOB_RUN',{'status':'FAILED','run_id':'current'})
+        engine,ticket,_,_=self.status_engine([old,current]);result=engine.run(ticket)
+        text=result['outputs']['business']
+        self.assertIn('run ID: current',text);self.assertIn('start: unavailable; end: unavailable',text)
+        self.assertIn('Recorded job error: unavailable (not recorded)',text)
+        self.assertNotIn('old error',text)
     def test_newer_empty_history_cannot_resurrect_an_older_failed_run(self):
         registry=Evidence(['job'],lambda value:'retained')
         text='Did the latest Copy Job run fail?'
@@ -307,6 +344,67 @@ class ToolLoopTests(unittest.TestCase):
     def test_hostile_reader_cannot_return_another_cell_or_unadmitted_read(self):
         tools,_,reader,_=self.build();reader.side_effect=lambda *args:{**read('down',7),'route_admitted':False}
         with self.assertRaisesRegex(ValueError,'ADMISSION_OR_SCOPE'):tools.reproduce()
+
+class OperationalDeliveryTests(unittest.TestCase):
+    def test_boundary_verdicts_keep_their_exact_witness_and_render_it_in_both_outputs(self):
+        for verdict in ('failed job','waiting on job','latency'):
+            with self.subTest(verdict=verdict):
+                tools,engine,_,_=ToolLoopTests().build()
+                run={'run_id':'selected-run','start':'2026-10-22T10:01:00Z','end':'2026-10-22T10:02:00Z',
+                     'status':'FAILED','error':'copy rejected source row'}
+                if verdict=='waiting on job':run.update(status='QUEUED',end=None,error=None)
+                if verdict=='latency':run.update(status='SUCCEEDED',start='2026-10-22T08:00:00Z',end='2026-10-22T09:00:00Z',error=None)
+                values=[fact('job','JOB_RUN',run),fact('job','SCHEDULE',{'next_due':'2026-10-22T12:00:00Z'}),
+                        fact('job','TYPICAL_DURATION',{'median_seconds':60,'sample_count':3})]
+                tools.graph.node_facts.side_effect=lambda node,**kw:{'facts':values if node=='job' else
+                    [fact('up','TABLE_LOAD',{'last_modified':'2026-10-22T10:00:00Z'})] if node=='up' else []}
+                choices=[{'action':'TOOL','summary':'Read boundary.','hypotheses':[verdict],'tool':'compare_layers',
+                          'arguments':{'key':'record-1','layers':['down','up'],'filters':{'warehouse':'North'}}},
+                         {'action':'VERDICT','summary':'Checked witness.','hypotheses':[verdict],'verdict':verdict}]
+                def decide(*args,**kw):
+                    choice=choices.pop(0)
+                    if choice['action']=='VERDICT':choice['evidence_ids']=list(tools.evidence._values)
+                    return choice
+                engine.decide=decide;answer=engine.run({'visual':'visual','text':'Why does this differ?'})
+                self.assertEqual(answer['verdict'],verdict)
+                self.assertEqual(answer['support']['operational_fact']['value'],run)
+                for output in answer['outputs'].values():
+                    for literal in ('Ledger job details: job','run ID: selected-run','status: '+run['status'],run['start']):self.assertIn(literal,output)
+                    if verdict=='failed job':self.assertIn('Recorded job error: copy rejected source row',output)
+                    else:self.assertIn('Next scheduled run: 2026-10-22T12:00:00Z',output)
+                    if verdict=='latency':self.assertIn('Estimated update after the scheduled start',output)
+
+    def test_schedule_is_same_producer_current_unambiguous_and_overdue_does_not_invent_run(self):
+        from investigator.evidence_verdicts import operational_support,current_facts
+        from investigator.operational_delivery import details
+        selected=fact('job','OVERDUE',{'overdue':True,'due_at':'2026-10-22T10:00:00Z'})
+        unrelated=fact('other','SCHEDULE',{'next_due':'2026-10-22T12:00:00Z'})
+        stale=fact('job','SCHEDULE',{'next_due':'2026-10-22T13:00:00Z'});stale['freshness']='STALE'
+        conflicting=[fact('job','SCHEDULE',{'next_due':at}) for at in ('2026-10-22T14:00:00Z','2026-10-22T15:00:00Z')]
+        for schedules in ([unrelated,stale],conflicting):
+            entries=[{'kind':'FACT','value':row} for row in schedules]
+            result=operational_support({'verdict':'waiting on job'},selected,current_facts(entries,NOW))
+            text=details(result,{'job':{'label':'Owned pipeline'}})
+            self.assertIn('run ID: unavailable (no run recorded); status: OVERDUE',text)
+            self.assertIn('Next scheduled run: unavailable',text)
+            self.assertIn('Declared due time for the unstarted run: 2026-10-22T10:00:00Z',text)
+            self.assertNotIn('12:00:00',text);self.assertNotIn('13:00:00',text)
+
+    def test_requested_historical_run_details_never_substitute_latest(self):
+        from investigator.operational_run_selection import from_text
+        engine,ticket,_,_=OperationalFactTests().status_engine([
+            fact('job','JOB_RUN',{'run_id':'requested','status':'FAILED','start':'2026-10-22T08:00:00Z','end':'2026-10-22T08:01:00Z','error':'requested error'}),
+            fact('job','JOB_RUN',{'run_id':'latest','status':'FAILED','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z','error':'unrelated newer error'})])
+        text='Did the Copy Job run starting 2026-10-22T08:00:00Z fail?'
+        ticket['text']=text;ticket['request'].update(source={'start':0,'end':len(text),'quote':text},run_selector=from_text(text))
+        result=engine.run(ticket)
+        for output in result['outputs'].values():
+            # The full technical pack also preserves other observed runs; only
+            # the answer must select the requested witness.
+            answer=output.split('\nTechnical evidence pack:')[0]
+            self.assertIn('run ID: requested',answer);self.assertIn('Recorded job error: requested error',answer)
+            self.assertNotIn('unrelated newer error',answer)
+
 
 class PendingComparisonTests(unittest.TestCase):
     def engine(self,*,related=True,stale=False,comparison=None):

@@ -13,14 +13,30 @@ class GraphAPI:
         self.allowed=set(gateway.graph_objects(estate,allowed_objects,identity=identity))
         self.at=contract.timestamp(at) if at else None;self.max_nodes=max_nodes;self.max_edges=max_edges
 
-    def intake_candidates(self):
+    def intake_candidates(self,*,enriched=False):
         """Names only from the explicitly allowed current graph; no full scan."""
         if len(self.allowed)>200:raise ValueError('INTAKE_CANDIDATE_SCOPE_BOUND')
         self.gateway.graph_objects(self.estate,self.allowed,identity=self.identity)
         graph=self.repository.records(self.estate,at=self.at,identities=self.allowed,limit=1000)
         if graph['truncated']:raise ValueError('INTAKE_CANDIDATE_GRAPH_TRUNCATED')
-        candidates=[{'id':n['id'],'kind':n['kind'],'label':n['label']}for n in graph['nodes']if n['id']in self.allowed and n['kind']in {'PIPELINE','COPY_ACTIVITY','NOTEBOOK','MODEL','REPORT','PAGE','VISUAL','MEASURE'}]
-        return self._bounded({'estate':self.estate,'as_of':self.at,'candidates':candidates})
+        kinds={'PIPELINE','COPY_ACTIVITY','NOTEBOOK','MODEL','REPORT','PAGE','VISUAL','MEASURE'}
+        if enriched:kinds|={'TABLE','VIEW','SOURCE','COLUMN','CALCULATED_COLUMN'}
+        nodes=[n for n in graph['nodes']if n['id']in self.allowed and n['kind']in kinds]
+        candidates=[{'id':n['id'],'kind':n['kind'],'label':n['label']}for n in nodes]
+        result={'estate':self.estate,'as_of':self.at,'candidates':candidates}
+        if enriched:
+            from .enrichment import EnrichmentStore
+            found=EnrichmentStore(self.repository.state).projections(self.estate,
+                {n['id']:n.get('provenance',{}).get('definition_hash')for n in nodes})
+            for candidate,node in zip(candidates,nodes):
+                candidate['properties']={k:v for k,v in node.get('properties',{}).items()if k in('asset_id','data_type','parent_id','entity_name')}
+                if candidate['id']in found:
+                    row=found[candidate['id']]
+                    candidate['enrichment']={**row,'synonyms':[s[:120]for s in row['synonyms'][:8]],
+                        'business_meaning':row['business_meaning'][:512],'search_aid_only':True}
+            result['edges']=[{'source':e['source'],'target':e['target'],'kind':e['kind']}for e in graph['edges']
+                             if e['source']in self.allowed and e['target']in self.allowed]
+        return self._bounded(result)
 
     def as_of(self,time):
         return GraphAPI(self.repository,self.gateway,identity=self.identity,estate=self.estate,
@@ -81,7 +97,7 @@ class GraphAPI:
 
     def path_to_source(self,visual):
         nodes,_=self._read([visual])
-        if nodes[visual]['kind'] not in ('VISUAL','SLICER'):raise ValueError('GRAPH_VISUAL_REQUIRED')
+        if nodes[visual]['kind'] not in ('VISUAL','SLICER','MEASURE','TABLE','VIEW','SOURCE','COLUMN'):raise ValueError('GRAPH_VISUAL_REQUIRED')
         return self._slice([visual],edge_kinds=contract.EDGE_KINDS-{'CONTAINS','INTERACTS_WITH'})
 
     def calculation_path(self,node):

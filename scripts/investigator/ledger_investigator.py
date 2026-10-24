@@ -105,7 +105,10 @@ class Investigator:
 
     def run(self,ticket,*,warnings=()):
         ticket=copy.deepcopy(ticket);self.request=ticket.get('request',{'kind':'COMPARE'});self.ticket_text=ticket.get('text');started=self.clock();
-        if self.request.get('kind')!=self.tools.request_kind or (self.tools.request_kind=='FACT' and self.request.get('subject')!=self.tools.visual):raise ValueError('REQUEST_KIND_OR_SUBJECT_ADMISSION_DIFFERS')
+        if (self.request.get('kind')!=self.tools.request_kind
+                or self.request.get('subject',self.tools.visual)!=self.tools.visual
+                or self.tools.request_kind=='FACT'and self.request.get('subject')!=self.tools.visual):
+            raise ValueError('REQUEST_KIND_OR_SUBJECT_ADMISSION_DIFFERS')
         if self.request.get('comparison_pending')is True and (self.tools.request_kind!='COMPARE' or self.tools.comparison is not None):raise ValueError('PENDING_COMPARISON_CONTRACT_CONFLICT')
         assumptions=ticket.get('assumptions',[])
         if not isinstance(assumptions,list) or len(assumptions)>10 or any(not isinstance(value,str) or not 1<=len(value)<=1000 for value in assumptions):raise ValueError('ADMITTED_ASSUMPTION_LABELS_REQUIRED')
@@ -212,6 +215,10 @@ class Investigator:
                 measured=actual['value']['value'] if actual['value']['state']=='VALUE' else None
                 reproduction.append(self.tools.evidence.add('REPRODUCTION',[self.tools.visual],{'reported':reported,'measured':measured,'status':reported_label(reported,measured),'support_ids':[reproduction[0]]}))
         record({'event':'INVESTIGATOR_REPRODUCTION','evidence_ids':reproduction})
+        if self.request.get('question_kind')=='FILTER_EFFECT':
+            gap=self.tools.evidence.add('GAP',[self.tools.visual],{'reason':'Filter-effect routing is not installed; no pipeline walk was made.','code':'UNIMPLEMENTED_ROUTE'})
+            supported=check('not found',[self.tools.path_id,*reproduction,gap],self.tools.evidence,now=self.tools.now)
+            return self._finish(ticket,supported,calls,hypotheses,warnings,'UNIMPLEMENTED_ROUTE',started,0)
         self.case.advance('quick_facts')
         try:before=self.clock();quick=operation('quick_facts',{'path':sorted(self.tools.nodes)},self.tools.quick_checks)
         except Exception as exc:
@@ -391,6 +398,9 @@ class Investigator:
         for assumption in ticket.get('assumptions',[]):business+='Assumption: '+assumption+'\n'
         if recreation:business+='Reported figure recreation: '+recreation['status']+'.\n'
         business+=f'As of {at}, {label}: {verdict}. {reason}'
+        from .operational_delivery import details
+        operational_details=details(supported,self.tools.nodes)
+        if operational_details:business+='\n'+operational_details
         if verdict=='not found' and supported.get('claim_scope')!='OPERATIONAL_FACT_ONLY':business+=' Furthest measured point: '+str(furthest or 'none')+'.'
         if supported.get('expected_update_at'):business+=' Expected update from the declared schedule and observed median duration: '+supported['expected_update_at']+'.'
         if limits:business+='\nLabels: '+'; '.join(limits)
@@ -418,8 +428,13 @@ class Investigator:
         cause=load_source_outage(selected) if verdict=='failed job' else None
         if cause and cause.get('failure_class')=='UNREACHABLE':business+='\nRecorded load root cause: source unreachable at '+cause['last_observed_at']+'.'
         question=None
-        if stop=='COMPARISON_REQUIRED_AFTER_QUICK_CHECKS':
+        if getattr(self.tools,'scope_gap',None)and verdict=='not found':
+            question={'code':'SCOPE_REQUIRED','text':'Which field should I use for the filter or period you stated?'}
+            business+='\nQuestion: '+question['text']
+        elif stop=='COMPARISON_REQUIRED_AFTER_QUICK_CHECKS':
             question={'code':'COMPARISON_REQUIRED','text':'What are you comparing this number with: another report, a spreadsheet or your own count, the source, or an earlier value?'}
+            if self.request.get('comparison_pending_kind')in('spreadsheet','own count','earlier value'):
+                question['text']='What value does your '+self.request['comparison_pending_kind']+' show?'
             business+='\nQuestion: '+question['text']
         technical=business+'\nEvidence: '+', '.join(supported['evidence_ids'])+'\nStop: '+stop+'\nTechnical evidence pack: '+canonical(evidence)
         hypothesis_checks={}

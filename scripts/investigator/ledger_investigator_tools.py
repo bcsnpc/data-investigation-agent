@@ -106,6 +106,8 @@ class Tools:
 
     def _read(self,node,context):
         if node not in self.nodes:raise ValueError('READ_OUTSIDE_TICKET_PATH')
+        if getattr(self,'scope_gap',None):
+            return self.evidence.add('GAP',[node],{'reason':self.scope_gap,'code':'TICKET_SCOPE_UNRESOLVED'})
         if not hasattr(self,'_quantity_attempted'):self._quantity_attempted=set()
         self._quantity_attempted.add(node)
         cache_key=canonical([node,self.key,context])
@@ -144,7 +146,7 @@ class Tools:
         return identity
 
     def pending_quantity_nodes(self):
-        if self.request_kind!='COMPARE' or self.reader is None:return []
+        if self.request_kind!='COMPARE' or self.reader is None or getattr(self,'scope_gap',None):return []
         attempted=getattr(self,'_quantity_attempted',set())
         return [node for node in self.nodes if self.nodes[node]['kind']in ('TABLE','VIEW','SOURCE')and node not in attempted]
 

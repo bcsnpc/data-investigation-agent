@@ -82,6 +82,23 @@ def current_facts(entries,now):
     return result
 
 
+def operational_support(result,selected,facts,*,schedule=None):
+    """Keep the exact verdict witness for deterministic delivery, never a model summary.
+
+    A schedule belongs to the same producer. Conflicting newest observations
+    remain unavailable rather than selecting the more convenient next run.
+    """
+    result['operational_fact']=copy.deepcopy(selected)
+    if schedule is None:
+        schedules=[fact for fact in facts if fact['subject']==selected['subject'] and fact['kind']=='SCHEDULE']
+        if schedules:
+            newest=max(fact['collected_at'] for fact in schedules)
+            batch=[fact for fact in schedules if fact['collected_at']==newest]
+            if len({canonical(fact['value']) for fact in batch})==1:schedule=batch[0]
+    if schedule is not None:result['operational_schedule']=copy.deepcopy(schedule)
+    return result
+
+
 def pending_comparison_status(verdict,records,reads,*,target,now):
     """A relevant current operational fact, explicitly not a numerical cause.
 
@@ -113,11 +130,11 @@ def pending_comparison_status(verdict,records,reads,*,target,now):
         if not runs:return []
         latest=max(time_of(fact,'start') or fact['observed_at'] for fact in runs)
         return [fact for fact in runs if (time_of(fact,'start') or fact['observed_at'])==latest]
-    def supported(selected,reason,expected=None):
+    def supported(selected,reason,expected=None,schedule=None):
         result=_supported(verdict,records,None,reason+' The comparison has not been checked; no numerical cause has been established.')
         result.update(claim_scope='OPERATIONAL_STATUS_WITH_COMPARISON_PENDING',operational_fact=selected,comparison_checked=False)
         if expected:result['expected_update_at']=expected
-        return result
+        return operational_support(result,selected,facts,schedule=schedule)
     for subject in sorted(reachable):
         node=nodes.get(subject,{})
         if node.get('kind') not in ('PIPELINE','NOTEBOOK','COPY_ACTIVITY','MODEL'):continue
@@ -150,7 +167,7 @@ def pending_comparison_status(verdict,records,reads,*,target,now):
                 if changed and time_of(latest,'end') and time_of(latest,'end')<changed<=now and schedules and durations:
                     due=datetime.fromisoformat(time_of(schedules[0],'next_due').replace('Z','+00:00'))
                     expected=timestamp((due+timedelta(seconds=durations[0]['value']['median_seconds'])).isoformat())
-                    return supported(latest,'The declared source changed after this producer last completed; its next scheduled run is not yet due.',expected)
+                    return supported(latest,'The declared source changed after this producer last completed; its next scheduled run is not yet due.',expected,schedules[0])
     raise ValueError('CURRENT_RELEVANT_OPERATIONAL_STATUS_REQUIRED')
 
 
@@ -161,7 +178,7 @@ def explicit_operational_fact(request,entries,now,ticket_text):
     if not {'kind','subject','question','source'}<=set(request)<={'kind','subject','question','source','run_selector'} or request.get('kind')!='FACT' or request['question'] not in ('RUN_STATUS','REFRESH_STATUS'):
         raise ValueError('EXPLICIT_OPERATIONAL_QUESTION_REQUIRED')
     quote=span(request['source'],ticket_text)
-    if ticket_text is None or not re.search(r'\b(did|has|was|is|what|when|show|latest|last|need|please|explain|why|check|confirm)\b',quote,re.I) or not re.search(r'\b(job|pipeline|run|refresh|notebook|copy)\b',quote,re.I) or not re.search(r'\b(fail(?:ed)?|succeed(?:ed)?|status|finish(?:ed)?|complete(?:d)?|queued|running)\b',quote,re.I):
+    if ticket_text is None or not re.search(r'\b(did|has|was|is|what|when|show|latest|last|need|please|explain|why|check|confirm|still|stuck)\b',quote,re.I) or not re.search(r'\b(job|pipeline|run|refresh|notebook|copy)\b',quote,re.I) or not re.search(r'\b(fail(?:ed)?|succeed(?:ed)?|status|finish(?:ed)?|complete(?:d)?|queued|running|current|fresh|stale|updated|currency)\b',quote,re.I):
         raise ValueError('EXPLICIT_OPERATIONAL_QUESTION_REQUIRED')
     kinds={'JOB_RUN'} if request['question']=='RUN_STATUS' else {'REFRESH_RUN','REFRESH_STATE'}
     candidates=[entry['value'] for entry in entries if entry['kind']=='FACT' and entry['value'].get('subject')==request['subject'] and entry['value'].get('kind') in kinds
@@ -217,7 +234,7 @@ def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
         if selected['value'].get('status',selected['value'].get('state')) not in states:raise ValueError('CURRENT_OPERATIONAL_STATUS_REQUIRED')
         result=_supported(verdict,records,None,'The retained '+request['question'].lower().replace('_',' ')+' is '+selected['value'].get('status',selected['value'].get('state'))+'. This answers only the explicit operational question; no numerical cause was established.')
         result['claim_scope']='OPERATIONAL_FACT_ONLY';result['operational_fact']=selected
-        return result
+        return operational_support(result,selected,current_facts(entries,now))
     if request['kind']=='DEFINITION':raise ValueError('DEFINITION_ROUTE_REQUIRES_RETAINED_EXPLANATION')
     reads={identity:r['value'] for identity,r in records.items() if r['kind']=='READ'}
     for read in reads.values():
@@ -270,11 +287,11 @@ def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
                 runs=[f for f in known('JOB_RUN') if f['subject']==job]
                 if verdict=='failed job':
                     failed=[f for f in runs if f['value'].get('status')=='FAILED' and f['value'].get('error') and fact_time(f,'start') and changed<=fact_time(f,'start')<=now and fact_time(f,'end') and fact_time(f,'end')<=now]
-                    if failed:return _supported(verdict,records,boundary,'The linked quantity-preserving load failed after the source change: '+str(failed[0]['value']['error']))
+                    if failed:return operational_support(_supported(verdict,records,boundary,'The linked quantity-preserving load failed after the source change: '+str(failed[0]['value']['error'])),failed[0],facts)
                 if verdict=='waiting on job':
                     queued=[f for f in runs if f['value'].get('status') in ('QUEUED','RUNNING') and fact_time(f,'start') and changed<=fact_time(f,'start')<=now]
                     overdue=[f for f in known('OVERDUE') if f['subject']==job and f['value'].get('overdue') is True and fact_time(f,'due_at') and changed<=fact_time(f,'due_at')<=now]
-                    if queued or overdue:return _supported(verdict,records,boundary,'The linked load is queued/running or has not started by its declared due time.')
+                    if queued or overdue:return operational_support(_supported(verdict,records,boundary,'The linked load is queued/running or has not started by its declared due time.'),(queued or overdue)[0],facts)
                 if verdict=='latency':
                     completed=[f for f in runs if f['value'].get('status')=='SUCCEEDED' and fact_time(f,'end') and fact_time(f,'end')<changed]
                     schedules=[f for f in known('SCHEDULE') if f['subject']==job and fact_time(f,'next_due') and fact_time(f,'next_due')>=now]
@@ -284,7 +301,7 @@ def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
                     if completed and schedules and durations and not newer:
                         due=datetime.fromisoformat(fact_time(schedules[0],'next_due').replace('Z','+00:00'))
                         expected=due+timedelta(seconds=durations[0]['value']['median_seconds'])
-                        return {**_supported(verdict,records,boundary,'The source changed after the completed load and the next declared load is not yet due.'),'expected_update_at':timestamp(expected.isoformat())}
+                        return operational_support({**_supported(verdict,records,boundary,'The source changed after the completed load and the next declared load is not yet due.'),'expected_update_at':timestamp(expected.isoformat())},completed[0],facts,schedule=schedules[0])
         raise ValueError('FRESHNESS_CAUSAL_PATH_OR_CHRONOLOGY_MISSING')
     if verdict=='different question':
         for comparison in comparisons:
