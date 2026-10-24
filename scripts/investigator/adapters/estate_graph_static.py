@@ -223,7 +223,16 @@ class StaticGraph:
             if aid in self.sources or any(parent in self.sources for parent in self._parents(aid)):props['system_of_record']=True
             for key in ('dataType','sourceColumn','isActive','crossFilteringBehavior','securityFilteringBehavior'):
                 if key in meta:props[key]=meta[key]
-            node=self.add(kind,asset['name'],['asset',aid],proof,props);self.by_asset[aid]=node;self.proofs[aid]=proof
+            label=asset['name']
+            if native=='ReportVisual' and not legacy:
+                # Use the title visible in the report, not PBIR's opaque visual
+                # name. Reuse the existing literal-title reader; dynamic titles
+                # are not guessed or evaluated here.
+                from .report_predicates import display_names
+                title_context={'reports':[{'report_definitions':[{'id':aid,
+                    'metadata':{'content':json.dumps(meta)}}]}]}
+                label=display_names(title_context,[aid]).get(aid,label)
+            node=self.add(kind,label,['asset',aid],proof,props);self.by_asset[aid]=node;self.proofs[aid]=proof
         engine_covered=self.engine_dependencies()
         for aid,node in list(self.by_asset.items()):
             asset=self.assets[aid];parent=asset.get('parent_id');proof=self.proofs[aid];meta=asset.get('metadata',{})

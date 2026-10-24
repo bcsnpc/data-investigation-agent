@@ -3,6 +3,7 @@ import unittest
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 from investigator.daily_smoke import run_smoke
+from investigator.daily_smoke import ledger_demo_matches
 
 
 class SmokeDemoExpectationTests(unittest.TestCase):
@@ -37,6 +38,19 @@ class SmokeDemoExpectationTests(unittest.TestCase):
         self.assertEqual(self.smoke('TRANSFORMATION_LOGIC', expected=None)['status'], 'FAIL')
         self.assertEqual(self.smoke('TRANSFORMATION_LOGIC', state='HELD')['status'], 'FAIL')
         self.assertEqual(self.smoke(None)['status'], 'FAIL')
+
+    def test_new_engine_must_keep_earned_native_finding_boundary_and_both_values(self):
+        import copy
+        expected={'verdict':'as designed','native_classification':'TRANSFORMATION_LOGIC',
+            'boundary':{'downstream':'gold','upstream':'silver'},'values':{'gold':'8765','silver':'7661'}}
+        bundle={'verdict':'as designed','outputs':{'business':'implemented join','technical':'bounded evidence'},'evidence':{
+            'g':{'kind':'READ','value':{'subject':'gold','state':'VALUE','value':'8765','read_only_verified':True,'route_admitted':True}},
+            's':{'kind':'READ','value':{'subject':'silver','state':'VALUE','value':'7661','read_only_verified':True,'route_admitted':True}},
+            'definition':{'kind':'DESIGN_CHECK','subjects':['gold','silver'],'value':{'checked':True,'business_correctness_claim':False,'native_assessment':{'classification':'TRANSFORMATION_LOGIC'}}}}}
+        self.assertTrue(ledger_demo_matches(bundle,expected))
+        for mutate in (lambda b:b['evidence'].pop('definition'),lambda b:b['evidence']['s']['value'].update(value='8765'),
+            lambda b:b.update(status='blocked'),lambda b:b['evidence']['definition']['value']['native_assessment'].update(classification='NO_COMPARABLE_PATH')):
+            wrong=copy.deepcopy(bundle);mutate(wrong);self.assertFalse(ledger_demo_matches(wrong,expected))
 
 
 if __name__ == '__main__': unittest.main()

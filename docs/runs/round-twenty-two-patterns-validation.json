@@ -1,0 +1,161 @@
+{
+  "source_revision": "d66432ad027a41c782f2c488940246ca825dad81",
+  "full_suite": {
+    "tests": 5131,
+    "skipped": 48,
+    "failures": 0,
+    "errors": 0,
+    "elapsed_seconds": 1000.1192464999986
+  },
+  "image": {
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8db2ba2d882137c5ea1731a9277e73d3f10aaaa96faf341e368699189c8a9fa4",
+    "source_revision": "d66432ad027a41c782f2c488940246ca825dad81",
+    "workflow": 39978613480,
+    "all8shards": "PASS"
+  },
+  "earlier_full_failure_preserved": {
+    "revision": "6c4bbb92e8fc88fb133887639a71accd3e3dfc4e",
+    "failure": "test_platform_literal_sweep.PlatformLiteralSweepTests.test_production_above_adapter_debt_can_only_shrink",
+    "reason": "Provider URL in generic harness, moved into adapter; frozen allowance unchanged"
+  },
+  "smoke": {
+    "name": "job-dia-worker-wnj7nkc",
+    "status": "Succeeded",
+    "startTime": "2026-10-23T15:49:43+00:00",
+    "endTime": "2026-10-23T15:55:52+00:00",
+    "smoke_status": "PASS",
+    "classification": null,
+    "checks": {
+      "blob_write_read": "PASS",
+      "check_access": "PASS",
+      "family_a_demo": "PASS",
+      "gold_read": "PASS",
+      "postgres_write_read": "PASS",
+      "sign_in": "PASS"
+    },
+    "verdict": "as designed",
+    "native_classifications": [
+      "TRANSFORMATION_LOGIC"
+    ],
+    "seal": "ec3fbf057b43a0f1ea7ce5a336a5a3ed1ffc2357c29070ae59c3c591a4ef6198",
+    "capture_prefix": "round-twenty-two/runner/d3f0abe4-f271-4dea-b637-e3fa6c47d8e6",
+    "records": 128,
+    "output": ".local\\round-twenty-two\\patterns-resume-smoke-1.log"
+  },
+  "rollout": {
+    "documented_runtime_change": "collector60to180; decision2026-10-22",
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8db2ba2d882137c5ea1731a9277e73d3f10aaaa96faf341e368699189c8a9fa4",
+    "jobs": [
+      {
+        "cron": "0 6 * * *",
+        "identity": [
+          "id-dia-worker"
+        ],
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8db2ba2d882137c5ea1731a9277e73d3f10aaaa96faf341e368699189c8a9fa4",
+        "job": "job-dia-worker",
+        "other_job_configuration_unchanged": true,
+        "patch_sha256": "8738edb7f57d7c0ab91d6778db9a855c1141935459e4a1a22943684ee8eee9b5",
+        "resources": {
+          "cpu": 0.5,
+          "memory": "1Gi"
+        },
+        "timeout_seconds": 3600
+      },
+      {
+        "cron": "0 */6 * * *",
+        "identity": [
+          "id-dia-worker"
+        ],
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8db2ba2d882137c5ea1731a9277e73d3f10aaaa96faf341e368699189c8a9fa4",
+        "job": "job-dia-graph-scan",
+        "other_job_configuration_unchanged": true,
+        "patch_sha256": "ae24715cf3efe7a8e33fdb18bf155c17f5f88d7a57bfbb1ea539ac4cdb729e4e",
+        "resources": {
+          "cpu": 0.5,
+          "memory": "1Gi"
+        },
+        "timeout_seconds": 1800
+      },
+      {
+        "cron": "*/30 * * * *",
+        "identity": [
+          "id-dia-worker"
+        ],
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8db2ba2d882137c5ea1731a9277e73d3f10aaaa96faf341e368699189c8a9fa4",
+        "job": "job-dia-collectors",
+        "other_job_configuration_unchanged": true,
+        "patch_sha256": "1a378fda0fe99dff6392fcd2bf5243e1390b3892393dd363db0be874747cd758",
+        "resources": {
+          "cpu": 0.25,
+          "memory": "0.5Gi"
+        },
+        "timeout_seconds": 180
+      }
+    ],
+    "new_identity_role_or_scope": false
+  },
+  "provider_cache": {
+    "cached_input_tokens": 7552,
+    "cached_token_rate": 0.12459990100643459,
+    "call_hit_rate": 0.5,
+    "calls_with_cache": 4,
+    "input_tokens": 60610,
+    "reported_calls": 8,
+    "unknown_calls": 0
+  },
+  "smoke_azure_wall_seconds": 369,
+  "investigation_phase_seconds": 180.909542971,
+  "budget_after": {
+    "model_reservation_status_counts": [
+      {
+        "status": "SETTLED",
+        "count": 80
+      },
+      {
+        "status": "UNCERTAIN",
+        "count": 2
+      }
+    ],
+    "observed_at_utc": "2026-10-23T15:57:41.825056+00:00",
+    "physical": {
+      "mode": "BUILD_PHASE",
+      "month_utc": "2026-10",
+      "used": {
+        "INVESTIGATION": 466,
+        "RESTORATION": 0,
+        "SCAN": 710
+      },
+      "limits": {
+        "INVESTIGATION": 4905,
+        "SCAN": 1000,
+        "RESTORATION": 95
+      },
+      "total": 1176,
+      "total_limit": 6000,
+      "restoration_remaining": 95,
+      "warnings": []
+    },
+    "model_accounts": {
+      "2026-10": {
+        "identity": "model-microdollars:2026-10",
+        "unit": "MICRODOLLARS",
+        "ceiling": "40000000",
+        "protected": "0",
+        "opening": "0",
+        "charged": "3424084",
+        "violated": false
+      },
+      "2026-11": {
+        "identity": "model-microdollars:2026-11",
+        "unit": "MICRODOLLARS",
+        "ceiling": "40000000",
+        "protected": "0",
+        "opening": "0",
+        "charged": "0",
+        "violated": false
+      }
+    },
+    "read_only": true,
+    "authority": "existing owner control-plane platform state; not an estate read"
+  }
+}

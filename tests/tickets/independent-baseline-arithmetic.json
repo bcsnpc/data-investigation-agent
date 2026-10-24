@@ -1,0 +1,98 @@
+{
+  "provenance": "Independent literal arithmetic, no engine or compiled/provider query executed",
+  "fixture": {
+    "seed_notebook_sha256": "313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1",
+    "source_rows": 360,
+    "source_quantity": 7661,
+    "serving_quantity": 8765,
+    "join_excess": 1104,
+    "per_product": [
+      {
+        "product_id": 1,
+        "source_units": 643,
+        "rate_matches": 1,
+        "left_join_contribution": 643
+      },
+      {
+        "product_id": 2,
+        "source_units": 897,
+        "rate_matches": 1,
+        "left_join_contribution": 897
+      },
+      {
+        "product_id": 3,
+        "source_units": 922,
+        "rate_matches": 1,
+        "left_join_contribution": 922
+      },
+      {
+        "product_id": 4,
+        "source_units": 908,
+        "rate_matches": 1,
+        "left_join_contribution": 908
+      },
+      {
+        "product_id": 5,
+        "source_units": 970,
+        "rate_matches": 1,
+        "left_join_contribution": 970
+      },
+      {
+        "product_id": 6,
+        "source_units": 959,
+        "rate_matches": 1,
+        "left_join_contribution": 959
+      },
+      {
+        "product_id": 7,
+        "source_units": 1104,
+        "rate_matches": 2,
+        "left_join_contribution": 2208
+      },
+      {
+        "product_id": 8,
+        "source_units": 1258,
+        "rate_matches": 1,
+        "left_join_contribution": 1258
+      }
+    ]
+  },
+  "billing": {
+    "seed_sha256": "9120d9a4eaa1cb892fde560075cc5c132894905c236098b850be1d9f82a4f595",
+    "source_invoice_amount": 700,
+    "serving_invoice_amount": 950,
+    "join_excess": 250,
+    "per_invoice": [
+      {
+        "invoice_id": 101,
+        "status": "ISSUED",
+        "source_amount": 250,
+        "history_matches": 2,
+        "left_join_contribution": 500
+      },
+      {
+        "invoice_id": 102,
+        "status": "ISSUED",
+        "source_amount": 100,
+        "history_matches": 1,
+        "left_join_contribution": 100
+      },
+      {
+        "invoice_id": 103,
+        "status": "ISSUED",
+        "source_amount": 250,
+        "history_matches": 1,
+        "left_join_contribution": 250
+      },
+      {
+        "invoice_id": 104,
+        "status": "VOID",
+        "source_amount": 100,
+        "history_matches": 1,
+        "left_join_contribution": 100
+      }
+    ],
+    "limitation": "All invoice statuses included to reproduce SUM(Billing[amount]); no judgment whether VOID should count."
+  },
+  "not_current_value_verification": true
+}

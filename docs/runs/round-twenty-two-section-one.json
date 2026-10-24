@@ -1,0 +1,240 @@
+{
+  "full_suite": {
+    "revision": "aa409a7504dba4a88b9037f2aaba7937dac5b99f",
+    "elapsed_seconds": 734.3736482000022,
+    "statuses": [
+      {
+        "shard": 0,
+        "exit_code": 0
+      },
+      {
+        "shard": 1,
+        "exit_code": 0
+      },
+      {
+        "shard": 2,
+        "exit_code": 0
+      },
+      {
+        "shard": 3,
+        "exit_code": 0
+      }
+    ],
+    "results": [
+      {
+        "tests": 1276,
+        "failures": 0,
+        "errors": 0,
+        "skips": 1,
+        "successful": true
+      },
+      {
+        "tests": 1276,
+        "failures": 0,
+        "errors": 0,
+        "skips": 6,
+        "successful": true
+      },
+      {
+        "tests": 1276,
+        "failures": 0,
+        "errors": 0,
+        "skips": 41,
+        "successful": true
+      },
+      {
+        "tests": 1276,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0,
+        "successful": true
+      }
+    ]
+  },
+  "smokes": [
+    {
+      "name": "job-dia-worker-h3xzssv",
+      "status": "Succeeded",
+      "startTime": "2026-10-23T05:18:14+00:00",
+      "endTime": "2026-10-23T05:22:54+00:00",
+      "smoke_status": "PASS",
+      "classification": null,
+      "checks": {
+        "blob_write_read": "PASS",
+        "check_access": "PASS",
+        "family_a_demo": "PASS",
+        "gold_read": "PASS",
+        "postgres_write_read": "PASS",
+        "sign_in": "PASS"
+      },
+      "verdict": "as designed",
+      "native_classifications": [
+        "TRANSFORMATION_LOGIC"
+      ],
+      "seal": "a6546c305bc5575975af1a35cc48170670e6389d6a5cce4e49e720cd39c91262",
+      "capture_prefix": "round-twenty-two/runner/666dfecc-468e-48f4-a095-480fd662485b",
+      "records": 126,
+      "output": ".local\\round-twenty-two\\status-refresh-smoke-1.log"
+    },
+    {
+      "name": "job-dia-worker-wfdgnq0",
+      "status": "Succeeded",
+      "startTime": "2026-10-23T05:24:18+00:00",
+      "endTime": "2026-10-23T05:28:55+00:00",
+      "smoke_status": "PASS",
+      "classification": null,
+      "checks": {
+        "blob_write_read": "PASS",
+        "check_access": "PASS",
+        "family_a_demo": "PASS",
+        "gold_read": "PASS",
+        "postgres_write_read": "PASS",
+        "sign_in": "PASS"
+      },
+      "verdict": "as designed",
+      "native_classifications": [
+        "TRANSFORMATION_LOGIC"
+      ],
+      "seal": "22e77d4bd4a7ba19e4db1a35fe848eec6552eb32526c80d1f742aea154301d08",
+      "capture_prefix": "round-twenty-two/runner/d3f73d25-4b77-4684-b8de-ed868fe37b1b",
+      "records": 126,
+      "output": ".local\\round-twenty-two\\status-refresh-smoke-2.log"
+    },
+    {
+      "name": "job-dia-worker-ibc6h0s",
+      "status": "Succeeded",
+      "startTime": "2026-10-23T05:29:52+00:00",
+      "endTime": "2026-10-23T05:34:42+00:00",
+      "smoke_status": "FAIL",
+      "classification": null,
+      "checks": {
+        "blob_write_read": "PASS",
+        "check_access": "PASS",
+        "family_a_demo": "FAIL",
+        "gold_read": "PASS",
+        "postgres_write_read": "PASS",
+        "sign_in": "PASS"
+      },
+      "seal": "2a71465a4668a151927773b72279bb04d5fe734ac56ae9c6ea6e0dce1943ceaf",
+      "capture_prefix": "round-twenty-two/runner/ac9d6cad-b4ec-40e2-9247-e83c41bfef5f",
+      "records": 123,
+      "output": ".local\\round-twenty-two\\status-refresh-smoke-3.log"
+    }
+  ],
+  "job_readbacks": {
+    "documented_runtime_change": "collector60to180; decision2026-10-22",
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e93a69cbe8cae912d3a013a2c0bf69964f30742613c7878cbe8831b71bf71a02",
+    "jobs": [
+      {
+        "cron": "0 6 * * *",
+        "identity": [
+          "id-dia-worker"
+        ],
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e93a69cbe8cae912d3a013a2c0bf69964f30742613c7878cbe8831b71bf71a02",
+        "job": "job-dia-worker",
+        "other_job_configuration_unchanged": true,
+        "patch_sha256": "122f202f972d12faeb997218beaa2cf6c2bda12fa6a487e7a26fcc7f694d77d4",
+        "resources": {
+          "cpu": 0.5,
+          "memory": "1Gi"
+        },
+        "timeout_seconds": 3600
+      },
+      {
+        "cron": "0 */6 * * *",
+        "identity": [
+          "id-dia-worker"
+        ],
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e93a69cbe8cae912d3a013a2c0bf69964f30742613c7878cbe8831b71bf71a02",
+        "job": "job-dia-graph-scan",
+        "other_job_configuration_unchanged": true,
+        "patch_sha256": "794bce50b8a685dd389d2d501f83922efca8c9113fa870379ab90129dedc60ff",
+        "resources": {
+          "cpu": 0.5,
+          "memory": "1Gi"
+        },
+        "timeout_seconds": 1800
+      },
+      {
+        "cron": "*/30 * * * *",
+        "identity": [
+          "id-dia-worker"
+        ],
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e93a69cbe8cae912d3a013a2c0bf69964f30742613c7878cbe8831b71bf71a02",
+        "job": "job-dia-collectors",
+        "other_job_configuration_unchanged": true,
+        "patch_sha256": "90d64b5a8c5b2542c9acfc3d87a2683691cf5c8a1c0284e92d28ec243002c97e",
+        "resources": {
+          "cpu": 0.25,
+          "memory": "0.5Gi"
+        },
+        "timeout_seconds": 180
+      }
+    ],
+    "new_identity_role_or_scope": false
+  },
+  "budget": {
+    "model_reservation_status_counts": [
+      {
+        "status": "SETTLED",
+        "count": 68
+      },
+      {
+        "status": "UNCERTAIN",
+        "count": 2
+      }
+    ],
+    "observed_at_utc": "2026-10-23T05:35:41.770579+00:00",
+    "physical": {
+      "mode": "BUILD_PHASE",
+      "month_utc": "2026-10",
+      "used": {
+        "RESTORATION": 0,
+        "SCAN": 537,
+        "INVESTIGATION": 466
+      },
+      "limits": {
+        "INVESTIGATION": 4905,
+        "SCAN": 1000,
+        "RESTORATION": 95
+      },
+      "total": 1003,
+      "total_limit": 6000,
+      "restoration_remaining": 95,
+      "warnings": []
+    },
+    "model_accounts": {
+      "2026-10": {
+        "identity": "model-microdollars:2026-10",
+        "unit": "MICRODOLLARS",
+        "ceiling": "40000000",
+        "protected": "0",
+        "opening": "0",
+        "charged": "2967361",
+        "violated": false
+      },
+      "2026-11": {
+        "identity": "model-microdollars:2026-11",
+        "unit": "MICRODOLLARS",
+        "ceiling": "40000000",
+        "protected": "0",
+        "opening": "0",
+        "charged": "0",
+        "violated": false
+      }
+    },
+    "read_only": true,
+    "authority": "existing owner control-plane platform state; not an estate read"
+  },
+  "consecutive_three_green": false,
+  "soft_gate_exception": {
+    "authority": "amended Round22 working stance and section1e: continue after three different fixes, preserving blocker",
+    "fixes": [
+      "604867fc: defer physical-child capture publication until handshake completes; lifecycle logging retained",
+      "58a44a6/5c25dc6: NORMAL batched audit and ticket-scoped catalog; native/provider tapes only TEST",
+      "a71117d/7d9653f: compact fetched checked-design witness without altering native proof"
+    ],
+    "blocker": "Third smoke fails INVESTIGATOR_PROVIDER_INPUT_BOUND (>48000 characters) after additional definition reads and repeated get_evidence calls grow the request. Its final get_evidence was for evidence:a0c88fdba45fb994d3df972b0940a899a5bbeb8faae247fd08bc97b30c7c5e6b (GRAPH definition,2772 serialized characters). Exact rejected request size was not retained. Two prior passes do not establish three consecutive passes.",
+    "next": "Proceed to section2 code-owned state, just-in-time retrieval, repeat blocking and stable prefix; keep this gate OPEN, repeat smoke after the patterns. No expectation or request bound changed."
+  }
+}

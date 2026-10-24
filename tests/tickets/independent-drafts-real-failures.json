@@ -1,0 +1,46 @@
+{
+  "status": "INDEPENDENT_DRAFTS_NOT_A_SEALED_SCORED_SET",
+  "writer": "Claude Sonnet4.6 existing Anthropic batch channel",
+  "source_visibility": "Plain observed scenario and visible job label only; no engine, expected answer or ledger contents",
+  "provider_batch_key": "round22-writer-real-failures-v1",
+  "capture_seal": "5824660997a0b014ed775b73e80735d8d4c9945600680229ccf1051cb147fb4c",
+  "source_tasks_sha256": "ffb84c75ad6676fe03d8540ba135e47cfe09e9230db40bc7400b0889d1c7b225",
+  "tickets": [
+    {
+      "id": "failed-fixture-load-1",
+      "case_id": "failed-fixture-load",
+      "variation": "plain business language",
+      "text": "On the job-history page for PIPELINE round_two_application_load_audited_20261003, I can see the run that started on 2026-10-23 at 17:16:29 UTC is showing a Failed status. Can someone give me a plain-language explanation of why that specific run failed and whether it actually completed any of its work before stopping? I need to understand the business impact \u2014 did any data get processed, or did the job not finish at all?"
+    },
+    {
+      "id": "failed-fixture-load-2",
+      "case_id": "failed-fixture-load",
+      "variation": "terse operations message",
+      "text": "Need details on the failed run for PIPELINE round_two_application_load_audited_20261003, start 2026-10-23T17:16:29.31 UTC. What is the root-cause error and did the job complete execution or terminate early?"
+    },
+    {
+      "id": "failed-billing-transform-1",
+      "case_id": "failed-billing-transform",
+      "variation": "plain business language",
+      "text": "On the job-history page for PIPELINE Billing Warehouse transformations, I can see a run that started on 2026-10-23 at 17:18:30 UTC which is marked as Failed. Can someone explain in plain terms what went wrong during that run and whether the job actually finished or was cut short before completing?"
+    },
+    {
+      "id": "failed-billing-transform-2",
+      "case_id": "failed-billing-transform",
+      "variation": "terse operations message",
+      "text": "Billing Warehouse transformations run 2026-10-23T17:18:30.51 UTC status Failed. Need technical cause and confirmation of whether job reached completion."
+    },
+    {
+      "id": "failed-billing-load-1",
+      "case_id": "failed-billing-load",
+      "variation": "plain business language",
+      "text": "On the job-history page for the Billing application load pipeline I can see a run that started on 2026-10-23 at 17:26:54 UTC and is showing a Failed status. I need to understand what went wrong with that specific run in plain terms \u2014 what caused it to fail and did the job actually finish or was it stopped partway through? I do not need technical log details, just a clear explanation I can pass along to the business team."
+    },
+    {
+      "id": "failed-billing-load-2",
+      "case_id": "failed-billing-load",
+      "variation": "terse operations message",
+      "text": "PIPELINE Billing application load \u2014 run 2026-10-23T17:26:54.8166667 UTC shows Failed. Need failure reason and confirmation of whether job completed or was terminated. Check this run specifically."
+    }
+  ]
+}

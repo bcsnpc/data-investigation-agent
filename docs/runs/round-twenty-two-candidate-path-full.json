@@ -1,0 +1,53 @@
+{
+  "revision": "605162d562b43fcf50be7699733d31dcc8183117",
+  "elapsed_seconds": 707.5410092999991,
+  "statuses": [
+    {
+      "shard": 0,
+      "exit_code": 0
+    },
+    {
+      "shard": 1,
+      "exit_code": 0
+    },
+    {
+      "shard": 2,
+      "exit_code": 0
+    },
+    {
+      "shard": 3,
+      "exit_code": 0
+    }
+  ],
+  "results": [
+    {
+      "tests": 1325,
+      "failures": 0,
+      "errors": 0,
+      "skips": 14,
+      "successful": true
+    },
+    {
+      "tests": 1324,
+      "failures": 0,
+      "errors": 0,
+      "skips": 8,
+      "successful": true
+    },
+    {
+      "tests": 1324,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "successful": true
+    },
+    {
+      "tests": 1324,
+      "failures": 0,
+      "errors": 0,
+      "skips": 26,
+      "successful": true
+    }
+  ],
+  "interpretation": "Frozen605162d full regression:5249PASS/48skip, zero failures/errors. Later retained-path warning/card-reference changes have89focusedPASS only, not included in this full run."
+}

@@ -1,0 +1,50 @@
+{
+  "owner_date": "2026-10-22",
+  "job": "job-dia-collectors",
+  "duration_basis": "Lower bound from Azure execution start to last immutable capture publication; Azure omitted failed execution endTime",
+  "original": {
+    "execution": "job-dia-collectors-29878380",
+    "capture": "0a43cb29-6221-42f0-a119-6acb31ec003d",
+    "start_utc": "2026-10-22T21:00:00Z",
+    "last_publication_utc": "2026-10-22T21:01:09Z",
+    "minimum_seconds": 69,
+    "azure_status": "Failed",
+    "child_exit_code": null
+  },
+  "live_probe_before": {
+    "execution": "job-dia-collectors-hfpp65n",
+    "capture": "round22-audit-lifecycle-03",
+    "start_utc": "2026-10-23T03:29:02Z",
+    "last_publication_utc": "2026-10-23T03:30:12Z",
+    "minimum_seconds": 70,
+    "azure_status": "Failed",
+    "child_exit_code": 0,
+    "child_deadline_expired": false,
+    "seal": "95b17941a5de54ee7c1d134aedda9ef9305081d2e1b10a6987b619b5461cb1d5"
+  },
+  "cause": "Outer 60-second job limit, established under owner's duration criterion",
+  "patch": {"properties": {"configuration": {"replicaTimeout": 180}}},
+  "old_seconds": 60,
+  "new_seconds": 180,
+  "patch_sha256": "a0d114ee6403c180a896c056540f55f8a8045e26092a381423617a97705f00f1",
+  "readback": "PASS; identity, template and all other configuration unchanged",
+  "confirmation": {
+    "execution": "job-dia-collectors-ue92850",
+    "capture": "round22-audit-lifecycle-04",
+    "start_utc": "2026-10-23T03:44:57Z",
+    "end_utc": "2026-10-23T03:45:53Z",
+    "seconds": 56,
+    "azure_status": "Succeeded",
+    "child_exit_code": 0,
+    "child_deadline_expired": false,
+    "exit_intent": 0,
+    "physical_scan_requests": 4,
+    "model_calls": 0,
+    "collector_subject_status": "UNCHANGED_MARKER",
+    "new_facts": 0,
+    "seal": "3bd5ece6215588bd9784ec631b72cc90b9451d6740cb63a77d1e142fd1195a74"
+  },
+  "manual_max_requests": 4,
+  "limitation": "Original manual FETCH budget exhaustion retained. Confirmation appended no fresh fact; existing coverage still unavailable. Six-hour scheduled collector remains the real load-fact test.",
+  "section_2_gate": "Full suite and three consecutive corrected-image smoke passes required; not bypassed"
+}

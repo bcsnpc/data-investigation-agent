@@ -169,9 +169,9 @@ class SharedUsage:
         """
         if getattr(local,'shared_accounting',None):
             raise StateConflict('POSTGRES_MIRROR_MUST_BE_PRIVATE')
-        with self.state.transaction() as db:
-            retained={original:self.state.sql(db,'SELECT '+','.join(columns)+' FROM '+target+' WHERE environment=?',(self.environment,)).fetchall()
-                      for original,(target,columns) in TABLES.items()}
+        retained=self.state._read_transaction(lambda db:{
+            original:self.state.sql(db,'SELECT '+','.join(columns)+' FROM '+target+' WHERE environment=?',(self.environment,)).fetchall()
+            for original,(target,columns) in TABLES.items()})
         for original,(_,columns) in TABLES.items():
             desired={tuple(row[:3] if 'reservation_key' in columns else row[:2]):tuple(row) for row in retained[original]}
             existing={tuple(row[:3] if 'reservation_key' in columns else row[:2]):tuple(row) for row in local.execute('SELECT '+','.join(columns)+' FROM '+original+' WHERE environment=?',(self.environment,))}
@@ -337,9 +337,9 @@ class SharedUsage:
                 retained={original:local.execute('SELECT '+','.join(columns)+' FROM '+original+' WHERE environment=?',(self.environment,)).fetchall()
                           for original,(_,columns) in TABLES.items()}
         else:
-            with self.state.transaction() as db:
-                retained={original:self.state.sql(db,'SELECT '+','.join(columns)+' FROM '+target+' WHERE environment=?',(self.environment,)).fetchall()
-                          for original,(target,columns) in TABLES.items()}
+            retained=self.state._read_transaction(lambda db:{
+                original:self.state.sql(db,'SELECT '+','.join(columns)+' FROM '+target+' WHERE environment=?',(self.environment,)).fetchall()
+                for original,(target,columns) in TABLES.items()})
         db=sqlite3.connect(':memory:');db.row_factory=sqlite3.Row
         try:
             db.execute('CREATE TABLE adaptive_usage(environment,session_id,reservation_key,day,kind,reserved,actual,status,policy_hash,created)')
@@ -365,9 +365,7 @@ class SharedUsage:
                 'limitation':'Planner reservations use UTC days; ordinary reads use rolling 24 hours, with separate expiring run credits. Initiated requests in this catalog only, not provider spend or SQL compute.'}
         from . import build_phase
         if build_phase.active(g.runtime.config):
-            with self.state.transaction() as db:
-                usage=rows(self.state,db,'SELECT environment,session_id,reservation_key,reserved,created FROM state_usage')
-                allocations=rows(self.state,db,'SELECT environment,session_id,reservation_key,purpose FROM state_read_allocations')
+            usage,allocations=self.state._read_transaction(lambda db:build_phase.shared_physical_rows(self.state,db,now))
             result['monthly']=build_phase.physical_status(usage,allocations,now)
             result['legacy_limits_informational']=True
             result['limitation']='Monthly UTC physical categories enforce admission; old daily, rolling and round counters are informational. Model dollars use their own monthly account.'

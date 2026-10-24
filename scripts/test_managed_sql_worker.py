@@ -3,6 +3,7 @@ import json
 import sys
 from types import SimpleNamespace
 import unittest
+import sqlite3
 from unittest.mock import Mock, patch
 
 import managed_sql_worker as worker
@@ -66,9 +67,34 @@ class Tests(unittest.TestCase):
         self.assertEqual(len(self.cursor.calls),2)
 
     def test_permissions_refuse_before_quantity(self):
-        with self.assertRaisesRegex(ValueError,'permission guard'):
+        with self.assertRaisesRegex(worker.ReadOnlyGuardRefused,'permission guard')as rejected:
             self.run_worker(Cursor(permission=1))
         self.assertEqual(len(self.cursor.calls),2)
+        self.assertEqual(rejected.exception.details['guard'],'sql_database_permissions')
+        self.assertEqual(rejected.exception.details['principal'],'reader')
+        self.assertEqual(rejected.exception.details['unexpected_permission_count'],1)
+
+    def test_view_definition_children_are_read_metadata_but_writes_and_unknowns_still_refuse(self):
+        with sqlite3.connect(':memory:')as db:
+            db.execute('CREATE TABLE native_permissions(permission_name TEXT)')
+            predicate=worker.DB_GUARD.replace("sys.fn_my_permissions(NULL,'DATABASE')",'native_permissions')
+            db.executemany('INSERT INTO native_permissions VALUES(?)',[(p,)for p in ('CONNECT','SELECT','VIEW DEFINITION','VIEW SECURITY DEFINITION','VIEW PERFORMANCE DEFINITION')])
+            self.assertEqual(db.execute(predicate).fetchone()[0],0)
+            for permission in ('INSERT','UPDATE','DELETE','EXECUTE','CONTROL','ALTER ANY USER','IMPERSONATE ANY USER','CREATE TABLE','TAKE OWNERSHIP','VIEW UNKNOWN FUTURE DEFINITION'):
+                with self.subTest(permission=permission):
+                    db.execute('INSERT INTO native_permissions VALUES(?)',(permission,))
+                    self.assertEqual(db.execute(predicate).fetchone()[0],1)
+                    db.execute('DELETE FROM native_permissions WHERE permission_name=?',(permission,))
+
+    def test_guard_refusal_retains_safe_identity_count_and_stage_without_driver_text(self):
+        source=io.StringIO(json.dumps(self.payload)+'\n');sink=io.StringIO()
+        def fail(payload,**kwargs):
+            kwargs['progress']['stage']='query'
+            raise worker.ReadOnlyGuardRefused('sql_database_permissions','declared-reader','synthetic',(2,))
+        with patch.object(sys,'stdin',source),patch.object(sys,'stdout',sink),patch.object(worker,'execute',side_effect=fail):
+            self.assertEqual(worker.main(),1)
+        result=json.loads(sink.getvalue());self.assertEqual(result['stage'],'query');self.assertEqual(result['read_only_guard']['principal'],'declared-reader');self.assertEqual(result['read_only_guard']['unexpected_permission_count'],2)
+        self.assertNotIn('query',result['read_only_guard']);self.assertNotIn('token',sink.getvalue());self.assertNotIn('connection_string',sink.getvalue())
 
     def test_gateway_refusal_precedes_token_and_connection(self):
         self.admit.side_effect=ValueError('Denied')

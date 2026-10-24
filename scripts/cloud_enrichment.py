@@ -9,8 +9,8 @@ from cloud_investigator import reference
 def validate_options(options):
     if not isinstance(options,dict):raise ValueError('ENRICHMENT_RUNNER_OPTIONS')
     operation=options.get('operation')
-    expected={'operation','config','batch_key'}|({'tasks'} if operation=='submit' else set())
-    if operation not in ('submit','resume') or set(options)!=expected:raise ValueError('ENRICHMENT_RUNNER_OPTIONS')
+    expected={'operation','config','batch_key'}|({'tasks'} if operation in ('submit','evaluation-submit') else set())
+    if operation not in ('submit','resume','evaluation-submit','evaluation-resume') or set(options)!=expected:raise ValueError('ENRICHMENT_RUNNER_OPTIONS')
     if not isinstance(options['batch_key'],str) or not re.fullmatch(r'[A-Za-z0-9_.:-]{1,160}',options['batch_key']):raise ValueError('ENRICHMENT_BATCH_KEY')
     config=json.loads(reference(options['config'],maximum=64000).read_bytes())
     if not isinstance(config,dict) or set(config)!={'secret_reference','gateway_identity','worker_identity'}:raise ValueError('ENRICHMENT_RUNNER_CONFIG')
@@ -19,8 +19,11 @@ def validate_options(options):
     for key in ('gateway_identity','worker_identity'):
         if not isinstance(config[key],str) or not config[key]:raise ValueError('ENRICHMENT_RUNNER_IDENTITY')
     sources=None
-    if operation=='submit':
-        from investigator.enrichment import task
+    if operation in ('submit','evaluation-submit'):
+        if operation=='evaluation-submit':
+            from investigator.adapters.evaluation_anthropic import task
+        else:
+            from investigator.enrichment import task
         sources=json.loads(reference(options['tasks'],maximum=4*1024*1024).read_bytes())
         if not isinstance(sources,list) or not 1<=len(sources)<=50:raise ValueError('ENRICHMENT_BATCH_BOUND')
         sources=[task(source) for source in sources]
@@ -54,8 +57,17 @@ def execute(plan,context):
         context.record('enrichment-provider',{'kind':kind,'body':body})
     try:
         with journal.active(tape):
-            job=live_job(config,record=record);before=job.budget.snapshot()
-            result=job.submit(sources,batch_key=batch_key) if operation=='submit' else job.resume(batch_key)
+            if operation.startswith('evaluation-'):
+                from investigator.adapters.evaluation_anthropic import EvaluationClient
+                from investigator.adapters.enrichment_anthropic import price
+                from investigator.enrichment_job import EnrichmentSpendBudget
+                from investigator.evaluation_job import EvaluationJob
+                from datetime import datetime,timezone
+                provider=EvaluationClient(secret_reference=config['secret_reference'],identity=config['gateway_identity'],record=record,purpose='ENRICHMENT')
+                job=EvaluationJob(state,provider,EnrichmentSpendBudget(state,owner=config['worker_identity'],price=price),clock=lambda:datetime.now(timezone.utc).isoformat())
+            else:job=live_job(config,record=record)
+            before=job.budget.snapshot()
+            result=job.submit(sources,batch_key=batch_key) if operation in ('submit','evaluation-submit') else job.resume(batch_key)
             output={'operation':operation,'batch_key':batch_key,'result':result,
                     'enrichment_budget_before':before,'enrichment_budget_after':job.budget.snapshot(),
                     'investigator_model_calls':0,'estate_reads':0,'account':ACCOUNT}

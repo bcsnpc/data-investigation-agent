@@ -95,6 +95,20 @@ class EnrichmentStore:
         return {**{k:copy.deepcopy(row[k]) for k in ('estate','subject','synonyms','business_meaning','calculation_explanation','hidden_logic','definition_hash','status','proposed_links','provenance','recording_class')},
                 'stale_definition':definition_hash is not None and row['definition_hash']!=definition_hash}
 
+    def projections(self,estate,subjects):
+        """One short read transaction for a bounded, already-authorized catalog."""
+        if not isinstance(subjects,dict)or len(subjects)>200:raise ValueError('ENRICHMENT_SEARCH_SUBJECT_BOUND')
+        def read(db):
+            result={}
+            for subject,definition_hash in subjects.items():
+                try:row=self.state._get(db,'enrichment_current',sha([estate,subject]))['body']
+                except KeyError:continue
+                if row['estate']!=estate or row['subject']!=subject:raise ValueError('ENRICHMENT_SEARCH_IDENTITY_DIFFERS')
+                if definition_hash is not None and row['definition_hash']!=definition_hash:continue
+                result[subject]={k:copy.deepcopy(row[k])for k in ('synonyms','business_meaning','status','definition_hash','provenance')}
+            return result
+        return self.state._read_transaction(read)
+
     def confirm(self,source,output,*,at,reviewer):
         if not isinstance(reviewer,str) or not reviewer.strip():raise ValueError('ENRICHMENT_HUMAN_REVIEWER_REQUIRED')
         source=task(source);validated=validate_output(output,source)

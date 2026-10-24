@@ -58,14 +58,19 @@ class MemoryState(SharedState):
         self.migrate()
 
     @contextmanager
-    def transaction(self):
+    def transaction(self,*,_lease_release=False,_read_only=False):
+        if type(_read_only)is not bool or (_read_only and _lease_release):
+            raise ValueError('READ_TRANSACTION_MODE_INVALID')
         try:
-            self.connection.execute('BEGIN IMMEDIATE')
+            self.connection.execute('PRAGMA query_only='+('ON'if _read_only else'OFF'))
+            self.connection.execute('BEGIN'if _read_only else'BEGIN IMMEDIATE')
             yield self.connection
             self.connection.commit()
         except BaseException:
             self.connection.rollback()
             raise
+        finally:
+            self.connection.execute('PRAGMA query_only=OFF')
 
 
 class ReplayUsage(SharedUsage):

@@ -38,11 +38,36 @@ class Values(unittest.TestCase):
         self.assertEqual(result['value'],'16');self.assertEqual(result['receipt_id'],'receipt')
         self.assertEqual(self.calls[0][0]['id'],'physical');self.assertIn('SNAPSHOT_UNVERIFIED',result['warnings'])
 
+    def test_checkpoint_restores_original_native_probes_for_later_design_checks(self):
+        from investigator.shared_state import StateConflict
+        first=self.port();first('lower',None,{})
+        snapshot=first.checkpoint_state();second=self.port();second.restore_checkpoint(snapshot)
+        self.assertEqual(second.probes['receipt'].query,first.probes['receipt'].query)
+        self.assertEqual(second.probes['receipt'].value,first.probes['receipt'].value)
+        self.assertEqual(second.probes['receipt'].execution_surface,first.probes['receipt'].execution_surface)
+        self.assertEqual(len(self.calls),1)
+        snapshot['path_sha256']='wrong'
+        with self.assertRaises(StateConflict):second.restore_checkpoint(snapshot)
+
     def test_blank_is_value_and_failure_is_not_blank(self):
         self.value=None;self.assertEqual(self.port()('visual',None,{})['state'],'BLANK')
         self.process.evaluate=lambda *a:Probe('UNAVAILABLE','semantic',reason='query failed')
         with self.assertRaisesRegex(ValueError,'query failed'):self.port()('visual',None,{})
         self.assertEqual(self.saved[-1]['status'],'UNAVAILABLE')
+
+    def test_build_phase_attestation_is_a_warning_and_query_failure_remains_failure(self):
+        from dataclasses import replace
+        from investigator.build_phase import operating_mode
+        evaluate=self.evaluate
+        self.process.evaluate=lambda *args:replace(evaluate(*args),surface_report={'identity':'different','object':'db'})
+        with self.assertRaises(ValueError):self.port()('visual',None,{})
+        with operating_mode():
+            result=self.port()('visual',None,{})
+            self.assertEqual(result['value'],'16')
+            self.assertTrue(any('without an attestation claim'in label for label in result['warnings']))
+            self.assertEqual(result['native_evidence']['surface_attestation']['status'],'CONTRADICTED')
+            self.process.evaluate=lambda *args:Probe('UNAVAILABLE','semantic',reason='query failed')
+            with self.assertRaisesRegex(ValueError,'query failed'):self.port()('visual',None,{})
 
     def test_unknown_target_measure_key_and_scope_never_dispatch(self):
         port=self.port()
@@ -70,6 +95,57 @@ class Decisions(unittest.TestCase):
         self.governor=SimpleNamespace(runtime=SimpleNamespace(db=db),
             reserve=lambda *a,**k:self.events.append(('reserve',a[1:],k)),
             settle=lambda *a,**k:self.events.append(('settle',a[1:],k)))
+
+    def test_two_tickets_have_identical_prefix_and_scope_references_expand_before_validation(self):
+        import copy,json
+        from investigator.ledger_investigator import schema
+        from investigator.estate_graph_contract import canonical
+        from investigator.ledger_investigator_tools import literal_schema
+        from investigator.investigator_case import CaseFile
+        prefixes=[];usage=[]
+        for suffix,context,key in [('',{'warehouse':'North'},'record-1'),('-two',{'warehouse':'South','period':'month'},None)]:
+            arguments={'type':'object','properties':{'layers':{'type':'array','items':{'type':'string','enum':['down'+suffix,'up'+suffix]}},'filters':literal_schema(context),'key':literal_schema(key)},'required':['layers','filters','key'],'additionalProperties':False}
+            core=schema(SimpleNamespace(schemas={'compare_layers':arguments}))
+            case=CaseFile({'id':'ticket'+suffix});case.advance('investigate')
+            def provider(payload,**kwargs):
+                prefixes.append(canonical({'instructions':kwargs['instructions'],'tools':kwargs['schema']}))
+                return {'summary':'Compare admitted layers','hypotheses':['not found'],'recitation':{'plan':case.value['plan'],'current_step':'investigate'},'decision':{'action':'TOOL','tool':'compare_layers','arguments':{'layers':['down'+suffix,'up'+suffix],'filters':'admitted_context','key':'admitted_key'}}},{'usage':{'input_tokens':100,'input_tokens_details':{'cached_tokens':80},'output_tokens':3}}
+            with tempfile.TemporaryDirectory()as tmp:
+                port=AzureDecision(self.governor,session='ticket'+suffix,directory=tmp,retain=usage.append,producer=provider,recording_mode='NORMAL');port.bind_case(case,usage.append)
+                actual=port({'ticket':{'text':'ticket'+suffix},'admitted_identifiers':['down'+suffix,'up'+suffix],'admitted_context':context,'admitted_key':key},instructions='Only admitted scope',schema=core)
+                self.assertEqual(actual['arguments']['filters'],context);self.assertEqual(actual['arguments']['key'],key)
+                self.assertEqual(port.cache_metrics()['cached_token_rate'],0.8)
+        self.assertEqual(prefixes[0],prefixes[1]);self.assertNotIn('North',prefixes[0]);self.assertNotIn('down-two',prefixes[0])
+        hashes=[v['prompt_prefix_sha256']for v in usage if v.get('event')=='INVESTIGATOR_MODEL_USAGE']
+        self.assertEqual(hashes[0],hashes[1])
+
+    def test_scope_reference_transport_does_not_admit_invented_ids_or_scope(self):
+        from investigator.ledger_investigator import schema
+        from investigator.ledger_investigator_tools import literal_schema
+        from jsonschema import ValidationError
+        arguments={'type':'object','properties':{'layers':{'type':'array','items':{'enum':['a','b']}},'filters':literal_schema({}),'key':literal_schema(None)},'required':['layers','filters','key'],'additionalProperties':False}
+        core=schema(SimpleNamespace(schemas={'compare_layers':arguments}))
+        for layers,filters,error in [(['invented','b'],'admitted_context',ValidationError),(['a','b'],{},ValueError)]:
+            def provider(*args,**kwargs):return {'summary':'Compare','hypotheses':['not found'],'decision':{'action':'TOOL','tool':'compare_layers','arguments':{'layers':layers,'filters':filters,'key':'admitted_key'}}},{'usage':{'input_tokens':10,'output_tokens':3}}
+            with tempfile.TemporaryDirectory()as tmp:
+                port=AzureDecision(self.governor,session='scope',directory=tmp,retain=lambda _:None,producer=provider,recording_mode='NORMAL')
+                with self.assertRaises(error):port({'admitted_context':{},'admitted_key':None},instructions='Read only',schema=core)
+            self.assertEqual(self.events[-1][0],'settle');self.assertFalse(self.events[-1][2]['uncertain'])
+
+    def test_bound_case_recitation_is_required_on_wire_and_mismatch_cannot_change_state(self):
+        from investigator.investigator_case import CaseFile
+        case=CaseFile({'id':'one'});events=[]
+        def provider(payload,**kwargs):
+            self.assertEqual(payload['code_case_state']['current_step'],'recreate')
+            self.assertIn('recitation',kwargs['schema']['required'])
+            return {'decision':{'action':'VERDICT'},'recitation':{'plan':['wrong'],'current_step':'deliver'}},{'usage':{'input_tokens':10,'output_tokens':3}}
+        with tempfile.TemporaryDirectory()as tmp:
+            port=AzureDecision(self.governor,session='one',directory=tmp,retain=events.append,producer=provider,recording_mode='NORMAL')
+            port.bind_case(case,events.append)
+            self.assertEqual(port({},instructions='Read only',schema={'type':'object'})['action'],'VERDICT')
+        self.assertEqual(case.snapshot()['current_step'],'recreate')
+        self.assertTrue(any(v.get('event')=='INVESTIGATOR_RECITATION_MISMATCH'for v in events))
+        self.assertEqual(self.events[-1][0],'settle')
 
     def test_reserve_capture_send_settle_and_unknown_usage_on_error(self):
         with tempfile.TemporaryDirectory() as tmp:

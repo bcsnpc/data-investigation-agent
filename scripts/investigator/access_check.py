@@ -54,7 +54,7 @@ def expiry_checks(metadata, now):
     return rows
 
 
-def check(mapping, *, bindings=None, scope=None, backend=None, now=None):
+def check(mapping, *, bindings=None, scope=None, backend=None, now=None, availability_sink=None):
     from .adapters.access_probes import LiveProbes, NotTestable
     now = utc(now or datetime.now(timezone.utc))
     bindings = bindings or {}
@@ -64,8 +64,13 @@ def check(mapping, *, bindings=None, scope=None, backend=None, now=None):
         if scope is not None and '*' not in declaration['scopes'] and scope not in declaration['scopes']:
             continue
         row = {k: declaration[k] for k in ('id', 'identity', 'resource', 'action')}
+        attempts=[]
         try:
-            proof = backend.probe(declaration, mapping['identities'][declaration['identity']])
+            from .source_availability import call as source_call
+            def probe():
+                try:return backend.probe(declaration, mapping['identities'][declaration['identity']])
+                except NotTestable:raise
+            proof = source_call(probe,observe=attempts.append,clock=lambda:now.isoformat())
             # A callable that returns True, a declaration, or a token is not a probe.
             if (not isinstance(proof, dict) or proof.get('permission_observed') is not True
                     or proof.get('identity') != declaration['identity']
@@ -74,6 +79,7 @@ def check(mapping, *, bindings=None, scope=None, backend=None, now=None):
                 raise ValueError('ACCESS_PROBE_IDENTITY_OR_RECEIPT_MISSING')
             row.update(status='PASS', reason='LIVE_READ_SUCCEEDED', evidence=proof)
         except NotTestable as exc:
+            attempts=[] # Missing configuration is not a source outage.
             row.update(status='NOT_TESTABLE', reason=str(exc))
         except Exception as exc:
             from .live_gateway import GatewayDenied
@@ -86,6 +92,9 @@ def check(mapping, *, bindings=None, scope=None, backend=None, now=None):
             from urllib.error import HTTPError
             reason = ('HTTP_' + str(exc.code)) if isinstance(exc, HTTPError) else getattr(exc, 'safe_reason', type(exc).__name__)
             row.update(status='FAIL', reason=reason)
+        if attempts:
+            row['availability']=attempts[-1]
+            if availability_sink is not None:availability_sink(declaration,row['availability'],row.get('evidence'))
         rows.append(row)
     close = getattr(backend, 'close', None)
     if close: close()
@@ -114,7 +123,7 @@ def table(result):
     return '\n'.join(lines)
 
 
-def configured(spec, *, scope=None, backend=None, now=None):
+def configured(spec, *, scope=None, backend=None, now=None, retain=None):
     if not spec:
         return {'version': 1, 'status': 'INCOMPLETE', 'scope': scope or 'ALL', 'counts': {'NOT_TESTABLE': 1},
                 'rows': [{'id': 'permission-map', 'identity': 'unbound', 'resource': 'permission-map',
@@ -131,7 +140,27 @@ def configured(spec, *, scope=None, backend=None, now=None):
                 'counts':{'FAIL':1}, 'rows':[{'id':'permission-map', 'identity':'unbound',
                     'resource':'permission-map', 'action':'access preflight', 'status':'FAIL',
                     'reason':'ACCESS_CHECK_MAP_OR_BINDINGS_INVALID_OR_UNAVAILABLE'}]}
-    return check(mapping, bindings=bindings, scope=scope or spec.get('scope'), backend=backend, now=now)
+    sink=None
+    if 'availability' in bindings:
+        from .shared_state import configured_state,sha
+        from .facts_ledger import FactLedger
+        from .source_availability import fact as availability_fact
+        declared=bindings['availability']
+        if not isinstance(declared,dict) or set(declared)!={'estate','subjects'} or not isinstance(declared['subjects'],dict):
+            raise ValueError('ACCESS_AVAILABILITY_BINDING')
+        state=configured_state()
+        if state is None:raise ValueError('ACCESS_AVAILABILITY_SHARED_LEDGER_REQUIRED')
+        def sink(declaration,value,proof):
+            subjects=declared['subjects'].get(declaration['id'],[])
+            if not isinstance(subjects,list) or any(not isinstance(node,str) or not node for node in subjects):raise ValueError('ACCESS_AVAILABILITY_SUBJECTS')
+            if not subjects:return
+            receipt={'event':'ACCESS_AVAILABILITY','check_id':declaration['id'],'identity':declaration['identity'],
+                'resource':declaration['resource'],'availability':value,'proof':proof}
+            if retain is not None:ref=retain('source-availability',receipt);evidence=[ref['key']]
+            else:
+                identity=sha(receipt);state.put('source_availability_receipts',identity,receipt);evidence=['source_availability_receipts:'+identity]
+            FactLedger(state).append(declared['estate'],[availability_fact(node,value,at=value['last_observed_at'],evidence=evidence,collector='dia-check-access')for node in subjects])
+    return check(mapping, bindings=bindings, scope=scope or spec.get('scope'), backend=backend, now=now,availability_sink=sink)
 
 
 def main(args):

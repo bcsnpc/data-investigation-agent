@@ -7,6 +7,21 @@ def asset(id,kind,name,parent=None,metadata=None):return {'id':id,'kind':kind,'n
 def part(id,parent,name,content):return asset(id,'DefinitionPart',name,parent,{'content':content if isinstance(content,str) else json.dumps(content),'path':name})
 def field(kind,table,name):return {kind:{'Expression':{'SourceRef':{'Entity':table}},'Property':name}}
 class StaticTests(unittest.TestCase):
+    def test_visual_label_is_its_literal_visible_title_and_identity_stays_fixed(self):
+        original=self.assets();before=self.build(original)
+        doc=next(a['metadata']for a in original if a['id']=='v')
+        doc['visual']['visualContainerObjects']={'title':[{'properties':{'text':{'expr':{'Literal':{'Value':"'Net receipts'' total'"}}}}}]}
+        part=next(a for a in original if a['id']=='visual-def');part['metadata']['content']=json.dumps(doc)
+        after=self.build(original)
+        first=next(n for n in before['nodes']if n['properties'].get('asset_id')=='v')
+        second=next(n for n in after['nodes']if n['properties'].get('asset_id')=='v')
+        self.assertEqual(first['id'],second['id']);self.assertEqual(second['label'],"Net receipts' total")
+        self.assertNotEqual(first['provenance']['definition_hash'],second['provenance']['definition_hash'])
+        doc['visual']['visualContainerObjects']['title'][0]['properties']['text']['expr']={'Measure':{'Property':'Dynamic title'}}
+        part['metadata']['content']=json.dumps(doc)
+        dynamic=next(n for n in self.build(original)['nodes']if n['properties'].get('asset_id')=='v')
+        self.assertEqual(dynamic['label'],'Card')
+
     def test_same_gap_location_is_idempotent_but_conflicting_evidence_still_refuses(self):
         from investigator.adapters.estate_graph_static import StaticGraph
         def sink(raw):

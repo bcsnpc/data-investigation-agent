@@ -12,9 +12,16 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 TEST_MODULES = (
+    'test_round_twenty_state.py', 'test_shared_read_transactions.py',
+    'test_build_phase.py', 'test_scan_budget_reallocation.py',
+    'test_source_availability.py',
+    'test_investigator_frontier.py', 'test_fixture_failure_scenarios.py', 'test_fixture_source_latency.py',
+    'test_operational_run_selection.py', 'test_operational_intake.py', 'test_calculation_intake.py', 'test_control_meter_reporting.py',
+    'test_normal_audit.py',
+    'test_worker_capture_publication.py', 'test_worker_lifecycle.py', 'test_smoke_demo_expectation.py',
     'test_streaming_tape.py', 'test_smoke_run_bound_capture.py',
     'test_connection_rotation.py', 'test_facts_ledger.py', 'test_runtime_facts_microsoft.py',
-    'test_access_budget_policy.py', 'test_capture_publication_retry.py', 'test_ledger_investigator.py', 'test_enrichment.py',
+    'test_access_budget_policy.py', 'test_capture_publication_retry.py', 'test_ledger_investigator.py', 'test_investigator_case.py', 'test_investigator_playbook.py', 'test_investigator_checkpoint.py', 'test_investigator_heavy_reader.py', 'test_investigator_harness.py', 'test_enrichment.py',
     'test_essentials_intake.py', 'test_explain_questions.py', 'test_item_metadata_history.py',
     'test_ledger_verdict_proof.py', 'test_ledger_investigator_ports.py', 'test_cloud_ledger_investigator.py', 'test_collector_schedule.py',
     'test_live_gateway.py', 'test_tape_decoders.py', 'test_model_transport_retry.py',

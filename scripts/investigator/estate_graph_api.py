@@ -4,7 +4,7 @@ from . import estate_graph_contract as contract
 
 
 class GraphAPI:
-    def __init__(self,repository,gateway,*,identity,estate,allowed_objects,at=None,max_nodes=100,max_edges=250,max_bytes=128000):
+    def __init__(self,repository,gateway,*,identity,estate,allowed_objects,at=None,max_nodes=100,max_edges=250,max_bytes=128000,definition_reader=None):
         if type(max_nodes) is not int or not 1<=max_nodes<=200 or type(max_edges) is not int or not 1<=max_edges<=500:
             raise ValueError('GRAPH_SLICE_LIMIT')
         if type(max_bytes) is not int or not 1024<=max_bytes<=256000:raise ValueError('GRAPH_BYTE_LIMIT')
@@ -12,10 +12,43 @@ class GraphAPI:
         self.repository,self.gateway,self.identity,self.estate=repository,gateway,identity,estate
         self.allowed=set(gateway.graph_objects(estate,allowed_objects,identity=identity))
         self.at=contract.timestamp(at) if at else None;self.max_nodes=max_nodes;self.max_edges=max_edges
+        self.definition_reader=definition_reader
+
+    def intake_candidates(self,*,enriched=False,identities=None):
+        """Names only from the explicitly allowed current graph; no full scan."""
+        selected=self.allowed if identities is None else set(identities)
+        if len(selected)>200:raise ValueError('INTAKE_CANDIDATE_SCOPE_BOUND')
+        if not selected<=self.allowed:raise PermissionError('INTAKE_CANDIDATES_OUTSIDE_GRAPH_SCOPE')
+        self.gateway.graph_objects(self.estate,selected,identity=self.identity)
+        # Node IDs are not edge IDs. A records(identities=node_ids) query loses
+        # every containment edge, making a named report/page look unresolved.
+        graph=(self.repository.path_records(self.estate,selected,selected,at=self.at,max_nodes=200,
+                max_edges=500,edge_kinds={'CONTAINS','COMPUTED_FROM'},edge_targets=selected) if enriched and selected else
+               self.repository.records(self.estate,at=self.at,identities=selected,limit=1000))
+        if graph['truncated']:raise ValueError('INTAKE_CANDIDATE_GRAPH_TRUNCATED')
+        kinds={'PIPELINE','COPY_ACTIVITY','NOTEBOOK','MODEL','REPORT','PAGE','VISUAL','MEASURE'}
+        if enriched:kinds|={'TABLE','VIEW','SOURCE','COLUMN','CALCULATED_COLUMN'}
+        nodes=[n for n in graph['nodes']if n['id']in selected and n['kind']in kinds]
+        candidates=[{'id':n['id'],'kind':n['kind'],'label':n['label']}for n in nodes]
+        result={'estate':self.estate,'as_of':self.at,'candidates':candidates}
+        if enriched:
+            from .enrichment import EnrichmentStore
+            found=EnrichmentStore(self.repository.state).projections(self.estate,
+                {n['id']:n.get('provenance',{}).get('definition_hash')for n in nodes})
+            for candidate,node in zip(candidates,nodes):
+                candidate['properties']={k:v for k,v in node.get('properties',{}).items()if k in('asset_id','data_type','parent_id','entity_name')}
+                if candidate['id']in found:
+                    row=found[candidate['id']]
+                    candidate['enrichment']={**row,'synonyms':[s[:120]for s in row['synonyms'][:8]],
+                        'business_meaning':row['business_meaning'][:512],'search_aid_only':True}
+            result['edges']=[{'source':e['source'],'target':e['target'],'kind':e['kind']}for e in graph['edges']
+                             if e['source']in selected and e['target']in selected]
+        return self._bounded(result)
 
     def as_of(self,time):
         return GraphAPI(self.repository,self.gateway,identity=self.identity,estate=self.estate,
-            allowed_objects=self.allowed,at=time,max_nodes=self.max_nodes,max_edges=self.max_edges,max_bytes=self.max_bytes)
+            allowed_objects=self.allowed,at=time,max_nodes=self.max_nodes,max_edges=self.max_edges,max_bytes=self.max_bytes,
+            definition_reader=self.definition_reader)
 
     def _bounded(self,value):
         if len(contract.canonical(value).encode())>self.max_bytes:raise ValueError('GRAPH_SLICE_BYTE_BOUND')
@@ -34,6 +67,8 @@ class GraphAPI:
         return nodes,graph['edges']
 
     def _slice(self,roots,*,traverse=True,edge_kinds=None,path=True):
+        from .build_phase import active as build_phase
+        retained_warning_only=build_phase()
         nodes,edges=self._read(roots,path=path,edge_kinds=edge_kinds)
         if len(set(roots))>self.max_nodes:raise ValueError('GRAPH_ROOT_SLICE_BOUND')
         seen=set(roots);queue=deque(roots);selected={};stops=[];truncated=self.path_truncated
@@ -43,8 +78,9 @@ class GraphAPI:
             if unavailable_owner:
                 observation=self.unavailable[unavailable_owner]
                 stops.append({'node':current,'reason':observation['reason'],
-                    'remedy':'Refresh this owner definition successfully before treating its path as current.'})
-                continue
+                    'remedy':('Warning: using the retained definition; current collection failed.' if retained_warning_only else
+                        'Refresh this owner definition successfully before treating its path as current.')})
+                if not retained_warning_only:continue
             linked=[edge for edge in edges if edge['source']==current and (edge_kinds is None or edge['kind'] in edge_kinds)]
             if not linked and nodes[current]['kind'] not in ('FILTER','SECURITY_ROLE','REFRESH_SCHEDULE') and not nodes[current]['properties'].get('system_of_record'):
                 stops.append({'node':current,'reason':'No retained upstream dependency is declared for this object.'})
@@ -52,7 +88,9 @@ class GraphAPI:
                 unavailable_owner=next((owner for owner in (edge['owner'],edge.get('properties',{}).get('definition_source_owner'))if owner in self.unavailable),None)
                 if unavailable_owner:
                     stops.append({'node':current,'reason':self.unavailable[unavailable_owner]['reason'],
-                        'remedy':'Refresh the unavailable edge owner before following this dependency.'});continue
+                        'remedy':('Warning: following the retained dependency; current collection failed.' if retained_warning_only else
+                            'Refresh the unavailable edge owner before following this dependency.')})
+                    if not retained_warning_only:continue
                 target=edge['target']
                 if target not in self.allowed:
                     stops.append({'node':current,'reason':'Upstream object lies outside the admitted graph slice.'});continue
@@ -72,7 +110,7 @@ class GraphAPI:
 
     def path_to_source(self,visual):
         nodes,_=self._read([visual])
-        if nodes[visual]['kind'] not in ('VISUAL','SLICER'):raise ValueError('GRAPH_VISUAL_REQUIRED')
+        if nodes[visual]['kind'] not in ('VISUAL','SLICER','MEASURE','TABLE','VIEW','SOURCE','COLUMN'):raise ValueError('GRAPH_VISUAL_REQUIRED')
         return self._slice([visual],edge_kinds=contract.EDGE_KINDS-{'CONTAINS','INTERACTS_WITH'})
 
     def calculation_path(self,node):
@@ -121,9 +159,15 @@ class GraphAPI:
 
     def definition_of(self,node):
         nodes,_=self._read([node]);value=nodes[node]
-        return {'node':node,'provenance':value['provenance'],'definition':value['properties'].get('definition'),
+        result={'node':node,'provenance':value['provenance'],'definition':value['properties'].get('definition'),
                 'collection_unavailable':self.unavailable.get(value['owner']) or self.unavailable.get(value.get('properties',{}).get('definition_source_owner')),
                 'valid_from':value['valid_from'],'valid_to':value['valid_to']}
+        # A content-addressed reference alone cannot explain a calculation.
+        # Resolve it through the installation's existing immutable Files reader;
+        # never ask the model to infer the missing body from a name or hash.
+        if self.definition_reader is not None and result['definition']:
+            result['content']=self.definition_reader(result['definition']).decode('utf-8')
+        return self._bounded(result)
 
     def node_facts(self,node,*,now=None,max_age_seconds=3600):
         # Authority is checked before even a local ledger lookup.

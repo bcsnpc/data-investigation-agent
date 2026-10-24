@@ -10,9 +10,14 @@ from investigator.shared_state import sha
 
 READ_OBSERVER = ContextVar('graph_scan_read_observer', default=None)
 
+def reservation_connection_failure(error):
+    """Only platform transport loss; never retry policy, SQL or auth refusal."""
+    from investigator.postgres_connection import dropped_connection
+    return dropped_connection(error)
+
 
 class Meter:
-    def __init__(self, state, budget, limit, *, clock=None):
+    def __init__(self, state, budget, limit, *, clock=None, reporting_mirror=True):
         import sqlite3
         import time
         from types import SimpleNamespace
@@ -20,6 +25,10 @@ class Meter:
         from investigator.onboarding import digest
         from investigator.build_phase import active, purpose
         self.build_phase = active()
+        if type(reporting_mirror)is not bool:raise ValueError('REPORTING_MIRROR_BOOLEAN_REQUIRED')
+        if not reporting_mirror:
+            from investigator.process_tape import ACTIVE
+            if not self.build_phase or ACTIVE.get()is not None:raise ValueError('REPORTING_MIRROR_OPT_OUT_REQUIRES_UNTAPED_BUILD_CONTROL')
         self.purpose = purpose(default='SCAN') if self.build_phase else 'INVESTIGATION'
         required = {'environment'} if self.build_phase else {'environment', 'policy_sha256', 'round_id', 'rolling_limit'}
         if not isinstance(budget, dict) or not required <= set(budget) or (not self.build_phase and set(budget) != required):
@@ -30,11 +39,50 @@ class Meter:
                 or retained['policy']['daily_limits']['cloud_calls']!=budget['rolling_limit']):
             raise ValueError('GRAPH_SHARED_USAGE_APPROVAL_PIN_DIFFERS')
         self.state, self.limit, self.used = state, limit, 0
+        self.reservation_retries=[]
         self.owner = 'graph-scan:' + str(uuid4())
         estate = {'operating_mode':'BUILD_PHASE'} if self.build_phase else {'round':retained['round_policy']}
         governor=SimpleNamespace(environment=budget['environment'],policy=retained['policy'],hash=digest(retained['policy']),
             clock=clock or time.time,runtime=SimpleNamespace(config={'_estate':estate}))
-        self.usage=SharedUsage(governor,state,owner=self.owner)
+        usage_type=SharedUsage
+        if not reporting_mirror:
+            retry_events=self.reservation_retries
+            class ControlUsage(SharedUsage):
+                def _keyed_operation(self,stage,call):
+                    for attempt in range(2):
+                        try:return call()
+                        except Exception as error:
+                            if attempt==1 or not reservation_connection_failure(error):raise
+                            delay=30
+                            retry_events.append({'stage':stage,'error_type':type(error).__name__,
+                                'sqlstate':getattr(error,'sqlstate',None),'attempt':attempt+1,'wait_seconds':delay,
+                                'connection_timing':getattr(error,'postgres_connection_timing',None)})
+                            time.sleep(delay)
+                def reserve(self,*args,**kwargs):
+                    # Same owner/key/request, including lost commit ACKs.
+                    return self._keyed_operation('SHARED_RESERVATION_BEFORE_DISPATCH',
+                        lambda:super(ControlUsage,self).reserve(*args,**kwargs))
+                def settle(self,*args,**kwargs):
+                    return self._keyed_operation('SHARED_SETTLEMENT_AFTER_DISPATCH',
+                        lambda:super(ControlUsage,self).settle(*args,**kwargs))
+                def mirror(self,local):
+                    # This meter never admits from its private presentation DB.
+                    # reserve/settle remain the same authoritative shared methods.
+                    return None
+                def snapshot(self):
+                    # An untaped build control needs current shared counters,
+                    # not the legacy daily/model presentation reconstructed by
+                    # the full historical snapshot. Admission is unchanged.
+                    from investigator.build_phase import shared_physical_rows,physical_status
+                    now=self.governor.clock()
+                    def read(db):
+                        usage,allocations=shared_physical_rows(self.state,db,now)
+                        return {'environment':self.environment,'monthly':physical_status(usage,allocations,now),
+                            'legacy_limits_informational':True,
+                            'limitation':'Current shared monthly counters only; untaped build-control report. Reservation and settlement use the unchanged shared authority.'}
+                    return self.state._read_transaction(read)
+            usage_type=ControlUsage
+        self.usage=usage_type(governor,state,owner=self.owner)
         # The existing authority owns admission; memory is only its reporting
         # mirror. No new budget tables, limits, or durable local ledger exist.
         self.local=sqlite3.connect(':memory:')

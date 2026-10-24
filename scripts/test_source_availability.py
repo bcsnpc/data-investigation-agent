@@ -1,0 +1,153 @@
+import json,socket,unittest
+from unittest.mock import Mock,patch
+from investigator.source_availability import classify,call,result,fact
+from investigator.adapters.metadata_error import MetadataUnavailable
+from investigator.live_gateway import GatewayDenied
+import test_ledger_investigator as fixtures
+from test_ledger_investigator import read,fact as runtime_fact,NOW
+
+class AvailabilityTests(unittest.TestCase):
+    def test_all_seven_classes_have_plain_messages_without_exception_text(self):
+        cases=[(TimeoutError('private'),'TIMEOUT'),(socket.gaierror('private'),'UNREACHABLE'),
+            (MetadataUnavailable(503),'CAPACITY_UNAVAILABLE'),(MetadataUnavailable(401),'AUTHENTICATION_EXPIRED'),
+            (MetadataUnavailable(403),'PERMISSION_REFUSED'),(MetadataUnavailable(429),'THROTTLED'),(ValueError('private'),'QUERY_ERROR')]
+        for error,kind in cases:
+            with self.subTest(kind=kind):
+                self.assertEqual(classify(error),kind)
+                value=result(error,at=NOW);self.assertNotIn('private',json.dumps(value));self.assertTrue(value['message'])
+    def test_transient_retries_are_retained_before_outage_and_charge_original_operation(self):
+        events=[];operation=Mock(side_effect=[ConnectionError(),ConnectionError(),7]);sleep=Mock()
+        self.assertEqual(call(operation,observe=events.append,clock=lambda:NOW,sleep=sleep),7)
+        self.assertEqual([v['reachable'] for v in events],[False,False,True]);self.assertEqual(operation.call_count,3)
+        self.assertEqual(events[-1]['attempts'],3);self.assertEqual(sleep.call_count,2)
+    def test_guard_refusal_is_never_an_outage_or_a_retry(self):
+        observe=Mock();sleep=Mock()
+        with self.assertRaises(GatewayDenied):call(Mock(side_effect=GatewayDenied('read-only')),observe=observe,sleep=sleep)
+        observe.assert_not_called();sleep.assert_not_called()
+    def test_access_check_exposes_permission_class_to_ledger_sink(self):
+        from investigator.access_check import check
+        from test_access_check import mapping
+        backend=Mock();backend.probe.side_effect=MetadataUnavailable(403)
+        sink=Mock();answer=check(mapping(),backend=backend,now=NOW,availability_sink=sink)
+        self.assertEqual(answer['rows'][0]['availability']['failure_class'],'PERMISSION_REFUSED')
+        self.assertEqual(backend.probe.call_count,1);sink.assert_called_once()
+    def test_collector_retains_reachability_as_a_fact_without_turning_refusal_into_no_runs(self):
+        from investigator.adapters.runtime_facts_microsoft import MicrosoftRuntimeFacts
+        from test_runtime_facts_microsoft import retained,route
+        adapter=MicrosoftRuntimeFacts({'job':route()},http=Mock(side_effect=MetadataUnavailable(403)),retain=retained,now=lambda:NOW)
+        adapter.list_changes(['job']);values=adapter.fetch('job',now=NOW)
+        observed=next(v for v in values if v['kind']=='AVAILABILITY')
+        self.assertEqual(observed['state'],'OBSERVED');self.assertFalse(observed['value']['reachable'])
+        self.assertEqual(observed['value']['failure_class'],'PERMISSION_REFUSED')
+        self.assertEqual(next(v for v in values if v['kind']=='JOB_RUN')['state'],'UNAVAILABLE')
+        self.assertFalse(any(v['kind']=='RUN_HISTORY' and v['state']=='OBSERVED_NEGATIVE'for v in values))
+    def test_unreachable_mid_investigation_is_blocked_with_reachable_conclusion_and_owner(self):
+        tools,engine,reader,_=fixtures.ToolLoopTests().build()
+        def fetch(node,key,context):
+            if node=='up':raise ConnectionError('private route')
+            return read(node,7,context)
+        reader.side_effect=fetch
+        def decide(*a,**kw):return {'action':'TOOL','tool':'compare_layers','arguments':{'key':'record-1','layers':['down','up'],'filters':{'warehouse':'North'}},'summary':'Compare declared boundary','hypotheses':['not found']}
+        engine.decide=decide
+        with patch('investigator.model_transport_retry.backoff'):
+            answer=engine.run({'visual':'visual'})
+        self.assertEqual(answer['status'],'blocked');self.assertEqual(answer['blocked'][0]['layer'],'up')
+        self.assertEqual(answer['blocked'][0]['failure_class'],'UNREACHABLE')
+        for output in answer['outputs'].values():
+            self.assertIn('Blocked: up',output);self.assertIn(tools.now,output);self.assertIn('Owner:',output);self.assertIn('Reachable layers checked:',output)
+            self.assertNotIn('private route',output)
+    def test_load_failure_with_observed_outage_keeps_failed_job_verdict_and_root_cause(self):
+        at='2026-10-22T10:01:00Z';outage=result(ConnectionError(),at=at,attempts=3)
+        run=runtime_fact('job','JOB_RUN',{'status':'FAILED','run_id':'failed-copy','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z','error':'source connection failed','source_availability':outage})
+        engine,ticket,reader,decide=fixtures.OperationalFactTests().status_engine([run])
+        answer=engine.run(ticket)
+        self.assertEqual(answer['verdict'],'failed job');reader.assert_not_called();decide.assert_not_called()
+        for output in answer['outputs'].values():self.assertIn('source unreachable at '+at,output)
+    def test_outage_observed_after_load_is_not_attributed_as_its_cause(self):
+        from investigator.evidence_verdicts import load_source_outage
+        self.assertIsNone(load_source_outage({'status':'FAILED','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z','source_availability':result(ConnectionError(),at=NOW)}))
+    def test_compare_with_unreachable_source_reports_linked_failed_load_without_numeric_cause(self):
+        tools,engine,reader,_=fixtures.ToolLoopTests().build();tools.nodes['job']['kind']='PIPELINE'
+        tools.path['edges'] += [{'id':'visual-load','source':'visual','target':'job','confidence':'DECLARED','provenance':{'source':'STATIC_DEFINITION'}}]
+        tools.graph.path_to_source.return_value=tools.path
+        from investigator.ledger_investigator_tools import Tools
+        tools=Tools(tools.graph,object(),visual='visual',key='record-1',context=tools.context,now=NOW,persist=engine.persist,value_reader=reader)
+        engine.tools=tools
+        run=runtime_fact('job','JOB_RUN',{'status':'FAILED','run_id':'failed-copy','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z','error':'source connection failed','source_availability':result(ConnectionError(),at='2026-10-22T10:01:00Z',attempts=3)})
+        tools.graph.node_facts.side_effect=lambda node,**kw:{'facts':[run]if node=='job'else []}
+        def fetch(node,key,context):
+            if node=='up':raise ConnectionError()
+            return read(node,7,context)
+        reader.side_effect=fetch
+        calls=[]
+        def decide(*args,**kwargs):
+            calls.append(1)
+            if len(calls)==1:return {'action':'TOOL','tool':'compare_layers','arguments':{'key':'record-1','layers':['down','up'],'filters':tools.context},'summary':'Check the linked load','hypotheses':['failed job']}
+            return {'action':'VERDICT','verdict':'failed job','evidence_ids':list(tools.evidence._values),'summary':'Report the recorded failed load with a blocked source comparison','hypotheses':['failed job']}
+        engine.decide=decide
+        with patch('investigator.model_transport_retry.backoff'):answer=engine.run({'visual':'visual'})
+        self.assertEqual(answer['verdict'],'failed job',str(answer['hypothesis_checks']));self.assertEqual(answer['status'],'blocked')
+        self.assertEqual(answer['support']['claim_scope'],'OPERATIONAL_STATUS_WITH_BLOCKED_SOURCE')
+        for text in answer['outputs'].values():self.assertIn('no numerical cause was established',text)
+    def test_quick_ledger_facts_are_progress_events_before_status_answer_without_model(self):
+        run=runtime_fact('job','JOB_RUN',{'status':'FAILED','run_id':'failed-copy','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z','error':'source connection failed'})
+        engine,ticket,reader,decide=fixtures.OperationalFactTests().status_engine([run]);events=[];engine.progress=events.append
+        answer=engine.run(ticket)
+        self.assertEqual(events[0]['stage'],'QUICK_FACTS');self.assertEqual(events[0]['facts'][0]['observation']['status'],'FAILED')
+        self.assertEqual(answer['verdict'],'failed job');decide.assert_not_called();reader.assert_not_called()
+    def test_retained_node_cannot_create_current_graph_membership_or_mask_good_read(self):
+        tools,_,reader,events=fixtures.ToolLoopTests().build();tools.estate='fixture'
+        tools.ledger=Mock();tools.ledger.append.side_effect=ValueError('FACT_SUBJECT_NOT_IN_GRAPH')
+        ref=tools._read('up',tools.context)
+        self.assertEqual(tools.evidence.get(ref)['kind'],'READ')
+        self.assertTrue(any(e.get('event')=='AVAILABILITY_NOT_CURRENT_GRAPH_MEMBER'for e in events))
+    def test_recovered_retry_persists_final_reachability_not_a_same_time_failed_attempt(self):
+        tools,_,reader,events=fixtures.ToolLoopTests().build();tools.estate='fixture';tools.ledger=Mock()
+        reader.side_effect=[ConnectionError(),read('up',8,tools.context)]
+        with patch('investigator.model_transport_retry.backoff'):tools._read('up',tools.context)
+        tools.ledger.append.assert_called_once()
+        final=tools.ledger.append.call_args.args[1][0]
+        self.assertTrue(final['value']['reachable']);self.assertEqual(final['value']['attempts'],2)
+        self.assertEqual(sum(e.get('event')=='INVESTIGATOR_EVIDENCE'and e.get('kind')=='FACT'for e in events),2)
+
+class StatusRefreshTests(unittest.TestCase):
+    def stale_status(self):
+        old=runtime_fact('job','JOB_RUN',{'status':'SUCCEEDED','run_id':'old','start':'2026-10-22T09:00:00Z','end':'2026-10-22T09:01:00Z'})
+        old['freshness']='STALE'
+        return fixtures.OperationalFactTests().status_engine([old])
+    def test_stale_status_refreshes_only_ticket_path_before_answering(self):
+        engine,ticket,reader,model=self.stale_status();collector=Mock();engine.tools.collector=collector
+        fresh=runtime_fact('job','JOB_RUN',{'status':'FAILED','run_id':'fresh','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z'})
+        engine.tools.graph.refresh_facts.return_value={'facts':[fresh],'refreshed_subjects':['job']}
+        answer=engine.run(ticket)
+        engine.tools.graph.refresh_facts.assert_called_once_with(['job'],collector,now=engine.tools.now,required_kinds={'job':('JOB_RUN',)})
+        self.assertEqual(answer['verdict'],'failed job');self.assertEqual(answer['support']['operational_fact']['value']['run_id'],'fresh')
+        reader.assert_not_called();model.assert_not_called()
+    def test_failed_status_refresh_is_classified_not_answered_from_stale_run(self):
+        engine,ticket,reader,model=self.stale_status();engine.tools.collector=Mock()
+        engine.tools.graph.refresh_facts.side_effect=MetadataUnavailable(403)
+        answer=engine.run(ticket)
+        self.assertEqual(answer['status'],'blocked');self.assertEqual(answer['blocked'][0]['failure_class'],'PERMISSION_REFUSED')
+        self.assertNotIn('operational_fact',answer['support']);reader.assert_not_called();model.assert_not_called()
+    def test_missing_route_still_attempts_refresh_and_classifies_failure(self):
+        engine,ticket,_,_=self.stale_status()
+        def refresh(path,collector,**kwargs):return collector.run('fixture',path,now=kwargs['now'],force=True)
+        engine.tools.graph.refresh_facts.side_effect=refresh
+        answer=engine.run(ticket)
+        engine.tools.graph.refresh_facts.assert_called_once()
+        self.assertEqual(answer['status'],'blocked');self.assertEqual(answer['blocked'][0]['failure_class'],'QUERY_ERROR')
+        self.assertIn("couldn't refresh",answer['outputs']['business'])
+
+    def test_successful_empty_history_is_not_falsely_a_refresh_failure(self):
+        engine,ticket,_,_=self.stale_status();engine.tools.collector=Mock()
+        empty=runtime_fact('job','RUN_HISTORY',{'runs':[],'listing_complete':True})
+        empty['state']='OBSERVED_NEGATIVE'
+        engine.tools.graph.refresh_facts.return_value={'facts':[empty]}
+        answer=engine.run(ticket)
+        self.assertFalse(answer['blocked']);self.assertNotIn("couldn't refresh",answer['outputs']['business'])
+
+    def test_fresh_status_does_not_refresh(self):
+        engine,ticket,_,_=self.stale_status();engine.tools.graph.node_facts.return_value['facts'][0]['freshness']='CURRENT'
+        engine.run(ticket);engine.tools.graph.refresh_facts.assert_not_called()
+
+if __name__=='__main__':unittest.main()

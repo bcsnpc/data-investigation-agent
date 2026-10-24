@@ -1,0 +1,19 @@
+{
+  "status": "READ_ONLY_BASELINE_COMPLETE",
+  "started": "2026-10-23T19:09:35.875693+00:00",
+  "ended": "2026-10-23T19:09:44.349552+00:00",
+  "server": "sql-orderops-9696025.database.windows.net",
+  "database": "ordersops",
+  "table": "[app].[stock_movements_round_two_20261003]",
+  "row_count": 360,
+  "source_units": 7661,
+  "rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+  "schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+  "control_identity": "pocsqladmin",
+  "physical_requests": 1,
+  "diagnostic_reads": 0,
+  "mutations": 0,
+  "model_calls": 0,
+  "seal": "c109135cbdc8714f3255567a35524eedeb3990ce798b1687313bfb7ce6e89461",
+  "raw_fixture_preimage": "Retained privately under .local/round-twenty-two/source-controls/baseline-after-resume-02.json"
+}

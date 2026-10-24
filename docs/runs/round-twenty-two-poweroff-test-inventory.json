@@ -1,0 +1,63 @@
+{
+  "status": "INTERRUPTED_LAPTOP_POWER_OFF",
+  "source_revision": "efbb18b3fbc357aafeeae65f6279f1932f97bde4",
+  "final_result_exists": false,
+  "files": [
+    {
+      "name": "owner-steer-final-full-console.log",
+      "sha256": "1529ce9dcd17d29c855467285395276ed241ed170715236b6e72aeb629c57671",
+      "bytes": 136
+    },
+    {
+      "name": "owner-steer-final-full-plan.json",
+      "sha256": "16e274bcc1ec4f327ea96da2fe4eafa6f680aec04f49a2d94732144a14a7347d",
+      "bytes": 180
+    },
+    {
+      "name": "owner-steer-final-full-shard-0.json",
+      "sha256": "5b8dccfe8c8c3623e5d508764309e103c51c6486ca07cd06245d25f86d1098e8",
+      "bytes": 130976
+    },
+    {
+      "name": "owner-steer-final-full-shard-0.log",
+      "sha256": "faf28d7888d621ba21cc8205f733797d8918bb108a8e2feac46d86057452c83f",
+      "bytes": 57
+    },
+    {
+      "name": "owner-steer-final-full-shard-1.json",
+      "sha256": "e2ea45d9295e45dca70bfab14a1bf48e22063e3b1ac489ccce3b0d31b59cb48b",
+      "bytes": 134854
+    },
+    {
+      "name": "owner-steer-final-full-shard-1.log",
+      "sha256": "5c817da1476384508afff7f702ec511d3cc8d9166d33ee7ab5cc23a7438be175",
+      "bytes": 30
+    },
+    {
+      "name": "owner-steer-final-full-shard-2.json",
+      "sha256": "8c54a79b77e80aff0081b43d78cdb52d4f62dcacdad937fb60e23540a77e7e2a",
+      "bytes": 134409
+    },
+    {
+      "name": "owner-steer-final-full-shard-2.log",
+      "sha256": "c53b3b31e04267c12939148c97e3b031346c701b7a242ba907cde562ef53c0cf",
+      "bytes": 212
+    },
+    {
+      "name": "owner-steer-final-full-shard-3.json",
+      "sha256": "0dae75d2f8ab317ac7dab6da588f341138087f2733d96ba0e65586cbf033fb8f",
+      "bytes": 133605
+    },
+    {
+      "name": "owner-steer-final-full-shard-3.log",
+      "sha256": "309d1c6353828cc4df64a5b1d354cb24c4802aa77c61523a9aa852d358f4de1d",
+      "bytes": 222
+    },
+    {
+      "name": "owner-steer-final-full.py",
+      "sha256": "8728d41fc63aaa561c3e8f52def13042680687317af7346a23d77c04e3243ae4",
+      "bytes": 2475
+    }
+  ],
+  "counted_as_pass_or_failure": false
+}

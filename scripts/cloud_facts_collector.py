@@ -47,7 +47,7 @@ def execute(config):
         return collect(config,state=state)
 
 
-def collect(config,*,state,http=None,sql=None,retain=None,meter=None,clock=None,refresh_http=None):
+def collect(config,*,state,http=None,sql=None,retain=None,meter=None,clock=None,refresh_http=None,force=False):
     """Injection seams permit deterministic replay; production defaults are guarded."""
     config=validate(config)
     from scan_estate_graph import Meter
@@ -93,7 +93,7 @@ def collect(config,*,state,http=None,sql=None,retain=None,meter=None,clock=None,
                 if meter.used>=config['max_requests']:raise CollectorRequestAllowanceExhausted('FACT_PHYSICAL_ALLOWANCE_EXHAUSTED')
                 return meter(operation)
             refresh_http=RefreshHttp(config['refresh_authentication'],config['subjects'],meter=refresh_physical)
-        adapter=MicrosoftRuntimeFacts(config['subjects'],http=http,sql=sql,retain=retain,refresh_http=refresh_http)
+        adapter=MicrosoftRuntimeFacts(config['subjects'],http=http,sql=sql,retain=retain,refresh_http=refresh_http,now=lambda:at)
         all_subjects=sorted(config['subjects']);batch_size=config.get('max_subjects_per_wake',10)
         dispatcher='__dispatcher__:'+sha(all_subjects)
         cursor=ledger.cursor(config['estate'],adapter.identity,dispatcher)
@@ -105,7 +105,7 @@ def collect(config,*,state,http=None,sql=None,retain=None,meter=None,clock=None,
         if {row[0] for row in rows}!=set(selected):raise ValueError('FACT_CONFIGURED_GRAPH_SUBJECT_ABSENT')
         collector=IncrementalFactCollector(ledger,adapter,budget=CollectorAllowance(meter,config['max_requests']),
             key_tables=config.get('key_tables',[]),list_interval_seconds=config.get('list_interval_seconds',21600))
-        result=collector.run(config['estate'],selected,now=at)
+        result=collector.run(config['estate'],selected,now=at,force=force)
         ledger.advance(config['estate'],adapter.identity,dispatcher,str((offset+len(selected))%len(all_subjects)),at)
         output={'estate':config['estate'],'observed_at':at,'collector':adapter.identity,'collection':result,
                 'selected_subjects':selected,'not_selected_subjects':sorted(set(all_subjects)-set(selected)),

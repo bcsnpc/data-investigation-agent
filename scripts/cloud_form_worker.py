@@ -198,12 +198,17 @@ def retaining_capture_pointers(job_root,capture_root):
 
 def run_form(workspace,form):
     """One normal form pass. Refusals/questions remain terminal for this job."""
-    saved=workspace.forms.submit(form)
+    # The comparison baseline must use the old engine's real free-text port,
+    # without pretending the harness selected a report, measure or scope.
+    if isinstance(form,dict)and set(form)=={'id','text'}:
+        submit=lambda:workspace.smart_intake.submit({'text':form['text'],'request_key':form['id']})
+    else:submit=lambda:workspace.forms.submit(form)
+    saved=submit()
     if saved['ticket']['state']=='NEW':
         # A retained input is not a completed attempt. The form controller can
         # resume an identical unfinished submission; do not label cached NEW
         # as DEMO_FINISHED or turn this into an unbounded retry loop.
-        saved=workspace.forms.submit(form)
+        saved=submit()
         if saved['ticket']['state']=='NEW':
             raise ValueError('CLOUD_FORM_PLANNING_INCOMPLETE_NEW')
     if saved['ticket']['state']!='INVESTIGATING':return saved

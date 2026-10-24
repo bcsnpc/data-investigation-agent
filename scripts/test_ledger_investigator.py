@@ -163,11 +163,50 @@ class OperationalFactTests(unittest.TestCase):
         identity=registry.add('FACT',['job'],fact('job','JOB_RUN',{'status':'FAILED','run_id':'r','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z','error':'copy failed'}))
         result=check('failed job',[identity],registry,now=NOW,request=request,ticket_text=text)
         self.assertEqual(result['claim_scope'],'OPERATIONAL_FACT_ONLY')
-        self.assertIn('no numerical cause',result['reason'])
+        self.assertEqual(result['claim_scope'],'OPERATIONAL_FACT_ONLY')
         with self.assertRaisesRegex(ValueError,'DIVERGENT_EQUIVALENT'):check('failed job',[identity],registry,now=NOW)
         wrong='Why is the quantity wrong?'
         invalid={**request,'source':{'start':0,'end':len(wrong),'quote':wrong}}
         with self.assertRaisesRegex(ValueError,'EXPLICIT_OPERATIONAL'):check('failed job',[identity],registry,now=NOW,request=invalid,ticket_text=wrong)
+
+    def test_specific_error_and_times_appear_in_both_outputs_without_model_or_value_read(self):
+        run={'status':'FAILED','run_id':'run-specific','start':'2026-10-22T10:00:00Z',
+             'end':'2026-10-22T10:01:00Z','error':{'code':'2011','message':'Source rejected row 900'}}
+        engine,ticket,reader,decide=self.status_engine([fact('job','JOB_RUN',run)])
+        result=engine.run(ticket)
+        for output in result['outputs'].values():
+            for literal in ('Primary copy','run-specific','FAILED',run['start'],run['end'],'Source rejected row 900','2011'):
+                self.assertIn(literal,output)
+            self.assertIn('answered: the explicit operational-status question',output)
+            self.assertIn('Job-reported failure cause:',output)
+            self.assertIn('The ledger establishes this reported operational failure.',output)
+        reader.assert_not_called();decide.assert_not_called()
+
+    def test_declarative_still_running_status_reports_recorded_schedule_not_speculated_lock(self):
+        values=[fact('job','JOB_RUN',{'status':'RUNNING','run_id':'in-flight','start':'2026-10-22T10:00:00Z','end':None}),
+                fact('job','SCHEDULE',{'next_due':'2026-10-22T12:00:00Z'})]
+        engine,ticket,reader,decide=self.status_engine(values)
+        ticket['text']='Pipeline Primary copy still running. Stuck because of a lock?'
+        ticket['request']['source']={'start':0,'end':len(ticket['text']),'quote':ticket['text']}
+        result=engine.run(ticket)
+        self.assertEqual(result['verdict'],'waiting on job')
+        for output in result['outputs'].values():
+            self.assertIn('run ID: in-flight; status: RUNNING',output)
+            self.assertIn('end: not finished at observation',output)
+            self.assertIn('Next scheduled run: 2026-10-22T12:00:00Z',output)
+            self.assertIn('Recorded job error: unavailable (not recorded)',output)
+        self.assertNotIn('lock',result['support']['reason'])
+        reader.assert_not_called();decide.assert_not_called()
+
+    def test_missing_run_fields_are_explicitly_unavailable_never_filled_from_other_run(self):
+        old=fact('job','JOB_RUN',{'status':'FAILED','run_id':'older','start':'2026-10-22T08:00:00Z',
+                               'end':'2026-10-22T08:01:00Z','error':'old error must not substitute'})
+        current=fact('job','JOB_RUN',{'status':'FAILED','run_id':'current'})
+        engine,ticket,_,_=self.status_engine([old,current]);result=engine.run(ticket)
+        text=result['outputs']['business']
+        self.assertIn('run ID: current',text);self.assertIn('start: unavailable; end: unavailable',text)
+        self.assertIn('Recorded job error: unavailable (not recorded)',text)
+        self.assertNotIn('old error',text)
     def test_newer_empty_history_cannot_resurrect_an_older_failed_run(self):
         registry=Evidence(['job'],lambda value:'retained')
         text='Did the latest Copy Job run fail?'
@@ -179,6 +218,82 @@ class OperationalFactTests(unittest.TestCase):
 
 
 class ToolLoopTests(unittest.TestCase):
+    def test_saved_definition_gap_does_not_invent_a_user_filter_question(self):
+        tools,engine,reader,_=self.build();tools.scope_gap='Saved visual scope unavailable.'
+        result=engine.run({'visual':'visual','text':'Verify this card.',
+            'intake_scope':{'filters':[],'periods':[]}})
+        self.assertEqual(result['verdict'],'not found')
+        self.assertNotIn('question',result)
+        self.assertNotIn('filter or period you stated',result['outputs']['business'])
+        reader.assert_not_called()
+        tools,engine,reader,_=self.build();tools.scope_gap='Unbound selected field.'
+        result=engine.run({'visual':'visual','text':'Verify the selected period.',
+            'intake_scope':{'filters':[],'periods':[{'quote':'selected period'}]}})
+        self.assertEqual(result['question']['code'],'SCOPE_REQUIRED')
+        reader.assert_not_called()
+
+    def test_planner_never_receives_correlation_label_and_output_keeps_original_ticket(self):
+        tools,engine,reader,events=self.build(step_cap=1);requests=[]
+        def decide(payload,**kwargs):
+            requests.append(payload)
+            self.assertNotIn('id',payload['ticket']);self.assertNotIn('ticket_id',payload['case_file'])
+            self.assertEqual(payload['ticket']['text'],'Why does this number differ?')
+            return {'action':'VERDICT','summary':'Need support.','hypotheses':['not found'],
+                'verdict':'not found','evidence_ids':list(tools.evidence._values)}
+        engine.decide=decide
+        result=engine.run({'id':'expected-latency-experiment','visual':'visual','text':'Why does this number differ?'})
+        self.assertTrue(requests)
+        self.assertEqual(result['ticket']['id'],'expected-latency-experiment')
+        self.assertEqual(result['case_file']['ticket_id'],'expected-latency-experiment')
+
+    def test_definition_question_quotes_implementation_without_quantity_or_model_calls(self):
+        import hashlib
+        tools,engine,reader,_=self.build();tools.request_kind='DEFINITION'
+        body='{"expression":"AGGREGATE(Entries[Quantity])"}'
+        value={'node':'visual','provenance':{'source':'STATIC_DEFINITION'},
+               'definition':{'sha256':hashlib.sha256(body.encode()).hexdigest()},
+               'content':body,'collection_unavailable':None}
+        tools.graph.definition_of.return_value=value;engine.decide=Mock()
+        result=engine.run({'visual':'visual','text':'How is this calculation implemented?',
+                           'request':{'kind':'DEFINITION','subject':'visual'}})
+        self.assertEqual(result['verdict'],'as designed')
+        self.assertEqual(result['support']['claim_scope'],'RETAINED_DEFINITION_ONLY')
+        for output in result['outputs'].values():
+            self.assertIn(body,output)
+            self.assertIn('does not establish a numerical result, business correctness',output)
+        reader.assert_not_called();engine.decide.assert_not_called()
+        tools.graph.definition_of.assert_called_once_with(node='visual')
+        self.assertEqual(result['cost']['model_calls'],0)
+
+    def test_definition_reference_or_proposal_never_becomes_implemented_answer(self):
+        import hashlib
+        for change in ({'content':None},{'provenance':{'source':'MODEL_PROPOSAL'}},
+                       {'content':'different'},{'node':'up'}):
+            with self.subTest(change=change):
+                tools,engine,reader,_=self.build();tools.request_kind='DEFINITION';engine.decide=Mock()
+                body='retained implementation'
+                value={'node':'visual','provenance':{'source':'STATIC_DEFINITION'},
+                       'definition':{'sha256':hashlib.sha256(body.encode()).hexdigest()},'content':body}
+                value.update(change);tools.graph.definition_of.return_value=value
+                result=engine.run({'visual':'visual','text':'How is this implemented?',
+                    'request':{'kind':'DEFINITION','subject':'visual'}})
+                self.assertEqual(result['verdict'],'not found')
+                self.assertIn('No calculation or business policy was inferred',result['outputs']['business'])
+                reader.assert_not_called();engine.decide.assert_not_called()
+
+    def test_definition_collection_gap_qualifies_retained_content_without_blocking(self):
+        import hashlib
+        tools,engine,reader,_=self.build();tools.request_kind='DEFINITION';engine.decide=Mock()
+        body='retained implementation'
+        tools.graph.definition_of.return_value={'node':'visual','provenance':{'source':'STATIC_DEFINITION'},
+            'definition':{'sha256':hashlib.sha256(body.encode()).hexdigest()},'content':body,
+            'collection_unavailable':{'reason':'Metadata collection unavailable'}}
+        result=engine.run({'visual':'visual','request':{'kind':'DEFINITION','subject':'visual'}})
+        self.assertEqual(result['verdict'],'as designed')
+        for output in result['outputs'].values():
+            self.assertIn('retained version, not a newly collected definition',output)
+        reader.assert_not_called();engine.decide.assert_not_called()
+
     def test_empty_complete_history_reaches_tool_despite_older_unavailable_run(self):
         old=fact('job','REFRESH_RUN',None);old.update(state='UNAVAILABLE',reason='READ_FAILED:MetadataUnavailable:403',freshness='STALE')
         history=fact('job','RUN_HISTORY',{'runs':[],'listing_complete':True});history['state']='OBSERVED_NEGATIVE'
@@ -255,7 +370,7 @@ class ToolLoopTests(unittest.TestCase):
                 return {'action':'TOOL','summary':'Read the admitted prefix.','hypotheses':['not found'],'tool':'compare_layers','arguments':{'key':'record-1','layers':['down','up','job'],'filters':{'warehouse':'North'}}}
             return {'action':'VERDICT','summary':'No proven cause.','hypotheses':['not found'],'verdict':'not found','evidence_ids':list(tools.evidence._values)}
         engine.decide=decide;result=engine.run({'visual':'visual'})
-        self.assertEqual(result['stop_reason'],'EVIDENCE_INSUFFICIENT');self.assertEqual(reader.call_count,4)
+        self.assertEqual(result['stop_reason'],'EVIDENCE_PROVEN_CODE_FRONTIER');self.assertEqual(result['verdict'],'failed job');self.assertEqual(reader.call_count,4)
         self.assertTrue(any(x.get('reason')=='DECLARED_PREFIX_NOT_CHECKED'for x in events))
     def test_unresolved_named_comparison_keeps_valid_prefix_finding_partial(self):
         tools,engine,reader,events=self.build(step_cap=2)
@@ -307,6 +422,67 @@ class ToolLoopTests(unittest.TestCase):
     def test_hostile_reader_cannot_return_another_cell_or_unadmitted_read(self):
         tools,_,reader,_=self.build();reader.side_effect=lambda *args:{**read('down',7),'route_admitted':False}
         with self.assertRaisesRegex(ValueError,'ADMISSION_OR_SCOPE'):tools.reproduce()
+
+class OperationalDeliveryTests(unittest.TestCase):
+    def test_boundary_verdicts_keep_their_exact_witness_and_render_it_in_both_outputs(self):
+        for verdict in ('failed job','waiting on job','latency'):
+            with self.subTest(verdict=verdict):
+                tools,engine,_,_=ToolLoopTests().build()
+                run={'run_id':'selected-run','start':'2026-10-22T10:01:00Z','end':'2026-10-22T10:02:00Z',
+                     'status':'FAILED','error':'copy rejected source row'}
+                if verdict=='waiting on job':run.update(status='QUEUED',end=None,error=None)
+                if verdict=='latency':run.update(status='SUCCEEDED',start='2026-10-22T08:00:00Z',end='2026-10-22T09:00:00Z',error=None)
+                values=[fact('job','JOB_RUN',run),fact('job','SCHEDULE',{'next_due':'2026-10-22T12:00:00Z'}),
+                        fact('job','TYPICAL_DURATION',{'median_seconds':60,'sample_count':3})]
+                tools.graph.node_facts.side_effect=lambda node,**kw:{'facts':values if node=='job' else
+                    [fact('up','TABLE_LOAD',{'last_modified':'2026-10-22T10:00:00Z'})] if node=='up' else []}
+                choices=[{'action':'TOOL','summary':'Read boundary.','hypotheses':[verdict],'tool':'compare_layers',
+                          'arguments':{'key':'record-1','layers':['down','up'],'filters':{'warehouse':'North'}}},
+                         {'action':'VERDICT','summary':'Checked witness.','hypotheses':[verdict],'verdict':verdict}]
+                def decide(*args,**kw):
+                    choice=choices.pop(0)
+                    if choice['action']=='VERDICT':choice['evidence_ids']=list(tools.evidence._values)
+                    return choice
+                engine.decide=decide;answer=engine.run({'visual':'visual','text':'Why does this differ?'})
+                self.assertEqual(answer['verdict'],verdict)
+                self.assertEqual(answer['support']['operational_fact']['value'],run)
+                for output in answer['outputs'].values():
+                    for literal in ('Ledger job details: job','run ID: selected-run','status: '+run['status'],run['start']):self.assertIn(literal,output)
+                    if verdict=='failed job':self.assertIn('Job-reported failure cause: copy rejected source row',output)
+                    else:self.assertIn('Next scheduled run: 2026-10-22T12:00:00Z',output)
+                    if verdict=='latency':self.assertIn('Estimated update after the scheduled start',output)
+
+    def test_schedule_is_same_producer_current_unambiguous_and_overdue_does_not_invent_run(self):
+        from investigator.evidence_verdicts import operational_support,current_facts
+        from investigator.operational_delivery import details
+        selected=fact('job','OVERDUE',{'overdue':True,'due_at':'2026-10-22T10:00:00Z'})
+        unrelated=fact('other','SCHEDULE',{'next_due':'2026-10-22T12:00:00Z'})
+        stale=fact('job','SCHEDULE',{'next_due':'2026-10-22T13:00:00Z'});stale['freshness']='STALE'
+        conflicting=[fact('job','SCHEDULE',{'next_due':at}) for at in ('2026-10-22T14:00:00Z','2026-10-22T15:00:00Z')]
+        for schedules in ([unrelated,stale],conflicting):
+            entries=[{'kind':'FACT','value':row} for row in schedules]
+            result=operational_support({'verdict':'waiting on job'},selected,current_facts(entries,NOW))
+            text=details(result,{'job':{'label':'Owned pipeline'}})
+            self.assertIn('run ID: unavailable (no run recorded); status: OVERDUE',text)
+            self.assertIn('Next scheduled run: unavailable',text)
+            self.assertIn('Declared due time for the unstarted run: 2026-10-22T10:00:00Z',text)
+            self.assertNotIn('12:00:00',text);self.assertNotIn('13:00:00',text)
+
+    def test_requested_historical_run_details_never_substitute_latest(self):
+        from investigator.operational_run_selection import from_text
+        engine,ticket,_,_=OperationalFactTests().status_engine([
+            fact('job','JOB_RUN',{'run_id':'requested','status':'FAILED','start':'2026-10-22T08:00:00Z','end':'2026-10-22T08:01:00Z','error':'requested error'}),
+            fact('job','JOB_RUN',{'run_id':'latest','status':'FAILED','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z','error':'unrelated newer error'})])
+        text='Did the Copy Job run starting 2026-10-22T08:00:00Z fail?'
+        ticket['text']=text;ticket['request'].update(source={'start':0,'end':len(text),'quote':text},run_selector=from_text(text))
+        result=engine.run(ticket)
+        for output in result['outputs'].values():
+            # The full technical pack also preserves other observed runs; only
+            # the answer must select the requested witness.
+            answer=output.split('\nTechnical evidence pack:')[0]
+            self.assertIn('run ID: requested',answer);self.assertIn('Job-reported failure cause: requested error',answer)
+            self.assertNotIn('unrelated newer error',answer)
+
 
 class PendingComparisonTests(unittest.TestCase):
     def engine(self,*,related=True,stale=False,comparison=None):
@@ -418,5 +594,114 @@ class RealGraphTests(unittest.TestCase):
             self.assertEqual(result['cost']['model_calls'],0)
             self.assertIn('Question: Why did this change?',result['outputs']['business'])
             self.assertTrue(any(entry['kind']=='FACT' for entry in result['evidence'].values()))
+
+class FetchedWitnessTests(unittest.TestCase):
+    def test_model_view_omits_duplicate_native_receipts_without_changing_sealed_witness(self):
+        import json
+        from investigator.ledger_investigator import fetched_context
+        original={'evidence_ids':['proof'],'evidence':{'id':'proof','kind':'DESIGN_CHECK','subjects':['down','up'],'value':{
+            'checked':True,'mechanism':'A retained join repeats the carried quantity.','support_ids':['comparison'],
+            'business_correctness_claim':False,'native_assessment':{'classification':'TRANSFORMATION_LOGIC','support':{'ids':['comparison']},'observations':['large native receipt'*10000]},
+            'native_observations':['duplicate native receipt'*10000]}}}
+        before=copy.deepcopy(original);view=fetched_context(original)
+        self.assertEqual(original,before)
+        self.assertEqual(view['evidence']['value']['native_assessment']['classification'],'TRANSFORMATION_LOGIC')
+        self.assertEqual(view['evidence']['value']['support_ids'],['comparison'])
+        self.assertLess(len(json.dumps(view)),2000)
+        self.assertNotIn('native_observations',view['evidence']['value'])
+
+class IntegratedCaseTests(unittest.TestCase):
+    def test_status_run_delivers_its_code_owned_case_and_retains_snapshots(self):
+        success=fact('job','JOB_RUN',{'status':'SUCCEEDED','run_id':'last','start':'2026-10-22T10:00:00Z','end':'2026-10-22T10:01:00Z'})
+        engine,ticket,_,_=OperationalFactTests().status_engine([success]);events=[]
+        engine.persist=lambda event:events.append(copy.deepcopy(event)) or 'retained'
+        answer=engine.run(ticket)
+        self.assertEqual(answer['case_file']['current_step'],'deliver')
+        self.assertEqual(answer['case_file']['final_outcome']['status'],answer['status'])
+        self.assertTrue(answer['case_file']['evidence_summaries'])
+        self.assertTrue(any(v.get('event')=='INVESTIGATOR_CASE_FILE'for v in events))
+
+class JustInTimeTests(unittest.TestCase):
+    def test_ordinary_tool_context_contains_summary_and_id_not_raw_definition(self):
+        import json
+        tools,engine,_,_=ToolLoopTests().build();raw='PRIVATE_RAW_DEFINITION_SENTINEL'
+        tools.graph.definition_of.return_value={'definition':{'source':raw}}
+        payloads=[]
+        def decide(payload,**kwargs):
+            payloads.append(copy.deepcopy(payload))
+            if len(payloads)==1:return {'action':'TOOL','summary':'Read definition','hypotheses':['not found'],'tool':'definition_of','arguments':{'node':'down'}}
+            return {'action':'VERDICT','verdict':'not found','summary':'No supported cause','hypotheses':['not found'],'evidence_ids':list(tools.evidence._values)}
+        engine.decide=decide;engine.step_cap=2;engine.run({'visual':'visual'})
+        self.assertEqual(len(payloads),2)
+        self.assertNotIn(raw,json.dumps(payloads[1]))
+        ids=[key for key,row in payloads[1]['case_file']['evidence_summaries'].items()if row['kind']=='GRAPH']
+        self.assertTrue(ids)
+        result=tools.invoke('get_evidence',{'id':ids[-1]})
+        self.assertEqual(result['evidence']['value']['definition']['source'],raw)
+    def test_explicit_raw_fetch_is_cleared_after_the_next_model_call(self):
+        import json
+        tools,engine,_,_=ToolLoopTests().build(step_cap=5);engine.phase_limit=5;raw='TRANSIENT_RAW_DEFINITION_SENTINEL'
+        tools.graph.definition_of.return_value={'definition':{'source':raw}};payloads=[]
+        def decide(payload,**kwargs):
+            payloads.append(copy.deepcopy(payload));step=len(payloads)
+            if step==1:return {'action':'TOOL','summary':'Read definition','hypotheses':['not found'],'tool':'definition_of','arguments':{'node':'down'}}
+            if step==2:
+                identity=next(k for k,v in payload['case_file']['evidence_summaries'].items()if v['kind']=='GRAPH')
+                return {'action':'TOOL','summary':'Read retained details','hypotheses':['not found'],'tool':'get_evidence','arguments':{'id':identity}}
+            if step==3:return {'action':'TOOL','summary':'Inspect declared path','hypotheses':['not found'],'tool':'path_to_source','arguments':{'visual':'visual'}}
+            return {'action':'VERDICT','verdict':'not found','summary':'No supported cause','hypotheses':['not found'],'evidence_ids':list(tools.evidence._values)}
+        engine.decide=decide;engine.step_cap=4;engine.run({'visual':'visual'})
+        self.assertIn(raw,json.dumps(payloads[2]['fetched_evidence']))
+        self.assertNotIn(raw,json.dumps(payloads[3]))
+
+    def test_large_raw_result_is_retrievable_in_exact_hash_bound_parts_without_context_growth(self):
+        import json,hashlib
+        from investigator.ledger_investigator import fetched_context
+        from investigator.estate_graph_contract import canonical
+        tools,_,_,_=ToolLoopTests().build()
+        identity=tools.evidence.add('GRAPH',['down'],{'definition':'raw-secret-free-fixture-'*10000})
+        full=tools.invoke('get_evidence',{'id':identity});raw=canonical(full['evidence'])
+        view=fetched_context(full)
+        self.assertLess(len(json.dumps(view)),2000)
+        self.assertEqual(view['raw_details']['sha256'],hashlib.sha256(raw.encode()).hexdigest())
+        chunks=[];offset=0
+        while offset is not None:
+            result=tools.invoke('get_evidence_part',{'id':identity,'offset':offset,'limit':4096})
+            chunks.append(result['raw_part']);offset=result['next_offset']
+        self.assertEqual(''.join(chunks),raw)
+        self.assertEqual(canonical(tools.evidence.get(identity)),raw)
+
+class FailedRepeatTests(unittest.TestCase):
+    def test_same_failed_signature_is_blocked_different_arguments_are_allowed(self):
+        tools,engine,_,_=ToolLoopTests().build();tools.graph.definition_of.side_effect=ValueError('definition unavailable')
+        steps=[]
+        def decide(payload,**kwargs):
+            steps.append(1)
+            return {'action':'TOOL','summary':'Inspect retained definition','hypotheses':['not found'],'tool':'definition_of','arguments':{'node':'up'if len(steps)==3 else 'down'}}
+        engine.decide=decide;engine.step_cap=3
+        result=engine.run({'visual':'visual'})
+        self.assertEqual(tools.graph.definition_of.call_count,2)
+        self.assertEqual(len(result['case_file']['calls_blocked']),1)
+        self.assertEqual(result['case_file']['calls_blocked'][0]['arguments'],{'node':'down'})
+        errors=[v for v in result['case_file']['errors']if v.get('tool')=='definition_of']
+        self.assertEqual([v['arguments']['node']for v in errors],['down','up'])
+        self.assertTrue(errors[0]['result']['evidence_ids'])
+
+class ProviderRejectionTests(unittest.TestCase):
+    def test_consumer_schema_rejection_returns_feedback_then_valid_call_can_complete(self):
+        from jsonschema import ValidationError
+        tools,engine,_,_=ToolLoopTests().build();calls=[]
+        def decide(payload,**kwargs):
+            calls.append(1)
+            if len(calls)==1:raise ValidationError('Unknown admitted node')
+            self.assertTrue(any(e['reason']=='PROVIDER_DECISION_SCHEMA'for e in payload['case_file']['errors']))
+            if len(calls)==2:return {'action':'TOOL','summary':'Compare admitted nodes','hypotheses':['failed job'],'tool':'compare_layers','arguments':{'key':'record-1','layers':['down','up'],'filters':tools.context}}
+            return {'action':'VERDICT','verdict':'failed job','summary':'Report evidenced failure','hypotheses':['failed job'],'evidence_ids':list(tools.evidence._values)}
+        engine.decide=decide;answer=engine.run({'visual':'visual'})
+        self.assertEqual(answer['verdict'],'failed job');self.assertEqual(answer['cost']['model_calls'],3)
+    def test_secret_or_unrelated_value_error_is_not_converted_to_schema_feedback(self):
+        tools,engine,_,_=ToolLoopTests().build()
+        engine.decide=lambda *_a,**_k:(_ for _ in ()).throw(ValueError('SECRET_DETECTED'))
+        with self.assertRaisesRegex(ValueError,'SECRET_DETECTED'):engine.run({'visual':'visual'})
 
 if __name__=='__main__':unittest.main()

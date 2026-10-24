@@ -80,7 +80,10 @@ def permits(gateway,identity,method,url,body,headers):
                 if set(row)!={'custom_id','params'} or row['custom_id'] in ids:return False
                 ids.add(row['custom_id']);params=row['params']
                 payload=json.loads(params['messages'][0]['content']);source=payload['source']
-                if row!=request_for(source,row['custom_id'],max_output_tokens=params['max_tokens']):return False
+                factory=request_for
+                if payload.get('protocol')=='scored-evaluation-v1':
+                    from .evaluation_anthropic import request_for as factory
+                if row!=factory(source,row['custom_id'],max_output_tokens=params['max_tokens']):return False
             return True
         except Exception:return False
     if method=='GET' and not body:
