@@ -16,14 +16,21 @@ class Assembly(unittest.TestCase):
         from unittest.mock import Mock
         from test_calculation_intake import raw,catalog
         text='Net receipts shows 950.'
+        storage={'account_url':'https://approved.blob.core.windows.net','identity':{'mode':'managed_identity'},
+                 'snapshot_channel':'existing-snapshots','tape_channel':'existing-tapes'}
         options=self.specification(ticket=self.ref('raw-calculation.json',{'id':'raw','text':text}),
-                                   recording_mode='NORMAL',model_enabled=True)
+                                   recording_mode='NORMAL',model_enabled=True,
+                                   collector=self.ref('collector.json',{'storage':storage}))
         events=[];context=SimpleNamespace(root=self.root,record=lambda k,v:events.append((k,v))or{'key':str(len(events))})
         meter=SimpleNamespace(used=0,before={},usage=SimpleNamespace(snapshot=lambda:{}),close=lambda:None)
         graph=Mock();graph.intake_candidates.side_effect=[catalog(),catalog()]
         decision=Mock(calls=1);decision.return_value=raw(text,figure='950');decision.cache_metrics.return_value={}
         manifest={'environment':'development','model':{'credential':{},'endpoint':'configured','deployment':'configured'}}
         with contextlib.ExitStack()as stack:
+            files=object();definition_sink=Mock();definition_sink.read.return_value=b'{"expression":"SUM(Entries[Quantity])"}'
+            stores=stack.enter_context(patch('investigator.adapters.blob_artifacts.recording_stores',return_value=(files,object())))
+            definitions=stack.enter_context(patch('investigator.graph_definitions.DefinitionSink',return_value=definition_sink))
+            stack.enter_context(patch('cloud_investigator.PathCollector',return_value=object()))
             for target,value in [('investigator.shared_state.configured_state',SimpleNamespace(backend='postgresql')),
                 ('investigator.estate_manifest.load',manifest),('investigator.adapters.estate_installation.configuration',{}),
                 ('investigator.estate_graph_repository.GraphRepository',object()),('investigator.estate_graph_api.GraphAPI',graph),
@@ -38,11 +45,15 @@ class Assembly(unittest.TestCase):
                 self.assertEqual(submitted['reported_figure']['value'],'950')
                 self.assertTrue(submitted['request']['comparison_pending']);self.assertIs(ports['decide'],decision)
                 self.assertIn('Net receipts',submitted['assumptions'][0])
+                self.assertIs(graph.definition_reader,definition_sink.read)
                 return {'ticket':submitted,'verdict':'not found','outputs':{'business':'Recreation and freshness checked; comparison requested.','technical':'Existing playbook consumer.'}}
             consumer=stack.enter_context(patch('cloud_investigator.run',side_effect=consume))
             answer=worker.execute({'options':options,'manifest':'unused','run_id':'raw-calc'},context)
         self.assertEqual(answer['model_calls'],1);consumer.assert_called_once();decision.assert_called_once()
         self.assertEqual(graph.intake_candidates.call_args_list[-1].kwargs,{'enriched':True})
+        stores.assert_called_once_with(storage)
+        definitions.assert_called_once_with(files,'https://approved.blob.core.windows.net/snapshots',
+            recording_class='EXACT',scratch=self.root/'ledger-investigator')
 
     def test_native_profile_registry_uses_only_exact_connected_measure_and_keeps_target_pin(self):
         native={'measure_id':'native-a','model':{'path':'approved','sha256':'a'*64}}

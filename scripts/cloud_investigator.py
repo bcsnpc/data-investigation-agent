@@ -236,6 +236,16 @@ def _execute(plan,context):
     graph_spec=spec['graph'];repository=GraphRepository(state)
     graph_live=GraphAPI(repository,current(),identity=graph_spec['identity'],estate=graph_spec['estate'],
                         allowed_objects=graph_spec['allowed_objects'],max_nodes=200,max_edges=500,max_bytes=256000)
+    if 'collector' in spec:
+        # Reuse the installation's platform artifact reader and its existing
+        # gateway channel. This reads retained definitions, never native data.
+        from investigator.adapters.blob_artifacts import recording_stores
+        from investigator.graph_definitions import DefinitionSink
+        collector_config=json.loads(reference(spec['collector'],maximum=250000).read_bytes())
+        storage=collector_config['storage']
+        files,_=recording_stores(storage)
+        graph_live.definition_reader=DefinitionSink(files,storage['account_url']+'/snapshots',
+            recording_class='EXACT',scratch=work).read
     intake_decision=None;intake_session=None
     if 'request'not in ticket:
         if recording_mode!='NORMAL':raise ValueError('RAW_INTAKE_REQUIRES_NORMAL_RECORDING')

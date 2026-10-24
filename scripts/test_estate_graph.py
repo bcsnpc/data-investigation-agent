@@ -165,6 +165,29 @@ class GraphRepositoryTests(unittest.TestCase):
         self.assertEqual(len(self.repo.changes('estate')),1)
 
 class GraphAPITests(GraphRepositoryTests):
+    def test_definition_tool_reads_retained_content_and_keeps_historical_reader(self):
+        from investigator.artifact_store import Files,LocalObjects
+        from investigator.graph_definitions import DefinitionSink
+        sink=DefinitionSink(Files(LocalObjects(Path(self.temp.name)/'definitions')),
+            'cas://definitions',recording_class='EXACT')
+        raw=b'{"expression":"SUM(Entries[Quantity])"}'
+        record=graph();reference=sink(raw)
+        record['nodes'][3]['properties']['definition']=reference
+        self.repo.replace(record);reads=[]
+        def read(ref):
+            reads.append(ref);return sink.read(ref)
+        api=self.api(definition_reader=read)
+        for selected in (api,api.as_of(T0)):
+            result=selected.definition_of('measure')
+            self.assertEqual(result['content'],raw.decode())
+            self.assertEqual(result['definition'],reference)
+            self.assertEqual(result['provenance'],record['nodes'][3]['provenance'])
+        self.assertEqual(reads,[reference,reference])
+        self.assertNotIn('content',self.api().definition_of('measure'))
+        limited=self.api(['visual'],definition_reader=read)
+        with self.assertRaises(GatewayDenied):limited.definition_of('measure')
+        self.assertEqual(len(reads),2)
+
     def api(self,allowed=None,**kwargs):
         allowed=allowed or ['report','page','visual','measure','column']
         gateway=Gateway({'version':1,'live_enabled':False,'identities':{'reader':{'graph':{'estate':allowed}}}})

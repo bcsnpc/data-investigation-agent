@@ -4,7 +4,7 @@ from . import estate_graph_contract as contract
 
 
 class GraphAPI:
-    def __init__(self,repository,gateway,*,identity,estate,allowed_objects,at=None,max_nodes=100,max_edges=250,max_bytes=128000):
+    def __init__(self,repository,gateway,*,identity,estate,allowed_objects,at=None,max_nodes=100,max_edges=250,max_bytes=128000,definition_reader=None):
         if type(max_nodes) is not int or not 1<=max_nodes<=200 or type(max_edges) is not int or not 1<=max_edges<=500:
             raise ValueError('GRAPH_SLICE_LIMIT')
         if type(max_bytes) is not int or not 1024<=max_bytes<=256000:raise ValueError('GRAPH_BYTE_LIMIT')
@@ -12,6 +12,7 @@ class GraphAPI:
         self.repository,self.gateway,self.identity,self.estate=repository,gateway,identity,estate
         self.allowed=set(gateway.graph_objects(estate,allowed_objects,identity=identity))
         self.at=contract.timestamp(at) if at else None;self.max_nodes=max_nodes;self.max_edges=max_edges
+        self.definition_reader=definition_reader
 
     def intake_candidates(self,*,enriched=False,identities=None):
         """Names only from the explicitly allowed current graph; no full scan."""
@@ -46,7 +47,8 @@ class GraphAPI:
 
     def as_of(self,time):
         return GraphAPI(self.repository,self.gateway,identity=self.identity,estate=self.estate,
-            allowed_objects=self.allowed,at=time,max_nodes=self.max_nodes,max_edges=self.max_edges,max_bytes=self.max_bytes)
+            allowed_objects=self.allowed,at=time,max_nodes=self.max_nodes,max_edges=self.max_edges,max_bytes=self.max_bytes,
+            definition_reader=self.definition_reader)
 
     def _bounded(self,value):
         if len(contract.canonical(value).encode())>self.max_bytes:raise ValueError('GRAPH_SLICE_BYTE_BOUND')
@@ -152,9 +154,15 @@ class GraphAPI:
 
     def definition_of(self,node):
         nodes,_=self._read([node]);value=nodes[node]
-        return {'node':node,'provenance':value['provenance'],'definition':value['properties'].get('definition'),
+        result={'node':node,'provenance':value['provenance'],'definition':value['properties'].get('definition'),
                 'collection_unavailable':self.unavailable.get(value['owner']) or self.unavailable.get(value.get('properties',{}).get('definition_source_owner')),
                 'valid_from':value['valid_from'],'valid_to':value['valid_to']}
+        # A content-addressed reference alone cannot explain a calculation.
+        # Resolve it through the installation's existing immutable Files reader;
+        # never ask the model to infer the missing body from a name or hash.
+        if self.definition_reader is not None and result['definition'] and not result['collection_unavailable']:
+            result['content']=self.definition_reader(result['definition']).decode('utf-8')
+        return self._bounded(result)
 
     def node_facts(self,node,*,now=None,max_age_seconds=3600):
         # Authority is checked before even a local ledger lookup.
