@@ -15,6 +15,14 @@ DEFAULT_START='DF_round22_source_valid_from'
 DEFAULT_END='DF_round22_source_valid_to'
 
 
+def _instant(value):
+    if not isinstance(value,str):raise ValueError('TEMPORAL_EXACT_UTC_REQUIRED')
+    match=re.fullmatch(r'(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(?:\.(\d{1,7}))?Z',value)
+    if not match:raise ValueError('TEMPORAL_EXACT_UTC_REQUIRED')
+    datetime.fromisoformat(value.replace('Z','+00:00'))
+    return match[1],(match[2]or'').ljust(7,'0')
+
+
 class TemporalSourceScenario:
     def __init__(self,baseline,inspection):
         self.source=SourceHistoryScenario(baseline)
@@ -93,13 +101,7 @@ class TemporalSourceScenario:
         authored query. Both times must fall within the retained history epoch.
         The scored harness must verify that epoch before admitting the case.
         """
-        def instant(value):
-            if not isinstance(value,str):raise ValueError('TEMPORAL_EXACT_UTC_REQUIRED')
-            match=re.fullmatch(r'(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(?:\.(\d{1,7}))?Z',value)
-            if not match:raise ValueError('TEMPORAL_EXACT_UTC_REQUIRED')
-            datetime.fromisoformat(value.replace('Z','+00:00'))
-            return match[1],(match[2]or'').ljust(7,'0')
-        if instant(before)>=instant(after):raise ValueError('TEMPORAL_COMPARISON_ORDER')
+        if _instant(before)>=_instant(after):raise ValueError('TEMPORAL_COMPARISON_ORDER')
         request=cls.observation(values)
         fields=['movement_id','CONVERT(varchar(33),(SELECT MIN(['+START+']) FROM '+TABLE+'),126) AS history_coverage_from']
         for label in ('before','after'):
@@ -112,6 +114,38 @@ class TemporalSourceScenario:
         request['max_rows']=len(values)+1
         request['result_columns']=['movement_id','history_coverage_from','before_rows','before_quantity','after_rows','after_quantity']
         return request
+
+    @classmethod
+    def admit(cls,reader,values,*,before,after):
+        """Check the live fixture immediately before a dependent scored submit.
+
+        The caller supplies the real bounded read port, not a cached receipt.
+        This validates fixture availability only; the investigator must still
+        obtain its own diagnostic evidence and earn its verdict independently.
+        No expected quantity is supplied to or returned as an engine input.
+        """
+        request=cls.comparison(values,before=before,after=after)
+        native=reader(request)
+        if (native.get('read_only_verified')is not True
+                or native.get('surface_report_binding')!='VALUE_QUERY'):
+            raise ValueError('TEMPORAL_LIVE_READ_NOT_ATTESTED')
+        rows=native.get('rows',[])
+        expected={str(row(v)['movement_id'])for v in values}
+        if len(rows)!=len(expected)or {str(v.get('movement_id'))for v in rows}!=expected:
+            raise ValueError('TEMPORAL_LIVE_HISTORY_MISSING')
+        for v in rows:
+            coverage=v.get('history_coverage_from')
+            if not isinstance(coverage,str)or _instant(coverage+'Z')>_instant(before):
+                raise ValueError('TEMPORAL_REQUEST_OUTSIDE_RETAINED_COVERAGE')
+            for label in ('before','after'):
+                count=number(v[label+'_rows'],0,1)
+                if (count==0)!=(v[label+'_quantity']is None):
+                    raise ValueError('TEMPORAL_EMPTY_RESULT_COLLAPSED')
+            if v['before_quantity']==v['after_quantity']:
+                raise ValueError('TEMPORAL_FIXTURE_CHANGE_NOT_PRESENT')
+        return {'status':'LIVE_HISTORY_AVAILABLE_FOR_SCORED_SUBMISSION',
+                'request':request,'native_result':native,
+                'scope':'Fixture admission only, not investigator diagnostic evidence'}
 
     def disable(self,*,history_object_id,history_rows,history_sha256):
         history_object_id=number(history_object_id,1);history_rows=number(history_rows,0,10000)

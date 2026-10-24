@@ -91,5 +91,37 @@ class TemporalPlans(unittest.TestCase):
         for before,after in [('2026-10-23T22:49:27Z','2026-10-23T22:49:26Z'),('2026-10-23T22:49:27Z','2026-10-23T22:49:27.0000000Z'),('2026-10-23T22:49:27+00:00','2026-10-23T22:49:28Z'),("2026-10-23T22:49:27Z';DROP TABLE x",'2026-10-23T22:49:28Z')]:
             with self.subTest(before=before),self.assertRaises(ValueError):self.builder().comparison([fixtures.SourceHistoryPlans().added()],before=before,after=after)
 
+    def test_scored_history_admission_reads_native_versions_now_and_refuses_removed_history(self):
+        import copy
+        from investigator.investigator_harness import RunHarness,CaseLog
+        import tempfile
+        from pathlib import Path
+        value=fixtures.SourceHistoryPlans().added();calls=[]
+        native={'read_only_verified':True,'surface_report_binding':'VALUE_QUERY','rows':[
+            {'movement_id':str(value['movement_id']),'history_coverage_from':'2026-10-23T22:43:47.9434148',
+             'before_rows':'0','before_quantity':None,'after_rows':'1','after_quantity':'7'}]}
+        state=copy.deepcopy(native)
+        def read(request):calls.append('live read');return copy.deepcopy(state)
+        def admit(ticket):
+            return TemporalSourceScenario.admit(read,[value],before='2026-10-23T22:49:20Z',after='2026-10-23T22:49:28Z')
+        class User:
+            def submit(self,ticket):calls.append('submit');return {'run_id':'one'}
+            def poll(self,run):return {'status':'Succeeded'}
+            def outcome(self,run,status):return {'verdict':'not found'}
+        with tempfile.TemporaryDirectory()as directory:
+            RunHarness(User(),CaseLog(Path(directory)/'available'),admit=admit).run({'id':'live'})
+            self.assertEqual(calls,['live read','submit'])
+            state['rows']=[]
+            with self.assertRaisesRegex(ValueError,'LIVE_HISTORY_MISSING'):
+                RunHarness(User(),CaseLog(Path(directory)/'removed'),admit=admit).run({'id':'removed'})
+            self.assertEqual(calls,['live read','submit','live read'])
+        for field,changed,error in [('history_coverage_from','2026-10-23T22:49:21','OUTSIDE_RETAINED'),
+                                    ('before_quantity','0','EMPTY_RESULT_COLLAPSED'),
+                                    ('after_quantity',None,'EMPTY_RESULT_COLLAPSED')]:
+            state=copy.deepcopy(native);state['rows'][0][field]=changed
+            with self.subTest(field=field),self.assertRaisesRegex(ValueError,error):admit({})
+        state=copy.deepcopy(native);state['surface_report_binding']='METADATA_ONLY'
+        with self.assertRaisesRegex(ValueError,'NOT_ATTESTED'):admit({})
+
 
 if __name__=='__main__':unittest.main()
