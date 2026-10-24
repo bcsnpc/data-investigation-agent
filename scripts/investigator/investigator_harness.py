@@ -59,7 +59,10 @@ class RunHarness:
                 admission = self.admit(ticket)
                 if admission is not None:self.log.append('ADMISSION', admission)
             except Exception as error:
-                self.log.append('BLOCK', {'stage':'ADMISSION','error_type':type(error).__name__,'reason':str(error)})
+                block = {'stage':'ADMISSION','error_type':type(error).__name__,'reason':str(error)}
+                if getattr(error, 'fixture_invalid', False):
+                    block['fixture_status'] = 'INVALID_NOT_AN_ENGINE_RESULT'
+                self.log.append('BLOCK', block)
                 raise
             self.log.append('SUBMIT_ATTEMPT', {'ticket_sha256': identity})
             try: run = self.user.submit(ticket)
