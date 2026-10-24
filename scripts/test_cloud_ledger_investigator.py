@@ -28,6 +28,9 @@ class Assembly(unittest.TestCase):
         manifest={'environment':'development','model':{'credential':{},'endpoint':'configured','deployment':'configured'}}
         with contextlib.ExitStack()as stack:
             files=object();definition_sink=Mock();definition_sink.read.return_value=b'{"expression":"SUM(Entries[Quantity])"}'
+            storage_path=self.ref('platform-storage.json',storage)['path']
+            stack.enter_context(patch.dict(os.environ,{'DIA_SLIM_RECORDING_CONFIG':storage_path}))
+            configuration=stack.enter_context(patch('investigator.slim_recording.validate',return_value=storage))
             stores=stack.enter_context(patch('investigator.adapters.blob_artifacts.recording_stores',return_value=(files,object())))
             definitions=stack.enter_context(patch('investigator.graph_definitions.DefinitionSink',return_value=definition_sink))
             stack.enter_context(patch('cloud_investigator.PathCollector',return_value=object()))
@@ -52,6 +55,7 @@ class Assembly(unittest.TestCase):
         self.assertEqual(answer['model_calls'],1);consumer.assert_called_once();decision.assert_called_once()
         self.assertEqual(graph.intake_candidates.call_args_list[-1].kwargs,{'enriched':True})
         stores.assert_called_once_with(storage)
+        configuration.assert_called_once_with(storage)
         definitions.assert_called_once_with(files,'https://approved.blob.core.windows.net/snapshots',
             recording_class='EXACT',scratch=self.root/'ledger-investigator')
 

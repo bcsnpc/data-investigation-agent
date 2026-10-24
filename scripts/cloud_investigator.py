@@ -236,13 +236,18 @@ def _execute(plan,context):
     graph_spec=spec['graph'];repository=GraphRepository(state)
     graph_live=GraphAPI(repository,current(),identity=graph_spec['identity'],estate=graph_spec['estate'],
                         allowed_objects=graph_spec['allowed_objects'],max_nodes=200,max_edges=500,max_bytes=256000)
-    if 'collector' in spec:
+    storage=None
+    if request_kind!='FACT' and os.environ.get('DIA_SLIM_RECORDING_CONFIG'):
+        from investigator.slim_recording import validate as recording_configuration
+        storage=recording_configuration(json.loads(Path(os.environ['DIA_SLIM_RECORDING_CONFIG']).read_bytes()))
+    elif request_kind!='FACT' and 'collector' in spec:
+        collector_config=json.loads(reference(spec['collector'],maximum=250000).read_bytes())
+        storage=collector_config['storage']
+    if storage is not None:
         # Reuse the installation's platform artifact reader and its existing
         # gateway channel. This reads retained definitions, never native data.
         from investigator.adapters.blob_artifacts import recording_stores
         from investigator.graph_definitions import DefinitionSink
-        collector_config=json.loads(reference(spec['collector'],maximum=250000).read_bytes())
-        storage=collector_config['storage']
         files,_=recording_stores(storage)
         graph_live.definition_reader=DefinitionSink(files,storage['account_url']+'/snapshots',
             recording_class='EXACT',scratch=work).read
