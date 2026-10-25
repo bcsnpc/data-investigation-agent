@@ -1,6 +1,7 @@
 import contextlib
 import tempfile
 import unittest
+import copy
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -280,6 +281,17 @@ class NativeChecks(unittest.TestCase):
                 'execution_surface':probe.execution_surface,'route_admitted':True,'read_only_verified':True}}
         witness=ProcessChecks(values)('DESIGN_CHECK',{'value':{'left':'left','right':'right'}},records)
         self.assertEqual(validate_design(witness,{r:v['value'] for r,v in records.items()},[{'left':'left','right':'right'}]),witness['mechanism'])
+        # The compiler adds a version/scope envelope to the same empty scope.
+        # Original observations stay byte-identical, including their envelope.
+        before=copy.deepcopy(witness)
+        for context in ({},{'filters':[]},{'filters':[],'dimension_ids':[]}):
+            projected={r:{**v['value'],'context':context}for r,v in records.items()}
+            self.assertEqual(validate_design(witness,projected,[{'left':'left','right':'right'}]),witness['mechanism'])
+        self.assertEqual(witness,before)
+        for context in ({'filters':[{'column':'x','values':[]}]},{'dimension_ids':['selected']},{'unknown':[]}):
+            projected={r:{**v['value'],'context':context}for r,v in records.items()}
+            with self.assertRaisesRegex(ValueError,'RECEIPTS_OR_CONTEXT_DIFFER'):
+                validate_design(witness,projected,[{'left':'left','right':'right'}])
         self.assertEqual(len(saved),1)
         witness['native_observations'][upper.evidence['id']]['query']='changed'
         with self.assertRaisesRegex(ValueError,'RECEIPTS_OR_CONTEXT_DIFFER'):

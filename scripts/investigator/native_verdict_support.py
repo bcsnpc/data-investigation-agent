@@ -4,6 +4,15 @@ from .assessment_support import validate
 from .estate_graph_contract import canonical
 
 
+def _context(value):
+    # These are the existing compiler's two encodings of an unfiltered read.
+    # Preserve every selected restriction, including an empty intersection.
+    if isinstance(value,dict)and set(value)<= {'filters','dimension_ids'}and all(v==[]for v in value.values()):
+        from .refresh_comparison import whole_entity_context
+        return canonical(whole_entity_context())
+    return canonical(value)
+
+
 def design_witness(assessment,observations):
     """Trusted adapter helper. Terminal validation rechecks this proof again."""
     validate(assessment,observations)
@@ -33,7 +42,7 @@ def validate_design(witness,reads,comparisons):
             for result in (a,b):
                 original=observations.get(result['receipt_id'],{})
                 if (original.get('status')!='COMPLETED' or not isinstance(original.get('declared_context'),dict)
-                        or canonical(original['declared_context'])!=canonical(result['context'])
+                        or _context(original['declared_context'])!=_context(result['context'])
                         or original.get('query')!=result.get('query')
                         or original.get('execution_surface')!=result.get('execution_surface')):matched=False
             if matched:return rebuilt['mechanism']
