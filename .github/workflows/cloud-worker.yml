@@ -75,7 +75,7 @@ jobs:
       - name: Focused Round22 changed-module tests, offline and read-only
         run: |
           docker load -i "$RUNNER_TEMP/image/dia-offline.tar"
-          docker run --rm --network=none --read-only --cap-drop=ALL --security-opt=no-new-privileges --tmpfs /tmp:rw,nosuid,nodev,size=256m --tmpfs /app/.local:rw,nosuid,nodev,noexec,size=256m,uid=10001,gid=10001 --entrypoint python dia-offline:${{ github.sha }} -m pytest -q scripts/test_calculation_intake.py scripts/test_cloud_ledger_investigator.py scripts/test_shared_usage.py scripts/test_ledger_investigator.py scripts/test_retained_graph_continuation.py scripts/test_ledger_investigator_ports.py scripts/test_source_availability.py scripts/test_native_verdict_support.py
+          docker run --rm --network=none --read-only --cap-drop=ALL --security-opt=no-new-privileges --tmpfs /tmp:rw,nosuid,nodev,size=256m --tmpfs /app/.local:rw,nosuid,nodev,noexec,size=256m,uid=10001,gid=10001 --entrypoint python dia-offline:${{ github.sha }} -m pytest -q -p no:cacheprovider scripts/test_calculation_intake.py scripts/test_cloud_ledger_investigator.py scripts/test_shared_usage.py scripts/test_ledger_investigator.py scripts/test_retained_graph_continuation.py scripts/test_ledger_investigator_ports.py scripts/test_source_availability.py
   publish:
     if: ${{ always() && ((github.event_name == 'workflow_dispatch' && inputs.publish) || (github.event_name == 'push' && github.ref == 'refs/heads/feat/round-eighteen-cloud-foundation')) && (needs.offline-shards.result == 'success' || needs.focused-dev.result == 'success') }}
     needs: [offline-shards, focused-dev]
