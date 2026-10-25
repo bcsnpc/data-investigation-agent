@@ -30,14 +30,14 @@ class AccessTests(unittest.TestCase):
             with self.subTest(wrong=wrong):
                 self.assertEqual(check(mapping(),backend=SimpleNamespace(probe=lambda *_:wrong))['status'],'FAIL')
         proof={'permission_observed':True,'identity':'investigator','resource':'model-1','receipt':{'status':200}}
-        self.assertEqual(check(mapping(),backend=SimpleNamespace(probe=lambda *_:proof))['status'],'PASS')
+        self.assertEqual(check(mapping(),backend=SimpleNamespace(probe=lambda *_:proof),now='2026-10-22T00:00:00Z')['status'],'PASS')
 
     def test_route_scoping_does_not_probe_other_estate_or_owner(self):
         data=mapping();data['checks'].append({**data['checks'][0],'id':'billing-model','scopes':['billing']})
         calls=[]
         def probe(row,_):
             calls.append(row['id']);raise NotTestable('recorded test')
-        result=check(data,scope='fixture',backend=SimpleNamespace(probe=probe))
+        result=check(data,scope='fixture',backend=SimpleNamespace(probe=probe),now='2026-10-22T00:00:00Z')
         self.assertEqual(calls,['model']);self.assertEqual(len(result['rows']),1)
 
     def test_denial_of_guard_is_hard_not_a_warning(self):
@@ -126,7 +126,7 @@ class AccessTests(unittest.TestCase):
         raw=b'{"metadata":"sensitive-raw-value"}'
         with patch('investigator.adapters.vault_user_cache.provider') as provider,patch('investigator.live_gateway.open_http',return_value=Response(raw)) as gateway:
             provider.return_value.get_token.return_value='not-logged-token'
-            result=check(mapping(),backend=backend)
+            result=check(mapping(),backend=backend,now='2026-10-22T00:00:00Z')
         self.assertEqual(result['status'],'PASS');gateway.assert_called_once()
         self.assertNotIn('sensitive-raw-value',json.dumps(result));self.assertNotIn('not-logged-token',json.dumps(result))
 
@@ -137,7 +137,7 @@ class AccessTests(unittest.TestCase):
         backend=LiveProbes({'identities':{'investigator':auth},'probes':{'model':binding}});backend._count=lambda fn:fn()
         class Response(io.BytesIO):status=200
         with patch('investigator.adapters.vault_user_cache.provider'),patch('investigator.live_gateway.open_http',return_value=Response(b'{"credentialDetails":{"singleSignOnType":"Sso"}}')):
-            result=check(mapping(),backend=backend)
+            result=check(mapping(),backend=backend,now='2026-10-22T00:00:00Z')
         self.assertEqual(result['rows'][0]['reason'],'DECLARED_RESOURCE_SETTING_DIFFERS')
 
     def test_http_200_without_dax_result_is_not_a_permission_pass(self):
@@ -147,7 +147,7 @@ class AccessTests(unittest.TestCase):
         class Response(io.BytesIO):status=200
         with patch('investigator.adapters.vault_user_cache.provider') as provider,patch('investigator.live_gateway.open_http',return_value=Response(b'{}')):
             provider.return_value.get_token.return_value='not-logged-token'
-            result=check(mapping(),backend=backend)
+            result=check(mapping(),backend=backend,now='2026-10-22T00:00:00Z')
         self.assertEqual(result['rows'][0]['reason'],'DAX_HEALTH_VALUE_NOT_RETURNED')
 
     def test_missing_materialized_map_is_a_visible_preflight_failure(self):
