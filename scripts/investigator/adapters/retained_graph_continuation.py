@@ -106,6 +106,7 @@ class RetainedApprovedContinuation:
                          'context_basis':copy.deepcopy(self.basis)})
             n.update(valid_from=c.timestamp(pin['as_of']),valid_to=None);self.nodes.append(n);return n
         visual_node=node('VISUAL',visual_asset,visual); measure_node=node('MEASURE',measure_id)
+        if original.get('label'):visual_node['label']=original['label']
         layer_nodes=[node('TABLE',x['id']) for x in self.path['layers']]
         contracts={(x['upper_layer'],x['lower_layer']):x for x in self.path.get('quantity_contracts',[])}
         def link(upper,lower,source,details):

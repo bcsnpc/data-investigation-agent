@@ -110,7 +110,9 @@ class ProcessValues:
                      'reason':probe.reason,'failure':probe.failure,'evidence':probe.evidence,
                      'query':probe.query,'execution_surface':probe.execution_surface})
         if probe.status!='OBSERVED':
-            from ..source_availability import SourceReadUnavailable
+            from ..source_availability import SourceReadUnavailable,QuantityNotComparable
+            if probe.status=='NOT_COMPARABLE':
+                raise QuantityNotComparable(probe.reason or 'COMPILED_QUANTITY_NOT_COMPARABLE')
             raise SourceReadUnavailable(probe.reason or 'COMPILED_QUANTITY_NOT_OBTAINED',probe.failure)
         evidence=probe.evidence or {}
         if not evidence.get('id') or not probe.query:raise ValueError('ORIGINAL_NATIVE_READ_RECEIPT_REQUIRED')

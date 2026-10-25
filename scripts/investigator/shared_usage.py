@@ -167,6 +167,7 @@ class SharedUsage:
         Mirroring changes no source row or shared account; budget mutations are
         journalled normally so offline replay receives the same admission inputs.
         """
+        if getattr(self,'reporting_mirror',True)is False:return
         if getattr(local,'shared_accounting',None):
             raise StateConflict('POSTGRES_MIRROR_MUST_BE_PRIVATE')
         retained=self.state._read_transaction(lambda db:{

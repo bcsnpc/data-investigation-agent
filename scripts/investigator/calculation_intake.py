@@ -44,6 +44,8 @@ The primary figure is the number in question; components, identifiers, dates and
 another referent's values are not competing primary figures. Preserve genuine rival
 primary figures. Include rounding words inside a figure reference; written digits
 are exact unless the ticket signals rounding. An empty visual is EMPTY, never zero.
+Names such as Quantity or Total are targets, not figures. With no stated number
+or explicitly reported empty result, return figures:[]; do not quote a target name.
 A filter requires an actual selected/restricted relationship; mention is not selection.
 Its column and value must lie inside words. Extract periods as stated, without
 inventing calendar boundaries. Retain every explicitly named report/page/visual/
@@ -130,6 +132,10 @@ def extract(text,decide,catalog,*,retain):
             if raw['comparison']['words']is not None:value['comparison']['words']=reference(raw['comparison']['words'],text)
             if (value['comparison']['kind']=='NONE')!=(value['comparison']['words']is None):
                 raise ValueError('COMPARISON_REFERENCE_REQUIRED')
+            if any(f['role']=='PRIMARY'and t['role']=='PRIMARY'
+                    and t['words']['start']<=f['words']['start']<f['words']['end']<=t['words']['end']
+                    for f in value['figures']for t in value['targets']):
+                raise ValueError('PRIMARY_FIGURE_SPAN_IS_TARGET_NAME: return minimal target names separately from the stated value; no stated value means figures:[].')
             comparison=value['comparison']['words']
             if comparison is not None and any(
                 item['role']=='PRIMARY'and comparison['start']<=item['words']['start']<item['words']['end']<=comparison['end']
@@ -139,10 +145,15 @@ def extract(text,decide,catalog,*,retain):
             # figures before any value is read. No matching against estate data.
             value['reported_figure']=from_candidates([x['words']for x in value['figures']if x['role']=='PRIMARY'],text)
             return value
-        except (AmbiguousFigure,UnavailablePrecision):
-            # A retry must never invite the producer to discard a real rival
-            # value or choose precision that makes an estate value match.
+        except AmbiguousFigure:
+            # Different resolved primary values remain genuine ambiguity.
             raise
+        except UnavailablePrecision as error:
+            if attempt:raise
+            feedback=('FIGURE_SPAN_NOT_ONE_STATED_NUMBER: '+str(error)+
+                '. Return the exact minimal number with its stated rounding words. Names, identifiers and dates are not figures. '
+                'If no figure is stated, return figures:[]. Preserve every genuinely competing primary figure separately; '
+                'do not choose a value or precision to make a match.')
         except (ValueError,KeyError,TypeError,ValidationError)as error:
             feedback=(error.json_path+': '+error.message)[:1000]if isinstance(error,ValidationError)else str(error)
         retain({'event':'RAW_CALCULATION_EXTRACTION_REJECTED','attempt':attempt+1,'reason':feedback})
@@ -299,6 +310,14 @@ def resolve(ticket,catalog,extraction):
         if len(choices)!=1:return question('CALCULATION_VISUAL_SCOPE_UNRESOLVED',choices)
         target=choices[0]
     admitted=copy.deepcopy(ticket)
+    if (extraction['kind']=='FRESHNESS'and extraction['reported_figure']['state']=='UNSPECIFIED'
+            and not extraction['filters']and not extraction['periods']and target['kind']in('MEASURE','VISUAL')):
+        subjects={target['id']}
+        if target['kind']=='VISUAL':subjects={e['target']for e in catalog.get('edges',[])
+            if e['source']==target['id']and e['kind']=='COMPUTED_FROM'}
+        owners=[n for n in catalog['candidates']if n['kind']=='MODEL'and any(within(s,n['id'])for s in subjects)]
+        if len(owners)!=1:return question('REFRESH_OWNER_UNRESOLVED',owners)
+        target={k:owners[0][k]for k in('id','kind','label')}|{'confidence':1.0,'basis':'DECLARED_MEASURE_OWNER'}
     request={'kind':'DEFINITION'if extraction['kind']=='DEFINITION'else'COMPARE','subject':target['id'],
              'source':copy.deepcopy(extraction['primary']),'question_kind':extraction['kind']}
     if (extraction['kind']=='FRESHNESS'and target['kind']=='MODEL'and extraction['reported_figure']['state']=='UNSPECIFIED'
@@ -308,7 +327,7 @@ def resolve(ticket,catalog,extraction):
     comparison=extraction['comparison']
     if request['kind']=='COMPARE'and comparison['kind']=='NONE':request['comparison_pending']=True
     admitted.update(request=request,reported_figure=copy.deepcopy(extraction['reported_figure']),
-       assumptions=['Interpreting your number as '+target['label']+' from the admitted graph ('+target['basis'].lower().replace('_',' ')+').'],
+       assumptions=[('Checking refresh status for 'if request['kind']=='FACT'else'Interpreting your number as ')+target['label']+' from the admitted graph ('+target['basis'].lower().replace('_',' ')+').'],
        intake_scope={'filters':copy.deepcopy([v for v in extraction['filters']if v['role']=='PRIMARY']),
                      'periods':copy.deepcopy(extraction['periods'])},
        intake_comparison=copy.deepcopy(comparison))

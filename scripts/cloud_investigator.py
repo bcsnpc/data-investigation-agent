@@ -204,7 +204,10 @@ class PathCollector:
         config['max_subjects_per_wake']=len(selected)
         if force:config['list_interval_seconds']=1
         with operating_mode(category='SCAN'):
-            result=collect(config,state=self.state,clock=lambda:now,force=force)
+            from scan_estate_graph import Meter
+            meter=Meter(self.state,config['budget'],config['max_requests'],reporting_mirror=False)
+            try:result=collect(config,state=self.state,clock=lambda:now,force=force,meter=meter)
+            finally:meter.close()
         self.retain({'event':'INVESTIGATOR_PATH_FACT_TOP_UP','result':result,'unsupported_subjects':missing})
         return {**result['collection'],'unsupported_subjects':missing,'purpose':'SCAN','physical_requests':result['physical_requests']}
 
@@ -254,6 +257,8 @@ def _execute(plan,context):
     if state is None or state.backend!='postgresql':raise ValueError('INVESTIGATOR_SHARED_POSTGRES_REQUIRED')
     root=Path(context.root);work=root/'ledger-investigator';work.mkdir(parents=True,exist_ok=True)
     governor=runtime_governor(state,manifest['environment'],work)
+    if recording_mode=='NORMAL'and getattr(governor,'shared',None)is not None:
+        governor.shared.reporting_mirror=False
     graph_spec=spec['graph'];repository=GraphRepository(state)
     graph_live=GraphAPI(repository,current(),identity=graph_spec['identity'],estate=graph_spec['estate'],
                         allowed_objects=graph_spec['allowed_objects'],max_nodes=200,max_edges=500,max_bytes=256000)
@@ -325,7 +330,7 @@ def _execute(plan,context):
     def retain(value):return context.record('investigator-native',value)
     from investigator.build_phase import operating_mode
     with operating_mode(category='INVESTIGATION'):
-        meter=Meter(state,spec['budget'],spec['max_requests'])
+        meter=Meter(state,spec['budget'],spec['max_requests'],reporting_mirror=recording_mode=='TEST')
     prior_record=os.environ.get('INVESTIGATOR_RECORD_PLANNER');os.environ['INVESTIGATOR_RECORD_PLANNER']='1'if recording_mode=='TEST'else '0'
     try:
         with journal.active(tape),guard_scope(lambda value:context.record('investigator-guard',value)):

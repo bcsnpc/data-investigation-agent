@@ -25,6 +25,44 @@ def catalog():
         {'source':'p','target':'v','kind':'CONTAINS'},{'source':'v','target':'m','kind':'COMPUTED_FROM'}]}
 
 class CalculationAdmission(unittest.TestCase):
+    def test_non_numeric_figure_reference_gets_one_correction_without_inventing_a_number(self):
+        text='When was Net amount last refreshed?'
+        bad=raw(text,target='Net amount',kind='FRESHNESS',figure='Net amount')
+        bad['targets'][0]['kind']='MEASURE'
+        corrected=copy.deepcopy(bad);corrected['figures']=[]
+        decide=Mock(side_effect=[bad,corrected])
+        result=intake.extract(text,decide,catalog(),retain=lambda _:None)
+        self.assertEqual(result['reported_figure'],{'state':'UNSPECIFIED'})
+        self.assertEqual(decide.call_count,2)
+        self.assertIn('PRIMARY_FIGURE_SPAN_IS_TARGET_NAME',decide.call_args_list[1].args[0]['previous_rejection'])
+        with self.assertRaises(intake.ExtractionNeedsInput):
+            intake.extract(text,Mock(return_value=bad),catalog(),retain=lambda _:None)
+
+    def test_broad_figure_span_retries_without_choosing_among_genuine_rivals(self):
+        text='Net receipts shows 950 for invoice_id 321.'
+        bad=raw(text,figure='950 for invoice_id 321');correct=raw(text,figure='950')
+        decide=Mock(side_effect=[bad,correct])
+        result=intake.extract(text,decide,catalog(),retain=lambda _:None)
+        self.assertEqual(result['reported_figure']['value'],'950')
+        self.assertEqual(decide.call_count,2)
+        self.assertIn('FIGURE_SPAN_NOT_ONE_STATED_NUMBER',decide.call_args_list[1].args[0]['previous_rejection'])
+
+    def test_refresh_question_uses_only_the_declared_measure_owner(self):
+        text='When was Net amount last refreshed?';value=raw(text,target='Net amount',kind='FRESHNESS')
+        value['targets'][0]['kind']='MEASURE';c=catalog()
+        c['candidates'].append({'id':'model','kind':'MODEL','label':'Cash model'})
+        c['edges'].append({'source':'model','target':'m','kind':'CONTAINS'})
+        result=intake.resolve({'text':text},c,self.extract(text,value))
+        self.assertEqual(result['ticket']['request']['kind'],'FACT')
+        self.assertEqual(result['ticket']['request']['subject'],'model')
+        self.assertEqual(result['ticket']['request']['question'],'REFRESH_STATUS')
+        self.assertIn('Checking refresh status for Cash model',result['ticket']['assumptions'][0])
+        c['candidates'].append({'id':'other-model','kind':'MODEL','label':'Other model'})
+        c['edges'].append({'source':'other-model','target':'m','kind':'CONTAINS'})
+        held=intake.resolve({'text':text},c,self.extract(text,value))
+        self.assertEqual(held['status'],'CLARIFYING')
+        self.assertEqual(held['reason'],'REFRESH_OWNER_UNRESOLVED')
+
     def extract(self,text,value):
         return intake.extract(text,Mock(return_value=value),catalog(),retain=lambda _:None)
 

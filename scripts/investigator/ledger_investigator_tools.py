@@ -134,6 +134,9 @@ class Tools:
         try:
             result=copy.deepcopy(source_call(lambda:self.reader(node,self.key,copy.deepcopy(context)),observe=observe,clock=getattr(self,'availability_clock',lambda:self.now)))
         except Exception as exc:
+            from .source_availability import QuantityNotComparable
+            if isinstance(exc,QuantityNotComparable):
+                return self.evidence.add('GAP',[node],{'reason':str(exc),'code':'NOT_COMPARABLE'})
             from .estate_graph_incremental import is_stop_condition
             if is_stop_condition(exc):raise
             settle_availability()

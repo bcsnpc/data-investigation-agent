@@ -420,7 +420,7 @@ class Investigator:
         from .operational_delivery import details
         operational_details=details(supported,self.tools.nodes)
         if operational_details:business+='\n'+operational_details
-        if verdict=='not found' and supported.get('claim_scope')!='OPERATIONAL_FACT_ONLY':business+=' Furthest measured point: '+str(furthest or 'none')+'.'
+        if verdict=='not found' and supported.get('claim_scope')!='OPERATIONAL_FACT_ONLY':business+=' Furthest measured point: '+(self.tools.nodes[furthest]['label']if furthest else 'none')+'.'
         if supported.get('expected_update_at'):business+=' Expected update from the declared schedule and observed median duration: '+supported['expected_update_at']+'.'
         if limits:business+='\nLabels: '+'; '.join(limits)
         gaps=[r['value']['reason'] for r in evidence.values() if r['kind']=='GAP' and r['value'].get('reason')]

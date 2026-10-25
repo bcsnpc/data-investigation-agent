@@ -178,7 +178,7 @@ def explicit_operational_fact(request,entries,now,ticket_text):
     if not {'kind','subject','question','source'}<=set(request)<={'kind','subject','question','source','run_selector'} or request.get('kind')!='FACT' or request['question'] not in ('RUN_STATUS','REFRESH_STATUS'):
         raise ValueError('EXPLICIT_OPERATIONAL_QUESTION_REQUIRED')
     quote=span(request['source'],ticket_text)
-    if ticket_text is None or not re.search(r'\b(did|has|was|is|what|when|show|latest|last|need|please|explain|why|check|confirm|still|stuck)\b',quote,re.I) or not re.search(r'\b(job|pipeline|run|refresh|notebook|copy)\b',quote,re.I) or not re.search(r'\b(fail(?:ed)?|succeed(?:ed)?|status|finish(?:ed)?|complete(?:d)?|queued|running|current|fresh|stale|updated|currency)\b',quote,re.I):
+    if ticket_text is None or not re.search(r'\b(did|has|was|is|what|when|show|latest|last|need|please|explain|why|check|confirm|still|stuck)\b',quote,re.I) or not re.search(r'\b(job|pipeline|run|refresh(?:ed|es|ing)?|notebook|copy)\b',quote,re.I) or not re.search(r'\b(fail(?:ed)?|succeed(?:ed)?|status|finish(?:ed)?|complete(?:d)?|queued|running|current|fresh|refreshed|stale|updated|currency)\b',quote,re.I):
         raise ValueError('EXPLICIT_OPERATIONAL_QUESTION_REQUIRED')
     kinds={'JOB_RUN'} if request['question']=='RUN_STATUS' else {'REFRESH_RUN','REFRESH_STATE'}
     candidates=[entry['value'] for entry in entries if entry['kind']=='FACT' and entry['value'].get('subject')==request['subject'] and entry['value'].get('kind') in kinds

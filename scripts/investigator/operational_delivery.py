@@ -19,6 +19,13 @@ def failure_sentence(support,nodes):
 
 
 def details(support,nodes):
+    if support['verdict']=='not found'and support.get('claim_scope')=='OPERATIONAL_FACT_ONLY'and support.get('operational_fact'):
+        fact=support['operational_fact'];value=fact['value'];name=nodes.get(fact['subject'],{}).get('label')or 'name unavailable'
+        return ('Recorded status for '+name+'; run ID: '+str(value.get('run_id')or 'unavailable')+
+            '; status: '+str(value.get('status')or value.get('state')or 'unavailable')+
+            '; start: '+str(value.get('start')or 'unavailable')+
+            '; end: '+str(value.get('end')or value.get('last_end')or 'unavailable')+
+            '; observed: '+fact['observed_at']+'.')
     if support['verdict'] not in ('failed job','waiting on job','latency'):return ''
     fact=support.get('operational_fact')
     if not fact:

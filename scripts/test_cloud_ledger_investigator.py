@@ -49,7 +49,8 @@ class Assembly(unittest.TestCase):
                 ('investigator.live_gateway.current',object()),('cloud_graph_interpreter.runtime_governor',SimpleNamespace(policy={})),
                 ('scan_estate_graph.Meter',meter),('investigator.runtime.fingerprint','a'*64),
                 ('investigator.source_revision.committed_revision','b'*40),('investigator.adapters.ledger_investigator_ports.AzureDecision',decision)]:
-                stack.enter_context(patch(target,return_value=value))
+                factory=stack.enter_context(patch(target,return_value=value))
+                if target=='scan_estate_graph.Meter':meter_factory=factory
             stack.enter_context(patch('investigator.adapters.managed_identity.model_session',side_effect=lambda _:contextlib.nullcontext()))
             def consume(plan,ctx,**ports):
                 submitted=json.loads(Path(plan['options']['ticket']).read_bytes())
@@ -62,6 +63,7 @@ class Assembly(unittest.TestCase):
             consumer=stack.enter_context(patch('cloud_investigator.run',side_effect=consume))
             answer=worker.execute({'options':options,'manifest':'unused','run_id':'raw-calc'},context)
         self.assertEqual(answer['model_calls'],1);consumer.assert_called_once();decision.assert_called_once()
+        self.assertFalse(meter_factory.call_args.kwargs['reporting_mirror'])
         self.assertEqual(graph.intake_candidates.call_args_list[-1].kwargs,{'enriched':True})
         stores.assert_called_once_with(storage)
         configuration.assert_called_once_with(storage)
@@ -261,16 +263,22 @@ class Assembly(unittest.TestCase):
         reader.assert_not_called()
     def test_top_up_only_requested_admitted_subjects_and_scan_category(self):
         from investigator.build_phase import purpose
-        config={'estate':'fixture','subjects':{'job':{},'other':{}},'key_tables':['other']}
+        from unittest.mock import Mock
+        meter=Mock()
+        config={'estate':'fixture','subjects':{'job':{},'other':{}},'key_tables':['other'],
+                'budget':{'environment':'fixture'},'max_requests':4}
         def collect(config,**kwargs):
             self.assertEqual(set(config['subjects']),{'job'});self.assertEqual(config['key_tables'],[])
             self.assertEqual(purpose(),'SCAN');self.assertTrue(kwargs['force'])
+            self.assertIs(kwargs['meter'],meter)
             return {'collection':{'status':'COLLECTED'},'physical_requests':2}
-        with patch('cloud_facts_collector.validate',side_effect=lambda value:value),patch('cloud_facts_collector.collect',collect):
+        with patch('cloud_facts_collector.validate',side_effect=lambda value:value),patch('cloud_facts_collector.collect',collect),patch('scan_estate_graph.Meter',return_value=meter)as factory:
             collector=worker.PathCollector(config,object(),['job'],lambda value:None)
             self.assertEqual(collector.run('fixture',['job'],now='2026-10-22T00:00:00Z',force=True)['purpose'],'SCAN')
             with self.assertRaisesRegex(ValueError,'OUTSIDE_PATH'):
                 collector.run('fixture',['other'],now='2026-10-22T00:00:00Z')
+        self.assertFalse(factory.call_args.kwargs['reporting_mirror'])
+        meter.close.assert_called_once()
 
 
 if __name__=='__main__':unittest.main()

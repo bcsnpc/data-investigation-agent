@@ -121,6 +121,21 @@ class VerdictTests(unittest.TestCase):
 
 
 class OperationalFactTests(unittest.TestCase):
+    def test_when_last_refreshed_reports_the_recorded_finish_not_the_observation_time(self):
+        end='2026-10-22T09:42:00Z'
+        engine,ticket,reader,decide=self.status_engine([fact('job','REFRESH_STATE',
+            {'state':'SUCCEEDED','run_id':'refresh-1','last_end':end})])
+        engine.tools.nodes['job']['kind']='MODEL';engine.tools.nodes['job']['label']='Inventory model'
+        text='When was Inventory model last refreshed?'
+        ticket.update(text=text,request={'kind':'FACT','subject':'job','question':'REFRESH_STATUS',
+            'source':{'start':0,'end':len(text),'quote':text}})
+        result=engine.run(ticket)
+        self.assertEqual(result['support']['claim_scope'],'OPERATIONAL_FACT_ONLY')
+        for output in result['outputs'].values():
+            self.assertIn('end: '+end,output)
+            self.assertIn('observed: '+NOW,output)
+        reader.assert_not_called();decide.assert_not_called()
+
     def status_engine(self,values):
         text='Did the latest Copy Job run fail?'
         request={'kind':'FACT','subject':'job','question':'RUN_STATUS','source':{'start':0,'end':len(text),'quote':text}}
@@ -224,6 +239,17 @@ class OperationalFactTests(unittest.TestCase):
 
 
 class ToolLoopTests(unittest.TestCase):
+    def test_untranslatable_scope_is_gap_without_source_outage_or_availability_fact(self):
+        from investigator.source_availability import QuantityNotComparable
+        tools,engine,reader,_=self.build()
+        reader.side_effect=QuantityNotComparable('The selected scope cannot be translated faithfully.')
+        before=set(tools.evidence._values)
+        gap=tools.evidence.get(tools._read('down',tools.context))
+        self.assertEqual(gap['value']['code'],'NOT_COMPARABLE')
+        self.assertNotIn('availability',gap['value'])
+        self.assertEqual([tools.evidence.get(k)['kind']for k in set(tools.evidence._values)-before],['GAP'])
+        reader.assert_called_once()
+
     def test_unmapped_graph_table_is_a_route_gap_not_a_source_outage(self):
         tools,engine,reader,_=self.build();reader.layers={'visual':{},'up':{}}
         ref=tools._read('down',tools.context)

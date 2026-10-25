@@ -30,6 +30,9 @@ def classify(error):
     if isinstance(nested,(ConnectionError,socket.gaierror)) or status in (502,):return 'UNREACHABLE'
     return 'QUERY_ERROR'
 
+class QuantityNotComparable(ValueError):
+    """The compiler refused a faithful quantity; no source call failed."""
+
 class SourceReadUnavailable(ValueError):
     """Preserve safe native fields already retained by the compiled read port."""
     def __init__(self,reason,failure):
@@ -62,6 +65,7 @@ def call(operation,*,observe,clock=None,sleep=None):
     for attempt in range(1,4):
         try:value=operation()
         except Exception as error:
+            if isinstance(error,QuantityNotComparable):raise
             if is_stop_condition(error):raise
             entry=result(error,at=clock(),first_at=first,attempts=attempt)
             _safe(canonical(entry).encode());observe(entry)

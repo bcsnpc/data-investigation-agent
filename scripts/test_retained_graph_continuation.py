@@ -42,6 +42,12 @@ class RetainedContinuationTests(unittest.TestCase):
     def view(self,**change):
         args={'context':self.context,'pin':self.pin,'visual':self.visual,'measure_id':self.measure};args.update(change)
         return RetainedApprovedContinuation(self.current,self.process,**args)
+    def test_retained_path_preserves_the_admitted_visible_visual_name(self):
+        self.current._read=lambda roots:({self.visual:{'properties':{'asset_id':'visual'},'label':'Displayed quantity card'}},[])
+        result=self.view().path_to_source(self.visual)
+        visual=next(n for n in result['nodes']if n['id']==self.visual)
+        self.assertEqual(visual['label'],'Displayed quantity card')
+        self.assertEqual(visual['properties']['asset_id'],'visual')
     def test_explicit_view_preserves_current_refusal_and_labels_retained_edges(self):
         before=copy.deepcopy(self.original);view=self.view();result=view.path_to_source(self.visual)
         self.assertEqual(before,self.current.path_to_source(self.visual))

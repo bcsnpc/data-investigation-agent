@@ -79,7 +79,12 @@ class Values(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'NOT_CONNECTED'):self.port()
 
     def test_filtered_lower_refusal_unchanged(self):
-        with self.assertRaisesRegex(ValueError,'does not yet translate filtered scope faithfully'):
+        from investigator.source_availability import QuantityNotComparable,call
+        observations=[]
+        with self.assertRaisesRegex(QuantityNotComparable,'does not yet translate filtered scope faithfully'):
+            call(lambda:self.port()('lower',None,{'filters':[{'column':'day','value':'today'}]}),observe=observations.append)
+        self.assertEqual(observations,[], 'A compiler refusal is not evidence that the source is unavailable')
+        with self.assertRaisesRegex(QuantityNotComparable,'does not yet translate filtered scope faithfully'):
             self.port()('lower',None,{'filters':[{'column':'day','value':'today'}]})
         self.assertEqual(self.saved[-1]['status'],'NOT_COMPARABLE')
 
