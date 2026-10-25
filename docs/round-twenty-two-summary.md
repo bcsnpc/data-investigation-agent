@@ -1,3 +1,5 @@
+Latest checkpoint — owner2026-10-24 / executionUTC2026-10-25: speed steer adopted. Engine batch e515d9d pushed; draft image builds now use focused tests. Dev4 is still frozen on d11367e/image9c684502: static26 and latency4 returned, with the temporary latency rows/schedule restored and full363-row/schema hashes matched. Retained8 then waiting2 continue serially; no completed pass4 score yet. An original pre-intake ConnectionTimeout capture is retained separately from its replacement. Legacy baseline closed34/40 (10HELD,24CLARIFYING, zero technical findings, ungraded); remaining6NOT_RUN. Latest authority03:37:53UTC physical3429/6000, modelUSD7.034793/40, reserve95untouched. Persistent stale/history/access fixtures remain for dependent scoring; heldout remains uninspected. All earlier checkpoints below are historical.
+
 ## Reliability fixes
 
 2026-10-22 progress (UTC observations extend into October 23; amended prompt
