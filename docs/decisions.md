@@ -194,3 +194,6 @@ Pass4 zero-score analysis and the first unchanged-image pass5 capture show missi
 
 
 Pre-admission follow-up to the same location batch: an exact catalog name following an explicit comparison cue must remain a comparator even if extraction omitted its comparison metadata. Added the omitted-metadata regression and excluded comparison phrases in current-location detection. Calculation42tests(including this extra subcase) and visual-target18 pass. The already published fe17218c image has not run a scored ticket and is superseded before admission; the final next-pass image will include this correction. Existing pass5 stays unchanged. The extra build is recorded as a pre-admission correction, not a second scored image or an expectation change.
+
+
+Round22 next batch also fixes the pass5 native DEFINITION/comparison contract crash. Keep the kind invariant; fix its producer rather than bypassing it. Only COMPARE requests can carry comparison_pending/comparison objects. Other request kinds preserve the extracted comparison mention as context. No invented comparator value. This newly exposed defect requires one additional pre-admission image; previous prepared images were never used for scored runs.

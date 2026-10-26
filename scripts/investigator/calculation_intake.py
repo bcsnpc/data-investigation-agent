@@ -353,7 +353,7 @@ def resolve(ticket,catalog,extraction):
        intake_scope={'filters':copy.deepcopy([v for v in extraction['filters']if v['role']=='PRIMARY']),
                      'periods':copy.deepcopy(extraction['periods'])},
        intake_comparison=copy.deepcopy(comparison))
-    if comparison['kind']in('spreadsheet','own count','earlier value'):
+    if request['kind']=='COMPARE'and comparison['kind']in('spreadsheet','own count','earlier value'):
         given=from_candidates([v['words']for v in extraction['figures']if v['role']=='COMPARISON'],text)
         if given['state']=='UNSPECIFIED':
             request['comparison_pending']=True
@@ -361,7 +361,7 @@ def resolve(ticket,catalog,extraction):
         else:
             admitted['comparison']={'kind':comparison['kind'],'value':None if given['state']=='EMPTY'else given['value'],
                                     'reported_figure':given,'source':copy.deepcopy(comparison['words'])}
-    elif comparison['kind']in('source','report'):
+    elif request['kind']=='COMPARE'and comparison['kind']in('source','report'):
         peers=rank(comparison['words']['quote'],catalog,kinds={'VISUAL','MEASURE'}if comparison['kind']=='report'else{'SOURCE','TABLE','VIEW'})
         node=peers[0]['id']if peers and peers[0]['confidence']>=.9 and (len(peers)==1 or peers[0]['confidence']-peers[1]['confidence']>=.1)else None
         admitted['comparison']={'kind':comparison['kind'],'node':node,'source':copy.deepcopy(comparison['words'])}

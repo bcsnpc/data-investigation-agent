@@ -107,6 +107,22 @@ class CalculationAdmission(unittest.TestCase):
                 if comparison:value['comparison']={'kind':'report','words':ref(text,'a value in the Cash report')}
                 self.assertEqual(intake.resolve({'text':text},c,self.extract(text,value))['reason'],'CALCULATION_TARGET_TIED')
 
+    def test_definition_with_external_context_does_not_require_a_comparison_value(self):
+        text='How is Net amount calculated compared with my spreadsheet?'
+        value=raw(text,target='Net amount',kind='DEFINITION')
+        value['targets'][0]['kind']='MEASURE'
+        value['comparison']={'kind':'spreadsheet','words':ref(text,'my spreadsheet')}
+        result=intake.resolve({'text':text},catalog(),self.extract(text,value))
+        self.assertEqual(result['status'],'READY')
+        self.assertEqual(result['ticket']['request']['kind'],'DEFINITION')
+        self.assertNotIn('comparison_pending',result['ticket']['request'])
+        self.assertNotIn('comparison',result['ticket'])
+        self.assertEqual(result['ticket']['intake_comparison']['kind'],'spreadsheet')
+        value['kind']='CALCULATION'
+        pending=intake.resolve({'text':text},catalog(),self.extract(text,value))
+        self.assertTrue(pending['ticket']['request']['comparison_pending'])
+        self.assertEqual(pending['ticket']['request']['comparison_pending_kind'],'spreadsheet')
+
     def extract(self,text,value):
         return intake.extract(text,Mock(return_value=value),catalog(),retain=lambda _:None)
 
