@@ -1,0 +1,15 @@
+{
+  "status": "NO_FURTHER_FULL_DEV_PASS_ADMITTED",
+  "observed_at": "2026-10-26T04:59:01.305630+00:00",
+  "investigation_used": 3302,
+  "investigation_limit": 3905,
+  "remaining_before_final_wait_polling": 603,
+  "sixth_pass_investigation_used_so_far": 361,
+  "opening_investigation": 2941,
+  "basis": "One more40-ticket pass at the observed361-request cost leaves242 before its extra final controls. The required20-ticket held-out cohort, fresh fixture controls and3release smokes must still fit; preserve at least280INV requests for these mandatory stages. This is planning, not a new cap or a claim that the monthly pot is exhausted.",
+  "two_flat_passes_claim": false,
+  "model_charged_microdollars": "8815972",
+  "restoration_remaining": 95,
+  "engine_freeze_pending": "All40grades and harmful review, noheldoutreadbeforefreeze/fullsuite",
+  "owner_authority": "Round22 stop fix loop at budget boundary; existing caps and required held-out/release stages unchanged."
+}
