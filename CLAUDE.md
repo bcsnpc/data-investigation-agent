@@ -1078,3 +1078,26 @@ Full suite only before the once-only held-out run, before merge and after merge;
 Section8 executed closure2026-10-26: existing owner reverted only the documented Round22 controls. Source360/7661/full original row+business-schema hashes, four pipeline definitions, removed owned schedules/access objects, fixed model binding and unchanged permission membership/rights verified. Automatic updates OFF->ON persisted, own model refresh completed. Temporal history stays ON by explicit owner decision. No new grant/identity/credential or cap. Original cold40613, unordered permission-readback and refresh-watcher failures remain alongside native reconciliations. See docs/runs/round-twenty-two-restoration.json.
 
 2026-10-26 freeze clarification: original whole-package3c5935a/image802d8508 is retained only as the immutable scoring pin. The smoke-calendar change supersedes that package freeze for release runtime; source8ae02f1/image48a53a46 is separately full-suite/image/smoke tested. No held-out score is assigned to the newer package, and no investigation reasoning module changed.
+
+
+## Round 23 owner decision ? 2026-10-26 (?8)
+
+Owner-approved 2026-10-26: investigator model USD150/month (was USD40),
+warning at 80%; per-ticket USD1 with warning at USD0.50. Enrichment USD25,
+platform USD20, estate6,000/month, scan2,000 and restoration95 unchanged.
+Counters, settled charges and uncertain reservations are not reset or refunded.
+Source policy is updated; existing owner-managed PostgreSQL account ceilings
+require an explicit migration and remain authoritative until applied.
+
+Before 2026-11-01: build and offline tests only. No Round23 live model or
+estate passes before the November counter is active. No new identity, grant,
+paid resource or provider credential is authorized by this budget decision.
+
+The Round23 prompt supersedes the earlier model-use rule for the new
+investigator: AI chooses investigative steps and writes SQL/DAX; code supplies
+path facts, parser-based read-only validation, request/model budgets, timeouts,
+evidence and checkpoints. Ready-made query templates remain for triage only.
+Historical engines and their sealed expectations are unchanged. Attestation,
+snapshot and output-format limitations are warnings, not safety refusals.
+DIA reports what happened, never suggests fixes. Prior engine freeze invalid
+for Round23 development; Round22 scored freeze remains its historical record.

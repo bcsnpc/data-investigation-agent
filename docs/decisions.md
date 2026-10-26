@@ -216,3 +216,26 @@ Correction2026-10-26: the preceding optional-preflight-omission plan was NOT APP
 
 
 2026-10-26 smoke calendar correction: frozen-image job-dia-worker-847ed9b AzureSucceeded and familyA passed with the original7661/8765 witness, but smoke INCOMPLETE because check-access unconditionally appends a next-month NOT_TESTABLE reminder on/after day25. November already exists; there is no configuration confirmation flag (the initial config hypothesis was disproved). Smoke now reads that exact account from the authoritative platform ledger and resolves only this reminder when identity/unit match. Original access table is retained; missing/wrong account or any other untestable/failed probe still prevents green. No account is created, no identity/grant/budget changes, no smoke numerical expectation changes. Three focused regression tests added. Original31-test focused run had30pass and1TAPE_UNCOMMITTED_ENGINE error because the tree was dirty; rerun after commit. Only daily_smoke and its tests change after held-out; investigation engine3c/image802 and all original scores remain frozen. A new smoke/release image is separately labelled, not presented as the image that earned the held-out score. Original incomplete smoke is preserved; next three form a new consecutive sequence.
+
+
+## Round 23 owner decision ? 2026-10-26 (?8)
+
+Owner-approved 2026-10-26: investigator model USD150/month (was USD40),
+warning at 80%; per-ticket USD1 with warning at USD0.50. Enrichment USD25,
+platform USD20, estate6,000/month, scan2,000 and restoration95 unchanged.
+Counters, settled charges and uncertain reservations are not reset or refunded.
+Source policy is updated; existing owner-managed PostgreSQL account ceilings
+require an explicit migration and remain authoritative until applied.
+
+Before 2026-11-01: build and offline tests only. No Round23 live model or
+estate passes before the November counter is active. No new identity, grant,
+paid resource or provider credential is authorized by this budget decision.
+
+The Round23 prompt supersedes the earlier model-use rule for the new
+investigator: AI chooses investigative steps and writes SQL/DAX; code supplies
+path facts, parser-based read-only validation, request/model budgets, timeouts,
+evidence and checkpoints. Ready-made query templates remain for triage only.
+Historical engines and their sealed expectations are unchanged. Attestation,
+snapshot and output-format limitations are warnings, not safety refusals.
+DIA reports what happened, never suggests fixes. Prior engine freeze invalid
+for Round23 development; Round22 scored freeze remains its historical record.

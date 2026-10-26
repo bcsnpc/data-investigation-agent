@@ -43,7 +43,10 @@ class SharedSpendBudget:
                 self.account=ensure_model_account(self.state,time.time())
                 with self.state.transaction() as db:
                     snapshot=self.state._snapshot(db,self.account)
-                    if amount(snapshot['charged'])+bound>self.ceiling:
+                    # The owner-managed account remains authoritative. A newer
+                    # image must not silently raise an existing account's cap.
+                    ceiling = min(self.ceiling, amount(snapshot['ceiling']) - amount(snapshot['protected']))
+                    if amount(snapshot['charged'])+bound>ceiling:
                         raise SpendHold('MONTHLY_MODEL_EXHAUSTED')
                     self.state.sql(db,'INSERT INTO state_reservations VALUES(?,?,?,?,?,?,?)',
                         (self.account,identity,self.owner,bound,bound,'RESERVED',encoded({'model':body.get('model')})))
