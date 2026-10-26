@@ -1,0 +1,23 @@
+{
+  "owner_date": "2026-10-23",
+  "status": "INTERRUPTED_LAPTOP_POWER_OFF",
+  "operation": "Publisher model refresh-history GET, no mutation",
+  "before": {
+    "environment": "unknown-domain-v4",
+    "session_id": "graph-scan:b4c42eb3-434b-439b-96a4-2e8489e3929f",
+    "reservation_key": "e90ecea8-3211-412b-8a86-ce81d7f15240",
+    "kind": "cloud",
+    "reserved": "{\"cloud_calls\":1,\"input_characters\":0,\"output_tokens\":0,\"planner_calls\":0}",
+    "actual": null,
+    "status": "RESERVED",
+    "created": 1792806186.9058003,
+    "owner": "graph-scan:b4c42eb3-434b-439b-96a4-2e8489e3929f"
+  },
+  "after_status": "UNCERTAIN",
+  "charged_physical_requests": 1,
+  "budget_released": 0,
+  "model_reservations_open": 0,
+  "historical_physical_reservations_unchanged": 5,
+  "reason": "Dispatch/response not established after power loss; retain full reserved request, no zero or invented response. Original capture unchanged.",
+  "control_capture": ".local\\round-twenty-two\\injections\\stale-refresh-01\\round22-stale-model-history-after-loads-01.json"
+}

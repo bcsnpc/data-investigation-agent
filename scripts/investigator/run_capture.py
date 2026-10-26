@@ -48,6 +48,7 @@ class DurableCapture:
         self.timing=RunTiming(clock)
         self._pending_publications=[]
         self._publication_failed=False
+        self._publication_holds=0
         self.root.mkdir(parents=True,exist_ok=False)
         self.record('header',bootstrap)
         self.record('status',{'status':'STARTED','partial':True})
@@ -82,24 +83,57 @@ class DurableCapture:
     def flush_publications(self):
         from .shared_state import TRANSACTION_ACTIVE
         if TRANSACTION_ACTIVE.get(): raise RuntimeError('CAPTURE_PUBLICATION_DURING_TRANSACTION')
+        if self._publication_holds:return
         while self._pending_publications:
-            key,path,expected=self._pending_publications[0]
-            try:
-                started=self.timing.clock()
-                raw=path.read_bytes()
-                if hashlib.sha256(raw).hexdigest()!=expected:raise RuntimeError('CAPTURE_PENDING_BYTES_CHANGED')
-                self.put(key,raw)
-            except BaseException:
-                self._publication_failed=True
-                raise
-            finally:
-                self.timing.publication_seconds+=max(0,self.timing.clock()-started)
-                self.timing.publications+=1
-            self._pending_publications.pop(0)
+            self._publish_pending(0)
         # Every queued immutable record has now been acknowledged. A temporary
         # transport failure must not permanently poison a later complete flush.
         # Failed or changed records stay queued and cannot reach this point.
         self._publication_failed=False
+
+    def _publish_pending(self,index):
+        key,path,expected=self._pending_publications[index]
+        try:
+            started=self.timing.clock()
+            raw=path.read_bytes()
+            if hashlib.sha256(raw).hexdigest()!=expected:raise RuntimeError('CAPTURE_PENDING_BYTES_CHANGED')
+            self.put(key,raw)
+        except BaseException:
+            self._publication_failed=True
+            raise
+        finally:
+            self.timing.publication_seconds+=max(0,self.timing.clock()-started)
+            self.timing.publications+=1
+        self._pending_publications.pop(index)
+
+    def worker_lifecycle(self,value):
+        # Small, value-free diagnostics survive a mid-step process kill without
+        # flushing the large pending evidence queue onto the handshake path.
+        ref=self.record('worker-lifecycle',value)
+        def publish():
+            from .shared_state import TRANSACTION_ACTIVE
+            if TRANSACTION_ACTIVE.get():raise RuntimeError('CAPTURE_PUBLICATION_DURING_TRANSACTION')
+            for index,item in enumerate(self._pending_publications):
+                if item[0]==ref['key']:return self._publish_pending(index)
+        from .shared_state import after_transaction
+        after_transaction(publish)
+
+    @contextmanager
+    def protocol_publications(self):
+        """Persist locally now; acknowledge remotely after the child is closed.
+
+        A timed child must not wait for its parent's Blob publication between
+        REQUEST and ALLOW. The enclosing step still cannot return or seal until
+        every original record is acknowledged. A crash leaves the previously
+        published step-start and an incomplete execution, never a fake result.
+        """
+        self._publication_holds+=1
+        try:yield
+        finally:
+            self._publication_holds-=1
+            if not self._publication_holds:
+                from .shared_state import after_transaction
+                after_transaction(self.flush_publications)
 
     def readback(self,ref):
         """Read only a record this run already published, then verify its bytes."""
@@ -149,9 +183,13 @@ class DurableCapture:
 
     @contextmanager
     def observing(self):
+        from .physical_reads import WORKER_OBSERVER
+        worker_token=WORKER_OBSERVER.set(self.worker_lifecycle)
         token=EVENT_OBSERVER.set(self.event)
         try:yield
-        finally:EVENT_OBSERVER.reset(token)
+        finally:
+            EVENT_OBSERVER.reset(token)
+            WORKER_OBSERVER.reset(worker_token)
 
     def step(self,name,call):
         self.record('step-start',{'name':name,'partial':True})
@@ -174,3 +212,12 @@ class DurableCapture:
 def blob_sink(config):
     from .adapters.runner_blobs import sink
     return sink(config)
+
+
+@contextmanager
+def protocol_publications():
+    observer=EVENT_OBSERVER.get()
+    capture=getattr(observer,'__self__',None)
+    if isinstance(capture,DurableCapture):
+        with capture.protocol_publications():yield
+    else:yield

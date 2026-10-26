@@ -18,17 +18,19 @@ from investigator.daily_smoke import run_smoke, schedule_plan, _blob_roundtrip
 class ConnectionTests(unittest.TestCase):
     def test_connect_timeout_retries_with_bounded_startup_settings(self):
         result = object()
-        factory = Mock(side_effect=[TimeoutError('connection'), TimeoutError('connection'), result])
+        factory = Mock(side_effect=[TimeoutError('connection'), result])
         sleep = Mock()
         self.assertIs(connect(connector=factory, sleep=sleep, host='platform', options='-c search_path=dia_state'), result)
-        self.assertEqual([call.args[0] for call in sleep.call_args_list], [30, 60])
-        self.assertEqual(factory.call_count, 3)
+        self.assertEqual([call.args[0] for call in sleep.call_args_list], [30])
+        self.assertEqual(factory.call_count, 2)
         for call in factory.call_args_list:
             self.assertEqual(call.kwargs['connect_timeout'], 15)
+            self.assertEqual({k:call.kwargs[k]for k in ('keepalives','keepalives_idle','keepalives_interval','keepalives_count')},
+                             {'keepalives':1,'keepalives_idle':30,'keepalives_interval':10,'keepalives_count':3})
             self.assertIn('statement_timeout=30000', call.kwargs['options'])
             self.assertIn('idle_in_transaction_session_timeout=30000', call.kwargs['options'])
-    def test_authorisation_is_never_retried_and_third_timeout_propagates(self):
-        for error, expected in [(PermissionError('authentication'), 1), (TimeoutError('connection'), 3)]:
+    def test_authorisation_is_never_retried_and_second_timeout_propagates(self):
+        for error, expected in [(PermissionError('authentication'), 1), (TimeoutError('connection'), 2)]:
             factory, sleep = Mock(side_effect=error), Mock()
             with self.assertRaises(type(error)): connect(connector=factory, sleep=sleep)
             self.assertEqual(factory.call_count, expected)
@@ -38,6 +40,56 @@ class ConnectionTests(unittest.TestCase):
         opened=connect(connector=factory, sleep=Mock())
         with self.assertRaises(TimeoutError): opened.execute('SELECT 1')
         self.assertEqual(factory.call_count, 1)
+    def test_drop_records_idle_interval_without_sql_arguments_or_replaying(self):
+        from investigator.postgres_connection import ObservedConnection
+        factory=Mock();factory.execute.side_effect=[object(),ConnectionError('dropped')]
+        clock=Mock(side_effect=[0,1,2,42,43,43]);db=ObservedConnection(factory,clock=clock)
+        db.execute('SELECT 1')
+        with self.assertRaises(ConnectionError)as failure:db.execute('SELECT private_data',('do-not-log',))
+        timing=failure.exception.postgres_connection_timing
+        self.assertEqual(timing['idle_before_request_seconds'],40)
+        self.assertEqual(timing['failed_request_seconds'],1)
+        self.assertNotIn('do-not-log',str(failure.exception.__notes__))
+        self.assertNotIn('private_data',str(failure.exception.__notes__))
+        self.assertEqual(factory.execute.call_count,2)
+    def test_shared_transactions_close_before_external_work_and_open_fresh(self):
+        first,second=Mock(),Mock();factory=Mock(side_effect=[first,second])
+        state=SharedState(factory,backend='postgresql',mode='live')
+        with patch('investigator.shared_writer_lease.check'):
+            with state.transaction()as db:db.execute('SELECT 1')
+            first.close.assert_called_once()
+            self.assertFalse(TRANSACTION_ACTIVE.get())
+            # A long Fabric call belongs here, with no PG connection held.
+            with state.transaction()as db:db.execute('SELECT 2')
+        self.assertEqual(factory.call_count,2);second.close.assert_called_once()
+    def test_commit_drop_also_has_idle_diagnostics_without_replay(self):
+        from investigator.postgres_connection import ObservedConnection
+        raw=Mock();raw.commit.side_effect=ConnectionError('ack lost')
+        db=ObservedConnection(raw,clock=Mock(side_effect=[0,10,11,11]))
+        with self.assertRaises(ConnectionError)as failure:db.commit()
+        self.assertEqual(failure.exception.postgres_connection_timing['operation'],'commit')
+        self.assertEqual(failure.exception.postgres_connection_timing['idle_before_request_seconds'],10)
+        raw.commit.assert_called_once()
+    def test_safe_read_reconnects_once_but_put_never_replays(self):
+        from contextlib import nullcontext
+        state=SharedState(Mock(),backend='postgresql',mode='live')
+        failure=ConnectionError('lost response');failure.postgres_connection_timing={'idle_before_request_seconds':41}
+        with patch.object(state,'transaction',side_effect=lambda **kwargs:nullcontext(Mock()))as transaction,patch.object(state,'_get',side_effect=[failure,{'revision':1,'body':{}}]),patch('time.sleep')as sleep:
+            self.assertEqual(state.get('namespace','id')['revision'],1)
+            self.assertEqual(transaction.call_count,2);sleep.assert_called_once_with(30)
+            self.assertTrue(all(c.kwargs=={'_read_only':True}for c in transaction.call_args_list))
+        self.assertEqual(state.connection_failures[0]['connection_timing']['idle_before_request_seconds'],41)
+        with patch.object(state,'transaction',side_effect=lambda:nullcontext(Mock()))as transaction,patch.object(state,'_get',side_effect=ConnectionError('drop')),patch('time.sleep')as sleep:
+            with self.assertRaises(ConnectionError):state.put('namespace','id',{})
+            self.assertEqual(transaction.call_count,1);sleep.assert_not_called()
+    def test_observed_cursor_keeps_context_manager_and_batch_execution(self):
+        from unittest.mock import MagicMock
+        from investigator.postgres_connection import ObservedConnection
+        raw=MagicMock();cursor=raw.cursor.return_value
+        db=ObservedConnection(raw)
+        with db.cursor()as observed:observed.executemany('synthetic query',[(1,)])
+        cursor.__enter__.assert_called_once();cursor.__exit__.assert_called_once()
+        cursor.executemany.assert_called_once_with('synthetic query',[(1,)])
 
 
 class LockTests(unittest.TestCase):
@@ -55,8 +107,15 @@ class LockTests(unittest.TestCase):
             with self.state.transaction():
                 with self.assertRaisesRegex(GatewayDenied,'NETWORK_DURING_SHARED_STATE_TRANSACTION'): invoke()
         self.assertFalse(TRANSACTION_ACTIVE.get())
-        with self.assertRaisesRegex(GatewayDenied,'IDENTITY_NOT_ALLOWED'):
-            self.gateway.sql('reader','sql','db','SELECT 1')
+        # The offline container deliberately sets the global kill switch.
+        # Isolate this identity-denial assertion without changing that switch
+        # for any other test or allowing a transport call.
+        with patch.dict(os.environ,{'DIA_LIVE_ACCESS_DISABLED':'0'}):
+            with self.assertRaisesRegex(GatewayDenied,'IDENTITY_NOT_ALLOWED'):
+                self.gateway.sql('reader','sql','db','SELECT 1')
+        with patch.dict(os.environ,{'DIA_LIVE_ACCESS_DISABLED':'1'}):
+            with self.assertRaisesRegex(GatewayDenied,'LIVE_ACCESS_DISABLED'):
+                self.gateway.sql('reader','sql','db','SELECT 1')
     def test_parent_refuses_worker_before_spawn_inside_transaction(self):
         from investigator.physical_reads import run
         fallback=Mock()

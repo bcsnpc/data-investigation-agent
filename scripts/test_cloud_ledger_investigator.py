@@ -12,6 +12,103 @@ import cloud_investigator as worker
 
 
 class Assembly(unittest.TestCase):
+    def test_selected_retained_definition_is_journalled_without_replacing_other_graph_operations(self):
+        from unittest.mock import Mock
+        graph=Mock();definition={'node':'visual','content':'retained exact expression'}
+        view=worker.JournalGraph(graph,definitions={'visual':definition})
+        self.assertEqual(view.definition_of(node='visual'),definition)
+        graph.definition_of.assert_not_called()
+        view.definition_of(node='other');graph.definition_of.assert_called_once_with(node='other')
+        view.path_to_source('visual');graph.path_to_source.assert_called_once_with('visual')
+
+    def test_raw_calculation_reaches_existing_playbook_with_validated_spans_and_shared_model_port(self):
+        from unittest.mock import Mock
+        from test_calculation_intake import raw,catalog
+        text='Net receipts shows 950.'
+        storage={'account_url':'https://approved.blob.core.windows.net','identity':{'mode':'managed_identity'},
+                 'snapshot_channel':'existing-snapshots','tape_channel':'existing-tapes'}
+        options=self.specification(ticket=self.ref('raw-calculation.json',{'id':'raw','text':text}),
+                                   recording_mode='NORMAL',model_enabled=True,
+                                   collector=self.ref('collector.json',{'storage':storage}))
+        events=[];context=SimpleNamespace(root=self.root,record=lambda k,v:events.append((k,v))or{'key':str(len(events))})
+        meter=SimpleNamespace(used=0,before={},usage=SimpleNamespace(snapshot=lambda:{}),close=lambda:None)
+        graph=Mock();graph.intake_candidates.side_effect=[catalog(),catalog()]
+        decision=Mock(calls=1);decision.return_value=raw(text,figure='950');decision.cache_metrics.return_value={}
+        manifest={'environment':'development','model':{'credential':{},'endpoint':'configured','deployment':'configured'}}
+        with contextlib.ExitStack()as stack:
+            files=object();definition_sink=Mock();definition_sink.read.return_value=b'{"expression":"SUM(Entries[Quantity])"}'
+            storage_path=self.ref('platform-storage.json',storage)['path']
+            stack.enter_context(patch.dict(os.environ,{'DIA_SLIM_RECORDING_CONFIG':storage_path}))
+            configuration=stack.enter_context(patch('investigator.slim_recording.validate',return_value=storage))
+            stores=stack.enter_context(patch('investigator.adapters.blob_artifacts.recording_stores',return_value=(files,object())))
+            definitions=stack.enter_context(patch('investigator.graph_definitions.DefinitionSink',return_value=definition_sink))
+            stack.enter_context(patch('cloud_investigator.PathCollector',return_value=object()))
+            for target,value in [('investigator.shared_state.configured_state',SimpleNamespace(backend='postgresql')),
+                ('investigator.estate_manifest.load',manifest),('investigator.adapters.estate_installation.configuration',{}),
+                ('investigator.estate_graph_repository.GraphRepository',object()),('investigator.estate_graph_api.GraphAPI',graph),
+                ('investigator.live_gateway.current',object()),('cloud_graph_interpreter.runtime_governor',SimpleNamespace(policy={})),
+                ('scan_estate_graph.Meter',meter),('investigator.runtime.fingerprint','a'*64),
+                ('investigator.source_revision.committed_revision','b'*40),('investigator.adapters.ledger_investigator_ports.AzureDecision',decision)]:
+                factory=stack.enter_context(patch(target,return_value=value))
+                if target=='scan_estate_graph.Meter':meter_factory=factory
+            stack.enter_context(patch('investigator.adapters.managed_identity.model_session',side_effect=lambda _:contextlib.nullcontext()))
+            def consume(plan,ctx,**ports):
+                submitted=json.loads(Path(plan['options']['ticket']).read_bytes())
+                self.assertEqual(submitted['text'],text);self.assertEqual(submitted['visual'],'v')
+                self.assertEqual(submitted['reported_figure']['value'],'950')
+                self.assertTrue(submitted['request']['comparison_pending']);self.assertIs(ports['decide'],decision)
+                self.assertIn('Net receipts',submitted['assumptions'][0])
+                self.assertIs(graph.definition_reader,definition_sink.read)
+                return {'ticket':submitted,'verdict':'not found','outputs':{'business':'Recreation and freshness checked; comparison requested.','technical':'Existing playbook consumer.'}}
+            consumer=stack.enter_context(patch('cloud_investigator.run',side_effect=consume))
+            answer=worker.execute({'options':options,'manifest':'unused','run_id':'raw-calc'},context)
+        self.assertEqual(answer['model_calls'],1);consumer.assert_called_once();decision.assert_called_once()
+        self.assertFalse(meter_factory.call_args.kwargs['reporting_mirror'])
+        self.assertEqual(graph.intake_candidates.call_args_list[-1].kwargs,{'enriched':True})
+        stores.assert_called_once_with(storage)
+        configuration.assert_called_once_with(storage)
+        definitions.assert_called_once_with(files,'https://approved.blob.core.windows.net/snapshots',
+            recording_class='EXACT',scratch=self.root/'ledger-investigator')
+
+    def test_visual_scope_uses_the_selected_definitions_pointer_not_the_visual_asset_alias(self):
+        from unittest.mock import Mock
+        process=Mock();node={'id':'selected-card','kind':'VISUAL',
+            'properties':{'asset_id':'native-visual'},'provenance':{'source_id':'native-definition-part'}}
+        before=json.loads(json.dumps(node))
+        process.declared_visual_scope.return_value={'inventory':'original'}
+        self.assertEqual(worker.visual_declaration(process,'measure',node),{'inventory':'original'})
+        process.declared_visual_scope.assert_called_once_with('measure','native-definition-part')
+        self.assertEqual(node,before)
+        process.declared_visual_scope.side_effect=ValueError('wrong retained definition')
+        with self.assertRaisesRegex(ValueError,'wrong retained definition'):
+            worker.visual_declaration(process,'measure',node)
+        self.assertEqual(process.declared_visual_scope.call_count,2)
+
+    def test_native_profile_registry_uses_only_exact_connected_measure_and_keeps_target_pin(self):
+        native={'measure_id':'native-a','model':{'path':'approved','sha256':'a'*64}}
+        spec={'native_profiles':{'native-a':{'native':native,'retained_continuation':{'visual':'named-card'}}}}
+        path={'nodes':[{'id':'named-card','kind':'VISUAL'},
+                       {'id':'measure','kind':'MEASURE','properties':{'asset_id':'native-a'}}]}
+        result=worker.native_profile(spec,path,'named-card')
+        self.assertEqual(result['native'],native);self.assertEqual(result['retained_continuation']['visual'],'named-card')
+        other=worker.native_profile(spec,path,'another-card')
+        self.assertEqual(other['native'],native);self.assertNotIn('retained_continuation',other)
+        self.assertNotIn('native',spec)
+        path['nodes'].append({'id':'other','kind':'MEASURE','properties':{'asset_id':'native-b'}})
+        self.assertNotIn('native',worker.native_profile(spec,path,'named-card'))
+
+    def test_native_profile_preserves_resolved_measure_when_it_has_measure_dependencies(self):
+        spec={'native_profiles':{k:{'native':{'measure_id':k}}for k in ('selected','dependency')}}
+        nodes=[{'id':'visual','kind':'VISUAL'},
+               {'id':'m','kind':'MEASURE','properties':{'asset_id':'selected'}},
+               {'id':'d','kind':'MEASURE','properties':{'asset_id':'dependency'}}]
+        path={'nodes':nodes,'edges':[{'source':'visual','target':'m','kind':'COMPUTED_FROM'},
+                                    {'source':'m','target':'d','kind':'COMPUTED_FROM'}]}
+        self.assertEqual(worker.native_profile(spec,path,'m')['native']['measure_id'],'selected')
+        self.assertEqual(worker.native_profile(spec,path,'visual')['native']['measure_id'],'selected')
+        path['edges'].append({'source':'visual','target':'d','kind':'COMPUTED_FROM'})
+        self.assertNotIn('native',worker.native_profile(spec,path,'visual'))
+
     def test_retained_view_is_explicit_and_preserves_mandatory_labels(self):
         current=object();process=object();context={'version':'approved'};pin={'context_id':'approved'}
         self.assertEqual(worker.retained_view(current,process,{},context=context,visual='visual',measure_id='measure'),(current,[]))
@@ -27,6 +124,7 @@ class Assembly(unittest.TestCase):
             reader,checks=worker.compiled_values(None,path,visual='visual',measure_id='measure',retain=retained.append)
         self.assertIsNone(checks)
         with self.assertRaisesRegex(ValueError,'CURRENT_GRAPH_DEFINITION_OWNER_UNAVAILABLE'):reader('visual',None,{})
+        self.assertEqual(reader.layers,{})
         self.assertEqual(retained[0]['native_value_queries'],0)
 
     def test_wrong_measure_without_owner_unavailability_still_refuses(self):
@@ -42,7 +140,7 @@ class Assembly(unittest.TestCase):
             'request':{'kind':'FACT','subject':'job','question':'RUN_STATUS'}}),
             'graph':{'estate':'fixture','identity':'reader','allowed_objects':['job']},
             'budget':{'environment':'development'},'max_requests':12,'model_enabled':False,
-            'generation_options':{},'step_cap':3,'wall_seconds':60,'warnings':[]}
+            'generation_options':{},'step_cap':3,'wall_seconds':60,'warnings':[],'recording_mode':'TEST'}
         value.update(updates);return {'spec':self.ref('spec.json',value)}
     def test_spec_requires_exact_hashed_scope_no_query_or_dynamic_handler(self):
         options=self.specification()
@@ -88,6 +186,57 @@ class Assembly(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'NATIVE_INPUT_REQUIRED'):
                 worker.execute({'options':options},SimpleNamespace(root=self.root))
             state.assert_not_called()
+    def test_real_ticket_mode_defaults_to_normal_and_rejects_unknown_label(self):
+        options=self.specification();path=Path(options['spec']['path']);value=json.loads(path.read_bytes());value.pop('recording_mode')
+        options={'spec':self.ref('normal-spec.json',value)}
+        self.assertNotIn('recording_mode',worker.specification(options))
+        value['recording_mode']='not-exact-but-call-it-replay'
+        with self.assertRaisesRegex(ValueError,'RECORDING_MODE'):worker.specification({'spec':self.ref('invalid-mode.json',value)})
+    def test_normal_status_assembly_has_no_native_tape_provider_or_catalog(self):
+        options=self.specification(recording_mode='NORMAL',model_enabled=True);events=[]
+        context=SimpleNamespace(root=self.root,record=lambda name,value:events.append((name,value))or {'key':str(len(events))})
+        meter=SimpleNamespace(used=0,before={},usage=SimpleNamespace(snapshot=lambda:{}),close=lambda:None)
+        manifest={'environment':'development','model':{'credential':{},'endpoint':'unused','deployment':'unused'}}
+        with contextlib.ExitStack()as stack:
+            for target,value in [('investigator.shared_state.configured_state',SimpleNamespace(backend='postgresql')),
+                ('investigator.estate_manifest.load',manifest),('investigator.adapters.estate_installation.configuration',{}),
+                ('investigator.estate_graph_repository.GraphRepository',object()),('investigator.estate_graph_api.GraphAPI',object()),
+                ('investigator.live_gateway.current',object()),('cloud_graph_interpreter.runtime_governor',SimpleNamespace(policy={})),
+                ('scan_estate_graph.Meter',meter),('investigator.runtime.fingerprint','a'*64),('investigator.source_revision.committed_revision','b'*40)]:
+                stack.enter_context(patch(target,return_value=value))
+            for target in ('investigator.process_tape.Tape','investigator.adapters.ledger_investigator_ports.AzureDecision','investigator.ticket_catalog.materialize','investigator.slim_recording.stores'):
+                stack.enter_context(patch(target,side_effect=AssertionError('Not used by a normal ledger-only question')))
+            stack.enter_context(patch('cloud_investigator.run',return_value={'verdict':'failed job','outputs':{'business':'failed job','technical':'retained ledger fact'}}))
+            answer=worker.execute({'options':options,'manifest':'unused','run_id':'normal-status'},context)
+        self.assertEqual(answer['recording'],{'mode':'NORMAL','byte_exact_replay':False})
+        self.assertEqual(answer['model_calls'],0);self.assertFalse(any(k=='investigator-tape'for k,_ in events))
+        self.assertTrue(any(k=='normal-audit-batch'for k,_ in events))
+        self.assertEqual([v['stage']for k,v in events if k=='progress'],['ACKNOWLEDGED','ANSWER'])
+    def test_raw_cloud_status_is_admitted_from_graph_names_and_passed_through_existing_typed_port(self):
+        from unittest.mock import Mock
+        text='Did pipeline Primary copy run on 2026-10-20T01:02:03Z fail?'
+        options=self.specification(ticket=self.ref('raw.json',{'id':'raw','text':text}),recording_mode='NORMAL',model_enabled=True)
+        events=[];context=SimpleNamespace(root=self.root,record=lambda k,v:events.append((k,v))or{'key':str(len(events))})
+        meter=SimpleNamespace(used=0,before={},usage=SimpleNamespace(snapshot=lambda:{}),close=lambda:None)
+        graph=Mock();graph.intake_candidates.return_value={'estate':'fixture','as_of':None,'candidates':[{'id':'job','kind':'PIPELINE','label':'Primary copy'}]}
+        manifest={'environment':'development','model':{'credential':{},'endpoint':'unused','deployment':'unused'}}
+        with contextlib.ExitStack()as stack:
+            for target,value in [('investigator.shared_state.configured_state',SimpleNamespace(backend='postgresql')),('investigator.estate_manifest.load',manifest),('investigator.adapters.estate_installation.configuration',{}),('investigator.estate_graph_repository.GraphRepository',object()),('investigator.estate_graph_api.GraphAPI',graph),('investigator.live_gateway.current',object()),('cloud_graph_interpreter.runtime_governor',SimpleNamespace(policy={})),('scan_estate_graph.Meter',meter),('investigator.runtime.fingerprint','a'*64),('investigator.source_revision.committed_revision','b'*40)]:stack.enter_context(patch(target,return_value=value))
+            for target in('investigator.adapters.ledger_investigator_ports.installed_process','investigator.adapters.ledger_investigator_ports.AzureDecision'):stack.enter_context(patch(target,side_effect=AssertionError('No native or model call for status intake')))
+            def consume(plan,ctx,**ports):
+                submitted=json.loads(Path(plan['options']['ticket']).read_bytes());self.assertEqual(submitted['text'],text);self.assertEqual(submitted['request']['subject'],'job');self.assertEqual(submitted['request']['run_selector']['at'],'2026-10-20T01:02:03Z');return {'ticket':submitted,'verdict':'failed job','outputs':{'business':'checked status','technical':'retained status'}}
+            stack.enter_context(patch('cloud_investigator.run',consume))
+            answer=worker.execute({'options':options,'manifest':'unused','run_id':'raw-status'},context)
+        self.assertEqual(answer['ticket']['text'],text);self.assertEqual(answer['model_calls'],0);self.assertTrue(any(k=='normal-audit-batch'for k,v in events))
+
+    def test_normal_mode_cannot_bypass_existing_projected_installation_refusal(self):
+        from investigator.privacy_projection import ProjectionError
+        options=self.specification(recording_mode='NORMAL');events=[]
+        context=SimpleNamespace(root=self.root,record=lambda k,v:events.append((k,v))or {'key':str(len(events))})
+        with patch('investigator.estate_manifest.load',return_value={'recording':{'tape_class':'PRIVACY_PROJECTED'}}),patch('investigator.shared_state.configured_state',side_effect=AssertionError('No source/state call before privacy admission')):
+            with self.assertRaisesRegex(ProjectionError,'PROJECTED_CAPTURE_NOT_INSTALLED'):
+                worker.execute({'options':options,'manifest':'unused','run_id':'projected'},context)
+        self.assertFalse(any(k in ('investigator-native','investigator-bundle')for k,_ in events))
     def test_graph_wrapper_records_then_replays_with_network_source_absent(self):
         from investigator.process_tape import Tape,active
         path=self.root/'graph-tape.json'
@@ -114,16 +263,22 @@ class Assembly(unittest.TestCase):
         reader.assert_not_called()
     def test_top_up_only_requested_admitted_subjects_and_scan_category(self):
         from investigator.build_phase import purpose
-        config={'estate':'fixture','subjects':{'job':{},'other':{}},'key_tables':['other']}
+        from unittest.mock import Mock
+        meter=Mock()
+        config={'estate':'fixture','subjects':{'job':{},'other':{}},'key_tables':['other'],
+                'budget':{'environment':'fixture'},'max_requests':4}
         def collect(config,**kwargs):
             self.assertEqual(set(config['subjects']),{'job'});self.assertEqual(config['key_tables'],[])
-            self.assertEqual(purpose(),'SCAN')
+            self.assertEqual(purpose(),'SCAN');self.assertTrue(kwargs['force'])
+            self.assertIs(kwargs['meter'],meter)
             return {'collection':{'status':'COLLECTED'},'physical_requests':2}
-        with patch('cloud_facts_collector.validate',side_effect=lambda value:value),patch('cloud_facts_collector.collect',collect):
+        with patch('cloud_facts_collector.validate',side_effect=lambda value:value),patch('cloud_facts_collector.collect',collect),patch('scan_estate_graph.Meter',return_value=meter)as factory:
             collector=worker.PathCollector(config,object(),['job'],lambda value:None)
             self.assertEqual(collector.run('fixture',['job'],now='2026-10-22T00:00:00Z',force=True)['purpose'],'SCAN')
             with self.assertRaisesRegex(ValueError,'OUTSIDE_PATH'):
                 collector.run('fixture',['other'],now='2026-10-22T00:00:00Z')
+        self.assertFalse(factory.call_args.kwargs['reporting_mirror'])
+        meter.close.assert_called_once()
 
 
 if __name__=='__main__':unittest.main()

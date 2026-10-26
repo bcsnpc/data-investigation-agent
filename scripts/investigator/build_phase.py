@@ -9,6 +9,8 @@ MODEL_MICRODOLLARS = 40_000_000
 PLATFORM_MICRODOLLARS = 20_000_000
 PHYSICAL_REQUESTS = 6000
 SCAN_REQUESTS = 1000
+REALLOCATED_SCAN_REQUESTS = 2000
+SCAN_REALLOCATION_AT = '2026-10-24T01:24:00+00:00'
 RESTORATION_REQUESTS = 95
 ADOPTED_AT = '2026-10-19'
 _mode = ContextVar('build_phase_mode', default=None)
@@ -68,8 +70,12 @@ def physical_status(rows, allocations, now):
         if category not in used:
             raise ValueError('MONTHLY_HISTORICAL_CATEGORY_UNKNOWN')
         used[category] += count
-    limits = {'INVESTIGATION': PHYSICAL_REQUESTS - SCAN_REQUESTS - RESTORATION_REQUESTS,
-              'SCAN': SCAN_REQUESTS, 'RESTORATION': RESTORATION_REQUESTS}
+    # Preserve historical decisions under their recorded clock. This reallocates
+    # the existing total; it never clears usage or borrows the restoration line.
+    scan_limit = (REALLOCATED_SCAN_REQUESTS if now >= datetime.fromisoformat(SCAN_REALLOCATION_AT).timestamp()
+                  else SCAN_REQUESTS)
+    limits = {'INVESTIGATION': PHYSICAL_REQUESTS - scan_limit - RESTORATION_REQUESTS,
+              'SCAN': scan_limit, 'RESTORATION': RESTORATION_REQUESTS}
     total = sum(used.values())
     return {'mode': MODE, 'month_utc': month, 'used': used, 'limits': limits,
             'total': total, 'total_limit': PHYSICAL_REQUESTS,
@@ -116,14 +122,32 @@ def shared_reserve(usage, local, session, key, kind, amount, category):
                 raise UsageHold('Shared reservation owner or request differs')
             return
         if kind == 'cloud':
-            retained = rows(usage.state, db, 'SELECT environment,session_id,reservation_key,reserved,created FROM state_usage')
-            allocations = rows(usage.state, db, 'SELECT environment,session_id,reservation_key,purpose FROM state_read_allocations')
+            retained, allocations = shared_physical_rows(usage.state, db, now)
             admit_physical(retained, allocations, now, category)
             usage.state.sql(db, 'INSERT INTO state_read_allocations VALUES(?,?,?,?,?)', (usage.environment, session, key, None, category))
         usage.state.sql(db, 'INSERT INTO state_usage VALUES(?,?,?,?,?,?,?,?,?,?,?)',
                         (usage.environment, session, key, g._day(now) if hasattr(g, '_day') else datetime.fromtimestamp(now, timezone.utc).date().isoformat(),
                          kind, encoded(amount), None, 'RESERVED', g.hash, now, usage.owner))
     usage.mirror(local)
+
+
+def shared_physical_rows(state, db, now):
+    """Read the authoritative period, including all owners and pending reads.
+
+    Admission remains under the caller's transaction/lock. Avoid transferring
+    historical model payloads while holding that lock; the monthly decision
+    already excludes these rows. Keep physical_status's independent date check.
+    """
+    from .shared_usage import rows
+    _, start, end = month_window(now)
+    retained = rows(state, db,
+        'SELECT environment,session_id,reservation_key,reserved,created FROM state_usage WHERE created>=? AND created<?',
+        (start, end))
+    allocations = rows(state, db,
+        'SELECT a.environment,a.session_id,a.reservation_key,a.purpose FROM state_read_allocations a '
+        'JOIN state_usage u ON a.environment=u.environment AND a.session_id=u.session_id '
+        'AND a.reservation_key=u.reservation_key WHERE u.created>=? AND u.created<?', (start, end))
+    return retained, allocations
 
 
 def model_status(charged, month):

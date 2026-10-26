@@ -328,6 +328,16 @@ def validate_sql(query,allowed_objects):
     safe=NODES|{'Collate','Substring','Length','CharacterSet','SHA2','Convert','CurrentUser'}
     for node in tree.walk():
         if node.comments:_deny('SQL_COMMENTS_REJECTED',target=query)
+        if isinstance(node,exp.Version):
+            # Owner-approved native history reads. A temporal modifier is not
+            # general version syntax: only SYSTEM_TIME ALL on an otherwise
+            # separately allowlisted physical table is admitted. SQL Server
+            # still enforces SELECT on current and history tables.
+            if (not isinstance(node.parent,exp.Table) or node.args.get('this')!='TIMESTAMP'
+                    or node.args.get('kind')!='ALL' or node.args.get('expression')is not None
+                    or set(node.args)-{'this','kind','expression'}):
+                _deny('SQL_TEMPORAL_MODIFIER_NOT_ALLOWED',target=query)
+            continue
         if isinstance(node,exp.QueryOption):
             if node.sql(dialect='tsql').upper()!='MAXDOP 1':_deny('SQL_QUERY_HINT_REJECTED',target=query)
             continue

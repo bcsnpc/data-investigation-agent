@@ -91,5 +91,20 @@ class CollectorScheduleTests(unittest.TestCase):
     def test_combined_estimate_must_fit_monthly_cap(self):
         with self.assertRaisesRegex(ValueError,'EXCEEDS_20'):estimate(base='19.5')
 
+    def test_outer_runtime_is_pinned_to_explicit_approved_envelope(self):
+        original=source();p=plan(original,self.runner());job={'id':p['resource_id'],**p['body']}
+        # The old enclosing deadline must not pass the corrected deployment gate.
+        with self.assertRaisesRegex(ValueError,'SCHEDULE_OR_RUNTIME'):
+            preflight(job,original,runtime_seconds=180)
+        job['properties']['configuration']['replicaTimeout']=180
+        self.assertEqual(preflight(job,original,runtime_seconds=180)['runtime_seconds'],180)
+        with self.assertRaisesRegex(ValueError,'SCHEDULE_OR_RUNTIME'):preflight(job,original)
+        for value in (True,120,3600):
+            with self.subTest(value=value),self.assertRaisesRegex(ValueError,'APPROVED_RUNTIME'):
+                preflight(job,original,runtime_seconds=value)
+        job['properties']['configuration']['replicaRetryLimit']=1
+        with self.assertRaisesRegex(ValueError,'SCHEDULE_OR_RUNTIME'):
+            preflight(job,original,runtime_seconds=180)
+
 
 if __name__=='__main__':unittest.main()

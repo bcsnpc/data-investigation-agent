@@ -67,13 +67,17 @@ def plan(existing,runner,*,cost=None):
     _safe(bytes_of(result));return result
 
 
-def preflight(job,existing):
+def preflight(job,existing,*,runtime_seconds=60):
+    # Existing deployments may carry the explicitly approved Round22 envelope.
+    # Never infer approval from the live value itself; callers pin the choice.
+    if type(runtime_seconds)is not int or runtime_seconds not in (60,180):
+        raise ValueError('COLLECTOR_APPROVED_RUNTIME_REQUIRED')
     p=job.get('properties',{});c=p.get('configuration',{})
     if job.get('id','').rsplit('/',1)[-1]!=NAME or p.get('environmentId')!=existing['properties']['environmentId']:
         raise ValueError('COLLECTOR_EXACT_JOB_ENVIRONMENT_REQUIRED')
     if p.get('provisioningState') not in (None,'Succeeded'):
         raise ValueError('COLLECTOR_PROVISIONING_NOT_SUCCEEDED')
-    if (c.get('triggerType')!='Schedule' or c.get('replicaTimeout')!=60 or c.get('replicaRetryLimit')!=0 or
+    if (c.get('triggerType')!='Schedule' or c.get('replicaTimeout')!=runtime_seconds or c.get('replicaRetryLimit')!=0 or
         c.get('scheduleTriggerConfig')!={'cronExpression':CRON,'parallelism':1,'replicaCompletionCount':1}):
         raise ValueError('COLLECTOR_SCHEDULE_OR_RUNTIME_DIFFERS')
     containers=p.get('template',{}).get('containers',[])
@@ -95,4 +99,4 @@ def preflight(job,existing):
         if container['image']!=runner['image'] or not re.fullmatch(r'[^\s]+@sha256:[a-f0-9]{64}',container['image']):raise ValueError
     except (KeyError,IndexError,StopIteration,TypeError,ValueError):
         raise ValueError('COLLECTOR_TYPED_PINNED_UNIQUE_RUNNER_REQUIRED') from None
-    return {'status':'PASS','cron':CRON,'runtime_seconds':60,'resources':resources}
+    return {'status':'PASS','cron':CRON,'runtime_seconds':runtime_seconds,'resources':resources}

@@ -112,6 +112,26 @@ class MicrosoftProcessAdapter:
                 'No independent lower surface is configured.')
         return result
 
+    def declared_visual_scope(self,measure_id,target_id):
+        """Extract saved scope for an exact graph-resolved visual, without reads."""
+        from .report_predicates import pinned, _extract, Refusal
+        from .report_cells import catalog
+        model=pinned(self)
+        from urllib.parse import quote
+        targets={target_id}
+        for report in model['context'].get('reports',[]):
+            report_id=report.get('report',{}).get('id')
+            if not report_id:continue
+            targets.update(part['id']for part in report.get('report_definitions',[])
+                if report_id+'/visual/'+quote(part['name'],safe='')==target_id)
+        matches=[c for c in catalog(model)if c['target_id']in targets and measure_id in c['measure_ids']]
+        if len(matches)!=1:raise Refusal('GRAPH_VISUAL_MEASURE_BINDING')
+        if matches[0]['grouping_columns']:raise Refusal('KEYED_CELL_ADDRESS_REQUIRED')
+        result=_extract(model,measure_id,{},matches[0]['target_id'])
+        forms=sorted({json.loads(e['opaque_provenance'])['form']for e in result['inventory']['entries']if e['disposition']=='UNSUPPORTED'})
+        if forms:result['unsupported_form']=', '.join(forms)
+        return result
+
     def declared_context(self,layer,measure_id,scope):
         from .report_predicates import pinned, extract, quantity_query, Refusal
         from ..declared_reproduction import compose, UnsupportedRestriction
@@ -447,6 +467,22 @@ class MicrosoftProcessAdapter:
                 'metadata_asset_id':warehouse['id'],'metadata_hash':warehouse['content_hash'],
                 'reason':'The model declares the Warehouse item directly; no Lakehouse ownership relation is inferred.'}
         return resolved
+
+    def retained_measure_definition(self,measure_id,*,node):
+        metadata=context_search.measure_path(self.store,self.model,measure_id)
+        measure=metadata['measure']
+        if measure['id']!=measure_id:raise ValueError('RETAINED_MEASURE_TARGET_DIFFERS')
+        expression=measure.get('metadata',{}).get('expression')
+        if isinstance(expression,list):expression='\n'.join(expression)
+        if not isinstance(expression,str)or not expression.strip():raise ValueError('RETAINED_MEASURE_EXPRESSION_UNAVAILABLE')
+        match=re.fullmatch(r'\s*SUM\s*\(\s*(.*?)\s*\[([^\]]+)\]\s*\)\s*',expression,re.I)
+        explanation=('Add the values in '+match[1]+'.'+match[2]+' within the active filter context.'if match else
+            'Evaluate the saved expression below in the measure filter context; no numerical execution was performed.')
+        return {'node':node,'provenance':{'source':'STATIC_DEFINITION','source_id':measure_id,
+                    'definition_hash':measure.get('content_hash')},
+                'definition':{'sha256':hashlib.sha256(expression.encode('utf8')).hexdigest()},
+                'content':expression,'plain_language':explanation,
+                'collection_unavailable':{'reason':'Retained context, not recollected for this answer.'}}
 
     def resolve_path(self,measure_id):
         if measure_id in self._paths:return self._paths[measure_id]

@@ -55,7 +55,7 @@ def operation(name):
                     return embedded_read_stage(agent,method,owner,args,kwargs)
                 # The replay driver supplies the same outer operation events.
                 return method(owner,*args,**kwargs)
-            enabled=agent.planner_profile.get('adapter') not in (None,'injected') or os.environ.get('INVESTIGATOR_RECORD_RUNS')=='1'
+            enabled=os.environ.get('INVESTIGATOR_RECORD_RUNS')!='0' and (agent.planner_profile.get('adapter') not in (None,'injected') or os.environ.get('INVESTIGATOR_RECORD_RUNS')=='1')
             if not enabled:return method(owner,*args,**kwargs)
             tapes=getattr(agent,'_run_tapes',None)
             if tapes is None:agent._run_tapes=tapes={}
@@ -254,7 +254,7 @@ def seal_read_stage(agent, identity):
                 return {'status':'UNAVAILABLE','reason':'EMBEDDED_READ_STAGE_CAPTURE_DIFFERS'}
             return dict(embedded['closure'])
         prior=getattr(agent,'_run_tapes',{}).get(str(identity))
-        enabled=agent.planner_profile.get('adapter') not in (None,'injected') or os.environ.get('INVESTIGATOR_RECORD_RUNS')=='1'
+        enabled=os.environ.get('INVESTIGATOR_RECORD_RUNS')!='0' and (agent.planner_profile.get('adapter') not in (None,'injected') or os.environ.get('INVESTIGATOR_RECORD_RUNS')=='1')
         if prior is None:
             retained=retained_read_capture(agent,str(identity))
             if retained is not None:return retained

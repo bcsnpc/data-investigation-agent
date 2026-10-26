@@ -131,6 +131,7 @@ class SharedState:
         if backend == 'sqlite' and mode != 'offline':
             raise ValueError('LIVE_SHARED_STATE_REQUIRES_POSTGRESQL')
         self.connector, self.backend, self.mode = connector, backend, mode
+        self.connection_failures=[]
 
     @classmethod
     def offline(cls, path):
@@ -151,8 +152,13 @@ class SharedState:
             cursor.executemany(query.replace('?', '%s') if self.backend == 'postgresql' else query, rows)
 
     @contextmanager
-    def transaction(self,*,_lease_release=False):
+    def transaction(self,*,_lease_release=False,_read_only=False):
+        if type(_read_only)is not bool or (_read_only and _lease_release):
+            raise ValueError('READ_TRANSACTION_MODE_INVALID')
         db = self.connector()
+        if self.backend=='postgresql':
+            from .postgres_connection import ObservedConnection
+            db=ObservedConnection(db)
         outer_callbacks = TRANSACTION_FINISHED.get() if TRANSACTION_ACTIVE.get() else None
         callbacks = outer_callbacks if outer_callbacks is not None else []
         callback_marker = TRANSACTION_FINISHED.set(callbacks)
@@ -161,9 +167,11 @@ class SharedState:
         try:
             from .shared_writer_lease import check as check_lease
             if self.backend == 'postgresql':
-                # The post-lock lease read must see an acquisition committed
-                # while this connection waited; do not inherit snapshot mode.
-                db.execute('SET TRANSACTION ISOLATION LEVEL READ COMMITTED')
+                # Writers must see leases committed while waiting for the lock.
+                # Readers take one coherent, database-enforced read-only snapshot
+                # without blocking reservation writers.
+                db.execute('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ, READ ONLY'if _read_only
+                           else'SET TRANSACTION ISOLATION LEVEL READ COMMITTED')
                 db.execute("SET LOCAL lock_timeout = '5s'")
                 db.execute("SET LOCAL statement_timeout = '30s'")
                 db.execute("SET LOCAL idle_in_transaction_session_timeout = '30s'")
@@ -171,9 +179,10 @@ class SharedState:
                 # One application-state lock gives portable serializable writes
                 # including absent-row creation. It is held only for short local
                 # state operations, never while a model or estate request runs.
-                db.execute('SELECT pg_advisory_xact_lock(183746812)')
+                if not _read_only:db.execute('SELECT pg_advisory_xact_lock(183746812)')
             else:
-                db.execute('BEGIN IMMEDIATE')
+                if _read_only:db.execute('PRAGMA query_only=ON')
+                db.execute('BEGIN'if _read_only else'BEGIN IMMEDIATE')
             check_lease(self,db,release_only=_lease_release)
             marker = TRANSACTION_ACTIVE.set(True)
             yield db
@@ -231,15 +240,31 @@ class SharedState:
         return {'revision': row[0], 'body': body}
 
     def get(self, namespace, identity):
-        with self.transaction() as db:
-            return self._get(db, namespace, identity)
+        return self._read_transaction(lambda db:self._get(db,namespace,identity))
+
+    def _read_transaction(self,read):
+        """Retry a read once on a fresh connection; never replay a mutation."""
+        from .postgres_connection import dropped_connection
+        import time
+        for attempt in range(2):
+            try:
+                with self.transaction(_read_only=True)as db:return read(db)
+            except Exception as error:
+                if self.backend!='postgresql' or not dropped_connection(error):raise
+                self.connection_failures.append({'operation':'READ_TRANSACTION','attempt':attempt+1,
+                    'error_type':type(error).__name__,'sqlstate':getattr(error,'sqlstate',None),
+                    'connection_timing':getattr(error,'postgres_connection_timing',None),'retry':attempt==0})
+                self.connection_failures=self.connection_failures[-100:]
+                if attempt:raise
+                time.sleep(30)
 
     def list(self, namespace, limit=40):
         if type(limit) is not int or not 1 <= limit <= 1000:
             raise ValueError('BOUNDED_LIST_REQUIRED')
-        with self.transaction() as db:
+        def read(db):
             rows = self.sql(db, 'SELECT identity FROM state_documents WHERE namespace=? ORDER BY identity LIMIT ?', (namespace, limit)).fetchall()
             return [self._get(db, namespace, r[0]) for r in rows]
+        return self._read_transaction(read)
 
     def put(self, namespace, identity, body, *, revision=None):
         with self.transaction() as db:
@@ -278,8 +303,7 @@ class SharedState:
                     {'identity': r[0], 'owner': r[1], 'reserved': decimal_text(r[2]), 'charged': decimal_text(r[3]), 'status': r[4], 'detail': json.loads(r[5])} for r in reservations]}
 
     def snapshot(self, identity):
-        with self.transaction() as db:
-            return self._snapshot(db, identity)
+        return self._read_transaction(lambda db:self._snapshot(db,identity))
 
     def reserve(self, identity, key, owner, bound, *, detail=None):
         bound = amount(bound)

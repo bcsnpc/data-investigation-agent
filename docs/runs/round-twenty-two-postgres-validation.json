@@ -1,0 +1,125 @@
+{
+  "observed_at_utc": "2026-10-23T22:33:18.049920+00:00",
+  "status": "POSTGRES_POLICY_VALIDATED",
+  "full_suite": {
+    "revision": "4d7cac322808cb9d9773db5b434591ca8eaa0062",
+    "elapsed_seconds": 696.985837799999,
+    "statuses": [
+      {
+        "shard": 0,
+        "exit_code": 0
+      },
+      {
+        "shard": 1,
+        "exit_code": 0
+      },
+      {
+        "shard": 2,
+        "exit_code": 0
+      },
+      {
+        "shard": 3,
+        "exit_code": 0
+      }
+    ],
+    "results": [
+      {
+        "tests": 1299,
+        "failures": 0,
+        "errors": 0,
+        "skips": 20,
+        "successful": true
+      },
+      {
+        "tests": 1299,
+        "failures": 0,
+        "errors": 0,
+        "skips": 1,
+        "successful": true
+      },
+      {
+        "tests": 1299,
+        "failures": 0,
+        "errors": 0,
+        "skips": 26,
+        "successful": true
+      },
+      {
+        "tests": 1299,
+        "failures": 0,
+        "errors": 0,
+        "skips": 1,
+        "successful": true
+      }
+    ]
+  },
+  "tests_total": 5196,
+  "passed": 5148,
+  "skipped": 48,
+  "followup_tests": {
+    "source": "82470b940aedc754f2aa85fa21f66c38bf70cd00",
+    "tests": 21,
+    "passed": 21
+  },
+  "operator_errors": [
+    "Initial focused command named nonexistent test_control_budget_retry; corrected to discovered test_control_meter_reporting. No guardrail assertion failed."
+  ],
+  "budget": {
+    "physical": {
+      "mode": "BUILD_PHASE",
+      "month_utc": "2026-10",
+      "used": {
+        "RESTORATION": 0,
+        "INVESTIGATION": 731,
+        "SCAN": 785
+      },
+      "limits": {
+        "INVESTIGATION": 4905,
+        "SCAN": 1000,
+        "RESTORATION": 95
+      },
+      "total": 1516,
+      "total_limit": 6000,
+      "restoration_remaining": 95,
+      "warnings": []
+    },
+    "model_accounts": {
+      "2026-10": {
+        "identity": "model-microdollars:2026-10",
+        "unit": "MICRODOLLARS",
+        "ceiling": "40000000",
+        "protected": "0",
+        "opening": "0",
+        "charged": "4080700",
+        "violated": false
+      },
+      "2026-11": {
+        "identity": "model-microdollars:2026-11",
+        "unit": "MICRODOLLARS",
+        "ceiling": "40000000",
+        "protected": "0",
+        "opening": "0",
+        "charged": "0",
+        "violated": false
+      }
+    },
+    "model_reservation_status_counts": [
+      {
+        "status": "SETTLED",
+        "count": 102
+      },
+      {
+        "status": "UNCERTAIN",
+        "count": 2
+      }
+    ],
+    "observed_at_utc": "2026-10-23T22:32:23.765773+00:00",
+    "read_only": true,
+    "connection_failures": [],
+    "authority": "Existing owner platform ledger, short-lived connection, keepalive1/30/10/3; no estate query or grant"
+  },
+  "cause": "Earlier disconnect cause remains open. New successful operations do not prove idle-drop causality.",
+  "estate_requests": 0,
+  "model_calls": 0,
+  "scope_changes": 0
+}

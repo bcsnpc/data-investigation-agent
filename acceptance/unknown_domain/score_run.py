@@ -5,7 +5,10 @@ Reads evaluator output only. Never loads expected answers or modifies runtime.
 import argparse
 from collections import Counter
 import json
-from trajectory_metrics import metrics
+if __package__:
+    from .trajectory_metrics import metrics
+else:
+    from trajectory_metrics import metrics
 from pathlib import Path
 from investigator.process_read_receipts import accounting
 

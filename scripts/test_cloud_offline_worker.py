@@ -40,7 +40,10 @@ class CloudOfflineWorkerTests(unittest.TestCase):
         module_buckets = [partition(TEST_MODULES, n, 8) for n in range(8)]
         self.assertTrue(all(module_buckets))
         self.assertEqual(sorted(x for bucket in module_buckets for x in bucket), sorted(TEST_MODULES))
+        self.assertTrue({'test_investigator_frontier.py','test_fixture_failure_scenarios.py','test_operational_run_selection.py','test_operational_intake.py','test_control_meter_reporting.py'}<=set(TEST_MODULES))
         self.assertIn('test_shared_usage_replay.py', TEST_MODULES)
+        self.assertTrue({'test_round_twenty_state.py','test_shared_read_transactions.py',
+                         'test_build_phase.py','test_scan_budget_reallocation.py'}<=set(TEST_MODULES))
         self.assertIn('test_shared_catalog_capture.py', TEST_MODULES)
         self.assertTrue(admitted('scripts/test_shared_catalog_capture.py'))
         self.assertIn('test_cloud_verification_first_error.py', TEST_MODULES)

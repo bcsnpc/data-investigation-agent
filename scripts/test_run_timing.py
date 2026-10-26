@@ -28,7 +28,7 @@ class Timing(unittest.TestCase):
             seal=capture.seal();index=sent['one/run-record.json'];receipt=capture.publish_timing(seal)
             self.assertEqual(sent['one/run-record.json'],index)
             self.assertEqual(receipt['sha256'],hashlib.sha256(sent['one/timing-summary.json']).hexdigest())
-            summary=receipt['summary'];self.assertEqual(summary['run_record_seal'],seal)
+            summary=receipt['summary'];self.assertIn('worker_timing_started_at',summary);self.assertEqual(summary['run_record_seal'],seal)
             self.assertEqual(summary['phases']['investigation']['wall_seconds'],5)
             self.assertEqual(summary['phases']['model']['wall_seconds'],3)
             self.assertGreater(summary['phases']['capture_publish']['wall_seconds'],0)

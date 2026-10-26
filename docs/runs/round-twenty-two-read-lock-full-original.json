@@ -1,0 +1,11 @@
+{
+  "source_revision": "b166f11f377ee8cb70f39264e1939e445dec1929",
+  "status": "ONE_TEST_FIXTURE_ERROR_RETAINED",
+  "tests": 5224,
+  "failures": 0,
+  "errors": 1,
+  "skipped": 48,
+  "elapsed_seconds": 1279.6119890000045,
+  "error": "test_round_twenty_state.ConnectionTests.test_safe_read_reconnects_once_but_put_never_replays: transaction mock rejected new _read_only keyword",
+  "repair": "Mock accepts keyword and asserts both retried reads request _read_only=True. Production behavior unchanged. Focused51PASS; new final full regression follows."
+}

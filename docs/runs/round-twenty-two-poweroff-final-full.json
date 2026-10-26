@@ -1,0 +1,11 @@
+{
+  "source_revision": "fa1a40521dbbe499bc00a1524c8dcc835a1670a4",
+  "tests": 5227,
+  "skips": 48,
+  "failures": 0,
+  "errors": 0,
+  "elapsed_seconds": 744.6876596,
+  "status": "PASS",
+  "supersedes_as_current_validation": "Interrupted final run and original one-mock-error run retained separately, not edited.",
+  "passed": 5179
+}

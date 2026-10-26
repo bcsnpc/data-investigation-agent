@@ -9,12 +9,15 @@ import json
 import re
 import struct
 import sys
+from contextlib import contextmanager
+from threading import Event, RLock, Thread
 
 from investigator.adapters.managed_identity import FIELDS, Tokens, validate
 
 DB_GUARD = """SELECT COUNT(*) FROM sys.fn_my_permissions(NULL,'DATABASE')
 WHERE permission_name NOT IN ('CONNECT','SELECT','VIEW DEFINITION','VIEW DATABASE STATE',
-'VIEW DATABASE PERFORMANCE STATE','VIEW DATABASE SECURITY STATE')"""
+'VIEW DATABASE PERFORMANCE STATE','VIEW DATABASE SECURITY STATE',
+'VIEW PERFORMANCE DEFINITION','VIEW SECURITY DEFINITION')"""
 OBJECT_GUARD = """SELECT COUNT(*) FROM sys.fn_my_permissions(?,'OBJECT')
 WHERE permission_name NOT IN ('SELECT','VIEW DEFINITION')"""
 IDENTITY = 'SELECT SUSER_SNAME() AS login_name, DB_NAME() AS database_name'
@@ -22,16 +25,50 @@ TYPES = {str:'String', int:'Int64', float:'Double', Decimal:'Decimal', bool:'Boo
          datetime.datetime:'DateTime', datetime.date:'DateTime', bytes:'Byte[]'}
 
 
+class ReadOnlyGuardRefused(ValueError):
+    """Bounded own-session evidence, without driver text or query contents."""
+    def __init__(self,kind,identity,database,row):
+        super().__init__('Read-only permission guard refused')
+        count=row[0]if row and type(row[0])is int and 0<=row[0]<=10000 else None
+        self.details={'guard':kind,'principal':str(identity)[:256],
+                      'database':database,'unexpected_permission_count':count,
+                      'reason':'UNRECOGNIZED_EFFECTIVE_PERMISSION_OR_INVALID_GUARD_RESPONSE'}
+
+
 class Protocol:
     def __init__(self, metered=False, source=None, sink=None):
         self.metered = metered
         self.source, self.sink = source or sys.stdin, sink or sys.stdout
+        self.lock=RLock()
+        self.last_action=None
 
     def emit(self, value):
-        self.sink.write(json.dumps(value, separators=(',', ':')) + '\n')
-        self.sink.flush()
+        with self.lock:
+            self.sink.write(json.dumps(value, separators=(',', ':')) + '\n')
+            self.sink.flush()
+
+    @contextmanager
+    def lifecycle(self,progress,interval=10):
+        if not self.metered:
+            yield
+            return
+        import os
+        stop=Event()
+        def frame(event):
+            self.emit({'worker_event':event,'pid':os.getpid(),
+                       'last_action':self.last_action or progress['stage']})
+        def heartbeat():
+            while not stop.wait(interval):
+                try:frame('HEARTBEAT')
+                except OSError:return
+        frame('START')
+        worker=Thread(target=heartbeat,daemon=True);worker.start()
+        try:yield
+        finally:
+            stop.set();worker.join(timeout=1);frame('EXIT')
 
     def before(self, kind, obj=None, guard=False):
+        self.last_action=kind
         if not self.metered:
             return True
         self.emit({'physical_read':'REQUEST','kind':kind,
@@ -142,7 +179,7 @@ def execute(payload, *, connect=None, tokens=None, protocol=None, progress=None)
                     cursor.execute(query, *args)
                     row = cursor.fetchone()
                     if not row or row[0] != 0 or cursor.fetchone() is not None or cursor.nextset():
-                        raise ValueError('Read-only permission guard refused')
+                        raise ReadOnlyGuardRefused(kind,identity[0],payload['database'],row)
                     protocol.done(kind, guard=True)
             query, values = bind_parameters(payload['query'], payload.get('parameters', []))
             columns = payload['result_columns']
@@ -192,20 +229,23 @@ def execute(payload, *, connect=None, tokens=None, protocol=None, progress=None)
 def main():
     protocol = Protocol('--metered' in sys.argv)
     progress = {'stage':'setup'}
-    try:
-        payload = json.loads(sys.stdin.readline(2*1024*1024))
-        result = execute(payload, protocol=protocol, progress=progress)
-    except Exception as exc:
-        # Preserve numeric SQL error and SQLSTATE, never driver text/token/query.
-        args = getattr(exc, 'args', ())
-        sqlstate = args[0] if args and re.fullmatch(r'[A-Z0-9]{5}', str(args[0])) else None
-        numbers = re.findall(r'\((-?\d+)\)', str(args[1])) if len(args)>1 else []
-        protocol.emit({'error':'ManagedSqlReadFailed','stage':progress['stage'],
-                       'error_number':(-2 if sqlstate in ('HYT00','HYT01') else int(numbers[-1]) if numbers else None),
-                       'error_kind':'SqlException' if sqlstate else 'InvalidOperationException', 'sqlstate':sqlstate})
-        return 1
+    code=0
+    with protocol.lifecycle(progress):
+        try:
+            payload = json.loads(sys.stdin.readline(2*1024*1024))
+            result = execute(payload, protocol=protocol, progress=progress)
+        except Exception as exc:
+            # Preserve numeric SQL error and SQLSTATE, never driver text/token/query.
+            args = getattr(exc, 'args', ())
+            sqlstate = args[0] if args and re.fullmatch(r'[A-Z0-9]{5}', str(args[0])) else None
+            numbers = re.findall(r'\((-?\d+)\)', str(args[1])) if len(args)>1 else []
+            result={'error':'ManagedSqlReadFailed','stage':progress['stage'],
+                    'error_number':(-2 if sqlstate in ('HYT00','HYT01') else int(numbers[-1]) if numbers else None),
+                    'error_kind':'SqlException' if sqlstate else 'InvalidOperationException','sqlstate':sqlstate}
+            if isinstance(exc,ReadOnlyGuardRefused):result['read_only_guard']=exc.details
+            code=1
     protocol.emit(result)
-    return 0
+    return code
 
 
 if __name__ == '__main__':

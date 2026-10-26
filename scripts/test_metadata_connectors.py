@@ -14,6 +14,30 @@ from metadata_connectors import SqlMetadataConnector, FabricMetadataConnector, P
 
 
 class ConnectorTests(unittest.TestCase):
+    def test_local_publisher_cache_refreshes_before_expiry_without_identity_change(self):
+        from metadata_auth import FabricCliTokens
+        def token(expiry):
+            payload=base64.urlsafe_b64encode(json.dumps({'tid':'expected-tenant','exp':expiry}).encode()).decode().rstrip('=')
+            return 'header.'+payload+'.signature'
+        from unittest.mock import Mock
+        acquire=Mock(side_effect=[token(2000),token(4000)])
+        fake=SimpleNamespace(FabAuth=lambda:SimpleNamespace(get_access_token=acquire));now=[1000]
+        with patch.dict(sys.modules,{'fabric_cli.core.fab_auth':fake}):
+            reader=FabricCliTokens('expected-tenant',clock=lambda:now[0])
+            first=reader.get_token('same-scope');self.assertEqual(first,reader.get_token('same-scope'))
+            self.assertEqual(acquire.call_count,1);now[0]=1880
+            self.assertNotEqual(reader.get_token('same-scope'),first);self.assertEqual(acquire.call_count,2)
+        for call in acquire.call_args_list:self.assertEqual(call.kwargs,{'interactive_renew':False})
+
+    def test_local_publisher_never_caches_an_expired_token(self):
+        from metadata_auth import FabricCliTokens
+        payload=base64.urlsafe_b64encode(json.dumps({'tid':'expected-tenant','exp':999}).encode()).decode().rstrip('=')
+        fake=SimpleNamespace(FabAuth=lambda:SimpleNamespace(get_access_token=lambda *a,**k:'header.'+payload+'.signature'))
+        with patch.dict(sys.modules,{'fabric_cli.core.fab_auth':fake}):
+            reader=FabricCliTokens('expected-tenant',clock=lambda:1000)
+            with self.assertRaisesRegex(RuntimeError,'already expired'):reader.get_token('scope')
+            self.assertEqual(reader.cache,{})
+
     def test_parity_ignores_acquisition_time_but_detects_definition_change(self):
         from metadata_inventory import Inventory
         from compare_metadata_scans import compare

@@ -1,0 +1,3952 @@
+{
+  "owner_date": "2026-10-23",
+  "choice": "B_NATIVE_SYSTEM_VERSIONED_TEMPORAL_HISTORY",
+  "status": "COMPATIBILITY_PASSED_NOT_YET_ENABLED",
+  "source_table": "app.stock_movements_round_two_20261003",
+  "history_table": "app.stock_movements_round22_history",
+  "inspection": {
+    "observed_at_utc": "2026-10-23T22:38:52.615798+00:00",
+    "exit_code": 0,
+    "body": {
+      "sets": [
+        [
+          {
+            "is_memory_optimized": "False",
+            "history_table_id": null,
+            "proposed_history_id": null,
+            "primary_keys": "1",
+            "triggers": "0",
+            "object_id": "1938105945",
+            "temporal_type": "0"
+          }
+        ],
+        [
+          {
+            "is_primary_key": "True",
+            "column_name": "movement_id",
+            "name": "PK_stock_movements_round_two_20261003",
+            "is_unique": "True",
+            "key_ordinal": "1"
+          }
+        ],
+        [
+          {
+            "name": "movement_id",
+            "is_hidden": "False",
+            "default_object_id": "0",
+            "column_id": "1",
+            "generated_always_type": "0",
+            "type_name": "int"
+          },
+          {
+            "name": "warehouse_id",
+            "is_hidden": "False",
+            "default_object_id": "0",
+            "column_id": "2",
+            "generated_always_type": "0",
+            "type_name": "int"
+          },
+          {
+            "name": "product_id",
+            "is_hidden": "False",
+            "default_object_id": "0",
+            "column_id": "3",
+            "generated_always_type": "0",
+            "type_name": "int"
+          },
+          {
+            "name": "units",
+            "is_hidden": "False",
+            "default_object_id": "0",
+            "column_id": "4",
+            "generated_always_type": "0",
+            "type_name": "int"
+          },
+          {
+            "name": "event_day",
+            "is_hidden": "False",
+            "default_object_id": "0",
+            "column_id": "5",
+            "generated_always_type": "0",
+            "type_name": "nvarchar"
+          },
+          {
+            "name": "movement_type",
+            "is_hidden": "False",
+            "default_object_id": "0",
+            "column_id": "6",
+            "generated_always_type": "0",
+            "type_name": "nvarchar"
+          },
+          {
+            "name": "source_modified_at_utc",
+            "is_hidden": "False",
+            "default_object_id": "0",
+            "column_id": "7",
+            "generated_always_type": "0",
+            "type_name": "datetime2"
+          },
+          {
+            "name": "source_row_version",
+            "is_hidden": "False",
+            "default_object_id": "0",
+            "column_id": "8",
+            "generated_always_type": "0",
+            "type_name": "timestamp"
+          }
+        ],
+        [
+          {
+            "units": "7661",
+            "row_count": "360",
+            "newest_version": "28361"
+          }
+        ]
+      ],
+      "status": "COMPLETED"
+    },
+    "query": "SET NOCOUNT ON;\nSELECT t.object_id,t.temporal_type,t.history_table_id,t.is_memory_optimized,\n (SELECT COUNT(*) FROM sys.key_constraints k WHERE k.parent_object_id=t.object_id AND k.type='PK') AS primary_keys,\n (SELECT COUNT(*) FROM sys.triggers g WHERE g.parent_id=t.object_id) AS triggers,\n OBJECT_ID(N'app.stock_movements_round22_history') AS proposed_history_id\n FROM sys.tables t WHERE t.object_id=OBJECT_ID(N'app.stock_movements_round_two_20261003');\nSELECT i.name,i.is_primary_key,i.is_unique,c.name AS column_name,ic.key_ordinal\n FROM sys.indexes i JOIN sys.index_columns ic ON i.object_id=ic.object_id AND i.index_id=ic.index_id\n JOIN sys.columns c ON c.object_id=ic.object_id AND c.column_id=ic.column_id\n WHERE i.object_id=OBJECT_ID(N'app.stock_movements_round_two_20261003') ORDER BY i.index_id,ic.key_ordinal;\nSELECT c.column_id,c.name,TYPE_NAME(c.user_type_id) AS type_name,c.generated_always_type,c.is_hidden,c.default_object_id\n FROM sys.columns c WHERE c.object_id=OBJECT_ID(N'app.stock_movements_round_two_20261003') ORDER BY c.column_id;\nSELECT COUNT_BIG(*) AS row_count,SUM(CONVERT(bigint,units)) AS units,MAX(CONVERT(bigint,source_row_version)) AS newest_version\n FROM [app].[stock_movements_round_two_20261003];",
+    "identity": "pocsqladmin existing owner",
+    "read_only": true,
+    "physical_requests": 1,
+    "reservation_retries": [],
+    "connection_failures": []
+  },
+  "probe": {
+    "approval": "Owner2026-10-23 native temporal history reversible practice-source change",
+    "connection_failures": [],
+    "ended_at_utc": "2026-10-23T22:41:46.403857+00:00",
+    "identity": "pocsqladmin existing owner",
+    "new_roles": false,
+    "original_rows_and_schema_hash_match": true,
+    "physical_requests": 2,
+    "probe": {
+      "body": {
+        "sets": [
+          [
+            {
+              "history_name": "stock_movements_round22_history",
+              "history_schema": "app",
+              "history_table_id": "462624691",
+              "object_id": "1938105945",
+              "temporal_type": "2"
+            }
+          ],
+          [
+            {
+              "generated_always_type": "0",
+              "is_hidden": "False",
+              "name": "movement_id"
+            },
+            {
+              "generated_always_type": "0",
+              "is_hidden": "False",
+              "name": "warehouse_id"
+            },
+            {
+              "generated_always_type": "0",
+              "is_hidden": "False",
+              "name": "product_id"
+            },
+            {
+              "generated_always_type": "0",
+              "is_hidden": "False",
+              "name": "units"
+            },
+            {
+              "generated_always_type": "0",
+              "is_hidden": "False",
+              "name": "event_day"
+            },
+            {
+              "generated_always_type": "0",
+              "is_hidden": "False",
+              "name": "movement_type"
+            },
+            {
+              "generated_always_type": "0",
+              "is_hidden": "False",
+              "name": "source_modified_at_utc"
+            },
+            {
+              "generated_always_type": "0",
+              "is_hidden": "False",
+              "name": "source_row_version"
+            },
+            {
+              "generated_always_type": "1",
+              "is_hidden": "True",
+              "name": "r22_valid_from"
+            },
+            {
+              "generated_always_type": "2",
+              "is_hidden": "True",
+              "name": "r22_valid_to"
+            }
+          ],
+          [
+            {
+              "history_name": null,
+              "history_schema": null,
+              "history_table_id": null,
+              "object_id": "1938105945",
+              "temporal_type": "0"
+            }
+          ],
+          [
+            {
+              "generated_always_type": "0",
+              "is_hidden": "False",
+              "name": "movement_id"
+            },
+            {
+              "generated_always_type": "0",
+              "is_hidden": "False",
+              "name": "warehouse_id"
+            },
+            {
+              "generated_always_type": "0",
+              "is_hidden": "False",
+              "name": "product_id"
+            },
+            {
+              "generated_always_type": "0",
+              "is_hidden": "False",
+              "name": "units"
+            },
+            {
+              "generated_always_type": "0",
+              "is_hidden": "False",
+              "name": "event_day"
+            },
+            {
+              "generated_always_type": "0",
+              "is_hidden": "False",
+              "name": "movement_type"
+            },
+            {
+              "generated_always_type": "0",
+              "is_hidden": "False",
+              "name": "source_modified_at_utc"
+            },
+            {
+              "generated_always_type": "0",
+              "is_hidden": "False",
+              "name": "source_row_version"
+            }
+          ]
+        ],
+        "status": "COMPLETED"
+      },
+      "exit_code": 0
+    },
+    "query": "SET NOCOUNT ON; SET XACT_ABORT ON; SET LOCK_TIMEOUT 5000; BEGIN TRY BEGIN TRANSACTION;\nIF (SELECT COUNT_BIG(*) FROM [app].[stock_movements_round_two_20261003] WITH (UPDLOCK,HOLDLOCK))<>360 OR COALESCE((SELECT SUM(CONVERT(bigint,units)) FROM [app].[stock_movements_round_two_20261003] WITH (UPDLOCK,HOLDLOCK)),0)<>7661 OR COALESCE((SELECT MAX(CONVERT(bigint,source_row_version)) FROM [app].[stock_movements_round_two_20261003] WITH (UPDLOCK,HOLDLOCK)),0)<>28361 THROW 51022, 'Source preimage changed; control refused', 1;\nIF NOT EXISTS (SELECT 1 FROM sys.tables WHERE object_id=1938105945 AND temporal_type=0 AND history_table_id IS NULL) OR OBJECT_ID(N'app.stock_movements_round22_history') IS NOT NULL THROW 51022, 'Temporal preimage or proposed history changed', 1;\nALTER TABLE [app].[stock_movements_round_two_20261003] ADD [r22_valid_from] datetime2(7) GENERATED ALWAYS AS ROW START HIDDEN NOT NULL CONSTRAINT [DF_round22_source_valid_from] DEFAULT SYSUTCDATETIME(), [r22_valid_to] datetime2(7) GENERATED ALWAYS AS ROW END HIDDEN NOT NULL CONSTRAINT [DF_round22_source_valid_to] DEFAULT CONVERT(datetime2(7),'9999-12-31 23:59:59.9999999'), PERIOD FOR SYSTEM_TIME ([r22_valid_from],[r22_valid_to]);\nALTER TABLE [app].[stock_movements_round_two_20261003] SET (SYSTEM_VERSIONING=ON (HISTORY_TABLE=[app].[stock_movements_round22_history],DATA_CONSISTENCY_CHECK=ON));\nIF (SELECT COUNT_BIG(*) FROM [app].[stock_movements_round_two_20261003] WITH (UPDLOCK,HOLDLOCK))<>360 OR COALESCE((SELECT SUM(CONVERT(bigint,units)) FROM [app].[stock_movements_round_two_20261003] WITH (UPDLOCK,HOLDLOCK)),0)<>7661 OR COALESCE((SELECT MAX(CONVERT(bigint,source_row_version)) FROM [app].[stock_movements_round_two_20261003] WITH (UPDLOCK,HOLDLOCK)),0)<>28361 THROW 51022, 'Source preimage changed; control refused', 1;\nSELECT t.object_id,t.temporal_type,t.history_table_id,OBJECT_SCHEMA_NAME(t.history_table_id) AS history_schema,OBJECT_NAME(t.history_table_id) AS history_name FROM sys.tables t WHERE t.object_id=OBJECT_ID(N'app.stock_movements_round_two_20261003');\nSELECT c.name,c.generated_always_type,c.is_hidden FROM sys.columns c WHERE c.object_id=OBJECT_ID(N'app.stock_movements_round_two_20261003') ORDER BY c.column_id;\nROLLBACK TRANSACTION;\nEND TRY BEGIN CATCH IF @@TRANCOUNT>0 ROLLBACK TRANSACTION; THROW; END CATCH;\nSELECT t.object_id,t.temporal_type,t.history_table_id,OBJECT_SCHEMA_NAME(t.history_table_id) AS history_schema,OBJECT_NAME(t.history_table_id) AS history_name FROM sys.tables t WHERE t.object_id=OBJECT_ID(N'app.stock_movements_round_two_20261003');\nSELECT c.name,c.generated_always_type,c.is_hidden FROM sys.columns c WHERE c.object_id=OBJECT_ID(N'app.stock_movements_round_two_20261003') ORDER BY c.column_id;\n",
+    "reservation_retries": [],
+    "rollback_probe": true,
+    "started_at_utc": "2026-10-23T22:41:38.598699+00:00",
+    "status": "COMPATIBLE_ROLLED_BACK",
+    "verification": {
+      "body": {
+        "sets": [
+          [
+            {
+              "database_name": "ordersops",
+              "identity": "pocsqladmin",
+              "newest_change": "2026-10-03T22:51:16.8820249Z",
+              "newest_version": "28361",
+              "row_count": "360",
+              "units": "7661"
+            }
+          ],
+          [
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "1",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28001",
+              "units": "16",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "2",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28002",
+              "units": "17",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "3",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28003",
+              "units": "39",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "4",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28004",
+              "units": "21",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "5",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28005",
+              "units": "3",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "6",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28006",
+              "units": "36",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "7",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28007",
+              "units": "20",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "8",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28008",
+              "units": "19",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "9",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28009",
+              "units": "11",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "10",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28010",
+              "units": "4",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "11",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28011",
+              "units": "23",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "12",
+              "movement_type": "ISSUE",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28012",
+              "units": "19",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "13",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28013",
+              "units": "20",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "14",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28014",
+              "units": "5",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "15",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28015",
+              "units": "38",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "16",
+              "movement_type": "ISSUE",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28016",
+              "units": "28",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "17",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28017",
+              "units": "24",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "18",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28018",
+              "units": "21",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "19",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28019",
+              "units": "38",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "20",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28020",
+              "units": "18",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "21",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28021",
+              "units": "34",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "22",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28022",
+              "units": "39",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "23",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28023",
+              "units": "8",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "24",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28024",
+              "units": "6",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "25",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28025",
+              "units": "22",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "26",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28026",
+              "units": "5",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "27",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28027",
+              "units": "25",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "28",
+              "movement_type": "ISSUE",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28028",
+              "units": "6",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "29",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28029",
+              "units": "6",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "30",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28030",
+              "units": "11",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "31",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28031",
+              "units": "30",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "32",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28032",
+              "units": "35",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "33",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28033",
+              "units": "2",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "34",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28034",
+              "units": "37",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "35",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28035",
+              "units": "31",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "36",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28036",
+              "units": "4",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "37",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28037",
+              "units": "4",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "38",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28038",
+              "units": "11",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "39",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28039",
+              "units": "28",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "40",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28040",
+              "units": "7",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "41",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28041",
+              "units": "5",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "42",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28042",
+              "units": "17",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "43",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28043",
+              "units": "12",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "44",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28044",
+              "units": "13",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "45",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28045",
+              "units": "15",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "46",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28046",
+              "units": "33",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "47",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28047",
+              "units": "23",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "48",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28048",
+              "units": "39",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "49",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28049",
+              "units": "33",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "50",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28050",
+              "units": "14",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "51",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28051",
+              "units": "26",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "52",
+              "movement_type": "ISSUE",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28052",
+              "units": "20",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "53",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28053",
+              "units": "37",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "54",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28054",
+              "units": "18",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "55",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28055",
+              "units": "27",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "56",
+              "movement_type": "ISSUE",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28056",
+              "units": "19",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "57",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28057",
+              "units": "36",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "58",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28058",
+              "units": "12",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "59",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28059",
+              "units": "6",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "60",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28060",
+              "units": "4",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "61",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28061",
+              "units": "3",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "62",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28062",
+              "units": "4",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "63",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28063",
+              "units": "15",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "64",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28064",
+              "units": "10",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "65",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28065",
+              "units": "29",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "66",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28066",
+              "units": "39",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "67",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28067",
+              "units": "2",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "68",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28068",
+              "units": "29",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "69",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28069",
+              "units": "20",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "70",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28070",
+              "units": "40",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "71",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28071",
+              "units": "31",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "72",
+              "movement_type": "ISSUE",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28072",
+              "units": "36",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "73",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28073",
+              "units": "36",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "74",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28074",
+              "units": "37",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "75",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28075",
+              "units": "40",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "76",
+              "movement_type": "ISSUE",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28076",
+              "units": "12",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "77",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28077",
+              "units": "29",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "78",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28078",
+              "units": "2",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "79",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28079",
+              "units": "29",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "80",
+              "movement_type": "ISSUE",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28080",
+              "units": "39",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "81",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28081",
+              "units": "37",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "82",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28082",
+              "units": "37",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "83",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28083",
+              "units": "16",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "84",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28084",
+              "units": "30",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "85",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28085",
+              "units": "27",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "86",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28086",
+              "units": "6",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "87",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28087",
+              "units": "32",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "88",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28088",
+              "units": "10",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "89",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28089",
+              "units": "3",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "90",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28090",
+              "units": "33",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "91",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28091",
+              "units": "12",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "92",
+              "movement_type": "ISSUE",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28092",
+              "units": "37",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "93",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28093",
+              "units": "34",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "94",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28094",
+              "units": "16",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "95",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28095",
+              "units": "26",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "96",
+              "movement_type": "ISSUE",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28096",
+              "units": "34",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "97",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28097",
+              "units": "37",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "98",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28098",
+              "units": "32",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "99",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28099",
+              "units": "24",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "100",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28100",
+              "units": "6",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "101",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28101",
+              "units": "21",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "102",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28102",
+              "units": "38",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "103",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28103",
+              "units": "15",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "104",
+              "movement_type": "ISSUE",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28104",
+              "units": "17",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "105",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28105",
+              "units": "16",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "106",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28106",
+              "units": "31",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "107",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28107",
+              "units": "16",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "108",
+              "movement_type": "ISSUE",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28108",
+              "units": "33",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "109",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28109",
+              "units": "5",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "110",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28110",
+              "units": "8",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "111",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28111",
+              "units": "17",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "112",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28112",
+              "units": "25",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "113",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28113",
+              "units": "9",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "114",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28114",
+              "units": "12",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "115",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28115",
+              "units": "25",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "116",
+              "movement_type": "ISSUE",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28116",
+              "units": "11",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "117",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28117",
+              "units": "39",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "118",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28118",
+              "units": "16",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "119",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28119",
+              "units": "34",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "120",
+              "movement_type": "ISSUE",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28120",
+              "units": "29",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "121",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28121",
+              "units": "23",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "122",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28122",
+              "units": "26",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "123",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28123",
+              "units": "38",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "124",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28124",
+              "units": "21",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "125",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28125",
+              "units": "22",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "126",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28126",
+              "units": "10",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "127",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28127",
+              "units": "24",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "128",
+              "movement_type": "ISSUE",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28128",
+              "units": "11",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "129",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28129",
+              "units": "28",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "130",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28130",
+              "units": "26",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "131",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28131",
+              "units": "26",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "132",
+              "movement_type": "ISSUE",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28132",
+              "units": "30",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "133",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28133",
+              "units": "18",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "134",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28134",
+              "units": "37",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "135",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28135",
+              "units": "2",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "136",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28136",
+              "units": "18",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "137",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28137",
+              "units": "29",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "138",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28138",
+              "units": "16",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "139",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28139",
+              "units": "5",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "140",
+              "movement_type": "ISSUE",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28140",
+              "units": "10",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "141",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28141",
+              "units": "30",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "142",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28142",
+              "units": "5",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "143",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28143",
+              "units": "7",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "144",
+              "movement_type": "ISSUE",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28144",
+              "units": "30",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "145",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28145",
+              "units": "32",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "146",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28146",
+              "units": "7",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "147",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28147",
+              "units": "2",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "148",
+              "movement_type": "ISSUE",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28148",
+              "units": "4",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "149",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28149",
+              "units": "3",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "150",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28150",
+              "units": "7",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "151",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28151",
+              "units": "8",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "152",
+              "movement_type": "ISSUE",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28152",
+              "units": "29",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "153",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28153",
+              "units": "35",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "154",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28154",
+              "units": "10",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "155",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28155",
+              "units": "33",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "156",
+              "movement_type": "ISSUE",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28156",
+              "units": "36",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "157",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28157",
+              "units": "24",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "158",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28158",
+              "units": "31",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "159",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28159",
+              "units": "4",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "160",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28161",
+              "units": "36",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "161",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28162",
+              "units": "35",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "162",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28163",
+              "units": "3",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "163",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28164",
+              "units": "32",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "164",
+              "movement_type": "ISSUE",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28165",
+              "units": "12",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "165",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28166",
+              "units": "8",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "166",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28167",
+              "units": "14",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "167",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28168",
+              "units": "21",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "168",
+              "movement_type": "ISSUE",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28169",
+              "units": "32",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "169",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28170",
+              "units": "13",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "170",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28171",
+              "units": "25",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "171",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28172",
+              "units": "38",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "172",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28173",
+              "units": "28",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "173",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28174",
+              "units": "33",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "174",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28175",
+              "units": "37",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "175",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28176",
+              "units": "10",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "176",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28177",
+              "units": "36",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "177",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28178",
+              "units": "22",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "178",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28179",
+              "units": "2",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "179",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28180",
+              "units": "26",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "180",
+              "movement_type": "ISSUE",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28181",
+              "units": "39",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "181",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28182",
+              "units": "33",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "182",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28183",
+              "units": "36",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "183",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28184",
+              "units": "23",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "184",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28185",
+              "units": "18",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "185",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28186",
+              "units": "8",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "186",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28187",
+              "units": "16",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "187",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28188",
+              "units": "30",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "188",
+              "movement_type": "ISSUE",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28189",
+              "units": "16",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "189",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28190",
+              "units": "34",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "190",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28191",
+              "units": "38",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "191",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28192",
+              "units": "3",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "192",
+              "movement_type": "ISSUE",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28193",
+              "units": "23",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "193",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28194",
+              "units": "3",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "194",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28195",
+              "units": "19",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "195",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28196",
+              "units": "23",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "196",
+              "movement_type": "ISSUE",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28197",
+              "units": "34",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "197",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28198",
+              "units": "30",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "198",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28199",
+              "units": "28",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "199",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28200",
+              "units": "9",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "200",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28201",
+              "units": "32",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "201",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28202",
+              "units": "31",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "202",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28203",
+              "units": "16",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "203",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28204",
+              "units": "2",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "204",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28205",
+              "units": "2",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "205",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28206",
+              "units": "28",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "206",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28207",
+              "units": "36",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "207",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28208",
+              "units": "14",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "208",
+              "movement_type": "ISSUE",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28209",
+              "units": "14",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "209",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28210",
+              "units": "8",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "210",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28211",
+              "units": "20",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "211",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28212",
+              "units": "27",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "212",
+              "movement_type": "ISSUE",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28213",
+              "units": "17",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "213",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28214",
+              "units": "6",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "214",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28215",
+              "units": "8",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "215",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28216",
+              "units": "13",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "216",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28217",
+              "units": "27",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "217",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28218",
+              "units": "18",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "218",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28219",
+              "units": "31",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "219",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28220",
+              "units": "16",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "220",
+              "movement_type": "ISSUE",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28221",
+              "units": "18",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "221",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28222",
+              "units": "11",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "222",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28223",
+              "units": "25",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "223",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28224",
+              "units": "15",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "224",
+              "movement_type": "ISSUE",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28225",
+              "units": "7",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "225",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28226",
+              "units": "25",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "226",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28227",
+              "units": "5",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "227",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28228",
+              "units": "23",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "228",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28229",
+              "units": "12",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "229",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28230",
+              "units": "36",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "230",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28231",
+              "units": "39",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "231",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28232",
+              "units": "21",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "232",
+              "movement_type": "ISSUE",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28233",
+              "units": "32",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "233",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28234",
+              "units": "11",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "234",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28235",
+              "units": "39",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "235",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28236",
+              "units": "19",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "236",
+              "movement_type": "ISSUE",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28237",
+              "units": "2",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "237",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28238",
+              "units": "33",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "238",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28239",
+              "units": "12",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "239",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28240",
+              "units": "38",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "240",
+              "movement_type": "ISSUE",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28241",
+              "units": "35",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "241",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28242",
+              "units": "21",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "242",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28243",
+              "units": "4",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "243",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28244",
+              "units": "33",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "244",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28245",
+              "units": "7",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "245",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28246",
+              "units": "2",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "246",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28247",
+              "units": "21",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "247",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28248",
+              "units": "9",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "248",
+              "movement_type": "ISSUE",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28249",
+              "units": "15",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "249",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28250",
+              "units": "36",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "250",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28251",
+              "units": "10",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "251",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28252",
+              "units": "22",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "252",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28253",
+              "units": "34",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "253",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28254",
+              "units": "9",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "254",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28255",
+              "units": "27",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "255",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28256",
+              "units": "6",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "256",
+              "movement_type": "ISSUE",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28257",
+              "units": "12",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "257",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28258",
+              "units": "27",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "258",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28259",
+              "units": "12",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "259",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28260",
+              "units": "2",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "260",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28261",
+              "units": "22",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "261",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28262",
+              "units": "34",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "262",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28263",
+              "units": "5",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "263",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28264",
+              "units": "4",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "264",
+              "movement_type": "ISSUE",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28265",
+              "units": "2",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "265",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28266",
+              "units": "14",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "266",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28267",
+              "units": "28",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "267",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28268",
+              "units": "29",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "268",
+              "movement_type": "ISSUE",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28269",
+              "units": "35",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "269",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28270",
+              "units": "12",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "270",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28271",
+              "units": "39",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "271",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28272",
+              "units": "2",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "272",
+              "movement_type": "ISSUE",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28273",
+              "units": "25",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "273",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28274",
+              "units": "35",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "274",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28275",
+              "units": "31",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "275",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28276",
+              "units": "36",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "276",
+              "movement_type": "ISSUE",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28277",
+              "units": "7",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "277",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28278",
+              "units": "20",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "278",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28279",
+              "units": "7",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "279",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28280",
+              "units": "33",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "280",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28281",
+              "units": "39",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "281",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28282",
+              "units": "35",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "282",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28283",
+              "units": "19",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "283",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28284",
+              "units": "15",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "284",
+              "movement_type": "ISSUE",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28285",
+              "units": "14",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "285",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28286",
+              "units": "31",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "286",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28287",
+              "units": "21",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "287",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28288",
+              "units": "36",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "288",
+              "movement_type": "ISSUE",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28289",
+              "units": "13",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "289",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28290",
+              "units": "26",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "290",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28291",
+              "units": "13",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "291",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28292",
+              "units": "8",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "292",
+              "movement_type": "ISSUE",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28293",
+              "units": "18",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "293",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28294",
+              "units": "39",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "294",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28295",
+              "units": "36",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "295",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28296",
+              "units": "21",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "296",
+              "movement_type": "ISSUE",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28297",
+              "units": "26",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "297",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28298",
+              "units": "17",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "298",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28299",
+              "units": "15",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "299",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28300",
+              "units": "29",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "300",
+              "movement_type": "ISSUE",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28301",
+              "units": "9",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "301",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28302",
+              "units": "25",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "302",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28303",
+              "units": "35",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "303",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28304",
+              "units": "9",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "304",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28305",
+              "units": "23",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "305",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28306",
+              "units": "31",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "306",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28307",
+              "units": "33",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "307",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28308",
+              "units": "5",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "308",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28309",
+              "units": "25",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "309",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28310",
+              "units": "39",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "310",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28311",
+              "units": "39",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "311",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28312",
+              "units": "24",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "312",
+              "movement_type": "ISSUE",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28313",
+              "units": "19",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "313",
+              "movement_type": "RECEIPT",
+              "product_id": "6",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28314",
+              "units": "31",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "314",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28315",
+              "units": "7",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "315",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28316",
+              "units": "10",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "316",
+              "movement_type": "ISSUE",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28317",
+              "units": "10",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "317",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28318",
+              "units": "20",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "318",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28319",
+              "units": "31",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "319",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28320",
+              "units": "23",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "320",
+              "movement_type": "ISSUE",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28321",
+              "units": "30",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "321",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28322",
+              "units": "34",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "322",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28323",
+              "units": "34",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "323",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28324",
+              "units": "17",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "324",
+              "movement_type": "ISSUE",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28325",
+              "units": "40",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "325",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28326",
+              "units": "36",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "326",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28327",
+              "units": "8",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "327",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28328",
+              "units": "21",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "328",
+              "movement_type": "ISSUE",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28329",
+              "units": "3",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "329",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28330",
+              "units": "23",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "330",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28331",
+              "units": "28",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "331",
+              "movement_type": "RECEIPT",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28332",
+              "units": "6",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "332",
+              "movement_type": "ISSUE",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28333",
+              "units": "15",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "333",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28334",
+              "units": "17",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "334",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28335",
+              "units": "18",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "335",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28336",
+              "units": "14",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-17",
+              "movement_id": "336",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28337",
+              "units": "22",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "337",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28338",
+              "units": "32",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "338",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28339",
+              "units": "12",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "339",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28340",
+              "units": "19",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "340",
+              "movement_type": "ISSUE",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28341",
+              "units": "25",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "341",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28342",
+              "units": "38",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "342",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28343",
+              "units": "7",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "343",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28344",
+              "units": "30",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "344",
+              "movement_type": "ISSUE",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28345",
+              "units": "19",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "345",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28346",
+              "units": "24",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-16",
+              "movement_id": "346",
+              "movement_type": "RECEIPT",
+              "product_id": "1",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28347",
+              "units": "13",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "347",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28348",
+              "units": "40",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "348",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28349",
+              "units": "19",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-15",
+              "movement_id": "349",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28350",
+              "units": "28",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-13",
+              "movement_id": "350",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28351",
+              "units": "23",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "351",
+              "movement_type": "RECEIPT",
+              "product_id": "4",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28352",
+              "units": "10",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-12",
+              "movement_id": "352",
+              "movement_type": "ISSUE",
+              "product_id": "7",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28353",
+              "units": "34",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "353",
+              "movement_type": "RECEIPT",
+              "product_id": "5",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28354",
+              "units": "37",
+              "warehouse_id": "3"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "354",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28355",
+              "units": "24",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "355",
+              "movement_type": "RECEIPT",
+              "product_id": "8",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28356",
+              "units": "27",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-18",
+              "movement_id": "356",
+              "movement_type": "ISSUE",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28357",
+              "units": "25",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "357",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28358",
+              "units": "26",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-10",
+              "movement_id": "358",
+              "movement_type": "RECEIPT",
+              "product_id": "2",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28359",
+              "units": "9",
+              "warehouse_id": "2"
+            },
+            {
+              "event_day": "2026-09-14",
+              "movement_id": "359",
+              "movement_type": "RECEIPT",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28360",
+              "units": "37",
+              "warehouse_id": "1"
+            },
+            {
+              "event_day": "2026-09-11",
+              "movement_id": "360",
+              "movement_type": "ISSUE",
+              "product_id": "3",
+              "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+              "source_row_version": "28361",
+              "units": "14",
+              "warehouse_id": "1"
+            }
+          ],
+          [
+            {
+              "column_name": "movement_id",
+              "is_computed": "False",
+              "is_nullable": "False",
+              "max_length": "4",
+              "precision": "10",
+              "scale": "0",
+              "type_name": "int"
+            },
+            {
+              "column_name": "warehouse_id",
+              "is_computed": "False",
+              "is_nullable": "False",
+              "max_length": "4",
+              "precision": "10",
+              "scale": "0",
+              "type_name": "int"
+            },
+            {
+              "column_name": "product_id",
+              "is_computed": "False",
+              "is_nullable": "False",
+              "max_length": "4",
+              "precision": "10",
+              "scale": "0",
+              "type_name": "int"
+            },
+            {
+              "column_name": "units",
+              "is_computed": "False",
+              "is_nullable": "False",
+              "max_length": "4",
+              "precision": "10",
+              "scale": "0",
+              "type_name": "int"
+            },
+            {
+              "column_name": "event_day",
+              "is_computed": "False",
+              "is_nullable": "False",
+              "max_length": "200",
+              "precision": "0",
+              "scale": "0",
+              "type_name": "nvarchar"
+            },
+            {
+              "column_name": "movement_type",
+              "is_computed": "False",
+              "is_nullable": "False",
+              "max_length": "200",
+              "precision": "0",
+              "scale": "0",
+              "type_name": "nvarchar"
+            },
+            {
+              "column_name": "source_modified_at_utc",
+              "is_computed": "False",
+              "is_nullable": "True",
+              "max_length": "8",
+              "precision": "27",
+              "scale": "7",
+              "type_name": "datetime2"
+            },
+            {
+              "column_name": "source_row_version",
+              "is_computed": "False",
+              "is_nullable": "False",
+              "max_length": "8",
+              "precision": "0",
+              "scale": "0",
+              "type_name": "timestamp"
+            }
+          ]
+        ],
+        "status": "COMPLETED"
+      },
+      "exit_code": 0
+    }
+  },
+  "focused_tests": 47,
+  "evidence_rule": "No scored source-history ticket may run after its required native versions have been removed. Retain history through dev and held-out; current-row injections still restored and hash-verified after their scored case.",
+  "budget_or_identity_changes": false,
+  "estimated_payload": "Two hidden datetime2 columns add5760bytes for360currentrows; cap retained controlled versions at100 (under50KiB raw row payload). Native allocation and elapsed compute to be measured, existing free/serverless SKU unchanged.",
+  "links": [
+    "https://learn.microsoft.com/en-us/sql/relational-databases/tables/creating-a-system-versioned-temporal-table",
+    "https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/track-data-changes-sql-server",
+    "https://learn.microsoft.com/en-us/sql/relational-databases/tables/temporal/stop-system-versioning"
+  ]
+}

@@ -1,0 +1,269 @@
+{
+  "date": "2026-10-23",
+  "status": "THREE_REAL_FAILURES_ORIGINAL_DEFINITIONS_RESTORED",
+  "publisher": "admin@skynwhy.com existing publisher",
+  "approval": "Round22 section3b",
+  "new_identity_or_permission": false,
+  "data_activities_executed": false,
+  "history_removed": false,
+  "cases": [
+    {
+      "case": "failed-fixture-load",
+      "estate": "fixture",
+      "workspace": "149f8d99-1c66-4a0a-9624-759be002bb60",
+      "pipeline": "b4871498-bd35-45be-916c-9a642568012c",
+      "original_sha256": "a1575cd16935d1b8e07943092776531e957946a02f261d213465cd25e9a0d367",
+      "original_semantic_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+      "injected_semantic_hash": "f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe",
+      "observed_job": {
+        "endTimeUtc": "2026-10-23T17:16:56.2666667",
+        "failureReason": {
+          "errorCode": "2011",
+          "isRetriable": false,
+          "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+          "requestId": "d9bfa453-27fc-4511-aa16-ec6d17bb5851"
+        },
+        "id": "dd4ce5a6-43af-4fe5-a7ee-bd8b127a68e2",
+        "invokeType": "Manual",
+        "itemId": "b4871498-bd35-45be-916c-9a642568012c",
+        "jobType": "Pipeline",
+        "rootActivityId": "a3f0f4fe-14b2-463d-999c-e28134cd3974",
+        "startTimeUtc": "2026-10-23T17:16:29.31",
+        "status": "Failed"
+      },
+      "restoration": {
+        "before_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+        "mutations": 1,
+        "run_history_preserved": true,
+        "served_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+        "status": "RESTORED_DEFINITION"
+      },
+      "original_partial_control_preserved": false,
+      "reader_fact_id": "d1336cbdcaff4af8650f42edbb7d2401d7f5ffc64a61dac74a011bd0ec67ccc3",
+      "collector_confirmed": true
+    },
+    {
+      "case": "failed-billing-transform",
+      "estate": "billing",
+      "workspace": "7d67bb36-04f6-4182-95aa-da5d515248fa",
+      "pipeline": "76c60248-b830-433b-9880-90593da28e7e",
+      "original_sha256": "1ea18329070b44a4543dd02065ac115540504a2148d1c8f16f8e84be2d640f47",
+      "original_semantic_hash": "392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552",
+      "injected_semantic_hash": "99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1",
+      "observed_job": {
+        "endTimeUtc": "2026-10-23T17:19:01.8333333",
+        "failureReason": {
+          "errorCode": "2011",
+          "isRetriable": false,
+          "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+          "requestId": "f8c219df-70f2-472b-9a5e-3d0d13454f9c"
+        },
+        "id": "03dbdce1-a3bf-4af6-aa17-1df32b3776fa",
+        "invokeType": "Manual",
+        "itemId": "76c60248-b830-433b-9880-90593da28e7e",
+        "jobType": "Pipeline",
+        "rootActivityId": "342f3430-c2b6-4e80-a917-6c5d4cb6305e",
+        "startTimeUtc": "2026-10-23T17:18:30.51",
+        "status": "Failed"
+      },
+      "restoration": {
+        "case": "failed-billing-transform",
+        "mutations": 0,
+        "original_control_still_retained": true,
+        "original_semantic_hash": "392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552",
+        "physical_requests": 1,
+        "served_semantic_hash": "392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552",
+        "status": "ORIGINAL_DEFINITION_INDEPENDENTLY_CONFIRMED"
+      },
+      "original_partial_control_preserved": true,
+      "reader_fact_id": "2a58f2ff5a0aad6ef6838a4fdee9bfb14d56c07d600260de0a749b5d22a4e2f7",
+      "collector_confirmed": true
+    },
+    {
+      "case": "failed-billing-load",
+      "estate": "billing",
+      "workspace": "7d67bb36-04f6-4182-95aa-da5d515248fa",
+      "pipeline": "fc8438fd-2c18-4196-9191-33e26481e2e0",
+      "original_sha256": "637f3dd44b26bb93359396b648cad40d4b904b48fae59128d596ed4cae0a801c",
+      "original_semantic_hash": "febc543e6cb018bcfbd83e97006d98fe2b875a33a45d0debf2bf2fb09fc250a4",
+      "injected_semantic_hash": "84377d2e2e8d3f21379281267c5ecd4e84b09de9780c1e947427fed1fc157747",
+      "observed_job": {
+        "endTimeUtc": "2026-10-23T17:27:30.51",
+        "failureReason": {
+          "errorCode": "2011",
+          "isRetriable": false,
+          "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+          "requestId": "ab8475fb-96a3-4dd3-8f18-bed22db38769"
+        },
+        "id": "e67fa2c3-26e3-4c6d-8b75-2a1c45751d20",
+        "invokeType": "Manual",
+        "itemId": "fc8438fd-2c18-4196-9191-33e26481e2e0",
+        "jobType": "Pipeline",
+        "rootActivityId": "ba31f3ae-e446-41cf-9678-5af6f739401d",
+        "startTimeUtc": "2026-10-23T17:26:54.8166667",
+        "status": "Failed"
+      },
+      "restoration": {
+        "before_hash": "febc543e6cb018bcfbd83e97006d98fe2b875a33a45d0debf2bf2fb09fc250a4",
+        "mutations": 1,
+        "run_history_preserved": true,
+        "served_hash": "febc543e6cb018bcfbd83e97006d98fe2b875a33a45d0debf2bf2fb09fc250a4",
+        "status": "RESTORED_DEFINITION"
+      },
+      "original_partial_control_preserved": true,
+      "reader_fact_id": "37072e7c1a43c14264c9b205c941eaefbd5f605a76cc104a86251316a610aed2",
+      "collector_confirmed": true
+    }
+  ],
+  "reader_collections": [
+    {
+      "estate": "fixture",
+      "execution": {
+        "name": "job-dia-worker-1iasvs6",
+        "status": "Succeeded",
+        "startTime": "2026-10-23T17:28:14+00:00",
+        "endTime": "2026-10-23T17:28:56+00:00"
+      },
+      "seal": "c83fff57fec250ac0e3d2f40704f60d99fbd8b4562b0c6a50aec641b54a36027",
+      "status": "COLLECTED",
+      "physical_requests": 2,
+      "max_requests": 4,
+      "model_calls": 0,
+      "collector": "microsoft-runtime:726f9970429cd3c4fe6661f282995336d2f222a9055ffc6e3e5c74185633fe0c",
+      "job_run_facts": [
+        {
+          "collected_at": "2026-10-23T17:28:42.694598Z",
+          "freshness": "CURRENT",
+          "id": "d1336cbdcaff4af8650f42edbb7d2401d7f5ffc64a61dac74a011bd0ec67ccc3",
+          "kind": "JOB_RUN",
+          "observed_at": "2026-10-23T17:28:42.694598Z",
+          "provenance": {
+            "collector": "microsoft-runtime:726f9970429cd3c4fe6661f282995336d2f222a9055ffc6e3e5c74185633fe0c",
+            "evidence_ids": [
+              "sha256:6d740afbdb4f90b90b76f1ccaee392980860ef1a5a602b378e5ccb2c673a0fac"
+            ],
+            "locator": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "value": {
+            "accounting": "UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA",
+            "end": "2026-10-23T17:16:56.266666Z",
+            "error": {
+              "errorCode": "2011",
+              "isRetriable": false,
+              "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+              "requestId": "63fcd8bc-ce07-4b42-8682-ce5dbc0d377a"
+            },
+            "rows_read": null,
+            "rows_written": null,
+            "run_id": "dd4ce5a6-43af-4fe5-a7ee-bd8b127a68e2",
+            "start": "2026-10-23T17:16:29.310000Z",
+            "status": "FAILED"
+          }
+        }
+      ]
+    },
+    {
+      "estate": "billing",
+      "execution": {
+        "name": "job-dia-worker-02xmu6q",
+        "status": "Succeeded",
+        "startTime": "2026-10-23T17:33:15+00:00",
+        "endTime": "2026-10-23T17:34:07+00:00"
+      },
+      "seal": "de44afea0b1119fe0c21aae1e28931c585a0b693198161f02506ead82029352c",
+      "status": "COLLECTED",
+      "physical_requests": 4,
+      "max_requests": 4,
+      "model_calls": 0,
+      "collector": "microsoft-runtime:31d94ae6fc611a0feb86db7e60e0130956efea3937e4fcc923f01c8530487451",
+      "job_run_facts": [
+        {
+          "collected_at": "2026-10-23T17:33:48.914586Z",
+          "freshness": "CURRENT",
+          "id": "2a58f2ff5a0aad6ef6838a4fdee9bfb14d56c07d600260de0a749b5d22a4e2f7",
+          "kind": "JOB_RUN",
+          "observed_at": "2026-10-23T17:33:48.914586Z",
+          "provenance": {
+            "collector": "microsoft-runtime:31d94ae6fc611a0feb86db7e60e0130956efea3937e4fcc923f01c8530487451",
+            "evidence_ids": [
+              "sha256:fab86cf808b5b6ea3e80c90b28468dd61ef5fd7f523cb1530ac5a2214e2a9f0b"
+            ],
+            "locator": "ac9927a6c04a1b67866ea90c1e3432709bd4ffebe49985f80c21d67cc14f85d8"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "ac9927a6c04a1b67866ea90c1e3432709bd4ffebe49985f80c21d67cc14f85d8",
+          "value": {
+            "accounting": "UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA",
+            "end": "2026-10-23T17:19:01.833333Z",
+            "error": {
+              "errorCode": "2011",
+              "isRetriable": false,
+              "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+              "requestId": "db76da97-20c0-4eff-a952-86f2e47f4b9a"
+            },
+            "rows_read": null,
+            "rows_written": null,
+            "run_id": "03dbdce1-a3bf-4af6-aa17-1df32b3776fa",
+            "start": "2026-10-23T17:18:30.510000Z",
+            "status": "FAILED"
+          }
+        },
+        {
+          "collected_at": "2026-10-23T17:33:48.914586Z",
+          "freshness": "CURRENT",
+          "id": "37072e7c1a43c14264c9b205c941eaefbd5f605a76cc104a86251316a610aed2",
+          "kind": "JOB_RUN",
+          "observed_at": "2026-10-23T17:33:48.914586Z",
+          "provenance": {
+            "collector": "microsoft-runtime:31d94ae6fc611a0feb86db7e60e0130956efea3937e4fcc923f01c8530487451",
+            "evidence_ids": [
+              "sha256:f1fcfdbc3b90437397775a1b19b1c26e432d8dacc72fb9915d682c1cb7317bcb"
+            ],
+            "locator": "11c0001e0832168c29db5eb18c2c0e0095c7450e2b2d05ceb81f3d74ee8f8f4b"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "11c0001e0832168c29db5eb18c2c0e0095c7450e2b2d05ceb81f3d74ee8f8f4b",
+          "value": {
+            "accounting": "UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA",
+            "end": "2026-10-23T17:27:30.510000Z",
+            "error": {
+              "errorCode": "2011",
+              "isRetriable": false,
+              "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+              "requestId": "a4a888ef-34b0-4bb4-9e6f-45a3b36b69a1"
+            },
+            "rows_read": null,
+            "rows_written": null,
+            "run_id": "e67fa2c3-26e3-4c6d-8b75-2a1c45751d20",
+            "start": "2026-10-23T17:26:54.816666Z",
+            "status": "FAILED"
+          }
+        }
+      ]
+    }
+  ],
+  "billing_read_route_addition": {
+    "type": "READ_ONLY_GATEWAY_CONFIGURATION",
+    "reason": "Add already-discovered Billing Warehouse transformations pipeline to bounded collector metadata reads; current scheduled config only included continuation pipeline",
+    "item": "76c60248-b830-433b-9880-90593da28e7e",
+    "methods": [
+      "GET jobs/instances",
+      "GET jobs/Pipeline/schedules"
+    ],
+    "permission_grants": 0
+  },
+  "open_reservations": {
+    "count": 1,
+    "status": "RESERVED_CONSERVATIVELY_CHARGED",
+    "reason": "Original billing-load controller stalled in SharedUsage.mirror before next dispatch and was stopped; no charge was released or another worker reservation settled",
+    "artifact": "private injections/failed-billing-load/preserved-reservations.json"
+  }
+}

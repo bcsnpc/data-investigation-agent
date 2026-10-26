@@ -90,6 +90,15 @@ class CloudFormWorkerTests(unittest.TestCase):
         self.assertEqual(workspace.forms.submit.call_count,2)
         workspace.run_session_once.assert_not_called()
 
+    def test_raw_baseline_uses_existing_text_port_without_selected_form_authority(self):
+        saved={'ticket':{'state':'CLARIFYING'},'revision':1}
+        workspace=SimpleNamespace(smart_intake=SimpleNamespace(submit=Mock(return_value=saved)),
+            forms=SimpleNamespace(submit=Mock(side_effect=AssertionError('No fabricated form'))),run_session_once=Mock())
+        text='The total on my report is different from my own count.'
+        self.assertIs(worker.run_form(workspace,{'id':'raw-baseline','text':text}),saved)
+        workspace.smart_intake.submit.assert_called_once_with({'text':text,'request_key':'raw-baseline'})
+        workspace.run_session_once.assert_not_called()
+
     def test_cloud_authority_and_durable_recording_are_required(self):
         argv=['--bundle','never-open.json','--sha256','0'*64,'--job-root','never-create']
         with patch.dict('os.environ',{},clear=True):

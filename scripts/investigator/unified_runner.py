@@ -14,16 +14,22 @@ from .planner_recording import _safe
 from .run_capture import DurableCapture,blob_sink
 
 VERSION='dia-runner-estate-v1'
-KINDS=frozenset({'investigation','verification','probe','scan','replay','prepare','smoke','authorization-check','value-verification','collect-facts','facts-dispatcher','ledger-investigation','enrichment-batch','access-check'})
+KINDS=frozenset({'investigation','legacy-baseline','verification','probe','scan','replay','prepare','smoke','authorization-check','value-verification','collect-facts','facts-dispatcher','ledger-investigation','enrichment-batch','access-check'})
 PUBLIC_ENV=frozenset(('DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JSON',
     'INVESTIGATOR_STATE_BACKEND','INVESTIGATOR_PG_HOST','INVESTIGATOR_PG_DATABASE','INVESTIGATOR_PG_USER',
     'AZURE_CLIENT_ID','DIA_GATEWAY_HTTP_IDENTITY','DIA_GATEWAY_SQL_IDENTITY','DIA_GATEWAY_MODEL_IDENTITY',
     'DIA_GATEWAY_STATE_IDENTITY','DIA_PLATFORM_CONTROL_RECEIPTS','DIA_GATEWAY_AUDIT_FILE','DIA_LIVE_ACCESS_DISABLED'))
 
+def collector_options(options):
+    """Use the consumer's contract before launching a paid cloud execution."""
+    from cloud_facts_collector import validate
+    if set(options)!={'config'}:raise ValueError('FACT_COLLECTOR_RUNNER_OPTIONS')
+    return validate(options['config'])
+
 def load(path):
     value=json.loads(Path(path).read_bytes())
     required={'version','manifest','image','capture','checks','output_root'}
-    if not isinstance(value,dict) or not required<=set(value)<=required|{'bootstrap','run_id','input','platform_cost_observation','deployment','environment','per_execution','schedule','access_check','explain'} or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
+    if not isinstance(value,dict) or not required<=set(value)<=required|{'bootstrap','run_id','input','platform_cost_observation','deployment','environment','per_execution','schedule','access_check','explain','investigator_spec'} or value['version']!=VERSION:raise ValueError('RUNNER_ESTATE_SCHEMA')
     if 'per_execution' in value and type(value['per_execution'])is not bool:raise ValueError('RUNNER_PER_EXECUTION_FLAG')
     if not isinstance(value.get('environment',{}),dict) or not set(value.get('environment',{}))<=PUBLIC_ENV or any(not isinstance(v,str) for v in value.get('environment',{}).values()):raise ValueError('RUNNER_PUBLIC_ENVIRONMENT')
     if 'run_id' in value and not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',value['run_id']):raise ValueError('RUN_ID_INVALID')
@@ -32,6 +38,7 @@ def load(path):
     if not isinstance(value['checks'],dict) or not value['checks']:raise ValueError('RUNNER_CHECKS_REQUIRED')
     for name,check in value['checks'].items():
         if not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',name) or set(check)!={'kind','options'} or check['kind'] not in KINDS or not isinstance(check['options'],dict):raise ValueError('RUNNER_TYPED_CHECK_REQUIRED')
+        if check['kind']=='collect-facts':collector_options(check['options'])
     _safe(bytes_of(value))
     return value
 
@@ -60,6 +67,7 @@ def transient(error):
     if any(s in text for s in ('billing','unauthorized','forbidden','permission denied','secret_detected')):return False
     from urllib.error import URLError
     if isinstance(error,URLError) and isinstance(error.reason,(TimeoutError,ConnectionError)):return True
+    if getattr(error,'stage',None)=='connect'and getattr(error,'error_number',None)==40613:return True
     return isinstance(error,(TimeoutError,ConnectionError)) or getattr(error,'error_number',None)==18456 or getattr(error,'code',None) in (408,429,502,503,504) or any(s in text for s in ('18456','connection reset','temporarily unavailable'))
 
 def retry(call,*,record,sleep=time.sleep):
@@ -88,8 +96,8 @@ def handlers():
         return ctx.access_result
     def collect_facts(plan,ctx):
         from cloud_facts_collector import execute
-        if set(plan['options'])!={'config'}:raise ValueError('FACT_COLLECTOR_RUNNER_OPTIONS')
-        return ctx.step('collect-facts',lambda:execute(plan['options']['config']))
+        config=collector_options(plan['options'])
+        return ctx.step('collect-facts',lambda:execute(config))
     def value_verification(plan,ctx):
         from cloud_value_execution import run
         return run(plan,ctx)
@@ -132,6 +140,12 @@ def handlers():
             try:
                 m=manifest['model'];settings={**m['credential'],'endpoint':m['endpoint'],'deployment':m['deployment']}
                 with local_azure_key(settings):
+                    from .normal_audit import mode,normal_context
+                    if mode(plan['options'].get('recording_mode','NORMAL'))=='NORMAL':
+                        with normal_context(ctx,plan.get('run_id','legacy-baseline'))as audit:
+                            result=run_form(workspace,json.loads(Path(plan['options']['ticket']).read_bytes()))
+                            audit.record('legacy-baseline-result',result)
+                            return result
                     return run_form(workspace,json.loads(Path(plan['options']['ticket']).read_bytes()))
             finally:
                 close=getattr(workspace,'close',None)
@@ -187,10 +201,13 @@ def handlers():
             def execute():
                 with scope(lambda kind,fn:meter(fn)):return _gold_read(payload)
             return meter(execute)
-        demo=(lambda:investigation({**plan,'options':o['demo']},ctx)) if o['config']['demo_earned'] else None
+        demo_kind=o.get('demo_kind','ledger-investigation')
+        if demo_kind not in ('ledger-investigation','legacy-baseline'):raise ValueError('SMOKE_ENGINE_KIND')
+        demo_handler=ledger_investigation if demo_kind=='ledger-investigation' else investigation
+        demo=(lambda:demo_handler({**plan,'options':o['demo']},ctx)) if o['config']['demo_earned'] else None
         try:return run_smoke(o['config'],ctx,state=state,gold_read=gold,blob_roundtrip=lambda config,body:capture_roundtrip(ctx,body),demo=demo)
         finally:meter.close()
-    return {'verification':verification,'investigation':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke,'authorization-check':authorization_check,'value-verification':value_verification,'collect-facts':collect_facts,'facts-dispatcher':facts_dispatcher,'ledger-investigation':ledger_investigation,'enrichment-batch':enrichment_batch,'access-check':access_result}
+    return {'verification':verification,'investigation':ledger_investigation,'legacy-baseline':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke,'authorization-check':authorization_check,'value-verification':value_verification,'collect-facts':collect_facts,'facts-dispatcher':facts_dispatcher,'ledger-investigation':ledger_investigation,'enrichment-batch':enrichment_batch,'access-check':access_result}
 
 def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     from .run_database_audits import scope
@@ -223,7 +240,9 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     if check is None and Path(target).is_file():
         # The file is submitted through the same normal form contract; it never
         # supplies a handler, script or unvalidated SQL payload.
-        check={'kind':'investigation','options':{'ticket':str(Path(target).resolve())}}
+        if 'investigator_spec' not in config:raise ValueError('RUNNER_DEFAULT_INVESTIGATOR_SPEC_REQUIRED')
+        path=Path(target).resolve()
+        check={'kind':'ledger-investigation','options':{'spec':config['investigator_spec'],'ticket':{'path':str(path),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}}}
     if check is None:raise ValueError('RUNNER_UNKNOWN_CHECK:'+target)
     run_id=run_id or config.get('run_id') or str(uuid4())
     if 'bootstrap' in config:validate_bootstrap_header(config['bootstrap'])
@@ -256,7 +275,7 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
                 ctx.step('input-materialization',materialize)
             if check['kind'] != 'replay':
                 from .access_check import configured as check_access
-                access = ctx.step('check-access', lambda: check_access(config.get('access_check')))
+                access = ctx.step('check-access', lambda: check_access(config.get('access_check'),retain=ctx.record))
                 ctx.access_result=access
                 # Build-phase admission mismatches warn. The gateway/read-only
                 # exceptions propagate; verification and tenant-only warnings
@@ -272,10 +291,12 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
                     access_result=getattr(ctx,'access_result',None),
                     step=lambda name,fn:retry(lambda:ctx.step(name,fn),record=ctx.record,sleep=sleep))
                 return ctx.step(check['kind'],lambda:registry[check['kind']](plan,view))
-            if getattr(ctx,'access_result',{}).get('status')=='FAIL' and check['kind']!='access-check':
-                # A real permission/read failure is not a verification or
-                # attestation warning. Preserve the full table without starting
-                # an investigation or asking a model to work around it.
+            if getattr(ctx,'access_result',{}).get('status')=='FAIL' and check['kind']not in ('access-check','investigation','ledger-investigation','smoke'):
+                # Standalone probes still return their failed access report.
+                # Investigations retain that report but check reachable layers:
+                # each native read still verifies its own identity/read-only
+                # guards and records blocked source availability. No fallback
+                # identity or permission is introduced by a preflight warning.
                 result={'status':'HELD','reason':'CHECK_ACCESS_FAILED','access_check':ctx.access_result,
                         'investigation_executed':False}
                 ctx.record('admission-failure',result)

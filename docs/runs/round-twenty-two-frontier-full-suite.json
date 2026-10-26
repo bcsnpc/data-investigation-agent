@@ -1,0 +1,52 @@
+{
+  "revision": "8611703879fce5d1bfde3f5c6ec42ff4e74d5805",
+  "elapsed_seconds": 1116.5937169000026,
+  "statuses": [
+    {
+      "shard": 0,
+      "exit_code": 0
+    },
+    {
+      "shard": 1,
+      "exit_code": 0
+    },
+    {
+      "shard": 2,
+      "exit_code": 0
+    },
+    {
+      "shard": 3,
+      "exit_code": 0
+    }
+  ],
+  "results": [
+    {
+      "tests": 1286,
+      "failures": 0,
+      "errors": 0,
+      "skips": 15,
+      "successful": true
+    },
+    {
+      "tests": 1286,
+      "failures": 0,
+      "errors": 0,
+      "skips": 6,
+      "successful": true
+    },
+    {
+      "tests": 1286,
+      "failures": 0,
+      "errors": 0,
+      "skips": 26,
+      "successful": true
+    },
+    {
+      "tests": 1285,
+      "failures": 0,
+      "errors": 0,
+      "skips": 1,
+      "successful": true
+    }
+  ]
+}

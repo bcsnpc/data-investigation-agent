@@ -23,6 +23,16 @@ class SharedReadBudgetTests(read_budget_tests.ReadBudgetTests):
         self.proof=import_usage(self.state,'initial',source)
         self.g.shared=SharedUsage(self.g,self.state,owner='worker-one')
 
+    def test_reporting_mirror_can_be_off_without_losing_charges_or_budget_refusal(self):
+        self.g.shared.reporting_mirror=False
+        for index in range(2):
+            with self.runtime.db()as db:
+                self.g.reserve(db,'report-free',str(index),'cloud')
+                self.g.settle(db,'report-free',str(index),{})
+                self.assertEqual(db.execute('SELECT COUNT(*) FROM adaptive_usage').fetchone()[0],0)
+        self.assertEqual(self.g.snapshot()['read_allowance']['ordinary_charged'],2)
+        with self.assertRaises(UsageHold):self.reserve('still-refused')
+
     def test_atomic_competing_requests_cannot_overrun(self):
         # Real workers share PostgreSQL, never their private SQLite mirrors.
         # The inherited legacy test holds one SQLite BEGIN IMMEDIATE during

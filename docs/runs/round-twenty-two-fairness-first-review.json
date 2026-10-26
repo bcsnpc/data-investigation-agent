@@ -1,0 +1,284 @@
+{
+  "status": "COMPLETED",
+  "batch_key": "round22-r17-fairness-v1",
+  "provider_batch": "msgbatch_01HZLLC4m2i1SJturPtam7Zo",
+  "execution": {
+    "name": "job-dia-worker-ua8ho7v",
+    "status": "Succeeded",
+    "startTime": "2026-10-23T17:00:31+00:00",
+    "endTime": "2026-10-23T17:01:22+00:00"
+  },
+  "seal": "2d15a24d5485dc0d2694ab5aa5ef73adc2971d65cfc014107f207238ddc382e7",
+  "judgments": [
+    {
+      "case_id": "R17-01",
+      "status": "VALIDATED",
+      "answerable": true,
+      "missing_essentials": [],
+      "reason": "All referenced artifacts are present in the catalog: REPORT Declared predicate fixture 20261001, PAGE Unfiltered control, and MEASURE Handled Quantity are all explicitly listed as fixtures. The ticket asks to verify the displayed value 8765 on a specific named card, page, and report, which is a grounded and answerable question against the visible catalog.",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1733,
+        "output_tokens": 98,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-02",
+      "status": "VALIDATED",
+      "answerable": true,
+      "missing_essentials": [],
+      "reason": "All named elements are visible in the catalog: REPORT Declared predicate fixture 20261001, PAGE Unfiltered control, and MEASURE Handled Quantity are all present as labeled fixtures. The ticket asks to verify a specific number (8765) shown on a specific visual context, which is a grounded and answerable question.",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1727,
+        "output_tokens": 90,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-03",
+      "status": "VALIDATED",
+      "answerable": true,
+      "missing_essentials": [
+        "comparison"
+      ],
+      "reason": "The ticket names 'MEASURE Handled Quantity' and 'PAGE Unfiltered control', both of which appear in the visible catalog labels, and supplies a specific current value of 8765. The only missing element is a comparison target (expected value or historical baseline), but the question is still grounded enough to investigate the metric on that page and assess ledger freshness or recreate the number.",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1719,
+        "output_tokens": 106,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-04",
+      "status": "VALIDATED",
+      "answerable": false,
+      "missing_essentials": [
+        "report",
+        "comparison"
+      ],
+      "reason": "The ticket names the measure 'Handled Quantity' which exists in the catalog, and references an 'unfiltered card', but does not specify which report or page to look at. Multiple reports and pages are present in the catalog (e.g., Inventory Health and Warehouse Performance across several variants), and there is no baseline or expected value provided to confirm whether 8765 is correct or incorrect. Without a specific report/page anchor and a reference value or definition of what the intended value should be, the question cannot be fairly answered.",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1719,
+        "output_tokens": 137,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-05",
+      "status": "VALIDATED",
+      "answerable": true,
+      "missing_essentials": [],
+      "reason": "The ticket names an explicit report (REPORT Declared predicate fixture 20261001), an explicit measure (MEASURE Handled Quantity), an explicit page context (implicitly the report's pages which are visible: PAGE Unfiltered control, PAGE Saved predicate selections, PAGE Six active predicates), and supplies the observed value 8765 to investigate. All referenced items are present in the catalog labels, making this a fair and answerable question.",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1722,
+        "output_tokens": 115,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-06",
+      "status": "VALIDATED",
+      "answerable": false,
+      "missing_essentials": [
+        "report",
+        "number"
+      ],
+      "reason": "The ticket names 'Handled Quantity' (a visible measure) and 'Unfiltered control' (a visible page), but no report containing that page is listed in the catalog labels. Without an identifiable report, the artifact cannot be located. Additionally, the value 8765 is asserted by the user but cannot be verified from the catalog alone, and no comparison baseline is provided. The missing report is the primary blocking essential.",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1722,
+        "output_tokens": 116,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-07",
+      "status": "VALIDATED",
+      "answerable": false,
+      "missing_essentials": [
+        "report",
+        "access"
+      ],
+      "reason": "The label list includes a PAGE named 'Unfiltered control' but it belongs to 'REPORT Declared predicate fixture 20261001'. The ticket names the measure 'Handled Quantity' (which exists) and the page 'Unfiltered control' (which exists), but data refresh timestamps require live system access to the underlying dataset or model refresh history, which cannot be determined from the catalog labels alone. Additionally, no refresh metadata is exposed in the visible labels, making the freshness question unanswerable without direct access.",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1711,
+        "output_tokens": 139,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-08",
+      "status": "VALIDATED",
+      "answerable": false,
+      "missing_essentials": [
+        "report"
+      ],
+      "reason": "The ticket names the measure 'Handled Quantity', which is present in the catalog, but does not specify which report or page the '8765' figure appears in. Multiple reports and pages exist across different model variants, so without knowing which report view is being referenced, it is not possible to confirm which refresh cycle applies or whether the value shown is current.",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1718,
+        "output_tokens": 95,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-09",
+      "status": "VALIDATED",
+      "answerable": false,
+      "missing_essentials": [
+        "report"
+      ],
+      "reason": "The ticket asks about the 'Handled Quantity' card on 'Declared predicate fixture 20261001 > Unfiltered control'. The PAGE 'Unfiltered control' and the MEASURE 'Handled Quantity' are both visible in the labels, and the REPORT 'Declared predicate fixture 20261001' is also present. However, 'how current' is a data freshness question that requires access to the actual report or its underlying data refresh metadata, which cannot be determined from labels alone. The report name is present but access to it is not established, so the freshness/currency of the visual cannot be answered.",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1721,
+        "output_tokens": 163,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-10",
+      "status": "VALIDATED",
+      "answerable": false,
+      "missing_essentials": [
+        "report",
+        "definition"
+      ],
+      "reason": "The ticket asks for the definition or formula behind the 'Handled Quantity' measure and references a 'Handled Quantity - unfiltered card', but no such named card or page is visible in the catalog labels, and no definition or DAX/formula for the measure is supplied. While 'MEASURE Handled Quantity' exists as a label, the catalog provides only a name, not its contents or logic. Without access to the measure definition or the specific visual/card, the question of what is 'exactly included' cannot be answered.",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1714,
+        "output_tokens": 139,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-11",
+      "status": "VALIDATED",
+      "answerable": false,
+      "missing_essentials": [
+        "definition",
+        "report"
+      ],
+      "reason": "The ticket asks for the business definition of 'Handled Quantity', which is a named measure visible in the catalog. However, definitions are not derivable from labels alone, and the 'Unfiltered control' page belongs to 'REPORT Declared predicate fixture 20261001' which does not expose a definition either. Additionally, no definition source is accessible from the catalog. The measure name is present but its business meaning cannot be determined without access to documentation or model metadata beyond what is supplied.",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1711,
+        "output_tokens": 129,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    },
+    {
+      "case_id": "R17-12",
+      "status": "VALIDATED",
+      "answerable": false,
+      "missing_essentials": [
+        "report",
+        "definition"
+      ],
+      "reason": "The ticket names the measure 'Handled Quantity', which is visible in the catalog, but asks what unit (items, cases, records, etc.) the value 8765 represents. No report is specified to confirm the context, and the unit definition of Handled Quantity is not available from the catalog labels alone. Without a definition of what Handled Quantity counts, the question about its unit type cannot be answered from visible information.",
+      "usage": {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "inference_geo": "global",
+        "input_tokens": 1717,
+        "output_tokens": 114,
+        "service_tier": "batch",
+        "speed": "standard"
+      }
+    }
+  ],
+  "enrichment_before_microdollars": 5170482,
+  "enrichment_after_microdollars": 5212244,
+  "actual_cost_microdollars": 41762,
+  "estate_reads": 0,
+  "investigator_model_calls": 0,
+  "caution": "Initial judgments are preserved, not used as exclusions: several confuse fairness for investigation with having the answer in catalog labels. Clarified independent reassessment pending."
+}

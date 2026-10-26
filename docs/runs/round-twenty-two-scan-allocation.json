@@ -1,0 +1,104 @@
+{
+  "owner_date": "2026-10-23",
+  "status": "APPLIED_AND_READ_BACK",
+  "before": {
+    "SCAN": 1000,
+    "INVESTIGATION": 4905,
+    "RESTORATION": 95,
+    "total": 6000
+  },
+  "after": {
+    "SCAN": 2000,
+    "INVESTIGATION": 3905,
+    "RESTORATION": 95,
+    "total": 6000
+  },
+  "counters_reset": false,
+  "effective_at_utc": "2026-10-24T01:24:00Z",
+  "jobs": {
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:ea772843ee3c76f1f0c4a452f15e87c271d3faaa7848189849fa31cf67eec817",
+    "jobs": [
+      {
+        "cron": "0 6 * * *",
+        "identity_resources_and_configuration_unchanged": true,
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:ea772843ee3c76f1f0c4a452f15e87c271d3faaa7848189849fa31cf67eec817",
+        "job": "job-dia-worker",
+        "patch_sha256": "b7e42858851531cf8be79b42680751e4bc3be682aac0d13de719a533c684db64",
+        "timeout_seconds": 3600
+      },
+      {
+        "cron": "0 */6 * * *",
+        "identity_resources_and_configuration_unchanged": true,
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:ea772843ee3c76f1f0c4a452f15e87c271d3faaa7848189849fa31cf67eec817",
+        "job": "job-dia-graph-scan",
+        "patch_sha256": "3b4f3ea637a4670b4146eacde69f28acf4d28ce8d1cc2f59d52761deff06af0b",
+        "timeout_seconds": 1800
+      },
+      {
+        "cron": "*/30 * * * *",
+        "identity_resources_and_configuration_unchanged": true,
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:ea772843ee3c76f1f0c4a452f15e87c271d3faaa7848189849fa31cf67eec817",
+        "job": "job-dia-collectors",
+        "patch_sha256": "43a71cc36642d35990e23bb56046544d1f0418c8ee4cadac53f509bd4075cd02",
+        "timeout_seconds": 180
+      }
+    ],
+    "new_identity_role_or_scope": false,
+    "revision": "a883706d35fcc28bf10db8327be487c97769b02a",
+    "status": "ALL_THREE_JOBS_READ_BACK"
+  },
+  "observed_budget": {
+    "physical": {
+      "mode": "BUILD_PHASE",
+      "month_utc": "2026-10",
+      "used": {
+        "INVESTIGATION": 999,
+        "RESTORATION": 0,
+        "SCAN": 817
+      },
+      "limits": {
+        "INVESTIGATION": 3905,
+        "SCAN": 2000,
+        "RESTORATION": 95
+      },
+      "total": 1816,
+      "total_limit": 6000,
+      "restoration_remaining": 95,
+      "warnings": []
+    },
+    "model_accounts": {
+      "2026-10": {
+        "identity": "model-microdollars:2026-10",
+        "unit": "MICRODOLLARS",
+        "ceiling": "40000000",
+        "protected": "0",
+        "opening": "0",
+        "charged": "4080700",
+        "violated": false
+      },
+      "2026-11": {
+        "identity": "model-microdollars:2026-11",
+        "unit": "MICRODOLLARS",
+        "ceiling": "40000000",
+        "protected": "0",
+        "opening": "0",
+        "charged": "0",
+        "violated": false
+      }
+    },
+    "model_reservation_status_counts": [
+      {
+        "status": "SETTLED",
+        "count": 102
+      },
+      {
+        "status": "UNCERTAIN",
+        "count": 2
+      }
+    ],
+    "observed_at_utc": "2026-10-24T01:33:54.247917+00:00",
+    "read_only": true,
+    "connection_failures": [],
+    "authority": "Existing owner platform ledger, short-lived connection, keepalive1/30/10/3; no estate query or grant"
+  }
+}

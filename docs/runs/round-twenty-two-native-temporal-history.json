@@ -1,0 +1,96 @@
+{
+  "status": "READER_OBSERVED_NATIVE_HISTORY_AFTER_SOURCE_RESTORATION",
+  "reader": {
+    "execution_name": "job-dia-worker-moadola",
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c21e46a010ec7a1adebe6e92585ae82e0bc18ec501f0ef0f1dc51f3ad4c52981",
+    "run_id": "25d58bc9-74f6-46f6-946c-40f304ac5502",
+    "status": "STARTED"
+  },
+  "capture": {
+    "name": "job-dia-worker-moadola",
+    "status": "Succeeded",
+    "startTime": "2026-10-23T22:50:11+00:00",
+    "endTime": "2026-10-23T22:52:00+00:00",
+    "seal": "bc27fd8cc92bfb09cb2ba2df393bab205814f448a44bcc2e9aeec6bd6db90f0b",
+    "capture_prefix": "round-twenty-two/runner/25d58bc9-74f6-46f6-946c-40f304ac5502",
+    "records": 78,
+    "output": ".local\\round-twenty-two\\source-temporal-history-reader-01.log"
+  },
+  "native_history": {
+    "column_types": {
+      "event_day": "String",
+      "movement_id": "Int64",
+      "movement_type": "String",
+      "product_id": "Int64",
+      "r22_valid_from": "String",
+      "r22_valid_to": "String",
+      "source_modified_at_utc": "DateTime",
+      "source_row_version": "Int64",
+      "units": "Int64",
+      "warehouse_id": "Int64"
+    },
+    "execution_identity": {
+      "database": "ordersops",
+      "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+      "provenance": "SURFACE_SELF_REPORT",
+      "server": "sql-orderops-9696025.database.windows.net"
+    },
+    "read_only_verified": true,
+    "rows": [
+      {
+        "event_day": "2026-09-11",
+        "movement_id": "900201",
+        "movement_type": "RECEIPT",
+        "product_id": "8",
+        "r22_valid_from": "2026-10-23T22:49:27.1219695",
+        "r22_valid_to": "2026-10-23T22:49:30.3563391",
+        "source_modified_at_utc": "2026-10-23 22:49:27.122772",
+        "source_row_version": "44001",
+        "units": "7",
+        "warehouse_id": "1"
+      },
+      {
+        "event_day": "2026-09-12",
+        "movement_id": "900202",
+        "movement_type": "RECEIPT",
+        "product_id": "9",
+        "r22_valid_from": "2026-10-23T22:49:27.1219695",
+        "r22_valid_to": "2026-10-23T22:49:30.3563391",
+        "source_modified_at_utc": "2026-10-23 22:49:27.122772",
+        "source_row_version": "44002",
+        "units": "11",
+        "warehouse_id": "2"
+      },
+      {
+        "event_day": "2026-09-13",
+        "movement_id": "900203",
+        "movement_type": "RECEIPT",
+        "product_id": "10",
+        "r22_valid_from": "2026-10-23T22:49:27.1219695",
+        "r22_valid_to": "2026-10-23T22:49:30.3563391",
+        "source_modified_at_utc": "2026-10-23 22:49:27.122772",
+        "source_row_version": "44003",
+        "units": "13",
+        "warehouse_id": "3"
+      }
+    ],
+    "surface_report": {
+      "engine": "Microsoft SQL Azure",
+      "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+      "object": "ordersops"
+    },
+    "surface_report_binding": "VALUE_QUERY"
+  },
+  "restored_before_reader": true,
+  "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+  "original_eight_column_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+  "publisher_controls": 4,
+  "reservation_retries": [],
+  "connection_failures": [],
+  "history_remains_enabled": true,
+  "native_period_semantics": "UTC, datetime2(7) text preserved without Python datetime truncation",
+  "permissions_changed": false,
+  "model_calls": 0,
+  "scored": false,
+  "limitation": "The investigator can read retained native versions after current rows are restored. This alone is not an engine HISTORY_CHECK verdict; the engine still must connect the appropriate before/after observations to its comparison during the scored run."
+}

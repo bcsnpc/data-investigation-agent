@@ -71,7 +71,10 @@ baseline=peak()
 snapshot(source,root/'snapshot.sqlite')
 print(json.dumps({'bytes':source.stat().st_size,'peak_growth_kib':peak()-baseline}))
 '''
-        result=subprocess.run([sys.executable,'-c',code,str(self.root)],cwd=Path(__file__).parent,check=True,capture_output=True,text=True,timeout=180)
+        # The same 96 MiB memory assertion is deliberately exercised alongside
+        # the full suite. Windows took 107 s isolated and exceeded 180 s under
+        # four-way contention in Round 21; allow 2.8x isolated headroom.
+        result=subprocess.run([sys.executable,'-c',code,str(self.root)],cwd=Path(__file__).parent,check=True,capture_output=True,text=True,timeout=300)
         receipt=json.loads(result.stdout);self.assertGreater(receipt['bytes'],96*1024*1024)
         self.assertLess(receipt['peak_growth_kib'],96*1024)
 

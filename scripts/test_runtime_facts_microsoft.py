@@ -129,13 +129,13 @@ class MicrosoftFactsTests(unittest.TestCase):
         adapter.list_changes(['visual']);values=adapter.fetch('visual',now=T1)
         self.assertEqual(values[0]['kind'],'RUN_HISTORY');self.assertEqual(values[0]['state'],'OBSERVED_NEGATIVE')
         self.assertEqual(values[0]['value']['runs'],[])
-        self.assertIn('LOAD_ACCOUNTING_UNAVAILABLE',values[-1]['reason'])
+        self.assertIn('LOAD_ACCOUNTING_UNAVAILABLE',next(v for v in values if v['kind']=='COVERAGE')['reason'])
 
     def test_partial_list_is_not_absence_or_overdue_proof(self):
         adapter,_=self.adapter(http=Mock(return_value={'status_code':200,'text':{'value':[],'continuationToken':'more'}}))
         adapter.list_changes(['visual']);values=adapter.fetch('visual',now=T1)
-        self.assertEqual(values[-1]['state'],'UNAVAILABLE')
-        self.assertIn('CONTINUATION',values[-1]['reason'])
+        self.assertEqual(next(v for v in values if v['kind']=='COVERAGE')['state'],'UNAVAILABLE')
+        self.assertIn('CONTINUATION',next(v for v in values if v['kind']=='COVERAGE')['reason'])
 
     def test_refresh_history_and_schedule_real_routes_readonly(self):
         schedule={'enabled':True,'localTimeZoneId':'UTC','days':['Tuesday'],'times':['00:30','02:00']}
@@ -175,21 +175,21 @@ class MicrosoftFactsTests(unittest.TestCase):
                 'rows_read':'360','rows_written':'360','accounting_state':accounting_state,'pipeline_name':pipeline_name}]))
             adapter,_=self.adapter({'visual':r},sql=sql);adapter.list_changes(['visual']);values=adapter.fetch('visual',now=T1)
             self.assertIsNone(next(v for v in values if v['kind']=='JOB_RUN')['value']['rows_read'])
-            self.assertIn('DECLARED_AUDIT_UNAVAILABLE',values[-1]['reason'])
+            self.assertIn('DECLARED_AUDIT_UNAVAILABLE',next(v for v in values if v['kind']=='COVERAGE')['reason'])
 
     def test_unmatched_audit_run_does_not_supply_counts(self):
         r=route();r['audit']=audit()
         sql=Mock(side_effect=lambda route,request:answer(request,[{'run_id':'different','start':T0,'end':T1,'status':'SUCCEEDED','rows_read':'999','rows_written':'999','pipeline_name':'pipeline1','accounting_state':'OBSERVED_COPY_OUTPUT'}]))
         adapter,_=self.adapter({'visual':r},sql=sql);adapter.list_changes(['visual']);values=adapter.fetch('visual',now=T1)
         self.assertIsNone(next(v for v in values if v['kind']=='JOB_RUN')['value']['rows_read'])
-        self.assertIn('NO_ROW_FOR_LISTED_RUN',values[-1]['reason'])
+        self.assertIn('NO_ROW_FOR_LISTED_RUN',next(v for v in values if v['kind']=='COVERAGE')['reason'])
 
     def test_sql_attestation_failure_refuses_counts(self):
         r=route();r['audit']=audit()
         def sql(route,request):
             result=answer(request,[]);result['surface_report']['identity']='wrong';return result
         adapter,_=self.adapter({'visual':r},sql=sql);adapter.list_changes(['visual']);values=adapter.fetch('visual',now=T1)
-        self.assertIn('DECLARED_AUDIT_UNAVAILABLE',values[-1]['reason'])
+        self.assertIn('DECLARED_AUDIT_UNAVAILABLE',next(v for v in values if v['kind']=='COVERAGE')['reason'])
 
     def test_table_definition_modified_date_never_becomes_load(self):
         adapter,http=self.adapter({'visual':route('TABLE')});adapter.list_changes(['visual']);value=adapter.fetch('visual',now=T1)[0]
@@ -215,6 +215,37 @@ class MicrosoftFactsTests(unittest.TestCase):
         r=route('TABLE');r['profile']={'metadata_evidence_ids':['invented metadata']}
         adapter,_=self.adapter({'visual':r})
         with self.assertRaisesRegex(ValueError,'METADATA_EVIDENCE'):adapter.profile('visual',load_marker='load1',now=T1)
+
+    def test_profile_binary_representation_comes_from_complete_schema_not_column_name(self):
+        base={'reader':'r','connection':'example','database':'ops','schema':'dbo','table':'movements','principal':'reader-principal','key_columns':['ordinary_name','timestamp_named_int'],
+              'column_types':{'ordinary_name':'timestamp','timestamp_named_int':'int'},'metadata_evidence_ids':['sha256:'+'a'*64]}
+        request=sql_request(base,'profile')
+        self.assertEqual(validate_sql(request['query'],{('dbo','movements')}),{('dbo','movements')})
+        self.assertIn('CONVERT(varchar(max),CONVERT(varbinary(max),[ordinary_name]),2)',request['query'])
+        self.assertIn('CONVERT(nvarchar(max),[timestamp_named_int])',request['query'])
+        self.assertNotIn('CONVERT(nvarchar(max),[ordinary_name])',request['query'])
+        r=route('TABLE');r['profile']=base
+        adapter,_=self.adapter({'visual':r},sql=lambda route,request:answer(request,[{'row_count':'1','checksum_0':'123','checksum_1':'456'}]))
+        value=adapter.profile('visual',load_marker='load1',now=T1)
+        self.assertIn('BINARY_HEX_NOT_EQUALITY_PROOF',value['value']['checksum_method'])
+        self.assertEqual(value['value']['declared_column_types'],base['column_types'])
+
+    def test_profile_types_refuse_missing_extra_and_unsupported_declarations_before_dispatch(self):
+        base={'schema':'dbo','table':'movements','key_columns':['id','version']}
+        for types in ({'id':'int'},{'id':'int','version':'timestamp','extra':'int'},{'id':'int','version':'geometry'},{'id':'int','version':'timestamp); DELETE FROM x'}):
+            with self.subTest(types=types),self.assertRaisesRegex(ValueError,'FACT_PROFILE_COLUMN_TYPE'):sql_request({**base,'column_types':types},'profile')
+        r=route('TABLE');r['profile']={**base,'column_types':{'id':'int','version':'timestamp'}}
+        sql=Mock(side_effect=AssertionError('No read without schema evidence'));adapter,_=self.adapter({'visual':r},sql=sql)
+        with self.assertRaisesRegex(ValueError,'TYPED_METADATA_EVIDENCE_REQUIRED'):adapter.profile('visual',load_marker='load1',now=T1)
+        sql.assert_not_called()
+
+    def test_existing_untyped_profile_and_scalar_sql_bytes_are_preserved(self):
+        route={'schema':'dbo','table':'movements','key_columns':['id','units']}
+        before=sql_request(route,'profile')
+        self.assertEqual(before,sql_request({**route,'column_types':{'id':'int','units':'decimal'}},'profile'))
+        for binary in ('timestamp','rowversion','binary','varbinary','image'):
+            query=sql_request({'schema':'dbo','table':'movements','key_columns':['id'],'column_types':{'id':binary}},'profile')['query']
+            self.assertIn('CONVERT(varchar(max),CONVERT(varbinary(max),[id]),2)',query)
 
     def test_profile_query_identifier_injection_refused(self):
         with self.assertRaisesRegex(ValueError,'IDENTIFIER'):

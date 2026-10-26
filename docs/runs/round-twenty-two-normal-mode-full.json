@@ -1,0 +1,59 @@
+{
+  "revision": "76b22f49598cc2cb76fef16559024d9306af36c8",
+  "elapsed_seconds": 697.1704172999998,
+  "statuses": [
+    {
+      "shard": 0,
+      "exit_code": 0
+    },
+    {
+      "shard": 1,
+      "exit_code": 0
+    },
+    {
+      "shard": 2,
+      "exit_code": 0
+    },
+    {
+      "shard": 3,
+      "exit_code": 0
+    }
+  ],
+  "results": [
+    {
+      "tests": 1324,
+      "failures": 0,
+      "errors": 0,
+      "skips": 14,
+      "successful": true
+    },
+    {
+      "tests": 1323,
+      "failures": 0,
+      "errors": 0,
+      "skips": 8,
+      "successful": true
+    },
+    {
+      "tests": 1323,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "successful": true
+    },
+    {
+      "tests": 1323,
+      "failures": 0,
+      "errors": 0,
+      "skips": 26,
+      "successful": true
+    }
+  ],
+  "tests_total": 5293,
+  "passed": 5245,
+  "skipped": 48,
+  "failures": 0,
+  "errors": 0,
+  "hosted_image_workflow": 40076002930,
+  "hosted_offline_shards_passed": 8
+}

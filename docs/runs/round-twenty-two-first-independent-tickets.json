@@ -1,0 +1,20 @@
+{
+  "execution": {
+    "name": "job-dia-worker-mt59rkj",
+    "status": "Succeeded",
+    "startTime": "2026-10-23T17:43:40+00:00",
+    "endTime": "2026-10-23T17:44:23+00:00"
+  },
+  "seal": "5824660997a0b014ed775b73e80735d8d4c9945600680229ccf1051cb147fb4c",
+  "drafts_sha256": "920a3310fd84aa5dac195c4dd80435b45a58f879b91174d11a12092b698dacad",
+  "drafts_path": "tests\\tickets\\independent-drafts-real-failures.json",
+  "tasks": 3,
+  "tickets": 6,
+  "purpose": "WRITE_TICKETS",
+  "estate_reads": 0,
+  "investigator_model_calls": 0,
+  "actual_enrichment_usd": 0.006052,
+  "enrichment_cumulative_usd": 5.26559,
+  "not_runtime_evidence": true,
+  "not_scored": true
+}

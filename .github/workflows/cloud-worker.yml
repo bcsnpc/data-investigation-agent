@@ -9,6 +9,10 @@ on:
         description: Publish the tested code-only image to GHCR
         type: boolean
         default: false
+      dev_focus:
+        description: Round22 dev image; focused changed-module tests only (full suite remains the release gate)
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -35,6 +39,7 @@ jobs:
           path: ${{ runner.temp }}/dia-offline.tar
           retention-days: 1
   offline-shards:
+    if: ${{ !inputs.dev_focus && (github.event_name != 'pull_request' || !github.event.pull_request.draft) }}
     needs: build
     runs-on: ubuntu-latest
     strategy:
@@ -58,9 +63,22 @@ jobs:
           name: cloud-worker-synthetic-shard-${{ matrix.shard }}
           path: ${{ runner.temp }}/results
           retention-days: 3
+  focused-dev:
+    if: ${{ inputs.dev_focus || (github.event_name == 'pull_request' && github.event.pull_request.draft) }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: cloud-worker-code-image
+          path: ${{ runner.temp }}/image
+      - name: Focused Round22 changed-module tests, offline and read-only
+        run: |
+          docker load -i "$RUNNER_TEMP/image/dia-offline.tar"
+          docker run --rm --network=none --read-only --cap-drop=ALL --security-opt=no-new-privileges --tmpfs /tmp:rw,nosuid,nodev,size=256m --tmpfs /app/.local:rw,nosuid,nodev,noexec,size=256m,uid=10001,gid=10001 --entrypoint python dia-offline:${{ github.sha }} -m pytest -q -p no:cacheprovider scripts/test_calculation_intake.py scripts/test_cloud_ledger_investigator.py scripts/test_shared_usage.py scripts/test_ledger_investigator.py scripts/test_retained_graph_continuation.py scripts/test_ledger_investigator_ports.py scripts/test_source_availability.py
   publish:
-    if: (github.event_name == 'workflow_dispatch' && inputs.publish) || (github.event_name == 'push' && github.ref == 'refs/heads/feat/round-eighteen-cloud-foundation')
-    needs: offline-shards
+    if: ${{ always() && ((github.event_name == 'workflow_dispatch' && inputs.publish) || (github.event_name == 'push' && github.ref == 'refs/heads/feat/round-eighteen-cloud-foundation')) && (needs.offline-shards.result == 'success' || needs.focused-dev.result == 'success') }}
+    needs: [offline-shards, focused-dev]
     runs-on: ubuntu-latest
     permissions:
       contents: read

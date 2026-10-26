@@ -62,6 +62,25 @@ class ProcessValues:
             if len(matches)==1:self.layers[node['id']]=matches[0]
         self.layers[measures[0]['id']]=layers[0]
 
+    def checkpoint_state(self):
+        from dataclasses import asdict
+        from ..estate_graph_contract import digest
+        return {'path_sha256':digest(self.path),'probes':{key:asdict(value)for key,value in self.probes.items()}}
+
+    def restore_checkpoint(self,value):
+        from ..estate_graph_contract import digest
+        from ..shared_state import StateConflict
+        from ..process_debugging import Probe
+        if value['path_sha256']!=digest(self.path):raise StateConflict('CHECKPOINT_NATIVE_PATH_DIFFERS')
+        probes={}
+        for key,raw in value['probes'].items():
+            item=copy.deepcopy(raw);item['surface_reportable']=tuple(item['surface_reportable'])
+            probe=Probe(**item)
+            if key!=probe.evidence['id']or probe.layer not in {layer['id']for layer in self.path['layers']}:
+                raise StateConflict('CHECKPOINT_NATIVE_PROBE_SCOPE_DIFFERS')
+            probes[key]=probe
+        self.probes=probes
+
     @staticmethod
     def scope(context):
         if context=={}:return {'filters':[],'dimension_ids':[]}
@@ -76,12 +95,25 @@ class ProcessValues:
         if key is not None:raise ValueError('KEYED_QUANTITY_ROUTE_NOT_INSTALLED')
         if node not in self.layers:raise ValueError('NO_EXACT_COMPILED_LAYER_FOR_GRAPH_NODE')
         scope=self.scope(context)
-        probe=attest(self.process.evaluate(copy.deepcopy(self.layers[node]),self.measure_id,scope))
+        original=self.process.evaluate(copy.deepcopy(self.layers[node]),self.measure_id,scope)
+        probe=attest(original)
+        from ..build_phase import active as build_phase
+        if original.status=='OBSERVED' and probe.status=='UNAVAILABLE' and build_phase(getattr(self.process,'config',{})):
+            # Owner2026-10-24: attestation warns in dev; it cannot erase a
+            # successful read. Query failures and faithful-scope refusals stay.
+            from dataclasses import replace
+            evidence={**probe.evidence,'attestation_warning':'Attestation warning: '+str(probe.reason)+
+                      '; the observed quantity is retained without an attestation claim.'}
+            probe=replace(original,evidence=evidence)
         # Preserve original failures and receipts even when no quantity exists.
         self.retain({'event':'INVESTIGATOR_NATIVE_PROBE','subject':node,'status':probe.status,
                      'reason':probe.reason,'failure':probe.failure,'evidence':probe.evidence,
                      'query':probe.query,'execution_surface':probe.execution_surface})
-        if probe.status!='OBSERVED':raise ValueError(probe.reason or 'COMPILED_QUANTITY_NOT_OBTAINED')
+        if probe.status!='OBSERVED':
+            from ..source_availability import SourceReadUnavailable,QuantityNotComparable
+            if probe.status=='NOT_COMPARABLE':
+                raise QuantityNotComparable(probe.reason or 'COMPILED_QUANTITY_NOT_COMPARABLE')
+            raise SourceReadUnavailable(probe.reason or 'COMPILED_QUANTITY_NOT_OBTAINED',probe.failure)
         evidence=probe.evidence or {}
         if not evidence.get('id') or not probe.query:raise ValueError('ORIGINAL_NATIVE_READ_RECEIPT_REQUIRED')
         if scope.get('filters') or scope.get('dimension_ids'):
@@ -107,7 +139,7 @@ class ProcessValues:
         return result
 
 
-def decision_transport(schema):
+def decision_transport(schema,*,scoped_tools=False):
     """Azure's schema subset on the wire; the original validator stays strict.
 
     Hoist repeated action metadata to avoid Azure's 100-property limit. Bounds
@@ -117,6 +149,15 @@ def decision_transport(schema):
         'multipleOf','minItems','maxItems','uniqueItems','minProperties','maxProperties'}
     core=copy.deepcopy(schema);hoisted={}
     variants=core.get('anyOf')
+    if scoped_tools and isinstance(variants,list):
+        for variant in variants:
+            arguments=variant.get('properties',{}).get('arguments',{}).get('properties',{})
+            for field in ('node','job','model','visual','table','page','report'):
+                if field in arguments:arguments[field]={'type':'string'}
+            for field in ('layers','path'):
+                if field in arguments:arguments[field]={'type':'array','items':{'type':'string'}}
+            for field,reference in (('filters','admitted_context'),('key','admitted_key')):
+                if field in arguments:arguments[field]={'type':'string','enum':[reference]}
     if isinstance(variants,list) and variants:
         for name in ('summary','hypotheses'):
             first=variants[0].get('properties',{}).get(name)
@@ -154,11 +195,24 @@ class AzureDecision:
     port also owns the existing UsageGovernor's daily reservation and settlement.
     No credentials or provider are selected by ticket/model text.
     """
-    def __init__(self, governor, *, session, directory, retain, options=None, producer=None):
+    def __init__(self, governor, *, session, directory, retain, options=None, producer=None,recording_mode='TEST'):
         from ..generation_policy import validate
         if not callable(retain) or not session:raise ValueError('GOVERNED_MODEL_SESSION_REQUIRED')
         self.governor=governor;self.session=session;self.directory=directory;self.retain=retain
-        self.options=validate(options);self.producer=producer;self.calls=0
+        self.options=validate(options);self.producer=producer;self.calls=0;self.cache_usage=[]
+        from ..normal_audit import mode
+        self.recording_mode=mode(recording_mode)
+
+    def cache_metrics(self):
+        known=[v for v in self.cache_usage if type(v.get('input_tokens'))is int and type(v.get('cached_tokens'))is int and 0<=v['cached_tokens']<=v['input_tokens']]
+        inputs=sum(v['input_tokens']for v in known);cached=sum(v['cached_tokens']for v in known)
+        return {'reported_calls':len(known),'unknown_calls':self.calls-len(known),'input_tokens':inputs,
+                'cached_input_tokens':cached,'cached_token_rate':cached/inputs if inputs else None,
+                'calls_with_cache':sum(v['cached_tokens']>0 for v in known),
+                'call_hit_rate':sum(v['cached_tokens']>0 for v in known)/len(known)if known else None}
+
+    def bind_case(self,case,retain):
+        self.case=case;self.case_retain=retain
 
     def __call__(self,payload,*,instructions,schema):
         from ticket_planner import _azure_generate,provider_body
@@ -167,10 +221,20 @@ class AzureDecision:
         from ..generation_policy import failure_usage
         # Azure function parameters require a root object; the engine's closed
         # union remains unchanged underneath this transport-only envelope.
-        wire_schema,hoisted=decision_transport(schema)
-        instruction=vocabulary(instructions,schema)+'\nReturn the schema-conforming result in the transport envelope: shared summary/hypotheses at its root when declared; remaining result fields inside decision.'
+        scoped_tools=isinstance(payload,dict) and 'admitted_context'in payload and 'admitted_key'in payload
+        wire_schema,hoisted=decision_transport(schema,scoped_tools=scoped_tools)
+        case=getattr(self,'case',None)
+        if case is not None:
+            payload={**copy.deepcopy(payload),'code_case_state':{'plan':case.value['plan'],'current_step':case.value['current_step']}}
+            wire_schema['properties']['recitation']={'type':'object','properties':{'plan':{'type':'array','items':{'type':'string'}},'current_step':{'type':'string'}},'required':['plan','current_step'],'additionalProperties':False}
+            wire_schema['required'].append('recitation')
+        instruction=vocabulary(instructions,wire_schema if scoped_tools else schema)+'\nReturn the schema-conforming result in the transport envelope: shared summary/hypotheses at its root when declared; remaining result fields inside decision.'
+        if scoped_tools:instruction+='\nUse only the admitted_identifiers supplied after this prefix. filters and key are references: admitted_context and admitted_key; code expands them and validates the original exact scope.'
+        if case is not None:instruction+='\nRestate the code_case_state plan and current_step in recitation. Code owns both; restatement does not change them.'
         body=provider_body(payload,instruction,wire_schema,'ledger_investigator_action',
                            decision_tool=True,generation_options=self.options)
+        prefix=canonical({key:value for key,value in body.items()if key!='input'}).encode()
+        prefix_hash=hashlib.sha256(prefix).hexdigest()
         size=len(json.dumps(body,ensure_ascii=False,separators=(',',':')))
         if size>self.options['max_payload_characters']:raise ValueError('INVESTIGATOR_PROVIDER_INPUT_BOUND')
         self.calls+=1;key='ledger-investigator:'+str(self.calls)
@@ -179,22 +243,36 @@ class AzureDecision:
                                   output_tokens=self.options['max_output_tokens'])
         metadata={};error=None
         try:
-            with recording({'session_id':self.session,'planner_call':self.calls,
+            from contextlib import nullcontext
+            capture=recording({'session_id':self.session,'planner_call':self.calls,
                             'call_kind':'ledger_investigator_action','payload':payload,
                             'reservation':{'input_characters':size,'output_tokens':self.options['max_output_tokens']}},
-                           distinct=True,directory=self.directory) as record:
-                if record is None:raise ValueError('INVESTIGATOR_PROVIDER_CAPTURE_REQUIRED')
-                record.safe_write('compiled-provider-body.json',json.dumps(body,sort_keys=True).encode())
+                           distinct=True,directory=self.directory)if self.recording_mode=='TEST'else nullcontext(None)
+            with capture as record:
+                if record is None and self.recording_mode=='TEST':raise ValueError('INVESTIGATOR_PROVIDER_CAPTURE_REQUIRED')
+                if record is not None:record.safe_write('compiled-provider-body.json',json.dumps(body,sort_keys=True).encode())
                 answer,metadata=(self.producer or _azure_generate)(payload,instructions=instruction,schema=wire_schema,
                     name='ledger_investigator_action',decision_tool=True,generation_options=self.options,
                     max_request_characters=self.options['max_payload_characters'])
+                usage=metadata.get('usage',{});self.cache_usage.append({'input_tokens':usage.get('input_tokens'),'cached_tokens':usage.get('input_tokens_details',{}).get('cached_tokens')})
                 self.retain({'event':'INVESTIGATOR_MODEL_USAGE','call':self.calls,'metadata':metadata,
-                             'input_characters':size,'recording':str(record.path)})
+                             'input_characters':size,'prompt_prefix_sha256':prefix_hash,'prompt_prefix_bytes':len(prefix),'recording':str(record.path)if record is not None else 'NORMAL_AUDIT_NO_BYTE_EXACT_PROVIDER_TAPE'})
+                if case is not None:
+                    event=case.recite(answer.get('recitation') if isinstance(answer,dict) else None)
+                    if event:self.case_retain(event)
+                    if isinstance(answer,dict):answer={k:v for k,v in answer.items()if k!='recitation'}
                 if (not isinstance(answer,dict) or set(answer)!={'decision',*hoisted}
                         or not isinstance(answer['decision'],dict)):
                     raise ValueError('INVESTIGATOR_PROVIDER_DECISION_ENVELOPE_REQUIRED')
                 if set(answer['decision'])&set(hoisted):raise ValueError('INVESTIGATOR_PROVIDER_DUPLICATE_METADATA')
                 decision={**answer['decision'],**{k:answer[k]for k in hoisted}}
+                if scoped_tools and decision.get('action')=='TOOL':
+                    args=copy.deepcopy(decision.get('arguments',{}))
+                    for field,reference in (('filters','admitted_context'),('key','admitted_key')):
+                        if field in args:
+                            if args[field]!=reference:raise ValueError('PROVIDER_ADMITTED_SCOPE_REFERENCE_REQUIRED')
+                            args[field]=copy.deepcopy(payload[reference])
+                    decision['arguments']=args
                 from jsonschema import Draft202012Validator
                 Draft202012Validator(schema).validate(decision)
                 return decision

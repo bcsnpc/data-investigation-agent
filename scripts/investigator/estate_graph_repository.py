@@ -296,7 +296,7 @@ class GraphRepository:
                     item['verification']={**item['verification'],'state':'STALE'}
         return result
 
-    def path_records(self,estate,roots,allowed,*,at=None,max_nodes=100,max_edges=250,edge_kinds=None):
+    def path_records(self,estate,roots,allowed,*,at=None,max_nodes=100,max_edges=250,edge_kinds=None,edge_targets=None):
         """Load only the admitted upstream path, including its historical adjacency.
 
         SQL filters adjacency before decoding; unrelated historical bodies are
@@ -324,6 +324,9 @@ class GraphRepository:
                 kind_selector="(body::jsonb ->> 'kind')" if self.state.backend=='postgresql' else "json_extract(body,'$.kind')"
                 query='SELECT identity,body,body_hash,valid_from,valid_to FROM estate_graph_history WHERE estate=?'+temporal+" AND record_kind='edges' AND "+selector+' IN ('+','.join('?' for _ in batch)+')'
                 args=[*base_args,*batch]
+                if edge_targets is not None:
+                    query+=' AND '+target_selector+' IN ('+','.join('?' for _ in edge_targets)+')'
+                    args.extend(sorted(edge_targets))
                 if edge_kinds:
                     query+=' AND '+kind_selector+' IN ('+','.join('?' for _ in edge_kinds)+')';args.extend(sorted(edge_kinds))
                 query+=' ORDER BY identity LIMIT ?';args.append(max_edges+1)

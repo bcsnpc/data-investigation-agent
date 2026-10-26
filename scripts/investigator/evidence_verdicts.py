@@ -12,6 +12,20 @@ VERDICTS=('as designed','latency','waiting on job','failed job','refresh stale',
           'different question','access difference','source changed history','not found')
 
 
+def load_source_outage(run):
+    """Only an explicitly recorded outage during this failed run is a cause.
+
+    A source that fails a later diagnostic does not explain an earlier job.
+    Generic connection errors cannot distinguish source from destination.
+    """
+    value=run.get('source_availability')
+    if not isinstance(value,dict) or value.get('failure_class')!='UNREACHABLE' or value.get('reachable')is not False:return None
+    try:
+        at=timestamp(value['last_observed_at']);start=timestamp(run['start']);end=timestamp(run['end'])
+    except (ValueError,TypeError,KeyError):return None
+    return value if run.get('status')=='FAILED' and start<=at<=end else None
+
+
 def quantity(value):
     state=value.get('state')
     if state=='BLANK' and value.get('value') is None:return ('BLANK',None)
@@ -68,6 +82,23 @@ def current_facts(entries,now):
     return result
 
 
+def operational_support(result,selected,facts,*,schedule=None):
+    """Keep the exact verdict witness for deterministic delivery, never a model summary.
+
+    A schedule belongs to the same producer. Conflicting newest observations
+    remain unavailable rather than selecting the more convenient next run.
+    """
+    result['operational_fact']=copy.deepcopy(selected)
+    if schedule is None:
+        schedules=[fact for fact in facts if fact['subject']==selected['subject'] and fact['kind']=='SCHEDULE']
+        if schedules:
+            newest=max(fact['collected_at'] for fact in schedules)
+            batch=[fact for fact in schedules if fact['collected_at']==newest]
+            if len({canonical(fact['value']) for fact in batch})==1:schedule=batch[0]
+    if schedule is not None:result['operational_schedule']=copy.deepcopy(schedule)
+    return result
+
+
 def pending_comparison_status(verdict,records,reads,*,target,now):
     """A relevant current operational fact, explicitly not a numerical cause.
 
@@ -99,11 +130,11 @@ def pending_comparison_status(verdict,records,reads,*,target,now):
         if not runs:return []
         latest=max(time_of(fact,'start') or fact['observed_at'] for fact in runs)
         return [fact for fact in runs if (time_of(fact,'start') or fact['observed_at'])==latest]
-    def supported(selected,reason,expected=None):
+    def supported(selected,reason,expected=None,schedule=None):
         result=_supported(verdict,records,None,reason+' The comparison has not been checked; no numerical cause has been established.')
         result.update(claim_scope='OPERATIONAL_STATUS_WITH_COMPARISON_PENDING',operational_fact=selected,comparison_checked=False)
         if expected:result['expected_update_at']=expected
-        return result
+        return operational_support(result,selected,facts,schedule=schedule)
     for subject in sorted(reachable):
         node=nodes.get(subject,{})
         if node.get('kind') not in ('PIPELINE','NOTEBOOK','COPY_ACTIVITY','MODEL'):continue
@@ -136,7 +167,7 @@ def pending_comparison_status(verdict,records,reads,*,target,now):
                 if changed and time_of(latest,'end') and time_of(latest,'end')<changed<=now and schedules and durations:
                     due=datetime.fromisoformat(time_of(schedules[0],'next_due').replace('Z','+00:00'))
                     expected=timestamp((due+timedelta(seconds=durations[0]['value']['median_seconds'])).isoformat())
-                    return supported(latest,'The declared source changed after this producer last completed; its next scheduled run is not yet due.',expected)
+                    return supported(latest,'The declared source changed after this producer last completed; its next scheduled run is not yet due.',expected,schedules[0])
     raise ValueError('CURRENT_RELEVANT_OPERATIONAL_STATUS_REQUIRED')
 
 
@@ -144,10 +175,10 @@ def explicit_operational_fact(request,entries,now,ticket_text):
     """The latest status is a fact even when it establishes no incident verdict."""
     from .reported_figure import span
     import re
-    if set(request)!={'kind','subject','question','source'} or request.get('kind')!='FACT' or request['question'] not in ('RUN_STATUS','REFRESH_STATUS'):
+    if not {'kind','subject','question','source'}<=set(request)<={'kind','subject','question','source','run_selector'} or request.get('kind')!='FACT' or request['question'] not in ('RUN_STATUS','REFRESH_STATUS'):
         raise ValueError('EXPLICIT_OPERATIONAL_QUESTION_REQUIRED')
     quote=span(request['source'],ticket_text)
-    if ticket_text is None or not re.search(r'\b(did|has|was|is|what|when|show|latest|last)\b',quote,re.I) or not re.search(r'\b(job|pipeline|run|refresh|notebook|copy)\b',quote,re.I) or not re.search(r'\b(fail(?:ed)?|succeed(?:ed)?|status|finish(?:ed)?|complete(?:d)?|queued|running)\b',quote,re.I):
+    if ticket_text is None or not re.search(r'\b(did|has|was|is|what|when|show|latest|last|need|please|explain|why|check|confirm|still|stuck)\b',quote,re.I) or not re.search(r'\b(job|pipeline|run|refresh(?:ed|es|ing)?|notebook|copy)\b',quote,re.I) or not re.search(r'\b(fail(?:ed)?|succeed(?:ed)?|status|finish(?:ed)?|complete(?:d)?|queued|running|current|fresh|refreshed|stale|updated|currency)\b',quote,re.I):
         raise ValueError('EXPLICIT_OPERATIONAL_QUESTION_REQUIRED')
     kinds={'JOB_RUN'} if request['question']=='RUN_STATUS' else {'REFRESH_RUN','REFRESH_STATE'}
     candidates=[entry['value'] for entry in entries if entry['kind']=='FACT' and entry['value'].get('subject')==request['subject'] and entry['value'].get('kind') in kinds
@@ -161,6 +192,9 @@ def explicit_operational_fact(request,entries,now,ticket_text):
     current=current_facts(entries,now)
     batch=[fact for fact in batch if fact in current and fact.get('state')=='OBSERVED']
     if not batch:raise ValueError('CURRENT_OPERATIONAL_STATUS_REQUIRED')
+    from .operational_run_selection import from_text,select
+    if 'run_selector'in request:return select(request['run_selector'],batch,ticket_text)
+    if from_text(quote)is not None:raise ValueError('EXPLICIT_RUN_SELECTOR_REQUIRED_NO_LATEST_SUBSTITUTION')
     latest=max(timestamp(fact['value'].get('start') or fact['observed_at']) for fact in batch)
     selected=[fact for fact in batch if timestamp(fact['value'].get('start') or fact['observed_at'])==latest]
     statuses={fact['value'].get('status',fact['value'].get('state')) for fact in selected}
@@ -176,11 +210,25 @@ def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
     if verdict not in VERDICTS:raise ValueError('UNKNOWN_VERDICT')
     records=registry.resolve(ids);entries=list(records.values());now=timestamp(now)
     request=request or {'kind':'COMPARE'}
+    # A missing external count does not erase measured pipeline comparisons.
+    # Reuse the existing native evidence checks, then limit the delivered claim.
+    named_pending=request.get('comparison_pending')is True
+    if named_pending and verdict!='not found' and any(r['kind']=='COMPARISON'for r in entries):
+        if any(r['kind']=='GIVEN_COMPARISON'for r in entries):raise ValueError('PENDING_COMPARISON_CONTRACT_CONFLICT')
+        native_request={k:v for k,v in request.items()if k not in ('comparison_pending','comparison_pending_kind')}
+        result=check(verdict,ids,registry,now=now,request=native_request,ticket_text=ticket_text,target=target)
+        result.update(claim_scope='NATIVE_FINDING_WITH_EXTERNAL_COMPARISON_PENDING',comparison_checked=False)
+        result['reason']+=' This finding concerns the measured native path only; your external comparison has not been checked.'
+        return result
     if verdict=='not found':
         result={'verdict':verdict,'evidence_ids':list(records),'reason':'Evidence does not establish a cause within the admitted budget.'}
         if request.get('kind')=='FACT':
             try:selected=explicit_operational_fact(request,entries,now,ticket_text)
-            except ValueError:return result
+            except ValueError as error:
+                if 'run_selector'in request:
+                    result['reason']='The requested run status could not be established: '+str(error)+'. No other run was substituted.'
+                    result['requested_run_unavailable_reason']=str(error)
+                return result
             status=selected['value'].get('status',selected['value'].get('state'))
             if status in ('SUCCEEDED','COMPLETED'):
                 result.update(claim_scope='OPERATIONAL_FACT_ONLY',operational_fact=selected,
@@ -194,15 +242,42 @@ def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
         selected=explicit_operational_fact(request,entries,now,ticket_text)
         states={'failed job':{'FAILED'},'waiting on job':{'QUEUED','RUNNING'},'refresh stale':{'STALE'}}.get(verdict,set())
         if selected['value'].get('status',selected['value'].get('state')) not in states:raise ValueError('CURRENT_OPERATIONAL_STATUS_REQUIRED')
-        result=_supported(verdict,records,None,'The retained '+request['question'].lower().replace('_',' ')+' is '+selected['value'].get('status',selected['value'].get('state'))+'. This answers only the explicit operational question; no numerical cause was established.')
+        result=_supported(verdict,records,None,'The retained '+request['question'].lower().replace('_',' ')+' is '+selected['value'].get('status',selected['value'].get('state'))+'.')
         result['claim_scope']='OPERATIONAL_FACT_ONLY';result['operational_fact']=selected
+        return operational_support(result,selected,current_facts(entries,now))
+    if request['kind']=='DEFINITION':
+        # Describing the authored calculation is a different question from
+        # proving a numerical divergence. Quote the retained implementation;
+        # neither model prose nor equal values can substitute for its contents.
+        import hashlib
+        definitions=[entry['value']for entry in entries if entry['kind']=='GRAPH'
+            and entry['value'].get('node')==request['subject']
+            and entry['value'].get('provenance',{}).get('source')=='STATIC_DEFINITION'
+            and isinstance(entry['value'].get('content'),str)]
+        matching=[value for value in definitions if hashlib.sha256(value['content'].encode('utf-8')).hexdigest()
+            ==value.get('definition',{}).get('sha256')]
+        if verdict!='as designed' or len(matching)!=1:raise ValueError('DEFINITION_ROUTE_REQUIRES_RETAINED_EXPLANATION')
+        result=_supported(verdict,records,None,'The retained implementation is:\n'+matching[0]['content']+
+            '\nThis describes the authored calculation only. It does not establish a numerical result, business correctness or the policy the owner intended.')
+        if matching[0].get('plain_language'):result['reason']=matching[0]['plain_language']+'\n'+result['reason']
+        result['reason']+='\nDefinition provenance: '+canonical(matching[0]['provenance'])
+        if matching[0].get('collection_unavailable'):
+            result['reason']+=' Current definition collection is unavailable; this describes the retained version, not a newly collected definition.'
+        result.update(claim_scope='RETAINED_DEFINITION_ONLY',definition_subject=request['subject'])
         return result
-    if request['kind']=='DEFINITION':raise ValueError('DEFINITION_ROUTE_REQUIRES_RETAINED_EXPLANATION')
     reads={identity:r['value'] for identity,r in records.items() if r['kind']=='READ'}
     for read in reads.values():
         if read.get('route_admitted') is not True or read.get('read_only_verified') is not True or not read.get('receipt_id'):raise ValueError('READ_NOT_ADMITTED')
         quantity(read)
     if target is not None and not any(read['subject']==target for read in reads.values()):raise ValueError('REQUESTED_TARGET_NOT_MEASURED')
+    if verdict=='failed job' and any(entry['kind']=='GAP' and entry['value'].get('availability',{}).get('failure_class')=='UNREACHABLE'for entry in entries):
+        try:operational=pending_comparison_status(verdict,records,reads,target=target,now=now)
+        except ValueError:pass
+        else:
+            outage=load_source_outage(operational.get('operational_fact',{}).get('value',{}))
+            if outage:
+                operational.update(claim_scope='OPERATIONAL_STATUS_WITH_BLOCKED_SOURCE',reason='The linked load failed; its recorded root cause is source unreachable at '+outage['last_observed_at']+'. The source comparison is blocked; no numerical cause was established.')
+                return operational
     if request.get('comparison_pending') is True:
         if any(entry['kind'] in ('COMPARISON','GIVEN_COMPARISON') for entry in entries):raise ValueError('PENDING_COMPARISON_CONTRACT_CONFLICT')
         return pending_comparison_status(verdict,records,reads,target=target,now=now)
@@ -241,11 +316,11 @@ def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
                 runs=[f for f in known('JOB_RUN') if f['subject']==job]
                 if verdict=='failed job':
                     failed=[f for f in runs if f['value'].get('status')=='FAILED' and f['value'].get('error') and fact_time(f,'start') and changed<=fact_time(f,'start')<=now and fact_time(f,'end') and fact_time(f,'end')<=now]
-                    if failed:return _supported(verdict,records,boundary,'The linked quantity-preserving load failed after the source change: '+str(failed[0]['value']['error']))
+                    if failed:return operational_support(_supported(verdict,records,boundary,'The linked quantity-preserving load failed after the source change: '+str(failed[0]['value']['error'])),failed[0],facts)
                 if verdict=='waiting on job':
                     queued=[f for f in runs if f['value'].get('status') in ('QUEUED','RUNNING') and fact_time(f,'start') and changed<=fact_time(f,'start')<=now]
                     overdue=[f for f in known('OVERDUE') if f['subject']==job and f['value'].get('overdue') is True and fact_time(f,'due_at') and changed<=fact_time(f,'due_at')<=now]
-                    if queued or overdue:return _supported(verdict,records,boundary,'The linked load is queued/running or has not started by its declared due time.')
+                    if queued or overdue:return operational_support(_supported(verdict,records,boundary,'The linked load is queued/running or has not started by its declared due time.'),(queued or overdue)[0],facts)
                 if verdict=='latency':
                     completed=[f for f in runs if f['value'].get('status')=='SUCCEEDED' and fact_time(f,'end') and fact_time(f,'end')<changed]
                     schedules=[f for f in known('SCHEDULE') if f['subject']==job and fact_time(f,'next_due') and fact_time(f,'next_due')>=now]
@@ -255,7 +330,7 @@ def check(verdict,ids,registry,*,now,request=None,ticket_text=None,target=None):
                     if completed and schedules and durations and not newer:
                         due=datetime.fromisoformat(fact_time(schedules[0],'next_due').replace('Z','+00:00'))
                         expected=due+timedelta(seconds=durations[0]['value']['median_seconds'])
-                        return {**_supported(verdict,records,boundary,'The source changed after the completed load and the next declared load is not yet due.'),'expected_update_at':timestamp(expected.isoformat())}
+                        return operational_support({**_supported(verdict,records,boundary,'The source changed after the completed load and the next declared load is not yet due.'),'expected_update_at':timestamp(expected.isoformat())},completed[0],facts,schedule=schedules[0])
         raise ValueError('FRESHNESS_CAUSAL_PATH_OR_CHRONOLOGY_MISSING')
     if verdict=='different question':
         for comparison in comparisons:

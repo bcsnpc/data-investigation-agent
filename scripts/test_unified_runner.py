@@ -13,6 +13,39 @@ from investigator.process_tape import Tape,bytes_of
 HEADER={'entry_point':'runner','context_identity':'fixture-context','config':{},'profile':{},'usage_policy':None,'engine_hash':'fixture-engine','state':{}}
 
 class RunnerTests(unittest.TestCase):
+    def test_collector_options_reject_before_launch_and_dispatch(self):
+        from investigator.unified_runner import handlers
+        from unittest.mock import Mock
+        with tempfile.TemporaryDirectory()as d:
+            config=self.config(Path(d));bad={'config':{},'force':True}
+            config['checks']={'facts':{'kind':'collect-facts','options':bad}}
+            p=Path(d)/'runner.json';p.write_text(json.dumps(config))
+            with patch('cloud_facts_collector.execute')as execute:
+                with self.assertRaisesRegex(ValueError,'FACT_COLLECTOR_RUNNER_OPTIONS'):load(p)
+                with self.assertRaisesRegex(ValueError,'FACT_COLLECTOR_RUNNER_OPTIONS'):handlers()['collect-facts']({'options':bad},Mock())
+                execute.assert_not_called()
+    def test_collector_preflight_uses_consumer_configuration_validation(self):
+        with tempfile.TemporaryDirectory()as d:
+            config=self.config(Path(d));check={'kind':'collect-facts','options':{'config':{'estate':'test','authentication':{},'storage':{},'receipt_uri_prefix':'receipt','budget':{},'subjects':{'pipeline':{}},'max_requests':4,'approval':'owner'}}}
+            config['checks']={'facts':check};p=Path(d)/'runner.json';p.write_text(json.dumps(config))
+            self.assertEqual(load(p)['checks']['facts'],check)
+            check['options']['config']['max_requests']=0;p.write_text(json.dumps(config))
+            with self.assertRaisesRegex(ValueError,'FACT_REQUEST_ALLOWANCE'):load(p)
+    def test_default_investigation_registry_is_new_engine_legacy_is_explicit_baseline(self):
+        from investigator.unified_runner import handlers
+        registry=handlers()
+        self.assertIs(registry['investigation'],registry['ledger-investigation'])
+        self.assertIsNot(registry['legacy-baseline'],registry['investigation'])
+    def test_source_access_failure_is_warning_for_new_investigator_not_a_whole_run_hold(self):
+        with tempfile.TemporaryDirectory()as d:
+            config=self.config(Path(d));config['checks']={'answer':{'kind':'ledger-investigation','options':{}}};seen=[]
+            table={'status':'FAIL','rows':[{'id':'source','status':'FAIL','reason':'HTTP_403'}]}
+            answer={'verdict':'not found','status':'blocked','outputs':{'business':'Source permission refused; reachable model checked.','technical':'Retained refused source read.'}}
+            def investigate(plan,ctx):seen.append(ctx.access_result);return answer
+            with patch('investigator.access_check.configured',return_value=table):
+                result=run(config,'answer',registry={'ledger-investigation':investigate},put=lambda *_:None)
+            self.assertEqual(seen,[table]);self.assertEqual(result['result'],answer)
+            self.assertEqual(result['exit_code'],0)
     def test_delivered_warning_answer_exits_zero_and_records_intent_in_seal(self):
         from investigator.unified_runner import delivery_exit
         answer={'status':'DEMO_FINISHED','demo':{'ticket':{'state':'FINDINGS_SHARED','findings':{'classification':'TRANSFORMATION_LOGIC'}}},
@@ -102,6 +135,18 @@ class RunnerTests(unittest.TestCase):
         self.assertFalse(transient(ValueError('guardrail denied')))
         from fabric_sql_surface import LowerReadError
         self.assertTrue(transient(LowerReadError('connect',18456,'SqlException')))
+        self.assertTrue(transient(LowerReadError('connect',40613,'SqlException')))
+        self.assertFalse(transient(LowerReadError('query',40613,'SqlException')))
+        self.assertFalse(transient(LowerReadError('connect',229,'SqlException')))
+    def test_serverless_resume_retries_once_with_failure_preserved_and_no_limit_raise(self):
+        from fabric_sql_surface import LowerReadError
+        calls=[];wait=[];events=[]
+        def read():
+            calls.append(1)
+            if len(calls)==1:raise LowerReadError('connect',40613,'SqlException')
+            return {'status':'CONNECTED'}
+        self.assertEqual(retry(read,record=lambda *v:events.append(v),sleep=wait.append),{'status':'CONNECTED'})
+        self.assertEqual(len(calls),2);self.assertEqual(wait,[30]);self.assertEqual(events[0][0],'attempt-failure');self.assertTrue(events[0][1]['retry'])
     def test_wrapped_url_timeout_retries_but_http_auth_and_certificate_errors_do_not(self):
         from urllib.error import URLError,HTTPError
         import ssl
@@ -265,11 +310,12 @@ class RunnerTests(unittest.TestCase):
         def form(argv):
             root=Path(argv[argv.index('--job-root')+1]);root.mkdir()
             (root/'result.json').write_text('{"status":"INVESTIGATED"}')
-        with tempfile.TemporaryDirectory() as d,patch('scan_estate_graph.Meter',Meter),patch('investigator.shared_state.configured_state',return_value=object()),patch('investigator.daily_smoke._gold_read',gold),patch('investigator.daily_smoke.run_smoke',smoke),patch('investigator.daily_smoke.capture_roundtrip',return_value={'status':'PASS'}) as blob,patch('cloud_form_worker.main',form):
-            result=handlers()['smoke']({'options':{'config':{'demo_earned':True},'budget':{},'max_requests':10,'demo':{'bundle':'fixture','sha256':'a'*64}}},SimpleNamespace(root=Path(d)))
+        with tempfile.TemporaryDirectory() as d,patch('scan_estate_graph.Meter',Meter),patch('investigator.shared_state.configured_state',return_value=object()),patch('investigator.daily_smoke._gold_read',gold),patch('investigator.daily_smoke.run_smoke',smoke),patch('investigator.daily_smoke.capture_roundtrip',return_value={'status':'PASS'}) as blob,patch('cloud_investigator.execute',return_value={'status':'INVESTIGATED'})as ledger:
+            result=handlers()['smoke']({'options':{'config':{'demo_earned':True},'budget':{},'max_requests':10,'demo':{'spec':{'path':'fixture-spec','sha256':'a'*64}}}},SimpleNamespace(root=Path(d)))
             self.assertEqual(result['status'],'PASS')
             self.assertEqual(calls,['physical','physical','closed'])
             blob.assert_called_once_with(unittest.mock.ANY,b'{"kind":"DAILY_SMOKE"}')
+            ledger.assert_called_once()
 
 class CaptureGatewayTests(unittest.TestCase):
     config=RunnerTests.config

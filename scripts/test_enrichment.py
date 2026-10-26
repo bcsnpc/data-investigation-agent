@@ -34,6 +34,17 @@ def secret_reference():
 
 
 class EnrichmentTests(unittest.TestCase):
+    def test_search_projection_is_bounded_and_excludes_changed_definition(self):
+        source_value=source();self.store.apply(source_value,output(),at=T1,
+            producer='recorded',recording_class='EXACT',evidence_ids=['receipt'])
+        matching=self.store.projections('estate',{'measure':source_value['definition_hash'],'absent':None})
+        self.assertEqual(set(matching),{'measure'})
+        self.assertEqual(matching['measure']['status'],'INFERRED')
+        self.assertEqual(self.store.projections('estate',{'measure':'b'*64}),{})
+        self.assertEqual(self.store.projections('other-estate',{'measure':source_value['definition_hash']}),{})
+        with self.assertRaisesRegex(ValueError,'BOUND'):
+            self.store.projections('estate',{str(i):None for i in range(201)})
+
     def test_provider_schema_and_consumer_share_exact_link_vocabulary(self):
         from jsonschema import Draft202012Validator
         from investigator.enrichment import SCHEMA,LINK_KINDS

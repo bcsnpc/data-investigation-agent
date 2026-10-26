@@ -165,6 +165,35 @@ class GraphRepositoryTests(unittest.TestCase):
         self.assertEqual(len(self.repo.changes('estate')),1)
 
 class GraphAPITests(GraphRepositoryTests):
+    def test_definition_tool_reads_retained_content_and_keeps_historical_reader(self):
+        from investigator.artifact_store import Files,LocalObjects
+        from investigator.graph_definitions import DefinitionSink
+        sink=DefinitionSink(Files(LocalObjects(Path(self.temp.name)/'definitions')),
+            'cas://definitions',recording_class='EXACT')
+        raw=b'{"expression":"SUM(Entries[Quantity])"}'
+        record=graph();reference=sink(raw)
+        record['nodes'][3]['properties']['definition']=reference
+        self.repo.replace(record);reads=[]
+        def read(ref):
+            reads.append(ref);return sink.read(ref)
+        api=self.api(definition_reader=read)
+        for selected in (api,api.as_of(T0)):
+            result=selected.definition_of('measure')
+            self.assertEqual(result['content'],raw.decode())
+            self.assertEqual(result['definition'],reference)
+            self.assertEqual(result['provenance'],record['nodes'][3]['provenance'])
+        self.assertEqual(reads,[reference,reference])
+        from unittest.mock import patch
+        api.unavailable={'owner':{'reason':'Current collection unavailable'}}
+        with patch.object(api,'_read',return_value=({'measure':{**record['nodes'][3],'valid_from':T0,'valid_to':None}},[])):
+            retained=api.definition_of('measure')
+        self.assertEqual(retained['content'],raw.decode())
+        self.assertEqual(retained['collection_unavailable']['reason'],'Current collection unavailable')
+        self.assertNotIn('content',self.api().definition_of('measure'))
+        limited=self.api(['visual'],definition_reader=read)
+        with self.assertRaises(GatewayDenied):limited.definition_of('measure')
+        self.assertEqual(len(reads),3)
+
     def api(self,allowed=None,**kwargs):
         allowed=allowed or ['report','page','visual','measure','column']
         gateway=Gateway({'version':1,'live_enabled':False,'identities':{'reader':{'graph':{'estate':allowed}}}})
@@ -174,6 +203,23 @@ class GraphAPITests(GraphRepositoryTests):
         self.assertEqual({n['id'] for n in api.path_to_source('visual')['nodes']},{'visual','measure','column'})
         self.assertEqual(api.visual_context('report','page','visual')['edges'][0]['id'],'vm')
         self.assertEqual(api.as_of(T0).definition_of('visual')['provenance']['definition_hash'],'a'*64)
+
+    def test_build_dev_keeps_retained_path_after_refresh_failure_without_promoting_verification(self):
+        from investigator.graph_scan_health import record
+        from investigator.build_phase import operating_mode
+        self.repo.replace(graph())
+        record(self.state,'estate','owner',T1,'UNAVAILABLE','MetadataUnavailable')
+        ordinary=self.api().path_to_source('visual')
+        self.assertEqual(ordinary['edges'],[])
+        with operating_mode():
+            retained=self.api().path_to_source('visual')
+            self.assertEqual({n['id']for n in retained['nodes']},{'visual','measure','column'})
+            self.assertEqual({e['id']for e in retained['edges']},{'vm','mc'})
+            self.assertTrue(retained['unavailable_owners'])
+            self.assertTrue(any('Warning:'in s.get('remedy','')for s in retained['stops']))
+            self.assertTrue(all(e['confidence']=='DECLARED'for e in retained['edges']))
+            restricted=self.api(['visual']).path_to_source('visual')
+            self.assertEqual(restricted['edges'],[])
     def test_unauthorized_neighbor_not_returned_and_root_refused(self):
         self.repo.replace(graph());api=self.api(['visual'])
         result=api.path_to_source('visual')
