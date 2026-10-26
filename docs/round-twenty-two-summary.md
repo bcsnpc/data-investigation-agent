@@ -293,3 +293,40 @@ Dev4 running on immutable d11367e image9c684502 (all8hostedshards/publishPASS). 
 ### October 25 shutdown recovery (UTC October 26)
 
 All forty fourth-pass outcomes survived; none were repeated. The existing 600-second Wait completed and the pipeline was already restored before shutdown; fresh native definition reads match original SHA-256 `89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259`. Source read confirms 363 rows / 7,692, including three stale-control rows, zero latency rows and temporal versioning enabled. Portal read confirms automatic Direct Lake updates and refresh schedule OFF; native pipeline schedule listing is empty. Four pre-shutdown physical reservations without responses are now UNCERTAIN, fully charged; historical immutable reservations remain unchanged. The original first waiting submission remains unestablished and unscored. Independent grading resumed from the saved forty outcomes, with unchanged rules and 24,000-character deduplicated inputs. Execution-list BadGateway and the first source read's SQL40613 are preserved; the next source read succeeded. Native comparison timing will be reported separately from intake holds.
+
+
+### Independently graded dev pass 4 ? owner 2026-10-25
+
+**11/40, versus pass 2: 6/40; harmful: 0.** All forty independent grades validated. Frozen source d11367e / image9c684502. No expectation or answer was changed for grading.
+
+| Expected class | Correct / total |
+|---|---:|
+| access difference | 0/2 |
+| as designed | 1/15 |
+| different question | 0/2 |
+| failed job | 6/6 |
+| latency | 0/4 |
+| not found | 2/5 |
+| refresh stale | 0/2 |
+| source changed history | 0/2 |
+| waiting on job | 2/2 |
+
+Zero-score groups (29):
+- NATIVE_COMPARISON_OR_ROUTE_GAP: 7.
+- CALCULATION_TARGET_UNRESOLVED: 4.
+- Reported numeral or its stated precision is ambiguous: 10.
+- CALCULATION_TARGET_TIED: 3.
+- CALCULATION_CONTAINER_UNRESOLVED: 3.
+- RAW_CALCULATION_EXTRACTION_NEEDS_INPUT:PRIMARY_REFERENT_INSIDE_COMPARISON_SPAN: 1.
+- RAW_CALCULATION_EXTRACTION_NEEDS_INPUT:CALCULATION_TOKEN_REFERENCE_NOT_ONE_CONTIGUOUS_SPAN: 1.
+
+Startup plus worker durations, kept separate:
+- native_numeric_comparison: n=4, median 147.71s, p90 150.44s, range 135.67?150.44s.
+- intake_hold_or_question: n=24, median 52.60s, p90 64.09s, range 41.36?91.83s.
+- other_technical_or_operational: n=12, median 46.03s, p90 80.90s, range 37.19?84.92s.
+
+The four native numeric comparisons remain slower than the two-minute target; quick holds are not successful investigations. These durations exclude the timing sidecar?s own publication and client retrieval. Inclusive phase clocks overlap and are not added. Engine provider usage: 40 calls, USD0.680068 conservative rate-card estimate (not an invoice). Independent grading: 40 calls, USD0.331103 from provider usage. Failed transport attempts and fixture controls are separate, retained and charged.
+
+Pass 5 uses prepared immutable image f6b3d3d1 / source bf00824. Its existing generic retry/figure validation, owner resolution, native empty-context proof normalization, compiler refusal classification and reporting-mirror fixes address the largest intake/comparison groups. Focused checks already passed. No additional small fix is justified before measuring this batch; no new image or expectation change is needed.
+
+Full per-ticket answers, grades, timings, usage and seals: `docs/runs/round-twenty-two-scored-run-4.json`. Legacy remains closed at34/40 outcomes, ungraded; no more legacy work. Held-out remains unrun and uninspected.

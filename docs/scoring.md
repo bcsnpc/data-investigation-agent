@@ -33,3 +33,40 @@ Only existing estate build/control scripts may apply the approved injections. Sa
 Owner steer2026-10-23: latency evidence must survive through each dependent scored ticket. Restage its owned synthetic source rows and enabled future schedule immediately before that ticket, or retain them through its dependent cohort. `LatencySourceScenario.admit` invokes fresh bounded read ports for source presence and exact planned values, Bronze absence (count0/SUM NULL), and the current enabled owned schedule with a future start. `RunHarness` records this admission before `SUBMIT_ATTEMPT`. Missing/changed/loaded rows, an unattested read, a missing/disabled/due schedule, or a failed check is `INVALID_NOT_AN_ENGINE_RESULT`; no ticket is submitted and no engine pass/failure is manufactured. Record fixture-invalid attempts separately, retain the planned denominator, repair/restage before admitting that ticket. The engine must obtain its own evidence. After its dependent ticket, remove only the owned schedule, restore only version-matched injected rows, and verify the full prior row hash. Never reuse a restored prototype as current runtime evidence.
 
 Round22 owner speed amendment, 2026-10-24: a partial legacy column is not a forty-ticket score. Baseline closed at34saved outcomes (10HELD,24CLARIFYING), sixNOT_RUN, no delivered technical findings and no independent grade. Do not mix that column with independently graded full new-engine passes. Failed pre-intake environment attempts remain separate from replacement runs. Independent grading receives verbatim answer prose and the sealed native expectations; duplicate technical evidence/cost/timing/accounting metadata can be omitted from its bounded request, while original captures, hashes and full timing/accounting remain retained. Neither answer nor expectation is repaired for grading. Current graded full dev:1/40 then6/40, harmful0 in both; pass4 not yet fully graded at this checkpoint.
+
+
+### Independently graded dev pass 4 ? owner 2026-10-25
+
+**11/40, versus pass 2: 6/40; harmful: 0.** All forty independent grades validated. Frozen source d11367e / image9c684502. No expectation or answer was changed for grading.
+
+| Expected class | Correct / total |
+|---|---:|
+| access difference | 0/2 |
+| as designed | 1/15 |
+| different question | 0/2 |
+| failed job | 6/6 |
+| latency | 0/4 |
+| not found | 2/5 |
+| refresh stale | 0/2 |
+| source changed history | 0/2 |
+| waiting on job | 2/2 |
+
+Zero-score groups (29):
+- NATIVE_COMPARISON_OR_ROUTE_GAP: 7.
+- CALCULATION_TARGET_UNRESOLVED: 4.
+- Reported numeral or its stated precision is ambiguous: 10.
+- CALCULATION_TARGET_TIED: 3.
+- CALCULATION_CONTAINER_UNRESOLVED: 3.
+- RAW_CALCULATION_EXTRACTION_NEEDS_INPUT:PRIMARY_REFERENT_INSIDE_COMPARISON_SPAN: 1.
+- RAW_CALCULATION_EXTRACTION_NEEDS_INPUT:CALCULATION_TOKEN_REFERENCE_NOT_ONE_CONTIGUOUS_SPAN: 1.
+
+Startup plus worker durations, kept separate:
+- native_numeric_comparison: n=4, median 147.71s, p90 150.44s, range 135.67?150.44s.
+- intake_hold_or_question: n=24, median 52.60s, p90 64.09s, range 41.36?91.83s.
+- other_technical_or_operational: n=12, median 46.03s, p90 80.90s, range 37.19?84.92s.
+
+The four native numeric comparisons remain slower than the two-minute target; quick holds are not successful investigations. These durations exclude the timing sidecar?s own publication and client retrieval. Inclusive phase clocks overlap and are not added. Engine provider usage: 40 calls, USD0.680068 conservative rate-card estimate (not an invoice). Independent grading: 40 calls, USD0.331103 from provider usage. Failed transport attempts and fixture controls are separate, retained and charged.
+
+Pass 5 uses prepared immutable image f6b3d3d1 / source bf00824. Its existing generic retry/figure validation, owner resolution, native empty-context proof normalization, compiler refusal classification and reporting-mirror fixes address the largest intake/comparison groups. Focused checks already passed. No additional small fix is justified before measuring this batch; no new image or expectation change is needed.
+
+Full per-ticket answers, grades, timings, usage and seals: `docs/runs/round-twenty-two-scored-run-4.json`. Legacy remains closed at34/40 outcomes, ungraded; no more legacy work. Held-out remains unrun and uninspected.
