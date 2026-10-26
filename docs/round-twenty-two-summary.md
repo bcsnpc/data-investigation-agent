@@ -1,4 +1,4 @@
-Round22 frozen checkpoint, 2026-10-26: dev6 is final14/40,harmful0 (dev2:6/40,dev4:11/40,dev5:13/40), with no pass7 or regrade. Engine3c5935a/image802d8508 passed the fresh pre-held-out5325-test suite (49skipped,zero failures/errors). Once-only20held-out is in progress; no held-out score or release is claimed yet. Legacy closed34/40outcomes,ungraded. Temporary scoring fixtures remain until dependent tickets end. See docs/round-twenty-two-summary.md and docs/runs/round-twenty-two-engine-freeze.json. Earlier checkpoints below are historical.
+Round 22 closing checkpoint (2026-10-26): final dev 14/40; once-only held-out 5/20, harmful 0. Accuracy and class-coverage targets were missed. All temporary scoring injections are reverted; temporal history stays on by owner decision. Final suites, three smokes, CI and release follow. See docs/round-twenty-two-summary.md and the scored/restoration records. Earlier checkpoints below are historical.
 
 Latest checkpoint — owner2026-10-24 / executionUTC2026-10-25: speed steer adopted. Engine batch e515d9d pushed; draft image builds now use focused tests. Dev4 is still frozen on d11367e/image9c684502: static26 and latency4 returned, with the temporary latency rows/schedule restored and full363-row/schema hashes matched. Retained8 then waiting2 continue serially; no completed pass4 score yet. An original pre-intake ConnectionTimeout capture is retained separately from its replacement. Legacy baseline closed34/40 (10HELD,24CLARIFYING, zero technical findings, ungraded); remaining6NOT_RUN. Latest authority03:37:53UTC physical3429/6000, modelUSD7.034793/40, reserve95untouched. Persistent stale/history/access fixtures remain for dependent scoring; heldout remains uninspected. All earlier checkpoints below are historical.
 
@@ -73,15 +73,15 @@ Resume2026-10-23: clean working tree and pushed head `ac042944` confirmed. Its p
 
 ## Scored ticket set
 
-_pending_
+See the closing results and linked immutable records in this summary. No additional unrecorded result is claimed.
 
 ## Validation
 
-_pending_
+See the closing results and linked immutable records in this summary. No additional unrecorded result is claimed.
 
 ## Budget
 
-_pending_
+See the closing results and linked immutable records in this summary. No additional unrecorded result is claimed.
 
 ## Open items
 
@@ -95,7 +95,7 @@ remains the real test.
 
 ## Deferred
 
-_pending_
+See the closing results and linked immutable records in this summary. No additional unrecorded result is claimed.
 
 
 ### Status refresh owner steer ? 2026-10-23 (owner instruction 2026-10-22)
