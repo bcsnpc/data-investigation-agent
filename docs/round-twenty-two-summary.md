@@ -370,3 +370,68 @@ Observed provider usage:38 calls, USD0.688616 conservative rate-card estimate, n
 Pass6 uses tested source3c5935a/image802d8508: explicit location/model ownership, comparator-cue exclusion, and non-COMPARE requests no longer receive pending-comparison fields. These are generic fixes; raw tickets/expectations remain unchanged. Prepared input publication12 reuses the same immutable09 input archive. Earlier preparatory images were never scored. All20 hosted checks on3c passed(two intentional focused-path skips). Full suite remains at the pre-held-out gate.
 
 References: `docs/runs/round-twenty-two-scored-run-5.json` and `docs/runs/round-twenty-two-dev5-breakdown.json`.
+
+### Final dev pass6 ? recovered2026-10-26
+
+**14/40, harmful0**, versus pass2:6/40, pass4:11/40 and pass5:13/40. All40original independent grades validated; no rerun or regrade after recovery. Frozen3c5935a/image802d8508. Both waiting tickets answered waiting on job; nativeWait114b1c99 completed05:02:03UTC and original89cf pipeline hash was restored.
+
+| Expected class | Correct / total |
+|---|---:|
+| access difference | 0/2 |
+| as designed | 4/15 |
+| different question | 0/2 |
+| failed job | 6/6 |
+| latency | 0/4 |
+| not found | 2/5 |
+| refresh stale | 0/2 |
+| source changed history | 0/2 |
+| waiting on job | 2/2 |
+
+Timing populations (startup plus native worker, excluding final timing-sidecar publication/client retrieval; inclusive phases overlap):
+- native_value_comparison: n=5, median154.83s, p90157.07s.
+- intake_hold_or_question: n=18, median51.17s, p9058.71s.
+- other_technical_or_operational: n=17, median43.34s, p9073.47s.
+
+Engine observed45provider calls with complete usage40/40: USD0.808089 conservative rate-card estimate, not invoice (USD0.020202 per ticket). Independent grading40calls: USD0.350390 (USD0.008760 per ticket), separate enrichment account. Native numeric comparison median154.83s misses120s; quick questions are not successful investigations.
+
+No pass7: preserved the mandatory held-out/control/smoke request headroom at the recorded category-budget boundary. This is not two flat passes and not exhaustion of the model or total monthly pot. Sources: `docs/runs/round-twenty-two-scored-run-6.json`, `docs/runs/round-twenty-two-dev6-breakdown.json`, `docs/runs/round-twenty-two-dev-budget-boundary.json`.
+
+### Zero-score reasons by class, dev passes4?6
+
+These group the original engine stop reason (or native exception) per expected class. They do not replace independent verdict/layer/cause grades; per-ticket grading reasons remain in each scored-run JSON.
+
+Pass4 (11/40; harmful0):
+
+| Expected class | Zero-score groups |
+|---|---|
+| access difference | Reported numeral or its stated precision is ambiguous: 2 |
+| as designed | CALCULATION_TARGET_TIED: 2; CALCULATION_TARGET_UNRESOLVED: 1; NATIVE_COMPARISON_OR_ROUTE_GAP: 6; Reported numeral or its stated precision is ambiguous: 5 |
+| different question | Reported numeral or its stated precision is ambiguous: 2 |
+| latency | CALCULATION_CONTAINER_UNRESOLVED: 2; CALCULATION_TARGET_UNRESOLVED: 1; RAW_CALCULATION_EXTRACTION_NEEDS_INPUT:PRIMARY_REFERENT_INSIDE_COMPARISON_SPAN: 1 |
+| not found | CALCULATION_CONTAINER_UNRESOLVED: 1; CALCULATION_TARGET_UNRESOLVED: 1; Reported numeral or its stated precision is ambiguous: 1 |
+| refresh stale | CALCULATION_TARGET_TIED: 1; RAW_CALCULATION_EXTRACTION_NEEDS_INPUT:CALCULATION_TOKEN_REFERENCE_NOT_ONE_CONTIGUOUS_SPAN: 1 |
+| source changed history | CALCULATION_TARGET_UNRESOLVED: 1; NATIVE_COMPARISON_OR_ROUTE_GAP: 1 |
+
+Pass5 (13/40; harmful0):
+
+| Expected class | Zero-score groups |
+|---|---|
+| access difference | CALCULATION_TARGET_UNRESOLVED: 2 |
+| as designed | ANSWER_CAUSE_OR_COVERAGE_MISMATCH: 1; CALCULATION_TARGET_TIED: 3; CALCULATION_TARGET_UNRESOLVED: 1; ENGINE_EXCEPTION:PENDING_COMPARISON_CONTRACT_CONFLICT: 3; NATIVE_COMPARISON_OR_ROUTE_GAP: 4 |
+| different question | CALCULATION_TARGET_TIED: 1; CALCULATION_TARGET_UNRESOLVED: 1 |
+| latency | CALCULATION_CONTAINER_UNRESOLVED: 2; NATIVE_COMPARISON_OR_ROUTE_GAP: 1; RAW_CALCULATION_EXTRACTION_NEEDS_INPUT:PRIMARY_REFERENT_INSIDE_COMPARISON_SPAN: 1 |
+| not found | CALCULATION_TARGET_UNRESOLVED: 3 |
+| refresh stale | CALCULATION_TARGET_TIED: 2 |
+| source changed history | CALCULATION_TARGET_UNRESOLVED: 1; NATIVE_COMPARISON_OR_ROUTE_GAP: 1 |
+
+Pass6 (14/40; harmful0):
+
+| Expected class | Zero-score groups |
+|---|---|
+| access difference | CALCULATION_TARGET_UNRESOLVED: 1; NATIVE_COMPARISON_OR_ROUTE_GAP: 1 |
+| as designed | ANSWER_CAUSE_OR_COVERAGE_MISMATCH: 3; CALCULATION_CONTAINER_UNRESOLVED: 2; CALCULATION_TARGET_TIED: 2; CALCULATION_TARGET_UNRESOLVED: 1; NATIVE_COMPARISON_OR_ROUTE_GAP: 3 |
+| different question | CALCULATION_TARGET_TIED: 1; CALCULATION_TARGET_UNRESOLVED: 1 |
+| latency | CALCULATION_TARGET_TIED: 1; CALCULATION_TARGET_UNRESOLVED: 1; NATIVE_COMPARISON_OR_ROUTE_GAP: 2 |
+| not found | CALCULATION_TARGET_TIED: 1; CALCULATION_TARGET_UNRESOLVED: 1; NATIVE_COMPARISON_OR_ROUTE_GAP: 1 |
+| refresh stale | CALCULATION_TARGET_UNRESOLVED: 2 |
+| source changed history | CALCULATION_CONTAINER_UNRESOLVED: 2 |
