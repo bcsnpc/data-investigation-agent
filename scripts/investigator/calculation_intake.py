@@ -256,9 +256,23 @@ def resolve(ticket,catalog,extraction):
         positive=r'\b(on|in|from|under|at|for)\s+(?:the\s+)?$'
         negative=r'\b(not|never|except)\s+(on|in|from|under|at|for)\s+(?:the\s+)?$'
         return bool(re.search(positive,prefix,re.I)and not re.search(negative,prefix,re.I))
-    locations=[n for n in extraction['targets']if n['kind']in('REPORT','PAGE')and current_location(n)]
+    locations=[n for n in extraction['targets']if n['kind']in('REPORT','PAGE','MODEL')and current_location(n)]
+    # Exact catalog names in an explicit location phrase remain supplied by
+    # the user even when extraction omitted them. This adds no value/filter
+    # inference and never borrows a comparator's location.
+    comparison=extraction['comparison']['words']
+    for node in catalog['candidates']:
+        if node['kind']not in('REPORT','PAGE','MODEL'):continue
+        pattern=r'(?<!\w)'+re.escape(node['label'])+r'(?!\w)'
+        for match in re.finditer(pattern,text,re.I):
+            span={'start':match.start(),'end':match.end(),'quote':match.group()}
+            if comparison is not None and comparison['start']<=span['start']and span['end']<=comparison['end']:continue
+            if any(n['role']=='COMPARISON'and n['words']['start']<=span['start']and span['end']<=n['words']['end']for n in extraction['targets']):continue
+            item={'kind':node['kind'],'role':'CONTEXT','words':span}
+            if current_location(item)and not any(n['kind']==item['kind']and n['words']==span for n in locations):
+                locations.append(item)
     for item in [*references,*[n for n in locations if n not in references]]:
-        if item['kind']not in('REPORT','PAGE','TABLE','VIEW','SOURCE'):continue
+        if item['kind']not in('REPORT','PAGE','MODEL','TABLE','VIEW','SOURCE'):continue
         if specific and all(n['kind']==item['kind']for n in specific):continue
         matches=rank(item['words']['quote'],catalog,kinds={item['kind']})
         if not matches or matches[0]['confidence']<.9 or len(matches)>1 and matches[1]['confidence']==matches[0]['confidence']:
@@ -272,7 +286,13 @@ def resolve(ticket,catalog,extraction):
                 linked=edge['kind']=='CONTAINS'or edge['kind']=='COMPUTED_FROM'and node_kind=='VISUAL'
                 if linked and edge['source']==current and edge['target']not in seen:
                     seen.add(edge['target']);queue.append(edge['target'])
-        return identity in seen
+        if identity in seen:return True
+        # A model owns measures, while the report owns its visuals. Honor an
+        # explicitly named model through the visual's declared measure edge.
+        kinds={n['id']:n['kind']for n in catalog['candidates']}
+        return kinds.get(container)=='MODEL'and kinds.get(identity)=='VISUAL'and any(
+            edge['source']==identity and edge['kind']=='COMPUTED_FROM'and edge['target']in seen
+            for edge in catalog.get('edges',[]))
     if containers:ranked=[n for n in ranked if all(within(n['id'],c)for c in containers)]
     if specific and kind=='VISUAL' and containers and (not ranked or ranked[0]['confidence']<.9):
         # "Amount card on Daily" can identify a visual by its named measure.
@@ -299,7 +319,7 @@ def resolve(ticket,catalog,extraction):
     if len(ranked)>1 and round(ranked[0]['confidence']-ranked[1]['confidence'],4)<.1:
         return question('CALCULATION_TARGET_TIED',ranked)
     target=ranked[0]
-    if target['kind']=='MEASURE'and locations and extraction['reported_figure']['state']!='UNSPECIFIED':
+    if target['kind']=='MEASURE'and any(n['kind']in('REPORT','PAGE')for n in locations) and extraction['reported_figure']['state']!='UNSPECIFIED':
         # A number on a report/page is not a bare model-wide measure. Bind its
         # sole matching visual structurally, or ask; never choose by its value.
         visuals=[n for n in catalog['candidates']if n['kind']=='VISUAL'

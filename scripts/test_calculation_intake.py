@@ -63,6 +63,49 @@ class CalculationAdmission(unittest.TestCase):
         self.assertEqual(held['status'],'CLARIFYING')
         self.assertEqual(held['reason'],'REFRESH_OWNER_UNRESOLVED')
 
+    def test_explicit_model_locates_duplicate_measure_without_using_its_value(self):
+        text='Net amount in the Cash model shows 950.'
+        value=raw(text,target='Net amount',figure='950');value['targets'][0]['kind']='MEASURE'
+        value['targets'].append({'words':ref(text,'Cash model'),'kind':'MODEL','role':'CONTEXT'})
+        c=catalog();c['candidates'] += [{'id':'model','kind':'MODEL','label':'Cash model'},
+            {'id':'other-model','kind':'MODEL','label':'Other model'},
+            {'id':'other-measure','kind':'MEASURE','label':'Net amount'}]
+        c['edges'] += [{'source':'model','target':'m','kind':'CONTAINS'},
+            {'source':'other-model','target':'other-measure','kind':'CONTAINS'}]
+        result=intake.resolve({'text':text},c,self.extract(text,value))
+        self.assertEqual(result['status'],'READY')
+        self.assertEqual(result['ticket']['request']['subject'],'m')
+        value['targets'][-1]['role']='COMPARISON'
+        self.assertEqual(intake.resolve({'text':text},c,self.extract(text,value))['reason'],'CALCULATION_TARGET_TIED')
+
+    def test_named_model_scopes_visual_only_through_declared_measure_edge(self):
+        text='Net receipts in the Cash model shows 950.';value=raw(text,figure='950')
+        value['targets'].append({'words':ref(text,'Cash model'),'kind':'MODEL','role':'CONTEXT'})
+        c=catalog();c['candidates'].append({'id':'model','kind':'MODEL','label':'Cash model'})
+        c['edges'].append({'source':'model','target':'m','kind':'CONTAINS'})
+        result=intake.resolve({'text':text},c,self.extract(text,value))
+        self.assertEqual(result['ticket']['request']['subject'],'v')
+        c['edges']=[e for e in c['edges']if e['kind']!='COMPUTED_FROM']
+        self.assertEqual(intake.resolve({'text':text},c,self.extract(text,value))['reason'],'CALCULATION_TARGET_UNRESOLVED')
+
+    def test_exact_named_location_survives_omitted_producer_location(self):
+        text='Net receipts on the Daily overview page in the Cash report shows 950.'
+        value=raw(text,figure='950');c=catalog()
+        c['candidates'].append({'id':'elsewhere','kind':'VISUAL','label':'Net receipts'})
+        result=intake.resolve({'text':text},c,self.extract(text,value))
+        self.assertEqual(result['ticket']['request']['subject'],'v')
+        self.assertEqual(result['ticket']['reported_figure']['value'],'950')
+
+    def test_raw_location_cannot_be_borrowed_from_comparison_or_negation(self):
+        for text,comparison in (
+                ('Net receipts shows 950 compared with a value in the Cash report.',True),
+                ('Net receipts shows 950, not in the Cash report.',False)):
+            with self.subTest(text=text):
+                value=raw(text,figure='950');c=catalog()
+                c['candidates'].append({'id':'elsewhere','kind':'VISUAL','label':'Net receipts'})
+                if comparison:value['comparison']={'kind':'report','words':ref(text,'a value in the Cash report')}
+                self.assertEqual(intake.resolve({'text':text},c,self.extract(text,value))['reason'],'CALCULATION_TARGET_TIED')
+
     def extract(self,text,value):
         return intake.extract(text,Mock(return_value=value),catalog(),retain=lambda _:None)
 
