@@ -87,3 +87,8 @@ Microsoft documents both the [Fabric Wait activity](https://learn.microsoft.com/
 
 For each latency ticket, reapply only its planned source rows through `SourceHistoryScenario`, create/read back its owned future schedule through `PipelineScheduleScenario`, then call `LatencySourceScenario.admit` with actual bounded source/Bronze readers and a fresh schedule listing. Source exact rows must exist; Bronze must return count0/SUM NULL; the owned schedule must remain enabled and in the future. Keep that state through the scored ticket. A failed check invalidates the fixture before submission and is not an engine failure. After the ticket, remove its schedule, restore only its native-version-matched rows, and verify the complete prior row hash. The current unrelated stale-refresh rows900401-403 remain until their own dependent scores. No prototype receipt is runtime investigator evidence.
 
+
+
+### Owner shutdown recovery, 2026-10-25 (native read 2026-10-26 01:10 UTC)
+
+Existing Wait job `30fc840e-2343-4420-9c47-0d763dd694f3` is Completed (04:18:12?04:28:21 UTC on October 25). The original definition was already restored before shutdown; fresh before and after reads both hash to `89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259`. Recovery made zero mutations and started zero Wait runs or tickets. Three publisher control reads are charged. Local receipt: `.local/round-twenty-two/waiting-shutdown-recovery-20261025.json`. Both saved replacement waiting outcomes are retained; the original ambiguous submission remains unestablished and unscored.
