@@ -169,8 +169,10 @@ def run_smoke(config, context, *, state=None, sign_in=None, gold_read=None, blob
             checks[name] = {'status': 'FAIL', 'error_type': type(exc).__name__}
     from .access_check import configured as check_access
     access = context.step('check-access', lambda: check_access(config.get('access_check')))
-    checks['check_access'] = context.step('next-month-budget-advisory',
-                                        lambda: monthly_budget_advisory(access, state))
+    checks['check_access'] = {'status': access['status'], 'result': access}
+    if any(row.get('id') == 'next-month-budget' for row in access.get('rows', [])):
+        checks['check_access'] = context.step('next-month-budget-advisory',
+                                            lambda: monthly_budget_advisory(access, state))
     def authenticate():
         tokens = provider(config['reader_authentication'])
         tokens.get_token('https://database.windows.net/.default')
