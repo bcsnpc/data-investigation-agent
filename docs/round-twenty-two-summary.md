@@ -1,4 +1,44 @@
-Round 22 closing checkpoint (2026-10-26): final dev 14/40; once-only held-out 5/20, harmful 0. Accuracy and class-coverage targets were missed. All temporary scoring injections are reverted; temporal history stays on by owner decision. Final suites, three smokes, CI and release follow. See docs/round-twenty-two-summary.md and the scored/restoration records. Earlier checkpoints below are historical.
+Round 22 is complete. PR #429 merged as `567a95b66aca136fdc9488bfe2664857d3a85f9a`; `v0.22` tags that validated merge. This final report is published in a documentation-only commit on main after the tag.
+
+The once-only independent held-out result is **5/20, with 0 harmful findings**. The pass line was missed: fewer than 16 correct answers and six classes with no correct answer. Zero harmful findings does not establish general investigation capability.
+
+Completed dev scores: pass 1 **1/40**, pass 2 **6/40**, pass 4 **11/40**, pass 5 **13/40**, pass 6 **14/40**. Pass 3 remains partial and unscored. Pass 6 is final; no pass 7 or regrading. Completed scored dev passes had 0 harmful findings. The original per-class zero-score groups for passes 4?6 remain below and in the linked records.
+
+| Expected class | Final dev 6 | Once-only held-out |
+|---|---:|---:|
+| As designed | 4/15 | 2/2 |
+| Not found | 2/5 | 0/5 |
+| Failed job | 6/6 | 1/2 |
+| Waiting on job | 2/2 | 2/2 |
+| Access difference | 0/2 | 0/2 |
+| Different question | 0/2 | 0/2 |
+| Latency | 0/4 | 0/1 |
+| Source changed history | 0/2 | 0/2 |
+| Refresh stale | 0/2 | 0/2 |
+
+Failed-job and waiting classes have no zero-score cases in dev passes 4?6. Legacy closed with 34/40 outcomes: 10 HELD, 24 CLARIFYING and 6 not run. It remains ungraded; no comparative accuracy score is claimed.
+
+Held-out startup-plus-worker time: median **55.45 seconds**, p90 **109.30 seconds**. This excludes final timing-sidecar publication and client retrieval, and includes seven intake questions/holds. No cross-layer numerical comparison completed in this held-out cohort, so these times do not establish the full-investigation target. Dev 6's five completed native comparisons had a median of 154.83 seconds, missing the 120-second target.
+
+Held-out engine usage cost **$0.874234**, or **$0.0437117 per ticket** (36 calls). Independent grading cost **$0.192325**, or **$0.00961625 per ticket** (20 calls). These are conservative usage-priced model charges, not compute invoices. All 20 original outcomes and independent grades are retained in [the scored record](runs/round-twenty-two-scored-heldout.json); [the breakdown](runs/round-twenty-two-heldout-breakdown.json) contains individual reasons, timing and cost.
+
+The scoring pin stays `3c5935a` / image `802d8508?`. The release package uses source `8ae02f1` / image `48a53a46?`, with only a daily-smoke calendar correction and three tests changed afterward. The original whole-package freeze is superseded for release runtime; no held-out score is assigned to the newer package. Investigator reasoning modules, scored outputs, expectations and tapes were not changed.
+
+The first final smoke was INCOMPLETE despite a passing family A answer: after day 25, the access table always added an untestable next-month owner reminder. The smoke now reads the exact existing account from the authoritative platform ledger, retaining the original table. It creates nothing and cannot hide another failed or untestable probe. The first compatibility build failed an unchanged step-order test; the conditional-step fix passed 47 focused tests. Both failures remain recorded. Three subsequent consecutive smokes passed every check and Azure reported Succeeded, retaining the original 7,661/8,765 witness. No smoke expectation changed.
+
+Validation: the frozen pre-held-out suite passed 5,325 tests with 49 skips. Final pre-merge and post-merge suites each passed **5,328 tests, 49 skips, zero failures/errors**. All **21 merge-commit CI checks succeeded**, with **2 intentional skips**. A GitHub HTTP 500 interrupted one local status poll; the same GET was retried without restarting a workflow. Round-specific byte-exact replay was skipped under the owner steer; existing replay-specific CI/regression tests still ran. See [release validation](runs/round-twenty-two-release-validation.json) and [the merge/tag record](runs/round-twenty-two-release.json).
+
+All temporary injections are reverted: original application current-row and business-schema hashes match; four original pipeline definition hashes match; owned temporary schedules, access-test objects and stale/latency rows are removed; the fixed connection is restored; automatic updates are ON and the model's own refresh completed. Native reads returned model **7,661** and Bronze **360 rows / 7,661 units**. Temporal history intentionally remains ON; native job, refresh and audit histories are retained. The extra complete Bronze business-row hash is **UNESTABLISHED** after two Azure starts failed before any capture header. Count/sum is not represented as that hash proof. Exact reverts and exceptions are in [the restoration receipt](runs/round-twenty-two-restoration.json) and [injections.md](../tests/tickets/injections.md).
+
+Budget at **2026-10-26 23:45:37 UTC**: **5,439/6,000 physical requests** ? investigation **3,607/3,905**, scans **1,762/2,000**, restoration **70/95 used** (25 remaining). Total, investigation and scan usage exceed 80%; warnings remain active. Monthly investigator model spend is **$10.202640/$40**; enrichment last verified **$7.148004/$25**. Round 22 added **$8.384842** investigator model spend and **$1.977522** enrichment above the recorded opening. Counters, historical UNCERTAIN charges, caps and roles were preserved; no new identity, permission or secret was created during closure.
+
+Open engine work: target/container disambiguation, faithfully executable filtered paths, use of access/history/freshness evidence, and the blocked flag on one credited waiting answer. The two capture-less Bronze hash checks remain an explicit verification limit. None is relabelled as success. Original failures and operator recoveries remain in [blockers and lessons](blockers-and-lessons.md).
+
+![Automatic updates restored and persisted](runs/round-twenty-two-automatic-updates-restored.png)
+
+## Preserved historical progress log
+
+Earlier claims below are dated intermediate observations; final results and corrections above supersede them without altering original run evidence.
 
 Latest checkpoint — owner2026-10-24 / executionUTC2026-10-25: speed steer adopted. Engine batch e515d9d pushed; draft image builds now use focused tests. Dev4 is still frozen on d11367e/image9c684502: static26 and latency4 returned, with the temporary latency rows/schedule restored and full363-row/schema hashes matched. Retained8 then waiting2 continue serially; no completed pass4 score yet. An original pre-intake ConnectionTimeout capture is retained separately from its replacement. Legacy baseline closed34/40 (10HELD,24CLARIFYING, zero technical findings, ungraded); remaining6NOT_RUN. Latest authority03:37:53UTC physical3429/6000, modelUSD7.034793/40, reserve95untouched. Persistent stale/history/access fixtures remain for dependent scoring; heldout remains uninspected. All earlier checkpoints below are historical.
 
@@ -466,3 +506,10 @@ All outputs, original independent grades and per-ticket reasons: `docs/runs/roun
 
 
 2026-10-26 smoke calendar correction: frozen-image job-dia-worker-847ed9b AzureSucceeded and familyA passed with the original7661/8765 witness, but smoke INCOMPLETE because check-access unconditionally appends a next-month NOT_TESTABLE reminder on/after day25. November already exists; there is no configuration confirmation flag (the initial config hypothesis was disproved). Smoke now reads that exact account from the authoritative platform ledger and resolves only this reminder when identity/unit match. Original access table is retained; missing/wrong account or any other untestable/failed probe still prevents green. No account is created, no identity/grant/budget changes, no smoke numerical expectation changes. Three focused regression tests added. Original31-test focused run had30pass and1TAPE_UNCOMMITTED_ENGINE error because the tree was dirty; rerun after commit. Only daily_smoke and its tests change after held-out; investigation engine3c/image802 and all original scores remain frozen. A new smoke/release image is separately labelled, not presented as the image that earned the held-out score. Original incomplete smoke is preserved; next three form a new consecutive sequence.
+
+
+## Final release validation, 2026-10-26
+
+Premerge full suite: 5328 tests, 49 skips, zero failures/errors; revision 8ae02f162850c1ff5a41ed348e3b71ed01ce4bf9. Three consecutive smoke runs passed on the calendar-corrected release image (held-out remains original3c/image802): job-dia-worker-xphwiq9, job-dia-worker-ip7uk11, job-dia-worker-qoidcsc. Expectations unchanged; numerical witness Silver7661/Gold8765 and as-designed definition answer remain separate. All three job configurations, identities, resources and schedules read back unchanged. This validates reliability, not held-out accuracy. Native calling-principal and snapshot warning labels remain. Whole-source full rows/schema and four pipeline definition hashes restored; extra full Bronze row-hash check unestablished after two failed startups. The last scored waiting answer is graded correct but retains its blocked status. Ledger and original failures are preserved. No new grant, identity, secret or model cap. Merge-commit full suite, CI and tag are recorded separately in docs/runs/round-twenty-two-release.json.
+
+Round22 model/enrichment spend since the recorded opening: {"basis": "Authoritative closing counters minus recorded Round22 opening; includes controls, invalid/interrupted charged work and smokes. Not a compute invoice.", "enrichment_microdollars": 1977522, "investigator_model_microdollars": 8384842}

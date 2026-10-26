@@ -10,3 +10,30 @@ Owner standing approval under section8, 2026-10-23: whenever the laptop public I
 
 
 2026-10-26 smoke calendar correction: frozen-image job-dia-worker-847ed9b AzureSucceeded and familyA passed with the original7661/8765 witness, but smoke INCOMPLETE because check-access unconditionally appends a next-month NOT_TESTABLE reminder on/after day25. November already exists; there is no configuration confirmation flag (the initial config hypothesis was disproved). Smoke now reads that exact account from the authoritative platform ledger and resolves only this reminder when identity/unit match. Original access table is retained; missing/wrong account or any other untestable/failed probe still prevents green. No account is created, no identity/grant/budget changes, no smoke numerical expectation changes. Three focused regression tests added. Original31-test focused run had30pass and1TAPE_UNCOMMITTED_ENGINE error because the tree was dirty; rerun after commit. Only daily_smoke and its tests change after held-out; investigation engine3c/image802 and all original scores remain frozen. A new smoke/release image is separately labelled, not presented as the image that earned the held-out score. Original incomplete smoke is preserved; next three form a new consecutive sequence.
+
+
+## Release completed, 2026-10-26
+
+PR#429 merged with merge commit `567a95b66aca136fdc9488bfe2664857d3a85f9a`; `v0.22` points at that validated merge. Final calendar-corrected premerge and postmerge suites each ran5328 tests (the original frozen premerge also passed5325 before the three regression tests were added),49skips,zero failures/errors; all hosted merge checks completed successfully (intentional skips recorded). Three consecutive final-image smokes passed. Scored engine3c5935a/image802d8508 stayed frozen; release uses a separately tested smoke-calendar correction image. Only daily_smoke and three tests changed afterward; no investigator reasoning, scored output or expectation changed. No score/expectation/tape was rewritten. Round byte-exact replay was skipped under the owner speed steer; replay-specific regression tests still ran.
+
+Budget at 2026-10-26T23:45:37.113540+00:00: 5439/6000 physical; {'INVESTIGATION': 3607, 'SCAN': 1762, 'RESTORATION': 70}; restoration remaining 25/95. Investigator monthly modelUSD10.202640/40; enrichmentUSD7.148004/25 at the last independent-grade observation. Counters and historical UNCERTAIN charges preserved, no cap reset. Physical total, investigation and scan exceed80%, warning only. No new identity/permission/secret.
+
+Final scores: dev1=1/40,dev2=6/40,dev3partial(unscored),dev4=11/40,dev5=13/40,dev6=14/40(final); harmful0 on completed scoreddevpasses. Held-out5/20,harmful0; sixteen-point/class-coverage pass line missed. Per-class details and zero-score groups4-6 are retained below and in linked immutable records. Legacy34/40outcomes remain ungraded, sixnotrun; no comparative accuracy claim. Engine costUSD0.0437117/heldoutticket; gradingUSD0.00961625 separately. Worker-clock median55.45s/p90109.30s includes holds; no completed cross-layer numerical comparison, so <120s full-investigation performance is unproven.
+
+Open: generic target/container disambiguation, faithfully executable filtered paths, consumption of access/history/freshness evidence, the blocked flag on a credited waiting verdict, and two capture-less Bronze hash checks. None is relabelled as success. Source original full-row/schema hashes and4pipelinehashes match, temporary schedules/access objects/latency/stale rows removed, fixed binding restored, automatic updates ON with completed own refresh and native model7661/Bronze360/7661. Temporal history intentionally retained. The additional full Bronze hash is unestablished, not inferred from count/sum. Recovery/control failures are preserved in blockers-and-lessons and the restoration receipt.
+
+Release evidence: docs/runs/round-twenty-two-release.json. Final summary is a documentation-only commit after the validated tagged merge.
+
+| Expected class | Final dev6 | Once-only held-out |
+|---|---:|---:|
+| as designed | 4/15 | 2/2 |
+| not found | 2/5 | 0/5 |
+| failed job | 6/6 | 1/2 |
+| waiting on job | 2/2 | 2/2 |
+| access difference | 0/2 | 0/2 |
+| different question | 0/2 | 0/2 |
+| latency | 0/4 | 0/1 |
+| source changed history | 0/2 | 0/2 |
+| refresh stale | 0/2 | 0/2 |
+
+Failed-job and waiting classes have no zero-score cases in dev4-6; the other class-specific zero-score groups remain in the preserved tables. Dev6 completed-native-comparison median154.83s also missed the120s target.
