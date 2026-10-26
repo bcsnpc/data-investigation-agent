@@ -440,3 +440,26 @@ Pass6 (14/40; harmful0):
 
 
 Recovery and engine freeze, 2026-10-26: all40 known dev6 executions and all3 grader executions were read back terminal; the global worker-list API still returned BadGateway, so no global empty-list claim is made. The original waiting definition hash89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259 matches, latency rows and schedules are absent, source/Bronze stale state remains363/7692 versus model7661 with automatic updates OFF, and temporal history remains ON. No new interrupted reservations were found; the historical charged orphan is unchanged. Fresh pre-held-out full suite:5325 tests,49 skipped,0 failures/errors. Engine frozen at3c5935a, immutable image802d8508; dev6 remains14/40,0 harmful. No pass7 or regrade. See the engine-freeze and pre-held-out-suite records.
+
+
+## Once-only held-out result, 2026-10-26
+
+**5/20, harmful 0. The pass line was missed:** score below16/20 and six classes have no correct answer. Engine3c5935a/image802d8508 remained frozen; all20 original independent grades validated. No ticket or valid grade was rerun.
+
+| Expected class | Correct / total |
+|---|---:|
+| access difference | 0/2 |
+| as designed | 2/2 |
+| different question | 0/2 |
+| failed job | 1/2 |
+| latency | 0/1 |
+| not found | 0/5 |
+| refresh stale | 0/2 |
+| source changed history | 0/2 |
+| waiting on job | 2/2 |
+
+Startup plus worker: median55.45s,p90109.30s across20; excludes final timing-sidecar publication and client retrieval. Seven intake questions/holds: median52.65s,p9056.39s. Other13 technical/operational results: median65.04s,p90116.92s. No cross-layer value comparison completed, so the full-investigation<120s target is not established by these quick refusals/status/definition results. Native Azure start/end is available for12:median68.5s,p90120s; eight missing end times are not invented. Harness including fixture admission and retrieval:median190.67s,p90314.01s.
+
+Observed engine usage36calls, complete20/20:USD0.874234, USD0.0437117/ticket. Independent grading20calls:USD0.192325, USD0.00961625/ticket. These are conservative usage-priced model charges, not an Azure compute invoice.
+
+All outputs, original independent grades and per-ticket reasons: `docs/runs/round-twenty-two-scored-heldout.json`; class/timing/cost details: `docs/runs/round-twenty-two-heldout-breakdown.json`. Legacy remains34/40completed outcomes (10HELD,24CLARIFYING),ungraded; no accuracy comparison is claimed. Cleanup, final suites, three smokes and release follow; none is claimed complete here.
