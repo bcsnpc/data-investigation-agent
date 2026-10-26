@@ -197,3 +197,6 @@ Pre-admission follow-up to the same location batch: an exact catalog name follow
 
 
 Round22 next batch also fixes the pass5 native DEFINITION/comparison contract crash. Keep the kind invariant; fix its producer rather than bypassing it. Only COMPARE requests can carry comparison_pending/comparison objects. Other request kinds preserve the extracted comparison mention as context. No invented comparator value. This newly exposed defect requires one additional pre-admission image; previous prepared images were never used for scored runs.
+
+
+Round22 held-out preparation finding (no held-out read yet): installation specs are equal within each estate except graph search visibility: one fixture dev case has one extra candidate; one billing dev case has two extra candidates and one allowed object. Keep all frozen dev inputs unchanged. The generic post-freeze held-out input builder will use the union of these already admitted estate graph candidates/objects identically for every ticket in that estate; it will not choose visibility by ticket ID, expected target or result. No native identity or permission changes. The builder is prepared but unexecuted, and requires the recorded engine freeze and pre-held-out full suite before reading the sealed ticket file. No expected record enters its worker archive.

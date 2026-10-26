@@ -70,3 +70,8 @@ The four native numeric comparisons remain slower than the two-minute target; qu
 Pass 5 uses prepared immutable image f6b3d3d1 / source bf00824. Its existing generic retry/figure validation, owner resolution, native empty-context proof normalization, compiler refusal classification and reporting-mirror fixes address the largest intake/comparison groups. Focused checks already passed. No additional small fix is justified before measuring this batch; no new image or expectation change is needed.
 
 Full per-ticket answers, grades, timings, usage and seals: `docs/runs/round-twenty-two-scored-run-4.json`. Legacy remains closed at34/40 outcomes, ungraded; no more legacy work. Held-out remains unrun and uninspected.
+
+
+### Dev5 grading-input packing, UTC2026-10-26
+
+The unchanged24,000-character grader bound rejected one complete input at24,819bytes: its delivered intake search ranking contained17,507bytes. No provider request was made by that audit. Repeated candidate keys/constants are now represented as a lossless columnar object table only when needed; candidate order and every field/value remain, alongside decoding instructions. Expansion must reproduce the complete original task byte-for-byte under the same canonical encoder; answer outputs are separately asserted identical. Two focused tests verify full round-trip preservation and that a one-field difference remains different. All40 tasks pass the unchanged validator, maximum23,912bytes. Expected/native records, answer prose, actual questions and grading criteria are unchanged. No held-out data was read.

@@ -92,3 +92,8 @@ For each latency ticket, reapply only its planned source rows through `SourceHis
 ### Owner shutdown recovery, 2026-10-25 (native read 2026-10-26 01:10 UTC)
 
 Existing Wait job `30fc840e-2343-4420-9c47-0d763dd694f3` is Completed (04:18:12?04:28:21 UTC on October 25). The original definition was already restored before shutdown; fresh before and after reads both hash to `89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259`. Recovery made zero mutations and started zero Wait runs or tickets. Three publisher control reads are charged. Local receipt: `.local/round-twenty-two/waiting-shutdown-recovery-20261025.json`. Both saved replacement waiting outcomes are retained; the original ambiguous submission remains unestablished and unscored.
+
+
+### Dev5 Wait restoration after credential expiry, owner2026-10-25 / UTC2026-10-26
+
+All40 outcomes were saved before grading; both waiting cases returned waiting-on-job. Existing Wait `95a3d0f6-ef3a-4d1c-8815-0af704190707` completed03:16:44UTC. The local budget helper retained an expired Entra token, so the first restore stopped before dispatch. A fresh existing owner CLI token permitted recovery: native preimage was the owned Wait-only definition54303b57..., one restore mutation returned original SHA-256 `89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259`, and fresh readback matched. Six control requests; zero new Wait jobs or tickets. Original history retained. Receipt: `docs/runs/round-twenty-two-dev5-wait-restore.json`. Source/latency schedule and rows had already restored to the363-row preimage; persistent stale rows/modelOFF and temporal history remain through dependent cases.

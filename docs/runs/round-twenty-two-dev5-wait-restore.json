@@ -1,0 +1,27 @@
+{
+  "all40_outcomes_retained": true,
+  "native_job": {
+    "endTimeUtc": "2026-10-26T03:16:44.2366667",
+    "failureReason": null,
+    "id": "95a3d0f6-ef3a-4d1c-8815-0af704190707",
+    "invokeType": "Manual",
+    "itemId": "b4871498-bd35-45be-916c-9a642568012c",
+    "jobType": "Pipeline",
+    "rootActivityId": "61feeed2-12ff-4f51-a853-08a4190f92a1",
+    "startTimeUtc": "2026-10-26T03:06:33.9220624",
+    "status": "Completed"
+  },
+  "new_waiting_runs": 0,
+  "observed_at": "2026-10-26T03:25:07.207003+00:00",
+  "original_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+  "physical_controls": 6,
+  "restoration": {
+    "before_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+    "mutations": 1,
+    "run_history_preserved": true,
+    "served_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+    "status": "RESTORED_DEFINITION"
+  },
+  "served_hash_after": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+  "served_hash_before": "54303b570d0b0b27ad85f392000d7bb9824072ec45293766cf8a795b0ff949e0"
+}
