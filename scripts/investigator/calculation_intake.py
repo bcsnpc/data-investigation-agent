@@ -255,7 +255,9 @@ def resolve(ticket,catalog,extraction):
         prefix=text[max(0,item['words']['start']-40):item['words']['start']]
         positive=r'\b(on|in|from|under|at|for)\s+(?:the\s+)?$'
         negative=r'\b(not|never|except)\s+(on|in|from|under|at|for)\s+(?:the\s+)?$'
-        return bool(re.search(positive,prefix,re.I)and not re.search(negative,prefix,re.I))
+        comparator=r'\b(compared\s+(to|with)|versus|vs\.?|unlike|rather\s+than)\b'
+        return bool(re.search(positive,prefix,re.I)and not re.search(negative,prefix,re.I)
+                    and not re.search(comparator,prefix,re.I))
     locations=[n for n in extraction['targets']if n['kind']in('REPORT','PAGE','MODEL')and current_location(n)]
     # Exact catalog names in an explicit location phrase remain supplied by
     # the user even when extraction omitted them. This adds no value/filter

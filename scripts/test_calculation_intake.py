@@ -99,6 +99,7 @@ class CalculationAdmission(unittest.TestCase):
     def test_raw_location_cannot_be_borrowed_from_comparison_or_negation(self):
         for text,comparison in (
                 ('Net receipts shows 950 compared with a value in the Cash report.',True),
+                ('Net receipts shows 950 compared with a value in the Cash report.',False),
                 ('Net receipts shows 950, not in the Cash report.',False)):
             with self.subTest(text=text):
                 value=raw(text,figure='950');c=catalog()
