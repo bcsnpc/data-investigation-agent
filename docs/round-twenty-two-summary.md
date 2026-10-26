@@ -435,3 +435,6 @@ Pass6 (14/40; harmful0):
 | not found | CALCULATION_TARGET_TIED: 1; CALCULATION_TARGET_UNRESOLVED: 1; NATIVE_COMPARISON_OR_ROUTE_GAP: 1 |
 | refresh stale | CALCULATION_TARGET_UNRESOLVED: 2 |
 | source changed history | CALCULATION_CONTAINER_UNRESOLVED: 2 |
+
+
+Recovery and engine freeze, 2026-10-26: all40 known dev6 executions and all3 grader executions were read back terminal; the global worker-list API still returned BadGateway, so no global empty-list claim is made. The original waiting definition hash89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259 matches, latency rows and schedules are absent, source/Bronze stale state remains363/7692 versus model7661 with automatic updates OFF, and temporal history remains ON. No new interrupted reservations were found; the historical charged orphan is unchanged. Fresh pre-held-out full suite:5325 tests,49 skipped,0 failures/errors. Engine frozen at3c5935a, immutable image802d8508; dev6 remains14/40,0 harmful. No pass7 or regrade. See the engine-freeze and pre-held-out-suite records.
