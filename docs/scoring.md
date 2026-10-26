@@ -75,3 +75,43 @@ Full per-ticket answers, grades, timings, usage and seals: `docs/runs/round-twen
 ### Dev5 grading-input packing, UTC2026-10-26
 
 The unchanged24,000-character grader bound rejected one complete input at24,819bytes: its delivered intake search ranking contained17,507bytes. No provider request was made by that audit. Repeated candidate keys/constants are now represented as a lossless columnar object table only when needed; candidate order and every field/value remain, alongside decoding instructions. Expansion must reproduce the complete original task byte-for-byte under the same canonical encoder; answer outputs are separately asserted identical. Two focused tests verify full round-trip preservation and that a one-field difference remains different. All40 tasks pass the unchanged validator, maximum23,912bytes. Expected/native records, answer prose, actual questions and grading criteria are unchanged. No held-out data was read.
+
+
+### Independently graded dev pass 5 ? owner2026-10-25 / UTC2026-10-26
+
+**13/40, versus pass4:11/40 and pass2:6/40. Harmful:0.** Frozen bf00824/imagef6b3d3d1;40 validated independent grades. Three genuine undelivered engine exceptions count in the40 and are not repeated on that image. Two separate unestablished submissions remain unscored and charged.
+
+| Expected class | Correct / total |
+|---|---:|
+| access difference | 0/2 |
+| as designed | 3/15 |
+| different question | 0/2 |
+| failed job | 6/6 |
+| latency | 0/4 |
+| not found | 2/5 |
+| refresh stale | 0/2 |
+| source changed history | 0/2 |
+| waiting on job | 2/2 |
+
+Zero-score groups (27):
+- CALCULATION_TARGET_TIED: 6.
+- CALCULATION_TARGET_UNRESOLVED: 8.
+- NATIVE_COMPARISON_OR_ROUTE_GAP: 6.
+- ANSWER_CAUSE_OR_COVERAGE_MISMATCH: 1.
+- ENGINE_EXCEPTION:PENDING_COMPARISON_CONTRACT_CONFLICT: 3.
+- CALCULATION_CONTAINER_UNRESOLVED: 2.
+- RAW_CALCULATION_EXTRACTION_NEEDS_INPUT:PRIMARY_REFERENT_INSIDE_COMPARISON_SPAN: 1.
+
+Startup plus worker times (separate populations):
+- intake_hold_or_question: n=19, median50.58s, p9062.78s, range36.49?63.39s.
+- native_value_comparison: n=4, median132.97s, p90135.50s, range80.40?135.50s.
+- other_technical_or_operational: n=14, median47.62s, p9057.74s, range34.82?61.98s.
+- undelivered_engine_error: n=3, median45.31s, p9052.67s, range42.09?52.67s.
+
+Native comparisons remain above the two-minute target at the median; questions are not counted as successful investigations. Operational/definition timings and the three errors are separately grouped. Durations exclude final timing-sidecar publication and client artifact retrieval; phase clocks overlap.
+
+Observed provider usage:38 calls, USD0.688616 conservative rate-card estimate, not an invoice;37 complete reports and3 partial native-error reports. Missing totals for partial runs are not invented. Independent grading:40 calls, USD0.352761. All original outputs, partial captures and grades are retained. Global ledgers additionally count fixture controls, failed/unestablished submissions, collectors and restoration.
+
+Pass6 uses tested source3c5935a/image802d8508: explicit location/model ownership, comparator-cue exclusion, and non-COMPARE requests no longer receive pending-comparison fields. These are generic fixes; raw tickets/expectations remain unchanged. Prepared input publication12 reuses the same immutable09 input archive. Earlier preparatory images were never scored. All20 hosted checks on3c passed(two intentional focused-path skips). Full suite remains at the pre-held-out gate.
+
+References: `docs/runs/round-twenty-two-scored-run-5.json` and `docs/runs/round-twenty-two-dev5-breakdown.json`.

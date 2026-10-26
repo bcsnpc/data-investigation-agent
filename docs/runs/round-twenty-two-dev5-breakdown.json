@@ -1,0 +1,217 @@
+{
+  "correct": 13,
+  "total": 40,
+  "harmful": 0,
+  "dev2_correct": 6,
+  "dev4_correct": 11,
+  "by_class": {
+    "access difference": {
+      "correct": 0,
+      "harmful": 0,
+      "total": 2
+    },
+    "as designed": {
+      "correct": 3,
+      "harmful": 0,
+      "total": 15
+    },
+    "different question": {
+      "correct": 0,
+      "harmful": 0,
+      "total": 2
+    },
+    "failed job": {
+      "correct": 6,
+      "harmful": 0,
+      "total": 6
+    },
+    "latency": {
+      "correct": 0,
+      "harmful": 0,
+      "total": 4
+    },
+    "not found": {
+      "correct": 2,
+      "harmful": 0,
+      "total": 5
+    },
+    "refresh stale": {
+      "correct": 0,
+      "harmful": 0,
+      "total": 2
+    },
+    "source changed history": {
+      "correct": 0,
+      "harmful": 0,
+      "total": 2
+    },
+    "waiting on job": {
+      "correct": 2,
+      "harmful": 0,
+      "total": 2
+    }
+  },
+  "zero_score_groups": {
+    "CALCULATION_TARGET_TIED": [
+      {
+        "id": "R17-01-v1",
+        "reason": "The expected answer is verdict='as designed' at layer SEMANTIC, with the named cause being that Handled Quantity sums additive units (not a count of records) and the unfiltered card correctly evaluates to 8765. The delivered answer instead returns status=CLARIFYING, asking the user which visual they mean because multiple candidates were found (CALCULATION_TARGET_TIED). The verdict does not match (CLARIFYING vs as designed), the layer/split point does not match (clarification loop vs SEMANTIC), and the named cause does not match (ambiguous target resolution vs correct explanation that the number is as designed). The delivered answer is not harmful since it is an honest refusal/clarification rather than a confident wrong claim."
+      },
+      {
+        "id": "R17-08-v1",
+        "reason": "Expected verdict is 'as designed' at the SEMANTIC layer, with the named cause being that the system should return the exact model refresh-history facts (last successful refresh ended 2026-10-07T21:15:37.357Z, schedule disabled) after a path-only refresh. The delivered answer instead has verdict CLARIFYING at what amounts to an INTAKE/disambiguation layer, because the system got stuck on CALCULATION_TARGET_TIED (ambiguous measure resolution) and issued a clarification question about which 'Handled Quantity' the user meant. Neither the layer (SEMANTIC vs. intake disambiguation), the verdict (CLARIFYING vs. as designed), nor the named cause (CALCULATION_TARGET_TIED measure ambiguity vs. refresh-history freshness confirmation) match the sealed expectation."
+      },
+      {
+        "id": "R17-10-v1",
+        "reason": "The expected answer is 'as designed' with layer SEMANTIC, explaining that Handled Quantity sums additive carried units (evaluating to 8765 on the unfiltered card). The delivered answer is CLARIFYING with status CALCULATION_TARGET_TIED \u2014 it asked a disambiguation question rather than resolving and answering the definition question. The verdict does not match (CLARIFYING vs as designed), the layer does not match (no semantic analysis was performed), and the named cause does not match (no definition of what is included in Handled Quantity was provided). The answer is not harmful since it is an honest refusal/clarification request rather than a confidently wrong claim."
+      },
+      {
+        "id": "different-warehouse-v1",
+        "reason": "The expected answer requires a definitive verdict of 'different question' at layer SOURCE, explaining that the two exports select different warehouse scopes (warehouse_id 1 = 2948 units vs warehouse_id 2 = 2084 units) and that this difference is simply because different warehouses have different data. The delivered answer instead issued a CLARIFYING status (CALCULATION_TARGET_TIED) asking which of two 'Movements' tables the user meant, without executing any investigation or reaching any verdict. The verdict does not match (CLARIFYING vs 'different question'), the layer/split point is not identified (SOURCE not named), and the named cause is absent. The system failed to resolve the ambiguity and answer the question. However, this is not harmful since the system honestly admitted uncertainty rather than stating a confident incorrect cause."
+      },
+      {
+        "id": "stale-total-v1",
+        "reason": "The delivered answer is a clarification request (CLARIFYING status) asking which visual the user means, rather than diagnosing the discrepancy. The expected answer requires a verdict of 'refresh stale' with the layer/split point identified as BRONZE -> SEMANTIC and the named cause being that the Application load fixture 20261003 semantic model holds 7661 while the bronze source shows 7692 because the model was not refreshed after the load completed. The delivered answer does not state any verdict, does not identify the BRONZE->SEMANTIC boundary, and does not name the stale refresh as the cause. No harmful incorrect cause is asserted, but the answer is simply non-responsive to the diagnostic question."
+      },
+      {
+        "id": "stale-total-v2",
+        "reason": "The delivered answer is a CLARIFYING response asking which visual the user means (CALCULATION_TARGET_TIED). It never reaches a verdict, identifies no layer/split point, and names no cause. The expected answer requires verdict='refresh stale', layer='BRONZE -> SEMANTIC', and the named cause of a model refresh boundary where the Application load fixture 20261003 model is stale at 7661 versus Bronze 7692. None of these are present in the delivered answer. The answer is not harmful (it is an honest clarification refusal rather than a confident wrong claim), but it fails all three scored dimensions."
+      }
+    ],
+    "CALCULATION_TARGET_UNRESOLVED": [
+      {
+        "id": "R17-04-v1",
+        "reason": "The expected verdict is 'not found' with layer 'SEMANTIC' and the named cause being that business intent/physical unit meaning cannot be established from the SUM definition alone \u2014 the system should recreate the technical figure and state that limit. The delivered answer instead returns a 'CLARIFYING' status asking which visual the user means, because it could not resolve the calculation target among multiple 'Handled Quantity - unfiltered' candidates. The verdict (CLARIFYING vs. not-found), the layer (CALCULATION_TARGET_UNRESOLVED vs. SEMANTIC), and the named cause (ambiguous visual target vs. semantic/business-intent limitation) all differ. The delivered answer is not harmful as it honestly admits it cannot resolve the target rather than fabricating a wrong answer."
+      },
+      {
+        "id": "baseline-S03-v2",
+        "reason": "The expected answer is verdict='as designed' at layer SEMANTIC, with the named cause being the full DAX definition: CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey], Date[DateKey])). The delivered answer instead issues a clarifying question (CLARIFYING status, CALCULATION_TARGET_UNRESOLVED), refusing to provide any definition. The measure 'Sales Amount by Due Date' was clearly identified in the question and exists in the estate fixture; the pipeline should have resolved it and returned the definition. Verdict does not match (as_designed vs clarifying), layer does not match (SEMANTIC vs unresolved), and the named cause is absent. The answer is not harmful since it is an honest refusal rather than a confident incorrect statement."
+      },
+      {
+        "id": "access-export-1-v1",
+        "reason": "The expected answer requires a definitive verdict of 'access difference' with the layer identified as SOURCE and the named cause being that orderops_investigator sees 10/1 row while dia-investigator-round19 sees 25/2 rows due to a CURRENT_USER data-based visibility mapping in the export view. The delivered answer never reaches that verdict \u2014 it stopped in a CLARIFYING state because it could not resolve which number or visual the user meant, treating the ticket as asking about a 'Top Accounts by Invoice Value' chart. The delivered answer did not identify the SOURCE layer, did not identify the CURRENT_USER data mapping cause, and did not provide any verdict on the access difference. The investigation was not executed (investigation_executed: false). All three scored dimensions (verdict, layer, cause) are incorrect or absent."
+      },
+      {
+        "id": "access-export-1-v2",
+        "reason": "The delivered answer did not investigate the ticket at all. It returned a CLARIFYING status asking 'Which number or visual do you mean?' rather than executing any investigation. The expected answer requires: verdict='access difference', layer='SOURCE', and named cause identifying that orderops_investigator sees quantity=10 with 1 visible row while the service principal sees quantity=25 with 2 visible rows for case_id=1, attributable to a CURRENT_USER-based data visibility mapping (not a permission change or RLS policy). None of these elements are present in the delivered answer. The delivered answer also did not make a harmful incorrect claim \u2014 it simply refused/deferred \u2014 so harmful=false. However, verdict, layer, and cause all fail to match."
+      },
+      {
+        "id": "different-warehouse-v2",
+        "reason": "The expected verdict is 'different question' \u2014 the two pulls are simply from different warehouse scopes (warehouse_id 1 = 2948 units, warehouse_id 2 = 2084 units), so no mismatch or pipeline problem exists; the counts are expected to differ. The expected layer is SOURCE. The delivered answer instead returns a CLARIFYING status (CALCULATION_TARGET_UNRESOLVED) asking which number or visual is meant, which is neither the correct verdict nor the correct layer, and does not identify the named cause (different warehouse scopes producing legitimately different counts). The answer is an honest refusal/clarification rather than a confidently wrong cause, so it is not harmful, but it does not match on verdict, layer, or cause."
+      },
+      {
+        "id": "history-source-900201-v1",
+        "reason": "The expected verdict is 'source changed history' at layer SOURCE, with the named cause being that native temporal history shows movement 900201 absent/BLANK before 22:49:20 UTC and quantity 7 at 22:49:28 UTC on 2026-10-23 \u2014 meaning the source data itself changed between the two exports. The delivered answer instead refuses to answer, claiming CALCULATION_TARGET_UNRESOLVED and asking a clarifying question about which number or visual is meant. It neither identifies the correct verdict, the correct layer (SOURCE), nor the correct cause (temporal source history change between the two export windows). The refusal is not harmful (it is honest), but it does not match the expected answer on any of the three scored dimensions."
+      },
+      {
+        "id": "older-export-movement-1-v1",
+        "reason": "Expected verdict is 'not found' with layer SOURCE and named cause being that the requested 2026-10-20 snapshot precedes the earliest retained native history (2026-10-23T22:43:47). The system should have queried the temporal history, discovered the coverage gap, and returned a not-found answer explaining that the earlier snapshot is unavailable. Instead, the delivered answer is CLARIFYING status \u2014 it did not attempt the historical lookup at all and instead asked a disambiguation question about which metric to use (Movement Units vs Movement Value). The verdict (CLARIFYING vs not found), layer (no SOURCE layer determination made), and named cause (ambiguous target vs history coverage gap) all fail to match. No harmful confident incorrect cause was stated, so harmful=false."
+      },
+      {
+        "id": "older-export-movement-1-v2",
+        "reason": "The expected verdict is 'not found' with the cause being that the requested 2026-10-20 snapshot precedes the earliest retained native temporal history (2026-10-23T22:43:47), and the layer is SOURCE. The delivered answer instead issues a clarifying question (CLARIFYING / CALCULATION_TARGET_UNRESOLVED), claiming it cannot determine which number or visual is meant. The investigation was not executed. The actual target is unambiguous from the ticket text (movement 1 in the stock movements export = 16 units), so the clarification rationale is incorrect. No correct verdict, layer, or cause was stated. The answer is not harmful (it is an honest refusal/clarification rather than a confidently wrong fabricated value), but it fails on all three scored dimensions."
+      }
+    ],
+    "NATIVE_COMPARISON_OR_ROUTE_GAP": [
+      {
+        "id": "R17-05-v1",
+        "reason": "The expected verdict is 'as designed' with a SEMANTIC layer explanation: the Handled Quantity card sums additive units (yielding 8765) rather than counting records, and the figure is correct as designed. The delivered answer returns 'not found' / 'blocked' because source queries (stock_movements_e1b8e1, movement_values) failed with QUERY_ERROR and the engine hit a phase progress limit. The verdict does not match (not_found vs as_designed), the layer does not match (QUERY_ERROR/infrastructure vs SEMANTIC), and the named cause does not match (source query failure vs intentional SUM of carried units). The answer is an honest inability to reproduce the figure rather than a harmful confident wrong assertion, so harmful=false."
+      },
+      {
+        "id": "R17-07-v1",
+        "reason": "The expected answer is verdict='as designed' with layer='SEMANTIC' and the named cause being that the system should return the retained last successful API refresh ended 2026-10-07T21:15:37.357Z (with schedule disabled). The delivered answer gives verdict='not found' (blocked/QUERY_ERROR), layer is a data pipeline query layer, and the cause is CURRENT_OPERATIONAL_STATUS_UNAVAILABLE due to query errors. The native evidence clearly shows the refresh history was available in the sealed record (REFRESH_STATE, REFRESH_RUN, RUN_HISTORY facts all present with last end 2026-10-07T21:15:37.357Z). The delivered answer failed to surface this retained fact and instead reported all layers as blocked, which is incorrect \u2014 the expected answer confirms this is 'as designed' with a known answer. None of the three grading dimensions (verdict, layer, cause) match. The answer is not harmful as it honestly reports inability rather than fabricating an incorrect date."
+      },
+      {
+        "id": "R17-09-v1",
+        "reason": "The expected answer is 'as designed' with layer SEMANTIC: the system should return the retained last-successful refresh facts (last run ended 2026-10-07T21:15:37Z, schedule disabled) from path-only refresh history. The delivered answer instead returns 'not found' / 'blocked' with QUERY_ERROR across all layers, claiming evidence does not establish a cause. The verdict is wrong (blocked/not-found vs. as-designed), the layer is wrong (query-error layers vs. SEMANTIC), and the named cause is wrong (QUERY_ERROR vs. correctly reporting the retained historical refresh state with schedule disabled). The delivered answer is not harmful because it honestly admits it cannot answer, but it does not match the expected verdict, layer, or cause."
+      },
+      {
+        "id": "baseline-S01-v1",
+        "reason": "The expected verdict is 'as designed' with a specific named cause: a left join on product_id producing two rate matches for product7, causing 1104 carried units to repeat (7661+1104=8765), at layer REFINED->SERVING. The delivered answer returned 'not found' with a blocked status (QUERY_ERROR on the Activity layer), failing to identify the left-join fan-out cause or the correct layer/split point. The answer honestly admits it could not establish a cause rather than asserting a wrong one, so it is not harmful, but it does not match the expected verdict, layer, or cause on any dimension."
+      },
+      {
+        "id": "latency-900502-v2",
+        "reason": "The expected verdict is 'latency' \u2014 the movement exists in source but has not yet been loaded into Bronze because the scheduled load has not run. The delivered answer returns verdict 'not found', citing UNIMPLEMENTED_ROUTE and inability to establish a cause. It does not identify the latency/pending-schedule explanation, does not name the layer split point as SOURCE->BRONZE, and does not name the scheduled load or distinguish missing row from zero. The delivered answer is an honest refusal rather than a confident wrong cause, so it is not harmful, but it fails on all three scored dimensions: verdict, layer, and cause."
+      },
+      {
+        "id": "history-source-900201-v2",
+        "reason": "The expected answer requires verdict='source changed history', layer='SOURCE', and named cause that the native temporal history shows movement 900201 was absent/BLANK before 22:49:20 UTC and had quantity 7 at 22:49:28 UTC on 2026-10-23 \u2014 meaning the source itself changed (a row was inserted into the versioned table between the two exports). The delivered answer has verdict='not found' with status='blocked' due to a QUERY_ERROR at the Activity layer, and explicitly states 'Evidence does not establish a cause within the admitted budget.' None of the three scored dimensions match: verdict is 'not found' vs required 'source changed history'; layer is 'Activity' vs required 'SOURCE'; and no named cause is provided. The answer is an honest inability to answer (QUERY_ERROR/blocked), not a confident wrong assertion, so it is not harmful."
+      }
+    ],
+    "ANSWER_CAUSE_OR_COVERAGE_MISMATCH": [
+      {
+        "id": "R17-06-v1",
+        "reason": "Verdict matches: both say 'as designed'. However, layer and cause diverge materially. The expected answer specifies layer SEMANTIC and a cause framed as 'Handled Quantity sums the carried additive units, not a count of movement records' \u2014 i.e., the metric is a sum of units (quantity), not a row count, and the figure 8765 is the correct unfiltered result. The delivered answer instead attributes the discrepancy to a JOIN fan-out (left join on product_id causing row duplication that inflates the sum from 7661 to 8765), which is a DATA_MODEL / JOIN layer explanation, not SEMANTIC. The expected grading record's fixture data does show one product_id with 2 rate matches causing a join excess, but the expected cause narrative emphasizes the semantic definition (sum of units vs count), not the join mechanics per se. The delivered answer names the join fan-out as the root cause, which conflicts with the expected cause. Because partial scores zero, this cannot be awarded a partial match."
+      }
+    ],
+    "ENGINE_EXCEPTION:PENDING_COMPARISON_CONTRACT_CONFLICT": [
+      {
+        "id": "baseline-S01-v2",
+        "reason": "The delivered answer is an undelivered exception (status ERROR, verdict null, no answer prose). There is no verdict, no layer/split point, and no named cause to evaluate. Because no answer was delivered, it cannot match the expected verdict ('as designed'), the expected layer ('REFINED -> SERVING'), or the expected named cause (left join on product_id with two rate matches for product7 causing the 1104-unit repeat). No harmful incorrect claim was made either, since nothing was stated. All three graded dimensions fail."
+      },
+      {
+        "id": "baseline-S02-v1",
+        "reason": "The delivered answer is an undelivered exception (status ERROR, verdict null, no prose answer). There is nothing to match against the expected verdict ('as designed'), layer/split point ('REFINED -> SERVING'), or named cause (Invoice101 double-match inflating 700 to 950). No verdict, no layer, no cause were stated, so all three match dimensions fail. The answer is not harmful because no incorrect cause was asserted confidently; it is simply absent."
+      },
+      {
+        "id": "baseline-S02-v2",
+        "reason": "The delivered answer is an undelivered exception (ERROR/null verdict) with no substantive content. No verdict, no layer/split point, and no named cause were provided. All three scoring dimensions fail. The answer is not harmful because it is an honest error rather than a confident incorrect claim."
+      }
+    ],
+    "CALCULATION_CONTAINER_UNRESOLVED": [
+      {
+        "id": "latency-900501-v1",
+        "reason": "The expected answer requires a definitive verdict of 'latency' with layer SOURCE->BRONZE and a named cause explaining that movement_id 900501 exists in the application source after the last completed load but has not yet been picked up by a future scheduled Bronze load (naming the schedule and due time, distinguishing missing row from zero). The delivered answer instead returns a CLARIFYING status asking which report/visual the user means, treating the problem as an unresolved calculation container. No verdict was rendered, no layer was identified, and no latency cause was named. The answer is an honest clarification refusal rather than a confident wrong statement, so it is not harmful, but it fails all substantive criteria."
+      },
+      {
+        "id": "latency-900501-v2",
+        "reason": "The expected answer requires verdict='latency', layer='SOURCE -> BRONZE', and a named cause identifying that movement_id 900501 exists in the source application after the last completed load but has not yet been picked up by Bronze because the scheduled application-load has not run yet (with the schedule name and due time specified, and a distinction between missing/BLANK vs zero). The delivered answer instead returns status='CLARIFYING' with reason='CALCULATION_CONTAINER_UNRESOLVED', asking which number or visual is meant. This is a refusal/clarification response, not a latency verdict. It identifies no layer split point and names no cause. Verdict does not match (CLARIFYING vs latency), layer is not identified, and the cause is not named. The answer is an honest refusal rather than a confidently wrong factual claim, so it is not harmful."
+      }
+    ],
+    "RAW_CALCULATION_EXTRACTION_NEEDS_INPUT:PRIMARY_REFERENT_INSIDE_COMPARISON_SPAN": [
+      {
+        "id": "latency-900502-v1",
+        "reason": "The delivered answer is a CLARIFYING refusal (RAW_CALCULATION_EXTRACTION_NEEDS_INPUT) rather than a substantive diagnosis. The expected answer requires verdict=latency, layer SOURCE->BRONZE, and a named cause identifying that movement_id 900502 exists in the application source but has not yet been loaded into Bronze because the next scheduled application-load run has not yet executed. None of these three elements are present in the delivered answer. The clarification request is not harmful (it is an honest refusal), but it does not match the expected verdict, layer, or cause."
+      }
+    ]
+  },
+  "startup_plus_worker_timing": {
+    "intake_hold_or_question": {
+      "n": 19,
+      "median_seconds": 50.57544345500003,
+      "p90_seconds": 62.776471169999056,
+      "min_seconds": 36.48648086199995,
+      "max_seconds": 63.39198058399063
+    },
+    "native_value_comparison": {
+      "n": 4,
+      "median_seconds": 132.9657632575,
+      "p90_seconds": 135.495427467997,
+      "min_seconds": 80.39729544900003,
+      "max_seconds": 135.495427467997
+    },
+    "other_technical_or_operational": {
+      "n": 14,
+      "median_seconds": 47.61904363050027,
+      "p90_seconds": 57.73718243799999,
+      "min_seconds": 34.81936361000001,
+      "max_seconds": 61.977413576002725
+    },
+    "undelivered_engine_error": {
+      "n": 3,
+      "median_seconds": 45.30774520799999,
+      "p90_seconds": 52.67434597300378,
+      "min_seconds": 42.091895314000006,
+      "max_seconds": 52.67434597300378
+    }
+  },
+  "engine_cost_rate_card_estimate_microdollars": 688616,
+  "grading_cost_microdollars": 352761,
+  "timing_limit": "Native worker startup plus work excludes its own final timing publication and client artifact retrieval; inclusive phases are not summed.",
+  "usage_reporting": {
+    "complete_cases": 37,
+    "partial_cases": 3,
+    "observed_provider_calls": 38,
+    "cost_note": "Observed provider usage priced by the conservative policy; partial native errors have no complete run record or invented usage. Not an invoice."
+  }
+}
