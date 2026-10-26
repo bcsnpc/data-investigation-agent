@@ -4775,3 +4775,4 @@
 {"experiment":"ROUND22_HELDOUT_LAST_WAIT_OPERATOR_RECOVERY","native_job_id":"1407fc56-6908-49f3-bf51-6b80c3d5c89c","native_job_submissions":1,"receipt":"docs/runs/round-twenty-two-restoration.json","refunds":0,"scored_ticket_submissions":1,"status":"INTERRUPTED_LOCAL_CONTROLLER_RECOVERED_SAME_NATIVE_JOB"}
 {"experiment":"ROUND22_RESTORATION_FIRST_SOURCE_READ","physical_requests":1,"receipt":"docs/runs/round-twenty-two-restoration.json","status":"FAILED_SQL_40613_BEFORE_MUTATION"}
 {"experiment":"ROUND22_RESTORATION_MODEL_REFRESH_WATCHER","receipt":"docs/runs/round-twenty-two-restoration.json","refresh_post_submissions":1,"status":"LOCAL_WATCHER_TIMEOUT_NATIVE_VIAAPI_COMPLETED"}
+{"execution": "job-dia-worker-847ed9b", "experiment": "ROUND22_ORIGINAL_FINAL_SMOKE_1", "family_a_demo": "PASS", "reason": "UNCONDITIONAL_NEXT_MONTH_OWNER_REMINDER", "seal": "ba9d8cc7634e79e3a41ae1c2d718327421cfd66f531147f7583f419e3b605810", "status": "INCOMPLETE"}

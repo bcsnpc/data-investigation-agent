@@ -7,6 +7,42 @@ from investigator.daily_smoke import ledger_demo_matches
 
 
 class SmokeDemoExpectationTests(unittest.TestCase):
+    def test_next_month_reminder_needs_actual_read_and_keeps_original_table(self):
+        import copy
+        from investigator.daily_smoke import monthly_budget_advisory
+        access={'status':'INCOMPLETE','rows':[
+            {'id':'reader','status':'PASS'},
+            {'id':'next-month-budget','status':'NOT_TESTABLE','warning':True,'resource':'2026-11'}]}
+        before=copy.deepcopy(access)
+        state=Mock();state.snapshot.return_value={'identity':'model-microdollars:2026-11','unit':'MICRODOLLARS'}
+        result=monthly_budget_advisory(access,state)
+        self.assertEqual(result['status'],'PASS')
+        self.assertEqual(result['result'],before);self.assertEqual(access,before)
+        state.snapshot.assert_called_once_with('model-microdollars:2026-11')
+        self.assertFalse(result['resolved_advisories'][0]['account_created'])
+        state.put.assert_not_called();state.reserve.assert_not_called()
+
+    def test_missing_or_wrong_month_account_cannot_resolve_reminder(self):
+        from investigator.daily_smoke import monthly_budget_advisory
+        access={'status':'INCOMPLETE','rows':[
+            {'id':'next-month-budget','status':'NOT_TESTABLE','warning':True,'resource':'2026-11'}]}
+        for observed in ({'identity':'model-microdollars:2026-10','unit':'MICRODOLLARS'},
+                         {'identity':'model-microdollars:2026-11','unit':'REQUESTS'}):
+            state=Mock();state.snapshot.return_value=observed
+            self.assertEqual(monthly_budget_advisory(access,state)['status'],'INCOMPLETE')
+        state=Mock();state.snapshot.side_effect=KeyError('missing')
+        self.assertEqual(monthly_budget_advisory(access,state)['status'],'INCOMPLETE')
+
+    def test_other_failed_or_untestable_probes_are_never_hidden(self):
+        from investigator.daily_smoke import monthly_budget_advisory
+        for status in ('FAIL','NOT_TESTABLE'):
+            access={'status':'INCOMPLETE','rows':[
+                {'id':'reader','status':status},
+                {'id':'next-month-budget','status':'NOT_TESTABLE','warning':True,'resource':'2026-11'}]}
+            state=Mock()
+            self.assertEqual(monthly_budget_advisory(access,state)['status'],'INCOMPLETE')
+            state.snapshot.assert_not_called()
+
     def smoke(self, classification, *, expected='TRANSFORMATION_LOGIC', state='FINDINGS_SHARED'):
         config = dict(version=1, run_id='synthetic', reader_authentication={},
                       gold_payload={'authentication': {}}, platform_blob={}, demo_earned=True)

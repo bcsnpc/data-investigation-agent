@@ -110,6 +110,37 @@ def ledger_demo_matches(bundle,expected):
     except (InvalidOperation,ValueError,TypeError):return False
 
 
+def monthly_budget_advisory(access, state):
+    """Resolve only the calendar reminder using an actual platform ledger read.
+
+    Keep the original access table intact. No account is created or altered,
+    and a missing account or any other incomplete probe stays incomplete.
+    """
+    result = {'status': access['status'], 'result': access}
+    rows = access.get('rows', [])
+    reminders = [r for r in rows if r.get('id') == 'next-month-budget']
+    if (access['status'] != 'INCOMPLETE' or len(reminders) != 1
+            or reminders[0].get('status') != 'NOT_TESTABLE'
+            or reminders[0].get('warning') is not True
+            or not all(r.get('status') == 'PASS' for r in rows if r not in reminders)):
+        return result
+    period = reminders[0].get('resource', '')
+    if not re.fullmatch(r'\d{4}-(?:0[1-9]|1[0-2])', period):
+        return result
+    account = 'model-microdollars:' + period
+    try:
+        observed = state.snapshot(account)
+    except KeyError:
+        return result
+    if observed.get('identity') == account and observed.get('unit') == 'MICRODOLLARS':
+        result.update(status='PASS', resolved_advisories=[{
+            'id': 'next-month-budget', 'account': account,
+            'reason': 'EXISTING_ACCOUNT_READ_FROM_SHARED_LEDGER',
+            'account_exists': True, 'operation': 'READ_ONLY_SNAPSHOT',
+            'account_created': False}])
+    return result
+
+
 def run_smoke(config, context, *, state=None, sign_in=None, gold_read=None, blob_roundtrip=None, demo=None):
     required = {'version', 'run_id', 'reader_authentication', 'gold_payload', 'platform_blob', 'demo_earned'}
     if not isinstance(config, dict) or not required <= set(config) <= required | {'access_check', 'demo_expected_classification','demo_ledger_expectation'} or config['version'] != 1:
@@ -138,7 +169,8 @@ def run_smoke(config, context, *, state=None, sign_in=None, gold_read=None, blob
             checks[name] = {'status': 'FAIL', 'error_type': type(exc).__name__}
     from .access_check import configured as check_access
     access = context.step('check-access', lambda: check_access(config.get('access_check')))
-    checks['check_access'] = {'status':access['status'], 'result':access}
+    checks['check_access'] = context.step('next-month-budget-advisory',
+                                        lambda: monthly_budget_advisory(access, state))
     def authenticate():
         tokens = provider(config['reader_authentication'])
         tokens.get_token('https://database.windows.net/.default')
