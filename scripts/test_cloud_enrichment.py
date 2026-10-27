@@ -46,7 +46,11 @@ class CloudEnrichment(unittest.TestCase):
 
     def test_cloud_execute_records_bodies_and_independent_budget_without_key(self):
         events=[];context=SimpleNamespace(root=self.root,record=lambda kind,value:events.append((kind,value)) or {'key':str(len(events))})
-        budget=SimpleNamespace(snapshot=lambda:{'identity':'enrichment:round-twenty-one','ceiling':'25000000','charged':'0'})
+        snapshots=[]
+        def snapshot(*,compact=False):
+            snapshots.append(compact)
+            return {'identity':'enrichment:round-twenty-one','ceiling':'25000000','charged':'0'}
+        budget=SimpleNamespace(snapshot=snapshot)
         def job(config,record):
             record('request',{'method':'POST','body':{'requests':[]}})
             return SimpleNamespace(budget=budget,submit=lambda sources,batch_key:{'status':'SUBMITTED','batch_key':batch_key,'submitted':len(sources)})
@@ -60,6 +64,7 @@ class CloudEnrichment(unittest.TestCase):
             result=worker.execute({'options':self.options()},context)
         self.assertEqual(result['account'],'enrichment:round-twenty-one');self.assertEqual(result['investigator_model_calls'],0)
         self.assertEqual(result['estate_reads'],0);self.assertTrue(events[-1][1]['complete'])
+        self.assertEqual(snapshots,[True,True])
         text=json.dumps(events);self.assertNotIn('x-api-key',text);self.assertNotIn('Authorization',text)
 
 

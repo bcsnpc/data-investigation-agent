@@ -53,5 +53,5 @@ class EvaluationJob:
                     result.update(status='VALIDATED',output=output)
                 except Exception as error:result.update(reason=type(error).__name__+':'+str(error))
             results.append(result)
-        result={'status':'COMPLETED','batch_key':batch_key,'results':results,'budget':self.budget.snapshot(),'estate_reads':0,'investigator_model_calls':0,'not_runtime_evidence':True}
+        result={'status':'COMPLETED','batch_key':batch_key,'results':results,'budget':self.budget.snapshot(compact=True),'estate_reads':0,'investigator_model_calls':0,'not_runtime_evidence':True}
         body.update(status='COMPLETED',result=result);self.state.put(NAMESPACE,batch_key,body,revision=stored['revision']);return result

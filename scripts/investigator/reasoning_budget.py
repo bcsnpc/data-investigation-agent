@@ -69,7 +69,7 @@ class TicketBudget:
                 'input_bound_source':'UTF8_BYTES_PLUS_4096' if input_tokens_upper_bound is None else 'PROVIDER_TOKEN_COUNT_PLUS_4096',
                 'estimate_type':'CONSERVATIVE_RATE_CARD_NOT_INVOICE'}
         with self.state.transaction() as db:
-            snapshot=self.state._snapshot(db,account)
+            snapshot=self.state._totals(db,account)
             if snapshot['violated']:raise SpendHold('MODEL_ACCOUNT_VIOLATION')
             monthly_ceiling=min(amount(snapshot['ceiling'])-amount(snapshot['protected']),MODEL_MICRODOLLARS)
             if amount(snapshot['charged'])+bound>monthly_ceiling:raise SpendHold('MONTHLY_MODEL_EXHAUSTED')
@@ -85,7 +85,7 @@ class TicketBudget:
             raise SpendHold('MODEL_RESERVATION_BOUND_REQUIRED')
         account=ensure_model_account(self.state,self.clock())
         with self.state.transaction(_read_only=True) as db:
-            snapshot=self.state._snapshot(db,account)
+            snapshot=self.state._totals(db,account)
             if snapshot['violated']:raise SpendHold('MODEL_ACCOUNT_VIOLATION')
             available=min(TICKET_MODEL_MICRODOLLARS-self._charged(db,account),
                 min(amount(snapshot['ceiling'])-amount(snapshot['protected']),MODEL_MICRODOLLARS)-amount(snapshot['charged']))
@@ -98,7 +98,7 @@ class TicketBudget:
         cost=None
         if isinstance(usage,dict) and all(type(usage.get(k)) is int and usage[k]>=0 for k in ('input_tokens','output_tokens')):
             cost=self.rate.usage_price(usage)
-        return self.state.settle(account,identity,self.owner,cost,detail={'usage':usage if cost is not None else None})
+        return self.state.settle(account,identity,self.owner,cost,detail={'usage':usage if cost is not None else None},full_snapshot=False)
 
     def status(self):
         account=ensure_model_account(self.state,self.clock())

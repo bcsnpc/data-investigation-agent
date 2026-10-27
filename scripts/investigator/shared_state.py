@@ -305,14 +305,29 @@ class SharedState:
     def snapshot(self, identity):
         return self._read_transaction(lambda db:self._snapshot(db,identity))
 
+    def _totals(self,db,identity):
+        """Exact admission counters, without historical detail JSON or bodies."""
+        row=self.sql(db,'SELECT unit,ceiling,protected,opening,violated FROM state_accounts WHERE identity=?',(identity,)).fetchone()
+        if row is None:raise KeyError(identity)
+        if self.backend=='postgresql':
+            charged=self.sql(db,'SELECT COALESCE(SUM(charged),0) FROM state_reservations WHERE account=?',(identity,)).fetchone()[0]
+        else:
+            charged=exact_sum(r[0] for r in self.sql(db,'SELECT charged FROM state_reservations WHERE account=?',(identity,)).fetchall())
+        return {'identity':identity,'unit':row[0],'ceiling':decimal_text(row[1]),'protected':decimal_text(row[2]),
+                'opening':decimal_text(row[3]),'charged':decimal_text(exact_sum([row[3],charged])),'violated':bool(row[4])}
+
+    def totals(self,identity):
+        return self._read_transaction(lambda db:self._totals(db,identity))
+
     def reserve(self, identity, key, owner, bound, *, detail=None):
         bound = amount(bound)
         if bound <= 0:
             raise ValueError('POSITIVE_RESERVATION_REQUIRED')
         detail = detail or {}
         with self.transaction() as db:
-            snapshot = self._snapshot(db, identity)
-            prior = next((r for r in snapshot['reservations'] if r['identity'] == key), None)
+            snapshot = self._totals(db, identity)
+            row=self.sql(db,'SELECT owner,reserved,detail FROM state_reservations WHERE account=? AND identity=?',(identity,key)).fetchone()
+            prior={'owner':row[0],'reserved':row[1],'detail':json.loads(row[2])} if row else None
             if prior:
                 if prior['owner'] != owner or amount(prior['reserved']) != bound or prior['detail'] != detail:
                     raise StateConflict('RESERVATION_IDENTITY_DIFFERS')
@@ -326,13 +341,14 @@ class SharedState:
             self.sql(db, 'INSERT INTO state_reservations VALUES(?,?,?,?,?,?,?)', (identity, key, owner, decimal_text(bound), decimal_text(bound), 'RESERVED', encoded(detail)))
             return key
 
-    def settle(self, identity, key, owner, actual=None, *, detail=None):
+    def settle(self, identity, key, owner, actual=None, *, detail=None,full_snapshot=True):
+        if type(full_snapshot)is not bool:raise ValueError('SNAPSHOT_MODE_BOOLEAN_REQUIRED')
         with self.transaction() as db:
             row = self.sql(db, 'SELECT owner,reserved,status,detail FROM state_reservations WHERE account=? AND identity=?', (identity,key)).fetchone()
             if row is None or row[0] != owner:
                 raise StateConflict('RESERVATION_OWNER_DIFFERS')
             if row[2] != 'RESERVED':
-                return self._snapshot(db, identity)
+                return self._snapshot(db, identity) if full_snapshot else self._totals(db,identity)
             charged = amount(row[1]) if actual is None else amount(actual)
             status = 'UNCERTAIN' if actual is None else ('VIOLATION' if charged > amount(row[1]) else 'SETTLED')
             payload = json.loads(row[3])
@@ -341,7 +357,7 @@ class SharedState:
             self.sql(db, 'UPDATE state_reservations SET charged=?,status=?,detail=? WHERE account=? AND identity=?', (decimal_text(charged),status,encoded(payload),identity,key))
             if status == 'VIOLATION':
                 self.sql(db, 'UPDATE state_accounts SET violated=1 WHERE identity=?', (identity,))
-            return self._snapshot(db, identity)
+            return self._snapshot(db, identity) if full_snapshot else self._totals(db,identity)
 
     def import_accounts(self, identity, source):
         """All-or-nothing, one-time accounting import. No cap or total defaults.

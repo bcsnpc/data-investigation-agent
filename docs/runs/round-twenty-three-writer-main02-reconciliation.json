@@ -1,0 +1,82 @@
+{
+  "batch_key": "round23-guided-v2-main-02",
+  "durable_batch": "ABSENT",
+  "provider_log_exists": false,
+  "reservations": [
+    {
+      "identity": "evaluation:8235961ca0c91eab503ab77f43b55a6940854982172b8c914793f0f461040569",
+      "status": "SETTLED",
+      "charged": "0",
+      "not_sent": null
+    },
+    {
+      "identity": "evaluation:d7881545074d2a2bed37b0da6ec1e87e0951f20be1a44b4c800435a7940ccf93",
+      "status": "SETTLED",
+      "charged": "0",
+      "not_sent": null
+    },
+    {
+      "identity": "evaluation:5a32fb4b8fa9ab5a5e301c30b2069f2e5cddd58fcedd32966e691f45ec0b6355",
+      "status": "SETTLED",
+      "charged": "0",
+      "not_sent": null
+    },
+    {
+      "identity": "evaluation:39a54be20cf2702c5c06e6f8f467a89ff07f6109e138f4435618afc6c90d7208",
+      "status": "SETTLED",
+      "charged": "0",
+      "not_sent": null
+    },
+    {
+      "identity": "evaluation:277aeb8601216656695ee66a2567d41cb8cdc5aa46136f3e7a4cb39fd07057f6",
+      "status": "SETTLED",
+      "charged": "0",
+      "not_sent": null
+    },
+    {
+      "identity": "evaluation:8b73d07172b1f1b8d73c1dd18a4170e45b3e30a5a26e7a6f918d1b460afd0686",
+      "status": "SETTLED",
+      "charged": "0",
+      "not_sent": null
+    },
+    {
+      "identity": "evaluation:07217e156642ee8308367fd763328899189950dedd11b4e6eddcc462a2acb131",
+      "status": "SETTLED",
+      "charged": "0",
+      "not_sent": null
+    },
+    {
+      "identity": "evaluation:29f34c7c386b3db96b0737cce080c9e37121fdf130340f28bdb6e49cffc36b23",
+      "status": "SETTLED",
+      "charged": "0",
+      "not_sent": null
+    },
+    {
+      "identity": "evaluation:aa8d4e5581d9110328bad09d5e39a93fbe18fabc9bfb69dc184b63995995736d",
+      "status": "SETTLED",
+      "charged": "0",
+      "not_sent": null
+    },
+    {
+      "identity": "evaluation:8683ff557aa07f978d3a7c787fc9fc6191ac43dea695a4a1b07d7be62f349197",
+      "status": "SETTLED",
+      "charged": "0",
+      "not_sent": null
+    },
+    {
+      "identity": "evaluation:f824ea10a50bf7d1513ff7f9b81c7ec2bea75cfda370a86e27300f59d4c6396c",
+      "status": "SETTLED",
+      "charged": "0",
+      "not_sent": null
+    }
+  ],
+  "totals": {
+    "identity": "enrichment:round-twenty-one",
+    "unit": "MICRODOLLARS",
+    "ceiling": "25000000",
+    "protected": "0",
+    "opening": "0",
+    "charged": "7886014",
+    "violated": false
+  }
+}
