@@ -13,7 +13,18 @@ class EnrichmentSpendBudget:
         if not owner or account!=ACCOUNT:raise ValueError('SEPARATE_ENRICHMENT_ACCOUNT_REQUIRED')
         self.state,self.owner,self.price,self.account=state,owner,price,account
         snapshot=state.totals(account)
-        if snapshot['unit']!='MICRODOLLARS' or amount(snapshot['ceiling'])!=CEILING or amount(snapshot['protected'])!=0:
+        protected=0
+        from datetime import datetime,timezone
+        month=datetime.now(timezone.utc).strftime('%Y-%m')
+        try:
+            credit=state.get('anthropic_credit',month)['body']
+        except KeyError:
+            credit=None
+        if credit is not None:
+            if credit.get('approval')!='owner-approved 2026-10-27' or credit.get('grading_account')!=account:
+                raise ValueError('ENRICHMENT_OWNER_CREDIT_POLICY_DIFFERS')
+            protected=credit['grading_account_protected']
+        if snapshot['unit']!='MICRODOLLARS' or amount(snapshot['ceiling'])!=CEILING or amount(snapshot['protected'])!=protected:
             raise ValueError('ENRICHMENT_DOLLAR_POLICY_DIFFERS')
 
     def reserve(self,request,identity):

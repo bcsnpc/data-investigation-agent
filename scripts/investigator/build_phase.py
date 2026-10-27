@@ -187,7 +187,13 @@ def shared_physical_rows(state, db, now):
     return retained, allocations
 
 
-def model_status(charged, month, *, ceiling=MODEL_MICRODOLLARS):
+def model_ceiling(now):
+    month=month_window(now)[0]
+    return POLICY.get('monthly_model_overrides',{}).get(month,{}).get('ceiling_microdollars',MODEL_MICRODOLLARS)
+
+
+def model_status(charged, month, *, ceiling=None):
+    if ceiling is None:ceiling=POLICY.get('monthly_model_overrides',{}).get(month,{}).get('ceiling_microdollars',MODEL_MICRODOLLARS)
     return {'mode': MODE, 'month_utc': month, 'charged_microdollars': charged,
             'ceiling_microdollars': ceiling, 'protected_microdollars': 0,
             'warning': charged * 5 >= ceiling * 4,
@@ -234,7 +240,7 @@ def ensure_model_account(state, now, *, provision=False):
             except KeyError:
                 pass
         state.sql(db, 'INSERT INTO state_accounts VALUES(?,?,?,?,?,?)',
-                  (account, 'MICRODOLLARS', MODEL_MICRODOLLARS, 0, 0, 0))
+                  (account, 'MICRODOLLARS', model_ceiling(now), 0, 0, 0))
         record = {'month_utc': month, 'adopted_at': ADOPTED_AT, 'opening_microdollars': '0',
                   'historical_total_microdollars_informational': source['charged'] if source is not None else None,
                   'legacy_snapshot_sha256': sha(source) if source is not None else None,

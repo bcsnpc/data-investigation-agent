@@ -177,3 +177,15 @@ Round23 failed-billing held01: FAILED_JOB_ESTABLISHED_DEFINITION_HASH_RESTORED. 
 
 
 Round23 waiting held01 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-three\injections\held01-waiting\status.json.
+
+
+Round23 waiting held01 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-three\injections\held01-waiting-admission02\status.json.
+
+
+Round23 latency held01 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-three\injections\held01-latency-admission05\status.json. Temporal remains ON.
+
+
+Round23 history held01 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-three\injections\held01-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round23 access held01 ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-three\injections\held01-access-admission01\status.json.

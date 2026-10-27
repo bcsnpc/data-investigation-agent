@@ -53,8 +53,8 @@ class MonthlyTests(unittest.TestCase):
         rows,alloc=self.rows(3924)
         status=b.admit_physical(rows,alloc,instant('2026-10-21'),'INVESTIGATION')
         self.assertIn('INVESTIGATION_MONTHLY_80_PERCENT',status['warnings'])
-        self.assertTrue(b.model_status(120_000_000,'2026-10')['warning'])
-        self.assertFalse(b.model_status(120_000_000,'2026-10')['exhausted'])
+        self.assertTrue(b.model_status(76_800_000,'2026-10')['warning'])
+        self.assertFalse(b.model_status(76_800_000,'2026-10')['exhausted'])
         self.assertTrue(b.admit_platform(16_000_000,instant('2026-10-21'))['warning'])
 
     def test_platform_exhaustion_does_not_block_local_or_estate_budget(self):
@@ -138,7 +138,7 @@ class MonthlyTests(unittest.TestCase):
                 status=budget.snapshot()
                 self.assertEqual(status['charged_usd'],.001)
                 self.assertEqual(status['historical_cumulative_usd_informational'],107.958725)
-                self.assertEqual(status['monthly']['ceiling_microdollars'],150_000_000)
+                self.assertEqual(status['monthly']['ceiling_microdollars'],96_000_000)
                 self.assertTrue(identity)
             db=sqlite3.connect(path)
             self.assertEqual(db.execute('SELECT charged FROM model_spend WHERE id=?',('historical',)).fetchone()[0],107_957_725)
@@ -172,7 +172,7 @@ class MonthlyTests(unittest.TestCase):
                     settle({'input_tokens':1,'output_tokens':1})
             self.assertEqual(state.snapshot('model-microdollars:2026-10')['charged'],'1000')
 
-    def test_shared_model_150_dollars_stops_not_other_work(self):
+    def test_shared_model_october_96_dollars_stops_not_other_work(self):
         from investigator.shared_state import SharedState
         from investigator.shared_spend import SharedSpendBudget
         from investigator.model_spend import SpendBudget,SpendHold
@@ -180,7 +180,7 @@ class MonthlyTests(unittest.TestCase):
             state=SharedState.offline(Path(folder)/'state.sqlite');state.migrate()
             with b.operating_mode(),patch.dict(os.environ,{'INVESTIGATOR_WORKER_ID':'synthetic'}),patch('time.time',return_value=instant('2026-10-21')):
                 budget=SharedSpendBudget(state,133046558)
-                with patch.object(SpendBudget,'price',return_value=150_000_000):
+                with patch.object(SpendBudget,'price',return_value=96_000_000):
                     budget.reserve({'input':'synthetic','max_output_tokens':1000})
                 with patch.object(SpendBudget,'price',return_value=1),self.assertRaisesRegex(SpendHold,'MONTHLY_MODEL_EXHAUSTED'):
                     budget.reserve({'input':'synthetic','max_output_tokens':1000})

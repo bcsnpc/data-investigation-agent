@@ -25,5 +25,13 @@
       },
       "approval": "owner-approved 2026-10-27"
     }
+  },
+  "monthly_model_overrides": {
+    "2026-10": {
+      "ceiling_microdollars": 96000000,
+      "protected_grading_microdollars": 3000000,
+      "approval": "owner-approved 2026-10-27",
+      "reason": "Closing Anthropic credit window; $96 normalized October hard ceiling across inference and grading, no auto-reload."
+    }
   }
 }

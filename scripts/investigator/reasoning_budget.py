@@ -75,7 +75,8 @@ class TicketBudget:
         with self.state.transaction() as db:
             snapshot=self.state._totals(db,account)
             if snapshot['violated']:raise SpendHold('MODEL_ACCOUNT_VIOLATION')
-            monthly_ceiling=min(amount(snapshot['ceiling'])-amount(snapshot['protected']),MODEL_MICRODOLLARS)
+            from .build_phase import model_ceiling
+            monthly_ceiling=min(amount(snapshot['ceiling'])-amount(snapshot['protected']),model_ceiling(self.clock()))
             if amount(snapshot['charged'])+bound>monthly_ceiling:raise SpendHold('MONTHLY_MODEL_EXHAUSTED')
             charged=self._charged(db,account)
             if ((self.actual_usage_limit is not None and charged>=self.actual_usage_limit)
@@ -98,7 +99,8 @@ class TicketBudget:
             if snapshot['violated']:raise SpendHold('MODEL_ACCOUNT_VIOLATION')
             case_available=(self.actual_usage_limit or TICKET_MODEL_MICRODOLLARS)-self._charged(db,account)
             if case_available<=0:raise SpendHold('TICKET_MODEL_EXHAUSTED')
-            monthly_available=min(amount(snapshot['ceiling'])-amount(snapshot['protected']),MODEL_MICRODOLLARS)-amount(snapshot['charged'])
+            from .build_phase import model_ceiling
+            monthly_available=min(amount(snapshot['ceiling'])-amount(snapshot['protected']),model_ceiling(self.clock()))-amount(snapshot['charged'])
             available=monthly_available if self.actual_usage_limit is not None else min(case_available,monthly_available)
         result=min(requested,int((available-inputs*self.rate.input_rate)/self.rate.output_rate))
         if result<512:raise SpendHold('TICKET_MODEL_EXHAUSTED')

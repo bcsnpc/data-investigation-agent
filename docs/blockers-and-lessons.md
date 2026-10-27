@@ -630,3 +630,5 @@ Round23 owner-accounting focused check:66tests passed;11 runner capture tests re
 
 
 2026-10-27 Round23 held waiting control: native status GET at14:38:31 was interrupted by PostgreSQL OperationalError: consuming input failed, server closed the connection unexpectedly. No scored waiting ticket had been submitted. Original control and charged/uncertain accounting are retained; guarded cleanup waits for its same native job to terminate and restores the original hash. A distinct admission continuation retries only idempotent status GET once on connection loss; no engine or expectation changed. Cause of the connection drop remains unestablished.
+
+Round23 waiting setup timing: retained failed execute160.006903s, idle-before-execute0.000153s. This does not establish an idle-drop cause. Native job6caacbdb completed and original hash89cf27eb restored before admission02. First control was unscored; the waiting ticket itself has one saved outcome.

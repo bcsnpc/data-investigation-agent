@@ -59,9 +59,13 @@ def authorize_body(permissions,method,url,raw):
            'get_security_definitions','record_trace','list_candidates','get_evidence','ask_user_choice','submit_finding',
            'lookup_intake_catalog','resolve_intake','describe_screenshot','plan_screenshot_lookup','lookup_screenshot'}
     if not isinstance(body['tools'],list) or not body['tools']:raise ValueError('CLIENT_TOOLS_REQUIRED')
-    for tool in body['tools']:
-        if not isinstance(tool,dict) or set(tool)!={'name','description','input_schema'} or tool['name'] not in names:
+    for index,tool in enumerate(body['tools']):
+        fields={'name','description','input_schema'}
+        cached=permissions.get('diagnostic_prompt_cache')is True and body['model']=='claude-opus-5-5'
+        if not isinstance(tool,dict) or not fields<=set(tool)<=fields|({'cache_control'}if cached else set()) or tool['name'] not in names:
             raise ValueError('SERVER_OR_UNKNOWN_TOOL_REFUSED')
+        if 'cache_control'in tool and (index!=len(body['tools'])-1 or tool['cache_control']!={'type':'ephemeral'}):
+            raise ValueError('DIAGNOSTIC_TOOL_CACHE_BREAKPOINT')
     system=body['system']
     if (not isinstance(system,list) or len(system)!=1 or set(system[0])!={'type','text','cache_control'}
             or system[0]['type']!='text' or not isinstance(system[0]['text'],str)
@@ -81,7 +85,7 @@ def choose_model(listing,preference=PREFERENCE):
 
 
 class Client:
-    def __init__(self,*,model,budget,identity,secret_reference,record,send=None,key_reader=None,sleep=time.sleep,count_tokens=None):
+    def __init__(self,*,model,budget,identity,secret_reference,record,send=None,key_reader=None,sleep=time.sleep,count_tokens=None,diagnostic_prompt_cache=False):
         from .managed_identity import validate_secret_reference
         validate_secret_reference(secret_reference)
         if budget.rate.model!=model:raise ValueError('MODEL_RATE_MISMATCH')
@@ -90,6 +94,10 @@ class Client:
         self.send=send;self.key_reader=key_reader
         self.sleep=sleep
         self.count_tokens=(send is None) if count_tokens is None else count_tokens
+        if type(diagnostic_prompt_cache)is not bool or (diagnostic_prompt_cache and model!='claude-opus-5-5'):
+            raise ValueError('OWNER_DIAGNOSTIC_CACHE_MODEL_REQUIRED')
+        from .anthropic_prompt_cache import StablePrefix
+        self.diagnostic_cache=StablePrefix()if diagnostic_prompt_cache else None
 
     def _http(self,method,url,body=None):
         require_live_window()
@@ -121,6 +129,7 @@ class Client:
         body={'model':self.model,'max_tokens':max_tokens,'system':[
                   {'type':'text','text':system,'cache_control':{'type':'ephemeral'}}],
               'messages':deepcopy(messages),'tools':wire_tools(tools)}
+        if self.diagnostic_cache is not None:body=self.diagnostic_cache.prepare(body)
         from ..planner_recording import _safe
         _safe(canonical(body).encode())
         # The real transport checks the date before making a reservation. The
@@ -150,6 +159,7 @@ class Client:
                 self.record({'event':'REASONING_RESPONSE','reservation':identity,
                              **({'private_case_content_omitted':True,'sha256':__import__('hashlib').sha256(canonical(response).encode()).hexdigest(),'usage':response.get('usage')}
                                 if private_summary else {'body':response})})
+                if self.diagnostic_cache is not None:self.record(self.diagnostic_cache.observe(response.get('usage')))
                 return response
             except ProviderHTTPError as error:
                 if attempt==2 or error.http_status not in (408,429,502,503,504):raise

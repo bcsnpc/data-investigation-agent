@@ -17,7 +17,7 @@ def specification(options):
         raise ValueError('GUIDED_RUNNER_OPTIONS')
     value=json.loads(reference(options['spec'],maximum=500000).read_bytes())
     required={'version','ticket','assets','graph','reasoning','max_requests'}
-    if not isinstance(value,dict) or not required<=set(value)<=required|{'collector','screenshots','diagnostic_budget'} or value['version']!='guided-investigation/1':
+    if not isinstance(value,dict) or not required<=set(value)<=required|{'collector','screenshots','diagnostic_budget','diagnostic_prompt_cache'} or value['version']!='guided-investigation/1':
         raise ValueError('GUIDED_RUNNER_SPECIFICATION')
     if type(value['max_requests']) is not int or not 1<=value['max_requests']<=100:
         raise ValueError('GUIDED_PHYSICAL_REQUEST_BOUND')
@@ -29,6 +29,8 @@ def specification(options):
         raise ValueError('GUIDED_REASONING_CONFIGURATION')
     if 'diagnostic_budget' in value and value['diagnostic_budget']!={'label':'UNSCORED_STATIC_DIAGNOSTIC','actual_usage_limit_microdollars':3000000}:
         raise ValueError('GUIDED_OWNER_DIAGNOSTIC_BUDGET_REQUIRED')
+    if 'diagnostic_prompt_cache'in value and (value['diagnostic_prompt_cache']is not True or 'diagnostic_budget'not in value or reason['model']!='claude-opus-5-5'):
+        raise ValueError('GUIDED_OWNER_DIAGNOSTIC_CACHE_REQUIRED')
     if 'ticket' in options:value['ticket']=options['ticket']
     return value
 
@@ -107,7 +109,8 @@ def run(plan,context):
         return budgets[case_id]
     def model(case_id):
         return Client(model=rate.model,budget=budget(case_id),identity=spec['reasoning']['gateway_identity'],
-                      secret_reference=spec['reasoning']['secret_reference'],record=record)
+                      secret_reference=spec['reasoning']['secret_reference'],record=record,
+                      diagnostic_prompt_cache=spec.get('diagnostic_prompt_cache',False))
     request_key=plan.get('run_id',getattr(context,'run_id',root.name))
     from investigator.estate_graph_contract import digest
     case_id='guided:'+digest([graph_spec['estate'],request_key])

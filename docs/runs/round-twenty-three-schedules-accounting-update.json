@@ -57,5 +57,12 @@
       },
       "configuration_environment_identity_unchanged": true
     }
-  ]
+  ],
+  "post_update_shared_ledger_observation": {
+    "observed_at_epoch": 1793113422.3026345,
+    "scan_used": 2003,
+    "scan_limit": 2500,
+    "new_scan_requests_admitted_beyond_old_2000": true,
+    "not_a_claim_every_scheduled_job_succeeded": true
+  }
 }
