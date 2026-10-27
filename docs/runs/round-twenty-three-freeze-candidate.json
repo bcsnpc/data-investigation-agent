@@ -1,0 +1,11 @@
+{
+  "source": "fc020a42f64bc9bfb35dec466a92e0e179aadf37",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:4d515de06c760c6c59493f55f0339950a544b79435e7636fde658b00dbfbb587",
+  "workflow": "40510871151",
+  "status": "ENGINE_CANDIDATE_FROZEN_FULL_REGRESSION_PENDING",
+  "observed_at": "2026-10-27T13:21:17.920865+00:00",
+  "dev_admissions_closed": true,
+  "monthly_requests_at_close": 7162,
+  "held_out_opened": false,
+  "reason": "Preserve final evaluation budget; no additional code tuning after held-out begins."
+}
