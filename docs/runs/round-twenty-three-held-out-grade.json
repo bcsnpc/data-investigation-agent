@@ -919,5 +919,48 @@
         "attempts_with_native_usage": 0
       }
     }
-  ]
+  ],
+  "status_timings": {
+    "ANSWERED": {
+      "worker_body": {
+        "n": 6,
+        "median_seconds": 183.12131680000002,
+        "p90_seconds": 232.10080813900004
+      },
+      "end_to_end_known": {
+        "n": 6,
+        "median_seconds": 251.34381500000018,
+        "p90_seconds": 292.3546207000036
+      }
+    },
+    "BLOCKED": {
+      "worker_body": {
+        "n": 13,
+        "median_seconds": 140.69122764300027,
+        "p90_seconds": 192.66725257500366
+      },
+      "end_to_end_known": {
+        "n": 13,
+        "median_seconds": 200.55721959999937,
+        "p90_seconds": 377.8950349000006
+      }
+    },
+    "INTERRUPTED": {
+      "worker_body": {
+        "n": 1,
+        "median_seconds": 167.4382117809946,
+        "p90_seconds": 167.4382117809946
+      },
+      "end_to_end_known": {
+        "n": 1,
+        "median_seconds": 383.32993720000377,
+        "p90_seconds": 383.32993720000377
+      }
+    }
+  },
+  "runtime_stops": {
+    "SpendHold: TICKET_MODEL_EXHAUSTED": 13,
+    "URLError: <urlopen error [Errno 99] Cannot assign requested address>": 1
+  },
+  "mean_investigator_cost_usd": 0.5157290999999999
 }
