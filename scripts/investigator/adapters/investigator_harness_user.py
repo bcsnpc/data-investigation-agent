@@ -31,7 +31,7 @@ class AzureCLIUser:
 
     def submit(self, ticket):
         target = ticket['target']; check = self.config['checks'].get(target)
-        kinds = {'legacy-baseline'} if self.baseline else {'investigation', 'ledger-investigation'}
+        kinds = {'legacy-baseline'} if self.baseline else {'investigation', 'ledger-investigation', 'guided-investigation'}
         if not check or check['kind'] not in kinds: raise ValueError('HARNESS_DECLARED_TICKET_TARGET_REQUIRED')
         command = [sys.executable, str(Path(__file__).resolve().parents[2]/'dia.py'), 'run', target,
                    '--estate', str(self.runner), '--runtime', 'azure']

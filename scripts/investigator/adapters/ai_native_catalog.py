@@ -105,6 +105,18 @@ class NativeCatalog:
         self.ready.add(identity)
         return projected()
 
+    def candidate_details(self, catalog):
+        catalog=deepcopy(catalog)
+        roles={r['asset_id']:r['role'] for r in self.config.get('layer_roles',[])}
+        for node in catalog['nodes']:
+            asset=self.assets.get(node.get('properties',{}).get('asset_id'))
+            if not asset:continue
+            parent=self.assets.get(asset['parent_id'],{})
+            node.setdefault('properties',{})['native_location']={
+                'asset_id':asset['id'],'container':asset['parent_id'],
+                'container_name':parent.get('name'),'role':roles.get(asset['id'])}
+        return catalog
+
     def context(self, path, intake):
         ids={n['id'] for n in path['nodes']}
         assets={a for a,nodes in self.nodes.items() if ids.intersection(nodes)}
@@ -113,11 +125,15 @@ class NativeCatalog:
                       'content_hash':a['content_hash'],'provenance':a.get('provenance')}
                      for a in self.assets.values() if a['id'] in assets or
                      a['parent_id'] in containers and a['kind'] in ('SemanticRelationship','SemanticTable','DefinitionPart')]
+        text='\n'.join(str(a['metadata'].get('content','')) for a in definitions if a['kind']=='DefinitionPart')
+        references=[{'id':a['id'],'kind':a['kind'],'name':a['name'],'metadata':deepcopy(a['metadata'])}
+                    for a in self.assets.values() if a['kind'] in ('SQLEndpoint','Lakehouse','Warehouse','SourceConnection')
+                    and a['id'].rsplit('/',1)[-1] in text]
         terminal=self.config.get('system_of_record')
         declaration={'declared':False,'reachable':False}
         if terminal:
             matching=[i for i,r in self.routes.items() if terminal['asset_id'] in r['asset_ids']]
             declaration={'declared':True,'reachable':terminal.get('reachable') is True and len(matching)==1,
                          'asset_id':terminal['asset_id'],'layer':matching[0] if len(matching)==1 else None}
-        return {'retained_native_definitions':definitions,'system_of_record':declaration,
+        return {'retained_native_definitions':definitions,'system_of_record':declaration,'native_definition_references':references,
                 'warnings':['Native comparisons are observational snapshots; aligned query-bound versions are not established.']}

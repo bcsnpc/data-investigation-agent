@@ -13,6 +13,19 @@ import test_ledger_investigator as fixtures
 
 
 class HarnessTests(unittest.TestCase):
+    def test_guided_structured_ticket_preserves_the_submitted_target(self):
+        intake={'version':'IntakeRequest/1','report_id':'selected-report','description':'Question'}
+        class User:
+            def submit(self,ticket):return {'run_id':'one'}
+            def poll(self,run):return {'status':'Succeeded'}
+            def outcome(self,run,state):return {'ticket':copy.deepcopy(intake)}
+        with tempfile.TemporaryDirectory()as tmp:
+            user=User();ticket={'intake':copy.deepcopy(intake)}
+            RunHarness(user,CaseLog(Path(tmp)/'good.jsonl'),admit=lambda _:None).run(ticket)
+            intake['report_id']='other-report'
+            with self.assertRaisesRegex(StateConflict,'DELIVERED_INTAKE_DIFFERS'):
+                RunHarness(user,CaseLog(Path(tmp)/'bad.jsonl'),admit=lambda _:None).run(ticket)
+
     def test_legacy_request_envelope_binds_without_rewriting_the_output(self):
         result={'request':{'text':'Original question'},'revision':1,
             'ticket':{'version':'smart-ticket-v1','state':'HELD'}}

@@ -6,6 +6,12 @@ from datetime import datetime,timezone
 from cloud_investigator import reference,PathCollector
 
 
+def metadata_tokens(configuration):
+    """Use the full installed auth declaration, never its display profile."""
+    from investigator.adapters.vault_user_cache import credential,provider
+    return provider(credential(configuration['fabric']['auth']))
+
+
 def specification(options):
     if not isinstance(options,dict) or not {'spec'}<=set(options)<={'spec','ticket'}:
         raise ValueError('GUIDED_RUNNER_OPTIONS')
@@ -114,9 +120,8 @@ def run(plan,context):
     def sql_read(settings,database,request):
         from fabric_sql_surface import read
         return metered(lambda:read(settings,database,request))
-    from investigator.adapters.vault_user_cache import credential,provider
     from metadata_auth import MetadataHttp
-    http=MetadataHttp(provider(credential(config['fabric']['native_reader'])),meter=metered)
+    http=MetadataHttp(metadata_tokens(config),meter=metered)
     endpoint_cache={}
     def endpoint(container):
         if container['id'] not in endpoint_cache:
@@ -144,7 +149,7 @@ def run(plan,context):
         return next(iter(fact_ports.values())).history(node,kinds)
     factory=Factory(state=state,graph=graph,routes=native_catalog.routes,native=execute_native,
         context_for=native_catalog.context,triage_for=triage,model_for=model,
-        prepare_route=native_catalog.prepare,begin_case=native_catalog.opened.clear,
+        prepare_route=native_catalog.prepare,begin_case=native_catalog.opened.clear,candidate_details=native_catalog.candidate_details,
         reserve=lambda *_:None,persist=lambda _,event:record(event),
         job_runs=lambda node:history(node,{'JOB_RUN','RUN_HISTORY','SCHEDULE','TABLE_LOAD'}),
         refresh_history=lambda node:history(node,{'REFRESH_RUN','REFRESH_STATE','SCHEDULE','RUN_HISTORY'}))

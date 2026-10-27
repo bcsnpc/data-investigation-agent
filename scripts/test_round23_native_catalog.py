@@ -1,6 +1,6 @@
 import unittest
 from copy import deepcopy
-from unittest.mock import Mock
+from unittest.mock import Mock,patch
 from investigator.adapters.ai_native_catalog import NativeCatalog
 
 
@@ -10,6 +10,16 @@ def asset(identity,kind,parent,name,metadata):
 
 
 class NativeCatalogTests(unittest.TestCase):
+    def test_cloud_metadata_uses_full_auth_not_short_native_reader_profile(self):
+        from cloud_guided_investigator import metadata_tokens
+        from test_federated_reader import D
+        profile={k:v for k,v in D.items() if k!='managed_identity'}
+        config={'fabric':{'auth':deepcopy(D),'native_reader':profile}}
+        with patch('investigator.adapters.vault_user_cache.provider') as provider:
+            self.assertIs(metadata_tokens(config),provider.return_value)
+        provider.assert_called_once_with(D)
+        self.assertNotIn('managed_identity',profile)
+
     def setUp(self):
         self.config={'sql':{'server':'server','database':'application'},
                      'fabric':{'sql_reader':{'server':'fabric-server','account':'reader'}}}

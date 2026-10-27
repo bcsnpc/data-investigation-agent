@@ -15,11 +15,11 @@ from .estate_graph_contract import canonical,digest
 class Factory:
     def __init__(self,*,state,graph,routes,native,context_for,triage_for,model_for,
                  reserve,persist,job_runs,refresh_history,security_definitions=None,
-                 checkpoint_for=None,prepare_route=None,begin_case=None):
+                 checkpoint_for=None,prepare_route=None,begin_case=None,candidate_details=None):
         self.state,self.graph,self.routes=state,graph,deepcopy(routes)
         self.native,self.context_for,self.triage_for,self.model_for=native,context_for,triage_for,model_for
         self.reserve,self.persist=reserve,persist
-        self.prepare_route=prepare_route;self.begin_case=begin_case
+        self.prepare_route=prepare_route;self.begin_case=begin_case;self.candidate_details=candidate_details
         self.registry=deepcopy(routes)
         self.job_runs,self.refresh_history,self.security=job_runs,refresh_history,security_definitions
         self.checkpoint_for=checkpoint_for or (lambda case_id:SharedStore(state,'ai-query:'+case_id,resume=True))
@@ -72,7 +72,9 @@ class Factory:
         nodes={n['id'] for n in path['nodes']}
         routes={i:r for i,r in self.routes.items() if nodes.intersection(r['path_nodes'])}
         for identity in routes:self.prepare(identity,nodes)
-        available={i:{'dialect':r['dialect'],'objects':deepcopy(r['objects']),'label':r['label']} for i,r in self.routes.items()}
+        available={i:{'dialect':r['dialect'],'objects':deepcopy(r['objects']),'label':r['label'],
+                      **({'endpoint_evidence':deepcopy(r['endpoint_evidence'])} if r.get('endpoint_evidence') else {})}
+                   for i,r in self.routes.items()}
         layers={i:available[i] for i in routes}
         context=deepcopy(self.context_for(path,intake))
         # A context builder cannot replace the selected target/path/intake.
@@ -91,12 +93,13 @@ class Factory:
             selected=[i for i,r in self.routes.items() if ids.intersection(r['path_nodes'])]
             for identity in selected:
                 prepared=self.prepare(identity,ids)
-                queries.available_layers[identity]={'dialect':prepared['dialect'],'objects':deepcopy(prepared['objects']),'label':prepared['label']}
+                queries.available_layers[identity]={'dialect':prepared['dialect'],'objects':deepcopy(prepared['objects']),'label':prepared['label'],
+                    **({'endpoint_evidence':deepcopy(prepared['endpoint_evidence'])} if prepared.get('endpoint_evidence') else {})}
                 if identity in queries.layers:queries.layers[identity]=deepcopy(queries.available_layers[identity])
             return queries.activate(selected)
         read_tools=ReadTools(graph=self.graph,path=path,queries=queries,intake=intake,
                             job_runs=self.job_runs,refresh_history=self.refresh_history,security_definitions=self.security,
-                            candidates=self.graph.intake_catalog(),expand=expand)
+                            candidates=(self.candidate_details(self.graph.intake_catalog()) if self.candidate_details else self.graph.intake_catalog()),expand=expand)
         triage=self.triage_for(path,case['id']).run()
         return Investigator(queries=queries,model=self.model_for(case['id']),read_tools=read_tools.registry,
             checkpoint=self.checkpoint_for(case['id']),case_id=case['id'],context=context,triage=triage)

@@ -67,6 +67,7 @@ class ReadTools:
             hits=len(words & set(names.casefold().split()))
             proximity=meta.get('lineage_distance',self.distance.get(node['id'],len(self.nodes)))
             rows.append({'id':node['id'],'name':node['label'],'kind':node['kind'],
+                         'native_location':deepcopy(meta.get('native_location')),
                          'rank':{'word_matches':hits,'lineage_distance':proximity,
                                  'same_workspace':meta.get('workspace')==args.get('workspace') if args.get('workspace') else False,
                                  'same_owner':node.get('owner')==args.get('owner') if args.get('owner') else False,
