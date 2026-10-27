@@ -1,0 +1,28 @@
+{
+  "classification": "TOUCHED_CLASS_PARTIAL_VALIDATION_NOT_FULL40_PASS",
+  "image": {
+    "source": "2ac94154b590c9fe8e0da04a1113d8f6c27eff85",
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:750c5e2291c6825f9325d297f6fae06db5fe1e98aec38fdec8cdf244fe321c73",
+    "workflow": "40503057385",
+    "status": "HOSTED_FOCUSED_TESTS_AND_IMAGE_PUBLICATION_SUCCESS",
+    "observed_at": "2026-10-27T12:29:50.934224+00:00"
+  },
+  "tickets": [
+    "v2-screenshot-record-01-v1",
+    "v2-screenshot-record-02-v1"
+  ],
+  "reason": "Stored-column native containment defect; original dev05 outcomes preserved",
+  "full40_strict_preflight": "docs/runs/round-twenty-three-dev-catalog-route-preflight.json",
+  "assembled_queryable": 39,
+  "unknown_report": 1,
+  "zero_query_routes": 0,
+  "physical_before": 7111,
+  "planned_maximum_additional": 80,
+  "projected_upper_total": 7191,
+  "dev_stop_threshold": 7200,
+  "monthly_ceiling": 9000,
+  "restoration_remaining": 89,
+  "fixture_mutations": false,
+  "expectations_changed": false,
+  "unchanged_input_archive_sha256": "441fb0d6901eb39911bd90f98aed3eb416efd81a3801eb0260fd961516a8e512"
+}
