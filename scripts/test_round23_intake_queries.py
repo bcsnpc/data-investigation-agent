@@ -115,6 +115,12 @@ class IntakeTests(unittest.TestCase):
 
 
 class QueryTests(unittest.TestCase):
+    def test_native_blank_count_is_readonly_and_bound_to_the_discovered_column(self):
+        layer={'dialect':'DAX','objects':dax_objects()}
+        result=validate('EVALUATE ROW("BlankCount", COUNTBLANK(Activity[units]))',layer)
+        self.assertIn('COUNTBLANK',result['query'])
+        with self.assertRaises(ValueError):validate('EVALUATE ROW("BlankCount", COUNTBLANK(Unknown[quantity]))',layer)
+
     def setUp(self):
         self.layers={'gold':{'dialect':'T-SQL','objects':sql_objects()},
                      'spark':{'dialect':'Spark SQL','objects':sql_objects()},

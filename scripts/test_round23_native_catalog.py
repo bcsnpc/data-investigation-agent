@@ -10,6 +10,40 @@ def asset(identity,kind,parent,name,metadata):
 
 
 class NativeCatalogTests(unittest.TestCase):
+    def test_literal_directlake_route_requires_native_ownership_not_matching_names(self):
+        import json
+        model='fabric://workspace/model';table=model+'/table/Activity';endpoint='fabric://workspace/endpoint'
+        self.assets += [asset(model,'SemanticModel','fabric://workspace','Model',{}),
+            asset(table,'SemanticTable',model,'Activity',{'name':'Activity','partitions':[{'mode':'directLake','source':{'type':'entity','schemaName':'dbo','entityName':'Items','expressionSource':'Source'}}]}),
+            asset(model+'/bim','DefinitionPart',model,'model.bim',{'content':json.dumps({'model':{'expressions':[{'name':'Source','expression':'let S = Sql.Database("fabric-server", "endpoint") in S'}]}})})]
+        self.nodes.append({'id':'semantic-table','properties':{'asset_id':table}})
+        path={'nodes':[self.nodes[-1]]}
+        self.assertEqual(self.build().declared_continuations(path),[])
+        witness=asset(model+'/native-relation/one','NativeItemRelationMetadata',model,'Native relation',{
+            'endpoint_asset_hash':'a'*64,'container_asset_hash':'a'*64,
+            'relation':{'source':endpoint,'target':self.parent,'relation':'NATIVE_CASCADEDELETE','provenance':'DISCOVERED',
+                        'evidence':[{'scope':model,'source_api':'fabric_item_relations_beta'}]}})
+        self.assets.append(witness)
+        value=self.build().declared_continuations(path)
+        self.assertEqual(value[0]['physical_table'],self.table)
+        self.assertEqual(value[0]['graph_nodes'],['table-node']);self.read.assert_not_called()
+        witness['metadata']['container_asset_hash']='b'*64
+        self.assertEqual(self.build().declared_continuations(path),[])
+
+    def test_practice_application_report_references_existing_model_and_no_saved_filters(self):
+        import json,base64
+        from pathlib import Path
+        from fixture.guided_report import application_report
+        template=json.loads((Path(__file__).parent/'fixture/templates/inventory-report.json').read_bytes())
+        result=application_report(template,workspace_name='Fixture',model_name='Application',model_id='existing-model',logical_id='logical')
+        parts={p['path']:json.loads(base64.b64decode(p['payload'])) for p in result['parts']}
+        visuals=[v for p,v in parts.items() if p.endswith('/visual.json')]
+        self.assertEqual(len(visuals),1)
+        field=visuals[0]['visual']['query']['queryState']['Values']['projections'][0]['field']['Measure']
+        self.assertEqual(field['Property'],'Movement Units');self.assertEqual(field['Expression']['SourceRef']['Entity'],'Movements')
+        self.assertIn('existing-model',json.dumps(parts['definition.pbir']))
+        self.assertFalse(any('filterConfig' in p for p in parts.values()))
+
     def test_security_reads_existing_scope_and_retained_roles_are_not_current_memberships(self):
         import json
         from investigator.adapters.guided_security import Security

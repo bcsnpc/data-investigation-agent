@@ -3,6 +3,7 @@ from copy import deepcopy
 from decimal import Decimal,localcontext,ROUND_HALF_EVEN
 from collections import deque
 from datetime import datetime
+import re
 from .ai_investigation import schema
 
 
@@ -57,14 +58,16 @@ class ReadTools:
         return {'path':path,'activated_layers':self.expand(path) if self.expand else {}}
 
     def candidates(self,args):
-        words=set(args['words'].casefold().split());rows=[]
+        tokens=lambda text:set(re.findall(r'[^\W_]+',text.casefold()))
+        words=tokens(args['words']);rows=[]
         selected=self.intake.get('visual')
         for node in self.nodes.values():
             if node['kind'] not in ('VISUAL','MEASURE','TABLE','VIEW','MODEL','PIPELINE','COPY_ACTIVITY','NOTEBOOK','SOURCE'):continue
             if selected and node['kind']=='VISUAL' and node['id']!=selected:continue
             meta=node.get('properties',{});enrichment=node.get('enrichment',{})
-            names=' '.join([node['label'],*enrichment.get('synonyms',[]),enrichment.get('business_meaning','')])
-            hits=len(words & set(names.casefold().split()))
+            names=' '.join([node['label'],*enrichment.get('synonyms',[]),enrichment.get('business_meaning',''),
+                            (meta.get('native_location') or {}).get('container_name') or ''])
+            hits=len(words & tokens(names))
             proximity=meta.get('lineage_distance',self.distance.get(node['id'],len(self.nodes)))
             rows.append({'id':node['id'],'name':node['label'],'kind':node['kind'],
                          'native_location':deepcopy(meta.get('native_location')),

@@ -15,13 +15,14 @@ from .estate_graph_contract import canonical,digest
 class Factory:
     def __init__(self,*,state,graph,routes,native,context_for,triage_for,model_for,
                  reserve,persist,job_runs,refresh_history,security_definitions=None,
-                 checkpoint_for=None,prepare_route=None,begin_case=None,candidate_details=None,screenshot_reader=None):
+                 checkpoint_for=None,prepare_route=None,begin_case=None,candidate_details=None,screenshot_reader=None,declared_continuations=None):
         self.state,self.graph,self.routes=state,graph,deepcopy(routes)
         self.native,self.context_for,self.triage_for,self.model_for=native,context_for,triage_for,model_for
         self.reserve,self.persist=reserve,persist
         self.prepare_route=prepare_route;self.begin_case=begin_case;self.candidate_details=candidate_details
         self.registry=deepcopy(routes)
         self.screenshot_reader=screenshot_reader
+        self.declared_continuations=declared_continuations
         self.job_runs,self.refresh_history,self.security=job_runs,refresh_history,security_definitions
         self.checkpoint_for=checkpoint_for or (lambda case_id:SharedStore(state,'ai-query:'+case_id,resume=True))
         for route in self.routes.values():
@@ -70,6 +71,14 @@ class Factory:
         intake=deepcopy(case['intake'])
         root=intake.get('visual') or intake.get('page') or intake['report']
         path=self.target_path(intake)
+        if self.declared_continuations:
+            bridges=self.declared_continuations(path)
+            nodes={n['id']:n for n in path['nodes']};edges={e['id']:e for e in path['edges']}
+            for bridge in bridges:
+                for root in bridge['graph_nodes']:
+                    extra=self.graph.path_to_source(root)
+                    nodes.update({n['id']:n for n in extra['nodes']});edges.update({e['id']:e for e in extra['edges']})
+            path={**path,'nodes':list(nodes.values()),'edges':list(edges.values()),'declared_route_bridges':bridges}
         nodes={n['id'] for n in path['nodes']}
         routes={i:r for i,r in self.routes.items() if nodes.intersection(r['path_nodes'])}
         for identity in routes:self.prepare(identity,nodes)

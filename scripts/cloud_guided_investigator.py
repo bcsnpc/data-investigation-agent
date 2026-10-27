@@ -82,6 +82,10 @@ def run(plan,context):
     submitted=json.loads(reference(spec['ticket'],maximum=250000).read_bytes())
     retained=json.loads(reference(spec['assets'],maximum=64*1024*1024).read_bytes())
     assets=retained['assets'] if isinstance(retained,dict) else retained
+    if isinstance(retained,dict) and retained.get('graph'):
+        from investigator.adapters.estate_graph_static import retained_native_relation_assets
+        extra=retained_native_relation_assets(retained,observed_at=retained['created'])
+        known={a['id'] for a in assets};assets=[*assets,*[a for a in extra if a['id'] not in known]]
     catalog=Catalog.from_graph(graph)
     # Only names/containment cross the catalog boundary. Raw definitions are
     # obtained for the actual selected path, not the historical catalog.
@@ -159,6 +163,7 @@ def run(plan,context):
         prepare_route=native_catalog.prepare,begin_case=native_catalog.opened.clear,candidate_details=native_catalog.candidate_details,
         screenshot_reader=screenshot_reader,
         security_definitions=security,
+        declared_continuations=native_catalog.declared_continuations,
         reserve=lambda *_:None,persist=lambda _,event:record(event),
         job_runs=lambda node:history(node,{'JOB_RUN','RUN_HISTORY','SCHEDULE','TABLE_LOAD'}),
         refresh_history=lambda node:history(node,{'REFRESH_RUN','REFRESH_STATE','SCHEDULE','RUN_HISTORY'}))

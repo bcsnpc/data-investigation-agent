@@ -16,6 +16,15 @@ NOW='2026-11-01T01:00:00Z'
 
 
 class TriageTests(unittest.TestCase):
+    def test_candidate_lookup_matches_visible_words_to_underscores_and_container_names(self):
+        node={'id':'matching','kind':'TABLE','label':'stock_movements','properties':{'native_location':{'container_name':'warehouse_gold_fixture'}}}
+        other={'id':'other','kind':'TABLE','label':'stock_other','properties':{}}
+        port=ReadTools(graph=Mock(),path={'nodes':[],'edges':[]},queries=Mock(),intake={'report':'report'},
+                       job_runs=Mock(),refresh_history=Mock(),candidates={'nodes':[other,node],'edges':[]})
+        ranked=port.candidates({'words':'stock movements gold'})['candidates']
+        self.assertEqual(ranked[0]['id'],'matching')
+        self.assertEqual(ranked[0]['rank']['word_matches'],3)
+
     def test_current_cache_does_not_issue_live_read(self):
         refresh=Mock();save=Mock()
         triage=Triage(path=['visual','model'],lookup=lambda *a:{'source':'ledger','observed_at':NOW,'value':{'status':'ok'}},

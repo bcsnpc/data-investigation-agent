@@ -6,6 +6,7 @@ existing reader-only catalog control, for graph-known objects on opened layers.
 from copy import deepcopy
 from collections import defaultdict
 import json
+import re
 from ..estate_graph_contract import digest
 
 
@@ -15,6 +16,7 @@ class NativeCatalog:
         self.config=deepcopy(configuration)
         self.endpoint,self.sql_read,self.record=endpoint,sql_read,record
         self.source_read=source_read
+        self.graph_nodes={n['id']:deepcopy(n) for n in graph_nodes}
         self.nodes=defaultdict(list)
         for node in graph_nodes:
             asset=node.get('properties',{}).get('asset_id')
@@ -131,6 +133,55 @@ class NativeCatalog:
                 'asset_id':asset['id'],'container':asset['parent_id'],
                 'container_name':parent.get('name'),'role':roles.get(asset['id'])}
         return catalog
+
+    def declared_continuations(self,path):
+        """Literal partition + retained native endpoint ownership, never a label match."""
+        result=[]
+        for node in path['nodes']:
+            table=self.assets.get(node.get('properties',{}).get('asset_id'),{})
+            if table.get('kind')!='SemanticTable':continue
+            model=table['parent_id'];parts=table['metadata'].get('partitions',[])
+            if len(parts)!=1 or parts[0].get('mode')!='directLake':continue
+            source=parts[0].get('source',{})
+            if source.get('type')!='entity' or not isinstance(source.get('schemaName'),str) or not isinstance(source.get('entityName'),str):continue
+            definitions=[a for a in self.assets.values() if a.get('parent_id')==model and a['kind']=='DefinitionPart' and a['name']=='model.bim']
+            if len(definitions)!=1:continue
+            definition=definitions[0]
+            try:document=json.loads(definition['metadata']['content'])['model']
+            except (ValueError,KeyError,TypeError):continue
+            expressions=[e['expression'] for e in document.get('expressions',[]) if e.get('name')==source.get('expressionSource')]
+            if len(expressions)!=1:continue
+            expression=expressions[0];expression='\n'.join(expression) if isinstance(expression,list) else expression
+            match=re.fullmatch(r'\s*let\s+([A-Za-z][A-Za-z0-9_]*)\s*=\s*Sql\.Database\(\s*"([^"\r\n]+)"\s*,\s*"([^"\r\n]+)"\s*\)\s+in\s+\1\s*',expression or '')
+            if not match or match[2]!=self.config['fabric']['sql_reader']['server']:continue
+            workspace=model.rsplit('/',1)[0];endpoint=workspace+'/'+match[3];roots=[];witnesses=[]
+            native_endpoint=self.assets.get(endpoint,{})
+            if native_endpoint.get('kind')=='Warehouse':roots.append(endpoint)
+            for witness in self.assets.values():
+                if witness['kind']!='NativeItemRelationMetadata' or witness.get('parent_id')!=model:continue
+                meta=witness['metadata'];relation=meta.get('relation',{});target=self.assets.get(relation.get('target'),{})
+                if (relation.get('source')==endpoint and relation.get('relation')=='NATIVE_CASCADEDELETE' and relation.get('provenance')=='DISCOVERED'
+                    and target.get('kind')=='Lakehouse' and target.get('parent_id')==workspace
+                    and meta.get('endpoint_asset_hash')==native_endpoint.get('content_hash')
+                    and meta.get('container_asset_hash')==target.get('content_hash')
+                    and any(e.get('scope')==model and e.get('source_api')=='fabric_item_relations_beta' for e in relation.get('evidence',[]))):
+                    roots.append(target['id']);witnesses.append({'asset_id':witness['id'],'metadata':deepcopy(meta)})
+            if len(set(roots))!=1:continue
+            root=roots[0];physical=[]
+            for candidate in self.assets.values():
+                if candidate.get('parent_id')!=root:continue
+                meta=candidate.get('metadata',{});schema=meta.get('schema_name','dbo');name=meta.get('name',candidate.get('name',''))
+                if '.' in name:schema,name=name.split('.',1)
+                if candidate['kind'] in ('LakehouseTable','WarehouseTable') and schema==source['schemaName'] and name==source['entityName']:
+                    physical.append(candidate)
+            if len(physical)!=1:continue
+            ids=self.nodes.get(physical[0]['id'],[])
+            if not ids:continue
+            result.append({'confidence':'DECLARED','semantic_table':table['id'],'physical_table':physical[0]['id'],
+                'graph_nodes':list(ids),'definition_asset':definition['id'],'definition_hash':definition['content_hash'],
+                'partition_source':deepcopy(source),'literal_expression':expression,'native_ownership':witnesses,
+                'qualification':'Declared route only; value agreement and aligned snapshots are not implied.'})
+        return result
 
     def context(self, path, intake):
         ids={n['id'] for n in path['nodes']}
