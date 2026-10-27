@@ -1,0 +1,50 @@
+{
+  "classification": "UNSCORED_DIAGNOSTIC_ACCOUNTING_IMAGE",
+  "frozen_investigation_source": "07a0f92faba8b9abcb3b0f65cb623d113f1f24c3",
+  "accounting_source": "d97735a5ae7d32b3a8e8c1194f28c50442f00c16",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:360dc9e4a2b64c13877a2a697be1a9bdb2f1f2f8c82757644c8e80f25427518b",
+  "changed_files": [
+    "scripts/cloud_guided_investigator.py",
+    "scripts/investigator/build_phase.py",
+    "scripts/investigator/build_phase_policy.json",
+    "scripts/investigator/reasoning_budget.py",
+    "scripts/investigator/unified_runner.py",
+    "scripts/test_round23_owner_accounting.py",
+    "scripts/test_unified_runner.py"
+  ],
+  "unchanged_core": [
+    {
+      "path": "scripts/investigator/dynamic_reasoning.py",
+      "sha256": "348063fa030493d104d1d1375ca583001cd311c14a3297c06bce58a595a4e135"
+    },
+    {
+      "path": "scripts/investigator/guided_cases.py",
+      "sha256": "40627d6343b7c1028663437ac6412a7ade2d612f03994ed9f4d283d2a41bc8a7"
+    },
+    {
+      "path": "scripts/investigator/guided_intake.py",
+      "sha256": "f09a861a5ed44938c04b7525ee21287004bc0b03f05d2ff7d82c3ee421249d5b"
+    },
+    {
+      "path": "scripts/investigator/investigative_queries.py",
+      "sha256": "497b2f562ffb2a709e24c51e86c5cd234579cd96d18490789ab488be058156a5"
+    },
+    {
+      "path": "scripts/investigator/adapters/reasoning_anthropic.py",
+      "sha256": "c3c8288c5a8e2a96a196e131fcc42f4d0eaec7a01c14d055b6f1dfaf4424197a"
+    },
+    {
+      "path": "scripts/investigator/guided_investigator_installation.py",
+      "sha256": "993c8df84902131eac4ae5c08380687c91dc5daee89867077dc38f856814d756"
+    },
+    {
+      "path": "scripts/investigator/guided_live_facts.py",
+      "sha256": "497dde6deefd7e835d110414845d529ef57d281624c6f43d032909bb724af5e3"
+    },
+    {
+      "path": "scripts/investigator/adapters/investigative_native.py",
+      "sha256": "5b52dd86e9135ca5f5ea686d0e22303bb9e032e774352d6627e144df6e821ccd"
+    }
+  ],
+  "held_out_image_unchanged": true
+}
