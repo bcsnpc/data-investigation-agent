@@ -96,7 +96,7 @@ class NativeCatalog:
             def execute(db,q):
                 if route['kind']=='FABRIC_SQL':return self.sql_read(route['config'],db,q)
                 return self.source_read(route['config'],dict(q,response_mode='records',require_read_only=True))
-            result=read_many(route['config'],requests,execute=execute,attestation_required=False,surface=route['kind'])
+            result=read_many(route['config'],requests,execute=execute,attestation_required=False,surface=route['kind'],include_views=True)
             for obj in batch:
                 columns,proof=result[obj['id']]
                 obj['metadata']['columns']=columns

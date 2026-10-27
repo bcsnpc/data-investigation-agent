@@ -10,6 +10,31 @@ def asset(identity,kind,parent,name,metadata):
 
 
 class NativeCatalogTests(unittest.TestCase):
+    def test_security_reads_existing_scope_and_retained_roles_are_not_current_memberships(self):
+        import json
+        from investigator.adapters.guided_security import Security
+        parent='fabric://workspace/model'
+        assets=[asset(parent,'SemanticModel','fabric://workspace','Model',{}),
+                asset(parent+'/bim','DefinitionPart',parent,'model.bim',{'content':json.dumps({'model':{'roles':[{'name':'North','tablePermissions':[{'name':'Items','filterExpression':'Items[region]="North"'}]}]}})})]
+        http=Mock(return_value={'status_code':403,'text':'denied'})
+        result=Security(assets=assets,nodes=[{'id':'model','properties':{'asset_id':parent}}],http=http)('model')
+        http.assert_called_once_with('workspaces/workspace/items/model/connections')
+        self.assertEqual(result['checks'][0]['state'],'RETAINED_SNAPSHOT')
+        self.assertEqual(result['checks'][0]['roles'][0]['name'],'North')
+        self.assertEqual(result['checks'][1]['state'],'BLOCKED_PENDING_OWNER')
+        self.assertTrue(result['no_impersonation'])
+
+    def test_view_schema_topup_is_exact_readonly_catalog_control(self):
+        from investigator.adapters.binding_catalog import request_many,compiled_control_objects
+        objects=[{'connection':'server','database':'database','catalog':{'metadata':{'schema_name':'dbo','name':'View'}}}]
+        old=request_many(objects);new=request_many(objects,include_views=True)
+        self.assertIn('JOIN sys.tables AS o',old['query'])
+        self.assertIn("o.type IN ('U','V')",new['query'])
+        payload={**new,'server':'server','database':'database'}
+        self.assertEqual(compiled_control_objects(payload),['[dbo].[View]'])
+        payload['query']=payload['query'].replace("('U','V')","('U','V','P')")
+        self.assertIsNone(compiled_control_objects(payload))
+
     def test_cloud_metadata_uses_full_auth_not_short_native_reader_profile(self):
         from cloud_guided_investigator import metadata_tokens
         from test_federated_reader import D

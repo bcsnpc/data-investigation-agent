@@ -15,12 +15,13 @@ from .estate_graph_contract import canonical,digest
 class Factory:
     def __init__(self,*,state,graph,routes,native,context_for,triage_for,model_for,
                  reserve,persist,job_runs,refresh_history,security_definitions=None,
-                 checkpoint_for=None,prepare_route=None,begin_case=None,candidate_details=None):
+                 checkpoint_for=None,prepare_route=None,begin_case=None,candidate_details=None,screenshot_reader=None):
         self.state,self.graph,self.routes=state,graph,deepcopy(routes)
         self.native,self.context_for,self.triage_for,self.model_for=native,context_for,triage_for,model_for
         self.reserve,self.persist=reserve,persist
         self.prepare_route=prepare_route;self.begin_case=begin_case;self.candidate_details=candidate_details
         self.registry=deepcopy(routes)
+        self.screenshot_reader=screenshot_reader
         self.job_runs,self.refresh_history,self.security=job_runs,refresh_history,security_definitions
         self.checkpoint_for=checkpoint_for or (lambda case_id:SharedStore(state,'ai-query:'+case_id,resume=True))
         for route in self.routes.values():
@@ -101,5 +102,24 @@ class Factory:
                             job_runs=self.job_runs,refresh_history=self.refresh_history,security_definitions=self.security,
                             candidates=(self.candidate_details(self.graph.intake_catalog()) if self.candidate_details else self.graph.intake_catalog()),expand=expand)
         triage=self.triage_for(path,case['id']).run()
-        return Investigator(queries=queries,model=self.model_for(case['id']),read_tools=read_tools.registry,
+        model=self.model_for(case['id'])
+        def registry():
+            tools=read_tools.registry()
+            if intake.get('screenshot') and self.screenshot_reader:
+                from .screenshot_record_lookup import ScreenshotLookup
+                from .adapters.screenshot_assistance import Assistance
+                from .guided_intake import Catalog
+                from .ai_investigation import schema
+                assistance=Assistance(model,lambda:{**context,'layers':deepcopy(queries.layers)})
+                lookup=ScreenshotLookup(catalog=Catalog.from_graph(self.graph),queries=queries,
+                    extract=assistance.extract,plan=assistance.plan,audit=save)
+                def resolve(_):
+                    image=self.screenshot_reader(case['id'],intake['screenshot']['sha256'])
+                    if __import__('hashlib').sha256(image).hexdigest()!=intake['screenshot']['sha256']:
+                        raise ValueError('SCREENSHOT_ATTACHMENT_HASH_DIFFERS')
+                    return lookup.resolve(image,intake)
+                tools['lookup_screenshot']={'description':'Resolve the attached screenshot to an actual native key; image stays within this case. Queries and vision share this case budget.',
+                                            'schema':schema({}),'run':resolve}
+            return tools
+        return Investigator(queries=queries,model=model,read_tools=registry,
             checkpoint=self.checkpoint_for(case['id']),case_id=case['id'],context=context,triage=triage)

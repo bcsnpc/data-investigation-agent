@@ -8,6 +8,15 @@ NOW='2026-10-27T02:00:00Z'
 
 
 class FactTests(unittest.TestCase):
+    def test_installed_collector_run_method_is_used(self):
+        from types import SimpleNamespace
+        ledger=Mock();ledger.read.return_value={'facts':[]}
+        run=Mock(return_value={'status':'COLLECTED'})
+        port=PathFacts(ledger=ledger,estate='fixture',path={'nodes':[{'id':'model','kind':'MODEL'}]},
+                       collector=SimpleNamespace(run=run),now=lambda:NOW)
+        port.run()
+        run.assert_called_once_with('fixture',['model'],now=NOW,force=True)
+
     def test_missing_facts_refresh_once_for_ticket_path_and_keep_unavailable_distinct(self):
         ledger=Mock();collector=Mock();latest=[]
         ledger.read.side_effect=lambda *a,**k:{'facts':latest}

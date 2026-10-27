@@ -109,7 +109,7 @@ class Investigator:
                     raise ValueError('VALIDATOR_MUST_RETURN_BUSINESS_ANSWER')
                 self.state['outcome']={'status':'ANSWERED',**answer}
                 return answer
-            if not self.state['candidate_checks'] or not any(q['purpose']=='recreate' for q in self.queries.records):
+            if not self.state['candidate_checks'] or not any(q['purpose'] in ('recreate','record','lookup') for q in self.queries.records):
                 raise ValueError('ASK_LAST_RESORT_REQUIRES_CANDIDATES_AND_RECREATION')
             question=self.validate_question(deepcopy(args),self.case_view())
             if not isinstance(question,dict) or not question.get('question') or not question.get('choices'):

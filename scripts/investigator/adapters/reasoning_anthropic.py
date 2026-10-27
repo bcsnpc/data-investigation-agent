@@ -37,7 +37,7 @@ def authorize_body(permissions,method,url,raw):
     if not counted and (type(body['max_tokens']) is not int or not 1<=body['max_tokens']<=16000):raise ValueError('REASONING_OUTPUT_BOUND')
     names={'run_sql','run_dax','get_definition','get_lineage','get_job_runs','get_refresh_history',
            'get_security_definitions','record_trace','list_candidates','get_evidence','ask_user_choice','submit_finding',
-           'lookup_intake_catalog','resolve_intake'}
+           'lookup_intake_catalog','resolve_intake','describe_screenshot','plan_screenshot_lookup','lookup_screenshot'}
     if not isinstance(body['tools'],list) or not body['tools']:raise ValueError('CLIENT_TOOLS_REQUIRED')
     for tool in body['tools']:
         if not isinstance(tool,dict) or set(tool)!={'name','description','input_schema'} or tool['name'] not in names:
@@ -97,7 +97,7 @@ class Client:
         self.record({'event':'REASONING_MODEL_DISCOVERY','listing':listing})
         return listing
 
-    def complete(self,*,system,messages,tools,max_tokens=4000):
+    def complete(self,*,system,messages,tools,max_tokens=4000,private_summary=False):
         body={'model':self.model,'max_tokens':max_tokens,'system':[
                   {'type':'text','text':system,'cache_control':{'type':'ephemeral'}}],
               'messages':deepcopy(messages),'tools':deepcopy(tools)}
@@ -119,11 +119,15 @@ class Client:
             identity=(self.budget.reserve(body) if input_bound is None else
                       self.budget.reserve(body,input_tokens_upper_bound=input_bound))
             try:
-                self.record({'event':'REASONING_REQUEST','reservation':identity,'body':body})
+                self.record({'event':'REASONING_REQUEST','reservation':identity,
+                             **({'private_case_content_omitted':True,'sha256':__import__('hashlib').sha256(canonical(body).encode()).hexdigest()}
+                                if private_summary else {'body':body})})
                 response=(self.send or self._http)('POST',BASE+'/messages',body)
                 self.budget.settle(identity,response.get('usage'))
                 _safe(canonical(response).encode())
-                self.record({'event':'REASONING_RESPONSE','reservation':identity,'body':response})
+                self.record({'event':'REASONING_RESPONSE','reservation':identity,
+                             **({'private_case_content_omitted':True,'sha256':__import__('hashlib').sha256(canonical(response).encode()).hexdigest(),'usage':response.get('usage')}
+                                if private_summary else {'body':response})})
                 return response
             except ProviderHTTPError as error:
                 if attempt==2 or error.http_status not in (408,429,502,503,504):raise

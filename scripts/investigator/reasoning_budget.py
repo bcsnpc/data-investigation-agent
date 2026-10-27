@@ -48,8 +48,8 @@ class TicketBudget:
 
     def _charged(self,db,account):
         selector="(detail::jsonb ->> 'case_id')" if self.state.backend=='postgresql' else "json_extract(detail,'$.case_id')"
-        rows=self.state.sql(db,"SELECT charged FROM state_reservations WHERE account LIKE 'model-microdollars:%' AND "+selector+'=?',
-                            (self.case_id,)).fetchall()
+        rows=self.state.sql(db,"SELECT charged FROM state_reservations WHERE account LIKE ? AND "+selector+'=?',
+                            ('model-microdollars:%',self.case_id)).fetchall()
         # Per-ticket does not reset when a long-running case crosses UTC month.
         return sum((amount(row[0]) for row in rows),Decimal(0))
 

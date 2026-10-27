@@ -13,7 +13,7 @@ class PathFacts:
     def __init__(self, *, ledger, estate, path, collector=None, save=lambda _:None, now=None):
         self.ledger,self.estate,self.path=ledger,estate,deepcopy(path)
         self.subjects=sorted({n['id'] for n in path['nodes']})
-        self.collector,self.save=collector,save
+        self.collector,self.save=(collector if collector is None or callable(collector) else collector.run),save
         self.now=now or (lambda:datetime.now(timezone.utc).isoformat())
         self.snapshot=None;self.refreshed=False
 

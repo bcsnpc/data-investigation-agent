@@ -140,3 +140,9 @@ Not executed. Do not change AllowAllWindowsAzureIps or the separate QueryEditor 
 
 
 Round22 firewall action completed2026-10-23 after explicit owner approval: only investigator-client-20260918 replaced50.172.159.187/32 with confirmed184.105.12.85/32. Exact before/after and approval in runs/round-twenty-two-approved-source-firewall.json; other rules unchanged. Do not repeat the prepared command above.
+
+## Round23 security metadata gaps, 2026-10-26
+
+BLOCKED_PENDING_OWNER: live role membership/effective-user security metadata has no read-only installed route. Provide a dated export of model roles, group/role membership and any security mapping table under an approved read-only collection route. Do not grant investigator Write. Microsoft documents [List item connections](https://learn.microsoft.com/en-us/rest/api/fabric/core/items/list-item-connections) as requiring item read and write, and [Get dataset users](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-dataset-users-in-group) as requiring ReadWriteReshare; neither is a reason to elevate the reader. Retained RLS/OLS definitions are available as snapshots, not fresh memberships. Exact current-reader connection probes will be recorded separately.
+
+Fixture controllers: existing cloud investigator identity is read-only, so it cannot apply or restore data, model SSO/automatic-update settings or pipeline definitions. No owner/publisher credential is migrated to the cloud. Those controls remain local under the existing publisher/fixture owner for this round; scoped cloud controller authority needs a separate owner decision.

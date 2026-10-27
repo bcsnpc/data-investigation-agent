@@ -20,6 +20,14 @@ NOW=datetime(2026,11,1,tzinfo=timezone.utc).timestamp()
 
 
 class BudgetTests(unittest.TestCase):
+    def test_postgres_charged_query_binds_like_pattern_instead_of_literal_percent(self):
+        state=Mock();state.backend='postgresql';state.sql.return_value.fetchall.return_value=[('120',)]
+        budget=TicketBudget(state,case_id='case',owner='worker',rate=Mock())
+        self.assertEqual(budget._charged('db','month'),120)
+        args=state.sql.call_args.args
+        self.assertNotIn('%',args[1])
+        self.assertEqual(args[2],('model-microdollars:%','case'))
+
     def setUp(self):
         folder=TemporaryDirectory();self.addCleanup(folder.cleanup)
         self.state=SharedState.offline(Path(folder.name)/'state.sqlite');self.state.migrate()
@@ -93,6 +101,24 @@ class BudgetTests(unittest.TestCase):
 
 
 class ProviderTests(unittest.TestCase):
+    def test_screenshot_model_audit_omits_image_and_personal_values(self):
+        from investigator.adapters.screenshot_assistance import Assistance
+        values={'titles':{'visual':'Selected visual'},'visible_fields':{'name':'PRIVATE-SYNTHETIC-NAME'}}
+        response={'content':[{'type':'tool_use','name':'describe_screenshot','input':values}],
+                  'usage':{'input_tokens':20,'output_tokens':10}}
+        send=Mock(return_value=response);client,budget=self.client(send)
+        image=b'\x89PNG\r\n\x1a\n' + b'PRIVATE-SYNTHETIC-IMAGE'
+        self.assertEqual(Assistance(client,lambda:{}).extract(image),values)
+        import json,base64
+        audit=json.dumps(client.record.call_args_list,default=str)
+        self.assertNotIn('PRIVATE-SYNTHETIC-NAME',audit)
+        self.assertNotIn(base64.b64encode(image).decode(),audit)
+        self.assertIn('private_case_content_omitted',audit)
+        self.assertEqual(send.call_args.args[2]['messages'][0]['content'][0]['type'],'image')
+        budget.reserve.assert_called_once()
+        with self.assertRaisesRegex(ValueError,'PNG_OR_JPEG'):
+            Assistance(client,lambda:{}).extract(b'not an image')
+
     def test_live_date_owner_approval_supersedes_november_wait(self):
         with self.assertRaisesRegex(RuntimeError,'OFFLINE_ONLY'):require_live_window(datetime(2026,10,25,23,59,tzinfo=timezone.utc))
         require_live_window(datetime(2026,10,26,tzinfo=timezone.utc))

@@ -17,7 +17,7 @@ def specification(options):
         raise ValueError('GUIDED_RUNNER_OPTIONS')
     value=json.loads(reference(options['spec'],maximum=500000).read_bytes())
     required={'version','ticket','assets','graph','reasoning','max_requests'}
-    if not isinstance(value,dict) or not required<=set(value)<=required|{'collector'} or value['version']!='guided-investigation/1':
+    if not isinstance(value,dict) or not required<=set(value)<=required|{'collector','screenshots'} or value['version']!='guided-investigation/1':
         raise ValueError('GUIDED_RUNNER_SPECIFICATION')
     if type(value['max_requests']) is not int or not 1<=value['max_requests']<=100:
         raise ValueError('GUIDED_PHYSICAL_REQUEST_BOUND')
@@ -137,6 +137,8 @@ def run(plan,context):
                                   endpoint=endpoint,sql_read=sql_read,record=record,
                                   source_read=lambda settings,q:metered(lambda:source_transport(settings,q)))
     native=NativeQueries(native_catalog.routes)
+    from investigator.adapters.guided_security import Security
+    security=Security(assets=assets,nodes=metadata['nodes'],http=http)
     def execute_native(layer,bound,**kwargs):return metered(lambda:native(layer,bound,**kwargs))
     # Factory updates this installed registry after a native schema lookup.
     execute_native.routes=native.routes
@@ -147,9 +149,16 @@ def run(plan,context):
         return port
     def history(node,kinds):
         return next(iter(fact_ports.values())).history(node,kinds)
+    def screenshot_reader(case_id,checksum):
+        if checksum not in spec.get('screenshots',{}):raise ValueError('SCREENSHOT_ATTACHMENT_NOT_INSTALLED')
+        image=reference(spec['screenshots'][checksum],maximum=1024*1024).read_bytes()
+        if __import__('hashlib').sha256(image).hexdigest()!=checksum:raise ValueError('SCREENSHOT_ATTACHMENT_HASH_DIFFERS')
+        return image
     factory=Factory(state=state,graph=graph,routes=native_catalog.routes,native=execute_native,
         context_for=native_catalog.context,triage_for=triage,model_for=model,
         prepare_route=native_catalog.prepare,begin_case=native_catalog.opened.clear,candidate_details=native_catalog.candidate_details,
+        screenshot_reader=screenshot_reader,
+        security_definitions=security,
         reserve=lambda *_:None,persist=lambda _,event:record(event),
         job_runs=lambda node:history(node,{'JOB_RUN','RUN_HISTORY','SCHEDULE','TABLE_LOAD'}),
         refresh_history=lambda node:history(node,{'REFRESH_RUN','REFRESH_STATE','SCHEDULE','RUN_HISTORY'}))
