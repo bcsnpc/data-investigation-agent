@@ -32,9 +32,16 @@ class NativeCatalogTests(unittest.TestCase):
 
     def test_practice_application_report_references_existing_model_and_no_saved_filters(self):
         import json,base64
-        from pathlib import Path
         from fixture.guided_report import application_report
-        template=json.loads((Path(__file__).parent/'fixture/templates/inventory-report.json').read_bytes())
+        visual={'visual':{'query':{'queryState':{'Values':{'projections':[{'field':{'Measure':{
+            'Property':'Handled Quantity','Expression':{'SourceRef':{'Entity':'Activity'}}}}}]}}}}}
+        documents={'.platform':{'metadata':{'displayName':'Template'}},
+            'definition/pages/p/page.json':{'displayName':'Template','filterConfig':{}},
+            'definition/pages/p/visuals/25189fcc5fe05539b3b6/visual.json':visual,
+            'definition/pages/p/visuals/unrelated/visual.json':visual,
+            'definition/report.json':{'filterConfig':{}},
+            'definition.pbir':{'datasetReference':{'byConnection':{'connectionString':'model=${ITEM_4};workspace=${WORKSPACE_NAME}'}}}}
+        template={'parts':[{'path':p,'content':json.dumps(d)} for p,d in documents.items()]}
         result=application_report(template,workspace_name='Fixture',model_name='Application',model_id='existing-model',logical_id='logical')
         parts={p['path']:json.loads(base64.b64decode(p['payload'])) for p in result['parts']}
         visuals=[v for p,v in parts.items() if p.endswith('/visual.json')]
