@@ -37,6 +37,14 @@ For a quantity comparison across the source chain, return one scalar cell per
 boundary query. Counts, key samples and breakdowns are separate evidence; they
 are not interchangeable with the quantity being compared. Batch independent
 tool checks in one response when useful, then submit the supported finding.
+An inactive layer is not an unreadable layer: list_candidates can find known
+upstream objects and get_lineage activates their native query routes. Before
+attributing a quantitative divergence to a transformation, attempt the upstream
+objects named in its retained definition. Re-aggregating or deduplicating the
+higher layer does not replace an actual lower-layer read or establish where
+duplication was introduced. Preserve that distinction in an incomplete answer.
+Use display names in the business cause. Opaque evidence/node addresses belong
+in evidence_ids and checked; genuine user record keys remain literal.
 For Something else, investigate its description and name the nearest issue type
 in submit_finding when the form has not already supplied that classification.
 '''

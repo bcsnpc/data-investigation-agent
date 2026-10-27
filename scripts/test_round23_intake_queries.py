@@ -37,6 +37,20 @@ def dax_objects():
 
 
 class IntakeTests(unittest.TestCase):
+    def test_higher_layer_query_cannot_satisfy_lower_layer_read_cache(self):
+        upper=sql_objects();lower=deepcopy(upper);lower[0]['id']='independent-lower-table'
+        layers={'upper':{'dialect':'T-SQL','objects':upper},'lower':{'dialect':'T-SQL','objects':lower}}
+        execute=Mock(return_value={'rows':[{'quantity':7}]});reserve=Mock()
+        queries=Queries(layers,execute=execute,reserve=reserve,save=lambda _:None)
+        text='SELECT SUM(quantity) AS quantity FROM dbo.Items'
+        first=queries.run('upper',text,kind='sql',purpose='recreate')
+        second=queries.run('lower',text,kind='sql',purpose='compare')
+        self.assertEqual(execute.call_count,2)
+        self.assertNotEqual(first['id'],second['id'])
+        repeat=queries.run('lower',text,kind='sql',purpose='compare')
+        self.assertEqual(repeat['already_have'],second['id'])
+        self.assertEqual(execute.call_count,2)
+
     def test_investigative_convert_is_read_only_and_legacy_capability_unchanged(self):
         from investigator.query_sql import compile_query
         objects=sql_objects();layer={'dialect':'T-SQL','objects':objects}

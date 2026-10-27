@@ -138,7 +138,7 @@ class ReadTools:
         node={'enum':ids}
         registry={
             'get_definition':entry('Read the retained DAX, SQL, notebook or view definition for an admitted path object.',{'node':node},self.definitions),
-            'get_lineage':entry('Read upstream lineage within the admitted estate; no unrelated catalog dump.',{'node':node},self.lineage),
+            'get_lineage':entry('Read upstream lineage within the admitted estate and activate its known native query routes. Use a list_candidates result to open an upstream object not active yet; no unrelated catalog dump.',{'node':node},self.lineage),
             'get_job_runs':entry('Read native job runs and load accounting. Audit source is preferred when declared.',{'node':{'enum':[i for i,n in self.nodes.items() if i in self.visible and n['kind'] in ('PIPELINE','COPY_ACTIVITY','NOTEBOOK')]}},lambda a:self.job_runs(a['node'])),
             'get_refresh_history':entry('Read the admitted model refresh facts, schedule and automatic-update setting.',{'node':{'enum':[i for i,n in self.nodes.items() if i in self.visible and n['kind']=='MODEL']}},lambda a:self.refresh_history(a['node'])),
             'get_security_definitions':entry('Read RLS/OLS roles, memberships, mapping, SQL policies, user-sensitive views, report access and connection mode where the existing reader can. Never impersonate or grant.',{'node':node},self.security_definitions)}
