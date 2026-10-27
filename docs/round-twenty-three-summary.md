@@ -17,27 +17,27 @@ At 2026-10-27T01:31UTC, requests5,471/9,000: investigation3,607, scan1,794, rest
 
 ## Part A — simplify
 
-_pending_
+PG connections renew tokens before expiry, use short-lived operations, keepalives and bounded timeouts; dropped connections and lost keyed settlements retry once. Focused tests cover token renewal, socket loss, idle timing and idempotent settlement. Shared cap reservations remain authoritative; the historical local reporting mirror is off the dispatch path. Image completeness is checked at build. Cloud fixture mutation cannot use the read-only investigator, so the approved existing publisher/SQL-owner local fallback remains; the missing cloud mutation authority is recorded in owner-actions, without a grant. Lost Azure starts remain unestablished and unscored.
 
 ## Part B — guided intake
 
-_pending_
+IntakeRequest/1 and catalog API/CLI are implemented. Full retained catalog projection treats inventory bookkeeping as optional warning fields. Screenshot lookup uses the actual attached image, visible fields and model-written native lookup; no screenshot pixels or personal values enter shared logs. A genuine unknown literal report ID now becomes a saved catalog question rather than an unsealed exception; it is never substituted.
 
 ## Part C — path triage
 
-_pending_
+Ten path-local ledger-first checks run before reasoning. Only a named SCAN allocation exhaustion becomes unavailable triage; INV and total caps still refuse. The scan allocation is now exhausted at2,000, so no automatic collection is relabelled or resumed. Explicit model-selected history tools perform one bounded subject read under the separate investigation meter and existing reader/scanner GET scopes.
 
 ## Part D — AI investigation and query safety
 
-_pending_
+The strongest discovered model writes investigative SQL/DAX. Original schemas, parser-based read-only checks, exact graph object scope, forced row bounds and deadlines remain. Successful repeated queries/tools reuse retained evidence. Path context, stable prefix, recitation, errors and checkpoints are retained. Native failed queries cannot establish absence. Per-ticket model exhaustion remains a real unresolved result, not a finding.
 
 ## Part E — generic investigation tools
 
-_pending_
+Installed tools cover native SQL/DAX, retained definitions, lineage, candidates, record traces, history/refresh and security definitions. Existing manifest bindings now carry the declared application source and producer into route assembly; audit metadata remains evidence rather than a quantity boundary. Billing?s old manifest still has no declared system of record; equality must not silently invent that declaration. Live class coverage and blocked permission needs are still pending the complete scored passes.
 
 ## Part F — business answer and engineer handoff
 
-_pending_
+Delivered findings have a business answer and retained technical evidence. Every unresolved investigation carries its full private query text, results, stopping point, ruled-out checks and next checks. Engineer replies are stored as scoped, attributed ledger facts through the installed command. Partial32 handoff grades were16at2,9at1,7at0; these do not replace its0/32 answer score.
 
 ## Part G — independent tickets, dev, held-out and messy input
 

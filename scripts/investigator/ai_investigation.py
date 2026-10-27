@@ -23,6 +23,9 @@ of data. BLANK is a value; zero is different. Preserve the stated precision.
 Use the supplied tools. Cite evidence for every factual claim. On rejection use
 the precise feedback and continue with a different or corrected check. Query
 repeats reuse saved evidence. Read the current-state recitation each turn.
+Distinguish current rows from history: selecting period columns from a current
+table is not a history read. Do not claim historical absence or a before/after
+change unless the cited query actually reads retained native history.
 Ask only as a last resort after candidate checks and a recreation attempt, only
 for an unreadable user fact or business policy, using named multiple choices.
 Submit a plain answer with verdict, cause, numbers and what was checked. No fixes.
@@ -96,6 +99,8 @@ class Investigator:
         self.clock,self.tool_limit,self.deadline_seconds=clock,tool_limit,deadline_seconds
         self.refresh_tools()
         self.stable=INSTRUCTIONS+'\nAdmitted path, schema, retained definitions and toolbox:\n'+canonical(context)+'\nCompleted path triage:\n'+canonical(triage)
+        from .model_case_presentation import Presentation
+        self.presentation=Presentation(context,triage,INSTRUCTIONS)
 
     def refresh_tools(self):
         self.read_tools=self.read_tools_factory()
@@ -200,7 +205,7 @@ class Investigator:
                     self.refresh_tools()
                     self.state['messages'].append({'role':'user','content':canonical({'current_state':recitation})})
                     self.state['pending']={'kind':'MODEL','step':self.state['model_calls']+1};self.save()
-                    response=self.model.complete(system=self.stable,messages=self.state['messages'],tools=self.tools)
+                    response=self.presentation.complete(self.model,system=self.stable,messages=self.state['messages'],tools=self.tools)
                     self.state['model_calls']+=1;self.state['pending']=None
                     self.evidence({'kind':'MODEL_RESPONSE','response':response})
                     content=response.get('content',[])

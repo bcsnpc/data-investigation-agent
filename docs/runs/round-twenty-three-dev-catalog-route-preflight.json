@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-27T07:37:50.346297+00:00",
+  "observed_at": "2026-10-27T08:10:21.338357+00:00",
   "dev_forms": 40,
   "results": [
     {
@@ -1110,5 +1110,5 @@
   ],
   "estate_reads": 0,
   "model_calls": 0,
-  "method": "Actual sealed dev forms and retained estate graph/catalog; production Factory route assembly twice, actual wire and all top-level inventory bookkeeping and redundant parent_id removed; parent binding is recovered only from literal native addresses. Native schema/endpoint ports use offline retained-schema shape stubs; no data values, live probe or finding is claimed. Invalid report IDs are not substituted. Uses production estate_installation.configuration, including manifest source bindings and pipeline declarations. Producer expansion uses the existing bounded calculation_path API."
+  "method": "Actual sealed dev forms and retained estate graph/catalog; production Factory route assembly twice, actual wire and all top-level inventory bookkeeping and redundant parent_id removed; parent binding is recovered only from literal native addresses. Native schema/endpoint ports use offline retained-schema shape stubs; no data values, live probe or finding is claimed. Invalid report IDs are not substituted."
 }

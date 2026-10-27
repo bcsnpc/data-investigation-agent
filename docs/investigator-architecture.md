@@ -150,3 +150,6 @@ HUMAN_REPLY facts, scoped and attributed, never native observation proof.
 Cloud assembly, concrete answer-validation wiring, native triage/security
 ports, submit/poll integration and live validation remain in progress. This
 entry describes tested components, not an earned live capability.
+
+
+Round23 model presentation retains the full native case and capture. Reversible case-local identifier aliases, duplicate references and explicitly keyed columnar records reduce repeated serialization. Native JSON is displayed structurally, with all fields and values; original serialization remains in the private case. SQL/DAX/M strings stay literal. Only tool address fields decode before the original local schema, scope and query validators; query text, record keys and reported values never decode as aliases. This is model presentation, not a privacy-projected tape. The strongest model and conservative reservations stay unchanged. Measurements: docs/runs/round-twenty-three-model-presentation-counts.json. Provider documentation: https://platform.claude.com/docs/en/build-with-claude/token-counting . Prepared for the next image; current dev04 stays pinned to its initial image.
