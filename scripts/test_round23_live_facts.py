@@ -73,7 +73,7 @@ class OptionalVisualTests(unittest.TestCase):
         retained=graph();fake=Mock();fake.intake_catalog.return_value=retained
         fake.path_to_source.side_effect=lambda root:{'nodes':[n for n in retained['nodes'] if n['id'] in (root,'measure')],
                                                    'edges':[]}
-        factory=object.__new__(Factory);factory.graph=fake
+        factory=object.__new__(Factory);factory.graph=fake;factory.routes={}
         intake=request();del intake['visual']
         result=factory.target_path(intake)
         fake.path_to_source.assert_called_once_with('card')
