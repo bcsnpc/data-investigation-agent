@@ -13,6 +13,17 @@ from investigator.process_tape import Tape,bytes_of
 HEADER={'entry_point':'runner','context_identity':'fixture-context','config':{},'profile':{},'usage_policy':None,'engine_hash':'fixture-engine','state':{}}
 
 class RunnerTests(unittest.TestCase):
+    def test_manual_release_allocation_is_only_for_unscheduled_smokes(self):
+        with tempfile.TemporaryDirectory()as d:
+            config=self.config(Path(d));config['per_execution']=True
+            config['checks']={'manual':{'kind':'smoke','options':{'manual_release_allocation':'INVESTIGATION'}}}
+            path=Path(d)/'runner.json';path.write_text(json.dumps(config));self.assertEqual(load(path)['checks'],config['checks'])
+            for kind in ('scan','probe','guided-investigation'):
+                config['checks']['manual']['kind']=kind;path.write_text(json.dumps(config))
+                with self.assertRaisesRegex(ValueError,'MANUAL_RELEASE'):load(path)
+            config['checks']['manual']['kind']='smoke';config['per_execution']=False;path.write_text(json.dumps(config))
+            with self.assertRaisesRegex(ValueError,'MANUAL_RELEASE'):load(path)
+
     def test_collector_options_reject_before_launch_and_dispatch(self):
         from investigator.unified_runner import handlers
         from unittest.mock import Mock

@@ -23,6 +23,7 @@ RESTORATION_REQUESTS = POLICY['restoration_reserve']
 ADOPTED_AT = '2026-10-19'
 _mode = ContextVar('build_phase_mode', default=None)
 _purpose = ContextVar('build_phase_purpose', default=None)
+_manual_smoke = ContextVar('manual_release_smoke_investigation', default=False)
 PURPOSES = frozenset(('INVESTIGATION', 'SCAN', 'RESTORATION'))
 
 
@@ -37,15 +38,25 @@ def active(config=None):
 
 def purpose(default='INVESTIGATION'):
     value = _purpose.get() or os.environ.get('INVESTIGATOR_BUDGET_CATEGORY') or default
+    if value == 'SCAN' and _manual_smoke.get():value='INVESTIGATION'
     if value not in PURPOSES:
         raise ValueError('MONTHLY_BUDGET_CATEGORY_INVALID')
     return value
 
 
 @contextmanager
+def manual_smoke_allocation(enabled=False):
+    """Owner-provisioned manual release checks only; scheduled work stays scan."""
+    token=_manual_smoke.set(enabled)
+    try:yield
+    finally:_manual_smoke.reset(token)
+
+
+@contextmanager
 def operating_mode(mode=MODE, *, category='INVESTIGATION'):
     if mode != MODE or category not in PURPOSES:
         raise ValueError('BUILD_PHASE_DECLARATION_INVALID')
+    if category == 'SCAN' and _manual_smoke.get():category='INVESTIGATION'
     token = _mode.set(mode)
     category_token = _purpose.set(category)
     try:
@@ -91,6 +102,11 @@ def physical_status(rows, allocations, now):
                    else PREVIOUS_PHYSICAL_REQUESTS)
     limits = {'INVESTIGATION': total_limit - scan_limit - RESTORATION_REQUESTS,
               'SCAN': scan_limit, 'RESTORATION': RESTORATION_REQUESTS}
+    override=POLICY.get('monthly_allocation_overrides',{}).get(month)
+    if override and now >= datetime.fromisoformat(override['effective_at']).timestamp():
+        limits={k:override['limits'][k] for k in PURPOSES}
+        if sum(limits.values())!=total_limit or limits['RESTORATION']!=RESTORATION_REQUESTS:
+            raise ValueError('MONTHLY_ALLOCATION_MUST_PRESERVE_TOTAL_AND_RESTORATION')
     total = sum(used.values())
     credit = min(historical_restoration, reset['historical_requests']) if resetting else 0
     used['RESTORATION'] -= credit
@@ -242,6 +258,9 @@ def check_shared_request_policy(state, db, now, status, category):
     if status.get('historical_restoration_requests') and policy.get('restoration_reset') != POLICY.get('restoration_reset'):
         raise UsageHold('AUTHORITATIVE_RESTORATION_RESET_NOT_APPLIED')
     total = min(status['total_limit'], policy['total_limit'])
-    limit = min(status['limits'][category], policy['limits'][category])
+    policy_limits=policy['limits']
+    if policy.get('limits_effective_month') and status['month_utc']!=policy['limits_effective_month']:
+        policy_limits=policy['default_limits']
+    limit = min(status['limits'][category], policy_limits[category])
     if status['total'] >= total or status['used'][category] >= limit:
         raise UsageHold('AUTHORITATIVE_MONTHLY_PHYSICAL_' + category + '_EXHAUSTED')

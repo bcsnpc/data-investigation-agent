@@ -17,7 +17,7 @@ def specification(options):
         raise ValueError('GUIDED_RUNNER_OPTIONS')
     value=json.loads(reference(options['spec'],maximum=500000).read_bytes())
     required={'version','ticket','assets','graph','reasoning','max_requests'}
-    if not isinstance(value,dict) or not required<=set(value)<=required|{'collector','screenshots'} or value['version']!='guided-investigation/1':
+    if not isinstance(value,dict) or not required<=set(value)<=required|{'collector','screenshots','diagnostic_budget'} or value['version']!='guided-investigation/1':
         raise ValueError('GUIDED_RUNNER_SPECIFICATION')
     if type(value['max_requests']) is not int or not 1<=value['max_requests']<=100:
         raise ValueError('GUIDED_PHYSICAL_REQUEST_BOUND')
@@ -27,6 +27,8 @@ def specification(options):
     reason=value['reasoning']
     if set(reason)!={'model','rate_card','secret_reference','gateway_identity','worker_identity'}:
         raise ValueError('GUIDED_REASONING_CONFIGURATION')
+    if 'diagnostic_budget' in value and value['diagnostic_budget']!={'label':'UNSCORED_STATIC_DIAGNOSTIC','actual_usage_limit_microdollars':3000000}:
+        raise ValueError('GUIDED_OWNER_DIAGNOSTIC_BUDGET_REQUIRED')
     if 'ticket' in options:value['ticket']=options['ticket']
     return value
 
@@ -100,7 +102,8 @@ def run(plan,context):
     budgets={}
     def budget(case_id):
         if case_id not in budgets:
-            budgets[case_id]=TicketBudget(state,case_id=case_id,owner=spec['reasoning']['worker_identity'],rate=rate)
+            budgets[case_id]=TicketBudget(state,case_id=case_id,owner=spec['reasoning']['worker_identity'],rate=rate,
+                actual_usage_limit=spec.get('diagnostic_budget',{}).get('actual_usage_limit_microdollars'))
         return budgets[case_id]
     def model(case_id):
         return Client(model=rate.model,budget=budget(case_id),identity=spec['reasoning']['gateway_identity'],

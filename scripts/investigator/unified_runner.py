@@ -39,6 +39,10 @@ def load(path):
     for name,check in value['checks'].items():
         if not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',name) or set(check)!={'kind','options'} or check['kind'] not in KINDS or not isinstance(check['options'],dict):raise ValueError('RUNNER_TYPED_CHECK_REQUIRED')
         if check['kind']=='collect-facts':collector_options(check['options'])
+        if 'manual_release_allocation' in check['options']:
+            if (check['kind']!='smoke' or check['options']['manual_release_allocation']!='INVESTIGATION'
+                    or value.get('per_execution') is not True or 'schedule' in value):
+                raise ValueError('MANUAL_RELEASE_ALLOCATION_REQUIRES_UNSCHEDULED_SMOKE')
     _safe(bytes_of(value))
     return value
 
@@ -262,7 +266,10 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     keys=('INVESTIGATOR_OPERATING_MODE','INVESTIGATOR_BUDGET_CATEGORY','INVESTIGATOR_WORKER_ID','DIA_STREAMING_CAPTURE')
     previous={key:os.environ.get(key) for key in keys}
     try:
-        with ctx.observing():
+        from .build_phase import manual_smoke_allocation
+        manual_smoke=(check['kind']=='smoke' and config.get('per_execution') is True and 'schedule' not in config
+                      and check['options'].get('manual_release_allocation')=='INVESTIGATION')
+        with ctx.observing(),manual_smoke_allocation(manual_smoke):
             os.environ['DIA_STREAMING_CAPTURE']='1'
             os.environ['INVESTIGATOR_OPERATING_MODE']='BUILD_PHASE'
             os.environ['INVESTIGATOR_WORKER_ID']=run_id

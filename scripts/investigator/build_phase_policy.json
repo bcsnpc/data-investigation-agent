@@ -14,5 +14,16 @@
     "historical_requests": 70,
     "approval": "owner-approved 2026-10-26",
     "reason": "Round22 cleanup remains charged history; fresh Round23 restoration allocation95"
+  },
+  "monthly_allocation_overrides": {
+    "2026-10": {
+      "effective_at": "2026-10-27T14:21:01.389061+00:00",
+      "limits": {
+        "SCAN": 2500,
+        "INVESTIGATION": 6405,
+        "RESTORATION": 95
+      },
+      "approval": "owner-approved 2026-10-27"
+    }
   }
 }
