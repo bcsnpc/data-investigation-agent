@@ -69,6 +69,9 @@ def physical_status(rows, allocations, now):
     month, start, end = month_window(now)
     index = {(r['environment'], r['session_id'], r['reservation_key']): r['purpose'] for r in allocations}
     used = dict.fromkeys(PURPOSES, 0)
+    historical_restoration = 0
+    reset = POLICY.get('restoration_reset', {})
+    resetting = (month == reset.get('month_utc') and now >= datetime.fromisoformat(reset['effective_at']).timestamp()) if reset else False
     for row in rows:
         if not start <= float(row['created']) < end:
             continue
@@ -78,6 +81,8 @@ def physical_status(rows, allocations, now):
         if category not in used:
             raise ValueError('MONTHLY_HISTORICAL_CATEGORY_UNKNOWN')
         used[category] += count
+        if resetting and category == 'RESTORATION' and float(row['created']) < datetime.fromisoformat(reset['effective_at']).timestamp():
+            historical_restoration += count
     # Preserve historical decisions under their recorded clock. This reallocates
     # the existing total; it never clears usage or borrows the restoration line.
     scan_limit = (REALLOCATED_SCAN_REQUESTS if now >= datetime.fromisoformat(SCAN_REALLOCATION_AT).timestamp()
@@ -87,8 +92,11 @@ def physical_status(rows, allocations, now):
     limits = {'INVESTIGATION': total_limit - scan_limit - RESTORATION_REQUESTS,
               'SCAN': scan_limit, 'RESTORATION': RESTORATION_REQUESTS}
     total = sum(used.values())
+    credit = min(historical_restoration, reset['historical_requests']) if resetting else 0
+    used['RESTORATION'] -= credit
     return {'mode': MODE, 'month_utc': month, 'used': used, 'limits': limits,
             'total': total, 'total_limit': total_limit,
+            'historical_restoration_requests': credit,
             'restoration_remaining': max(0, RESTORATION_REQUESTS - used['RESTORATION']),
             'warnings': [key + '_MONTHLY_80_PERCENT' for key in limits if used[key] * 5 >= limits[key] * 4]
                         + (['PHYSICAL_MONTHLY_80_PERCENT'] if total * 5 >= total_limit * 4 else [])}
@@ -98,7 +106,9 @@ def admit_physical(rows, allocations, now, category):
     if category not in PURPOSES:
         raise ValueError('MONTHLY_BUDGET_CATEGORY_INVALID')
     status = physical_status(rows, allocations, now)
-    if status['total'] >= status['total_limit'] or status['used'][category] >= status['limits'][category]:
+    if (status['total'] >= status['total_limit'] or status['used'][category] >= status['limits'][category]
+            or (category != 'RESTORATION' and status['historical_restoration_requests']
+                and status['total_limit'] - status['total'] <= status['restoration_remaining'])):
         from .usage_governance import UsageHold
         raise UsageHold('MONTHLY_PHYSICAL_' + category + '_EXHAUSTED')
     return status
@@ -229,6 +239,8 @@ def check_shared_request_policy(state, db, now, status, category):
         if state.backend == 'postgresql': raise UsageHold('MONTHLY_REQUEST_POLICY_NOT_PROVISIONED')
         return
     policy = json.loads(row[0])
+    if status.get('historical_restoration_requests') and policy.get('restoration_reset') != POLICY.get('restoration_reset'):
+        raise UsageHold('AUTHORITATIVE_RESTORATION_RESET_NOT_APPLIED')
     total = min(status['total_limit'], policy['total_limit'])
     limit = min(status['limits'][category], policy['limits'][category])
     if status['total'] >= total or status['used'][category] >= limit:

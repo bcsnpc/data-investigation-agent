@@ -1,0 +1,58 @@
+{
+  "approval": "owner-approved 2026-10-26",
+  "before": {
+    "approval": "owner-approved 2026-10-26",
+    "effective_at": "2026-10-26T00:00:00+00:00",
+    "limits": {
+      "INVESTIGATION": 6905,
+      "RESTORATION": 95,
+      "SCAN": 2000
+    },
+    "period": "UTC calendar month; October starts at build adoption",
+    "restoration_use": "restores only",
+    "total_limit": 9000
+  },
+  "after": {
+    "approval": "owner-approved 2026-10-26",
+    "effective_at": "2026-10-26T00:00:00+00:00",
+    "limits": {
+      "INVESTIGATION": 6905,
+      "RESTORATION": 95,
+      "SCAN": 2000
+    },
+    "period": "UTC calendar month; October starts at build adoption",
+    "restoration_reset": {
+      "approval": "owner-approved 2026-10-26",
+      "effective_at": "2026-10-27T01:41:27.798275+00:00",
+      "historical_requests": 70,
+      "month_utc": "2026-10",
+      "reason": "Round22 cleanup remains charged history; fresh Round23 restoration allocation95"
+    },
+    "restoration_use": "restores only",
+    "total_limit": 9000
+  },
+  "request_rows_and_allocations_sha256_unchanged": "0afed711587325177eb6b51366ca00900767a5687c76653a58d9c4d5cd64735a",
+  "status": {
+    "mode": "BUILD_PHASE",
+    "month_utc": "2026-10",
+    "used": {
+      "SCAN": 1794,
+      "INVESTIGATION": 3607,
+      "RESTORATION": 0
+    },
+    "limits": {
+      "INVESTIGATION": 6905,
+      "SCAN": 2000,
+      "RESTORATION": 95
+    },
+    "total": 5471,
+    "total_limit": 9000,
+    "historical_restoration_requests": 70,
+    "restoration_remaining": 95,
+    "warnings": [
+      "SCAN_MONTHLY_80_PERCENT"
+    ]
+  },
+  "interpretation": "70 stays in gross October physical total; restoration allowance is fresh95, protected within unchanged9000 total",
+  "separate_committed_readback": true
+}

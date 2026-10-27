@@ -46,6 +46,7 @@ def round23_request_policy(state, now):
                       ('build_phase_policy','monthly-physical')).fetchone()
         before=json.loads(row[1]) if row else {'total_limit':6000,'limits':{'SCAN':2000,'INVESTIGATION':3905,'RESTORATION':95},'source':'preexisting build-phase source policy; no separate monthly cloud document'}
         if row and before.get('total_limit') not in (6000,9000):raise ValueError('UNEXPECTED_REQUEST_POLICY')
+        if 'restoration_reset' in before:policy['restoration_reset']=before['restoration_reset']
         retained,alloc=shared_physical_rows(state,db,now)
         usage_before=sha({'rows':retained,'allocations':alloc})
         if row:
@@ -63,6 +64,41 @@ def round23_request_policy(state, now):
         identity='round23-monthly-physical-9000'
         if not state.sql(db,'SELECT 1 FROM state_documents WHERE namespace=? AND identity=?',('owner_budget_decisions',identity)).fetchone():
             state.sql(db,'INSERT INTO state_documents VALUES(?,?,?,?,?)',('owner_budget_decisions',identity,0,encoded(receipt),sha(receipt)))
+    return receipt
+
+
+def reset_round23_restoration(state, now):
+    """Explicit owner allocation; all70 original cleanup requests remain charged."""
+    from investigator.build_phase import POLICY,shared_physical_rows,physical_status
+    from investigator.shared_state import encoded,sha
+    import copy,json
+    with state.transaction() as db:
+        row=state.sql(db,'SELECT revision,body FROM state_documents WHERE namespace=? AND identity=?',
+                      ('build_phase_policy','monthly-physical')).fetchone()
+        if row is None:raise ValueError('MONTHLY_POLICY_MISSING')
+        before=json.loads(row[1]);after=copy.deepcopy(before)
+        after['restoration_reset']=POLICY['restoration_reset']
+        retained,alloc=shared_physical_rows(state,db,now)
+        unchanged=sha({'rows':retained,'allocations':alloc})
+        status=physical_status(retained,alloc,now)
+        if status['historical_restoration_requests']!=70:raise ValueError('OWNER_RESET_BASELINE_DIFFERS')
+        identity='round23-october-restoration-reset'
+        prior=state.sql(db,'SELECT body FROM state_documents WHERE namespace=? AND identity=?',
+                        ('owner_budget_decisions',identity)).fetchone()
+        if prior:
+            if before!=after:raise ValueError('RESET_ALREADY_APPLIED_WITH_DIFFERENT_POLICY')
+            return json.loads(prior[0])
+        state.sql(db,'UPDATE state_documents SET revision=?,body=?,body_hash=? WHERE namespace=? AND identity=?',
+                  (row[0]+1,encoded(after),sha(after),'build_phase_policy','monthly-physical'))
+        observed=json.loads(state.sql(db,'SELECT body FROM state_documents WHERE namespace=? AND identity=?',
+                            ('build_phase_policy','monthly-physical')).fetchone()[0])
+        rows_after,alloc_after=shared_physical_rows(state,db,now)
+        if observed!=after or unchanged!=sha({'rows':rows_after,'allocations':alloc_after}):raise ValueError('RESET_ACCOUNTING_CHANGED')
+        receipt={'approval':'owner-approved 2026-10-26','before':before,'after':observed,
+                 'request_rows_and_allocations_sha256_unchanged':unchanged,'status':status,
+                 'interpretation':'70 stays in gross October physical total; restoration allowance is fresh95, protected within unchanged9000 total'}
+        state.sql(db,'INSERT INTO state_documents VALUES(?,?,?,?,?)',
+                  ('owner_budget_decisions',identity,0,encoded(receipt),sha(receipt)))
     return receipt
 
 def main():

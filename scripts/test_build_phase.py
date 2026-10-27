@@ -101,6 +101,26 @@ class MonthlyTests(unittest.TestCase):
         b.admit_physical(rows,alloc,instant('2026-10-26'),'RESTORATION')
         self.assertEqual(b.physical_status([],[],instant('2026-10-25'))['total_limit'],6000)
 
+    def test_restoration_reset_preserves_gross_usage_and_protects_new_95(self):
+        reset=b.POLICY['restoration_reset']
+        now=datetime.fromisoformat(reset['effective_at']).timestamp()+1
+        old,alloc=self.rows(70,'RESTORATION',at='2026-10-25')
+        old[0]['reservation_key']='old';alloc[0]['reservation_key']='old'
+        current=b.physical_status(old,alloc,now)
+        self.assertEqual(current['total'],70)
+        self.assertEqual(current['used']['RESTORATION'],0)
+        self.assertEqual(current['restoration_remaining'],95)
+        self.assertEqual(current['historical_restoration_requests'],70)
+        more,a=self.rows(1,'RESTORATION');more[0]['created']=now
+        current=b.physical_status(old+more,alloc+a,now)
+        self.assertEqual(current['restoration_remaining'],94)
+        self.assertEqual(current['total'],71)
+        # Gross monthly ceiling remains9000; investigation cannot spend the fresh reserve.
+        busy,a=self.rows(8835,'INVESTIGATION')
+        with self.assertRaises(UsageHold):b.admit_physical(old+busy,alloc+a,now,'INVESTIGATION')
+        b.admit_physical(old+busy,alloc+a,now,'RESTORATION')
+        self.assertEqual(b.physical_status(old,alloc,instant('2026-11-01'))['historical_restoration_requests'],0)
+
     def test_local_model_historical_107_dollars_does_not_block_new_call(self):
         from investigator.model_spend import SpendBudget
         with tempfile.TemporaryDirectory() as folder:

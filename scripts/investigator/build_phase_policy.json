@@ -7,5 +7,12 @@
   "restoration_reserve": 95,
   "monthly_model_microdollars": 150000000,
   "monthly_platform_microdollars": 20000000,
-  "per_ticket_model_microdollars": 1000000
+  "per_ticket_model_microdollars": 1000000,
+  "restoration_reset": {
+    "month_utc": "2026-10",
+    "effective_at": "2026-10-27T01:41:27.798275+00:00",
+    "historical_requests": 70,
+    "approval": "owner-approved 2026-10-26",
+    "reason": "Round22 cleanup remains charged history; fresh Round23 restoration allocation95"
+  }
 }
