@@ -6,6 +6,23 @@ from investigator.model_case_presentation import Presentation
 
 
 class Tests(unittest.TestCase):
+    def test_tool_result_arrays_round_trip_without_changing_native_rows_or_query_text(self):
+        raw={'result':{'rows':[{'key':'a'*64,'quantity':7},{'key':'b'*64,'quantity':9}],
+            'query':"SELECT 'addr1' AS native_key FROM dbo.Items"}}
+        message={'role':'user','content':[{'type':'tool_result','tool_use_id':'call1','content':json.dumps(raw)}]}
+        before=deepcopy(message);captured={}
+        def complete(**kw):captured.update(kw);return {'content':[]}
+        Presentation({}, {}, 'instructions').complete(Mock(complete=complete),system='',messages=[message],tools=[])
+        wire=json.loads(captured['messages'][0]['content'][0]['content'])
+        def expand(value):
+            if isinstance(value,list):return [expand(v)for v in value]
+            if not isinstance(value,dict):return value
+            if set(value)=={'record_keys','record_values'}:
+                return [dict(zip(value['record_keys'],map(expand,row)))for row in value['record_values']]
+            return {k:expand(v)for k,v in value.items()}
+        self.assertEqual(expand(wire),raw)
+        self.assertEqual(message,before)
+        self.assertIn('record_keys',wire['result']['rows'])
     def test_screenshot_lookup_helper_keeps_schema_and_scope_without_resending_pipeline(self):
         from investigator.adapters.screenshot_assistance import Assistance
         context={'intake':{'report':'selected','details':{'date_range':'stated period'}},

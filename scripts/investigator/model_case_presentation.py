@@ -98,7 +98,10 @@ class Presentation:
             wire_system+='\nBEGIN NATIVE TEXT '+identity+' ('+str(len(text))+' characters)\n'+text+'\nEND NATIVE TEXT '+identity+'\n'
         def message_content(value):
             if isinstance(value,str):
-                try:return canonical(self.project(json.loads(value)))
+                # Tool results use the same lossless structural encoding as
+                # the stable context. Large native metadata arrays otherwise
+                # repeat their field names in every later model request.
+                try:return canonical(self.deduplicate(self.columnar(self.project(json.loads(value)))))
                 except (ValueError,TypeError):return value
             if isinstance(value,list):return [message_content(v) for v in value]
             if isinstance(value,dict):
