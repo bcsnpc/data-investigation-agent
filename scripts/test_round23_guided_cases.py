@@ -10,6 +10,30 @@ from test_round23_intake_queries import graph,request,sql_objects
 
 
 class Tests(unittest.TestCase):
+    def test_explicit_qualified_object_uses_its_path_without_selecting_a_visual(self):
+        from investigator.guided_investigator_installation import Factory
+        table={'id':'source-node','kind':'TABLE','label':'Items','properties':{'asset_id':'table'}}
+        catalog=graph();catalog['nodes'].append(table)
+        self.graph.intake_catalog.return_value=catalog;self.graph.allowed={n['id']for n in catalog['nodes']}
+        self.graph.path_to_source.return_value={'nodes':[table],'edges':[]}
+        route={'objects':sql_objects(),'path_nodes':['source-node']}
+        factory=Factory(state=self.state,graph=self.graph,routes={'source':route},native=Mock(),
+            context_for=Mock(),triage_for=Mock(),model_for=Mock(),reserve=Mock(),persist=Mock(),job_runs=Mock(),refresh_history=Mock())
+        item=request();del item['visual'];item['details']={'record':'dbo.Items, item 4'}
+        result=factory.target_path(item)
+        self.graph.path_to_source.assert_called_once_with('source-node')
+        self.assertIn('source-node',{n['id']for n in result['nodes']})
+        self.assertFalse(any(n['kind']=='VISUAL'for n in result['nodes']))
+        self.assertNotIn('visual',item)
+
+    def test_explicit_visual_takes_precedence_over_a_context_table_mention(self):
+        from investigator.guided_investigator_installation import Factory
+        item=request();item['description']='Context table dbo.Items'
+        self.graph.allowed=set();self.graph.path_to_source.return_value=graph()
+        factory=Factory(state=self.state,graph=self.graph,routes={},native=Mock(),context_for=Mock(),
+            triage_for=Mock(),model_for=Mock(),reserve=Mock(),persist=Mock(),job_runs=Mock(),refresh_history=Mock())
+        factory.target_path(item);self.graph.path_to_source.assert_called_once_with(item['visual'])
+
     def setUp(self):
         folder=TemporaryDirectory();self.addCleanup(folder.cleanup)
         self.state=SharedState.offline(Path(folder.name)/'state.sqlite');self.state.migrate()

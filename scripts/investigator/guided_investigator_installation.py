@@ -47,6 +47,33 @@ class Factory:
                        and (n.get('owner') in owners or n.get('properties',{}).get('asset_id') in owners)]
             return {**path,'nodes':[*path['nodes'],*additions]}
         if intake.get('visual'):return associated(self.graph.path_to_source(intake['visual']))
+        # A record ticket can explicitly name a physical object without
+        # naming a visual. Resolve that literal against installed routes;
+        # do not expand every visual in its report or silently choose one.
+        # Identical qualified names on multiple layers remain candidates.
+        import re
+        words=canonical({'description':intake.get('description',''),'details':intake.get('details',{})})
+        roots=set()
+        for route in self.routes.values():
+            for obj in route['objects']:
+                metadata=obj.get('metadata',{});name=metadata.get('name');schema=metadata.get('schema_name')
+                if not name or not schema:continue
+                literal=schema+'.'+name
+                if not re.search(r'(?<![\w.])'+re.escape(literal)+r'(?![\w.])',words,re.I):continue
+                roots.update(n['id'] for n in catalog['nodes']
+                    if n.get('kind')=='TABLE' and n.get('properties',{}).get('asset_id')==obj['id'])
+        if roots:
+            selected={intake['report'],intake.get('page')}
+            nodes={n['id']:n for n in catalog['nodes'] if n['id'] in selected};edges={};stops=[];unavailable={};truncated=False
+            for root in sorted(roots):
+                part=self.graph.path_to_source(root)
+                nodes.update({n['id']:n for n in part['nodes']})
+                edges.update({e.get('id') or digest(e):e for e in part['edges']})
+                stops.extend(part.get('stops',[]));unavailable.update(part.get('unavailable_owners',{}))
+                truncated=truncated or part.get('truncated',False)
+            return associated({'nodes':list(nodes.values()),'edges':list(edges.values()),'stops':stops,
+                'unavailable_owners':unavailable,'truncated':truncated,
+                'target_selection':'Explicit qualified objects named by the ticket, matched to installed catalog routes. All matching candidates retained; no visual selected.'})
         from .guided_intake import Catalog
         choices=Catalog(catalog)
         pages=[{'id':intake['page']}] if intake.get('page') else choices.pages(intake['report'])
