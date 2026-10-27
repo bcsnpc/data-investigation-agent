@@ -1,0 +1,836 @@
+{
+  "observed_at": "2026-10-27T17:39:09.706688+00:00",
+  "classification": "DEV_ONLY_SECOND_MODEL_GRADING",
+  "cases": 113,
+  "already_graded": 57,
+  "pending_cases": 56,
+  "model": "claude-opus-5-5",
+  "first_model": "claude-sonnet-4-6",
+  "conservative_all_cases_microdollars": 6587220,
+  "available_model_account_microdollars": 7384088,
+  "normalized_credit": {
+    "month_utc": "2026-10",
+    "ceiling_microdollars": 96000000,
+    "charged_microdollars": 87273107,
+    "remaining_microdollars": 8726893,
+    "grading_remaining_microdollars": 1342805,
+    "model_account": {
+      "identity": "model-microdollars:2026-10",
+      "unit": "MICRODOLLARS",
+      "ceiling": "96000000",
+      "protected": "3000000",
+      "opening": "0",
+      "charged": "85615912",
+      "violated": false
+    },
+    "grading_account": {
+      "identity": "enrichment:round-twenty-one",
+      "unit": "MICRODOLLARS",
+      "ceiling": "25000000",
+      "protected": "12850910",
+      "opening": "0",
+      "charged": "10806285",
+      "violated": false
+    },
+    "reserved_maxima_included": true,
+    "basis": "Larger recorded ledger/console baseline plus subsequent charges across both existing accounts."
+  },
+  "existing_grading_reserve_unchanged": true,
+  "estate_reads": 0,
+  "output_token_bound": 3000,
+  "same_grading_rules_and_sources": true,
+  "proof": [
+    {
+      "pass": "dev03",
+      "ticket": "v2-application-baseline-v1",
+      "source_sha256": "9fc668e11ad13007a4c625e6379f4e17448885c4d2653388af9c3a65af1bb78a",
+      "input_bound": 15247,
+      "reservation_bound": 136235
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-application-baseline-v2",
+      "source_sha256": "3e1bb90a59bdc60043b8f489fd787149f868bea1f871716c80e7de0ee58857b7",
+      "input_bound": 13565,
+      "reservation_bound": 127825
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-billing-mrr-v1",
+      "source_sha256": "b7d72968a55923e24d3562d1183f2de2057e3d88bab2d83db1e2b184018e427e",
+      "input_bound": 10024,
+      "reservation_bound": 110120
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-billing-mrr-v2",
+      "source_sha256": "feaf458c9147d07177da882e59fe15dc3bcc020e347edbb112214142a26ce696",
+      "input_bound": 10720,
+      "reservation_bound": 113600
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-fixture-quantity-v1",
+      "source_sha256": "a8fa35364cdd301a52993b3cf012598313824277bb310c085e7b9f9052487158",
+      "input_bound": 8797,
+      "reservation_bound": 103985
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-fixture-quantity-v2",
+      "source_sha256": "f9172732763c1e38517ce3e2df504448c90ae527a22b856442390c7781486699",
+      "input_bound": 11136,
+      "reservation_bound": 115680
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-billing-invoices-v1",
+      "source_sha256": "6fe8bdd43f873477c62af403d2ca14fd1298408ea35cc6e7123d32e6c0592f91",
+      "input_bound": 10469,
+      "reservation_bound": 112345
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-billing-invoices-v2",
+      "source_sha256": "5379905f904998a8f5c7a767cbbeaea18dc5b7df6ae5e0c3babd566c0e6f3a1a",
+      "input_bound": 10334,
+      "reservation_bound": 111670
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-failed-application-load-v1",
+      "source_sha256": "7f02c51aefc6d95be47f58ee3534caa0f2948f2b431624cd559be7708e0c0d9e",
+      "input_bound": 15457,
+      "reservation_bound": 137285
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-failed-application-load-v2",
+      "source_sha256": "a299e9cb1bc119649b0f901a7a4fe082575f70399c0d0c261300e44f2bf5fa7d",
+      "input_bound": 15714,
+      "reservation_bound": 138570
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-failed-billing-transform-v1",
+      "source_sha256": "7f04a04b26212190b853b56bc6c8c16ffb31ee60cc8ed027ad14ef3005b699c8",
+      "input_bound": 9447,
+      "reservation_bound": 107235
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-failed-billing-transform-v2",
+      "source_sha256": "54b054067ef0346174fd21f30b9c773d465e9d77753f5f896ee27bfd1791b69e",
+      "input_bound": 10174,
+      "reservation_bound": 110870
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-waiting-application-load-v1",
+      "source_sha256": "7188a411601290be1a56378bb8f4e981b20e7201d83aeda2c1266df212e1c191",
+      "input_bound": 13730,
+      "reservation_bound": 128650
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-waiting-application-load-v2",
+      "source_sha256": "6d6db7a46094209add12231c7e0a6b7c1c9f3c131418cc78f700757df7ebf64e",
+      "input_bound": 5904,
+      "reservation_bound": 89520
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-warehouse-scope-v1",
+      "source_sha256": "faacfd928b4486274fc6c773b68bf908684f073b9e7c987008420d0ceb997e90",
+      "input_bound": 16004,
+      "reservation_bound": 140020
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-warehouse-scope-v2",
+      "source_sha256": "88aa7bef41710b69f78073adc829a9d088d3db16fd38ed71da57cb5068e847e7",
+      "input_bound": 6225,
+      "reservation_bound": 91125
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-before-temporal-retention-v1",
+      "source_sha256": "980e52815f2841b1a392dcf1a465d203268301ccfdd20f921b64c29153d9a11f",
+      "input_bound": 15711,
+      "reservation_bound": 138555
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-before-temporal-retention-v2",
+      "source_sha256": "fc1310a0e87c068fc7a888e70020d7b82e33be4a018971c7453e6ea3127d3cb1",
+      "input_bound": 15337,
+      "reservation_bound": 136685
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-record-absent-everywhere-v1",
+      "source_sha256": "9f56a83446bb4db4b0dd7b0079787b57caa2fba0ab81cb0c043ac5a48ba6dc60",
+      "input_bound": 16418,
+      "reservation_bound": 142090
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-record-absent-everywhere-v2",
+      "source_sha256": "eb364b43b3f4a47e7b9d496a58f31f7d20f4cca18f927f8d6b6421756adc0573",
+      "input_bound": 15281,
+      "reservation_bound": 136405
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-record-repeated-gold-v1",
+      "source_sha256": "f77d09c77f0fc3fe06b07a981c95acf7237ccfe669f05ef1783667159ea46327",
+      "input_bound": 10921,
+      "reservation_bound": 114605
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-record-repeated-gold-v2",
+      "source_sha256": "95309ca5d12fde01aaf6909a1523dd4cec52fcaa151f50acb47de8f11d31486e",
+      "input_bound": 11624,
+      "reservation_bound": 118120
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-other-collected-definition-v1",
+      "source_sha256": "f9cea60bd52bce086a364023bed5c6545f652470a6dc1feca1438ea42eee5644",
+      "input_bound": 10519,
+      "reservation_bound": 112595
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-other-collected-definition-v2",
+      "source_sha256": "4f95abb79ce8cb5ad0deab4d4e78d867fe49576622fad99867c9cc386dc245ae",
+      "input_bound": 10043,
+      "reservation_bound": 110215
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-screenshot-record-01-v1",
+      "source_sha256": "97927dd8f861e227c1e03240a319ea409ab8c65b4078cb2b989494abeddfce0f",
+      "input_bound": 9826,
+      "reservation_bound": 109130
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-screenshot-record-01-v2",
+      "source_sha256": "91344d86a6952adb04b74b18ecd6c25da189b55200942297490a61cc80e6df36",
+      "input_bound": 9734,
+      "reservation_bound": 108670
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-screenshot-record-02-v1",
+      "source_sha256": "ab026c3ea1d0f9ecc917bc07201597ec79842dd42047a33c3d2ad336578da7d3",
+      "input_bound": 9886,
+      "reservation_bound": 109430
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-screenshot-record-02-v2",
+      "source_sha256": "45d614fb92d079c9b93b85574174aabb94fbd11eff27a7f4e1737b1e1768093a",
+      "input_bound": 9782,
+      "reservation_bound": 108910
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-screenshot-record-03-v1",
+      "source_sha256": "17a922d7e76577aa6c397c7fe868d97eb9191ed0137359742db1132ea1185a18",
+      "input_bound": 9861,
+      "reservation_bound": 109305
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-screenshot-record-03-v2",
+      "source_sha256": "cdd0c18b6e00b2cea74f75a7610d2e91d2d3f8a524a60631acdcb0e2fff14b2e",
+      "input_bound": 9788,
+      "reservation_bound": 108940
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-screenshot-record-04-v1",
+      "source_sha256": "bf8b1d32e07f3c8fce01191264721053ee3e219bdd26a9c390ec973f0dfe68a6",
+      "input_bound": 9622,
+      "reservation_bound": 108110
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-screenshot-record-04-v2",
+      "source_sha256": "068fbc8a902c5489c56d358441170d1c3f8778ccf4811c00a5f45f534b71f312",
+      "input_bound": 9554,
+      "reservation_bound": 107770
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-application-baseline-v1",
+      "source_sha256": "eda005f02cf2cce2a40e46adf24a76b720a50e5a003bd4b9e2e91f360158af70",
+      "input_bound": 11611,
+      "reservation_bound": 118055
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-application-baseline-v2",
+      "source_sha256": "765297b733de6e129f54759763bde23f350f78291d682a0f6202d79dcb2e49c9",
+      "input_bound": 9501,
+      "reservation_bound": 107505
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-billing-mrr-v1",
+      "source_sha256": "d1cb6b35445c8333794eca423e9bfffeb36710b49d7cbaab408f16dde643d485",
+      "input_bound": 9297,
+      "reservation_bound": 106485
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-billing-mrr-v2",
+      "source_sha256": "3d665a74fbb86bf8e68c1028729add4af0c948688d8aecdbabdc259581114baf",
+      "input_bound": 10655,
+      "reservation_bound": 113275
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-fixture-quantity-v1",
+      "source_sha256": "41dc55118d9bbd974ea36801787ae04937e855cdd5d8533f5c456dcac3b29783",
+      "input_bound": 9547,
+      "reservation_bound": 107735
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-fixture-quantity-v2",
+      "source_sha256": "ba4e22f275c37ab4bde7ec72d6e17f305235a321311bf0984eb6f29250df1ee8",
+      "input_bound": 9617,
+      "reservation_bound": 108085
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-billing-invoices-v1",
+      "source_sha256": "dc1320fb8839033faba63cbeab31f9bbe74f6b47dcba21055ffca8fa30f1b1ee",
+      "input_bound": 9408,
+      "reservation_bound": 107040
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-billing-invoices-v2",
+      "source_sha256": "345b4667dac4c35456f314fd93eb72d0df4a21f3fa51fcc83133a3700b915304",
+      "input_bound": 9299,
+      "reservation_bound": 106495
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-failed-application-load-v1",
+      "source_sha256": "16894a64ac0e6f6bc22e562f371027b9c1f712f764c96584c859d3f76b6ce753",
+      "input_bound": 10494,
+      "reservation_bound": 112470
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-failed-application-load-v2",
+      "source_sha256": "7a56e1172f2d3f1d4fb11cf7ab6a26269efaff185d7921684a1bf85044d44cfe",
+      "input_bound": 5931,
+      "reservation_bound": 89655
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-failed-billing-transform-v1",
+      "source_sha256": "af9dc2ea1c00e2cf9c583f675b9eff985e33bdbbb708160418965a12d4a4f404",
+      "input_bound": 8940,
+      "reservation_bound": 104700
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-failed-billing-transform-v2",
+      "source_sha256": "34ddd11eaf961f05d3124ce32430174eb63328c5d1b61a0338a2e36e05cf91ad",
+      "input_bound": 8854,
+      "reservation_bound": 104270
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-waiting-application-load-v1",
+      "source_sha256": "58ab9250bfc1852fe3f13b150793cc07f348823e9f159e0ffac637d73686485d",
+      "input_bound": 11633,
+      "reservation_bound": 118165
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-waiting-application-load-v2",
+      "source_sha256": "50ee5eeb90531ed02b5697759761bc87fd3bc6625fbd7ff1ebf4989c213cacb2",
+      "input_bound": 10851,
+      "reservation_bound": 114255
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-latency-record-v1",
+      "source_sha256": "05122a551d827c8e7df6c7c0eb72648e9eb20cace45258d5a29edb8d6198de76",
+      "input_bound": 10674,
+      "reservation_bound": 113370
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-latency-record-v2",
+      "source_sha256": "b872e02a3fe5d42325e6ceff8a7efa3eda7f4e907e078dc6ccbc15346c23db40",
+      "input_bound": 13897,
+      "reservation_bound": 129485
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-stale-model-v1",
+      "source_sha256": "b0ca6d369b219d824486ad552be1aa058c26b7be9a457556da554f10445bcb35",
+      "input_bound": 11028,
+      "reservation_bound": 115140
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-stale-model-v2",
+      "source_sha256": "3710595e23ebc2da5db92a38d6c6daddc9fe7c3f663cd73ddcb9f87d8671f669",
+      "input_bound": 14674,
+      "reservation_bound": 133370
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-access-export-v1",
+      "source_sha256": "6d1b0503df24fa980da031415e5d24d0aab3c1bd69728dcd7824c39e3108c346",
+      "input_bound": 10896,
+      "reservation_bound": 114480
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-access-export-v2",
+      "source_sha256": "01c2a38a6e02ebd4fedb2a81f8feaf4919735051fe6f5e64f4894e41d463b76a",
+      "input_bound": 10817,
+      "reservation_bound": 114085
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-warehouse-scope-v1",
+      "source_sha256": "0da8bed1a3f77ddc26046321371a154b27aca155dba8d11b5e1a6108cc8962f8",
+      "input_bound": 12034,
+      "reservation_bound": 120170
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-warehouse-scope-v2",
+      "source_sha256": "689bbe2357f2bf8f264c88e53f73376fd9952d8dfd02228a42af7a6f292fbc6e",
+      "input_bound": 7131,
+      "reservation_bound": 95655
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-before-temporal-retention-v1",
+      "source_sha256": "b8baa8c152b6a2683de07572d17cee73237c9ea2371e83e6f3e490e2c5508586",
+      "input_bound": 9715,
+      "reservation_bound": 108575
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-before-temporal-retention-v2",
+      "source_sha256": "8fcc90942731a97022e0139b0ee61e7215cc0bbc17916014bae2667322d03758",
+      "input_bound": 11574,
+      "reservation_bound": 117870
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-record-absent-everywhere-v1",
+      "source_sha256": "1b4396d3ae20e9a627a6f58f384b56f6ff323bd9cad9f24e2947af5896a290e1",
+      "input_bound": 15129,
+      "reservation_bound": 135645
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-record-absent-everywhere-v2",
+      "source_sha256": "1452798713983a78533dc6315f6e18e1d0131491885a721043d7a1206e4a917c",
+      "input_bound": 16997,
+      "reservation_bound": 144985
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-record-repeated-gold-v1",
+      "source_sha256": "f31dd97ccfd3896060fc0f60111aac7548a1fa3ad6056bd9b72fb8cf587fac7b",
+      "input_bound": 8273,
+      "reservation_bound": 101365
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-record-repeated-gold-v2",
+      "source_sha256": "f6b9a2cc1b489727ddf3f1d1c3588f41e68b56571d6b6eb4010b033211fa6f5e",
+      "input_bound": 8178,
+      "reservation_bound": 100890
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-source-history-v1",
+      "source_sha256": "2907ca33ebd4635b199aa825a18b82d4bc57d118c42c5ec8785d28faa24f2978",
+      "input_bound": 13398,
+      "reservation_bound": 126990
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-source-history-v2",
+      "source_sha256": "0fc62e947518b35f194b5e843f55b1425509cf32227b52f1b1765449ba06a49b",
+      "input_bound": 10972,
+      "reservation_bound": 114860
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-other-collected-definition-v1",
+      "source_sha256": "02d1eac913d827879cc8aafcc43abcdfebbda995995c984b583eee6e56c02138",
+      "input_bound": 9466,
+      "reservation_bound": 107330
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-other-collected-definition-v2",
+      "source_sha256": "ec7216148020543fdf9ddc946e492ff9639224b8d9a6bd9c4422717851fe5d83",
+      "input_bound": 9390,
+      "reservation_bound": 106950
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-screenshot-record-01-v1",
+      "source_sha256": "8a183b792f02177de1bcf7bcc62dad4494d24db145da24bc770e921dc82e41c3",
+      "input_bound": 8270,
+      "reservation_bound": 101350
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-screenshot-record-01-v2",
+      "source_sha256": "4a30aaead44976bb3d48a9d869724256d2df72b79bc2838351a09f935af8e0fc",
+      "input_bound": 8169,
+      "reservation_bound": 100845
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-screenshot-record-02-v1",
+      "source_sha256": "8171e98f0e5d8fe197d7ce85adfcc78c95fdf84b917027624856d09bd38a09e6",
+      "input_bound": 10241,
+      "reservation_bound": 111205
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-screenshot-record-02-v2",
+      "source_sha256": "41fbd8791c77c950d58f5ec2158898a5ebc8ef2c8eafbcfc06dcec121cf449d5",
+      "input_bound": 10145,
+      "reservation_bound": 110725
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-screenshot-record-03-v1",
+      "source_sha256": "11056a576043055744dd645fecea8406b8bb08cd5d2dd6985114a4dd612c8d95",
+      "input_bound": 10232,
+      "reservation_bound": 111160
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-screenshot-record-03-v2",
+      "source_sha256": "3745b269dc2d5317f13b0ab7e19b4407f9f9689ece1d450af16df7bd7cc21cd9",
+      "input_bound": 10161,
+      "reservation_bound": 110805
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-screenshot-record-04-v1",
+      "source_sha256": "8b1d779cd33a4bc09ed0788df4ff94dd50359a40cbe6a0e6c25331c432846703",
+      "input_bound": 10003,
+      "reservation_bound": 110015
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-screenshot-record-04-v2",
+      "source_sha256": "44c554238e6c7011539efbb8c3d836ee81cb6a0e32eabb11d82658af4331d766",
+      "input_bound": 9925,
+      "reservation_bound": 109625
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-application-baseline-v1",
+      "source_sha256": "03c392f4083ffc8b4a8f33ccd96ada437d6344fd0cf0912dacd4cddc6892d5ea",
+      "input_bound": 14482,
+      "reservation_bound": 132410
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-application-baseline-v2",
+      "source_sha256": "6171bac50dd35fce06a9169b72bdc4114ace507f38369c6026daf81e67c3e27b",
+      "input_bound": 13450,
+      "reservation_bound": 127250
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-billing-mrr-v1",
+      "source_sha256": "63820dbc1485e44916807d3e6ab5920fe8de643f81de4f03c70cbe2c96af9b05",
+      "input_bound": 10572,
+      "reservation_bound": 112860
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-billing-mrr-v2",
+      "source_sha256": "a91b2593d4d687111a8c57d40d4ceabae09f1cccdc4f45bca2cfb51f51b45a03",
+      "input_bound": 10514,
+      "reservation_bound": 112570
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-fixture-quantity-v1",
+      "source_sha256": "8847f8375c0b4827f708c0bec8358626687b8f9ab3cc622ec109d08b0b0b7c2f",
+      "input_bound": 13498,
+      "reservation_bound": 127490
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-fixture-quantity-v2",
+      "source_sha256": "a7016287e59708ab290f689a8997373e6eb545b8dc328c94f60ebe9c993e8e81",
+      "input_bound": 13086,
+      "reservation_bound": 125430
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-billing-invoices-v1",
+      "source_sha256": "0b3a5e953ec58b7a2a07e76e50494c104c24731b3a64fa759043d3ba397a3656",
+      "input_bound": 10469,
+      "reservation_bound": 112345
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-billing-invoices-v2",
+      "source_sha256": "1c9944a9620cf8083db07928b78436921ef7d73ba86032505b6259407288fe29",
+      "input_bound": 10354,
+      "reservation_bound": 111770
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-warehouse-scope-v1",
+      "source_sha256": "cd67cd01a6e6bb6d6c1b7ac26a56b6db78499d34f283106f4101caa7d1120490",
+      "input_bound": 14707,
+      "reservation_bound": 133535
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-warehouse-scope-v2",
+      "source_sha256": "a4e156d5396cdc68ffb6f99b8f379dd63100b52367e0c412dd6700587fdafdfc",
+      "input_bound": 6400,
+      "reservation_bound": 92000
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-before-temporal-retention-v1",
+      "source_sha256": "6246eaf46158e309046cfc83804b9c3f49a6983b845b0af918df7abfb78fbdec",
+      "input_bound": 15700,
+      "reservation_bound": 138500
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-before-temporal-retention-v2",
+      "source_sha256": "3811ab27180b2480c5f65d5ee9215c0f20d4344abacc64fb827b5c7a5be8c792",
+      "input_bound": 16611,
+      "reservation_bound": 143055
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-record-absent-everywhere-v1",
+      "source_sha256": "4167eca247ac40912e5089c5982f3a99033c41d82db4e3e964925490dc374945",
+      "input_bound": 16630,
+      "reservation_bound": 143150
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-record-absent-everywhere-v2",
+      "source_sha256": "485b7de3bb5b2b6a29643dfc8602a16f4d5d2ad19aeb9a774e7482e6f8ff2db3",
+      "input_bound": 15906,
+      "reservation_bound": 139530
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-record-repeated-gold-v1",
+      "source_sha256": "1e2e53f04a3776b314b9a2e78637b2be3982e7ad504b883d0012ba6a813ea0c1",
+      "input_bound": 11181,
+      "reservation_bound": 115905
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-record-repeated-gold-v2",
+      "source_sha256": "699ea914eaacc711b81bc3837d93fc49f6e469510742f1dea40b93a02ed5a1d9",
+      "input_bound": 11584,
+      "reservation_bound": 117920
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-other-collected-definition-v1",
+      "source_sha256": "6e8234656e731927606d3cd7c503c8bc17cca3e3b0d93be9eb8cb82ffaf601a8",
+      "input_bound": 8951,
+      "reservation_bound": 104755
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-other-collected-definition-v2",
+      "source_sha256": "fc3ac462618f703a105038f37b105340af810d95741b7229f73cedbdf1790cf1",
+      "input_bound": 8873,
+      "reservation_bound": 104365
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-screenshot-record-01-v1",
+      "source_sha256": "71eadec60464e2858a8d9898eb8fc13ad0414186326b6bf4a2cd03bb660179eb",
+      "input_bound": 9445,
+      "reservation_bound": 107225
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-screenshot-record-01-v2",
+      "source_sha256": "913fb4c67c4c75af5d6465710e256bcf6b87fc6d9f8f81da579ae033b583e0b8",
+      "input_bound": 9345,
+      "reservation_bound": 106725
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-screenshot-record-02-v1",
+      "source_sha256": "a117950ebad76036394e237a6e1068634f025fecc57129e2531c104e4c66b7f9",
+      "input_bound": 9391,
+      "reservation_bound": 106955
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-screenshot-record-02-v2",
+      "source_sha256": "3ee37deb2cc1f042b1b33caa1655235bf56358e115b73f2900e4c22fbc3cdb9e",
+      "input_bound": 10030,
+      "reservation_bound": 110150
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-screenshot-record-03-v1",
+      "source_sha256": "e1477e32997cbf588a1003344235a2731da9f371baf3927f6e9216f8a4706fd5",
+      "input_bound": 9386,
+      "reservation_bound": 106930
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-screenshot-record-03-v2",
+      "source_sha256": "619c9b1fd69000c8bc018584731d6ab6fb2d326962b7df6928770fd131d77ddf",
+      "input_bound": 9985,
+      "reservation_bound": 109925
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-screenshot-record-04-v1",
+      "source_sha256": "92da49934b6f0014e9ea6c1d68489002033b6caf720d73da08930e7ccf928a89",
+      "input_bound": 9259,
+      "reservation_bound": 106295
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-screenshot-record-04-v2",
+      "source_sha256": "4301ba498cbb0f0c5b2f904524ac4f5ec9dec6e4cbf6f210ea0675b64f736fbb",
+      "input_bound": 9178,
+      "reservation_bound": 105890
+    },
+    {
+      "pass": "dev06",
+      "ticket": "v2-screenshot-record-01-v1",
+      "source_sha256": "e46abfe42df0a4889223b6889d1544a9b0981c9d680ed18daf0a29352833ca9f",
+      "input_bound": 15842,
+      "reservation_bound": 139210
+    },
+    {
+      "pass": "dev06",
+      "ticket": "v2-screenshot-record-02-v1",
+      "source_sha256": "f05d6460c8ffd1e89a6182121b4db49c61ef6fd1323b17dab5b42cb4847f0bec",
+      "input_bound": 15388,
+      "reservation_bound": 136940
+    },
+    {
+      "pass": "opusdiag02-cached",
+      "ticket": "v2-application-baseline-v1",
+      "source_sha256": "a3a71e83a64a7dbf6bca953aed1c1b273af4c1b6a51fe439fa028e5f82c7167e",
+      "input_bound": 14294,
+      "reservation_bound": 131470
+    },
+    {
+      "pass": "opusdiag02-cached",
+      "ticket": "v2-application-baseline-v2",
+      "source_sha256": "d946189841a83bb766df50c36aaf1a616b6a53f4c63c18fd85c629cc89a99c6d",
+      "input_bound": 11672,
+      "reservation_bound": 118360
+    },
+    {
+      "pass": "opusdiag02-cached",
+      "ticket": "v2-billing-mrr-v1",
+      "source_sha256": "facf9dfb1c3efbe0099c09ace8c9e9130560c43bfbdd4af1a5c9539de69a4d1b",
+      "input_bound": 11198,
+      "reservation_bound": 115990
+    },
+    {
+      "pass": "opusdiag02-cached",
+      "ticket": "v2-billing-mrr-v2",
+      "source_sha256": "2d4f6b33b3ed96950edda5c45330c196735c24cf85fa2e46d89df6f72132141e",
+      "input_bound": 11903,
+      "reservation_bound": 119515
+    },
+    {
+      "pass": "opusdiag02-cached",
+      "ticket": "v2-fixture-quantity-v1",
+      "source_sha256": "0d81559cd2b7e9d249db153962876cb863fd95402d105563bfd888c910358833",
+      "input_bound": 12008,
+      "reservation_bound": 120040
+    },
+    {
+      "pass": "opusdiag02-cached",
+      "ticket": "v2-fixture-quantity-v2",
+      "source_sha256": "35076f5f32ef4227299912b7dbc438fbdca827dbfabc3c920dc148fdda4129d8",
+      "input_bound": 13329,
+      "reservation_bound": 126645
+    },
+    {
+      "pass": "opusdiag02-cached",
+      "ticket": "v2-billing-invoices-v1",
+      "source_sha256": "ff11374f9905b9afc09e72611983e95d497afa3df718c06a452b57bb857c5f49",
+      "input_bound": 11182,
+      "reservation_bound": 115910
+    },
+    {
+      "pass": "opusdiag02-cached",
+      "ticket": "v2-billing-invoices-v2",
+      "source_sha256": "0246a1472154a4d81c4c14b279759c70c7fe5c61ae0db04bdc98da3ebfececc2",
+      "input_bound": 10563,
+      "reservation_bound": 112815
+    },
+    {
+      "pass": "opusdiag02-cached",
+      "ticket": "v2-warehouse-scope-v1",
+      "source_sha256": "73b7f1fd61b394d0d99b00d118140247ce0d9ad988137b4b523dce74d767d61f",
+      "input_bound": 13879,
+      "reservation_bound": 129395
+    },
+    {
+      "pass": "opusdiag02-cached",
+      "ticket": "v2-warehouse-scope-v2",
+      "source_sha256": "8f0e9c10244ba7cdfe80191ca756faff81fb6c0b86ea43ede0927430733bccf3",
+      "input_bound": 6268,
+      "reservation_bound": 91340
+    },
+    {
+      "pass": "opusdiag02-cached",
+      "ticket": "v2-before-temporal-retention-v1",
+      "source_sha256": "85fdd874c549ff6463d480001c16b26667c82f520b688d6015ffebb57b8fb28d",
+      "input_bound": 14412,
+      "reservation_bound": 132060
+    },
+    {
+      "pass": "opusdiag02-cached",
+      "ticket": "v2-before-temporal-retention-v2",
+      "source_sha256": "934ba104ac5b048244333d5bff6d8efd24ba19790c379ef70d815d7d15c4ac20",
+      "input_bound": 14381,
+      "reservation_bound": 131905
+    },
+    {
+      "pass": "opusdiag02-cached",
+      "ticket": "v2-record-absent-everywhere-v1",
+      "source_sha256": "06190a0574ab419eda707d16caa807777bedc2f7b878a3178bc73f0d917c4370",
+      "input_bound": 16318,
+      "reservation_bound": 141590
+    }
+  ],
+  "status": "ADMITTED"
+}

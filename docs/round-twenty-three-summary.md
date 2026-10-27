@@ -51,3 +51,11 @@ Final credit/cache source10caa82 passed104 focused checks; immutable imagef24b02
 
 Scores, class coverage, harmful count, handoff quality, failure groups, timings,
 cost, owner actions, budget use, restores and open items: _pending_.
+
+## Owner-requested diagnostic, grading audit and backtrack
+
+Cached Opus diagnostic (unscored):5/13 attempts independently correct,0 harmful under the original grader;13 requested tickets not run. Ten attempts made model calls; three stopped before a successful call. USD3.933922 inference; native cache-read ratio65.8694%, no admitted investigation-prefix cache assertion failed. Same ten model-executed IDs cost USD0.3933922/ticket versus FableUSD0.5652407, with model/cache/cap differences preventing a causal model-only comparison. [Diagnostic receipt](runs/round-twenty-three-opusdiag02-cached-partial-grade.json).
+
+Separate dev-only grading audit:113 outcomes, five disagreements; original criteria totals9verdict/13layer/11cause. The second model flags one borderline harmful assertion that a historical version exists; official scores are unchanged, but that history family is paused from further diagnostics. All five cases and both reasons are in [the audit](grading-audit.md). Current read-only evidence corroborates24 dev expectations;16 full causes remain unverified, not disproved. An unknown literal report ID in warehouse-scope-v2 requires owner review; no expectation was edited.
+
+[First-wrong-step backtrack](failure-backtrack.md):104 zero-scored preserved dev outcomes across40 tickets, including all earlier passes, latest Fable and Opus. First supported step: budget43, target28, query15, triage10, tool choice8. All104 are itemized with original grader reasons, query/results and visible decisions; five walkthroughs cover distinct failure types. Saved traces only: zero new estate reads/model calls and no code/score/expectation changes. Recorder omissions and the one unsealed partial UNKNOWN_REPORT trace are explicit limitations.
