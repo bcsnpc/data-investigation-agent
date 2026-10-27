@@ -8,7 +8,7 @@ import re
 from copy import deepcopy
 from .estate_graph_contract import canonical
 
-OPAQUE=re.compile(r'(?:[a-f0-9]{64}|native:[a-f0-9]{20}|(?:case-evidence|native-query):[a-f0-9]{64}|query:[a-f0-9]{64}:\d+|(?:fabric|sql)://\S+|https://[^\s]+/files/[a-f0-9]{64})\Z')
+OPAQUE=re.compile(r'(?:[a-f0-9]{64}|native:[a-f0-9]{20}|(?:case-evidence|native-query):[a-f0-9]{64}|query:[a-f0-9]{64}:\d+|[a-zA-Z][a-zA-Z0-9+.-]*://\S+)\Z')
 LITERAL_FIELDS={'query','text','executed_text','content','expression','definition','literal_expression','rows','rows_sample','reported_figure','parameters','description'}
 
 

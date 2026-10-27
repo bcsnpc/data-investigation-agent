@@ -1,0 +1,21 @@
+{
+  "source": "fc020a42f64bc9bfb35dec466a92e0e179aadf37",
+  "tests": 5498,
+  "seconds": 1472.699,
+  "failures": 1,
+  "errors": 1,
+  "skips": 50,
+  "status": "FAILED_NO_HELD_OUT_ADMISSION",
+  "log_sha256": "b24f6bcfa8817578a7abb813d5854e92f8e37e03457a7e723faf9fc4082fef51",
+  "causes": [
+    "Mandatory build_phase_policy.json omitted from installed-replay fingerprint manifest",
+    "Platform-specific URI scheme literal in model-facing address recognizer"
+  ],
+  "acceptance": {
+    "tests": 112,
+    "subtests": 52,
+    "status": "PASS",
+    "original_collection_errors_preserved": true
+  },
+  "held_out_opened": false
+}

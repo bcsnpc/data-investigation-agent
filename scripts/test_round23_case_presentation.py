@@ -6,6 +6,15 @@ from investigator.model_case_presentation import Presentation
 
 
 class Tests(unittest.TestCase):
+    def test_address_aliases_are_scheme_independent_but_native_values_stay_literal(self):
+        address='custom+read://catalog/object'
+        p=Presentation({}, {}, '')
+        alias=p.project({'id':address})['id']
+        self.assertNotEqual(alias,address)
+        self.assertEqual(p.restore({'id':alias}),{'id':address})
+        self.assertEqual(p.project({'rows':[{'key':address}],'query':"SELECT '"+address+"'"}),
+                         {'rows':[{'key':address}],'query':"SELECT '"+address+"'"})
+
     def test_tool_result_arrays_round_trip_without_changing_native_rows_or_query_text(self):
         raw={'result':{'rows':[{'key':'a'*64,'quantity':7},{'key':'b'*64,'quantity':9}],
             'query':"SELECT 'addr1' AS native_key FROM dbo.Items"}}

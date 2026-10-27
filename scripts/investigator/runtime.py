@@ -25,7 +25,7 @@ FINGERPRINT_TRANSPORTS = ('scripts/run_native_diagnostic.py', 'scripts/run_sourc
     'scripts/investigator/live_gateway.py', 'scripts/read_budget.py', 'scripts/snapshot_identity_reader.py', 'infra/scripts/Read-SnapshotMetadata.ps1', 'scripts/read_onelake_commit.py', 'infra/scripts/Read-CatalogAggregate.ps1', 'infra/scripts/Read-FabricSqlAggregate.ps1',
     'infra/scripts/Read-FabricSqlSurface.ps1', 'infra/scripts/Read-XmlaFailure.ps1', 'infra/scripts/WorkerResponseBounds.json',
     'infra/scripts/Read-PrivacyProjectionKey.ps1', 'scripts/report_list_worker.py', 'acceptance/model_steps/intake-resolution-policy.json',
-    'scripts/investigator/windows_ocr.ps1')
+    'scripts/investigator/windows_ocr.ps1', 'scripts/investigator/build_phase_policy.json')
 
 
 def fingerprint_files(root=None):
