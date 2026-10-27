@@ -5,6 +5,7 @@ from pathlib import Path
 import tempfile
 from types import SimpleNamespace
 import unittest
+from unittest.mock import Mock, patch
 
 from investigator.investigator_harness import CaseLog, RunHarness, AzureCLIUser, RunStillActive
 from investigator.process_tape import bytes_of
@@ -13,6 +14,25 @@ import test_ledger_investigator as fixtures
 
 
 class HarnessTests(unittest.TestCase):
+    def test_artifact_get_retries_body_reset_without_resubmitting_job(self):
+        user=object.__new__(AzureCLIUser);user._token='fixture-token';user.control=Mock()
+        first=Mock();first.__enter__=Mock(return_value=first);first.__exit__=Mock(return_value=False)
+        first.read.side_effect=ConnectionResetError('fixture network reset')
+        second=Mock();second.__enter__=Mock(return_value=second);second.__exit__=Mock(return_value=False)
+        second.read.return_value=b'sealed bytes';second.status=200
+        with patch('investigator.adapters.investigator_harness_user.urlopen',side_effect=[first,second])as opened,patch('investigator.adapters.investigator_harness_user.time.sleep')as sleep:
+            self.assertEqual(user._fetch('https://fixture.invalid/result.json'),b'sealed bytes')
+        self.assertEqual(opened.call_count,2);sleep.assert_called_once_with(30)
+        self.assertEqual(user.control.call_args_list[0].args[0]['kind'],'PLATFORM_ARTIFACT_RETRY')
+        self.assertNotIn('fixture-token',json.dumps(user.control.call_args_list[0].args[0]))
+
+    def test_artifact_permission_refusal_is_not_retried(self):
+        from urllib.error import HTTPError
+        user=object.__new__(AzureCLIUser);user._token='fixture-token';user.control=Mock()
+        with patch('investigator.adapters.investigator_harness_user.urlopen',side_effect=HTTPError('https://fixture.invalid',403,'Forbidden',{},None))as opened,patch('investigator.adapters.investigator_harness_user.time.sleep')as sleep:
+            with self.assertRaises(HTTPError):user._fetch('https://fixture.invalid/result.json')
+        self.assertEqual(opened.call_count,1);sleep.assert_not_called()
+
     def test_guided_structured_ticket_preserves_the_submitted_target(self):
         intake={'version':'IntakeRequest/1','report_id':'selected-report','description':'Question'}
         class User:
