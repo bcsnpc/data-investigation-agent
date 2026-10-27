@@ -120,3 +120,15 @@ Round23 original-copy headroom attempt: HEADROOM_ATTEMPT_TERMINAL_ORIGINAL_HASH_
 
 
 Round23 waiting dev03 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-three\injections\dev03-waiting\status.json.
+
+
+Round23 failed-fixture dev04: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-three\injections\dev04-failed-fixture\status.json. No grant/identity change.
+
+
+Round23 failed-billing dev04: FAILED_JOB_ESTABLISHED_DEFINITION_HASH_RESTORED. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-three\injections\dev04-failed-billing\status.json. No grant/identity change.
+
+
+Round23 waiting dev04 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-three\injections\dev04-waiting\status.json.
+
+
+Round23 latency dev04 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-three\injections\dev04-latency\status.json. Temporal remains ON.

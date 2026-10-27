@@ -41,7 +41,8 @@ class Triage:
                             or 'value' not in refreshed or refreshed.get('state','OBSERVED') not in ('OBSERVED','OBSERVED_NEGATIVE')):
                         raise ValueError('FRESH_FACT_NEEDS_SOURCE_AND_TIME')
                     observed=datetime.fromisoformat(timestamp(refreshed['observed_at']).replace('Z','+00:00'))
-                    if not 0<=(now_dt-observed).total_seconds()<=self.max_age_seconds:
+                    validated_at=datetime.fromisoformat(timestamp(self.now()).replace('Z','+00:00'))
+                    if not 0<=(validated_at-observed).total_seconds()<=self.max_age_seconds:
                         raise ValueError('REFRESH_RETURNED_STALE_FACT')
                     fact={'check':check,'state':refreshed.get('state','OBSERVED'),'source':refreshed['source'],
                           'observed_at':refreshed['observed_at'],'value':deepcopy(refreshed['value']),'cached':False}

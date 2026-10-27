@@ -36,6 +36,17 @@ class Tests(unittest.TestCase):
         first=self.submit();self.assertEqual(self.submit()['id'],first['id'])
         item=request();item['reported_figure']['value']='8'
         with self.assertRaises(StateConflict):self.cases.submit({'request_key':'test','intake':item})
+    def test_factory_failure_still_delivers_a_handoff_with_unknown_history_explicit(self):
+        self.factory.side_effect=ConnectionError('platform state acquisition failed')
+        result=self.cases.run(self.submit()['id'])
+        self.assertEqual(result['status'],'INTERRUPTED')
+        handoff=result['outcome']['handoff']
+        self.assertEqual(handoff['intake']['report'],request()['report'])
+        self.assertEqual(handoff['query_history_status'],'NOT_ESTABLISHED_BEFORE_ENGINE_INITIALIZATION')
+        self.assertEqual(handoff['queries'],[])
+        self.assertIn('platform state acquisition failed',handoff['stopping_point'])
+        self.assertTrue(handoff['next_checks'])
+
     def test_dropped_execution_is_interrupted_not_counted_as_finding(self):
         self.engine.run.side_effect=RuntimeError('private diagnostics')
         result=self.cases.run(self.submit()['id'])

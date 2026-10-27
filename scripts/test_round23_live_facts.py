@@ -27,6 +27,13 @@ class FactTests(unittest.TestCase):
                 port=PathFacts(ledger=ledger,estate='fixture',path={'nodes':[{'id':'model','kind':'MODEL'}]},collector=Mock(side_effect=UsageHold(reason)),now=lambda:NOW)
                 with self.assertRaisesRegex(UsageHold,reason):port.run()
 
+    def test_job_status_older_than_thirty_seconds_is_not_presented_as_current(self):
+        ledger=Mock();ledger.read.return_value={'facts':[{'subject':'job','kind':'JOB_RUN','state':'OBSERVED','freshness':'CURRENT','collected_at':'2026-10-27T01:59:00Z','value':{'status':'FAILED'}}]}
+        port=PathFacts(ledger=ledger,estate='fixture',path={'nodes':[{'id':'job','kind':'PIPELINE'}]},now=lambda:NOW)
+        self.assertIsNone(port.lookup('JOB_RUNS',[]))
+        ledger.read.return_value['facts'][0]['collected_at']='2026-10-27T01:59:45Z';port.snapshot=None
+        self.assertIsNotNone(port.lookup('JOB_RUNS',[]))
+
     def test_installed_collector_run_method_is_used(self):
         from types import SimpleNamespace
         ledger=Mock();ledger.read.return_value={'facts':[]}

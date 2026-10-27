@@ -90,10 +90,21 @@ def finding(args,case):
             if len(rows)==1 and isinstance(rows[0],dict) and len(rows[0])==1:
                 compared.setdefault(item['subject'],set()).add(number(next(iter(rows[0].values()))))
         required=set(case['context'].get('layers',{}))|{source}
-        if not required<=compared.keys():
-            raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: unread layers '+', '.join(sorted(required-compared.keys())))
-        values=set().union(*(compared[layer] for layer in required))
-        if len(values)!=1:raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: compared native values differ')
+        record_consistency=False
+        if case['intake'].get('issue_type') in ('RECORD_MISSING','EXTRA_OR_DUPLICATE_RECORD'):
+            for identity in args['evidence_ids']:
+                record=case['evidence'].get(identity,{})
+                if record.get('tool')!='record_trace':continue
+                trace=record.get('result',{});rows=trace.get('layers',[])
+                established={row['layer']:(row['presence'],row.get('matching_rows')) for row in rows
+                    if row.get('presence') in ('PRESENT','ABSENT') and not row.get('truncated')}
+                if required<=established.keys() and len({established[layer] for layer in required})==1:
+                    record_consistency=True;break
+        if not record_consistency:
+            if not required<=compared.keys():
+                raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: unread layers '+', '.join(sorted(required-compared.keys())))
+            values=set().union(*(compared[layer] for layer in required))
+            if len(values)!=1:raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: compared native values differ')
         if not any(item.get('content') and item.get('provenance') for item in support):
             raise ValueError('AS_DESIGNED_NEEDS_RETAINED_DEFINITION: native equality alone does not explain the definition')
     # A response already supplied in the form is a reported value, never an
@@ -159,6 +170,8 @@ def finding(args,case):
     qualifications=[]
     if source_consistency:
         qualifications.append('The values were observed at their recorded query times; no common query-bound snapshot is claimed.')
+        if record_consistency:
+            qualifications.append('For this record, the source comparison covers key presence and matching row count; it does not establish equality of every field.')
     if reported and reported['state']=='NUMBER' and reported['precision']!='EXACT':
         qualifications.append('Comparison at the ticket’s stated digit precision '+str(reported['precision'])+
                               ' is weaker than an exact match; no tolerance was inferred.')

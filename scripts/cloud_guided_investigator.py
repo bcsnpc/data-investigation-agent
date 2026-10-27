@@ -85,7 +85,7 @@ def run(plan,context):
     if isinstance(retained,dict):assets=[*assets,*retained.get('native_relation_witnesses',[])]
     if isinstance(retained,dict) and retained.get('graph'):
         from investigator.adapters.estate_graph_static import retained_native_relation_assets
-        extra=retained_native_relation_assets(retained,observed_at=retained['created'])
+        extra=retained_native_relation_assets(retained,observed_at=retained.get('created'))
         known={a['id'] for a in assets};assets=[*assets,*[a for a in extra if a['id'] not in known]]
     catalog=Catalog.from_graph(graph)
     # Only names/containment cross the catalog boundary. Raw definitions are
@@ -150,7 +150,8 @@ def run(plan,context):
     execute_native.routes=native.routes
     ledger=FactLedger(state);fact_ports={}
     def triage(path,identity):
-        port=PathFacts(ledger=ledger,estate=graph_spec['estate'],path=path,collector=collector,save=record)
+        port=PathFacts(ledger=ledger,estate=graph_spec['estate'],path=path,
+            collector=history_reader.top_up if history_reader else collector,save=record)
         fact_ports[identity]=port
         return port
     history_reader=None

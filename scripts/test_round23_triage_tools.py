@@ -25,6 +25,15 @@ class TriageTests(unittest.TestCase):
         self.assertEqual(ranked[0]['id'],'matching')
         self.assertEqual(ranked[0]['rank']['word_matches'],3)
 
+    def test_refresh_observed_after_start_is_checked_against_time_after_refresh(self):
+        clock=Mock(side_effect=[NOW,'2026-11-01T01:00:05Z'])
+        triage=Triage(path=['model'],lookup=lambda *a:None,
+            refresh=lambda *a:{'source':'native','observed_at':'2026-11-01T01:00:03Z','value':{'status':'ok'}},
+            save=lambda _:None,now=clock,read_limit=1)
+        result=triage.run()
+        self.assertEqual(result['facts'][0]['state'],'OBSERVED')
+        self.assertEqual(result['facts'][0]['observed_at'],'2026-11-01T01:00:03Z')
+
     def test_current_cache_does_not_issue_live_read(self):
         refresh=Mock();save=Mock()
         triage=Triage(path=['visual','model'],lookup=lambda *a:{'source':'ledger','observed_at':NOW,'value':{'status':'ok'}},

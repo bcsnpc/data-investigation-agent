@@ -37,6 +37,9 @@ class PathFacts:
         if check not in KINDS:return None
         rows=[f for f in self.read()['facts'] if f['kind'] in KINDS[check] and f['freshness']=='CURRENT'
               and f['state'] in ('OBSERVED','OBSERVED_NEGATIVE')]
+        if check=='JOB_RUNS':
+            now=datetime.fromisoformat(self.now().replace('Z','+00:00'))
+            rows=[f for f in rows if 0<=(now-datetime.fromisoformat(f['collected_at'].replace('Z','+00:00'))).total_seconds()<=30]
         if check=='MODEL_REFRESH':
             model_ids={n['id'] for n in self.path['nodes'] if n['kind']=='MODEL'}
             rows=[f for f in rows if f['subject'] in model_ids or f['kind'] in ('REFRESH_RUN','REFRESH_STATE')]

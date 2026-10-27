@@ -35,7 +35,13 @@ def connection_timeout(exc):
     # Only connection acquisition is retried. Auth, SQL, and transactions are not.
     if isinstance(exc, TimeoutError):
         return True
-    return type(exc).__name__ == 'OperationalError' and any(
+    operational=type(exc).__name__=='OperationalError'
+    try:
+        from psycopg import OperationalError
+        operational=operational or isinstance(exc,OperationalError)
+    except ImportError:pass
+    if str(getattr(exc,'sqlstate','') or '').startswith('28'):return False
+    return operational and any(
         text in str(exc).casefold() for text in ('connection timeout', 'connection timed out', 'timeout expired'))
 
 
@@ -50,9 +56,13 @@ def connect(*, connector=None, sleep=None, **kwargs):
     # Startup options cover the very first statement, before SET LOCAL exists.
     kwargs['options'] = options + ' -c statement_timeout=30000 -c lock_timeout=5000 -c idle_in_transaction_session_timeout=30000'
     for attempt in range(2):
+        started=time.monotonic()
         try:
             return connector(**kwargs)
         except Exception as exc:
+            exc.postgres_connection_timing={'operation':'connect','idle_before_request_seconds':None,
+                'failed_request_seconds':round(max(0,time.monotonic()-started),6),
+                'attempt':attempt+1,'meaning':'Connection acquisition failed before a session was obtained; not evidence of an idle socket drop.'}
             if attempt == 1 or not connection_timeout(exc):
                 exc.postgres_connect_attempts=attempt+1
                 raise

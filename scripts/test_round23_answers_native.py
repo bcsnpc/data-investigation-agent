@@ -22,6 +22,23 @@ def case():
 
 
 class AnswerTests(unittest.TestCase):
+    def test_record_presence_source_comparison_uses_existing_trace_and_labels_its_scope(self):
+        value=case();value['intake']={'issue_type':'RECORD_MISSING'}
+        value['context'].update(system_of_record={'declared':True,'reachable':True,'layer':'source','asset_id':'source-table'},
+            layers={'gold':{'label':'Serving'},'source':{'label':'Application'}})
+        value['queries'][0]['result']['rows']=[{'movement_id':2,'units':7}]
+        source=deepcopy(value['queries'][0]);source.update(id='source-q',layer='source',asset_ids=['source-table']);value['queries'].append(source)
+        value['evidence']['trace']={'tool':'record_trace','result':{'key':'2','layers':[
+            {'layer':'gold','query_id':'q','presence':'PRESENT','matching_rows':1,'truncated':False},
+            {'layer':'source','query_id':'source-q','presence':'PRESENT','matching_rows':1,'truncated':False}]}}
+        value['evidence']['definition']={'tool':'get_definition','result':{'content':'retained copy and visual definition','provenance':{'source':'retained'}}}
+        args=self.proposal();args.update(verdict='as designed',evidence_ids=['trace','definition'])
+        self.assertIn('key presence and matching row count',finding(args,value)['business'])
+        value['evidence']['trace']['result']['layers'][1]['presence']='UNAVAILABLE'
+        with self.assertRaisesRegex(ValueError,'unread layers'):finding(args,value)
+        value['evidence']['trace']['result']['layers'][1].update(presence='PRESENT',matching_rows=2)
+        with self.assertRaisesRegex(ValueError,'unread layers'):finding(args,value)
+
     def test_guided_failed_job_renders_cited_path_run_details_in_both_outputs(self):
         value=case();value['context']['path']['nodes'].append({'id':'pipeline','kind':'PIPELINE','label':'Actual copy'})
         fact={'subject':'pipeline','kind':'JOB_RUN','state':'OBSERVED','observed_at':'2026-10-27T01:02:00Z',

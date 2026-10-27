@@ -8,6 +8,20 @@ from investigator.postgres_connection import database_token
 
 
 class ConnectionTests(unittest.TestCase):
+    def test_real_psycopg_connection_timeout_subclass_retries_acquisition_once(self):
+        from investigator.postgres_connection import connect,connection_timeout
+        from psycopg.errors import ConnectionTimeout,InvalidPassword
+        failure=ConnectionTimeout('connection timeout expired');native=object()
+        connector=Mock(side_effect=[failure,native]);sleep=Mock()
+        self.assertIs(connect(connector=connector,sleep=sleep,host='synthetic'),native)
+        self.assertEqual(connector.call_count,2);sleep.assert_called_once_with(30)
+        self.assertEqual(failure.postgres_connection_timing['operation'],'connect')
+        self.assertIsNone(failure.postgres_connection_timing['idle_before_request_seconds'])
+        self.assertFalse(connection_timeout(InvalidPassword('password authentication failed')))
+        persistent=Mock(side_effect=ConnectionTimeout('connection timeout expired'))
+        with self.assertRaises(ConnectionTimeout) as caught:connect(connector=persistent,sleep=Mock())
+        self.assertEqual(persistent.call_count,2);self.assertEqual(caught.exception.postgres_connect_attempts,2)
+
     def test_settlement_reconnects_once_after_lost_commit_without_double_charging(self):
         from investigator.shared_state import SharedState
         from unittest.mock import patch

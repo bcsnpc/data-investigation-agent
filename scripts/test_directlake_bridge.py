@@ -94,6 +94,17 @@ class DirectLakeTests(unittest.TestCase):
         self.assertTrue(all(e['properties']['container_binding']['source_id']==evidence[0]['id']for e in edges))
         self.assertEqual(evidence[0]['metadata']['context_version'],'retained-context')
 
+    def test_inventory_timestamps_availability_and_hashes_are_optional(self):
+        assets=self.fixture(True);context=self.native_context(assets)
+        for item in assets:
+            for key in ('availability','content_hash','created','observed_at'):
+                item.pop(key,None)
+        evidence=retained_native_relation_assets(context,model_ids=[M])
+        self.assertEqual(len(evidence),1)
+        self.assertIsNone(evidence[0]['metadata']['observed_at'])
+        self.assertIn('unavailable',evidence[0]['metadata']['warning'])
+        self.assertEqual(len(self.bindings(self.graph(assets+evidence))),2)
+
     def test_native_relation_never_uses_another_model_or_label_or_undeclared_relation(self):
         for change in ('scope','source','kind','provenance','endpoint'):
             with self.subTest(change=change):

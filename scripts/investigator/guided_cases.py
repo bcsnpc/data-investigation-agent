@@ -79,6 +79,7 @@ class Cases:
         claimed={**case,'status':'RUNNING'}
         try:claim=self.state.put(self.namespace,identity,claimed,revision=saved['revision'])
         except StateConflict:return self.poll(identity)
+        engine=None
         try:
             engine=self.engine_factory(deepcopy(claimed))
             outcome=engine.run()
@@ -92,9 +93,19 @@ class Cases:
             message=str(error)
             try:_safe(message.encode())
             except ValueError:message='Details withheld by secret protection'
+            handoff={'intake':deepcopy(claimed['intake']),'queries':[],
+                'query_history_status':'NOT_ESTABLISHED_BEFORE_ENGINE_INITIALIZATION',
+                'lineage_status':'NOT_ESTABLISHED_BEFORE_ENGINE_INITIALIZATION',
+                'ruled_out':[],'stopping_point':type(error).__name__+': '+message,
+                'next_checks':['Inspect the retained initialization error and native control receipts in this run capture.']}
+            if engine is not None:
+                context=getattr(engine,'context',None)
+                queries=getattr(getattr(engine,'queries',None),'records',None)
+                if isinstance(context,dict):handoff.update(context=deepcopy(context),lineage_status='RETAINED_ENGINE_CONTEXT')
+                if isinstance(queries,list):handoff.update(queries=deepcopy(queries),query_history_status='RETAINED_ENGINE_QUERY_RECORDS')
             finished={**claimed,'status':'INTERRUPTED','error_type':type(error).__name__,
                       'outcome':{'status':'INTERRUPTED','business':'The investigation did not establish completion; partial case evidence is retained.',
-                                 'stop':type(error).__name__+': '+message}}
+                                 'stop':type(error).__name__+': '+message,'handoff':handoff}}
         self.state.put(self.namespace,identity,finished,revision=claim['revision'])
         return deepcopy(finished)
 
