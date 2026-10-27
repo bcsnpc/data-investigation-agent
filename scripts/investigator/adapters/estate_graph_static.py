@@ -460,9 +460,10 @@ class StaticGraph:
                 native_endpoint=endpoint_asset.get('metadata',{})
                 if (native_endpoint.get('id')!=catalog or native_endpoint.get('workspaceId')!=workspace.split('/')[-1]
                         or native_endpoint.get('type')!='SQLEndpoint'):continue
-                if (metadata.get('endpoint_asset_hash')!=endpoint_asset.get('content_hash')
-                        or metadata.get('container_asset_hash')!=target.get('content_hash')):
-                    return refuse('native item-relation asset hashes differ from the retained context.')
+                for recorded,current in ((metadata.get('endpoint_asset_hash'),endpoint_asset.get('content_hash')),
+                                         (metadata.get('container_asset_hash'),target.get('content_hash'))):
+                    if recorded and current and recorded!=current:
+                        return refuse('native item-relation asset hashes differ from the retained context.')
                 if metadata.get('observed_at') and c.timestamp(metadata['observed_at'])>self.at:
                     return refuse('native item-relation observation is in the future.')
                 native_relations.append((target['id'],self.proof(evidence)))

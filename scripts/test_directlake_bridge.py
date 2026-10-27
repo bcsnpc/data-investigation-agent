@@ -105,6 +105,21 @@ class DirectLakeTests(unittest.TestCase):
         self.assertIn('unavailable',evidence[0]['metadata']['warning'])
         self.assertEqual(len(self.bindings(self.graph(assets+evidence))),2)
 
+    def test_retained_relation_survives_missing_inventory_hash_on_either_side(self):
+        for missing in ('inventory','witness'):
+            assets=self.fixture(True);context=self.native_context(assets)
+            import hashlib
+            for item in assets:
+                item['content_hash']=hashlib.sha256(json.dumps(item['metadata'],sort_keys=True,ensure_ascii=False).encode()).hexdigest()
+            evidence=retained_native_relation_assets(context,observed_at=NOW,model_ids=[M])
+            if missing=='inventory':
+                for item in assets:item.pop('content_hash',None)
+            else:
+                for item in evidence:
+                    item['metadata'].pop('endpoint_asset_hash',None)
+                    item['metadata'].pop('container_asset_hash',None)
+            self.assertEqual(len(self.bindings(self.graph(assets+evidence))),2,missing)
+
     def test_native_relation_never_uses_another_model_or_label_or_undeclared_relation(self):
         for change in ('scope','source','kind','provenance','endpoint'):
             with self.subTest(change=change):
