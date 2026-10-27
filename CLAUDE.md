@@ -1110,3 +1110,7 @@ Executed owner decision (observed UTC2026-10-27, owner date2026-10-26): PostgreS
 
 
 Owner-approved2026-10-26: reset October restoration allowance to a fresh95 for Round23. The70 Round22 cleanup requests stay in original ledger rows and gross monthly physical usage; no request refunded or deleted. Cloud policy records the one-time October baseline, source/config applies it only from the recorded decision time, and investigation/scan cannot consume the remaining restoration reserve inside unchanged9000gross monthly limit. Applied via existing owner, separate committed readback matched: docs/runs/round-twenty-three-restoration-reset.json. No roles, identities, secrets or resources changed. Round23 continues through live validation, independent scoring and release; no stop after this allocation update.
+
+
+### Section8 Round23 reversible practice control, execution2026-10-27
+Owner Round23 PartG approval covers temporary stale data on the isolated Application load fixture model0c89889c-6fe6-49ab-91e9-4b00a51070e6. Existing publisher UI read automatic updatesON, then savedOFF for the two dependent dev tickets; refresh-schedule toggle stayedOFF. No identity, role, credential or connection changed. Data/settings restoration is required after the cohort; see tests/tickets/injections.md. Private native UI proof is hash-linked in the run ledger, not an investigator value result.
