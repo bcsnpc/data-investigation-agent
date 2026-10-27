@@ -3,11 +3,33 @@ from copy import deepcopy
 import unittest
 
 from fixture.apply import PipelineFailureScenario
-from fixture.pipeline_runtime import copy_timeout_window
+from fixture.pipeline_runtime import copy_timeout_window, source_read_after_resume
 from investigator.process_tape import bytes_of
 
 
 class RuntimeWindowTests(unittest.TestCase):
+    def test_resume_read_keeps_both_ordinals_and_retries_only_once(self):
+        calls = []; waits = []
+        failed = {'exit': 1, 'body': {'error_number': 40613}}
+        success = {'exit': 0, 'body': {'sets': [[{'actual': 'native'}]]}}
+        def read(ordinal):
+            calls.append(ordinal)
+            return (failed, success)[ordinal]
+        self.assertIs(source_read_after_resume(read, sleep=waits.append), success)
+        self.assertEqual(calls, [0, 1]); self.assertEqual(waits, [30])
+        calls.clear(); waits.clear()
+        self.assertIs(source_read_after_resume(lambda n: calls.append(n) or failed,
+                                             sleep=waits.append), failed)
+        self.assertEqual(calls, [0, 1]); self.assertEqual(waits, [30])
+
+    def test_permissions_and_success_are_not_resume_retried(self):
+        for value in ({'exit': 1, 'body': {'error_number': 18456}},
+                      {'exit': 0, 'body': {'sets': []}}):
+            calls = []; waits = []
+            self.assertIs(source_read_after_resume(lambda n: calls.append(n) or value,
+                                                 sleep=waits.append), value)
+            self.assertEqual(calls, [0]); self.assertEqual(waits, [])
+
     def original(self):
         content = {'properties': {'activities': [
             {'name': 'Copy', 'type': 'InvokeCopyJob',

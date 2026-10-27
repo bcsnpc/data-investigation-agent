@@ -105,3 +105,15 @@ All40 outcomes were saved before grading; both waiting cases returned waiting-on
 
 
 2026-10-26 FINAL RESTORATION: original source360/7661, original full row hash 0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b and business schema hash bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd matched. Owned stale900401-900403 removed, owned latency900501-900503 and future schedule removed, all3owned access objects absent. Four original pipeline definition hashes match. Bronze360/7661 was observed after the original reload; its extra full-business-row hash check is UNESTABLISHED because two cloud executions failed before producing any capture header. The complete current source business-row/schema hashes and four pipeline definition hashes did match; model7661 observed after original copy and own completed ViaApi refresh. Auto updates ON persisted after Apply/reload, refresh schedule remains OFF. Exact fixed binding/permission entries restored; raw array order changed only. Keep temporal history ON under the owner decision; period columns/history/global rowversion and native job/refresh histories are explicit retained exceptions, never claimed byte-identical. Receipts: docs/runs/round-twenty-two-restoration.json; screenshot: docs/runs/round-twenty-two-automatic-updates-restored.png.
+
+
+Round23 failed-fixture dev03: FAILED_JOB_ESTABLISHED_DEFINITION_HASH_RESTORED. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-three\injections\dev03-failed-fixture\status.json. No grant/identity change.
+
+
+Round23 failed-billing dev03: FAILED_JOB_ESTABLISHED_DEFINITION_HASH_RESTORED. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-three\injections\dev03-failed-billing\status.json. No grant/identity change.
+
+
+Round23 original-copy headroom attempt: PREPARED_NOT_APPLIED / None; restoration_required=False. Only InvokeCopyJob timeout600->1800seconds, original semantic hash89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259. Full native journal .local\round-twenty-three\injections\dev03-normal-load-headroom\status.json.
+
+
+Round23 original-copy headroom attempt: HEADROOM_ATTEMPT_TERMINAL_ORIGINAL_HASH_RESTORED / SUCCEEDED; restoration_required=False. Only InvokeCopyJob timeout600->1800seconds, original semantic hash89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259. Full native journal .local\round-twenty-three\injections\dev03-normal-load-headroom-cont01\status.json.
