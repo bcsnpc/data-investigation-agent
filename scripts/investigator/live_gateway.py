@@ -97,7 +97,7 @@ class Gateway:
         scope=self.policy.get('identities',{}).get(identity,{}).get('graph',{})
         if not isinstance(scope,dict):_deny('GRAPH_SCOPE_REQUIRED',identity=identity,operation='graph',target=estate)
         allowed=scope.get(estate)
-        if (not isinstance(allowed,list) or not allowed or len(allowed)>1000
+        if (not isinstance(allowed,list) or not allowed or len(allowed)>10000
                 or any(not isinstance(item,str) or not item or item=='*' for item in allowed)):
             _deny('GRAPH_SCOPE_REQUIRED',identity=identity,operation='graph',target=estate)
         if not isinstance(object_ids,(list,set,tuple)) or not object_ids or len(object_ids)>1000:

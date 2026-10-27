@@ -50,13 +50,13 @@ class CatalogTests(unittest.TestCase):
         from test_estate_graph import proof,T0
         with TemporaryDirectory() as folder:
             state=SharedState.offline(Path(folder)/'state.sqlite');repository=GraphRepository(state);repository.migrate()
-            nodes=[c.node('report-'+str(i),'owner','REPORT','Report '+str(i),proof()) for i in range(205)]
+            nodes=[c.node('report-'+str(i),'owner','REPORT','Report '+str(i),proof()) for i in range(1144)]
             repository.replace({'estate':'estate','owner':'owner','definition_hash':'a'*64,
                                 'observed_at':T0,'nodes':nodes,'edges':[]})
             allowed=[n['id'] for n in nodes]
             gateway=Gateway({'version':1,'live_enabled':False,'identities':{'reader':{'role':'reader','graph':{'estate':allowed}}}})
             graph=GraphAPI(repository,gateway,identity='reader',estate='estate',allowed_objects=allowed)
-            self.assertEqual(len(Catalog.from_graph(graph).reports()),205)
+            self.assertEqual(len(Catalog.from_graph(graph).reports()),1144)
             self.assertEqual(graph.max_nodes,100)
 
     def test_engineer_reply_is_scoped_attributed_and_cannot_become_native_job_fact(self):

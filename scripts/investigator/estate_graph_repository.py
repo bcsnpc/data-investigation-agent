@@ -302,7 +302,7 @@ class GraphRepository:
         SQL filters adjacency before decoding; unrelated historical bodies are
         never materialized. Both backends use their native JSON scalar selector.
         """
-        if not roots or not set(roots)<=set(allowed) or len(allowed)>1000:raise ValueError('GRAPH_PATH_ALLOWLIST')
+        if not roots or not set(roots)<=set(allowed) or len(allowed)>10000:raise ValueError('GRAPH_PATH_ALLOWLIST')
         if len(set(roots))>max_nodes:raise ValueError('GRAPH_ROOT_SLICE_BOUND')
         when=contract.timestamp(at) if at else None
         nodes={};edges={};frontier=set(roots);seen=set();truncated=False

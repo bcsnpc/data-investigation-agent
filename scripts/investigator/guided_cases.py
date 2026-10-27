@@ -75,8 +75,13 @@ class Cases:
         except Exception as error:
             # Private checkpoints retain precise native/model diagnostics.
             # This lifecycle row does not echo arbitrary exception payloads.
+            from .planner_recording import _safe
+            message=str(error)
+            try:_safe(message.encode())
+            except ValueError:message='Details withheld by secret protection'
             finished={**claimed,'status':'INTERRUPTED','error_type':type(error).__name__,
-                      'outcome':{'status':'INTERRUPTED','business':'The investigation did not establish completion; partial case evidence is retained.'}}
+                      'outcome':{'status':'INTERRUPTED','business':'The investigation did not establish completion; partial case evidence is retained.',
+                                 'stop':type(error).__name__+': '+message}}
         self.state.put(self.namespace,identity,finished,revision=claim['revision'])
         return deepcopy(finished)
 

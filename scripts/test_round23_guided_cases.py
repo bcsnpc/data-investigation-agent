@@ -29,7 +29,7 @@ class Tests(unittest.TestCase):
     def test_dropped_execution_is_interrupted_not_counted_as_finding(self):
         self.engine.run.side_effect=RuntimeError('private diagnostics')
         result=self.cases.run(self.submit()['id'])
-        self.assertEqual(result['status'],'INTERRUPTED');self.assertNotIn('private diagnostics',str(result))
+        self.assertEqual(result['status'],'INTERRUPTED');self.assertEqual(result['outcome']['stop'],'RuntimeError: private diagnostics')
     def test_no_raw_fallback_for_projected_installation(self):
         with self.assertRaisesRegex(ValueError,'NO_RAW_FALLBACK'):
             Cases(state=self.state,graph=self.graph,estate='estate',engine_factory=self.factory,

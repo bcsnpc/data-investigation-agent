@@ -10,7 +10,10 @@ class GraphAPI:
         if type(max_bytes) is not int or not 1024<=max_bytes<=256000:raise ValueError('GRAPH_BYTE_LIMIT')
         self.max_bytes=max_bytes
         self.repository,self.gateway,self.identity,self.estate=repository,gateway,identity,estate
-        self.allowed=set(gateway.graph_objects(estate,allowed_objects,identity=identity))
+        admitted=sorted(set(allowed_objects))
+        self.allowed=set()
+        for start in range(0,len(admitted),1000):
+            self.allowed.update(gateway.graph_objects(estate,admitted[start:start+1000],identity=identity))
         self.at=contract.timestamp(at) if at else None;self.max_nodes=max_nodes;self.max_edges=max_edges
         self.definition_reader=definition_reader
 
@@ -51,7 +54,9 @@ class GraphAPI:
         This projects metadata only. Investigation context still uses the
         ticket's bounded upstream path. Gateway authority is unchanged.
         """
-        self.gateway.graph_objects(self.estate,self.allowed,identity=self.identity)
+        admitted=sorted(self.allowed)
+        for start in range(0,len(admitted),1000):
+            self.gateway.graph_objects(self.estate,admitted[start:start+1000],identity=self.identity)
         retained=self.repository.path_records(self.estate,self.allowed,self.allowed,
             at=self.at,max_nodes=len(self.allowed),max_edges=10000,
             edge_kinds={'CONTAINS','COMPUTED_FROM'},edge_targets=self.allowed)

@@ -64,6 +64,15 @@ class AnswerTests(unittest.TestCase):
         self.assertIn('query-bound snapshot',finding(args,value)['business'])
         value['queries'][1]['result']['rows'][0]['quantity']=8
         with self.assertRaisesRegex(ValueError,'native values differ'):finding(args,value)
+    def test_source_consistency_uses_declared_source_object_not_another_table(self):
+        args=self.proposal();args.update(verdict='as designed',evidence_ids=['q','definition'])
+        value=case();value['context'].update(system_of_record={'declared':True,'reachable':True,'layer':'gold','asset_id':'declared-source'},layers={'gold':{'label':'Serving'}})
+        value['queries'][0]['asset_ids']=['other-source']
+        value['evidence']['definition']={'tool':'get_definition','result':{'content':'SUM(Items.quantity)','provenance':{'source':'retained'}}}
+        with self.assertRaisesRegex(ValueError,'declared source object was not queried'):finding(args,value)
+        value['queries'][0]['asset_ids']=['declared-source']
+        self.assertIn('query-bound snapshot',finding(args,value)['business'])
+
     def test_false_duplicate_report_questions_use_fixed_grounded_prose(self):
         for bad in ('There are two reports named Daily Sales; which one?',
                     'I found two duplicate Daily Sales reports; choose one.'):

@@ -94,14 +94,18 @@ def compiled_control_objects(payload):
         return None
 
 
-def read_many(config, objects, *, execute):
-    reader=config['fabric']['sql_reader'];request=request_many(objects)
-    if any(o.get('surface','FABRIC_SQL')!='FABRIC_SQL' or o['connection']!=reader['server'] for o in objects):
+def read_many(config, objects, *, execute, attestation_required=True, surface='FABRIC_SQL'):
+    if surface not in ('FABRIC_SQL','SOURCE_SQL'):raise ValueError('CATALOG_SURFACE_NOT_INSTALLED')
+    reader=config['fabric']['sql_reader'] if surface=='FABRIC_SQL' else config['sql']
+    if surface=='SOURCE_SQL' and attestation_required:raise ValueError('SOURCE_CATALOG_ATTESTATION_PROFILE_NOT_INSTALLED')
+    request=request_many(objects)
+    if any(o.get('surface','FABRIC_SQL')!=surface or o['connection']!=reader['server'] for o in objects):
         raise ValueError('Target catalog leaves the approved Fabric SQL connection')
     database=objects[0]['database'];answer=execute(database,request)
     report=answer.get('surface_report') or {}
-    if (report.get('identity')!=sql_principal(reader) or report.get('object')!=database or
-        report.get('engine')!='Microsoft Azure SQL Data Warehouse' or not answer.get('read_only_verified')):
+    if (not answer.get('read_only_verified') or (attestation_required and
+        (report.get('identity')!=sql_principal(reader) or report.get('object')!=database or
+         report.get('engine')!='Microsoft Azure SQL Data Warehouse'))):
         raise ValueError('Target types lack reader-owned guarded surface evidence')
     rows=answer.get('rows')
     if not isinstance(rows,list) or not 0<len(rows)<250:raise ValueError('Target catalog is empty or incomplete')

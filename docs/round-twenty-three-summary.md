@@ -13,7 +13,7 @@ Owner-approved 2026-10-26: investigator USD150/month (80% warning), USD1/ticket 
 
 The existing owner path applied and read back the authoritative PostgreSQL policy and both already-provisioned October/November model ceilings. No grants, credentials or resources changed; counters, reservations and violation flags were preserved. Source/config consume the new policy; older scheduled images retain their earlier source ceiling until deployment. [Exact before/after receipt](runs/round-twenty-three-budget-increase.json).
 
-At 2026-10-27T01:31UTC, requests5,471/9,000: investigation3,607, scan1,794, restoration70. Restoration has25 remaining; it was not reset. October modelUSD10.202640/150; NovemberUSD0/150. These are observations, not future reservations.
+At 2026-10-27T01:31UTC, requests5,471/9,000: investigation3,607, scan1,794, restoration70. The later owner decision grants a fresh95 restoration allowance; the70cleanup requests remain in the gross total and original rows. [Reset receipt](runs/round-twenty-three-restoration-reset.json). October modelUSD10.202640/150; NovemberUSD0/150. These are observations, not future reservations.
 
 ## Part A — simplify
 

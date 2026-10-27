@@ -535,3 +535,6 @@ and output-shape problems in the new loop are warnings/correction feedback,
 not new pre-run verification gates. Parser read-only checks, gateway denials
 and budgets remain enforced. No old admission rule has been silently removed
 from historical runners: the new assembly still needs wiring and tests.
+
+
+Round23 integration checks exposed two earlier fixture-only assumptions before scoring: a full1144-node estate catalog exceeded a1000-name declaration bound; a report/page-only form reached a visual-only path method. Both now have focused regressions, exact-ID gateway checks retained. The live owner graph read in normal mode stops at unavailable metadata; build mode correctly warns and retains the Activity path. Its lower candidates must be resolved from declared DirectLake definitions and native schemas, not fabricated links. No scored result is claimed from this metadata check.

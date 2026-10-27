@@ -1,0 +1,73 @@
+import unittest
+from copy import deepcopy
+from unittest.mock import Mock
+from investigator.adapters.ai_native_catalog import NativeCatalog
+
+
+def asset(identity,kind,parent,name,metadata):
+    return {'id':identity,'kind':kind,'parent_id':parent,'name':name,'metadata':metadata,
+            'content_hash':'a'*64,'availability':'CURRENT','provenance':'DISCOVERED'}
+
+
+class NativeCatalogTests(unittest.TestCase):
+    def setUp(self):
+        self.config={'sql':{'server':'server','database':'application'},
+                     'fabric':{'sql_reader':{'server':'fabric-server','account':'reader'}}}
+        self.parent='fabric://workspace/lakehouse'
+        self.table=self.parent+'/table/Items'
+        self.assets=[asset(self.parent,'Lakehouse','fabric://workspace','Bronze',{}),
+                     asset(self.table,'LakehouseTable',self.parent,'Items',{'name':'Items'}),
+                     asset('fabric://workspace/endpoint','SQLEndpoint','fabric://workspace','Bronze SQL',{})]
+        self.endpoint=Mock(return_value={'id':'lakehouse','properties':{
+            'sqlEndpointProperties':{'id':'endpoint','connectionString':'fabric-server'}}})
+        self.read=Mock(return_value={'read_only_verified':True,'rows':[
+            {'schema_name':'dbo','table_name':'Items','column_name':'quantity',
+             'data_type':'bigint','collation_name':None}]})
+        self.nodes=[{'id':'table-node','properties':{'asset_id':self.table}}]
+
+    def build(self):
+        return NativeCatalog(assets=self.assets,graph_nodes=self.nodes,configuration=self.config,
+                             endpoint=self.endpoint,sql_read=self.read,record=Mock())
+
+    def test_no_schema_read_until_layer_opened_then_native_types_and_cache(self):
+        catalog=self.build();self.read.assert_not_called();self.endpoint.assert_not_called()
+        identity=next(iter(catalog.routes));result=catalog.prepare(identity)
+        self.assertEqual(result['database'],'Bronze SQL')
+        self.assertEqual(result['objects'][0]['metadata']['columns'][0]['data_type'],'bigint')
+        self.assertEqual(self.read.call_args.args[2]['read_only_objects'],['[dbo].[Items]'])
+        catalog.prepare(identity);self.read.assert_called_once()
+
+    def test_endpoint_is_exact_declared_parent_and_known_reader(self):
+        for changed in ({'id':'other','properties':{}},
+                        {'id':'lakehouse','properties':{'sqlEndpointProperties':{'id':'endpoint','connectionString':'other'}}},
+                        {'id':'lakehouse','properties':{'sqlEndpointProperties':{'id':'unknown','connectionString':'fabric-server'}}}):
+            with self.subTest(changed=changed):
+                self.endpoint.return_value=changed;catalog=self.build()
+                with self.assertRaises(ValueError):catalog.prepare(next(iter(catalog.routes)))
+        self.read.assert_not_called()
+
+    def test_only_graph_known_tables_enter_routes(self):
+        self.nodes=[];self.assertEqual(self.build().routes,{})
+
+    def test_source_and_dax_use_retained_actual_schema_without_query_compiler(self):
+        source='sql://server/application';table=source+'/object/1'
+        model='fabric://workspace/model';semantic=model+'/table/Activity'
+        self.assets += [asset(source,'SqlDatabase',None,'application',{}),
+            asset(table,'SqlObject',source,'Items',{'schema_name':'dbo','name':'Items','type_desc':'USER_TABLE',
+                                                 'columns':[{'name':'quantity','data_type':'int'}]}),
+            asset(model,'SemanticModel','fabric://workspace','Model',{}),
+            asset(semantic,'SemanticTable',model,'Activity',{'name':'Activity'}),
+            asset(semantic+'/measures/Quantity','Measure',semantic,'Quantity',{'expression':'SUM(Activity[quantity])'})]
+        self.nodes += [{'id':'source-node','properties':{'asset_id':table}},
+                       {'id':'model-node','properties':{'asset_id':semantic}}]
+        catalog=self.build()
+        for identity,route in catalog.routes.items():
+            if route['kind']=='SOURCE_SQL':
+                self.assertEqual(catalog.prepare(identity)['objects'][0]['metadata']['columns'][0]['name'],'quantity')
+            if route['kind']=='DAX':
+                self.assertEqual(catalog.prepare(identity)['model'],'model')
+                self.assertTrue(any(a['kind']=='Measure' for a in route['objects']))
+        self.read.assert_not_called()
+
+
+if __name__=='__main__':unittest.main()

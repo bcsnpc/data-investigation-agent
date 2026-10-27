@@ -33,7 +33,7 @@ def cited(args,case):
     def native_query(record):
         if record['status']=='SUCCEEDED':
             return {'query_id':record['id'],'subject':record['layer'],'observed_at':record['time'],
-                    'native_result':deepcopy(record['result'])}
+                    'native_result':deepcopy(record['result']),'asset_ids':record.get('asset_ids',[])}
         if args.get('verdict','').casefold() in ('not found','unresolved','blocked'):
             return {'query_id':record['id'],'subject':record['layer'],'error':record.get('error')}
         raise ValueError('FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING')
@@ -47,7 +47,7 @@ def cited(args,case):
         if record.get('kind')=='TRIAGE':
             facts=record.get('facts',{})
             rows=facts.get('facts',[]) if isinstance(facts,dict) else facts
-            current=[f for f in rows if f.get('state')=='OBSERVED' and f.get('source') and f.get('observed_at')]
+            current=[f for f in rows if f.get('state') in ('OBSERVED','OBSERVED_NEGATIVE') and f.get('source') and f.get('observed_at')]
             if current:found.append({'facts':current})
         elif record.get('tool') in ('run_sql','run_dax'):
             value=record['result'];value=value.get('record',value)
@@ -81,6 +81,9 @@ def finding(args,case):
         source=declaration.get('layer')
         if declaration.get('declared') is not True or declaration.get('reachable') is not True or not source:
             raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: no reachable declared system of record; report only the reached boundary or observed value')
+        source_asset=declaration.get('asset_id')
+        if source_asset and not any(item.get('subject')==source and source_asset in item.get('asset_ids',[]) for item in support):
+            raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: declared source object was not queried')
         compared={}
         for item in support:
             rows=item.get('native_result',{}).get('rows',[])

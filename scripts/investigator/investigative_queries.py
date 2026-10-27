@@ -105,7 +105,7 @@ class Queries:
         if self.attempts.get(key,0)>=3:
             return {'error':'QUERY_CORRECTION_LIMIT','layer':layer_id,'purpose':purpose}
         record={'id':'query:'+signature+':'+str(len(self.records)+1),'signature':signature,'text':text,'layer':layer_id,'purpose':purpose,
-                'executed_text':bound['query'],'parameters':bound.get('parameters',[]),'time':self.now()}
+                'executed_text':bound['query'],'parameters':bound.get('parameters',[]),'asset_ids':bound['asset_ids'],'time':self.now()}
         # The real governor reserves physical requests immediately before the
         # gateway dispatch. Unknown completion remains charged there.
         self.reserve(layer_id,record['id'])
