@@ -1,0 +1,58 @@
+{
+  "owner_approval_received_at": "2026-10-27T14:21:01.389061+00:00",
+  "approval": "Three complete manual release smokes under investigation, normal per-run limits, superseding30total. Transfer500INVtoSCANforOctober only.",
+  "before": {
+    "approval": "owner-approved 2026-10-26",
+    "effective_at": "2026-10-26T00:00:00+00:00",
+    "limits": {
+      "INVESTIGATION": 6905,
+      "RESTORATION": 95,
+      "SCAN": 2000
+    },
+    "period": "UTC calendar month; October starts at build adoption",
+    "restoration_reset": {
+      "approval": "owner-approved 2026-10-26",
+      "effective_at": "2026-10-27T01:41:27.798275+00:00",
+      "historical_requests": 70,
+      "month_utc": "2026-10",
+      "reason": "Round22 cleanup remains charged history; fresh Round23 restoration allocation95"
+    },
+    "restoration_use": "restores only",
+    "total_limit": 9000
+  },
+  "after": {
+    "approval": "owner-approved 2026-10-26",
+    "effective_at": "2026-10-26T00:00:00+00:00",
+    "limits": {
+      "SCAN": 2500,
+      "INVESTIGATION": 6405,
+      "RESTORATION": 95
+    },
+    "period": "UTC calendar month; October starts at build adoption",
+    "restoration_reset": {
+      "approval": "owner-approved 2026-10-26",
+      "effective_at": "2026-10-27T01:41:27.798275+00:00",
+      "historical_requests": 70,
+      "month_utc": "2026-10",
+      "reason": "Round22 cleanup remains charged history; fresh Round23 restoration allocation95"
+    },
+    "restoration_use": "restores only",
+    "total_limit": 9000,
+    "default_limits": {
+      "INVESTIGATION": 6905,
+      "RESTORATION": 95,
+      "SCAN": 2000
+    },
+    "limits_effective_month": "2026-10",
+    "allocation_approval": "owner-approved 2026-10-27",
+    "allocation_effective_at": "2026-10-27T14:21:01.389061+00:00",
+    "allocation_reason": "October only: transfer500INVtoSCAN; total/model/reserve unchanged."
+  },
+  "independent_readback_matches": true,
+  "policy_changed": true,
+  "usage_changes_by_this_operation": 0,
+  "concurrent_runs_not_interrupted": true,
+  "model_or_identity_changes": false,
+  "source_job_update_pending": true,
+  "initial_operator_error": "UndefinedColumn hash; transaction rolled back before mutation. Correct canonical body_hash field used."
+}

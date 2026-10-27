@@ -1114,3 +1114,7 @@ Owner-approved2026-10-26: reset October restoration allowance to a fresh95 for R
 
 ### Section8 Round23 reversible practice control, execution2026-10-27
 Owner Round23 PartG approval covers temporary stale data on the isolated Application load fixture model0c89889c-6fe6-49ab-91e9-4b00a51070e6. Existing publisher UI read automatic updatesON, then savedOFF for the two dependent dev tickets; refresh-schedule toggle stayedOFF. No identity, role, credential or connection changed. Data/settings restoration is required after the cohort; see tests/tickets/injections.md. Private native UI proof is hash-linked in the run ledger, not an investigator value result.
+
+
+### Section8 owner Round23 steer, 2026-10-27
+Owner approves three complete manual release smokes under INVESTIGATION at normal per-run limits (earlier30-total superseded). October allocations only:SCAN2500/INV6405/REST95 inside unchanged9000 gross, November defaultSCAN2000/INV6905/REST95. Cloud policy readback recorded; counters/history/reservations/model150USD untouched. Frozen held-out07a0f92/image2f22b43d finishes unchanged. Messy60 NOTRUN by owner; instead one separately labelled unscored26-static diagnostic with opus5.5 and3USD actual-usage case stop, monthly150 hard. No new permission, identity or secret. Exact decisions:docs/decisions.md; original prepared messy inputs retained.
