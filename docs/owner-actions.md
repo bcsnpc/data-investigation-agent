@@ -149,3 +149,6 @@ Fixture controllers: existing cloud investigator identity is read-only, so it ca
 
 
 Round23 billing bootstrap rerun issue, 2026-10-27: existing pipeline76c60248-b830-433b-9880-90593da28e7e original BuildSilverAndGold starts with CREATE SCHEMA [bronze]. Its ordinary cleanup run5253b628-a8df-4586-831c-f41b169bb3f8 failed because that schema exists. Original definition is restored; no idempotency edit or expectation change was made. Owner/reviewer should decide whether this is a one-time bootstrap or a repeatable transform before any permanent fixture change. Round23 continues; this is not a role or secret request.
+
+
+Round23 configuration finding,2026-10-27: the retained billing installation from the prior value-check has no APPLICATION layer or declared system_of_record. The checked graph likewise has no system_of_record declaration. Native source queries are readable under the existing grant, but equality must not manufacture a source-of-truth declaration. Billing whole-source consistency remains unestablished under this configuration. No role change or expectation edit was made; any explicit application-source declaration must be recorded separately from measured value agreement.

@@ -6,6 +6,20 @@ from investigator.model_case_presentation import Presentation
 
 
 class Tests(unittest.TestCase):
+    def test_screenshot_lookup_helper_keeps_schema_and_scope_without_resending_pipeline(self):
+        from investigator.adapters.screenshot_assistance import Assistance
+        context={'intake':{'report':'selected','details':{'date_range':'stated period'}},
+            'layers':{'source':{'objects':[{'name':'Items','columns':['movement_id','units']}]}},
+            'retained_native_definitions':[{'kind':'DefinitionPart','name':'pipeline-content.json','metadata':{'content':'unrelated pipeline body'}},
+                {'kind':'DefinitionPart','name':'model.bim','metadata':{'content':'native model'}},
+                {'kind':'DefinitionPart','name':'definition/pages/p/visuals/v/visual.json','metadata':{'content':'actual visual scope'}}]}
+        original=deepcopy(context);model=Mock();model.complete.return_value={'content':[{'type':'tool_use','name':'plan_screenshot_lookup','input':{'plans':[{'layer':'source','query':'SELECT movement_id FROM dbo.Items WHERE units=17','kind':'sql','key_field':'movement_id','display_fields':['units'],'match_columns':{'units':'units'}}]}}]}
+        result=Assistance(model,lambda:context).plan({'visual':'selected-visual'},{'units':17})
+        sent=json.loads(model.complete.call_args.kwargs['messages'][0]['content'][0]['text'])['context']
+        self.assertEqual(sent['layers'],context['layers']);self.assertEqual(sent['intake'],context['intake'])
+        self.assertEqual(len(sent['visual_and_model_definitions']),2)
+        self.assertEqual(context,original);self.assertEqual(result[0]['layer'],'source')
+
     def test_aliases_restore_only_addresses_never_query_text_key_or_reported_value(self):
         original='a'*64;query="SELECT 'ref_0001' AS actual_key FROM dbo.Items"
         context={'intake':{'report':original,'reported_figure':{'state':'NUMBER','value':'123'}},

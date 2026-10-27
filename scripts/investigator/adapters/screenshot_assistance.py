@@ -29,10 +29,18 @@ class Assistance:
              {'type':'text','text':'Return the titles and visible record fields.'}])
 
     def plan(self,target,fields):
-        plan=schema({'layer':{'enum':list(self.context()['layers'])},'query':{'type':'string'},'kind':{'enum':['sql','dax']},
+        context=deepcopy(self.context())
+        # This helper writes a visible-field/key lookup, not an explanation of
+        # the pipeline. The main investigator still has the complete context.
+        lookup={'intake':context.get('intake'), 'layers':context['layers'],
+            'visual_and_model_definitions':[d for d in context.get('retained_native_definitions',[])
+                if d.get('kind') in ('ReportVisual','ReportPage','Measure','SemanticTable','SemanticRelationship')
+                or d.get('kind')=='DefinitionPart' and (d.get('name')=='model.bim' or
+                    d.get('name','').endswith(('visual.json','page.json','report.json','definition.pbir')))]}
+        plan=schema({'layer':{'enum':list(context['layers'])},'query':{'type':'string'},'kind':{'enum':['sql','dax']},
                      'key_field':{'type':'string'},'display_fields':{'type':'array','items':{'type':'string'}},
                      'match_columns':{'type':'object','additionalProperties':{'type':'string'}}})
         value=self.call('plan_screenshot_lookup','Write bounded read-only native queries using admitted schema. Return the real key and all visible match columns. No templates or invented keys.',
             schema({'plans':{'type':'array','minItems':1,'maxItems':5,'items':plan}}),
-            [{'type':'text','text':canonical({'target':target,'visible_fields':fields,'context':deepcopy(self.context())})}])
+            [{'type':'text','text':canonical({'target':target,'visible_fields':fields,'context':lookup})}])
         return value['plans']

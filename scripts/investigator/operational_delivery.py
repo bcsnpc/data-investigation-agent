@@ -51,6 +51,11 @@ def details(support,nodes):
             lines.append('Next scheduled run: unavailable (schedule is disabled).')
         else:
             lines.append('Next scheduled run: '+str(due or 'unavailable from the retained ledger facts')+'.')
+        if not due and isinstance(scheduled.get('native_schedules'),dict):
+            for native in scheduled['native_schedules'].get('value',[]):
+                if native.get('enabled') is True:
+                    lines.append('Recorded enabled native load schedule '+str(native.get('id')or 'ID unavailable')+
+                        ': '+canonical(native.get('configuration',{}))+'. This is the schedule definition, not an observed execution time.')
         if value.get('due_at'):lines.append('Declared due time for the unstarted run: '+value['due_at']+'.')
         if support.get('expected_update_at'):
             lines.append('Estimated update after the scheduled start, using observed median duration: '+support['expected_update_at']+'.')

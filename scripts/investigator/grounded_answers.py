@@ -125,9 +125,37 @@ def finding(args,case):
     # No action/recommended-fix slot is rendered. Cause interpretation belongs
     # to the AI, must cite these native records and remains independently graded.
     displayed=['BLANK' if v is None else str(v) for v in args['numbers']]
+    operational=[]
     business=args['verdict']+'. '+args['cause']
     if displayed:business+='\nNumbers: '+', '.join(displayed)+'.'
     if checked:business+='\nChecked: '+', '.join(checked)+'.'
+    if args['verdict'] in ('failed job','waiting on job','latency'):
+        # Reuse the existing renderer, using only the cited path observations.
+        # No new reads, guessed run identity or model-authored operational data.
+        facts=[]
+        def collect(value):
+            if isinstance(value,list):
+                for item in value:collect(item)
+            elif isinstance(value,dict):
+                if {'subject','kind','state','value','observed_at'}<=set(value):facts.append(value)
+                elif 'value' in value:collect(value['value'])
+        for item in support:
+            if 'facts' in item:collect(item['facts'])
+        node_map={n['id']:n for n in nodes}
+        eligible=[f for f in facts if f['subject'] in node_map and node_map[f['subject']]['kind'] in ('PIPELINE','COPY_ACTIVITY','NOTEBOOK')
+            and f['state'] in ('OBSERVED','OBSERVED_NEGATIVE')]
+        states={'failed job':{'FAILED'},'waiting on job':{'QUEUED','RUNNING'},'latency':set()}
+        jobs=[f for f in eligible if f['kind']=='JOB_RUN' and f['value'].get('status') in states[args['verdict']]]
+        if args['verdict']=='latency':jobs=[f for f in eligible if f['kind']=='SCHEDULE']
+        from .operational_delivery import details
+        rendered=[]
+        for fact in jobs:
+            schedule=next((f for f in eligible if f['kind']=='SCHEDULE' and f['subject']==fact['subject']),None)
+            value=details({'verdict':args['verdict'],'operational_fact':fact,'operational_schedule':schedule},node_map)
+            if value not in rendered:rendered.append(value)
+        if not rendered:rendered=[details({'verdict':args['verdict']},node_map)]
+        operational=rendered
+        business+='\n'+'\n'.join(rendered)
     qualifications=[]
     if source_consistency:
         qualifications.append('The values were observed at their recorded query times; no common query-bound snapshot is claimed.')
@@ -141,6 +169,7 @@ def finding(args,case):
     if qualifications:business+='\n'+'\n'.join(qualifications)
     classification=args.get('classified_issue_type',case['intake'].get('classified_issue_type'))
     return {'business':business,'technical':{'verdict':args['verdict'],'cause':args['cause'],
+        **({'operational_details':operational} if operational else {}),
         **({'original_issue_type':'SOMETHING_ELSE','classified_issue_type':classification}
            if case['intake'].get('issue_type')=='SOMETHING_ELSE' else {}),
         'numbers':deepcopy(args['numbers']),'checked':checked,'evidence_ids':args['evidence_ids'],

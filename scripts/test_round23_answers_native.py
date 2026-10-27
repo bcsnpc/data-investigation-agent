@@ -22,6 +22,18 @@ def case():
 
 
 class AnswerTests(unittest.TestCase):
+    def test_guided_failed_job_renders_cited_path_run_details_in_both_outputs(self):
+        value=case();value['context']['path']['nodes'].append({'id':'pipeline','kind':'PIPELINE','label':'Actual copy'})
+        fact={'subject':'pipeline','kind':'JOB_RUN','state':'OBSERVED','observed_at':'2026-10-27T01:02:00Z',
+            'value':{'run_id':'native-42','status':'FAILED','start':'2026-10-27T01:00:00Z','end':'2026-10-27T01:01:00Z','error':'Actual native failure'}}
+        unrelated={**deepcopy(fact),'subject':'outside-path','value':{**fact['value'],'run_id':'unrelated-run'}}
+        value['evidence']['runtime']={'tool':'get_job_runs','result':{'status':'OBSERVED','source':'native-subject-history','observed_at':fact['observed_at'],'facts':[fact,unrelated]}}
+        args=self.proposal();args.update(verdict='failed job',evidence_ids=['q','runtime'])
+        result=finding(args,value)
+        for text in (result['business'],' '.join(result['technical']['operational_details'])):
+            for field in ('Actual copy','native-42','FAILED','2026-10-27T01:00:00Z','2026-10-27T01:01:00Z','Actual native failure'):self.assertIn(field,text)
+            self.assertNotIn('unrelated-run',text)
+
     def proposal(self):return {'verdict':'observed value','cause':'The native quantity is 7.',
                                'numbers':[7],'checked':['gold'],'evidence_ids':['q']}
     def test_values_grounded_and_ui_uses_names(self):
