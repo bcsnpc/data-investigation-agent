@@ -1,0 +1,57 @@
+{
+  "revision": "4b547f17915914b060bbc1692ef05ff4080cc992",
+  "elapsed_seconds": 775.4211619999987,
+  "statuses": [
+    {
+      "shard": 0,
+      "exit_code": 0
+    },
+    {
+      "shard": 1,
+      "exit_code": 0
+    },
+    {
+      "shard": 2,
+      "exit_code": 0
+    },
+    {
+      "shard": 3,
+      "exit_code": 0
+    }
+  ],
+  "results": [
+    {
+      "tests": 1381,
+      "failures": 0,
+      "errors": 0,
+      "skips": 6,
+      "successful": true
+    },
+    {
+      "tests": 1381,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "successful": true
+    },
+    {
+      "tests": 1380,
+      "failures": 0,
+      "errors": 0,
+      "skips": 16,
+      "successful": true
+    },
+    {
+      "tests": 1380,
+      "failures": 0,
+      "errors": 0,
+      "skips": 28,
+      "successful": true
+    }
+  ],
+  "total_tests": 5522,
+  "total_skips": 50,
+  "total_failures": 0,
+  "total_errors": 0,
+  "classification": "FINAL_RELEASE_RUNNER_PREMERGE_FULL_SUITE"
+}

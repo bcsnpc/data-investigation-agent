@@ -1,0 +1,106 @@
+{
+  "status": "THREE_RUNS_COMPLETED_WITH_SOFT_FAILURES",
+  "owner_approved_allocation": "INVESTIGATION",
+  "build_phase_safety_gates_only": true,
+  "results": [
+    {
+      "attempt": 1,
+      "execution": {
+        "endTime": "2026-10-27T18:19:24+00:00",
+        "execution_name": "job-dia-worker-cq9o67p",
+        "startTime": "2026-10-27T18:15:46+00:00",
+        "status": "Succeeded"
+      },
+      "capture_seal": "b9debacf6529da0707a008b9a8feb5b286fa3c0bc5d1c6dc537e11fc9d9c6724",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:0c49608909bd74399c90c6baa9d50590a4421801f3ea9814052af363ebe15583",
+      "status": "FAIL",
+      "checks": {
+        "blob_write_read": "PASS",
+        "check_access": "PASS",
+        "family_a_demo": "FAIL",
+        "gold_read": "PASS",
+        "postgres_write_read": "PASS",
+        "sign_in": "PASS"
+      },
+      "allocation": "INVESTIGATION",
+      "normal_limits_unchanged": true,
+      "pass": false,
+      "native_errors": [
+        {
+          "attempt": 1,
+          "error_type": "NotFoundError",
+          "message": "Error code: 404 - {'error': {'code': 'DeploymentNotFound', 'message': 'The API deployment for this resource does not exist. If you created the deployment within the last 5 minutes, please wait a moment and try again.'}}",
+          "retry": false
+        }
+      ]
+    },
+    {
+      "attempt": 2,
+      "execution": {
+        "endTime": "2026-10-27T18:35:22+00:00",
+        "execution_name": "job-dia-worker-vrj90jo",
+        "startTime": "2026-10-27T18:31:14+00:00",
+        "status": "Succeeded"
+      },
+      "capture_seal": "07e2da0b90c92de15a88a21bd2236b26604b634914c3f60ab48cf51789a54e3f",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:0c49608909bd74399c90c6baa9d50590a4421801f3ea9814052af363ebe15583",
+      "status": "FAIL",
+      "checks": {
+        "blob_write_read": "PASS",
+        "check_access": "PASS",
+        "family_a_demo": "FAIL",
+        "gold_read": "PASS",
+        "postgres_write_read": "PASS",
+        "sign_in": "PASS"
+      },
+      "allocation": "INVESTIGATION",
+      "normal_limits_unchanged": true,
+      "pass": false,
+      "native_errors": [
+        {
+          "attempt": 1,
+          "error_type": "APIStatusError",
+          "message": "Error code: 408 - {'error': {'code': 'Timeout', 'message': 'The operation was timeout.'}}",
+          "retry": false
+        }
+      ]
+    },
+    {
+      "attempt": 3,
+      "execution": {
+        "execution_name": "job-dia-worker-dttunsb",
+        "status": "Succeeded",
+        "startTime": "2026-10-27T18:38:09+00:00",
+        "endTime": "2026-10-27T18:41:03+00:00"
+      },
+      "capture_seal": "527730b0713588b72e533f26b87bbdcfc27a782ed028412338e78fa8f5796a3b",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:0c49608909bd74399c90c6baa9d50590a4421801f3ea9814052af363ebe15583",
+      "status": "FAIL",
+      "checks": {
+        "blob_write_read": "PASS",
+        "check_access": "PASS",
+        "family_a_demo": "FAIL",
+        "gold_read": "PASS",
+        "postgres_write_read": "PASS",
+        "sign_in": "PASS"
+      },
+      "allocation": "INVESTIGATION",
+      "normal_limits_unchanged": true,
+      "pass": false,
+      "native_errors": [
+        {
+          "attempt": 1,
+          "error_type": "NotFoundError",
+          "message": "Error code: 404 - {'error': {'code': 'DeploymentNotFound', 'message': 'The API deployment for this resource does not exist. If you created the deployment within the last 5 minutes, please wait a moment and try again.'}}",
+          "retry": false
+        }
+      ]
+    }
+  ],
+  "completed_smokes": 3,
+  "passed_smokes": 0,
+  "all_three_same_image": true,
+  "scored_outcomes_rerun": false,
+  "expectations_changed": false,
+  "interpretation": "All three required runs completed. Known external model404/408 soft failures retained; no claim of green smokes. Build-phase PartA1 gates safety-only."
+}

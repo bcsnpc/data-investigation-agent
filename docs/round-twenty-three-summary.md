@@ -33,7 +33,7 @@ The strongest discovered model writes investigative SQL/DAX. Original schemas, p
 
 ## Part E — generic investigation tools
 
-Installed tools cover native SQL/DAX, retained definitions, lineage, candidates, record traces, history/refresh and security definitions. Existing manifest bindings now carry the declared application source and producer into route assembly; audit metadata remains evidence rather than a quantity boundary. Billing?s old manifest still has no declared system of record; equality must not silently invent that declaration. Live class coverage and blocked permission needs are still pending the complete scored passes.
+Installed tools cover native SQL/DAX, retained definitions, lineage, candidates, record traces, history/refresh and security definitions. Existing manifest bindings now carry the declared application source and producer into route assembly; audit metadata remains evidence rather than a quantity boundary. Billing?s old manifest still has no declared system of record; equality must not silently invent that declaration. Live class coverage is partial and the official held-out targets were missed; permission and evidence-surface limitations are listed below and in owner-actions.
 
 ## Part F — business answer and engineer handoff
 
@@ -45,7 +45,7 @@ Independent v2 tickets and expectations were sealed at25339ea before investigati
 
 ## Part H — restoration, validation and release
 
-Final credit/cache source10caa82 passed104 focused checks; immutable imagef24b0227 was published after focused image validation. The new full suite is running. Release smokes, merge and postmerge validation remain pending. All dev04 failed/waiting definitions, latency source rows and schedules, history rows, stale rows/automatic-update setting and access objects were restored with retained hash evidence. Stale model own refresh completed and native baseline7661 returned. Access catalog owner payload and permissions match their originals. Temporal history remains on.
+Final scored/diagnostic engine7d32316 passed5521 tests/50skips; image984bebba. A separate release-runner startup fix4b547f1 then passed54 focused tests and the complete5522-test/50-skip suite, zero failures/errors (775.421s). Published release image0c49608909bd74399c90c6baa9d50590a4421801f3ea9814052af363ebe15583; daily06UTC, six-hour graph and half-hour collector schedules all read back on it with unchanged configuration/resources/identity. The first manual smoke failed before any capture or investigation because binding froze per_execution=False while validation required True; its native startup failure remains recorded. Three corrected consecutive smokes, merge and postmerge validation are in progress. No official outcome or expectation was re-run or edited for that release-only fix. All dev04 failed/waiting definitions, latency source rows and schedules, history rows, stale rows/automatic-update setting and access objects were restored with retained hash evidence. Stale model own refresh completed and native baseline7661 returned. Access catalog owner payload and permissions match their originals. Temporal history remains on.
 
 ## Final results
 
@@ -58,7 +58,7 @@ Cached Opus diagnostic (unscored):5/13 attempts independently correct,0 harmful 
 
 Separate dev-only grading audit:113 outcomes, five disagreements; original criteria totals9verdict/13layer/11cause. The second model flags one borderline harmful assertion that a historical version exists; official scores are unchanged, but that history family is paused from further diagnostics. All five cases and both reasons are in [the audit](grading-audit.md). Current read-only evidence corroborates24 dev expectations;16 full causes remain unverified, not disproved. An unknown literal report ID in warehouse-scope-v2 requires owner review; no expectation was edited.
 
-[First-wrong-step backtrack](failure-backtrack.md):104 zero-scored preserved dev outcomes across40 tickets, including all earlier passes, latest Fable and Opus. First supported step: budget43, target28, query15, triage10, tool choice8. All104 are itemized with original grader reasons, query/results and visible decisions; five walkthroughs cover distinct failure types. Saved traces only: zero new estate reads/model calls and no code/score/expectation changes. Recorder omissions and the one unsealed partial UNKNOWN_REPORT trace are explicit limitations.
+[First-wrong-step backtrack](failure-backtrack.md):104 zero-scored preserved dev outcomes across40 tickets, including all earlier passes, latest Fable and Opus. First supported step: budget26, target28, query28, triage10, tool choice10, conclusion1, write-up1. All104 are itemized with original grader reasons, query/results and visible decisions; five walkthroughs cover distinct failure types. Saved traces only: zero new estate reads/model calls and no code/score/expectation changes. Recorder omissions and the one unsealed partial UNKNOWN_REPORT trace are explicit limitations.
 
 ## Per-family results (official grades unchanged)
 
@@ -86,3 +86,18 @@ Each cell is correct/attempted; NR is not run. Partial passes and the unscored O
 | stale-model | NR | 0/2 | NR | NR | 0/1 | NR |
 | waiting-application-load | 0/2 | 0/2 | NR | NR | 0/1 | NR |
 | warehouse-scope | 0/2 | 0/2 | 1/2 | NR | 1/1 | 1/2 |
+
+## Held-out verdict classes
+
+| Expected verdict class | Correct / attempted |
+|---|---:|
+| access difference | 1/1 |
+| as designed | 4/8 |
+| different question | 1/1 |
+| failed job | 0/2 |
+| latency | 0/1 |
+| not found | 0/1 |
+| refresh stale | 0/1 |
+| source changed history | 0/1 |
+| transformation logic | 0/3 |
+| waiting on job | 0/1 |

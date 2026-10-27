@@ -1,0 +1,16 @@
+{
+  "observed_at": "2026-10-27T18:02:17.390137+00:00",
+  "status": "FAILED_BEFORE_WORKER_CAPTURE",
+  "execution": "job-dia-worker-lmkxkbi",
+  "run_id": "8ec09956-a583-4b8c-99cc-afab1a8cb360",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6",
+  "native_error": "ValueError: MANUAL_RELEASE_ALLOCATION_REQUIRES_UNSCHEDULED_SMOKE",
+  "container_exit_code": 1,
+  "capture_objects": 0,
+  "investigation_started": false,
+  "cause": "Host bind_execution freezes per_execution=False, but worker load and manual allocation required True.",
+  "native_log_sha256": "9c524a0b906f520b5a1cfa4013a079e5d6965577552852446ba05613c33399de",
+  "replica_receipt_sha256": "66e3302bae5cf54ed92b201a3da08bdedf8b1b3485f5cacf577c7e4962d844b4",
+  "replacement_is_new_attempt": true,
+  "original_unchanged": true
+}

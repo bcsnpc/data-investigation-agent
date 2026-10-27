@@ -1,0 +1,210 @@
+{
+  "observed_at": "2026-10-27T18:18:32.625486+00:00",
+  "source": "Existing native restoration receipts and local controller states; no new estate mutation or read",
+  "all_controller_restore_flags_clear": true,
+  "temporal_history": "ON_BY_OWNER_DECISION",
+  "source_business_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+  "source_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+  "application_pipeline_original_semantic_sha256": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+  "access_catalog_original_sha256": "2428c1d30ac56d7d114a943a2312ea3c430c74cf46fd9c97077cddde68e0cbd8",
+  "stale_restoration_receipt": "docs/runs/round-twenty-three-held-stale-restoration.json",
+  "live_source_recheck_receipt": "docs/runs/round-twenty-three-dev-expectation-live-audit.json",
+  "controllers": [
+    {
+      "cohort": "dev03-failed-billing",
+      "status_sha256": "20743bfc7cc0a56f3fa9ec03112f0e865fa5712e58cd70acf70a5d6ab0b214ef",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev03-failed-fixture",
+      "status_sha256": "483b65162a1ee6ca684e60566fda2e56f1a76925f9edf5bf68415e51498ace97",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev03-normal-load-headroom",
+      "status_sha256": "cf8e4c42affdbb7096651a0521a4b2c25a413ef54d1fb1811e78271330f9206f",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev03-normal-load-headroom-cont01",
+      "status_sha256": "c0e925833e60bf68a74daf8bf5ce510c26443e6e3809606f75904acd146e2279",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev03-waiting",
+      "status_sha256": "b0047779535ec84da4f3b90542245f0900b7d8188d11fb6a2244fa8a116da89b",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev04-access",
+      "status_sha256": "5b1f71ae82f1b1c19def3d0aed3c8960a4e7d25041d6f1d152f4c21a5d63068c",
+      "restoration_flags": {
+        "catalog_restoration_required": false,
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev04-access-admission02",
+      "status_sha256": "62bce549683e73645bc6f5c66bbc706a0c2a4c6336dd8778dd90785fb61f3540",
+      "restoration_flags": {
+        "catalog_restoration_required": false,
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev04-access-admission03",
+      "status_sha256": "ddef8c7e813a804324ca9ef7b0a2bd1ba98a5c11182966bde281d4d6e93f8b1f",
+      "restoration_flags": {
+        "catalog_restoration_required": false,
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev04-access-admission04",
+      "status_sha256": "a2994bde2e956f000f958eaa221d47a78865889d90053c0464dc6079d3f58a98",
+      "restoration_flags": {
+        "catalog_restoration_required": false,
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev04-failed-billing",
+      "status_sha256": "66abf0fee521dc786dbd42ac065e6edb6a7cc68c7f098b168ebea611388143dd",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev04-failed-fixture",
+      "status_sha256": "586cd367b461d673941d6828dfbc87a7f4b5dff05034a1876952ab37db344dd6",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev04-history",
+      "status_sha256": "ed1cf0c5fb02bc1db9b7cf9ff8444db44f4c8d1928905ed7a311636e35c7435a",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev04-latency",
+      "status_sha256": "65f0ce13445e6abd64d901b50f1501484dfa2909d70361a87759c4871b7f7cd3",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev04-latency-admission02",
+      "status_sha256": "8f700624c54c652910faba98cf1e3cf67e52c490f7851b37b627af0591727309",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev04-latency-admission03",
+      "status_sha256": "90fb7c655a9c6029dfa4df42532a5115cbad68eaf1f593261763fb20ed307751",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev04-latency-admission04",
+      "status_sha256": "df20713a7747f7ccc6e39df3cb93eb9d769a76caa3730784a9b8646b8cfe23f4",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev04-latency-admission05",
+      "status_sha256": "079f423d8a4e3e997c4da937fdcb6bd3c6c90bf557334ac7336ce7bf42e19740",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev04-stale",
+      "status_sha256": "1c7a7653378a70f91b925cc3569e283ba99fcdb137df2d4e574a950b876924ce",
+      "restoration_flags": {
+        "automatic_update_restoration_required": false,
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "dev04-waiting",
+      "status_sha256": "66f32301074ae6319b0308a7cf8788864ffcee8ed7b0198be953fb008e03b622",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "held01-access-admission01",
+      "status_sha256": "598f1787b98b39fdb92144b6785c194ba6d8319d66823335e0d185f694318a97",
+      "restoration_flags": {
+        "catalog_restoration_required": false,
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "held01-failed-billing",
+      "status_sha256": "2982c7257e799a285f4e996668e708fb13b47f6bf219351ab273296dcaba38ef",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "held01-failed-fixture",
+      "status_sha256": "eb43dcaf95e8643f49667de3a73888c36153a170860dddd67d0c2b0c9564a353",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "held01-history",
+      "status_sha256": "ce5d2b678241083a6f7cf9bb5839f7b04242e8967646782514ce9a41aaf48eb4",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "held01-latency-admission05",
+      "status_sha256": "6c414ab1f0bb556d7bbaaef6528db8c2c372de34a16333038ab6a15f42a88f35",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "held01-stale",
+      "status_sha256": "b0e9f56fb3d333bdd305e223caf25d4eb4f641584147c8d65ee60437b3a866ad",
+      "restoration_flags": {
+        "automatic_update_restoration_required": false,
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "held01-waiting",
+      "status_sha256": "ad7da341621dba7c1cdd6b98e33e52bc133125bb9f131e8efcd4eb735dad5d7f",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    },
+    {
+      "cohort": "held01-waiting-admission02",
+      "status_sha256": "c53c42967752c90b8d10dc8ffddd4033519e50761dc17eb2a6d32b1bcb7d5553",
+      "restoration_flags": {
+        "restoration_required": false
+      }
+    }
+  ]
+}
