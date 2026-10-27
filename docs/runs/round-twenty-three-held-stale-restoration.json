@@ -1,0 +1,43 @@
+{
+  "status": "STALE_DATA_ORIGINAL_HASH_AUTOON_MODEL_REFRESH_BASELINE_VERIFIED",
+  "restored_hash": {
+    "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+    "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+    "temporal_period_columns_excluded_explicitly": true
+  },
+  "model_restore_verified": {
+    "native_refresh": {
+      "endTime": "2026-10-27T15:56:11.943Z",
+      "id": 762967533,
+      "refreshAttempts": [
+        {
+          "attemptId": 1,
+          "endTime": "2026-10-27T15:56:01.4256209Z",
+          "executionMetrics": [],
+          "startTime": "2026-10-27T15:55:47.6716923Z",
+          "type": "Data"
+        },
+        {
+          "attemptId": 1,
+          "endTime": "2026-10-27T15:56:03.5975761Z",
+          "executionMetrics": [],
+          "startTime": "2026-10-27T15:56:02.3475262Z",
+          "type": "Query"
+        }
+      ],
+      "refreshType": "ViaApi",
+      "requestId": "f5181b94-b40a-4a0a-afda-970e040d8f7f",
+      "startTime": "2026-10-27T15:55:47.577Z",
+      "status": "Completed"
+    },
+    "quantity": 7661,
+    "screenshot_sha256": "3ca8c79ffcbfb3c4d9aaf820c5defd5736e9012705f70b99c15b50921df48354",
+    "ui_checked": true,
+    "verification_requests": 1
+  },
+  "automatic_updates_restored": true,
+  "temporal_history": "ON",
+  "native_gap_during_scored_case": "source/Bronze7692 versus model7661",
+  "scored_ticket": "v2-stale-model-v3",
+  "scored_outcome": "BLOCKED: unchanged ticket model cap"
+}

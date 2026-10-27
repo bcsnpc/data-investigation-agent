@@ -189,3 +189,9 @@ Round23 history held01 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; res
 
 
 Round23 access held01 ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-three\injections\held01-access-admission01\status.json.
+
+
+Round23 stale held01 DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_restoration_required=False, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-three\injections\held01-stale\status.json. No source/model figure was authored from an engine query.
+
+
+Round23 held01 stale final restoration: original source row/business-schema hashes matched, original360 real restore load Completed; automatic updates restoredON in existing publisher UI, own API model refreshf5181b94-b40a-4a0a-afda-970e040d8f7f Completed2026-10-27T15:56:11.943Z, native model read7661. The once-only held-out outcome was sealed before restore. Refresh6physical chargedRESTORATION, model verification1 chargedINV; no identity, role or connection change. Native receipt .local/round-twenty-three/injections/held01-stale/status.json; screenshots private, hashes ledger-linked.

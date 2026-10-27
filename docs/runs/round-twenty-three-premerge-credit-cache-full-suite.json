@@ -1,0 +1,55 @@
+{
+  "revision": "10caa82ae4d3e6de54b3fa5ad41a4d5596402542",
+  "elapsed_seconds": 1035.5207881999959,
+  "statuses": [
+    {
+      "shard": 0,
+      "exit_code": 0
+    },
+    {
+      "shard": 1,
+      "exit_code": 0
+    },
+    {
+      "shard": 2,
+      "exit_code": 0
+    },
+    {
+      "shard": 3,
+      "exit_code": 0
+    }
+  ],
+  "results": [
+    {
+      "tests": 1380,
+      "failures": 0,
+      "errors": 0,
+      "skips": 6,
+      "successful": true
+    },
+    {
+      "tests": 1380,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "successful": true
+    },
+    {
+      "tests": 1380,
+      "failures": 0,
+      "errors": 0,
+      "skips": 15,
+      "successful": true
+    },
+    {
+      "tests": 1379,
+      "failures": 0,
+      "errors": 0,
+      "skips": 29,
+      "successful": true
+    }
+  ],
+  "total_tests": 5519,
+  "skips": 50,
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3"
+}
