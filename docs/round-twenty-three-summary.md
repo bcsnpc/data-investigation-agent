@@ -59,3 +59,30 @@ Cached Opus diagnostic (unscored):5/13 attempts independently correct,0 harmful 
 Separate dev-only grading audit:113 outcomes, five disagreements; original criteria totals9verdict/13layer/11cause. The second model flags one borderline harmful assertion that a historical version exists; official scores are unchanged, but that history family is paused from further diagnostics. All five cases and both reasons are in [the audit](grading-audit.md). Current read-only evidence corroborates24 dev expectations;16 full causes remain unverified, not disproved. An unknown literal report ID in warehouse-scope-v2 requires owner review; no expectation was edited.
 
 [First-wrong-step backtrack](failure-backtrack.md):104 zero-scored preserved dev outcomes across40 tickets, including all earlier passes, latest Fable and Opus. First supported step: budget43, target28, query15, triage10, tool choice8. All104 are itemized with original grader reasons, query/results and visible decisions; five walkthroughs cover distinct failure types. Saved traces only: zero new estate reads/model calls and no code/score/expectation changes. Recorder omissions and the one unsealed partial UNKNOWN_REPORT trace are explicit limitations.
+
+## Per-family results (official grades unchanged)
+
+Each cell is correct/attempted; NR is not run. Partial passes and the unscored Opus diagnostic are separate columns. A family is a base ticket class with v1/v2 dev variants and v3 held-out variant.
+
+| Family | dev03 | dev04 | dev05 | dev06 | Held-out | Opus diagnostic |
+|---|---:|---:|---:|---:|---:|---:|
+| access-export | NR | 0/2 | NR | NR | 1/1 | NR |
+| application-baseline | 0/2 | 0/2 | 2/2 | NR | 1/1 | 0/2 |
+| before-temporal-retention | 0/2 | 0/2 | 0/2 | NR | 0/1 | 1/2 |
+| billing-invoices | 0/2 | 0/2 | 0/2 | NR | 0/1 | 0/2 |
+| billing-mrr | 0/2 | 0/2 | 0/2 | NR | 0/1 | 2/2 |
+| failed-application-load | 0/2 | 0/2 | NR | NR | 0/1 | NR |
+| failed-billing-transform | 0/2 | 0/2 | NR | NR | 0/1 | NR |
+| fixture-quantity | 0/2 | 0/2 | 0/2 | NR | 0/1 | 0/2 |
+| latency-record | NR | 0/2 | NR | NR | 0/1 | NR |
+| other-collected-definition | 0/2 | 0/2 | 0/2 | NR | 0/1 | NR |
+| record-absent-everywhere | 0/2 | 1/2 | 0/2 | NR | 0/1 | 1/1 |
+| record-repeated-gold | 0/2 | 0/2 | 0/2 | NR | 0/1 | NR |
+| screenshot-record-01 | 0/2 | 0/2 | 0/2 | 0/1 | 1/1 | NR |
+| screenshot-record-02 | 0/2 | 0/2 | 0/2 | 0/1 | 1/1 | NR |
+| screenshot-record-03 | 0/2 | 0/2 | 0/2 | NR | 0/1 | NR |
+| screenshot-record-04 | 0/2 | 0/2 | 0/2 | NR | 1/1 | NR |
+| source-history | NR | 0/2 | NR | NR | 0/1 | NR |
+| stale-model | NR | 0/2 | NR | NR | 0/1 | NR |
+| waiting-application-load | 0/2 | 0/2 | NR | NR | 0/1 | NR |
+| warehouse-scope | 0/2 | 0/2 | 1/2 | NR | 1/1 | 1/2 |

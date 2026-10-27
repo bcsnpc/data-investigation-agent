@@ -153,3 +153,6 @@ Round23 dated correction2026-10-26: the owner authorized9000 monthly estate requ
 
 
 Round23 current independent progression: partial dev03 0/32, complete dev04 1/40, baseline-only dev05 3/26 (14 not run), affected screenshot dev06 0/2 (38 not run); harmful0 on each. Partial denominators are never presented as full40 accuracy or direct improvements. Two follow-ups have handoff quality2 each, but neither answered successfully. Original outcomes, independent grades, expectation hashes and per-class breakdowns remain in their dated run receipts. Further dev admissions ended at7162/9000 to preserve the once-only held-out and messy-input passes and restoration.
+
+
+Round23 final scored results,2026-10-27: once-only frozen held-out6/20, original harmful0;80%/every-class/under2-minute targets missed. Messy60 owner-skipped,zero runs, so no new R22 comparison score. Cached Opus diagnostic5/13 is unscored and separate. A second different-model dev audit grades113 preserved outcomes, with five disagreements and one borderline harmful historical-existence assertion; no official grade changed. Saved-trace first-wrong-step review covers104 zeros,40IDs,0new estate/model calls. See grading-audit.md and failure-backtrack.md.
