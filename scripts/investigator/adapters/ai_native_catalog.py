@@ -12,10 +12,8 @@ from ..estate_graph_contract import digest
 
 class NativeCatalog:
     def __init__(self, *, assets, graph_nodes, configuration, endpoint, sql_read, record, source_read=None):
-        # AssetCatalog snapshots omit the inventory-only availability column.
-        # Their retained identities may be queried, but are not relabelled as a
-        # fresh scan. Explicitly unavailable/tombstoned assets remain excluded.
-        self.assets={a['id']:deepcopy(a) for a in assets if a.get('availability') in (None,'CURRENT')}
+        from .native_catalog_projection import project
+        self.assets,self.catalog_warnings=project(assets,graph_nodes)
         self.config=deepcopy(configuration)
         self.endpoint,self.sql_read,self.record=endpoint,sql_read,record
         self.source_read=source_read
@@ -35,7 +33,8 @@ class NativeCatalog:
             route={'path_nodes':sorted({i for a in objects for i in self.object_nodes(a['id'])}),
                    'label':container.get('name',parent),'config':deepcopy(self.config),
                    'asset_ids':[a['id'] for a in objects], 'objects':[],
-                   'container':parent,'discovery':[{'id':a['id'],'content_hash':a['content_hash']} for a in objects]}
+                   'container':parent,'discovery':[{'id':a['id'],'content_hash':a['content_hash'],
+                       **({'content_hash_basis':a['content_hash_basis']} if a.get('content_hash_basis') else {})} for a in objects]}
             if kind=='SemanticModel':
                 ws,model=parent.removeprefix('fabric://').split('/')
                 route.update(kind='DAX',dialect='DAX',workspace=ws,model=model)
@@ -92,7 +91,7 @@ class NativeCatalog:
             return result
         if route['kind']=='DAX' or (route['kind']=='SOURCE_SQL' and self.source_read is None):return projected()
         pending=[a for a in route['objects'] if a['id'] in self.opened[identity] and
-                 (not a['metadata']['columns'] or route['kind']=='SOURCE_SQL' and not a['metadata'].get('fresh_native_schema'))]
+                 (not a['metadata'].get('columns') or route['kind']=='SOURCE_SQL' and not a['metadata'].get('fresh_native_schema'))]
         if not pending:return projected()
         parent=route['container'];container=self.assets[parent]
         if route['kind']=='FABRIC_SQL':
@@ -163,15 +162,24 @@ class NativeCatalog:
             workspace=model.rsplit('/',1)[0];endpoint=workspace+'/'+match[3];roots=[];witnesses=[]
             native_endpoint=self.assets.get(endpoint,{})
             if native_endpoint.get('kind')=='Warehouse':roots.append(endpoint)
+            def digest_matches(expected,asset):
+                # Missing collector digests are bookkeeping gaps, not missing
+                # native identities. Keep the literal relation as DECLARED and
+                # label it; a supplied contradictory digest is still distinct.
+                return expected is None or asset.get('content_hash_basis')=='DERIVED_RETAINED_METADATA_CANONICAL_JSON' or expected==asset.get('content_hash')
             for witness in self.assets.values():
                 if witness['kind']!='NativeItemRelationMetadata' or witness.get('parent_id')!=model:continue
                 meta=witness['metadata'];relation=meta.get('relation',{});target=self.assets.get(relation.get('target'),{})
                 if (relation.get('source')==endpoint and relation.get('relation')=='NATIVE_CASCADEDELETE' and relation.get('provenance')=='DISCOVERED'
                     and target.get('kind')=='Lakehouse' and target.get('parent_id')==workspace
-                    and meta.get('endpoint_asset_hash')==native_endpoint.get('content_hash')
-                    and meta.get('container_asset_hash')==target.get('content_hash')
+                    and digest_matches(meta.get('endpoint_asset_hash'),native_endpoint)
+                    and digest_matches(meta.get('container_asset_hash'),target)
                     and any(e.get('scope')==model and e.get('source_api')=='fabric_item_relations_beta' for e in relation.get('evidence',[]))):
-                    roots.append(target['id']);witnesses.append({'asset_id':witness['id'],'metadata':deepcopy(meta)})
+                    roots.append(target['id']);witnesses.append({'asset_id':witness['id'],'metadata':deepcopy(meta),
+                        'inventory_digest_qualification':('Unavailable inventory digest; retained literal identity relation only.'
+                            if any(a.get('content_hash_basis')=='DERIVED_RETAINED_METADATA_CANONICAL_JSON' for a in (native_endpoint,target))
+                            or meta.get('endpoint_asset_hash') is None or meta.get('container_asset_hash') is None else
+                            'Retained inventory digests matched; this is not a current query-bound attestation.')})
             if len(set(roots))!=1:continue
             root=roots[0];physical=[]
             for candidate in self.assets.values():
@@ -202,7 +210,8 @@ class NativeCatalog:
         assets.update(n.get('provenance',{}).get('source_id') for n in path['nodes'] if n.get('provenance',{}).get('source_id') in self.assets)
         containers={self.assets[a]['parent_id'] for a in assets}
         definitions=[{'id':a['id'],'kind':a['kind'],'name':a['name'],'metadata':deepcopy(a['metadata']),
-                      'content_hash':a['content_hash'],'provenance':a.get('provenance')}
+                      'content_hash':a['content_hash'],'provenance':a.get('provenance'),
+                      **({'content_hash_basis':a['content_hash_basis']} if a.get('content_hash_basis') else {})}
                      for a in self.assets.values() if a['id'] in assets or
                      a['parent_id'] in containers and a['kind'] in ('SemanticRelationship','SemanticTable','DefinitionPart')]
         # PBIR sibling visuals are not on the ticket path. Keep the selected
@@ -240,5 +249,4 @@ class NativeCatalog:
         return {'retained_native_definitions':definitions,'system_of_record':declaration,'native_definition_references':references,
                 'off_path_visual_definition_index':[{'id':a['id'],'name':a['name'],'content_hash':a['content_hash']} for a in siblings],
                 'warnings':['Native comparisons are observational snapshots; aligned query-bound versions are not established.',
-                    *(['Some native identities come from retained catalog snapshots without a current inventory availability report; successful queries establish present readability only.']
-                      if any(a.get('availability') is None for a in self.assets.values()) else [])]}
+                    *self.catalog_warnings]}

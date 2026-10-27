@@ -71,6 +71,11 @@ class Factory:
         intake=deepcopy(case['intake'])
         root=intake.get('visual') or intake.get('page') or intake['report']
         path=self.target_path(intake)
+        # Catalog containment projections need not carry persisted edge IDs.
+        # Give those edges a local identity without rewriting retained graph
+        # records or losing them from later case-file/handoff composition.
+        path={**path,'edges':[deepcopy(e) if e.get('id') else
+            {**deepcopy(e),'id':'derived:'+digest(e),'id_basis':'DERIVED_PROJECTED_EDGE_CONTENT'} for e in path['edges']]}
         if self.declared_continuations:
             bridges=self.declared_continuations(path)
             nodes={n['id']:n for n in path['nodes']};edges={e['id']:e for e in path['edges']}

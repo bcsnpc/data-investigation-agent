@@ -8,6 +8,33 @@ from investigator.postgres_connection import database_token
 
 
 class ConnectionTests(unittest.TestCase):
+    def test_settlement_reconnects_once_after_lost_commit_without_double_charging(self):
+        from investigator.shared_state import SharedState
+        from unittest.mock import patch
+        with TemporaryDirectory()as folder:
+            storage=SharedState.offline(Path(folder)/'state.sqlite');storage.migrate()
+            storage.import_accounts('seed',{'accounts':[{'identity':'money','unit':'MICRODOLLARS','ceiling':'100','protected':'0','opening':'0','violated':False}],'provenance':{'source':'synthetic','owner_approval':'test'}})
+            storage.reserve('money','same-reservation','worker',50)
+            retry=SharedState(lambda:None,backend='postgresql',mode='offline');calls=[]
+            def commit_then_drop(*args,**kwargs):
+                calls.append(1);result=storage.settle(*args,**kwargs)
+                if len(calls)==1:raise ConnectionError('synthetic lost commit response')
+                return result
+            with patch.object(retry,'_settle_once',side_effect=commit_then_drop),patch('time.sleep')as sleep:
+                result=retry.settle('money','same-reservation','worker',20,full_snapshot=False)
+            self.assertEqual(result['charged'],'20');self.assertEqual(len(calls),2)
+            self.assertEqual(len(storage.snapshot('money')['reservations']),1)
+            self.assertEqual(retry.connection_failures[0]['operation'],'RESERVATION_SETTLEMENT')
+            sleep.assert_called_once_with(30)
+    def test_safe_reconnect_is_bounded_and_never_retries_auth_or_sql_errors(self):
+        from investigator.shared_state import SharedState
+        from unittest.mock import patch
+        retry=SharedState(lambda:None,backend='postgresql',mode='offline')
+        for error,count in ((ConnectionError('lost'),2),(ValueError('invalid SQL or policy'),1)):
+            call=Mock(side_effect=error)
+            with self.subTest(error=type(error).__name__),patch('time.sleep'),self.assertRaises(type(error)):
+                retry._retry_connection_operation('READ_TRANSACTION',call)
+            self.assertEqual(call.call_count,count)
     def test_expiring_token_is_renewed_on_same_identity_audience(self):
         factory=Mock();one=Mock();two=Mock()
         one.__enter__=Mock(return_value=one);one.__exit__=Mock(return_value=False)

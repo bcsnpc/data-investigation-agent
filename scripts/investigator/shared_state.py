@@ -243,15 +243,20 @@ class SharedState:
         return self._read_transaction(lambda db:self._get(db,namespace,identity))
 
     def _read_transaction(self,read):
-        """Retry a read once on a fresh connection; never replay a mutation."""
+        """Retry this read once on a fresh connection."""
+        def operation():
+            with self.transaction(_read_only=True)as db:return read(db)
+        return self._retry_connection_operation('READ_TRANSACTION',operation)
+
+    def _retry_connection_operation(self,name,operation):
+        """Only callers with read/idempotency semantics may use this helper."""
         from .postgres_connection import dropped_connection
         import time
         for attempt in range(2):
-            try:
-                with self.transaction(_read_only=True)as db:return read(db)
+            try:return operation()
             except Exception as error:
                 if self.backend!='postgresql' or not dropped_connection(error):raise
-                self.connection_failures.append({'operation':'READ_TRANSACTION','attempt':attempt+1,
+                self.connection_failures.append({'operation':name,'attempt':attempt+1,
                     'error_type':type(error).__name__,'sqlstate':getattr(error,'sqlstate',None),
                     'connection_timing':getattr(error,'postgres_connection_timing',None),'retry':attempt==0})
                 self.connection_failures=self.connection_failures[-100:]
@@ -342,6 +347,12 @@ class SharedState:
             return key
 
     def settle(self, identity, key, owner, actual=None, *, detail=None,full_snapshot=True):
+        # Repeating this exact reservation ID is safe even if the first COMMIT
+        # succeeded but its response was lost: non-RESERVED rows are unchanged.
+        return self._retry_connection_operation('RESERVATION_SETTLEMENT',
+            lambda:self._settle_once(identity,key,owner,actual,detail=detail,full_snapshot=full_snapshot))
+
+    def _settle_once(self, identity, key, owner, actual=None, *, detail=None,full_snapshot=True):
         if type(full_snapshot)is not bool:raise ValueError('SNAPSHOT_MODE_BOOLEAN_REQUIRED')
         with self.transaction() as db:
             row = self.sql(db, 'SELECT owner,reserved,status,detail FROM state_reservations WHERE account=? AND identity=?', (identity,key)).fetchone()

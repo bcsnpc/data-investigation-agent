@@ -40,6 +40,13 @@ class NativeCatalogTests(unittest.TestCase):
         value=self.build().declared_continuations(path)
         self.assertEqual(value[0]['physical_table'],self.table)
         self.assertEqual(value[0]['graph_nodes'],['table-node']);self.read.assert_not_called()
+        original=deepcopy(self.assets)
+        for a in self.assets:
+            for key in ('content_hash','availability','provenance'):a.pop(key,None)
+        value=self.build().declared_continuations(path)
+        self.assertEqual(value[0]['physical_table'],self.table)
+        self.assertIn('Unavailable inventory digest',value[0]['native_ownership'][0]['inventory_digest_qualification'])
+        self.assets=original;witness=self.assets[-1]
         witness['metadata']['container_asset_hash']='b'*64
         self.assertEqual(self.build().declared_continuations(path),[])
 
@@ -145,10 +152,30 @@ class NativeCatalogTests(unittest.TestCase):
         for item in self.assets:item.pop('availability',None)
         catalog=self.build();self.assertTrue(catalog.routes)
         warnings=catalog.context({'nodes':self.nodes},{})['warnings']
-        self.assertTrue(any('without a current inventory availability' in w for w in warnings))
+        self.assertTrue(any('current inventory availability' in w for w in warnings))
         self.assertNotIn('availability',next(iter(catalog.assets.values())))
         for item in self.assets:item['availability']='UNAVAILABLE'
         self.assertEqual(self.build().routes,{})
+    def test_catalog_wire_missing_inventory_hash_and_provenance_gets_explicit_derived_metadata_digest(self):
+        import json,hashlib
+        for item in self.assets:
+            for key in ('content_hash','provenance','availability'):item.pop(key,None)
+        original=deepcopy(self.assets);catalog=self.build();self.assertTrue(catalog.routes)
+        item=catalog.assets[self.table]
+        expected=hashlib.sha256(json.dumps(item['metadata'],sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()).hexdigest()
+        self.assertEqual(item['content_hash'],expected)
+        self.assertEqual(item['content_hash_basis'],'DERIVED_RETAINED_METADATA_CANONICAL_JSON')
+        self.assertEqual(item['provenance']['source'],'RETAINED_ASSET_CATALOG')
+        self.assertNotIn('observed_at',item['provenance'])
+        self.assertEqual(self.assets,original)
+    def test_all_inventory_bookkeeping_is_optional_and_unknown_bookkeeping_never_leaks(self):
+        for item in self.assets:
+            for key in ('content_hash','provenance','availability'):item.pop(key,None)
+            item.update(scan_id='scan',created_at='old',collector_private_field={'unused':'bookkeeping'})
+        catalog=self.build();self.assertTrue(catalog.routes)
+        for item in catalog.assets.values():
+            self.assertFalse({'scan_id','created_at','collector_private_field'}&set(item))
+        self.assertTrue(catalog.catalog_warnings)
 
     def test_column_only_lineage_opens_its_containing_native_table(self):
         column=self.table+'/column/quantity'

@@ -1,0 +1,868 @@
+{
+  "observed_at": "2026-10-27T05:00:33.209880+00:00",
+  "dev_forms": 40,
+  "results": [
+    {
+      "id": "v2-application-baseline-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 22005
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 26175
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-application-baseline-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 20872
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 25042
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-fixture-quantity-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 4,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "warnings": 2,
+        "context_bytes": 135695
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 4,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "warnings": 2,
+        "context_bytes": 138234
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-fixture-quantity-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 4,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "warnings": 2,
+        "context_bytes": 135405
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 4,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "warnings": 2,
+        "context_bytes": 137944
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-failed-application-load-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 20840
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 25010
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-failed-application-load-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 20840
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 25010
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-waiting-application-load-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 21318
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 25488
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-waiting-application-load-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 20956
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 25126
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-latency-record-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 21646
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 25816
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-latency-record-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 21258
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 25428
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-stale-model-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 21621
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 25791
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-stale-model-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 21354
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 25524
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-warehouse-scope-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 22077
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 26247
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-warehouse-scope-v2",
+      "estate": "fixture",
+      "status": "INTAKE_REFUSED",
+      "reason": "UNKNOWN_REPORT"
+    },
+    {
+      "id": "v2-before-temporal-retention-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 21406
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 25576
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-before-temporal-retention-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 21057
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 25227
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-record-absent-everywhere-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 20889
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 25059
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-record-absent-everywhere-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 20889
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 25059
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-record-repeated-gold-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 4,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "warnings": 2,
+        "context_bytes": 135841
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 4,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "warnings": 2,
+        "context_bytes": 138380
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-record-repeated-gold-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 4,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "warnings": 2,
+        "context_bytes": 135517
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 4,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "warnings": 2,
+        "context_bytes": 138056
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-source-history-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 21334
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 25504
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-source-history-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 21031
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 25201
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-screenshot-record-01-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 28077
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 33294
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-screenshot-record-01-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 27753
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 32970
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-screenshot-record-02-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 27932
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 33149
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-screenshot-record-02-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 27537
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 32754
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-screenshot-record-03-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 27904
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 33121
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-screenshot-record-03-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 27584
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 32801
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-screenshot-record-04-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 27708
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 32925
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-screenshot-record-04-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 27406
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 0,
+        "layer_ids": [],
+        "warnings": 2,
+        "context_bytes": 32623
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-billing-mrr-v1",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 231600
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 234153
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-billing-mrr-v2",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 231173
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 233726
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-billing-invoices-v1",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 2,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 181299
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 2,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 181938
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-billing-invoices-v2",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 2,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 180926
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 2,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 181565
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-failed-billing-transform-v1",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 2,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 180548
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 2,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 181187
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-failed-billing-transform-v2",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 2,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 180256
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 2,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 180895
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-access-export-v1",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 473009
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 480695
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-access-export-v2",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 472737
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 480423
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-other-collected-definition-v1",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 196602
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 197873
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-other-collected-definition-v2",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 196297
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 197568
+      },
+      "status": "ASSEMBLED"
+    }
+  ],
+  "estate_reads": 0,
+  "model_calls": 0,
+  "method": "Actual sealed dev forms and retained estate graph/catalog; production Factory route assembly twice, actual wire and all top-level inventory bookkeeping removed. Native schema/endpoint ports use offline retained-schema shape stubs; no data values, live probe or finding is claimed. Invalid report IDs are not substituted."
+}

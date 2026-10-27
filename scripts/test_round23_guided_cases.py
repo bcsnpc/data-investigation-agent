@@ -1,5 +1,6 @@
 """Submit/poll and CAS claims against disposable offline shared state."""
 from pathlib import Path
+from copy import deepcopy
 from tempfile import TemporaryDirectory
 from unittest.mock import Mock
 import unittest
@@ -34,6 +35,24 @@ class Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'NO_RAW_FALLBACK'):
             Cases(state=self.state,graph=self.graph,estate='estate',engine_factory=self.factory,
                   recording_class='PRIVACY_PROJECTED')
+    def test_report_only_catalog_edges_without_bookkeeping_ids_assemble_full_route(self):
+        from investigator.guided_investigator_installation import Factory
+        from types import SimpleNamespace
+        path=graph();path['nodes'].append({'id':'table-node','kind':'TABLE','label':'Items'})
+        self.graph.allowed={n['id']for n in path['nodes']}
+        self.graph.intake_catalog.return_value=deepcopy(path)
+        self.graph.path_to_source.return_value=deepcopy(path)
+        route={'kind':'SOURCE_SQL','config':{},'objects':sql_objects(),'asset_ids':['table'],
+               'path_nodes':['table-node'],'label':'Source','dialect':'T-SQL'}
+        factory=Factory(state=self.state,graph=self.graph,routes={'source':route},native=Mock(),
+            context_for=lambda *a:{},triage_for=lambda *a:SimpleNamespace(run=lambda:{'facts':[]}),
+            model_for=lambda _:Mock(),reserve=Mock(),persist=Mock(),job_runs=Mock(),refresh_history=Mock(),
+            declared_continuations=lambda _:[])
+        item=request();del item['visual']
+        engine=factory({'id':'offline-form','estate':'estate','intake':item})
+        self.assertIn('source',engine.queries.layers)
+        self.assertTrue(all(e.get('id')for e in engine.context['path']['edges']))
+        self.assertTrue(all('id'not in e for e in path['edges']))
     def test_form_to_model_authored_native_query_to_grounded_answer_end_to_end(self):
         from investigator.guided_investigator_installation import Factory
         from types import SimpleNamespace
