@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-27T05:00:33.209880+00:00",
+  "observed_at": "2026-10-27T05:12:42.471069+00:00",
   "dev_forms": 40,
   "results": [
     {
@@ -7,17 +7,25 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 22005
+        "context_bytes": 46140,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 26175
+        "context_bytes": 50583,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -26,17 +34,25 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 20872
+        "context_bytes": 45007,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 25042
+        "context_bytes": 49450,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -53,7 +69,8 @@
           "native:5f79ea32cda68657788b"
         ],
         "warnings": 2,
-        "context_bytes": 135695
+        "context_bytes": 135758,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -65,7 +82,8 @@
           "native:5f79ea32cda68657788b"
         ],
         "warnings": 2,
-        "context_bytes": 138234
+        "context_bytes": 138297,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -82,7 +100,8 @@
           "native:5f79ea32cda68657788b"
         ],
         "warnings": 2,
-        "context_bytes": 135405
+        "context_bytes": 135468,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -94,7 +113,8 @@
           "native:5f79ea32cda68657788b"
         ],
         "warnings": 2,
-        "context_bytes": 137944
+        "context_bytes": 138007,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -103,17 +123,25 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 20840
+        "context_bytes": 44975,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 25010
+        "context_bytes": 49418,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -122,17 +150,25 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 20840
+        "context_bytes": 44975,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 25010
+        "context_bytes": 49418,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -141,17 +177,25 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 21318
+        "context_bytes": 45453,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 25488
+        "context_bytes": 49896,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -160,17 +204,25 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 20956
+        "context_bytes": 45091,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 25126
+        "context_bytes": 49534,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -179,17 +231,25 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 21646
+        "context_bytes": 45781,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 25816
+        "context_bytes": 50224,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -198,17 +258,25 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 21258
+        "context_bytes": 45393,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 25428
+        "context_bytes": 49836,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -217,17 +285,25 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 21621
+        "context_bytes": 45756,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 25791
+        "context_bytes": 50199,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -236,17 +312,25 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 21354
+        "context_bytes": 45489,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 25524
+        "context_bytes": 49932,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -255,17 +339,25 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 22077
+        "context_bytes": 46212,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 26247
+        "context_bytes": 50655,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -280,17 +372,25 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 21406
+        "context_bytes": 45541,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 25576
+        "context_bytes": 49984,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -299,17 +399,25 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 21057
+        "context_bytes": 45192,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 25227
+        "context_bytes": 49635,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -318,17 +426,25 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 20889
+        "context_bytes": 45024,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 25059
+        "context_bytes": 49467,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -337,17 +453,25 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 20889
+        "context_bytes": 45024,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 25059
+        "context_bytes": 49467,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -364,7 +488,8 @@
           "native:5f79ea32cda68657788b"
         ],
         "warnings": 2,
-        "context_bytes": 135841
+        "context_bytes": 135904,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -376,7 +501,8 @@
           "native:5f79ea32cda68657788b"
         ],
         "warnings": 2,
-        "context_bytes": 138380
+        "context_bytes": 138443,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -393,7 +519,8 @@
           "native:5f79ea32cda68657788b"
         ],
         "warnings": 2,
-        "context_bytes": 135517
+        "context_bytes": 135580,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -405,7 +532,8 @@
           "native:5f79ea32cda68657788b"
         ],
         "warnings": 2,
-        "context_bytes": 138056
+        "context_bytes": 138119,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -414,17 +542,25 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 21334
+        "context_bytes": 45469,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 25504
+        "context_bytes": 49912,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -433,17 +569,25 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 21031
+        "context_bytes": 45166,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 2,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:e95b94fd338e7086320f"
+        ],
         "warnings": 2,
-        "context_bytes": 25201
+        "context_bytes": 49609,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -452,17 +596,23 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 1,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe"
+        ],
         "warnings": 2,
-        "context_bytes": 28077
+        "context_bytes": 30025,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 1,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe"
+        ],
         "warnings": 2,
-        "context_bytes": 33294
+        "context_bytes": 33143,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -471,17 +621,23 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 1,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe"
+        ],
         "warnings": 2,
-        "context_bytes": 27753
+        "context_bytes": 29701,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 1,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe"
+        ],
         "warnings": 2,
-        "context_bytes": 32970
+        "context_bytes": 32819,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -490,17 +646,23 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 1,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe"
+        ],
         "warnings": 2,
-        "context_bytes": 27932
+        "context_bytes": 29880,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 1,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe"
+        ],
         "warnings": 2,
-        "context_bytes": 33149
+        "context_bytes": 32998,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -509,17 +671,23 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 1,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe"
+        ],
         "warnings": 2,
-        "context_bytes": 27537
+        "context_bytes": 29485,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 1,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe"
+        ],
         "warnings": 2,
-        "context_bytes": 32754
+        "context_bytes": 32603,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -528,17 +696,23 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 1,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe"
+        ],
         "warnings": 2,
-        "context_bytes": 27904
+        "context_bytes": 29852,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 1,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe"
+        ],
         "warnings": 2,
-        "context_bytes": 33121
+        "context_bytes": 32970,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -547,17 +721,23 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 1,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe"
+        ],
         "warnings": 2,
-        "context_bytes": 27584
+        "context_bytes": 29532,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 1,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe"
+        ],
         "warnings": 2,
-        "context_bytes": 32801
+        "context_bytes": 32650,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -566,17 +746,23 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 1,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe"
+        ],
         "warnings": 2,
-        "context_bytes": 27708
+        "context_bytes": 29656,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 1,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe"
+        ],
         "warnings": 2,
-        "context_bytes": 32925
+        "context_bytes": 32774,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -585,17 +771,23 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 1,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe"
+        ],
         "warnings": 2,
-        "context_bytes": 27406
+        "context_bytes": 29354,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 0,
-        "layer_ids": [],
+        "layers": 1,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe"
+        ],
         "warnings": 2,
-        "context_bytes": 32623
+        "context_bytes": 32472,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -611,7 +803,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 231600
+        "context_bytes": 231663,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -622,7 +815,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 234153
+        "context_bytes": 234216,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -638,7 +832,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 231173
+        "context_bytes": 231236,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -649,7 +844,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 233726
+        "context_bytes": 233789,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -664,7 +860,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 181299
+        "context_bytes": 181362,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -674,7 +871,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 181938
+        "context_bytes": 182001,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -689,7 +887,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 180926
+        "context_bytes": 180989,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -699,7 +898,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 181565
+        "context_bytes": 181628,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -714,7 +914,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 180548
+        "context_bytes": 180611,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -724,7 +925,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 181187
+        "context_bytes": 181250,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -739,7 +941,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 180256
+        "context_bytes": 180319,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -749,7 +952,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 180895
+        "context_bytes": 180958,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -765,7 +969,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 473009
+        "context_bytes": 473072,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -776,7 +981,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 480695
+        "context_bytes": 480758,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -792,7 +998,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 472737
+        "context_bytes": 472800,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -803,7 +1010,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 480423
+        "context_bytes": 480486,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -819,7 +1027,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 196602
+        "context_bytes": 196665,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -830,7 +1039,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 197873
+        "context_bytes": 197936,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     },
@@ -846,7 +1056,8 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 196297
+        "context_bytes": 196360,
+        "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -857,12 +1068,13 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 197568
+        "context_bytes": 197631,
+        "no_query_route": false
       },
       "status": "ASSEMBLED"
     }
   ],
   "estate_reads": 0,
   "model_calls": 0,
-  "method": "Actual sealed dev forms and retained estate graph/catalog; production Factory route assembly twice, actual wire and all top-level inventory bookkeeping removed. Native schema/endpoint ports use offline retained-schema shape stubs; no data values, live probe or finding is claimed. Invalid report IDs are not substituted."
+  "method": "Actual sealed dev forms and retained estate graph/catalog; production Factory route assembly twice, actual wire and all top-level inventory bookkeeping and redundant parent_id removed; parent binding is recovered only from literal native addresses. Native schema/endpoint ports use offline retained-schema shape stubs; no data values, live probe or finding is claimed. Invalid report IDs are not substituted."
 }

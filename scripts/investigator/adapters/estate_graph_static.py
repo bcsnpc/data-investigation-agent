@@ -142,6 +142,7 @@ class StaticGraph:
         return self.by_asset[candidates[0]] if len(candidates)==1 and candidates[0] in self.by_asset else None
 
     def model_for_report(self,report):
+        from .native_catalog_projection import native_parent
         declarations=[]
         metadata=self.assets[report].get('metadata',{})
         if isinstance(metadata.get('datasetId'),str):declarations.append(metadata['datasetId'])
@@ -155,7 +156,7 @@ class StaticGraph:
                 except (KeyError,TypeError,ValueError):continue
         values=set(v.strip().casefold() for v in declarations)
         candidates=[a['id'] for a in self.assets.values() if a['kind']=='SemanticModel' and
-            a.get('parent_id')==self.assets[report].get('parent_id') and a['id'].split('/')[-1].casefold() in values]
+            native_parent(a)==native_parent(self.assets[report]) and a['id'].split('/')[-1].casefold() in values]
         return candidates[0] if len(values)==1 and len(candidates)==1 else None
 
     def fields(self,origin,value,model,proof):

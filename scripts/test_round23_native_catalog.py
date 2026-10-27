@@ -10,6 +10,22 @@ def asset(identity,kind,parent,name,metadata):
 
 
 class NativeCatalogTests(unittest.TestCase):
+    def test_literal_model_binding_does_not_depend_on_inventory_root_parent(self):
+        import json
+        from investigator.adapters.estate_graph_static import StaticGraph
+        from investigator.adapters.native_catalog_projection import native_parent
+        report='fabric://workspace/report';model='fabric://workspace/model'
+        assets=[asset(report,'Report','fabric://workspace','Report',{}),
+            asset(model,'SemanticModel',None,'Model',{}),
+            asset(report+'/part/definition.pbir','DefinitionPart',report,'definition.pbir',
+                {'content':json.dumps({'datasetReference':{'byConnection':{'connectionString':'semanticmodelid=model'}}})})]
+        for item in assets:item.pop('content_hash')
+        graph=StaticGraph('fixture','owner','2026-10-27T00:00:00Z',assets,lambda _:None)
+        self.assertEqual(graph.model_for_report(report),model)
+        self.assertEqual(native_parent(assets[1]),'fabric://workspace')
+        assets[1]['id']='fabric://different-workspace/model'
+        graph=StaticGraph('fixture','owner','2026-10-27T00:00:00Z',assets,lambda _:None)
+        self.assertIsNone(graph.model_for_report(report))
     def test_context_excludes_sibling_visual_bodies_but_preserves_global_scope_and_originals(self):
         report='fabric://workspace/report';selected=report+'/selected';sibling=report+'/sibling'
         self.assets += [asset(report,'Report','fabric://workspace','Report',{}),
@@ -170,7 +186,7 @@ class NativeCatalogTests(unittest.TestCase):
         self.assertEqual(self.assets,original)
     def test_all_inventory_bookkeeping_is_optional_and_unknown_bookkeeping_never_leaks(self):
         for item in self.assets:
-            for key in ('content_hash','provenance','availability'):item.pop(key,None)
+            for key in ('content_hash','provenance','availability','parent_id'):item.pop(key,None)
             item.update(scan_id='scan',created_at='old',collector_private_field={'unused':'bookkeeping'})
         catalog=self.build();self.assertTrue(catalog.routes)
         for item in catalog.assets.values():

@@ -9,6 +9,25 @@ import hashlib
 import json
 
 
+def native_parent(asset):
+    """Recover containment only from the native asset's literal address shape."""
+    if asset.get('parent_id'):return asset['parent_id']
+    identity=asset['id'];kind=asset['kind']
+    markers={'SemanticTable':'/table/','SemanticColumn':'/columns/','Measure':'/measures/',
+        'SemanticRelationship':'/relationship/','DefinitionPart':'/part/',
+        'LakehouseTable':'/table/','WarehouseTable':'/table/',
+        'LakehouseColumn':'/column/','WarehouseColumn':'/column/',
+        'SqlObject':'/object/','SqlColumn':'/column/',
+        'ReportPage':'/page/','ReportVisual':'/visual/',
+        'NativeItemRelationMetadata':'/native-relation/'}
+    marker=markers.get(kind)
+    if marker and marker in identity:return identity.rsplit(marker,1)[0]
+    if kind in ('SemanticModel','Report','Lakehouse','Warehouse','SQLEndpoint','Notebook','DataPipeline','CopyJob'):
+        if identity.startswith('fabric://') and len(identity.removeprefix('fabric://').split('/'))==2:
+            return identity.rsplit('/',1)[0]
+    return None
+
+
 def project(assets,graph_nodes):
     result={};warnings=[];missing=set()
     proofs_by_asset={}
@@ -22,7 +41,9 @@ def project(assets,graph_nodes):
             missing.add('explicitly unavailable retained identities were omitted')
             continue
         asset={key:deepcopy(raw[key]) for key in ('id','kind','name','metadata')}
-        asset['parent_id']=raw.get('parent_id')
+        asset['parent_id']=native_parent(raw)
+        if not raw.get('parent_id') and asset['parent_id']:
+            missing.add('collector containment (recovered from literal native address)')
         # Other top-level bookkeeping fields deliberately never enter the
         # query adapter, so a future collector cannot add a new dependency.
         if raw.get('availability') is not None:asset['availability']=raw['availability']
