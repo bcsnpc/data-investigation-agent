@@ -24,6 +24,26 @@ class RunnerTests(unittest.TestCase):
             config['checks']['manual']['kind']='smoke';config['per_execution']=False;path.write_text(json.dumps(config))
             with self.assertRaisesRegex(ValueError,'MANUAL_RELEASE'):load(path)
 
+    def test_bound_manual_smoke_loads_in_worker_and_keeps_investigation_allocation(self):
+        from test_runner_schedule import ScheduleTests
+        from investigator.adapters.runner_schedule import bind_execution
+        from investigator.build_phase import purpose
+        with tempfile.TemporaryDirectory() as d:
+            config,_=ScheduleTests().config();config.pop('schedule')
+            config['checks']={'daily':config['checks']['daily']}
+            config['checks']['daily']['options']['manual_release_allocation']='INVESTIGATION'
+            bound=bind_execution(config,identifier='manual-release-bound')
+            self.assertFalse(bound['per_execution'])
+            path=Path(d)/'runner.json';path.write_text(json.dumps(bound));load(path)
+            bound['output_root']=str(Path(d)/'results');seen=[]
+            def handler(plan,ctx):
+                seen.append(purpose());return {'status':'PASS'}
+            with patch('investigator.access_check.configured',return_value={'status':'PASS','rows':[]}):
+                out=run(bound,'daily',registry={'smoke':handler},put=lambda *_:None)
+            self.assertEqual(seen,['INVESTIGATION']);self.assertEqual(out['exit_code'],0)
+            bound['schedule']={'target':'daily'};path.write_text(json.dumps(bound))
+            with self.assertRaisesRegex(ValueError,'MANUAL_RELEASE'):load(path)
+
     def test_collector_options_reject_before_launch_and_dispatch(self):
         from investigator.unified_runner import handlers
         from unittest.mock import Mock

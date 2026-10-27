@@ -41,7 +41,8 @@ def load(path):
         if check['kind']=='collect-facts':collector_options(check['options'])
         if 'manual_release_allocation' in check['options']:
             if (check['kind']!='smoke' or check['options']['manual_release_allocation']!='INVESTIGATION'
-                    or value.get('per_execution') is not True or 'schedule' in value):
+                    or not (value.get('per_execution') is True or
+                            value.get('per_execution') is False and bool(value.get('run_id'))) or 'schedule' in value):
                 raise ValueError('MANUAL_RELEASE_ALLOCATION_REQUIRES_UNSCHEDULED_SMOKE')
     _safe(bytes_of(value))
     return value
@@ -267,7 +268,9 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     previous={key:os.environ.get(key) for key in keys}
     try:
         from .build_phase import manual_smoke_allocation
-        manual_smoke=(check['kind']=='smoke' and config.get('per_execution') is True and 'schedule' not in config
+        # Host binding freezes per_execution=False and keeps its exact run_id.
+        manual_smoke=(check['kind']=='smoke' and
+                      (config.get('per_execution') is True or config.get('per_execution') is False and bool(config.get('run_id'))) and 'schedule' not in config
                       and check['options'].get('manual_release_allocation')=='INVESTIGATION')
         with ctx.observing(),manual_smoke_allocation(manual_smoke):
             os.environ['DIA_STREAMING_CAPTURE']='1'
