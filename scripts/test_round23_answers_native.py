@@ -112,6 +112,12 @@ class NativeTests(unittest.TestCase):
 
 
 class GatewayTests(unittest.TestCase):
+    def setUp(self):
+        # This class calls only the in-memory authorizer, never a transport.
+        # Docker still has --network=none; leave the production kill switch alone.
+        guard=patch.dict(os.environ,{'DIA_LIVE_ACCESS_DISABLED':'0'})
+        guard.start();self.addCleanup(guard.stop)
+
     def test_define_is_explicit_opt_in_recursive_grammar_not_gateway_bypass(self):
         query="DEFINE MEASURE 'Activity'[X]=SUM('Activity'[units]) EVALUATE ROW(\"n\",[X])"
         with TemporaryDirectory() as folder,patch.dict(os.environ,{'DIA_GATEWAY_AUDIT_FILE':str(Path(folder)/'audit.jsonl')}):
