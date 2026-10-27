@@ -8,6 +8,17 @@ from investigator.postgres_connection import database_token
 
 
 class ConnectionTests(unittest.TestCase):
+    def test_postgres_bulk_state_writes_wait_for_each_response_without_committing(self):
+        from investigator.shared_state import SharedState
+        state=SharedState(lambda:None,backend='postgresql',mode='offline')
+        cursor=Mock();db=Mock();db.cursor.return_value=cursor
+        state.sqlmany(db,'INSERT INTO example VALUES(?,?)',iter([('a',1),('b',2)]))
+        self.assertEqual(cursor.execute.call_args_list,
+                         [unittest.mock.call('INSERT INTO example VALUES(%s,%s)',('a',1)),
+                          unittest.mock.call('INSERT INTO example VALUES(%s,%s)',('b',2))])
+        cursor.executemany.assert_not_called();db.commit.assert_not_called()
+        cursor.close.assert_called_once()
+
     def test_real_psycopg_connection_timeout_subclass_retries_acquisition_once(self):
         from investigator.postgres_connection import connect,connection_timeout
         from psycopg.errors import ConnectionTimeout,InvalidPassword

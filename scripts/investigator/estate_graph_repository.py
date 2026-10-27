@@ -46,6 +46,19 @@ class GraphRepository:
             for statement in DDL.split(';'):
                 if statement.strip():db.execute(statement)
 
+    def catalog_index(self,estate):
+        """Small installation index; schemas and definitions stay on path reads.
+
+        Runner preparation needs identities and native ownership, not every
+        retained definition body. Decode no JSON and do no external work while
+        holding this short read-only transaction.
+        """
+        kind="(body::jsonb ->> 'kind')" if self.state.backend=='postgresql' else "json_extract(body,'$.kind')"
+        asset="(body::jsonb -> 'properties' ->> 'asset_id')" if self.state.backend=='postgresql' else "json_extract(body,'$.properties.asset_id')"
+        with self.state.transaction(_read_only=True)as db:
+            rows=self.state.sql(db,'SELECT identity,'+kind+','+asset+' FROM estate_graph_nodes WHERE estate=? ORDER BY identity',(estate,)).fetchall()
+        return [{'id':identity,'kind':kind,'properties':{'asset_id':asset}}for identity,kind,asset in rows]
+
     def _current(self,db,estate,kind):
         table='estate_graph_nodes' if kind=='nodes' else 'estate_graph_edges'
         rows=self.state.sql(db,'SELECT identity,body FROM '+table+' WHERE estate=?',(estate,)).fetchall()
@@ -230,12 +243,27 @@ class GraphRepository:
                         history_inserts.append((estate,kind,identity,after['owner'],now,None,encoded(after),sha(after)))
             self.state.sqlmany(db,'UPDATE estate_graph_history SET valid_to=? WHERE estate=? AND record_kind=? AND identity=? AND valid_to IS NULL',history_updates)
             self.state.sqlmany(db,'INSERT INTO estate_graph_history VALUES(?,?,?,?,?,?,?,?)',history_inserts)
-            self.state.sql(db,'DELETE FROM estate_graph_edges WHERE estate=?',(estate,))
-            self.state.sql(db,'DELETE FROM estate_graph_nodes WHERE estate=?',(estate,))
-            self.state.sqlmany(db,'INSERT INTO estate_graph_nodes VALUES(?,?,?,?,?)',
-                [(estate,item['id'],item['confidence'],encoded(item['provenance']),encoded(item)) for item in new['nodes'].values()])
-            self.state.sqlmany(db,'INSERT INTO estate_graph_edges VALUES(?,?,?,?,?,?,?)',
-                [(estate,item['id'],item['source'],item['target'],item['confidence'],encoded(item['provenance']),encoded(item)) for item in new['edges'].values()])
+            # Reconciliation already computed the exact delta. Rewriting the
+            # entire estate here inflated a three-object fixture update into
+            # thousands of writes under the shared state lock.
+            removed_nodes=[]
+            for kind in ('nodes','edges'):
+                table='estate_graph_'+kind
+                removed=[(estate,change['id'])for change in changed if change['kind']==kind and change['change']=='DELETED']
+                if kind=='nodes':removed_nodes=removed
+                elif removed:self.state.sqlmany(db,'DELETE FROM '+table+' WHERE estate=? AND identity=?',removed)
+                added=[];updated=[]
+                for change in changed:
+                    if change['kind']!=kind or change['change']=='DELETED':continue
+                    item=new[kind][change['id']]
+                    fields=([item['confidence'],encoded(item['provenance']),encoded(item)] if kind=='nodes' else
+                            [item['source'],item['target'],item['confidence'],encoded(item['provenance']),encoded(item)])
+                    if change['change']=='ADDED':added.append([estate,item['id'],*fields])
+                    else:updated.append([*fields,estate,item['id']])
+                if added:self.state.sqlmany(db,'INSERT INTO '+table+' VALUES('+','.join('?'for _ in added[0])+')',added)
+                columns='confidence=?,provenance=?,body=?' if kind=='nodes' else 'source=?,target=?,confidence=?,provenance=?,body=?'
+                if updated:self.state.sqlmany(db,'UPDATE '+table+' SET '+columns+' WHERE estate=? AND identity=?',updated)
+            if removed_nodes:self.state.sqlmany(db,'DELETE FROM estate_graph_nodes WHERE estate=? AND identity=?',removed_nodes)
             for value in pending:
                 owner=value['owner'];prior=versions.get(owner)
                 if prior:self.state.sql(db,'UPDATE estate_graph_owner_versions SET definition_hash=?,observed_at=? WHERE estate=? AND owner=?',(value['definition_hash'],now,estate,owner))

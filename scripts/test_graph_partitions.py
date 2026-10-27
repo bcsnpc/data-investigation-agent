@@ -17,6 +17,31 @@ class PartitionTests(unittest.TestCase):
         self.repo=GraphRepository(SharedState.offline(Path(self.tmp.name)/'state.sqlite'));self.repo.migrate()
     def build(self,assets,at=T0):
         return extract_partitioned('estate',assets,lambda raw:{'sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw),'uri':'cas://definitions/'+hashlib.sha256(raw).hexdigest()},observed_at=at)
+    def test_one_changed_node_updates_only_that_current_row(self):
+        original=graph();self.repo.replace(original)
+        with self.repo.state.transaction()as db:
+            db.execute('CREATE TABLE projection_writes(operation TEXT, identity TEXT)')
+            for table in ('estate_graph_nodes','estate_graph_edges'):
+                for operation,record in (('INSERT','NEW'),('UPDATE','NEW'),('DELETE','OLD')):
+                    db.execute('CREATE TRIGGER watch_'+table+'_'+operation+' AFTER '+operation+' ON '+table+
+                               " BEGIN INSERT INTO projection_writes VALUES('"+operation+"',"+record+'.identity); END')
+        changed=copy.deepcopy(original);changed.update(definition_hash='b'*64,observed_at=T1)
+        changed['nodes'][0]['label']='Renamed report'
+        self.repo.replace(changed)
+        with self.repo.state.transaction(_read_only=True)as db:
+            writes=db.execute('SELECT operation,identity FROM projection_writes').fetchall()
+        self.assertEqual(writes,[('UPDATE','report')])
+        self.assertEqual(len(self.repo.records('estate')['nodes']),len(original['nodes']))
+
+    def test_catalog_index_returns_only_requested_estate_addresses(self):
+        original=graph();original['nodes'][0]['properties']={'asset_id':'native/report','retained_body':'x'*64000}
+        self.repo.replace(original)
+        index=self.repo.catalog_index('estate')
+        self.assertEqual({n['id']for n in index},{n['id']for n in original['nodes']})
+        self.assertEqual(next(n for n in index if n['id']=='report'),
+                         {'id':'report','kind':'REPORT','properties':{'asset_id':'native/report'}})
+        self.assertTrue(all(set(n)=={'id','kind','properties'}for n in index))
+        self.assertEqual(self.repo.catalog_index("estate' OR 1=1 --"),[])
     def test_seed_cross_owner_edges_is_order_independent_and_ids_survive_item_reextract(self):
         assets=static_cases.StaticTests().assets();parts=self.build(assets)
         self.assertEqual({p['owner'] for p in parts},{'r',assets[1]['id']})

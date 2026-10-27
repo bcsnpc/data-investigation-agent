@@ -147,3 +147,15 @@ Round23 latency dev04 LATENCY_COHORT_COMPLETED; restoration_required=False. Nati
 
 
 Round23 history dev04 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-three\injections\dev04-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round23 stale dev04 DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_restoration_required=False, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-three\injections\dev04-stale\status.json. No source/model figure was authored from an engine query.
+
+
+Round23 dev04 stale final restoration: original source row/business-schema hashes matched, original360 real restore load Completed; automatic updates restoredON in existing publisher UI, own API model refresh03d815b4-3134-4792-9d2a-a0475374b6d4 Completed2026-10-27T10:04:03.517Z, native model read7661. Both dependent outcomes were sealed before restore. Refresh6physical chargedRESTORATION, model verification1 chargedINV; no identity, role or connection change. Native receipt .local/round-twenty-three/injections/dev04-stale/status.json; screenshots private, hashes ledger-linked.
+
+
+Round23 access dev04 ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-three\injections\dev04-access\status.json.
+
+
+Round23 access dev04 PREPARED_NOT_APPLIED; restoration_required=False, catalog_restoration_required=True. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-three\injections\dev04-access-admission02\status.json.

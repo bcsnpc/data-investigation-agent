@@ -149,7 +149,14 @@ class SharedState:
     def sqlmany(self, db, query, rows):
         """Batch internal writes in the caller's existing atomic transaction."""
         with closing(db.cursor()) as cursor:
-            cursor.executemany(query.replace('?', '%s') if self.backend == 'postgresql' else query, rows)
+            if self.backend=='postgresql':
+                # Psycopg executemany implicitly pipelines extended-protocol
+                # messages. A lost client can strand the transaction before
+                # Sync/ReadyForQuery, holding the shared advisory lock. Wait
+                # for each response instead; the enclosing transaction is
+                # still atomic and all existing timeouts remain unchanged.
+                for row in rows:cursor.execute(query.replace('?', '%s'),row)
+            else:cursor.executemany(query,rows)
 
     @contextmanager
     def transaction(self,*,_lease_release=False,_read_only=False):
