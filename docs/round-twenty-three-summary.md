@@ -41,11 +41,11 @@ Delivered findings have a business answer and retained technical evidence. Every
 
 ## Part G — independent tickets, dev, held-out and messy input
 
-Independent v2 tickets and expectations were sealed at25339ea before investigation. All40 dev forms now pass the complete offline catalog/route check:39 open query layers and one unknown report ID refuses, with no catalog exception. Actual and stripped-bookkeeping catalogs open identical layers. The single-image restart is recorded in [the admission receipt](runs/round-twenty-three-dev-pass1-restart.json); The preserved partial attempt was independently graded0/32,harmful0, with8notrun; it is not a completed40-case score. See [partial result](round-twenty-three-dev03-partial.md). A new complete pass will follow the grouped fixes on one image.
+Independent v2 tickets and expectations were sealed at25339ea before investigation. All40 dev forms now pass the complete offline catalog/route check:39 open query layers and one unknown report ID refuses, with no catalog exception. Actual and stripped-bookkeeping catalogs open identical layers. The single-image restart is recorded in [the admission receipt](runs/round-twenty-three-dev-pass1-restart.json); The preserved partial attempt was independently graded0/32,harmful0, with8notrun; it is not a completed40-case score. See [partial result](round-twenty-three-dev03-partial.md). The completed single-image dev04 independently scored **1/40, harmful0**, investigator costUSD21.580202. See [complete result](round-twenty-three-dev04.md). Its forty original outcomes and expectations are unchanged. The next image groups context representation, fresh path-local facts, SQL CONVERT and PostgreSQL transaction fixes.
 
 ## Part H — restoration, validation and release
 
-_pending_. Failed-job and waiting-job controls ran and their original definitions were hash-restored. Latency source-row and future-schedule admissions were attempted and restored without submitting tickets; the first failed locally on an unnecessary Convert AST node and the second on publisher SQL broker token renewal. Both original business hashes match and both owned schedules were removed. Stale and access remain pending. Temporal history remains on.
+Release validation remains pending. All dev04 failed/waiting definitions, latency source rows and schedules, history rows, stale rows/automatic-update setting and access objects were restored with retained hash evidence. Stale model own refresh completed and native baseline7661 returned. Access catalog owner payload and permissions match their originals. Temporal history remains on.
 
 ## Final results
 

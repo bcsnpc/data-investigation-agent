@@ -57,7 +57,15 @@ class Tests(unittest.TestCase):
         wire=Presentation.columnar(values)
         self.assertEqual([dict(zip(wire['record_keys'],v)) for v in wire['record_values']],values)
         missing=[{'id':'a','n':None},{'id':'b'}]
-        self.assertEqual(Presentation.columnar(missing),missing)
+        wire=Presentation.columnar(missing)
+        self.assertEqual([dict(zip(wire['record_schemas'][i],row)) for i,row in wire['variant_record_values']],missing)
+
+    def test_optional_graph_fields_do_not_disable_compact_encoding(self):
+        original=[{'id':'edge1','confidence':'DECLARED','unknown':None},
+                  {'id':'edge2','confidence':'DECLARED','bookkeeping':'retained'}]
+        wire=Presentation.columnar(original)
+        self.assertIn('variant_record_values',wire)
+        self.assertEqual([dict(zip(wire['record_schemas'][i],row)) for i,row in wire['variant_record_values']],original)
 
     def test_native_json_fields_include_full_code_and_original_serialization_is_untouched(self):
         code='SELECT SUM(units) FROM dbo.Items WHERE note = '+repr('addr1')+';'

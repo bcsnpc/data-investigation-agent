@@ -18,7 +18,7 @@ def validate(text, layer, *, rows=250):
     if dialect=='T-SQL':
         from .query_sql import compile_query
         return compile_query(text,layer['objects'],max_rows=rows,allow_views=True,allow_computed=True,
-                             allow_set_operations=True,allow_temporal_all=True,max_joins=16,max_selects=24,literal_limit=4000)
+                             allow_set_operations=True,allow_temporal_all=True,allow_convert=True,max_joins=16,max_selects=24,literal_limit=4000)
     if dialect!='Spark SQL':raise ValueError('UNKNOWN_LAYER_DIALECT')
     from sqlglot import parse, exp
     from sqlglot.optimizer.scope import traverse_scope

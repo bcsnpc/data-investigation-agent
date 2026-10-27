@@ -159,3 +159,12 @@ Round23 access dev04 ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED
 
 
 Round23 access dev04 PREPARED_NOT_APPLIED; restoration_required=False, catalog_restoration_required=True. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-three\injections\dev04-access-admission02\status.json.
+
+
+Round23 access admission02 catalog recovery: all three native objects had already been hash-guarded removed and before/after roles matched; PostgreSQL metadata restore retried only after reconciling its original owner payload. Exact original catalog owner SHA2562428c1d30ac56d7d114a943a2312ea3c430c74cf46fd9c97077cddde68e0cbd8 matched after restore; graph history remains retained. Zero access tickets were submitted in this failed admission. Private native receipts .local/round-twenty-three/injections/dev04-access-admission02/. A fresh admission03 uses the same investigator image and unchanged tickets.
+
+
+Round23 access dev04 ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-three\injections\dev04-access-admission03\status.json.
+
+
+Round23 access dev04 ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-three\injections\dev04-access-admission04\status.json.

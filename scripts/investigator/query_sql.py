@@ -99,7 +99,7 @@ def compiled_identity(qualified):
 
 
 def compile_query(query, objects, *, max_rows=limits.QUERY_ROWS, allow_views=False,
-                  allow_computed=False,allow_set_operations=False,allow_temporal_all=False,
+                  allow_computed=False,allow_set_operations=False,allow_temporal_all=False,allow_convert=False,
                   max_joins=MAX_JOINS,max_selects=MAX_SELECTS,literal_limit=200):
     if not isinstance(query,str) or not 1<=len(query)<=limits.QUERY_TEXT:raise ValueError('SQL text budget exceeded')
     if type(max_rows) is not int or not 1<=max_rows<=limits.QUERY_ROWS:raise ValueError('Invalid row budget')
@@ -111,6 +111,7 @@ def compile_query(query, objects, *, max_rows=limits.QUERY_ROWS, allow_views=Fal
     tree=statements[0]
     if len(list(tree.walk()))>1200:raise ValueError('SQL syntax budget exceeded')
     unsupported=sorted({type(n).__name__ for n in tree.walk()}-NODES)
+    if allow_convert and 'Convert' in unsupported:unsupported.remove('Convert')
     if allow_set_operations:unsupported=[n for n in unsupported if n not in ('Union','Intersect','Except')]
     if allow_temporal_all and 'Version' in unsupported:
         versions=list(tree.find_all(exp.Version))

@@ -37,6 +37,18 @@ def dax_objects():
 
 
 class IntakeTests(unittest.TestCase):
+    def test_investigative_convert_is_read_only_and_legacy_capability_unchanged(self):
+        from investigator.query_sql import compile_query
+        objects=sql_objects();layer={'dialect':'T-SQL','objects':objects}
+        query='SELECT CONVERT(varchar(20), quantity) AS rendered FROM dbo.Items'
+        result=validate(query,layer)
+        self.assertIn('CONVERT',result['query'].upper())
+        with self.assertRaises(ValueError):compile_query(query,objects)
+        for text in ('UPDATE dbo.Items SET quantity=CONVERT(int, 1)',
+                     'SELECT CONVERT(int, quantity) FROM dbo.Items; DELETE FROM dbo.Items',
+                     'SELECT CONVERT(int, quantity) FROM dbo.Unknown'):
+            with self.subTest(text=text),self.assertRaises(ValueError):validate(text,layer)
+
     def setUp(self):self.catalog=Catalog(graph())
     def test_catalog_dependencies_and_measure(self):
         self.assertEqual(len(self.catalog.reports()),2)
