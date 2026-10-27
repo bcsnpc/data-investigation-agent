@@ -1,0 +1,23 @@
+{
+  "classification": "NEXT_SINGLE_IMAGE_DEV_PASS",
+  "image": {
+    "source": "61202d2c24f45566cd1afadf69f8a8b232426bec",
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:bb74923ad14382b43d572c7124c523e2ba6c3aeb118ee03674885348a54f2141",
+    "workflow": "40494374379",
+    "status": "HOSTED_FOCUSED_TESTS_AND_IMAGE_PUBLICATION_SUCCESS",
+    "observed_at": "2026-10-27T11:18:50.676103+00:00"
+  },
+  "full_catalog_route_preflight": "docs/runs/round-twenty-three-dev-catalog-route-preflight.json",
+  "all_forms": 40,
+  "assembled": 39,
+  "genuine_unknown_report": 1,
+  "estate_reads_in_preflight": 0,
+  "model_calls_in_preflight": 0,
+  "physical_before": 6763,
+  "total_limit": 9000,
+  "dev_admission_stop": 7200,
+  "restoration_remaining": 89,
+  "static_concurrency": 2,
+  "fault_cohorts": "serial with fresh native evidence and guarded restores",
+  "no_expectations_changed": true
+}

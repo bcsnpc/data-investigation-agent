@@ -70,6 +70,18 @@ def main(argv=None):
         return enrichment_main(argv[1:])
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
+    guided = commands.add_parser('intake', help='Read a retained graph catalog or validate IntakeRequest/1 offline')
+    guided.add_argument('action', choices=('catalog','reports','pages','visuals','sources','validate'))
+    guided.add_argument('--graph', required=True, type=Path, help='Retained admitted graph snapshot, never credentials')
+    guided.add_argument('--report')
+    guided.add_argument('--page')
+    guided.add_argument('--request', type=Path)
+    reply=commands.add_parser('engineer-reply',help='Record a scoped human reply as a labelled facts-ledger entry, never runtime proof')
+    reply.add_argument('--estate',required=True)
+    reply.add_argument('--case',required=True)
+    reply.add_argument('--node',required=True)
+    reply.add_argument('--author',required=True)
+    reply.add_argument('--reply',type=Path,required=True,help='Private JSON containing text and exact scope; no secrets')
     commands.add_parser('enrichment',help='Plan or run enrichment, or export/import human corrections')
     ask_command = commands.add_parser('ask', help='Explain an admitted calculation or observed change history')
     ask_command.add_argument('question')
@@ -103,6 +115,31 @@ def main(argv=None):
     show.add_argument('--port', type=int, default=8776)
     show.add_argument('--live', action='store_true', help='Explicitly enable existing governed execution')
     args = parser.parse_args(argv)
+    if args.command=='engineer-reply':
+        from investigator.round23_calendar import require_live_window
+        from investigator.shared_state import configured_state
+        from investigator.facts_ledger import FactLedger
+        from datetime import datetime,timezone
+        require_live_window()
+        value=json.loads(args.reply.read_bytes())
+        if not isinstance(value,dict) or set(value)!={'text','scope'}:parser.error('Reply requires text and scope')
+        state=configured_state()
+        if state is None:parser.error('A configured facts ledger is required')
+        ids=FactLedger(state).record_engineer_reply(args.estate,case_id=args.case,subject=args.node,
+            author=args.author,text=value['text'],scope=value['scope'],at=datetime.now(timezone.utc).isoformat())
+        print(json.dumps({'status':'RECORDED_HUMAN_REPLY','evidence_ids':ids}));return 0
+    if args.command=='intake':
+        from investigator.guided_intake import Catalog, admit
+        catalog=Catalog(json.loads(args.graph.read_bytes()))
+        if args.action=='validate':
+            if args.request is None:parser.error('intake validate requires --request')
+            result=admit(json.loads(args.request.read_bytes()),catalog)
+        elif args.action=='catalog':result=catalog.view()
+        elif args.action=='pages':result=catalog.pages(args.report)
+        elif args.action=='visuals':result=catalog.visuals(args.report,args.page)
+        elif args.action=='reports':result=catalog.reports()
+        else:result=catalog.sources()
+        print(json.dumps(result,sort_keys=True));return 0
     if args.command=='ask':
         from investigator.explain_questions import main as ask_main
         return ask_main(args)

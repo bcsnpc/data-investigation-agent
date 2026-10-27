@@ -1,0 +1,18 @@
+{
+  "source": "07a0f92faba8b9abcb3b0f65cb623d113f1f24c3",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:2f22b43d7a7318f7eb4964cdfce72fd660277f9c48a2512d2b064f99a1304937",
+  "workflow": "40515054036",
+  "status": "ENGINE_FROZEN_PRE_HELD_OUT_FULL_SUITE_PASS",
+  "suite_tests": 5505,
+  "suite_skips": 50,
+  "suite_seconds": 726.0935727999968,
+  "suite_sha256": "c8d9eaa730a5e63efa166b8742498293dea8375a4331a6bf97541caf242114f4",
+  "separate_acceptance_tests": 112,
+  "acceptance_log_sha256": "3ab695a9cb37a514f108e9f2eb80aab66c3f0631998b5c716e9429ae3ecace32",
+  "scripts_identical_to_image_source": true,
+  "held_out_opened": false,
+  "expectations_changed": false,
+  "dev_close_gross_requests": 7162,
+  "reason": "Preserve once-only final evaluations; all partial dev denominators retained. No tuning after held-out begins.",
+  "observed_at": "2026-10-27T13:59:04.171175+00:00"
+}

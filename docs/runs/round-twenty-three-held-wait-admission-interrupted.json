@@ -1,0 +1,26 @@
+{
+  "classification": "UNSCORED_FIXTURE_ADMISSION_INTERRUPTED",
+  "stage": "WAIT_STATUS_GET_BEFORE_SCORED_SUBMISSION",
+  "scored_ticket_submitted": false,
+  "native_wait_job": {
+    "endTimeUtc": "2026-10-27T14:47:58.3333333",
+    "failureReason": null,
+    "id": "6caacbdb-4ba6-41d7-897d-412b7a50529c",
+    "invokeType": "Manual",
+    "itemId": "b4871498-bd35-45be-916c-9a642568012c",
+    "jobType": "Pipeline",
+    "rootActivityId": "86616ea4-6b00-434a-9498-56d6341b6e76",
+    "startTimeUtc": "2026-10-27T14:37:47.5848246",
+    "status": "Completed"
+  },
+  "original_definition_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+  "original_definition_restored_and_hash_verified": true,
+  "physical_control_requests": 29,
+  "error_type": "OperationalError",
+  "error": "consuming input failed: server closed the connection unexpectedly",
+  "observed_failed_execute_seconds": 160.006903,
+  "observed_idle_before_execute_seconds": 0.000153,
+  "idle_drop_cause_unestablished": true,
+  "original_journal_sha256": "ad7da341621dba7c1cdd6b98e33e52bc133125bb9f131e8efcd4eb735dad5d7f",
+  "continuation": "Distinct waiting admission02; the same scored ticket is submitted once only after fresh native admission."
+}

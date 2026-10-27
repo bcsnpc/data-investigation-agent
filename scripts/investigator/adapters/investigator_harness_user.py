@@ -5,6 +5,9 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import time
+from http.client import IncompleteRead
+from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 from ..planner_recording import _safe
 from ..process_tape import bytes_of
@@ -31,7 +34,7 @@ class AzureCLIUser:
 
     def submit(self, ticket):
         target = ticket['target']; check = self.config['checks'].get(target)
-        kinds = {'legacy-baseline'} if self.baseline else {'investigation', 'ledger-investigation'}
+        kinds = {'legacy-baseline'} if self.baseline else {'investigation', 'ledger-investigation', 'guided-investigation'}
         if not check or check['kind'] not in kinds: raise ValueError('HARNESS_DECLARED_TICKET_TARGET_REQUIRED')
         command = [sys.executable, str(Path(__file__).resolve().parents[2]/'dia.py'), 'run', target,
                    '--estate', str(self.runner), '--runtime', 'azure']
@@ -52,12 +55,21 @@ class AzureCLIUser:
                                              '--query', 'accessToken', '-o', 'tsv', '--only-show-errors'],
                                     capture_output=True, text=True, check=True)
             self._token = response.stdout.strip()  # Memory only; never a log or file.
-        with urlopen(Request(url, headers={'Authorization': 'Bearer '+self._token, 'x-ms-version': '2023-11-03'}), timeout=60) as response:
-            raw = response.read(32*1024*1024+1)
-            if len(raw) > 32*1024*1024: raise ValueError('HARNESS_CAPTURE_BOUND')
-            self.control({'kind': 'PLATFORM_ARTIFACT_CONTROL', 'method': 'GET', 'url': url,
-                          'http_status': response.status, 'bytes': len(raw), 'identity': 'EXISTING_OWNER_AZURE_CLI'})
-            return raw
+        for attempt in range(3):
+            try:
+                with urlopen(Request(url, headers={'Authorization': 'Bearer '+self._token, 'x-ms-version': '2023-11-03'}), timeout=60) as response:
+                    raw = response.read(32*1024*1024+1)
+                    if len(raw) > 32*1024*1024: raise ValueError('HARNESS_CAPTURE_BOUND')
+                    self.control({'kind': 'PLATFORM_ARTIFACT_CONTROL', 'method': 'GET', 'url': url,
+                                  'http_status': response.status, 'bytes': len(raw), 'identity': 'EXISTING_OWNER_AZURE_CLI'})
+                    return raw
+            except (ConnectionError, TimeoutError, IncompleteRead, URLError) as error:
+                if isinstance(error,HTTPError) and error.code not in (408,429,500,502,503,504):raise
+                if attempt==2:raise
+                wait=30*(attempt+1)
+                self.control({'kind':'PLATFORM_ARTIFACT_RETRY','method':'GET','url':url,
+                    'attempt':attempt+1,'error_type':type(error).__name__,'wait_seconds':wait})
+                time.sleep(wait)
 
     def outcome(self, run, state):
         from ..run_capture import record_value

@@ -1,3 +1,5 @@
+Round23 premerge,2026-10-27: held-out6/20,official harmful0,targets MISSED; cached Opus diagnostic5/13. Dev audit113 outcomes/five disagreements/one disputed harmful-history flag; original scores unchanged. Backtrack104 official zeros plus2 audit-only zeros, no new estate/model calls. Runner4b547f1 full5522 tests/50skips/zero failures; image0c496089. Three smokes completed0/3PASS (FamilyA Azure404/408; other5checks3/3PASS). Safety-only build-phase release continues with CI/merge/tag. All injections restored; temporal history ON. See docs/round-twenty-three-summary.md. Earlier entries are historical.
+
 Round 22 released (2026-10-26): PR#429 merge 567a95b66aca136fdc9488bfe2664857d3a85f9a; v0.22 tags the validated merge. Final dev14/40; once-only independent held-out5/20,harmful0. Accuracy/class targets MISSED. Full premerge and postmerge regression5328 tests/49skips/zero failures, three consecutive smokes and hosted CI passed. All temporary injections reverted; temporal history stays on. Extra full Bronze row-hash remains UNESTABLISHED; source/definition hashes and native model/Bronze values were verified separately. See docs/round-twenty-two-summary.md. Earlier checkpoints below are historical.
 
 Round Twenty released, owner2026-10-21 / executionUTC2026-10-22: #427 merged as b338080583588bc90f11fd2ea99ee7b0051af4a5; v0.20 tags the validated merge. Main full suite 4763PASS/47skip, zero failures/errors; CI20SUCCESS/1SKIP. A delivered TRANSFORMATION_LOGIC (Silver7,661 -> Gold8,765) with separate NOT_VERIFIED and tenant-only attestation warning labels. Outer finalization failed after delivery; original same-image replay0/3, corrected-source offline3/3; originals unchanged. Both schedules read back on final tested image734f8229, daily06UTC and graph every6hours; recurring estimateUSD19.077133/month. No VALUE_VERIFIED paths or daily-stability claim. Last observed physical330/6000, reserve95 untouched, modelUSD0.068923/40 with all6settled. See docs/round-twenty-summary.md and docs/runs/round-twenty-release.json. Prior freeze invalid.
@@ -1078,3 +1080,48 @@ Full suite only before the once-only held-out run, before merge and after merge;
 Section8 executed closure2026-10-26: existing owner reverted only the documented Round22 controls. Source360/7661/full original row+business-schema hashes, four pipeline definitions, removed owned schedules/access objects, fixed model binding and unchanged permission membership/rights verified. Automatic updates OFF->ON persisted, own model refresh completed. Temporal history stays ON by explicit owner decision. No new grant/identity/credential or cap. Original cold40613, unordered permission-readback and refresh-watcher failures remain alongside native reconciliations. See docs/runs/round-twenty-two-restoration.json.
 
 2026-10-26 freeze clarification: original whole-package3c5935a/image802d8508 is retained only as the immutable scoring pin. The smoke-calendar change supersedes that package freeze for release runtime; source8ae02f1/image48a53a46 is separately full-suite/image/smoke tested. No held-out score is assigned to the newer package, and no investigation reasoning module changed.
+
+
+## Round 23 owner decision ? 2026-10-26 (?8)
+
+Owner-approved 2026-10-26: investigator model USD150/month (was USD40),
+warning at 80%; per-ticket USD1 with warning at USD0.50. Enrichment USD25,
+platform USD20, estate6,000/month, scan2,000 and restoration95 unchanged.
+Counters, settled charges and uncertain reservations are not reset or refunded.
+Source policy is updated; existing owner-managed PostgreSQL account ceilings
+require an explicit migration and remain authoritative until applied.
+
+Before 2026-11-01: build and offline tests only. No Round23 live model or
+estate passes before the November counter is active. No new identity, grant,
+paid resource or provider credential is authorized by this budget decision.
+
+The Round23 prompt supersedes the earlier model-use rule for the new
+investigator: AI chooses investigative steps and writes SQL/DAX; code supplies
+path facts, parser-based read-only validation, request/model budgets, timeouts,
+evidence and checkpoints. Ready-made query templates remain for triage only.
+Historical engines and their sealed expectations are unchanged. Attestation,
+snapshot and output-format limitations are warnings, not safety refusals.
+DIA reports what happened, never suggests fixes. Prior engine freeze invalid
+for Round23 development; Round22 scored freeze remains its historical record.
+
+
+### Owner-approved 2026-10-26: Round23 requests effective immediately
+Monthly physical requests 6,000 -> 9,000 for October and every subsequent month: scan/collectors 2,000; investigation 6,905; restoration 95 (restores only). This supersedes the November1 wait: live work may proceed now after safety checks. Preserve all usage, uncertain charges and reservations; do not reset counters or borrow restoration capacity. Update the authoritative cloud ledger policy as well as source/config. Model USD150/month; Azure remains <=USD20/month. No identity, role, credential or resource change is authorized. Historical dated policy decisions remain recorded.
+
+Executed owner decision (observed UTC2026-10-27, owner date2026-10-26): PostgreSQL build_phase_policy/monthly-physical now9000 with6905/2000/95; October and pre-provisioned November model ceilings40->150USD. Exact before/after and unchanged accounting hash: docs/runs/round-twenty-three-budget-increase.json. October5471requests includes70historicalrestoration (25remaining); no reserve reset. New source consults cloud ceiling under the admission transaction. Older scheduled images retain earlier source ceiling until deployment. No identity/role/secret/resource changes.
+
+
+Owner-approved2026-10-26: reset October restoration allowance to a fresh95 for Round23. The70 Round22 cleanup requests stay in original ledger rows and gross monthly physical usage; no request refunded or deleted. Cloud policy records the one-time October baseline, source/config applies it only from the recorded decision time, and investigation/scan cannot consume the remaining restoration reserve inside unchanged9000gross monthly limit. Applied via existing owner, separate committed readback matched: docs/runs/round-twenty-three-restoration-reset.json. No roles, identities, secrets or resources changed. Round23 continues through live validation, independent scoring and release; no stop after this allocation update.
+
+
+### Section8 Round23 reversible practice control, execution2026-10-27
+Owner Round23 PartG approval covers temporary stale data on the isolated Application load fixture model0c89889c-6fe6-49ab-91e9-4b00a51070e6. Existing publisher UI read automatic updatesON, then savedOFF for the two dependent dev tickets; refresh-schedule toggle stayedOFF. No identity, role, credential or connection changed. Data/settings restoration is required after the cohort; see tests/tickets/injections.md. Private native UI proof is hash-linked in the run ledger, not an investigator value result.
+
+
+### Section8 owner Round23 steer, 2026-10-27
+Owner approves three complete manual release smokes under INVESTIGATION at normal per-run limits (earlier30-total superseded). October allocations only:SCAN2500/INV6405/REST95 inside unchanged9000 gross, November defaultSCAN2000/INV6905/REST95. Cloud policy readback recorded; counters/history/reservations/model150USD untouched. Frozen held-out07a0f92/image2f22b43d finishes unchanged. Messy60 NOTRUN by owner; instead one separately labelled unscored26-static diagnostic with opus5.5 and3USD actual-usage case stop, monthly150 hard. No new permission, identity or secret. Exact decisions:docs/decisions.md; original prepared messy inputs retained.
+
+
+Owner-approved, 2026-10-27: October Anthropic hard ceiling is USD96 across inference and independent grading, superseding the earlier USD150 October ceiling. Protect USD3 for grading. The owner console reports USD76.65; the higher existing model ledger USD78.290244 is the conservative starting total (Anthropic-only model plus grading USD77.146198). Future inference and grading deltas count together, without resetting historical charges. Cloud model account changed 150000000/0 protected -> 96000000/3000000 protected microdollars; the grading account retains its USD25 ceiling with USD12.850910 protected, leaving only USD3 additional grading. Inference headroom at approval: USD14.709756. Exact before/after: docs/runs/round-twenty-three-anthropic-credit-limit.json. Provider cost-report GET returned401: ?The Admin API requires an Admin API key or an organization-scoped API key.? Existing workspace credential was used; no credential, identity, or permission changed. This reporting denial does not establish inference authorization failure. No auto-reload.
+
+Frozen held-out requests/image stay unchanged. Only the separately labelled Opus diagnostic opts into pinned tools/system caching and USD3 actual-usage stops. Stop new diagnostic tickets below USD4 normalized remaining, including pending reservations, preserving grading. Grading covers completed cases only; not-run cases are explicit. Existing frozen requests already contained their original system ephemeral marker; no new caching is introduced there.

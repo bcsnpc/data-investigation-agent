@@ -1,0 +1,42 @@
+{
+  "jobs": [
+    {
+      "job": "job-dia-worker",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:0c49608909bd74399c90c6baa9d50590a4421801f3ea9814052af363ebe15583",
+      "cron": "0 6 * * *",
+      "runtime_seconds": 3600,
+      "resources": {
+        "cpu": 0.5,
+        "memory": "1Gi"
+      },
+      "only_image_and_embedded_image_changed": true,
+      "identity_configuration_environment_unchanged": true
+    },
+    {
+      "job": "job-dia-graph-scan",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:0c49608909bd74399c90c6baa9d50590a4421801f3ea9814052af363ebe15583",
+      "cron": "0 */6 * * *",
+      "runtime_seconds": 1800,
+      "resources": {
+        "cpu": 0.5,
+        "memory": "1Gi"
+      },
+      "only_image_and_embedded_image_changed": true,
+      "identity_configuration_environment_unchanged": true
+    },
+    {
+      "job": "job-dia-collectors",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:0c49608909bd74399c90c6baa9d50590a4421801f3ea9814052af363ebe15583",
+      "cron": "*/30 * * * *",
+      "runtime_seconds": 180,
+      "resources": {
+        "cpu": 0.25,
+        "memory": "0.5Gi"
+      },
+      "only_image_and_embedded_image_changed": true,
+      "identity_configuration_environment_unchanged": true
+    }
+  ],
+  "cost_change": "zero resource or schedule change; same consumption jobs and scale-to-zero",
+  "manual_INV_override_persisted": false
+}

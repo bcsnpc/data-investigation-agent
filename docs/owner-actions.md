@@ -140,3 +140,23 @@ Not executed. Do not change AllowAllWindowsAzureIps or the separate QueryEditor 
 
 
 Round22 firewall action completed2026-10-23 after explicit owner approval: only investigator-client-20260918 replaced50.172.159.187/32 with confirmed184.105.12.85/32. Exact before/after and approval in runs/round-twenty-two-approved-source-firewall.json; other rules unchanged. Do not repeat the prepared command above.
+
+## Round23 security metadata gaps, 2026-10-26
+
+BLOCKED_PENDING_OWNER: live role membership/effective-user security metadata has no read-only installed route. Provide a dated export of model roles, group/role membership and any security mapping table under an approved read-only collection route. Do not grant investigator Write. Microsoft documents [List item connections](https://learn.microsoft.com/en-us/rest/api/fabric/core/items/list-item-connections) as requiring item read and write, and [Get dataset users](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-dataset-users-in-group) as requiring ReadWriteReshare; neither is a reason to elevate the reader. Retained RLS/OLS definitions are available as snapshots, not fresh memberships. Exact current-reader connection probes will be recorded separately.
+
+Fixture controllers: existing cloud investigator identity is read-only, so it cannot apply or restore data, model SSO/automatic-update settings or pipeline definitions. No owner/publisher credential is migrated to the cloud. Those controls remain local under the existing publisher/fixture owner for this round; scoped cloud controller authority needs a separate owner decision.
+
+
+Round23 billing bootstrap rerun issue, 2026-10-27: existing pipeline76c60248-b830-433b-9880-90593da28e7e original BuildSilverAndGold starts with CREATE SCHEMA [bronze]. Its ordinary cleanup run5253b628-a8df-4586-831c-f41b169bb3f8 failed because that schema exists. Original definition is restored; no idempotency edit or expectation change was made. Owner/reviewer should decide whether this is a one-time bootstrap or a repeatable transform before any permanent fixture change. Round23 continues; this is not a role or secret request.
+
+
+Round23 configuration finding,2026-10-27: the retained billing installation from the prior value-check has no APPLICATION layer or declared system_of_record. The checked graph likewise has no system_of_record declaration. Native source queries are readable under the existing grant, but equality must not manufacture a source-of-truth declaration. Billing whole-source consistency remains unestablished under this configuration. No role change or expectation edit was made; any explicit application-source declaration must be recorded separately from measured value agreement.
+
+
+## Round23 dev audit review,2026-10-27
+
+Review the five disagreements in grading-audit.md, especially the borderline harmful assertion that an earlier temporal version exists. Official scores unchanged; no further history diagnostic admitted. Resolve warehouse-scope-v2 unknown literal report ID before future runs without changing this round tickets/expectations. Sixteen complete dev causes remain unverified, not disproved. Prioritize route/identifier/query/completion issues in failure-backtrack.md. No new permission requested.
+
+
+Round23 Azure model route issue,2026-10-27: aoai-investigator-9696025 (rg-investigator-dev), deployment investigator-quality-54 and alternate existing investigator-intake-f-55 both list Running/Succeeded with Responses support, but POST https://aoai-investigator-9696025.openai.azure.com/openai/v1/responses returned404 DeploymentNotFound on both. The same exact54 request failed in Azure smoke and laptop health control; no role, key, deployment or quota changed. Investigate the resource data-plane routing with Azure support or confirm a working existing deployment before relying on the legacy ledger demo. Do not redeploy or rotate credentials from this note. Exact errors/receipts: runs/round-twenty-three-azure-model-route-failure.json. Round23 build-phase release continues with the failed smoke reported; no green-smoke claim.

@@ -1,0 +1,21 @@
+{
+  "experiment": "ROUND23_UNSCORED_NATIVE_HARNESS_A05",
+  "status": "BLOCKED",
+  "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+  "scored": false,
+  "model_calls": 1,
+  "physical_requests": 1,
+  "model_cost_microdollars": 400925,
+  "worker_wall_seconds": 70.46092317200055,
+  "query_results": [
+    {
+      "layer": "native:2d42754f9d02ac097d82",
+      "status": "ERROR",
+      "error_type": "TimeoutError",
+      "error": "The read operation timed out",
+      "duration_seconds": 33.04004473299938
+    }
+  ],
+  "capture": "SEALED_NORMAL_MODE",
+  "technical_finding_delivered": false
+}

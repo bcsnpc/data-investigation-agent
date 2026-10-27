@@ -66,10 +66,10 @@ def execute(plan,context):
                 provider=EvaluationClient(secret_reference=config['secret_reference'],identity=config['gateway_identity'],record=record,purpose='ENRICHMENT')
                 job=EvaluationJob(state,provider,EnrichmentSpendBudget(state,owner=config['worker_identity'],price=price),clock=lambda:datetime.now(timezone.utc).isoformat())
             else:job=live_job(config,record=record)
-            before=job.budget.snapshot()
+            before=job.budget.snapshot(compact=True)
             result=job.submit(sources,batch_key=batch_key) if operation in ('submit','evaluation-submit') else job.resume(batch_key)
             output={'operation':operation,'batch_key':batch_key,'result':result,
-                    'enrichment_budget_before':before,'enrichment_budget_after':job.budget.snapshot(),
+                    'enrichment_budget_before':before,'enrichment_budget_after':job.budget.snapshot(compact=True),
                     'investigator_model_calls':0,'estate_reads':0,'account':ACCOUNT}
             context.record('enrichment-result',output);tape.finish(output)
             return output

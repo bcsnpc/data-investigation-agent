@@ -1,0 +1,12 @@
+{
+  "status": "UNESTABLISHED_AZURE_START_RESPONSE",
+  "ticket": "v2-record-repeated-gold-v2",
+  "original_log_sha256": "0bc5e29ea204910f8e942ac3ca913ef7387ce701371c251e0bc400bc5c051421",
+  "original_log": ".local\\round-twenty-three\\dev04-v2-record-repeated-gold-v2.jsonl",
+  "observed_at": "2026-10-27T08:06:15.312564+00:00",
+  "known_submitted_runs_all_terminal": true,
+  "unknown_native_run_not_scored": true,
+  "native_start_error_detail_not_retained_by_nested_client": true,
+  "reconciliation": "Execution LIST repeatedly BadGateway in CLI and direct ARM2025-01-01; exact known execution GET succeeds. Activity log retained; no unbound new sealed capture found. Absence does not establish no execution. One fresh replacement allowed by PartA6; unknown remains charged if it dispatched.",
+  "retry_limit": 1
+}

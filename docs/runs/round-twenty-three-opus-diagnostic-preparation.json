@@ -1,0 +1,20 @@
+{
+  "actual_usage_case_limit_usd": 3,
+  "bytes": 1314138,
+  "classification": "UNSCORED_DIAGNOSTIC_NOT_ROUND23_SCORE",
+  "estate_reads": 0,
+  "image": {
+    "changes": "owner-scoped accounting only; normal held workers unchanged",
+    "frozen_investigation_source": "07a0f92faba8b9abcb3b0f65cb623d113f1f24c3",
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:360dc9e4a2b64c13877a2a697be1a9bdb2f1f2f8c82757644c8e80f25427518b",
+    "source": "d97735a5ae7d32b3a8e8c1194f28c50442f00c16",
+    "workflow": "40521443296"
+  },
+  "model": "claude-opus-5-5",
+  "model_calls": 0,
+  "monthly_usd_hard_limit": 150,
+  "permission_changes": false,
+  "sha256": "01f19183dbc098e27a0f0e966dd1c4d9aa1f44b7018302e3af01c0f16e8525dc",
+  "stored_md5_matched": true,
+  "tickets": 26
+}

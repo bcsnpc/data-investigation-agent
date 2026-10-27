@@ -1,0 +1,1881 @@
+{
+  "observed_at": "2026-10-27T17:17:39.700867+00:00",
+  "classification": "DEV_ONLY_READ_ONLY_EXPECTATION_AUDIT",
+  "records": 40,
+  "mutations": 0,
+  "model_calls": 0,
+  "physical_request_upper_bound": 41,
+  "source_control_requests": 10,
+  "current_baseline_full_hashes": {
+    "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+    "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+    "temporal_period_columns_excluded_explicitly": true
+  },
+  "components": {
+    "source_rows": 360,
+    "source_units": 7661,
+    "source_movement6": [
+      {
+        "event_day": "2026-09-18",
+        "movement_id": "6",
+        "movement_type": "RECEIPT",
+        "product_id": "7",
+        "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+        "source_row_version": "28006",
+        "units": "36",
+        "warehouse_id": "1"
+      }
+    ],
+    "source900099_rows": 0,
+    "fixture_gold": {
+      "absent_key_rows": "0",
+      "distinct_movements": "360",
+      "movement6_rows": "2",
+      "rows_count": "406",
+      "total_units": "8765"
+    },
+    "billing_gold": {
+      "collected": "550",
+      "invoice101_rows": "2",
+      "invoiced": "950",
+      "mrr": "600"
+    },
+    "billing_source_active_plan_prices": [
+      "250",
+      "100",
+      "250"
+    ],
+    "billing_source_invoice_total": "700",
+    "billing_source_payment_total": "550",
+    "billing_source_invoice101": [
+      {
+        "account_id": "1",
+        "amount": "250",
+        "invoice_date": "2026-10-01T00:00:00.0000000Z",
+        "invoice_id": "101",
+        "source_modified_at_utc": "2026-10-09T21:42:24.1287117Z",
+        "source_row_version": "0 0 0 0 0 0 7 220",
+        "status": "ISSUED"
+      }
+    ],
+    "billing_source_account1_history": [
+      {
+        "account_id": "1",
+        "history_id": "1",
+        "plan_id": "1",
+        "source_modified_at_utc": "2026-10-09T21:42:24.1257606Z",
+        "source_row_version": "0 0 0 0 0 0 7 215",
+        "valid_from": "2026-09-01T00:00:00.0000000Z",
+        "valid_to": "2026-09-30T00:00:00.0000000Z"
+      },
+      {
+        "account_id": "1",
+        "history_id": "2",
+        "plan_id": "2",
+        "source_modified_at_utc": "2026-10-09T21:42:24.1257606Z",
+        "source_row_version": "0 0 0 0 0 0 7 216",
+        "valid_from": "2026-10-01T00:00:00.0000000Z",
+        "valid_to": "2099-12-31T00:00:00.0000000Z"
+      }
+    ],
+    "native_temporal_900201": [
+      {
+        "movement_id": "900201",
+        "r22_valid_from": "2026-10-23T22:49:27.1219695Z",
+        "r22_valid_to": "2026-10-23T22:49:30.3563391Z",
+        "units": "7"
+      },
+      {
+        "movement_id": "900201",
+        "r22_valid_from": "2026-10-27T09:27:19.1502712Z",
+        "r22_valid_to": "2026-10-27T09:30:13.6880374Z",
+        "units": "41"
+      },
+      {
+        "movement_id": "900201",
+        "r22_valid_from": "2026-10-27T09:30:13.6880374Z",
+        "r22_valid_to": "2026-10-27T09:40:45.6994145Z",
+        "units": "47"
+      },
+      {
+        "movement_id": "900201",
+        "r22_valid_from": "2026-10-27T15:09:21.1764332Z",
+        "r22_valid_to": "2026-10-27T15:12:53.5639425Z",
+        "units": "41"
+      },
+      {
+        "movement_id": "900201",
+        "r22_valid_from": "2026-10-27T15:12:53.5639425Z",
+        "r22_valid_to": "2026-10-27T15:19:20.4344666Z",
+        "units": "47"
+      }
+    ],
+    "model_totals": {
+      "app": [
+        {
+          "[quantity]": 7661
+        }
+      ],
+      "billing": [
+        {
+          "[quantity]": 600
+        }
+      ],
+      "fixture": [
+        {
+          "[quantity]": 8765
+        }
+      ]
+    },
+    "warehouse_source_totals": {
+      "3": 2629,
+      "1": 2948,
+      "2": 2084
+    },
+    "application_bronze": {
+      "absent_key_rows": "0",
+      "distinct_keys": "360",
+      "key2_match": "1",
+      "key4_match": "1",
+      "key5_match": "1",
+      "key7_match": "1",
+      "rows_count": "360",
+      "total_units": "7661"
+    },
+    "billing_bronze": {
+      "collected": "550",
+      "invoice101_rows": "1",
+      "invoiced": "700",
+      "mrr": "600"
+    },
+    "additional_models": {
+      "application-definition": {
+        "identity": "EXISTING_PUBLISHER_READ_ONLY_CONTROL",
+        "native": {
+          "headers": {
+            "Access-Control-Expose-Headers": "RequestId,Date",
+            "Cache-Control": "no-store, must-revalidate, no-cache",
+            "Connection": "close",
+            "Content-Type": "application/json",
+            "Date": "Tue, 27 Oct 2026 17:29:43 GMT",
+            "Pragma": "no-cache",
+            "RequestId": "ba3ae548-9226-4ffd-97be-a99225b606f2",
+            "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+            "Transfer-Encoding": "chunked",
+            "X-Content-Type-Options": "nosniff",
+            "X-Frame-Options": "deny",
+            "home-cluster-uri": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/",
+            "request-redirected": "true"
+          },
+          "status_code": 400,
+          "text": {
+            "error": {
+              "code": "DatasetExecuteQueriesError",
+              "pbi.error": {
+                "code": "DatasetExecuteQueriesError",
+                "details": [
+                  {
+                    "code": "DetailsMessage",
+                    "detail": {
+                      "type": 1,
+                      "value": "Failed to execute the DAX query."
+                    }
+                  },
+                  {
+                    "code": "AnalysisServicesErrorCode",
+                    "detail": {
+                      "type": 1,
+                      "value": "3239575574"
+                    }
+                  }
+                ],
+                "parameters": {}
+              }
+            }
+          }
+        },
+        "query": "EVALUATE SELECTCOLUMNS(FILTER(INFO.MEASURES(), [Name]=\"Movement Units\"), \"name\", [Name], \"expression\", [Expression])"
+      },
+      "application-empty": {
+        "identity": "EXISTING_PUBLISHER_READ_ONLY_CONTROL",
+        "native": {
+          "headers": {
+            "Access-Control-Expose-Headers": "RequestId,Date",
+            "Cache-Control": "no-store, must-revalidate, no-cache",
+            "Connection": "close",
+            "Content-Type": "application/json",
+            "Date": "Tue, 27 Oct 2026 17:29:40 GMT",
+            "Pragma": "no-cache",
+            "RequestId": "58cbc837-1355-498e-bff6-6e9ed14816e4",
+            "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+            "Transfer-Encoding": "chunked",
+            "X-Content-Type-Options": "nosniff",
+            "X-Frame-Options": "deny",
+            "home-cluster-uri": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/",
+            "request-redirected": "true"
+          },
+          "status_code": 200,
+          "text": {
+            "results": [
+              {
+                "tables": [
+                  {
+                    "rows": [
+                      {
+                        "[missing]": null
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "query": "EVALUATE ROW(\"missing\", CALCULATE([Movement Units],Movements[movement_id]=900099))"
+      },
+      "application-records": {
+        "identity": "EXISTING_PUBLISHER_READ_ONLY_CONTROL",
+        "native": {
+          "headers": {
+            "Access-Control-Expose-Headers": "RequestId,Date",
+            "Cache-Control": "no-store, must-revalidate, no-cache",
+            "Connection": "close",
+            "Content-Type": "application/json",
+            "Date": "Tue, 27 Oct 2026 17:29:37 GMT",
+            "Pragma": "no-cache",
+            "RequestId": "162e876d-40c8-4171-8849-b52ae256d335",
+            "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+            "Transfer-Encoding": "chunked",
+            "X-Content-Type-Options": "nosniff",
+            "X-Frame-Options": "deny",
+            "home-cluster-uri": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/",
+            "request-redirected": "true"
+          },
+          "status_code": 200,
+          "text": {
+            "results": [
+              {
+                "tables": [
+                  {
+                    "rows": [
+                      {
+                        "[movement_id]": 2,
+                        "[product_id]": 4,
+                        "[units]": 17,
+                        "[warehouse_id]": 1
+                      },
+                      {
+                        "[movement_id]": 4,
+                        "[product_id]": 2,
+                        "[units]": 21,
+                        "[warehouse_id]": 1
+                      },
+                      {
+                        "[movement_id]": 5,
+                        "[product_id]": 3,
+                        "[units]": 3,
+                        "[warehouse_id]": 2
+                      },
+                      {
+                        "[movement_id]": 7,
+                        "[product_id]": 2,
+                        "[units]": 20,
+                        "[warehouse_id]": 3
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "query": "EVALUATE SELECTCOLUMNS(FILTER(Movements, Movements[movement_id] IN {2,4,5,7}), \"movement_id\", Movements[movement_id], \"warehouse_id\", Movements[warehouse_id], \"product_id\", Movements[product_id], \"units\", Movements[units])"
+      },
+      "billing-definitions": {
+        "identity": "EXISTING_PUBLISHER_READ_ONLY_CONTROL",
+        "native": {
+          "headers": {
+            "Access-Control-Expose-Headers": "RequestId,Date",
+            "Cache-Control": "no-store, must-revalidate, no-cache",
+            "Connection": "close",
+            "Content-Type": "application/json",
+            "Date": "Tue, 27 Oct 2026 17:29:24 GMT",
+            "Pragma": "no-cache",
+            "RequestId": "d6bb0df7-1d3e-44bf-b468-84044bfd4590",
+            "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+            "Transfer-Encoding": "chunked",
+            "X-Content-Type-Options": "nosniff",
+            "X-Frame-Options": "deny",
+            "home-cluster-uri": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/",
+            "request-redirected": "true"
+          },
+          "status_code": 400,
+          "text": {
+            "error": {
+              "code": "DatasetExecuteQueriesError",
+              "pbi.error": {
+                "code": "DatasetExecuteQueriesError",
+                "details": [
+                  {
+                    "code": "DetailsMessage",
+                    "detail": {
+                      "type": 1,
+                      "value": "Failed to execute the DAX query."
+                    }
+                  },
+                  {
+                    "code": "AnalysisServicesErrorCode",
+                    "detail": {
+                      "type": 1,
+                      "value": "3239575574"
+                    }
+                  }
+                ],
+                "parameters": {}
+              }
+            }
+          }
+        },
+        "query": "EVALUATE SELECTCOLUMNS(FILTER(INFO.MEASURES(), [Name] IN {\"MRR All Plans\",\"Collected Amount\",\"Invoiced Amount\"}), \"name\", [Name], \"expression\", [Expression])"
+      },
+      "billing-values": {
+        "identity": "EXISTING_PUBLISHER_READ_ONLY_CONTROL",
+        "native": {
+          "headers": {
+            "Access-Control-Expose-Headers": "RequestId,Date",
+            "Cache-Control": "no-store, must-revalidate, no-cache",
+            "Connection": "close",
+            "Content-Type": "application/json",
+            "Date": "Tue, 27 Oct 2026 17:29:32 GMT",
+            "Pragma": "no-cache",
+            "RequestId": "2941cc94-7046-4013-9765-25f7d7391670",
+            "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+            "Transfer-Encoding": "chunked",
+            "X-Content-Type-Options": "nosniff",
+            "X-Frame-Options": "deny",
+            "home-cluster-uri": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/",
+            "request-redirected": "true"
+          },
+          "status_code": 200,
+          "text": {
+            "results": [
+              {
+                "tables": [
+                  {
+                    "rows": [
+                      {
+                        "[base]": 600,
+                        "[collected]": 550,
+                        "[invoiced]": 950,
+                        "[plan1]": 600
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "query": "EVALUATE ROW(\"base\", [MRR All Plans], \"plan1\", CALCULATE([MRR All Plans], Plans[plan_id]=1), \"collected\", [Collected Amount], \"invoiced\", [Invoiced Amount])"
+      }
+    },
+    "billing_plan2": {
+      "native": {
+        "headers": {
+          "Access-Control-Expose-Headers": "RequestId,Date",
+          "Cache-Control": "no-store, must-revalidate, no-cache",
+          "Connection": "close",
+          "Content-Type": "application/json",
+          "Date": "Tue, 27 Oct 2026 17:32:31 GMT",
+          "Pragma": "no-cache",
+          "RequestId": "0d70bc18-cd32-4f13-8425-70d6d443f7df",
+          "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+          "Transfer-Encoding": "chunked",
+          "X-Content-Type-Options": "nosniff",
+          "X-Frame-Options": "deny",
+          "home-cluster-uri": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/",
+          "request-redirected": "true"
+        },
+        "status_code": 200,
+        "text": {
+          "results": [
+            {
+              "tables": [
+                {
+                  "rows": [
+                    {
+                      "[base]": 600,
+                      "[plan2]": 600
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "query": "EVALUATE ROW(\"base\", [MRR All Plans], \"plan2\", CALCULATE([MRR All Plans], Plans[plan_id]=2))"
+    },
+    "movement1_retention": {
+      "native": {
+        "body": {
+          "sets": [
+            [
+              {
+                "earliest_retained_version": "2026-10-23T22:43:47.9434148Z"
+              }
+            ],
+            []
+          ],
+          "status": "COMPLETED"
+        },
+        "exit": 0
+      },
+      "query": "SELECT MIN(r22_valid_from) AS earliest_retained_version FROM app.stock_movements_round_two_20261003 FOR SYSTEM_TIME ALL WHERE movement_id=1; SELECT movement_id, units FROM app.stock_movements_round_two_20261003 FOR SYSTEM_TIME AS OF '2026-10-20T12:00:00' WHERE movement_id=1;"
+    }
+  },
+  "queries": [
+    {
+      "label": "fixture-gold",
+      "query": "SELECT SUM(units) AS total_units, COUNT(*) AS rows_count, COUNT(DISTINCT movement_id) AS distinct_movements, SUM(CASE WHEN movement_id=6 THEN 1 ELSE 0 END) AS movement6_rows, SUM(CASE WHEN movement_id=900099 THEN 1 ELSE 0 END) AS absent_key_rows FROM dbo.movement_values",
+      "native_rows": [
+        {
+          "absent_key_rows": "0",
+          "distinct_movements": "360",
+          "movement6_rows": "2",
+          "rows_count": "406",
+          "total_units": "8765"
+        }
+      ],
+      "read_only_verified": true,
+      "execution_identity": {
+        "database": "warehouse_gold_e1b8e1",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "SURFACE_SELF_REPORT",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+      },
+      "capture_seal": "1e1e1bad3afecf63a6f0e481bb43ec0996d6413ea016dd2cf84590650c794ec1"
+    },
+    {
+      "label": "billing-gold-corrected",
+      "query": "SELECT (SELECT SUM(amount) FROM gold.invoice_activity) AS invoiced, (SELECT SUM(amount) FROM gold.payments) AS collected, (SELECT SUM(p.monthly_price) FROM gold.subscriptions s JOIN gold.plans p ON s.plan_id=p.plan_id WHERE s.status='ACTIVE') AS mrr, (SELECT COUNT(*) FROM gold.invoice_activity WHERE invoice_id=101) AS invoice101_rows",
+      "native_rows": [
+        {
+          "collected": "550",
+          "invoice101_rows": "2",
+          "invoiced": "950",
+          "mrr": "600"
+        }
+      ],
+      "read_only_verified": true,
+      "execution_identity": {
+        "database": "billing_serving",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "SURFACE_SELF_REPORT",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com"
+      },
+      "capture_seal": "1ac41e988870cdfd17756925059c2749d908417beca771acd8d74fb0c6550ecb"
+    },
+    {
+      "label": "application-bronze",
+      "query": null,
+      "native_rows": [
+        {
+          "absent_key_rows": "0",
+          "distinct_keys": "360",
+          "key2_match": "1",
+          "key4_match": "1",
+          "key5_match": "1",
+          "key7_match": "1",
+          "rows_count": "360",
+          "total_units": "7661"
+        }
+      ],
+      "read_only_verified": true,
+      "execution_identity": {
+        "database": "round_two_bronze_20261003",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "SURFACE_SELF_REPORT",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+      },
+      "capture_seal": "a5de2aa114f589acf18169b6d53d44a73a2aa521b80be0e9f238e733020a4b88",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:2f22b43d7a7318f7eb4964cdfce72fd660277f9c48a2512d2b064f99a1304937",
+      "query_receipt": "additional/application-bronze-cloud-reader.jsonl"
+    },
+    {
+      "label": "billing-bronze",
+      "query": null,
+      "native_rows": [
+        {
+          "collected": "550",
+          "invoice101_rows": "1",
+          "invoiced": "700",
+          "mrr": "600"
+        }
+      ],
+      "read_only_verified": true,
+      "execution_identity": {
+        "database": "billing_bronze",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "SURFACE_SELF_REPORT",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com"
+      },
+      "capture_seal": "311c2f410146eb9f04b519e3bee7842c02f38200a917d0318a9edf779de038d8",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6",
+      "query_receipt": "additional/billing-bronze.jsonl"
+    },
+    {
+      "label": "application-bronze",
+      "query": null,
+      "native_rows": [
+        {
+          "absent_key_rows": "0",
+          "distinct_keys": "360",
+          "key2_match": "1",
+          "key4_match": "1",
+          "key5_match": "1",
+          "key7_match": "1",
+          "rows_count": "360",
+          "total_units": "7661"
+        }
+      ],
+      "read_only_verified": true,
+      "execution_identity": {
+        "database": "round_two_bronze_20261003",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "SURFACE_SELF_REPORT",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+      },
+      "capture_seal": "a5de2aa114f589acf18169b6d53d44a73a2aa521b80be0e9f238e733020a4b88",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:2f22b43d7a7318f7eb4964cdfce72fd660277f9c48a2512d2b064f99a1304937",
+      "query_receipt": "additional/application-bronze-cloud-reader.jsonl"
+    },
+    {
+      "label": "billing-bronze",
+      "query": null,
+      "native_rows": [
+        {
+          "collected": "550",
+          "invoice101_rows": "1",
+          "invoiced": "700",
+          "mrr": "600"
+        }
+      ],
+      "read_only_verified": true,
+      "execution_identity": {
+        "database": "billing_bronze",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "SURFACE_SELF_REPORT",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com"
+      },
+      "capture_seal": "311c2f410146eb9f04b519e3bee7842c02f38200a917d0318a9edf779de038d8",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6",
+      "query_receipt": "additional/billing-bronze.jsonl"
+    }
+  ],
+  "native_receipt_sha256": "809004f112bc6e5a7d0447ac23360fbfa1171a05cc3791e0f37aa7ab7156bf6e",
+  "native_console_hashes": {
+    "billing-schema-console.log": "77b30a1b5e1f3a73b07965a23c840f0675a264fcdf154858a6ca169e5f81a75b",
+    "billing-schema-resume1-console.log": "73618779230966d87762ef811c415ba9e88caa352356a7ce5358f121f6c5642b",
+    "billing-source-console.log": "ff56e7dcbde3d01a5529da5f5f4a3d69eaae34d94655040364070eac60920fad",
+    "fixture-source-console.log": "3686ebd8ffea8b93429cbdb360a212f6f8c16b89c3b5facd469294257cf28962",
+    "source-temporal-history-console.log": "c251a05705238db274e5c71c81be74321c6d1f99f2cd4d9fa2e192c1b8dedf83"
+  },
+  "source_control_identity": "pocsqladmin (existing owner SQL control, SELECT only)",
+  "source_queries": {
+    "fixture": "SET NOCOUNT ON; SET XACT_ABORT ON; SET TRANSACTION ISOLATION LEVEL SERIALIZABLE; BEGIN TRANSACTION; SELECT SUSER_SNAME() AS [identity],DB_NAME() AS database_name,COUNT_BIG(*) AS row_count,SUM(CONVERT(bigint,units)) AS units,MAX(source_modified_at_utc) AS newest_change,MAX(CONVERT(bigint,source_row_version)) AS newest_version FROM [app].[stock_movements_round_two_20261003]; SELECT TOP(1000) movement_id,warehouse_id,product_id,units,CONVERT(varchar(10),event_day,23) AS event_day,movement_type,source_modified_at_utc,CONVERT(bigint,source_row_version) AS source_row_version FROM [app].[stock_movements_round_two_20261003] ORDER BY movement_id; SELECT c.name AS column_name,t.name AS type_name,c.max_length,c.precision,c.scale,c.is_nullable,c.is_computed FROM sys.columns AS c JOIN sys.types AS t ON c.user_type_id=t.user_type_id WHERE c.object_id=OBJECT_ID('app.stock_movements_round_two_20261003') ORDER BY c.column_id; COMMIT;",
+    "history": "SELECT TOP (100) movement_id,units,r22_valid_from,r22_valid_to FROM app.stock_movements_round_two_20261003 FOR SYSTEM_TIME ALL WHERE movement_id=900201 ORDER BY r22_valid_from;",
+    "billing_schema": "SELECT s.name AS schema_name,t.name AS table_name FROM sys.tables t JOIN sys.schemas s ON t.schema_id=s.schema_id WHERE s.name IN ('app','dbo') ORDER BY s.name,t.name;",
+    "billing_source": "SELECT * FROM [app].[subscriptions];SELECT * FROM [app].[plans];SELECT * FROM [app].[invoices];SELECT * FROM [app].[payments];SELECT * FROM [app].[account_plan_history];"
+  },
+  "model_queries": {
+    "app": {
+      "identity": "EXISTING_PUBLISHER_READ_ONLY_CONTROL_NOT_INVESTIGATOR",
+      "native": {
+        "headers": {
+          "Access-Control-Expose-Headers": "RequestId,Date",
+          "Cache-Control": "no-store, must-revalidate, no-cache",
+          "Connection": "close",
+          "Content-Type": "application/json",
+          "Date": "Tue, 27 Oct 2026 17:16:59 GMT",
+          "Pragma": "no-cache",
+          "RequestId": "5e7e664b-a581-4f9e-8e52-7aefe324af14",
+          "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+          "Transfer-Encoding": "chunked",
+          "X-Content-Type-Options": "nosniff",
+          "X-Frame-Options": "deny",
+          "home-cluster-uri": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/",
+          "request-redirected": "true"
+        },
+        "status_code": 200,
+        "text": {
+          "results": [
+            {
+              "tables": [
+                {
+                  "rows": [
+                    {
+                      "[quantity]": 7661
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "query": "EVALUATE ROW(\"quantity\", [Movement Units])"
+    },
+    "billing": {
+      "identity": "EXISTING_PUBLISHER_READ_ONLY_CONTROL_NOT_INVESTIGATOR",
+      "native": {
+        "headers": {
+          "Access-Control-Expose-Headers": "RequestId,Date",
+          "Cache-Control": "no-store, must-revalidate, no-cache",
+          "Connection": "close",
+          "Content-Type": "application/json",
+          "Date": "Tue, 27 Oct 2026 17:17:32 GMT",
+          "Pragma": "no-cache",
+          "RequestId": "99d39d18-3090-40c8-876a-d296b467afbb",
+          "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+          "Transfer-Encoding": "chunked",
+          "X-Content-Type-Options": "nosniff",
+          "X-Frame-Options": "deny",
+          "home-cluster-uri": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/",
+          "request-redirected": "true"
+        },
+        "status_code": 200,
+        "text": {
+          "results": [
+            {
+              "tables": [
+                {
+                  "rows": [
+                    {
+                      "[quantity]": 600
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "query": "EVALUATE ROW(\"quantity\", [MRR All Plans])"
+    },
+    "fixture": {
+      "identity": "EXISTING_PUBLISHER_READ_ONLY_CONTROL_NOT_INVESTIGATOR",
+      "native": {
+        "headers": {
+          "Access-Control-Expose-Headers": "RequestId,Date",
+          "Cache-Control": "no-store, must-revalidate, no-cache",
+          "Connection": "close",
+          "Content-Type": "application/json",
+          "Date": "Tue, 27 Oct 2026 17:17:17 GMT",
+          "Pragma": "no-cache",
+          "RequestId": "637176b7-0813-4b68-ae99-140ee62fa37a",
+          "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+          "Transfer-Encoding": "chunked",
+          "X-Content-Type-Options": "nosniff",
+          "X-Frame-Options": "deny",
+          "home-cluster-uri": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/",
+          "request-redirected": "true"
+        },
+        "status_code": 200,
+        "text": {
+          "results": [
+            {
+              "tables": [
+                {
+                  "rows": [
+                    {
+                      "[quantity]": 8765
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "query": "EVALUATE ROW(\"quantity\", [Handled Quantity])"
+    }
+  },
+  "current_job_history": {
+    "application": {
+      "endpoint": "workspaces/149f8d99-1c66-4a0a-9624-759be002bb60/items/b4871498-bd35-45be-916c-9a642568012c/jobs/instances",
+      "http_status": 200,
+      "native_response_sha256": "b86860bc3f3e4776c18366e47320f2b7fc9c8395b1f320b2f2e99a3e68bc5a48"
+    },
+    "billing": {
+      "endpoint": "workspaces/7d67bb36-04f6-4182-95aa-da5d515248fa/items/76c60248-b830-433b-9880-90593da28e7e/jobs/instances",
+      "http_status": 200,
+      "native_response_sha256": "4864aedd6c742d4bcb7b147fac520156e9ca90c2e0e1b17ebebd9eed98cc8058"
+    }
+  },
+  "expectations_changed": false,
+  "fully_wrong_named_causes_established": [],
+  "unverifiable": [
+    "v2-fixture-quantity-v1",
+    "v2-fixture-quantity-v2",
+    "v2-billing-invoices-v1",
+    "v2-billing-invoices-v2",
+    "v2-waiting-application-load-v1",
+    "v2-waiting-application-load-v2",
+    "v2-latency-record-v1",
+    "v2-latency-record-v2",
+    "v2-stale-model-v1",
+    "v2-stale-model-v2",
+    "v2-access-export-v1",
+    "v2-access-export-v2",
+    "v2-warehouse-scope-v1",
+    "v2-warehouse-scope-v2",
+    "v2-record-repeated-gold-v1",
+    "v2-record-repeated-gold-v2"
+  ],
+  "authored_target_issue": [
+    "v2-warehouse-scope-v2"
+  ],
+  "cases": [
+    {
+      "ticket": "v2-application-baseline-v1",
+      "expected": {
+        "case_id": "v2-application-baseline",
+        "cause": "SUM(units) agrees across model, landing and declared application source; 7661.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-application-baseline-v1",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "as designed"
+      },
+      "current_live_status": "VERIFIED_LIVE_SUM_AGREEMENT",
+      "reason": "Fresh source SUM7661/360rows, Bronze SUM7661/360distinctkeys and model7661 agree. This verifies the expected numerical agreement; the attempted fresh measure-expression introspection returned400 and does not independently verify expression syntax.",
+      "data_checks": [
+        "source_units",
+        "application_bronze",
+        "model_totals.app"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-application-baseline-v2",
+      "expected": {
+        "case_id": "v2-application-baseline",
+        "cause": "SUM(units) agrees across model, landing and declared application source; 7661.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-application-baseline-v2",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "as designed"
+      },
+      "current_live_status": "VERIFIED_LIVE_SUM_AGREEMENT",
+      "reason": "Fresh source SUM7661/360rows, Bronze SUM7661/360distinctkeys and model7661 agree. This verifies the expected numerical agreement; the attempted fresh measure-expression introspection returned400 and does not independently verify expression syntax.",
+      "data_checks": [
+        "source_units",
+        "application_bronze",
+        "model_totals.app"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-billing-mrr-v1",
+      "expected": {
+        "case_id": "v2-billing-mrr",
+        "cause": "Active subscription plan prices250+100+250=600; measure removes Plans filters.",
+        "estate": "billing",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-billing-mrr-v1",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "as designed"
+      },
+      "current_live_status": "VERIFIED_LIVE_ACTIVE_PRICES_AND_FILTER_BEHAVIOR",
+      "reason": "Fresh source active plan prices250+100+250=600; Bronze600, Gold600, model600. For each of the two current plan IDs, applying its Plans filter still returns600. This verifies the stated behavior on current data; fresh measure-expression introspection returned400, so no new ALL syntax claim is made.",
+      "data_checks": [
+        "billing_source_active_plan_prices",
+        "billing_bronze",
+        "billing_gold",
+        "additional_models.billing-values",
+        "billing_plan2"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-billing-mrr-v2",
+      "expected": {
+        "case_id": "v2-billing-mrr",
+        "cause": "Active subscription plan prices250+100+250=600; measure removes Plans filters.",
+        "estate": "billing",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-billing-mrr-v2",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "as designed"
+      },
+      "current_live_status": "VERIFIED_LIVE_ACTIVE_PRICES_AND_FILTER_BEHAVIOR",
+      "reason": "Fresh source active plan prices250+100+250=600; Bronze600, Gold600, model600. For each of the two current plan IDs, applying its Plans filter still returns600. This verifies the stated behavior on current data; fresh measure-expression introspection returned400, so no new ALL syntax claim is made.",
+      "data_checks": [
+        "billing_source_active_plan_prices",
+        "billing_bronze",
+        "billing_gold",
+        "additional_models.billing-values",
+        "billing_plan2"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-fixture-quantity-v1",
+      "expected": {
+        "case_id": "v2-fixture-quantity",
+        "cause": "Left join of movements to product rates on product_id repeats matches; carried units rise7661 to8765.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-fixture-quantity-v1",
+        "layer": "Silver to Gold",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "transformation logic"
+      },
+      "current_live_status": "UNVERIFIABLE_FULL_CAUSE_FROM_CURRENT_RESTORED_BASELINE",
+      "reason": "Fresh source360 distinct keys/7661 and Gold406rows/360keys/8765; movement6 occurs once at source and twice in Gold. This supports fanout; Silver product-rate rows and the currently deployed join definition were not re-read, so the whole named join cause is not independently established live.",
+      "data_checks": [
+        "source_rows",
+        "source_units",
+        "source_movement6",
+        "fixture_gold"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-fixture-quantity-v2",
+      "expected": {
+        "case_id": "v2-fixture-quantity",
+        "cause": "Left join of movements to product rates on product_id repeats matches; carried units rise7661 to8765.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-fixture-quantity-v2",
+        "layer": "Silver to Gold",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "transformation logic"
+      },
+      "current_live_status": "UNVERIFIABLE_FULL_CAUSE_FROM_CURRENT_RESTORED_BASELINE",
+      "reason": "Fresh source360 distinct keys/7661 and Gold406rows/360keys/8765; movement6 occurs once at source and twice in Gold. This supports fanout; Silver product-rate rows and the currently deployed join definition were not re-read, so the whole named join cause is not independently established live.",
+      "data_checks": [
+        "source_rows",
+        "source_units",
+        "source_movement6",
+        "fixture_gold"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-billing-invoices-v1",
+      "expected": {
+        "case_id": "v2-billing-invoices",
+        "cause": "Invoice join to account_plan_history on account_id without effective-date restriction duplicates Aster invoice101 by250.",
+        "estate": "billing",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-billing-invoices-v1",
+        "layer": "Silver to Gold",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "transformation logic"
+      },
+      "current_live_status": "UNVERIFIABLE_FULL_CAUSE_FROM_CURRENT_RESTORED_BASELINE",
+      "reason": "Fresh source invoices700, Bronze700 with invoice101once, Gold/model950 with invoice101twice; source account1 has multiple history rows. The250 fanout boundary is verified. Current stored-procedure join/effective-date implementation was not re-read, so the complete named operation remains unverified live.",
+      "data_checks": [
+        "billing_source_invoice_total",
+        "billing_source_invoice101",
+        "billing_source_account1_history",
+        "billing_gold",
+        "billing_bronze",
+        "billing_bronze"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-billing-invoices-v2",
+      "expected": {
+        "case_id": "v2-billing-invoices",
+        "cause": "Invoice join to account_plan_history on account_id without effective-date restriction duplicates Aster invoice101 by250.",
+        "estate": "billing",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-billing-invoices-v2",
+        "layer": "Silver to Gold",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "transformation logic"
+      },
+      "current_live_status": "UNVERIFIABLE_FULL_CAUSE_FROM_CURRENT_RESTORED_BASELINE",
+      "reason": "Fresh source invoices700, Bronze700 with invoice101once, Gold/model950 with invoice101twice; source account1 has multiple history rows. The250 fanout boundary is verified. Current stored-procedure join/effective-date implementation was not re-read, so the complete named operation remains unverified live.",
+      "data_checks": [
+        "billing_source_invoice_total",
+        "billing_source_invoice101",
+        "billing_source_account1_history",
+        "billing_gold",
+        "billing_bronze",
+        "billing_bronze"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-failed-application-load-v1",
+      "expected": {
+        "case_id": "v2-failed-application-load",
+        "cause": "Latest native failed run, job name/run ID/start/end/error must be cited.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "failed-fixture",
+        "id": "v2-failed-application-load-v1",
+        "layer": "application load pipeline",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "failed job"
+      },
+      "current_live_status": "HISTORICAL_NATIVE_RUN_VERIFIED",
+      "reason": "The injected failed state has been restored. Fresh native history returns the retained failed run 125b391c-d42a-43c5-8cd7-5e6c495515a2. Latest-at-ticket-time relies on the preserved dev admission and scoring window, not the current latest restored run.",
+      "data_checks": [
+        {
+          "pipeline": "application",
+          "wanted": "125b391c-d42a-43c5-8cd7-5e6c495515a2",
+          "native_match": [
+            {
+              "endTimeUtc": "2026-10-27T08:28:29.1166667",
+              "failureReason": {
+                "errorCode": "2011",
+                "isRetriable": false,
+                "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+                "requestId": "d271edb0-fdf7-49bf-85e0-d1268e4d36e1"
+              },
+              "id": "125b391c-d42a-43c5-8cd7-5e6c495515a2",
+              "invokeType": "Manual",
+              "itemId": "b4871498-bd35-45be-916c-9a642568012c",
+              "jobType": "Pipeline",
+              "rootActivityId": "05b7d7a2-e579-4502-9f8b-cf9d9a2ff63d",
+              "startTimeUtc": "2026-10-27T08:27:55.4",
+              "status": "Failed"
+            }
+          ]
+        }
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-failed-application-load-v2",
+      "expected": {
+        "case_id": "v2-failed-application-load",
+        "cause": "Latest native failed run, job name/run ID/start/end/error must be cited.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "failed-fixture",
+        "id": "v2-failed-application-load-v2",
+        "layer": "application load pipeline",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "failed job"
+      },
+      "current_live_status": "HISTORICAL_NATIVE_RUN_VERIFIED",
+      "reason": "The injected failed state has been restored. Fresh native history returns the retained failed run 125b391c-d42a-43c5-8cd7-5e6c495515a2. Latest-at-ticket-time relies on the preserved dev admission and scoring window, not the current latest restored run.",
+      "data_checks": [
+        {
+          "pipeline": "application",
+          "wanted": "125b391c-d42a-43c5-8cd7-5e6c495515a2",
+          "native_match": [
+            {
+              "endTimeUtc": "2026-10-27T08:28:29.1166667",
+              "failureReason": {
+                "errorCode": "2011",
+                "isRetriable": false,
+                "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+                "requestId": "d271edb0-fdf7-49bf-85e0-d1268e4d36e1"
+              },
+              "id": "125b391c-d42a-43c5-8cd7-5e6c495515a2",
+              "invokeType": "Manual",
+              "itemId": "b4871498-bd35-45be-916c-9a642568012c",
+              "jobType": "Pipeline",
+              "rootActivityId": "05b7d7a2-e579-4502-9f8b-cf9d9a2ff63d",
+              "startTimeUtc": "2026-10-27T08:27:55.4",
+              "status": "Failed"
+            }
+          ]
+        }
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-failed-billing-transform-v1",
+      "expected": {
+        "case_id": "v2-failed-billing-transform",
+        "cause": "Latest failed native transform run with name/run ID/start/end/error; no invented successful completion.",
+        "estate": "billing",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "failed-billing",
+        "id": "v2-failed-billing-transform-v1",
+        "layer": "billing transformation pipeline",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "failed job"
+      },
+      "current_live_status": "HISTORICAL_NATIVE_RUN_VERIFIED",
+      "reason": "The injected failed state has been restored. Fresh native history returns the retained failed run 500af7d0-75ac-4992-bbdc-28ac7cf5736f. Latest-at-ticket-time relies on the preserved dev admission and scoring window, not the current latest restored run.",
+      "data_checks": [
+        {
+          "pipeline": "billing",
+          "wanted": "500af7d0-75ac-4992-bbdc-28ac7cf5736f",
+          "native_match": [
+            {
+              "endTimeUtc": "2026-10-27T08:39:02.6233333",
+              "failureReason": {
+                "errorCode": "2011",
+                "isRetriable": false,
+                "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+                "requestId": "634f3b54-ce7b-49f6-9726-749eadb94729"
+              },
+              "id": "500af7d0-75ac-4992-bbdc-28ac7cf5736f",
+              "invokeType": "Manual",
+              "itemId": "76c60248-b830-433b-9880-90593da28e7e",
+              "jobType": "Pipeline",
+              "rootActivityId": "873864fc-542e-4027-b6fe-dd41905cb038",
+              "startTimeUtc": "2026-10-27T08:38:36.2033333",
+              "status": "Failed"
+            }
+          ]
+        }
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-failed-billing-transform-v2",
+      "expected": {
+        "case_id": "v2-failed-billing-transform",
+        "cause": "Latest failed native transform run with name/run ID/start/end/error; no invented successful completion.",
+        "estate": "billing",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "failed-billing",
+        "id": "v2-failed-billing-transform-v2",
+        "layer": "billing transformation pipeline",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "failed job"
+      },
+      "current_live_status": "HISTORICAL_NATIVE_RUN_VERIFIED",
+      "reason": "The injected failed state has been restored. Fresh native history returns the retained failed run 500af7d0-75ac-4992-bbdc-28ac7cf5736f. Latest-at-ticket-time relies on the preserved dev admission and scoring window, not the current latest restored run.",
+      "data_checks": [
+        {
+          "pipeline": "billing",
+          "wanted": "500af7d0-75ac-4992-bbdc-28ac7cf5736f",
+          "native_match": [
+            {
+              "endTimeUtc": "2026-10-27T08:39:02.6233333",
+              "failureReason": {
+                "errorCode": "2011",
+                "isRetriable": false,
+                "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+                "requestId": "634f3b54-ce7b-49f6-9726-749eadb94729"
+              },
+              "id": "500af7d0-75ac-4992-bbdc-28ac7cf5736f",
+              "invokeType": "Manual",
+              "itemId": "76c60248-b830-433b-9880-90593da28e7e",
+              "jobType": "Pipeline",
+              "rootActivityId": "873864fc-542e-4027-b6fe-dd41905cb038",
+              "startTimeUtc": "2026-10-27T08:38:36.2033333",
+              "status": "Failed"
+            }
+          ]
+        }
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-waiting-application-load-v1",
+      "expected": {
+        "case_id": "v2-waiting-application-load",
+        "cause": "Native running Wait activity/run, exact status and times; no evidence supports a database-lock cause.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "waiting",
+        "id": "v2-waiting-application-load-v1",
+        "layer": "application load pipeline",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "waiting on job"
+      },
+      "current_live_status": "UNVERIFIABLE_FULL_CAUSE_FROM_CURRENT_RESTORED_BASELINE",
+      "reason": "The ten-minute Wait injection is restored and the run has finished. Current native history cannot reproduce its earlier Running state; retained fresh admission is the historical evidence. No database-lock cause is asserted.",
+      "data_checks": [
+        "current_job_history.application"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-waiting-application-load-v2",
+      "expected": {
+        "case_id": "v2-waiting-application-load",
+        "cause": "Native running Wait activity/run, exact status and times; no evidence supports a database-lock cause.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "waiting",
+        "id": "v2-waiting-application-load-v2",
+        "layer": "application load pipeline",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "waiting on job"
+      },
+      "current_live_status": "UNVERIFIABLE_FULL_CAUSE_FROM_CURRENT_RESTORED_BASELINE",
+      "reason": "The ten-minute Wait injection is restored and the run has finished. Current native history cannot reproduce its earlier Running state; retained fresh admission is the historical evidence. No database-lock cause is asserted.",
+      "data_checks": [
+        "current_job_history.application"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-latency-record-v1",
+      "expected": {
+        "case_id": "v2-latency-record",
+        "cause": "Fresh source-ahead row900701 and native next load schedule; source change after last completed load.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "latency",
+        "id": "v2-latency-record-v1",
+        "layer": "source to Bronze",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "latency"
+      },
+      "current_live_status": "UNVERIFIABLE_FULL_CAUSE_FROM_CURRENT_RESTORED_BASELINE",
+      "reason": "Source row900701 and the future enabled load schedule were removed at cleanup. Baseline reads cannot establish the source-ahead/scheduled-next-run state used at scoring; retained admission proof is separate.",
+      "data_checks": [
+        "source_rows"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-latency-record-v2",
+      "expected": {
+        "case_id": "v2-latency-record",
+        "cause": "Fresh source-ahead row900701 and native next load schedule; source change after last completed load.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "latency",
+        "id": "v2-latency-record-v2",
+        "layer": "source to Bronze",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "latency"
+      },
+      "current_live_status": "UNVERIFIABLE_FULL_CAUSE_FROM_CURRENT_RESTORED_BASELINE",
+      "reason": "Source row900701 and the future enabled load schedule were removed at cleanup. Baseline reads cannot establish the source-ahead/scheduled-next-run state used at scoring; retained admission proof is separate.",
+      "data_checks": [
+        "source_rows"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-stale-model-v1",
+      "expected": {
+        "case_id": "v2-stale-model",
+        "cause": "Real load advanced landing by7+11+13=31 while model automatic updates were off; both values and native refresh/update facts.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "stale",
+        "id": "v2-stale-model-v1",
+        "layer": "Bronze to semantic model",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "refresh stale"
+      },
+      "current_live_status": "UNVERIFIABLE_FULL_CAUSE_FROM_CURRENT_RESTORED_BASELINE",
+      "reason": "Source/data/settings restored; fresh source and application model both7661. The scored7692-versus7661 gap and automatic-updates-off setting cannot be tested now without recreating the approved injection. Retained admission/restore receipts are separate.",
+      "data_checks": [
+        "source_units",
+        "model_totals"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-stale-model-v2",
+      "expected": {
+        "case_id": "v2-stale-model",
+        "cause": "Real load advanced landing by7+11+13=31 while model automatic updates were off; both values and native refresh/update facts.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "stale",
+        "id": "v2-stale-model-v2",
+        "layer": "Bronze to semantic model",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "refresh stale"
+      },
+      "current_live_status": "UNVERIFIABLE_FULL_CAUSE_FROM_CURRENT_RESTORED_BASELINE",
+      "reason": "Source/data/settings restored; fresh source and application model both7661. The scored7692-versus7661 gap and automatic-updates-off setting cannot be tested now without recreating the approved injection. Retained admission/restore receipts are separate.",
+      "data_checks": [
+        "source_units",
+        "model_totals"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-access-export-v1",
+      "expected": {
+        "case_id": "v2-access-export",
+        "cause": "View CURRENT_USER visibility-group mapping, not a report RLS claim; declared plain filter recreates10 and25 without impersonation.",
+        "estate": "billing",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "access",
+        "id": "v2-access-export-v1",
+        "layer": "application export view",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "access difference"
+      },
+      "current_live_status": "UNVERIFIABLE_FULL_CAUSE_FROM_CURRENT_RESTORED_BASELINE",
+      "reason": "Owned access view/mapping tables were removed and original catalog restored. No recreation or impersonation is authorized in this read-only audit; historical10/25 visibility proof remains in the original admission.",
+      "data_checks": [],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-access-export-v2",
+      "expected": {
+        "case_id": "v2-access-export",
+        "cause": "View CURRENT_USER visibility-group mapping, not a report RLS claim; declared plain filter recreates10 and25 without impersonation.",
+        "estate": "billing",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "access",
+        "id": "v2-access-export-v2",
+        "layer": "application export view",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "access difference"
+      },
+      "current_live_status": "UNVERIFIABLE_FULL_CAUSE_FROM_CURRENT_RESTORED_BASELINE",
+      "reason": "Owned access view/mapping tables were removed and original catalog restored. No recreation or impersonation is authorized in this read-only audit; historical10/25 visibility proof remains in the original admission.",
+      "data_checks": [],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-warehouse-scope-v1",
+      "expected": {
+        "case_id": "v2-warehouse-scope",
+        "cause": "Different warehouse restrictions1 versus2, not an ingestion or arithmetic fault.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-warehouse-scope-v1",
+        "layer": "selection scope",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "different question"
+      },
+      "current_live_status": "UNVERIFIABLE_FULL_CAUSE_FROM_CURRENT_RESTORED_BASELINE",
+      "reason": "Fresh source warehouse1 and2 totals differ. Exact saved visual restrictions were not freshly retrieved; therefore the full scope-difference expectation is not independently verified. The v2 variant additionally names an unknown literal report ID and is not executable as authored.",
+      "data_checks": [
+        "warehouse_source_totals"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-warehouse-scope-v2",
+      "expected": {
+        "case_id": "v2-warehouse-scope",
+        "cause": "Different warehouse restrictions1 versus2, not an ingestion or arithmetic fault.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-warehouse-scope-v2",
+        "layer": "selection scope",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "different question"
+      },
+      "current_live_status": "UNVERIFIABLE_FULL_CAUSE_FROM_CURRENT_RESTORED_BASELINE",
+      "reason": "Fresh source warehouse1 and2 totals differ. Exact saved visual restrictions were not freshly retrieved; therefore the full scope-difference expectation is not independently verified. The v2 variant additionally names an unknown literal report ID and is not executable as authored.",
+      "data_checks": [
+        "warehouse_source_totals"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-before-temporal-retention-v1",
+      "expected": {
+        "case_id": "v2-before-temporal-retention",
+        "cause": "Requested time precedes retained temporal evidence; historical quantity cannot be established.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-before-temporal-retention-v1",
+        "layer": "source history boundary",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "not found"
+      },
+      "current_live_status": "VERIFIED_NATIVE_RETENTION_BOUNDARY",
+      "reason": "Fresh native history for movement1 begins after2026-10-20T12:00UTC; native SYSTEM_TIME AS OF that requested instant returns no row. This establishes the stated native-history boundary, not a historical quantity or proof that the row never existed.",
+      "data_checks": [
+        "movement1_retention"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-before-temporal-retention-v2",
+      "expected": {
+        "case_id": "v2-before-temporal-retention",
+        "cause": "Requested time precedes retained temporal evidence; historical quantity cannot be established.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-before-temporal-retention-v2",
+        "layer": "source history boundary",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "not found"
+      },
+      "current_live_status": "VERIFIED_NATIVE_RETENTION_BOUNDARY",
+      "reason": "Fresh native history for movement1 begins after2026-10-20T12:00UTC; native SYSTEM_TIME AS OF that requested instant returns no row. This establishes the stated native-history boundary, not a historical quantity or proof that the row never existed.",
+      "data_checks": [
+        "movement1_retention"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-record-absent-everywhere-v1",
+      "expected": {
+        "case_id": "v2-record-absent-everywhere",
+        "cause": "Record900099 is absent at source and every compared reachable layer; BLANK is not zero.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-record-absent-everywhere-v1",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "as designed"
+      },
+      "current_live_status": "VERIFIED_LIVE_ABSENCE_AND_BLANK",
+      "reason": "Fresh source and application Bronze have no900099 row; the explicitly filtered application semantic query returns JSON null (DAX BLANK), not0. These are the compared layers of its declared application path. No failed query or missing value was treated as BLANK.",
+      "data_checks": [
+        "source900099_rows",
+        "application_bronze",
+        "additional_models.application-empty"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-record-absent-everywhere-v2",
+      "expected": {
+        "case_id": "v2-record-absent-everywhere",
+        "cause": "Record900099 is absent at source and every compared reachable layer; BLANK is not zero.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-record-absent-everywhere-v2",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "as designed"
+      },
+      "current_live_status": "VERIFIED_LIVE_ABSENCE_AND_BLANK",
+      "reason": "Fresh source and application Bronze have no900099 row; the explicitly filtered application semantic query returns JSON null (DAX BLANK), not0. These are the compared layers of its declared application path. No failed query or missing value was treated as BLANK.",
+      "data_checks": [
+        "source900099_rows",
+        "application_bronze",
+        "additional_models.application-empty"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-record-repeated-gold-v1",
+      "expected": {
+        "case_id": "v2-record-repeated-gold",
+        "cause": "Product7 has multiple matching product-rate rows; join repeats the same movement key without a uniqueness restriction.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-record-repeated-gold-v1",
+        "layer": "Silver to Gold",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "transformation logic"
+      },
+      "current_live_status": "UNVERIFIABLE_FULL_CAUSE_FROM_CURRENT_RESTORED_BASELINE",
+      "reason": "Fresh source360 distinct keys/7661 and Gold406rows/360keys/8765; movement6 occurs once at source and twice in Gold. This supports fanout; Silver product-rate rows and the currently deployed join definition were not re-read, so the whole named join cause is not independently established live.",
+      "data_checks": [
+        "source_rows",
+        "source_units",
+        "source_movement6",
+        "fixture_gold"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-record-repeated-gold-v2",
+      "expected": {
+        "case_id": "v2-record-repeated-gold",
+        "cause": "Product7 has multiple matching product-rate rows; join repeats the same movement key without a uniqueness restriction.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-record-repeated-gold-v2",
+        "layer": "Silver to Gold",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "transformation logic"
+      },
+      "current_live_status": "UNVERIFIABLE_FULL_CAUSE_FROM_CURRENT_RESTORED_BASELINE",
+      "reason": "Fresh source360 distinct keys/7661 and Gold406rows/360keys/8765; movement6 occurs once at source and twice in Gold. This supports fanout; Silver product-rate rows and the currently deployed join definition were not re-read, so the whole named join cause is not independently established live.",
+      "data_checks": [
+        "source_rows",
+        "source_units",
+        "source_movement6",
+        "fixture_gold"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-source-history-v1",
+      "expected": {
+        "case_id": "v2-source-history",
+        "cause": "Temporal native before41/after47 and change timestamp, distinct from business event date; no pipeline arithmetic claim.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "history",
+        "id": "v2-source-history-v1",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "source changed history"
+      },
+      "current_live_status": "VERIFIED_NATIVE_TEMPORAL_CHANGE",
+      "reason": "Fresh FOR SYSTEM_TIME ALL returns native41 then47 for movement900201 at the retained dev-window timestamps (and the later historical window). The change remains independently visible after current-row restoration; no pipeline arithmetic is inferred.",
+      "data_checks": [
+        "native_temporal_900201"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-source-history-v2",
+      "expected": {
+        "case_id": "v2-source-history",
+        "cause": "Temporal native before41/after47 and change timestamp, distinct from business event date; no pipeline arithmetic claim.",
+        "estate": "fixture",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "history",
+        "id": "v2-source-history-v2",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "source changed history"
+      },
+      "current_live_status": "VERIFIED_NATIVE_TEMPORAL_CHANGE",
+      "reason": "Fresh FOR SYSTEM_TIME ALL returns native41 then47 for movement900201 at the retained dev-window timestamps (and the later historical window). The change remains independently visible after current-row restoration; no pipeline arithmetic is inferred.",
+      "data_checks": [
+        "native_temporal_900201"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-other-collected-definition-v1",
+      "expected": {
+        "case_id": "v2-other-collected-definition",
+        "cause": "SUM(Payments.amount),200+100+250=550, agrees through the reachable payment path.",
+        "estate": "billing",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-other-collected-definition-v1",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "as designed"
+      },
+      "current_live_status": "VERIFIED_LIVE_SUM_AGREEMENT",
+      "reason": "Fresh source payments200+100+250=550, Bronze550, Gold550 and semantic Collected Amount550 agree. This verifies the expected numerical SUM/path agreement. Exact live measure-expression introspection returned400; its syntax remains a separate limitation.",
+      "data_checks": [
+        "billing_source_payment_total",
+        "billing_bronze",
+        "billing_gold",
+        "additional_models.billing-values"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-other-collected-definition-v2",
+      "expected": {
+        "case_id": "v2-other-collected-definition",
+        "cause": "SUM(Payments.amount),200+100+250=550, agrees through the reachable payment path.",
+        "estate": "billing",
+        "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+        "fixture": "baseline",
+        "id": "v2-other-collected-definition-v2",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "as designed"
+      },
+      "current_live_status": "VERIFIED_LIVE_SUM_AGREEMENT",
+      "reason": "Fresh source payments200+100+250=550, Bronze550, Gold550 and semantic Collected Amount550 agree. This verifies the expected numerical SUM/path agreement. Exact live measure-expression introspection returned400; its syntax remains a separate limitation.",
+      "data_checks": [
+        "billing_source_payment_total",
+        "billing_bronze",
+        "billing_gold",
+        "additional_models.billing-values"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-screenshot-record-01-v1",
+      "expected": {
+        "case_id": "v2-screenshot-record-01",
+        "cause": "Visible values resolve uniquely to movement 2; units 17 carried unchanged through application path. Actual native queries must establish this key and agreement.",
+        "estate": "fixture",
+        "expectation_basis": "Unique composite visible field values in the360 synthetic source rows and real rendered screenshot; no engine answer.",
+        "fixture": "baseline",
+        "id": "v2-screenshot-record-01-v1",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "as designed"
+      },
+      "current_live_status": "VERIFIED_LIVE_RECORD_CARRY",
+      "reason": "Fresh source composite fields resolve uniquely to movement2 with units17. Fresh Bronze has exactly one matching key/warehouse/product/units row and fresh semantic rows preserve the same four values for each of2,4,5,7. This independently corroborates the expected record identity and unchanged units on its application path.. Fresh Bronze has exactly one matching key/warehouse/product/units row and fresh semantic rows preserve the same four values for each of2,4,5,7. This independently corroborates the expected record identity and unchanged units on its application path.",
+      "data_checks": [
+        {
+          "source_unique_match": {
+            "event_day": "2026-09-11",
+            "movement_id": "2",
+            "movement_type": "RECEIPT",
+            "product_id": "4",
+            "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+            "source_row_version": "28002",
+            "units": "17",
+            "warehouse_id": "1"
+          },
+          "matches": 1
+        },
+        "application_bronze",
+        "additional_models.application-records",
+        "application_bronze",
+        "additional_models.application-records"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-screenshot-record-01-v2",
+      "expected": {
+        "case_id": "v2-screenshot-record-01",
+        "cause": "Visible values resolve uniquely to movement 2; units 17 carried unchanged through application path. Actual native queries must establish this key and agreement.",
+        "estate": "fixture",
+        "expectation_basis": "Unique composite visible field values in the360 synthetic source rows and real rendered screenshot; no engine answer.",
+        "fixture": "baseline",
+        "id": "v2-screenshot-record-01-v2",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "as designed"
+      },
+      "current_live_status": "VERIFIED_LIVE_RECORD_CARRY",
+      "reason": "Fresh source composite fields resolve uniquely to movement2 with units17. Fresh Bronze has exactly one matching key/warehouse/product/units row and fresh semantic rows preserve the same four values for each of2,4,5,7. This independently corroborates the expected record identity and unchanged units on its application path.. Fresh Bronze has exactly one matching key/warehouse/product/units row and fresh semantic rows preserve the same four values for each of2,4,5,7. This independently corroborates the expected record identity and unchanged units on its application path.",
+      "data_checks": [
+        {
+          "source_unique_match": {
+            "event_day": "2026-09-11",
+            "movement_id": "2",
+            "movement_type": "RECEIPT",
+            "product_id": "4",
+            "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+            "source_row_version": "28002",
+            "units": "17",
+            "warehouse_id": "1"
+          },
+          "matches": 1
+        },
+        "application_bronze",
+        "additional_models.application-records",
+        "application_bronze",
+        "additional_models.application-records"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v1",
+      "expected": {
+        "case_id": "v2-screenshot-record-02",
+        "cause": "Visible values resolve uniquely to movement 4; units 21 carried unchanged through application path. Actual native queries must establish this key and agreement.",
+        "estate": "fixture",
+        "expectation_basis": "Unique composite visible field values in the360 synthetic source rows and real rendered screenshot; no engine answer.",
+        "fixture": "baseline",
+        "id": "v2-screenshot-record-02-v1",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "as designed"
+      },
+      "current_live_status": "VERIFIED_LIVE_RECORD_CARRY",
+      "reason": "Fresh source composite fields resolve uniquely to movement4 with units21. Fresh Bronze has exactly one matching key/warehouse/product/units row and fresh semantic rows preserve the same four values for each of2,4,5,7. This independently corroborates the expected record identity and unchanged units on its application path.. Fresh Bronze has exactly one matching key/warehouse/product/units row and fresh semantic rows preserve the same four values for each of2,4,5,7. This independently corroborates the expected record identity and unchanged units on its application path.",
+      "data_checks": [
+        {
+          "source_unique_match": {
+            "event_day": "2026-09-11",
+            "movement_id": "4",
+            "movement_type": "ISSUE",
+            "product_id": "2",
+            "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+            "source_row_version": "28004",
+            "units": "21",
+            "warehouse_id": "1"
+          },
+          "matches": 1
+        },
+        "application_bronze",
+        "additional_models.application-records",
+        "application_bronze",
+        "additional_models.application-records"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v2",
+      "expected": {
+        "case_id": "v2-screenshot-record-02",
+        "cause": "Visible values resolve uniquely to movement 4; units 21 carried unchanged through application path. Actual native queries must establish this key and agreement.",
+        "estate": "fixture",
+        "expectation_basis": "Unique composite visible field values in the360 synthetic source rows and real rendered screenshot; no engine answer.",
+        "fixture": "baseline",
+        "id": "v2-screenshot-record-02-v2",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "as designed"
+      },
+      "current_live_status": "VERIFIED_LIVE_RECORD_CARRY",
+      "reason": "Fresh source composite fields resolve uniquely to movement4 with units21. Fresh Bronze has exactly one matching key/warehouse/product/units row and fresh semantic rows preserve the same four values for each of2,4,5,7. This independently corroborates the expected record identity and unchanged units on its application path.. Fresh Bronze has exactly one matching key/warehouse/product/units row and fresh semantic rows preserve the same four values for each of2,4,5,7. This independently corroborates the expected record identity and unchanged units on its application path.",
+      "data_checks": [
+        {
+          "source_unique_match": {
+            "event_day": "2026-09-11",
+            "movement_id": "4",
+            "movement_type": "ISSUE",
+            "product_id": "2",
+            "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+            "source_row_version": "28004",
+            "units": "21",
+            "warehouse_id": "1"
+          },
+          "matches": 1
+        },
+        "application_bronze",
+        "additional_models.application-records",
+        "application_bronze",
+        "additional_models.application-records"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-screenshot-record-03-v1",
+      "expected": {
+        "case_id": "v2-screenshot-record-03",
+        "cause": "Visible values resolve uniquely to movement 5; units 3 carried unchanged through application path. Actual native queries must establish this key and agreement.",
+        "estate": "fixture",
+        "expectation_basis": "Unique composite visible field values in the360 synthetic source rows and real rendered screenshot; no engine answer.",
+        "fixture": "baseline",
+        "id": "v2-screenshot-record-03-v1",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "as designed"
+      },
+      "current_live_status": "VERIFIED_LIVE_RECORD_CARRY",
+      "reason": "Fresh source composite fields resolve uniquely to movement5 with units3. Fresh Bronze has exactly one matching key/warehouse/product/units row and fresh semantic rows preserve the same four values for each of2,4,5,7. This independently corroborates the expected record identity and unchanged units on its application path.. Fresh Bronze has exactly one matching key/warehouse/product/units row and fresh semantic rows preserve the same four values for each of2,4,5,7. This independently corroborates the expected record identity and unchanged units on its application path.",
+      "data_checks": [
+        {
+          "source_unique_match": {
+            "event_day": "2026-09-12",
+            "movement_id": "5",
+            "movement_type": "RECEIPT",
+            "product_id": "3",
+            "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+            "source_row_version": "28005",
+            "units": "3",
+            "warehouse_id": "2"
+          },
+          "matches": 1
+        },
+        "application_bronze",
+        "additional_models.application-records",
+        "application_bronze",
+        "additional_models.application-records"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-screenshot-record-03-v2",
+      "expected": {
+        "case_id": "v2-screenshot-record-03",
+        "cause": "Visible values resolve uniquely to movement 5; units 3 carried unchanged through application path. Actual native queries must establish this key and agreement.",
+        "estate": "fixture",
+        "expectation_basis": "Unique composite visible field values in the360 synthetic source rows and real rendered screenshot; no engine answer.",
+        "fixture": "baseline",
+        "id": "v2-screenshot-record-03-v2",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "as designed"
+      },
+      "current_live_status": "VERIFIED_LIVE_RECORD_CARRY",
+      "reason": "Fresh source composite fields resolve uniquely to movement5 with units3. Fresh Bronze has exactly one matching key/warehouse/product/units row and fresh semantic rows preserve the same four values for each of2,4,5,7. This independently corroborates the expected record identity and unchanged units on its application path.. Fresh Bronze has exactly one matching key/warehouse/product/units row and fresh semantic rows preserve the same four values for each of2,4,5,7. This independently corroborates the expected record identity and unchanged units on its application path.",
+      "data_checks": [
+        {
+          "source_unique_match": {
+            "event_day": "2026-09-12",
+            "movement_id": "5",
+            "movement_type": "RECEIPT",
+            "product_id": "3",
+            "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+            "source_row_version": "28005",
+            "units": "3",
+            "warehouse_id": "2"
+          },
+          "matches": 1
+        },
+        "application_bronze",
+        "additional_models.application-records",
+        "application_bronze",
+        "additional_models.application-records"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-screenshot-record-04-v1",
+      "expected": {
+        "case_id": "v2-screenshot-record-04",
+        "cause": "Visible values resolve uniquely to movement 7; units 20 carried unchanged through application path. Actual native queries must establish this key and agreement.",
+        "estate": "fixture",
+        "expectation_basis": "Unique composite visible field values in the360 synthetic source rows and real rendered screenshot; no engine answer.",
+        "fixture": "baseline",
+        "id": "v2-screenshot-record-04-v1",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "detailed support question",
+        "verdict": "as designed"
+      },
+      "current_live_status": "VERIFIED_LIVE_RECORD_CARRY",
+      "reason": "Fresh source composite fields resolve uniquely to movement7 with units20. Fresh Bronze has exactly one matching key/warehouse/product/units row and fresh semantic rows preserve the same four values for each of2,4,5,7. This independently corroborates the expected record identity and unchanged units on its application path.. Fresh Bronze has exactly one matching key/warehouse/product/units row and fresh semantic rows preserve the same four values for each of2,4,5,7. This independently corroborates the expected record identity and unchanged units on its application path.",
+      "data_checks": [
+        {
+          "source_unique_match": {
+            "event_day": "2026-09-16",
+            "movement_id": "7",
+            "movement_type": "RECEIPT",
+            "product_id": "2",
+            "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+            "source_row_version": "28007",
+            "units": "20",
+            "warehouse_id": "3"
+          },
+          "matches": 1
+        },
+        "application_bronze",
+        "additional_models.application-records",
+        "application_bronze",
+        "additional_models.application-records"
+      ],
+      "expectation_changed": false
+    },
+    {
+      "ticket": "v2-screenshot-record-04-v2",
+      "expected": {
+        "case_id": "v2-screenshot-record-04",
+        "cause": "Visible values resolve uniquely to movement 7; units 20 carried unchanged through application path. Actual native queries must establish this key and agreement.",
+        "estate": "fixture",
+        "expectation_basis": "Unique composite visible field values in the360 synthetic source rows and real rendered screenshot; no engine answer.",
+        "fixture": "baseline",
+        "id": "v2-screenshot-record-04-v2",
+        "layer": "source application",
+        "split": "DEV",
+        "variation": "brief support question",
+        "verdict": "as designed"
+      },
+      "current_live_status": "VERIFIED_LIVE_RECORD_CARRY",
+      "reason": "Fresh source composite fields resolve uniquely to movement7 with units20. Fresh Bronze has exactly one matching key/warehouse/product/units row and fresh semantic rows preserve the same four values for each of2,4,5,7. This independently corroborates the expected record identity and unchanged units on its application path.. Fresh Bronze has exactly one matching key/warehouse/product/units row and fresh semantic rows preserve the same four values for each of2,4,5,7. This independently corroborates the expected record identity and unchanged units on its application path.",
+      "data_checks": [
+        {
+          "source_unique_match": {
+            "event_day": "2026-09-16",
+            "movement_id": "7",
+            "movement_type": "RECEIPT",
+            "product_id": "2",
+            "source_modified_at_utc": "2026-10-03T22:51:16.8820249Z",
+            "source_row_version": "28007",
+            "units": "20",
+            "warehouse_id": "3"
+          },
+          "matches": 1
+        },
+        "application_bronze",
+        "additional_models.application-records",
+        "application_bronze",
+        "additional_models.application-records"
+      ],
+      "expectation_changed": false
+    }
+  ],
+  "scope_note": "An expectation is not false merely because its temporary injection was reverted. Partial live corroboration is not full causal verification. Current source owner/publisher reads are explicitly controls, not proof of investigator scope. No held-out outcome was selected or regraded.",
+  "verified_data_or_native_history": [
+    "v2-application-baseline-v1",
+    "v2-application-baseline-v2",
+    "v2-billing-mrr-v1",
+    "v2-billing-mrr-v2",
+    "v2-failed-application-load-v1",
+    "v2-failed-application-load-v2",
+    "v2-failed-billing-transform-v1",
+    "v2-failed-billing-transform-v2",
+    "v2-before-temporal-retention-v1",
+    "v2-before-temporal-retention-v2",
+    "v2-record-absent-everywhere-v1",
+    "v2-record-absent-everywhere-v2",
+    "v2-source-history-v1",
+    "v2-source-history-v2",
+    "v2-other-collected-definition-v1",
+    "v2-other-collected-definition-v2",
+    "v2-screenshot-record-01-v1",
+    "v2-screenshot-record-01-v2",
+    "v2-screenshot-record-02-v1",
+    "v2-screenshot-record-02-v2",
+    "v2-screenshot-record-03-v1",
+    "v2-screenshot-record-03-v2",
+    "v2-screenshot-record-04-v1",
+    "v2-screenshot-record-04-v2"
+  ],
+  "definition_introspection_limit": {
+    "status": "UNAVAILABLE_HTTP400",
+    "surfaces": [
+      "billing INFO.MEASURES",
+      "application INFO.MEASURES"
+    ],
+    "native_error_code": "DatasetExecuteQueriesError; AnalysisServicesErrorCode3239575574",
+    "scope": "No failed definition read proves the expression. Numerical/record/observed filter behavior claims above are separately measured."
+  },
+  "actual_physical_requests": 41,
+  "physical_accounting": "Initial fixture4+first billing operator refusal1+corrected billing7+source/publisher controls10; additional application Bronze4+billing Bronze7+publisher5; final publisher1+native SQL2 (40613 plus bounded successful resume retry) =41. Native capture physical-result ordinals establish probe totals; no cap or reserve changed.",
+  "additional_receipt_sha256": {
+    "additional/model-results.json": "7d67859097eda0c0742eb0435a63303b18ba6ff6b50907563ada2e2330b44d3e",
+    "additional/application-bronze-cloud-result.json": "a20cb9cb95f0985a85fd636571ee1bc88f999f402ccacb8e145bd92776d1a0c5",
+    "additional/billing-bronze-result.json": "f0a23c063cb7428cac39c1f3bc4deb4aef92d88a964c1b576058dd2ef2f70d33",
+    "final-current-facts/billing-plan2.json": "ddb46b506b19699585142c6efd245409ddf90928658f00c05d73b068f71c44ed",
+    "final-current-facts/history-boundary.json": "2e5c8061cb87850b6f13865e7c77b7a9f3c79c2e49bccb7a56e142c14cebea04"
+  },
+  "original_planned_physical_requests": 40
+}

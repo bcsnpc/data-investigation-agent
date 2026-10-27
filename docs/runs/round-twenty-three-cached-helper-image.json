@@ -1,0 +1,7 @@
+{
+  "source": "7d32316e415bfa3b9e94074d53a14f00ec62b420",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6",
+  "workflow": "40542771941",
+  "frozen_investigation_source": "07a0f92faba8b9abcb3b0f65cb623d113f1f24c3",
+  "change": "Diagnostic cache pin applies only after path admission; helpers unchanged and all native cache usage logged. Default/frozen request bodies unchanged."
+}

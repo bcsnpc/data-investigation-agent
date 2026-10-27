@@ -14,7 +14,7 @@ from .planner_recording import _safe
 from .run_capture import DurableCapture,blob_sink
 
 VERSION='dia-runner-estate-v1'
-KINDS=frozenset({'investigation','legacy-baseline','verification','probe','scan','replay','prepare','smoke','authorization-check','value-verification','collect-facts','facts-dispatcher','ledger-investigation','enrichment-batch','access-check'})
+KINDS=frozenset({'investigation','legacy-baseline','verification','probe','scan','replay','prepare','smoke','authorization-check','value-verification','collect-facts','facts-dispatcher','ledger-investigation','guided-investigation','enrichment-batch','access-check'})
 PUBLIC_ENV=frozenset(('DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JSON',
     'INVESTIGATOR_STATE_BACKEND','INVESTIGATOR_PG_HOST','INVESTIGATOR_PG_DATABASE','INVESTIGATOR_PG_USER',
     'AZURE_CLIENT_ID','DIA_GATEWAY_HTTP_IDENTITY','DIA_GATEWAY_SQL_IDENTITY','DIA_GATEWAY_MODEL_IDENTITY',
@@ -39,6 +39,11 @@ def load(path):
     for name,check in value['checks'].items():
         if not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',name) or set(check)!={'kind','options'} or check['kind'] not in KINDS or not isinstance(check['options'],dict):raise ValueError('RUNNER_TYPED_CHECK_REQUIRED')
         if check['kind']=='collect-facts':collector_options(check['options'])
+        if 'manual_release_allocation' in check['options']:
+            if (check['kind']!='smoke' or check['options']['manual_release_allocation']!='INVESTIGATION'
+                    or not (value.get('per_execution') is True or
+                            value.get('per_execution') is False and bool(value.get('run_id'))) or 'schedule' in value):
+                raise ValueError('MANUAL_RELEASE_ALLOCATION_REQUIRES_UNSCHEDULED_SMOKE')
     _safe(bytes_of(value))
     return value
 
@@ -83,6 +88,9 @@ def retry(call,*,record,sleep=time.sleep):
 def handlers():
     def enrichment_batch(plan,ctx):
         from cloud_enrichment import execute
+        return execute(plan,ctx)
+    def guided_investigation(plan,ctx):
+        from cloud_guided_investigator import execute
         return execute(plan,ctx)
     def ledger_investigation(plan,ctx):
         from cloud_investigator import execute
@@ -207,7 +215,7 @@ def handlers():
         demo=(lambda:demo_handler({**plan,'options':o['demo']},ctx)) if o['config']['demo_earned'] else None
         try:return run_smoke(o['config'],ctx,state=state,gold_read=gold,blob_roundtrip=lambda config,body:capture_roundtrip(ctx,body),demo=demo)
         finally:meter.close()
-    return {'verification':verification,'investigation':ledger_investigation,'legacy-baseline':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke,'authorization-check':authorization_check,'value-verification':value_verification,'collect-facts':collect_facts,'facts-dispatcher':facts_dispatcher,'ledger-investigation':ledger_investigation,'enrichment-batch':enrichment_batch,'access-check':access_result}
+    return {'verification':verification,'investigation':ledger_investigation,'guided-investigation':guided_investigation,'legacy-baseline':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke,'authorization-check':authorization_check,'value-verification':value_verification,'collect-facts':collect_facts,'facts-dispatcher':facts_dispatcher,'ledger-investigation':ledger_investigation,'enrichment-batch':enrichment_batch,'access-check':access_result}
 
 def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     from .run_database_audits import scope
@@ -216,10 +224,12 @@ def run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
 
 def delivery_exit(kind,result):
     """Delivery, not READY/verification/attestation labels, decides ticket exit."""
-    if kind not in ('investigation','ledger-investigation','smoke'):
+    if kind not in ('investigation','ledger-investigation','guided-investigation','smoke'):
         return 0,'CHECK_REPORT_DELIVERED'
     if isinstance(result,dict):
         outputs=result.get('outputs',{})
+        if kind=='guided-investigation':
+            return (0,'ANSWER_DELIVERED') if result.get('status')=='ANSWERED' and outputs.get('business') else (1,'ANSWER_NOT_DELIVERED')
         if result.get('verdict') and all(isinstance(outputs.get(k),str) and outputs[k] for k in ('business','technical')):
             return 0,'ANSWER_DELIVERED'
         demo=result.get('demo',{})
@@ -257,7 +267,12 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
     keys=('INVESTIGATOR_OPERATING_MODE','INVESTIGATOR_BUDGET_CATEGORY','INVESTIGATOR_WORKER_ID','DIA_STREAMING_CAPTURE')
     previous={key:os.environ.get(key) for key in keys}
     try:
-        with ctx.observing():
+        from .build_phase import manual_smoke_allocation
+        # Host binding freezes per_execution=False and keeps its exact run_id.
+        manual_smoke=(check['kind']=='smoke' and
+                      (config.get('per_execution') is True or config.get('per_execution') is False and bool(config.get('run_id'))) and 'schedule' not in config
+                      and check['options'].get('manual_release_allocation')=='INVESTIGATION')
+        with ctx.observing(),manual_smoke_allocation(manual_smoke):
             os.environ['DIA_STREAMING_CAPTURE']='1'
             os.environ['INVESTIGATOR_OPERATING_MODE']='BUILD_PHASE'
             os.environ['INVESTIGATOR_WORKER_ID']=run_id
@@ -291,7 +306,7 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
                     access_result=getattr(ctx,'access_result',None),
                     step=lambda name,fn:retry(lambda:ctx.step(name,fn),record=ctx.record,sleep=sleep))
                 return ctx.step(check['kind'],lambda:registry[check['kind']](plan,view))
-            if getattr(ctx,'access_result',{}).get('status')=='FAIL' and check['kind']not in ('access-check','investigation','ledger-investigation','smoke'):
+            if getattr(ctx,'access_result',{}).get('status')=='FAIL' and check['kind']not in ('access-check','investigation','ledger-investigation','guided-investigation','smoke'):
                 # Standalone probes still return their failed access report.
                 # Investigations retain that report but check reachable layers:
                 # each native read still verifies its own identity/read-only

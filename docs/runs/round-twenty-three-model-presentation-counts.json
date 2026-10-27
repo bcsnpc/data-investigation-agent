@@ -1,0 +1,33 @@
+{
+  "rows": [
+    {
+      "ticket": "v2-application-baseline-v1",
+      "model": "claude-fable-5-1",
+      "provider_count_tokens": {
+        "input_tokens": 17285
+      },
+      "input_body_sha256": "57e5fbf5728ae3886b92500dc69a2b5acdc399cdb68a01bb4fbd5a059325cc9a",
+      "body_characters": 41502,
+      "measurement": "Retained dev04 initial-context reconstruction; not a live request reservation or a prospective guarantee",
+      "native_context_unchanged": true
+    },
+    {
+      "ticket": "v2-billing-mrr-v1",
+      "model": "claude-fable-5-1",
+      "provider_count_tokens": {
+        "input_tokens": 33922
+      },
+      "input_body_sha256": "46ba26a280412c17ff61d02d6bbf794649f03f2fda3a34f09b1d3f47d91f2b6e",
+      "body_characters": 80747,
+      "measurement": "Retained dev04 initial-context reconstruction; not a live request reservation or a prospective guarantee",
+      "native_context_unchanged": true
+    }
+  ],
+  "provider_count_requests": 2,
+  "messages_requests": 0,
+  "estate_reads": 0,
+  "model_spend": 0,
+  "provider_count_requests_in_exploration": 12,
+  "documentation": "https://platform.claude.com/docs/en/build-with-claude/token-counting",
+  "prepared_for_next_image_only": true
+}

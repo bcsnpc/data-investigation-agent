@@ -1,0 +1,7 @@
+{
+  "source": "10caa82ae4d3e6de54b3fa5ad41a4d5596402542",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+  "workflow": "40533508860",
+  "frozen_investigation_source": "07a0f92faba8b9abcb3b0f65cb623d113f1f24c3",
+  "changes": "owner-approved October envelope and diagnostic-only cached prefix; held runners unchanged"
+}

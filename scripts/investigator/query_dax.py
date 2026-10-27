@@ -10,7 +10,7 @@ VERSION='bounded-dax-v1'
 TABLE_FUNCTIONS={'ROW','SUMMARIZECOLUMNS','SUMMARIZE','SELECTCOLUMNS','ADDCOLUMNS','FILTER',
                  'CALCULATETABLE','VALUES','DISTINCT','ALL','ALLSELECTED','TOPN','TREATAS',
                  'DATESBETWEEN','DATESINPERIOD','DATEADD','SAMEPERIODLASTYEAR','EXCEPT','INTERSECT','UNION','KEEPFILTERS','REMOVEFILTERS','RELATEDTABLE'}
-FUNCTIONS=TABLE_FUNCTIONS|{'CALCULATE','SUM','SUMX','COUNT','COUNTX','COUNTROWS','DISTINCTCOUNT',
+FUNCTIONS=TABLE_FUNCTIONS|{'CALCULATE','SUM','SUMX','COUNT','COUNTX','COUNTROWS','COUNTBLANK','DISTINCTCOUNT',
  'MIN','MAX','MINX','MAXX','AVERAGE','AVERAGEX','DIVIDE','IF','SWITCH','COALESCE','ISBLANK',
  'BLANK','TRUE','FALSE','ABS','ROUND','INT','DATE','YEAR','MONTH','DAY','DATEDIFF','TODAY',
  'NOW','DATEVALUE','VALUE','IFERROR','KEEPFILTERS','REMOVEFILTERS','USERELATIONSHIP','HASONEVALUE','SELECTEDVALUE',
@@ -28,8 +28,10 @@ def capabilities():
 
 
 class Parser:
-    def __init__(self,query,assets,*,identity=False,strict_forms=False):
+    def __init__(self,query,assets,*,identity=False,strict_forms=False,allow_define=False,bind_catalog=True):
         self.identity=identity;self.volatile=False;self.strict_forms=strict_forms
+        self.allow_define=allow_define
+        self.bind_catalog=bind_catalog
         if not isinstance(query,str) or not 1<=len(query)<=limits.QUERY_TEXT:raise ValueError('DAX text budget exceeded')
         tokens,gaps=tokenize(query)
         if gaps or not tokens or len(tokens)>1600:raise ValueError('Unsupported DAX token or syntax budget')
@@ -42,6 +44,7 @@ class Parser:
         self.i=0;self.depth=0;self.projected_columns={};self.assets=assets;self.references=set();self.variables=set()
         self.tables={a['name'].casefold():a for a in assets if a['kind']=='SemanticTable'}
         self.members=[a for a in assets if a['kind'] in ('Measure','SemanticColumn')]
+        self.definitions=[];self.query_measures={}
 
     def peek(self,value=None):
         return self.i<len(self.tokens) and (value is None or self.tokens[self.i][1].upper()==value)
@@ -144,28 +147,69 @@ class Parser:
                 table=self.tables.get(name.casefold())
                 if table:self.references.add(table['id']);return (repr(table['id']) if self.identity else value),'table'
                 if kind=='name' and name.upper() in ENUMS:return name.upper(),'scalar'
+                if not self.bind_catalog:return value,'table'
                 raise ValueError('Unknown DAX table/variable')
         else:member=value
         if kind!='ref':raise ValueError('Unsupported DAX expression')
         name=member[1:-1].replace(']]',']').casefold()
+        query_measure=self.query_measures.get((qualifier.casefold() if qualifier else None,name))
+        if query_measure is not None:
+            return (query_measure if self.identity else value),'scalar'
+        if not self.bind_catalog:return value,'scalar'
         matches=[a for a in self.members if a['name'].casefold()==name and
                  (a['parent_id']==self.tables.get(qualifier.casefold(),{}).get('id') if qualifier else a['kind']=='Measure')]
         if len(matches)!=1:raise ValueError('Unknown or ambiguous DAX member')
         self.references.add(matches[0]['id']);return (repr(matches[0]['id']) if self.identity else value),'scalar'
 
     def parse(self):
+        if self.peek('DEFINE'):
+            if not self.allow_define:raise ValueError('DEFINE requires the AI-investigation grammar')
+            self.take('DEFINE')
+            while self.peek('VAR') or self.peek('MEASURE'):
+                declaration=self.take()[1].upper()
+                if declaration=='VAR':
+                    kind,name=self.take()
+                    if kind!='name' or name.casefold() in self.variables or name.casefold() in self.tables or name.upper() in FUNCTIONS|ENUMS:
+                        raise ValueError('Invalid DEFINE variable')
+                    self.take('=');value,_=self.expression()
+                    self.variables.add(name.casefold())
+                    self.definitions.append('VAR '+name+' = '+value)
+                else:
+                    kind,table_name=self.take()
+                    table_name=table_name[1:-1].replace("''", "'") if kind=='table' else table_name
+                    table=self.tables.get(table_name.casefold())
+                    if table is None and not self.bind_catalog:table={'id':'syntax:'+table_name}
+                    member_kind,member=self.take()
+                    if kind not in ('table','name') or table is None or member_kind!='ref':
+                        raise ValueError('DEFINE MEASURE requires a discovered table')
+                    key=(table_name.casefold(),member[1:-1].replace(']]',']').casefold())
+                    if key in self.query_measures:raise ValueError('Duplicate DEFINE measure')
+                    self.take('=');value,typ=self.expression()
+                    if typ=='table':raise ValueError('DEFINE MEASURE requires a scalar')
+                    self.references.add(table['id'])
+                    rendered="'"+table_name.replace("'","''")+"'"+member
+                    self.query_measures[key]=rendered
+                    # Unqualified local measure names must be unique.
+                    local=(None,key[1])
+                    if local in self.query_measures:raise ValueError('Ambiguous DEFINE measure')
+                    self.query_measures[local]=rendered
+                    self.definitions.append('MEASURE '+rendered+' = '+value)
+            if not self.definitions:raise ValueError('Empty DEFINE')
         self.take('EVALUATE');expression,kind=self.expression()
         if self.peek() or kind not in ('table','variable'):raise ValueError('One table-valued EVALUATE required')
-        if not self.references:raise ValueError('At least one discovered model reference required')
+        if self.bind_catalog and not self.references:raise ValueError('At least one discovered model reference required')
         self.output_columns=self.projected_columns.get(expression,set())
         return expression
 
 
-def compile_query(query,assets,*,max_rows=limits.QUERY_ROWS):
+def compile_query(query,assets,*,max_rows=limits.QUERY_ROWS,allow_define=False):
     if type(max_rows) is not int or not 1<=max_rows<=limits.QUERY_ROWS:raise ValueError('Invalid row budget')
-    parser=Parser(query,assets);expression=parser.parse()
-    identity=Parser(query,assets,identity=True);bound=identity.parse()
-    return {'query':'EVALUATE TOPN('+str(max_rows+1)+','+expression+')',
-            'compiled_read':None if identity.volatile else bound,
-            'result_columns':sorted(parser.output_columns),'asset_ids':sorted(parser.references),'max_rows':max_rows+1,'validator_version':VERSION,
+    parser=Parser(query,assets,allow_define=allow_define);expression=parser.parse()
+    identity=Parser(query,assets,identity=True,allow_define=allow_define);bound=identity.parse()
+    prefix=('DEFINE '+' '.join(parser.definitions)+'\n') if parser.definitions else ''
+    identity_prefix=('DEFINE '+' '.join(identity.definitions)+'\n') if identity.definitions else ''
+    return {'query':prefix+'EVALUATE TOPN('+str(max_rows+1)+','+expression+')',
+            'compiled_read':None if identity.volatile else identity_prefix+bound,
+            'result_columns':sorted(parser.output_columns),'asset_ids':sorted(parser.references),'max_rows':max_rows+1,
+            'validator_version':'bounded-dax-v2-define' if parser.definitions else VERSION,
             'limitation':'Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.'}

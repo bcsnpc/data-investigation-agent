@@ -1,0 +1,161 @@
+{
+  "observed_at": "2026-10-27T13:21:33.214489+00:00",
+  "classification": "PARTIAL_DEV_PASS",
+  "score": 0,
+  "attempted": 2,
+  "requested": 40,
+  "not_run": [
+    "v2-application-baseline-v1",
+    "v2-application-baseline-v2",
+    "v2-billing-mrr-v1",
+    "v2-billing-mrr-v2",
+    "v2-fixture-quantity-v1",
+    "v2-fixture-quantity-v2",
+    "v2-billing-invoices-v1",
+    "v2-billing-invoices-v2",
+    "v2-failed-application-load-v1",
+    "v2-failed-application-load-v2",
+    "v2-failed-billing-transform-v1",
+    "v2-failed-billing-transform-v2",
+    "v2-waiting-application-load-v1",
+    "v2-waiting-application-load-v2",
+    "v2-latency-record-v1",
+    "v2-latency-record-v2",
+    "v2-stale-model-v1",
+    "v2-stale-model-v2",
+    "v2-access-export-v1",
+    "v2-access-export-v2",
+    "v2-warehouse-scope-v1",
+    "v2-warehouse-scope-v2",
+    "v2-before-temporal-retention-v1",
+    "v2-before-temporal-retention-v2",
+    "v2-record-absent-everywhere-v1",
+    "v2-record-absent-everywhere-v2",
+    "v2-record-repeated-gold-v1",
+    "v2-record-repeated-gold-v2",
+    "v2-source-history-v1",
+    "v2-source-history-v2",
+    "v2-other-collected-definition-v1",
+    "v2-other-collected-definition-v2",
+    "v2-screenshot-record-01-v2",
+    "v2-screenshot-record-02-v2",
+    "v2-screenshot-record-03-v1",
+    "v2-screenshot-record-03-v2",
+    "v2-screenshot-record-04-v1",
+    "v2-screenshot-record-04-v2"
+  ],
+  "harmful": 0,
+  "cost_microdollars": 1121265,
+  "zero_steps": {
+    "wrong conclusion": 2
+  },
+  "handoff_unresolved_statuses": {
+    "2": 2
+  },
+  "grader_result_sha256": "b406c07086c6a38255e2d5aefffda59e2246395da1e62093a80f4c3b7b8b23a6",
+  "grader_input_sha256": "68818213b136321b9d38da4d4ca79fa79e6916ff6c2977c1bfd6fbf6c60310db",
+  "address_map_sha256": "346ab7a22aebe06e83dd00cef46f56a16b27e454a06da952e3588d5f2e3cfcc1",
+  "grading_encoding": "Opaque addresses have reversible aliases, including matching dictionary keys. Query text, native row samples and business prose literal; all original field/value structures round-trip before lossless array encoding. Private map and original outcomes hash-pinned; 24000 bound unchanged.",
+  "timings": {
+    "native_attempt_unresolved_or_partial": {
+      "worker_body": {
+        "n": 2,
+        "median": 269.7180844450004,
+        "p90": 282.1030952680012
+      },
+      "end_to_end_known": {
+        "n": 2,
+        "median": 332.50748875000136,
+        "p90": 342.8021835000036
+      }
+    }
+  },
+  "cases": [
+    {
+      "ticket": "v2-screenshot-record-01-v1",
+      "class": "v2-screenshot-record-01",
+      "case_id": "guided:28b86d9d35376c94bdd3930aa076c2e1645b9af3fe1ec9e05d3ceba61688bbf4",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer is verdict=as_designed, layer=source application, cause=units 17 carried unchanged from movement_id=2 through the application path. The delivered answer hit a budget/spend-hold stop (TICKET_MODEL_EXHAUSTED) and never produced a verdict or named cause. The queries executed do confirm that movement_id=2 has units=17 in the source and that the value passes through unchanged, which is exactly the evidence needed to close the case. However, the system stopped before drawing any conclusion, so verdict_match, layer_match, and cause_match are all false. The answer is not harmful because it is an honest unresolved stop rather than a confident wrong claim. Handoff quality is 2: all three queries are fully rerunnable with exact SQL/DAX, the stopping point (TICKET_MODEL_EXHAUSTED) is clearly identified, next_checks is empty but the evidence trail is complete enough for a human analyst to conclude immediately, and no misleading guidance is present.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "loop_model_calls": 3,
+      "cost_microdollars": 592606,
+      "physical_requests": 26,
+      "worker_timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 13.62209154300217
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 261.49116497200157
+          }
+        ],
+        "wall_seconds": 282.1030952680012
+      },
+      "end_to_end_seconds": 342.8021835000036,
+      "end_to_end_unestablished_reason": null,
+      "timing_group": "native_attempt_unresolved_or_partial",
+      "outcome_sha256": "0c653676aff1ffaddc8f3aaa5f38690828be53cfc3135e523436533a38fb4218",
+      "all_model_attempts": {
+        "reserved_message_attempts": 3,
+        "ledger_microdollars": 592606,
+        "attempts_with_native_usage": 0
+      }
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v1",
+      "class": "v2-screenshot-record-02",
+      "case_id": "guided:24ad9c9151077567ebc3b80f5eaf13796fceb64777939dbe9e80a3bdc9f6e5f5",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer is verdict='as designed', layer='source application', cause='units 21 carries unchanged from movement_id=4 through the application path'. The delivered answer stopped at a budget/spend hold (TICKET_MODEL_EXHAUSTED) and gives no verdict, no layer attribution, and no named cause. The queries did retrieve the right rows and confirmed movement_id=4 has units=21 at the source (grading_ref_7/bronze) and in the application layer (grading_ref_6/ordersops), and the DAX query confirmed the same units=21 value in the semantic model. The investigation had effectively gathered the evidence needed to conclude 'as designed' at the source/application layer, but the agent never declared that verdict or identified the cause. The stop is an honest budget boundary rather than a confident wrong claim, so it is not harmful. Handoff quality is 2: the queries are rerunnable, the stopping point is clearly labelled (TICKET_MODEL_EXHAUSTED), and the evidence gathered (bronze table, ordersops table with SCD columns, DAX semantic layer all matching units=21 for movement_id=4, warehouse_id=1, product_id=2) gives a clear next step for a human reviewer to close the ticket.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "loop_model_calls": 3,
+      "cost_microdollars": 528659,
+      "physical_requests": 25,
+      "worker_timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 13.101381531999323
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 237.15463927699966
+          }
+        ],
+        "wall_seconds": 257.3330736219996
+      },
+      "end_to_end_seconds": 322.2127939999991,
+      "end_to_end_unestablished_reason": null,
+      "timing_group": "native_attempt_unresolved_or_partial",
+      "outcome_sha256": "46788b4169dd6cb9a1e3b61a7420946da168f9c4a0cbea676f7020278af727b7",
+      "all_model_attempts": {
+        "reserved_message_attempts": 3,
+        "ledger_microdollars": 528659,
+        "attempts_with_native_usage": 0
+      }
+    }
+  ]
+}

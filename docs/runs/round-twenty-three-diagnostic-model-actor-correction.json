@@ -1,0 +1,222 @@
+{
+  "cause": "Diagnostic installation policy changed investigation actor while the spec calls reasoning actor. Native gateway refused before any model dispatch. Correct the actual actor for unstarted tickets only; no external identity or permission changes. Started cases retained and not repeated.",
+  "corrected_unstarted": 24,
+  "cases": [
+    {
+      "ticket": "v2-before-temporal-retention-v1",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-before-temporal-retention-v2",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-billing-invoices-v1",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f1e012942ff5fcf5fb409f010f1d700b3fce1c5533fede68fee547ff6bc15f7a",
+      "new_policy_sha256": "6e322b8cdca76f07a1c785b010495eb7909c210793d2fa5d0517c0c232f6e33f",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-billing-invoices-v2",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f1e012942ff5fcf5fb409f010f1d700b3fce1c5533fede68fee547ff6bc15f7a",
+      "new_policy_sha256": "6e322b8cdca76f07a1c785b010495eb7909c210793d2fa5d0517c0c232f6e33f",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-billing-mrr-v1",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f1e012942ff5fcf5fb409f010f1d700b3fce1c5533fede68fee547ff6bc15f7a",
+      "new_policy_sha256": "6e322b8cdca76f07a1c785b010495eb7909c210793d2fa5d0517c0c232f6e33f",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-billing-mrr-v2",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f1e012942ff5fcf5fb409f010f1d700b3fce1c5533fede68fee547ff6bc15f7a",
+      "new_policy_sha256": "6e322b8cdca76f07a1c785b010495eb7909c210793d2fa5d0517c0c232f6e33f",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-fixture-quantity-v1",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-fixture-quantity-v2",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-other-collected-definition-v1",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f1e012942ff5fcf5fb409f010f1d700b3fce1c5533fede68fee547ff6bc15f7a",
+      "new_policy_sha256": "6e322b8cdca76f07a1c785b010495eb7909c210793d2fa5d0517c0c232f6e33f",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-other-collected-definition-v2",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f1e012942ff5fcf5fb409f010f1d700b3fce1c5533fede68fee547ff6bc15f7a",
+      "new_policy_sha256": "6e322b8cdca76f07a1c785b010495eb7909c210793d2fa5d0517c0c232f6e33f",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-record-absent-everywhere-v1",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-record-absent-everywhere-v2",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-record-repeated-gold-v1",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-record-repeated-gold-v2",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-screenshot-record-01-v1",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-screenshot-record-01-v2",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v1",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v2",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-screenshot-record-03-v1",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-screenshot-record-03-v2",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-screenshot-record-04-v1",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-screenshot-record-04-v2",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-warehouse-scope-v1",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    },
+    {
+      "ticket": "v2-warehouse-scope-v2",
+      "gateway_identity": "reasoning",
+      "cached_and_count_body_admission": "PASS",
+      "old_policy_sha256": "f63d7b8d11ae06352caeeea20abe79d2c3637c91d2b2aa7f118b17a05ffe3676",
+      "new_policy_sha256": "086d335cfe76941365898e1a679fa58b157c01ae8cd1799e45ef41128d382b92",
+      "live_reads": 0,
+      "model_calls": 0
+    }
+  ]
+}

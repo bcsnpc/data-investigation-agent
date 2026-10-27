@@ -24,6 +24,8 @@ class CloudOfflineWorkerTests(unittest.TestCase):
                      'acceptance/unknown_domain/recorded_engine.py', 'infra/cloud-worker/Dockerfile']:
             self.assertTrue(admitted(name), name)
         self.assertTrue(admitted('infra/scripts/WorkerResponseBounds.json'))
+        self.assertTrue(admitted('scripts/investigator/build_phase_policy.json'))
+        self.assertFalse(admitted('scripts/investigator/private-budget-ledger.json'))
         self.assertTrue(admitted('acceptance/model_steps/intake-resolution-policy.json'))
         self.assertTrue(admitted('scripts/investigator/windows_ocr.ps1'))
         self.assertTrue(admitted('apps/investigator-workspace/essentials.html'))

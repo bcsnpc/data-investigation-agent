@@ -3,7 +3,7 @@ import copy
 import json
 from jsonschema import Draft202012Validator
 from .shared_state import sha
-from .adapters.evaluation_anthropic import task, PROTOCOL, WRITER_SCHEMA, GRADER_SCHEMA, FAIRNESS_SCHEMA
+from .adapters.evaluation_anthropic import task, PROTOCOL, output_schema,decode_output
 
 NAMESPACE='independent_evaluation_batches'
 
@@ -46,11 +46,12 @@ class EvaluationJob:
             if row['type']=='succeeded' and message.get('model')==self.provider.model and message.get('stop_reason')=='end_turn':
                 try:
                     output=json.loads(''.join(p['text']for p in message['content']if p['type']=='text'))
-                    schema=WRITER_SCHEMA if source['purpose']=='WRITE_TICKETS'else FAIRNESS_SCHEMA if source['purpose']=='ASSESS_FAIRNESS'else GRADER_SCHEMA
+                    output=decode_output(source,output)
+                    schema=output_schema(source['purpose'])
                     Draft202012Validator(schema).validate(output)
-                    if source['purpose']=='WRITE_TICKETS'and sorted(x['variation']for x in output['tickets'])!=sorted(source['variations']):raise ValueError('WRITER_VARIATIONS_DIFFER')
+                    if source['purpose'] in ('WRITE_TICKETS','WRITE_GUIDED_TICKETS') and sorted(x['variation']for x in output['tickets'])!=sorted(source['variations']):raise ValueError('WRITER_VARIATIONS_DIFFER')
                     result.update(status='VALIDATED',output=output)
                 except Exception as error:result.update(reason=type(error).__name__+':'+str(error))
             results.append(result)
-        result={'status':'COMPLETED','batch_key':batch_key,'results':results,'budget':self.budget.snapshot(),'estate_reads':0,'investigator_model_calls':0,'not_runtime_evidence':True}
+        result={'status':'COMPLETED','batch_key':batch_key,'results':results,'budget':self.budget.snapshot(compact=True),'estate_reads':0,'investigator_model_calls':0,'not_runtime_evidence':True}
         body.update(status='COMPLETED',result=result);self.state.put(NAMESPACE,batch_key,body,revision=stored['revision']);return result

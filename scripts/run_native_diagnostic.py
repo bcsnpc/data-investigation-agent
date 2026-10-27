@@ -47,7 +47,8 @@ def worker_failure(exc):
     return failure
 
 
-def execute(request,tenant,reader=None,authentication=None,*,identity_observer=None):
+def execute(request,tenant,reader=None,authentication=None,*,identity_observer=None,timeout_seconds=90):
+    if type(timeout_seconds) is not int or not 1<=timeout_seconds<=90:raise ValueError('Native query timeout bound')
     if identity_observer is not None and (reader is None or not callable(identity_observer)):
         raise ValueError('Native identity observer requires a bound reader')
     workspace=str(UUID(request['workspace']));model=str(UUID(request['native_model_id']))
@@ -95,7 +96,7 @@ def execute(request,tenant,reader=None,authentication=None,*,identity_observer=N
     http=Request(f'https://api.powerbi.com/v1.0/myorg/groups/{workspace}/datasets/{model}/executeQueries',
                  data=json.dumps(body).encode(),headers={'Authorization':'Bearer '+token,'Content-Type':'application/json'})
     from investigator.live_gateway import open_http
-    with open_http(build_opener(NoRedirect()),http,timeout=90) as response:
+    with open_http(build_opener(NoRedirect()),http,timeout=timeout_seconds) as response:
         raw=response.read(2*1024*1024+1)
     if len(raw)>2*1024*1024:raise ValueError('Native response exceeds budget')
     decoded=raw.decode('utf-8')

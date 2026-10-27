@@ -1,0 +1,11 @@
+{
+  "status": "NOT_RUN_OWNER_DECISION",
+  "date": "2026-10-27",
+  "tickets": 60,
+  "reason": "Owner: would mostly measure the cost cap, not the engine. Replaced by a separately labelled unscored26-static diagnostic.",
+  "preparation_retained": true,
+  "original_texts_unchanged": true,
+  "model_calls": 0,
+  "estate_reads": 0,
+  "engine_runs": 0
+}

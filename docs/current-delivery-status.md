@@ -1,3 +1,5 @@
+Round23 premerge,2026-10-27: held-out6/20,official harmful0,targets MISSED; cached Opus diagnostic5/13. Dev audit113 outcomes/five disagreements/one disputed harmful-history flag; original scores unchanged. Backtrack104 official zeros plus2 audit-only zeros, no new estate/model calls. Runner4b547f1 full5522 tests/50skips/zero failures; image0c496089. Three smokes completed0/3PASS (FamilyA Azure404/408; other5checks3/3PASS). Safety-only build-phase release continues with CI/merge/tag. All injections restored; temporal history ON. See docs/round-twenty-three-summary.md. Earlier entries are historical.
+
 Round 22 released (2026-10-26): PR#429 merge 567a95b66aca136fdc9488bfe2664857d3a85f9a; v0.22 tags the validated merge. Final dev14/40; once-only independent held-out5/20,harmful0. Accuracy/class targets MISSED. Full premerge and postmerge regression5328 tests/49skips/zero failures, three consecutive smokes and hosted CI passed. All temporary injections reverted; temporal history stays on. Extra full Bronze row-hash remains UNESTABLISHED; source/definition hashes and native model/Bronze values were verified separately. See docs/round-twenty-two-summary.md. Earlier checkpoints below are historical.
 
 Round22 checkpoint, 2026-10-24: second independent dev pass **6/40 correct, harmful0**, up from1/40. Failed-job4/6 and waiting2/2; all other classes0. All40 original outcomes and validated grades retained; held-out unrun. Frozen76b22f4 full regression **5245PASS/48skip**, zero failures/errors; later cause-clarity fix79focusedPASS/17subtests. Legacy comparison blocked on read-only local execution snapshots, not an estate permission. Normal dev mode; attestation warns only. Draft#429, freeze invalid. See docs/round-twenty-two-summary.md.
@@ -731,3 +733,12 @@ Round22 source readiness2026-10-23: sourceprofile control on existing cloud inve
 2026-10-23 owner date /October24UTC: scan allocation2000/INV3905/REST95 within6000 is deployed on tested a883706/imageea772843 to daily06UTC(3600s), graph0*/6(1800s), collectors*/30(180s). Native before/after readback preserves configuration, identity and resources on all3jobs. No counters reset, no new paid resource. At01:33:54UTC total1816/6000 (INV999,SCAN817,REST0), reserve95, modelUSD4.080700/40. Native receipt docs/runs/round-twenty-two-scan-allocation.json. Freeze invalid; Section3 preparation, no scored run or release claim.
 
 2026-10-26 freeze clarification: original whole-package3c5935a/image802d8508 is retained only as the immutable scoring pin. The smoke-calendar change supersedes that package freeze for release runtime; source8ae02f1/image48a53a46 is separately full-suite/image/smoke tested. No held-out score is assigned to the newer package, and no investigation reasoning module changed.
+
+
+Round23 offline development, 2026-10-26, draft #430: source budgets150/month
+and1/ticket approved; existing authoritative ceilings unchanged until migration.
+Guided catalog/intake, AST query validation, AI tool-loop, private query history,
+triage and generic read-tool components have synthetic tests. Cloud assembly
+and consumer-validator/native-port wiring remain incomplete. No live scoring,
+model discovery, injections, smokes, merge or v0.23 tag. Build/offline tests only
+before November1. Round22 is closed at af73a1b, v0.22 on validated merge567a95b.

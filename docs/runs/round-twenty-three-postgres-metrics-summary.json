@@ -1,0 +1,63 @@
+{
+  "window_start": "2026-10-26T08:44:43Z/2026-10-27T08:44:43Z",
+  "native_interval": "PT30M",
+  "metrics": [
+    {
+      "name": "cpu_percent",
+      "points": 48,
+      "latest": {
+        "average": 27.02016125289959,
+        "maximum": 73.2824427480916,
+        "timeStamp": "2026-10-27T08:14:00Z"
+      },
+      "peak_maximum": 77.22478576137112,
+      "minimum_average": 9.489751767700907
+    },
+    {
+      "name": "cpu_credits_remaining",
+      "points": 48,
+      "latest": {
+        "average": 287.25,
+        "maximum": 289.0,
+        "timeStamp": "2026-10-27T08:14:00Z"
+      },
+      "peak_maximum": 300.0,
+      "minimum_average": 287.25
+    },
+    {
+      "name": "active_connections",
+      "points": 48,
+      "latest": {
+        "average": 8.830508474576272,
+        "maximum": 11.0,
+        "timeStamp": "2026-10-27T08:14:00Z"
+      },
+      "peak_maximum": 13.0,
+      "minimum_average": 8.389830508474576
+    },
+    {
+      "name": "max_connections",
+      "points": 47,
+      "latest": {
+        "average": 50.0,
+        "maximum": 50.0,
+        "timeStamp": "2026-10-27T08:14:00Z"
+      },
+      "peak_maximum": 50.0,
+      "minimum_average": 50.0
+    },
+    {
+      "name": "connections_failed",
+      "points": 48,
+      "latest": {
+        "average": 0.0,
+        "maximum": 0.0,
+        "timeStamp": "2026-10-27T08:14:00Z"
+      },
+      "peak_maximum": 0.0,
+      "minimum_average": 0.0
+    }
+  ],
+  "interpretation": "These aggregates do not establish the cause of an individual acquisition timeout. The missed retry subclass is established separately by code and the retained native error.",
+  "resource_changes": false
+}

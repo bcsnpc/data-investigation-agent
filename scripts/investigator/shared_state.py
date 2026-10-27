@@ -149,7 +149,14 @@ class SharedState:
     def sqlmany(self, db, query, rows):
         """Batch internal writes in the caller's existing atomic transaction."""
         with closing(db.cursor()) as cursor:
-            cursor.executemany(query.replace('?', '%s') if self.backend == 'postgresql' else query, rows)
+            if self.backend=='postgresql':
+                # Psycopg executemany implicitly pipelines extended-protocol
+                # messages. A lost client can strand the transaction before
+                # Sync/ReadyForQuery, holding the shared advisory lock. Wait
+                # for each response instead; the enclosing transaction is
+                # still atomic and all existing timeouts remain unchanged.
+                for row in rows:cursor.execute(query.replace('?', '%s'),row)
+            else:cursor.executemany(query,rows)
 
     @contextmanager
     def transaction(self,*,_lease_release=False,_read_only=False):
@@ -243,15 +250,20 @@ class SharedState:
         return self._read_transaction(lambda db:self._get(db,namespace,identity))
 
     def _read_transaction(self,read):
-        """Retry a read once on a fresh connection; never replay a mutation."""
+        """Retry this read once on a fresh connection."""
+        def operation():
+            with self.transaction(_read_only=True)as db:return read(db)
+        return self._retry_connection_operation('READ_TRANSACTION',operation)
+
+    def _retry_connection_operation(self,name,operation):
+        """Only callers with read/idempotency semantics may use this helper."""
         from .postgres_connection import dropped_connection
         import time
         for attempt in range(2):
-            try:
-                with self.transaction(_read_only=True)as db:return read(db)
+            try:return operation()
             except Exception as error:
                 if self.backend!='postgresql' or not dropped_connection(error):raise
-                self.connection_failures.append({'operation':'READ_TRANSACTION','attempt':attempt+1,
+                self.connection_failures.append({'operation':name,'attempt':attempt+1,
                     'error_type':type(error).__name__,'sqlstate':getattr(error,'sqlstate',None),
                     'connection_timing':getattr(error,'postgres_connection_timing',None),'retry':attempt==0})
                 self.connection_failures=self.connection_failures[-100:]
@@ -305,14 +317,29 @@ class SharedState:
     def snapshot(self, identity):
         return self._read_transaction(lambda db:self._snapshot(db,identity))
 
+    def _totals(self,db,identity):
+        """Exact admission counters, without historical detail JSON or bodies."""
+        row=self.sql(db,'SELECT unit,ceiling,protected,opening,violated FROM state_accounts WHERE identity=?',(identity,)).fetchone()
+        if row is None:raise KeyError(identity)
+        if self.backend=='postgresql':
+            charged=self.sql(db,'SELECT COALESCE(SUM(charged),0) FROM state_reservations WHERE account=?',(identity,)).fetchone()[0]
+        else:
+            charged=exact_sum(r[0] for r in self.sql(db,'SELECT charged FROM state_reservations WHERE account=?',(identity,)).fetchall())
+        return {'identity':identity,'unit':row[0],'ceiling':decimal_text(row[1]),'protected':decimal_text(row[2]),
+                'opening':decimal_text(row[3]),'charged':decimal_text(exact_sum([row[3],charged])),'violated':bool(row[4])}
+
+    def totals(self,identity):
+        return self._read_transaction(lambda db:self._totals(db,identity))
+
     def reserve(self, identity, key, owner, bound, *, detail=None):
         bound = amount(bound)
         if bound <= 0:
             raise ValueError('POSITIVE_RESERVATION_REQUIRED')
         detail = detail or {}
         with self.transaction() as db:
-            snapshot = self._snapshot(db, identity)
-            prior = next((r for r in snapshot['reservations'] if r['identity'] == key), None)
+            snapshot = self._totals(db, identity)
+            row=self.sql(db,'SELECT owner,reserved,detail FROM state_reservations WHERE account=? AND identity=?',(identity,key)).fetchone()
+            prior={'owner':row[0],'reserved':row[1],'detail':json.loads(row[2])} if row else None
             if prior:
                 if prior['owner'] != owner or amount(prior['reserved']) != bound or prior['detail'] != detail:
                     raise StateConflict('RESERVATION_IDENTITY_DIFFERS')
@@ -326,13 +353,20 @@ class SharedState:
             self.sql(db, 'INSERT INTO state_reservations VALUES(?,?,?,?,?,?,?)', (identity, key, owner, decimal_text(bound), decimal_text(bound), 'RESERVED', encoded(detail)))
             return key
 
-    def settle(self, identity, key, owner, actual=None, *, detail=None):
+    def settle(self, identity, key, owner, actual=None, *, detail=None,full_snapshot=True):
+        # Repeating this exact reservation ID is safe even if the first COMMIT
+        # succeeded but its response was lost: non-RESERVED rows are unchanged.
+        return self._retry_connection_operation('RESERVATION_SETTLEMENT',
+            lambda:self._settle_once(identity,key,owner,actual,detail=detail,full_snapshot=full_snapshot))
+
+    def _settle_once(self, identity, key, owner, actual=None, *, detail=None,full_snapshot=True):
+        if type(full_snapshot)is not bool:raise ValueError('SNAPSHOT_MODE_BOOLEAN_REQUIRED')
         with self.transaction() as db:
             row = self.sql(db, 'SELECT owner,reserved,status,detail FROM state_reservations WHERE account=? AND identity=?', (identity,key)).fetchone()
             if row is None or row[0] != owner:
                 raise StateConflict('RESERVATION_OWNER_DIFFERS')
             if row[2] != 'RESERVED':
-                return self._snapshot(db, identity)
+                return self._snapshot(db, identity) if full_snapshot else self._totals(db,identity)
             charged = amount(row[1]) if actual is None else amount(actual)
             status = 'UNCERTAIN' if actual is None else ('VIOLATION' if charged > amount(row[1]) else 'SETTLED')
             payload = json.loads(row[3])
@@ -341,7 +375,7 @@ class SharedState:
             self.sql(db, 'UPDATE state_reservations SET charged=?,status=?,detail=? WHERE account=? AND identity=?', (decimal_text(charged),status,encoded(payload),identity,key))
             if status == 'VIOLATION':
                 self.sql(db, 'UPDATE state_accounts SET violated=1 WHERE identity=?', (identity,))
-            return self._snapshot(db, identity)
+            return self._snapshot(db, identity) if full_snapshot else self._totals(db,identity)
 
     def import_accounts(self, identity, source):
         """All-or-nothing, one-time accounting import. No cap or total defaults.
@@ -407,8 +441,8 @@ def configured_state(environ=None):
         from .live_gateway import authorize_platform_database
         authorize_platform_database(env.get('DIA_GATEWAY_STATE_IDENTITY','state'),env[required[0]],env[required[1]])
         from .adapters.platform_credentials import credential_type, trust_roots
-        with credential_type()(client_id=env['AZURE_CLIENT_ID']) as credential:
-            token = credential.get_token('https://ossrdbms-aad.database.windows.net/.default').token
+        from .postgres_connection import database_token
+        token=database_token(credential_type(),env['AZURE_CLIENT_ID'])
         return postgres_connect(host=env[required[0]], dbname=env[required[1]], user=env[required[2]],
                               password=token, sslmode='verify-full', sslrootcert=trust_roots(),
                               options='-c search_path=dia_state', connect_timeout=15)

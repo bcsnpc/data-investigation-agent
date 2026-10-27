@@ -1,0 +1,10 @@
+{
+  "model": "claude-fable-5-1",
+  "input_rate": "12.50",
+  "base_input_rate": "10",
+  "output_rate": "50",
+  "cache_read_rate": "0.25",
+  "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+  "observed_at": "2026-10-26",
+  "reservation": "5-minute ephemeral cache-write rate bounds all input; standard global output rate; provider usage settles base/cache components"
+}

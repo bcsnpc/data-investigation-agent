@@ -12,8 +12,19 @@ class EnrichmentSpendBudget:
     def __init__(self,state,*,owner,price,account=ACCOUNT):
         if not owner or account!=ACCOUNT:raise ValueError('SEPARATE_ENRICHMENT_ACCOUNT_REQUIRED')
         self.state,self.owner,self.price,self.account=state,owner,price,account
-        snapshot=state.snapshot(account)
-        if snapshot['unit']!='MICRODOLLARS' or amount(snapshot['ceiling'])!=CEILING or amount(snapshot['protected'])!=0:
+        snapshot=state.totals(account)
+        protected=0
+        from datetime import datetime,timezone
+        month=datetime.now(timezone.utc).strftime('%Y-%m')
+        try:
+            credit=state.get('anthropic_credit',month)['body']
+        except KeyError:
+            credit=None
+        if credit is not None:
+            if credit.get('approval')!='owner-approved 2026-10-27' or credit.get('grading_account')!=account:
+                raise ValueError('ENRICHMENT_OWNER_CREDIT_POLICY_DIFFERS')
+            protected=credit['grading_account_protected']
+        if snapshot['unit']!='MICRODOLLARS' or amount(snapshot['ceiling'])!=CEILING or amount(snapshot['protected'])!=protected:
             raise ValueError('ENRICHMENT_DOLLAR_POLICY_DIFFERS')
 
     def reserve(self,request,identity):
@@ -28,9 +39,9 @@ class EnrichmentSpendBudget:
         # unknown cost, not a convenient zero. Retain the complete reservation.
         if known and any(usage.get(k,0) for k in ('cache_creation_input_tokens','cache_read_input_tokens','server_tool_use')):known=False
         actual=self.price(usage['input_tokens'],usage['output_tokens']) if known else None
-        return self.state.settle(self.account,identity,self.owner,actual,detail={'usage':usage,'known':known})
+        return self.state.settle(self.account,identity,self.owner,actual,detail={'usage':usage,'known':known},full_snapshot=False)
 
-    def snapshot(self):return self.state.snapshot(self.account)
+    def snapshot(self,*,compact=False):return self.state.totals(self.account) if compact else self.state.snapshot(self.account)
 
 
 class EnrichmentJob:

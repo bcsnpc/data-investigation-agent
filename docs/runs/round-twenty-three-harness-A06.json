@@ -1,0 +1,16 @@
+{
+  "experiment": "ROUND23_UNSCORED_NATIVE_HARNESS_A06",
+  "status": "BLOCKED",
+  "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+  "scored": false,
+  "model_calls": 4,
+  "tools_used": 7,
+  "physical_requests": 3,
+  "model_cost_microdollars": 468016,
+  "worker_wall_seconds": 68.74232548700002,
+  "successful_native_queries": 2,
+  "recreated_value": 8765,
+  "cross_layer_comparison_completed": false,
+  "capture": "SEALED_NORMAL_MODE",
+  "finding_delivered": false
+}

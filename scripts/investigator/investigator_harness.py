@@ -83,6 +83,11 @@ class RunHarness:
                 returned_text=delivered.get('ticket',{}).get('text')
                 if returned_text is None and delivered.get('ticket',{}).get('version')=='smart-ticket-v1':
                     returned_text=delivered.get('request',{}).get('text')
+                if delivered.get('ticket',{}).get('version')=='IntakeRequest/1':
+                    returned_text=delivered['ticket'].get('description')
+                if 'intake' in ticket and bytes_of(ticket['intake'])!=bytes_of(delivered.get('ticket')):
+                    self.log.append('BLOCK',{'stage':'OUTCOME_BINDING','reason':'DELIVERED_INTAKE_DIFFERS'})
+                    raise StateConflict('DELIVERED_INTAKE_DIFFERS')
                 if ticket.get('text')is not None and returned_text!=ticket['text']:
                     self.log.append('BLOCK',{'stage':'OUTCOME_BINDING','reason':'DELIVERED_TICKET_TEXT_DIFFERS'})
                     raise StateConflict('DELIVERED_TICKET_TEXT_DIFFERS')

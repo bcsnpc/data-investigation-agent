@@ -1,0 +1,58 @@
+{
+  "revision": "7d32316e415bfa3b9e94074d53a14f00ec62b420",
+  "elapsed_seconds": 801.7044418000078,
+  "statuses": [
+    {
+      "shard": 0,
+      "exit_code": 0
+    },
+    {
+      "shard": 1,
+      "exit_code": 0
+    },
+    {
+      "shard": 2,
+      "exit_code": 0
+    },
+    {
+      "shard": 3,
+      "exit_code": 0
+    }
+  ],
+  "results": [
+    {
+      "tests": 1381,
+      "failures": 0,
+      "errors": 0,
+      "skips": 6,
+      "successful": true
+    },
+    {
+      "tests": 1380,
+      "failures": 0,
+      "errors": 0,
+      "skips": 1,
+      "successful": true
+    },
+    {
+      "tests": 1380,
+      "failures": 0,
+      "errors": 0,
+      "skips": 15,
+      "successful": true
+    },
+    {
+      "tests": 1380,
+      "failures": 0,
+      "errors": 0,
+      "skips": 28,
+      "successful": true
+    }
+  ],
+  "status": "PASS",
+  "tests": 5521,
+  "skips": 50,
+  "failures": 0,
+  "errors": 0,
+  "scope": "Final engine helper-cache correction; later documentation and operator-only audit scripts do not change engine image."
+}

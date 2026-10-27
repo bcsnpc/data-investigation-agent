@@ -1,0 +1,723 @@
+{
+  "observed_at": "2026-10-27T05:49:20.077035+00:00",
+  "source": "69b77cc49b4e00fd1435a8506893c55684534034",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:65744bfb521d2dfa08e71831d46d66d6866accbc9fef4fd7d7966fc7356b970e",
+  "static_tickets": 26,
+  "saved_delivered_outcomes": 25,
+  "terminal_exceptions": 1,
+  "independent_grade": "PENDING_ALL40",
+  "harmful_count": "NOT_YET_GRADED",
+  "expectations_changed": false,
+  "model_charged_microdollars": 15727714,
+  "model_calls": 46,
+  "cases": [
+    {
+      "ticket": "v2-application-baseline-v1",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 2,
+      "physical_requests_reported_by_investigator": 10,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 506338,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 15.450931537999963
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 124.35812333300004
+          }
+        ],
+        "wall_seconds": 146.64612444099998
+      },
+      "capture_seal": "63b8ed0b3d354bc531f884c88bb865515dadbe0ea532c304aec9493cfef06da5",
+      "full_outcome_sha256": "e37e6e51b1dc1351187d92067b6f06c7f4ebe2cb886e083b08f993b279bc53a1"
+    },
+    {
+      "ticket": "v2-application-baseline-v2",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 2,
+      "physical_requests_reported_by_investigator": 9,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 485332,
+        "month_account": "model-microdollars:2026-10",
+        "warning": false
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 14.596435626000016
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 119.382094908
+          }
+        ],
+        "wall_seconds": 140.75211855700002
+      },
+      "capture_seal": "e29e53163541a4d6692c8979aa1fdf73d46825da91255fc942512e40bd09816c",
+      "full_outcome_sha256": "2a42d642be9b7d7ee1f8ebfc4a91512fea72db1229e199c6dc8efb98e3da8391"
+    },
+    {
+      "ticket": "v2-billing-mrr-v1",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 1,
+      "physical_requests_reported_by_investigator": 9,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 926468,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.69867456999998
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 100.29206386300001
+          }
+        ],
+        "wall_seconds": 106.48973691499998
+      },
+      "capture_seal": "05876c69f30cc38cfd2abdf75661c378c3fe1606d9280bb689efbb309dc5f116",
+      "full_outcome_sha256": "433a75c8c1f6101b736459da7be13af315efb39ee9068cf628d2814219bae3ef"
+    },
+    {
+      "ticket": "v2-billing-mrr-v2",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 1,
+      "physical_requests_reported_by_investigator": 9,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 948205,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.2117026489999034
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 69.443326147
+          }
+        ],
+        "wall_seconds": 74.66370012699997
+      },
+      "capture_seal": "22004db1883cdb1dd261d9652e813ce5c563ee5d4226bca15a659c5ba84b3056",
+      "full_outcome_sha256": "eb104d156decb668bc0b13ad762f69c424eb0868c78547df20a4d5b37457133b"
+    },
+    {
+      "ticket": "v2-fixture-quantity-v1",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 1,
+      "physical_requests_reported_by_investigator": 6,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 484110,
+        "month_account": "model-microdollars:2026-10",
+        "warning": false
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.393185111000037
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 69.52612224899997
+          }
+        ],
+        "wall_seconds": 87.087210121
+      },
+      "capture_seal": "827375c9cd790d0c915b4f149d3881a75406c947833e3c02b392e73eb638b5bd",
+      "full_outcome_sha256": "9d5d746a4215342b6961553c117899287c3fc9eafc284a44f49677dfdb2427b2"
+    },
+    {
+      "ticket": "v2-fixture-quantity-v2",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 1,
+      "physical_requests_reported_by_investigator": 8,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 504715,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 13.622876505999898
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 56.66977223799995
+          }
+        ],
+        "wall_seconds": 76.25957519399992
+      },
+      "capture_seal": "b87e84051d1b8d6d0bf0f4f96de4ef0f606980c92c3c84d79ae05eea2334048e",
+      "full_outcome_sha256": "c0e4def4dc1612e0f627e9ffd6944487e200d0412c3fbcca54bd39115aa24a54"
+    },
+    {
+      "ticket": "v2-billing-invoices-v1",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 1,
+      "physical_requests_reported_by_investigator": 8,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 820643,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 2.976951700000427
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 45.25405090000095
+          }
+        ],
+        "wall_seconds": 50.02655662400139
+      },
+      "capture_seal": "3fe13ea6baab4eb2834d6667dbd018c1fed74b9fab58658f37fa0a3dfcae2784",
+      "full_outcome_sha256": "790b8ba04fdfa97611282d70add6d16fdfc951b884e290e91d645fb4071cd9f0"
+    },
+    {
+      "ticket": "v2-billing-invoices-v2",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 1,
+      "physical_requests_reported_by_investigator": 8,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 818433,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 4.328145387999996
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 43.45780192000001
+          }
+        ],
+        "wall_seconds": 49.858505643
+      },
+      "capture_seal": "5821377253b4eb579e63620986c2c5bb16a1f6217aa0c0a0b59ae52e51ec145c",
+      "full_outcome_sha256": "5bb8bcc73f1e564ee786662df93e93f703853db34b0d399a7d43cbd41acfe0bb"
+    },
+    {
+      "ticket": "v2-warehouse-scope-v1",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 1,
+      "physical_requests_reported_by_investigator": 8,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 468565,
+        "month_account": "model-microdollars:2026-10",
+        "warning": false
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 13.649597725000035
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 71.08870016800006
+          }
+        ],
+        "wall_seconds": 90.82086631300001
+      },
+      "capture_seal": "726c035436123d468161ed9938946df3dfd5c9dfaf879263024b6f7e6ef8edb1",
+      "full_outcome_sha256": "360966fe8c96c2d47635fdb5417d50e5dc3fa44f233f8f2b3b02918fe7d72205"
+    },
+    {
+      "ticket": "v2-warehouse-scope-v2",
+      "status": "UNDELIVERED_NATIVE_EXCEPTION",
+      "error": "ValueError: UNKNOWN_REPORT",
+      "full_error_receipt_sha256": "a03d15c0e5d3f9f8866d9f70de231d8592c67b24f687d52efff9f74269973512",
+      "run_id": "813bbeb3-31ed-47cd-9074-1e01382020a5",
+      "not_a_delivered_refusal": true
+    },
+    {
+      "ticket": "v2-before-temporal-retention-v1",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 1,
+      "physical_requests_reported_by_investigator": 8,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 461580,
+        "month_account": "model-microdollars:2026-10",
+        "warning": false
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 12.342267050000373
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 74.42939663300058
+          }
+        ],
+        "wall_seconds": 93.41910426299728
+      },
+      "capture_seal": "bf378ac558002231f477c41d5ee4d846464dcab89ec28ffb59910e184a15e0b3",
+      "full_outcome_sha256": "38241123303aabb9015f507e5fba9adda972c37fba7ca43d10099a22fd81d2e9"
+    },
+    {
+      "ticket": "v2-before-temporal-retention-v2",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 1,
+      "physical_requests_reported_by_investigator": 8,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 463165,
+        "month_account": "model-microdollars:2026-10",
+        "warning": false
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 14.146930220000002
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 73.19247070999995
+          }
+        ],
+        "wall_seconds": 94.446133454
+      },
+      "capture_seal": "d93687202ac96d020a817401638fcfe8a6b95e4757b6fba07664ade5c84ab969",
+      "full_outcome_sha256": "04f2209213b342fd6af4df8d546d71df802a334cb3bbec993c5c2c472a3ce120"
+    },
+    {
+      "ticket": "v2-record-absent-everywhere-v1",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 2,
+      "physical_requests_reported_by_investigator": 10,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 487759,
+        "month_account": "model-microdollars:2026-10",
+        "warning": false
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 15.308968950000235
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 75.23529847000009
+          }
+        ],
+        "wall_seconds": 97.9453823660001
+      },
+      "capture_seal": "302a0f40926af0454b693e747fe41cce67ba6724ed99618ac0a8fe7773b321b9",
+      "full_outcome_sha256": "e216e7b70e5d1ebfed2ea768532e7c9918d4c1bac58f253b4f361b64ba3a3a4f"
+    },
+    {
+      "ticket": "v2-record-absent-everywhere-v2",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 2,
+      "physical_requests_reported_by_investigator": 9,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 499621,
+        "month_account": "model-microdollars:2026-10",
+        "warning": false
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 17.198184883999943
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 83.00273590400002
+          }
+        ],
+        "wall_seconds": 109.54314011299994
+      },
+      "capture_seal": "35c558899cf5852530749f41a09cf1e9fe7c507edafb8e57a3aa0c13b19156ca",
+      "full_outcome_sha256": "932da1614b4bb575495580b9d504d2f4dc74a97fc23c9eb2282bd7b54b9c118a"
+    },
+    {
+      "ticket": "v2-record-repeated-gold-v1",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 1,
+      "physical_requests_reported_by_investigator": 7,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 519560,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 15.385491770000044
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 57.256477342999915
+          }
+        ],
+        "wall_seconds": 81.33839676799994
+      },
+      "capture_seal": "5f4b6936ea56a8222e96c48ec27fdea6112c6c9b942d7a08adeede672a9b6df7",
+      "full_outcome_sha256": "1c5fd8efebfb00d1ef5658b78692728685406e9fec99425e8239c995562936d6"
+    },
+    {
+      "ticket": "v2-record-repeated-gold-v2",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 1,
+      "physical_requests_reported_by_investigator": 9,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 532305,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 14.875035808000007
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 74.40983561799999
+          }
+        ],
+        "wall_seconds": 97.03786233100004
+      },
+      "capture_seal": "cf60f1c91be402d441336ee88b2aa9143a5a668c7f45d20e8239f6aa4e3cb990",
+      "full_outcome_sha256": "b06df14d5e416e26f913e391aaf571e894c39ce349540adbea5e3017c2331f14"
+    },
+    {
+      "ticket": "v2-other-collected-definition-v1",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 1,
+      "physical_requests_reported_by_investigator": 8,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 807895,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.0307133179999823
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 51.86002097400001
+          }
+        ],
+        "wall_seconds": 56.83853055999998
+      },
+      "capture_seal": "b92f9b1b397704f94e534c37419b2fa76b7f81a281679820af80038fcf26cb40",
+      "full_outcome_sha256": "2b566030c7076e755aacfde5f24602384bc818d8f35ffb91ac322ed027f7e8d2"
+    },
+    {
+      "ticket": "v2-other-collected-definition-v2",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 1,
+      "physical_requests_reported_by_investigator": 8,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 812908,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.2712265019999904
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 43.15498419999949
+          }
+        ],
+        "wall_seconds": 48.574103165999986
+      },
+      "capture_seal": "9b422884f515a02cf4c70fd4db275ff07ecd495c958fece444b8bb507457373e",
+      "full_outcome_sha256": "7568edb95bc1c20f7e21f6eabcc25cf74c71c9b19f2cbe172592cfacbd382b19"
+    },
+    {
+      "ticket": "v2-screenshot-record-01-v1",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 3,
+      "physical_requests_reported_by_investigator": 1,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 719225,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 12.079492828999946
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 155.28927712899997
+          }
+        ],
+        "wall_seconds": 173.64344538399996
+      },
+      "capture_seal": "abcca53c41acbc0bd891a505ad213f7e05c533fa88af14e005d75be731576aeb",
+      "full_outcome_sha256": "8deb9abaed6d3a20c02767b5d45536c9c8469cdf5f06b151037ca1f8213b4e72"
+    },
+    {
+      "ticket": "v2-screenshot-record-01-v2",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 4,
+      "physical_requests_reported_by_investigator": 1,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 673022,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.703263004000007
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 156.24362745000002
+          }
+        ],
+        "wall_seconds": 175.32953424
+      },
+      "capture_seal": "8c60d423543bc91f3ab8b1aa29c9ec7edae227d84f273038be2aba5d85cd97da",
+      "full_outcome_sha256": "36e7a47764abb3c908ee37e3c9b4b2a0e3730efa5e198e10d2d5c0fde64c55e6"
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v1",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 4,
+      "physical_requests_reported_by_investigator": 1,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 578077,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 16.549054111999908
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 166.50499143000002
+          }
+        ],
+        "wall_seconds": 190.28854712399993
+      },
+      "capture_seal": "2960124e3dc191d818f0f33b18f9cd0f13900556e830a95f1f7740f113c0e89f",
+      "full_outcome_sha256": "8146102948544d630318c0eb0b10f58675fedb7c89ba1e9114b3c72562e8877b"
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v2",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 4,
+      "physical_requests_reported_by_investigator": 1,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 558850,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 14.011384077999992
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 153.26836129000003
+          }
+        ],
+        "wall_seconds": 175.16272903200002
+      },
+      "capture_seal": "ca96701d263021cda3efa01a31a8874e675eda9d75c944fde9873bee0b38525f",
+      "full_outcome_sha256": "8ad78f2ed3b907bf71af49653fd702db4e3cdd884b92ad52a13317b44c67d966"
+    },
+    {
+      "ticket": "v2-screenshot-record-03-v1",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 2,
+      "physical_requests_reported_by_investigator": 0,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 641721,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 14.933473996999965
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 150.84254285700035
+          }
+        ],
+        "wall_seconds": 172.68604238099988
+      },
+      "capture_seal": "b50f4d75068abf30ce655f48351a703e73c1a3fd921eddb0cdfc7b5173c14dfd",
+      "full_outcome_sha256": "094a8f49e7374b09f8086d45deee6065d8bc9cd32dfc0732c02de7038f2a7159"
+    },
+    {
+      "ticket": "v2-screenshot-record-03-v2",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 3,
+      "physical_requests_reported_by_investigator": 0,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 667554,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 13.931444345999921
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 158.0742531100001
+          }
+        ],
+        "wall_seconds": 180.2548320279999
+      },
+      "capture_seal": "81588c1ba5ded14d64fbbcbc8979de2d7f1eb117e1bcb23742bfdd592655d8a8",
+      "full_outcome_sha256": "aa1f48cd2d4fb56122dc9b66d92ba2446d825c5cfe81e425caf51d0737b54dbc"
+    },
+    {
+      "ticket": "v2-screenshot-record-04-v1",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 3,
+      "physical_requests_reported_by_investigator": 1,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 743291,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 12.169966588000534
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 150.35960401199918
+          }
+        ],
+        "wall_seconds": 169.54655158400055
+      },
+      "capture_seal": "1a4cebb8302f21a2df7497b3cc5260b99a6dc5d7aae2af3aeaf4e6eb9a2dee42",
+      "full_outcome_sha256": "164d8163449465fed11fbdea8220124e6d0889475f255363628010cdf9f1d958"
+    },
+    {
+      "ticket": "v2-screenshot-record-04-v2",
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "model_calls": 2,
+      "physical_requests_reported_by_investigator": 0,
+      "cost": {
+        "ceiling_microdollars": 1000000,
+        "charged_microdollars": 598372,
+        "month_account": "model-microdollars:2026-10",
+        "warning": true
+      },
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 12.611188376999962
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 111.45921295599999
+          }
+        ],
+        "wall_seconds": 130.59660018399995
+      },
+      "capture_seal": "357d9232fa63c72c105cdc0f1c58e8aa2aa501083d5f65108b5717f9a1f102ac",
+      "full_outcome_sha256": "c514cb5db82afdb433f405e418327c76ae85d29ad664c4ad1c57c911de48db77"
+    }
+  ]
+}

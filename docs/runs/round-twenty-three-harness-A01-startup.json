@@ -1,0 +1,19 @@
+{
+  "status": "UNESTABLISHED_STARTUP",
+  "execution": "job-dia-worker-jvzjhbf",
+  "run_id": "0cb45774-0838-4488-86f0-450cd6747c74",
+  "native_status": "Failed",
+  "final_capture_error": "HTTP Error 404: The specified blob does not exist.",
+  "replica_listing": [],
+  "console_error": "No replicas found for execution",
+  "model_reservations": 0,
+  "scored": false,
+  "observed_environment_bytes": {
+    "DIA_PLATFORM_GATEWAY_POLICY": 137126,
+    "DIA_RUNNER_ESTATE_JSON": 145068
+  },
+  "diagnosis": "Oversized environment is the primary startup hypothesis; Azure provided no native process error, so E2BIG is not asserted as its observed error.",
+  "replacement": "harness-A02, new case/execution ID, same immutable ticket/input/image, remove unrelated billing/sample graph lists only",
+  "new_policy_bytes": 99883,
+  "new_runner_bytes": 106676
+}

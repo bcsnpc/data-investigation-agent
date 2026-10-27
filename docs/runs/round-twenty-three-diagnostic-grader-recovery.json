@@ -1,0 +1,9 @@
+{
+  "status": "RECOVERED_ALREADY_ACCEPTED_PROVIDER_RECEIPT",
+  "batch_key": "round23-opusdiag02-cached-partial26-grader-01-bounded-1-header-fixed",
+  "provider_batch": "msgbatch_01MdD9Wc3b6VxEdBm7NdANZh",
+  "provider_response_sha256": "b8183af280df71992bb8dc825f4605423dbf7553b855df58cf3362f5b6dc7585",
+  "new_model_submissions": 0,
+  "reservations_unchanged": true,
+  "cause": "PostgreSQL connection lost after recorded provider200; exact accepted receipt recovered, never resubmitted."
+}

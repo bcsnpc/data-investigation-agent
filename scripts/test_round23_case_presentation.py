@@ -1,0 +1,113 @@
+import json
+import unittest
+from copy import deepcopy
+from unittest.mock import Mock
+from investigator.model_case_presentation import Presentation
+
+
+class Tests(unittest.TestCase):
+    def test_address_aliases_are_scheme_independent_but_native_values_stay_literal(self):
+        address='custom+read://catalog/object'
+        p=Presentation({}, {}, '')
+        alias=p.project({'id':address})['id']
+        self.assertNotEqual(alias,address)
+        self.assertEqual(p.restore({'id':alias}),{'id':address})
+        self.assertEqual(p.project({'rows':[{'key':address}],'query':"SELECT '"+address+"'"}),
+                         {'rows':[{'key':address}],'query':"SELECT '"+address+"'"})
+
+    def test_tool_result_arrays_round_trip_without_changing_native_rows_or_query_text(self):
+        raw={'result':{'rows':[{'key':'a'*64,'quantity':7},{'key':'b'*64,'quantity':9}],
+            'query':"SELECT 'addr1' AS native_key FROM dbo.Items"}}
+        message={'role':'user','content':[{'type':'tool_result','tool_use_id':'call1','content':json.dumps(raw)}]}
+        before=deepcopy(message);captured={}
+        def complete(**kw):captured.update(kw);return {'content':[]}
+        Presentation({}, {}, 'instructions').complete(Mock(complete=complete),system='',messages=[message],tools=[])
+        wire=json.loads(captured['messages'][0]['content'][0]['content'])
+        def expand(value):
+            if isinstance(value,list):return [expand(v)for v in value]
+            if not isinstance(value,dict):return value
+            if set(value)=={'record_keys','record_values'}:
+                return [dict(zip(value['record_keys'],map(expand,row)))for row in value['record_values']]
+            return {k:expand(v)for k,v in value.items()}
+        self.assertEqual(expand(wire),raw)
+        self.assertEqual(message,before)
+        self.assertIn('record_keys',wire['result']['rows'])
+    def test_screenshot_lookup_helper_keeps_schema_and_scope_without_resending_pipeline(self):
+        from investigator.adapters.screenshot_assistance import Assistance
+        context={'intake':{'report':'selected','details':{'date_range':'stated period'}},
+            'layers':{'source':{'objects':[{'name':'Items','columns':['movement_id','units']}]}},
+            'retained_native_definitions':[{'kind':'DefinitionPart','name':'pipeline-content.json','metadata':{'content':'unrelated pipeline body'}},
+                {'kind':'DefinitionPart','name':'model.bim','metadata':{'content':'native model'}},
+                {'kind':'DefinitionPart','name':'definition/pages/p/visuals/v/visual.json','metadata':{'content':'actual visual scope'}}]}
+        original=deepcopy(context);model=Mock();model.complete.return_value={'content':[{'type':'tool_use','name':'plan_screenshot_lookup','input':{'plans':[{'layer':'source','query':'SELECT movement_id FROM dbo.Items WHERE units=17','kind':'sql','key_field':'movement_id','display_fields':['units'],'match_columns':{'units':'units'}}]}}]}
+        result=Assistance(model,lambda:context).plan({'visual':'selected-visual'},{'units':17})
+        sent=json.loads(model.complete.call_args.kwargs['messages'][0]['content'][0]['text'])['context']
+        self.assertEqual(sent['layers'],context['layers']);self.assertEqual(sent['intake'],context['intake'])
+        self.assertEqual(len(sent['visual_and_model_definitions']),2)
+        self.assertEqual(context,original);self.assertEqual(result[0]['layer'],'source')
+
+    def test_aliases_restore_only_addresses_never_query_text_key_or_reported_value(self):
+        original='a'*64;query="SELECT 'ref_0001' AS actual_key FROM dbo.Items"
+        context={'intake':{'report':original,'reported_figure':{'state':'NUMBER','value':'123'}},
+            'layers':{original:{'objects':[{'id':'fabric://w/l/table/Items','definition':query}]}}}
+        saved=deepcopy(context);p=Presentation(context,{},'instructions')
+        def complete(**kw):
+            self.assertIn(query.replace('"','\\"'),kw['system'])
+            alias=p.forward[original]
+            return {'content':[{'type':'tool_use','name':'record_trace','input':{'queries':[{'layer':alias,'query':query}],'key':alias}}]}
+        response=p.complete(Mock(complete=complete),system='unused original',messages=[],tools=[])
+        result=response['content'][0]['input']
+        self.assertEqual(result['queries'][0]['layer'],original)
+        self.assertEqual(result['queries'][0]['query'],query)
+        self.assertEqual(result['key'],p.forward[original])
+        self.assertEqual(context,saved)
+
+    def test_deduplication_is_reversible_and_preserves_every_structured_fact(self):
+        shared={'definition':'SELECT SUM(units) FROM dbo.Items '+('x'*200),'scope':{'date':'2026-10-27'}}
+        raw={'first':shared,'second':deepcopy(shared),'third':[deepcopy(shared)]}
+        projected=Presentation.deduplicate(raw)
+        self.assertEqual(projected['second'],{'verbatim_reference':'#/first'})
+        def expand(value):
+            if isinstance(value,dict) and set(value)=={'verbatim_reference'}:
+                result=projected
+                for part in value['verbatim_reference'][2:].split('/'):
+                    part=part.replace('~1','/').replace('~0','~');result=result[int(part)]if isinstance(result,list)else result[part]
+                return expand(result)
+            if isinstance(value,dict):return {k:expand(v)for k,v in value.items()}
+            if isinstance(value,list):return [expand(v)for v in value]
+            return value
+        self.assertEqual(expand(projected),raw)
+
+    def test_columnar_records_keep_null_and_missing_separate(self):
+        values=[{'id':'a','n':None},{'id':'b','n':0}]
+        wire=Presentation.columnar(values)
+        self.assertEqual([dict(zip(wire['record_keys'],v)) for v in wire['record_values']],values)
+        missing=[{'id':'a','n':None},{'id':'b'}]
+        wire=Presentation.columnar(missing)
+        self.assertEqual([dict(zip(wire['record_schemas'][i],row)) for i,row in wire['variant_record_values']],missing)
+
+    def test_optional_graph_fields_do_not_disable_compact_encoding(self):
+        original=[{'id':'edge1','confidence':'DECLARED','unknown':None},
+                  {'id':'edge2','confidence':'DECLARED','bookkeeping':'retained'}]
+        wire=Presentation.columnar(original)
+        self.assertIn('variant_record_values',wire)
+        self.assertEqual([dict(zip(wire['record_schemas'][i],row)) for i,row in wire['variant_record_values']],original)
+
+    def test_native_json_fields_include_full_code_and_original_serialization_is_untouched(self):
+        code='SELECT SUM(units) FROM dbo.Items WHERE note = '+repr('addr1')+';'
+        native=json.dumps({'model':{'tables':[{'name':'Items','expression':code,'documentation':'x'*400}]}})
+        context={'retained_native_definitions':[{'metadata':{'content':native}}]};before=deepcopy(context);captured={}
+        def complete(**kw):captured.update(kw);return {'content':[]}
+        Presentation(context,{},'instructions').complete(Mock(complete=complete),system='',messages=[],tools=[])
+        self.assertIn('native_json',captured['system'])
+        self.assertIn(code,captured['system'])
+        self.assertEqual(context,before)
+
+    def test_later_evidence_address_is_usable_without_rewriting_native_rows(self):
+        p=Presentation({}, {}, 'instructions');identity='case-evidence:'+'b'*64
+        result=p.project({'evidence_id':identity,'result':{'rows':[{'key':identity}]}})
+        self.assertEqual(result['result']['rows'][0]['key'],identity)
+        self.assertEqual(p.restore({'id':result['evidence_id']})['id'],identity)
+
+
+if __name__=='__main__':unittest.main()

@@ -1,0 +1,34 @@
+{
+  "experiment": "ROUND23_UNSCORED_NATIVE_HARNESS",
+  "runs": [
+    {
+      "case": "A01",
+      "execution": "job-dia-worker-jvzjhbf",
+      "status": "UNESTABLISHED_STARTUP",
+      "capture_objects": 0,
+      "hypothesis": "large environment; native error unavailable",
+      "scored": false
+    },
+    {
+      "case": "A02",
+      "status": "LOCAL_PREPARATION_FAILED_NOT_SUBMITTED",
+      "error_type": "KeyError",
+      "error_message": "'run_id'",
+      "scored": false
+    },
+    {
+      "case": "A03",
+      "run_id": "7e367c9a-f757-48b5-9b83-354c52453e9f",
+      "execution": "job-dia-worker-hm1mu70",
+      "status": "FAILED",
+      "error_type": "KeyError",
+      "error_message": "'managed_identity'",
+      "partial_capture_objects": 12,
+      "worker_wall_seconds": 13.285587492,
+      "model_reservations": 0,
+      "scored": false,
+      "cause": "Metadata authentication consumed native_reader display profile instead of full fabric.auth.",
+      "fix": "Use existing full fabric.auth; no identity or permission change."
+    }
+  ]
+}

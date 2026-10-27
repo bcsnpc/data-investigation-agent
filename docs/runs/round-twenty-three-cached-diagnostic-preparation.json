@@ -1,0 +1,154 @@
+{
+  "actual_usage_case_limit_usd": 3,
+  "bytes": 1314953,
+  "classification": "UNSCORED_DIAGNOSTIC_NOT_ROUND23_SCORE",
+  "estate_reads": 0,
+  "image": {
+    "changes": "owner-approved October envelope and diagnostic-only cached prefix; held runners unchanged",
+    "frozen_investigation_source": "07a0f92faba8b9abcb3b0f65cb623d113f1f24c3",
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+    "source": "10caa82ae4d3e6de54b3fa5ad41a4d5596402542",
+    "workflow": "40533508860"
+  },
+  "model": "claude-opus-5-5",
+  "model_calls": 0,
+  "monthly_usd_hard_limit": 96,
+  "permission_changes": false,
+  "prompt_cache": true,
+  "protected_grading_usd": 3,
+  "records": [
+    {
+      "intake_sha256": "aa4c4ae98cbfd865eeb853a5fb12e174add9ae94b520a78d22921287f54c227d",
+      "ticket": "v2-application-baseline-v1",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "e4ace9ad7d4e888aa9d5fba429092afe616bdc827a93b0b3d17caf7c164a63b6",
+      "ticket": "v2-application-baseline-v2",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "47eeba5b13f073c99c55731a315e27d0987601ca1d1cb765a96da8d6dea7f31a",
+      "ticket": "v2-billing-mrr-v1",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "c27fac17659edb389e021b24c9a3d4e60cb8d351d26a2e36c5aacdf4c5581dc9",
+      "ticket": "v2-billing-mrr-v2",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "80144fa321633c9c009d1f6fd2ce8a9fd0a4eb22bd421063c5199bff67394832",
+      "ticket": "v2-fixture-quantity-v1",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "a92506e94e59b1547a57e967e198fe5145f5886b13ae8c9665d24fccf2a04284",
+      "ticket": "v2-fixture-quantity-v2",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "0aa5d25e87046139562c6010c9e516445e959c18bf683c096bb44ef67b6c30cb",
+      "ticket": "v2-billing-invoices-v1",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "9b486cbe603c773dd08802489065f39bd08a7a63324498e4a26e723b4d15b0d0",
+      "ticket": "v2-billing-invoices-v2",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "9f99114bae541aa141075d0009777111cbe764559d7a0691f24052a56c97867d",
+      "ticket": "v2-warehouse-scope-v1",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "e0e645360fb71103ef99d6ca3cf44da79d0273bf915a5e77ebaae63d55d2b51c",
+      "ticket": "v2-warehouse-scope-v2",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "dcbd63c39693c1f37d93bfa25effbb604673182f0f7a44ed3f2bb18f72d0d731",
+      "ticket": "v2-before-temporal-retention-v1",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "37f5466eef03f9513c4510e5684557221a64275d9380bf6798d3538f836e0909",
+      "ticket": "v2-before-temporal-retention-v2",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "87dfbdac14cf2c82870dfefd7a1069f5434cadb6eaac17fe780be5d5c096fe54",
+      "ticket": "v2-record-absent-everywhere-v1",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "87dfbdac14cf2c82870dfefd7a1069f5434cadb6eaac17fe780be5d5c096fe54",
+      "ticket": "v2-record-absent-everywhere-v2",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "696a0258e988263d0bb97cf998d99511667933e6acdd9427abb034c69b29a4af",
+      "ticket": "v2-record-repeated-gold-v1",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "6377e0558fb199d9360320fe642feb88d9d6dfa2a0d43102d2fb2c6f1cace861",
+      "ticket": "v2-record-repeated-gold-v2",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "c17684ca8ee083cb201f05ad54d1a5fb5100b337ed61ef4b6631b8b7d6e17778",
+      "ticket": "v2-other-collected-definition-v1",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "29dffecacd9cd97374f7358207521c2234457ca138093ecd0caad2ac982318fd",
+      "ticket": "v2-other-collected-definition-v2",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "c2a48d44b44a089bc49f1912b7a5406e1e1af03ce63d18d86ea865b9b7d97703",
+      "ticket": "v2-screenshot-record-01-v1",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "27de1ad4bab2deec4c72a6d4a1bb5521753d1838e7378f02cd4c1ea5e5255e0f",
+      "ticket": "v2-screenshot-record-01-v2",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "a08596e4e958baab6aa43d960d73215fab59ce72ac720f7476107ced005fe38f",
+      "ticket": "v2-screenshot-record-02-v1",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "09076eda98d538674adb422ce539aa20d7d75de05785df039dc8622d37312858",
+      "ticket": "v2-screenshot-record-02-v2",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "346be0736aac8fe5311ddc92b6c7c631900a99ad217aa5c81d2fdaa066e784a1",
+      "ticket": "v2-screenshot-record-03-v1",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "cff78540a3f34a5fe43ae325f4f773038cada12a2f003dc3595622f2da4631d0",
+      "ticket": "v2-screenshot-record-03-v2",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "e81582dc277db052508db1e2b4ffbb3f577bdfad29e80a7eb242e10758ac7218",
+      "ticket": "v2-screenshot-record-04-v1",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    },
+    {
+      "intake_sha256": "2e1ee7af69957bf28eff11b18ea23e0c6078a6439db3365c7cead8871be2be23",
+      "ticket": "v2-screenshot-record-04-v2",
+      "unchanged_except_model_rate_budget_and_recording_label": true
+    }
+  ],
+  "sha256": "f9cc4f15823fa46013593de378e17bf9f2ee9083c78ea1ade15f7a3d54047252",
+  "stored_md5_matched": true,
+  "tickets": 26
+}

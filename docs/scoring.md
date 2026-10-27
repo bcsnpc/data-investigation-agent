@@ -118,3 +118,41 @@ References: `docs/runs/round-twenty-two-scored-run-5.json` and `docs/runs/round-
 
 
 Round22 final independent held-out5/20,harmful0. As designed2/2;failed job1/2;waiting2/2;access0/2;different question0/2;latency0/1;not found0/5;refresh stale0/2;source changed history0/2. Score requires verdict/layer/cause and no partial flag, unchanged. The last waiting ticket earned that grade despite an additional blocked status; its exact output/status remain. Worker-clock median55.446s/p90109.300s across20 is not full-investigation proof: seven questions/holds and no completed value comparison. Native complete Azure durations are available for12 only; no missing end times invented. Correct operational verdicts took54/44/41s in Azure (last still labelled blocked). EngineUSD.874234/20;independent gradingUSD.192325/20, usage-priced not invoice. Legacy34/40outcomes remain ungraded, sixnotrun. Original9patterns/full regression are separate from this failed accuracy gate.
+
+
+## Round 23 G1 ? review of R22 dev wording only (2026-10-26)
+
+Read all 40 records in `tests/tickets/scored-set-v1-dev.json`; no held-out
+wording or expectations opened, and neither tickets nor expectations changed.
+This is a wording review, not a new score. R22 stays dev14/40, held-out5/20.
+
+| Dev group | Wording assessment before any live check |
+| --- | --- |
+| R17-01/02 | Report, page, visual and 8765 explicit; no intake question justified. |
+| R17-03/04/05/06 | Some location fields omitted; resolve from catalog first. Ask named choices only if actual targets remain tied. ?Intended? in 04 permits technical definition/flow checks, not a business-policy judgment. |
+| R17-07/08/09 | Freshness target is named; missing comparison must not block facts. 08 needs catalog lookup for report view. |
+| R17-10/11/12 | Definition/unit request; read the measure and retained meanings. Ask only for unreadable intended business policy, never for a comparison merely to explain a definition. |
+| failed-fixture-load v1/v2, failed-billing-transform v1/v2, failed-billing-load v1/v2 | Job and exact run times identify native history; report selection is not the user's missing fact. Preserve the working operational-status path in integration rather than fabricate a report. |
+| baseline-S01 v1/v2 | Report/metric named; user's manual total and ?same period? are not specified. Can inspect the declared path, but cannot claim to have matched that manual scope or count. A precise period question can be fair after native checks. |
+| baseline-S02 v1/v2 | Report/page/metric and comparison across statuses named; inspect definition before asking. Actual selected date range is not given; cannot claim that selection was reproduced. |
+| baseline-S03 v1/v2 | Measure/date-basis definition is explicit. No comparison/value question justified. |
+| access-export-1 v1/v2 | Accounts, export and case key named; read security definitions without impersonation. Only a policy question or unavailable scope may remain. |
+| different-warehouse v1/v2 | Source entity and two warehouse restrictions named; check definitions/data. Product-overlap suggestion in v2 is a hypothesis, not an observation. |
+| latency-900501 v1/v2, latency-900502 v1/v2 | Explicit key, units and source/Bronze difference; no numeric ambiguity. Source-ahead evidence and enabled next schedule must exist during scoring. |
+| history-source-900201 v1/v2 | Report, metric and key named, export times not exact. Query retained temporal history first; ask for export time only if needed to distinguish real competing histories. |
+| older-export-movement-1 v1/v2 | Exact as-of time, key and current value given. The speculative 20 in v2 is a hypothesis, not a competing observed figure. Native temporal retention may limit the answer. |
+| stale-total v1/v2 | Model, measure, unfiltered scope and both totals explicit; no clarification justified. Keep the native stale fixture present during scoring. |
+| waiting-fixture-load v1/v2 | Named active job; read current native facts. ?Lock? is a hypothesis, not an established cause. Preserve operational routing. |
+
+Genuine ambiguities are conditional on catalog/evidence: tied unnamed views,
+manual comparison scope/time, and business policy. Missing optional form fields
+or an unevaluated hypothesis are not themselves justification for a question.
+V2 independent authoring and all scoring remain pending until November.
+
+Round23 dated correction2026-10-26: the owner authorized9000 monthly estate requests effective immediately, superseding the earlier November wait. Independent v2 authoring and scoring may proceed now; the unscored A01-A05 assembly harnesses are excluded from all v2 accuracy denominators.
+
+
+Round23 current independent progression: partial dev03 0/32, complete dev04 1/40, baseline-only dev05 3/26 (14 not run), affected screenshot dev06 0/2 (38 not run); harmful0 on each. Partial denominators are never presented as full40 accuracy or direct improvements. Two follow-ups have handoff quality2 each, but neither answered successfully. Original outcomes, independent grades, expectation hashes and per-class breakdowns remain in their dated run receipts. Further dev admissions ended at7162/9000 to preserve the once-only held-out and messy-input passes and restoration.
+
+
+Round23 final scored results,2026-10-27: once-only frozen held-out6/20, original harmful0;80%/every-class/under2-minute targets missed. Messy60 owner-skipped,zero runs, so no new R22 comparison score. Cached Opus diagnostic5/13 is unscored and separate. A second different-model dev audit grades113 preserved outcomes, with five disagreements and one borderline harmful historical-existence assertion; no official grade changed. Saved-trace first-wrong-step review covers104 zeros,40IDs,0new estate/model calls. See grading-audit.md and failure-backtrack.md.

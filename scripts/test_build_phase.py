@@ -53,8 +53,8 @@ class MonthlyTests(unittest.TestCase):
         rows,alloc=self.rows(3924)
         status=b.admit_physical(rows,alloc,instant('2026-10-21'),'INVESTIGATION')
         self.assertIn('INVESTIGATION_MONTHLY_80_PERCENT',status['warnings'])
-        self.assertTrue(b.model_status(32_000_000,'2026-10')['warning'])
-        self.assertFalse(b.model_status(32_000_000,'2026-10')['exhausted'])
+        self.assertTrue(b.model_status(76_800_000,'2026-10')['warning'])
+        self.assertFalse(b.model_status(76_800_000,'2026-10')['exhausted'])
         self.assertTrue(b.admit_platform(16_000_000,instant('2026-10-21'))['warning'])
 
     def test_platform_exhaustion_does_not_block_local_or_estate_budget(self):
@@ -70,7 +70,7 @@ class MonthlyTests(unittest.TestCase):
             b.admit_physical(rows,alloc,instant('2026-10-21'),'INVESTIGATION')
         b.admit_physical(rows,alloc,instant('2026-10-21'),'SCAN')
         b.admit_physical(rows,alloc,instant('2026-10-21'),'RESTORATION')
-        self.assertTrue(b.model_status(40_000_000,'2026-10')['exhausted'])
+        self.assertTrue(b.model_status(150_000_000,'2026-10')['exhausted'])
 
     def test_restoration_95_automatically_reserved_without_credit_grant(self):
         rows,alloc=self.rows(4905)
@@ -91,6 +91,36 @@ class MonthlyTests(unittest.TestCase):
         old,alloc=self.rows(6000,at='2026-10-31')
         self.assertEqual(b.physical_status(old,alloc,instant('2026-11-01'))['total'],0)
 
+    def test_owner_increase_effective_now_and_every_future_month(self):
+        for date in ('2026-10-26','2026-11-01','2027-01-01'):
+            status=b.physical_status([],[],instant(date))
+            self.assertEqual(status['total_limit'],9000)
+            self.assertEqual(status['limits'],{'INVESTIGATION':6905,'SCAN':2000,'RESTORATION':95})
+        rows,alloc=self.rows(6905)
+        with self.assertRaises(UsageHold): b.admit_physical(rows,alloc,instant('2026-10-26'),'INVESTIGATION')
+        b.admit_physical(rows,alloc,instant('2026-10-26'),'RESTORATION')
+        self.assertEqual(b.physical_status([],[],instant('2026-10-25'))['total_limit'],6000)
+
+    def test_restoration_reset_preserves_gross_usage_and_protects_new_95(self):
+        reset=b.POLICY['restoration_reset']
+        now=datetime.fromisoformat(reset['effective_at']).timestamp()+1
+        old,alloc=self.rows(70,'RESTORATION',at='2026-10-25')
+        old[0]['reservation_key']='old';alloc[0]['reservation_key']='old'
+        current=b.physical_status(old,alloc,now)
+        self.assertEqual(current['total'],70)
+        self.assertEqual(current['used']['RESTORATION'],0)
+        self.assertEqual(current['restoration_remaining'],95)
+        self.assertEqual(current['historical_restoration_requests'],70)
+        more,a=self.rows(1,'RESTORATION');more[0]['created']=now
+        current=b.physical_status(old+more,alloc+a,now)
+        self.assertEqual(current['restoration_remaining'],94)
+        self.assertEqual(current['total'],71)
+        # Gross monthly ceiling remains9000; investigation cannot spend the fresh reserve.
+        busy,a=self.rows(8835,'INVESTIGATION')
+        with self.assertRaises(UsageHold):b.admit_physical(old+busy,alloc+a,now,'INVESTIGATION')
+        b.admit_physical(old+busy,alloc+a,now,'RESTORATION')
+        self.assertEqual(b.physical_status(old,alloc,instant('2026-11-01'))['historical_restoration_requests'],0)
+
     def test_local_model_historical_107_dollars_does_not_block_new_call(self):
         from investigator.model_spend import SpendBudget
         with tempfile.TemporaryDirectory() as folder:
@@ -108,7 +138,7 @@ class MonthlyTests(unittest.TestCase):
                 status=budget.snapshot()
                 self.assertEqual(status['charged_usd'],.001)
                 self.assertEqual(status['historical_cumulative_usd_informational'],107.958725)
-                self.assertEqual(status['monthly']['ceiling_microdollars'],40_000_000)
+                self.assertEqual(status['monthly']['ceiling_microdollars'],96_000_000)
                 self.assertTrue(identity)
             db=sqlite3.connect(path)
             self.assertEqual(db.execute('SELECT charged FROM model_spend WHERE id=?',('historical',)).fetchone()[0],107_957_725)
@@ -142,7 +172,7 @@ class MonthlyTests(unittest.TestCase):
                     settle({'input_tokens':1,'output_tokens':1})
             self.assertEqual(state.snapshot('model-microdollars:2026-10')['charged'],'1000')
 
-    def test_shared_model_40_dollars_stops_not_other_work(self):
+    def test_shared_model_october_96_dollars_stops_not_other_work(self):
         from investigator.shared_state import SharedState
         from investigator.shared_spend import SharedSpendBudget
         from investigator.model_spend import SpendBudget,SpendHold
@@ -150,7 +180,7 @@ class MonthlyTests(unittest.TestCase):
             state=SharedState.offline(Path(folder)/'state.sqlite');state.migrate()
             with b.operating_mode(),patch.dict(os.environ,{'INVESTIGATOR_WORKER_ID':'synthetic'}),patch('time.time',return_value=instant('2026-10-21')):
                 budget=SharedSpendBudget(state,133046558)
-                with patch.object(SpendBudget,'price',return_value=40_000_000):
+                with patch.object(SpendBudget,'price',return_value=96_000_000):
                     budget.reserve({'input':'synthetic','max_output_tokens':1000})
                 with patch.object(SpendBudget,'price',return_value=1),self.assertRaisesRegex(SpendHold,'MONTHLY_MODEL_EXHAUSTED'):
                     budget.reserve({'input':'synthetic','max_output_tokens':1000})

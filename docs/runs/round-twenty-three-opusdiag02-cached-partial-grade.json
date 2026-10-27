@@ -1,0 +1,637 @@
+{
+  "observed_at": "2026-10-27T17:10:48.248119+00:00",
+  "classification": "UNSCORED_STATIC_DIAGNOSTIC",
+  "score": 5,
+  "attempted": 13,
+  "requested": 26,
+  "not_run": [
+    "v2-record-absent-everywhere-v2",
+    "v2-record-repeated-gold-v1",
+    "v2-record-repeated-gold-v2",
+    "v2-other-collected-definition-v1",
+    "v2-other-collected-definition-v2",
+    "v2-screenshot-record-01-v1",
+    "v2-screenshot-record-01-v2",
+    "v2-screenshot-record-02-v1",
+    "v2-screenshot-record-02-v2",
+    "v2-screenshot-record-03-v1",
+    "v2-screenshot-record-03-v2",
+    "v2-screenshot-record-04-v1",
+    "v2-screenshot-record-04-v2"
+  ],
+  "harmful": 0,
+  "cost_microdollars": 3933922,
+  "zero_steps": {
+    "query error": 1,
+    "triage": 1,
+    "wrong conclusion": 5,
+    "intake": 1
+  },
+  "handoff_unresolved_statuses": {
+    "2": 4,
+    "1": 1
+  },
+  "grader_result_sha256": "9960dbafef6aea896db889257bccd4689f0b676d854bdf11b3faab8783505c99",
+  "grader_input_sha256": "af29a6ae27e079da87a0fd3f67b0681e278b26e8c4ff78313ad7b960c2b475a0",
+  "address_map_sha256": "c0cbe71d031a013888db0ae0868dbc8ac5b59e0d41121ac204b0d3ed45a6cfae",
+  "grading_encoding": "Opaque addresses have reversible aliases, including matching dictionary keys. Query text, native row samples and business prose literal; all original field/value structures round-trip before lossless array encoding. Private map and original outcomes hash-pinned; 24000 bound unchanged.",
+  "timings": {
+    "completed_multilayer": {
+      "worker_body": {
+        "n": 8,
+        "median": 163.50663600899998,
+        "p90": 183.33848005700003
+      },
+      "end_to_end_known": {
+        "n": 7,
+        "median": 217.07387980000203,
+        "p90": 240.82747290001134
+      }
+    },
+    "intake_or_route_only": {
+      "worker_body": {
+        "n": 3,
+        "median": 84.70343318599998,
+        "p90": 144.7132529130031
+      },
+      "end_to_end_known": {
+        "n": 1,
+        "median": 83.96033489999536,
+        "p90": 83.96033489999536
+      }
+    },
+    "native_attempt_unresolved_or_partial": {
+      "worker_body": {
+        "n": 2,
+        "median": 203.9404617635,
+        "p90": 237.99101498699997
+      },
+      "end_to_end_known": {
+        "n": 2,
+        "median": 267.97954759999993,
+        "p90": 302.8372761999999
+      }
+    }
+  },
+  "cases": [
+    {
+      "ticket": "v2-application-baseline-v1",
+      "class": "v2-application-baseline",
+      "case_id": "guided:06466c5608eed3d392df7a3bb7b1bc007fd39c530066265b06973a7aa2cd42e8",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "query error",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer is verdict=as_designed, layer=source application, cause=SUM(units) agrees across model/landing/declared source giving 7661. The delivered answer is BLOCKED due to GatewayDenied/REASONING_MODEL_REQUEST_REFUSED \u2014 no verdict, no layer identification, no cause established. The triage collected useful pipeline/refresh facts and three unread layers are named as next checks, making this an honest unresolved stop rather than a harmful confident wrong answer. Handoff scores 2: stopping point is clearly named, three specific layer IDs to check are listed, triage context is fully preserved and rerunnable.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "GatewayDenied: REASONING_MODEL_REQUEST_REFUSED",
+      "loop_model_calls": 0,
+      "cost_microdollars": 0,
+      "physical_requests": 20,
+      "worker_timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.797633325004426
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 126.71603949400014
+          }
+        ],
+        "wall_seconds": 144.7132529130031
+      },
+      "end_to_end_seconds": null,
+      "end_to_end_unestablished_reason": "Artifact recovery resumed the local timer; original full elapsed not reconstructed.",
+      "timing_group": "intake_or_route_only",
+      "outcome_sha256": "becd2d244d4471d152ef7ca5d83c8a1a23e0b550ce6875bf5f79a89505950660",
+      "all_model_attempts": {
+        "reserved_message_attempts": 0,
+        "ledger_microdollars": 0,
+        "attempts_with_native_usage": 0
+      }
+    },
+    {
+      "ticket": "v2-application-baseline-v2",
+      "class": "v2-application-baseline",
+      "case_id": "guided:e2c45792cdfa445cd63be7cc6335958d7b6960095891e9cbbe2ab7617f96568e",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected verdict is 'as designed' with cause 'SUM(units) agrees across model, landing and declared application source; 7661' at layer 'source application / DEV split'. The delivered answer is BLOCKED with stopping point GatewayDenied: REASONING_MODEL_REQUEST_REFUSED \u2014 the investigation never reached a conclusion about how Movement Units is calculated. No verdict, no layer identification, and no cause were produced. This is an honest unresolved stop, not a harmful answer. Handoff quality is 2: the handoff names three specific unread layers to check next, has a clear stopping point, a pinned context SHA, and is structured for re-entry.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "GatewayDenied: REASONING_MODEL_REQUEST_REFUSED",
+      "loop_model_calls": 0,
+      "cost_microdollars": 0,
+      "physical_requests": 17,
+      "worker_timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 13.283420468000031
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 64.5697601920001
+          }
+        ],
+        "wall_seconds": 84.70343318599998
+      },
+      "end_to_end_seconds": null,
+      "end_to_end_unestablished_reason": "Artifact recovery resumed the local timer; original full elapsed not reconstructed.",
+      "timing_group": "intake_or_route_only",
+      "outcome_sha256": "a0cbfa1f47d75c2c3292bd577a0e03651dc558dcf5521ecab0f64b2f6153ce16",
+      "all_model_attempts": {
+        "reserved_message_attempts": 0,
+        "ledger_microdollars": 0,
+        "attempts_with_native_usage": 0
+      }
+    },
+    {
+      "ticket": "v2-billing-mrr-v1",
+      "class": "v2-billing-mrr",
+      "case_id": "guided:7d2e3cc68d83979ac69829b7333e1958936a42745931a2c07b8eb23f65196a0e",
+      "score": 1,
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered 'definition explained' maps cleanly to expected 'as designed' \u2014 the card shows 600 because the measure filters to ACTIVE subscriptions and sums their plan prices; no defect. Layer: delivered correctly identifies the source application (Power BI semantic model / Fabric warehouse) as the layer, matching expected 'source application'. Cause: delivered explicitly states ACTIVE subscriptions have 3 rows summing to 600 (prices 250+100+250 recoverable from the SUMMARIZECOLUMNS result showing ACTIVE=600,rows=3 and CHURNED=100,rows=1), CHURNED row excluded, matching the sealed cause. The CALCULATE/SUMX/REMOVEFILTERS measure definition is accurately described. No incorrect causal claims. Handoff: the answer is fully resolved (ANSWERED, stop=null), so handoff quality is not applicable and scores 0 by convention.",
+        "verdict_match": true
+      },
+      "status": "ANSWERED",
+      "stop": null,
+      "loop_model_calls": 5,
+      "cost_microdollars": 415508,
+      "physical_requests": 22,
+      "worker_timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 4.069515590000265
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 147.5923723370006
+          }
+        ],
+        "wall_seconds": 153.55369711000003
+      },
+      "end_to_end_seconds": 215.35493570000108,
+      "end_to_end_unestablished_reason": null,
+      "timing_group": "completed_multilayer",
+      "outcome_sha256": "14be8f8b045f1818fc5f8ecbd265a6f3e1f5a7e27ba3b379a427bac29879569d",
+      "all_model_attempts": {
+        "reserved_message_attempts": 5,
+        "ledger_microdollars": 415508,
+        "attempts_with_native_usage": 0
+      }
+    },
+    {
+      "ticket": "v2-billing-mrr-v2",
+      "class": "v2-billing-mrr",
+      "case_id": "guided:ec53f58e53f7d284319599a073f8b657584bdd364d0255f7cd1f1642e9a75102",
+      "score": 1,
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: the delivered answer correctly identifies the calculation as 'as designed' (definition explained, working as intended). Layer matches: the answer traces the figure through the semantic model, billing_serving (gold), and billing_bronze (source/dbo), covering the source application layer. Cause matches: the answer correctly identifies that three ACTIVE subscriptions contribute plan prices 250+100+250=600, the CHURNED subscription is excluded, and the measure uses REMOVEFILTERS(Plans) \u2014 matching the sealed cause of 'Active subscription plan prices 250+100+250=600; measure removes Plans filters.' No harmful incorrect cause. Handoff scored 0 because the status is ANSWERED with no open handoff items.",
+        "verdict_match": true
+      },
+      "status": "ANSWERED",
+      "stop": null,
+      "loop_model_calls": 3,
+      "cost_microdollars": 324964,
+      "physical_requests": 23,
+      "worker_timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.160329327999989
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 105.89764984800001
+          }
+        ],
+        "wall_seconds": 110.81676288099999
+      },
+      "end_to_end_seconds": 179.32882029999746,
+      "end_to_end_unestablished_reason": null,
+      "timing_group": "completed_multilayer",
+      "outcome_sha256": "83789df1ff709f2af02b63efec1fbd53ab4f908950068f96eb8b2eef92ccb6c7",
+      "all_model_attempts": {
+        "reserved_message_attempts": 3,
+        "ledger_microdollars": 324964,
+        "attempts_with_native_usage": 0
+      }
+    },
+    {
+      "ticket": "v2-fixture-quantity-v1",
+      "class": "v2-fixture-quantity",
+      "case_id": "guided:8df63d3f7ff19451c88216231a471d11b97f34f0af5bd0be5c62bdc6fc16932d",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Verdict: the expected answer is 'transformation logic' (a Silver-to-Gold join expanding rows), but the delivered answer says 'duplicate record' in movement_values without identifying the cause of those duplicates. Layer: the expected split point is Silver-to-Gold; the delivered answer locates the problem in the gold table movement_values itself but does not identify the upstream Silver layer or the join as the source, so the layer/split is wrong. Cause: the expected root cause is a left join of movements to product rates on product_id that repeats matches and inflates units from 7661 to 8765. The delivered answer correctly identifies 46 duplicate movement_id rows in movement_values with 1104 extra units, and the arithmetic matches, but it attributes this to 'duplicate records' rather than a fan-out from a join. It explicitly says it cannot determine at which step the extra rows were introduced, so the causal mechanism is unresolved. The numbers (8765, 7661, 1104, 46) all match, but the named cause (join fan-out) is missing. The answer is honest about its uncertainty, so it is not harmful. Handoff quality is 1: the queries are rerunnable and the stopping point (inability to reach ordersops) is clearly stated, but the next logical check (examining the Silver-to-Gold pipeline or ETL definition for join logic) is not spelled out.",
+        "verdict_match": false
+      },
+      "status": "ANSWERED",
+      "stop": null,
+      "loop_model_calls": 7,
+      "cost_microdollars": 369729,
+      "physical_requests": 16,
+      "worker_timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 12.719156823999924
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 154.30018606500005
+          }
+        ],
+        "wall_seconds": 173.45957490799992
+      },
+      "end_to_end_seconds": 237.52677920000133,
+      "end_to_end_unestablished_reason": null,
+      "timing_group": "completed_multilayer",
+      "outcome_sha256": "37efe8256b0c176cd9e6d502f6aa3350b32cb8322cb470fb75cc7cc46807c2ac",
+      "all_model_attempts": {
+        "reserved_message_attempts": 7,
+        "ledger_microdollars": 369729,
+        "attempts_with_native_usage": 0
+      }
+    },
+    {
+      "ticket": "v2-fixture-quantity-v2",
+      "class": "v2-fixture-quantity",
+      "case_id": "guided:83f693aee02af622e92786258d66c999f19759d38e3ad3e122f52bd1a13dc942",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Verdict: expected 'transformation logic'; delivered 'duplicate record'. These are not the same verdict. Layer: expected 'Silver to Gold'; delivered answer identifies the gold table as the location of duplicates but does not name the Silver-to-Gold transformation layer as the split point. Cause: expected 'left join of movements to product rates on product_id repeats matches'; delivered answer observes that 46 movements appear twice with rate_version 1 and 2, and concludes the duplicates are in the gold table, but never identifies the join mechanism (left join to a product rates/pricing table on product_id) as the cause. The delivered answer treats the duplicate rows as an unexplained data quality issue ('no retained upstream transformation definition') rather than attributing it to a fan-out join. The numbers are internally consistent and the investigation is thorough, but the root cause identification is wrong. Handoff: the answer states it cannot confirm which load step added the rate_version 2 rows and offers no next query or path to find that; the stopping point is not actionable, scoring 0.",
+        "verdict_match": false
+      },
+      "status": "ANSWERED",
+      "stop": null,
+      "loop_model_calls": 6,
+      "cost_microdollars": 273859,
+      "physical_requests": 24,
+      "worker_timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.938103407999733
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 125.8918260749997
+          }
+        ],
+        "wall_seconds": 143.61937507999937
+      },
+      "end_to_end_seconds": 217.07387980000203,
+      "end_to_end_unestablished_reason": null,
+      "timing_group": "completed_multilayer",
+      "outcome_sha256": "aae2985f5d5af0fca0f951045f3684455c7e4c14133fa7e3455ada45a0e4492f",
+      "all_model_attempts": {
+        "reserved_message_attempts": 6,
+        "ledger_microdollars": 273859,
+        "attempts_with_native_usage": 0
+      }
+    },
+    {
+      "ticket": "v2-billing-invoices-v1",
+      "class": "v2-billing-invoices",
+      "case_id": "guided:176b2b5963e7b82256c4f80c9948d86ddc0a8dcb36c3acd0375067c6cadfdf68",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer is UNRESOLVED (stopped due to TOOL_OR_TIME_LIMIT) and gives no verdict, no layer identification, and no named cause. The expected answer requires: verdict='transformation logic', layer='Silver to Gold', cause='Invoice join to account_plan_history on account_id without effective-date restriction duplicates invoice101 by 250'. The agent ran useful queries: it confirmed billing_serving gold.invoice_activity sums to 950 while billing_bronze dbo.invoices sums to 700, and it fetched both the invoice_activity detail (showing invoice_id 101 appearing twice with plan_id 1 and 2, both with amount 250) and account_plan_history (showing account 1 switched plans mid-period). The data to identify the cause was in hand \u2014 invoice 101 appearing twice in gold.invoice_activity once per plan row \u2014 but the agent did not interpret this as a fan-out from the join to account_plan_history without an effective-date filter. No verdict, no layer, no cause were declared. The handoff quality is good (2): queries are rerunnable, the stopping point is clear (budget/tool limit), the sample rows showing the duplication are preserved, and a knowledgeable analyst could pick up immediately and identify the cause from the data already collected.",
+        "verdict_match": false
+      },
+      "status": "UNRESOLVED",
+      "stop": "TOOL_OR_TIME_LIMIT",
+      "loop_model_calls": 8,
+      "cost_microdollars": 489600,
+      "physical_requests": 29,
+      "worker_timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.40503136800001
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 164.29419693200003
+          }
+        ],
+        "wall_seconds": 169.88990854000002
+      },
+      "end_to_end_seconds": 233.12181899999996,
+      "end_to_end_unestablished_reason": null,
+      "timing_group": "native_attempt_unresolved_or_partial",
+      "outcome_sha256": "42b1537e9c4f5855ac1a675a1f998c572e2e66e495fcde15c1d2cf0af625c169",
+      "all_model_attempts": {
+        "reserved_message_attempts": 8,
+        "ledger_microdollars": 489600,
+        "attempts_with_native_usage": 0
+      }
+    },
+    {
+      "ticket": "v2-billing-invoices-v2",
+      "class": "v2-billing-invoices",
+      "case_id": "guided:ab57b007030e00b6bf0b478177c979396ae90b28045a5aa7ccce0a276d9c7408",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer is UNRESOLVED (budget/tool stop), so no verdict, layer, or cause was stated as fact. The expected answer requires: verdict='transformation logic', layer='Silver to Gold', cause='Invoice join to account_plan_history on account_id without effective-date restriction duplicates invoice 101 by 250'. The agent found that invoice_id 101 has two rows in gold.invoice_activity (plan_id 1 and 2, each 250, totalling 500) and confirmed the DAX measure returns 950 vs billingapp's 700, but stopped before connecting this to the account_plan_history join logic. It never queried account_plan_history successfully (Fabric SQL read unavailable) and never named the root cause (missing effective-date filter on the join). The layer Silver-to-Gold was not identified. No harmful confident incorrect cause was stated. Handoff quality is 2: next_checks name the two unread layers and the failed query explicitly, queries are rerunnable, and the stopping point is clearly documented with a concrete lead (invoice_id 101 duplicated in gold.invoice_activity) that a follow-on agent can act on.",
+        "verdict_match": false
+      },
+      "status": "UNRESOLVED",
+      "stop": "TOOL_OR_TIME_LIMIT",
+      "loop_model_calls": 5,
+      "cost_microdollars": 323315,
+      "physical_requests": 33,
+      "worker_timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.52655495099998
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 232.31395115199996
+          }
+        ],
+        "wall_seconds": 237.99101498699997
+      },
+      "end_to_end_seconds": 302.8372761999999,
+      "end_to_end_unestablished_reason": null,
+      "timing_group": "native_attempt_unresolved_or_partial",
+      "outcome_sha256": "7d2cce37b6586230e4b73373c0d344ca2bc73a23a8bba30431e0fea93c00d04a",
+      "all_model_attempts": {
+        "reserved_message_attempts": 5,
+        "ledger_microdollars": 323315,
+        "attempts_with_native_usage": 0
+      }
+    },
+    {
+      "ticket": "v2-warehouse-scope-v1",
+      "class": "v2-warehouse-scope",
+      "case_id": "guided:66ddd95cb24f2084f75d49ec6b5a653982351b4df070a70a618202e16df9067f",
+      "score": 1,
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: 'different question' \u2014 the agent correctly identifies these are not a report-vs-source mismatch but two different warehouse scopes. Layer matches: 'selection scope' \u2014 the agent correctly identifies the filter/scope restriction (warehouse_id 1 vs warehouse_id 2) as the split point. Cause matches: 'Different warehouse restrictions 1 versus 2, not an ingestion or arithmetic fault' \u2014 the agent states exactly this with supporting numbers (2948 for wh1, 2084 for wh2) confirmed across all three layers (DAX, bronze landing table, source SQL). Evidence is solid with three queries all returning consistent results. Not harmful. Handoff quality is 1: the agent lists caveats and unavailable metadata but the handoff object is empty ({}) and while the queries are rerunnable (SQL literals and DAX are present in the record), there is no explicit next-step recommendation or structured stopping point in the handoff field itself.",
+        "verdict_match": true
+      },
+      "status": "ANSWERED",
+      "stop": null,
+      "loop_model_calls": 3,
+      "cost_microdollars": 158317,
+      "physical_requests": 22,
+      "worker_timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.560861253999974
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 118.45898327299994
+          }
+        ],
+        "wall_seconds": 135.8181828459999
+      },
+      "end_to_end_seconds": 195.4794699999984,
+      "end_to_end_unestablished_reason": null,
+      "timing_group": "completed_multilayer",
+      "outcome_sha256": "c7d150e0cb209313d75e45386fc5d33874bc6b2bf1707e815661576c84f399d0",
+      "all_model_attempts": {
+        "reserved_message_attempts": 3,
+        "ledger_microdollars": 158317,
+        "attempts_with_native_usage": 0
+      }
+    },
+    {
+      "ticket": "v2-warehouse-scope-v2",
+      "class": "v2-warehouse-scope",
+      "case_id": "guided:a74c97496add8fb4afa422d5776024a2efe9cab98fa35cedab4befabd594cef2",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer is a confident 'different question' verdict: the user is comparing warehouse_id=1 figures against a source export for warehouse_id=2, so the numbers are not supposed to match\u2014they cover different warehouses. The layer is 'selection scope' and the cause is 'Different warehouse restrictions (1 versus 2), not an ingestion or arithmetic fault.' The delivered answer never reached this conclusion; it stopped at UNKNOWN_REPORT because it could not resolve which report the ticket was referring to, and asked the user to pick from a catalog. The verdict, layer, and cause are all unmatched. The stopping point is a reasonable honest refusal rather than a harmful wrong claim. Handoff quality is 1: the catalog choices are presented clearly and the next step is actionable, but the agent missed that the intake itself already contains enough information (warehouse_id=1 vs warehouse_id=2) to answer the question without needing report resolution at all\u2014the discrepancy is explained purely by scope, not by any report-specific data. The first failing step is intake, as the agent failed to interpret the intake information that was already available.",
+        "verdict_match": false
+      },
+      "status": "NEEDS_INPUT",
+      "stop": "UNKNOWN_REPORT",
+      "loop_model_calls": null,
+      "cost_microdollars": 0,
+      "physical_requests": 0,
+      "worker_timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 12.100963451004645
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 0.18966075999924215
+          }
+        ],
+        "wall_seconds": 18.249583470002108
+      },
+      "end_to_end_seconds": 83.96033489999536,
+      "end_to_end_unestablished_reason": null,
+      "timing_group": "intake_or_route_only",
+      "outcome_sha256": "53ff056c8fe58e2ad278f33e312a0df8b42077751dcb5a47c447c9b274fdd87d",
+      "all_model_attempts": {
+        "reserved_message_attempts": 0,
+        "ledger_microdollars": 0,
+        "attempts_with_native_usage": 0
+      }
+    },
+    {
+      "ticket": "v2-before-temporal-retention-v1",
+      "class": "v2-before-temporal-retention",
+      "case_id": "guided:061816ed400c024b5550b5d9cf1b91f9fc7082bb82a08e3477d340ffb977d8c7",
+      "score": 0,
+      "grade": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: expected 'not found'; delivered 'observed value'. The agent confirmed the current value is 16 across all layers, which is correct, but then explicitly states the historical value at 2026-10-20T12:00 cannot be established because the current row version only became valid on 2026-10-23, and no earlier row versions are retained/readable. Despite reaching the correct causal reasoning, the agent filed the answer as 'observed value' rather than 'not found', which is the wrong verdict. The layer match is correct: the agent correctly identifies that the split point is the source history/temporal retention boundary \u2014 the r22_valid_from of the current row postdates the requested snapshot time, and no earlier versions are available. The cause match is also correct: the agent accurately names that the requested time precedes the retained temporal evidence. The verdict mismatch is the primary failure. Not harmful since the agent honestly acknowledges it could not establish the historical value. Handoff quality: the agent clearly identifies the query needed (r22_valid_from <= 2026-10-20T12:00 AND r22_valid_to > 2026-10-20T12:00) but notes it could not retrieve earlier versions, providing a rerunnable direction though with uncertainty about whether those rows exist at all in the retained history.",
+        "verdict_match": false
+      },
+      "status": "ANSWERED",
+      "stop": null,
+      "loop_model_calls": 8,
+      "cost_microdollars": 575083,
+      "physical_requests": 26,
+      "worker_timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 12.460103934000017
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 159.16729230800001
+          }
+        ],
+        "wall_seconds": 177.64167830899999
+      },
+      "end_to_end_seconds": 240.82747290001134,
+      "end_to_end_unestablished_reason": null,
+      "timing_group": "completed_multilayer",
+      "outcome_sha256": "94a9d6c3e92430affb7f26f791db32eecec45b15a027ae304b1d80f0afcb34ae",
+      "all_model_attempts": {
+        "reserved_message_attempts": 8,
+        "ledger_microdollars": 575083,
+        "attempts_with_native_usage": 0
+      }
+    },
+    {
+      "ticket": "v2-before-temporal-retention-v2",
+      "class": "v2-before-temporal-retention",
+      "case_id": "guided:09d29691bb0aa2077ae5ed3951ff2250ef455480a49c966afccd8056d924ee8f",
+      "score": 1,
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly reaches a 'not found' verdict: it confirms the current value is 16 but explicitly states that the application row's valid_from (2026-10-23 22:43:47 UTC) post-dates the requested time (2026-10-20 12:00 UTC), no retained history is readable, and no before/after change can be established. This matches the expected verdict ('not found'), layer ('source history boundary' \u2014 the r22_valid_from/r22_valid_to temporal mechanism is correctly identified as the boundary), and cause ('requested time precedes retained temporal evidence'). The answer is honest about uncertainty rather than asserting a wrong cause. Handoff quality is 1: the queries shown are rerunnable and the stopping point is clear (no historical rows available in the temporal table before that valid_from), but there is no suggested next step such as checking archived snapshots or upstream source history.",
+        "verdict_match": true
+      },
+      "status": "ANSWERED",
+      "stop": null,
+      "loop_model_calls": 10,
+      "cost_microdollars": 564665,
+      "physical_requests": 26,
+      "worker_timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.117413347000365
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 160.95626425499995
+          }
+        ],
+        "wall_seconds": 177.91639014999964
+      },
+      "end_to_end_seconds": null,
+      "end_to_end_unestablished_reason": "Artifact recovery resumed the local timer; original full elapsed not reconstructed.",
+      "timing_group": "completed_multilayer",
+      "outcome_sha256": "ae79b3beed234d2e0739e866c87bd7eb2c484668891835b4c7a1d09247919952",
+      "all_model_attempts": {
+        "reserved_message_attempts": 10,
+        "ledger_microdollars": 564665,
+        "attempts_with_native_usage": 0
+      }
+    },
+    {
+      "ticket": "v2-record-absent-everywhere-v1",
+      "class": "v2-record-absent-everywhere",
+      "case_id": "guided:f449195545b1de2b12181f164623870bb7bbd37430d339af217e5c4d4a4b7c41",
+      "score": 1,
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says 'not found' which aligns with 'as designed' (the record is absent everywhere by design, not missing due to a pipeline fault). Layer: the answer correctly identifies the source application table (app.stock_movements_round_two_20261003) as the root layer where the record is absent, matching 'source application'. Cause: the answer correctly identifies that movement 900099 is absent at the source application layer and every downstream layer (bronze, model), with no row in current or historical (FOR SYSTEM_TIME ALL) reads \u2014 matching the sealed cause 'Record900099 is absent at source and every compared reachable layer'. The BLANK/zero note is implicit (0 rows found, not a zero value). The delivered answer is thorough with SQL evidence across all three layers. Handoff quality is 0 because the answer is fully resolved with no unresolved handoff needed.",
+        "verdict_match": true
+      },
+      "status": "ANSWERED",
+      "stop": null,
+      "loop_model_calls": 6,
+      "cost_microdollars": 438882,
+      "physical_requests": 33,
+      "worker_timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.778133162000017
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 165.54707957399995
+          }
+        ],
+        "wall_seconds": 183.33848005700003
+      },
+      "end_to_end_seconds": 234.9400420999882,
+      "end_to_end_unestablished_reason": null,
+      "timing_group": "completed_multilayer",
+      "outcome_sha256": "cfeacaedb4362b6115d0aaf471db989b38e5591ede761dd0aa2fd61d02305b28",
+      "all_model_attempts": {
+        "reserved_message_attempts": 6,
+        "ledger_microdollars": 438882,
+        "attempts_with_native_usage": 0
+      }
+    }
+  ]
+}

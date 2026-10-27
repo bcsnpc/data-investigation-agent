@@ -12,6 +12,23 @@ import test_enrichment as fixtures
 def source():return {'protocol':PROTOCOL,'purpose':'WRITE_TICKETS','case_id':'scenario-1','description':'The displayed total differs from a source total.','labels':['Report','Global total'],'variations':['plain','missing comparison']}
 
 class IndependentEvaluationTests(unittest.TestCase):
+    def test_guided_writer_catalog_only_and_separate_handoff_grading(self):
+        from investigator.adapters.evaluation_anthropic import output_schema
+        value={**source(),'purpose':'WRITE_GUIDED_TICKETS','catalog':{'reports':[{'id':'report','name':'Report','pages':[{'id':'page','name':'Page','visuals':[{'id':'visual','name':'Total'}]}]}],'source_systems':[]}}
+        request=request_for(value,'a'*64)
+        self.assertIn('intake_json',request['params']['output_config']['format']['schema']['properties']['tickets']['items']['properties'])
+        from investigator.adapters.evaluation_anthropic import decode_output
+        from test_round23_intake_queries import request as intake_request
+        intake=intake_request();wire={'tickets':[{'variation':'plain','intake_json':json.dumps(intake)}]}
+        self.assertEqual(decode_output(value,wire),{'tickets':[{'variation':'plain','intake':intake}]})
+        self.assertEqual(wire['tickets'][0]['intake_json'],json.dumps(intake))
+        self.assertNotIn('expected',json.dumps(value))
+        bad=copy.deepcopy(value);bad['catalog']['engine_code']='not permitted'
+        with self.assertRaisesRegex(ValueError,'VISIBLE_CATALOG_ONLY'):task(bad)
+        shape=output_schema('GRADE_GUIDED_ANSWER')
+        self.assertIn('handoff_quality',shape['required']);self.assertIn('failing_step',shape['required'])
+        self.assertNotIn('handoff_quality',output_schema('GRADE_ANSWER')['required'])
+
     def test_writer_receives_only_description_labels_and_variations_never_expectations_or_code(self):
         for key in ('expected','ledger','engine_code','oracle','output'):
             with self.assertRaisesRegex(ValueError,'LABELS_ONLY'):task({**source(),key:'private'})

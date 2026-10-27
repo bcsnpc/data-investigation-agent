@@ -1,0 +1,24 @@
+{
+  "status": "V2_SEALED_BEFORE_SCORED_ENGINE_RUN",
+  "observed_at": "2026-10-27T04:25:44.348834+00:00",
+  "splits": {
+    "dev": {
+      "tickets": 40,
+      "sha256": "d2ec241a3d89623b188a347496fbb217b82fcdd5b647b57387df4c0863255633"
+    },
+    "held-out": {
+      "tickets": 20,
+      "sha256": "a49df107df8e3f5b9edaadfe5f1d0b4b854b2a18aad650da408fc486a63f4039"
+    }
+  },
+  "expectations_sha256": "cfb8353fd55c0fd71da271dabf17aa30a29b738a885f92f9fb150b11589d34a5",
+  "writer": "independent Claude Sonnet4.6 Message Batches",
+  "real_screenshot_scenarios": 4,
+  "synthetic_screenshot_scenarios": 0,
+  "writer_received_engine_outputs_or_expectations": false,
+  "valid_held_out_wording_inspected": false,
+  "invalid_originals_retained": true,
+  "schema_invalid_drafts_retried": 4,
+  "diagnostic_log_note": "One schema-validation diagnostic included an unused invalid draft instance; that draft was not admitted. Successful held-out records remain unopened.",
+  "estate_reads_for_ticket_authoring": 0
+}

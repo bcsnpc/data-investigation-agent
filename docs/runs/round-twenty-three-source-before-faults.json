@@ -1,0 +1,17 @@
+{
+  "status": "BASELINE360_7661_ORIGINAL_FULL_HASHES_TEMPORAL_ON",
+  "hashes": {
+    "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+    "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+    "temporal_period_columns_excluded_explicitly": true
+  },
+  "controls_physical_requests": 3,
+  "mutations": 0,
+  "investigation_reads": 0,
+  "model_calls": 0,
+  "identity": "EXISTING_SQL_OWNER_FIXTURE_CONTROL_ONLY",
+  "source_receipt": {
+    "path": ".local\\round-twenty-three\\source-preparation-read.json",
+    "sha256": "9525fe7c8fd75aa16c1afc2b401d09b6665a3dce78c48f98214c95aab94e3e1a"
+  }
+}

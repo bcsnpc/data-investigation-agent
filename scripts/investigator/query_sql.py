@@ -98,14 +98,26 @@ def compiled_identity(qualified):
     return tree
 
 
-def compile_query(query, objects, *, max_rows=limits.QUERY_ROWS):
+def compile_query(query, objects, *, max_rows=limits.QUERY_ROWS, allow_views=False,
+                  allow_computed=False,allow_set_operations=False,allow_temporal_all=False,allow_convert=False,
+                  max_joins=MAX_JOINS,max_selects=MAX_SELECTS,literal_limit=200):
     if not isinstance(query,str) or not 1<=len(query)<=limits.QUERY_TEXT:raise ValueError('SQL text budget exceeded')
     if type(max_rows) is not int or not 1<=max_rows<=limits.QUERY_ROWS:raise ValueError('Invalid row budget')
+    for name,value,upper in [('joins',max_joins,32),('selects',max_selects,32),('literal',literal_limit,4000)]:
+        if type(value) is not int or not 1<=value<=upper:raise ValueError('Invalid SQL '+name+' bound')
     statements=parse(query,read='tsql')
-    if len(statements)!=1 or not isinstance(statements[0],exp.Select):raise ValueError('One SELECT/CTE query required')
+    query_roots=(exp.Select,exp.Union,exp.Intersect,exp.Except) if allow_set_operations else (exp.Select,)
+    if len(statements)!=1 or not isinstance(statements[0],query_roots):raise ValueError('One SELECT/CTE query required')
     tree=statements[0]
     if len(list(tree.walk()))>1200:raise ValueError('SQL syntax budget exceeded')
     unsupported=sorted({type(n).__name__ for n in tree.walk()}-NODES)
+    if allow_convert and 'Convert' in unsupported:unsupported.remove('Convert')
+    if allow_set_operations:unsupported=[n for n in unsupported if n not in ('Union','Intersect','Except')]
+    if allow_temporal_all and 'Version' in unsupported:
+        versions=list(tree.find_all(exp.Version))
+        if all(isinstance(n.parent,exp.Table) and n.args.get('this')=='TIMESTAMP' and n.args.get('kind')=='ALL'
+               and n.args.get('expression') is None and not set(n.args)-{'this','kind','expression'} for n in versions):
+            unsupported.remove('Version')
     # Two explicitly bounded scalar primitives used by exact string witnesses.
     # No arbitrary/user-defined function becomes executable through Anonymous.
     if 'Anonymous' in unsupported:
@@ -124,10 +136,10 @@ def compile_query(query, objects, *, max_rows=limits.QUERY_ROWS):
     if unsupported:raise ValueError('Unsupported SQL syntax or function nodes: '+', '.join(unsupported[:8])+'. Remove these constructs or choose a supported diagnostic; no query executed.')
     if any(n.args.get('recursive') for n in tree.find_all(exp.With)):raise ValueError('Recursive CTE unsupported')
     joins=len(list(tree.find_all(exp.Join)));selects=len(list(tree.find_all(exp.Select)))
-    if joins>MAX_JOINS or selects>MAX_SELECTS:
-        raise QueryRejection(f'Relational complexity budget exceeded: SELECT nodes {selects}/{MAX_SELECTS}, joins {joins}/{MAX_JOINS}. Propose a smaller diagnostic; no query executed.',
+    if joins>max_joins or selects>max_selects:
+        raise QueryRejection(f'Relational complexity budget exceeded: SELECT nodes {selects}/{max_selects}, joins {joins}/{max_joins}. Propose a smaller diagnostic; no query executed.',
                              reason_code='SQL_COMPLEXITY',measured={'selects':selects,'joins':joins},
-                             caps={'selects':MAX_SELECTS,'joins':MAX_JOINS})
+                             caps={'selects':max_selects,'joins':max_joins})
     if any(n.args.get('offset') for n in tree.find_all(exp.Select)):raise ValueError('Offset is unsupported')
     if any(True for _ in tree.find_all(exp.Parameter)):raise ValueError('Use literal values; compiler parameterizes them')
     index={};schema={}
@@ -135,7 +147,7 @@ def compile_query(query, objects, *, max_rows=limits.QUERY_ROWS):
         meta=asset['metadata'];key=(meta['schema_name'].casefold(),meta['name'].casefold())
         if key in index:raise ValueError('Ambiguous SQL catalog')
         index[key]=asset
-        schema.setdefault(meta['schema_name'],{})[meta['name']]={c['name']:c['data_type'] for c in meta['columns'] if not c.get('computed_definition')}
+        schema.setdefault(meta['schema_name'],{})[meta['name']]={c['name']:c['data_type'] for c in meta['columns'] if allow_computed or not c.get('computed_definition')}
     referenced=[];ambiguous=[]
     for scope in traverse_scope(tree):
         source_columns={}
@@ -143,13 +155,15 @@ def compile_query(query, objects, *, max_rows=limits.QUERY_ROWS):
             if not isinstance(source,exp.Table):continue
             if source.catalog or not source.db or not isinstance(source.this,exp.Identifier):raise ValueError('Qualified approved schema/table required')
             asset=index.get((source.db.casefold(),source.name.casefold()))
-            if asset is None or asset['metadata']['type_desc']!='USER_TABLE':
+            allowed_types={'USER_TABLE','VIEW'} if allow_views else {'USER_TABLE'}
+            if asset is None or asset['metadata']['type_desc'] not in allowed_types:
                 raise QueryRejection('SQL object unavailable or view dependencies not validated',
                                      reason_code='SQL_OBJECT_UNAVAILABLE',object_name=source.name,requested_schema=source.db)
             # Never allow hints, temporal/version modifiers or schema-qualified functions.
-            if any(v for k,v in source.args.items() if k not in ('this','db','catalog','alias')):raise ValueError('Unsupported table modifier')
+            fields={'this','db','catalog','alias'}|({'version'} if allow_temporal_all else set())
+            if any(v for k,v in source.args.items() if k not in fields):raise ValueError('Unsupported table modifier')
             referenced.append(asset['id'])
-            source_columns[name]={c['name'].casefold() for c in asset['metadata']['columns'] if not c.get('computed_definition')}
+            source_columns[name]={c['name'].casefold() for c in asset['metadata']['columns'] if allow_computed or not c.get('computed_definition')}
         for column in scope.columns:
             if column.table:continue
             aliases=[alias for alias,columns in source_columns.items() if column.name.casefold() in columns]
@@ -185,7 +199,7 @@ def compile_query(query, objects, *, max_rows=limits.QUERY_ROWS):
                 isinstance(literal.parent,exp.SHA2) and literal.arg_key=='length'):continue
         literal_count+=1
         if literal_count>60:raise ValueError('Parameter budget exceeded')
-        if len(literal.this)>200:raise ValueError('Parameter value budget exceeded')
+        if len(literal.this)>literal_limit:raise ValueError('Parameter value budget exceeded')
         # Repeated typed literals must bind identically, including in GROUP BY.
         # Keep text/integer/decimal distinct; do not normalize values or expressions.
         kind='text' if literal.is_string else 'decimal' if '.' in literal.this else 'integer'

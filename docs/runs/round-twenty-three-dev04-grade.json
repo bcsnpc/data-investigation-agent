@@ -1,0 +1,1344 @@
+{
+  "observed_at": "2026-10-27T11:04:56.504227+00:00",
+  "score": 1,
+  "out_of": 40,
+  "harmful": 0,
+  "cost_microdollars": 21580202,
+  "zero_failing_steps": {
+    "wrong conclusion": 12,
+    "triage": 19,
+    "none": 3,
+    "target": 1,
+    "query error": 3,
+    "query validation": 1
+  },
+  "handoff_quality": {
+    "2": 18,
+    "1": 18,
+    "0": 3
+  },
+  "grading_result_sha256": "e670ace89031dbf8e6471e54b61bf95d2b907a39ce7b0b144b1f401c101bda86",
+  "grading_input_sha256": "9eb7f4f7ef72dcf17b2f1662a1d1f74907d76cbddacca3b44dbf3bd5f36aa6f8",
+  "cases": [
+    {
+      "ticket": "v2-application-baseline-v1",
+      "class": "v2-application-baseline",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer is verdict=as_designed, layer=source_application, cause=SUM(units) agrees across model/landing/source at 7661. The delivered answer stopped at a budget/spend-hold boundary (TICKET_MODEL_EXHAUSTED) and reported status=BLOCKED with no final verdict or named cause. The queries actually ran all agree (7661 in DAX, Fabric warehouse, and SQL source), which is sufficient evidence to conclude 'as designed', but the agent never reached that conclusion. Verdict does not match (BLOCKED vs as_designed), layer is not named (no layer conclusion stated), and cause is not stated. The handoff is high quality (2): all three queries are present with full executable text, results are clear, stopping point is explicit, and a human reviewer could immediately complete the investigation by reading the query results and concluding the figure is correct.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 13.740368898999805
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 178.64255953999964
+          }
+        ],
+        "wall_seconds": 199.33042925999962
+      },
+      "cost_microdollars": 484225,
+      "model_calls": 2,
+      "outcome_sha256": "732e2a2f144b0098efd19e52784b4190302588715dd5b0cc4313eebbc314f40a"
+    },
+    {
+      "ticket": "v2-application-baseline-v2",
+      "class": "v2-application-baseline",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer is verdict='as designed', layer='source application', cause='SUM(units) agrees across model, landing and declared application source; 7661.' The delivered answer stopped with TICKET_MODEL_EXHAUSTED (budget exhausted) and returned a blocked/unresolved status rather than a completed answer. The queries actually succeeded and confirmed 7661 across all three layers (DAX model, Fabric warehouse, and ordersops SQL server), which is exactly the evidence needed to conclude 'as designed'. The agent had the evidence in hand but failed to synthesize a verdict before hitting the spend limit. Verdict does not match (BLOCKED vs as_designed), layer does not match (no layer conclusion given), and cause does not match (no cause stated). The handoff is high quality (2): all three queries are rerunnable, results are preserved, stopping point is clearly labeled, and a next analyst could immediately draw the conclusion from the query results already in the handoff.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 14.629870452000432
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 171.65793796799971
+          }
+        ],
+        "wall_seconds": 194.05356820700035
+      },
+      "cost_microdollars": 492255,
+      "model_calls": 2,
+      "outcome_sha256": "041ab85d3a0fccadc51986be4dd3f2d1757a64e121cfb88e1fbbd3b4c6dc7bce"
+    },
+    {
+      "ticket": "v2-billing-mrr-v1",
+      "class": "v2-billing-mrr",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer is an honest budget-stop block (SpendHold: TICKET_MODEL_EXHAUSTED). It correctly confirmed the reported figure of 600 via two succeeded queries (DAX MRR All Plans = 600, SQL SUM(monthly_price) on ACTIVE subscriptions = 600), which is consistent with the expected cause. However, the investigation stopped before completing triage (all 10 triage checks returned UNAVAILABLE/MONTHLY_PHYSICAL_SCAN_EXHAUSTED or missing ports), so it never diagnosed the layer (source application) or the named cause (three active subscription plan prices 250+100+250=600 with Plans filter removal). The verdict 'as designed' was never reached. Verdict, layer, and cause are all unmatched. The handoff is of reasonable quality: both queries are rerunnable, the stopping point is clearly named, and next_checks is empty but the context is sufficient for a human to continue; score 2 reflects the clear stopping point and solid query evidence even without explicit next steps.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 2.9985520070185885
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 83.046210444998
+          }
+        ],
+        "wall_seconds": 87.98204684798839
+      },
+      "cost_microdollars": 900270,
+      "model_calls": 1,
+      "outcome_sha256": "b0a055da7336bcd53dc849b783c55ea2e38407d062bb376e3c5164af1801a3c8"
+    },
+    {
+      "ticket": "v2-billing-mrr-v2",
+      "class": "v2-billing-mrr",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The agent hit a budget/spend-hold ceiling (TICKET_MODEL_EXHAUSTED) and stopped honestly without stating a cause. The delivered answer is a refusal/blocked state, not a confident incorrect claim, so it is not harmful. Verdict: expected 'as designed' but delivered 'BLOCKED/no verdict'. Layer: expected 'source application' but no layer was committed. Cause: expected 'Active subscription plan prices 250+100+250=600; measure removes Plans filters' but no cause was stated. All three dimensions fail to match. Handoff quality is 2: queries are well-formed and rerunnable, the stopping point (SpendHold: TICKET_MODEL_EXHAUSTED) is clearly named, the evidence gathered (DAX measure returns 600, 3 ACTIVE subscriptions with prices 250+100+250=600, SQL cross-check confirms 600) is complete enough that a successor agent could finish the answer trivially with no additional queries\u2014the work is essentially done even if the conclusion was never written.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 2.9951134269940667
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 61.652843365009176
+          }
+        ],
+        "wall_seconds": 66.60154756499105
+      },
+      "cost_microdollars": 913300,
+      "model_calls": 1,
+      "outcome_sha256": "27e1c01c6e16cbe683f3f51355c9a427e13df8bf8ee4ec4ff25be57a720d384c"
+    },
+    {
+      "ticket": "v2-fixture-quantity-v1",
+      "class": "v2-fixture-quantity",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Verdict: expected 'transformation logic' but the delivered answer says 'The investigation stopped at a safety or budget boundary' \u2014 no verdict on the root cause is given. Layer: expected 'Silver to Gold' but the delivered answer names no layer. Cause: expected a left-join fan-out on product_id inflating units from 7661 to 8765; the delivered answer gives no cause at all, stopping at SpendHold/TICKET_MODEL_EXHAUSTED. This is an honest unresolved stop, not a harmful wrong cause, so harmful=false. The queries executed confirm the report figure (8765) matches the source warehouse (8765), which should have been a productive finding pointing toward a fan-out or data issue upstream, but the investigation was cut off before that inference was drawn. Handoff quality is 1: the queries are rerunnable and the stopping point is clearly labelled, but next_checks is empty and no hypothesis about the discrepancy origin is recorded, leaving the next investigator without a clear direction.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.914756868965924
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 81.29435216600541
+          }
+        ],
+        "wall_seconds": 100.16487276996486
+      },
+      "cost_microdollars": 477088,
+      "model_calls": 1,
+      "outcome_sha256": "405a2778850e8df5c66e4a8a62f30ed55540c881cbf14aaa719ceaafb286c8d1"
+    },
+    {
+      "ticket": "v2-fixture-quantity-v2",
+      "class": "v2-fixture-quantity",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer is a blocked/budget-stop result: the agent ran two queries that confirmed both the semantic model and the SQL warehouse agree on 8765 (matching the reported figure), and the source system figure of 7661 was not explained. The expected sealed answer is verdict='transformation logic', layer='Silver to Gold', cause='Left join of movements to product rates on product_id repeats matches; carried units rise from 7661 to 8765'. The delivered answer provides no verdict, no layer identification, and no cause \u2014 it stopped at TICKET_MODEL_EXHAUSTED without identifying the join-duplication root cause. Verdict_match=false (no verdict given vs 'transformation logic'). Layer_match=false (no layer identified vs 'Silver to Gold'). Cause_match=false (no cause identified vs the specific left-join duplication cause). Not harmful because it is an honest unresolved stop rather than a confidently stated wrong cause. Handoff quality is 1: the queries run were reasonable (DAX and SQL both confirmed 8765), but next_checks is empty and the stopping point gives no actionable direction for resuming investigation into why the source differs, so it is not fully rerunnable/useful.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 14.002451489999999
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 66.339340659
+          }
+        ],
+        "wall_seconds": 89.19297264500001
+      },
+      "cost_microdollars": 472195,
+      "model_calls": 1,
+      "outcome_sha256": "65993f82e3136fd7fef63e78e988fef83256504a2fb5f0ed67891b1423b5be0d"
+    },
+    {
+      "ticket": "v2-billing-invoices-v1",
+      "class": "v2-billing-invoices",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer stopped at a spend/budget hold (TICKET_MODEL_EXHAUSTED) and reported only that both the DAX measure and the SQL warehouse return 950, matching the reported figure. It did not identify the root cause (invoice join to account_plan_history without effective-date restriction duplicating Aster invoice101 by 250) nor did it identify the correct layer (Silver to Gold). The verdict is effectively unresolved rather than 'transformation logic'. No incorrect cause was stated confidently, so it is not harmful. Handoff quality is 1: the queries are rerunnable and the stopping point is clear, but next_checks is empty and no concrete investigative thread is left for a human to pick up regarding the join duplication issue.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 4.3107972050000285
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 45.783481956
+          }
+        ],
+        "wall_seconds": 53.38939412600001
+      },
+      "cost_microdollars": 787280,
+      "model_calls": 1,
+      "outcome_sha256": "a115ede819bb122906e102676ac1b62c5dd58f1a223a3bccace242f222c7a809"
+    },
+    {
+      "ticket": "v2-billing-invoices-v2",
+      "class": "v2-billing-invoices",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer is a budget-stop/blocked response: the agent exhausted its model token budget before reaching a conclusion. It correctly reproduced both the DAX measure (950) and the SQL warehouse SUM (950), which happens to match the report figure rather than the expected 700\u2014suggesting the SQL query hit the wrong table or scope\u2014but the agent drew no conclusion about the cause. The sealed expected answer requires: verdict='transformation logic', layer='Silver to Gold', and cause='Invoice join to account_plan_history on account_id without effective-date restriction duplicates Aster invoice101 by 250'. None of these were identified; the answer was blocked before any diagnosis. Verdict match: no. Layer match: no (no layer was named). Cause match: no (no cause was named). Not harmful because the agent honestly stopped rather than asserting a wrong cause. Handoff quality is 1: there is a clear stopping point (TICKET_MODEL_EXHAUSTED) and two rerunnable queries, but next_checks is empty and there is no forward guidance on what SQL to write next to investigate the 250 discrepancy, making it only minimally useful for a human to continue.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.071908613999767
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 41.456885880999835
+          }
+        ],
+        "wall_seconds": 46.56662637399859
+      },
+      "cost_microdollars": 791860,
+      "model_calls": 1,
+      "outcome_sha256": "ecc5b4f509c3697786e322db85e8903014bef26aac6a57a483cb49d818e05929"
+    },
+    {
+      "ticket": "v2-failed-application-load-v1",
+      "class": "v2-failed-application-load",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer requires verdict='failed job', layer='application load pipeline', split='DEV', and cause citing the latest native failed run with job name/run ID/start/end/error. The delivered answer stopped at a budget/spend-hold boundary (TICKET_MODEL_EXHAUSTED) and produced no verdict, no layer identification, and no cause. Triage facts were all UNAVAILABLE due to MONTHLY_PHYSICAL_SCAN_EXHAUSTED, preventing the investigation from reaching any of the required conclusions. The data queries confirmed Movement Units=7661 and max source_modified_at_utc=2026-10-03 in both bronze and ordersops sources, but the agent never concluded a failed job nor identified the pipeline layer or cited any run details. No harmful confident incorrect cause was stated\u2014the stop was honest. Handoff quality is 1: the stopping point is clearly named, a context reference and case ID are provided for resumption, but next_checks is empty and no concrete rerunnable queries or specific next investigative steps are suggested for whoever picks this up.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 12.278101550999963
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 196.146263964
+          }
+        ],
+        "wall_seconds": 214.73814872899993
+      },
+      "cost_microdollars": 480139,
+      "model_calls": 2,
+      "outcome_sha256": "c76e08ed46bb22f57ff7c4838b5041a3063255684b3ea2e7580880498e9d21b0"
+    },
+    {
+      "ticket": "v2-failed-application-load-v2",
+      "class": "v2-failed-application-load",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer is a bare interrupted/timeout stub with no triage, no queries, no handoff, and no technical findings. Verdict is 'INTERRUPTED' rather than 'failed job'; layer is not identified as the application load pipeline; cause cites nothing about the latest native failed run, job name, run ID, start/end times, or error. No queries were executed and the handoff object is empty, so handoff quality is 0 \u2014 there are no rerunnable queries, no stopping point detail, and no next checks documented. The answer is an honest non-answer (connection timeout), so it is not harmful, but it fails to match verdict, layer, or cause.",
+        "verdict_match": false
+      },
+      "status": "INTERRUPTED",
+      "stop": "ConnectionTimeout: connection timeout expired",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.671155856000041
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 47.91161870500002
+          }
+        ],
+        "wall_seconds": 65.81201801700001
+      },
+      "cost_microdollars": 0,
+      "model_calls": null,
+      "outcome_sha256": "28749f0224abe230091beecd962f33c1b203fc09cc65bcfcbbbfb943b911508b"
+    },
+    {
+      "ticket": "v2-failed-billing-transform-v1",
+      "class": "v2-failed-billing-transform",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer requires a verdict of 'failed job' with layer 'billing transformation pipeline' and a named cause citing specific details of the latest failed native transform run (name, run ID, start/end, error). The delivered answer reached a budget/spend-hold stop (TICKET_MODEL_EXHAUSTED) before it could determine any of this. All triage checks returned UNAVAILABLE due to MONTHLY_PHYSICAL_SCAN_EXHAUSTED, meaning the system never established the layer, the split point, or the named cause. The two queries executed only confirmed that both layers return Invoiced Amount = 950 (no staleness discrepancy found between layers), but the core question about the failed pipeline run and its details was never answered. The business answer is an honest refusal rather than a confident wrong answer, so it is not harmful. Handoff quality is 1: the stopping point is clearly named (SpendHold: TICKET_MODEL_EXHAUSTED), queries are rerunnable with full text preserved, but next_checks is empty and ruled_out is empty, providing minimal guidance for a human to continue the investigation.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.333873950999987
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 65.71421618600016
+          }
+        ],
+        "wall_seconds": 71.02621322599998
+      },
+      "cost_microdollars": 796380,
+      "model_calls": 1,
+      "outcome_sha256": "d775798aeae431f3483f9b8b1896462e006bdb9c5512402e678daec9c7f7cc8b"
+    },
+    {
+      "ticket": "v2-failed-billing-transform-v2",
+      "class": "v2-failed-billing-transform",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer requires a confirmed verdict of 'failed job' at the 'billing transformation pipeline / DEV' layer, with a named cause citing the latest failed native transform run (name, run ID, start, end, error). The delivered answer is a budget-stopped (TICKET_MODEL_EXHAUSTED / SpendHold) blocked response that never reached a verdict or identified any named failed job. All triage checks returned UNAVAILABLE due to MONTHLY_PHYSICAL_SCAN_EXHAUSTED, so no pipeline failure evidence was gathered. The two data-value queries both returned 950 (confirming the measure is queryable) but neither investigated the transform job failure. Verdict is not matched (blocked vs. failed job), layer is not identified, and the named cause (specific failed run details) is entirely absent. The answer is not harmful\u2014it honestly reports it ran out of budget without asserting an incorrect cause. Handoff quality is 1: the queries executed are clear and reproducible, but next_checks is empty, no stopping point narrows down the investigation, and there is no guidance on what to retry once the scan budget resets, which limits reusability.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 2.9063571339999896
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 42.844923482999974
+          }
+        ],
+        "wall_seconds": 47.49099100000001
+      },
+      "cost_microdollars": 798205,
+      "model_calls": 1,
+      "outcome_sha256": "aca524b762ceed7ae7a45b9ce8911ac8a67f11686ff09651cf015904b64d5bb3"
+    },
+    {
+      "ticket": "v2-waiting-application-load-v1",
+      "class": "v2-waiting-application-load",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer is verdict=waiting on job, layer=application load pipeline, cause=Native running Wait activity/run with exact status and times. The delivered answer is BLOCKED/budget-exhausted (SpendHold: TICKET_MODEL_EXHAUSTED) with no verdict reached. The triage gathered MODEL_REFRESH facts showing the last refresh ended 2026-10-26T18:20:20 and the schedule is disabled, and three value-matching queries all returned 7661 (consistent across DAX model, Fabric warehouse, and SQL source), but the agent never interpreted these findings into a conclusion about the Wait activity or pipeline running state. The investigation was cut off before reaching a verdict on whether the job was waiting/running. No incorrect cause was asserted (honest budget stop), so not harmful. Handoff quality is modest: queries are rerunnable and stopping point is named, but next_checks is empty and no guidance is given on what to check next to reach a verdict, making it only partially useful.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.809076707999907
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 83.438890442
+          }
+        ],
+        "wall_seconds": 101.09188496899992
+      },
+      "cost_microdollars": 448680,
+      "model_calls": 1,
+      "outcome_sha256": "37181fdcf7dedf3787a9bdca58118cf4709b34559d287c8309043b5bb22af9b4"
+    },
+    {
+      "ticket": "v2-waiting-application-load-v2",
+      "class": "v2-waiting-application-load",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer is BLOCKED/UNRESOLVED due to SpendHold: TICKET_MODEL_EXHAUSTED. The expected answer is verdict='waiting on job', layer='application load pipeline', split='DEV', cause='Native running Wait activity/run, exact status and times'. The triage facts do contain the JOB_RUN evidence showing the job is currently RUNNING (run_id 02d91840, started 2026-10-27T08:44:36), which is exactly the evidence needed to conclude the job is still running/waiting. However, the engine ran out of budget before synthesizing that into a final answer. Verdict does not match (BLOCKED vs waiting on job), layer does not match (no layer identified vs application load pipeline), cause does not match (no cause stated vs native running activity). The handoff quality is 2: three unread layers are explicitly listed as next checks with their IDs, the stopping point is clearly named, and the triage facts contain the running job evidence that would allow a resuming agent to immediately conclude the answer. Not harmful because no incorrect cause was asserted.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.900397721000047
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 61.801400470999965
+          }
+        ],
+        "wall_seconds": 79.84762664300007
+      },
+      "cost_microdollars": 435768,
+      "model_calls": 1,
+      "outcome_sha256": "3525da4cf19ae57a19e6e277eb2b78725602ce1f16a8e62aa4a9a5d637182483"
+    },
+    {
+      "ticket": "v2-latency-record-v1",
+      "class": "v2-latency-record",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected verdict is 'latency' with layer/split 'source to Bronze (DEV)' and named cause 'fresh source-ahead row; source change after last completed load / native next load schedule'. The delivered answer stopped at a budget/spend hold (TICKET_MODEL_EXHAUSTED) before reaching a verdict. The triage step shows all checks as UNAVAILABLE due to MONTHLY_PHYSICAL_SCAN_EXHAUSTED, meaning the investigation could not determine the refresh schedule or source-change timing. Queries confirmed movement900701 exists in ordersops (SQL layer) with 17 units but is absent from the Bronze Fabric layer and the DAX model \u2014 which is consistent with a latency/source-ahead scenario \u2014 but the system never concluded this nor named the cause. No verdict, layer, or cause was delivered; verdict_match, layer_match, and cause_match are all false. The answer is honest about being blocked (not harmful). Handoff quality is 2: queries are rerunnable with clear asset IDs, the stopping point is named (SpendHold: TICKET_MODEL_EXHAUSTED), and next_checks being empty is explained by budget exhaustion; the evidence gathered (record present in source/SQL, absent in Bronze and DAX) gives a clear resumption point.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.48891946499998
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 109.72380549199994
+          }
+        ],
+        "wall_seconds": 127.08106394799995
+      },
+      "cost_microdollars": 529950,
+      "model_calls": 3,
+      "outcome_sha256": "6f62c90de5aef732b2aed245de240b1e3af82d0edcca4d63d1808cad2022df16"
+    },
+    {
+      "ticket": "v2-latency-record-v2",
+      "class": "v2-latency-record",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer is BLOCKED/unresolved due to a budget/spend hold (TICKET_MODEL_EXHAUSTED). It does not reach the sealed verdict of 'latency', does not identify the layer as 'source to Bronze', and does not name the cause as a fresh source-ahead row with a source change after last completed load. The queries executed do confirm movement900701 exists in the ordersops source (17 units, RECEIPT, 2026-09-16) but is absent from both the Bronze layer (round_two_bronze_20261003) and the semantic model (Movements DAX query returns empty), which is consistent with the latency/source-ahead cause. However, the agent stopped without drawing that conclusion, so verdict, layer, and cause all go unmatched. Not harmful because no confident wrong cause was stated. Handoff quality is 2: the stopping point is clearly named (SpendHold: TICKET_MODEL_EXHAUSTED), three queries were executed with clean results pinning exactly where the record drops out (present in source, absent in Bronze and semantic layer), and the next investigator has enough context to immediately conclude latency.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 12.254194949999999
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 73.65796196500003
+          }
+        ],
+        "wall_seconds": 91.74890628899999
+      },
+      "cost_microdollars": 506803,
+      "model_calls": 2,
+      "outcome_sha256": "1dde0dcdf8d5bceaaa9d325580426fe1bf963e74ec4eb5c4c208257daf13ef22"
+    },
+    {
+      "ticket": "v2-stale-model-v1",
+      "class": "v2-stale-model",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: The expected verdict is 'refresh stale' and the delivered answer is BLOCKED/budget exhausted with no technical verdict reached \u2014 no match. Layer: The investigation correctly identified the Bronze-to-semantic-model layer (DAX model returns 7661, SQL source returns 7692, matching the expected split), so layer match is awarded. Cause: The expected cause is that real load advanced the landing table by 31 units while model automatic updates were off. The delivered answer never reached this conclusion; triage facts for MODEL_REFRESH, REFRESH_SCHEDULE, AUTOMATIC_UPDATES, and LAYER_FRESHNESS all returned UNAVAILABLE due to MONTHLY_PHYSICAL_SCAN_EXHAUSTED or missing fact ports. The agent was unable to confirm whether automatic updates were disabled, so the named cause was never established. The stopping point 'TICKET_MODEL_EXHAUSTED' means the budget ran out before confirming the cause. This is an honest stop, not harmful. Handoff quality: The handoff is rated 2 \u2014 it includes rerunnable queries with full SQL/DAX text, clear asset identifiers, a well-defined stopping point (SpendHold), a structured list of what was ruled out (empty), and the queries already executed with results. A successor agent can immediately continue from where this stopped, checking automatic_updates and refresh schedule facts directly.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 10.854180222999958
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 113.91184157800001
+          }
+        ],
+        "wall_seconds": 130.28827196499998
+      },
+      "cost_microdollars": 487806,
+      "model_calls": 2,
+      "outcome_sha256": "c0fb9732c1c1888acdfe05b2a07ec4a39f88481765d434182ce1947681d0c597"
+    },
+    {
+      "ticket": "v2-stale-model-v2",
+      "class": "v2-stale-model",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Verdict: The delivered answer says 'stopped at a safety or budget boundary' (BLOCKED/SpendHold). The expected verdict is 'refresh stale' \u2014 a substantive technical finding. These do not match; the agent halted before reaching a conclusion. Layer: Expected 'Bronze to semantic model'; delivered answer provides no layer verdict. Cause: Expected 'Real load advanced landing by 31 while model automatic updates were off; both values and native refresh/update facts confirmed.' The delivered answer names no technical cause at all. The stopping_point is 'TICKET_MODEL_EXHAUSTED', meaning the agent ran out of budget/model capacity before concluding. This is not harmful (honest unresolved stop), but it is also not a correct answer on any of the three graded dimensions. Handoff quality: The handoff is detailed \u2014 three queries all succeeded with clear numeric results (model=7661, both source systems=7692), triage facts show automatic refresh was disabled (enabled:false in schedule) and last refresh was 2026-10-26, sufficient evidence to conclude stale model. Next_checks is empty and stopping_point is named. A resuming agent could immediately draw the conclusion from the evidence already in hand, so the handoff is rerunnable and has a clear stopping point with all needed evidence present. Score: 2.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.63784736100024
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 65.84488074000001
+          }
+        ],
+        "wall_seconds": 83.43140166700141
+      },
+      "cost_microdollars": 493508,
+      "model_calls": 1,
+      "outcome_sha256": "cbb7648c26077b74ed9bb90b20b8c2021f792eacc7229cbd90e071537e7e5804"
+    },
+    {
+      "ticket": "v2-access-export-v1",
+      "class": "v2-access-export",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer stopped at SpendHold/TICKET_MODEL_EXHAUSTED before any queries were run against either data layer. The triage phase returned UNAVAILABLE for every check (MODEL_REFRESH, JOB_RUNS, LAYER_FRESHNESS, etc.), and neither layer (native:4aae8dbb1d373ebef783 'Subscription Billing' nor native:f87556d4485196602461 'billing_serving') was queried. The expected verdict is 'access difference' at the application export view layer, caused by a CURRENT_USER visibility-group mapping (plain filter returning 10 vs 25 rows). The delivered answer provides no verdict, no layer identification, and no cause \u2014 it is an honest budget-blocked handoff, not a confident wrong claim, so it is not harmful. The handoff is scored 2: both unread layers are named explicitly in next_checks, the stopping point is unambiguous (SpendHold: TICKET_MODEL_EXHAUSTED), and queries list is empty but clearly so, making re-entry straightforward.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.384931479988154
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 44.842445113987196
+          }
+        ],
+        "wall_seconds": 50.14458351500798
+      },
+      "cost_microdollars": 0,
+      "model_calls": 0,
+      "outcome_sha256": "b725544ec38a4d4f552601ea6d37b90ce8efdabe0affd8c81247c949265c1a14"
+    },
+    {
+      "ticket": "v2-access-export-v2",
+      "class": "v2-access-export",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The investigation was stopped by a budget/spend hold (TICKET_MODEL_EXHAUSTED) before any queries were executed against either layer. The delivered answer correctly reports a BLOCKED status but provides no verdict, layer identification, or cause. The expected answer requires verdict='access difference', layer='application export view / DEV split', and cause identifying a CURRENT_USER visibility-group mapping (plain filter) as the mechanism behind the two users seeing different row counts. None of these were reached. The handoff is reasonable quality (2): it identifies both unread layers by name and dialect, preserves the intake context, and gives clear next_checks, making it rerunnable for a follow-up agent. No harmful incorrect cause was asserted \u2014 the stop was honest.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.009672372980276
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 35.59115196601488
+          }
+        ],
+        "wall_seconds": 40.5580340870074
+      },
+      "cost_microdollars": 0,
+      "model_calls": 0,
+      "outcome_sha256": "efa72a206c1a84a8fceb0774397926ae92fe11f51e1621c19ffb444c093546c8"
+    },
+    {
+      "ticket": "v2-warehouse-scope-v1",
+      "class": "v2-warehouse-scope",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected verdict is 'different question' with layer 'selection scope' and cause 'different warehouse restrictions (1 versus 2), not an ingestion or arithmetic fault.' The delivered answer verdict is 'BLOCKED / budget exhausted' with no technical conclusion reached. The investigation correctly reproduced that warehouse_id=1 yields 2948 and warehouse_id=2 yields 2084 across all three data layers (DAX, SQL ordersops, SQL Fabric warehouse), which is exactly the evidence needed to reach the 'different question' verdict. However, the system stopped at TICKET_MODEL_EXHAUSTED before drawing that conclusion, so verdict, layer, and cause all fail to match. The handoff is high quality (2): all six queries are rerunnable with full SQL/DAX text, results are clearly labeled, the stopping point is explicit, and the evidence table is complete enough for a human analyst to immediately see that the discrepancy is simply due to comparing warehouse 1 vs warehouse 2, not a data pipeline fault. Not harmful because no incorrect cause was asserted as fact.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 13.116572304999977
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 101.701788631
+          }
+        ],
+        "wall_seconds": 122.13653261599995
+      },
+      "cost_microdollars": 556466,
+      "model_calls": 2,
+      "outcome_sha256": "ea908b11e75f7a088c2698ae2a4a9a243e75555fd8d8f24b20e98266a9450162"
+    },
+    {
+      "ticket": "v2-warehouse-scope-v2",
+      "class": "v2-warehouse-scope",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer is 'Which report should I check?' \u2013 the agent stopped at UNKNOWN_REPORT after showing a catalog list, never resolving the report from the intake ticket (which already contained the report ID 3ba93e33... in the original ticket). The expected verdict is 'different question' with layer 'selection scope' and cause 'Different warehouse restrictions (warehouse_id 1 vs 2), not an ingestion or arithmetic fault.' None of these match. The agent failed at the target-resolution step: the report was already specified in the intake and the agent should have used it. Handoff quality is rated 1: the catalog is shown with IDs and names, the stopping point is labelled, and there is a next-check item, but no queries were run and the next-check is trivially 'resolve the target' rather than offering substantive diagnostic direction.",
+        "verdict_match": false
+      },
+      "status": "NEEDS_INPUT",
+      "stop": "UNKNOWN_REPORT",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 13.717944009999883
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 0.2348134440001104
+          }
+        ],
+        "wall_seconds": 20.976402091999944
+      },
+      "cost_microdollars": 0,
+      "model_calls": null,
+      "outcome_sha256": "51dbf6ca34c3452d178cd7914401415121ae903c8a61259d8379e8d889cf9731"
+    },
+    {
+      "ticket": "v2-before-temporal-retention-v1",
+      "class": "v2-before-temporal-retention",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer is verdict=not_found, layer=source history boundary, cause=requested time precedes retained temporal evidence. The delivered answer is verdict=BLOCKED (investigation stopped at safety/budget boundary), which is a different verdict and a different cause. The agent hit TICKET_MODEL_EXHAUSTED (spend/budget hold) before it could determine whether historical data exists, and it confirmed current totals (7661 units across all three data sources) but never addressed the temporal retention question at all. The delivered verdict and cause do not match the expected ones; the expected finding is a substantive 'not found' due to lack of historical retention, not a budget stop. Layer match also fails since 'source history boundary' was never reached or stated. Handoff quality is modest: queries are rerunnable, stopping point is clear (TICKET_MODEL_EXHAUSTED), but next_checks is empty and there is no guidance on what to try for the temporal/retention angle, limiting its usefulness.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 13.586034585999982
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 105.79513013600001
+          }
+        ],
+        "wall_seconds": 126.55536858899998
+      },
+      "cost_microdollars": 512093,
+      "model_calls": 2,
+      "outcome_sha256": "a5cd162caf97fcae0fab0e10cdbb3823a5d8398c7749e157e879b85b264c02e8"
+    },
+    {
+      "ticket": "v2-before-temporal-retention-v2",
+      "class": "v2-before-temporal-retention",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected verdict is 'not found' with layer 'source history boundary' and cause 'Requested time precedes retained temporal evidence; historical quantity cannot be established.' The delivered answer stopped at a budget/spend hold (TICKET_MODEL_EXHAUSTED) rather than reaching a substantive conclusion. The queries executed did find movement_id=1 with units=16 and a single temporal row (r22_valid_from 2026-10-23, r22_valid_to 9999-12-31), which actually supports the expected answer that the requested date (2026-10-20) precedes the retained temporal evidence window\u2014but the agent never synthesized this into a verdict. Instead it halted mid-investigation citing model spend exhaustion. Verdict does not match (BLOCKED vs 'not found'), layer does not match (no layer identified), and cause does not match (budget stop vs temporal retention boundary). The handoff is partially useful: queries are rerunnable and the raw data is present, but no stopping point reasoning connects the data to the historical-gap conclusion, so handoff quality is 1.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 13.892017997000039
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 113.468099328
+          }
+        ],
+        "wall_seconds": 134.120517543
+      },
+      "cost_microdollars": 520821,
+      "model_calls": 2,
+      "outcome_sha256": "04b7b1b84f3686c85a7e46d2bcda3a438044ceb4691487523911839d08a45f34"
+    },
+    {
+      "ticket": "v2-record-absent-everywhere-v1",
+      "class": "v2-record-absent-everywhere",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected verdict is 'as designed' with cause being that movement900099 is absent at source and every reachable layer (BLANK is not zero), and the layer is 'source application' with split 'DEV'. The delivered answer stopped at SpendHold/TICKET_MODEL_EXHAUSTED before reaching a conclusion. The business answer acknowledges only a budget/safety boundary stop, not the actual finding. The queries executed do confirm zero rows across all three layers (ordersops T-SQL, round_two_bronze T-SQL, and the DAX Movements table), which would have supported the correct 'as designed/absent everywhere' verdict, but no conclusion was drawn. The investigation was cut short before triaging the root cause (absent at source vs. pipeline issue) and before comparing with anything meaningful. Verdict does not match (BLOCKED vs. as designed), layer not identified (no conclusion about source application), cause not stated. The handoff quality is rated 2: queries are verbatim and rerunnable, stopping point is clearly named (TICKET_MODEL_EXHAUSTED), and the evidence gathered (0 rows across all layers) provides a clear foundation for a follow-up agent to conclude the record is absent everywhere and likely as designed.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.443113514999993
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 63.55214024600002
+          }
+        ],
+        "wall_seconds": 81.096518836
+      },
+      "cost_microdollars": 487198,
+      "model_calls": 1,
+      "outcome_sha256": "e7f39ed2678237d36d0db26266433b1efde5bcac3bed418f46193c66163798ee"
+    },
+    {
+      "ticket": "v2-record-absent-everywhere-v2",
+      "class": "v2-record-absent-everywhere",
+      "score": 1,
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says 'not found' which maps to 'as designed' / record absent at source and all layers \u2014 correct. Layer: the delivered answer explicitly identifies the source table app.stock_movements_round_two_20261003 (ordersops) as the system of record and confirms absence there first, matching expected layer 'source application'. Cause: the delivered answer correctly states the record is absent at every layer including source, and that 'because the record is not present at the system of record, the absence in the visual is not a load, transformation or refresh issue' \u2014 this matches the sealed cause that the record is absent at source and every reachable layer. The BLANK-is-not-zero nuance is implicit but not contradicted. Handoff: the case is marked ANSWERED with status resolved; there is no handoff object, no stopping point, no next checks, no rerunnable queries for a successor \u2014 handoff_quality 0 as there is nothing to hand off and nothing was left unresolved requiring continuation.",
+        "verdict_match": true
+      },
+      "status": "ANSWERED",
+      "stop": null,
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.31352291200001
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 92.604236283
+          }
+        ],
+        "wall_seconds": 109.78214624800002
+      },
+      "cost_microdollars": 192718,
+      "model_calls": 3,
+      "outcome_sha256": "39f4aadd9682086edd36753cd30c344677b3b9e0eaccd98efd0b92d7c2cab86e"
+    },
+    {
+      "ticket": "v2-record-repeated-gold-v1",
+      "class": "v2-record-repeated-gold",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer is BLOCKED with a SpendHold/TICKET_MODEL_EXHAUSTED stop before any queries were run against either data layer. No layer was identified (expected: Silver to Gold), no cause was found (expected: multiple matching product-rate rows causing a fan-out join), and no verdict was reached (expected: transformation logic). All triage checks returned UNAVAILABLE due to MONTHLY_PHYSICAL_SCAN_EXHAUSTED or missing native fact ports, so the investigation never progressed past triage scaffolding. The answer is an honest unresolved stop, not a harmful confident wrong answer. Handoff quality is 2: both unread layers are clearly named with their endpoints (native:2d42754f9d02ac097d82 and native:4cae44c18700427b5bd6), a clean stopping point is stated, and next checks are actionable and specific, making a re-run straightforward.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 14.138584805999926
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 42.58154878999994
+          }
+        ],
+        "wall_seconds": 63.10301057999993
+      },
+      "cost_microdollars": 461168,
+      "model_calls": 1,
+      "outcome_sha256": "f50287091db6b812cb63ea5cd9c5b25fd77d9bf4eb5bb7f774e345a6e80d6f36"
+    },
+    {
+      "ticket": "v2-record-repeated-gold-v2",
+      "class": "v2-record-repeated-gold",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer is BLOCKED at a SpendHold/budget boundary (TICKET_MODEL_EXHAUSTED) with no queries executed and no data layers examined. It therefore reaches no verdict, identifies no layer (Silver to Gold), and names no cause (fan-out join on product-rate rows). The expected answer requires verdict='transformation logic', layer='Silver to Gold', and cause='Product7 has multiple matching product-rate rows; join repeats the same movement key without a uniqueness restriction.' \u2014 none of these are present. The triage step exhausted its scan budget before any substantive layer checks could run, making that the first failing step. The answer is not harmful because it honestly reports it could not complete the investigation. Handoff quality is 2: it names both unread layers (native:2d42754f9d02ac097d82 and native:4cae44c18700427b5bd6) as clear next checks with a well-defined stopping point, giving a successor agent a rerunnable starting point.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 12.383933100005379
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 49.42337158799637
+          }
+        ],
+        "wall_seconds": 69.21477566800604
+      },
+      "cost_microdollars": 477353,
+      "model_calls": 1,
+      "outcome_sha256": "73096d44992a3da13fb9b839960a1f48481fc5536e1c6d1c0666f3d9252f63be"
+    },
+    {
+      "ticket": "v2-source-history-v1",
+      "class": "v2-source-history",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer is verdict='source changed history', layer='source application', cause='Temporal native before41/after47 and change timestamp, distinct from business event date; no pipeline arithmetic claim.' The delivered answer stopped with SpendHold: TICKET_MODEL_EXHAUSTED before completing its investigation. Critically, the queries did retrieve the key evidence: the bronze layer shows 41 units (source_modified_at ~09:27 UTC) and the round_two layer shows 47 units with r22 SCD timestamps (valid_from ~09:30 UTC), which is exactly the temporal/before-after evidence needed. However, the engine never synthesized a verdict from this evidence - it was blocked before reaching a conclusion. The verdict is 'BLOCKED' not 'source changed history', no layer was named, and no cause was stated. The evidence is present in the queries but the triage step left multiple checks UNAVAILABLE and the engine ran out of budget without issuing a finding. Layer_match=false and cause_match=false because no layer or cause was formally delivered. The handoff quality is 2: next_checks names the unread DAX layer, queries are rerunnable with clear parameters, stopping point is explicit, and the retrieved data (41 vs 47 with timestamps) gives a successor a clear path to confirm source-history change. Not harmful since no confident incorrect cause was asserted.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.585677586999992
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 71.89664551800001
+          }
+        ],
+        "wall_seconds": 89.35165151300001
+      },
+      "cost_microdollars": 508835,
+      "model_calls": 2,
+      "outcome_sha256": "33e8e29c1bb77ea42192ad5ad5395be97bf3029cfe74a6408ae09a257fb95f61"
+    },
+    {
+      "ticket": "v2-source-history-v2",
+      "class": "v2-source-history",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer stopped with SpendHold/TICKET_MODEL_EXHAUSTED and reported only a budget/safety stop rather than concluding anything about the root cause. The expected answer is 'source changed history' at the 'source application' layer, with the cause being the temporal before/after unit counts (41 vs 47) and a distinct change timestamp. The queries actually ran and found the discrepancy (bronze has 41 units with an earlier source_modified_at_utc, ordersops has 47 units with a later timestamp), which is exactly the evidence needed to conclude the source application updated its history. Instead the agent halted without drawing that conclusion. Verdict does not match (BLOCKED vs 'source changed history'), layer does not match (none stated vs source application), and cause does not match (budget stop stated vs source-side late update of historical record). The handoff is partially useful \u2014 it contains the executed queries and results that clearly show the discrepancy, and the stopping point is named \u2014 but no next_checks are listed and no actionable guidance is given for resuming, so quality is 1.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.084081546999982
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 91.07568334999996
+          }
+        ],
+        "wall_seconds": 107.79369917599996
+      },
+      "cost_microdollars": 562436,
+      "model_calls": 4,
+      "outcome_sha256": "3e49eb8a99685a689310930a20b390dbb99610ef1e4386d69f8b1085b0b06755"
+    },
+    {
+      "ticket": "v2-other-collected-definition-v1",
+      "class": "v2-other-collected-definition",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer is an honest budget/safety stop (SpendHold: TICKET_MODEL_EXHAUSTED) and does not assert a verdict, layer, or cause. The expected answer requires verdict='as designed', layer='source application', and cause='SUM(Payments.amount),200+100+250=550'. None of those three dimensions can be credited because the engine stopped before concluding. However, the handoff is high-quality: three rerunnable queries are preserved with full SQL/DAX text, results, and signatures; the stopping point is clearly named; next_checks is empty but the queries themselves (recreate, compare, record) give a clear re-entry path. verdict_match and layer_match and cause_match are all false, but the answer is not harmful \u2014 it is an honest unresolved stop with good evidence gathered.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.34088016799069
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 56.02094698199653
+          }
+        ],
+        "wall_seconds": 61.24545304197818
+      },
+      "cost_microdollars": 787558,
+      "model_calls": 1,
+      "outcome_sha256": "dadd07818367f41add6d54a343462166437831e1b76a94029dadbc050bdc65e7"
+    },
+    {
+      "ticket": "v2-other-collected-definition-v2",
+      "class": "v2-other-collected-definition",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer stopped with SpendHold: TICKET_MODEL_EXHAUSTED and honestly reported being blocked. The expected verdict is 'as designed', layer is 'source application', and the cause is SUM(Payments.amount) = 200+100+250 = 550 confirmed through the reachable payment path. The delivered queries did successfully reproduce the 550 figure and retrieved the three payment rows (200, 100, 250) that sum to 550, meaning the factual groundwork is present in the handoff. However, the system never issued a business verdict of 'as designed' nor explicitly named the layer as 'source application'; it instead blocked before synthesizing a conclusion. Verdict does not match (BLOCKED vs. as designed), layer is not stated (not graded as matching), and while the cause evidence is present in the raw query results, no named cause conclusion was drawn. Because the answer is an honest unresolved stop rather than a wrong confident claim, it is not harmful. Handoff quality is 2: the three queries are rerunnable with clear asset IDs and full SQL/DAX text, the stopping point is explicit (TICKET_MODEL_EXHAUSTED), and the retrieved rows directly support the expected answer for any human reviewer picking this up.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.256510335020721
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 58.28419725596905
+          }
+        ],
+        "wall_seconds": 63.578300348017365
+      },
+      "cost_microdollars": 787308,
+      "model_calls": 1,
+      "outcome_sha256": "80826b70a694e34059f70e6b12ff6ef084ce8eb21249d3adaf53b0ce8c75fac1"
+    },
+    {
+      "ticket": "v2-screenshot-record-01-v1",
+      "class": "v2-screenshot-record-01",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer is a budget/spend-hold stop (TICKET_MODEL_EXHAUSTED) \u2014 the investigation never reached a conclusion. The expected verdict is 'as designed', the layer is 'source application', and the cause is that visible composite key values resolve uniquely to movement 2 with units=17 carried unchanged. None of these were established: no verdict was reached, no layer was identified, and no cause was named. The answer is an honest unresolved stop, not a harmful incorrect claim. Handoff quality is marginal (1): the stopping point is clear and the triage facts show what checks were attempted, but no queries were run and next_checks is empty, so there is little for a follow-up investigator to act on beyond re-running the full investigation with a higher budget.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.96991922799998
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 197.02690893199997
+          }
+        ],
+        "wall_seconds": 215.70974961999997
+      },
+      "cost_microdollars": 826409,
+      "model_calls": 5,
+      "outcome_sha256": "a1de0c0aa686c0384ae01faf2d0c8197f27895988c33f8ca2e0916b012cab6bc"
+    },
+    {
+      "ticket": "v2-screenshot-record-01-v2",
+      "class": "v2-screenshot-record-01",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected verdict is 'as designed' with layer 'source application' and a named cause that the visible composite values (warehouse_id=1, product_id=4) uniquely resolve to movement record 2, with units=17 carried unchanged through the application path. The delivered answer is BLOCKED with stop reason SpendHold: TICKET_MODEL_EXHAUSTED \u2014 the investigation ran out of budget during triage before any queries were executed (queries list is empty). Verdict does not match (BLOCKED vs. as designed), layer does not match (no layer identified), and cause does not match (no cause established). The answer is an honest budget stop rather than a confident incorrect claim, so it is not harmful. Handoff quality is 1: the stopping point is clearly labelled and the triage facts are present, but no queries were run and next_checks is empty, leaving a rerunner with only the triage scan exhaustion status and no concrete SQL or investigative steps to resume from.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 13.330658100001529
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 167.83910183100124
+          }
+        ],
+        "wall_seconds": 187.85571677500047
+      },
+      "cost_microdollars": 644851,
+      "model_calls": 4,
+      "outcome_sha256": "e4839c62470b0faa0677d3640d4f0caeef18e2c733c05eedef729a0e8289fd67"
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v1",
+      "class": "v2-screenshot-record-02",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer was blocked by a budget/spend hold (TICKET_MODEL_EXHAUSTED) before reaching any conclusion. The expected answer is 'as designed' with layer='source application' and cause='Visible values resolve uniquely to movement 4; units 21 carried unchanged through application path.' The delivered answer never reached verdict, layer identification, or cause determination. Triage ran but queries array is empty and the investigation stopped without establishing the key facts. Handoff quality is modest (1): the stopping point is clearly named, the case_id and context are preserved for rerun, but no next_checks are listed and no queries were executed, leaving the resuming agent with little to build on beyond the triage facts already gathered.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 12.32190614600006
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 158.74547328099993
+          }
+        ],
+        "wall_seconds": 177.61931681700003
+      },
+      "cost_microdollars": 792732,
+      "model_calls": 3,
+      "outcome_sha256": "fe83ec534e2d79e49066359f335fd5adfa183b1e01773ac7ad44d1a2c5ca5fe5"
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v2",
+      "class": "v2-screenshot-record-02",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "query error",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer hit a SpendHold (TICKET_MODEL_EXHAUSTED) budget stop before completing the investigation. No verdict was reached (the business answer only says 'stopped at a safety or budget boundary'), no layer/split was identified, and no named cause was established. The expected answer requires verdict='as designed', layer='source application', split='DEV', and a specific cause tracing units=21 to movement 4 through the application path. None of these match. The answer is not harmful (it is an honest unresolved stop), but it is also not correct. Handoff quality is 0: no queries were run (queries=[]), next_checks=[], and the stopping point gives no rerunnable queries or sensible next steps for a human to continue from.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 14.285090818000015
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 149.60698140799997
+          }
+        ],
+        "wall_seconds": 171.208982445
+      },
+      "cost_microdollars": 644478,
+      "model_calls": 4,
+      "outcome_sha256": "78dd2b548a7b56d326a6d36c32a5f118988295686158e01b5155ba9c10a14c3c"
+    },
+    {
+      "ticket": "v2-screenshot-record-03-v1",
+      "class": "v2-screenshot-record-03",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected verdict is 'as designed' with layer 'source application' and cause 'Visible values resolve uniquely to movement 5; units 3 carried unchanged through application path.' The delivered answer stopped with SpendHold/TICKET_MODEL_EXHAUSTED before any queries were run and before reaching a verdict, layer, or cause determination. No verdict was produced, so verdict_match is false. No layer was identified, so layer_match is false. No cause was named, so cause_match is false. The answer is an honest budget/safety stop rather than a confident incorrect claim, so it is not harmful. Handoff quality is moderate (1): the triage facts gathered (refresh schedule disabled, recent successful runs) are logged and the stopping point is named, but no queries were attempted and next_checks is empty, leaving a successor with no concrete rerunnable query or clear investigative path into the source application data.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 13.044210482999915
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 153.48485977998644
+          }
+        ],
+        "wall_seconds": 173.23636132899264
+      },
+      "cost_microdollars": 674826,
+      "model_calls": 4,
+      "outcome_sha256": "cf311c1add636f0a3c792f2544d95846108171191a7b5ddea04527f8b6838b95"
+    },
+    {
+      "ticket": "v2-screenshot-record-03-v2",
+      "class": "v2-screenshot-record-03",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "query error",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer hit a TICKET_MODEL_EXHAUSTED spend hold before issuing any queries (queries list is empty) and before reaching any conclusion about layer or cause. The expected verdict is 'as designed' at the 'source application' layer with the cause that the composite visible fields resolve uniquely to movement 5 and units 3 are carried unchanged through the application path. None of this was established. Verdict, layer, and cause all fail to match. The handoff is not harmful\u2014it is an honest budget stop with no confident incorrect claim\u2014but it is also not a successful answer. Handoff quality is 1: the stopping point is clearly named (TICKET_MODEL_EXHAUSTED), but there are no rerunnable queries, no next_checks, and no ruled-out paths, leaving the next investigator with little actionable guidance.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 13.596088900000012
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 125.97589590599998
+          }
+        ],
+        "wall_seconds": 147.07927380400002
+      },
+      "cost_microdollars": 551734,
+      "model_calls": 3,
+      "outcome_sha256": "a99dc64d93ad9084a7761ffa03df61b81c19be1dd766bb32d953b5c3caec52a7"
+    },
+    {
+      "ticket": "v2-screenshot-record-04-v1",
+      "class": "v2-screenshot-record-04",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer is a blocked/budget-hold stop with no verdict, no layer identification, and no cause established. The expected answer requires verdict='as designed', layer='source application', and the specific cause that the visible composite values uniquely resolve to movement 7 with units carried unchanged. None of these were determined. The agent ran zero queries (queries list is empty) and stopped at TICKET_MODEL_EXHAUSTED before reaching triage conclusions, so no technical substance was delivered. The handoff has no next_checks, no rerunnable queries, and no meaningful stopping context beyond the budget signal, making it score 0 for handoff quality. This is an honest unresolved answer rather than a harmful incorrect one.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 11.474363330000017
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 146.20915948600003
+          }
+        ],
+        "wall_seconds": 163.75083075700002
+      },
+      "cost_microdollars": 645252,
+      "model_calls": 3,
+      "outcome_sha256": "ca962fba60d5ed923f78ee612e784ec89067f2c2f0311753184f49c386d65426"
+    },
+    {
+      "ticket": "v2-screenshot-record-04-v2",
+      "class": "v2-screenshot-record-04",
+      "score": 0,
+      "grade": {
+        "cause_match": false,
+        "failing_step": "query error",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer is verdict=as designed, layer=source application, cause=visible composite values resolve uniquely to movement 7 with units 20 carried unchanged through the application path. The delivered answer is BLOCKED/SpendHold: TICKET_MODEL_EXHAUSTED \u2014 the investigation ran out of budget before issuing any queries (queries list is empty) and never reached a conclusion. Verdict does not match (no verdict vs 'as designed'), layer is unresolved (no layer identified), and the cause was never found. The handoff is honest and not harmful. Handoff quality is 1: the stopping point is clear and the triage facts are well-structured, but there are no rerunnable queries, no next_checks, and no ruled-out items, leaving a successor with only the starting facts from triage and nothing actionable to continue from.",
+        "verdict_match": false
+      },
+      "status": "BLOCKED",
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 14.072320628999478
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 133.58618320799997
+          }
+        ],
+        "wall_seconds": 154.46104173599997
+      },
+      "cost_microdollars": 650254,
+      "model_calls": 3,
+      "outcome_sha256": "8953d68f019fd6c4ad581285d006b8af1d8cdbeef7ff9896ecc1226d64bc4afc"
+    }
+  ]
+}

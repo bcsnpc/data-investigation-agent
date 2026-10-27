@@ -1,0 +1,80 @@
+{
+  "status": "OPERATOR_PROBE_POLICY_MISMATCH_NOT_ESTATE_RESULT",
+  "execution": "job-dia-worker-ai0f97z",
+  "run_id": "0a29713f-3a71-4e93-b56d-b8fb95f6f9c6",
+  "error": "GatewayDenied; SQL endpoint not allowed in the copied fixture probe policy",
+  "original_capture_status": "PARTIAL_NO_RUN_RECORD; native records retained and hashed",
+  "records": [
+    {
+      "key": "round-twenty-three/runner/0a29713f-3a71-4e93-b56d-b8fb95f6f9c6/00000001-header.json",
+      "sha256": "0f61a616b06c91c1bfec03a1ba528626abfc4b7560ea80cc2396aebde0c4d3fd",
+      "bytes": 2312
+    },
+    {
+      "key": "round-twenty-three/runner/0a29713f-3a71-4e93-b56d-b8fb95f6f9c6/00000002-status.json",
+      "sha256": "7f09588f2f1bb7d947bb38514153d6933f36bdd7400475c2978f4f826d12189a",
+      "bytes": 35
+    },
+    {
+      "key": "round-twenty-three/runner/0a29713f-3a71-4e93-b56d-b8fb95f6f9c6/00000003-step-start.json",
+      "sha256": "fb10c1277036cf01654a0eefd03e089af57bb1a0395949cb8d46149571955709",
+      "bytes": 47
+    },
+    {
+      "key": "round-twenty-three/runner/0a29713f-3a71-4e93-b56d-b8fb95f6f9c6/00000004-step-result.json",
+      "sha256": "5f2fffb0ed6f2fa6dbb26c57e64530520ccf6dc6a12495216aee8d689b2f8742",
+      "bytes": 178
+    },
+    {
+      "key": "round-twenty-three/runner/0a29713f-3a71-4e93-b56d-b8fb95f6f9c6/00000005-step-start.json",
+      "sha256": "8689c80087fa6fc904ef456caec573c1a2a56c88eaca03ca3c92274f4e069ee3",
+      "bytes": 38
+    },
+    {
+      "key": "round-twenty-three/runner/0a29713f-3a71-4e93-b56d-b8fb95f6f9c6/00000006-step-result.json",
+      "sha256": "6a97e49361b4669a3b2efe6b75c998eeae24ae77b379cb778068c59bd7cb4125",
+      "bytes": 329
+    },
+    {
+      "key": "round-twenty-three/runner/0a29713f-3a71-4e93-b56d-b8fb95f6f9c6/00000007-admission-warning.json",
+      "sha256": "7196ef7bd76f4b9ab35ba43c51736fb58a4bf7a079e3d259c0bd790207c7ce8e",
+      "bytes": 282
+    },
+    {
+      "key": "round-twenty-three/runner/0a29713f-3a71-4e93-b56d-b8fb95f6f9c6/00000008-step-start.json",
+      "sha256": "2480a9188c2f2baddff340c60c00d79982131c03bd000d4ccf5ef0511ad5c897",
+      "bytes": 31
+    },
+    {
+      "key": "round-twenty-three/runner/0a29713f-3a71-4e93-b56d-b8fb95f6f9c6/00000009-tape-event.json",
+      "sha256": "8d608544175e0f1d250c96a719c3f5680e4b0c948472d496a72730688529a6ce",
+      "bytes": 3332
+    },
+    {
+      "key": "round-twenty-three/runner/0a29713f-3a71-4e93-b56d-b8fb95f6f9c6/00000010-physical-result.json",
+      "sha256": "1cc3bf1cfe5edb19ecdfa4aabc5c084ae9cad5434e4026ea2ab2c193ff80183b",
+      "bytes": 113
+    },
+    {
+      "key": "round-twenty-three/runner/0a29713f-3a71-4e93-b56d-b8fb95f6f9c6/00000011-attempt-failure.json",
+      "sha256": "43fc60efa29abdc97c51b904ece0b2d2c5de265990d30e3be8be79b40a51d20a",
+      "bytes": 95
+    },
+    {
+      "key": "round-twenty-three/runner/0a29713f-3a71-4e93-b56d-b8fb95f6f9c6/00000012-worker-exit.json",
+      "sha256": "82f8ba1e8cae8152b72441f14fa48ee13e229f056f26d69d11510963469a245e",
+      "bytes": 97
+    },
+    {
+      "key": "round-twenty-three/runner/0a29713f-3a71-4e93-b56d-b8fb95f6f9c6/00000013-status.json",
+      "sha256": "75587f1e806807543aae1dc04586d68e2ec88d5a05704b2d70f86bc2d5e58ceb",
+      "bytes": 102
+    },
+    {
+      "key": "round-twenty-three/runner/0a29713f-3a71-4e93-b56d-b8fb95f6f9c6/timing-summary.json",
+      "sha256": "3d017c0e76f8f263b6a0ba3a1134051d295e10f1937b6da0a60770ca66f4342f",
+      "bytes": 1521
+    }
+  ],
+  "correction": "Use the existing billing runner gateway policy for the billing audit read; no live role or permission change. Original failed probe is never scored as evidence for or against the expectation."
+}

@@ -1,0 +1,394 @@
+{
+  "observed_at": "2026-10-27T18:32:18.445605+00:00",
+  "classification": "SOFT_AZURE_MODEL_DATA_PLANE_FAILURE_NOT_A_SAFETY_STOP",
+  "smoke_execution": {
+    "endTime": "2026-10-27T18:19:24+00:00",
+    "execution_name": "job-dia-worker-cq9o67p",
+    "startTime": "2026-10-27T18:15:46+00:00",
+    "status": "Succeeded"
+  },
+  "smoke_capture_seal": "b9debacf6529da0707a008b9a8feb5b286fa3c0bc5d1c6dc537e11fc9d9c6724",
+  "smoke_check_results": {
+    "blob_write_read": {
+      "result": {
+        "record": {
+          "key": "e6938976-0d08-4746-a145-e20b4f9cc323/00000091-blob-health.json",
+          "sha256": "a01a75e63184b34342b6a3832a3dfcf3efefee652bcfb8c36e34db4fa8374f9b"
+        },
+        "sha256": "a01a75e63184b34342b6a3832a3dfcf3efefee652bcfb8c36e34db4fa8374f9b",
+        "status": "PASS",
+        "surface": "RUN_BOUND_OUTER_CAPTURE"
+      },
+      "status": "PASS"
+    },
+    "check_access": {
+      "resolved_advisories": [
+        {
+          "account": "model-microdollars:2026-11",
+          "account_created": false,
+          "account_exists": true,
+          "id": "next-month-budget",
+          "operation": "READ_ONLY_SNAPSHOT",
+          "reason": "EXISTING_ACCOUNT_READ_FROM_SHARED_LEDGER"
+        }
+      ],
+      "result": {
+        "checked_at": "2026-10-27T18:17:50.259537+00:00",
+        "counts": {
+          "FAIL": 0,
+          "NOT_TESTABLE": 1,
+          "PASS": 7
+        },
+        "rows": [
+          {
+            "action": "connect and self-report explicit database",
+            "availability": {
+              "attempts": 1,
+              "failure_class": null,
+              "first_observed_at": "2026-10-27T18:17:50.259537+00:00",
+              "last_observed_at": "2026-10-27T18:17:50.259537+00:00",
+              "message": "The bounded source read succeeded.",
+              "owner": "pipeline or source owner",
+              "reachable": true,
+              "retryable": false
+            },
+            "evidence": {
+              "identity": "investigator",
+              "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+              "permission_observed": true,
+              "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+              "receipt": {
+                "limitation": "Connection and login only, not table SELECT permission.",
+                "surface_report": {
+                  "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+                  "object": "warehouse_silver_e1b8e1"
+                },
+                "transport": "SQL_SELF_REPORT"
+              },
+              "resource": "fixture/silver/declared-sql-endpoint"
+            },
+            "id": "fixture-silver-sql",
+            "identity": "investigator",
+            "reason": "LIVE_READ_SUCCEEDED",
+            "resource": "fixture/silver/declared-sql-endpoint",
+            "status": "PASS"
+          },
+          {
+            "action": "SELECT on explicitly declared objects",
+            "availability": {
+              "attempts": 1,
+              "failure_class": null,
+              "first_observed_at": "2026-10-27T18:17:50.259537+00:00",
+              "last_observed_at": "2026-10-27T18:17:50.259537+00:00",
+              "message": "The bounded source read succeeded.",
+              "owner": "pipeline or source owner",
+              "reachable": true,
+              "retryable": false
+            },
+            "evidence": {
+              "identity": "investigator",
+              "limitation": "Only the explicitly bound object is tested; no schema-wide inference.",
+              "permission_observed": true,
+              "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+              "receipt": {
+                "execution_identity": {
+                  "database": "warehouse_silver_e1b8e1",
+                  "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+                  "provenance": "TRANSPORT_PERMISSION_CHECK",
+                  "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+                },
+                "object": "[dbo].[stock_movements_e1b8e1]",
+                "read_only_verified": true,
+                "transport": "GUARDED_SQL"
+              },
+              "resource": "fixture/silver/declared-objects"
+            },
+            "id": "fixture-silver-select",
+            "identity": "investigator",
+            "reason": "LIVE_READ_SUCCEEDED",
+            "resource": "fixture/silver/declared-objects",
+            "status": "PASS"
+          },
+          {
+            "action": "connect and self-report explicit database",
+            "availability": {
+              "attempts": 1,
+              "failure_class": null,
+              "first_observed_at": "2026-10-27T18:17:50.259537+00:00",
+              "last_observed_at": "2026-10-27T18:17:50.259537+00:00",
+              "message": "The bounded source read succeeded.",
+              "owner": "pipeline or source owner",
+              "reachable": true,
+              "retryable": false
+            },
+            "evidence": {
+              "identity": "investigator",
+              "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+              "permission_observed": true,
+              "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+              "receipt": {
+                "limitation": "Connection and login only, not table SELECT permission.",
+                "surface_report": {
+                  "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+                  "object": "warehouse_gold_e1b8e1"
+                },
+                "transport": "SQL_SELF_REPORT"
+              },
+              "resource": "fixture/gold/declared-sql-endpoint"
+            },
+            "id": "fixture-gold-sql",
+            "identity": "investigator",
+            "reason": "LIVE_READ_SUCCEEDED",
+            "resource": "fixture/gold/declared-sql-endpoint",
+            "status": "PASS"
+          },
+          {
+            "action": "SELECT on explicitly declared objects",
+            "availability": {
+              "attempts": 1,
+              "failure_class": null,
+              "first_observed_at": "2026-10-27T18:17:50.259537+00:00",
+              "last_observed_at": "2026-10-27T18:17:50.259537+00:00",
+              "message": "The bounded source read succeeded.",
+              "owner": "pipeline or source owner",
+              "reachable": true,
+              "retryable": false
+            },
+            "evidence": {
+              "identity": "investigator",
+              "limitation": "Only the explicitly bound object is tested; no schema-wide inference.",
+              "permission_observed": true,
+              "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+              "receipt": {
+                "execution_identity": {
+                  "database": "warehouse_gold_e1b8e1",
+                  "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+                  "provenance": "TRANSPORT_PERMISSION_CHECK",
+                  "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+                },
+                "object": "[dbo].[movement_values]",
+                "read_only_verified": true,
+                "transport": "GUARDED_SQL"
+              },
+              "resource": "fixture/gold/declared-objects"
+            },
+            "id": "fixture-gold-select",
+            "identity": "investigator",
+            "reason": "LIVE_READ_SUCCEEDED",
+            "resource": "fixture/gold/declared-objects",
+            "status": "PASS"
+          },
+          {
+            "action": "ReadExplore: constant DAX query",
+            "availability": {
+              "attempts": 1,
+              "failure_class": null,
+              "first_observed_at": "2026-10-27T18:17:50.259537+00:00",
+              "last_observed_at": "2026-10-27T18:17:50.259537+00:00",
+              "message": "The bounded source read succeeded.",
+              "owner": "pipeline or source owner",
+              "reachable": true,
+              "retryable": false
+            },
+            "evidence": {
+              "identity": "investigator",
+              "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+              "permission_observed": true,
+              "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+              "receipt": {
+                "response_sha256": "bab3413b1bb22a326f2eaaa5ffb569d6df9ec0781ffef980d81f471ca8330f04",
+                "status": 200,
+                "transport": "HTTP"
+              },
+              "resource": "powerbi://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e"
+            },
+            "id": "fixture-dax",
+            "identity": "investigator",
+            "reason": "LIVE_READ_SUCCEEDED",
+            "resource": "powerbi://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e",
+            "status": "PASS"
+          },
+          {
+            "action": "SELECT existence only; worker cannot create policy",
+            "availability": {
+              "attempts": 1,
+              "failure_class": null,
+              "first_observed_at": "2026-10-27T18:17:50.259537+00:00",
+              "last_observed_at": "2026-10-27T18:17:50.259537+00:00",
+              "message": "The bounded source read succeeded.",
+              "owner": "pipeline or source owner",
+              "reachable": true,
+              "retryable": false
+            },
+            "evidence": {
+              "identity": "worker",
+              "limitation": "Proves this bounded read only; no write or admin grant inferred.",
+              "permission_observed": true,
+              "principal_id": "21e3405b-57e9-4581-834e-971b465f80ec",
+              "receipt": {
+                "budget_account": "model-microdollars:2026-10",
+                "budget_account_exists": true,
+                "current_user": "id-dia-worker",
+                "database": "investigator",
+                "parameters": [
+                  "dia_state.state_accounts",
+                  "SELECT"
+                ],
+                "privilege_observed": true,
+                "statement": "SELECT current_database(), current_user, current_setting('transaction_read_only'), has_table_privilege(current_user,%s,%s)",
+                "transaction_read_only": "on",
+                "transport": "POSTGRES_PLATFORM_CONTROL"
+              },
+              "resource": "pg-dia-d5dd7d65/investigator/current-month-model-budget"
+            },
+            "id": "pg-current-model-account",
+            "identity": "worker",
+            "reason": "LIVE_READ_SUCCEEDED",
+            "resource": "pg-dia-d5dd7d65/investigator/current-month-model-budget",
+            "status": "PASS"
+          },
+          {
+            "action": "credential expiry",
+            "evidence_class": "SANITIZED_EXPIRY_METADATA",
+            "expires_at_utc": "2026-11-21T18:40:00.660887+00:00",
+            "id": "secret-expiry:958bb7e5-3f94-48fe-8e1f-5fa73165cca2",
+            "identity": "investigator",
+            "reason": "SECRET_NOT_EXPIRED",
+            "resource": "958bb7e5-3f94-48fe-8e1f-5fa73165cca2",
+            "status": "PASS",
+            "warning": false
+          },
+          {
+            "action": "provision monthly budget account",
+            "id": "next-month-budget",
+            "identity": "owner",
+            "reason": "OWNER_MUST_CONFIRM_NEXT_MONTH_ACCOUNT; worker has no INSERT right",
+            "resource": "2026-11",
+            "status": "NOT_TESTABLE",
+            "warning": true
+          }
+        ],
+        "scope": "family-a",
+        "status": "INCOMPLETE",
+        "version": 1
+      },
+      "status": "PASS"
+    },
+    "family_a_demo": {
+      "error_type": "NotFoundError",
+      "status": "FAIL"
+    },
+    "gold_read": {
+      "result": {
+        "column_types": {
+          "count": "Int64",
+          "sum": "Int64"
+        },
+        "execution_identity": {
+          "database": "warehouse_gold_e1b8e1",
+          "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+          "provenance": "SURFACE_SELF_REPORT",
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+        },
+        "read_only_verified": true,
+        "rows": [
+          {
+            "count": "406",
+            "sum": "8765"
+          }
+        ],
+        "surface_report": {
+          "engine": "Microsoft Azure SQL Data Warehouse",
+          "identity": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+          "object": "warehouse_gold_e1b8e1"
+        },
+        "surface_report_binding": "VALUE_QUERY"
+      },
+      "status": "PASS"
+    },
+    "postgres_write_read": {
+      "result": {
+        "namespace": "daily_smoke",
+        "run_id": "e6938976-0d08-4746-a145-e20b4f9cc323",
+        "status": "PASS"
+      },
+      "status": "PASS"
+    },
+    "sign_in": {
+      "result": {
+        "principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "status": "PASS"
+      },
+      "status": "PASS"
+    }
+  },
+  "native_error": {
+    "attempt": 1,
+    "error_type": "NotFoundError",
+    "message": "Error code: 404 - {'error': {'code': 'DeploymentNotFound', 'message': 'The API deployment for this resource does not exist. If you created the deployment within the last 5 minutes, please wait a moment and try again.'}}",
+    "retry": false
+  },
+  "model_health_controls": [
+    {
+      "deployment": "investigator-quality-54",
+      "endpoint": "https://aoai-investigator-9696025.openai.azure.com",
+      "error_type": "NotFoundError",
+      "estate_reads": 0,
+      "identity_scope_changed": false,
+      "kind": "RELEASE_MODEL_HEALTH_CONTROL",
+      "message": "Error code: 404 - {'error': {'code': 'DeploymentNotFound', 'message': 'The API deployment for this resource does not exist. If you created the deployment within the last 5 minutes, please wait a moment and try again.'}}",
+      "reservation": "cost-8587ebef-ace3-404b-aa97-a5a9b00be678",
+      "status": "FAILED"
+    },
+    {
+      "deployment": "investigator-intake-f-55",
+      "endpoint": "https://aoai-investigator-9696025.openai.azure.com",
+      "error_type": "NotFoundError",
+      "estate_reads": 0,
+      "identity_scope_changed": false,
+      "kind": "RELEASE_MODEL_HEALTH_CONTROL",
+      "message": "Error code: 404 - {'error': {'code': 'DeploymentNotFound', 'message': 'The API deployment for this resource does not exist. If you created the deployment within the last 5 minutes, please wait a moment and try again.'}}",
+      "reservation": "cost-2a75d18e-29c5-4806-b61a-a90748852032",
+      "status": "FAILED"
+    }
+  ],
+  "control_plane_deployments": [
+    {
+      "name": "investigator-quality-54",
+      "model": {
+        "callRateLimit": null,
+        "format": "OpenAI",
+        "name": "gpt-5.4",
+        "publisher": null,
+        "source": null,
+        "sourceAccount": null,
+        "version": "2026-03-05"
+      },
+      "state": "Running",
+      "provisioning_state": "Succeeded",
+      "responses_capability": "true"
+    },
+    {
+      "name": "investigator-intake-f-55",
+      "model": {
+        "callRateLimit": null,
+        "format": "OpenAI",
+        "name": "gpt-5.5",
+        "publisher": null,
+        "source": null,
+        "sourceAccount": null,
+        "version": "2026-04-24"
+      },
+      "state": "Running",
+      "provisioning_state": "Succeeded",
+      "responses_capability": "true"
+    }
+  ],
+  "diagnosis": "Requested endpoint and deployment match the declared archive, account endpoint and existing Running deployment listings. Both native inference health requests returned DeploymentNotFound404. Root cause of control/data-plane disagreement unestablished; not attributed to identity, billing or permissions.",
+  "expectation_changed": false,
+  "resource_identity_secret_quota_changes": false,
+  "official_score_changed": false,
+  "health_controls_estate_reads": 0,
+  "model_health_unknown_usage": "UNCERTAIN reservations retained at their full charge",
+  "microsoft_v1_reference": "https://learn.microsoft.com/en-us/azure/foundry/openai/api-version-lifecycle"
+}

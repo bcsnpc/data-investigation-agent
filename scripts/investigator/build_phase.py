@@ -3,18 +3,27 @@ from contextlib import contextmanager
 from contextvars import ContextVar
 from datetime import datetime, timezone
 import os
+import json
+from pathlib import Path
+
+POLICY = json.loads(Path(__file__).with_name('build_phase_policy.json').read_text(encoding='utf8'))
 
 MODE = 'BUILD_PHASE'
-MODEL_MICRODOLLARS = 40_000_000
+MODEL_MICRODOLLARS = POLICY['monthly_model_microdollars']
+TICKET_MODEL_MICRODOLLARS = 1_000_000
+TICKET_MODEL_WARNING_MICRODOLLARS = 500_000
 PLATFORM_MICRODOLLARS = 20_000_000
-PHYSICAL_REQUESTS = 6000
+PHYSICAL_REQUESTS = POLICY['monthly_physical_requests']
+PREVIOUS_PHYSICAL_REQUESTS = 6000
+REQUEST_INCREASE_AT = '2026-10-26T00:00:00+00:00'
 SCAN_REQUESTS = 1000
-REALLOCATED_SCAN_REQUESTS = 2000
+REALLOCATED_SCAN_REQUESTS = POLICY['scan_collectors']
 SCAN_REALLOCATION_AT = '2026-10-24T01:24:00+00:00'
-RESTORATION_REQUESTS = 95
+RESTORATION_REQUESTS = POLICY['restoration_reserve']
 ADOPTED_AT = '2026-10-19'
 _mode = ContextVar('build_phase_mode', default=None)
 _purpose = ContextVar('build_phase_purpose', default=None)
+_manual_smoke = ContextVar('manual_release_smoke_investigation', default=False)
 PURPOSES = frozenset(('INVESTIGATION', 'SCAN', 'RESTORATION'))
 
 
@@ -29,15 +38,25 @@ def active(config=None):
 
 def purpose(default='INVESTIGATION'):
     value = _purpose.get() or os.environ.get('INVESTIGATOR_BUDGET_CATEGORY') or default
+    if value == 'SCAN' and _manual_smoke.get():value='INVESTIGATION'
     if value not in PURPOSES:
         raise ValueError('MONTHLY_BUDGET_CATEGORY_INVALID')
     return value
 
 
 @contextmanager
+def manual_smoke_allocation(enabled=False):
+    """Owner-provisioned manual release checks only; scheduled work stays scan."""
+    token=_manual_smoke.set(enabled)
+    try:yield
+    finally:_manual_smoke.reset(token)
+
+
+@contextmanager
 def operating_mode(mode=MODE, *, category='INVESTIGATION'):
     if mode != MODE or category not in PURPOSES:
         raise ValueError('BUILD_PHASE_DECLARATION_INVALID')
+    if category == 'SCAN' and _manual_smoke.get():category='INVESTIGATION'
     token = _mode.set(mode)
     category_token = _purpose.set(category)
     try:
@@ -61,6 +80,9 @@ def physical_status(rows, allocations, now):
     month, start, end = month_window(now)
     index = {(r['environment'], r['session_id'], r['reservation_key']): r['purpose'] for r in allocations}
     used = dict.fromkeys(PURPOSES, 0)
+    historical_restoration = 0
+    reset = POLICY.get('restoration_reset', {})
+    resetting = (month == reset.get('month_utc') and now >= datetime.fromisoformat(reset['effective_at']).timestamp()) if reset else False
     for row in rows:
         if not start <= float(row['created']) < end:
             continue
@@ -70,25 +92,39 @@ def physical_status(rows, allocations, now):
         if category not in used:
             raise ValueError('MONTHLY_HISTORICAL_CATEGORY_UNKNOWN')
         used[category] += count
+        if resetting and category == 'RESTORATION' and float(row['created']) < datetime.fromisoformat(reset['effective_at']).timestamp():
+            historical_restoration += count
     # Preserve historical decisions under their recorded clock. This reallocates
     # the existing total; it never clears usage or borrows the restoration line.
     scan_limit = (REALLOCATED_SCAN_REQUESTS if now >= datetime.fromisoformat(SCAN_REALLOCATION_AT).timestamp()
                   else SCAN_REQUESTS)
-    limits = {'INVESTIGATION': PHYSICAL_REQUESTS - scan_limit - RESTORATION_REQUESTS,
+    total_limit = (PHYSICAL_REQUESTS if now >= datetime.fromisoformat(REQUEST_INCREASE_AT).timestamp()
+                   else PREVIOUS_PHYSICAL_REQUESTS)
+    limits = {'INVESTIGATION': total_limit - scan_limit - RESTORATION_REQUESTS,
               'SCAN': scan_limit, 'RESTORATION': RESTORATION_REQUESTS}
+    override=POLICY.get('monthly_allocation_overrides',{}).get(month)
+    if override and now >= datetime.fromisoformat(override['effective_at']).timestamp():
+        limits={k:override['limits'][k] for k in PURPOSES}
+        if sum(limits.values())!=total_limit or limits['RESTORATION']!=RESTORATION_REQUESTS:
+            raise ValueError('MONTHLY_ALLOCATION_MUST_PRESERVE_TOTAL_AND_RESTORATION')
     total = sum(used.values())
+    credit = min(historical_restoration, reset['historical_requests']) if resetting else 0
+    used['RESTORATION'] -= credit
     return {'mode': MODE, 'month_utc': month, 'used': used, 'limits': limits,
-            'total': total, 'total_limit': PHYSICAL_REQUESTS,
+            'total': total, 'total_limit': total_limit,
+            'historical_restoration_requests': credit,
             'restoration_remaining': max(0, RESTORATION_REQUESTS - used['RESTORATION']),
             'warnings': [key + '_MONTHLY_80_PERCENT' for key in limits if used[key] * 5 >= limits[key] * 4]
-                        + (['PHYSICAL_MONTHLY_80_PERCENT'] if total * 5 >= PHYSICAL_REQUESTS * 4 else [])}
+                        + (['PHYSICAL_MONTHLY_80_PERCENT'] if total * 5 >= total_limit * 4 else [])}
 
 
 def admit_physical(rows, allocations, now, category):
     if category not in PURPOSES:
         raise ValueError('MONTHLY_BUDGET_CATEGORY_INVALID')
     status = physical_status(rows, allocations, now)
-    if status['total'] >= PHYSICAL_REQUESTS or status['used'][category] >= status['limits'][category]:
+    if (status['total'] >= status['total_limit'] or status['used'][category] >= status['limits'][category]
+            or (category != 'RESTORATION' and status['historical_restoration_requests']
+                and status['total_limit'] - status['total'] <= status['restoration_remaining'])):
         from .usage_governance import UsageHold
         raise UsageHold('MONTHLY_PHYSICAL_' + category + '_EXHAUSTED')
     return status
@@ -123,7 +159,8 @@ def shared_reserve(usage, local, session, key, kind, amount, category):
             return
         if kind == 'cloud':
             retained, allocations = shared_physical_rows(usage.state, db, now)
-            admit_physical(retained, allocations, now, category)
+            status = admit_physical(retained, allocations, now, category)
+            check_shared_request_policy(usage.state, db, now, status, category)
             usage.state.sql(db, 'INSERT INTO state_read_allocations VALUES(?,?,?,?,?)', (usage.environment, session, key, None, category))
         usage.state.sql(db, 'INSERT INTO state_usage VALUES(?,?,?,?,?,?,?,?,?,?,?)',
                         (usage.environment, session, key, g._day(now) if hasattr(g, '_day') else datetime.fromtimestamp(now, timezone.utc).date().isoformat(),
@@ -150,11 +187,17 @@ def shared_physical_rows(state, db, now):
     return retained, allocations
 
 
-def model_status(charged, month):
+def model_ceiling(now):
+    month=month_window(now)[0]
+    return POLICY.get('monthly_model_overrides',{}).get(month,{}).get('ceiling_microdollars',MODEL_MICRODOLLARS)
+
+
+def model_status(charged, month, *, ceiling=None):
+    if ceiling is None:ceiling=POLICY.get('monthly_model_overrides',{}).get(month,{}).get('ceiling_microdollars',MODEL_MICRODOLLARS)
     return {'mode': MODE, 'month_utc': month, 'charged_microdollars': charged,
-            'ceiling_microdollars': MODEL_MICRODOLLARS, 'protected_microdollars': 0,
-            'warning': charged * 5 >= MODEL_MICRODOLLARS * 4,
-            'exhausted': charged >= MODEL_MICRODOLLARS}
+            'ceiling_microdollars': ceiling, 'protected_microdollars': 0,
+            'warning': charged * 5 >= ceiling * 4,
+            'exhausted': charged >= ceiling}
 
 
 def platform_status(charged, now):
@@ -197,7 +240,7 @@ def ensure_model_account(state, now, *, provision=False):
             except KeyError:
                 pass
         state.sql(db, 'INSERT INTO state_accounts VALUES(?,?,?,?,?,?)',
-                  (account, 'MICRODOLLARS', MODEL_MICRODOLLARS, 0, 0, 0))
+                  (account, 'MICRODOLLARS', model_ceiling(now), 0, 0, 0))
         record = {'month_utc': month, 'adopted_at': ADOPTED_AT, 'opening_microdollars': '0',
                   'historical_total_microdollars_informational': source['charged'] if source is not None else None,
                   'legacy_snapshot_sha256': sha(source) if source is not None else None,
@@ -205,3 +248,25 @@ def ensure_model_account(state, now, *, provision=False):
         state.sql(db, 'INSERT INTO state_documents VALUES(?,?,?,?,?)',
                   ('build_phase_account_opening', account, 0, encoded(record), sha(record)))
     return account
+
+
+def check_shared_request_policy(state, db, now, status, category):
+    """Cloud policy remains authoritative; source alone cannot raise its ceiling."""
+    from .usage_governance import UsageHold
+    import json
+    if now < datetime.fromisoformat(REQUEST_INCREASE_AT).timestamp(): return
+    row = state.sql(db, 'SELECT body FROM state_documents WHERE namespace=? AND identity=?',
+                    ('build_phase_policy', 'monthly-physical')).fetchone()
+    if row is None:
+        if state.backend == 'postgresql': raise UsageHold('MONTHLY_REQUEST_POLICY_NOT_PROVISIONED')
+        return
+    policy = json.loads(row[0])
+    if status.get('historical_restoration_requests') and policy.get('restoration_reset') != POLICY.get('restoration_reset'):
+        raise UsageHold('AUTHORITATIVE_RESTORATION_RESET_NOT_APPLIED')
+    total = min(status['total_limit'], policy['total_limit'])
+    policy_limits=policy['limits']
+    if policy.get('limits_effective_month') and status['month_utc']!=policy['limits_effective_month']:
+        policy_limits=policy['default_limits']
+    limit = min(status['limits'][category], policy_limits[category])
+    if status['total'] >= total or status['used'][category] >= limit:
+        raise UsageHold('AUTHORITATIVE_MONTHLY_PHYSICAL_' + category + '_EXHAUSTED')

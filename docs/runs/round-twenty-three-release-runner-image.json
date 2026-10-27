@@ -1,0 +1,7 @@
+{
+  "revision": "4b547f17915914b060bbc1692ef05ff4080cc992",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:0c49608909bd74399c90c6baa9d50590a4421801f3ea9814052af363ebe15583",
+  "workflow": 40556063831,
+  "conclusion": "success",
+  "scope": "Release-runner bound manual smoke fix; scored investigation engine and original images unchanged."
+}

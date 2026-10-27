@@ -3,6 +3,7 @@ import hmac
 import json
 from pathlib import Path
 import sqlite3
+from jsonschema import ValidationError
 from socketserver import ThreadingMixIn
 from wsgiref.simple_server import WSGIServer
 from .onboarding import Conflict, fields
@@ -64,7 +65,11 @@ def create_app(workspace, token, port=8776):
                 if not 0 < size <= limit or env.get('CONTENT_TYPE', '').split(';')[0] != 'application/json':
                     raise ValueError('Expected bounded JSON')
                 body = json.loads(env['wsgi.input'].read(size))
-            if path == '/api/workspace/models' and method == 'GET':
+            if path.startswith('/api/workspace/guided/'):
+                from .guided_intake_service import GuidedIntakeService
+                parts=path[len('/api/workspace/guided/'):].split('/')
+                result=GuidedIntakeService(workspace).handle(method,parts,body)
+            elif path == '/api/workspace/models' and method == 'GET':
                 result = workspace.models()
                 from .ticket_clarification import settings
                 result['intake_options']={'comparison_choices':settings(workspace.intake_configuration)['comparison_choices']}
@@ -246,7 +251,7 @@ def create_app(workspace, token, port=8776):
             return respond('409 Conflict', {'error': str(exc)})
         except KeyError:
             return respond('404 Not Found', {'error': 'Investigation or catalog item not found'})
-        except (ValueError, TypeError, OverflowError):
+        except (ValueError, TypeError, OverflowError, ValidationError):
             return respond('400 Bad Request', {'error': 'Invalid scope or incomplete metadata. Review the selected metric and filters.'})
         except (sqlite3.Error, OSError, RuntimeError):
             return respond('503 Service Unavailable', {'error': 'Investigation storage is unavailable'})

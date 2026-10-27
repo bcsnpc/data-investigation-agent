@@ -22,6 +22,20 @@ class FingerprintTests(unittest.TestCase):
         for name in FINGERPRINT_TRANSPORTS:
             self.assertTrue((ROOT/name).is_file(), name)
 
+    def test_mandatory_budget_policy_is_frozen_and_packaged_with_engine(self):
+        policy='scripts/investigator/build_phase_policy.json'
+        self.assertIn(policy,FINGERPRINT_TRANSPORTS)
+        with tempfile.TemporaryDirectory() as folder:
+            copy=Path(folder)
+            for source in fingerprint_files()[1]:
+                relative=source.relative_to(ROOT)
+                (copy/relative).parent.mkdir(parents=True,exist_ok=True)
+                shutil.copy2(source,copy/relative)
+            before=fingerprint(copy)
+            target=copy/policy
+            target.write_bytes(target.read_bytes()+b'\n')
+            self.assertNotEqual(fingerprint(copy),before)
+
     def test_name_scoring_policy_is_frozen_with_the_engine(self):
         _, files = fingerprint_files()
         policy = ROOT/'acceptance/model_steps/intake-resolution-policy.json'

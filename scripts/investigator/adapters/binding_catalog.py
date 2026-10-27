@@ -49,7 +49,7 @@ def read(config, obj, *, execute):
     return columns,proof
 
 
-def request_many(objects):
+def request_many(objects, *, include_views=False):
     """One bounded catalog SELECT for exact objects in one connection/database."""
     if not objects or len(objects)>8:raise ValueError('Target catalog batch bound')
     if len({(o['connection'],o['database']) for o in objects})!=1:
@@ -64,13 +64,17 @@ def request_many(objects):
         names.append(name)
         parameters += [{'name':'@schema'+str(i),'value':schema},{'name':'@table'+str(i),'value':table}]
         clauses.append('(s.name=@schema'+str(i)+' AND o.name=@table'+str(i)+')')
-    return {'query':'SELECT TOP 250 s.name AS schema_name,o.name AS table_name,c.name AS column_name,'
+    request={'query':'SELECT TOP 250 s.name AS schema_name,o.name AS table_name,c.name AS column_name,'
             't.name AS data_type,c.collation_name AS collation_name '
             'FROM sys.columns AS c JOIN sys.types AS t ON c.user_type_id=t.user_type_id '
             'JOIN sys.tables AS o ON c.object_id=o.object_id JOIN sys.schemas AS s ON o.schema_id=s.schema_id '
             'WHERE '+' OR '.join(clauses)+' ORDER BY s.name,o.name,c.column_id',
             'parameters':parameters,'read_only_objects':names,'max_rows':251,
             'result_columns':['schema_name','table_name','column_name','data_type','collation_name']}
+    if include_views:
+        request['query']=request['query'].replace('JOIN sys.tables AS o','JOIN sys.objects AS o').replace(
+            'WHERE ','WHERE o.type IN (\'U\',\'V\') AND (').replace(' ORDER BY',') ORDER BY')
+    return request
 
 
 def compiled_control_objects(payload):
@@ -87,21 +91,27 @@ def compiled_control_objects(payload):
             if not match:return None
             objects.append({'connection':payload['server'],'database':payload['database'],
                 'catalog':{'metadata':{'schema_name':match[1],'name':match[2]}}})
-        expected=request_many(objects)
-        if any(payload.get(key)!=value for key,value in expected.items()):return None
-        return list(expected['read_only_objects'])
+        for include_views in (False,True):
+            expected=request_many(objects,include_views=include_views)
+            if all(payload.get(key)==value for key,value in expected.items()):
+                return list(expected['read_only_objects'])
+        return None
     except (KeyError,TypeError,ValueError):
         return None
 
 
-def read_many(config, objects, *, execute):
-    reader=config['fabric']['sql_reader'];request=request_many(objects)
-    if any(o.get('surface','FABRIC_SQL')!='FABRIC_SQL' or o['connection']!=reader['server'] for o in objects):
+def read_many(config, objects, *, execute, attestation_required=True, surface='FABRIC_SQL',include_views=False):
+    if surface not in ('FABRIC_SQL','SOURCE_SQL'):raise ValueError('CATALOG_SURFACE_NOT_INSTALLED')
+    reader=config['fabric']['sql_reader'] if surface=='FABRIC_SQL' else config['sql']
+    if surface=='SOURCE_SQL' and attestation_required:raise ValueError('SOURCE_CATALOG_ATTESTATION_PROFILE_NOT_INSTALLED')
+    request=request_many(objects,include_views=include_views)
+    if any(o.get('surface','FABRIC_SQL')!=surface or o['connection']!=reader['server'] for o in objects):
         raise ValueError('Target catalog leaves the approved Fabric SQL connection')
     database=objects[0]['database'];answer=execute(database,request)
     report=answer.get('surface_report') or {}
-    if (report.get('identity')!=sql_principal(reader) or report.get('object')!=database or
-        report.get('engine')!='Microsoft Azure SQL Data Warehouse' or not answer.get('read_only_verified')):
+    if (not answer.get('read_only_verified') or (attestation_required and
+        (report.get('identity')!=sql_principal(reader) or report.get('object')!=database or
+         report.get('engine')!='Microsoft Azure SQL Data Warehouse'))):
         raise ValueError('Target types lack reader-owned guarded surface evidence')
     rows=answer.get('rows')
     if not isinstance(rows,list) or not 0<len(rows)<250:raise ValueError('Target catalog is empty or incomplete')
