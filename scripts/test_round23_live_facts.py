@@ -8,6 +8,25 @@ NOW='2026-10-27T02:00:00Z'
 
 
 class FactTests(unittest.TestCase):
+    def test_scan_allocation_refusal_keeps_investigation_alive_without_dispatch(self):
+        from investigator.usage_governance import UsageHold
+        ledger=Mock();ledger.read.return_value={'facts':[]}
+        collector=Mock(side_effect=UsageHold('MONTHLY_PHYSICAL_SCAN_EXHAUSTED'))
+        port=PathFacts(ledger=ledger,estate='fixture',path={'nodes':[{'id':'model','kind':'MODEL'}]},collector=collector,now=lambda:NOW)
+        triage=port.run()
+        collector.assert_called_once()
+        self.assertEqual(triage['facts'][0]['state'],'UNAVAILABLE')
+        self.assertEqual(triage['facts'][0]['detail'],'MONTHLY_PHYSICAL_SCAN_EXHAUSTED')
+        self.assertEqual(port.history('model',{'REFRESH_RUN'})['reason'],'MONTHLY_PHYSICAL_SCAN_EXHAUSTED')
+
+    def test_total_and_investigation_caps_still_stop_triage(self):
+        from investigator.usage_governance import UsageHold
+        for reason in ('MONTHLY_PHYSICAL_EXHAUSTED','MONTHLY_PHYSICAL_INVESTIGATION_EXHAUSTED'):
+            with self.subTest(reason=reason):
+                ledger=Mock();ledger.read.return_value={'facts':[]}
+                port=PathFacts(ledger=ledger,estate='fixture',path={'nodes':[{'id':'model','kind':'MODEL'}]},collector=Mock(side_effect=UsageHold(reason)),now=lambda:NOW)
+                with self.assertRaisesRegex(UsageHold,reason):port.run()
+
     def test_installed_collector_run_method_is_used(self):
         from types import SimpleNamespace
         ledger=Mock();ledger.read.return_value={'facts':[]}

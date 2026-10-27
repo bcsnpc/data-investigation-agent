@@ -41,11 +41,11 @@ _pending_
 
 ## Part G — independent tickets, dev, held-out and messy input
 
-Independent v2 tickets and expectations were sealed at25339ea before investigation. All40 dev forms now pass the complete offline catalog/route check:39 open query layers and one unknown report ID refuses, with no catalog exception. Actual and stripped-bookkeeping catalogs open identical layers. The single-image restart is recorded in [the admission receipt](runs/round-twenty-three-dev-pass1-restart.json); live scores remain pending independent grading.
+Independent v2 tickets and expectations were sealed at25339ea before investigation. All40 dev forms now pass the complete offline catalog/route check:39 open query layers and one unknown report ID refuses, with no catalog exception. Actual and stripped-bookkeeping catalogs open identical layers. The single-image restart is recorded in [the admission receipt](runs/round-twenty-three-dev-pass1-restart.json); The preserved partial attempt was independently graded0/32,harmful0, with8notrun; it is not a completed40-case score. See [partial result](round-twenty-three-dev03-partial.md). A new complete pass will follow the grouped fixes on one image.
 
 ## Part H — restoration, validation and release
 
-_pending_. No Round 23 injections applied. Temporal history remains on.
+_pending_. Failed-job and waiting-job controls ran and their original definitions were hash-restored. No source-row, stale or access injection has been applied. Temporal history remains on.
 
 ## Final results
 

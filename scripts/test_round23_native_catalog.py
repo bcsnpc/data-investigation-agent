@@ -10,6 +10,23 @@ def asset(identity,kind,parent,name,metadata):
 
 
 class NativeCatalogTests(unittest.TestCase):
+    def test_declared_manifest_source_and_producer_are_opened_only_after_delivery(self):
+        source='sql://server/application/object/10';pipeline='fabric://workspace/pipeline'
+        self.assets += [asset('sql://server/application','SqlDatabase','sql://server','application',{}),asset(source,'SqlObject','sql://server/application','Source',{'name':'Source','schema_name':'app','columns':[]}),asset(pipeline,'DataPipeline','fabric://workspace','Copy',{})]
+        self.nodes += [{'id':'source-node','properties':{'asset_id':source}},{'id':'job-node','properties':{'asset_id':pipeline}}]
+        self.config['_estate']={'layers':[{'id':'app','asset_id':source},{'id':'landing','asset_id':self.table}],
+            'lineage':{'bindings':[{'from_layer':'app','to_layer':'landing','provenance':'DECLARED_BY_DEFINITION'}]},
+            'pipelines':[{'from_layer':'app','to_layer':'landing','producer_asset_id':pipeline,'audit':{'status':'ABSENT'}}]}
+        c=self.build()
+        self.assertEqual(c.declared_continuations({'nodes':[]}),[])
+        result=c.declared_continuations({'nodes':[self.nodes[0]]})
+        self.assertEqual(result[0]['confidence'],'DECLARED')
+        self.assertEqual(result[0]['graph_nodes'],['job-node','source-node'])
+        self.assertEqual(result[0]['source_asset'],source)
+        self.config['_estate']['lineage']['bindings']=[]
+        self.assertEqual(self.build().declared_continuations({'nodes':[self.nodes[0]]}),[])
+        self.read.assert_not_called()
+
     def test_literal_model_binding_does_not_depend_on_inventory_root_parent(self):
         import json
         from investigator.adapters.estate_graph_static import StaticGraph

@@ -18,6 +18,15 @@ class Tests(unittest.TestCase):
         self.factory=Mock(return_value=self.engine)
         self.cases=Cases(state=self.state,graph=self.graph,estate='estate',engine_factory=self.factory)
     def submit(self):return self.cases.submit({'request_key':'test','intake':request()})
+    def test_unknown_report_is_a_saved_question_not_an_unsealed_exception(self):
+        item=request();item['report']='unknown-literal-report'
+        case=self.cases.submit({'request_key':'unknown-report','intake':item})
+        self.assertEqual(case['status'],'NEEDS_INPUT')
+        self.assertEqual(case['outcome']['stop'],'UNKNOWN_REPORT')
+        self.assertEqual(case['intake']['report'],'unknown-literal-report')
+        self.assertEqual(case['outcome']['question']['choices'],__import__('investigator.guided_intake',fromlist=['Catalog']).Catalog(graph()).reports())
+        self.cases.run(case['id']);self.factory.assert_not_called()
+
     def test_submit_poll_then_installed_worker_runs_once(self):
         case=self.submit();self.assertEqual(case['status'],'QUEUED');self.factory.assert_not_called()
         result=self.cases.run(case['id']);self.assertEqual(result['status'],'ANSWERED')

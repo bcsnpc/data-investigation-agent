@@ -79,9 +79,12 @@ class Factory:
         if self.declared_continuations:
             bridges=self.declared_continuations(path)
             nodes={n['id']:n for n in path['nodes']};edges={e['id']:e for e in path['edges']}
+            catalog_nodes={n['id']:n for n in self.graph.intake_catalog()['nodes']}
             for bridge in bridges:
                 for root in bridge['graph_nodes']:
-                    extra=self.graph.path_to_source(root)
+                    kind=catalog_nodes.get(root,{}).get('kind')
+                    extra=(self.graph.calculation_path(root) if kind in ('PIPELINE','COPY_ACTIVITY','NOTEBOOK','QUERY_STEP')
+                        else self.graph.path_to_source(root))
                     nodes.update({n['id']:n for n in extra['nodes']});edges.update({e['id']:e for e in extra['edges']})
             path={**path,'nodes':list(nodes.values()),'edges':list(edges.values()),'declared_route_bridges':bridges}
         nodes={n['id'] for n in path['nodes']}

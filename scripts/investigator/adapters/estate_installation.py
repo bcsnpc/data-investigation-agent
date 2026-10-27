@@ -86,6 +86,7 @@ def configuration(manifest):
         # Code-source credentials/declarations never reach investigation workers.
         'lineage':{k:v for k,v in manifest['lineage'].items() if k!='code_sources'},
         'accepted_limits':manifest['accepted_limits'],
+        'pipelines':copy.deepcopy(manifest['pipelines']),
         # Recorder configuration only, never a worker option or model prompt.
         'provider_terms':declaration(manifest['model']), 'trace_footer':True}
     if 'execution' in manifest:config['_estate']['execution']=copy.deepcopy(manifest['execution'])

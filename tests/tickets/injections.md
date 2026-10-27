@@ -117,3 +117,6 @@ Round23 original-copy headroom attempt: PREPARED_NOT_APPLIED / None; restoration
 
 
 Round23 original-copy headroom attempt: HEADROOM_ATTEMPT_TERMINAL_ORIGINAL_HASH_RESTORED / SUCCEEDED; restoration_required=False. Only InvokeCopyJob timeout600->1800seconds, original semantic hash89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259. Full native journal .local\round-twenty-three\injections\dev03-normal-load-headroom-cont01\status.json.
+
+
+Round23 waiting dev03 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-three\injections\dev03-waiting\status.json.

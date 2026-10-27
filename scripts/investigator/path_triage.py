@@ -50,6 +50,11 @@ class Triage:
                     # Preserve known stale data separately; never re-date it.
                     fact={'check':check,'state':'UNAVAILABLE','source':None,'observed_at':None,
                           'reason':type(error).__name__,'previous':deepcopy(value)}
+                    from .planner_recording import _safe
+                    detail=str(error)
+                    try:_safe(detail.encode())
+                    except ValueError:detail='Details withheld by secret protection'
+                    fact['detail']=detail
             else:
                 fact={'check':check,'state':'UNAVAILABLE','source':None,'observed_at':None,
                       'reason':'TRIAGE_READ_LIMIT','previous':deepcopy(value)}

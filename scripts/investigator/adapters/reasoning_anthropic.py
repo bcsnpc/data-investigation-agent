@@ -13,6 +13,26 @@ from ..estate_graph_contract import canonical
 from ..round23_calendar import require_live_window
 
 BASE='https://api.anthropic.com/v1'
+
+
+def wire_tools(tools):
+    """Factor identifier scopes out of repeated provider schemas only.
+
+    The full identifiers remain in the admitted context/current state. The
+    investigator validates returned arguments against the ORIGINAL schemas.
+    No definition, query, result, semantic enum or local scope is removed.
+    """
+    def project(value,field=None):
+        if isinstance(value,list):return [project(v,field) for v in value]
+        if not isinstance(value,dict):return value
+        result={}
+        for key,item in value.items():
+            if key=='enum' and field in ('node','layer','checked','candidate') and item and all(isinstance(i,str) for i in item):
+                result['type']='string';continue
+            if key=='properties':result[key]={k:project(v,k) for k,v in item.items()}
+            else:result[key]=project(item,field)
+        return result
+    return [{**deepcopy(t),'input_schema':project(t['input_schema'])} for t in tools]
 # Preference is operator policy, not ticket or model instructions. Discovery
 # records the exact accessible ID before use; pricing is separately pinned.
 PREFERENCE=('claude-fable-5-1','claude-opus-5-5','claude-opus-5','claude-opus-4-8',
@@ -100,7 +120,7 @@ class Client:
     def complete(self,*,system,messages,tools,max_tokens=4000,private_summary=False):
         body={'model':self.model,'max_tokens':max_tokens,'system':[
                   {'type':'text','text':system,'cache_control':{'type':'ephemeral'}}],
-              'messages':deepcopy(messages),'tools':deepcopy(tools)}
+              'messages':deepcopy(messages),'tools':wire_tools(tools)}
         from ..planner_recording import _safe
         _safe(canonical(body).encode())
         # The real transport checks the date before making a reservation. The

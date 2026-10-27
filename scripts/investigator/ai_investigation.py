@@ -30,6 +30,10 @@ Value agreement never establishes snapshot alignment. A statement about a
 whole source chain requires actual reads of its boundaries. For a calculation
 trace, follow declared route bridges and retained transformations beyond the
 model, rather than repeating component totals on already matched layers.
+For a quantity comparison across the source chain, return one scalar cell per
+boundary query. Counts, key samples and breakdowns are separate evidence; they
+are not interchangeable with the quantity being compared. Batch independent
+tool checks in one response when useful, then submit the supported finding.
 For Something else, investigate its description and name the nearest issue type
 in submit_finding when the form has not already supplied that classification.
 '''
@@ -45,7 +49,7 @@ def toolbox(layers,read_tools,intake=None):
     for kind in ('sql','dax'):
         ids=[i for i,l in layers.items() if (l['dialect']=='DAX')==(kind=='dax')]
         if not ids:continue
-        tools.append({'name':'run_'+kind,'description':'Run your read-only query on one admitted layer. Valid layer IDs: '+', '.join(ids),
+        tools.append({'name':'run_'+kind,'description':'Run your read-only query on one admitted layer. Use an exact layer ID from the admitted context or current state.',
                       'input_schema':schema({'layer':{'enum':ids},'query':{'type':'string','minLength':1},
                           'purpose':{'enum':['recreate','compare','record','lookup','security','different_question','history']}})})
     for name,tool in read_tools.items():

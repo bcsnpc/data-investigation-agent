@@ -25,6 +25,7 @@ class Cases:
                 or not isinstance(body['request_key'],str) or not body['request_key']):
             raise ValueError('GUIDED_REQUEST_KEY_AND_INTAKE_REQUIRED')
         catalog=Catalog.from_graph(self.graph)
+        admission_error=None
         origin=body.get('source')
         if origin is not None:
             if not isinstance(origin,dict) or set(origin)!={'kind','text','provenance','figure_mentions'} or origin['kind']!='MAPPED_TEXT':
@@ -34,7 +35,11 @@ class Cases:
                 {'proposal':body['intake'],'provenance':origin['provenance'],'figure_mentions':origin['figure_mentions']})
             if checked['status']!='READY':return checked
             resolved=checked
-        else:resolved=admit(body['intake'],catalog)
+        else:
+            try:resolved=admit(body['intake'],catalog)
+            except ValueError as error:
+                if str(error) not in ('UNKNOWN_REPORT','UNKNOWN_PAGE','PAGE_OUTSIDE_REPORT','VISUAL_OUTSIDE_PAGE','VISUAL_REQUIRES_PAGE'):raise
+                admission_error=str(error);resolved=deepcopy(body['intake'])
         identity='guided:'+digest([self.estate,body['request_key']]);fingerprint=digest([body['intake'],origin])
         try:prior=self.state.get(self.namespace,identity)
         except KeyError:prior=None
@@ -44,6 +49,14 @@ class Cases:
         value={'id':identity,'estate':self.estate,'intake_hash':fingerprint,'intake':resolved,
                'source':deepcopy(origin) if origin else {'kind':'FORM'},
                'status':'QUEUED','outcome':None,'created_at':datetime.now(timezone.utc).isoformat()}
+        if admission_error:
+            choices=catalog.reports()
+            question={'question':'Which report should I check?','choices':choices,'reason':admission_error}
+            outcome={'status':'NEEDS_INPUT','business':question['question'],'question':question,
+                'stop':admission_error,'handoff':{'intake':deepcopy(body['intake']),'queries':[],
+                    'stopping_point':admission_error,'next_checks':['Resolve the selected target from the catalog choices.'],
+                    'catalog_choices':choices,'ruled_out':[]}}
+            value.update(status='NEEDS_INPUT',outcome=outcome)
         try:self.state.put(self.namespace,identity,value)
         except StateConflict:
             prior=self.state.get(self.namespace,identity)['body']

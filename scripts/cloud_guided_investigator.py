@@ -91,9 +91,10 @@ def run(plan,context):
     # Only names/containment cross the catalog boundary. Raw definitions are
     # obtained for the actual selected path, not the historical catalog.
     metadata=graph.intake_catalog()
-    collector=None
+    collector=None;collector_config=None
     if 'collector' in spec:
-        collector=PathCollector(json.loads(reference(spec['collector'],maximum=500000).read_bytes()),state,
+        collector_config=json.loads(reference(spec['collector'],maximum=500000).read_bytes())
+        collector=PathCollector(collector_config,state,
                                 graph_spec['allowed_objects'],record)
     rate=RateCard(model=spec['reasoning']['model'],**spec['reasoning']['rate_card'])
     budgets={}
@@ -152,7 +153,23 @@ def run(plan,context):
         port=PathFacts(ledger=ledger,estate=graph_spec['estate'],path=path,collector=collector,save=record)
         fact_ports[identity]=port
         return port
+    history_reader=None
+    if collector_config:
+        from investigator.guided_runtime_reads import SubjectHistory
+        from investigator.adapters.scanner_refresh import RefreshHttp
+        retained_history=DefinitionSink(files,storage['account_url']+'/snapshots',recording_class='EXACT',scratch=root)
+        def history_sql(route,request):
+            settings=collector_config.get('sql_configs',{}).get(route.get('reader'))
+            if settings is None:raise ValueError('FACT_DECLARED_SQL_READER_ABSENT')
+            if settings['fabric']['sql_reader']['server']!=route['connection']:raise ValueError('FACT_SQL_DECLARED_CONNECTION_DIFFERS')
+            return sql_read(settings,route['database'],request)
+        refresh_http=(RefreshHttp(collector_config['refresh_authentication'],collector_config['subjects'],meter=metered)
+            if 'refresh_authentication' in collector_config else None)
+        history_reader=SubjectHistory(subjects=collector_config['subjects'],allowed=graph.allowed,
+            http=http,retain=retained_history,sql=history_sql,refresh_http=refresh_http,
+            now=lambda:datetime.now(timezone.utc).isoformat(),ledger=ledger,estate=graph_spec['estate'])
     def history(node,kinds):
+        if history_reader:return history_reader(node,kinds)
         return next(iter(fact_ports.values())).history(node,kinds)
     def screenshot_reader(case_id,checksum):
         if checksum not in spec.get('screenshots',{}):raise ValueError('SCREENSHOT_ATTACHMENT_NOT_INSTALLED')

@@ -2,6 +2,16 @@
 from copy import deepcopy
 from datetime import datetime,timezone
 from .path_triage import Triage
+from .usage_governance import UsageHold
+
+
+class ScanFactsUnavailable(ValueError):
+    """The separate collector allocation is unavailable, not an INV allowance."""
+
+
+def scan_refusal(error):
+    # Do not swallow total/INV/REST refusals or a generic safety error.
+    return isinstance(error,UsageHold) and str(error)=='MONTHLY_PHYSICAL_SCAN_EXHAUSTED'
 
 KINDS={'MODEL_REFRESH':{'REFRESH_RUN','REFRESH_STATE','RUN_HISTORY'},
        'REFRESH_SCHEDULE':{'SCHEDULE'},'JOB_RUNS':{'JOB_RUN'},
@@ -16,6 +26,7 @@ class PathFacts:
         self.collector,self.save=(collector if collector is None or callable(collector) else collector.run),save
         self.now=now or (lambda:datetime.now(timezone.utc).isoformat())
         self.snapshot=None;self.refreshed=False
+        self.refresh_failure=None
 
     def read(self):
         if self.snapshot is None:
@@ -39,11 +50,16 @@ class PathFacts:
         if self.collector is None:raise ValueError('PATH_COLLECTOR_NOT_INSTALLED')
         if not self.refreshed:
             self.refreshed=True
-            result=self.collector(self.estate,self.subjects,now=self.now(),force=True)
+            try:result=self.collector(self.estate,self.subjects,now=self.now(),force=True)
+            except UsageHold as error:
+                if not scan_refusal(error):raise
+                self.refresh_failure=str(error)
+                self.save({'event':'PATH_FACT_REFRESH_UNAVAILABLE','reason':self.refresh_failure,'purpose':'SCAN'})
+                raise ScanFactsUnavailable(self.refresh_failure) from error
             self.save({'event':'PATH_FACT_REFRESH','result':result})
             self.snapshot=None
         result=self.lookup(check,path)
-        if result is None:raise ValueError('FRESH_PATH_FACT_NOT_AVAILABLE:'+check)
+        if result is None:raise ScanFactsUnavailable(self.refresh_failure) if self.refresh_failure else ValueError('FRESH_PATH_FACT_NOT_AVAILABLE:'+check)
         return result
 
     def run(self):
@@ -54,7 +70,10 @@ class PathFacts:
         current=[f for f in rows if f['kind'] in kinds and f['freshness']=='CURRENT'
                  and f['state'] in ('OBSERVED','OBSERVED_NEGATIVE')]
         if not current and self.collector:
-            self.collector(self.estate,[node],now=self.now(),force=True)
+            try:self.collector(self.estate,[node],now=self.now(),force=True)
+            except UsageHold as error:
+                if not scan_refusal(error):raise
+                return {'status':'UNAVAILABLE','reason':str(error),'purpose':'SCAN','retained':rows}
             rows=self.ledger.read(self.estate,[node],now=self.now(),max_age_seconds=900)['facts']
             current=[f for f in rows if f['kind'] in kinds and f['freshness']=='CURRENT'
                      and f['state'] in ('OBSERVED','OBSERVED_NEGATIVE')]

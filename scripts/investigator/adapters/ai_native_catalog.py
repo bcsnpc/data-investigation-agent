@@ -202,6 +202,39 @@ class NativeCatalog:
                 'graph_nodes':list(ids),'definition_asset':definition['id'],'definition_hash':definition['content_hash'],
                 'partition_source':deepcopy(source),'literal_expression':expression,'native_ownership':witnesses,
                 'qualification':'Declared route only; value agreement and aligned snapshots are not implied.'})
+        return [*result,*self.manifest_continuations(path,result)]
+
+    def manifest_continuations(self,path,bridges):
+        """Carry literal installation declarations, without inferring a join.
+
+        Only an already reached delivery can open its declared source. Audit
+        declarations accompany the producer, never become quantity boundaries.
+        """
+        estate=self.config.get('_estate',{})
+        layers={l['id']:l for l in estate.get('layers',[])}
+        resources={r['id']:r for r in estate.get('resources',[])}
+        reached={n.get('properties',{}).get('asset_id') for n in path['nodes']}
+        reached.update(b['physical_table'] for b in bridges if 'physical_table' in b)
+        pending=list(estate.get('lineage',{}).get('bindings',[]));result=[]
+        while pending:
+            progress=False
+            for binding in pending[:]:
+                source=layers.get(binding['from_layer'],{}).get('asset_id')
+                target=layers.get(binding['to_layer'],{}).get('asset_id')
+                if target not in reached or source not in self.assets or not self.nodes.get(source):continue
+                producers=[p for p in estate.get('pipelines',[]) if p['from_layer']==binding['from_layer'] and p['to_layer']==binding['to_layer']]
+                node_ids=list(self.nodes[source]);declarations=[]
+                for producer in producers:
+                    ids=self.nodes.get(producer['producer_asset_id'],[])
+                    node_ids.extend(ids)
+                    audit=producer.get('audit',{})
+                    declarations.append({**deepcopy(producer),'audit_resource':deepcopy(resources.get(audit.get('resource')))})
+                result.append({'confidence':'DECLARED','basis':'ESTATE_MANIFEST_BINDING',
+                    'source_asset':source,'delivery_asset':target,'graph_nodes':sorted(set(node_ids)),
+                    'binding':deepcopy(binding),'producers':declarations,
+                    'qualification':'Declared mapping only; compare native values and retained load evidence to establish a cause.'})
+                reached.add(source);pending.remove(binding);progress=True
+            if not progress:break
         return result
 
     def context(self, path, intake):

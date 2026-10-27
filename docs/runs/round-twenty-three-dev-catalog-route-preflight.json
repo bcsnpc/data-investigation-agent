@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-27T05:12:42.471069+00:00",
+  "observed_at": "2026-10-27T07:37:50.346297+00:00",
   "dev_forms": 40,
   "results": [
     {
@@ -7,24 +7,26 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 46140,
+        "context_bytes": 55462,
         "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 50583,
+        "context_bytes": 60509,
         "no_query_route": false
       },
       "status": "ASSEMBLED"
@@ -34,24 +36,26 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 45007,
+        "context_bytes": 54329,
         "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 49450,
+        "context_bytes": 59376,
         "no_query_route": false
       },
       "status": "ASSEMBLED"
@@ -123,24 +127,26 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 44975,
+        "context_bytes": 54297,
         "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 49418,
+        "context_bytes": 59344,
         "no_query_route": false
       },
       "status": "ASSEMBLED"
@@ -150,24 +156,26 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 44975,
+        "context_bytes": 54297,
         "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 49418,
+        "context_bytes": 59344,
         "no_query_route": false
       },
       "status": "ASSEMBLED"
@@ -177,24 +185,26 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 45453,
+        "context_bytes": 54775,
         "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 49896,
+        "context_bytes": 59822,
         "no_query_route": false
       },
       "status": "ASSEMBLED"
@@ -204,24 +214,26 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 45091,
+        "context_bytes": 54413,
         "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 49534,
+        "context_bytes": 59460,
         "no_query_route": false
       },
       "status": "ASSEMBLED"
@@ -231,24 +243,26 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 45781,
+        "context_bytes": 55103,
         "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 50224,
+        "context_bytes": 60150,
         "no_query_route": false
       },
       "status": "ASSEMBLED"
@@ -258,24 +272,26 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 45393,
+        "context_bytes": 54715,
         "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 49836,
+        "context_bytes": 59762,
         "no_query_route": false
       },
       "status": "ASSEMBLED"
@@ -285,24 +301,26 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 45756,
+        "context_bytes": 55078,
         "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 50199,
+        "context_bytes": 60125,
         "no_query_route": false
       },
       "status": "ASSEMBLED"
@@ -312,24 +330,26 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 45489,
+        "context_bytes": 54811,
         "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 49932,
+        "context_bytes": 59858,
         "no_query_route": false
       },
       "status": "ASSEMBLED"
@@ -339,24 +359,26 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 46212,
+        "context_bytes": 55534,
         "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 50655,
+        "context_bytes": 60581,
         "no_query_route": false
       },
       "status": "ASSEMBLED"
@@ -372,24 +394,26 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 45541,
+        "context_bytes": 54863,
         "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 49984,
+        "context_bytes": 59910,
         "no_query_route": false
       },
       "status": "ASSEMBLED"
@@ -399,24 +423,26 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 45192,
+        "context_bytes": 54514,
         "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 49635,
+        "context_bytes": 59561,
         "no_query_route": false
       },
       "status": "ASSEMBLED"
@@ -426,24 +452,26 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 45024,
+        "context_bytes": 54346,
         "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 49467,
+        "context_bytes": 59393,
         "no_query_route": false
       },
       "status": "ASSEMBLED"
@@ -453,24 +481,26 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 45024,
+        "context_bytes": 54346,
         "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 49467,
+        "context_bytes": 59393,
         "no_query_route": false
       },
       "status": "ASSEMBLED"
@@ -542,24 +572,26 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 45469,
+        "context_bytes": 54791,
         "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 49912,
+        "context_bytes": 59838,
         "no_query_route": false
       },
       "status": "ASSEMBLED"
@@ -569,24 +601,26 @@
       "estate": "fixture",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 45166,
+        "context_bytes": 54488,
         "no_query_route": false
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 2,
+        "layers": 3,
         "layer_ids": [
           "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 49609,
+        "context_bytes": 59535,
         "no_query_route": false
       },
       "status": "ASSEMBLED"
@@ -1076,5 +1110,5 @@
   ],
   "estate_reads": 0,
   "model_calls": 0,
-  "method": "Actual sealed dev forms and retained estate graph/catalog; production Factory route assembly twice, actual wire and all top-level inventory bookkeeping and redundant parent_id removed; parent binding is recovered only from literal native addresses. Native schema/endpoint ports use offline retained-schema shape stubs; no data values, live probe or finding is claimed. Invalid report IDs are not substituted."
+  "method": "Actual sealed dev forms and retained estate graph/catalog; production Factory route assembly twice, actual wire and all top-level inventory bookkeeping and redundant parent_id removed; parent binding is recovered only from literal native addresses. Native schema/endpoint ports use offline retained-schema shape stubs; no data values, live probe or finding is claimed. Invalid report IDs are not substituted. Uses production estate_installation.configuration, including manifest source bindings and pipeline declarations. Producer expansion uses the existing bounded calculation_path API."
 }
