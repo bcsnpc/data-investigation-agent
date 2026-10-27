@@ -1,0 +1,26 @@
+{
+  "observed_at": "2026-10-27T07:42:49.436868+00:00",
+  "image": {
+    "source": "a807c9cf04171c5ba88bea39316d9d58a38c2230",
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:7b8f1cd8c1545630bd3afe9123b15b27545ebe6edaab449f249fa3059c29075b",
+    "workflow": "40468349873",
+    "status": "HOSTED_FOCUSED_TESTS_AND_IMAGE_PUBLICATION_SUCCESS",
+    "observed_at": "2026-10-27T07:41:28.870127+00:00"
+  },
+  "offline_forms": 40,
+  "assembled": 39,
+  "unknown_report_refusal": 1,
+  "adapter_exceptions": 0,
+  "prior_partial_attempts_preserved": 32,
+  "prepared_input_sha256": "de7a033da851bd68065a2bfc3a05bb3ce7712145ec3adfad25df6d44af8e742b",
+  "physical_before": {
+    "total": 6044,
+    "INVESTIGATION": 3974,
+    "SCAN": 2000,
+    "RESTORATION": 0,
+    "reserve_remaining": 95
+  },
+  "model_before_microdollars": 31801273,
+  "enrichment_before_microdollars": 8502810,
+  "caps_changed": false
+}
