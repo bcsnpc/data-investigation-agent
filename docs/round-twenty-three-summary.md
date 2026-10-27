@@ -45,7 +45,7 @@ Independent v2 tickets and expectations were sealed at25339ea before investigati
 
 ## Part H — restoration, validation and release
 
-_pending_. Failed-job and waiting-job controls ran and their original definitions were hash-restored. No source-row, stale or access injection has been applied. Temporal history remains on.
+_pending_. Failed-job and waiting-job controls ran and their original definitions were hash-restored. Latency source-row and future-schedule admissions were attempted and restored without submitting tickets; the first failed locally on an unnecessary Convert AST node and the second on publisher SQL broker token renewal. Both original business hashes match and both owned schedules were removed. Stale and access remain pending. Temporal history remains on.
 
 ## Final results
 

@@ -132,3 +132,12 @@ Round23 waiting dev04 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_r
 
 
 Round23 latency dev04 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-three\injections\dev04-latency\status.json. Temporal remains ON.
+
+
+Round23 latency dev04 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-three\injections\dev04-latency-admission02\status.json. Temporal remains ON.
+
+
+Round23 latency dev04 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-three\injections\dev04-latency-admission03\status.json. Temporal remains ON.
+
+
+Round23 latency dev04 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-three\injections\dev04-latency-admission04\status.json. Temporal remains ON.

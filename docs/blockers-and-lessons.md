@@ -588,3 +588,6 @@ Round23 billing normal-control rerun (not a scored ticket) failed on the origina
 
 
 2026-10-27 Round23 dev04 latency admission did not dispatch: the publisher control parser refused Convert in its own aggregate. No scored ticket ran. Original source/schedule restored and business row/schema hashes matched; a separate admission uses SUM(units) without changing the investigator image. Outer retained-context created and relation availability are also optional bookkeeping now; absent observation time remains explicitly unknown rather than invented. Focused changed-module suite:122 PASS.
+
+
+2026-10-27: local Fabric CLI publisher SQL renewal failed before admission with broker_error, Status_IncorrectConfiguration,3399614466; no token printed. The existing isolated Azure CLI profile renewed for the same admin@skynwhy.com tenant, but automatic approval review blocked adding the in-memory local token bridge (blocked by policy), so it was not installed or run. Admission uses the existing read-only cloud reader probe path instead, native10-request bound, no credential/role change; control results are never passed as investigator evidence. Failed admission02 source/schedule were restored and full original row/schema hashes matched.
