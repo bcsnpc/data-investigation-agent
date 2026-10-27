@@ -54,8 +54,9 @@ class ReadTools:
     def lineage(self,args):
         # Expansions remain inside GraphAPI's existing admitted estate scope.
         path=self.graph.path_to_source(args['node'])
+        activated=self.expand(path) if self.expand else {}
         self.nodes.update({n['id']:n for n in path['nodes']});self.visible.update(n['id'] for n in path['nodes'])
-        return {'path':path,'activated_layers':self.expand(path) if self.expand else {}}
+        return {'path':path,'activated_layers':activated}
 
     def candidates(self,args):
         tokens=lambda text:set(re.findall(r'[^\W_]+',text.casefold()))

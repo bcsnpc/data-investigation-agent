@@ -65,6 +65,25 @@ class NativeCatalog:
     def object_nodes(self,identity):
         return set(self.nodes[identity])|{node for a in self.assets.values() if a.get('parent_id')==identity for node in self.nodes[a['id']]}
 
+    def associated_nodes(self,path):
+        """Literal native containment, not a same-name dependency inference.
+
+        A stored-column visual need not traverse a calculated dependency to
+        its table. The small intake index omits columns, so attach its known
+        table/model ancestors using retained native parent identities.
+        """
+        reached={n.get('properties',{}).get('asset_id') for n in path['nodes']}
+        pending=list(reached);ancestors=set()
+        while pending:
+            identity=pending.pop();asset=self.assets.get(identity,{})
+            parent=asset.get('parent_id')
+            if parent and parent not in reached and parent not in ancestors:
+                ancestors.add(parent);pending.append(parent)
+        present={n['id'] for n in path['nodes']}
+        return [deepcopy(n) for n in self.graph_nodes.values() if n['id'] not in present
+                and n.get('kind') in ('TABLE','VIEW','MODEL')
+                and n.get('properties',{}).get('asset_id') in ancestors]
+
     def prepare(self, identity, nodes=None):
         if identity not in self.routes:raise ValueError('NATIVE_LAYER_NOT_DECLARED')
         route=self.routes[identity]

@@ -15,7 +15,7 @@ from .estate_graph_contract import canonical,digest
 class Factory:
     def __init__(self,*,state,graph,routes,native,context_for,triage_for,model_for,
                  reserve,persist,job_runs,refresh_history,security_definitions=None,
-                 checkpoint_for=None,prepare_route=None,begin_case=None,candidate_details=None,screenshot_reader=None,declared_continuations=None):
+                 checkpoint_for=None,prepare_route=None,begin_case=None,candidate_details=None,screenshot_reader=None,declared_continuations=None,associated_nodes=None):
         self.state,self.graph,self.routes=state,graph,deepcopy(routes)
         self.native,self.context_for,self.triage_for,self.model_for=native,context_for,triage_for,model_for
         self.reserve,self.persist=reserve,persist
@@ -23,6 +23,7 @@ class Factory:
         self.registry=deepcopy(routes)
         self.screenshot_reader=screenshot_reader
         self.declared_continuations=declared_continuations
+        self.associated_nodes=associated_nodes
         self.job_runs,self.refresh_history,self.security=job_runs,refresh_history,security_definitions
         self.checkpoint_for=checkpoint_for or (lambda case_id:SharedStore(state,'ai-query:'+case_id,resume=True))
         for route in self.routes.values():
@@ -38,9 +39,16 @@ class Factory:
             if hasattr(self.native,'routes'):self.native.routes[identity]=deepcopy(route)
         return self.routes[identity]
 
+    def attach_native_ancestors(self,path):
+        extra=self.associated_nodes(path) if self.associated_nodes else []
+        if extra and not {n['id'] for n in extra}<=self.graph.allowed:raise ValueError('NATIVE_ANCESTOR_OUTSIDE_ADMITTED_GRAPH')
+        existing={n['id']:n for n in path['nodes']};existing.update({n['id']:n for n in extra})
+        return {**path,'nodes':list(existing.values())}
+
     def target_path(self, intake):
         catalog=self.graph.intake_catalog()
         def associated(path):
+            path=self.attach_native_ancestors(path)
             owners={n.get('owner') for n in path['nodes'] if n.get('owner')}
             present={n['id'] for n in path['nodes']}
             additions=[n for n in catalog['nodes'] if n['kind']=='MODEL' and n['id'] not in present
@@ -52,7 +60,9 @@ class Factory:
         # do not expand every visual in its report or silently choose one.
         # Identical qualified names on multiple layers remain candidates.
         import re
-        words=canonical({'description':intake.get('description',''),'details':intake.get('details',{})})
+        # A comparison or background mention in prose is not a new target.
+        # Only the form's explicit record subject can narrow a report this way.
+        words=canonical((intake.get('details') or {}).get('record',''))
         roots=set()
         for route in self.routes.values():
             for obj in route['objects']:
@@ -134,6 +144,7 @@ class Factory:
         queries=Queries(layers,execute=self.native,reserve=lambda layer,key:self.reserve(case['id'],layer,key),save=save,
                         available_layers=available)
         def expand(extra):
+            extra.update(self.attach_native_ancestors(extra))
             ids={n['id'] for n in extra['nodes']}
             selected=[i for i,r in self.routes.items() if ids.intersection(r['path_nodes'])]
             for identity in selected:

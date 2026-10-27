@@ -183,6 +183,7 @@ def run(plan,context):
         screenshot_reader=screenshot_reader,
         security_definitions=security,
         declared_continuations=native_catalog.declared_continuations,
+        associated_nodes=native_catalog.associated_nodes,
         reserve=lambda *_:None,persist=lambda _,event:record(event),
         job_runs=lambda node:history(node,{'JOB_RUN','RUN_HISTORY','SCHEDULE','TABLE_LOAD'}),
         refresh_history=lambda node:history(node,{'REFRESH_RUN','REFRESH_STATE','SCHEDULE','RUN_HISTORY'}))

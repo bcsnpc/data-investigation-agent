@@ -10,6 +10,22 @@ from test_round23_intake_queries import graph,request,sql_objects
 
 
 class Tests(unittest.TestCase):
+    def test_column_visual_opens_declared_parent_table_route_without_replacing_target(self):
+        from investigator.guided_investigator_installation import Factory
+        from types import SimpleNamespace
+        table={'id':'parent','kind':'TABLE','label':'Items','properties':{'asset_id':'table'}}
+        column={'id':'column','kind':'COLUMN','label':'quantity','properties':{'asset_id':'column'}}
+        catalog=graph();catalog['nodes'].append(table)
+        self.graph.intake_catalog.return_value=catalog;self.graph.allowed={n['id']for n in catalog['nodes']}|{'column'}
+        self.graph.path_to_source.return_value={'nodes':[column],'edges':[]}
+        route={'kind':'SOURCE_SQL','objects':sql_objects(),'asset_ids':['table'],'path_nodes':['parent'],'label':'Source','dialect':'T-SQL'}
+        factory=Factory(state=self.state,graph=self.graph,routes={'source':route},native=Mock(),
+            context_for=lambda *a:{},triage_for=lambda *a:SimpleNamespace(run=lambda:{'facts':[]}),
+            model_for=lambda _:Mock(),reserve=Mock(),persist=Mock(),job_runs=Mock(),refresh_history=Mock(),
+            associated_nodes=lambda path:[table])
+        item=request();engine=factory({'id':'column-visual','estate':'estate','intake':item})
+        self.assertIn('source',engine.queries.layers)
+        self.assertEqual(engine.context['intake']['visual'],item['visual'])
     def test_explicit_qualified_object_uses_its_path_without_selecting_a_visual(self):
         from investigator.guided_investigator_installation import Factory
         table={'id':'source-node','kind':'VIEW','label':'Items','properties':{'asset_id':'table'}}
@@ -33,6 +49,17 @@ class Tests(unittest.TestCase):
         factory=Factory(state=self.state,graph=self.graph,routes={},native=Mock(),context_for=Mock(),
             triage_for=Mock(),model_for=Mock(),reserve=Mock(),persist=Mock(),job_runs=Mock(),refresh_history=Mock())
         factory.target_path(item);self.graph.path_to_source.assert_called_once_with(item['visual'])
+
+    def test_comparison_table_mention_without_visual_does_not_replace_report_target(self):
+        from investigator.guided_investigator_installation import Factory
+        item=request();del item['visual'];item['description']='Compare the report with source dbo.Items'
+        self.graph.allowed={'source-node'};self.graph.path_to_source.return_value=graph()
+        route={'objects':sql_objects(),'path_nodes':['source-node']}
+        factory=Factory(state=self.state,graph=self.graph,routes={'source':route},native=Mock(),
+            context_for=Mock(),triage_for=Mock(),model_for=Mock(),reserve=Mock(),persist=Mock(),job_runs=Mock(),refresh_history=Mock())
+        result=factory.target_path(item)
+        self.graph.path_to_source.assert_called_once_with('card')
+        self.assertIn('visual remains optional',result['target_selection'])
 
     def setUp(self):
         folder=TemporaryDirectory();self.addCleanup(folder.cleanup)

@@ -10,6 +10,21 @@ def asset(identity,kind,parent,name,metadata):
 
 
 class NativeCatalogTests(unittest.TestCase):
+    def test_column_only_path_attaches_exact_native_table_ancestors_without_intake_columns(self):
+        model='fabric://workspace/model';table=model+'/table/Activity';column=table+'/columns/units'
+        self.assets += [asset(model,'SemanticModel',None,'Model',{}),
+            asset(table,'SemanticTable',model,'Activity',{'name':'Activity'}),
+            asset(column,'SemanticColumn',table,'units',{'name':'units','sourceColumn':'units','dataType':'int64'})]
+        self.nodes += [{'id':'model','kind':'MODEL','properties':{'asset_id':model}},
+            {'id':'table','kind':'TABLE','properties':{'asset_id':table}}]
+        # The intake projection deliberately has no COLUMN node.
+        catalog=self.build();path={'nodes':[{'id':'column','kind':'COLUMN','properties':{'asset_id':column}}]}
+        extra=catalog.associated_nodes(path)
+        self.assertEqual({n['id']for n in extra},{'model','table'})
+        route=next(i for i,r in catalog.routes.items()if r['kind']=='DAX')
+        self.assertTrue(catalog.prepare(route,[n['id']for n in extra])['objects'])
+        self.read.assert_not_called()
+        self.assertEqual(catalog.associated_nodes({'nodes':[{'id':'unknown','properties':{'asset_id':'unknown'}}]}),[])
     def test_declared_manifest_source_and_producer_are_opened_only_after_delivery(self):
         source='sql://server/application/object/10';pipeline='fabric://workspace/pipeline'
         self.assets += [asset('sql://server/application','SqlDatabase','sql://server','application',{}),asset(source,'SqlObject','sql://server/application','Source',{'name':'Source','schema_name':'app','columns':[]}),asset(pipeline,'DataPipeline','fabric://workspace','Copy',{})]

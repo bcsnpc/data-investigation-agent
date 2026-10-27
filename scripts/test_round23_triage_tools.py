@@ -16,6 +16,17 @@ NOW='2026-11-01T01:00:00Z'
 
 
 class TriageTests(unittest.TestCase):
+    def test_lineage_expansion_exposes_attached_native_parent_nodes(self):
+        graph=Mock();graph.path_to_source.return_value={'nodes':[{'id':'column','kind':'COLUMN'}],'edges':[]}
+        def expand(path):
+            path['nodes'].append({'id':'parent','kind':'TABLE'})
+            return {'source':{'dialect':'T-SQL'}}
+        port=ReadTools(graph=graph,path={'nodes':[],'edges':[]},queries=Mock(),intake={'report':'report'},
+            job_runs=Mock(),refresh_history=Mock(),candidates={'nodes':[],'edges':[]},expand=expand)
+        result=port.lineage({'node':'column'})
+        self.assertIn('parent',port.visible)
+        self.assertIn('parent',port.nodes)
+        self.assertIn('source',result['activated_layers'])
     def test_candidate_lookup_matches_visible_words_to_underscores_and_container_names(self):
         node={'id':'matching','kind':'TABLE','label':'stock_movements','properties':{'native_location':{'container_name':'warehouse_gold_fixture'}}}
         other={'id':'other','kind':'TABLE','label':'stock_other','properties':{}}
