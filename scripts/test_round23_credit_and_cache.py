@@ -51,6 +51,23 @@ class CacheTests(unittest.TestCase):
  def test_subsequent_cache_reads_and_ratio_use_native_counts(self):
   cache=StablePrefix();cache.prepare(self.body());a=cache.observe({'input_tokens':100,'cache_creation_input_tokens':2048});b=cache.observe({'input_tokens':200,'cache_read_input_tokens':2048});assert_cache_reads([a,b])
   self.assertEqual(b['total_input_tokens'],2248);self.assertEqual(b['cache_read_input_tokens'],2048)
+ def test_cached_diagnostic_preserves_changing_screenshot_helper_requests(self):
+  from unittest.mock import Mock,patch
+  from investigator.adapters.reasoning_anthropic import Client
+  budget=Mock();budget.rate.model='claude-opus-5-5';budget.reserve.return_value='r'
+  send=Mock(return_value={'content':[],'usage':{'input_tokens':100,'output_tokens':1}});record=Mock()
+  with patch('investigator.adapters.managed_identity.validate_secret_reference'):
+   client=Client(model='claude-opus-5-5',budget=budget,identity='reader',secret_reference={},record=record,send=send,diagnostic_prompt_cache=True)
+  for name in ('describe_screenshot','plan_screenshot_lookup'):
+   tools=[{'name':name,'description':'Use this named helper','input_schema':{'type':'object','properties':{}}}]
+   client.complete(system='helper instructions',messages=[],tools=tools)
+   body=send.call_args.args[2]
+   self.assertEqual(body['tools'],tools);self.assertEqual(body['system'][0]['text'],'helper instructions')
+  events=[x.args[0]for x in record.call_args_list if x.args[0].get('event')=='REASONING_CACHE_USAGE']
+  self.assertEqual(len(events),2);self.assertTrue(all(x['phase']=='INTAKE_HELPER_UNCHANGED'for x in events));assert_cache_reads(events)
+ def test_investigation_cache_check_still_rejects_later_misses(self):
+  with self.assertRaisesRegex(AssertionError,'ZERO_CACHE_READS'):
+   assert_cache_reads([{'successful_call':2,'cache_read_input_tokens':0,'cache_assertion_applies':True}])
  def test_gateway_tool_breakpoint_requires_explicit_diagnostic_permission(self):
   cache=StablePrefix();body=cache.prepare(self.body());permissions={'reasoning_models':['claude-opus-5-5']}
   with self.assertRaises(ValueError):authorize_body(permissions,'POST','https://api.anthropic.com/v1/messages',body)

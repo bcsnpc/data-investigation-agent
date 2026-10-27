@@ -98,6 +98,7 @@ class Client:
             raise ValueError('OWNER_DIAGNOSTIC_CACHE_MODEL_REQUIRED')
         from .anthropic_prompt_cache import StablePrefix
         self.diagnostic_cache=StablePrefix()if diagnostic_prompt_cache else None
+        self.diagnostic_helper_usage=StablePrefix()if diagnostic_prompt_cache else None
 
     def _http(self,method,url,body=None):
         require_live_window()
@@ -129,7 +130,11 @@ class Client:
         body={'model':self.model,'max_tokens':max_tokens,'system':[
                   {'type':'text','text':system,'cache_control':{'type':'ephemeral'}}],
               'messages':deepcopy(messages),'tools':wire_tools(tools)}
-        if self.diagnostic_cache is not None:body=self.diagnostic_cache.prepare(body)
+        # A screenshot/intake helper can switch its single named tool before a
+        # path exists. Pin only the admitted investigation toolbox; preserve
+        # helper requests exactly instead of hiding their next required tool.
+        cache_investigation=self.diagnostic_cache is not None and any(t.get('name')=='submit_finding'for t in tools)
+        if cache_investigation:body=self.diagnostic_cache.prepare(body)
         from ..planner_recording import _safe
         _safe(canonical(body).encode())
         # The real transport checks the date before making a reservation. The
@@ -159,7 +164,11 @@ class Client:
                 self.record({'event':'REASONING_RESPONSE','reservation':identity,
                              **({'private_case_content_omitted':True,'sha256':__import__('hashlib').sha256(canonical(response).encode()).hexdigest(),'usage':response.get('usage')}
                                 if private_summary else {'body':response})})
-                if self.diagnostic_cache is not None:self.record(self.diagnostic_cache.observe(response.get('usage')))
+                if cache_investigation:
+                    observed=self.diagnostic_cache.observe(response.get('usage'));observed.update(phase='INVESTIGATION',cache_assertion_applies=True);self.record(observed)
+                elif self.diagnostic_helper_usage is not None:
+                    self.diagnostic_helper_usage.prefix_sha256=__import__('hashlib').sha256(canonical([body['tools'],body['system']]).encode()).hexdigest()
+                    observed=self.diagnostic_helper_usage.observe(response.get('usage'));observed.update(phase='INTAKE_HELPER_UNCHANGED',cache_assertion_applies=False,subsequent_cache_read_check='NOT_APPLICABLE_NO_ADMITTED_PATH_PREFIX');self.record(observed)
                 return response
             except ProviderHTTPError as error:
                 if attempt==2 or error.http_status not in (408,429,502,503,504):raise

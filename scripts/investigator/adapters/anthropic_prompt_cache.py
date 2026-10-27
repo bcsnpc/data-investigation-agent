@@ -7,7 +7,7 @@ from ..estate_graph_contract import canonical
 def assert_cache_reads(records):
     """Post-run assertion, never a reason to discard a delivered finding."""
     for record in records:
-        if record['successful_call']>1 and record['cache_read_input_tokens']==0:
+        if record.get('cache_assertion_applies',True) and record['successful_call']>1 and record['cache_read_input_tokens']==0:
             raise AssertionError('DIAGNOSTIC_SUBSEQUENT_CALL_ZERO_CACHE_READS')
 
 

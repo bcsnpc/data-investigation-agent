@@ -8,3 +8,6 @@ The provider?s [Usage and Cost API](https://platform.claude.com/docs/en/manage-c
 
 
 Cached diagnostic preparation:26 unchanged static forms, zero submitted at preparation, immutable input archive SHA256 f9cc4f15823fa46013593de378e17bf9f2ee9083c78ea1ade15f7a3d54047252. [Image and source pin](runs/round-twenty-three-cached-diagnostic-image.json). The earlier uncached archive is retained and unused. Original frozen held-out image2f22b43d remains unchanged.
+
+
+Diagnostic cache boundary correction, 2026-10-27: stable-prefix pinning applies after intake, when the investigation has an admitted path and `submit_finding` toolbox. Screenshot helpers switch from `describe_screenshot` to `plan_screenshot_lookup` before that path exists; their requests remain unchanged, with native cache usage still recorded under `INTAKE_HELPER_UNCHANGED`. The second/later-call cache assertion applies to the admitted investigation prefix. Helper cold calls remain in the aggregate token denominator and are separately labelled; no global all-phase hit guarantee is claimed. A regression test verifies that both original helper schemas/tool names remain available unchanged. Already completed diagnostic cases stay on their original image; later cases record the corrected image separately. Frozen held-out inference is untouched.
