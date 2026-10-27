@@ -112,7 +112,7 @@ class LowerReadError(RuntimeError):
         self.error_kind = kind if kind in ('SqlException', 'InvalidOperationException', 'MethodException', 'ArgumentException') else 'TransportError'
 
 
-def read(config, database, request, *, token=get_sql_token, run=subprocess.run):
+def read(config, database, request, *, token=get_sql_token, run=subprocess.run, attestation=True):
     """Execute one compiled, admitted request as the configured reader.
 
     The request comes from the admission path. This function adds only the
@@ -123,7 +123,7 @@ def read(config, database, request, *, token=get_sql_token, run=subprocess.run):
     if reader is None:
         raise LowerReadError('setup')
     if reader.get('mode') in ('managed_identity','key_vault_user_cache','federated_reader'):
-        return _managed_read(config, database, request, reader, run)
+        return _managed_read(config, database, request, reader, run,attestation=attestation)
     try:
         access = token(config['fabric']['auth']['tenant_id'], reader['account'], reader['profile'])
     except SignInRequired:
@@ -149,13 +149,14 @@ def read(config, database, request, *, token=get_sql_token, run=subprocess.run):
     return answer
 
 
-def _managed_read(config, database, request, reader, fallback):
+def _managed_read(config, database, request, reader, fallback,*,attestation=True):
     from investigator.adapters.vault_user_cache import credential
     from investigator.physical_reads import run as physical_run
     from sql_layer_policy import policy as layer_policy
     payload = {key:request[key] for key in ('query','read_only_objects','max_rows','result_columns')}
     payload.update(parameters=request.get('parameters',[]),server=reader['server'],database=database,
-                   surface_kind='FABRIC_SQL', authentication=credential(reader),require_read_only=True)
+                   authentication=credential(reader),require_read_only=True)
+    if attestation:payload['surface_kind']='FABRIC_SQL'
     completed = physical_run([sys.executable,str(ROOT/'scripts/managed_sql_worker.py')],input=json.dumps(payload),
         timeout=layer_policy(config,request,default_timeout=150)['worker_timeout_seconds'],fallback=fallback,
         capture_output=True,text=True,encoding='utf-8')

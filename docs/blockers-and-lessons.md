@@ -515,3 +515,23 @@ Final optional Bronze full-business-row checks02 and03 failed in Azure before an
 2026-10-26 calendar smoke compatibility: first corrected hosted build cb2f2ab failed an existing exact smoke-step sequence test, because the new advisory step ran even when no reminder existed. Publication skipped; original failed CI log kept. Local full suite was stopped after that deterministic failure; test-only processes/partials preserved, no cloud or scored run interrupted. Commit8ae02f1 makes the step conditional, retaining the original assertion unchanged.47focused tests then passed; final full/image/smokes recorded separately.
 
 2026-10-26 postmerge CI poll returned GitHub HTTP500; local watcher stopped. The same commit check-run GET was retried without restarting any workflow. Native current checks then showed20success,2intentional skips,1stillrunning (known-domain). This was a control-plane read failure, not an acceptance failure. Original error retained; final check states recorded in release.json.
+
+
+## Round 23 offline checkpoint ? 2026-10-26
+
+No Round23 estate or provider pass is allowed before November 1. Build and
+synthetic tests proceed; model access, native ports and scores are unestablished.
+The old bounded DAX API explicitly rejects DEFINE in its regression tests.
+Enabling it globally changed a historical contract; the correction enables
+it only in the new investigative adapter and versions DEFINE output separately.
+The PostgreSQL token mock originally omitted AccessToken.expires_on; it now
+models the SDK contract. Expiring tokens get one same-identity reacquisition,
+not a different identity or a server-setting change. Short transactions and
+existing safe read reconnection remain; no connection is held over model calls.
+
+Existing Round22 NORMAL mode already removes the reporting mirror from the
+critical path. Reuse it; do not rebuild that machinery. Snapshot/attestation
+and output-shape problems in the new loop are warnings/correction feedback,
+not new pre-run verification gates. Parser read-only checks, gateway denials
+and budgets remain enforced. No old admission rule has been silently removed
+from historical runners: the new assembly still needs wiring and tests.

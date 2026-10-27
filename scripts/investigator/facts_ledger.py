@@ -10,9 +10,9 @@ from .estate_graph_contract import timestamp
 from .shared_state import encoded, sha, StateConflict
 
 KINDS = frozenset({'JOB_RUN', 'REFRESH_RUN', 'REFRESH_STATE', 'SCHEDULE', 'TABLE_LOAD',
-                   'OVERDUE', 'TYPICAL_DURATION', 'TABLE_PROFILE', 'COVERAGE', 'RUN_HISTORY', 'AVAILABILITY'})
+                   'OVERDUE', 'TYPICAL_DURATION', 'TABLE_PROFILE', 'COVERAGE', 'RUN_HISTORY', 'AVAILABILITY', 'ENGINEER_REPLY'})
 STATES = frozenset({'OBSERVED', 'OBSERVED_NEGATIVE', 'UNAVAILABLE'})
-SOURCES = frozenset({'RUNTIME_OBSERVATION', 'DECLARED_CONFIG', 'DERIVED_OBSERVATIONS'})
+SOURCES = frozenset({'RUNTIME_OBSERVATION', 'DECLARED_CONFIG', 'DERIVED_OBSERVATIONS', 'HUMAN_REPLY'})
 
 
 def fact(value):
@@ -25,6 +25,8 @@ def fact(value):
         raise ValueError('FACT_SUBJECT_OR_KIND')
     if value['state'] not in STATES or value['source'] not in SOURCES:
         raise ValueError('FACT_STATE_OR_SOURCE_NOT_OBSERVED')
+    if (value['kind']=='ENGINEER_REPLY') != (value['source']=='HUMAN_REPLY'):
+        raise ValueError('HUMAN_REPLY_IS_NOT_RUNTIME_PROOF')
     for key in ('observed_at', 'collected_at'):
         value[key] = timestamp(value[key])
     if value['observed_at'] > value['collected_at']:
@@ -44,6 +46,12 @@ def fact(value):
     if value['state'] != 'UNAVAILABLE':
         payload=value['value']
         if not isinstance(payload,dict):raise ValueError('FACT_VALUE_OBJECT_REQUIRED')
+        if value['kind']=='ENGINEER_REPLY':
+            if (value['source']!='HUMAN_REPLY' or set(payload)!={'case_id','author','text','scope','scope_hash'}
+                    or any(not isinstance(payload.get(k),str) or not payload[k].strip() for k in ('case_id','author','text'))
+                    or not isinstance(payload['scope'],dict) or not payload['scope']
+                    or payload['scope_hash']!=sha(payload['scope'])):
+                raise ValueError('ENGINEER_REPLY_AUTHOR_CASE_AND_SCOPE_REQUIRED')
         if value['kind']=='AVAILABILITY':
             from .source_availability import MESSAGES
             if (type(payload.get('reachable'))is not bool or type(payload.get('attempts'))is not int or payload['attempts']<1
@@ -73,6 +81,34 @@ def fact(value):
 class FactLedger:
     def __init__(self, state):
         self.state = state
+
+    def record_engineer_reply(self,estate,*,case_id,subject,author,text,scope,at):
+        """Human-supplied knowledge, explicitly not a runtime observation."""
+        from .planner_recording import _safe
+        value={'subject':subject,'kind':'ENGINEER_REPLY','value':{'case_id':case_id,'author':author,
+            'text':text,'scope':copy.deepcopy(scope),'scope_hash':sha(scope)},'observed_at':at,'collected_at':at,
+            'source':'HUMAN_REPLY','provenance':{'evidence_ids':['engineer-reply:'+case_id],
+            'collector':author,'locator':subject},'state':'OBSERVED','reason':None}
+        _safe(encoded(value).encode())
+        return self.append(estate,[value])
+
+    def engineer_replies(self,estate,subject,scope):
+        return self.engineer_replies_for_path(estate,[subject],scope)
+
+    def engineer_replies_for_path(self,estate,subjects,scope):
+        if not subjects:return []
+        if len(subjects)>1000:raise ValueError('ENGINEER_REPLY_PATH_BOUND')
+        selector="(body::jsonb -> 'value' ->> 'scope_hash')" if self.state.backend=='postgresql' else "json_extract(body,'$.value.scope_hash')"
+        with self.state.transaction(_read_only=True) as db:
+            rows=self.state.sql(db,'SELECT body,body_hash FROM estate_node_facts WHERE estate=? AND subject IN ('+
+                ','.join('?' for _ in subjects)+') AND kind=? AND '+selector+'=? ORDER BY observed_at DESC LIMIT 1000',
+                                (estate,*subjects,'ENGINEER_REPLY',sha(scope))).fetchall()
+        values=[]
+        for raw,hash in rows:
+            value=json.loads(raw)
+            if sha(value)!=hash:raise StateConflict('FACT_HASH_DIFFERS')
+            if value['value']['scope_hash']==sha(scope):values.append(fact(value))
+        return values
 
     def append(self, estate, values):
         if not isinstance(values, list) or len(values) > 1000:

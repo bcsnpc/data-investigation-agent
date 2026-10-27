@@ -120,7 +120,7 @@ class SharedStateTests(unittest.TestCase):
             def __init__(self,*,client_id):calls.append(('identity',client_id))
             def __enter__(self):return self
             def __exit__(self,*args):pass
-            def get_token(self,scope):calls.append(('scope',scope));return SimpleNamespace(token='IN_MEMORY_TEST_TOKEN')
+            def get_token(self,scope):calls.append(('scope',scope));return SimpleNamespace(token='IN_MEMORY_TEST_TOKEN',expires_on=9999999999)
         def authorize(*args):calls.append(('gateway',args))
         connect=Mock(return_value=object())
         env={'INVESTIGATOR_STATE_BACKEND':'postgresql','INVESTIGATOR_PG_HOST':'pg.example.test',

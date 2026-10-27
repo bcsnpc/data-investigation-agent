@@ -4,6 +4,22 @@ import time
 CONNECT_TIMEOUT_SECONDS = 15
 STATEMENT_TIMEOUT_MS = 30000
 
+
+def database_token(credential_factory,client_id,*,clock=time.time,minimum_seconds=60):
+    """Do not start a short transaction with an expired/expiring Entra token.
+
+    Each acquisition uses the existing credential type and identity. The SDK
+    owns renewal; a second fresh credential is tried once, without changing
+    principal, audience, secret, role or server authentication settings.
+    """
+    for _ in range(2):
+        with credential_factory(client_id=client_id) as credential:
+            value=credential.get_token('https://ossrdbms-aad.database.windows.net/.default')
+        expiry=getattr(value,'expires_on',None)
+        if type(expiry) in (int,float) and expiry-clock()>minimum_seconds:
+            return value.token
+    raise RuntimeError('POSTGRES_TOKEN_RENEWAL_UNAVAILABLE')
+
 def dropped_connection(error):
     if getattr(error,'postgres_connect_attempts',0):return False
     if isinstance(error,(ConnectionError,TimeoutError)):return True

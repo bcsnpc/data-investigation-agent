@@ -1,0 +1,95 @@
+{
+  "observed_at": "2026-10-27T01:31:01.212166+00:00",
+  "approval": "owner-approved 2026-10-26",
+  "requests": {
+    "approval": "owner-approved 2026-10-26",
+    "before": {
+      "total_limit": 6000,
+      "limits": {
+        "SCAN": 2000,
+        "INVESTIGATION": 3905,
+        "RESTORATION": 95
+      },
+      "source": "preexisting build-phase source policy; no separate monthly cloud document"
+    },
+    "after": {
+      "approval": "owner-approved 2026-10-26",
+      "effective_at": "2026-10-26T00:00:00+00:00",
+      "limits": {
+        "INVESTIGATION": 6905,
+        "RESTORATION": 95,
+        "SCAN": 2000
+      },
+      "period": "UTC calendar month; October starts at build adoption",
+      "restoration_use": "restores only",
+      "total_limit": 9000
+    },
+    "usage_sha256_unchanged": "0afed711587325177eb6b51366ca00900767a5687c76653a58d9c4d5cd64735a",
+    "usage": {
+      "mode": "BUILD_PHASE",
+      "month_utc": "2026-10",
+      "used": {
+        "INVESTIGATION": 3607,
+        "RESTORATION": 70,
+        "SCAN": 1794
+      },
+      "limits": {
+        "INVESTIGATION": 6905,
+        "SCAN": 2000,
+        "RESTORATION": 95
+      },
+      "total": 5471,
+      "total_limit": 9000,
+      "restoration_remaining": 25,
+      "warnings": [
+        "SCAN_MONTHLY_80_PERCENT"
+      ]
+    }
+  },
+  "model_current": {
+    "approval": "owner-approved 2026-10-26",
+    "purpose": "Round23 investigator monthly USD40 to USD150",
+    "account": "model-microdollars:2026-10",
+    "before": {
+      "identity": "model-microdollars:2026-10",
+      "unit": "MICRODOLLARS",
+      "ceiling": "40000000",
+      "protected": "0",
+      "opening": "0",
+      "charged": "10202640",
+      "violated": false
+    },
+    "after": {
+      "identity": "model-microdollars:2026-10",
+      "unit": "MICRODOLLARS",
+      "ceiling": "150000000",
+      "protected": "0",
+      "opening": "0",
+      "charged": "10202640",
+      "violated": false
+    }
+  },
+  "model_november": {
+    "approval": "owner-approved 2026-10-26",
+    "purpose": "Round23 investigator monthly USD40 to USD150",
+    "account": "model-microdollars:2026-11",
+    "before": {
+      "identity": "model-microdollars:2026-11",
+      "unit": "MICRODOLLARS",
+      "ceiling": "40000000",
+      "protected": "0",
+      "opening": "0",
+      "charged": "0",
+      "violated": false
+    },
+    "after": {
+      "identity": "model-microdollars:2026-11",
+      "unit": "MICRODOLLARS",
+      "ceiling": "150000000",
+      "protected": "0",
+      "opening": "0",
+      "charged": "0",
+      "violated": false
+    }
+  }
+}

@@ -671,3 +671,10 @@ Round22 preparation: the cloud source profile returned360rows with native invest
 2026-10-23 owner date /October24UTC: scan allocation2000/INV3905/REST95 within6000 is deployed on tested a883706/imageea772843 to daily06UTC(3600s), graph0*/6(1800s), collectors*/30(180s). Native before/after readback preserves configuration, identity and resources on all3jobs. No counters reset, no new paid resource. At01:33:54UTC total1816/6000 (INV999,SCAN817,REST0), reserve95, modelUSD4.080700/40. Native receipt docs/runs/round-twenty-two-scan-allocation.json. Freeze invalid; Section3 preparation, no scored run or release claim.
 
 2026-10-26 freeze clarification: original whole-package3c5935a/image802d8508 is retained only as the immutable scoring pin. The smoke-calendar change supersedes that package freeze for release runtime; source8ae02f1/image48a53a46 is separately full-suite/image/smoke tested. No held-out score is assigned to the newer package, and no investigation reasoning module changed.
+
+
+Round23 development (draft #430, 2026-10-26): guided intake and an AI-written
+query loop are being built and tested offline. No new live investigation or
+accuracy claim; live passes are explicitly deferred until November1. Released
+Round22 remains dev14/40 and held-out5/20, zero harmful; its accuracy target was
+missed. See `docs/round-twenty-three-summary.md`.

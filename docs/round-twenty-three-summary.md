@@ -5,19 +5,15 @@ Round 22 is closed: PR #429 merged, validated merge 567a95b tagged v0.22,
 final summary pushed. Its final dev 14/40 and held-out 5/20 (zero harmful)
 remain unchanged. No Round 22 held-out wording is used for development.
 
-The owner requires build and offline tests only before 2026-11-01. No
-Round 23 live estate or provider calls have been admitted. Live results,
-model availability, cloud deployment, smokes and release are not established.
+The owner's later 2026-10-26 steer supersedes the November1 wait: live work is now authorized. No scored Round23 estate/model pass has run yet. Draft PR #430 is open.
 
-## Part 0 — start and budgets
+## Part 0 ? start and budgets
 
-Owner-approved 2026-10-26: investigator USD150/month (80% warning),
-USD1/ticket (USD0.50 warning). Enrichment USD25, platform USD20, estate
-6,000/month, scan allocation 2,000 and restoration reserve 95 unchanged.
-Source configuration updated; existing authoritative cloud accounts are not
-silently rewritten. Counters and historical charges are preserved.
+Owner-approved 2026-10-26: investigator USD150/month (80% warning), USD1/ticket (USD0.50 warning); enrichment USD25 and Azure <=USD20 unchanged. Monthly requests are now 9,000: scan/collectors2,000, investigation6,905, restoration95 (restores only), effective October and every subsequent month.
 
-Draft PR and authoritative account migration: _pending_.
+The existing owner path applied and read back the authoritative PostgreSQL policy and both already-provisioned October/November model ceilings. No grants, credentials or resources changed; counters, reservations and violation flags were preserved. Source/config consume the new policy; older scheduled images retain their earlier source ceiling until deployment. [Exact before/after receipt](runs/round-twenty-three-budget-increase.json).
+
+At 2026-10-27T01:31UTC, requests5,471/9,000: investigation3,607, scan1,794, restoration70. Restoration has25 remaining; it was not reset. October modelUSD10.202640/150; NovemberUSD0/150. These are observations, not future reservations.
 
 ## Part A — simplify
 
@@ -45,7 +41,7 @@ _pending_
 
 ## Part G — independent tickets, dev, held-out and messy input
 
-_pending_. Live passes may start on 2026-11-01; none run or graded yet.
+_pending_. Live passes are authorized now; none run or graded yet.
 
 ## Part H — restoration, validation and release
 

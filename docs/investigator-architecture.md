@@ -110,3 +110,43 @@ NORMAL workers disable private budget-report mirrors, including the nested path 
 
 
 Round22 frozen source3c5935a/image802d8508: code-owned phases, successful-call reuse and bounded progress are implemented, but held-out evidence does not prove general scope/path coverage. The once-only score is5/20,harmful0. Application-export referents, faithful filtered quantities, temporal/access evidence routing and refresh/latency consumption remain incomplete. An existing source read or graph node is not proof that the requested scoped calculation can be executed. No native value comparison completed in this held-out pass. Status/definition success must not be reported as successful numerical investigation performance.
+
+
+## Round 23 offline implementation (2026-10-26, draft #430)
+
+The new `ai_investigation` loop uses native client-side tool calls: AI chooses
+the next tool and writes the SQL/DAX. It has no code-owned phase frontier.
+`investigative_queries` binds those queries to the admitted layer's graph
+objects using SQLGlot AST validation or the bounded DAX grammar. Only the new
+path enables query-local DEFINE; legacy parser behavior stays unchanged.
+T-SQL, Spark SQL and DAX have forced output limits and a required execution
+timeout. Identical successful queries return saved evidence, with no new read.
+Failed native queries retain diagnostics and allow two correction attempts.
+
+`path_triage` performs ten ledger-first checks on the ticket path. It refreshes
+missing/stale facts through installed, metered ports and never re-dates old
+facts. Ready-made queries belong to triage, not investigation. `ReadTools`
+provides candidate ranking/checks, model-written key traces, definitions,
+lineage, job runs, refresh history and a labelled security-reader gap.
+
+The model client and ticket budget use the existing investigator authority,
+not enrichment's USD25 line. Case and month limits apply atomically across
+workers; uncertain calls retain their reservation. Existing account ceilings
+remain authoritative until the approved owner migration. Historical charges
+are not reset. Standard protocol reference:
+https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview
+Pricing/discovery references:
+https://platform.claude.com/docs/en/about-claude/pricing
+https://platform.claude.com/docs/en/api/models/list
+No workspace model discovery has run; no accessible-model claim is made.
+
+Full queries, results and checkpoints are private case data. Shared usage
+contains counts, cost and IDs only. A consumer validator is mandatory for both
+findings and factual questions: the loop cannot turn arbitrary final text into
+a delivered finding. Unresolved cases retain query text, layer, timing, digest,
+errors, stopping point and checks still needed. Engineer replies are labelled
+HUMAN_REPLY facts, scoped and attributed, never native observation proof.
+
+Cloud assembly, concrete answer-validation wiring, native triage/security
+ports, submit/poll integration and live validation remain in progress. This
+entry describes tested components, not an earned live capability.

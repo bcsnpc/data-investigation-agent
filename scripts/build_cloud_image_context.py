@@ -10,7 +10,7 @@ from pathlib import Path, PurePosixPath
 import shutil
 import subprocess
 
-PUBLIC_CODE_POLICIES = frozenset({'infra/scripts/WorkerResponseBounds.json',
+PUBLIC_CODE_POLICIES = frozenset({'scripts/investigator/build_phase_policy.json','infra/scripts/WorkerResponseBounds.json',
     'acceptance/model_steps/intake-resolution-policy.json'})
 
 
@@ -46,6 +46,8 @@ def stage(repo, destination):
         entries.append({'path': name, 'sha256': hashlib.sha256(target.read_bytes()).hexdigest()})
     if not (destination / 'infra/cloud-worker/Dockerfile').is_file():
         raise ValueError('TRACKED_DOCKERFILE_REQUIRED')
+    from investigator.package_completeness import check as check_package
+    check_package(destination,repo)
     (destination / 'image-source-manifest.json').write_text(json.dumps({'version': 2, 'engine_revision':revision, 'files': entries}, indent=2) + '\n')
     print(json.dumps({'files': len(entries), 'context': str(destination), 'private_artifacts': 0}))
 

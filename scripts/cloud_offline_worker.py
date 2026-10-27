@@ -12,6 +12,10 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 TEST_MODULES = (
+    'test_round23_intake_queries.py','test_round23_reasoning.py',
+    'test_round23_triage_tools.py','test_round23_platform.py',
+    'test_round23_guided_cases.py','test_round23_answers_native.py',
+    'test_round23_text_resolver.py',
     'test_round_twenty_state.py', 'test_shared_read_transactions.py',
     'test_build_phase.py', 'test_scan_budget_reallocation.py',
     'test_source_availability.py',

@@ -45,6 +45,35 @@ class GraphAPI:
                              if e['source']in selected and e['target']in selected]
         return self._bounded(result)
 
+    def intake_catalog(self):
+        """Names and containment for all admitted scanned reports, not a path.
+
+        This projects metadata only. Investigation context still uses the
+        ticket's bounded upstream path. Gateway authority is unchanged.
+        """
+        self.gateway.graph_objects(self.estate,self.allowed,identity=self.identity)
+        retained=self.repository.path_records(self.estate,self.allowed,self.allowed,
+            at=self.at,max_nodes=len(self.allowed),max_edges=10000,
+            edge_kinds={'CONTAINS','COMPUTED_FROM'},edge_targets=self.allowed)
+        if retained['truncated']:raise ValueError('INTAKE_CATALOG_TRUNCATED')
+        kinds={'REPORT','PAGE','VISUAL','MEASURE','SOURCE','TABLE','VIEW','MODEL','PIPELINE','COPY_ACTIVITY','NOTEBOOK'}
+        nodes=[{'id':n['id'],'kind':n['kind'],'label':n['label'],'owner':n['owner'],
+                'properties':{k:v for k,v in n['properties'].items() if k in ('workspace','last_activity','asset_id')}}
+               for n in retained['nodes'] if n['id'] in self.allowed and n['kind'] in kinds]
+        if not self.at:
+            from .enrichment import EnrichmentStore
+            hashes={n['id']:n['provenance']['definition_hash'] for n in retained['nodes']}
+            enrichment=EnrichmentStore(self.repository.state)
+            for start in range(0,len(nodes),200):
+                batch=nodes[start:start+200]
+                found=enrichment.projections(self.estate,{n['id']:hashes[n['id']] for n in batch})
+                for node in batch:
+                    if node['id'] in found:node['enrichment']={**found[node['id']],'search_aid_only':True}
+        ids={n['id'] for n in nodes}
+        edges=[{'source':e['source'],'target':e['target'],'kind':e['kind']}
+               for e in retained['edges'] if e['source'] in ids and e['target'] in ids]
+        return {'estate':self.estate,'nodes':nodes,'edges':edges,'truncated':False}
+
     def as_of(self,time):
         return GraphAPI(self.repository,self.gateway,identity=self.identity,estate=self.estate,
             allowed_objects=self.allowed,at=time,max_nodes=self.max_nodes,max_edges=self.max_edges,max_bytes=self.max_bytes,

@@ -3,17 +3,23 @@ from contextlib import contextmanager
 from contextvars import ContextVar
 from datetime import datetime, timezone
 import os
+import json
+from pathlib import Path
+
+POLICY = json.loads(Path(__file__).with_name('build_phase_policy.json').read_text(encoding='utf8'))
 
 MODE = 'BUILD_PHASE'
-MODEL_MICRODOLLARS = 150_000_000
+MODEL_MICRODOLLARS = POLICY['monthly_model_microdollars']
 TICKET_MODEL_MICRODOLLARS = 1_000_000
 TICKET_MODEL_WARNING_MICRODOLLARS = 500_000
 PLATFORM_MICRODOLLARS = 20_000_000
-PHYSICAL_REQUESTS = 6000
+PHYSICAL_REQUESTS = POLICY['monthly_physical_requests']
+PREVIOUS_PHYSICAL_REQUESTS = 6000
+REQUEST_INCREASE_AT = '2026-10-26T00:00:00+00:00'
 SCAN_REQUESTS = 1000
-REALLOCATED_SCAN_REQUESTS = 2000
+REALLOCATED_SCAN_REQUESTS = POLICY['scan_collectors']
 SCAN_REALLOCATION_AT = '2026-10-24T01:24:00+00:00'
-RESTORATION_REQUESTS = 95
+RESTORATION_REQUESTS = POLICY['restoration_reserve']
 ADOPTED_AT = '2026-10-19'
 _mode = ContextVar('build_phase_mode', default=None)
 _purpose = ContextVar('build_phase_purpose', default=None)
@@ -76,21 +82,23 @@ def physical_status(rows, allocations, now):
     # the existing total; it never clears usage or borrows the restoration line.
     scan_limit = (REALLOCATED_SCAN_REQUESTS if now >= datetime.fromisoformat(SCAN_REALLOCATION_AT).timestamp()
                   else SCAN_REQUESTS)
-    limits = {'INVESTIGATION': PHYSICAL_REQUESTS - scan_limit - RESTORATION_REQUESTS,
+    total_limit = (PHYSICAL_REQUESTS if now >= datetime.fromisoformat(REQUEST_INCREASE_AT).timestamp()
+                   else PREVIOUS_PHYSICAL_REQUESTS)
+    limits = {'INVESTIGATION': total_limit - scan_limit - RESTORATION_REQUESTS,
               'SCAN': scan_limit, 'RESTORATION': RESTORATION_REQUESTS}
     total = sum(used.values())
     return {'mode': MODE, 'month_utc': month, 'used': used, 'limits': limits,
-            'total': total, 'total_limit': PHYSICAL_REQUESTS,
+            'total': total, 'total_limit': total_limit,
             'restoration_remaining': max(0, RESTORATION_REQUESTS - used['RESTORATION']),
             'warnings': [key + '_MONTHLY_80_PERCENT' for key in limits if used[key] * 5 >= limits[key] * 4]
-                        + (['PHYSICAL_MONTHLY_80_PERCENT'] if total * 5 >= PHYSICAL_REQUESTS * 4 else [])}
+                        + (['PHYSICAL_MONTHLY_80_PERCENT'] if total * 5 >= total_limit * 4 else [])}
 
 
 def admit_physical(rows, allocations, now, category):
     if category not in PURPOSES:
         raise ValueError('MONTHLY_BUDGET_CATEGORY_INVALID')
     status = physical_status(rows, allocations, now)
-    if status['total'] >= PHYSICAL_REQUESTS or status['used'][category] >= status['limits'][category]:
+    if status['total'] >= status['total_limit'] or status['used'][category] >= status['limits'][category]:
         from .usage_governance import UsageHold
         raise UsageHold('MONTHLY_PHYSICAL_' + category + '_EXHAUSTED')
     return status
@@ -125,7 +133,8 @@ def shared_reserve(usage, local, session, key, kind, amount, category):
             return
         if kind == 'cloud':
             retained, allocations = shared_physical_rows(usage.state, db, now)
-            admit_physical(retained, allocations, now, category)
+            status = admit_physical(retained, allocations, now, category)
+            check_shared_request_policy(usage.state, db, now, status, category)
             usage.state.sql(db, 'INSERT INTO state_read_allocations VALUES(?,?,?,?,?)', (usage.environment, session, key, None, category))
         usage.state.sql(db, 'INSERT INTO state_usage VALUES(?,?,?,?,?,?,?,?,?,?,?)',
                         (usage.environment, session, key, g._day(now) if hasattr(g, '_day') else datetime.fromtimestamp(now, timezone.utc).date().isoformat(),
@@ -152,11 +161,11 @@ def shared_physical_rows(state, db, now):
     return retained, allocations
 
 
-def model_status(charged, month):
+def model_status(charged, month, *, ceiling=MODEL_MICRODOLLARS):
     return {'mode': MODE, 'month_utc': month, 'charged_microdollars': charged,
-            'ceiling_microdollars': MODEL_MICRODOLLARS, 'protected_microdollars': 0,
-            'warning': charged * 5 >= MODEL_MICRODOLLARS * 4,
-            'exhausted': charged >= MODEL_MICRODOLLARS}
+            'ceiling_microdollars': ceiling, 'protected_microdollars': 0,
+            'warning': charged * 5 >= ceiling * 4,
+            'exhausted': charged >= ceiling}
 
 
 def platform_status(charged, now):
@@ -207,3 +216,20 @@ def ensure_model_account(state, now, *, provision=False):
         state.sql(db, 'INSERT INTO state_documents VALUES(?,?,?,?,?)',
                   ('build_phase_account_opening', account, 0, encoded(record), sha(record)))
     return account
+
+
+def check_shared_request_policy(state, db, now, status, category):
+    """Cloud policy remains authoritative; source alone cannot raise its ceiling."""
+    from .usage_governance import UsageHold
+    import json
+    if now < datetime.fromisoformat(REQUEST_INCREASE_AT).timestamp(): return
+    row = state.sql(db, 'SELECT body FROM state_documents WHERE namespace=? AND identity=?',
+                    ('build_phase_policy', 'monthly-physical')).fetchone()
+    if row is None:
+        if state.backend == 'postgresql': raise UsageHold('MONTHLY_REQUEST_POLICY_NOT_PROVISIONED')
+        return
+    policy = json.loads(row[0])
+    total = min(status['total_limit'], policy['total_limit'])
+    limit = min(status['limits'][category], policy['limits'][category])
+    if status['total'] >= total or status['used'][category] >= limit:
+        raise UsageHold('AUTHORITATIVE_MONTHLY_PHYSICAL_' + category + '_EXHAUSTED')

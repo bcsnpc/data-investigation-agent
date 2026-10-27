@@ -128,7 +128,7 @@ class Gateway:
                 _url(endpoint['url'])
                 if endpoint.get('method') not in ('GET','HEAD','POST','PUT'):
                     _deny('MUTATING_METHOD_IN_POLICY')
-                if endpoint.get('purpose') not in ('metadata','dax','model','blob_read','kql','platform_blob','auth_refresh','auth_federation','scanner_metadata','scanner_dax','scanner_auth'):
+                if endpoint.get('purpose') not in ('metadata','dax','model','reasoning_model','blob_read','kql','platform_blob','auth_refresh','auth_federation','scanner_metadata','scanner_dax','scanner_auth'):
                     _deny('INVALID_ENDPOINT_PURPOSE')
                 if endpoint.get('purpose','').startswith('scanner_')and permissions.get('role')!='scanner':
                     _deny('SCANNER_IDENTITY_REQUIRED',identity=identity)
@@ -227,7 +227,7 @@ class Gateway:
                     raise ValueError()
                 query=value['queries'][0]
                 if set(query)!={'query'}:raise ValueError()
-                validate_dax(query['query'])
+                validate_dax(query['query'],allow_define=matches[0].get('allow_query_definitions',False))
             except GatewayDenied:raise
             except Exception:_deny('DAX_REQUEST_SHAPE_REJECTED',identity=identity,target=url)
         elif purpose=='metadata':
@@ -246,6 +246,10 @@ class Gateway:
         elif purpose=='model':
             if method!='POST' or path[-1] not in ('responses','completions'):
                 _deny('MODEL_ENDPOINT_REQUIRED',identity=identity,target=url)
+        elif purpose=='reasoning_model':
+            from .adapters.reasoning_anthropic import authorize_body
+            try:authorize_body(permissions,method,url,body)
+            except Exception:_deny('REASONING_MODEL_REQUEST_REFUSED',identity=identity,target=url)
         elif purpose=='platform_blob':
             if method not in ('GET','HEAD','PUT'):
                 _deny('PLATFORM_BLOB_OPERATION_BLOCKED',identity=identity,target=url)
@@ -325,7 +329,7 @@ def validate_sql(query,allowed_objects):
     if len(list(tree.walk()))>3000:_deny('SQL_AST_BOUND',target=query)
     # Parser allowlist, not a write-keyword denylist. INTO/locking/external
     # table functions are absent. Harmless-looking unknown constructs also stop.
-    safe=NODES|{'Collate','Substring','Length','CharacterSet','SHA2','Convert','CurrentUser'}
+    safe=NODES|{'Collate','Substring','Length','CharacterSet','SHA2','Convert','CurrentUser','Union','Intersect','Except'}
     for node in tree.walk():
         if node.comments:_deny('SQL_COMMENTS_REJECTED',target=query)
         if isinstance(node,exp.Version):
@@ -360,7 +364,7 @@ def validate_sql(query,allowed_objects):
     return references
 
 
-def validate_dax(query):
+def validate_dax(query,*,allow_define=False):
     """Lexical query boundary plus an explicit function vocabulary.
 
     Catalog binding remains the existing query_dax compiler's responsibility;
@@ -375,6 +379,14 @@ def validate_dax(query):
     inspected=query
     for scalar in SCALARS:inspected=inspected.replace(scalar,'1')
     tokens,gaps=tokenize(inspected)
+    if allow_define is True and tokens and tokens[0][1].upper()=='DEFINE':
+        # The same recursive grammar owns syntax; only the investigative
+        # validator binds discovered model members. This independent gateway
+        # pass cannot be used to admit DDL or a second EVALUATE.
+        from .query_dax import Parser
+        try:Parser(query,[],allow_define=True,bind_catalog=False).parse()
+        except Exception:_deny('DAX_QUERY_DEFINITION_GRAMMAR_REJECTED',target=query)
+        return query
     if gaps or not tokens or tokens[0][0]!='name' or tokens[0][1].upper()!='EVALUATE':
         _deny('SINGLE_EVALUATE_REQUIRED',target=query)
     # Compiler self-description and rendering primitives are read-only scalars.

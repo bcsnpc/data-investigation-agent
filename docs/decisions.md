@@ -239,3 +239,26 @@ Historical engines and their sealed expectations are unchanged. Attestation,
 snapshot and output-format limitations are warnings, not safety refusals.
 DIA reports what happened, never suggests fixes. Prior engine freeze invalid
 for Round23 development; Round22 scored freeze remains its historical record.
+
+
+### Round 23 offline implementation decisions ? 2026-10-26
+
+Reuse existing SQLGlot and DAX parsers as safety validators; retire code-owned
+query writing only in the new investigator. DEFINE is opt-in there, preserving
+legacy parser behavior. Graph catalog metadata has its own complete admitted
+scope; it is not truncated to the ticket path's 200-node limit. Short PG
+transactions and NORMAL-mode mirror suppression are reused from Round22.
+
+Model protocol and published rates were researched in official Anthropic docs
+on 2026-10-26; workspace availability has NOT been queried. Actual model choice
+and its rate policy remain pending `/v1/models` discovery in the live window.
+No enrichment-only budget or batch capability is silently repurposed. The new
+reasoning channel uses the existing workspace key and investigator account;
+its exact gateway endpoint configuration must be reviewed before activation.
+No live gateway, identity, role, credential or resource was changed.
+
+
+### Owner-approved 2026-10-26: Round23 requests effective immediately
+Monthly physical requests 6,000 -> 9,000 for October and every subsequent month: scan/collectors 2,000; investigation 6,905; restoration 95 (restores only). This supersedes the November1 wait: live work may proceed now after safety checks. Preserve all usage, uncertain charges and reservations; do not reset counters or borrow restoration capacity. Update the authoritative cloud ledger policy as well as source/config. Model USD150/month; Azure remains <=USD20/month. No identity, role, credential or resource change is authorized. Historical dated policy decisions remain recorded.
+
+Executed owner decision (observed UTC2026-10-27, owner date2026-10-26): PostgreSQL build_phase_policy/monthly-physical now9000 with6905/2000/95; October and pre-provisioned November model ceilings40->150USD. Exact before/after and unchanged accounting hash: docs/runs/round-twenty-three-budget-increase.json. October5471requests includes70historicalrestoration (25remaining); no reserve reset. New source consults cloud ceiling under the admission transaction. Older scheduled images retain earlier source ceiling until deployment. No identity/role/secret/resource changes.

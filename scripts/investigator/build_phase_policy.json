@@ -1,0 +1,11 @@
+{
+  "approval": "owner-approved 2026-10-26",
+  "effective_at": "2026-10-26T00:00:00+00:00",
+  "monthly_physical_requests": 9000,
+  "scan_collectors": 2000,
+  "investigation": 6905,
+  "restoration_reserve": 95,
+  "monthly_model_microdollars": 150000000,
+  "monthly_platform_microdollars": 20000000,
+  "per_ticket_model_microdollars": 1000000
+}
