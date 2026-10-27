@@ -1,0 +1,503 @@
+{
+  "observed_at": "2026-10-27T20:48:41.355071+00:00",
+  "status": "RELEASED_BUILD_PHASE_TARGETS_MISSED",
+  "version": "v0.23",
+  "pr": 430,
+  "merge_commit": "6d91b7bc188eb04e7ae1b34397266e149efc8ca7",
+  "tag_commit": "6d91b7bc188eb04e7ae1b34397266e149efc8ca7",
+  "premerge_head": "3dcb8ec379a2b622afba60ec79894b9a105afeeb",
+  "premerge_ci": [
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562999078/job/122398332096",
+      "name": "publish",
+      "state": "SKIPPED"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562999078/job/122397523442",
+      "name": "offline-shards (4)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562999078/job/122397523418",
+      "name": "offline-shards (0)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562999078/job/122397523507",
+      "name": "offline-shards (7)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562999078/job/122397523402",
+      "name": "offline-shards (6)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562999078/job/122397523489",
+      "name": "offline-shards (5)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562999078/job/122397523435",
+      "name": "offline-shards (3)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562999078/job/122397523464",
+      "name": "offline-shards (2)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562999078/job/122397523562",
+      "name": "offline-shards (1)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562999078/job/122397526431",
+      "name": "focused-dev",
+      "state": "SKIPPED"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562998221/job/122396731797",
+      "name": "generator-tests",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562998397/job/122396732160",
+      "name": "round-ten-earned-2",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562998221/job/122396731194",
+      "name": "portal",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562998221/job/122396731856",
+      "name": "model-step-regression",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562998221/job/122396731809",
+      "name": "powershell-syntax",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562999078/job/122396734845",
+      "name": "build",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562998397/job/122396731825",
+      "name": "round-ten-earned-1",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562998423/job/122396731750",
+      "name": "ledger-access-rotation",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562998231/job/122396731427",
+      "name": "known-domain-acceptance",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562998397/job/122396731474",
+      "name": "round-ten-earned-3",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562998397/job/122396731847",
+      "name": "round-ten-earned-4",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562998206/job/122396730963",
+      "name": "round-thirteen-billing-metadata-replay",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562998196/job/122396731344",
+      "name": "deny-by-default",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562989618/job/122396701707",
+      "name": "portal",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562989527/job/122396700815",
+      "name": "deny-by-default",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562989557/job/122396701249",
+      "name": "ledger-access-rotation",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562989618/job/122396701728",
+      "name": "powershell-syntax",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562989618/job/122396701084",
+      "name": "model-step-regression",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40562989618/job/122396701592",
+      "name": "generator-tests",
+      "state": "SUCCESS"
+    }
+  ],
+  "merge_workflows": [
+    {
+      "conclusion": "success",
+      "databaseId": 40566305606,
+      "event": "push",
+      "headSha": "6d91b7bc188eb04e7ae1b34397266e149efc8ca7",
+      "name": "Round Twenty-One foundation",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 40566305618,
+      "event": "push",
+      "headSha": "6d91b7bc188eb04e7ae1b34397266e149efc8ca7",
+      "name": "Live access guardrail red team",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 40566305796,
+      "event": "push",
+      "headSha": "6d91b7bc188eb04e7ae1b34397266e149efc8ca7",
+      "name": "Cloud worker offline foundation",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 40566305818,
+      "event": "push",
+      "headSha": "6d91b7bc188eb04e7ae1b34397266e149efc8ca7",
+      "name": "Round Thirteen billing metadata replay",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 40566305592,
+      "event": "push",
+      "headSha": "6d91b7bc188eb04e7ae1b34397266e149efc8ca7",
+      "name": "Validation",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 40566305717,
+      "event": "push",
+      "headSha": "6d91b7bc188eb04e7ae1b34397266e149efc8ca7",
+      "name": "Round Ten earned acceptance",
+      "status": "completed"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 40566305603,
+      "event": "push",
+      "headSha": "6d91b7bc188eb04e7ae1b34397266e149efc8ca7",
+      "name": "Known-domain acceptance",
+      "status": "completed"
+    }
+  ],
+  "merge_ci": [
+    {
+      "id": 122408373278,
+      "name": "ledger-access-rotation",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305606/job/122408373278"
+    },
+    {
+      "id": 122408373563,
+      "name": "deny-by-default",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305618/job/122408373563"
+    },
+    {
+      "id": 122408372781,
+      "name": "build",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305796/job/122408372781"
+    },
+    {
+      "id": 122408891341,
+      "name": "offline-shards (0)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305796/job/122408891341"
+    },
+    {
+      "id": 122408891401,
+      "name": "offline-shards (5)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305796/job/122408891401"
+    },
+    {
+      "id": 122408891411,
+      "name": "offline-shards (6)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305796/job/122408891411"
+    },
+    {
+      "id": 122408891440,
+      "name": "offline-shards (3)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305796/job/122408891440"
+    },
+    {
+      "id": 122408891523,
+      "name": "offline-shards (1)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305796/job/122408891523"
+    },
+    {
+      "id": 122408891577,
+      "name": "offline-shards (2)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305796/job/122408891577"
+    },
+    {
+      "id": 122408891696,
+      "name": "offline-shards (4)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305796/job/122408891696"
+    },
+    {
+      "id": 122408891788,
+      "name": "offline-shards (7)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305796/job/122408891788"
+    },
+    {
+      "id": 122408894601,
+      "name": "focused-dev",
+      "status": "completed",
+      "conclusion": "skipped",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305796/job/122408894601"
+    },
+    {
+      "id": 122409646645,
+      "name": "publish",
+      "status": "completed",
+      "conclusion": "skipped",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305796/job/122409646645"
+    },
+    {
+      "id": 122408375456,
+      "name": "round-thirteen-billing-metadata-replay",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305818/job/122408375456"
+    },
+    {
+      "id": 122408373519,
+      "name": "model-step-regression",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305592/job/122408373519"
+    },
+    {
+      "id": 122408373966,
+      "name": "generator-tests",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305592/job/122408373966"
+    },
+    {
+      "id": 122408374014,
+      "name": "portal",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305592/job/122408374014"
+    },
+    {
+      "id": 122408374033,
+      "name": "powershell-syntax",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305592/job/122408374033"
+    },
+    {
+      "id": 122408374698,
+      "name": "round-ten-earned-1",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305717/job/122408374698"
+    },
+    {
+      "id": 122408375074,
+      "name": "round-ten-earned-3",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305717/job/122408375074"
+    },
+    {
+      "id": 122408375144,
+      "name": "round-ten-earned-2",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305717/job/122408375144"
+    },
+    {
+      "id": 122408375239,
+      "name": "round-ten-earned-4",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305717/job/122408375239"
+    },
+    {
+      "id": 122408373270,
+      "name": "known-domain-acceptance",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40566305603/job/122408373270"
+    }
+  ],
+  "merge_ci_counts": {
+    "success": 21,
+    "skipped": 2
+  },
+  "postmerge_full": {
+    "revision": "6d91b7bc188eb04e7ae1b34397266e149efc8ca7",
+    "elapsed_seconds": 5924.0514781999955,
+    "statuses": [
+      {
+        "shard": 0,
+        "exit_code": 0
+      },
+      {
+        "shard": 1,
+        "exit_code": 0
+      },
+      {
+        "shard": 2,
+        "exit_code": 0
+      },
+      {
+        "shard": 3,
+        "exit_code": 0
+      }
+    ],
+    "results": [
+      {
+        "tests": 1381,
+        "failures": 0,
+        "errors": 0,
+        "skips": 6,
+        "successful": true
+      },
+      {
+        "tests": 1381,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0,
+        "successful": true
+      },
+      {
+        "tests": 1380,
+        "failures": 0,
+        "errors": 0,
+        "skips": 16,
+        "successful": true
+      },
+      {
+        "tests": 1380,
+        "failures": 0,
+        "errors": 0,
+        "skips": 28,
+        "successful": true
+      }
+    ],
+    "total_tests": 5522,
+    "total_skips": 50,
+    "total_failures": 0,
+    "total_errors": 0
+  },
+  "release_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:0c49608909bd74399c90c6baa9d50590a4421801f3ea9814052af363ebe15583",
+  "code_unchanged_since_premerge_tested_runner": "4b547f17915914b060bbc1692ef05ff4080cc992",
+  "official_held_out_frozen_engine": "07a0f92faba8b9abcb3b0f65cb623d113f1f24c3",
+  "official_held_out_score": "6/20",
+  "official_harmful": 0,
+  "audit_disputed_harmful": 1,
+  "targets_met": false,
+  "smoke_completed": 3,
+  "smoke_passed": 0,
+  "smoke_receipt": "docs/runs/round-twenty-three-release-smokes.json",
+  "build_phase_safety_gates_only": true,
+  "physical": {
+    "mode": "BUILD_PHASE",
+    "month_utc": "2026-10",
+    "used": {
+      "SCAN": 2059,
+      "INVESTIGATION": 6153,
+      "RESTORATION": 12
+    },
+    "limits": {
+      "SCAN": 2500,
+      "INVESTIGATION": 6405,
+      "RESTORATION": 95
+    },
+    "total": 8294,
+    "total_limit": 9000,
+    "historical_restoration_requests": 70,
+    "restoration_remaining": 83,
+    "warnings": [
+      "SCAN_MONTHLY_80_PERCENT",
+      "INVESTIGATION_MONTHLY_80_PERCENT",
+      "PHYSICAL_MONTHLY_80_PERCENT"
+    ]
+  },
+  "model": {
+    "identity": "model-microdollars:2026-10",
+    "unit": "MICRODOLLARS",
+    "ceiling": "96000000",
+    "protected": "3000000",
+    "opening": "0",
+    "charged": "88754541",
+    "violated": false
+  },
+  "grading": {
+    "identity": "enrichment:round-twenty-one",
+    "unit": "MICRODOLLARS",
+    "ceiling": "25000000",
+    "protected": "12850910",
+    "opening": "0",
+    "charged": "10806285",
+    "violated": false
+  },
+  "normalized_credit": {
+    "month_utc": "2026-10",
+    "ceiling_microdollars": 96000000,
+    "charged_microdollars": 90411736,
+    "remaining_microdollars": 5588264,
+    "grading_remaining_microdollars": 1342805,
+    "reserved_maxima_included": true,
+    "basis": "Larger recorded ledger/console baseline plus subsequent charges across both existing accounts."
+  },
+  "open_model_reservations": [],
+  "uncertain_requests_remain_charged": true,
+  "restoration_review": "docs/runs/round-twenty-three-final-restoration-review.json",
+  "temporal_history_remains_on": true,
+  "new_identity_or_permission_or_secret_changes": false
+}

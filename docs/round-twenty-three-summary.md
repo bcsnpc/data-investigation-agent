@@ -29,7 +29,7 @@ Ten path-local ledger-first checks run before reasoning. Only a named SCAN alloc
 
 ## Part D — AI investigation and query safety
 
-The strongest discovered model writes investigative SQL/DAX. Original schemas, parser-based read-only checks, exact graph object scope, forced row bounds and deadlines remain. Successful repeated queries/tools reuse retained evidence. Path context, stable prefix, recitation, errors and checkpoints are retained. Native failed queries cannot establish absence. Per-ticket model exhaustion remains a real unresolved result, not a finding.
+Scored runs used claude-fable-5-1 to write investigative SQL/DAX; the owner separately requested the unscored Opus5.5 diagnostic. Original schemas, parser-based read-only checks, exact graph object scope, forced row bounds and deadlines remain. Successful repeated queries/tools reuse retained evidence. Path context, stable prefix, recitation, errors and checkpoints are retained. Native failed queries cannot establish absence. Per-ticket model exhaustion remains a real unresolved result, not a finding.
 
 ## Part E — generic investigation tools
 
@@ -45,7 +45,7 @@ Independent v2 tickets and expectations were sealed at25339ea before investigati
 
 ## Part H — restoration, validation and release
 
-Final scored/diagnostic engine7d32316 passed5521 tests/50skips; image984bebba. A separate release-runner startup fix4b547f1 then passed54 focused tests and the complete5522-test/50-skip suite, zero failures/errors (775.421s). Published release image0c49608909bd74399c90c6baa9d50590a4421801f3ea9814052af363ebe15583; daily06UTC, six-hour graph and half-hour collector schedules all read back on it with unchanged configuration/resources/identity. The first manual smoke failed before any capture or investigation because binding froze per_execution=False while validation required True; its native startup failure remains recorded. Three corrected complete smokes finished on the same image:0/3PASS, FamilyA404DeploymentNotFound/408Timeout/404DeploymentNotFound. The other five checks pass3/3 and Azure execution status is Succeeded3/3. No green-smoke claim. PartA1 safety-only gates apply; these external model failures remain soft failures while hosted CI, merge and postmerge validation proceed. No official outcome or expectation was re-run or edited for that release-only fix. All dev04 failed/waiting definitions, latency source rows and schedules, history rows, stale rows/automatic-update setting and access objects were restored with retained hash evidence. Stale model own refresh completed and native baseline7661 returned. Access catalog owner payload and permissions match their originals. Temporal history remains on.
+Post-score diagnostic/cache engine7d32316 passed5521 tests/50skips; image984bebba. A separate release-runner startup fix4b547f1 then passed54 focused tests and the complete5522-test/50-skip suite, zero failures/errors (775.421s). Published release image0c49608909bd74399c90c6baa9d50590a4421801f3ea9814052af363ebe15583; daily06UTC, six-hour graph and half-hour collector schedules all read back on it with unchanged configuration/resources/identity. The first manual smoke failed before any capture or investigation because binding froze per_execution=False while validation required True; its native startup failure remains recorded. Three corrected complete smokes finished on the same image:0/3PASS, FamilyA404DeploymentNotFound/408Timeout/404DeploymentNotFound. The other five checks pass3/3 and Azure execution status is Succeeded3/3. No green-smoke claim. PartA1 safety-only gates apply; these external model failures remain soft failures while hosted CI, merge and postmerge validation proceed. No official outcome or expectation was re-run or edited for that release-only fix. All dev04 failed/waiting definitions, latency source rows and schedules, history rows, stale rows/automatic-update setting and access objects were restored with retained hash evidence. Stale model own refresh completed and native baseline7661 returned. Access catalog owner payload and permissions match their originals. Temporal history remains on.
 
 ## Final results
 
@@ -106,3 +106,15 @@ Each cell is correct/attempted; NR is not run. Partial passes and the unscored O
 | source changed history | 0/1 |
 | transformation logic | 0/3 |
 | waiting on job | 0/1 |
+
+## Validated release on main
+
+PR#430 merged as 6d91b7bc188eb04e7ae1b34397266e149efc8ca7; annotated v0.23 points to that tested merge. Premerge CI27SUCCESS/2conditional SKIP. Merge-commit full suite 5522tests/50skips/zero failures/errors; hosted merge CI {'success': 21, 'skipped': 2}. The final summary is a separate documentation commit on main after tagging, as requested.
+
+Official held-out remains frozen07a0f92/image2f22b43d, scored once. Cache diagnostic engines10caa82/f24b0227 and7d32316/984bebba and the release-only runner4b547f1/0c496089 do not acquire a new held-out score. All original outcomes, scores and expectations unchanged.
+
+Three complete same-image daily-smoke runs:0/3PASS; FamilyA404/408/404, other five checks PASS3/3, Azure execution Succeeded3/3. These are retained soft failures under PartA1; no live-success or green-smoke claim. Exact errors and owner action in the Azure model-route receipt. No further scored/native/model admissions were made after those required controls.
+
+Closing monthly physical 8294/9000, allocations {'SCAN': 2059, 'INVESTIGATION': 6153, 'RESTORATION': 12}, fresh restoration remaining 83. Normalized model/grading USD90.411736/96; protected grading remainder USD1.342805; open model reservations0. UNCERTAIN stays charged. Background schedules stay enabled under the unchanged caps. All injections restored with hashes; temporal history staysON.
+
+Full investigations (five completed multilayer): median254.955s/p90292.355s end-to-end (187.081s/232.101s worker body), missing the120s target. Thirteen budget-blocked cases separately: median200.557s/p90377.895s end-to-end (140.691s/192.667s body). One native-network interruption remains separate and unreplaced. Mean held-out inference USD0.5157291/ticket; grading/setup/control charges are separate.
