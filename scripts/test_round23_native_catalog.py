@@ -10,6 +10,19 @@ def asset(identity,kind,parent,name,metadata):
 
 
 class NativeCatalogTests(unittest.TestCase):
+    def test_context_excludes_sibling_visual_bodies_but_preserves_global_scope_and_originals(self):
+        report='fabric://workspace/report';selected=report+'/selected';sibling=report+'/sibling'
+        self.assets += [asset(report,'Report','fabric://workspace','Report',{}),
+            asset(selected,'DefinitionPart',report,'definition/pages/p/visuals/a/visual.json',{'content':'selected filter'}),
+            asset(sibling,'DefinitionPart',report,'definition/pages/p/visuals/b/visual.json',{'content':'unrelated visual'}),
+            asset(report+'/global','DefinitionPart',report,'definition/report.json',{'content':'global filters'})]
+        self.nodes += [{'id':'selected-visual','properties':{'asset_id':selected}}]
+        catalog=self.build();context=catalog.context({'nodes':[self.nodes[-1]]},{})
+        definitions={a['id']:a for a in context['retained_native_definitions']}
+        self.assertIn(selected,definitions);self.assertIn(report+'/global',definitions)
+        self.assertNotIn(sibling,definitions)
+        self.assertEqual(context['off_path_visual_definition_index'][0]['id'],sibling)
+        self.assertEqual(catalog.assets[sibling]['metadata']['content'],'unrelated visual')
     def test_literal_directlake_route_requires_native_ownership_not_matching_names(self):
         import json
         model='fabric://workspace/model';table=model+'/table/Activity';endpoint='fabric://workspace/endpoint'

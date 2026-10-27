@@ -1,0 +1,32 @@
+{
+  "case": "harness-A08",
+  "scored": false,
+  "ticket_origin": "fixture-authored diagnostic assembly",
+  "image_source": "afa6658",
+  "image_digest": "5e2edeb26d9a19a4037a83d370853a94b66c6ca43daee602bbdc18a8baeb1372",
+  "status": "BLOCKED",
+  "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+  "model_calls": 1,
+  "physical_requests": 8,
+  "cost": {
+    "ceiling_microdollars": 1000000,
+    "charged_microdollars": 545773,
+    "month_account": "model-microdollars:2026-10",
+    "warning": true
+  },
+  "timing": {
+    "phases": [
+      {
+        "phase": "startup-and-intake",
+        "seconds": 10.357452513999988
+      },
+      {
+        "phase": "triage-and-investigation",
+        "seconds": 76.11640302199999
+      }
+    ],
+    "wall_seconds": 91.895945686
+  },
+  "original_retained": true,
+  "input_limit": "Retained A01 input has table-level physical metadata; current dev inputs use the fuller native catalog. This is not evidence that current column-level lineage is absent."
+}

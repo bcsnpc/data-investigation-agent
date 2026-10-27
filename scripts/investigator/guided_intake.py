@@ -134,12 +134,34 @@ def admit(request, catalog):
     Draft202012Validator(SCHEMA).validate(request)
     result = deepcopy(request)
     result['measure_candidates'] = catalog.target(request)
-    comparison = request['compared_with']; kind = comparison['kind']
+    comparison = deepcopy(request['compared_with']); kind = comparison['kind']
     expected = {'ANOTHER_REPORT': 'target', 'SOURCE_SYSTEM': 'source', 'EXPECTED_NUMBER': 'figure'}
-    if set(comparison) != {'kind'} | ({expected[kind]} if kind in expected else set()):
+    required = {'kind'} | ({expected[kind]} if kind in expected else set())
+    if not required <= set(comparison):
         raise ValueError('COMPARISON_DETAILS_REQUIRED')
+    extras = set(comparison) - required
+    # A copied reference to the selected visual is harmless formatting, but a
+    # different target is a real competing referent and must not be discarded.
+    if 'target' in extras:
+        catalog.target(comparison['target'])
+        if any(request.get(k) != v for k,v in comparison['target'].items()):
+            raise ValueError('CONFLICTING_COMPARISON_TARGET')
+    permitted = {'target','figure'} if kind == 'SOURCE_SYSTEM' else set()
+    if not extras <= permitted:raise ValueError('COMPARISON_DETAILS_REQUIRED')
+    if extras:
+        result['comparison_context'] = {k:deepcopy(comparison[k]) for k in sorted(extras)}
+        result['format_warnings'] = ['Supporting comparison details retained separately; selected comparison kind preserved.']
+        comparison = {k:v for k,v in comparison.items() if k in required}
     if kind == 'ANOTHER_REPORT': catalog.target(comparison['target'])
-    if kind == 'SOURCE_SYSTEM': catalog.require(comparison['source'], 'SOURCE')
+    if kind == 'SOURCE_SYSTEM':
+        supplied = comparison['source']
+        if catalog.nodes.get(supplied,{}).get('kind') != 'SOURCE':
+            matches = [r for r in catalog.sources() if r['name'].casefold() == supplied.casefold()]
+            if len(matches) != 1:raise ValueError('SOURCE_NAME_UNRESOLVED_OR_AMBIGUOUS')
+            comparison['source'] = matches[0]['id']
+            result['source_resolution'] = {'supplied':supplied,'id':matches[0]['id'],'basis':'UNIQUE_EXACT_CATALOG_NAME'}
+        catalog.require(comparison['source'], 'SOURCE')
+    result['compared_with'] = comparison
     if request['issue_type'] == 'SOMETHING_ELSE':
         if not request.get('description', '').strip(): raise ValueError('OTHER_REQUIRES_DESCRIPTION')
         if 'classified_issue_type' not in request: raise ValueError('OTHER_REQUIRES_CLASSIFICATION')

@@ -202,6 +202,13 @@ class NativeCatalog:
                       'content_hash':a['content_hash'],'provenance':a.get('provenance')}
                      for a in self.assets.values() if a['id'] in assets or
                      a['parent_id'] in containers and a['kind'] in ('SemanticRelationship','SemanticTable','DefinitionPart')]
+        # PBIR sibling visuals are not on the ticket path. Keep the selected
+        # visual, page/global filters and model binding, with an index of the
+        # omitted siblings; original retained definitions are never modified.
+        siblings=[a for a in definitions if a['kind']=='DefinitionPart' and '/visuals/' in a['name']
+                  and a['id'] not in assets and self.assets.get(self.assets[a['id']]['parent_id'],{}).get('kind')=='Report']
+        sibling_ids={a['id'] for a in siblings}
+        definitions=[a for a in definitions if a['id'] not in sibling_ids]
         opened=set().union(*self.opened.values()) if self.opened else set()
         semantic_tables={self.assets[i]['name'] for i in opened if self.assets.get(i,{}).get('kind')=='SemanticTable'}
         definitions=[a for a in definitions if a['kind']!='SemanticTable' or a['id'] in opened]
@@ -228,4 +235,5 @@ class NativeCatalog:
             declaration={'declared':True,'reachable':terminal.get('reachable') is True and len(matching)==1,
                          'asset_id':terminal['asset_id'],'layer':matching[0] if len(matching)==1 else None}
         return {'retained_native_definitions':definitions,'system_of_record':declaration,'native_definition_references':references,
+                'off_path_visual_definition_index':[{'id':a['id'],'name':a['name'],'content_hash':a['content_hash']} for a in siblings],
                 'warnings':['Native comparisons are observational snapshots; aligned query-bound versions are not established.']}

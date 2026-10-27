@@ -66,6 +66,22 @@ class IntakeTests(unittest.TestCase):
         with self.assertRaises(ValueError):admit(item,self.catalog)
         item['compared_with']={'kind':'SOURCE_SYSTEM','source':'source'}
         self.assertEqual(admit(item,self.catalog)['status'],'READY')
+    def test_source_name_and_supporting_figure_preserved_without_changing_referent(self):
+        item=request();figure={'state':'NUMBER','value':'700','precision':'EXACT'}
+        item['compared_with']={'kind':'SOURCE_SYSTEM','source':'Source','figure':figure,
+                              'target':{k:item[k] for k in ('report','page','visual')}}
+        original=deepcopy(item);result=admit(item,self.catalog)
+        self.assertEqual(item,original)
+        self.assertEqual(result['compared_with'],{'kind':'SOURCE_SYSTEM','source':'source'})
+        self.assertEqual(result['comparison_context']['figure'],figure)
+        self.assertEqual(result['source_resolution']['basis'],'UNIQUE_EXACT_CATALOG_NAME')
+        self.assertEqual(result['visual'],'card')
+    def test_extra_competing_target_and_ambiguous_source_name_still_refuse(self):
+        item=request();item['compared_with']={'kind':'SOURCE_SYSTEM','source':'source','target':{'report':'other'}}
+        with self.assertRaisesRegex(ValueError,'CONFLICTING_COMPARISON_TARGET'):admit(item,self.catalog)
+        g=graph();g['nodes'].append({'id':'source2','kind':'SOURCE','label':'Source'})
+        item['compared_with']={'kind':'SOURCE_SYSTEM','source':'Source'}
+        with self.assertRaisesRegex(ValueError,'SOURCE_NAME_UNRESOLVED_OR_AMBIGUOUS'):admit(item,Catalog(g))
     def test_free_text_one_combined_catalog_question_and_no_reask_named_report(self):
         result=prefill('It looks wrong',{},self.catalog)
         self.assertEqual([f['field'] for f in result['question']['fields']],['report','issue_type'])
