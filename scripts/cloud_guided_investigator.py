@@ -82,6 +82,7 @@ def run(plan,context):
     submitted=json.loads(reference(spec['ticket'],maximum=250000).read_bytes())
     retained=json.loads(reference(spec['assets'],maximum=64*1024*1024).read_bytes())
     assets=retained['assets'] if isinstance(retained,dict) else retained
+    if isinstance(retained,dict):assets=[*assets,*retained.get('native_relation_witnesses',[])]
     if isinstance(retained,dict) and retained.get('graph'):
         from investigator.adapters.estate_graph_static import retained_native_relation_assets
         extra=retained_native_relation_assets(retained,observed_at=retained['created'])

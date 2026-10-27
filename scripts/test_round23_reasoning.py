@@ -181,6 +181,17 @@ def tool(name,args,identity='call'):
 
 
 class LoopTests(unittest.TestCase):
+    def test_delivery_tool_schema_matches_scalar_numbers_and_layer_id_renderer(self):
+        from investigator.ai_investigation import toolbox
+        from jsonschema import Draft202012Validator
+        item=next(t for t in toolbox({'gold':{'dialect':'T-SQL'}},{}) if t['name']=='submit_finding')
+        shape=Draft202012Validator(item['input_schema'])
+        base={'verdict':'observed value','cause':'The checked total is 7.','numbers':[7],
+              'checked':['gold'],'evidence_ids':['query:one']}
+        shape.validate(base)
+        for changed in ({'numbers':[{'metric':'total','value':7}]},{'numbers':['7 / 3']},{'checked':['I checked the total']}):
+            self.assertTrue(list(shape.iter_errors({**base,**changed})))
+
     def test_completed_triage_is_given_to_model_without_an_extra_lookup(self):
         loop=self.assemble([])
         self.assertIn('Completed path triage:\n[]',loop.stable)

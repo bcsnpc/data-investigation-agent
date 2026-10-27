@@ -1,0 +1,17 @@
+{
+  "experiment": "ROUND23_UNSCORED_NATIVE_HARNESS_A07",
+  "status": "BLOCKED",
+  "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+  "scored": false,
+  "model_calls": 3,
+  "tools_used": 6,
+  "physical_requests": 11,
+  "model_cost_microdollars": 587552,
+  "worker_wall_seconds": 112.33911118699996,
+  "successful_native_queries": 4,
+  "native_boundary": "semantic model and Gold both8765/406rows; RECEIPT6425/298rows and ISSUE2340/108rows agree",
+  "remaining_gap": "Silver/Bronze not compared; no transformation finding delivered",
+  "submit_rejection": "Tool schema allowed annotated number objects and prose checked items while renderer expected literal scalars and layer IDs.",
+  "correction": "Make the tool schema express the actual renderer contract, retain all original evidence. Also carry physical source-column roots through declared partition continuation.",
+  "capture": "SEALED_NORMAL_MODE"
+}

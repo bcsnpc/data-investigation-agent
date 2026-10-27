@@ -26,6 +26,10 @@ repeats reuse saved evidence. Read the current-state recitation each turn.
 Ask only as a last resort after candidate checks and a recreation attempt, only
 for an unreadable user fact or business policy, using named multiple choices.
 Submit a plain answer with verdict, cause, numbers and what was checked. No fixes.
+Value agreement never establishes snapshot alignment. A statement about a
+whole source chain requires actual reads of its boundaries. For a calculation
+trace, follow declared route bridges and retained transformations beyond the
+model, rather than repeating component totals on already matched layers.
 '''
 
 
@@ -54,8 +58,14 @@ def toolbox(layers,read_tools):
                                'field':{'enum':['REPORT','PAGE','VISUAL','FIGURE','COMPARISON','SELECTION','BUSINESS_INTENT']}},
                                ['question','choices','reason','evidence_ids'])},
         {'name':'submit_finding','description':'Submit a verdict, plain cause, numbers and checked evidence. The consumer validates the evidence before delivery.',
-         'input_schema':schema({'verdict':{'type':'string'},'cause':{'type':'string'},
-                               'numbers':{'type':'array','items':{}},'checked':{'type':'array','items':{'type':'string'}},
+         'input_schema':schema({'verdict':{'enum':['as designed','transformation logic','failed job','waiting on job','latency',
+                                   'refresh stale','source changed history','access difference','different question','not found',
+                                   'observed value','consistent to boundary','record missing','duplicate record','definition explained','blank or error']},
+                               'cause':{'type':'string'},
+                               'numbers':{'type':'array','description':'Literal scalar values only, not objects, ratios or annotations.',
+                                   'items':{'oneOf':[{'type':'number'},{'type':'null'},{'type':'string','pattern':r'^-?\d+(\.\d+)?$'}]}},
+                               'checked':{'type':'array','description':'Exact layer IDs that were read, not prose descriptions.',
+                                          'items':{'enum':list(layers)}},
                                'evidence_ids':{'type':'array','items':{'type':'string'},'minItems':1}})}])
     return tools
 

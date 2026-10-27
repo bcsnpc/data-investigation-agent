@@ -29,7 +29,7 @@ class NativeCatalog:
         for parent,objects in grouped.items():
             container=self.assets.get(parent,{})
             kind=container.get('kind')
-            route={'path_nodes':sorted({i for a in objects for i in self.nodes[a['id']]}),
+            route={'path_nodes':sorted({i for a in objects for i in self.object_nodes(a['id'])}),
                    'label':container.get('name',parent),'config':deepcopy(self.config),
                    'asset_ids':[a['id'] for a in objects], 'objects':[],
                    'container':parent,'discovery':[{'id':a['id'],'content_hash':a['content_hash']} for a in objects]}
@@ -60,13 +60,16 @@ class NativeCatalog:
             self.routes[identity]=route
             if route['kind']!='FABRIC_SQL':self.ready.add(identity)
 
+    def object_nodes(self,identity):
+        return set(self.nodes[identity])|{node for a in self.assets.values() if a.get('parent_id')==identity for node in self.nodes[a['id']]}
+
     def prepare(self, identity, nodes=None):
         if identity not in self.routes:raise ValueError('NATIVE_LAYER_NOT_DECLARED')
         route=self.routes[identity]
-        selected={a['id'] for a in route['objects'] if nodes is None or set(nodes).intersection(self.nodes[a['id']])}
+        selected={a['id'] for a in route['objects'] if nodes is None or set(nodes).intersection(self.object_nodes(a['id']))}
         if route['kind']=='DAX':
             tables={a['id'] for a in route['objects'] if a['kind']=='SemanticTable' and
-                    (nodes is None or set(nodes).intersection(self.nodes[a['id']]))}
+                    (nodes is None or set(nodes).intersection(self.object_nodes(a['id'])))}
             names={a['name'] for a in route['objects'] if a['id'] in tables}
             # Schema relationships belong in the context; unrelated model
             # tables do not. This does not select the investigative next step.
@@ -177,6 +180,13 @@ class NativeCatalog:
             if len(physical)!=1:continue
             ids=self.nodes.get(physical[0]['id'],[])
             if not ids:continue
+            ids=list(ids)
+            semantic_columns=[self.assets.get(n.get('properties',{}).get('asset_id'),{}) for n in path['nodes']]
+            source_columns={a['metadata'].get('sourceColumn',a.get('name')) for a in semantic_columns
+                            if a.get('kind')=='SemanticColumn' and a.get('parent_id')==table['id'] and not a['metadata'].get('expression')}
+            for column in self.assets.values():
+                if column.get('parent_id')==physical[0]['id'] and column['kind'] in ('LakehouseColumn','WarehouseColumn') and column['name'] in source_columns:
+                    ids.extend(self.nodes.get(column['id'],[]))
             result.append({'confidence':'DECLARED','semantic_table':table['id'],'physical_table':physical[0]['id'],
                 'graph_nodes':list(ids),'definition_asset':definition['id'],'definition_hash':definition['content_hash'],
                 'partition_source':deepcopy(source),'literal_expression':expression,'native_ownership':witnesses,
@@ -186,6 +196,7 @@ class NativeCatalog:
     def context(self, path, intake):
         ids={n['id'] for n in path['nodes']}
         assets={a for a,nodes in self.nodes.items() if ids.intersection(nodes)}
+        assets.update(n.get('provenance',{}).get('source_id') for n in path['nodes'] if n.get('provenance',{}).get('source_id') in self.assets)
         containers={self.assets[a]['parent_id'] for a in assets}
         definitions=[{'id':a['id'],'kind':a['kind'],'name':a['name'],'metadata':deepcopy(a['metadata']),
                       'content_hash':a['content_hash'],'provenance':a.get('provenance')}

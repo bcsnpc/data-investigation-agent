@@ -42,14 +42,18 @@ class NativeCatalogTests(unittest.TestCase):
             'definition/report.json':{'filterConfig':{}},
             'definition.pbir':{'datasetReference':{'byConnection':{'connectionString':'model=${ITEM_4};workspace=${WORKSPACE_NAME}'}}}}
         template={'parts':[{'path':p,'content':json.dumps(d)} for p,d in documents.items()]}
-        result=application_report(template,workspace_name='Fixture',model_name='Application',model_id='existing-model',logical_id='logical')
+        result=application_report(template,workspace_name='Fixture',model_name='Application',model_id='existing-model',logical_id='logical',record_fields=('warehouse_id','product_id','units'))
         parts={p['path']:json.loads(base64.b64decode(p['payload'])) for p in result['parts']}
-        visuals=[v for p,v in parts.items() if p.endswith('/visual.json')]
+        visuals=[v for p,v in parts.items() if p.endswith('/visual.json') and v['visual'].get('visualType')!='tableEx']
         self.assertEqual(len(visuals),1)
         field=visuals[0]['visual']['query']['queryState']['Values']['projections'][0]['field']['Measure']
         self.assertEqual(field['Property'],'Movement Units');self.assertEqual(field['Expression']['SourceRef']['Entity'],'Movements')
         self.assertIn('existing-model',json.dumps(parts['definition.pbir']))
         self.assertFalse(any('filterConfig' in p for p in parts.values()))
+        table=next(v for p,v in parts.items() if '/round23records/' in p)
+        fields=table['visual']['query']['queryState']['Values']['projections']
+        self.assertEqual([p['field']['Column']['Property'] for p in fields],['warehouse_id','product_id','units'])
+        self.assertNotIn('movement_id',json.dumps(table))
 
     def test_security_reads_existing_scope_and_retained_roles_are_not_current_memberships(self):
         import json
@@ -124,6 +128,14 @@ class NativeCatalogTests(unittest.TestCase):
 
     def test_only_graph_known_tables_enter_routes(self):
         self.nodes=[];self.assertEqual(self.build().routes,{})
+
+    def test_column_only_lineage_opens_its_containing_native_table(self):
+        column=self.table+'/column/quantity'
+        self.assets.append(asset(column,'LakehouseColumn',self.table,'quantity',{'name':'quantity'}))
+        self.nodes.append({'id':'column-node','properties':{'asset_id':column}})
+        catalog=self.build();identity=next(iter(catalog.routes))
+        self.assertIn('column-node',catalog.routes[identity]['path_nodes'])
+        self.assertEqual(len(catalog.prepare(identity,['column-node'])['objects']),1)
 
     def test_source_and_dax_use_retained_actual_schema_without_query_compiler(self):
         source='sql://server/application';table=source+'/object/1'

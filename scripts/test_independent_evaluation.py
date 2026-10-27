@@ -16,7 +16,12 @@ class IndependentEvaluationTests(unittest.TestCase):
         from investigator.adapters.evaluation_anthropic import output_schema
         value={**source(),'purpose':'WRITE_GUIDED_TICKETS','catalog':{'reports':[{'id':'report','name':'Report','pages':[{'id':'page','name':'Page','visuals':[{'id':'visual','name':'Total'}]}]}],'source_systems':[]}}
         request=request_for(value,'a'*64)
-        self.assertIn('intake',request['params']['output_config']['format']['schema']['properties']['tickets']['items']['properties'])
+        self.assertIn('intake_json',request['params']['output_config']['format']['schema']['properties']['tickets']['items']['properties'])
+        from investigator.adapters.evaluation_anthropic import decode_output
+        from test_round23_intake_queries import request as intake_request
+        intake=intake_request();wire={'tickets':[{'variation':'plain','intake_json':json.dumps(intake)}]}
+        self.assertEqual(decode_output(value,wire),{'tickets':[{'variation':'plain','intake':intake}]})
+        self.assertEqual(wire['tickets'][0]['intake_json'],json.dumps(intake))
         self.assertNotIn('expected',json.dumps(value))
         bad=copy.deepcopy(value);bad['catalog']['engine_code']='not permitted'
         with self.assertRaisesRegex(ValueError,'VISIBLE_CATALOG_ONLY'):task(bad)

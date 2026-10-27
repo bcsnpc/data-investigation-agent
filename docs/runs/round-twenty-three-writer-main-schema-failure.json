@@ -1,0 +1,13 @@
+{
+  "status": "PROVIDER_SCHEMA_REJECTED_NO_TICKETS_WRITTEN",
+  "batch_key": "round23-guided-v2-main-01",
+  "tasks": 16,
+  "provider_error_type": "invalid_request_error",
+  "provider_error": "output_config.format.schema: Schema type 'oneOf' is not supported",
+  "dev_tickets": 0,
+  "held_out_tickets": 0,
+  "raw_failed_responses_retained": true,
+  "original_reservations_kept_charged": true,
+  "correction": "Keep full IntakeRequest schema for application validation; provider carries inner intake JSON as text, parsed unchanged. No expectation or scenario changed.",
+  "source": "https://platform.claude.com/docs/en/build-with-claude/structured-outputs"
+}

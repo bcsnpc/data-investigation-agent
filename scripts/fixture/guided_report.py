@@ -4,7 +4,7 @@ import json
 from .definitions import definition
 
 
-def application_report(template,*,workspace_name,model_name,model_id,logical_id):
+def application_report(template,*,workspace_name,model_name,model_id,logical_id,record_fields=()):
     selected=[]
     for part in template['parts']:
         path=part['path']
@@ -19,5 +19,15 @@ def application_report(template,*,workspace_name,model_name,model_id,logical_id)
             document=json.loads(text);document.pop('filterConfig',None)
         elif path=='definition/report.json':document.pop('filterConfig',None)
         selected.append({'path':path,'content':json.dumps(document)})
+    page=next(p['path'].rsplit('/',1)[0] for p in selected if p['path'].endswith('/page.json'))
+    projections=[{'field':{'Column':{'Expression':{'SourceRef':{'Entity':'Movements'}},'Property':field}},
+                  'queryRef':'Movements.'+field,'nativeQueryRef':field} for field in
+                 record_fields]
+    if record_fields:selected.append({'path':page+'/visuals/round23records/visual.json','content':json.dumps({
+        '$schema':'https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json',
+        'name':'round23records','position':{'x':24,'y':310,'width':1200,'height':420,'z':7,'tabOrder':7},
+        'visual':{'visualType':'tableEx','query':{'queryState':{'Values':{'projections':projections}}},
+            'visualContainerObjects':{'title':[{'properties':{'show':{'expr':{'Literal':{'Value':'true'}}},
+                'text':{'expr':{'Literal':{'Value':"'Movement records'"}}}}}]}}})})
     return definition({'parts':selected},{'WORKSPACE_NAME':workspace_name,'MODEL_NAME':model_name,
         'ITEM_4':model_id,'REPORT_LOGICAL_ID':logical_id})
