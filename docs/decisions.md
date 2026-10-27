@@ -337,3 +337,6 @@ DECIDED WITHOUT REVIEW, 2026-10-27: preserve300 investigation requests for the t
 
 
 DECIDED WITHOUT REVIEW, 2026-10-27: preserve screenshot/intake helper request bodies during diagnostic caching. They precede a known ticket path and change named tools, so pinning their first toolbox would hide their next required tool. Cache the admitted investigation prefix; log native usage for every helper call and include those cold calls in the ratio. Rejected alternative: invent one broad generic toolbox for every unresolved intake helper, changing the task's provider schema. This corrects diagnostic cache wiring only, with78 focused tests; no held-out engine, expectation, identity or permission change.
+
+
+2026-10-27 DECIDED WITHOUT REVIEW: following the owner dev-only grading-audit request, reserve40 investigation requests for its read-only checks in addition to300 for three complete release smokes and40 for the next diagnostic case. Diagnostic admission floor340 becomes380; no ledger ceiling/allocation/reserve changes. Only the local polling controller was replaced; its existing Azure execution continues and is recovered by its SUBMITTED receipt, never resubmitted. Rejected alternative: spend the final audit capacity on more unscored diagnostics.

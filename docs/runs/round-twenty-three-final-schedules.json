@@ -2,7 +2,7 @@
   "jobs": [
     {
       "job": "job-dia-worker",
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6",
       "cron": "0 6 * * *",
       "runtime_seconds": 3600,
       "resources": {
@@ -14,7 +14,7 @@
     },
     {
       "job": "job-dia-graph-scan",
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6",
       "cron": "0 */6 * * *",
       "runtime_seconds": 1800,
       "resources": {
@@ -26,7 +26,7 @@
     },
     {
       "job": "job-dia-collectors",
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6",
       "cron": "*/30 * * * *",
       "runtime_seconds": 180,
       "resources": {

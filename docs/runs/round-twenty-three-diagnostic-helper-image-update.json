@@ -1,0 +1,92 @@
+{
+  "unstarted_only": true,
+  "changes": [
+    {
+      "ticket": "v2-before-temporal-retention-v1",
+      "previous_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "new_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6"
+    },
+    {
+      "ticket": "v2-before-temporal-retention-v2",
+      "previous_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "new_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6"
+    },
+    {
+      "ticket": "v2-other-collected-definition-v1",
+      "previous_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "new_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6"
+    },
+    {
+      "ticket": "v2-other-collected-definition-v2",
+      "previous_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "new_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6"
+    },
+    {
+      "ticket": "v2-record-absent-everywhere-v1",
+      "previous_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "new_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6"
+    },
+    {
+      "ticket": "v2-record-absent-everywhere-v2",
+      "previous_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "new_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6"
+    },
+    {
+      "ticket": "v2-record-repeated-gold-v1",
+      "previous_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "new_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6"
+    },
+    {
+      "ticket": "v2-record-repeated-gold-v2",
+      "previous_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "new_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6"
+    },
+    {
+      "ticket": "v2-screenshot-record-01-v1",
+      "previous_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "new_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6"
+    },
+    {
+      "ticket": "v2-screenshot-record-01-v2",
+      "previous_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "new_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6"
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v1",
+      "previous_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "new_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6"
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v2",
+      "previous_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "new_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6"
+    },
+    {
+      "ticket": "v2-screenshot-record-03-v1",
+      "previous_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "new_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6"
+    },
+    {
+      "ticket": "v2-screenshot-record-03-v2",
+      "previous_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "new_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6"
+    },
+    {
+      "ticket": "v2-screenshot-record-04-v1",
+      "previous_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "new_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6"
+    },
+    {
+      "ticket": "v2-screenshot-record-04-v2",
+      "previous_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "new_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6"
+    },
+    {
+      "ticket": "v2-warehouse-scope-v2",
+      "previous_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f24b0227e3b7930a50ea61bbfc6c23ae1e8a008422715f2ed633a565c2f23aa3",
+      "new_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:984bebba139701c479787b6f0d13680a2693b1fda67efea0424d265df3cf75d6"
+    }
+  ],
+  "input_archive_unchanged": "f9cc4f15823fa46013593de378e17bf9f2ee9083c78ea1ade15f7a3d54047252",
+  "started_cases_preserved_no_repeat": true
+}
