@@ -74,7 +74,7 @@ class Investigator:
         self.context,self.triage=deepcopy(context),deepcopy(triage)
         self.clock,self.tool_limit,self.deadline_seconds=clock,tool_limit,deadline_seconds
         self.refresh_tools()
-        self.stable=INSTRUCTIONS+'\nAdmitted path, schema, retained definitions and toolbox:\n'+canonical(context)
+        self.stable=INSTRUCTIONS+'\nAdmitted path, schema, retained definitions and toolbox:\n'+canonical(context)+'\nCompleted path triage:\n'+canonical(triage)
 
     def refresh_tools(self):
         self.read_tools=self.read_tools_factory()

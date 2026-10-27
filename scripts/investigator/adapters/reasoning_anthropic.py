@@ -115,6 +115,8 @@ class Client:
             if type(count) is not int or count<0:raise ValueError('PROVIDER_TOKEN_COUNT_REQUIRED')
             input_bound=count+4096
             self.record({'event':'REASONING_TOKEN_COUNT','input_tokens':count,'reservation_margin_tokens':4096})
+            if hasattr(type(self.budget),'output_limit'):
+                body['max_tokens']=self.budget.output_limit(input_bound,body['max_tokens'])
         for attempt in range(3):
             identity=(self.budget.reserve(body) if input_bound is None else
                       self.budget.reserve(body,input_tokens_upper_bound=input_bound))

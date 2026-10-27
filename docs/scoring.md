@@ -148,3 +148,5 @@ Genuine ambiguities are conditional on catalog/evidence: tied unnamed views,
 manual comparison scope/time, and business policy. Missing optional form fields
 or an unevaluated hypothesis are not themselves justification for a question.
 V2 independent authoring and all scoring remain pending until November.
+
+Round23 dated correction2026-10-26: the owner authorized9000 monthly estate requests effective immediately, superseding the earlier November wait. Independent v2 authoring and scoring may proceed now; the unscored A01-A05 assembly harnesses are excluded from all v2 accuracy denominators.

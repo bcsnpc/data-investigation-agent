@@ -542,3 +542,5 @@ Round23 integration checks exposed two earlier fixture-only assumptions before s
 2026-10-26 Round23: unscored A03 cloud harness captured KeyError managed_identity before model/native investigation; metadata used the display reader profile rather than full fabric.auth. Fixed with regression, unchanged identity/scope. A01 startup cause remains unestablished; A02 never submitted. See docs/runs/round-twenty-three-native-harness-startup.json.
 
 2026-10-26 Round23 A04: count_tokens succeeded (30,655 input tokens), then psycopg rejected a literal percent in the per-case budget SELECT before paid message dispatch. Bound the LIKE pattern; PostgreSQL-specific regression added. Original partial capture retained; unscored harness.
+
+2026-10-26 Round23 A05: first paid new-loop harness delivered a sealed budget stop/handoff after a native DAX TimeoutError (33.04seconds), one paid model call USD0.400925, one physical read. It is unscored and not a successful cross-layer investigation. Full capture retained. Context inspection found unrelated semantic tables admitted at initial preparation; path-only schema regression added.

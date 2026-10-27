@@ -79,6 +79,20 @@ class TicketBudget:
         self.reservations[identity]=account
         return identity
 
+    def output_limit(self,inputs,requested):
+        """Fit the output reservation inside both unchanged dollar ceilings."""
+        if type(inputs) is not int or inputs<1 or type(requested) is not int or not 1<=requested<=16000:
+            raise SpendHold('MODEL_RESERVATION_BOUND_REQUIRED')
+        account=ensure_model_account(self.state,self.clock())
+        with self.state.transaction(_read_only=True) as db:
+            snapshot=self.state._snapshot(db,account)
+            if snapshot['violated']:raise SpendHold('MODEL_ACCOUNT_VIOLATION')
+            available=min(TICKET_MODEL_MICRODOLLARS-self._charged(db,account),
+                min(amount(snapshot['ceiling'])-amount(snapshot['protected']),MODEL_MICRODOLLARS)-amount(snapshot['charged']))
+        result=min(requested,int((available-inputs*self.rate.input_rate)/self.rate.output_rate))
+        if result<512:raise SpendHold('TICKET_MODEL_EXHAUSTED')
+        return result
+
     def settle(self,identity,usage=None):
         account=self.reservations[identity]
         cost=None

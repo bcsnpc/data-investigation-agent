@@ -104,5 +104,18 @@ class NativeCatalogTests(unittest.TestCase):
                 self.assertTrue(any(a['kind']=='Measure' for a in route['objects']))
         self.read.assert_not_called()
 
+    def test_semantic_schema_opens_path_tables_and_related_dimensions_only(self):
+        parent='fabric://workspace/model'
+        self.assets += [asset(parent,'SemanticModel','fabric://workspace','Model',{})]
+        for name in ('Activity','Locations','Unrelated'):
+            self.assets += [asset(parent+'/table/'+name,'SemanticTable',parent,name,{'name':name}),
+                asset(parent+'/table/'+name+'/column/q','SemanticColumn',parent+'/table/'+name,'q',{'name':'q'})]
+            self.nodes.append({'id':name,'properties':{'asset_id':parent+'/table/'+name}})
+        self.assets.append(asset(parent+'/relationship/r','SemanticRelationship',parent,'r',{'fromTable':'Activity','toTable':'Locations'}))
+        catalog=self.build();identity=next(i for i,r in catalog.routes.items() if r['kind']=='DAX')
+        result=catalog.prepare(identity,['Activity'])
+        self.assertEqual({a['name'] for a in result['objects'] if a['kind']=='SemanticTable'},{'Activity','Locations'})
+        self.assertEqual({a['name'] for a in catalog.prepare(identity,['Unrelated'])['objects'] if a['kind']=='SemanticTable'},{'Activity','Locations','Unrelated'})
+
 
 if __name__=='__main__':unittest.main()

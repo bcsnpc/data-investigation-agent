@@ -20,6 +20,13 @@ NOW=datetime(2026,11,1,tzinfo=timezone.utc).timestamp()
 
 
 class BudgetTests(unittest.TestCase):
+    def test_output_reservation_fits_remaining_case_budget_without_raising_it(self):
+        identity=self.budget.reserve(self.body(),input_tokens_upper_bound=100000);self.budget.settle(identity,{'input_tokens':100000,'output_tokens':100})
+        limit=self.budget.output_limit(50000,16000)
+        self.assertLessEqual(self.rate.price(50000,limit)+self.budget.status()['charged_microdollars'],1000000)
+        self.assertLess(limit,16000)
+        with self.assertRaisesRegex(SpendHold,'EXHAUSTED'):self.budget.output_limit(200000,4000)
+
     def test_postgres_charged_query_binds_like_pattern_instead_of_literal_percent(self):
         state=Mock();state.backend='postgresql';state.sql.return_value.fetchall.return_value=[('120',)]
         budget=TicketBudget(state,case_id='case',owner='worker',rate=Mock())
@@ -174,6 +181,10 @@ def tool(name,args,identity='call'):
 
 
 class LoopTests(unittest.TestCase):
+    def test_completed_triage_is_given_to_model_without_an_extra_lookup(self):
+        loop=self.assemble([])
+        self.assertIn('Completed path triage:\n[]',loop.stable)
+
     def assemble(self,responses,validator=None):
         self.calls=[];self.events=[]
         self.execute=Mock(return_value={'rows':[[7]]})

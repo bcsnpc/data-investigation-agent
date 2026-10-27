@@ -5,6 +5,7 @@ existing reader-only catalog control, for graph-known objects on opened layers.
 """
 from copy import deepcopy
 from collections import defaultdict
+import json
 from ..estate_graph_contract import digest
 
 
@@ -61,7 +62,21 @@ class NativeCatalog:
         if identity not in self.routes:raise ValueError('NATIVE_LAYER_NOT_DECLARED')
         route=self.routes[identity]
         selected={a['id'] for a in route['objects'] if nodes is None or set(nodes).intersection(self.nodes[a['id']])}
-        if route['kind']=='DAX':selected={a['id'] for a in route['objects']}
+        if route['kind']=='DAX':
+            tables={a['id'] for a in route['objects'] if a['kind']=='SemanticTable' and
+                    (nodes is None or set(nodes).intersection(self.nodes[a['id']]))}
+            names={a['name'] for a in route['objects'] if a['id'] in tables}
+            # Schema relationships belong in the context; unrelated model
+            # tables do not. This does not select the investigative next step.
+            relationships=[a['metadata'] for a in self.assets.values() if a['kind']=='SemanticRelationship' and a['parent_id']==route['container']]
+            for _ in range(len(relationships)+1):
+                before=set(names)
+                for relationship in relationships:
+                    if names.intersection({relationship.get('fromTable'),relationship.get('toTable')}):
+                        names.update(t for t in (relationship.get('fromTable'),relationship.get('toTable')) if t)
+                if names==before:break
+            tables.update(a['id'] for a in route['objects'] if a['kind']=='SemanticTable' and a['name'] in names)
+            selected={a['id'] for a in route['objects'] if a['id'] in tables or a.get('parent_id') in tables}
         self.opened[identity].update(selected)
         def projected():
             result=deepcopy(route)
@@ -125,6 +140,21 @@ class NativeCatalog:
                       'content_hash':a['content_hash'],'provenance':a.get('provenance')}
                      for a in self.assets.values() if a['id'] in assets or
                      a['parent_id'] in containers and a['kind'] in ('SemanticRelationship','SemanticTable','DefinitionPart')]
+        opened=set().union(*self.opened.values()) if self.opened else set()
+        semantic_tables={self.assets[i]['name'] for i in opened if self.assets.get(i,{}).get('kind')=='SemanticTable'}
+        definitions=[a for a in definitions if a['kind']!='SemanticTable' or a['id'] in opened]
+        for definition in definitions:
+            if definition['kind']!='DefinitionPart' or definition['name']!='model.bim' or not semantic_tables:continue
+            raw=definition['metadata'].get('content')
+            try:document=json.loads(raw)
+            except (ValueError,TypeError):continue
+            model=document.get('model')
+            if not isinstance(model,dict):continue
+            model['tables']=[t for t in model.get('tables',[]) if t['name'] in semantic_tables]
+            definition['metadata']['content']=json.dumps(document,ensure_ascii=False)
+            definition['projection']={'kind':'PATH_TABLES_WITH_RELATED_SCHEMA','tables':sorted(semantic_tables),
+                                      'original_content_hash':definition['content_hash'],
+                                      'original_retained_unchanged':True}
         text='\n'.join(str(a['metadata'].get('content','')) for a in definitions if a['kind']=='DefinitionPart')
         references=[{'id':a['id'],'kind':a['kind'],'name':a['name'],'metadata':deepcopy(a['metadata'])}
                     for a in self.assets.values() if a['kind'] in ('SQLEndpoint','Lakehouse','Warehouse','SourceConnection')
