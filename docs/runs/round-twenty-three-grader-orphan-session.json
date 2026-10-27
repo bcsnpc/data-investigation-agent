@@ -1,0 +1,9 @@
+{
+  "observed_at": "2026-10-27T17:05:59.060610+00:00",
+  "pid": 678695,
+  "terminated": true,
+  "reason": "Known owner grader process exited after failed receipt persistence; its only remaining owner backend waited for client input holding the platform state lock. No owner writer process remains. Native accepted batch receipt retained and recovered separately.",
+  "estate_mutations": 0,
+  "budget_rows_modified": false,
+  "identity_changes": false
+}
