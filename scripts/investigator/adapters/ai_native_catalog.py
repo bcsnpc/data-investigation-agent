@@ -12,7 +12,10 @@ from ..estate_graph_contract import digest
 
 class NativeCatalog:
     def __init__(self, *, assets, graph_nodes, configuration, endpoint, sql_read, record, source_read=None):
-        self.assets={a['id']:deepcopy(a) for a in assets if a.get('availability')=='CURRENT'}
+        # AssetCatalog snapshots omit the inventory-only availability column.
+        # Their retained identities may be queried, but are not relabelled as a
+        # fresh scan. Explicitly unavailable/tombstoned assets remain excluded.
+        self.assets={a['id']:deepcopy(a) for a in assets if a.get('availability') in (None,'CURRENT')}
         self.config=deepcopy(configuration)
         self.endpoint,self.sql_read,self.record=endpoint,sql_read,record
         self.source_read=source_read
@@ -236,4 +239,6 @@ class NativeCatalog:
                          'asset_id':terminal['asset_id'],'layer':matching[0] if len(matching)==1 else None}
         return {'retained_native_definitions':definitions,'system_of_record':declaration,'native_definition_references':references,
                 'off_path_visual_definition_index':[{'id':a['id'],'name':a['name'],'content_hash':a['content_hash']} for a in siblings],
-                'warnings':['Native comparisons are observational snapshots; aligned query-bound versions are not established.']}
+                'warnings':['Native comparisons are observational snapshots; aligned query-bound versions are not established.',
+                    *(['Some native identities come from retained catalog snapshots without a current inventory availability report; successful queries establish present readability only.']
+                      if any(a.get('availability') is None for a in self.assets.values()) else [])]}

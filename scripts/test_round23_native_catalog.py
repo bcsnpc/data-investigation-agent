@@ -141,6 +141,14 @@ class NativeCatalogTests(unittest.TestCase):
 
     def test_only_graph_known_tables_enter_routes(self):
         self.nodes=[];self.assertEqual(self.build().routes,{})
+    def test_retained_catalog_without_inventory_availability_has_routes_and_warning(self):
+        for item in self.assets:item.pop('availability',None)
+        catalog=self.build();self.assertTrue(catalog.routes)
+        warnings=catalog.context({'nodes':self.nodes},{})['warnings']
+        self.assertTrue(any('without a current inventory availability' in w for w in warnings))
+        self.assertNotIn('availability',next(iter(catalog.assets.values())))
+        for item in self.assets:item['availability']='UNAVAILABLE'
+        self.assertEqual(self.build().routes,{})
 
     def test_column_only_lineage_opens_its_containing_native_table(self):
         column=self.table+'/column/quantity'

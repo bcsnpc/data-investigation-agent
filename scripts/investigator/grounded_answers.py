@@ -139,7 +139,10 @@ def finding(args,case):
         qualifications.extend(record.get('native_result',{}).get('warnings',[]))
     qualifications=list(dict.fromkeys(qualifications))
     if qualifications:business+='\n'+'\n'.join(qualifications)
+    classification=args.get('classified_issue_type',case['intake'].get('classified_issue_type'))
     return {'business':business,'technical':{'verdict':args['verdict'],'cause':args['cause'],
+        **({'original_issue_type':'SOMETHING_ELSE','classified_issue_type':classification}
+           if case['intake'].get('issue_type')=='SOMETHING_ELSE' else {}),
         'numbers':deepcopy(args['numbers']),'checked':checked,'evidence_ids':args['evidence_ids'],
         'reported_input':deepcopy(reported),'queries':deepcopy(case['queries']),'qualifications':qualifications,
         'validation_scope':'CITED_RECORDS_AND_LITERAL_VALUES; causal interpretation is independently graded'}}

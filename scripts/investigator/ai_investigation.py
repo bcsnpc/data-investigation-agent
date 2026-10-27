@@ -30,6 +30,8 @@ Value agreement never establishes snapshot alignment. A statement about a
 whole source chain requires actual reads of its boundaries. For a calculation
 trace, follow declared route bridges and retained transformations beyond the
 model, rather than repeating component totals on already matched layers.
+For Something else, investigate its description and name the nearest issue type
+in submit_finding when the form has not already supplied that classification.
 '''
 
 
@@ -38,7 +40,7 @@ def schema(properties,required=None):
             'additionalProperties':False}
 
 
-def toolbox(layers,read_tools):
+def toolbox(layers,read_tools,intake=None):
     tools=[]
     for kind in ('sql','dax'):
         ids=[i for i,l in layers.items() if (l['dialect']=='DAX')==(kind=='dax')]
@@ -67,6 +69,11 @@ def toolbox(layers,read_tools):
                                'checked':{'type':'array','description':'Exact layer IDs that were read, not prose descriptions.',
                                           'items':{'enum':list(layers)}},
                                'evidence_ids':{'type':'array','items':{'type':'string'},'minItems':1}})}])
+    if (intake or {}).get('issue_type')=='SOMETHING_ELSE' and not intake.get('classified_issue_type'):
+        from .guided_intake import ISSUES
+        submit=next(t for t in tools if t['name']=='submit_finding')['input_schema']
+        submit['properties']['classified_issue_type']={'enum':list(ISSUES[:-1])}
+        submit['required'].append('classified_issue_type')
     return tools
 
 
@@ -88,7 +95,7 @@ class Investigator:
 
     def refresh_tools(self):
         self.read_tools=self.read_tools_factory()
-        self.tools=toolbox(self.queries.layers,self.read_tools)
+        self.tools=toolbox(self.queries.layers,self.read_tools,self.context.get('intake'))
         if len({t['name'] for t in self.tools})!=len(self.tools):raise ValueError('DUPLICATE_TOOL')
         self.schemas={t['name']:Draft202012Validator(t['input_schema']) for t in self.tools}
 

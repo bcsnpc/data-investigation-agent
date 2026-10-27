@@ -164,8 +164,9 @@ def admit(request, catalog):
     result['compared_with'] = comparison
     if request['issue_type'] == 'SOMETHING_ELSE':
         if not request.get('description', '').strip(): raise ValueError('OTHER_REQUIRES_DESCRIPTION')
-        if 'classified_issue_type' not in request: raise ValueError('OTHER_REQUIRES_CLASSIFICATION')
-    elif 'classified_issue_type' in request:
+        if 'classified_issue_type' not in request:
+            result['classification_status'] = 'PENDING_INVESTIGATOR'
+    elif 'classified_issue_type' in request and request['classified_issue_type'] != request['issue_type']:
         raise ValueError('CLASSIFICATION_ONLY_FOR_OTHER')
     # URL selections are untrusted user scope, not established report state.
     url = request.get('details', {}).get('report_url')

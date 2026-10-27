@@ -93,7 +93,18 @@ class IntakeTests(unittest.TestCase):
                                    classified_issue_type='DATA_LOOKS_OLD')
         self.assertEqual(admit(item,self.catalog)['description'],item['description'])
         del item['classified_issue_type']
-        with self.assertRaises(ValueError):admit(item,self.catalog)
+        self.assertEqual(admit(item,self.catalog)['classification_status'],'PENDING_INVESTIGATOR')
+    def test_redundant_matching_classification_does_not_block_normal_issue(self):
+        item=request();item['classified_issue_type']=item['issue_type']
+        self.assertEqual(admit(item,self.catalog)['status'],'READY')
+        item['classified_issue_type']='DATA_LOOKS_OLD'
+        with self.assertRaisesRegex(ValueError,'CLASSIFICATION_ONLY_FOR_OTHER'):admit(item,self.catalog)
+    def test_other_classification_is_required_from_model_before_final_delivery(self):
+        from investigator.ai_investigation import toolbox
+        tools=toolbox({}, {}, {'issue_type':'SOMETHING_ELSE'})
+        submit=next(t for t in tools if t['name']=='submit_finding')['input_schema']
+        self.assertIn('classified_issue_type',submit['required'])
+        self.assertNotIn('SOMETHING_ELSE',submit['properties']['classified_issue_type']['enum'])
     def test_url_filters_are_preserved_not_fetched_or_dropped(self):
         item=request();item['details']={'report_url':'https://example.test/report?filter=Items%2Fid%20eq%207'}
         self.assertEqual(admit(item,self.catalog)['url_filters'],['Items/id eq 7'])
