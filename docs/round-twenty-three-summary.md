@@ -5,7 +5,7 @@ Round 22 is closed: PR #429 merged, validated merge 567a95b tagged v0.22,
 final summary pushed. Its final dev 14/40 and held-out 5/20 (zero harmful)
 remain unchanged. No Round 22 held-out wording is used for development.
 
-The owner's later 2026-10-26 steer supersedes the November1 wait: live work is now authorized. No scored Round23 estate/model pass has run yet. Draft PR #430 is open.
+The owner's later 2026-10-26 steer supersedes the November1 wait: live work is now authorized. Independent v2 dev pass 1 has restarted on the corrected single image; earlier partial startup attempts are preserved separately, not reported as a completed pass. Draft PR #430 is open.
 
 ## Part 0 ? start and budgets
 
@@ -41,7 +41,7 @@ _pending_
 
 ## Part G — independent tickets, dev, held-out and messy input
 
-_pending_. Live passes are authorized now; none run or graded yet.
+Independent v2 tickets and expectations were sealed at25339ea before investigation. All40 dev forms now pass the complete offline catalog/route check:39 open query layers and one unknown report ID refuses, with no catalog exception. Actual and stripped-bookkeeping catalogs open identical layers. The single-image restart is recorded in [the admission receipt](runs/round-twenty-three-dev-pass1-restart.json); live scores remain pending independent grading.
 
 ## Part H — restoration, validation and release
 
