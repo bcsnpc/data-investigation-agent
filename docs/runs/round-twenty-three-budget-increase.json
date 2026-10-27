@@ -91,5 +91,25 @@
       "charged": "0",
       "violated": false
     }
+  },
+  "separate_committed_readback": {
+    "matched": true,
+    "cloud_policy": {
+      "approval": "owner-approved 2026-10-26",
+      "effective_at": "2026-10-26T00:00:00+00:00",
+      "limits": {
+        "INVESTIGATION": 6905,
+        "RESTORATION": 95,
+        "SCAN": 2000
+      },
+      "period": "UTC calendar month; October starts at build adoption",
+      "restoration_use": "restores only",
+      "total_limit": 9000
+    },
+    "model_months_verified": [
+      "2026-10",
+      "2026-11"
+    ],
+    "packaged_config_verified": true
   }
 }
