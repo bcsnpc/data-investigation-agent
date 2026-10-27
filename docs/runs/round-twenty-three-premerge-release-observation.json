@@ -1,0 +1,67 @@
+{
+  "observed_at": "2026-10-27T18:45:50.198107+00:00",
+  "classification": "PREMERGE_RELEASE_OBSERVATION",
+  "physical": {
+    "mode": "BUILD_PHASE",
+    "month_utc": "2026-10",
+    "used": {
+      "RESTORATION": 12,
+      "SCAN": 2059,
+      "INVESTIGATION": 6153
+    },
+    "limits": {
+      "RESTORATION": 95,
+      "SCAN": 2500,
+      "INVESTIGATION": 6405
+    },
+    "total": 8294,
+    "total_limit": 9000,
+    "historical_restoration_requests": 70,
+    "restoration_remaining": 83,
+    "warnings": [
+      "SCAN_MONTHLY_80_PERCENT",
+      "INVESTIGATION_MONTHLY_80_PERCENT",
+      "PHYSICAL_MONTHLY_80_PERCENT"
+    ]
+  },
+  "model_account": {
+    "identity": "model-microdollars:2026-10",
+    "unit": "MICRODOLLARS",
+    "ceiling": "96000000",
+    "protected": "3000000",
+    "opening": "0",
+    "charged": "88754541",
+    "violated": false
+  },
+  "grading_account": {
+    "identity": "enrichment:round-twenty-one",
+    "unit": "MICRODOLLARS",
+    "ceiling": "25000000",
+    "protected": "12850910",
+    "opening": "0",
+    "charged": "10806285",
+    "violated": false
+  },
+  "normalized_october_credit": {
+    "month_utc": "2026-10",
+    "ceiling_microdollars": 96000000,
+    "charged_microdollars": 90411736,
+    "remaining_microdollars": 5588264,
+    "grading_remaining_microdollars": 1342805,
+    "reserved_maxima_included": true,
+    "basis": "Larger recorded ledger/console baseline plus subsequent charges across both existing accounts."
+  },
+  "open_model_reservations": [],
+  "all_manual_smokes_finished": true,
+  "manual_smokes_passed": 0,
+  "manual_smokes_completed": 3,
+  "release_image": "0c49608909bd74399c90c6baa9d50590a4421801f3ea9814052af363ebe15583",
+  "full_suite_tests": 5522,
+  "full_suite_skips": 50,
+  "full_suite_failures": 0,
+  "full_suite_errors": 0,
+  "restoration_receipt": "docs/runs/round-twenty-three-final-restoration-review.json",
+  "recurring_platform_estimate_usd_per_month": 19.077133,
+  "latest_observed_platform_mtd_usd": 1.0282804264,
+  "platform_observation_lags_billing": true
+}
