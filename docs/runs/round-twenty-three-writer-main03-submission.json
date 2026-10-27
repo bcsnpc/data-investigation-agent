@@ -1,0 +1,9 @@
+{
+  "status": "SUBMITTED",
+  "batch_key": "round23-guided-v2-main-03",
+  "provider_batch": "msgbatch_01FneAz8mhBJ6iaUBR5VJGGR",
+  "tasks": 16,
+  "estate_reads": 0,
+  "investigator_model_calls": 0,
+  "held_out_output_uninspected": true
+}

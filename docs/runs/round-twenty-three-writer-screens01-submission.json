@@ -1,0 +1,9 @@
+{
+  "status": "SUBMITTED",
+  "batch_key": "round23-guided-v2-screens-01",
+  "provider_batch": "msgbatch_01RCixW3eywZQc28Fnqb4Sx9",
+  "tasks": 4,
+  "estate_reads": 0,
+  "investigator_model_calls": 0,
+  "held_out_output_uninspected": true
+}
