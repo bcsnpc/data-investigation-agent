@@ -12,7 +12,7 @@ from test_round23_intake_queries import graph,request,sql_objects
 class Tests(unittest.TestCase):
     def test_explicit_qualified_object_uses_its_path_without_selecting_a_visual(self):
         from investigator.guided_investigator_installation import Factory
-        table={'id':'source-node','kind':'TABLE','label':'Items','properties':{'asset_id':'table'}}
+        table={'id':'source-node','kind':'VIEW','label':'Items','properties':{'asset_id':'table'}}
         catalog=graph();catalog['nodes'].append(table)
         self.graph.intake_catalog.return_value=catalog;self.graph.allowed={n['id']for n in catalog['nodes']}
         self.graph.path_to_source.return_value={'nodes':[table],'edges':[]}

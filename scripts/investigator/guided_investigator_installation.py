@@ -61,7 +61,7 @@ class Factory:
                 literal=schema+'.'+name
                 if not re.search(r'(?<![\w.])'+re.escape(literal)+r'(?![\w.])',words,re.I):continue
                 roots.update(n['id'] for n in catalog['nodes']
-                    if n.get('kind')=='TABLE' and n.get('properties',{}).get('asset_id')==obj['id'])
+                    if n.get('kind') in ('TABLE','VIEW') and n.get('properties',{}).get('asset_id')==obj['id'])
         if roots:
             selected={intake['report'],intake.get('page')}
             nodes={n['id']:n for n in catalog['nodes'] if n['id'] in selected};edges={};stops=[];unavailable={};truncated=False
