@@ -33,6 +33,6 @@ Both actual results stopped at the ticket model cap after native query attempts.
 
 This is the separate affected-class validation, not a full dev pass. The exact runtime-shaped preflight correction completed after these admissions; the operator limitation and original outcomes are retained. No fault mutation is active.
 
-Model loop calls exclude screenshot/helper calls. The receipt separately reports every case reservation/message attempt and native-usage availability from the authoritative ledger, and reconciles exact charges. Timings separate completed multilayer work, unresolved native attempts and intake/route-only results. Worker body timings exclude job boot/outer publication; complete harness timings are separate. One recovered artifact has no reconstructed full elapsed time and is excluded from that statistic.
+Model loop calls exclude screenshot/helper calls. The receipt separately reports every case reservation/message attempt and native-usage availability from the authoritative ledger, and reconciles exact charges. Timings separate completed multilayer work, unresolved native attempts and intake/route-only results. Worker body timings exclude job boot/outer publication; complete harness timings are separate. Both full harness elapsed times are available in this two-case receipt.
 
 [Full per-ticket grade, cost, calls and timing receipt](runs/round-twenty-three-dev06-partial-grade.json).

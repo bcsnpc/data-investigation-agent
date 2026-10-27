@@ -1,6 +1,6 @@
 
 
-## Round 23 guided intake ? offline draft
+## Round 23 guided intake
 
 `IntakeRequest/1` requires a graph-catalog report, issue type and comparison
 kind. Page and visual are optional; when supplied their containment is checked
@@ -26,5 +26,4 @@ port. AI writes the visible-value lookup query; only native rows establish a
 key. Two keys produce distinguishing-field choices, not an arbitrary choice;
 no rows and a failed read are different results. A truncated lookup cannot
 establish uniqueness. Only image hash and extracted field names go to the
-shared screenshot audit. Values/query details stay case-scoped. Production
-vision/attachment wiring and live screenshot fixtures are pending.
+shared screenshot audit. Values/query details stay case-scoped. Production vision and attached-image wiring have executed. Screenshot fixtures are faithful synthetic renderings of actual published fixture values, labelled SYNTHETIC_SCREENSHOT in the run records; they are not user-observed reports. Missing optional inventory fields warn. Column-only visual paths recover their TABLE/MODEL ancestors only from literal native parent addresses, including dynamic lineage expansion. The runtime-shaped actual/stripped catalog preflight opens39 routes and retains one genuine unknown-report question across40 dev forms.

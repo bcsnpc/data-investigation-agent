@@ -138,7 +138,7 @@ https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview
 Pricing/discovery references:
 https://platform.claude.com/docs/en/about-claude/pricing
 https://platform.claude.com/docs/en/api/models/list
-No workspace model discovery has run; no accessible-model claim is made.
+Round23 live discovery subsequently selected the accessible claude-fable-5-1 reasoning model; exact discovery and rate receipts are in docs/decisions.md. This supersedes the initial offline-draft status.
 
 Full queries, results and checkpoints are private case data. Shared usage
 contains counts, cost and IDs only. A consumer validator is mandatory for both
@@ -147,9 +147,7 @@ a delivered finding. Unresolved cases retain query text, layer, timing, digest,
 errors, stopping point and checks still needed. Engineer replies are labelled
 HUMAN_REPLY facts, scoped and attributed, never native observation proof.
 
-Cloud assembly, concrete answer-validation wiring, native triage/security
-ports, submit/poll integration and live validation remain in progress. This
-entry describes tested components, not an earned live capability.
+Cloud assembly, native query execution, concrete delivery validation, path triage and submit/poll integration have executed in the partial and complete dev passes. Security membership collection remains BLOCKED_PENDING_OWNER. Execution is not proof of broad answer accuracy: the complete dev04 scored1/40; later dev05 scored3/26 and dev06 scored0/2 independently, all harmful0. No complete final score is claimed before held-out.
 
 
-Round23 model presentation retains the full native case and capture. Reversible case-local identifier aliases, duplicate references and explicitly keyed columnar records reduce repeated serialization. Native JSON is displayed structurally, with all fields and values; original serialization remains in the private case. SQL/DAX/M strings stay literal. Only tool address fields decode before the original local schema, scope and query validators; query text, record keys and reported values never decode as aliases. This is model presentation, not a privacy-projected tape. The strongest model and conservative reservations stay unchanged. Measurements: docs/runs/round-twenty-three-model-presentation-counts.json. Provider documentation: https://platform.claude.com/docs/en/build-with-claude/token-counting . Prepared for the next image; current dev04 stays pinned to its initial image.
+Round23 model presentation retains the full native case and capture. Reversible case-local identifier aliases, duplicate references and explicitly keyed columnar records reduce repeated serialization. Native JSON is displayed structurally, with all fields and values; original serialization remains in the private case. SQL/DAX/M strings stay literal. Only tool address fields decode before the original local schema, scope and query validators; query text, record keys and reported values never decode as aliases. This is model presentation, not a privacy-projected tape. The strongest model and conservative reservations stay unchanged. Measurements: docs/runs/round-twenty-three-model-presentation-counts.json. Provider documentation: https://platform.claude.com/docs/en/build-with-claude/token-counting . Deployed on later candidate images; every scored pass stays pinned to its own image. Tool-result metadata uses the same lossless encoding. Original native case/capture bytes remain unchanged.

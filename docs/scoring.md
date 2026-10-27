@@ -150,3 +150,6 @@ or an unevaluated hypothesis are not themselves justification for a question.
 V2 independent authoring and all scoring remain pending until November.
 
 Round23 dated correction2026-10-26: the owner authorized9000 monthly estate requests effective immediately, superseding the earlier November wait. Independent v2 authoring and scoring may proceed now; the unscored A01-A05 assembly harnesses are excluded from all v2 accuracy denominators.
+
+
+Round23 current independent progression: partial dev03 0/32, complete dev04 1/40, baseline-only dev05 3/26 (14 not run), affected screenshot dev06 0/2 (38 not run); harmful0 on each. Partial denominators are never presented as full40 accuracy or direct improvements. Two follow-ups have handoff quality2 each, but neither answered successfully. Original outcomes, independent grades, expectation hashes and per-class breakdowns remain in their dated run receipts. Further dev admissions ended at7162/9000 to preserve the once-only held-out and messy-input passes and restoration.
