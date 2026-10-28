@@ -1131,3 +1131,8 @@ Frozen held-out requests/image stay unchanged. Only the separately labelled Opus
 
 ### Section8 owner Round24 decision, 2026-10-27
 Round24 prompt supersedes dated October96 and default request allocations: October146USD combined AI with3USD protected grading,12000physical (SCAN2500/INV9405/REST95); November onward150USD combined (warning100) and9000physical (SCAN2500/INV6405/REST95). Preserve all counters/history/restoration uses. Per ticket3USD actual provider usage. Route all runtime AI through existing Anthropic; Opus5.5 investigator, caching required. No new identity, grant, credential or paid Azure resource. R23 scored freezes remain historical; subsequent engine edits invalidate current development freeze.
+
+
+### Section8 approved reversible Round24 stale fixture, execution2026-10-28
+
+Existing owner-approved practice control: Application load fixture20261003 (0c89889c-6fe6-49ab-91e9-4b00a51070e6) automatic Direct Lake updates observed ON, baseline native model7661; temporarily switched OFF through Power BI settings and Apply, native UI aria-checked=false, screenshot retained under .local/round-twenty-four/injections/dev01-stale. Three isolated synthetic source rows and an original real copy stage7692 versus stale7661 through its scored cases; restore guarded source hashes/original copy, automatic updatesON and own model refresh afterward. No identity, grant, credential, connection or persistent schedule change. Exact before/after/config receipts and cleanup status: tests/tickets/injections.md; .local/round-twenty-four/injections/dev01-stale/status.json. Temporary control active, not yet a restoration claim.

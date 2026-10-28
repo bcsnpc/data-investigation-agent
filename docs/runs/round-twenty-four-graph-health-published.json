@@ -1,67 +1,86 @@
 {
   "status": "PUBLISHED_READ_BACK",
   "visuals": 80,
-  "fully_traceable": 7,
+  "fully_traceable": 9,
   "estates": [
     {
       "estate": "billing",
-      "graph_nodes": 395,
+      "graph_nodes": 405,
       "health": {
         "version": "graph-health/1",
         "basis": "Retained declared graph structure; not proof of live readability, snapshot alignment or data correctness.",
         "overall": {
           "visuals": 7,
-          "fully_traceable": 5,
-          "percentage": 71.43
+          "fully_traceable": 7,
+          "percentage": 100.0
         },
         "reports": [
           {
             "report": "44dc6baac12f79e0f4a1c4474c63bb2867262137212e4061f4ce0882c4a90257",
             "name": "Subscription Billing",
             "visuals": 7,
-            "fully_traceable": 5,
-            "percentage": 71.43
+            "fully_traceable": 7,
+            "percentage": 100.0
           }
         ],
-        "break_counts": {
-          "scanner data: NO_UPSTREAM_BINDING": 2,
-          "route builder: NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED": 1,
-          "route builder: NO_PRODUCER_REACHED": 1
-        },
+        "break_counts": {},
         "visuals": [
           {
             "visual": "01bca5b114e2a561d56d1010ae38978fa8ac5ca3ffaf8ee731856fa51e0104e9",
             "name": "Top Accounts by Invoice Value",
             "report": "44dc6baac12f79e0f4a1c4474c63bb2867262137212e4061f4ce0882c4a90257",
             "report_name": "Subscription Billing",
-            "fully_traceable": false,
+            "fully_traceable": true,
             "nodes": [
               "01bca5b114e2a561d56d1010ae38978fa8ac5ca3ffaf8ee731856fa51e0104e9",
+              "072efb563a80031fb6ed6773a44b89662672682c6b0a16ef8c309b8e477485fb",
+              "0d1b209a0139149c8c9dca402b2799a0da9198fb4b0550eb14cf408900e30197",
               "12679963895c9f17e8de62b39437a927f128b1ea928fa312b29262f1d6d9da09",
+              "140b9e731fcc1b7163e74547f347b8cb7d28b4b745f852327905fc3283d8ae92",
+              "1441d1e5c66bb7d27060a866f54b823200f3a8ac23d093e4f00319e3034b8369",
+              "18e99db0461c73d0ab6adfdd91203ddfa934583167f2a525f0f33f54cfa5b780",
               "191cfb575489c32fd0d75d43d1edbaa3929cd88cd07d8823c2360d32d42237bd",
               "198baa4f14781f6e865e38607ece520cd0ba1dd35ddf2469bd006b0c9dd6bf48",
+              "1e6b9d3383c1dd6c3fdea148a371235cd62529afcb7ef40be62a7f7d5b43949d",
+              "2439472548ec60dbbc1c57e217175f6e5cc5eef8b3c3cfea6b10463407a0e04c",
               "25b6940bd469663730f0064903ab61c6319bb50ef59eb8ec4019055b53c0d8f9",
+              "2c443901011cc3740d6d9262fd9ef0e75df10076c0d78011b5a27e4d6c1a4a00",
+              "31864ab36939f80c54c7114fdc3396e0dad382820b80baffe2d100e90c433f55",
               "3343e6c5b0dc2f97c5533d1b0d6fd8fc5d5dcb0817b3b76e87f4308a128100e7",
+              "33867922d48014502bb3fc7d880d8f84c5dd8c9d96172b496ae23128076e63a5",
               "37ae9a74a862c26d64fb63adf7a2bf874ea028653ad1d5e633bc492464d40d71",
+              "3cbfec3b860a5ac9c1861bfca2ddfe46f05e9c4f52927aeb7f275ec9918aac37",
               "43a0c02d3d2889262b20a0d477b2bc41fa5985831578b1ece2f691c1da18fa5b",
               "4d879bc53296214521de6697dec9a535b6da48305b6ec09e0fe91f0a3671b4a7",
+              "54741096cb06300b2e4e682da2a7c32ac13e4b050b378f3b29d0a31510cfc4a3",
+              "564adac92668939502d6e329320c18788ae803227e5ba70fa31a65e501f9612e",
+              "5824559a10e087711ceb49661818923333c1c87efa9ed0a2c80433e8f7f8c654",
+              "5fd69c1b5817645bf256c653c3a6fdfb060ba4f6cd3b35c7f56324a93e5e9ad4",
               "6284762df205955f1f183fd858316ef1a00f9cc9cb2606193e7eca99ff166e99",
               "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+              "6dcd99c2fb08d893fe4bd6618b659825a0ac8bbb370d02023bd337cb9f93ce84",
+              "770552d6d6cd232d413d29f8f35cdec5c5a208201d1e25f6478c368970e7e222",
               "7abe67fb6665ac57e7e6575f64c1c0ffef741472c3cc27d714e191ec2b7b9413",
               "813b2cd6f144a5905a0b3be6b35ae0c8cffa67efbb32a46eb29de177e5e681e6",
               "820fd033373954ef4607ad8bd35fb110e443af7e3de76ca14e945533410bfd5b",
+              "981df1ea05452ebf9365603b79460e4a7eb049600abbdf148547db31b59dc725",
               "a093d094355ec38979e7108666245e3c358d6df5d5b5100b170af460a1d53a25",
+              "a4d68b9b301db044fb3555a02a53156349d9c88ec9a7acafc365d9106d9a05e6",
+              "b673ec95c2672a18602cfa320ad0a128d1d9f435653cbeb7c56a735930e73e4c",
+              "b9341743bd3bd8fe328c859d9e04032265212e39403552ab13660b4064deecff",
+              "bbb51d67541a47f86ec407141506c7a48297abb9f5151491de51aa4ef87e4d3d",
+              "c3a11bf9294bf2c72619ea0ced1a10f77a04bfe9aa7877d9a8f28afc29fd811f",
+              "cd24018f200d886024efd549c6a79f2cc38fd8665b0337f3d4b5c3d391788c22",
               "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
               "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
-              "f38c2c9853c4b367ac803b6b4f6e1dc716e5c067fefca127c77cf3e4a2f235ba"
+              "dcfb22236472f078c50647124e2d734d1fb5725fd608f6815275dd5b9a440000",
+              "e7a3ac35ff2f81ed681c44e72e6fbd5c9b9c7674432d9be31e4c5b93427841ef",
+              "f38c2c9853c4b367ac803b6b4f6e1dc716e5c067fefca127c77cf3e4a2f235ba",
+              "f52a9eac1293994d46379c27ac0a090224d91dc0582aa168c48a4d6de68c5517",
+              "f55ac9dc14ea2cffe8f8014ad9be645350d741b448a6ba25a63004f79cb422d5",
+              "fbc27a55d0e02ee30237584cb30f9f29a0adf0479adf0d431cdc32b6358e2457"
             ],
-            "breaks": [
-              {
-                "node": "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
-                "reason": "NO_UPSTREAM_BINDING",
-                "component": "scanner data"
-              }
-            ]
+            "breaks": []
           },
           {
             "visual": "2b9e6f88834911285e6dae466b9c4be7276b7b7db1351f77049801776ead04ca",
@@ -212,32 +231,45 @@
             "name": "Invoiced Amount",
             "report": "44dc6baac12f79e0f4a1c4474c63bb2867262137212e4061f4ce0882c4a90257",
             "report_name": "Subscription Billing",
-            "fully_traceable": false,
+            "fully_traceable": true,
             "nodes": [
+              "072efb563a80031fb6ed6773a44b89662672682c6b0a16ef8c309b8e477485fb",
+              "0d1b209a0139149c8c9dca402b2799a0da9198fb4b0550eb14cf408900e30197",
+              "140b9e731fcc1b7163e74547f347b8cb7d28b4b745f852327905fc3283d8ae92",
+              "1441d1e5c66bb7d27060a866f54b823200f3a8ac23d093e4f00319e3034b8369",
+              "18e99db0461c73d0ab6adfdd91203ddfa934583167f2a525f0f33f54cfa5b780",
               "191cfb575489c32fd0d75d43d1edbaa3929cd88cd07d8823c2360d32d42237bd",
+              "1e6b9d3383c1dd6c3fdea148a371235cd62529afcb7ef40be62a7f7d5b43949d",
+              "2439472548ec60dbbc1c57e217175f6e5cc5eef8b3c3cfea6b10463407a0e04c",
+              "2c443901011cc3740d6d9262fd9ef0e75df10076c0d78011b5a27e4d6c1a4a00",
+              "31864ab36939f80c54c7114fdc3396e0dad382820b80baffe2d100e90c433f55",
+              "33867922d48014502bb3fc7d880d8f84c5dd8c9d96172b496ae23128076e63a5",
+              "3cbfec3b860a5ac9c1861bfca2ddfe46f05e9c4f52927aeb7f275ec9918aac37",
               "43a0c02d3d2889262b20a0d477b2bc41fa5985831578b1ece2f691c1da18fa5b",
+              "54741096cb06300b2e4e682da2a7c32ac13e4b050b378f3b29d0a31510cfc4a3",
+              "564adac92668939502d6e329320c18788ae803227e5ba70fa31a65e501f9612e",
+              "5824559a10e087711ceb49661818923333c1c87efa9ed0a2c80433e8f7f8c654",
+              "5fd69c1b5817645bf256c653c3a6fdfb060ba4f6cd3b35c7f56324a93e5e9ad4",
               "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+              "6dcd99c2fb08d893fe4bd6618b659825a0ac8bbb370d02023bd337cb9f93ce84",
+              "770552d6d6cd232d413d29f8f35cdec5c5a208201d1e25f6478c368970e7e222",
+              "981df1ea05452ebf9365603b79460e4a7eb049600abbdf148547db31b59dc725",
+              "a4d68b9b301db044fb3555a02a53156349d9c88ec9a7acafc365d9106d9a05e6",
               "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b",
+              "b673ec95c2672a18602cfa320ad0a128d1d9f435653cbeb7c56a735930e73e4c",
+              "b9341743bd3bd8fe328c859d9e04032265212e39403552ab13660b4064deecff",
+              "bbb51d67541a47f86ec407141506c7a48297abb9f5151491de51aa4ef87e4d3d",
+              "c3a11bf9294bf2c72619ea0ced1a10f77a04bfe9aa7877d9a8f28afc29fd811f",
+              "cd24018f200d886024efd549c6a79f2cc38fd8665b0337f3d4b5c3d391788c22",
               "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
-              "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1"
+              "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+              "dcfb22236472f078c50647124e2d734d1fb5725fd608f6815275dd5b9a440000",
+              "e7a3ac35ff2f81ed681c44e72e6fbd5c9b9c7674432d9be31e4c5b93427841ef",
+              "f52a9eac1293994d46379c27ac0a090224d91dc0582aa168c48a4d6de68c5517",
+              "f55ac9dc14ea2cffe8f8014ad9be645350d741b448a6ba25a63004f79cb422d5",
+              "fbc27a55d0e02ee30237584cb30f9f29a0adf0479adf0d431cdc32b6358e2457"
             ],
-            "breaks": [
-              {
-                "node": "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
-                "reason": "NO_UPSTREAM_BINDING",
-                "component": "scanner data"
-              },
-              {
-                "node": "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b",
-                "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
-                "component": "route builder"
-              },
-              {
-                "node": "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b",
-                "reason": "NO_PRODUCER_REACHED",
-                "component": "route builder"
-              }
-            ]
+            "breaks": []
           },
           {
             "visual": "eae91528bdaadbcdf0c633c94e18f719619f68dfcbe1c3d03c2517a471fee8ef",

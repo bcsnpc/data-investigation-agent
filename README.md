@@ -1,3 +1,5 @@
+Round24 latest: published native graph9/80 complete declared-source paths (initial0/80); billing7/7. Three early smokes green. First12 primary dev monitoring10/12,harmful0; full proof and second grading pending. Current development freeze invalidated; ongoing pass retains its image.
+
 Round24 in progress on draft #431: three early Anthropic smokes passed; twelve dev outcomes saved, first5 independently graded5/5 (monitoring only). Published graph7/80; next procedure-lineage batch9/80 offline, not yet published. Full dev/held-out proof and release pending. Development freeze invalidated; ongoing dev pass retains its pinned image.
 
 Round24 is in progress on draft #431. October ceilings: USD146 combined AI and12000 physical requests; historical charges unchanged. Runtime migration and live proof pending; R23 results remain historical.

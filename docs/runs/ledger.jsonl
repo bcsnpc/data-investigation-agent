@@ -4954,3 +4954,9 @@
 {"experiment": "ROUND24_NEXT_IMAGE_FOCUSED_TESTS", "tests": 63, "status": "PASS", "estate_reads": 0, "model_calls": 0, "development_freeze_invalidated": true}
 {"experiment": "ROUND24_FOCUSED_TEST_INVOCATION", "status": "ERROR_MODULE_SEARCH_PATH", "tests": 5, "estate_reads": 0, "model_calls": 0, "corrected_by": "PYTHONPATH=scripts;63focusedPASS"}
 {"experiment": "ROUND24_LEDGER_LABEL_CORRECTION", "corrects_experiment": "ROUND23_FAILURE_FIXTURE_COHORT", "receipt": ".local/round-twenty-four/injections/dev01-failed-fixture/status.json", "actual_round": 24, "original_row_preserved": true}
+{"experiment": "ROUND24_BILLING_PROCEDURE_GRAPH_PUBLICATION", "status": "PUBLISHED_READ_BACK", "complete_paths": 9, "visuals": 80, "billing_complete": 7, "estate_reads": 0, "model_calls": 0, "native_source_hashes_unchanged": true}
+{"experiment": "ROUND24_DEV01_MONITOR12", "correct": 10, "attempted": 12, "harmful": 0, "verdict_correct": 10, "layer_correct": 11, "cause_correct": 10, "classification": "MONITORING_NOT_FINAL_PASS", "receipt": "docs/runs/round-twenty-four-dev01-monitor12-grade.json"}
+{"experiment": "ROUND24_FULL_OFFLINE_ROUTE_RECHECK", "forms": 40, "assembled": 39, "intake_refused": 1, "failed": 0, "estate_reads": 0, "model_calls": 0}
+{"experiment": "ROUND24_GATEWAY_AND_GRAPH_FOCUSED", "tests": 8, "status": "PASS", "estate_reads": 0, "model_calls": 0}
+{"experiment": "ROUND24_ADAPTIVE_ANTHROPIC_CI_FIX", "tests": 37, "status": "PASS", "estate_reads": 0, "model_calls": 0}
+{"experiment": "ROUND24_ROUTE_PROOF_METADATA_FIX", "status": "PASS", "tests": 1, "estate_reads": 0, "model_calls": 0, "reason": "Recomputed after40offline executions; canonical ensure_ascii encoding matches regression contract; tickets unchanged"}

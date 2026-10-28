@@ -1,3 +1,5 @@
+2026-10-28 batch3 published/read back:9/80 (11.25%), fixture2/66,billing7/7,sample0/7. Initial0/80 and intermediate7/80 reports below are historical. Native source-definition hashes and observation times preserved; no source guessed from names.
+
 Current checkpoint2026-10-28: the initial table below is the preserved0/80 baseline. Published native batches reach7/80. Procedure batch3 reaches9/80 offline, pending publication/readback. These are structural paths, not live value verification.
 
 # Graph health
@@ -1003,3 +1005,6 @@ Explicit member edges in the Microsoft sample increase from0/7 to5/7 visuals by 
 ## Batch3: exact native procedure declarations and calls, offline2026-10-28
 
 The billing Warehouse gap is a producer declared by CREATE PROCEDURE and explicitly called in the same native Script activity. Literal INSERT(column-list) SELECT lineage retains exact Warehouse addresses and join/filter expressions. Ambiguous bodies, parameters, dynamic/cross-database calls, unresolved columns and missing connection addresses never bind. Definition evidence does not establish successful execution. Offline complete paths7/80 ->9/80 (fixture2/66,billing7/7,sample0/7). Publication waits for the history case to be reconciled. See runs/round-twenty-four-graph-health-batch3.json.
+
+
+Batch3 publication completed2026-10-28: current retained catalog loaded (no historical overwrite), source hashes checked under unchanged catalog revision, only billing graph partitions replaced. Native source observation times conserved. Persisted readback9/80, billing7/7. Details runs/round-twenty-four-graph-batch3-billing-publication.json and runs/round-twenty-four-graph-health-published.json.

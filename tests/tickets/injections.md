@@ -210,3 +210,6 @@ Round24 latency dev01 LATENCY_COHORT_COMPLETED; restoration_required=False. Nati
 
 
 Round24 history dev01 SOURCE47_LOADED41_TEMPORAL_NATIVE_HISTORY_HELD; restoration_required=True. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-four\injections\dev01-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round24 history cleanup01: guarded owned47 removal; original360 row/schema hashes matched; original native copy completed. Temporal history ON, original partial launch retained and unscored, distinct replacement completed. Receipt .local/round-twenty-four/injections/dev01-history/status.json. Restoration-category physical controls=9.
