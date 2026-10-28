@@ -14,9 +14,9 @@ _pending_
 
 Owner's 2026-10-28 steer applies throughout: official primary, strict (both graders correct) and raw-reviewed appear side by side. Raw-reviewed is the plain-language headline. Every disagreement is checked against the saved capture; original grades and sealed expectations stay unchanged. Pending reviews remain explicit.
 
-Interim G1: **raw-reviewed13/15**, strict13/15 (both95%Wilson62.1-96.3%); official primary15/15 (79.6-100.0%). Raw-confirmed harmful2 in source-history; that family is paused. Current source-ahead reads did not establish the requested historical edits. Eight additional disagreements concerned handoff scoring on resolved answers; handoff is applicable to unresolved tickets under the prompt and these do not change accuracy. [Per-ticket grades and adjudications](runs/round-twenty-five-g1-current-grades.json).
+Interim G1 (31 double-graded): **raw-reviewed 26/31 (95%Wilson67.4-92.9%)**, official 28/31 (95%Wilson75.1-96.7%), strict 25/31 (95%Wilson63.7-90.8%). Raw-confirmed harmful2 in source-history; that family stays paused. Every assessment disagreement has a saved-capture review; originals stay unchanged. The invalid-report-ID warehouse input remains a benchmark zero, separately identified as an authored contract finding. [Current scores](runs/round-twenty-five-g1-current-grades.json), [all disagreements](round-twenty-five-grader-disagreements.md).
 
-R24's sole held-out disagreement was reviewed without a rerun or official regrade. The secondary was right on the absence cause, which the three successful zero-row record queries and delivered answer establish. Both graders still found the verdict wrong. The all-three zero and official18/20 are unchanged. [Dated raw review](runs/round-twenty-five-r24-held-disagreement-raw-review.json).
+R24's absent-record capture has a dated raw-review correction: secondary is right on cause and both graders were overly strict on its verdict label under the unchanged substance rule. The initial review is preserved. Official18/20 stays unchanged, with no rerun or provider regrade. [Raw review](runs/round-twenty-five-r24-held-disagreement-raw-review.json).
 
 ## G1: full dev v2
 

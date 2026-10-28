@@ -2,21 +2,21 @@
 
 Measurement is in progress. The primary and secondary graders disagree materially on the history family, so the current primary score must not be presented as a clean quality pass. No investigator, prompt, model, caching or query change has been made.
 
-The raw-reviewed headline for the 29 double-graded G1 tickets is **24/29** (95% Wilson 65.5-92.4%), with **2 harmful historical-question answers**. Official primary is 26/29 (73.6-96.4%); strict is 23/29 (61.6-90.2%). Raw review supports the second grader on both history disagreements; the history family is paused. Original grades and expectations remain unchanged.
+The raw-reviewed headline for the 31 double-graded G1 tickets is **26/31** (95% Wilson 67.4-92.9%), with **2 harmful historical-question answers**. Official primary is 28/31 (75.1-96.7%); strict is 25/31 (63.7-90.8%). Raw review supports the second grader on both history disagreements; the history family is paused. Original grades and expectations remain unchanged.
 
 | Completed G1 | Official primary | Strict | Raw-reviewed (headline) |
 |---|---|---|---|
-| Correct / graded | 26/29 | 23/29 | 24/29 |
-| 95% Wilson | 73.6-96.4% | 61.6-90.2% | 65.5-92.4% |
+| Correct / graded | 28/31 | 25/31 | 26/31 |
+| 95% Wilson | 75.1-96.7% | 63.7-90.8% | 67.4-92.9% |
 | Harmful flags | 0 | 2 (either grader) | 2 confirmed |
 
 R24's held-out official score remains18/20. Retrospective raw review finds the secondary right on the absent-record cause, and both graders overly strict on its verdict label under the existing substance-based contract. The earlier raw review is preserved with a dated correction; no ticket, expectation, official score, engine run or provider grade was changed. [Saved-capture review](runs/round-twenty-five-r24-held-disagreement-raw-review.json).
 
-Agreement is 26/29 (95% Wilson 73.6-96.4%). Related variants share fixtures; these intervals describe the observed sample and do not establish accuracy on independent client estates.
+Agreement is 28/31 (95% Wilson 75.1-96.7%). Related variants share fixtures; these intervals describe the observed sample and do not establish accuracy on independent client estates.
 
 | Cohort | Status |
 |---|---|
-| G1, unchanged v2 dev | 29/40 double-graded so far; remaining cases pending |
+| G1, unchanged v2 dev | 31/40 double-graded so far; remaining cases pending |
 | G2, new held-out v4 - headline | Not started; native fact verification and sealing pending |
 | G3, unchanged R22 text | Not started; lower priority |
 | G4, prior R23 held-out v2 - regression | Not started; lower priority |
@@ -34,12 +34,15 @@ The independent writer produced 60 unsealed drafts, including 12 free-text input
 |v2-failed-billing-transform|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|
 |v2-fixture-quantity|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|
 |v2-latency-record|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|
+|v2-other-collected-definition|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|
 |v2-record-absent-everywhere|2/2 (34.2-100.0%)|1/2 (9.5-90.5%)|2/2 (34.2-100.0%)|
-|v2-record-repeated-gold|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|
+|v2-record-repeated-gold|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|
 |v2-source-history|2/2 (34.2-100.0%)|0/2 (0.0-65.8%)|0/2 (0.0-65.8%)|
 |v2-stale-model|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|
 |v2-waiting-application-load|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|
 |v2-warehouse-scope|1/2 (9.5-90.5%)|1/2 (9.5-90.5%)|1/2 (9.5-90.5%)|
+
+The warehouse-scope-v2 benchmark zero is an authored report-ID contract finding; it remains in the unchanged denominator and is not demonstrated engine scope-comparison failure. See the native catalog/hash audit.
 
 ## Current failure pattern
 
@@ -51,11 +54,11 @@ The two pre-retention cases are different: current16 was readable at all compare
 
 ## Timing, costs and retained operational failures
 
-The 29 double-graded cases used **$12.188147** for investigation, averaging **$0.420281** per ticket. Native Azure duration, including startup and publication, had median223.5s and p90299s (nearest rank) for the 26/29 executions with native start/end times. Missing native end times are not estimated. Provider-settled cached input was4,367,398 of6,490,070 input tokens: **67.29%**. Every case cost matched its authoritative reservation settlements. Authoring, grading and fixture controls are separate. [Per-ticket observed costs, timing and cache](runs/round-twenty-five-g1-observed-cost-timing-cache.json).
+The 31 double-graded cases used **$13.325343** for investigation, averaging **$0.429850** per ticket. Native Azure duration, including startup and publication, had median227.5s and p90299s (nearest rank) for the 28/31 executions with native start/end times. Missing native end times are not estimated. Provider-settled cached input was4,794,667 of7,111,716 input tokens: **67.42%**. Every case cost matched its authoritative reservation settlements. Authoring, grading and fixture controls are separate. [Per-ticket observed costs, timing and cache](runs/round-twenty-five-g1-observed-cost-timing-cache.json).
 
 | Timing group | Tickets | Native durations observed | Native median / p90 seconds | Worker wall median / p90 seconds |
 |---|---:|---:|---|---|
-|full investigation|23|23|229.0 / 299.0|188.67276654599993 / 270.064544503|
+|full investigation|25|25|236.0 / 299.0|193.64776847400003 / 270.064544503|
 |hold|3|0|not available|226.12211136400003 / 234.758102028|
 |operational status without layer queries|3|3|188.0 / 190.0|154.97200069000002 / 159.73575022|
 

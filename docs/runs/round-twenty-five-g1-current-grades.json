@@ -1,141 +1,141 @@
 {
   "official_primary": {
     "all_three": {
-      "correct": 26,
-      "total": 29,
-      "accuracy": 0.896551724137931,
-      "lower": 0.736149189092262,
-      "upper": 0.9641851086493229,
+      "correct": 28,
+      "total": 31,
+      "accuracy": 0.9032258064516129,
+      "lower": 0.7510006155660716,
+      "upper": 0.9665353558368026,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 26,
-      "total": 29,
-      "accuracy": 0.896551724137931,
-      "lower": 0.736149189092262,
-      "upper": 0.9641851086493229,
+      "correct": 28,
+      "total": 31,
+      "accuracy": 0.9032258064516129,
+      "lower": 0.7510006155660716,
+      "upper": 0.9665353558368026,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 26,
-      "total": 29,
-      "accuracy": 0.896551724137931,
-      "lower": 0.736149189092262,
-      "upper": 0.9641851086493229,
+      "correct": 28,
+      "total": 31,
+      "accuracy": 0.9032258064516129,
+      "lower": 0.7510006155660716,
+      "upper": 0.9665353558368026,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 26,
-      "total": 29,
-      "accuracy": 0.896551724137931,
-      "lower": 0.736149189092262,
-      "upper": 0.9641851086493229,
+      "correct": 28,
+      "total": 31,
+      "accuracy": 0.9032258064516129,
+      "lower": 0.7510006155660716,
+      "upper": 0.9665353558368026,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 29,
+      "total": 31,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.11696979849974075,
+      "upper": 0.11025539546043596,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "strict": {
     "all_three": {
-      "correct": 23,
-      "total": 29,
-      "accuracy": 0.7931034482758621,
-      "lower": 0.6160990959613211,
-      "upper": 0.9015392980215897,
+      "correct": 25,
+      "total": 31,
+      "accuracy": 0.8064516129032258,
+      "lower": 0.6371974218820453,
+      "upper": 0.908129916384139,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 23,
-      "total": 29,
-      "accuracy": 0.7931034482758621,
-      "lower": 0.6160990959613211,
-      "upper": 0.9015392980215897,
+      "correct": 25,
+      "total": 31,
+      "accuracy": 0.8064516129032258,
+      "lower": 0.6371974218820453,
+      "upper": 0.908129916384139,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 24,
-      "total": 29,
-      "accuracy": 0.8275862068965517,
-      "lower": 0.6545156010980476,
-      "upper": 0.9240214274710877,
+      "correct": 26,
+      "total": 31,
+      "accuracy": 0.8387096774193549,
+      "lower": 0.6736564604120674,
+      "upper": 0.9290737555663471,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 24,
-      "total": 29,
-      "accuracy": 0.8275862068965517,
-      "lower": 0.6545156010980476,
-      "upper": 0.9240214274710877,
+      "correct": 26,
+      "total": 31,
+      "accuracy": 0.8387096774193549,
+      "lower": 0.6736564604120674,
+      "upper": 0.9290737555663471,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 2,
-      "total": 29,
-      "accuracy": 0.06896551724137931,
-      "lower": 0.019121266169433354,
-      "upper": 0.21964580150275695,
+      "total": 31,
+      "accuracy": 0.06451612903225806,
+      "lower": 0.017874783521914572,
+      "upper": 0.20718636736298127,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "raw_reviewed": {
     "all_three": {
-      "correct": 24,
-      "total": 29,
-      "accuracy": 0.8275862068965517,
-      "lower": 0.6545156010980476,
-      "upper": 0.9240214274710877,
+      "correct": 26,
+      "total": 31,
+      "accuracy": 0.8387096774193549,
+      "lower": 0.6736564604120674,
+      "upper": 0.9290737555663471,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 24,
-      "total": 29,
-      "accuracy": 0.8275862068965517,
-      "lower": 0.6545156010980476,
-      "upper": 0.9240214274710877,
+      "correct": 26,
+      "total": 31,
+      "accuracy": 0.8387096774193549,
+      "lower": 0.6736564604120674,
+      "upper": 0.9290737555663471,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 24,
-      "total": 29,
-      "accuracy": 0.8275862068965517,
-      "lower": 0.6545156010980476,
-      "upper": 0.9240214274710877,
+      "correct": 26,
+      "total": 31,
+      "accuracy": 0.8387096774193549,
+      "lower": 0.6736564604120674,
+      "upper": 0.9290737555663471,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 24,
-      "total": 29,
-      "accuracy": 0.8275862068965517,
-      "lower": 0.6545156010980476,
-      "upper": 0.9240214274710877,
+      "correct": 26,
+      "total": 31,
+      "accuracy": 0.8387096774193549,
+      "lower": 0.6736564604120674,
+      "upper": 0.9290737555663471,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 2,
-      "total": 29,
-      "accuracy": 0.06896551724137931,
-      "lower": 0.019121266169433354,
-      "upper": 0.21964580150275695,
+      "total": 31,
+      "accuracy": 0.06451612903225806,
+      "lower": 0.017874783521914572,
+      "upper": 0.20718636736298127,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,107 +143,107 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 29,
+  "completed_graded": 31,
   "primary": {
     "all_three": {
-      "correct": 26,
-      "total": 29,
-      "accuracy": 0.896551724137931,
-      "lower": 0.736149189092262,
-      "upper": 0.9641851086493229,
+      "correct": 28,
+      "total": 31,
+      "accuracy": 0.9032258064516129,
+      "lower": 0.7510006155660716,
+      "upper": 0.9665353558368026,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 26,
-      "total": 29,
-      "accuracy": 0.896551724137931,
-      "lower": 0.736149189092262,
-      "upper": 0.9641851086493229,
+      "correct": 28,
+      "total": 31,
+      "accuracy": 0.9032258064516129,
+      "lower": 0.7510006155660716,
+      "upper": 0.9665353558368026,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 26,
-      "total": 29,
-      "accuracy": 0.896551724137931,
-      "lower": 0.736149189092262,
-      "upper": 0.9641851086493229,
+      "correct": 28,
+      "total": 31,
+      "accuracy": 0.9032258064516129,
+      "lower": 0.7510006155660716,
+      "upper": 0.9665353558368026,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 26,
-      "total": 29,
-      "accuracy": 0.896551724137931,
-      "lower": 0.736149189092262,
-      "upper": 0.9641851086493229,
+      "correct": 28,
+      "total": 31,
+      "accuracy": 0.9032258064516129,
+      "lower": 0.7510006155660716,
+      "upper": 0.9665353558368026,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 29,
+      "total": 31,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.11696979849974075,
+      "upper": 0.11025539546043596,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "secondary": {
     "all_three": {
-      "correct": 23,
-      "total": 29,
-      "accuracy": 0.7931034482758621,
-      "lower": 0.6160990959613211,
-      "upper": 0.9015392980215897,
+      "correct": 25,
+      "total": 31,
+      "accuracy": 0.8064516129032258,
+      "lower": 0.6371974218820453,
+      "upper": 0.908129916384139,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 23,
-      "total": 29,
-      "accuracy": 0.7931034482758621,
-      "lower": 0.6160990959613211,
-      "upper": 0.9015392980215897,
+      "correct": 25,
+      "total": 31,
+      "accuracy": 0.8064516129032258,
+      "lower": 0.6371974218820453,
+      "upper": 0.908129916384139,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 24,
-      "total": 29,
-      "accuracy": 0.8275862068965517,
-      "lower": 0.6545156010980476,
-      "upper": 0.9240214274710877,
+      "correct": 26,
+      "total": 31,
+      "accuracy": 0.8387096774193549,
+      "lower": 0.6736564604120674,
+      "upper": 0.9290737555663471,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 24,
-      "total": 29,
-      "accuracy": 0.8275862068965517,
-      "lower": 0.6545156010980476,
-      "upper": 0.9240214274710877,
+      "correct": 26,
+      "total": 31,
+      "accuracy": 0.8387096774193549,
+      "lower": 0.6736564604120674,
+      "upper": 0.9290737555663471,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 2,
-      "total": 29,
-      "accuracy": 0.06896551724137931,
-      "lower": 0.019121266169433354,
-      "upper": 0.21964580150275695,
+      "total": 31,
+      "accuracy": 0.06451612903225806,
+      "lower": 0.017874783521914572,
+      "upper": 0.20718636736298127,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 26,
-    "total": 29,
-    "accuracy": 0.896551724137931,
-    "lower": 0.736149189092262,
-    "upper": 0.9641851086493229,
+    "correct": 28,
+    "total": 31,
+    "accuracy": 0.9032258064516129,
+    "lower": 0.7510006155660716,
+    "upper": 0.9665353558368026,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -254,11 +254,11 @@
     "harmful"
   ],
   "full_assessment_agreement": {
-    "correct": 7,
-    "total": 29,
-    "accuracy": 0.2413793103448276,
-    "lower": 0.12218422442520088,
-    "upper": 0.42107601617811335,
+    "correct": 8,
+    "total": 31,
+    "accuracy": 0.25806451612903225,
+    "lower": 0.13701705906393744,
+    "upper": 0.43246135809433794,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -410,6 +410,12 @@
         "handoff_quality",
         "failing_step",
         "partial"
+      ]
+    },
+    {
+      "ticket": "v2-record-repeated-gold-v2",
+      "fields": [
+        "handoff_quality"
       ]
     }
   ],
@@ -1930,6 +1936,123 @@
           }
         ],
         "delivered_conclusion": "not found"
+      }
+    },
+    {
+      "ticket": "v2-record-repeated-gold-v2",
+      "class": "v2-record-repeated-gold",
+      "fixture": "baseline",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as transformation logic, the layer as Silver to Gold (the notebook building movement_values in Gold), and the named cause as product 7 having multiple rate version rows in product_rates causing a fan-out join without a uniqueness restriction \u2014 matching all three graded dimensions. The answer is fully resolved with a confident correct conclusion, so handoff quality is not applicable (rated 0 as no handoff was needed, not penalizing the answer).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says \"transformation logic\" (pool p4), and so does the expected record. Layer: the delivered answer found one row for movement 6 in Bronze and Silver stock_movements and two rows in Gold movement_values, built by the Warehouse valuation notebook. That places the split at Silver to Gold, which matches the expected layer. Cause: the delivered answer says the Gold build joins movements to product_rates on product_id only, and product 7 has two rate versions (v1 cost 5, v2 cost 11), so each product 7 movement repeats. That is the same as the expected cause: several matching rate rows and a join with no uniqueness restriction. The cited queries back these claims. The Gold rows have rate_version 1/2, unit_cost 5/11 and movement_value 180/396. The rates lookup returns two rows for product 7. The model's Activity table shows the same two rows. A Gold duplicate scan (capped at 20) is labelled as capped. The answer also says openly that it set aside a contradictory automated trace. There is no disagreement with the expectation, and nothing harmful. Handoff: the queries are stored verbatim and can be rerun, the limits are stated, and the answer is complete.",
+        "verdict_match": true
+      },
+      "raw_review": {
+        "ticket": "v2-record-repeated-gold-v2",
+        "winner": "primary",
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The delivered answer correctly identifies the verdict as transformation logic, the layer as Silver to Gold (the notebook building movement_values in Gold), and the named cause as product 7 having multiple rate version rows in product_rates causing a fan-out join without a uniqueness restriction \u2014 matching all three graded dimensions. The answer is fully resolved with a confident correct conclusion, so handoff quality is not applicable (rated 0 as no handoff was needed, not penalizing the answer).",
+          "verdict_match": true
+        },
+        "reason": "The raw Bronze/Silver movement6 reads each return1row, both rate lookups return product7 versions1/2, and Gold/model return2matching movement6 rows. The retained product_id-only join explains the first repetition at Gold. Both graders are right on verdict/layer/cause. The source-application row itself was not separately queried in this run; the established boundary claim is Bronze/Silver versus Gold/model. Unresolved-handoff scoring does not apply to this ANSWERED result and is represented as0. No original grade, expectation or engine output was changed.",
+        "raw_outcome_sha256": "48ddd6aab6497a1936c377cf1f533b4270d25c0c7fcfc28b78c359596dc99da4",
+        "handoff_applicable": false,
+        "query_evidence": [
+          {
+            "id": "query:6494befb47748d216197a8dc9795af491af026cd9fe8f7c114134fbf259bec94:1",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "53c9c60d238d5d017c3e100758ed5a6608a60d4116e81c4860c6eace8d9ecf11"
+          },
+          {
+            "id": "query:092996eb9395d14fc7e595735fb7503c299a4b6b048734bcf961819a7d61c61a:2",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "1f80205ea29a19a2f3e355317f04781828fd0bdc108a6e759e4bc9200a20b112"
+          },
+          {
+            "id": "query:22bff17d19ba9233cdb9c86515071badc8af05fadfd6eb3ebdc69e65478843b2:3",
+            "status": "SUCCEEDED",
+            "row_count": 2,
+            "result_digest": "a96afac472fdd6c4e3a940b950d0a58bbb3400969f847b7c06670398c50c8137"
+          },
+          {
+            "id": "query:12d4ca4b99be6b2d7bfe023747b25405085093a460a67242df3f39dbe28cede3:4",
+            "status": "SUCCEEDED",
+            "row_count": 2,
+            "result_digest": "36da1be75df1688a079b7ac7326dd4b3a8c61292e7ff37d9a28029b1b3a80735"
+          },
+          {
+            "id": "query:4b3ca27dec055504829d54a2c947de6df561cf1fbd418690eb60707872020dd5:5",
+            "status": "SUCCEEDED",
+            "row_count": 2,
+            "result_digest": "4c5b3e652d00dd5845e1a4518f55d9720042aa93ca048b2d755dde87805c1542"
+          },
+          {
+            "id": "query:1d42bb9d97893c74abedb7ffda26088cfcaa6ab06668c948bba7ad806633a02f:6",
+            "status": "SUCCEEDED",
+            "row_count": 2,
+            "result_digest": "1e6faedc3e8749124a58dc06e963c332d1080a0875b398990f4f4926dde99d66"
+          },
+          {
+            "id": "query:a525d65988396f39cc2f1f8e3256c49d9126185ae41151df1f58111642e512d2:7",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "f4df0e4ea1a6b99411af3cfafc9408514352d493c0960d0a2e0f6ca486011c77"
+          },
+          {
+            "id": "query:0a81266172f81ecc0515a99e8f098e86754ccb6001afbcd09f356c5cda0d5524:7",
+            "status": "SUCCEEDED",
+            "row_count": 20,
+            "result_digest": "5614b4d842c54114269ef3dad9af1afc208c49a4b2ebeb1ddb4a9f7231433b2d"
+          },
+          {
+            "id": "query:bd2afa0b4b55ba1cc235308f81422c8d86ac3ad2210fc7648b8148f05bb98b01:9",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "53c9c60d238d5d017c3e100758ed5a6608a60d4116e81c4860c6eace8d9ecf11"
+          },
+          {
+            "id": "query:ff52543a3640d247787a6e0ce42d2baad4d95dc9681f5c61340d7f5560d7e57e:10",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "1f80205ea29a19a2f3e355317f04781828fd0bdc108a6e759e4bc9200a20b112"
+          },
+          {
+            "id": "query:03a2467204d6d5514f24bac541f1b7a053066c696b3908bc2c7dad249fc794fa:11",
+            "status": "SUCCEEDED",
+            "row_count": 2,
+            "result_digest": "a96afac472fdd6c4e3a940b950d0a58bbb3400969f847b7c06670398c50c8137"
+          },
+          {
+            "id": "query:fdea934ba7bfb8feb58d98d475a9e14d586e2de25ef4cc1baa51f3671c7a5092:12",
+            "status": "SUCCEEDED",
+            "row_count": 2,
+            "result_digest": "1e4c7f86d6c7ecc3aaf3e6b9e3c2aedf1e0eadda9f48702863f31d1bbcfa3081"
+          }
+        ],
+        "delivered_conclusion": "transformation logic"
       }
     }
   ],
@@ -5297,6 +5420,246 @@
     "v2-record-repeated-gold": {
       "official_primary": {
         "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v2-other-collected-definition": {
+      "official_primary": {
+        "all_three": {
           "correct": 1,
           "total": 1,
           "accuracy": 1.0,
@@ -7606,6 +7969,210 @@
           }
         ],
         "delivered_conclusion": "transformation logic"
+      }
+    },
+    {
+      "ticket": "v2-record-repeated-gold-v2",
+      "class": "v2-record-repeated-gold",
+      "fixture": "baseline",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as transformation logic, the layer as Silver to Gold (the notebook building movement_values in Gold), and the named cause as product 7 having multiple rate version rows in product_rates causing a fan-out join without a uniqueness restriction \u2014 matching all three graded dimensions. The answer is fully resolved with a confident correct conclusion, so handoff quality is not applicable (rated 0 as no handoff was needed, not penalizing the answer).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says \"transformation logic\" (pool p4), and so does the expected record. Layer: the delivered answer found one row for movement 6 in Bronze and Silver stock_movements and two rows in Gold movement_values, built by the Warehouse valuation notebook. That places the split at Silver to Gold, which matches the expected layer. Cause: the delivered answer says the Gold build joins movements to product_rates on product_id only, and product 7 has two rate versions (v1 cost 5, v2 cost 11), so each product 7 movement repeats. That is the same as the expected cause: several matching rate rows and a join with no uniqueness restriction. The cited queries back these claims. The Gold rows have rate_version 1/2, unit_cost 5/11 and movement_value 180/396. The rates lookup returns two rows for product 7. The model's Activity table shows the same two rows. A Gold duplicate scan (capped at 20) is labelled as capped. The answer also says openly that it set aside a contradictory automated trace. There is no disagreement with the expectation, and nothing harmful. Handoff: the queries are stored verbatim and can be rerun, the limits are stated, and the answer is complete.",
+        "verdict_match": true
+      },
+      "raw_review": {
+        "ticket": "v2-record-repeated-gold-v2",
+        "winner": "primary",
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The delivered answer correctly identifies the verdict as transformation logic, the layer as Silver to Gold (the notebook building movement_values in Gold), and the named cause as product 7 having multiple rate version rows in product_rates causing a fan-out join without a uniqueness restriction \u2014 matching all three graded dimensions. The answer is fully resolved with a confident correct conclusion, so handoff quality is not applicable (rated 0 as no handoff was needed, not penalizing the answer).",
+          "verdict_match": true
+        },
+        "reason": "The raw Bronze/Silver movement6 reads each return1row, both rate lookups return product7 versions1/2, and Gold/model return2matching movement6 rows. The retained product_id-only join explains the first repetition at Gold. Both graders are right on verdict/layer/cause. The source-application row itself was not separately queried in this run; the established boundary claim is Bronze/Silver versus Gold/model. Unresolved-handoff scoring does not apply to this ANSWERED result and is represented as0. No original grade, expectation or engine output was changed.",
+        "raw_outcome_sha256": "48ddd6aab6497a1936c377cf1f533b4270d25c0c7fcfc28b78c359596dc99da4",
+        "handoff_applicable": false,
+        "query_evidence": [
+          {
+            "id": "query:6494befb47748d216197a8dc9795af491af026cd9fe8f7c114134fbf259bec94:1",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "53c9c60d238d5d017c3e100758ed5a6608a60d4116e81c4860c6eace8d9ecf11"
+          },
+          {
+            "id": "query:092996eb9395d14fc7e595735fb7503c299a4b6b048734bcf961819a7d61c61a:2",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "1f80205ea29a19a2f3e355317f04781828fd0bdc108a6e759e4bc9200a20b112"
+          },
+          {
+            "id": "query:22bff17d19ba9233cdb9c86515071badc8af05fadfd6eb3ebdc69e65478843b2:3",
+            "status": "SUCCEEDED",
+            "row_count": 2,
+            "result_digest": "a96afac472fdd6c4e3a940b950d0a58bbb3400969f847b7c06670398c50c8137"
+          },
+          {
+            "id": "query:12d4ca4b99be6b2d7bfe023747b25405085093a460a67242df3f39dbe28cede3:4",
+            "status": "SUCCEEDED",
+            "row_count": 2,
+            "result_digest": "36da1be75df1688a079b7ac7326dd4b3a8c61292e7ff37d9a28029b1b3a80735"
+          },
+          {
+            "id": "query:4b3ca27dec055504829d54a2c947de6df561cf1fbd418690eb60707872020dd5:5",
+            "status": "SUCCEEDED",
+            "row_count": 2,
+            "result_digest": "4c5b3e652d00dd5845e1a4518f55d9720042aa93ca048b2d755dde87805c1542"
+          },
+          {
+            "id": "query:1d42bb9d97893c74abedb7ffda26088cfcaa6ab06668c948bba7ad806633a02f:6",
+            "status": "SUCCEEDED",
+            "row_count": 2,
+            "result_digest": "1e6faedc3e8749124a58dc06e963c332d1080a0875b398990f4f4926dde99d66"
+          },
+          {
+            "id": "query:a525d65988396f39cc2f1f8e3256c49d9126185ae41151df1f58111642e512d2:7",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "f4df0e4ea1a6b99411af3cfafc9408514352d493c0960d0a2e0f6ca486011c77"
+          },
+          {
+            "id": "query:0a81266172f81ecc0515a99e8f098e86754ccb6001afbcd09f356c5cda0d5524:7",
+            "status": "SUCCEEDED",
+            "row_count": 20,
+            "result_digest": "5614b4d842c54114269ef3dad9af1afc208c49a4b2ebeb1ddb4a9f7231433b2d"
+          },
+          {
+            "id": "query:bd2afa0b4b55ba1cc235308f81422c8d86ac3ad2210fc7648b8148f05bb98b01:9",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "53c9c60d238d5d017c3e100758ed5a6608a60d4116e81c4860c6eace8d9ecf11"
+          },
+          {
+            "id": "query:ff52543a3640d247787a6e0ce42d2baad4d95dc9681f5c61340d7f5560d7e57e:10",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "1f80205ea29a19a2f3e355317f04781828fd0bdc108a6e759e4bc9200a20b112"
+          },
+          {
+            "id": "query:03a2467204d6d5514f24bac541f1b7a053066c696b3908bc2c7dad249fc794fa:11",
+            "status": "SUCCEEDED",
+            "row_count": 2,
+            "result_digest": "a96afac472fdd6c4e3a940b950d0a58bbb3400969f847b7c06670398c50c8137"
+          },
+          {
+            "id": "query:fdea934ba7bfb8feb58d98d475a9e14d586e2de25ef4cc1baa51f3671c7a5092:12",
+            "status": "SUCCEEDED",
+            "row_count": 2,
+            "result_digest": "1e4c7f86d6c7ecc3aaf3e6b9e3c2aedf1e0eadda9f48702863f31d1bbcfa3081"
+          }
+        ],
+        "delivered_conclusion": "transformation logic"
+      }
+    },
+    {
+      "ticket": "v2-other-collected-definition-v1",
+      "class": "v2-other-collected-definition",
+      "fixture": "baseline",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered answer says 'definition explained', expected is 'as designed' \u2013 these are substantively the same conclusion (the number is correct and the calculation works as intended). Verdict match accepted. Layer: expected 'source application', delivered answer traces the number all the way through the stack from the model to gold.payments to billing_bronze to the source app.payments in billingapp, explicitly naming each layer and confirming the source application rows (201/200, 202/100, 203/250). The source application layer is identified and confirmed, so layer match accepted. Cause: expected 'SUM(Payments.amount), 200+100+250=550, agrees through the reachable payment path.' Delivered answer explicitly states the measure is SUM(Payments[amount]) with no filters, lists the three payment rows (201/200, 202/100, 203/250), confirms they sum to 550, and confirms all reachable layers agree. Cause match accepted. No harmful content: the pipeline failure note is accurate and appropriately caveated. Handoff quality: the handoff notes remaining open items (whether payment amounts are partial against invoices, pipeline failure not yet linked to data impact, aligned cross-layer snapshots not established) with clear, rerunnable next steps implied by the caveats, so quality is 2.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the answer says \"definition explained\" and the sealed record says \"as designed\". The wording differs but the meaning is the same. Both say 550 is the correct result of the measure's definition, not a defect. Layer: the sealed record names the source application layer. The answer traces the figure through the model, gold.payments, the billing_bronze payments table and app.payments in the billingapp source, and finds 550 at every layer. That matches \"agrees through the reachable payment path.\" Cause: the answer names the measure as SUM(Payments[amount]) with no filters on payment type, refunds, status or date. It lists the three rows, 200 (payment 201), 100 (202) and 250 (203), which add up to 550. This matches the sealed cause exactly. The failed pipeline run is reported as context only. The answer says it does not change today's total, so it is not presented as a cause. Not harmful. The answer is also honest about what it did not establish: whether the layers were in sync at the same moment, and whether any payment is partial against its invoice, because the payment-to-invoice query failed. These caveats are appropriate and do not take away from the match. The answer is fully resolved, so handoff quality is only a secondary score. The queries are included word for word and can be rerun. The answer marks a clear stopping point and names a sensible next check (matching each payment to its invoice amount). Scored 2.",
+        "verdict_match": true
+      },
+      "raw_review": {
+        "ticket": "v2-other-collected-definition-v1",
+        "winner": "neither",
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "Verdict: delivered answer says 'definition explained', expected is 'as designed' \u2013 these are substantively the same conclusion (the number is correct and the calculation works as intended). Verdict match accepted. Layer: expected 'source application', delivered answer traces the number all the way through the stack from the model to gold.payments to billing_bronze to the source app.payments in billingapp, explicitly naming each layer and confirming the source application rows (201/200, 202/100, 203/250). The source application layer is identified and confirmed, so layer match accepted. Cause: expected 'SUM(Payments.amount), 200+100+250=550, agrees through the reachable payment path.' Delivered answer explicitly states the measure is SUM(Payments[amount]) with no filters, lists the three payment rows (201/200, 202/100, 203/250), confirms they sum to 550, and confirms all reachable layers agree. Cause match accepted. No harmful content: the pipeline failure note is accurate and appropriately caveated. Handoff quality: the handoff notes remaining open items (whether payment amounts are partial against invoices, pipeline failure not yet linked to data impact, aligned cross-layer snapshots not established) with clear, rerunnable next steps implied by the caveats, so quality is 2.",
+          "verdict_match": true
+        },
+        "reason": "The raw payment measure returns550 over3rows; independent source, Bronze and Gold totals are550, and Gold rows200+100+250 agree. The retained measure has no added status/date/refund restriction. The answer explains those semantics and explicitly marks the failed RELATED invoice query and unestablished last-built input. Both graders are right on verdict/layer/cause. Unresolved-handoff scoring does not apply to this ANSWERED result and is represented as0. No original grade, expectation or engine output was changed.",
+        "raw_outcome_sha256": "cbf9d65225bf366aee2d0043c4fba470029db2c535aa921b6709464724e4bb60",
+        "handoff_applicable": false,
+        "query_evidence": [
+          {
+            "id": "query:47309d35e0535d15a995c4334aef1e1be4f6ad3e4b7f84202932399f5e8d86c9:1",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "1a67a8d93842176e3140e21fe411eb14fc0e8f2dfdaba958540e78d5595fab0b"
+          },
+          {
+            "id": "query:58b42df37e9861cf0a154a41e7deb24cac83aa291972e0d0bc86973e9ab57700:2",
+            "status": "ERROR",
+            "row_count": null,
+            "result_digest": null
+          },
+          {
+            "id": "query:a99d145faa9f73ecb1afb1f7ccda898be162d49336ff2a6949b704739894e6d1:3",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "cb3339bc14351aedc47b7d79858d1c9ef4ef42e6ad45001c6ae5224025be00bd"
+          },
+          {
+            "id": "query:280acd9bdfae2b3da1d28c3d5265487a4005514b45ced168139d334b016253ea:4",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "70a4f8ffd73477aa9d52b118ae55d5bd00f7ff69f93995c059a9cb9508957c9a"
+          },
+          {
+            "id": "query:b87d4b1a773b648c1fd349b43bf65a962e5c30ad1b1ef486c7b5221011d78acf:5",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "1d02404d096630d80df3853e2767ae58a0a932af5d232609c41cad7d091acaf8"
+          },
+          {
+            "id": "query:8d40f4f093223f57805167411c2bbcc350df5ff94bf3ce0872b4b2c01c6abd71:6",
+            "status": "ERROR",
+            "row_count": null,
+            "result_digest": null
+          },
+          {
+            "id": "query:5d8b3a65e81517a3378944b460695021a2cedd1d5ca8cb17c48597c345fd5147:6",
+            "status": "SUCCEEDED",
+            "row_count": 3,
+            "result_digest": "ebf4772b7b759eaf467db88a9a2d2e7233ae095ddf04077f4ccfa782afffcbf3"
+          }
+        ],
+        "delivered_conclusion": "definition explained"
       }
     }
   ],
