@@ -1,9 +1,14 @@
 import json,unittest
+from unittest.mock import patch
 from investigator import build_phase as b
 from test_build_phase import instant
 from investigator.usage_governance import UsageHold
 
 class ScanReallocationTests(unittest.TestCase):
+    def setUp(self):
+        # Exercise this historical reallocation independently of later owner
+        # decisions. Current October/November policy has dedicated R24 tests.
+        self.enterContext(patch.dict(b.POLICY,round24=None))
     def test_owner_reallocation_preserves_total_reserve_and_usage(self):
         now=instant('2026-10-24')+2*3600
         rows=[{'environment':'x','session_id':'scan','reservation_key':'one','reserved':json.dumps({'cloud_calls':817}),'created':now}]

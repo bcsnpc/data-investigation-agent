@@ -29,7 +29,7 @@ class CreditTests(unittest.TestCase):
    self.assertEqual(status(state)['remaining_microdollars'],0)
  def test_october_ceiling_does_not_lower_november(self):
   at=lambda x:datetime.fromisoformat(x).replace(tzinfo=timezone.utc).timestamp()
-  self.assertEqual(model_ceiling(at('2026-10-28')),96000000)
+  self.assertEqual(model_ceiling(at('2026-10-29')),146000000)
   self.assertEqual(model_ceiling(at('2026-11-01')),150000000)
 
 
@@ -68,9 +68,9 @@ class CacheTests(unittest.TestCase):
  def test_investigation_cache_check_still_rejects_later_misses(self):
   with self.assertRaisesRegex(AssertionError,'ZERO_CACHE_READS'):
    assert_cache_reads([{'successful_call':2,'cache_read_input_tokens':0,'cache_assertion_applies':True}])
- def test_gateway_tool_breakpoint_requires_explicit_diagnostic_permission(self):
+ def test_opus_tool_breakpoint_is_runtime_supported_and_other_models_stay_pinned(self):
   cache=StablePrefix();body=cache.prepare(self.body());permissions={'reasoning_models':['claude-opus-5-5']}
-  with self.assertRaises(ValueError):authorize_body(permissions,'POST','https://api.anthropic.com/v1/messages',body)
+  self.assertEqual(authorize_body(permissions,'POST','https://api.anthropic.com/v1/messages',body),body)
   permissions['diagnostic_prompt_cache']=True;self.assertEqual(authorize_body(permissions,'POST','https://api.anthropic.com/v1/messages',body),body)
   broken=copy.deepcopy(body);broken['tools'][0]['cache_control']={'type':'ephemeral'}
   with self.assertRaises(ValueError):authorize_body(permissions,'POST','https://api.anthropic.com/v1/messages',broken)

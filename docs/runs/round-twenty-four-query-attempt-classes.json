@@ -1,0 +1,163 @@
+{
+  "dev01": {
+    "completed_cases": 15,
+    "recorded_query_attempts": 75,
+    "query_error_attempts": 5,
+    "counts": {
+      "endpoint error": 1,
+      "wrong column or table": 4
+    },
+    "cases": [
+      {
+        "ticket": "v2-billing-mrr-v1",
+        "query": "query:09f6e008e99109f3ff3ee9a07159854b463d012de19dbd5a26e3d165428c3489:1",
+        "class": "endpoint error",
+        "native_dispatched": true,
+        "error_type": "TimeoutError",
+        "outcome_sha256": "c8268f9f6a6786e58066e859b97c5320d9a71cfbebf8eec4d47e4ad3a3857101"
+      },
+      {
+        "ticket": "v2-failed-billing-transform-v1",
+        "query": "query:82ba092806fe06c9d423feb229d34b5969876832f61b5a818cb23b50eb49ea54:3",
+        "class": "wrong column or table",
+        "native_dispatched": false,
+        "error_type": "QueryRejection",
+        "outcome_sha256": "a0e0f947337220102af6501b167175388e13eef6b77f9548b12fa266981e0ed1"
+      },
+      {
+        "ticket": "v2-failed-billing-transform-v2",
+        "query": "query:cb48f0c186d2b6715c604905c0df4c18f493ed77f119d4cb581f837cf594003b:3",
+        "class": "wrong column or table",
+        "native_dispatched": false,
+        "error_type": "QueryRejection",
+        "outcome_sha256": "d9e60aef0921ce27c2e33e35a19a3cf523c5fd41c8b8e6d152c844559ab18ab9"
+      },
+      {
+        "ticket": "v2-failed-billing-transform-v2",
+        "query": "query:9f7efcc07564548ddfb194dc777e195d6a5a6828aa2f40d10019323a2eb5f8d7:4",
+        "class": "wrong column or table",
+        "native_dispatched": false,
+        "error_type": "QueryRejection",
+        "outcome_sha256": "d9e60aef0921ce27c2e33e35a19a3cf523c5fd41c8b8e6d152c844559ab18ab9"
+      },
+      {
+        "ticket": "v2-source-history-v1",
+        "query": "query:393569369f5a1916a12882671429c83c817c7939d1642f07064067759f151574:5",
+        "class": "wrong column or table",
+        "native_dispatched": false,
+        "error_type": "QueryRejection",
+        "outcome_sha256": "778578dc207b91b2b8db4abc79402de984d4e10735d1ca0c8e6e5080011f2c95"
+      }
+    ],
+    "basis": "Every retained ERROR query attempt, including corrected attempts and validator refusals. Cached duplicates are not new queries. This differs from the R23 first-query failure among official-zero outcomes; no false like-for-like reduction is claimed."
+  },
+  "held01": {
+    "completed_cases": 20,
+    "recorded_query_attempts": 120,
+    "query_error_attempts": 12,
+    "counts": {
+      "validator rejection": 4,
+      "wrong column or table": 7,
+      "endpoint error": 1
+    },
+    "cases": [
+      {
+        "ticket": "v3-access-export",
+        "query": "query:d099bfa854f09d121e83fb1f8e73202d4b3070338ce029f8206ee35938d73ece:1",
+        "class": "validator rejection",
+        "native_dispatched": false,
+        "error_type": "ValueError",
+        "outcome_sha256": "d5c5783d87343d4650143bfdaab5f75025551847f65d27a98bf10a61e6f8081e"
+      },
+      {
+        "ticket": "v3-access-export",
+        "query": "query:9b418aec0136ba9e85c71d18132b5062db05c2938402343e284b20b7cc8ea511:2",
+        "class": "validator rejection",
+        "native_dispatched": false,
+        "error_type": "ValueError",
+        "outcome_sha256": "d5c5783d87343d4650143bfdaab5f75025551847f65d27a98bf10a61e6f8081e"
+      },
+      {
+        "ticket": "v3-access-export",
+        "query": "query:5529a30d26168d86cacb3c547911aedd8f15b35ad3d37c8df0ed9330aae1a442:3",
+        "class": "wrong column or table",
+        "native_dispatched": false,
+        "error_type": "QueryRejection",
+        "outcome_sha256": "d5c5783d87343d4650143bfdaab5f75025551847f65d27a98bf10a61e6f8081e"
+      },
+      {
+        "ticket": "v3-before-temporal-retention",
+        "query": "query:76155af6b656b23fe3625213402cc0bdd23fcd9ba397705de06c1bcf3593a2a6:6",
+        "class": "wrong column or table",
+        "native_dispatched": false,
+        "error_type": "QueryRejection",
+        "outcome_sha256": "29f4e8cf4d8d4185439b70e82a8c030380d0673699a23f079359951ea347d440"
+      },
+      {
+        "ticket": "v3-billing-invoices",
+        "query": "query:60965dd875aab3fad0aae6f418cfabcc03227b35f2996b38c762e4dfc7fcf65e:1",
+        "class": "endpoint error",
+        "native_dispatched": true,
+        "error_type": "TimeoutError",
+        "outcome_sha256": "02b5931717272994a514bc27634faf5c1ac5bc31e3009d02ff2340b676c45b0f"
+      },
+      {
+        "ticket": "v3-billing-mrr",
+        "query": "query:c58536dfbaebc8b5db9b93b2d1963f4c849ca15f8e85fa149f2929ab754c460b:5",
+        "class": "validator rejection",
+        "native_dispatched": false,
+        "error_type": "ValueError",
+        "outcome_sha256": "bb400f55a1e1d2aa044a7d968eb54cdba678150b412cfed962521e8714d55d46"
+      },
+      {
+        "ticket": "v3-other-collected-definition",
+        "query": "query:815d7f26e0d83b0722dc96895625cb30a7b4b612908a2d06e308424ed41a16db:2",
+        "class": "validator rejection",
+        "native_dispatched": false,
+        "error_type": "ValueError",
+        "outcome_sha256": "f3efcd18c7a7d2dfe1ca94abf8529bcd03680a204d96175eff279c3c6892a7c7"
+      },
+      {
+        "ticket": "v3-screenshot-record-01",
+        "query": "query:e183fbe6337df6f1bf59fc2a884befab489fab4f6ad0cd907582a5db787823e3:1",
+        "class": "wrong column or table",
+        "native_dispatched": false,
+        "error_type": "ValueError",
+        "outcome_sha256": "bbeda2bdc885e29eb4b24fa81416f14975f5baa26cb64a4e7337013d640802a1"
+      },
+      {
+        "ticket": "v3-screenshot-record-02",
+        "query": "query:350c41a5eed0e6fbafd6d4d2f6d9ffbf316f0aca562cf3d12e3eb0535d079a00:1",
+        "class": "wrong column or table",
+        "native_dispatched": false,
+        "error_type": "ValueError",
+        "outcome_sha256": "b69fdbd27f3b3689dc28478a99f9c697fa2b29593f66965cdb3a8e4589fd6985"
+      },
+      {
+        "ticket": "v3-screenshot-record-02",
+        "query": "query:2157eb84ebda8fc235b4ee7118fbcc524df990b4021f620ac5d09cb1e50c4df9:3",
+        "class": "wrong column or table",
+        "native_dispatched": false,
+        "error_type": "ValueError",
+        "outcome_sha256": "b69fdbd27f3b3689dc28478a99f9c697fa2b29593f66965cdb3a8e4589fd6985"
+      },
+      {
+        "ticket": "v3-screenshot-record-03",
+        "query": "query:200179fa0756a9f4348b50d0b780b7cc280813129e32acf956027b599a589a34:1",
+        "class": "wrong column or table",
+        "native_dispatched": false,
+        "error_type": "ValueError",
+        "outcome_sha256": "357ec8247e0e549e3ae1952de59703879fda4ee3c72258029ac524779cd46034"
+      },
+      {
+        "ticket": "v3-screenshot-record-04",
+        "query": "query:cd9936ae17d2964d5b5ff5c5136ccacefd8a73e67fe0a3b6047db59706986ae7:1",
+        "class": "wrong column or table",
+        "native_dispatched": false,
+        "error_type": "ValueError",
+        "outcome_sha256": "72318b1031b0fe9ca1421254c2ed8e29a89f0414d0ebf148648ffe7439b8aa22"
+      }
+    ],
+    "basis": "Every retained ERROR query attempt, including corrected attempts and validator refusals. Cached duplicates are not new queries. This differs from the R23 first-query failure among official-zero outcomes; no false like-for-like reduction is claimed."
+  }
+}

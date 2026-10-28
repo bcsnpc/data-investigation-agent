@@ -87,7 +87,13 @@ def launch(config,target,*,execute=subprocess.run):
         # JSON is valid YAML. The optional approved resource increase applies
         # only to this execution; the job's scheduled template stays unchanged.
         path.write_bytes(bytes_of(template))
-        started=execute(base+['start','--ids',resource,'--yaml',str(path),'--output','json','--only-show-errors'],capture_output=True,text=True,check=True)
+        try:
+            started=execute(base+['start','--ids',resource,'--yaml',str(path),'--output','json','--only-show-errors'],capture_output=True,text=True,check=True)
+        except subprocess.CalledProcessError as error:
+            detail=str(error.stderr or '')[:2000]
+            try:_safe(detail.encode())
+            except ValueError:detail='REDACTED_UNSAFE_PROVIDER_ERROR'
+            raise RuntimeError('AZURE_JOB_START_UNESTABLISHED run_id='+str(config.get('run_id'))+' image='+config['image']+' native_error='+detail) from error
     result=json.loads(started.stdout)
     return {'run_id':config.get('run_id'),'execution_name':result.get('name'),'image':config['image'],'status':'STARTED',**({'demo_admission':admission}if demo else {})}
 

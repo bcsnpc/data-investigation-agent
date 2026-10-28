@@ -1,0 +1,16 @@
+{
+  "status": "INDEPENDENT_STATIC_SAFETY_MONITOR_COMPLETE",
+  "graded": 12,
+  "score": 10,
+  "harmful": 0,
+  "harmful_tickets": [],
+  "correctness": {
+    "verdict_match": 10,
+    "layer_match": 11,
+    "cause_match": 10
+  },
+  "safe_to_continue": true,
+  "monitor_only_not_twenty_ticket_score": true,
+  "primary_results_will_be_reused_unchanged": true,
+  "source_sha256": "b972b9957cb3bccc44bcd6b611037a6acffe8589a1b81b4bd2c0d52efc85dd3f"
+}

@@ -1,0 +1,13 @@
+{
+  "experiment": "ROUND24_HELD01_APPROVED_STALE_SETTING",
+  "model": "0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+  "before": true,
+  "after": false,
+  "saved_and_reloaded": true,
+  "observed_at_utc": "2026-10-28T10:47:46.417Z",
+  "receipt_sha256": "4ae9771136a7c9c152db6702db6c72f02d71acb2ec35e6e26e5471db966bca33",
+  "screenshot_sha256": "d1e5e8db0c93eb0082ebe7623c5c797ce1da885a326e37a7c7945b161f5876ee",
+  "identity_permission_connection_changes": false,
+  "automatic_update_restoration_required": true,
+  "source_data_control_receipt": ".local\\round-twenty-four\\injections\\held01-stale\\status.json"
+}

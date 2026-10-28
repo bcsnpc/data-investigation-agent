@@ -13,7 +13,9 @@ class OwnerAllocationTests(unittest.TestCase):
  def test_october_only_override_preserves_usage_and_november_defaults(self):
   override={'2026-10':{'effective_at':'2026-10-27T00:00:00+00:00','limits':{'SCAN':2500,'INVESTIGATION':6405,'RESTORATION':95}}}
   rows=[{'environment':'e','session_id':'s','reservation_key':'r','reserved':json.dumps({'cloud_calls':2000}),'created':at('2026-10-26')}];alloc=[{'environment':'e','session_id':'s','reservation_key':'r','purpose':'SCAN'}]
-  with patch.dict(b.POLICY,monthly_allocation_overrides=override):
+  # Exercise the historical Round23 policy in isolation; Round24's separately
+  # tested permanent November split must not change this earlier-policy test.
+  with patch.dict(b.POLICY,monthly_allocation_overrides=override,round24=None):
    before=b.physical_status(rows,alloc,at('2026-10-26'));after=b.physical_status(rows,alloc,at('2026-10-28'));nov=b.physical_status([],[],at('2026-11-01'))
   self.assertEqual(before['used'],after['used']);self.assertEqual(after['total'],2000)
   self.assertEqual(after['limits'],override['2026-10']['limits']);self.assertEqual(nov['limits'],{'SCAN':2000,'INVESTIGATION':6905,'RESTORATION':95})

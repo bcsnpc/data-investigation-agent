@@ -1,0 +1,12 @@
+{
+  "observed_at_utc": "2026-10-28T12:17:37.331448+00:00",
+  "cancelled_obsolete_workflow": 40686155330,
+  "replacement": "Offline contract regression, not a live model-quality score",
+  "provider_calls_or_new_credentials": false,
+  "frozen_investigator_and_infra_unchanged": true,
+  "changed_test_only": [
+    "scripts/test_draft_intake_ci.py"
+  ],
+  "scores_expectations_and_tapes_unchanged": true,
+  "precorrection_full_suite_retained": true
+}

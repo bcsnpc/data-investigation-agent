@@ -10,12 +10,13 @@ from types import SimpleNamespace
 
 from lineage_graph import Graph
 from ticket_workflow import TicketStore
-from ticket_planner import validate_plan, plan_ticket, azure_generate
+from ticket_planner import validate_plan, plan_ticket
+from fixtures.archived_ticket_planner import azure_generate
 
 
 class PlannerTests(unittest.TestCase):
     def test_agent_decodes_final_phase_without_changing_historical_default(self):
-        from ticket_planner import _azure_generate
+        from fixtures.archived_ticket_planner import _azure_generate
         from investigator.generation_policy import ProviderResponseError
         text=json.dumps(self.plan)
         def msg(phase):return SimpleNamespace(type='message',role='assistant',status='completed',phase=phase,content=[SimpleNamespace(type='output_text',text=text)])
@@ -71,7 +72,7 @@ class PlannerTests(unittest.TestCase):
             def insertion_order(value,**kwargs):
                 kwargs.pop('sort_keys',None);return original_dumps(value,**kwargs)
             tape=Tape(path)
-            with active(tape),patch('ticket_planner.json',SimpleNamespace(dumps=insertion_order,loads=json.loads)):
+            with active(tape),patch('fixtures.archived_ticket_planner.json',SimpleNamespace(dumps=insertion_order,loads=json.loads)):
                 actual=azure_generate({'z':1,'a':{'second':2,'first':1}});tape.finish(actual)
             self.assertEqual(actual,expected)
             tape=Tape(path)

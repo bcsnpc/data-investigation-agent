@@ -107,6 +107,9 @@ def physical_status(rows, allocations, now):
         limits={k:override['limits'][k] for k in PURPOSES}
         if sum(limits.values())!=total_limit or limits['RESTORATION']!=RESTORATION_REQUESTS:
             raise ValueError('MONTHLY_ALLOCATION_MUST_PRESERVE_TOTAL_AND_RESTORATION')
+    current = round24_limits(now)
+    if current is not None:
+        total_limit, limits = current['total_limit'], dict(current['limits'])
     total = sum(used.values())
     credit = min(historical_restoration, reset['historical_requests']) if resetting else 0
     used['RESTORATION'] -= credit
@@ -177,6 +180,28 @@ def shared_physical_rows(state, db, now):
     """
     from .shared_usage import rows
     _, start, end = month_window(now)
+    if state.backend=='postgresql':
+        # Aggregate on the authoritative server under the same transaction.
+        # Sending thousands of reservation rows while holding the write lock
+        # can leave PostgreSQL waiting on ClientWrite across a slow WAN.
+        # Separate the restoration-reset buckets so its historical credit is
+        # still calculated by the unchanged physical_status function.
+        reset=POLICY.get('restoration_reset',{})
+        cutoff=datetime.fromisoformat(reset['effective_at']).timestamp() if reset else start
+        grouped=rows(state,db,
+            "WITH charges AS (SELECT u.created,CASE WHEN a.reservation_key IS NULL THEN 'INVESTIGATION' ELSE a.purpose END AS category,"
+            "u.reserved::jsonb->'cloud_calls' AS calls FROM state_usage u LEFT JOIN state_read_allocations a "
+            "ON a.environment=u.environment AND a.session_id=u.session_id AND a.reservation_key=u.reservation_key "
+            "WHERE u.created>=? AND u.created<?), checked AS (SELECT *,"
+            "(calls IS NULL OR (jsonb_typeof(calls)='number' AND calls::text ~ '^[0-9]+$')) AS valid FROM charges) "
+            "SELECT category,CASE WHEN created<? THEN 0 ELSE 1 END AS reset_bucket,MIN(created) AS created,"
+            "SUM(CASE WHEN calls IS NULL THEN 0 WHEN valid THEN calls::text::numeric ELSE 0 END) AS cloud_calls,"
+            "SUM(CASE WHEN valid THEN 0 ELSE 1 END) AS invalid FROM checked GROUP BY category,reset_bucket",
+            (start,end,cutoff))
+        # Preserve the old interpretation/error for malformed historical data;
+        # never silently omit it or coerce strings/booleans into counts.
+        if all(not row['invalid']for row in grouped):
+            return physical_group_rows(grouped)
     retained = rows(state, db,
         'SELECT environment,session_id,reservation_key,reserved,created FROM state_usage WHERE created>=? AND created<?',
         (start, end))
@@ -187,16 +212,37 @@ def shared_physical_rows(state, db, now):
     return retained, allocations
 
 
+def physical_group_rows(groups):
+    """Lossless sufficient projection for physical_status; not ledger rows."""
+    import json
+    retained=[];allocations=[]
+    for index,group in enumerate(groups):
+        key={'environment':'monthly-authoritative-aggregate','session_id':str(index),'reservation_key':'aggregate'}
+        retained.append({**key,'created':group['created'],'reserved':json.dumps({'cloud_calls':int(group['cloud_calls'])})})
+        allocations.append({**key,'purpose':group['category']})
+    return retained,allocations
+
+
+def round24_limits(now):
+    policy=POLICY.get('round24')
+    if not policy or now < datetime.fromisoformat(policy['effective_at']).timestamp():return None
+    return policy['october'] if month_window(now)[0]=='2026-10' else policy['default']
+
+
 def model_ceiling(now):
+    current=round24_limits(now)
+    if current is not None:return current['model_microdollars']
     month=month_window(now)[0]
     return POLICY.get('monthly_model_overrides',{}).get(month,{}).get('ceiling_microdollars',MODEL_MICRODOLLARS)
 
 
 def model_status(charged, month, *, ceiling=None):
-    if ceiling is None:ceiling=POLICY.get('monthly_model_overrides',{}).get(month,{}).get('ceiling_microdollars',MODEL_MICRODOLLARS)
+    if ceiling is None:
+        at=datetime.fromisoformat(month+'-28T23:59:59+00:00').timestamp()
+        ceiling=model_ceiling(at)
     return {'mode': MODE, 'month_utc': month, 'charged_microdollars': charged,
             'ceiling_microdollars': ceiling, 'protected_microdollars': 0,
-            'warning': charged * 5 >= ceiling * 4,
+            'warning': charged >= 100000000 if month>='2026-11' else charged * 5 >= ceiling * 4,
             'exhausted': charged >= ceiling}
 
 
@@ -263,7 +309,10 @@ def check_shared_request_policy(state, db, now, status, category):
     policy = json.loads(row[0])
     if status.get('historical_restoration_requests') and policy.get('restoration_reset') != POLICY.get('restoration_reset'):
         raise UsageHold('AUTHORITATIVE_RESTORATION_RESET_NOT_APPLIED')
-    total = min(status['total_limit'], policy['total_limit'])
+    authoritative_total=policy['total_limit']
+    if policy.get('limits_effective_month') and status['month_utc']!=policy['limits_effective_month']:
+        authoritative_total=policy.get('default_total_limit',authoritative_total)
+    total = min(status['total_limit'], authoritative_total)
     policy_limits=policy['limits']
     if policy.get('limits_effective_month') and status['month_utc']!=policy['limits_effective_month']:
         policy_limits=policy['default_limits']

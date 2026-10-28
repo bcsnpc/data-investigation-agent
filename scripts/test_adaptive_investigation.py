@@ -271,24 +271,21 @@ class AdaptiveTests(unittest.TestCase):
             from test_reader_execution import config, WORKSPACE, MODEL
             with self.assertRaises(TimeoutError):native_transport(config(), {'workspace':WORKSPACE,'native_model_id':MODEL})
 
-    def test_azure_adapter_requires_one_decision_call(self):
-        import sys,json
-        from types import SimpleNamespace
+    def test_current_anthropic_adapter_requires_one_decision_call(self):
         from ticket_planner import azure_generate
-        call=SimpleNamespace(type='function_call',name='decision',arguments=json.dumps(decision()))
-        response=SimpleNamespace(status='completed',output=[call],id='r',model='test',usage=None)
-        client=MagicMock();client.responses.create.return_value=response
-        from openai import DefaultHttpxClient
-        sdk=SimpleNamespace(OpenAI=MagicMock(),DefaultHttpxClient=DefaultHttpxClient)
-        sdk.OpenAI.return_value.__enter__.return_value=client
-        env={'AZURE_OPENAI_ENDPOINT':'https://unit.openai.azure.com','AZURE_OPENAI_DEPLOYMENT':'test','AZURE_OPENAI_API_KEY':'test-only'}
-        with patch.dict(sys.modules,{'openai':sdk}),patch.dict('os.environ',env):
+        from investigator.adapters.runtime_anthropic import CLIENT
+        call={'type':'tool_use','name':'resolve_intake','input':decision()}
+        response={'stop_reason':'tool_use','content':[call],'id':'r','usage':None}
+        client=MagicMock();client.model='test';client.complete.return_value=response
+        token=CLIENT.set(client)
+        try:
             parsed,_=azure_generate({},name='decision',decision_tool=True)
-            self.assertEqual(parsed,decision());self.assertFalse(client.responses.create.call_args.kwargs['parallel_tool_calls'])
-            self.assertEqual(client.responses.create.call_args.kwargs['tool_choice']['name'],'decision')
-            for outputs in ([call,call],[SimpleNamespace(type='message',content=[])],[]):
-                response.output=outputs
+            self.assertEqual(parsed,decision())
+            self.assertEqual([t['name']for t in client.complete.call_args.kwargs['tools']],['resolve_intake'])
+            for outputs in ([call,call],[{'type':'text','text':'No decision'}],[]):
+                response['content']=outputs
                 with self.assertRaises(ValueError):azure_generate({},name='decision',decision_tool=True)
+        finally:CLIENT.reset(token)
 
     def test_known_failure_recovery_does_not_claim_uncertain_completion(self):
         self.planner.side_effect=lambda p:(decision(self.choose(p,tool='source')), {})

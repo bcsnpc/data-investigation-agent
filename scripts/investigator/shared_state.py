@@ -335,7 +335,12 @@ class SharedState:
         bound = amount(bound)
         if bound <= 0:
             raise ValueError('POSITIVE_RESERVATION_REQUIRED')
-        detail = detail or {}
+        detail = dict(detail or {})
+        if identity.startswith('enrichment:'):
+            from datetime import datetime,timezone
+            detail.setdefault('month_utc',datetime.now(timezone.utc).strftime('%Y-%m'))
+        commitment=amount(detail.get('maximum_commitment_microdollars',bound))
+        if commitment<bound:raise ValueError('COMMITMENT_BELOW_RESERVATION')
         with self.transaction() as db:
             snapshot = self._totals(db, identity)
             row=self.sql(db,'SELECT owner,reserved,detail FROM state_reservations WHERE account=? AND identity=?',(identity,key)).fetchone()
@@ -348,8 +353,12 @@ class SharedState:
                 raise StateConflict('RESERVATION_ALREADY_ADMITTED')
             if snapshot['violated']:
                 raise StateConflict('ACCOUNT_VIOLATION_LATCHED')
-            if exact_sum([snapshot['charged'],bound,snapshot['protected']]) > amount(snapshot['ceiling']):
+            from .anthropic_credit import pending_exposure
+            protected=0 if identity.startswith('model-microdollars:')and detail.get('purpose')=='GRADING'else snapshot['protected']
+            if exact_sum([snapshot['charged'],pending_exposure(self,db,identity),commitment,protected]) > amount(snapshot['ceiling']):
                 raise StateConflict('ACCOUNT_CAP_REACHED')
+            from .anthropic_credit import admit
+            admit(self,db,identity,commitment,purpose=detail.get('purpose'))
             self.sql(db, 'INSERT INTO state_reservations VALUES(?,?,?,?,?,?,?)', (identity, key, owner, decimal_text(bound), decimal_text(bound), 'RESERVED', encoded(detail)))
             return key
 
@@ -367,9 +376,10 @@ class SharedState:
                 raise StateConflict('RESERVATION_OWNER_DIFFERS')
             if row[2] != 'RESERVED':
                 return self._snapshot(db, identity) if full_snapshot else self._totals(db,identity)
-            charged = amount(row[1]) if actual is None else amount(actual)
-            status = 'UNCERTAIN' if actual is None else ('VIOLATION' if charged > amount(row[1]) else 'SETTLED')
             payload = json.loads(row[3])
+            maximum=amount(payload.get('maximum_commitment_microdollars',row[1]))
+            charged = maximum if actual is None else amount(actual)
+            status = 'UNCERTAIN' if actual is None else ('VIOLATION' if charged > maximum else 'SETTLED')
             if detail is not None:
                 payload['settlement'] = detail
             self.sql(db, 'UPDATE state_reservations SET charged=?,status=?,detail=? WHERE account=? AND identity=?', (decimal_text(charged),status,encoded(payload),identity,key))

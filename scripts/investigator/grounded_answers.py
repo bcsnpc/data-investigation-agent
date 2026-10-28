@@ -75,7 +75,23 @@ def cited(args,case):
 def finding(args,case):
     support=cited(args,case)
     if not args['verdict'].strip() or not args['cause'].strip():raise ValueError('VERDICT_AND_CAUSE_REQUIRED')
-    source_consistency=args['verdict'].casefold().replace('_',' ').replace('-',' ') in ('as designed','consistent to source')
+    normalized=args['verdict'].casefold().replace('_',' ').replace('-',' ')
+    if normalized in ('as designed','consistent to source','consistent to boundary'):
+        from .triage_hints import current_job_hints
+        current_faults=current_job_hints(case)
+        if current_faults:
+            details=', '.join(str(f['status'])+' '+str(f.get('run_id')or f.get('subject'))for f in current_faults)
+            raise ValueError('CURRENT_OPERATIONAL_FAULT_NEEDS_DISPOSITION_BEFORE_CONSISTENCY: '+details+
+                '; report the native run status and details first. Value agreement does not establish that the run had no effect; qualify unmeasured numerical impact separately.')
+    issue=case['intake'].get('classified_issue_type')or args.get('classified_issue_type')or case['intake'].get('issue_type')
+    definition_only=(normalized=='as designed'and issue=='HOW_IS_THIS_CALCULATED'
+        and case['intake'].get('compared_with',{}).get('kind')=='NOTHING')
+    if definition_only:
+        if not any(item.get('content')and item.get('provenance')for item in support):raise ValueError('CALCULATION_EXPLANATION_NEEDS_RETAINED_DEFINITION')
+        if not any(item.get('native_result')for item in support):raise ValueError('CALCULATION_EXPLANATION_NEEDS_NATIVE_RECREATION')
+        from .triage_hints import job_hint
+        if job_hint(case.get('triage',{})):raise ValueError('CURRENT_OPERATIONAL_FAULT_NEEDS_DISPOSITION_BEFORE_AS_DESIGNED')
+    source_consistency=(normalized=='consistent to source'or normalized=='as designed'and not definition_only)
     if source_consistency:
         declaration=case['context'].get('system_of_record',{})
         source=declaration.get('layer')
@@ -168,6 +184,7 @@ def finding(args,case):
         operational=rendered
         business+='\n'+'\n'.join(rendered)
     qualifications=[]
+    if definition_only:qualifications.append('Technical calculation explained from retained definitions and native reads; this does not establish business correctness or consistency of the full source chain.')
     if source_consistency:
         qualifications.append('The values were observed at their recorded query times; no common query-bound snapshot is claimed.')
         if record_consistency:

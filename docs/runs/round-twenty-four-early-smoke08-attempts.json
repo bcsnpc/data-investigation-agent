@@ -1,0 +1,31 @@
+{
+  "source": "5cd009e6",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:dca3fc29001b81c6749d0d0ef987b27f79e8098e086743c230c0eaf62c4a82c0",
+  "attempts": [
+    {
+      "id": "early-smoke08-1",
+      "execution": "job-dia-worker-q4rc0fn",
+      "status": "PASS",
+      "native_status": "Succeeded",
+      "seal": "1e752ed2d76503978bfb8391d6cee9cc08960ba6c2c736902eea9f17de01ca55",
+      "model_cost_microdollars": 321250,
+      "model_calls": 3,
+      "investigation_physical_requests": 27,
+      "worker_body_seconds": 172.47612934400001,
+      "investigation_wall_seconds": 106.35377539499996
+    },
+    {
+      "id": "early-smoke08-2",
+      "execution": "job-dia-worker-l5voweg",
+      "status": "FAILED_CONTROL",
+      "native_status": "Failed",
+      "native_seal": null,
+      "partial_objects_retained": 68,
+      "error_type": "LockNotAvailable",
+      "message": "canceling statement due to lock timeout",
+      "technical_answer_delivered": false
+    }
+  ],
+  "three_consecutive_green": false,
+  "unknown_07": "Unestablished original preserved, not scored or resubmitted"
+}

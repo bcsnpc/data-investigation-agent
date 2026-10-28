@@ -29,8 +29,20 @@ class AzureCLIUser:
         self.fetch = fetch or self._fetch; self._token = None
 
     def _json(self, args):
-        response = self.execute(args, capture_output=True, text=True, check=True)
-        return json.loads(response.stdout)
+        operation=args[len(self.cli):] if args[:len(self.cli)]==self.cli else []
+        read_only=operation[:4]in (['containerapp','job','execution','show'],['containerapp','job','execution','list'])
+        for attempt in range(3 if read_only else 1):
+            try:
+                response=self.execute(args,capture_output=True,text=True,check=True,timeout=60 if read_only else 180)
+                return json.loads(response.stdout)
+            except (subprocess.CalledProcessError,subprocess.TimeoutExpired) as error:
+                detail=str(getattr(error,'stderr','') or '')[:1000]
+                transient=isinstance(error,subprocess.TimeoutExpired)or any(word in detail.casefold()for word in ('badgateway','gatewaytimeout','serviceunavailable','too many requests','429'))
+                if not read_only or not transient or attempt==2:raise
+                try:_safe(detail.encode())
+                except ValueError:detail='REDACTED_UNSAFE_PROVIDER_ERROR'
+                self.control({'kind':'READ_ONLY_CONTROL_RETRY','attempt':attempt+1,'error_type':type(error).__name__,'native_message':detail})
+                time.sleep(5*(attempt+1))
 
     def submit(self, ticket):
         target = ticket['target']; check = self.config['checks'].get(target)

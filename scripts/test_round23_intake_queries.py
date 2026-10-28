@@ -207,7 +207,9 @@ class QueryTests(unittest.TestCase):
         self.assertIn('SYSTEM_TIME ALL',result['query'])
         from investigator.live_gateway import validate_sql
         validate_sql(result['query'],{('dbo','items')})
-        with self.assertRaises(ValueError):validate("SELECT id FROM dbo.Items FOR SYSTEM_TIME AS OF '2026-10-20'",self.layers['gold'])
+        historical=validate("SELECT id FROM dbo.Items FOR SYSTEM_TIME AS OF '2026-10-20'",self.layers['gold'])
+        validate_sql(historical['query'],{('dbo','items')})
+        self.assertEqual(historical['parameters'][0]['value'],'2026-10-20')
     def test_dax_evaluate_define_var_define_measure(self):
         for text in ('EVALUATE ROW("n",[Quantity])',
                      'DEFINE VAR x = [Quantity] EVALUATE ROW("n",x)',

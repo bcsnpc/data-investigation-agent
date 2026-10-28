@@ -1,0 +1,383 @@
+{
+  "estate": "dia-sample-estate",
+  "status": "PUBLISHED",
+  "source_definition_hashes_conserved_on_existing_nodes": true,
+  "estate_reads": 0,
+  "model_calls": 0,
+  "writes": [],
+  "publication": {
+    "status": "UPDATED",
+    "changed": 61,
+    "changes": [
+      {
+        "kind": "nodes",
+        "id": "04b06607d5623fcdb9ab981787bcce032a622bc3ad0f790ab1cd4152398f6133",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "nodes",
+        "id": "2d3f55ad647275e26412ca5008f23f4516774ce2c8b5434b9146232d8068d8ce",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "nodes",
+        "id": "2d8c370d1f196673413b1df83a5b0a0e1628b7702aebd65bb1539be85f2c3b00",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "nodes",
+        "id": "318bb3b1c202fde425f3109a4d5be65be5f6a3a8a087de7b6f99601ced82f634",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "nodes",
+        "id": "375b6427839a6019252da9c3eaaa7bb0ea39738a4fb8407f2a0e552b634a508c",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "nodes",
+        "id": "3f15f0ea3e5f55b6c1af460376a19a9232427fa06fab65ea1afd8f937b1e5e79",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "nodes",
+        "id": "3f629d5f3b9f398d1980253c8cf264fdc5149d357ee121ee7b854c86a84c4201",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "nodes",
+        "id": "5a40e126e3ddcccb2f65889274720d17f695eec4cfac2f481e9e25679a3e5dfc",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "nodes",
+        "id": "70c47fba454477f4804b5846ccaa17683cb39b1414ed33b293ced1faded9aba8",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "nodes",
+        "id": "783a8bb54f1be7ec18e25e0979b2328ed8fc421c4110107f83edb4022c1341c1",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "nodes",
+        "id": "7847f8bf0ce9c033ffb392504a2061fe2c19ae7c163e75473862713917af038f",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "nodes",
+        "id": "7bcd2cfb8323b684c151b926130dc990c5376c8fc29e89785941d3e3a750bce2",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "nodes",
+        "id": "804993264dc66107e1bd3e1080488d92659fc2d2c2a836ae048d70e01c072bb1",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "nodes",
+        "id": "a861a4d351e94a197368dbcc979fda1d7d8ebbfc065625dfcbc8e8f1a812d694",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "nodes",
+        "id": "a8f79f8237fac44ec96853afca093272d376da10531a3d17cd15d3f1e873472e",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "nodes",
+        "id": "aa9ab175e9fb472b12f653b26ed1841c1b107be370b8bad62e0d9c442da4682a",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "nodes",
+        "id": "b330c8b0e69ff236ef6decf6dd95d4093a41b90e2cd869b2fa7d024bc43cce36",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "nodes",
+        "id": "b5ad3599201e2cefbcf0cb7aeb0a16d7b667902376a141dbd5d7168245d8e548",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "nodes",
+        "id": "b68b55ca57f9504a1ce501e0d17a78afbf48f5a1a0ba2947c56cdde7326082df",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "nodes",
+        "id": "b9143c221bf657d0a8d42eca7adcf8e085f87542fa257108d069a86083b8e8f1",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "nodes",
+        "id": "be6682985854d2b04084a69d7edb234193c6d8b09fb059cc66777b0e310507d5",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "nodes",
+        "id": "c34f9118dff0f9593d0764065c5dbb59ca2ce800ef973ac26fbb6217060dd759",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "nodes",
+        "id": "eee73e9d818166d49ffdadba2d70f675b5be0f76f86ae541bf0cc7e3a63b7ad6",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "nodes",
+        "id": "efac236718cf16212ff49ab83c7e5128031ca13922feecad74c25491505a9856",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "0d20fb86db07f9d113df855836c9e3bc159c843e224edd1349814fd17299b30e",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "edges",
+        "id": "0f03a980476a5fc9c6b7cff4e9861de162c647e20c5e86a8cf7ab0007fa15b3f",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "edges",
+        "id": "12edeb4732d86c4f011d409fd9530518df2db6de612d8976e125ed4ac260383a",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "1c69e0c8cb5cbd64c2cfb0bb819789abf0dc753432818d3227b103366af21865",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "203c33ae01f0bcda922050b132f91075fdaab18a99a7a445a183bed5658069fb",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "2aed95282c86bcdf433df6e8f3d145e2e4b24a71a63a130f898815050e37f1a0",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "3334e1d880d2e890d22453fec529dbc01a1c2f10fe5fb9efe3578e947979d571",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "3f65a0fc64793407b0a10e18e7b9c67d6b87375e7dcf8a22f4fbecc7e176d320",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "4b3608b0ea42b3299444316d545d55caf5bcdd4dae426845f3060f5d2976933f",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "edges",
+        "id": "52893ccf3ba34970aff3bda05db324f9fa91925f3e6a0d4eb0079b8636b2bca5",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "edges",
+        "id": "5da87902c2651ef58140e1dfbef0835b48c5004b7b685b2a6810052d608b1d24",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "733d073d8f83a357b51e0d486914eb3c5768c5ed2ef22e5bcb588f6d9a60e006",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "73768020f2649a5bb51716b59cb4f2bc008c2916f04fde32b5d328584a369fa2",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "783272007e99cfb8d4ab9b4a420eeca7c3ed08992ac40ab8a50e60c08cf12fc7",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "7cba2348d976fe40c161116f115034065306b8c4a5b151e294eea91499586933",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "7e4537ca4f6e13342ff04d3009f105f10f1b680c3559ee4e70e37e70aa60650f",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "7e665bcb2b3bf442a42106147eb87d32152cf3ec81bbb0c304941440633db486",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "edges",
+        "id": "84b6d5f78a6880cba41037a3e80287d058b4516ccc585c33f785612c06342f52",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "edges",
+        "id": "8c47135ab71728ecde83ad1daa00a9af880b1ef7b75a35661cf10726f58c6452",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "97dbc4a9984903d81a26bf4aa79e5ac5bb625c570265b9d1300d6661243a1533",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "9d1cefecafe91f58455c7d91fdab250f8cd6624a35d8b2f07adbba4573c800c3",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "a091574f18f0ef40121a2c3a9f8b8e600b995e13dcd7a09410a6f1cb03418507",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "aeb5910dd5e108d56df4471932dbad592ed29d5768aba6dff91212808f6f293f",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "edges",
+        "id": "af08888e59d2f29e7b8c5c9732a2ce48f181df95c780776fa6704d1df4b9c2b7",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "edges",
+        "id": "b2a8652ed752ee3f2340683abd09e65721fa667276f7d8b382a56041399dff63",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "b6da1311fde33cdea3f6ed923b28556e93f0781d65d297fb0a072d1ce456a849",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "b7e27798940b71183bfddc94e10176f4a08e76476dd528d17a5bd2ebdc38bf1a",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "b85d0397fd2d59606e5fb198d500eb37ad34b0bb036fb3c82cd6b48d38bc2ae8",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "edges",
+        "id": "bb765ac033f40f844bf31d468812647e78b876c912e7056a9ed3f248f0c5e2de",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "edges",
+        "id": "cbf9bdff508b2d860ceffe7a7a154182fdce92984751068f3c3f539492e97fdc",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "d0fee0a03fd3de7249806c1ac683276bd4fea73452e1987fe1a5baaf37f87b14",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "d2d5667a3394022709f7f0c37eb602e100dd65557120ebef9c5bbf4d1d05ff1d",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "edges",
+        "id": "d5e665456adbbd1ce06153dac61aea8d083354499acdc37470362a4447cd3070",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "db8d758c5d21cecbf59d7388e8224ab5290928b02ba9ec9f26a0ec54b49b54df",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "dbe064547861e27d0c5c982efa0944611caa8839ebc5c154792200d3c94fa7de",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "DELETED"
+      },
+      {
+        "kind": "edges",
+        "id": "e33dccf85403314941a9464b2e4b5c01fe2e345caeb0f2815bcdd2daaa7717f4",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      },
+      {
+        "kind": "edges",
+        "id": "fecd3c9f352a9e17f004859fe98a2ff33bc86732fa098a904ad27fee2df61aad",
+        "owner": "fabric://220708c4-6b51-4be7-ba1a-fb91bbd09e0f/c1c5c1d2-8f46-403a-b057-29d06b204d32",
+        "change": "ADDED"
+      }
+    ]
+  },
+  "complete_health_claim": "unchanged0/7; filters and interactions unknown",
+  "native_member_edges_visuals_before": 0,
+  "native_member_edges_visuals_after": 5
+}

@@ -30,6 +30,19 @@ class StaticGraph:
         self.estate,self.owner,self.at=estate,owner,c.timestamp(observed_at)
         self.assets={a['id']:a for a in assets if a.get('availability','CURRENT')=='CURRENT'}
         if len(self.assets)!=len([a for a in assets if a.get('availability','CURRENT')=='CURRENT']):raise ValueError('GRAPH_DUPLICATE_ASSET')
+        # SQL endpoint schemas can be nested on their exact native table.
+        # Expand only literal columns, preserving the parent JSON pointer.
+        from urllib.parse import quote
+        for parent in list(self.assets.values()):
+            kind={'LakehouseTable':'LakehouseColumn','WarehouseTable':'WarehouseColumn','SqlObject':'SqlColumn'}.get(parent['kind'])
+            if not kind:continue
+            for index,column in enumerate(parent.get('metadata',{}).get('columns',[])):
+                if not isinstance(column,dict)or not isinstance(column.get('name'),str):continue
+                existing=[a for a in self.assets.values()if a.get('parent_id')==parent['id']and a['kind']==kind and a['name']==column['name']]
+                if existing:continue
+                aid=parent['id']+'/column/'+quote(column['name'],safe='')
+                if aid in self.assets:raise ValueError('GRAPH_NESTED_COLUMN_IDENTITY_COLLISION')
+                self.assets[aid]={'id':aid,'kind':kind,'name':column['name'],'parent_id':parent['id'],'metadata':column,'native_schema_parent':parent['id'],'native_schema_pointer':'/columns/'+str(index)}
         for asset in self.assets.values():
             if 'content_hash' in asset:
                 raw=json.dumps(asset.get('metadata',{}),sort_keys=True,ensure_ascii=False).encode()
@@ -64,6 +77,8 @@ class StaticGraph:
                 'observed_at':self.source_observations.get(asset['id'],self.at),'span':span or {'kind':'JSON_POINTER','path':path}}
 
     def asset_proof(self,asset):
+        if asset.get('native_schema_parent'):
+            return self.proof(self.assets[asset['native_schema_parent']],path=asset['native_schema_pointer'])
         # Prefer an exact retained native part over a re-serialized expanded
         # child. Equality is checked; a convenient same-name part is not proof.
         report=self.ancestor(asset['id'],'Report')
@@ -161,7 +176,11 @@ class StaticGraph:
 
     def fields(self,origin,value,model,proof):
         found=0
-        aliases={entry.get('Name'):entry.get('Entity') for entry in value.get('From',[]) if isinstance(entry,dict)} if isinstance(value,dict) else {}
+        declarations={}
+        for entry in value.get('From',[]) if isinstance(value,dict) else []:
+            if isinstance(entry,dict) and isinstance(entry.get('Name'),str) and isinstance(entry.get('Entity'),str):
+                declarations.setdefault(entry['Name'],set()).add(entry['Entity'])
+        aliases={key:next(iter(values)) for key,values in declarations.items() if len(values)==1}
         for path,item in walk(value):
             if not isinstance(item,dict):continue
             for native,kind in (('Measure','Measure'),('Column','SemanticColumn')):
@@ -241,8 +260,21 @@ class StaticGraph:
             if asset['kind'] in ('Report','ReportPage','ReportVisual'):
                 report=self.ancestor(aid,'Report');model=self.model_for_report(report) if report else None
                 if self.legacy(asset):
-                    self.gap(node,'PBIR-Legacy structure retained; embedded query, filter and interaction semantics are not interpreted.',
-                        'Use a supported explicit legacy semantic reader; do not treat this structural graph as complete visual lineage.',proof)
+                    # The native prototype query carries literal member/alias
+                    # declarations even when queryBinary is opaque. Preserve
+                    # those dependencies without claiming interpreted filters
+                    # or complete legacy visual scope.
+                    if asset['kind']=='ReportVisual':
+                        from .legacy_report import object_json
+                        raw=meta.get('config')
+                        try:config=object_json(raw)
+                        except (ValueError,TypeError):config={}
+                        query=config.get('singleVisual',{}).get('prototypeQuery')
+                        if isinstance(raw,str) and isinstance(query,dict):
+                            at=self.proof(asset,raw,path='/singleVisual/prototypeQuery')
+                            self.fields(node,query,model,at)
+                    self.gap(node,'PBIR-Legacy filter and interaction semantics remain uninterpreted; explicit prototype-query fields, when present, are retained separately.',
+                        'Do not treat retained prototype member references as complete visual scope; collect supported runtime scope or interpret the remaining native filters.',proof)
                     continue
                 self.filters(node,meta,model,proof,scope={'Report':'report','ReportPage':'page','ReportVisual':'visual'}[asset['kind']])
                 if asset['kind']=='ReportVisual':
@@ -514,6 +546,12 @@ class StaticGraph:
                 # is schema-enabled. Neither uses the container display name.
                 location=meta.get('location','')
                 prefix='abfss://'+workspace.split('/')[-1]+'@onelake.dfs.fabric.microsoft.com/'+container.split('/')[-1]+'/Tables/'
+                # Schema-enabled SQL endpoint inventories carry the same
+                # exact native parent plus explicit schema/name, and may use
+                # the HTTPS OneLake spelling instead of abfss.
+                native_location=meta.get('storage_location','')
+                http_prefix='https://onelake.dfs.fabric.microsoft.com/'+workspace.split('/')[-1]+'/'+container.split('/')[-1]+'/Tables/'
+                if native_location.startswith(http_prefix):location=prefix+native_location[len(http_prefix):]
                 if location.startswith(prefix):
                     tail=unquote(location[len(prefix):]).strip('/').split('/')
                     expected=['dbo',tail[0]] if len(tail)==1 else tail
@@ -648,14 +686,16 @@ class StaticGraph:
         if not found:self.gap(self.by_asset[parent],'Notebook source has no supported static data operation.','Retain the code and interpret unsupported operations without executing it.',proof)
 
     def pipeline(self,parent,doc,proof):
-        activities=doc.get('properties',{}).get('activities',doc.get('activities',[]))
-        if self.assets[parent]['kind']=='CopyJob':activities=[{'name':self.assets[parent]['name'],'type':'Copy','typeProperties':doc.get('properties',{})}]
+        from .graph_copy_bindings import activities as native_activities,attach as attach_copy
+        activities=native_activities(doc,self.assets[parent]['kind'])
         if not activities:
             self.gap(self.by_asset[parent],'Pipeline activity definitions are missing.','Collect the complete pipeline definition through the reader metadata route.',proof);return
         for index,activity in enumerate(activities):
             if activity.get('type')=='Script':
                 from .graph_script_sql import attach_scripts
                 attach_scripts(self,parent,activity,index,proof)
+                from .graph_script_procedures import attach as attach_procedures
+                attach_procedures(self,parent,activity,index,proof)
             at={**proof,'span':{'kind':'JSON_POINTER','path':'/properties/activities/'+str(index)}}
             kind='COPY_ACTIVITY' if activity.get('type')=='Copy' else 'QUERY_STEP'
             node=self.add(kind,activity.get('name','Unnamed activity'),[parent,'activity',index],at,{'activity_type':activity.get('type')})
@@ -666,6 +706,16 @@ class StaticGraph:
                 for number,mapping in enumerate(mappings):
                     step=self.add('QUERY_STEP','Explicit copy mapping',[node,'mapping',number],at,{'mapping':mapping})
                     self.link('DERIVED_IN_STEP',node,step,at)
+            if activity.get('type')=='InvokeCopyJob':
+                target='fabric://'+str(properties.get('workspaceId'))+'/'+str(properties.get('copyJobId'))
+                if self.assets.get(target,{}).get('kind')=='CopyJob'and target in self.by_asset:
+                    self.link('COMPUTED_FROM',self.by_asset[parent],self.by_asset[target],at,properties={'basis':'NATIVE_INVOKE_COPY_JOB_UUID'})
+                    continue
+            if activity.get('type')=='Copy'and attach_copy(self,node,properties,at):
+                for edge in list(self.edges.values()):
+                    if edge['source']==node and edge['kind']=='DERIVED_IN_STEP':
+                        self.link('COMPUTED_FROM',edge['target'],self.by_asset[self.nodes[node]['properties']['native_copy_binding']['source_asset']],at,properties={'basis':'COPY_MAPPING_WITH_EXACT_NATIVE_SOURCE'})
+                continue
             self.gap(node,'Activity source/destination connection and column identities are not resolved.',
                 'Collect its exact connection metadata and dataset object definitions; explicit mapping text alone is not an object binding.',at)
 

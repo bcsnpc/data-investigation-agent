@@ -1,0 +1,10 @@
+{
+  "cause": "Legacy smoke used an older seven-object graph allowlist; existing R23 guided installation has1148 admitted graph objects. Copy the existing graph declaration; no reader SQL/model scope changed.",
+  "native_error": "GatewayDenied: GRAPH_OBJECT_NOT_ALLOWED",
+  "before_objects": 7,
+  "after_objects": 1148,
+  "existing_actor": "worker:state",
+  "role_identity_credentials_permissions_unchanged": true,
+  "offline_admission": "ALL_DECLARED_GRAPH_ROOTS_PASS_IN_EXISTING_BOUNDED_SLICES",
+  "original_capture_seal": "c8c228c8f20642ce31b79f9e3f142d1a5c600d88ab6aa1d4fc84588606441392"
+}

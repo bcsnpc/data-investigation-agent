@@ -110,6 +110,30 @@ def ledger_demo_matches(bundle,expected):
     except (InvalidOperation,ValueError,TypeError):return False
 
 
+def guided_demo_matches(bundle,expected):
+    """Same earned boundary checked from native query records, not model numbers."""
+    from decimal import Decimal,InvalidOperation
+    if not isinstance(expected,dict) or set(expected)!={'verdict','reads'} or len(expected['reads'])<2:
+        raise ValueError('SMOKE_GUIDED_EXPECTATION_SHAPE')
+    if bundle.get('status')!='ANSWERED' or bundle.get('verdict',bundle.get('technical',{}).get('verdict'))!=expected['verdict'] or not all(bundle.get('outputs',{}).get(k)for k in ('business','technical')):return False
+    queries=bundle.get('case',{}).get('queries',[])
+    surfaces=[]
+    for asset,value in expected['reads'].items():
+        found=[]
+        for query in queries:
+            if query.get('status')!='SUCCEEDED' or asset not in query.get('asset_ids',[]):continue
+            rows=query.get('result',{}).get('rows',[])
+            if len(rows)!=1 or not isinstance(rows[0],dict) or len(rows[0])!=1:continue
+            scalar=next(iter(rows[0].values()))
+            if scalar is None:continue
+            try:matches=Decimal(str(scalar))==Decimal(str(value))
+            except InvalidOperation:matches=False
+            if matches:found.append(query['layer'])
+        if not found:return False
+        surfaces.append(set(found))
+    return len(set.union(*surfaces))>=2
+
+
 def monthly_budget_advisory(access, state):
     """Resolve only the calendar reminder using an actual platform ledger read.
 
@@ -143,7 +167,7 @@ def monthly_budget_advisory(access, state):
 
 def run_smoke(config, context, *, state=None, sign_in=None, gold_read=None, blob_roundtrip=None, demo=None):
     required = {'version', 'run_id', 'reader_authentication', 'gold_payload', 'platform_blob', 'demo_earned'}
-    if not isinstance(config, dict) or not required <= set(config) <= required | {'access_check', 'demo_expected_classification','demo_ledger_expectation'} or config['version'] != 1:
+    if not isinstance(config, dict) or not required <= set(config) <= required | {'access_check', 'demo_expected_classification','demo_ledger_expectation','demo_guided_expectation'} or config['version'] != 1:
         raise ValueError('DAILY_SMOKE_CONFIGURATION')
     if not isinstance(config['run_id'], str) or not re.fullmatch(r'[A-Za-z0-9_.:-]{1,100}', config['run_id']):
         raise ValueError('DAILY_SMOKE_RUN_ID')
@@ -198,7 +222,9 @@ def run_smoke(config, context, *, state=None, sign_in=None, gold_read=None, blob
         # A delivered refusal is a legitimate investigation result, but cannot
         # prove an operator's earned demonstration still works. Preserve it.
         check = checks['family_a_demo']
-        if check['status']=='PASS' and 'demo_ledger_expectation'in config:
+        if check['status']=='PASS' and 'demo_guided_expectation'in config:
+            if not guided_demo_matches(check['result'],config['demo_guided_expectation']):check.update(status='FAIL',reason='SMOKE_GUIDED_BOUNDARY_EXPECTATION_NOT_MET')
+        elif check['status']=='PASS' and 'demo_ledger_expectation'in config:
             result=check['result'];expected=config['demo_ledger_expectation']
             check.update(expected_verdict=expected['verdict'],observed_verdict=result.get('verdict'))
             if not ledger_demo_matches(result,expected):check.update(status='FAIL',reason='SMOKE_LEDGER_BOUNDARY_EXPECTATION_NOT_MET')

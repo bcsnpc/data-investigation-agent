@@ -17,13 +17,15 @@ def reservation_connection_failure(error):
 
 
 class Meter:
-    def __init__(self, state, budget, limit, *, clock=None, reporting_mirror=True):
+    def __init__(self, state, budget, limit, *, clock=None, reporting_mirror=True,enforce_limit=False):
         import sqlite3
         import time
         from types import SimpleNamespace
         from investigator.shared_usage import SharedUsage, TABLES
         from investigator.onboarding import digest
         from investigator.build_phase import active, purpose
+        from threading import RLock
+        self._lock=RLock();self.enforce_limit=enforce_limit
         self.build_phase = active()
         if type(reporting_mirror)is not bool:raise ValueError('REPORTING_MIRROR_BOOLEAN_REQUIRED')
         if not reporting_mirror:
@@ -85,23 +87,28 @@ class Meter:
         self.usage=usage_type(governor,state,owner=self.owner)
         # The existing authority owns admission; memory is only its reporting
         # mirror. No new budget tables, limits, or durable local ledger exist.
-        self.local=sqlite3.connect(':memory:')
+        self.local=sqlite3.connect(':memory:',check_same_thread=False)
         for table,(_,columns) in TABLES.items():
             self.local.execute('CREATE TABLE '+table+'('+','.join(columns)+')')
         self.before=self.usage.snapshot()
     def __call__(self, execute):
-        if not self.build_phase and self.used >= self.limit: raise ValueError('GRAPH_PHYSICAL_REQUEST_CAP')
-        key=str(uuid4())
-        self.usage.reserve(self.local,self.owner,key,'cloud',purpose=self.purpose)
-        self.used += 1
-        ordinal=self.used
+        with self._lock:
+            if self.used >= self.limit:
+                if self.enforce_limit:
+                    from investigator.usage_governance import UsageHold
+                    raise UsageHold('GUIDED_PHYSICAL_CAP_REACHED')
+                if not self.build_phase:raise ValueError('GRAPH_PHYSICAL_REQUEST_CAP')
+            key=str(uuid4())
+            self.usage.reserve(self.local,self.owner,key,'cloud',purpose=self.purpose)
+            self.used += 1
+            ordinal=self.used
         uncertain=True;result=None;error_type=None
         try:
             result=execute();uncertain=False;return result
         except BaseException as error:
             error_type=type(error).__name__;raise
         finally:
-            self.usage.settle(self.local,self.owner,key,uncertain=uncertain)
+            with self._lock:self.usage.settle(self.local,self.owner,key,uncertain=uncertain)
             observer=READ_OBSERVER.get()
             if observer is not None:
                 observation={'status':'FAILED' if uncertain else 'COMPLETED',

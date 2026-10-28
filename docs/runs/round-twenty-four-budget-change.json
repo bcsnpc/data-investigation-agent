@@ -1,0 +1,229 @@
+{
+  "approval": "owner-approved 2026-10-27",
+  "physical_before": {
+    "revision": 2,
+    "body": {
+      "allocation_approval": "owner-approved 2026-10-27",
+      "allocation_effective_at": "2026-10-27T14:21:01.389061+00:00",
+      "allocation_reason": "October only: transfer500INVtoSCAN; total/model/reserve unchanged.",
+      "approval": "owner-approved 2026-10-26",
+      "default_limits": {
+        "INVESTIGATION": 6905,
+        "RESTORATION": 95,
+        "SCAN": 2000
+      },
+      "effective_at": "2026-10-26T00:00:00+00:00",
+      "limits": {
+        "INVESTIGATION": 6405,
+        "RESTORATION": 95,
+        "SCAN": 2500
+      },
+      "limits_effective_month": "2026-10",
+      "period": "UTC calendar month; October starts at build adoption",
+      "restoration_reset": {
+        "approval": "owner-approved 2026-10-26",
+        "effective_at": "2026-10-27T01:41:27.798275+00:00",
+        "historical_requests": 70,
+        "month_utc": "2026-10",
+        "reason": "Round22 cleanup remains charged history; fresh Round23 restoration allocation95"
+      },
+      "restoration_use": "restores only",
+      "total_limit": 9000
+    }
+  },
+  "physical_after": {
+    "allocation_approval": "owner-approved 2026-10-27",
+    "allocation_effective_at": "2026-10-27T14:21:01.389061+00:00",
+    "allocation_reason": "Round24 purchased credit and October-only request increase; usage unchanged.",
+    "approval": "owner-approved 2026-10-27",
+    "default_limits": {
+      "SCAN": 2500,
+      "INVESTIGATION": 6405,
+      "RESTORATION": 95
+    },
+    "effective_at": "2026-10-28T01:37:47.180265+00:00",
+    "limits": {
+      "SCAN": 2500,
+      "INVESTIGATION": 9405,
+      "RESTORATION": 95
+    },
+    "limits_effective_month": "2026-10",
+    "period": "UTC calendar month; October starts at build adoption",
+    "restoration_reset": {
+      "approval": "owner-approved 2026-10-26",
+      "effective_at": "2026-10-27T01:41:27.798275+00:00",
+      "historical_requests": 70,
+      "month_utc": "2026-10",
+      "reason": "Round22 cleanup remains charged history; fresh Round23 restoration allocation95"
+    },
+    "restoration_use": "restores only",
+    "total_limit": 12000,
+    "default_total_limit": 9000
+  },
+  "credit_before": {
+    "revision": 0,
+    "body": {
+      "approval": "owner-approved 2026-10-27",
+      "baseline_anthropic_ledger_charged": 77146198,
+      "baseline_grading_charged": 9149090,
+      "baseline_higher_microdollars": 78290244,
+      "baseline_model_charged": 78290244,
+      "counting": "Normalized baseline is the larger of model ledger, Anthropic-only model plus enrichment ledger, and owner console. Add every subsequent model-account and grading-account charge; keep uncertain reservations charged.",
+      "effective_at": "2026-10-27T15:26:07.227470+00:00",
+      "grading_account": "enrichment:round-twenty-one",
+      "grading_account_protected": 12850910,
+      "model_account": "model-microdollars:2026-10",
+      "model_account_protected": 3000000,
+      "month_utc": "2026-10",
+      "new_inference_allowance_microdollars": 14709756,
+      "normalized_ceiling_microdollars": 96000000,
+      "owner_console_microdollars": 76650000,
+      "protected_grading_microdollars": 3000000,
+      "provider_offset_microdollars": 0,
+      "usage_api_reason": "Admin or organization-scoped API key required; existing workspace inference key unchanged",
+      "usage_api_status": 401
+    }
+  },
+  "credit_after": {
+    "approval": "owner-approved 2026-10-27",
+    "baseline_anthropic_ledger_charged": 77146198,
+    "baseline_grading_charged": 9149090,
+    "baseline_higher_microdollars": 78290244,
+    "baseline_model_charged": 78290244,
+    "counting": "Normalized baseline is the larger of model ledger, Anthropic-only model plus enrichment ledger, and owner console. Add every subsequent model-account and grading-account charge; keep uncertain reservations charged.",
+    "effective_at": "2026-10-27T15:26:07.227470+00:00",
+    "grading_account": "enrichment:round-twenty-one",
+    "grading_account_protected": 12850910,
+    "model_account": "model-microdollars:2026-10",
+    "model_account_protected": 3000000,
+    "month_utc": "2026-10",
+    "new_inference_allowance_microdollars": 14709756,
+    "normalized_ceiling_microdollars": 146000000,
+    "owner_console_microdollars": 76650000,
+    "protected_grading_microdollars": 4657195,
+    "provider_offset_microdollars": 0,
+    "usage_api_reason": "Admin or organization-scoped API key required; existing workspace inference key unchanged",
+    "usage_api_status": 401,
+    "round24_effective_at": "2026-10-28T01:37:47.180265+00:00"
+  },
+  "accounts": [
+    {
+      "before": {
+        "identity": "model-microdollars:2026-10",
+        "unit": "MICRODOLLARS",
+        "ceiling": "96000000",
+        "protected": "3000000",
+        "opening": "0",
+        "charged": "88754541",
+        "violated": false
+      },
+      "after": {
+        "identity": "model-microdollars:2026-10",
+        "unit": "MICRODOLLARS",
+        "ceiling": "146000000",
+        "protected": "3000000",
+        "opening": "0",
+        "charged": "88754541",
+        "violated": false
+      }
+    },
+    {
+      "before": {
+        "identity": "model-microdollars:2026-11",
+        "unit": "MICRODOLLARS",
+        "ceiling": "150000000",
+        "protected": "0",
+        "opening": "0",
+        "charged": "0",
+        "violated": false
+      },
+      "after": {
+        "identity": "model-microdollars:2026-11",
+        "unit": "MICRODOLLARS",
+        "ceiling": "150000000",
+        "protected": "3000000",
+        "opening": "0",
+        "charged": "0",
+        "violated": false
+      }
+    }
+  ],
+  "accounting_sha256_unchanged": "4fabe9e842078c15d43c1c72255c6fba931c3f5d8e1040f8ced5483fee5054b5",
+  "readback": {
+    "physical": {
+      "revision": 3,
+      "body": {
+        "allocation_approval": "owner-approved 2026-10-27",
+        "allocation_effective_at": "2026-10-27T14:21:01.389061+00:00",
+        "allocation_reason": "Round24 purchased credit and October-only request increase; usage unchanged.",
+        "approval": "owner-approved 2026-10-27",
+        "default_limits": {
+          "INVESTIGATION": 6405,
+          "RESTORATION": 95,
+          "SCAN": 2500
+        },
+        "default_total_limit": 9000,
+        "effective_at": "2026-10-28T01:37:47.180265+00:00",
+        "limits": {
+          "INVESTIGATION": 9405,
+          "RESTORATION": 95,
+          "SCAN": 2500
+        },
+        "limits_effective_month": "2026-10",
+        "period": "UTC calendar month; October starts at build adoption",
+        "restoration_reset": {
+          "approval": "owner-approved 2026-10-26",
+          "effective_at": "2026-10-27T01:41:27.798275+00:00",
+          "historical_requests": 70,
+          "month_utc": "2026-10",
+          "reason": "Round22 cleanup remains charged history; fresh Round23 restoration allocation95"
+        },
+        "restoration_use": "restores only",
+        "total_limit": 12000
+      }
+    },
+    "credit": {
+      "revision": 1,
+      "body": {
+        "approval": "owner-approved 2026-10-27",
+        "baseline_anthropic_ledger_charged": 77146198,
+        "baseline_grading_charged": 9149090,
+        "baseline_higher_microdollars": 78290244,
+        "baseline_model_charged": 78290244,
+        "counting": "Normalized baseline is the larger of model ledger, Anthropic-only model plus enrichment ledger, and owner console. Add every subsequent model-account and grading-account charge; keep uncertain reservations charged.",
+        "effective_at": "2026-10-27T15:26:07.227470+00:00",
+        "grading_account": "enrichment:round-twenty-one",
+        "grading_account_protected": 12850910,
+        "model_account": "model-microdollars:2026-10",
+        "model_account_protected": 3000000,
+        "month_utc": "2026-10",
+        "new_inference_allowance_microdollars": 14709756,
+        "normalized_ceiling_microdollars": 146000000,
+        "owner_console_microdollars": 76650000,
+        "protected_grading_microdollars": 4657195,
+        "provider_offset_microdollars": 0,
+        "round24_effective_at": "2026-10-28T01:37:47.180265+00:00",
+        "usage_api_reason": "Admin or organization-scoped API key required; existing workspace inference key unchanged",
+        "usage_api_status": 401
+      }
+    },
+    "october": {
+      "identity": "model-microdollars:2026-10",
+      "unit": "MICRODOLLARS",
+      "ceiling": "146000000",
+      "protected": "3000000",
+      "opening": "0",
+      "charged": "88754541",
+      "violated": false
+    },
+    "november": {
+      "identity": "model-microdollars:2026-11",
+      "unit": "MICRODOLLARS",
+      "ceiling": "150000000",
+      "protected": "3000000",
+      "opening": "0",
+      "charged": "0",
+      "violated": false
+    }
+  }
+}

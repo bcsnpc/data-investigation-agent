@@ -79,6 +79,53 @@ class GraphAPI:
                for e in retained['edges'] if e['source'] in ids and e['target'] in ids]
         return {'estate':self.estate,'nodes':nodes,'edges':edges,'truncated':False}
 
+    def native_index(self):
+        """Native-address index, distinct from the deliberately small form catalog.
+
+        Contains no definition bodies or query values. It is installation-side
+        metadata; only the selected path enters the model context.
+        """
+        admitted=sorted(self.allowed)
+        for start in range(0,len(admitted),1000):self.gateway.graph_objects(self.estate,admitted[start:start+1000],identity=self.identity)
+        retained={'nodes':[]}
+        if len(admitted)>10000:raise ValueError('NATIVE_GRAPH_INDEX_OBJECT_BOUND')
+        for start in range(0,len(admitted),1000):
+            batch=self.repository.records(self.estate,at=self.at,identities=admitted[start:start+1000],limit=10000)
+            if batch['truncated']:raise ValueError('NATIVE_GRAPH_INDEX_TRUNCATED')
+            retained['nodes'].extend(batch['nodes'])
+        nodes=[{'id':n['id'],'kind':n['kind'],'label':n['label'],'owner':n['owner'],
+            'properties':{**{k:v for k,v in n.get('properties',{}).items()if k in ('asset_id','parent_id','data_type')},'definition_source_id':n.get('provenance',{}).get('source_id')}}
+            for n in retained['nodes']if n['id']in self.allowed]
+        result={'estate':self.estate,'nodes':nodes,'definition_bodies_included':False}
+        if len(contract.canonical(result).encode())>8*1024*1024:raise ValueError('NATIVE_GRAPH_INDEX_BYTE_BOUND')
+        return result
+
+    def explore(self,*,operation,node=None,words='',limit=20):
+        """Metadata-only search/neighbours within existing admitted scope."""
+        if operation not in ('SEARCH','NEIGHBOURS','PRODUCERS','CONSUMERS','CANDIDATE_BINDINGS') or type(limit)is not int or not 1<=limit<=20:raise ValueError('GRAPH_EXPLORE_OPERATION_BOUND')
+        if node is not None:
+            self.gateway.graph_objects(self.estate,[node],identity=self.identity)
+            if node not in self.allowed:raise PermissionError('GRAPH_ROOT_OUTSIDE_ADMITTED_SLICE')
+        elif operation!='SEARCH':raise ValueError('GRAPH_EXPLORE_NODE_REQUIRED')
+        if operation=='SEARCH'and(not isinstance(words,str)or not words.strip()or len(words)>256):raise ValueError('GRAPH_SEARCH_WORDS_REQUIRED')
+        retained=self.repository.records(self.estate,at=self.at,limit=10000)
+        nodes={n['id']:n for n in retained['nodes']if n['id']in self.allowed}
+        edges=[e for e in retained['edges']if {e['source'],e['target']}<=self.allowed]
+        if operation=='SEARCH':
+            import re
+            terms=set(re.findall(r'[^\W_]+',words.casefold()))
+            selected=sorted((n for n in nodes.values()if terms&set(re.findall(r'[^\W_]+',n['label'].casefold()))),key=lambda n:(-len(terms&set(re.findall(r'[^\W_]+',n['label'].casefold()))),n['label'],n['id']))[:limit]
+            selected_ids={n['id']for n in selected};linked=[e for e in edges if e['source']in selected_ids or e['target']in selected_ids][:40]
+        else:
+            linked=[e for e in edges if (e['target']==node if operation=='CONSUMERS'else e['source']==node if operation=='PRODUCERS'else node in (e['source'],e['target']))]
+            if operation=='CANDIDATE_BINDINGS':linked=[e for e in linked if e['kind']not in ('CONTAINS','INTERACTS_WITH')]
+            linked=linked[:40];ids={node}|{e[k]for e in linked for k in ('source','target')}
+            selected=[nodes[i]for i in sorted(ids)if i in nodes][:limit]
+        ids={n['id']for n in selected}
+        for start in range(0,len(selected),1000):self.gateway.graph_objects(self.estate,[n['id']for n in selected[start:start+1000]],identity=self.identity)
+        return self._bounded({'operation':operation,'nodes':selected,'edges':linked,'truncated':retained['truncated']or len(selected)>=limit or len(linked)>=40,
+            'qualification':'Metadata candidates only. Check bindings with cheap native reads; no candidate is silently activated or selected.'})
+
     def as_of(self,time):
         return GraphAPI(self.repository,self.gateway,identity=self.identity,estate=self.estate,
             allowed_objects=self.allowed,at=time,max_nodes=self.max_nodes,max_edges=self.max_edges,max_bytes=self.max_bytes,

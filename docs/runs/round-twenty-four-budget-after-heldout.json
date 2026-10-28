@@ -1,0 +1,52 @@
+{
+  "scope": "Native shared monthly budget at held-out closure; release smokes/checks still to be charged",
+  "ai": {
+    "charged_microdollars": 112071069,
+    "committed_microdollars": 112071069,
+    "remaining_microdollars": 33928931,
+    "grading_remaining_microdollars": 200233,
+    "by_ai_step_microdollars": {
+      "INVESTIGATOR": 94146616,
+      "SCREENSHOT": 0,
+      "ENRICHMENT": 10806285,
+      "WRITER": 376174,
+      "GRADING": 2799767,
+      "SMOKE": 2216963,
+      "UNATTRIBUTED_HISTORICAL": 1725264
+    }
+  },
+  "physical": {
+    "mode": "BUILD_PHASE",
+    "month_utc": "2026-10",
+    "used": {
+      "SCAN": 2208,
+      "RESTORATION": 37,
+      "INVESTIGATION": 8117
+    },
+    "limits": {
+      "SCAN": 2500,
+      "INVESTIGATION": 9405,
+      "RESTORATION": 95
+    },
+    "total": 10432,
+    "total_limit": 12000,
+    "historical_restoration_requests": 70,
+    "restoration_remaining": 58,
+    "warnings": [
+      "SCAN_MONTHLY_80_PERCENT",
+      "INVESTIGATION_MONTHLY_80_PERCENT",
+      "PHYSICAL_MONTHLY_80_PERCENT"
+    ]
+  },
+  "new_physical_reservations_open": 0,
+  "model_reservations_open": 0,
+  "historical_approved_orphans_preserved": 1,
+  "no_counters_reset_or_refunded": true,
+  "caps": {
+    "october_ai_usd": 146,
+    "november_ai_usd": 150,
+    "october_physical": 12000,
+    "november_physical": 9000,
+    "azure_platform_usd": 20
+  }
+}

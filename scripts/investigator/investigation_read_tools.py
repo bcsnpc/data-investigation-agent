@@ -24,7 +24,7 @@ def compare_figure(figure,value):
 
 class ReadTools:
     def __init__(self,*,graph,path,queries,intake,job_runs,refresh_history,security_definitions=None,
-                 candidates=None,expand=None):
+                 candidates=None,expand=None,definition_reader=None):
         self.graph,self.path,self.queries=graph,deepcopy(path),queries
         self.intake=deepcopy(intake)
         self.nodes={n['id']:n for n in (candidates or {}).get('nodes',[])}
@@ -47,13 +47,23 @@ class ReadTools:
         self.visible.update(i for i,n in self.nodes.items() if n.get('owner') in owners
                             and n['kind'] in ('MODEL','PIPELINE','COPY_ACTIVITY','NOTEBOOK'))
         self.expand=expand
+        self.definition_reader=definition_reader
         self.job_runs,self.refresh_history,self.security=job_runs,refresh_history,security_definitions
 
-    def definitions(self,args):return self.graph.definition_of(args['node'])
+    def definitions(self,args):
+        retained=self.definition_reader(args['node']) if self.definition_reader else None
+        return retained if retained is not None else self.graph.definition_of(args['node'])
 
     def lineage(self,args):
         # Expansions remain inside GraphAPI's existing admitted estate scope.
-        path=self.graph.path_to_source(args['node'])
+        operation=args.get('operation','PATH')
+        if operation!='PATH':
+            result=self.graph.explore(operation=operation,node=args.get('node'),words=args.get('words',''))
+            self.nodes.update({n['id']:n for n in result['nodes']});self.visible.update(n['id']for n in result['nodes'])
+            return result
+        if not args.get('node'):raise ValueError('LINEAGE_NODE_REQUIRED')
+        kind=self.nodes.get(args['node'],{}).get('kind')
+        path=(self.graph.calculation_path(args['node']) if kind in ('PIPELINE','COPY_ACTIVITY','NOTEBOOK','QUERY_STEP','PROCEDURE','BOUNDARY','CALCULATED_COLUMN') else self.graph.path_to_source(args['node']))
         activated=self.expand(path) if self.expand else {}
         self.nodes.update({n['id']:n for n in path['nodes']});self.visible.update(n['id'] for n in path['nodes'])
         return {'path':path,'activated_layers':activated}
@@ -63,7 +73,7 @@ class ReadTools:
         words=tokens(args['words']);rows=[]
         selected=self.intake.get('visual')
         for node in self.nodes.values():
-            if node['kind'] not in ('VISUAL','MEASURE','TABLE','VIEW','MODEL','PIPELINE','COPY_ACTIVITY','NOTEBOOK','SOURCE'):continue
+            if node['kind'] not in ('VISUAL','MEASURE','TABLE','VIEW','MODEL','PIPELINE','COPY_ACTIVITY','NOTEBOOK','SOURCE','COLUMN','CALCULATED_COLUMN','PROCEDURE','QUERY_STEP'):continue
             if selected and node['kind']=='VISUAL' and node['id']!=selected:continue
             meta=node.get('properties',{});enrichment=node.get('enrichment',{})
             names=' '.join([node['label'],*enrichment.get('synonyms',[]),enrichment.get('business_meaning',''),
@@ -138,7 +148,7 @@ class ReadTools:
         node={'enum':ids}
         registry={
             'get_definition':entry('Read the retained DAX, SQL, notebook or view definition for an admitted path object.',{'node':node},self.definitions),
-            'get_lineage':entry('Read upstream lineage within the admitted estate and activate its known native query routes. Use a list_candidates result to open an upstream object not active yet; no unrelated catalog dump.',{'node':node},self.lineage),
+            'get_lineage':entry('Read upstream lineage within the admitted estate and activate its known native query routes. Use a list_candidates result to open an upstream object not active yet; no unrelated catalog dump.',{'node':node,'operation':{'enum':['PATH','SEARCH','NEIGHBOURS','PRODUCERS','CONSUMERS','CANDIDATE_BINDINGS']},'words':{'type':'string','maxLength':256}},self.lineage,[]),
             'get_job_runs':entry('Read native job runs and load accounting. Audit source is preferred when declared.',{'node':{'enum':[i for i,n in self.nodes.items() if i in self.visible and n['kind'] in ('PIPELINE','COPY_ACTIVITY','NOTEBOOK')]}},lambda a:self.job_runs(a['node'])),
             'get_refresh_history':entry('Read the admitted model refresh facts, schedule and automatic-update setting.',{'node':{'enum':[i for i,n in self.nodes.items() if i in self.visible and n['kind']=='MODEL']}},lambda a:self.refresh_history(a['node'])),
             'get_security_definitions':entry('Read RLS/OLS roles, memberships, mapping, SQL policies, user-sensitive views, report access and connection mode where the existing reader can. Never impersonate or grant.',{'node':node},self.security_definitions)}

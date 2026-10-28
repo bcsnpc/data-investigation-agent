@@ -9,11 +9,14 @@ import httpx
 from openai import DefaultHttpxClient
 
 from investigator import planner_recording as recording
-from ticket_planner import azure_generate
+from fixtures.archived_ticket_planner import azure_generate
 
 
 class RecordingTests(unittest.TestCase):
     def setUp(self):
+        # Archived wire-fixture tests explicitly inject the synthetic-only transport.
+        from fixtures.archived_ticket_planner import _azure_generate
+        self.enterContext(patch('ticket_planner._azure_generate',_azure_generate))
         from gateway_test_support import allow_models
         self.enterContext(allow_models())
         self.temp = tempfile.TemporaryDirectory()

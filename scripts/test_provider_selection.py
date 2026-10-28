@@ -16,12 +16,14 @@ class ProviderSelectionTests(unittest.TestCase):
 
     def test_agent_selects_stronger_pipeline_stays_default(self):
         decision=object.__new__(GovernedDecision);decision.runtime=self.runtime()
-        with patch.dict(os.environ,AZURE_OPENAI_DEPLOYMENT='investigator-quality-54'):
+        with patch.dict(os.environ,AZURE_OPENAI_DEPLOYMENT='obsolete-azure-deployment',ANTHROPIC_MODEL='claude-opus-5-5'):
             def call(*args,**kwargs):
                 return provider_body({},'instructions',{},'decision')['model']
             decision._call=call
             self.assertEqual(decision({},instructions='',schema={}),'investigator-intake-f-55')
-            self.assertEqual(call(),'investigator-quality-54')
+            # The current pipeline default is Anthropic; an obsolete Azure
+            # deployment variable must never select a runtime provider.
+            self.assertEqual(call(),'claude-opus-5-5')
         self.assertIsNone(DEPLOYMENT.get())
 
     def test_selection_restored_on_exception_and_isolated_between_threads(self):

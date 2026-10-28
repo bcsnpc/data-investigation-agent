@@ -11,6 +11,10 @@ from ..estate_graph_contract import digest
 
 
 class NativeCatalog:
+    @classmethod
+    def from_graph(cls,graph,**ports):
+        return cls(graph_nodes=graph.native_index()['nodes'],**ports)
+
     def __init__(self, *, assets, graph_nodes, configuration, endpoint, sql_read, record, source_read=None):
         from .native_catalog_projection import project
         self.assets,self.catalog_warnings=project(assets,graph_nodes)
@@ -73,15 +77,26 @@ class NativeCatalog:
         table/model ancestors using retained native parent identities.
         """
         reached={n.get('properties',{}).get('asset_id') for n in path['nodes']}
+        # A producing expression is owned by the retained definition part,
+        # even when the derived step has no separate inventory asset. Keep
+        # that literal owner available for native job history; it is not a
+        # same-name source/producer inference.
+        for node in path['nodes']:
+            if node.get('kind')in ('QUERY_STEP','PROCEDURE','FILTER')and node.get('properties',{}).get('expression'):
+                source=node.get('provenance',{}).get('source_id')
+                if self.assets.get(source,{}).get('kind')=='DefinitionPart':reached.add(source)
         pending=list(reached);ancestors=set()
         while pending:
             identity=pending.pop();asset=self.assets.get(identity,{})
             parent=asset.get('parent_id')
             if parent and parent not in reached and parent not in ancestors:
-                ancestors.add(parent);pending.append(parent)
+                # A measure home table is storage ownership, not an input.
+                # Keep its model ancestor without inventing a data dependency.
+                if asset.get('kind')!='Measure':ancestors.add(parent)
+                pending.append(parent)
         present={n['id'] for n in path['nodes']}
         return [deepcopy(n) for n in self.graph_nodes.values() if n['id'] not in present
-                and n.get('kind') in ('TABLE','VIEW','MODEL')
+                  and n.get('kind') in ('TABLE','VIEW','MODEL','PIPELINE','COPY_ACTIVITY','NOTEBOOK','PROCEDURE')
                 and n.get('properties',{}).get('asset_id') in ancestors]
 
     def prepare(self, identity, nodes=None):
@@ -89,29 +104,47 @@ class NativeCatalog:
         route=self.routes[identity]
         selected={a['id'] for a in route['objects'] if nodes is None or set(nodes).intersection(self.object_nodes(a['id']))}
         if route['kind']=='DAX':
-            tables={a['id'] for a in route['objects'] if a['kind']=='SemanticTable' and
-                    (nodes is None or set(nodes).intersection(self.object_nodes(a['id'])))}
-            names={a['name'] for a in route['objects'] if a['id'] in tables}
-            # Schema relationships belong in the context; unrelated model
-            # tables do not. This does not select the investigative next step.
-            relationships=[a['metadata'] for a in self.assets.values() if a['kind']=='SemanticRelationship' and a['parent_id']==route['container']]
-            for _ in range(len(relationships)+1):
-                before=set(names)
-                for relationship in relationships:
-                    if names.intersection({relationship.get('fromTable'),relationship.get('toTable')}):
-                        names.update(t for t in (relationship.get('fromTable'),relationship.get('toTable')) if t)
-                if names==before:break
-            tables.update(a['id'] for a in route['objects'] if a['kind']=='SemanticTable' and a['name'] in names)
-            selected={a['id'] for a in route['objects'] if a['id'] in tables or a.get('parent_id') in tables}
+            if nodes is None:selected={a['id']for a in route['objects']}
+            else:
+                nodes=set(nodes)
+                measures={a['id']for a in route['objects']if a['kind']=='Measure'and nodes.intersection(self.object_nodes(a['id']))}
+                columns={a['id']for a in route['objects']if a['kind']=='SemanticColumn'and nodes.intersection(self.object_nodes(a['id']))}
+                inputs={a['id']for a in route['objects']if a['kind']=='SemanticTable'and nodes.intersection(self.nodes[a['id']])}
+                inputs.update(a['parent_id']for a in route['objects']if a['id']in columns)
+                input_names={a['name']for a in route['objects']if a['id']in inputs}
+                dimensions={a['metadata'].get('toTable')for a in self.assets.values()
+                    if a['kind']=='SemanticRelationship'and a.get('parent_id')==route['container']and a['metadata'].get('fromTable')in input_names}
+                inputs.update(a['id']for a in route['objects']if a['kind']=='SemanticTable'and a['name']in dimensions)
+                homes={a['parent_id']for a in route['objects']if a['id']in measures}
+                # A measure's storage home and transitive relationship
+                # neighbours are not all inputs to this ticket. Keep the
+                # home container, selected measures, input-table columns and
+                # their immediate filtering dimensions, not the transitive
+                # model component. Further objects need explicit lineage.
+                selected={a['id']for a in route['objects']if a['id']in inputs|homes|measures
+                    or a['kind']=='SemanticColumn'and a.get('parent_id')in inputs}
         self.opened[identity].update(selected)
         def projected():
             result=deepcopy(route)
             result['objects']=[a for a in result['objects'] if a['id'] in self.opened[identity]]
             return result
         if route['kind']=='DAX' or (route['kind']=='SOURCE_SQL' and self.source_read is None):return projected()
+        def retained_source_table(obj):
+            metadata=obj['metadata'];columns=metadata.get('columns',[])
+            return (metadata.get('type_desc',metadata.get('type'))in ('USER_TABLE','U')
+                and bool(columns)and all(c.get('name')and c.get('data_type')for c in columns))
+        if route['kind']=='SOURCE_SQL':
+            for obj in route['objects']:
+                metadata=obj['metadata']
+                if (obj['id']in self.opened[identity]and retained_source_table(obj)
+                    and not metadata.get('fresh_native_schema')):
+                    if metadata.get('schema_basis')!='RETAINED_EXACT_NATIVE_CATALOG':
+                        self.record({'event':'RETAINED_QUERY_SCHEMA','asset_id':obj['id'],'basis':'EXACT_DECLARED_SOURCE_DATABASE_AND_OBJECT','fresh':False})
+                    metadata['schema_basis']='RETAINED_EXACT_NATIVE_CATALOG'
+                    metadata['schema_qualification']='Retained native table schema, not a fresh observation. Native read-only enforcement and query errors remain unchanged.'
         pending=[a for a in route['objects'] if a['id'] in self.opened[identity] and
-                 (not a['metadata'].get('columns') or route['kind']=='SOURCE_SQL' and not a['metadata'].get('fresh_native_schema'))]
-        if not pending:return projected()
+                 (not a['metadata'].get('columns') or route['kind']=='SOURCE_SQL' and not a['metadata'].get('fresh_native_schema')and not retained_source_table(a))]
+        if not pending and (route['kind']!='FABRIC_SQL'or 'database'in route):return projected()
         parent=route['container'];container=self.assets[parent]
         if route['kind']=='FABRIC_SQL':
             workspace,item=parent.removeprefix('fabric://').split('/')
@@ -129,6 +162,23 @@ class NativeCatalog:
             route['database']=endpoint['name']
             route['endpoint_evidence']=deepcopy(observed)
         else:props={'connectionString':route['config']['sql']['server']}
+        if route['kind']=='FABRIC_SQL':
+            for obj in pending:
+                metadata=obj['metadata']
+                candidates=[a for a in self.assets.values()if a['kind']=='GraphSchemaEvidence'and a.get('parent_id')==obj['id']
+                    and a.get('metadata',{}).get('scope')=='DECLARED_RETAINED_TABLE_ONLY'
+                    and a['metadata'].get('proof',{}).get('kind')=='NATIVE_TARGET_CATALOG'
+                    and a['metadata']['proof'].get('asset_id')==obj['id']
+                    and a['metadata']['proof'].get('database')==route['database']
+                    and a['metadata']['proof'].get('schema')==metadata['schema_name']
+                    and a['metadata']['proof'].get('table')==metadata['name']]
+                if len(candidates)!=1:continue
+                proof=candidates[0]['metadata']['proof'];columns=proof.get('columns',[])
+                if not columns or any(not c.get('name')or not c.get('data_type')for c in columns):continue
+                metadata['columns']=deepcopy(columns);metadata['schema_basis']='RETAINED_EXACT_NATIVE_CATALOG'
+                metadata['schema_qualification']='Retained schema, not a fresh observation. Native query errors remain errors, not absent data.'
+                self.record({'event':'RETAINED_QUERY_SCHEMA','asset_id':obj['id'],'evidence_asset':candidates[0]['id'],'proof':deepcopy(proof)})
+            pending=[obj for obj in pending if not obj['metadata'].get('columns')]
         from .binding_catalog import read_many
         for offset in range(0,len(pending),8):
             batch=pending[offset:offset+8]
@@ -145,6 +195,21 @@ class NativeCatalog:
                 self.record({'event':'NATIVE_QUERY_SCHEMA','asset_id':obj['id'],'proof':proof})
         self.ready.add(identity)
         return projected()
+
+    def definition(self,node_id):
+        """Retained producer-native content, no DAX INFO or write-scoped API."""
+        node=self.graph_nodes.get(node_id,{})
+        asset=self.assets.get(node.get('properties',{}).get('asset_id'))
+        if asset is None:asset=self.assets.get(node.get('properties',{}).get('definition_source_id'))
+        if not asset:return None
+        meta=asset['metadata'];fields={k:deepcopy(meta[k]) for k in ('expression','definitions','content','computed_definition') if meta.get(k)}
+        if not fields:return None
+        return {'node':node_id,'asset_id':asset['id'],'name':asset['name'],'kind':asset['kind'],
+            'retained_native_definition':fields,'content':next(iter(fields.values())) if len(fields)==1 and isinstance(next(iter(fields.values())),str) else json.dumps(fields,ensure_ascii=False),
+            'projection':'NATIVE_FIELDS_ONLY_ORIGINAL_METADATA_RETAINED','content_hash':asset['content_hash'],
+            'provenance':deepcopy(asset.get('provenance')),
+            'basis':'RETAINED_NATIVE_DEFINITION','current_native_fetch_performed':False,
+            'qualification':'Retained producer content; no claim of current deployment freshness or aligned values.'}
 
     def candidate_details(self, catalog):
         catalog=deepcopy(catalog)
@@ -217,7 +282,14 @@ class NativeCatalog:
             for column in self.assets.values():
                 if column.get('parent_id')==physical[0]['id'] and column['kind'] in ('LakehouseColumn','WarehouseColumn') and column['name'] in source_columns:
                     ids.extend(self.nodes.get(column['id'],[]))
+            column_bindings=[]
+            for semantic in self.assets.values():
+                if semantic.get('parent_id')!=table['id']or semantic['kind']!='SemanticColumn':continue
+                source_name=semantic['metadata'].get('sourceColumn')
+                physical_columns=[a for a in self.assets.values()if a.get('parent_id')==physical[0]['id']and a['kind']in ('LakehouseColumn','WarehouseColumn')and a['name']==source_name]
+                if source_name and len(physical_columns)==1:column_bindings.append({'semantic_column':semantic['id'],'physical_column':physical_columns[0]['id'],'basis':'EXACT_PARTITION_SOURCE_COLUMN'})
             result.append({'confidence':'DECLARED','semantic_table':table['id'],'physical_table':physical[0]['id'],
+                'column_bindings':column_bindings,
                 'graph_nodes':list(ids),'definition_asset':definition['id'],'definition_hash':definition['content_hash'],
                 'partition_source':deepcopy(source),'literal_expression':expression,'native_ownership':witnesses,
                 'qualification':'Declared route only; value agreement and aligned snapshots are not implied.'})

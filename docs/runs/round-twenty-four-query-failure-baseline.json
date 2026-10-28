@@ -1,0 +1,211 @@
+{
+  "basis": "28 official-zero first-query failures from preserved R23 backtrack; native HTTP400 definition probes are separate and not double-counted. Original scores and traces unchanged.",
+  "counts": {
+    "wrong column or table": 12,
+    "dialect": 2,
+    "type or CONVERT/CAST": 2,
+    "date filter": 1,
+    "grain/aggregation": 0,
+    "validator rejection": 11,
+    "endpoint error": 0,
+    "definition-read HTTP 400": 0
+  },
+  "cases": [
+    {
+      "pass": "dev03",
+      "ticket": "v2-billing-mrr-v2",
+      "class": "validator rejection",
+      "retained_reason": "The first rejected run_dax request was: One table-valued EVALUATE required. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 20 / run_dax"
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-fixture-quantity-v1",
+      "class": "validator rejection",
+      "retained_reason": "The first rejected run_sql request was: Unsupported SQL syntax or function nodes: Concat. Remove these constructs or choose a supported diagnostic; no query executed.. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 18 / run_sql"
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-record-absent-everywhere-v2",
+      "class": "wrong column or table",
+      "retained_reason": "The first rejected record_trace request was: Unknown or ambiguous DAX member. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 20 / record_trace"
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-record-repeated-gold-v1",
+      "class": "wrong column or table",
+      "retained_reason": "The first rejected record_trace request was: Unknown or ambiguous DAX member. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 18 / record_trace"
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-record-repeated-gold-v2",
+      "class": "wrong column or table",
+      "retained_reason": "The first rejected record_trace request was: Unknown or ambiguous DAX member. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 18 / record_trace"
+    },
+    {
+      "pass": "dev03",
+      "ticket": "v2-other-collected-definition-v2",
+      "class": "validator rejection",
+      "retained_reason": "The first rejected run_dax request was: One table-valued EVALUATE required. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 18 / run_dax"
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-billing-mrr-v1",
+      "class": "validator rejection",
+      "retained_reason": "The first rejected run_dax request was: Unsupported DAX function: EARLIER. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 19 / run_dax"
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-billing-mrr-v2",
+      "class": "validator rejection",
+      "retained_reason": "The first rejected run_dax request was: One table-valued EVALUATE required. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 19 / run_dax"
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-billing-invoices-v1",
+      "class": "wrong column or table",
+      "retained_reason": "The first rejected run_sql request was: SQL object unavailable or view dependencies not validated. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 17 / run_sql"
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-billing-invoices-v2",
+      "class": "wrong column or table",
+      "retained_reason": "The first rejected run_sql request was: SQL object unavailable or view dependencies not validated. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 17 / run_sql"
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-before-temporal-retention-v2",
+      "class": "date filter",
+      "retained_reason": "The first rejected run_sql request was: Unsupported SQL syntax or function nodes: Version. Remove these constructs or choose a supported diagnostic; no query executed.. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 20 / run_sql"
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-source-history-v1",
+      "class": "type or CONVERT/CAST",
+      "retained_reason": "The first rejected record_trace request was: Unsupported SQL syntax or function nodes: Convert. Remove these constructs or choose a supported diagnostic; no query executed.. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 20 / record_trace"
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-source-history-v2",
+      "class": "type or CONVERT/CAST",
+      "retained_reason": "The first rejected record_trace request was: Unsupported SQL syntax or function nodes: Convert. Remove these constructs or choose a supported diagnostic; no query executed.. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 20 / record_trace"
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-other-collected-definition-v1",
+      "class": "validator rejection",
+      "retained_reason": "The first rejected run_dax request was: One table-valued EVALUATE required. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 17 / run_dax"
+    },
+    {
+      "pass": "dev04",
+      "ticket": "v2-other-collected-definition-v2",
+      "class": "validator rejection",
+      "retained_reason": "The first rejected run_dax request was: One table-valued EVALUATE required. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 17 / run_dax"
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-billing-invoices-v1",
+      "class": "wrong column or table",
+      "retained_reason": "The first rejected run_sql request was: SQL object unavailable or view dependencies not validated. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 17 / run_sql"
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-billing-invoices-v2",
+      "class": "wrong column or table",
+      "retained_reason": "The first rejected run_sql request was: SQL object unavailable or view dependencies not validated. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 17 / run_sql"
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-before-temporal-retention-v1",
+      "class": "dialect",
+      "retained_reason": "The first rejected run_sql request was: Unsupported SQL syntax or function nodes: CurrentSchema. Remove these constructs or choose a supported diagnostic; no query executed.. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 22 / run_sql"
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-record-absent-everywhere-v2",
+      "class": "wrong column or table",
+      "retained_reason": "The first rejected record_trace request was: Unknown or ambiguous DAX member. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 22 / record_trace"
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-record-repeated-gold-v2",
+      "class": "wrong column or table",
+      "retained_reason": "The first rejected run_dax request was: Unknown or ambiguous DAX member. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 17 / run_dax"
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-other-collected-definition-v1",
+      "class": "validator rejection",
+      "retained_reason": "The first rejected run_dax request was: One table-valued EVALUATE required. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 17 / run_dax"
+    },
+    {
+      "pass": "dev05",
+      "ticket": "v2-other-collected-definition-v2",
+      "class": "validator rejection",
+      "retained_reason": "The first rejected run_dax request was: One table-valued EVALUATE required. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 17 / run_dax"
+    },
+    {
+      "pass": "dev06",
+      "ticket": "v2-screenshot-record-01-v1",
+      "class": "wrong column or table",
+      "retained_reason": "The first rejected run_dax request was: Unknown or ambiguous DAX member. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 22 / run_dax"
+    },
+    {
+      "pass": "dev06",
+      "ticket": "v2-screenshot-record-02-v1",
+      "class": "validator rejection",
+      "retained_reason": "The first rejected run_dax request was: Unsupported DAX function: CONCATENATEX. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 22 / run_dax"
+    },
+    {
+      "pass": "opusdiag02-cached",
+      "ticket": "v2-fixture-quantity-v2",
+      "class": "validator rejection",
+      "retained_reason": "The first rejected run_sql request was: Unsupported SQL syntax or function nodes: Concat. Remove these constructs or choose a supported diagnostic; no query executed.. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 17 / run_sql"
+    },
+    {
+      "pass": "opusdiag02-cached",
+      "ticket": "v2-billing-invoices-v1",
+      "class": "wrong column or table",
+      "retained_reason": "The first rejected run_sql request was: SQL object unavailable or view dependencies not validated. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 31 / run_sql"
+    },
+    {
+      "pass": "opusdiag02-cached",
+      "ticket": "v2-billing-invoices-v2",
+      "class": "wrong column or table",
+      "retained_reason": "The first rejected run_sql request was: SQL object unavailable or view dependencies not validated. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 27 / run_sql"
+    },
+    {
+      "pass": "opusdiag02-cached",
+      "ticket": "v2-before-temporal-retention-v1",
+      "class": "dialect",
+      "retained_reason": "The first rejected run_sql request was: Unsupported SQL syntax or function nodes: CurrentSchema. Remove these constructs or choose a supported diagnostic; no query executed.. Use a query supported by the admitted schema and validator, or report the unsupported history/definition surface; do not spend later steps repeating the same unsupported operation.",
+      "first_step_locator": "event 22 / run_sql"
+    }
+  ]
+}

@@ -1,3 +1,13 @@
+<!-- ROUND24-CURRENT-BEGIN -->
+Round24: Frozen evaluation complete; release checks in progress. Held-out18/20,harm0 from both graders,agreement19/20;20sealed answers. Devpartial13/15 (25notrun); secondary12/15 with1disputed harmful flag retained. Graph0->9/80,cache70.44%; full native-job median234.5s misses120s and2classes remainzero. Allpracticecontrolsrestored,temporalON. Frozenb78299f6/image595047cf; no held-out tuning. Post-freeze admission-log wording exposure is disclosed. [Full report](round-twenty-four-summary.md). Earlier dated entries below are historical.
+<!-- ROUND24-CURRENT-END -->
+
+Round24 finaldev checkpoint2026-10-28: primary13/15 completed (25/40notrun at physical80% stop); second grader12/15, all-four-field agreement13/15. Primary harmful0; second grader flags1harmful failed-load consistency answer, retained as a disputed harmful finding. Its saved trace now reproduces acceptance before and rejection after the generic current-native-fault disposition fix;66focused tests PASS. No new dev admission after9622/12000. Graph published9/80; new20v3forms sealed by hash after native scenario controls, wording unopened. All current practice injections restored (temporalON). Frozen full suite/image and held-out v3 still pending.
+
+2026-10-28 update: native procedure batch3 PUBLISHED and read back9/80 complete structural paths, billing7/7. History replacement answered, guarded original360 source/schema hash restore and native copy succeeded; temporalON. First12 primary monitoring10/12,harmful0 (two unresolved billing cases); second grade/finalpass pending. All40 offline routes re-executed39ASSEMBLED/1unchangedUNKNOWN_REPORT/0FAILED. Development freeze remains invalid; dev01 image unchanged. Stale cohort now active under approved reversible control.
+
+Round24 checkpoint2026-10-28: three early Anthropic smokes PASS on dee9a7f9/image25895f1e. Twelve dev01 outcomes saved; first5 independently graded5/5,harmful0, monitoring only. Second history launch is unestablished: CLI404 after native start/action acceptance; no duplicate submitted. Source47/Bronze41 fixture held pending reconciliation. Waiting and latency controls restored. Native procedure-lineage batch raises offline health7/80 to9/80 (billing7/7), not yet published. Next-image route/schema/job-answer changes pass63 focused tests; development freeze invalidated, current live pass image unchanged. Full scores, release smokes, merge and tag pending.
+
 Round23 released2026-10-27: PR430 merge 6d91b7bc188eb04e7ae1b34397266e149efc8ca7; v0.23 tags validated merge. Official held-out6/20,harmful0; targetsMISSED. Separate dev audit has one disputed harmful-history flag; official scores unchanged. Full main5522tests/50skip/zero failures; hosted CI{'success': 21, 'skipped': 2}. Three smokes completed0/3PASS (external Azure404/408; other5checks3/3PASS); safety-only build-phase release, no green-smoke claim. Backtrack104official-zero+2audit-only, zero new estate/model calls. All injections restored; temporal historyON. See docs/round-twenty-three-summary.md. Earlier entries are historical.
 
 Round23 premerge,2026-10-27: held-out6/20,official harmful0,targets MISSED; cached Opus diagnostic5/13. Dev audit113 outcomes/five disagreements/one disputed harmful-history flag; original scores unchanged. Backtrack104 official zeros plus2 audit-only zeros, no new estate/model calls. Runner4b547f1 full5522 tests/50skips/zero failures; image0c496089. Three smokes completed0/3PASS (FamilyA Azure404/408; other5checks3/3PASS). Safety-only build-phase release continues with CI/merge/tag. All injections restored; temporal history ON. See docs/round-twenty-three-summary.md. Earlier entries are historical.
@@ -744,3 +754,8 @@ triage and generic read-tool components have synthetic tests. Cloud assembly
 and consumer-validator/native-port wiring remain incomplete. No live scoring,
 model discovery, injections, smokes, merge or v0.23 tag. Build/offline tests only
 before November1. Round22 is closed at af73a1b, v0.22 on validated merge567a95b.
+
+
+Round24 started2026-10-27 on fresh branch; implementation and live proof pending. R23 results unchanged.
+
+Round24 checkpoint2026-10-27: cloud budget readback preserved all accounting;39/40 offline forms assemble, one unknown-report refusal unchanged. Raw retained graph0/73 complete declared-source paths; diagnostic only. Focused policy/cost/query/smoke/triage tests pass; no live R24 model or estate pass admitted yet. Engine freeze invalidated for R24, R23 scored pins retained.

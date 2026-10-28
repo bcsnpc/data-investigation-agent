@@ -1,0 +1,12 @@
+{
+  "status": "FROZEN_FULL_SUITE_GREEN",
+  "source": "b78299f6aee852fd10d5c5776fe69087aaef86f2",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:595047cfadca5d7709e2463dc52d6438cbc80e3786763af89f6bf192b7652f86",
+  "suite_tests": 5606,
+  "suite_skips": 50,
+  "suite_result_sha256": "1ea9c8a21270fe1b629edad791af86cc57fb921b74d140b83a2bbe6237dc366a",
+  "workflow": 40661526507,
+  "held_out_runs_admitted": 0,
+  "wording_opened": false,
+  "observed_at_utc": "2026-10-28T09:17:54.672395+00:00"
+}

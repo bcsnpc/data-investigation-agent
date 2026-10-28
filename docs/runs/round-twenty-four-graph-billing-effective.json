@@ -1,0 +1,407 @@
+{
+  "version": "graph-health/1",
+  "basis": "Retained declared graph structure; not proof of live readability, snapshot alignment or data correctness.",
+  "overall": {
+    "visuals": 7,
+    "fully_traceable": 0,
+    "percentage": 0.0
+  },
+  "reports": [
+    {
+      "report": "44dc6baac12f79e0f4a1c4474c63bb2867262137212e4061f4ce0882c4a90257",
+      "name": "Subscription Billing",
+      "visuals": 7,
+      "fully_traceable": 0,
+      "percentage": 0.0
+    }
+  ],
+  "break_counts": {
+    "scanner data: NO_UPSTREAM_BINDING": 35,
+    "route builder: NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED": 7
+  },
+  "visuals": [
+    {
+      "visual": "01bca5b114e2a561d56d1010ae38978fa8ac5ca3ffaf8ee731856fa51e0104e9",
+      "name": "Top Accounts by Invoice Value",
+      "report": "44dc6baac12f79e0f4a1c4474c63bb2867262137212e4061f4ce0882c4a90257",
+      "report_name": "Subscription Billing",
+      "fully_traceable": false,
+      "nodes": [
+        "01bca5b114e2a561d56d1010ae38978fa8ac5ca3ffaf8ee731856fa51e0104e9",
+        "2bda9350dd3bbb25428f87afa572e6aa11d1361b6dba4ce4ea340669b627f14b",
+        "43a0c02d3d2889262b20a0d477b2bc41fa5985831578b1ece2f691c1da18fa5b",
+        "4d879bc53296214521de6697dec9a535b6da48305b6ec09e0fe91f0a3671b4a7",
+        "6284762df205955f1f183fd858316ef1a00f9cc9cb2606193e7eca99ff166e99",
+        "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+        "a093d094355ec38979e7108666245e3c358d6df5d5b5100b170af460a1d53a25",
+        "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+        "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+        "f38c2c9853c4b367ac803b6b4f6e1dc716e5c067fefca127c77cf3e4a2f235ba",
+        "f765dce2bdaec71a1251436c7d1f1d82f4295a6001fcbdf2edcbe5c23ae21b41"
+      ],
+      "breaks": [
+        {
+          "node": "f765dce2bdaec71a1251436c7d1f1d82f4295a6001fcbdf2edcbe5c23ae21b41",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "2bda9350dd3bbb25428f87afa572e6aa11d1361b6dba4ce4ea340669b627f14b",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4d879bc53296214521de6697dec9a535b6da48305b6ec09e0fe91f0a3671b4a7",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "01bca5b114e2a561d56d1010ae38978fa8ac5ca3ffaf8ee731856fa51e0104e9",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "2b9e6f88834911285e6dae466b9c4be7276b7b7db1351f77049801776ead04ca",
+      "name": "MRR All Plans",
+      "report": "44dc6baac12f79e0f4a1c4474c63bb2867262137212e4061f4ce0882c4a90257",
+      "report_name": "Subscription Billing",
+      "fully_traceable": false,
+      "nodes": [
+        "0134396d43428972021b790e50a22d7b55a012c1f0493fed69c3f751fe668f6d",
+        "0532113507705dcd143663c4e93c281c5e2d80468d9b875945e162954f3616c7",
+        "2b2f663842cca77852104e9e00c88e464c421a25775a877e74c979e429eac1fe",
+        "2b9e6f88834911285e6dae466b9c4be7276b7b7db1351f77049801776ead04ca",
+        "2bda9350dd3bbb25428f87afa572e6aa11d1361b6dba4ce4ea340669b627f14b",
+        "395a5812df5ab67115c3a2a109c776b574405bb4afa61b624985674d87e9b225",
+        "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+        "6800187d16d71f3135408edf1a930d5f112306daaf3337714f71ab6261866df5",
+        "782dd0d2081b49cab9e034de68f84d7acde923c300906b3245252c6599b990b1",
+        "8308e141cf607ba77ee074d3ea938b2087e9bf7002719137ebd0a070606c492f",
+        "8d6d0ea0953b4cfe06b27a3dd86ea43547ca414c7408bfbbf436660b58d95305",
+        "d2f8d173f9baa2b2af13ed8c0dbf2555504118f5681544dc244bf441c3e8d35a",
+        "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+        "e08aea88ef54263a14b6a8850ba22639fd646b531f7615decd0f5dbfee56387d",
+        "e91dff37989153b0ac7eb1a5ff86d7428859bcf92b4f5418a886369b8ae0827e",
+        "f765dce2bdaec71a1251436c7d1f1d82f4295a6001fcbdf2edcbe5c23ae21b41"
+      ],
+      "breaks": [
+        {
+          "node": "2b2f663842cca77852104e9e00c88e464c421a25775a877e74c979e429eac1fe",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "782dd0d2081b49cab9e034de68f84d7acde923c300906b3245252c6599b990b1",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "e91dff37989153b0ac7eb1a5ff86d7428859bcf92b4f5418a886369b8ae0827e",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "0134396d43428972021b790e50a22d7b55a012c1f0493fed69c3f751fe668f6d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "f765dce2bdaec71a1251436c7d1f1d82f4295a6001fcbdf2edcbe5c23ae21b41",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "2bda9350dd3bbb25428f87afa572e6aa11d1361b6dba4ce4ea340669b627f14b",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "2b9e6f88834911285e6dae466b9c4be7276b7b7db1351f77049801776ead04ca",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "42205721330d77b319c5d3fd1a60289652b088d632996dd780af3baa62dfe113",
+      "name": "Usage Overage",
+      "report": "44dc6baac12f79e0f4a1c4474c63bb2867262137212e4061f4ce0882c4a90257",
+      "report_name": "Subscription Billing",
+      "fully_traceable": false,
+      "nodes": [
+        "0bce8edfbf1cc9beac66c6a93581d649f3b93021f14c703cad3616c5ce5a6e03",
+        "0dc6f028573fe76c867880e1c48e1b1b64ad3410c9280d3e416fa8b1ea5fd5db",
+        "128b43612d9962a190bb3ef4dab66cd4f4c54c107824a30f1f8a450422c2fc5c",
+        "1980612a7b71a57556cec72533b9eccf16b1346cc591c686afb0400d3094514c",
+        "1c6c9f8f0ebe6b404a5ca6de8bc291b090d57eb1ebbf1d6f2fd69d5a0fc570f7",
+        "2979ba7778bb7a345d719e9cf65a6620bbfd4f741769376338633446274b6155",
+        "2b2f663842cca77852104e9e00c88e464c421a25775a877e74c979e429eac1fe",
+        "2bda9350dd3bbb25428f87afa572e6aa11d1361b6dba4ce4ea340669b627f14b",
+        "33de202b6f4e5cf2cc7e6eab1679f3cff0ee16c1456436259d35c347f311559c",
+        "36aa0abaf9d9bdbf3bbbe1ab672e31caf1f1effaefaf28186a09723c1a3260a5",
+        "40e6c1dd14bbc2457acb6cd436546fb4c77ea83233e76478b15eb44a4526efbc",
+        "42205721330d77b319c5d3fd1a60289652b088d632996dd780af3baa62dfe113",
+        "43acb288e9e056e97cf04e622acfb737b214bf859a24a4182a7cce9c7b08fcd0",
+        "45cd77c2a7383b6caa302f166f5aeb0718ae8fe8a00fcca935251fc913b6e0b7",
+        "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+        "6800187d16d71f3135408edf1a930d5f112306daaf3337714f71ab6261866df5",
+        "716451f920998a7357a51eb3c4548c232f333dfcd1f7d7c96f1c59e7ce5301e9",
+        "782dd0d2081b49cab9e034de68f84d7acde923c300906b3245252c6599b990b1",
+        "9a40f84a2eaa9ed968e64352acf2f845626934c53acd81d221952b23b8dc1630",
+        "a1c0c3dc58853822b3e05c30eb0469a54b05b48086fb682c3119d686df1f6414",
+        "bbd69540b282246c71cab399ba365d3e5b9e9507e791fddf279da7d12a21719c",
+        "c0baa1c240b04e62e4cc83d86b972ab9c6a6bfe8b9d3e1c5680154a2442790c1",
+        "c2231809494e48d53866ae579e0ce05607ba90fdce840a4bcbe5414d886e0d60",
+        "c6e3e3745b62db8eac6e981f5430546436d62648b04acfada7e207596e11d207",
+        "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+        "e08aea88ef54263a14b6a8850ba22639fd646b531f7615decd0f5dbfee56387d",
+        "f765dce2bdaec71a1251436c7d1f1d82f4295a6001fcbdf2edcbe5c23ae21b41",
+        "fabbf7e8b08f30e165210ed2b8ca69df6cd52175414a679fe187cc56649c5e21"
+      ],
+      "breaks": [
+        {
+          "node": "33de202b6f4e5cf2cc7e6eab1679f3cff0ee16c1456436259d35c347f311559c",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "c0baa1c240b04e62e4cc83d86b972ab9c6a6bfe8b9d3e1c5680154a2442790c1",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "f765dce2bdaec71a1251436c7d1f1d82f4295a6001fcbdf2edcbe5c23ae21b41",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "2bda9350dd3bbb25428f87afa572e6aa11d1361b6dba4ce4ea340669b627f14b",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "2b2f663842cca77852104e9e00c88e464c421a25775a877e74c979e429eac1fe",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "782dd0d2081b49cab9e034de68f84d7acde923c300906b3245252c6599b990b1",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "43acb288e9e056e97cf04e622acfb737b214bf859a24a4182a7cce9c7b08fcd0",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "0bce8edfbf1cc9beac66c6a93581d649f3b93021f14c703cad3616c5ce5a6e03",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "40e6c1dd14bbc2457acb6cd436546fb4c77ea83233e76478b15eb44a4526efbc",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "bbd69540b282246c71cab399ba365d3e5b9e9507e791fddf279da7d12a21719c",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "716451f920998a7357a51eb3c4548c232f333dfcd1f7d7c96f1c59e7ce5301e9",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "fabbf7e8b08f30e165210ed2b8ca69df6cd52175414a679fe187cc56649c5e21",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "42205721330d77b319c5d3fd1a60289652b088d632996dd780af3baa62dfe113",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "53a655e38cbd5d54dadc1f1613f1bd7a06890c5e68be1027e7aabc772612bdab",
+      "name": "Collected Amount",
+      "report": "44dc6baac12f79e0f4a1c4474c63bb2867262137212e4061f4ce0882c4a90257",
+      "report_name": "Subscription Billing",
+      "fully_traceable": false,
+      "nodes": [
+        "136dc1ac02646551333138b0309a804b144fbda088af1a69346ff3f5cca02d0d",
+        "2bda9350dd3bbb25428f87afa572e6aa11d1361b6dba4ce4ea340669b627f14b",
+        "418c23c73640bbb9cfac080ae8bef1b519f15713ca3970841c06d6668faea9ce",
+        "53a655e38cbd5d54dadc1f1613f1bd7a06890c5e68be1027e7aabc772612bdab",
+        "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+        "89f722de349c397d3cf732c3b73652e9727b2725d1dc53152be063331e8d1b37",
+        "ad2f323a506185be89da57388d77bc8ed735280583859c7d3a69561b70c796de",
+        "b3d2a04acf333903c86dad56a1183c7ad2bb7615a3b56debfeb39954428007ac",
+        "ccaa504166137ed27f2c8973a0119c8d2248571a35b85a458db9340d9418a8cf",
+        "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+        "f765dce2bdaec71a1251436c7d1f1d82f4295a6001fcbdf2edcbe5c23ae21b41"
+      ],
+      "breaks": [
+        {
+          "node": "136dc1ac02646551333138b0309a804b144fbda088af1a69346ff3f5cca02d0d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "418c23c73640bbb9cfac080ae8bef1b519f15713ca3970841c06d6668faea9ce",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "f765dce2bdaec71a1251436c7d1f1d82f4295a6001fcbdf2edcbe5c23ae21b41",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "2bda9350dd3bbb25428f87afa572e6aa11d1361b6dba4ce4ea340669b627f14b",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "53a655e38cbd5d54dadc1f1613f1bd7a06890c5e68be1027e7aabc772612bdab",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "9f0b8c4f3dfecd18cac101a5908ff709ef7543a18b44b96e76726d6b91724811",
+      "name": "Collected in the Last Seven Days",
+      "report": "44dc6baac12f79e0f4a1c4474c63bb2867262137212e4061f4ce0882c4a90257",
+      "report_name": "Subscription Billing",
+      "fully_traceable": false,
+      "nodes": [
+        "136dc1ac02646551333138b0309a804b144fbda088af1a69346ff3f5cca02d0d",
+        "2bda9350dd3bbb25428f87afa572e6aa11d1361b6dba4ce4ea340669b627f14b",
+        "418c23c73640bbb9cfac080ae8bef1b519f15713ca3970841c06d6668faea9ce",
+        "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+        "89f722de349c397d3cf732c3b73652e9727b2725d1dc53152be063331e8d1b37",
+        "9f0b8c4f3dfecd18cac101a5908ff709ef7543a18b44b96e76726d6b91724811",
+        "ad2f323a506185be89da57388d77bc8ed735280583859c7d3a69561b70c796de",
+        "b3d2a04acf333903c86dad56a1183c7ad2bb7615a3b56debfeb39954428007ac",
+        "ccaa504166137ed27f2c8973a0119c8d2248571a35b85a458db9340d9418a8cf",
+        "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+        "f765dce2bdaec71a1251436c7d1f1d82f4295a6001fcbdf2edcbe5c23ae21b41"
+      ],
+      "breaks": [
+        {
+          "node": "136dc1ac02646551333138b0309a804b144fbda088af1a69346ff3f5cca02d0d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "418c23c73640bbb9cfac080ae8bef1b519f15713ca3970841c06d6668faea9ce",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "f765dce2bdaec71a1251436c7d1f1d82f4295a6001fcbdf2edcbe5c23ae21b41",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "2bda9350dd3bbb25428f87afa572e6aa11d1361b6dba4ce4ea340669b627f14b",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "9f0b8c4f3dfecd18cac101a5908ff709ef7543a18b44b96e76726d6b91724811",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b",
+      "name": "Invoiced Amount",
+      "report": "44dc6baac12f79e0f4a1c4474c63bb2867262137212e4061f4ce0882c4a90257",
+      "report_name": "Subscription Billing",
+      "fully_traceable": false,
+      "nodes": [
+        "2bda9350dd3bbb25428f87afa572e6aa11d1361b6dba4ce4ea340669b627f14b",
+        "43a0c02d3d2889262b20a0d477b2bc41fa5985831578b1ece2f691c1da18fa5b",
+        "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+        "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b",
+        "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+        "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+        "f765dce2bdaec71a1251436c7d1f1d82f4295a6001fcbdf2edcbe5c23ae21b41"
+      ],
+      "breaks": [
+        {
+          "node": "f765dce2bdaec71a1251436c7d1f1d82f4295a6001fcbdf2edcbe5c23ae21b41",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "2bda9350dd3bbb25428f87afa572e6aa11d1361b6dba4ce4ea340669b627f14b",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "eae91528bdaadbcdf0c633c94e18f719619f68dfcbe1c3d03c2517a471fee8ef",
+      "name": "Churned Accounts",
+      "report": "44dc6baac12f79e0f4a1c4474c63bb2867262137212e4061f4ce0882c4a90257",
+      "report_name": "Subscription Billing",
+      "fully_traceable": false,
+      "nodes": [
+        "0134396d43428972021b790e50a22d7b55a012c1f0493fed69c3f751fe668f6d",
+        "27773942a49b46235e87772361c00a1290f3c29a4cbae74165e54842689bd8ff",
+        "2bda9350dd3bbb25428f87afa572e6aa11d1361b6dba4ce4ea340669b627f14b",
+        "395a5812df5ab67115c3a2a109c776b574405bb4afa61b624985674d87e9b225",
+        "49512d426679a4e0d42395efad924d65216372fd938a4e29001f1703e2cd0005",
+        "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+        "8308e141cf607ba77ee074d3ea938b2087e9bf7002719137ebd0a070606c492f",
+        "d2f8d173f9baa2b2af13ed8c0dbf2555504118f5681544dc244bf441c3e8d35a",
+        "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+        "e91dff37989153b0ac7eb1a5ff86d7428859bcf92b4f5418a886369b8ae0827e",
+        "eae91528bdaadbcdf0c633c94e18f719619f68dfcbe1c3d03c2517a471fee8ef",
+        "f765dce2bdaec71a1251436c7d1f1d82f4295a6001fcbdf2edcbe5c23ae21b41"
+      ],
+      "breaks": [
+        {
+          "node": "e91dff37989153b0ac7eb1a5ff86d7428859bcf92b4f5418a886369b8ae0827e",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "0134396d43428972021b790e50a22d7b55a012c1f0493fed69c3f751fe668f6d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "f765dce2bdaec71a1251436c7d1f1d82f4295a6001fcbdf2edcbe5c23ae21b41",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "2bda9350dd3bbb25428f87afa572e6aa11d1361b6dba4ce4ea340669b627f14b",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "eae91528bdaadbcdf0c633c94e18f719619f68dfcbe1c3d03c2517a471fee8ef",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    }
+  ]
+}

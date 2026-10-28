@@ -1,0 +1,2997 @@
+{
+  "version": "graph-health/1",
+  "basis": "Retained declared graph structure; not proof of live readability, snapshot alignment or data correctness.",
+  "overall": {
+    "visuals": 66,
+    "fully_traceable": 0,
+    "percentage": 0.0
+  },
+  "reports": [
+    {
+      "report": "4ed0b704ba61d250ae958ef33d87601b00dd02df7b14a09e1f094d3881c9faac",
+      "name": "Warehouse Performance 0fd86f",
+      "visuals": 6,
+      "fully_traceable": 0,
+      "percentage": 0.0
+    },
+    {
+      "report": "04a98d6713a52461f3b9a21b139d247c23d560853fec33c5d3a91afd65d08ed6",
+      "name": "Warehouse Performance 23619e",
+      "visuals": 6,
+      "fully_traceable": 0,
+      "percentage": 0.0
+    },
+    {
+      "report": "28760248652b0dd58171b1353b26f39f7af5642050f7c23db40740457ffbfa5c",
+      "name": "Inventory Health 0fd86f",
+      "visuals": 6,
+      "fully_traceable": 0,
+      "percentage": 0.0
+    },
+    {
+      "report": "faa54d7813d1339c2c95acf0641c56fa7f7a359aeedc08032377e13a16b90881",
+      "name": "Inventory Health e1b8e1",
+      "visuals": 6,
+      "fully_traceable": 0,
+      "percentage": 0.0
+    },
+    {
+      "report": "f6d37d97e23e7a130adaba037b6cab7ea45036593f4eb2d3e83f62b107bc49b0",
+      "name": "Warehouse Performance f28cf2",
+      "visuals": 6,
+      "fully_traceable": 0,
+      "percentage": 0.0
+    },
+    {
+      "report": "103a8673f2ac421338da53f45e79f52b81f54ad031cf42d6e3a1a7f4c7091edf",
+      "name": "Round Ten Visual Variety",
+      "visuals": 6,
+      "fully_traceable": 0,
+      "percentage": 0.0
+    },
+    {
+      "report": "ea416711e5c8734e197aa06523bb0106d57c20c1a6b6e7123a9e1d1fdf5e38ff",
+      "name": "Inventory Health 23619e",
+      "visuals": 6,
+      "fully_traceable": 0,
+      "percentage": 0.0
+    },
+    {
+      "report": "0284c061529c1770c19103fbbf5f2f61effaa9a56d39297f6fb66a0beb20673f",
+      "name": "Round Nine translation filters 20261007",
+      "visuals": 5,
+      "fully_traceable": 0,
+      "percentage": 0.0
+    },
+    {
+      "report": "221f0bd0038af452289bd41fe042b88a7836b2fce6d063b080af3ba494203c78",
+      "name": "Inventory Health f28cf2",
+      "visuals": 6,
+      "fully_traceable": 0,
+      "percentage": 0.0
+    },
+    {
+      "report": "afc176df0c3c950c8213dabb151cf15f56faff0931901a02c150f2cb7c4242c4",
+      "name": "Declared predicate fixture 20261001",
+      "visuals": 5,
+      "fully_traceable": 0,
+      "percentage": 0.0
+    },
+    {
+      "report": "3ba93e33aa41f6b91b0ef623bfd66bf2d9ec9eefd5e583643e6462e0dbd5b2ed",
+      "name": "Application Load Support",
+      "visuals": 2,
+      "fully_traceable": 0,
+      "percentage": 0.0
+    },
+    {
+      "report": "ca22c57480d292efd37cee9c2a77a7e98140cea756bd6bbc26576da5faf98df2",
+      "name": "Warehouse Performance e1b8e1",
+      "visuals": 6,
+      "fully_traceable": 0,
+      "percentage": 0.0
+    }
+  ],
+  "break_counts": {
+    "scanner data: NO_UPSTREAM_BINDING": 152,
+    "route builder: NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED": 64,
+    "route builder: NO_PRODUCER_REACHED": 44,
+    "scanner data: AMBIGUOUS_OR_UNKNOWN_DEPENDENCY": 13,
+    "scanner data: Engine-resolved expression dependencies have not been collected.": 1,
+    "scanner data: No supported explicit field reference was found in the retained visual query.": 12,
+    "route builder: NO_INSTALLED_QUERY_ROUTE": 12
+  },
+  "visuals": [
+    {
+      "visual": "0a22c8f7e8d3593e00c384a88451467e68553e31895933b82eac89016749f78a",
+      "name": "Movement Rows",
+      "report": "4ed0b704ba61d250ae958ef33d87601b00dd02df7b14a09e1f094d3881c9faac",
+      "report_name": "Warehouse Performance 0fd86f",
+      "fully_traceable": false,
+      "nodes": [
+        "0a22c8f7e8d3593e00c384a88451467e68553e31895933b82eac89016749f78a",
+        "12b0c68284eb66aa7d10bf1da3320a986a52d63126638d4baf745591ad7fa900",
+        "844bf6a16d18c073d41041a7a0ec556989cdccb5bd8687dd8bcb3559d18c5bd4",
+        "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1"
+      ],
+      "breaks": [
+        {
+          "node": "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "0a22c8f7e8d3593e00c384a88451467e68553e31895933b82eac89016749f78a",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "0a22c8f7e8d3593e00c384a88451467e68553e31895933b82eac89016749f78a",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "117487d2d21cec699d1277dd6d33899473295432450b430b7dc8d2f509cce1d0",
+      "name": "Value Per Unit",
+      "report": "04a98d6713a52461f3b9a21b139d247c23d560853fec33c5d3a91afd65d08ed6",
+      "report_name": "Warehouse Performance 23619e",
+      "fully_traceable": false,
+      "nodes": [
+        "07c0dbb66c87ea8e9c45ba0b38c4cf2f8736092ccbcd1e832bd3efb99f090278",
+        "0e3be89052ca892846e1c6832c6f1c65e4758ced6e5d9742a4f9c6effda913e3",
+        "117487d2d21cec699d1277dd6d33899473295432450b430b7dc8d2f509cce1d0",
+        "243d53ffe49ae9fe5ac9fc3ad4281760eff3ed3426a24733792fbda018c05236",
+        "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+        "7e64fd40161dd7cffeaf31c3a7f1c2caae2baa9fc49396dc509fc271e6b01915",
+        "82e4e0d5731fa1dc441c67a43adfe89e5bd5013e99257719ca39f5eea3c0a622",
+        "bc9ae868a36e0d08f14702361e90ce9c47e5c4be6f002b9744c6b3ef325270bd"
+      ],
+      "breaks": [
+        {
+          "node": "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "117487d2d21cec699d1277dd6d33899473295432450b430b7dc8d2f509cce1d0",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "117487d2d21cec699d1277dd6d33899473295432450b430b7dc8d2f509cce1d0",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "11ef89a2a1e7470288edc337289b1bb7a3736acc212b8552c484ddc3af212f0a",
+      "name": "Net Movement Units",
+      "report": "28760248652b0dd58171b1353b26f39f7af5642050f7c23db40740457ffbfa5c",
+      "report_name": "Inventory Health 0fd86f",
+      "fully_traceable": false,
+      "nodes": [
+        "00ccb4c74c50180c279e83af4ea43df3e02f849dc1ad8c23c4ec38927bb6b736",
+        "11ef89a2a1e7470288edc337289b1bb7a3736acc212b8552c484ddc3af212f0a",
+        "1a1ed7df0c0d9d97e568827eba388d49be485794d1b9db4f7de5f5e75ecf1335",
+        "59a96c28f08c581bab6a6214fd3a58ab6389c58954c3f71f6214346ab86a14a7",
+        "7781650ab5c83f335619e46d0594c75f04e6db54566a4ccd15e9d5d8d7ace470",
+        "8018a76ec73923285dc7fbae04ef048592c321ba7ca1888f1329564ae7f4fd9d",
+        "844bf6a16d18c073d41041a7a0ec556989cdccb5bd8687dd8bcb3559d18c5bd4",
+        "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+        "fbc3e5ccf649a7b7d51d8528de5ce4373f950df5dcddd8fbb830b2c96ea1e0b4"
+      ],
+      "breaks": [
+        {
+          "node": "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "11ef89a2a1e7470288edc337289b1bb7a3736acc212b8552c484ddc3af212f0a",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "11ef89a2a1e7470288edc337289b1bb7a3736acc212b8552c484ddc3af212f0a",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "13cd8b9ecc0f49a286cd8a885c66236f63d706a0df19361ce35291c56927d4f9",
+      "name": "Receipt Share",
+      "report": "28760248652b0dd58171b1353b26f39f7af5642050f7c23db40740457ffbfa5c",
+      "report_name": "Inventory Health 0fd86f",
+      "fully_traceable": false,
+      "nodes": [
+        "13cd8b9ecc0f49a286cd8a885c66236f63d706a0df19361ce35291c56927d4f9",
+        "59a96c28f08c581bab6a6214fd3a58ab6389c58954c3f71f6214346ab86a14a7",
+        "7781650ab5c83f335619e46d0594c75f04e6db54566a4ccd15e9d5d8d7ace470",
+        "8018a76ec73923285dc7fbae04ef048592c321ba7ca1888f1329564ae7f4fd9d",
+        "844bf6a16d18c073d41041a7a0ec556989cdccb5bd8687dd8bcb3559d18c5bd4",
+        "c2b3bb9ace471bf46f4c49cf46aaeb1fcbeafb1481f2f3c57a6409918d36af72",
+        "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+        "fbc3e5ccf649a7b7d51d8528de5ce4373f950df5dcddd8fbb830b2c96ea1e0b4"
+      ],
+      "breaks": [
+        {
+          "node": "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "13cd8b9ecc0f49a286cd8a885c66236f63d706a0df19361ce35291c56927d4f9",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "13cd8b9ecc0f49a286cd8a885c66236f63d706a0df19361ce35291c56927d4f9",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "148c1c28919a9ac6aae8631c829765605606032fa13ab6e4802346246a6f8ca9",
+      "name": "Receipt Share",
+      "report": "faa54d7813d1339c2c95acf0641c56fa7f7a359aeedc08032377e13a16b90881",
+      "report_name": "Inventory Health e1b8e1",
+      "fully_traceable": false,
+      "nodes": [
+        "0fa1add969242a165dddc6b188a6ec39daa056df654274febd2d4b305b3ae0a4",
+        "148c1c28919a9ac6aae8631c829765605606032fa13ab6e4802346246a6f8ca9",
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "41fdc992bb4f03c2b6042d97dc0a2469e167e83fa74bb4f65a7a88af867049ac",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "625f95caa0d326d563a4b847327ffa122760ae3f9b4beb238d7e9175e180c5bf",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "75cbf16febbd63111b05b99ebea486f41e72c16e1b188f95b19a36bd6a24f5ae",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "910705a3264a41a76ddba38a10c0cfdda94210cf3b2f9fd3bf3d43229f8f7e78",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d",
+        "efa68d7ade6033b3a3fa9ed7b7b966f1e33aeba0b9f6dbf511bae4f13c460761"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "148c1c28919a9ac6aae8631c829765605606032fa13ab6e4802346246a6f8ca9",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "2492c5199d86ce167ea2ba9b0998a86732335b55a117b9dd8652356a6f199f08",
+      "name": "Issued Units",
+      "report": "4ed0b704ba61d250ae958ef33d87601b00dd02df7b14a09e1f094d3881c9faac",
+      "report_name": "Warehouse Performance 0fd86f",
+      "fully_traceable": false,
+      "nodes": [
+        "1a1ed7df0c0d9d97e568827eba388d49be485794d1b9db4f7de5f5e75ecf1335",
+        "2492c5199d86ce167ea2ba9b0998a86732335b55a117b9dd8652356a6f199f08",
+        "59a96c28f08c581bab6a6214fd3a58ab6389c58954c3f71f6214346ab86a14a7",
+        "7781650ab5c83f335619e46d0594c75f04e6db54566a4ccd15e9d5d8d7ace470",
+        "844bf6a16d18c073d41041a7a0ec556989cdccb5bd8687dd8bcb3559d18c5bd4",
+        "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+        "fbc3e5ccf649a7b7d51d8528de5ce4373f950df5dcddd8fbb830b2c96ea1e0b4"
+      ],
+      "breaks": [
+        {
+          "node": "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "2492c5199d86ce167ea2ba9b0998a86732335b55a117b9dd8652356a6f199f08",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "2492c5199d86ce167ea2ba9b0998a86732335b55a117b9dd8652356a6f199f08",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "2a9ca369c37e919068ed687030a825fd15d45724b46786cc44b4940701bb8c40",
+      "name": "Value Per Unit",
+      "report": "f6d37d97e23e7a130adaba037b6cab7ea45036593f4eb2d3e83f62b107bc49b0",
+      "report_name": "Warehouse Performance f28cf2",
+      "fully_traceable": false,
+      "nodes": [
+        "2a9ca369c37e919068ed687030a825fd15d45724b46786cc44b4940701bb8c40",
+        "322c06774b865da8c34d3446273f47225ab1e8f36634fc4d646dd2e35aa13972",
+        "a8f3004fb85788ea27fc0389a058a41d8f6557e7119dd7b2e69bf083d3f62fea",
+        "b8512fb3f52b518ca731745bda6703ce88e430572cccaf5041118a1f50854d0e",
+        "cff77b377ae273654a0a566b3b1fd4c9a4d31f79fc7c650b05f687c8a54a1b04",
+        "d1774306612ea1b70fa855f090bf3441c4cecd1ca0530c3a6375cc16a31bac40",
+        "df90b6e688cf70d1b6efb3a0da6e935dbb5d5101c6ebd998aaace6eb16c747f1",
+        "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f"
+      ],
+      "breaks": [
+        {
+          "node": "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "2a9ca369c37e919068ed687030a825fd15d45724b46786cc44b4940701bb8c40",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "2a9ca369c37e919068ed687030a825fd15d45724b46786cc44b4940701bb8c40",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "2be5800ac6eea6fc1126f288e231d8ccf5dde5c73479220f6d3e4f1ff532af24",
+      "name": "Handled Quantity - unfiltered",
+      "report": "103a8673f2ac421338da53f45e79f52b81f54ad031cf42d6e3a1a7f4c7091edf",
+      "report_name": "Round Ten Visual Variety",
+      "fully_traceable": false,
+      "nodes": [
+        "2be5800ac6eea6fc1126f288e231d8ccf5dde5c73479220f6d3e4f1ff532af24",
+        "67339cc6afb1c6892e4f28192fc85c8782f49921bf33f79804fd379839e4050d",
+        "77bacc9a5e280e87224220e0684650c53e5862758c7527b749d4a9bab104a52c",
+        "c0b531553820b771020cab928ca819df0c5828020c137fe92d8869757fdeb383"
+      ],
+      "breaks": [
+        {
+          "node": "77bacc9a5e280e87224220e0684650c53e5862758c7527b749d4a9bab104a52c",
+          "reason": "AMBIGUOUS_OR_UNKNOWN_DEPENDENCY",
+          "component": "scanner data"
+        },
+        {
+          "node": "67339cc6afb1c6892e4f28192fc85c8782f49921bf33f79804fd379839e4050d",
+          "reason": "Engine-resolved expression dependencies have not been collected.",
+          "component": "scanner data"
+        },
+        {
+          "node": "67339cc6afb1c6892e4f28192fc85c8782f49921bf33f79804fd379839e4050d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "c0b531553820b771020cab928ca819df0c5828020c137fe92d8869757fdeb383",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "2be5800ac6eea6fc1126f288e231d8ccf5dde5c73479220f6d3e4f1ff532af24",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "2be5800ac6eea6fc1126f288e231d8ccf5dde5c73479220f6d3e4f1ff532af24",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "2ea6333de4d861068b12927b074bfbc59fa1eb9d99159471717c97790b460b07",
+      "name": "Movement Units",
+      "report": "ea416711e5c8734e197aa06523bb0106d57c20c1a6b6e7123a9e1d1fdf5e38ff",
+      "report_name": "Inventory Health 23619e",
+      "fully_traceable": false,
+      "nodes": [
+        "07c0dbb66c87ea8e9c45ba0b38c4cf2f8736092ccbcd1e832bd3efb99f090278",
+        "243d53ffe49ae9fe5ac9fc3ad4281760eff3ed3426a24733792fbda018c05236",
+        "2ea6333de4d861068b12927b074bfbc59fa1eb9d99159471717c97790b460b07",
+        "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+        "7e64fd40161dd7cffeaf31c3a7f1c2caae2baa9fc49396dc509fc271e6b01915"
+      ],
+      "breaks": [
+        {
+          "node": "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "2ea6333de4d861068b12927b074bfbc59fa1eb9d99159471717c97790b460b07",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "2ea6333de4d861068b12927b074bfbc59fa1eb9d99159471717c97790b460b07",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "2f8ecca7495ba81df990d98132832e5ca398073eecf7f1136ba74cb6c391b20f",
+      "name": "6b1bb066d22d5e9a9cc3",
+      "report": "0284c061529c1770c19103fbbf5f2f61effaa9a56d39297f6fb66a0beb20673f",
+      "report_name": "Round Nine translation filters 20261007",
+      "fully_traceable": false,
+      "nodes": [
+        "2f8ecca7495ba81df990d98132832e5ca398073eecf7f1136ba74cb6c391b20f",
+        "86d94d7bd92f52028d30509e9906e28ba9d43fc81609211676a8ef8aa63316bd"
+      ],
+      "breaks": [
+        {
+          "node": "2f8ecca7495ba81df990d98132832e5ca398073eecf7f1136ba74cb6c391b20f",
+          "reason": "AMBIGUOUS_OR_UNKNOWN_DEPENDENCY",
+          "component": "scanner data"
+        },
+        {
+          "node": "86d94d7bd92f52028d30509e9906e28ba9d43fc81609211676a8ef8aa63316bd",
+          "reason": "No supported explicit field reference was found in the retained visual query.",
+          "component": "scanner data"
+        },
+        {
+          "node": "86d94d7bd92f52028d30509e9906e28ba9d43fc81609211676a8ef8aa63316bd",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "2f8ecca7495ba81df990d98132832e5ca398073eecf7f1136ba74cb6c391b20f",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "2f8ecca7495ba81df990d98132832e5ca398073eecf7f1136ba74cb6c391b20f",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "2f8ecca7495ba81df990d98132832e5ca398073eecf7f1136ba74cb6c391b20f",
+          "reason": "NO_INSTALLED_QUERY_ROUTE",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "35821859d681f24b739dc3216a8802e8b1772fe4e0614122884140bcf752129d",
+      "name": "Activity by warehouse",
+      "report": "221f0bd0038af452289bd41fe042b88a7836b2fce6d063b080af3ba494203c78",
+      "report_name": "Inventory Health f28cf2",
+      "fully_traceable": false,
+      "nodes": [
+        "08b27ce193422180add537b7ad365529fc5bb55c0ad7615b8e496d41f6886e24",
+        "11469477a2dffbfca72440a5b25ab3f696444a4d8d273677301c2e7097137dff",
+        "23c2ccf562f7e297e2b45eea6f9e80e08086d1e5814f3b517bbf469f48c8b07c",
+        "322c06774b865da8c34d3446273f47225ab1e8f36634fc4d646dd2e35aa13972",
+        "35821859d681f24b739dc3216a8802e8b1772fe4e0614122884140bcf752129d",
+        "6a2043d015cd623133b772965b333c0b81eda6a407208ff120c42a036602eabf",
+        "8f3d146483baf0bb6684588389eb0c7df412495c115b6403fe49ca99f0b8c85b",
+        "92e1d93e1bb1e11c61ceab6c65bfa62f84b89ff2b9199cd2ad5ecc6325e439b6",
+        "a8f3004fb85788ea27fc0389a058a41d8f6557e7119dd7b2e69bf083d3f62fea",
+        "b8512fb3f52b518ca731745bda6703ce88e430572cccaf5041118a1f50854d0e",
+        "ca99afb6c1bfff15c725cf0caeb8d84e8a17ab101fd465473bdbed252197fb5c",
+        "cff77b377ae273654a0a566b3b1fd4c9a4d31f79fc7c650b05f687c8a54a1b04",
+        "d1774306612ea1b70fa855f090bf3441c4cecd1ca0530c3a6375cc16a31bac40",
+        "f6f7a7951a11a63d02232273491cd02279970cf83f10114619c1dbedba20cb29",
+        "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f"
+      ],
+      "breaks": [
+        {
+          "node": "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "11469477a2dffbfca72440a5b25ab3f696444a4d8d273677301c2e7097137dff",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "35821859d681f24b739dc3216a8802e8b1772fe4e0614122884140bcf752129d",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "35821859d681f24b739dc3216a8802e8b1772fe4e0614122884140bcf752129d",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "3792249b906b532a7ad777cacc43ae6c53924d8f759aa9d08e291adc677c1ed4",
+      "name": "Handled Quantity - extra visual predicate",
+      "report": "afc176df0c3c950c8213dabb151cf15f56faff0931901a02c150f2cb7c4242c4",
+      "report_name": "Declared predicate fixture 20261001",
+      "fully_traceable": false,
+      "nodes": [
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3792249b906b532a7ad777cacc43ae6c53924d8f759aa9d08e291adc677c1ed4",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "3792249b906b532a7ad777cacc43ae6c53924d8f759aa9d08e291adc677c1ed4",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "3fe7de704ffabe44794601c7a1a0cc0b1ee6933092bdf7e4caccbe43df8adf4f",
+      "name": "Handled Quantity - page and slicers",
+      "report": "0284c061529c1770c19103fbbf5f2f61effaa9a56d39297f6fb66a0beb20673f",
+      "report_name": "Round Nine translation filters 20261007",
+      "fully_traceable": false,
+      "nodes": [
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "3fe7de704ffabe44794601c7a1a0cc0b1ee6933092bdf7e4caccbe43df8adf4f",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "3fe7de704ffabe44794601c7a1a0cc0b1ee6933092bdf7e4caccbe43df8adf4f",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "44e3c9b2c5df43d92f96caf0e469bbd2521cb194cc814178e7859e440c89365c",
+      "name": "Movement Units",
+      "report": "28760248652b0dd58171b1353b26f39f7af5642050f7c23db40740457ffbfa5c",
+      "report_name": "Inventory Health 0fd86f",
+      "fully_traceable": false,
+      "nodes": [
+        "44e3c9b2c5df43d92f96caf0e469bbd2521cb194cc814178e7859e440c89365c",
+        "7781650ab5c83f335619e46d0594c75f04e6db54566a4ccd15e9d5d8d7ace470",
+        "844bf6a16d18c073d41041a7a0ec556989cdccb5bd8687dd8bcb3559d18c5bd4",
+        "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+        "fbc3e5ccf649a7b7d51d8528de5ce4373f950df5dcddd8fbb830b2c96ea1e0b4"
+      ],
+      "breaks": [
+        {
+          "node": "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "44e3c9b2c5df43d92f96caf0e469bbd2521cb194cc814178e7859e440c89365c",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "44e3c9b2c5df43d92f96caf0e469bbd2521cb194cc814178e7859e440c89365c",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "4f26fa3b24bd759723f42397bc28153285e94ec01df7c81e508b2e4d887db50f",
+      "name": "Activity by warehouse",
+      "report": "f6d37d97e23e7a130adaba037b6cab7ea45036593f4eb2d3e83f62b107bc49b0",
+      "report_name": "Warehouse Performance f28cf2",
+      "fully_traceable": false,
+      "nodes": [
+        "08b27ce193422180add537b7ad365529fc5bb55c0ad7615b8e496d41f6886e24",
+        "11469477a2dffbfca72440a5b25ab3f696444a4d8d273677301c2e7097137dff",
+        "322c06774b865da8c34d3446273f47225ab1e8f36634fc4d646dd2e35aa13972",
+        "4f26fa3b24bd759723f42397bc28153285e94ec01df7c81e508b2e4d887db50f",
+        "6a2043d015cd623133b772965b333c0b81eda6a407208ff120c42a036602eabf",
+        "92e1d93e1bb1e11c61ceab6c65bfa62f84b89ff2b9199cd2ad5ecc6325e439b6",
+        "a8f3004fb85788ea27fc0389a058a41d8f6557e7119dd7b2e69bf083d3f62fea",
+        "b301d13097250158727f06a6ba711720f5b7f84b1880467518e4c6018a14ee59",
+        "b8512fb3f52b518ca731745bda6703ce88e430572cccaf5041118a1f50854d0e",
+        "ca99afb6c1bfff15c725cf0caeb8d84e8a17ab101fd465473bdbed252197fb5c",
+        "cff77b377ae273654a0a566b3b1fd4c9a4d31f79fc7c650b05f687c8a54a1b04",
+        "d1774306612ea1b70fa855f090bf3441c4cecd1ca0530c3a6375cc16a31bac40",
+        "df90b6e688cf70d1b6efb3a0da6e935dbb5d5101c6ebd998aaace6eb16c747f1",
+        "f6f7a7951a11a63d02232273491cd02279970cf83f10114619c1dbedba20cb29",
+        "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f"
+      ],
+      "breaks": [
+        {
+          "node": "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "11469477a2dffbfca72440a5b25ab3f696444a4d8d273677301c2e7097137dff",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4f26fa3b24bd759723f42397bc28153285e94ec01df7c81e508b2e4d887db50f",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "4f26fa3b24bd759723f42397bc28153285e94ec01df7c81e508b2e4d887db50f",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "4f8f4437a55a851e0668b1a736c52a801685f578fed4f623a5db3c5e2a23572c",
+      "name": "Activity by warehouse",
+      "report": "faa54d7813d1339c2c95acf0641c56fa7f7a359aeedc08032377e13a16b90881",
+      "report_name": "Inventory Health e1b8e1",
+      "fully_traceable": false,
+      "nodes": [
+        "07842a031782be0f26df56face6e9a8720f4a03564aa522bec1aaaf353212a7c",
+        "0cd339b5b767790702dd455473afb9311429660292d3385bd951391853393c13",
+        "0fa1add969242a165dddc6b188a6ec39daa056df654274febd2d4b305b3ae0a4",
+        "1315646573822a395b3df48a4f883ca0f362b6dd71ca9cc7e8e86dece05f22ab",
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "182cd9ba9e1bb3ef2b0aa6c89b07f4479b8f5ed41744380d6da2bb3187f02cdc",
+        "23e75f44a50b2dcd2dc4a5c90f9e52eb83975c0deab438fa30911737cef1aa07",
+        "24d258a5e7241f80aba304f581676cbb503ce70868e6d66b4e1947c5e14d15be",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "41fdc992bb4f03c2b6042d97dc0a2469e167e83fa74bb4f65a7a88af867049ac",
+        "4257a0f152666519571527ff2f64b6e1e81172640659b3b5e8a4fdb49b18ea81",
+        "42d4098873890daf90472abd9fffd4ea8a12bb0b27daed118894712e73d12797",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4f8f4437a55a851e0668b1a736c52a801685f578fed4f623a5db3c5e2a23572c",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "625f95caa0d326d563a4b847327ffa122760ae3f9b4beb238d7e9175e180c5bf",
+        "6526e728ae9e243955030deb3023e572b1807f7285006e0b4a869dea1d36a849",
+        "67a1baef537bb4e5193cc3c4656ada5fc8f4323d0d57fbf3a48d808c478d9766",
+        "680885143b6dedbdaa1b4131ae699e0932ce14d46c841ae5bffd966f8ac145de",
+        "6dc7058c1110cf122b2c88a10f487c3ec163c1dc36fdb132956bf1e262bca891",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "75cbf16febbd63111b05b99ebea486f41e72c16e1b188f95b19a36bd6a24f5ae",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "817bc6315f69ea2590c5447168d2696eb8a60462590813fcdfe47cbe2b6a65c1",
+        "910705a3264a41a76ddba38a10c0cfdda94210cf3b2f9fd3bf3d43229f8f7e78",
+        "9819d811fe3c29230c451c861ba7db9e36fd91e242fa8b90d59c37ca90cff64c",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "b3fca444ac8e234ca079c8100dba1152ccb53cec60a0a89ae19c9bf7c0526834",
+        "b57ec788f6d6ddf50ad66f014d13b8999acd7ff91c46a860f7095d598d589468",
+        "d513786d83b1a47cc505ac7e513fc707170b7b792369b8d2b75fbba42329db72",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d",
+        "efa68d7ade6033b3a3fa9ed7b7b966f1e33aeba0b9f6dbf511bae4f13c460761",
+        "f0f34ec6f8ae83905d9d2892ecb7fe820f58f7f7c01efd62f1904006ed6f4fde",
+        "fdc07c220324a226a47f0eb39306a38883c6ac52dc21b94cce73d6ada04abbac"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "23e75f44a50b2dcd2dc4a5c90f9e52eb83975c0deab438fa30911737cef1aa07",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "24d258a5e7241f80aba304f581676cbb503ce70868e6d66b4e1947c5e14d15be",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "b3fca444ac8e234ca079c8100dba1152ccb53cec60a0a89ae19c9bf7c0526834",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "fdc07c220324a226a47f0eb39306a38883c6ac52dc21b94cce73d6ada04abbac",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4f8f4437a55a851e0668b1a736c52a801685f578fed4f623a5db3c5e2a23572c",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "52f8b44feacffa50c8a97bc2f898df8bc37e19c69bf2c756ffa293ed312f78b0",
+      "name": "Issued Units",
+      "report": "f6d37d97e23e7a130adaba037b6cab7ea45036593f4eb2d3e83f62b107bc49b0",
+      "report_name": "Warehouse Performance f28cf2",
+      "fully_traceable": false,
+      "nodes": [
+        "08b27ce193422180add537b7ad365529fc5bb55c0ad7615b8e496d41f6886e24",
+        "322c06774b865da8c34d3446273f47225ab1e8f36634fc4d646dd2e35aa13972",
+        "52f8b44feacffa50c8a97bc2f898df8bc37e19c69bf2c756ffa293ed312f78b0",
+        "cff77b377ae273654a0a566b3b1fd4c9a4d31f79fc7c650b05f687c8a54a1b04",
+        "d1774306612ea1b70fa855f090bf3441c4cecd1ca0530c3a6375cc16a31bac40",
+        "f6f7a7951a11a63d02232273491cd02279970cf83f10114619c1dbedba20cb29",
+        "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f"
+      ],
+      "breaks": [
+        {
+          "node": "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "52f8b44feacffa50c8a97bc2f898df8bc37e19c69bf2c756ffa293ed312f78b0",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "52f8b44feacffa50c8a97bc2f898df8bc37e19c69bf2c756ffa293ed312f78b0",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "5534dcab52ea12e3a590fc6ad8d7e5fa79ca8611cc06be894a80b65f6fe792ce",
+      "name": "Movement Units",
+      "report": "3ba93e33aa41f6b91b0ef623bfd66bf2d9ec9eefd5e583643e6462e0dbd5b2ed",
+      "report_name": "Application Load Support",
+      "fully_traceable": false,
+      "nodes": [
+        "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c",
+        "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+        "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+        "497b809aab319a091c08598988a6c8202715e5629e01a5d8b6be448d45edd062",
+        "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+        "5534dcab52ea12e3a590fc6ad8d7e5fa79ca8611cc06be894a80b65f6fe792ce",
+        "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+        "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a"
+      ],
+      "breaks": [
+        {
+          "node": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        }
+      ]
+    },
+    {
+      "visual": "5e761f0ad8e365155f0eeaf9c534607ccd686df554e2a62ad50d49c3e3828bc6",
+      "name": "Handled Quantity - unfiltered",
+      "report": "103a8673f2ac421338da53f45e79f52b81f54ad031cf42d6e3a1a7f4c7091edf",
+      "report_name": "Round Ten Visual Variety",
+      "fully_traceable": false,
+      "nodes": [
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "5e761f0ad8e365155f0eeaf9c534607ccd686df554e2a62ad50d49c3e3828bc6",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "5e761f0ad8e365155f0eeaf9c534607ccd686df554e2a62ad50d49c3e3828bc6",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "605912746ed69bef9736fb484114339724f544518cf4f74a2713c2e05f91478d",
+      "name": "Activity by warehouse",
+      "report": "ea416711e5c8734e197aa06523bb0106d57c20c1a6b6e7123a9e1d1fdf5e38ff",
+      "report_name": "Inventory Health 23619e",
+      "fully_traceable": false,
+      "nodes": [
+        "01de44dc8d4bf220aa28e3a6df0082667bb6de2be17bdc9e01f9a9d5dc2eb998",
+        "07c0dbb66c87ea8e9c45ba0b38c4cf2f8736092ccbcd1e832bd3efb99f090278",
+        "0e3be89052ca892846e1c6832c6f1c65e4758ced6e5d9742a4f9c6effda913e3",
+        "1fce984a662f2ea8c7a128ef568fe4610d52ef126420383ed0d67daea50f1128",
+        "243d53ffe49ae9fe5ac9fc3ad4281760eff3ed3426a24733792fbda018c05236",
+        "3a3e4d2cc64add3865cd7266e8d5224c03ba84312d5bfb9dff9c10c6339e018f",
+        "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+        "605912746ed69bef9736fb484114339724f544518cf4f74a2713c2e05f91478d",
+        "73dd4e1cf7f05ade436e66b018b252a0a9645ec2e854e02b4f00c4e05b4446b5",
+        "7df12a08bd8e7b6247da9bfba00b1be81c0e741542517b2e7a2020fa5c8e934a",
+        "7e64fd40161dd7cffeaf31c3a7f1c2caae2baa9fc49396dc509fc271e6b01915",
+        "82e4e0d5731fa1dc441c67a43adfe89e5bd5013e99257719ca39f5eea3c0a622",
+        "a238849955daf3eff8fef72ac76065c0efb4e1e4166447eaa28311fe1253dfcc",
+        "c273b851995c55693b53e4576cc8ca261677e7aef212331e56858be8bffbbcef",
+        "c779c9db0c4413660b25d9394c977df464ded2cd5e6a56e80ca9a10123d4af5c"
+      ],
+      "breaks": [
+        {
+          "node": "c779c9db0c4413660b25d9394c977df464ded2cd5e6a56e80ca9a10123d4af5c",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "605912746ed69bef9736fb484114339724f544518cf4f74a2713c2e05f91478d",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "605912746ed69bef9736fb484114339724f544518cf4f74a2713c2e05f91478d",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "63749edbd8cdd7396f252c87ef461d42e600c318469b6352df305d97ecb5b143",
+      "name": "Handled Quantity - extra visual predicate",
+      "report": "0284c061529c1770c19103fbbf5f2f61effaa9a56d39297f6fb66a0beb20673f",
+      "report_name": "Round Nine translation filters 20261007",
+      "fully_traceable": false,
+      "nodes": [
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "63749edbd8cdd7396f252c87ef461d42e600c318469b6352df305d97ecb5b143",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "63749edbd8cdd7396f252c87ef461d42e600c318469b6352df305d97ecb5b143",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "6a1008dae096e5e0d5f8e09c34b034ba2fc89d4364c6504f5e03f9a5c1dce2e6",
+      "name": "Movement Rows",
+      "report": "04a98d6713a52461f3b9a21b139d247c23d560853fec33c5d3a91afd65d08ed6",
+      "report_name": "Warehouse Performance 23619e",
+      "fully_traceable": false,
+      "nodes": [
+        "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+        "6a1008dae096e5e0d5f8e09c34b034ba2fc89d4364c6504f5e03f9a5c1dce2e6",
+        "7e64fd40161dd7cffeaf31c3a7f1c2caae2baa9fc49396dc509fc271e6b01915",
+        "89f9d0a3a8609d630243a4ba8043daf2c4c6320d053b0be5b95fee298181b24c"
+      ],
+      "breaks": [
+        {
+          "node": "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "6a1008dae096e5e0d5f8e09c34b034ba2fc89d4364c6504f5e03f9a5c1dce2e6",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "6a1008dae096e5e0d5f8e09c34b034ba2fc89d4364c6504f5e03f9a5c1dce2e6",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "73a50b803d3d9f1f48e095d59619de2417e3a60ca835c6bba19c08b122b5bf46",
+      "name": "Activity by warehouse",
+      "report": "04a98d6713a52461f3b9a21b139d247c23d560853fec33c5d3a91afd65d08ed6",
+      "report_name": "Warehouse Performance 23619e",
+      "fully_traceable": false,
+      "nodes": [
+        "01de44dc8d4bf220aa28e3a6df0082667bb6de2be17bdc9e01f9a9d5dc2eb998",
+        "07c0dbb66c87ea8e9c45ba0b38c4cf2f8736092ccbcd1e832bd3efb99f090278",
+        "0e3be89052ca892846e1c6832c6f1c65e4758ced6e5d9742a4f9c6effda913e3",
+        "1fce984a662f2ea8c7a128ef568fe4610d52ef126420383ed0d67daea50f1128",
+        "243d53ffe49ae9fe5ac9fc3ad4281760eff3ed3426a24733792fbda018c05236",
+        "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+        "73a50b803d3d9f1f48e095d59619de2417e3a60ca835c6bba19c08b122b5bf46",
+        "73dd4e1cf7f05ade436e66b018b252a0a9645ec2e854e02b4f00c4e05b4446b5",
+        "7df12a08bd8e7b6247da9bfba00b1be81c0e741542517b2e7a2020fa5c8e934a",
+        "7e64fd40161dd7cffeaf31c3a7f1c2caae2baa9fc49396dc509fc271e6b01915",
+        "82e4e0d5731fa1dc441c67a43adfe89e5bd5013e99257719ca39f5eea3c0a622",
+        "89f9d0a3a8609d630243a4ba8043daf2c4c6320d053b0be5b95fee298181b24c",
+        "a238849955daf3eff8fef72ac76065c0efb4e1e4166447eaa28311fe1253dfcc",
+        "bc9ae868a36e0d08f14702361e90ce9c47e5c4be6f002b9744c6b3ef325270bd",
+        "c779c9db0c4413660b25d9394c977df464ded2cd5e6a56e80ca9a10123d4af5c"
+      ],
+      "breaks": [
+        {
+          "node": "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "c779c9db0c4413660b25d9394c977df464ded2cd5e6a56e80ca9a10123d4af5c",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "73a50b803d3d9f1f48e095d59619de2417e3a60ca835c6bba19c08b122b5bf46",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "73a50b803d3d9f1f48e095d59619de2417e3a60ca835c6bba19c08b122b5bf46",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "77a77f85a88ded286d6189e98a206cf4c5e813ae98988225e2dbaa5b28c83465",
+      "name": "Handled Quantity - unfiltered",
+      "report": "103a8673f2ac421338da53f45e79f52b81f54ad031cf42d6e3a1a7f4c7091edf",
+      "report_name": "Round Ten Visual Variety",
+      "fully_traceable": false,
+      "nodes": [
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "77a77f85a88ded286d6189e98a206cf4c5e813ae98988225e2dbaa5b28c83465",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "77a77f85a88ded286d6189e98a206cf4c5e813ae98988225e2dbaa5b28c83465",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "78514c00ddc8d4c15203230c00bd3271eb384222cf667fe7676611bfdf4c9568",
+      "name": "c7f26b57638b57d09343",
+      "report": "ca22c57480d292efd37cee9c2a77a7e98140cea756bd6bbc26576da5faf98df2",
+      "report_name": "Warehouse Performance e1b8e1",
+      "fully_traceable": false,
+      "nodes": [
+        "5d205e46375d9aad8b4213d024aa7c0ffa2b4826532bf8bd5f9b2ad8cd882dc2",
+        "78514c00ddc8d4c15203230c00bd3271eb384222cf667fe7676611bfdf4c9568"
+      ],
+      "breaks": [
+        {
+          "node": "78514c00ddc8d4c15203230c00bd3271eb384222cf667fe7676611bfdf4c9568",
+          "reason": "AMBIGUOUS_OR_UNKNOWN_DEPENDENCY",
+          "component": "scanner data"
+        },
+        {
+          "node": "5d205e46375d9aad8b4213d024aa7c0ffa2b4826532bf8bd5f9b2ad8cd882dc2",
+          "reason": "No supported explicit field reference was found in the retained visual query.",
+          "component": "scanner data"
+        },
+        {
+          "node": "5d205e46375d9aad8b4213d024aa7c0ffa2b4826532bf8bd5f9b2ad8cd882dc2",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "78514c00ddc8d4c15203230c00bd3271eb384222cf667fe7676611bfdf4c9568",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "78514c00ddc8d4c15203230c00bd3271eb384222cf667fe7676611bfdf4c9568",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "78514c00ddc8d4c15203230c00bd3271eb384222cf667fe7676611bfdf4c9568",
+          "reason": "NO_INSTALLED_QUERY_ROUTE",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "79bc55ddc527b395f9665c439fe527992dedf0d9c6fde28912e95ccaf9dbddda",
+      "name": "Issued Units",
+      "report": "04a98d6713a52461f3b9a21b139d247c23d560853fec33c5d3a91afd65d08ed6",
+      "report_name": "Warehouse Performance 23619e",
+      "fully_traceable": false,
+      "nodes": [
+        "01de44dc8d4bf220aa28e3a6df0082667bb6de2be17bdc9e01f9a9d5dc2eb998",
+        "07c0dbb66c87ea8e9c45ba0b38c4cf2f8736092ccbcd1e832bd3efb99f090278",
+        "243d53ffe49ae9fe5ac9fc3ad4281760eff3ed3426a24733792fbda018c05236",
+        "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+        "79bc55ddc527b395f9665c439fe527992dedf0d9c6fde28912e95ccaf9dbddda",
+        "7df12a08bd8e7b6247da9bfba00b1be81c0e741542517b2e7a2020fa5c8e934a",
+        "7e64fd40161dd7cffeaf31c3a7f1c2caae2baa9fc49396dc509fc271e6b01915"
+      ],
+      "breaks": [
+        {
+          "node": "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "79bc55ddc527b395f9665c439fe527992dedf0d9c6fde28912e95ccaf9dbddda",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "79bc55ddc527b395f9665c439fe527992dedf0d9c6fde28912e95ccaf9dbddda",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "7ef0e9b95b7c2b6b05153f9efbace34ad3f09c1b7c32a8a5ec5f843b74d00b02",
+      "name": "c7f26b57638b57d09343",
+      "report": "04a98d6713a52461f3b9a21b139d247c23d560853fec33c5d3a91afd65d08ed6",
+      "report_name": "Warehouse Performance 23619e",
+      "fully_traceable": false,
+      "nodes": [
+        "7ef0e9b95b7c2b6b05153f9efbace34ad3f09c1b7c32a8a5ec5f843b74d00b02",
+        "e2c4b8b17adc1cd4d03a4a48755228887a0a738097e91b8646876486d9444c0c"
+      ],
+      "breaks": [
+        {
+          "node": "7ef0e9b95b7c2b6b05153f9efbace34ad3f09c1b7c32a8a5ec5f843b74d00b02",
+          "reason": "AMBIGUOUS_OR_UNKNOWN_DEPENDENCY",
+          "component": "scanner data"
+        },
+        {
+          "node": "e2c4b8b17adc1cd4d03a4a48755228887a0a738097e91b8646876486d9444c0c",
+          "reason": "No supported explicit field reference was found in the retained visual query.",
+          "component": "scanner data"
+        },
+        {
+          "node": "e2c4b8b17adc1cd4d03a4a48755228887a0a738097e91b8646876486d9444c0c",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "7ef0e9b95b7c2b6b05153f9efbace34ad3f09c1b7c32a8a5ec5f843b74d00b02",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "7ef0e9b95b7c2b6b05153f9efbace34ad3f09c1b7c32a8a5ec5f843b74d00b02",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "7ef0e9b95b7c2b6b05153f9efbace34ad3f09c1b7c32a8a5ec5f843b74d00b02",
+          "reason": "NO_INSTALLED_QUERY_ROUTE",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "800c23ce350eac797263c2a82907c411866c0fa446fb471ed14e24ca3d186fb8",
+      "name": "Received Units",
+      "report": "4ed0b704ba61d250ae958ef33d87601b00dd02df7b14a09e1f094d3881c9faac",
+      "report_name": "Warehouse Performance 0fd86f",
+      "fully_traceable": false,
+      "nodes": [
+        "59a96c28f08c581bab6a6214fd3a58ab6389c58954c3f71f6214346ab86a14a7",
+        "7781650ab5c83f335619e46d0594c75f04e6db54566a4ccd15e9d5d8d7ace470",
+        "800c23ce350eac797263c2a82907c411866c0fa446fb471ed14e24ca3d186fb8",
+        "8018a76ec73923285dc7fbae04ef048592c321ba7ca1888f1329564ae7f4fd9d",
+        "844bf6a16d18c073d41041a7a0ec556989cdccb5bd8687dd8bcb3559d18c5bd4",
+        "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+        "fbc3e5ccf649a7b7d51d8528de5ce4373f950df5dcddd8fbb830b2c96ea1e0b4"
+      ],
+      "breaks": [
+        {
+          "node": "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "800c23ce350eac797263c2a82907c411866c0fa446fb471ed14e24ca3d186fb8",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "800c23ce350eac797263c2a82907c411866c0fa446fb471ed14e24ca3d186fb8",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "829715a2dc5e9dd37023bc1c9b6580df3d54f73e1b8bef74efb5d2eb84802941",
+      "name": "c7f26b57638b57d09343",
+      "report": "f6d37d97e23e7a130adaba037b6cab7ea45036593f4eb2d3e83f62b107bc49b0",
+      "report_name": "Warehouse Performance f28cf2",
+      "fully_traceable": false,
+      "nodes": [
+        "578a6f5133ae7d58da4827ba8371ffc3ab95805c6f6c108d30b8dba7d52cd218",
+        "829715a2dc5e9dd37023bc1c9b6580df3d54f73e1b8bef74efb5d2eb84802941"
+      ],
+      "breaks": [
+        {
+          "node": "829715a2dc5e9dd37023bc1c9b6580df3d54f73e1b8bef74efb5d2eb84802941",
+          "reason": "AMBIGUOUS_OR_UNKNOWN_DEPENDENCY",
+          "component": "scanner data"
+        },
+        {
+          "node": "578a6f5133ae7d58da4827ba8371ffc3ab95805c6f6c108d30b8dba7d52cd218",
+          "reason": "No supported explicit field reference was found in the retained visual query.",
+          "component": "scanner data"
+        },
+        {
+          "node": "578a6f5133ae7d58da4827ba8371ffc3ab95805c6f6c108d30b8dba7d52cd218",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "829715a2dc5e9dd37023bc1c9b6580df3d54f73e1b8bef74efb5d2eb84802941",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "829715a2dc5e9dd37023bc1c9b6580df3d54f73e1b8bef74efb5d2eb84802941",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "829715a2dc5e9dd37023bc1c9b6580df3d54f73e1b8bef74efb5d2eb84802941",
+          "reason": "NO_INSTALLED_QUERY_ROUTE",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+      "name": "Movement Units",
+      "report": "faa54d7813d1339c2c95acf0641c56fa7f7a359aeedc08032377e13a16b90881",
+      "report_name": "Inventory Health e1b8e1",
+      "fully_traceable": false,
+      "nodes": [
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "878b8323ce75221bae970f757649ddb8b82ad7feeb19ca89b9561af9d06f6fbc",
+      "name": "Value Per Unit",
+      "report": "4ed0b704ba61d250ae958ef33d87601b00dd02df7b14a09e1f094d3881c9faac",
+      "report_name": "Warehouse Performance 0fd86f",
+      "fully_traceable": false,
+      "nodes": [
+        "55eec8c3e71e69445c01a87377d729670d5bf0765fb45c3b9e837ee33b1beac8",
+        "689008e9e1b6913cff81e0e3a7780123ac5e956ca03347db75692de8f7c8156a",
+        "7781650ab5c83f335619e46d0594c75f04e6db54566a4ccd15e9d5d8d7ace470",
+        "844bf6a16d18c073d41041a7a0ec556989cdccb5bd8687dd8bcb3559d18c5bd4",
+        "878b8323ce75221bae970f757649ddb8b82ad7feeb19ca89b9561af9d06f6fbc",
+        "b5fb39e278778f8113ec74f4bf262ca39239bfeb38ff38111269370e34303f86",
+        "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+        "fbc3e5ccf649a7b7d51d8528de5ce4373f950df5dcddd8fbb830b2c96ea1e0b4"
+      ],
+      "breaks": [
+        {
+          "node": "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "878b8323ce75221bae970f757649ddb8b82ad7feeb19ca89b9561af9d06f6fbc",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "878b8323ce75221bae970f757649ddb8b82ad7feeb19ca89b9561af9d06f6fbc",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "8ce919ed65f8327d2921985af62affe6c22f2b0fd5c2f8cfafd4c989247f1bf4",
+      "name": "Net Movement Units",
+      "report": "221f0bd0038af452289bd41fe042b88a7836b2fce6d063b080af3ba494203c78",
+      "report_name": "Inventory Health f28cf2",
+      "fully_traceable": false,
+      "nodes": [
+        "08b27ce193422180add537b7ad365529fc5bb55c0ad7615b8e496d41f6886e24",
+        "23c2ccf562f7e297e2b45eea6f9e80e08086d1e5814f3b517bbf469f48c8b07c",
+        "322c06774b865da8c34d3446273f47225ab1e8f36634fc4d646dd2e35aa13972",
+        "8ce919ed65f8327d2921985af62affe6c22f2b0fd5c2f8cfafd4c989247f1bf4",
+        "ca99afb6c1bfff15c725cf0caeb8d84e8a17ab101fd465473bdbed252197fb5c",
+        "cff77b377ae273654a0a566b3b1fd4c9a4d31f79fc7c650b05f687c8a54a1b04",
+        "d1774306612ea1b70fa855f090bf3441c4cecd1ca0530c3a6375cc16a31bac40",
+        "f6f7a7951a11a63d02232273491cd02279970cf83f10114619c1dbedba20cb29",
+        "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f"
+      ],
+      "breaks": [
+        {
+          "node": "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "8ce919ed65f8327d2921985af62affe6c22f2b0fd5c2f8cfafd4c989247f1bf4",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "8ce919ed65f8327d2921985af62affe6c22f2b0fd5c2f8cfafd4c989247f1bf4",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "91aa2b0e78e2a5869cf295b513ba4ca034e0804fb5b1a3e6eaed22dad75431d1",
+      "name": "0c3b2289ac445c1b99b9",
+      "report": "0284c061529c1770c19103fbbf5f2f61effaa9a56d39297f6fb66a0beb20673f",
+      "report_name": "Round Nine translation filters 20261007",
+      "fully_traceable": false,
+      "nodes": [
+        "74cd326d6a3ad5f3a54045ca6d58afe61c764206ec79fdc2d512c9fa1d708e27",
+        "91aa2b0e78e2a5869cf295b513ba4ca034e0804fb5b1a3e6eaed22dad75431d1"
+      ],
+      "breaks": [
+        {
+          "node": "91aa2b0e78e2a5869cf295b513ba4ca034e0804fb5b1a3e6eaed22dad75431d1",
+          "reason": "AMBIGUOUS_OR_UNKNOWN_DEPENDENCY",
+          "component": "scanner data"
+        },
+        {
+          "node": "74cd326d6a3ad5f3a54045ca6d58afe61c764206ec79fdc2d512c9fa1d708e27",
+          "reason": "No supported explicit field reference was found in the retained visual query.",
+          "component": "scanner data"
+        },
+        {
+          "node": "74cd326d6a3ad5f3a54045ca6d58afe61c764206ec79fdc2d512c9fa1d708e27",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "91aa2b0e78e2a5869cf295b513ba4ca034e0804fb5b1a3e6eaed22dad75431d1",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "91aa2b0e78e2a5869cf295b513ba4ca034e0804fb5b1a3e6eaed22dad75431d1",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "91aa2b0e78e2a5869cf295b513ba4ca034e0804fb5b1a3e6eaed22dad75431d1",
+          "reason": "NO_INSTALLED_QUERY_ROUTE",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "93f70afcbb104ae4477a31350b112484eb99acb59aa81b464e75f6e96c5716d2",
+      "name": "Handled Quantity - unfiltered",
+      "report": "103a8673f2ac421338da53f45e79f52b81f54ad031cf42d6e3a1a7f4c7091edf",
+      "report_name": "Round Ten Visual Variety",
+      "fully_traceable": false,
+      "nodes": [
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "93f70afcbb104ae4477a31350b112484eb99acb59aa81b464e75f6e96c5716d2",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "93f70afcbb104ae4477a31350b112484eb99acb59aa81b464e75f6e96c5716d2",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "971a54dd1b44ecc035bdd009dbea646755da7baa056300de9d17c6533d51b1df",
+      "name": "Handled Quantity - unfiltered",
+      "report": "afc176df0c3c950c8213dabb151cf15f56faff0931901a02c150f2cb7c4242c4",
+      "report_name": "Declared predicate fixture 20261001",
+      "fully_traceable": false,
+      "nodes": [
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "971a54dd1b44ecc035bdd009dbea646755da7baa056300de9d17c6533d51b1df",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "971a54dd1b44ecc035bdd009dbea646755da7baa056300de9d17c6533d51b1df",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "98b9c46edc30be8855f7a08aaeada846eda3f20c7751bd395b32b591b530891e",
+      "name": "52ad7845a29556c5bfbb",
+      "report": "28760248652b0dd58171b1353b26f39f7af5642050f7c23db40740457ffbfa5c",
+      "report_name": "Inventory Health 0fd86f",
+      "fully_traceable": false,
+      "nodes": [
+        "98b9c46edc30be8855f7a08aaeada846eda3f20c7751bd395b32b591b530891e",
+        "ae91ffb5f7350b86a2c79a02fde3d813bc406d6288b7c463ecae271a77996dce"
+      ],
+      "breaks": [
+        {
+          "node": "98b9c46edc30be8855f7a08aaeada846eda3f20c7751bd395b32b591b530891e",
+          "reason": "AMBIGUOUS_OR_UNKNOWN_DEPENDENCY",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae91ffb5f7350b86a2c79a02fde3d813bc406d6288b7c463ecae271a77996dce",
+          "reason": "No supported explicit field reference was found in the retained visual query.",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae91ffb5f7350b86a2c79a02fde3d813bc406d6288b7c463ecae271a77996dce",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "98b9c46edc30be8855f7a08aaeada846eda3f20c7751bd395b32b591b530891e",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "98b9c46edc30be8855f7a08aaeada846eda3f20c7751bd395b32b591b530891e",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "98b9c46edc30be8855f7a08aaeada846eda3f20c7751bd395b32b591b530891e",
+          "reason": "NO_INSTALLED_QUERY_ROUTE",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "9b0ed54bc1e9f4cce854489425fa3b88ae9a479e0b3c676e292d0c140e5b883c",
+      "name": "52ad7845a29556c5bfbb",
+      "report": "ea416711e5c8734e197aa06523bb0106d57c20c1a6b6e7123a9e1d1fdf5e38ff",
+      "report_name": "Inventory Health 23619e",
+      "fully_traceable": false,
+      "nodes": [
+        "23f1d69b6d8d78a33e1e7995455f40d097b4abc04e5be154617992d02411f9d4",
+        "9b0ed54bc1e9f4cce854489425fa3b88ae9a479e0b3c676e292d0c140e5b883c"
+      ],
+      "breaks": [
+        {
+          "node": "9b0ed54bc1e9f4cce854489425fa3b88ae9a479e0b3c676e292d0c140e5b883c",
+          "reason": "AMBIGUOUS_OR_UNKNOWN_DEPENDENCY",
+          "component": "scanner data"
+        },
+        {
+          "node": "23f1d69b6d8d78a33e1e7995455f40d097b4abc04e5be154617992d02411f9d4",
+          "reason": "No supported explicit field reference was found in the retained visual query.",
+          "component": "scanner data"
+        },
+        {
+          "node": "23f1d69b6d8d78a33e1e7995455f40d097b4abc04e5be154617992d02411f9d4",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "9b0ed54bc1e9f4cce854489425fa3b88ae9a479e0b3c676e292d0c140e5b883c",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "9b0ed54bc1e9f4cce854489425fa3b88ae9a479e0b3c676e292d0c140e5b883c",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "9b0ed54bc1e9f4cce854489425fa3b88ae9a479e0b3c676e292d0c140e5b883c",
+          "reason": "NO_INSTALLED_QUERY_ROUTE",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "9cb46573c92af1e251ba8d7dfae43cd4854d04beec7a69b5803d5d3a020dc2c2",
+      "name": "Movement records",
+      "report": "3ba93e33aa41f6b91b0ef623bfd66bf2d9ec9eefd5e583643e6462e0dbd5b2ed",
+      "report_name": "Application Load Support",
+      "fully_traceable": false,
+      "nodes": [
+        "223fbf2804cadbb06e2afaf57edd64ae78f19938e6c2bb4dea54b5ef8c6eb705",
+        "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c",
+        "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+        "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+        "497b809aab319a091c08598988a6c8202715e5629e01a5d8b6be448d45edd062",
+        "58455eab1fe62096c7ca4a016386e65b43da93559601941a5fa19515638ea8d9",
+        "622950434c3abe37035e819cf2525718ae427083d849ebb75877a48a0990f5b1",
+        "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+        "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "92b4723080260428597b0efded7d8c1f13ec93b2d462248d946ed6ed042b8cc4",
+        "9cb46573c92af1e251ba8d7dfae43cd4854d04beec7a69b5803d5d3a020dc2c2"
+      ],
+      "breaks": [
+        {
+          "node": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        }
+      ]
+    },
+    {
+      "visual": "9ce0e047c27063c110caf8859dcb68a2802c693602052d8e05a6e554689393dd",
+      "name": "Handled Quantity - page and slicers",
+      "report": "afc176df0c3c950c8213dabb151cf15f56faff0931901a02c150f2cb7c4242c4",
+      "report_name": "Declared predicate fixture 20261001",
+      "fully_traceable": false,
+      "nodes": [
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "9ce0e047c27063c110caf8859dcb68a2802c693602052d8e05a6e554689393dd",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "9ce0e047c27063c110caf8859dcb68a2802c693602052d8e05a6e554689393dd",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "9e43215aaec958a6ab6e145a5eb06c396a68464872b00edba1182181dd9d8f85",
+      "name": "0c3b2289ac445c1b99b9",
+      "report": "afc176df0c3c950c8213dabb151cf15f56faff0931901a02c150f2cb7c4242c4",
+      "report_name": "Declared predicate fixture 20261001",
+      "fully_traceable": false,
+      "nodes": [
+        "9e43215aaec958a6ab6e145a5eb06c396a68464872b00edba1182181dd9d8f85",
+        "c933acecb5aee4ade1c3d84f64b0ffd4e60032487f6913ecabea3fc795fc176f"
+      ],
+      "breaks": [
+        {
+          "node": "9e43215aaec958a6ab6e145a5eb06c396a68464872b00edba1182181dd9d8f85",
+          "reason": "AMBIGUOUS_OR_UNKNOWN_DEPENDENCY",
+          "component": "scanner data"
+        },
+        {
+          "node": "c933acecb5aee4ade1c3d84f64b0ffd4e60032487f6913ecabea3fc795fc176f",
+          "reason": "No supported explicit field reference was found in the retained visual query.",
+          "component": "scanner data"
+        },
+        {
+          "node": "c933acecb5aee4ade1c3d84f64b0ffd4e60032487f6913ecabea3fc795fc176f",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "9e43215aaec958a6ab6e145a5eb06c396a68464872b00edba1182181dd9d8f85",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "9e43215aaec958a6ab6e145a5eb06c396a68464872b00edba1182181dd9d8f85",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "9e43215aaec958a6ab6e145a5eb06c396a68464872b00edba1182181dd9d8f85",
+          "reason": "NO_INSTALLED_QUERY_ROUTE",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "a104d621a75395e91e8a36b3981150c0bb7a53aec87226dceb733582161547ec",
+      "name": "Net Movement Units",
+      "report": "ea416711e5c8734e197aa06523bb0106d57c20c1a6b6e7123a9e1d1fdf5e38ff",
+      "report_name": "Inventory Health 23619e",
+      "fully_traceable": false,
+      "nodes": [
+        "01de44dc8d4bf220aa28e3a6df0082667bb6de2be17bdc9e01f9a9d5dc2eb998",
+        "07c0dbb66c87ea8e9c45ba0b38c4cf2f8736092ccbcd1e832bd3efb99f090278",
+        "243d53ffe49ae9fe5ac9fc3ad4281760eff3ed3426a24733792fbda018c05236",
+        "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+        "73dd4e1cf7f05ade436e66b018b252a0a9645ec2e854e02b4f00c4e05b4446b5",
+        "7df12a08bd8e7b6247da9bfba00b1be81c0e741542517b2e7a2020fa5c8e934a",
+        "7e64fd40161dd7cffeaf31c3a7f1c2caae2baa9fc49396dc509fc271e6b01915",
+        "a104d621a75395e91e8a36b3981150c0bb7a53aec87226dceb733582161547ec",
+        "c273b851995c55693b53e4576cc8ca261677e7aef212331e56858be8bffbbcef"
+      ],
+      "breaks": [
+        {
+          "node": "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "a104d621a75395e91e8a36b3981150c0bb7a53aec87226dceb733582161547ec",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "a104d621a75395e91e8a36b3981150c0bb7a53aec87226dceb733582161547ec",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "a88263feb4c97f42a3ab464bd787c082cbc6ba55438661658b0d4aa08e30edd3",
+      "name": "Handled Quantity - unfiltered",
+      "report": "0284c061529c1770c19103fbbf5f2f61effaa9a56d39297f6fb66a0beb20673f",
+      "report_name": "Round Nine translation filters 20261007",
+      "fully_traceable": false,
+      "nodes": [
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "a88263feb4c97f42a3ab464bd787c082cbc6ba55438661658b0d4aa08e30edd3",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "a88263feb4c97f42a3ab464bd787c082cbc6ba55438661658b0d4aa08e30edd3",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "a99de682a4c18a78ece5fc5eb960e2b471ada89fd4c6f600db551b6d48f0f1c0",
+      "name": "Received Units",
+      "report": "04a98d6713a52461f3b9a21b139d247c23d560853fec33c5d3a91afd65d08ed6",
+      "report_name": "Warehouse Performance 23619e",
+      "fully_traceable": false,
+      "nodes": [
+        "01de44dc8d4bf220aa28e3a6df0082667bb6de2be17bdc9e01f9a9d5dc2eb998",
+        "07c0dbb66c87ea8e9c45ba0b38c4cf2f8736092ccbcd1e832bd3efb99f090278",
+        "243d53ffe49ae9fe5ac9fc3ad4281760eff3ed3426a24733792fbda018c05236",
+        "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+        "73dd4e1cf7f05ade436e66b018b252a0a9645ec2e854e02b4f00c4e05b4446b5",
+        "7e64fd40161dd7cffeaf31c3a7f1c2caae2baa9fc49396dc509fc271e6b01915",
+        "a99de682a4c18a78ece5fc5eb960e2b471ada89fd4c6f600db551b6d48f0f1c0"
+      ],
+      "breaks": [
+        {
+          "node": "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "a99de682a4c18a78ece5fc5eb960e2b471ada89fd4c6f600db551b6d48f0f1c0",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "a99de682a4c18a78ece5fc5eb960e2b471ada89fd4c6f600db551b6d48f0f1c0",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "aa42673011dfdc0ef93038f21cfb5dbcd792a62f19c011560e6f9fa4d952c3eb",
+      "name": "Receipt Share",
+      "report": "221f0bd0038af452289bd41fe042b88a7836b2fce6d063b080af3ba494203c78",
+      "report_name": "Inventory Health f28cf2",
+      "fully_traceable": false,
+      "nodes": [
+        "08b27ce193422180add537b7ad365529fc5bb55c0ad7615b8e496d41f6886e24",
+        "322c06774b865da8c34d3446273f47225ab1e8f36634fc4d646dd2e35aa13972",
+        "8f3d146483baf0bb6684588389eb0c7df412495c115b6403fe49ca99f0b8c85b",
+        "aa42673011dfdc0ef93038f21cfb5dbcd792a62f19c011560e6f9fa4d952c3eb",
+        "ca99afb6c1bfff15c725cf0caeb8d84e8a17ab101fd465473bdbed252197fb5c",
+        "cff77b377ae273654a0a566b3b1fd4c9a4d31f79fc7c650b05f687c8a54a1b04",
+        "d1774306612ea1b70fa855f090bf3441c4cecd1ca0530c3a6375cc16a31bac40",
+        "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f"
+      ],
+      "breaks": [
+        {
+          "node": "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "aa42673011dfdc0ef93038f21cfb5dbcd792a62f19c011560e6f9fa4d952c3eb",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "aa42673011dfdc0ef93038f21cfb5dbcd792a62f19c011560e6f9fa4d952c3eb",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "b79d519faacc6e2e43b54705b5ffa88836dfda2c1636ae883a4caf0ae06ea763",
+      "name": "Net Movement Units",
+      "report": "faa54d7813d1339c2c95acf0641c56fa7f7a359aeedc08032377e13a16b90881",
+      "report_name": "Inventory Health e1b8e1",
+      "fully_traceable": false,
+      "nodes": [
+        "07842a031782be0f26df56face6e9a8720f4a03564aa522bec1aaaf353212a7c",
+        "0fa1add969242a165dddc6b188a6ec39daa056df654274febd2d4b305b3ae0a4",
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "182cd9ba9e1bb3ef2b0aa6c89b07f4479b8f5ed41744380d6da2bb3187f02cdc",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "41fdc992bb4f03c2b6042d97dc0a2469e167e83fa74bb4f65a7a88af867049ac",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "75cbf16febbd63111b05b99ebea486f41e72c16e1b188f95b19a36bd6a24f5ae",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "910705a3264a41a76ddba38a10c0cfdda94210cf3b2f9fd3bf3d43229f8f7e78",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "b79d519faacc6e2e43b54705b5ffa88836dfda2c1636ae883a4caf0ae06ea763",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d",
+        "efa68d7ade6033b3a3fa9ed7b7b966f1e33aeba0b9f6dbf511bae4f13c460761"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "b79d519faacc6e2e43b54705b5ffa88836dfda2c1636ae883a4caf0ae06ea763",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "c87525ca7458771b7ae7d4824de700a6376da29d7919c24a72d62a28ac018324",
+      "name": "Movement Rows",
+      "report": "ca22c57480d292efd37cee9c2a77a7e98140cea756bd6bbc26576da5faf98df2",
+      "report_name": "Warehouse Performance e1b8e1",
+      "fully_traceable": false,
+      "nodes": [
+        "1aa5af2e2fc5a676b0b593beec581d695e3f08be36c5172dbbfdf691aa82104c",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "c87525ca7458771b7ae7d4824de700a6376da29d7919c24a72d62a28ac018324"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "c87525ca7458771b7ae7d4824de700a6376da29d7919c24a72d62a28ac018324",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "c87525ca7458771b7ae7d4824de700a6376da29d7919c24a72d62a28ac018324",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "ca79595527ec2a40c1fbfa41f8ad65f10d4de113b8f93e5766443a8af311267b",
+      "name": "Movement Value",
+      "report": "221f0bd0038af452289bd41fe042b88a7836b2fce6d063b080af3ba494203c78",
+      "report_name": "Inventory Health f28cf2",
+      "fully_traceable": false,
+      "nodes": [
+        "a8f3004fb85788ea27fc0389a058a41d8f6557e7119dd7b2e69bf083d3f62fea",
+        "b8512fb3f52b518ca731745bda6703ce88e430572cccaf5041118a1f50854d0e",
+        "ca79595527ec2a40c1fbfa41f8ad65f10d4de113b8f93e5766443a8af311267b",
+        "cff77b377ae273654a0a566b3b1fd4c9a4d31f79fc7c650b05f687c8a54a1b04",
+        "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f"
+      ],
+      "breaks": [
+        {
+          "node": "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ca79595527ec2a40c1fbfa41f8ad65f10d4de113b8f93e5766443a8af311267b",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "ca79595527ec2a40c1fbfa41f8ad65f10d4de113b8f93e5766443a8af311267b",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "ce28c82993e89812f729448d7f85b506f042d72aa2715291c8ad654cfa6ba9a1",
+      "name": "Movement Rows",
+      "report": "f6d37d97e23e7a130adaba037b6cab7ea45036593f4eb2d3e83f62b107bc49b0",
+      "report_name": "Warehouse Performance f28cf2",
+      "fully_traceable": false,
+      "nodes": [
+        "b301d13097250158727f06a6ba711720f5b7f84b1880467518e4c6018a14ee59",
+        "ce28c82993e89812f729448d7f85b506f042d72aa2715291c8ad654cfa6ba9a1",
+        "cff77b377ae273654a0a566b3b1fd4c9a4d31f79fc7c650b05f687c8a54a1b04",
+        "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f"
+      ],
+      "breaks": [
+        {
+          "node": "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ce28c82993e89812f729448d7f85b506f042d72aa2715291c8ad654cfa6ba9a1",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "ce28c82993e89812f729448d7f85b506f042d72aa2715291c8ad654cfa6ba9a1",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "d1c348f2ac7a79a5838a817609be4c720c1a87189b7afed94cf19941e8611ac0",
+      "name": "52ad7845a29556c5bfbb",
+      "report": "221f0bd0038af452289bd41fe042b88a7836b2fce6d063b080af3ba494203c78",
+      "report_name": "Inventory Health f28cf2",
+      "fully_traceable": false,
+      "nodes": [
+        "123c98900ba8dd45d3340fe1f7f352ce3a845e3ec32a422f66454d61810312c0",
+        "d1c348f2ac7a79a5838a817609be4c720c1a87189b7afed94cf19941e8611ac0"
+      ],
+      "breaks": [
+        {
+          "node": "d1c348f2ac7a79a5838a817609be4c720c1a87189b7afed94cf19941e8611ac0",
+          "reason": "AMBIGUOUS_OR_UNKNOWN_DEPENDENCY",
+          "component": "scanner data"
+        },
+        {
+          "node": "123c98900ba8dd45d3340fe1f7f352ce3a845e3ec32a422f66454d61810312c0",
+          "reason": "No supported explicit field reference was found in the retained visual query.",
+          "component": "scanner data"
+        },
+        {
+          "node": "123c98900ba8dd45d3340fe1f7f352ce3a845e3ec32a422f66454d61810312c0",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "d1c348f2ac7a79a5838a817609be4c720c1a87189b7afed94cf19941e8611ac0",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "d1c348f2ac7a79a5838a817609be4c720c1a87189b7afed94cf19941e8611ac0",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "d1c348f2ac7a79a5838a817609be4c720c1a87189b7afed94cf19941e8611ac0",
+          "reason": "NO_INSTALLED_QUERY_ROUTE",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "d501dd709198d8e3d090df415099dc14f21774a9d9234ff9e7472273bea5fc79",
+      "name": "c7f26b57638b57d09343",
+      "report": "4ed0b704ba61d250ae958ef33d87601b00dd02df7b14a09e1f094d3881c9faac",
+      "report_name": "Warehouse Performance 0fd86f",
+      "fully_traceable": false,
+      "nodes": [
+        "d501dd709198d8e3d090df415099dc14f21774a9d9234ff9e7472273bea5fc79",
+        "eabdcf5b52f798fdd113344a93beb1814e2e195962763cee7184a8137e696694"
+      ],
+      "breaks": [
+        {
+          "node": "d501dd709198d8e3d090df415099dc14f21774a9d9234ff9e7472273bea5fc79",
+          "reason": "AMBIGUOUS_OR_UNKNOWN_DEPENDENCY",
+          "component": "scanner data"
+        },
+        {
+          "node": "eabdcf5b52f798fdd113344a93beb1814e2e195962763cee7184a8137e696694",
+          "reason": "No supported explicit field reference was found in the retained visual query.",
+          "component": "scanner data"
+        },
+        {
+          "node": "eabdcf5b52f798fdd113344a93beb1814e2e195962763cee7184a8137e696694",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "d501dd709198d8e3d090df415099dc14f21774a9d9234ff9e7472273bea5fc79",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "d501dd709198d8e3d090df415099dc14f21774a9d9234ff9e7472273bea5fc79",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "d501dd709198d8e3d090df415099dc14f21774a9d9234ff9e7472273bea5fc79",
+          "reason": "NO_INSTALLED_QUERY_ROUTE",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "d6da07ff20d1b5f0a211277073cec13e43f20ce85434598cbe1cef4f3e238502",
+      "name": "Movement Value",
+      "report": "ea416711e5c8734e197aa06523bb0106d57c20c1a6b6e7123a9e1d1fdf5e38ff",
+      "report_name": "Inventory Health 23619e",
+      "fully_traceable": false,
+      "nodes": [
+        "0e3be89052ca892846e1c6832c6f1c65e4758ced6e5d9742a4f9c6effda913e3",
+        "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+        "7e64fd40161dd7cffeaf31c3a7f1c2caae2baa9fc49396dc509fc271e6b01915",
+        "82e4e0d5731fa1dc441c67a43adfe89e5bd5013e99257719ca39f5eea3c0a622",
+        "d6da07ff20d1b5f0a211277073cec13e43f20ce85434598cbe1cef4f3e238502"
+      ],
+      "breaks": [
+        {
+          "node": "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "d6da07ff20d1b5f0a211277073cec13e43f20ce85434598cbe1cef4f3e238502",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "d6da07ff20d1b5f0a211277073cec13e43f20ce85434598cbe1cef4f3e238502",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "d74d1adf4b2f1c376087131fae59fe0b06d069a4bc5ba7e31840ecab6c258f11",
+      "name": "Activity by warehouse",
+      "report": "4ed0b704ba61d250ae958ef33d87601b00dd02df7b14a09e1f094d3881c9faac",
+      "report_name": "Warehouse Performance 0fd86f",
+      "fully_traceable": false,
+      "nodes": [
+        "0f262a6f9bb1d78799fc04b808309c5350f2c0ee276a02d3bdc15d0a2d03b9af",
+        "12b0c68284eb66aa7d10bf1da3320a986a52d63126638d4baf745591ad7fa900",
+        "171dd7b81c0fdfc343d19822f2df03ae5cbd573f50752dcdc17038d40d6d8f88",
+        "1a1ed7df0c0d9d97e568827eba388d49be485794d1b9db4f7de5f5e75ecf1335",
+        "55eec8c3e71e69445c01a87377d729670d5bf0765fb45c3b9e837ee33b1beac8",
+        "59a96c28f08c581bab6a6214fd3a58ab6389c58954c3f71f6214346ab86a14a7",
+        "6551f18bc8bfbe9bdb946290a617c4797d069e923958a4f88ac78ee0dd4b3af8",
+        "689008e9e1b6913cff81e0e3a7780123ac5e956ca03347db75692de8f7c8156a",
+        "7781650ab5c83f335619e46d0594c75f04e6db54566a4ccd15e9d5d8d7ace470",
+        "8018a76ec73923285dc7fbae04ef048592c321ba7ca1888f1329564ae7f4fd9d",
+        "844bf6a16d18c073d41041a7a0ec556989cdccb5bd8687dd8bcb3559d18c5bd4",
+        "b5fb39e278778f8113ec74f4bf262ca39239bfeb38ff38111269370e34303f86",
+        "d74d1adf4b2f1c376087131fae59fe0b06d069a4bc5ba7e31840ecab6c258f11",
+        "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+        "fbc3e5ccf649a7b7d51d8528de5ce4373f950df5dcddd8fbb830b2c96ea1e0b4"
+      ],
+      "breaks": [
+        {
+          "node": "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "0f262a6f9bb1d78799fc04b808309c5350f2c0ee276a02d3bdc15d0a2d03b9af",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "d74d1adf4b2f1c376087131fae59fe0b06d069a4bc5ba7e31840ecab6c258f11",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "d74d1adf4b2f1c376087131fae59fe0b06d069a4bc5ba7e31840ecab6c258f11",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "d99cbd0d0b82bf2a7374d1df4fb80a8f5308a2d4a0b317c0f990eb2bd4aa16c1",
+      "name": "52ad7845a29556c5bfbb",
+      "report": "faa54d7813d1339c2c95acf0641c56fa7f7a359aeedc08032377e13a16b90881",
+      "report_name": "Inventory Health e1b8e1",
+      "fully_traceable": false,
+      "nodes": [
+        "273ac4460fbfcf2453016aaa909c66722bd3c06ba2c8a8accfdc65f02e230bce",
+        "d99cbd0d0b82bf2a7374d1df4fb80a8f5308a2d4a0b317c0f990eb2bd4aa16c1"
+      ],
+      "breaks": [
+        {
+          "node": "d99cbd0d0b82bf2a7374d1df4fb80a8f5308a2d4a0b317c0f990eb2bd4aa16c1",
+          "reason": "AMBIGUOUS_OR_UNKNOWN_DEPENDENCY",
+          "component": "scanner data"
+        },
+        {
+          "node": "273ac4460fbfcf2453016aaa909c66722bd3c06ba2c8a8accfdc65f02e230bce",
+          "reason": "No supported explicit field reference was found in the retained visual query.",
+          "component": "scanner data"
+        },
+        {
+          "node": "273ac4460fbfcf2453016aaa909c66722bd3c06ba2c8a8accfdc65f02e230bce",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "d99cbd0d0b82bf2a7374d1df4fb80a8f5308a2d4a0b317c0f990eb2bd4aa16c1",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "d99cbd0d0b82bf2a7374d1df4fb80a8f5308a2d4a0b317c0f990eb2bd4aa16c1",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "d99cbd0d0b82bf2a7374d1df4fb80a8f5308a2d4a0b317c0f990eb2bd4aa16c1",
+          "reason": "NO_INSTALLED_QUERY_ROUTE",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "dc38010281348f3b02b56d62fde05ff02dd223e43bc4e187ac0c0e8d790f891a",
+      "name": "Movement Value",
+      "report": "28760248652b0dd58171b1353b26f39f7af5642050f7c23db40740457ffbfa5c",
+      "report_name": "Inventory Health 0fd86f",
+      "fully_traceable": false,
+      "nodes": [
+        "55eec8c3e71e69445c01a87377d729670d5bf0765fb45c3b9e837ee33b1beac8",
+        "844bf6a16d18c073d41041a7a0ec556989cdccb5bd8687dd8bcb3559d18c5bd4",
+        "b5fb39e278778f8113ec74f4bf262ca39239bfeb38ff38111269370e34303f86",
+        "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+        "dc38010281348f3b02b56d62fde05ff02dd223e43bc4e187ac0c0e8d790f891a"
+      ],
+      "breaks": [
+        {
+          "node": "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "dc38010281348f3b02b56d62fde05ff02dd223e43bc4e187ac0c0e8d790f891a",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "dc38010281348f3b02b56d62fde05ff02dd223e43bc4e187ac0c0e8d790f891a",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "ddf84fca2e6b7e285287f235bde60d0a6dab9eee8e5657d2496753bcbffc21c5",
+      "name": "Movement Value",
+      "report": "faa54d7813d1339c2c95acf0641c56fa7f7a359aeedc08032377e13a16b90881",
+      "report_name": "Inventory Health e1b8e1",
+      "fully_traceable": false,
+      "nodes": [
+        "0cd339b5b767790702dd455473afb9311429660292d3385bd951391853393c13",
+        "1315646573822a395b3df48a4f883ca0f362b6dd71ca9cc7e8e86dece05f22ab",
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "6526e728ae9e243955030deb3023e572b1807f7285006e0b4a869dea1d36a849",
+        "67a1baef537bb4e5193cc3c4656ada5fc8f4323d0d57fbf3a48d808c478d9766",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "b57ec788f6d6ddf50ad66f014d13b8999acd7ff91c46a860f7095d598d589468",
+        "ddf84fca2e6b7e285287f235bde60d0a6dab9eee8e5657d2496753bcbffc21c5",
+        "f0f34ec6f8ae83905d9d2892ecb7fe820f58f7f7c01efd62f1904006ed6f4fde",
+        "fdc07c220324a226a47f0eb39306a38883c6ac52dc21b94cce73d6ada04abbac"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "fdc07c220324a226a47f0eb39306a38883c6ac52dc21b94cce73d6ada04abbac",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ddf84fca2e6b7e285287f235bde60d0a6dab9eee8e5657d2496753bcbffc21c5",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "e3cf2e938fef27816dd12155c36fbfd790e0295a35269f739027ac863e489ffe",
+      "name": "Movement Units",
+      "report": "221f0bd0038af452289bd41fe042b88a7836b2fce6d063b080af3ba494203c78",
+      "report_name": "Inventory Health f28cf2",
+      "fully_traceable": false,
+      "nodes": [
+        "322c06774b865da8c34d3446273f47225ab1e8f36634fc4d646dd2e35aa13972",
+        "cff77b377ae273654a0a566b3b1fd4c9a4d31f79fc7c650b05f687c8a54a1b04",
+        "d1774306612ea1b70fa855f090bf3441c4cecd1ca0530c3a6375cc16a31bac40",
+        "e3cf2e938fef27816dd12155c36fbfd790e0295a35269f739027ac863e489ffe",
+        "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f"
+      ],
+      "breaks": [
+        {
+          "node": "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "e3cf2e938fef27816dd12155c36fbfd790e0295a35269f739027ac863e489ffe",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "e3cf2e938fef27816dd12155c36fbfd790e0295a35269f739027ac863e489ffe",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "e4a2ae1bd51f0a383a901b02dcd853284f36df9f5d5727fc192cf89378764bb4",
+      "name": "Issued Units",
+      "report": "ca22c57480d292efd37cee9c2a77a7e98140cea756bd6bbc26576da5faf98df2",
+      "report_name": "Warehouse Performance e1b8e1",
+      "fully_traceable": false,
+      "nodes": [
+        "0fa1add969242a165dddc6b188a6ec39daa056df654274febd2d4b305b3ae0a4",
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "182cd9ba9e1bb3ef2b0aa6c89b07f4479b8f5ed41744380d6da2bb3187f02cdc",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "41fdc992bb4f03c2b6042d97dc0a2469e167e83fa74bb4f65a7a88af867049ac",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "910705a3264a41a76ddba38a10c0cfdda94210cf3b2f9fd3bf3d43229f8f7e78",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d",
+        "e4a2ae1bd51f0a383a901b02dcd853284f36df9f5d5727fc192cf89378764bb4",
+        "efa68d7ade6033b3a3fa9ed7b7b966f1e33aeba0b9f6dbf511bae4f13c460761"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "e4a2ae1bd51f0a383a901b02dcd853284f36df9f5d5727fc192cf89378764bb4",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "e56357ffc8c145913e800bed2b8978f7409b54e30affa4ed8a2472d2c80a8b61",
+      "name": "Activity by warehouse",
+      "report": "28760248652b0dd58171b1353b26f39f7af5642050f7c23db40740457ffbfa5c",
+      "report_name": "Inventory Health 0fd86f",
+      "fully_traceable": false,
+      "nodes": [
+        "00ccb4c74c50180c279e83af4ea43df3e02f849dc1ad8c23c4ec38927bb6b736",
+        "0f262a6f9bb1d78799fc04b808309c5350f2c0ee276a02d3bdc15d0a2d03b9af",
+        "171dd7b81c0fdfc343d19822f2df03ae5cbd573f50752dcdc17038d40d6d8f88",
+        "1a1ed7df0c0d9d97e568827eba388d49be485794d1b9db4f7de5f5e75ecf1335",
+        "55eec8c3e71e69445c01a87377d729670d5bf0765fb45c3b9e837ee33b1beac8",
+        "59a96c28f08c581bab6a6214fd3a58ab6389c58954c3f71f6214346ab86a14a7",
+        "6551f18bc8bfbe9bdb946290a617c4797d069e923958a4f88ac78ee0dd4b3af8",
+        "7781650ab5c83f335619e46d0594c75f04e6db54566a4ccd15e9d5d8d7ace470",
+        "8018a76ec73923285dc7fbae04ef048592c321ba7ca1888f1329564ae7f4fd9d",
+        "844bf6a16d18c073d41041a7a0ec556989cdccb5bd8687dd8bcb3559d18c5bd4",
+        "b5fb39e278778f8113ec74f4bf262ca39239bfeb38ff38111269370e34303f86",
+        "c2b3bb9ace471bf46f4c49cf46aaeb1fcbeafb1481f2f3c57a6409918d36af72",
+        "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+        "e56357ffc8c145913e800bed2b8978f7409b54e30affa4ed8a2472d2c80a8b61",
+        "fbc3e5ccf649a7b7d51d8528de5ce4373f950df5dcddd8fbb830b2c96ea1e0b4"
+      ],
+      "breaks": [
+        {
+          "node": "0f262a6f9bb1d78799fc04b808309c5350f2c0ee276a02d3bdc15d0a2d03b9af",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "daad8df3a1958466f91056bd17ded588c36d3bad483a32b350eaa27d1749cca1",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "e56357ffc8c145913e800bed2b8978f7409b54e30affa4ed8a2472d2c80a8b61",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "e56357ffc8c145913e800bed2b8978f7409b54e30affa4ed8a2472d2c80a8b61",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "e874f525b81c12f2a90a8de3f85dee8c07e56feca3ba6abf93a11dcc10c0f4ba",
+      "name": "Value Per Unit",
+      "report": "ca22c57480d292efd37cee9c2a77a7e98140cea756bd6bbc26576da5faf98df2",
+      "report_name": "Warehouse Performance e1b8e1",
+      "fully_traceable": false,
+      "nodes": [
+        "0cd339b5b767790702dd455473afb9311429660292d3385bd951391853393c13",
+        "1315646573822a395b3df48a4f883ca0f362b6dd71ca9cc7e8e86dece05f22ab",
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "3e109ce7d7a5d74c93c4fb5038d2b61c3d8221874e2290e65aa8eb38034045ad",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "6526e728ae9e243955030deb3023e572b1807f7285006e0b4a869dea1d36a849",
+        "67a1baef537bb4e5193cc3c4656ada5fc8f4323d0d57fbf3a48d808c478d9766",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "b57ec788f6d6ddf50ad66f014d13b8999acd7ff91c46a860f7095d598d589468",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d",
+        "e874f525b81c12f2a90a8de3f85dee8c07e56feca3ba6abf93a11dcc10c0f4ba",
+        "f0f34ec6f8ae83905d9d2892ecb7fe820f58f7f7c01efd62f1904006ed6f4fde",
+        "fdc07c220324a226a47f0eb39306a38883c6ac52dc21b94cce73d6ada04abbac"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "fdc07c220324a226a47f0eb39306a38883c6ac52dc21b94cce73d6ada04abbac",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "e874f525b81c12f2a90a8de3f85dee8c07e56feca3ba6abf93a11dcc10c0f4ba",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "eaa47593d6534e7b1b6811676ed822435b1512220c68d0ab7d278076585f7976",
+      "name": "Handled Quantity - unfiltered",
+      "report": "103a8673f2ac421338da53f45e79f52b81f54ad031cf42d6e3a1a7f4c7091edf",
+      "report_name": "Round Ten Visual Variety",
+      "fully_traceable": false,
+      "nodes": [
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "23e75f44a50b2dcd2dc4a5c90f9e52eb83975c0deab438fa30911737cef1aa07",
+        "24d258a5e7241f80aba304f581676cbb503ce70868e6d66b4e1947c5e14d15be",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "4257a0f152666519571527ff2f64b6e1e81172640659b3b5e8a4fdb49b18ea81",
+        "42d4098873890daf90472abd9fffd4ea8a12bb0b27daed118894712e73d12797",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "680885143b6dedbdaa1b4131ae699e0932ce14d46c841ae5bffd966f8ac145de",
+        "6dc7058c1110cf122b2c88a10f487c3ec163c1dc36fdb132956bf1e262bca891",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "817bc6315f69ea2590c5447168d2696eb8a60462590813fcdfe47cbe2b6a65c1",
+        "9819d811fe3c29230c451c861ba7db9e36fd91e242fa8b90d59c37ca90cff64c",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "b3fca444ac8e234ca079c8100dba1152ccb53cec60a0a89ae19c9bf7c0526834",
+        "d513786d83b1a47cc505ac7e513fc707170b7b792369b8d2b75fbba42329db72",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d",
+        "eaa47593d6534e7b1b6811676ed822435b1512220c68d0ab7d278076585f7976"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "23e75f44a50b2dcd2dc4a5c90f9e52eb83975c0deab438fa30911737cef1aa07",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "24d258a5e7241f80aba304f581676cbb503ce70868e6d66b4e1947c5e14d15be",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "b3fca444ac8e234ca079c8100dba1152ccb53cec60a0a89ae19c9bf7c0526834",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "eaa47593d6534e7b1b6811676ed822435b1512220c68d0ab7d278076585f7976",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "ec87d18f27a8d6c61e9e82fa35542d6b8655e796656d6d6d771fc019a1f25ccf",
+      "name": "Activity by warehouse",
+      "report": "ca22c57480d292efd37cee9c2a77a7e98140cea756bd6bbc26576da5faf98df2",
+      "report_name": "Warehouse Performance e1b8e1",
+      "fully_traceable": false,
+      "nodes": [
+        "0cd339b5b767790702dd455473afb9311429660292d3385bd951391853393c13",
+        "0fa1add969242a165dddc6b188a6ec39daa056df654274febd2d4b305b3ae0a4",
+        "1315646573822a395b3df48a4f883ca0f362b6dd71ca9cc7e8e86dece05f22ab",
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "182cd9ba9e1bb3ef2b0aa6c89b07f4479b8f5ed41744380d6da2bb3187f02cdc",
+        "1aa5af2e2fc5a676b0b593beec581d695e3f08be36c5172dbbfdf691aa82104c",
+        "23e75f44a50b2dcd2dc4a5c90f9e52eb83975c0deab438fa30911737cef1aa07",
+        "24d258a5e7241f80aba304f581676cbb503ce70868e6d66b4e1947c5e14d15be",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "3e109ce7d7a5d74c93c4fb5038d2b61c3d8221874e2290e65aa8eb38034045ad",
+        "41fdc992bb4f03c2b6042d97dc0a2469e167e83fa74bb4f65a7a88af867049ac",
+        "4257a0f152666519571527ff2f64b6e1e81172640659b3b5e8a4fdb49b18ea81",
+        "42d4098873890daf90472abd9fffd4ea8a12bb0b27daed118894712e73d12797",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "6526e728ae9e243955030deb3023e572b1807f7285006e0b4a869dea1d36a849",
+        "67a1baef537bb4e5193cc3c4656ada5fc8f4323d0d57fbf3a48d808c478d9766",
+        "680885143b6dedbdaa1b4131ae699e0932ce14d46c841ae5bffd966f8ac145de",
+        "6dc7058c1110cf122b2c88a10f487c3ec163c1dc36fdb132956bf1e262bca891",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "75cbf16febbd63111b05b99ebea486f41e72c16e1b188f95b19a36bd6a24f5ae",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "817bc6315f69ea2590c5447168d2696eb8a60462590813fcdfe47cbe2b6a65c1",
+        "910705a3264a41a76ddba38a10c0cfdda94210cf3b2f9fd3bf3d43229f8f7e78",
+        "9819d811fe3c29230c451c861ba7db9e36fd91e242fa8b90d59c37ca90cff64c",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "b3fca444ac8e234ca079c8100dba1152ccb53cec60a0a89ae19c9bf7c0526834",
+        "b57ec788f6d6ddf50ad66f014d13b8999acd7ff91c46a860f7095d598d589468",
+        "d513786d83b1a47cc505ac7e513fc707170b7b792369b8d2b75fbba42329db72",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d",
+        "ec87d18f27a8d6c61e9e82fa35542d6b8655e796656d6d6d771fc019a1f25ccf",
+        "efa68d7ade6033b3a3fa9ed7b7b966f1e33aeba0b9f6dbf511bae4f13c460761",
+        "f0f34ec6f8ae83905d9d2892ecb7fe820f58f7f7c01efd62f1904006ed6f4fde",
+        "fdc07c220324a226a47f0eb39306a38883c6ac52dc21b94cce73d6ada04abbac"
+      ],
+      "breaks": [
+        {
+          "node": "23e75f44a50b2dcd2dc4a5c90f9e52eb83975c0deab438fa30911737cef1aa07",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "24d258a5e7241f80aba304f581676cbb503ce70868e6d66b4e1947c5e14d15be",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "b3fca444ac8e234ca079c8100dba1152ccb53cec60a0a89ae19c9bf7c0526834",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "fdc07c220324a226a47f0eb39306a38883c6ac52dc21b94cce73d6ada04abbac",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ec87d18f27a8d6c61e9e82fa35542d6b8655e796656d6d6d771fc019a1f25ccf",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "f04397944a89f2f703d14983a20827f1ee32486aea76a7cc42ad45b3636ff05a",
+      "name": "Receipt Share",
+      "report": "ea416711e5c8734e197aa06523bb0106d57c20c1a6b6e7123a9e1d1fdf5e38ff",
+      "report_name": "Inventory Health 23619e",
+      "fully_traceable": false,
+      "nodes": [
+        "01de44dc8d4bf220aa28e3a6df0082667bb6de2be17bdc9e01f9a9d5dc2eb998",
+        "07c0dbb66c87ea8e9c45ba0b38c4cf2f8736092ccbcd1e832bd3efb99f090278",
+        "243d53ffe49ae9fe5ac9fc3ad4281760eff3ed3426a24733792fbda018c05236",
+        "3a3e4d2cc64add3865cd7266e8d5224c03ba84312d5bfb9dff9c10c6339e018f",
+        "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+        "73dd4e1cf7f05ade436e66b018b252a0a9645ec2e854e02b4f00c4e05b4446b5",
+        "7e64fd40161dd7cffeaf31c3a7f1c2caae2baa9fc49396dc509fc271e6b01915",
+        "f04397944a89f2f703d14983a20827f1ee32486aea76a7cc42ad45b3636ff05a"
+      ],
+      "breaks": [
+        {
+          "node": "5979032718508d179ad9c3a0bb417e6b106eb3b1b7d9b314dd9b594aa658f0c7",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "f04397944a89f2f703d14983a20827f1ee32486aea76a7cc42ad45b3636ff05a",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "f04397944a89f2f703d14983a20827f1ee32486aea76a7cc42ad45b3636ff05a",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "f36f101ea7a918f44038bf20d5541ec03a2ad7ac90b23e6c7fa8da69035654f1",
+      "name": "Received Units",
+      "report": "ca22c57480d292efd37cee9c2a77a7e98140cea756bd6bbc26576da5faf98df2",
+      "report_name": "Warehouse Performance e1b8e1",
+      "fully_traceable": false,
+      "nodes": [
+        "0fa1add969242a165dddc6b188a6ec39daa056df654274febd2d4b305b3ae0a4",
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "41fdc992bb4f03c2b6042d97dc0a2469e167e83fa74bb4f65a7a88af867049ac",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "75cbf16febbd63111b05b99ebea486f41e72c16e1b188f95b19a36bd6a24f5ae",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "910705a3264a41a76ddba38a10c0cfdda94210cf3b2f9fd3bf3d43229f8f7e78",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d",
+        "efa68d7ade6033b3a3fa9ed7b7b966f1e33aeba0b9f6dbf511bae4f13c460761",
+        "f36f101ea7a918f44038bf20d5541ec03a2ad7ac90b23e6c7fa8da69035654f1"
+      ],
+      "breaks": [
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "f36f101ea7a918f44038bf20d5541ec03a2ad7ac90b23e6c7fa8da69035654f1",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "f4b8e5db231e2eee3921600b51bd7b6eed79f3126f3731a8c1dabd3d730a4d42",
+      "name": "Received Units",
+      "report": "f6d37d97e23e7a130adaba037b6cab7ea45036593f4eb2d3e83f62b107bc49b0",
+      "report_name": "Warehouse Performance f28cf2",
+      "fully_traceable": false,
+      "nodes": [
+        "08b27ce193422180add537b7ad365529fc5bb55c0ad7615b8e496d41f6886e24",
+        "322c06774b865da8c34d3446273f47225ab1e8f36634fc4d646dd2e35aa13972",
+        "ca99afb6c1bfff15c725cf0caeb8d84e8a17ab101fd465473bdbed252197fb5c",
+        "cff77b377ae273654a0a566b3b1fd4c9a4d31f79fc7c650b05f687c8a54a1b04",
+        "d1774306612ea1b70fa855f090bf3441c4cecd1ca0530c3a6375cc16a31bac40",
+        "f4b8e5db231e2eee3921600b51bd7b6eed79f3126f3731a8c1dabd3d730a4d42",
+        "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f"
+      ],
+      "breaks": [
+        {
+          "node": "fb9c410dab3867427e6590f3baaa27754ac67debb90cbf4925af2dda10e0be8f",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "f4b8e5db231e2eee3921600b51bd7b6eed79f3126f3731a8c1dabd3d730a4d42",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "f4b8e5db231e2eee3921600b51bd7b6eed79f3126f3731a8c1dabd3d730a4d42",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "f55e2f6d431d6b1f3b7215ca64b6151315b86531b0c96d2bc643831c2d2fec97",
+      "name": "Handled Quantity - unfiltered",
+      "report": "103a8673f2ac421338da53f45e79f52b81f54ad031cf42d6e3a1a7f4c7091edf",
+      "report_name": "Round Ten Visual Variety",
+      "fully_traceable": false,
+      "nodes": [
+        "0bdcd26a46d13be4ad3922a498e3f42989e27c9b15199332816106aa32c57ead",
+        "11dbebaea27b011ec3db49a053ed36b0cf3850b599cb7014ca3f75b7702a11dd",
+        "175f08f322bdd4b2a46a490d3c3b0f2fdf18adb3f02535c7b17c2a9a1560cf97",
+        "23e75f44a50b2dcd2dc4a5c90f9e52eb83975c0deab438fa30911737cef1aa07",
+        "24d258a5e7241f80aba304f581676cbb503ce70868e6d66b4e1947c5e14d15be",
+        "3552a388e15ce7b56c2c04979593e39bf2d895992a682b743f23286124775c04",
+        "3b0ce9d3288d2eed519dc99cbf285c9e96aab8f22f1da74846ecf030a814bcd5",
+        "4257a0f152666519571527ff2f64b6e1e81172640659b3b5e8a4fdb49b18ea81",
+        "42d4098873890daf90472abd9fffd4ea8a12bb0b27daed118894712e73d12797",
+        "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+        "4e58bc9043df393fe5d8fb1133fad991d596e96e2993a7d639c139a01c8b1121",
+        "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+        "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+        "5b737f93ab046924375d135994fc54f038b24911e518401c98a9088c437c7bbe",
+        "680885143b6dedbdaa1b4131ae699e0932ce14d46c841ae5bffd966f8ac145de",
+        "6dc7058c1110cf122b2c88a10f487c3ec163c1dc36fdb132956bf1e262bca891",
+        "6ed58351b74e777aa3d9fdc7ab6a99abc4d77288079e8cc5d6a3b422c8386eeb",
+        "6fc404c52d3cc97ab539154eea503ac413af9e529a89dbfe4476742c7e56e896",
+        "6fe95fba4369156c34e5c02b81e033ea1c6472d3ef3b822c721a4e8967aa6356",
+        "7fbdc11ccd7d2d8244c65c52b441671e81c45bdb6fd2104df62eeb6dc0baff60",
+        "817bc6315f69ea2590c5447168d2696eb8a60462590813fcdfe47cbe2b6a65c1",
+        "8dbd45adcf03ad87b81f223977fa7d77e9cad3e281f6282d4cead9e5c5472fb9",
+        "95b6abe77225c11984ab4cd4d542c3b797b9970036dc2d00b3f74f96ca230402",
+        "9819d811fe3c29230c451c861ba7db9e36fd91e242fa8b90d59c37ca90cff64c",
+        "a1fc5f1b1c56c7a05ae2233c36fb66cf1150224ac89ece0ead3bea9d577f3d85",
+        "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+        "b3fca444ac8e234ca079c8100dba1152ccb53cec60a0a89ae19c9bf7c0526834",
+        "d513786d83b1a47cc505ac7e513fc707170b7b792369b8d2b75fbba42329db72",
+        "d7fb095b2a5619ca04afb68dc8fddac9bebe2127d5b071871c95d9c8a82dfa59",
+        "d9f87e0074ae00a7d6360f293e9dd75d9fb11972b45f90339828dc4d0915c2c6",
+        "dd5caba583319e3814a57b1a27b67af2c2a37081954a6c2c158e42f02e3f308b",
+        "e22e14b0fcb4f5d3fe41af21aa913a1102bc56a7d9810cbd06d5e4f9bc67410d",
+        "f55e2f6d431d6b1f3b7215ca64b6151315b86531b0c96d2bc643831c2d2fec97"
+      ],
+      "breaks": [
+        {
+          "node": "d9f87e0074ae00a7d6360f293e9dd75d9fb11972b45f90339828dc4d0915c2c6",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "23e75f44a50b2dcd2dc4a5c90f9e52eb83975c0deab438fa30911737cef1aa07",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "5b55e1890082095113a4783aab55db0f69a932b4a7d8563e312eb7ff79b8b85d",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "8dbd45adcf03ad87b81f223977fa7d77e9cad3e281f6282d4cead9e5c5472fb9",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "24d258a5e7241f80aba304f581676cbb503ce70868e6d66b4e1947c5e14d15be",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "6ed58351b74e777aa3d9fdc7ab6a99abc4d77288079e8cc5d6a3b422c8386eeb",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "b3fca444ac8e234ca079c8100dba1152ccb53cec60a0a89ae19c9bf7c0526834",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "461ffcc8fec651c912a327c2153a70ac4efb29f60f806b08e87e7455f5da2dab",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "ae958aae54ec0dae5ab87dcfa88672b99b1d53f83239838d85c583cd472e6bd8",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "4fdf72c917bd862db503aa357929a980577fb9e6b580043d164b0c5427eb5d01",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "f55e2f6d431d6b1f3b7215ca64b6151315b86531b0c96d2bc643831c2d2fec97",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        }
+      ]
+    },
+    {
+      "visual": "fd3512569e223fa583f312a19af675e13a1d80840c94e63be920a19486b9245e",
+      "name": "6b1bb066d22d5e9a9cc3",
+      "report": "afc176df0c3c950c8213dabb151cf15f56faff0931901a02c150f2cb7c4242c4",
+      "report_name": "Declared predicate fixture 20261001",
+      "fully_traceable": false,
+      "nodes": [
+        "712fc35f8b1570ad420199963d31bf596727200041f8627a4f85b25a7d8a8585",
+        "fd3512569e223fa583f312a19af675e13a1d80840c94e63be920a19486b9245e"
+      ],
+      "breaks": [
+        {
+          "node": "fd3512569e223fa583f312a19af675e13a1d80840c94e63be920a19486b9245e",
+          "reason": "AMBIGUOUS_OR_UNKNOWN_DEPENDENCY",
+          "component": "scanner data"
+        },
+        {
+          "node": "712fc35f8b1570ad420199963d31bf596727200041f8627a4f85b25a7d8a8585",
+          "reason": "No supported explicit field reference was found in the retained visual query.",
+          "component": "scanner data"
+        },
+        {
+          "node": "712fc35f8b1570ad420199963d31bf596727200041f8627a4f85b25a7d8a8585",
+          "reason": "NO_UPSTREAM_BINDING",
+          "component": "scanner data"
+        },
+        {
+          "node": "fd3512569e223fa583f312a19af675e13a1d80840c94e63be920a19486b9245e",
+          "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "fd3512569e223fa583f312a19af675e13a1d80840c94e63be920a19486b9245e",
+          "reason": "NO_PRODUCER_REACHED",
+          "component": "route builder"
+        },
+        {
+          "node": "fd3512569e223fa583f312a19af675e13a1d80840c94e63be920a19486b9245e",
+          "reason": "NO_INSTALLED_QUERY_ROUTE",
+          "component": "route builder"
+        }
+      ]
+    }
+  ]
+}

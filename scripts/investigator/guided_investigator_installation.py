@@ -15,7 +15,7 @@ from .estate_graph_contract import canonical,digest
 class Factory:
     def __init__(self,*,state,graph,routes,native,context_for,triage_for,model_for,
                  reserve,persist,job_runs,refresh_history,security_definitions=None,
-                 checkpoint_for=None,prepare_route=None,begin_case=None,candidate_details=None,screenshot_reader=None,declared_continuations=None,associated_nodes=None):
+                 checkpoint_for=None,prepare_route=None,begin_case=None,candidate_details=None,screenshot_reader=None,declared_continuations=None,associated_nodes=None,definition_for=None):
         self.state,self.graph,self.routes=state,graph,deepcopy(routes)
         self.native,self.context_for,self.triage_for,self.model_for=native,context_for,triage_for,model_for
         self.reserve,self.persist=reserve,persist
@@ -24,6 +24,7 @@ class Factory:
         self.screenshot_reader=screenshot_reader
         self.declared_continuations=declared_continuations
         self.associated_nodes=associated_nodes
+        self.definition_for=definition_for
         self.job_runs,self.refresh_history,self.security=job_runs,refresh_history,security_definitions
         self.checkpoint_for=checkpoint_for or (lambda case_id:SharedStore(state,'ai-query:'+case_id,resume=True))
         for route in self.routes.values():
@@ -55,6 +56,19 @@ class Factory:
                        and (n.get('owner') in owners or n.get('properties',{}).get('asset_id') in owners)]
             return {**path,'nodes':[*path['nodes'],*additions]}
         if intake.get('visual'):return associated(self.graph.path_to_source(intake['visual']))
+        # A named measure is its own target. Do not resend every sibling
+        # visual's calculation path merely because the visual is optional.
+        from .guided_intake import Catalog
+        choices=Catalog(catalog)
+        pages=[{'id':intake['page']}] if intake.get('page') else choices.pages(intake['report'])
+        visuals=[v for page in pages for v in choices.visuals(intake['report'],page['id'])]
+        measures={m['id'] for visual in visuals for m in visual.get('measures',[])}
+        named=[r for r in choices.ranked(intake.get('description',''),'MEASURE',within=measures) if r['confidence']=='NAMED']
+        if len(named)==1:
+            path=self.graph.path_to_source(named[0]['id'])
+            path['target_selection']='Unique explicitly named measure within selected report/page; no visual selected or visual-specific restriction inferred.'
+            path['resolved_measure']=named[0]
+            return associated(path)
         # A record ticket can explicitly name a physical object without
         # naming a visual. Resolve that literal against installed routes;
         # do not expand every visual in its report or silently choose one.
@@ -102,7 +116,38 @@ class Factory:
                 'unavailable_owners':unavailable,'truncated':truncated,
                 'target_selection':'Report/page resolved; visual remains optional. Candidate measures are not a selected replacement visual.'})
 
+    def resolve_path(self,path):
+        path=self.attach_native_ancestors(deepcopy(path))
+        if not self.declared_continuations:return path
+        nodes={n['id']:n for n in path['nodes']}
+        def retained_edge(edge):
+            return deepcopy(edge)if edge.get('id')else{**deepcopy(edge),'id':'derived:'+digest(edge),'id_basis':'DERIVED_PROJECTED_EDGE_CONTENT'}
+        edges={value['id']:value for edge in path.get('edges',[])for value in [retained_edge(edge)]}
+        bridges={digest(b):b for b in path.get('declared_route_bridges',[])}
+        visited=set();catalog={n['id']:n for n in self.graph.intake_catalog()['nodes']}
+        while True:
+            current={**path,'nodes':list(nodes.values()),'edges':list(edges.values())}
+            declarations=self.declared_continuations(current)
+            # A stored column's literal native parent can have the missing
+            # producer edges. Walk that parent too; ownership is not name matching.
+            roots=[n['id']for n in nodes.values()if n.get('kind')in ('TABLE','VIEW')and n['id']not in visited]
+            for bridge in declarations:
+                bridges[digest(bridge)]=bridge
+                roots.extend(root for root in bridge['graph_nodes'] if root not in visited)
+            roots=list(dict.fromkeys(roots))
+            if not roots:break
+            for root in roots:
+                if root not in self.graph.allowed:raise ValueError('DECLARED_BRIDGE_OUTSIDE_ADMITTED_GRAPH')
+                visited.add(root);kind=catalog.get(root,nodes.get(root,{})).get('kind')
+                extra=(self.graph.calculation_path(root) if kind in ('PIPELINE','COPY_ACTIVITY','NOTEBOOK','QUERY_STEP','PROCEDURE',None)else self.graph.path_to_source(root))
+                extra=self.attach_native_ancestors(extra)
+                nodes.update({n['id']:n for n in extra['nodes']})
+                edges.update({value['id']:value for edge in extra.get('edges',[])for value in [retained_edge(edge)]})
+        return {**path,'nodes':list(nodes.values()),'edges':list(edges.values()),'declared_route_bridges':list(bridges.values())}
+
     def __call__(self,case):
+        from time import monotonic
+        route_started=monotonic()
         if self.begin_case:self.begin_case()
         self.routes=deepcopy(self.registry)
         intake=deepcopy(case['intake'])
@@ -113,17 +158,7 @@ class Factory:
         # records or losing them from later case-file/handoff composition.
         path={**path,'edges':[deepcopy(e) if e.get('id') else
             {**deepcopy(e),'id':'derived:'+digest(e),'id_basis':'DERIVED_PROJECTED_EDGE_CONTENT'} for e in path['edges']]}
-        if self.declared_continuations:
-            bridges=self.declared_continuations(path)
-            nodes={n['id']:n for n in path['nodes']};edges={e['id']:e for e in path['edges']}
-            catalog_nodes={n['id']:n for n in self.graph.intake_catalog()['nodes']}
-            for bridge in bridges:
-                for root in bridge['graph_nodes']:
-                    kind=catalog_nodes.get(root,{}).get('kind')
-                    extra=(self.graph.calculation_path(root) if kind in ('PIPELINE','COPY_ACTIVITY','NOTEBOOK','QUERY_STEP')
-                        else self.graph.path_to_source(root))
-                    nodes.update({n['id']:n for n in extra['nodes']});edges.update({e['id']:e for e in extra['edges']})
-            path={**path,'nodes':list(nodes.values()),'edges':list(edges.values()),'declared_route_bridges':bridges}
+        path=self.resolve_path(path)
         nodes={n['id'] for n in path['nodes']}
         routes={i:r for i,r in self.routes.items() if nodes.intersection(r['path_nodes'])}
         for identity in routes:self.prepare(identity,nodes)
@@ -134,6 +169,8 @@ class Factory:
         context=deepcopy(self.context_for(path,intake))
         # A context builder cannot replace the selected target/path/intake.
         context.update(intake=intake,path=deepcopy(path),layers=deepcopy(layers))
+        from .query_context import sheet
+        context['query_dialect_sheets']={i:sheet(layer)for i,layer in layers.items()}
         context['route_registry_hash']=digest(self.routes)
         from .facts_ledger import FactLedger
         scope={k:intake[k] for k in ('report','page','visual','details') if k in intake}
@@ -144,7 +181,7 @@ class Factory:
         queries=Queries(layers,execute=self.native,reserve=lambda layer,key:self.reserve(case['id'],layer,key),save=save,
                         available_layers=available)
         def expand(extra):
-            extra.update(self.attach_native_ancestors(extra))
+            extra.update(self.resolve_path(extra))
             ids={n['id'] for n in extra['nodes']}
             selected=[i for i,r in self.routes.items() if ids.intersection(r['path_nodes'])]
             for identity in selected:
@@ -155,8 +192,11 @@ class Factory:
             return queries.activate(selected)
         read_tools=ReadTools(graph=self.graph,path=path,queries=queries,intake=intake,
                             job_runs=self.job_runs,refresh_history=self.refresh_history,security_definitions=self.security,
+                            definition_reader=self.definition_for,
                             candidates=(self.candidate_details(self.graph.intake_catalog()) if self.candidate_details else self.graph.intake_catalog()),expand=expand)
+        triage_started=monotonic()
         triage=self.triage_for(path,case['id']).run()
+        context['phase_timings']={'route_schema_seconds':max(0,triage_started-route_started),'triage_seconds':max(0,monotonic()-triage_started)}
         model=self.model_for(case['id'])
         def registry():
             tools=read_tools.registry()

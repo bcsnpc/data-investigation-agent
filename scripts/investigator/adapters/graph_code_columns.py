@@ -71,6 +71,7 @@ def attach_notebook(graph,parent,content,proof):
         step=graph.add('QUERY_STEP','Declared notebook write',[proof['source_id'],'write',path],at,
             {'language':'PYTHON','relation':frame.plan,'execution_established':False})
         graph.link('CONTAINS',graph.by_asset[parent],step,at)
+        graph.link('DERIVED_IN_STEP',graph.by_asset[output],step,at)
         for name,values in origins.items():
             target=column(output,name,at)
             graph.link('DERIVED_IN_STEP',target,step,at)

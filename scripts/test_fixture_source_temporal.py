@@ -53,12 +53,17 @@ class TemporalPlans(unittest.TestCase):
         allowed={('app','stock_movements_round_two_20261003')}
         for query in (
             'SELECT * FROM app.other_table FOR SYSTEM_TIME ALL',
-            'SELECT * FROM app.stock_movements_round_two_20261003 FOR SYSTEM_TIME AS OF @when',
             'SELECT * INTO app.copy FROM app.stock_movements_round_two_20261003 FOR SYSTEM_TIME ALL',
             'DELETE FROM app.stock_movements_round_two_20261003',
             'ALTER TABLE app.stock_movements_round_two_20261003 SET (SYSTEM_VERSIONING=OFF)',
             'SELECT * FROM other_database.app.stock_movements_round_two_20261003 FOR SYSTEM_TIME ALL'):
             with self.subTest(query=query),self.assertRaises(GatewayDenied):validate_sql(query,allowed)
+
+    def test_parameterized_as_of_is_read_only_but_keeps_object_scope(self):
+        allowed={('app','stock_movements_round_two_20261003')}
+        validate_sql('SELECT * FROM app.stock_movements_round_two_20261003 FOR SYSTEM_TIME AS OF @when',allowed)
+        with self.assertRaises(GatewayDenied):
+            validate_sql('SELECT * FROM app.other_table FOR SYSTEM_TIME AS OF @when',allowed)
 
     def test_cleanup_binds_owned_history_and_exact_native_digest_before_any_drop(self):
         sql=self.builder().disable(history_object_id=456,history_rows=3,history_sha256='a'*64)

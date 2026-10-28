@@ -95,7 +95,25 @@ class Queries:
             raise ValueError('QUERY_DIALECT_DIFFERS')
         if purpose not in ('recreate','compare','record','lookup','security','different_question','history'):
             raise ValueError('QUERY_PURPOSE_REQUIRED')
-        bound=validate(text,layer)
+        key=(layer_id,purpose)
+        try:bound=validate(text,layer)
+        except Exception as error:
+            if self.attempts.get(key,0)>=3:
+                return {'status':'ERROR','error':'QUERY_CORRECTION_LIMIT','layer':layer_id,'purpose':purpose,'corrections_allowed':2}
+            # Preserve the direct refusal contract for obvious write proposals.
+            import re
+            if not isinstance(text,str) or not re.match(r'^\s*(SELECT|WITH|EVALUATE|DEFINE)\b',text,re.I):raise
+            from .query_feedback import classify,schema_slice
+            from .planner_recording import _safe
+            message=str(error);_safe(message.encode())
+            record={'id':'query:'+digest([layer_id,text])+':'+str(len(self.records)+1),
+                'text':text,'layer':layer_id,'purpose':purpose,'time':self.now(),'status':'ERROR',
+                'error_type':type(error).__name__,'error':message,'failure_class':classify(message,validation=True),
+                'schema_slice':schema_slice(layer),'native_dispatched':False,'row_count':None,'result_digest':None,
+                'duration_seconds':0,'signature':digest([layer_id,text])}
+            self.attempts[key]=self.attempts.get(key,0)+1;self.records.append(record)
+            self.save({'event':'QUERY_RESULT','query':deepcopy(record)})
+            return deepcopy(record)
         signature=digest([layer_id,bound.get('compiled_read') or bound['query'],bound.get('parameters',[])])
         if signature in self.cache:
             prior=deepcopy(self.cache[signature])
@@ -130,8 +148,10 @@ class Queries:
             message=str(error)
             try:_safe(message.encode())
             except ValueError:message='Native error details withheld by secret protection'
+            from .query_feedback import classify,schema_slice
             record.update(status='ERROR',error_type=type(error).__name__,error=message,
-                          row_count=None,result_digest=None)
+                          failure_class=classify(message),schema_slice=schema_slice(layer,bound['asset_ids']),
+                          native_dispatched=True,row_count=None,result_digest=None)
             self.attempts[key]=self.attempts.get(key,0)+1
         record['duration_seconds']=max(0,self.clock()-started)
         from .planner_recording import _safe

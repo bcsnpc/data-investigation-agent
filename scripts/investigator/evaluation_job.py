@@ -9,7 +9,7 @@ NAMESPACE='independent_evaluation_batches'
 
 class EvaluationJob:
     def __init__(self,state,provider,budget,*,clock):
-        if budget.account!='enrichment:round-twenty-one':raise ValueError('EVALUATION_ENRICHMENT_ACCOUNT_REQUIRED')
+        if budget.account!='enrichment:round-twenty-one'and not (getattr(budget,'monthly',False)is True and budget.account.startswith('model-microdollars:')):raise ValueError('EVALUATION_ENRICHMENT_ACCOUNT_REQUIRED')
         self.state,self.provider,self.budget,self.clock=state,provider,budget,clock
     def submit(self,sources,*,batch_key):
         if not isinstance(sources,list)or not 1<=len(sources)<=50:raise ValueError('EVALUATION_BATCH_BOUND')

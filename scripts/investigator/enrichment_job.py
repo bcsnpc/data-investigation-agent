@@ -12,6 +12,16 @@ class EnrichmentSpendBudget:
     def __init__(self,state,*,owner,price,account=ACCOUNT):
         if not owner or account!=ACCOUNT:raise ValueError('SEPARATE_ENRICHMENT_ACCOUNT_REQUIRED')
         self.state,self.owner,self.price,self.account=state,owner,price,account
+        self.monthly=False
+        # Round24's owner-managed combined policy replaces the old lifetime
+        # batch account for NEW calls only. Historical rows remain untouched.
+        try:physical=state.get('build_phase_policy','monthly-physical')['body']
+        except KeyError:physical={}
+        if physical.get('total_limit')==12000 and physical.get('default_total_limit')==9000:
+            from .build_phase import ensure_model_account
+            import time
+            self.account=ensure_model_account(state,time.time());self.monthly=True
+            return
         snapshot=state.totals(account)
         protected=0
         from datetime import datetime,timezone
@@ -30,7 +40,12 @@ class EnrichmentSpendBudget:
     def reserve(self,request,identity):
         params=request['params'];inputs=len(encoded(request).encode())+4096
         bound=self.price(inputs,params['max_tokens'])
-        self.state.reserve(self.account,identity,self.owner,bound,detail={'purpose':'ENRICHMENT_ONLY','request_sha256':sha(request)})
+        purpose='ENRICHMENT_ONLY'
+        if self.monthly:
+            source=json.loads(params['messages'][0]['content']).get('source',{})
+            kind=source.get('purpose','')
+            purpose='GRADING' if kind.startswith('GRADE_') else 'WRITER' if kind.startswith('WRITE_') else 'ENRICHMENT'
+        self.state.reserve(self.account,identity,self.owner,bound,detail={'purpose':purpose,'request_sha256':sha(request)})
         return identity
 
     def settle(self,identity,usage=None):

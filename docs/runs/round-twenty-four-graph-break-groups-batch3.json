@@ -1,0 +1,136 @@
+{
+  "basis": "Current published batch3; native containment establishes layers; groups overlap. No new estate/model reads.",
+  "complete_paths_before": 0,
+  "complete_paths_after": 9,
+  "visuals": 80,
+  "groups": [
+    {
+      "estate": "fixture",
+      "native_layer_kind": "VISUAL",
+      "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+      "break_occurrences": 64,
+      "affected_visuals": 64,
+      "distinct_nodes": 64
+    },
+    {
+      "estate": "fixture",
+      "native_layer_kind": "LAKEHOUSE",
+      "reason": "NO_UPSTREAM_BINDING",
+      "break_occurrences": 113,
+      "affected_visuals": 51,
+      "distinct_nodes": 13
+    },
+    {
+      "estate": "fixture",
+      "native_layer_kind": "BOUNDARY",
+      "reason": "NO_UPSTREAM_BINDING",
+      "break_occurrences": 73,
+      "affected_visuals": 40,
+      "distinct_nodes": 25
+    },
+    {
+      "estate": "fixture",
+      "native_layer_kind": "SEMANTIC_MODEL",
+      "reason": "AMBIGUOUS_OR_UNKNOWN_DEPENDENCY",
+      "break_occurrences": 61,
+      "affected_visuals": 28,
+      "distinct_nodes": 13
+    },
+    {
+      "estate": "fixture",
+      "native_layer_kind": "BOUNDARY",
+      "reason": "DIRECT_LAKE_COLUMN_BINDING_ABSENT_OR_AMBIGUOUS",
+      "break_occurrences": 60,
+      "affected_visuals": 27,
+      "distinct_nodes": 12
+    },
+    {
+      "estate": "fixture",
+      "native_layer_kind": "VISUAL",
+      "reason": "NO_PRODUCER_REACHED",
+      "break_occurrences": 13,
+      "affected_visuals": 13,
+      "distinct_nodes": 13
+    },
+    {
+      "estate": "fixture",
+      "native_layer_kind": "VISUAL",
+      "reason": "AMBIGUOUS_OR_UNKNOWN_DEPENDENCY",
+      "break_occurrences": 12,
+      "affected_visuals": 12,
+      "distinct_nodes": 12
+    },
+    {
+      "estate": "fixture",
+      "native_layer_kind": "BOUNDARY",
+      "reason": "No supported explicit field reference was found in the retained visual query.",
+      "break_occurrences": 12,
+      "affected_visuals": 12,
+      "distinct_nodes": 12
+    },
+    {
+      "estate": "fixture",
+      "native_layer_kind": "VISUAL",
+      "reason": "NO_INSTALLED_QUERY_ROUTE",
+      "break_occurrences": 12,
+      "affected_visuals": 12,
+      "distinct_nodes": 12
+    },
+    {
+      "estate": "dia-sample-estate",
+      "native_layer_kind": "VISUAL",
+      "reason": "AMBIGUOUS_OR_UNKNOWN_DEPENDENCY",
+      "break_occurrences": 7,
+      "affected_visuals": 7,
+      "distinct_nodes": 7
+    },
+    {
+      "estate": "dia-sample-estate",
+      "native_layer_kind": "BOUNDARY",
+      "reason": "PBIR-Legacy filter and interaction semantics remain uninterpreted; explicit prototype-query fields, when present, are retained separately.",
+      "break_occurrences": 7,
+      "affected_visuals": 7,
+      "distinct_nodes": 7
+    },
+    {
+      "estate": "dia-sample-estate",
+      "native_layer_kind": "BOUNDARY",
+      "reason": "NO_UPSTREAM_BINDING",
+      "break_occurrences": 7,
+      "affected_visuals": 7,
+      "distinct_nodes": 7
+    },
+    {
+      "estate": "dia-sample-estate",
+      "native_layer_kind": "VISUAL",
+      "reason": "NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED",
+      "break_occurrences": 7,
+      "affected_visuals": 7,
+      "distinct_nodes": 7
+    },
+    {
+      "estate": "dia-sample-estate",
+      "native_layer_kind": "VISUAL",
+      "reason": "NO_PRODUCER_REACHED",
+      "break_occurrences": 7,
+      "affected_visuals": 7,
+      "distinct_nodes": 7
+    },
+    {
+      "estate": "dia-sample-estate",
+      "native_layer_kind": "SEMANTIC_MODEL",
+      "reason": "NO_UPSTREAM_BINDING",
+      "break_occurrences": 18,
+      "affected_visuals": 5,
+      "distinct_nodes": 9
+    },
+    {
+      "estate": "fixture",
+      "native_layer_kind": "BOUNDARY",
+      "reason": "Engine-resolved expression dependencies have not been collected.",
+      "break_occurrences": 1,
+      "affected_visuals": 1,
+      "distinct_nodes": 1
+    }
+  ]
+}

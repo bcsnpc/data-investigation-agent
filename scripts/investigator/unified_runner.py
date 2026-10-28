@@ -15,7 +15,7 @@ from .run_capture import DurableCapture,blob_sink
 
 VERSION='dia-runner-estate-v1'
 KINDS=frozenset({'investigation','legacy-baseline','verification','probe','scan','replay','prepare','smoke','authorization-check','value-verification','collect-facts','facts-dispatcher','ledger-investigation','guided-investigation','enrichment-batch','access-check'})
-PUBLIC_ENV=frozenset(('DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JSON',
+PUBLIC_ENV=frozenset(('DIA_RUNTIME_ANTHROPIC_JSON','DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JSON',
     'INVESTIGATOR_STATE_BACKEND','INVESTIGATOR_PG_HOST','INVESTIGATOR_PG_DATABASE','INVESTIGATOR_PG_USER',
     'AZURE_CLIENT_ID','DIA_GATEWAY_HTTP_IDENTITY','DIA_GATEWAY_SQL_IDENTITY','DIA_GATEWAY_MODEL_IDENTITY',
     'DIA_GATEWAY_STATE_IDENTITY','DIA_PLATFORM_CONTROL_RECEIPTS','DIA_GATEWAY_AUDIT_FILE','DIA_LIVE_ACCESS_DISABLED'))
@@ -210,10 +210,13 @@ def handlers():
                 with scope(lambda kind,fn:meter(fn)):return _gold_read(payload)
             return meter(execute)
         demo_kind=o.get('demo_kind','ledger-investigation')
-        if demo_kind not in ('ledger-investigation','legacy-baseline'):raise ValueError('SMOKE_ENGINE_KIND')
-        demo_handler=ledger_investigation if demo_kind=='ledger-investigation' else investigation
+        if demo_kind not in ('guided-investigation','ledger-investigation','legacy-baseline'):raise ValueError('SMOKE_ENGINE_KIND')
+        demo_handler={'guided-investigation':guided_investigation,'ledger-investigation':ledger_investigation,'legacy-baseline':investigation}[demo_kind]
         demo=(lambda:demo_handler({**plan,'options':o['demo']},ctx)) if o['config']['demo_earned'] else None
-        try:return run_smoke(o['config'],ctx,state=state,gold_read=gold,blob_roundtrip=lambda config,body:capture_roundtrip(ctx,body),demo=demo)
+        try:
+            from .reasoning_budget import ai_step
+            with ai_step('SMOKE'):
+                return run_smoke(o['config'],ctx,state=state,gold_read=gold,blob_roundtrip=lambda config,body:capture_roundtrip(ctx,body),demo=demo)
         finally:meter.close()
     return {'verification':verification,'investigation':ledger_investigation,'guided-investigation':guided_investigation,'legacy-baseline':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke,'authorization-check':authorization_check,'value-verification':value_verification,'collect-facts':collect_facts,'facts-dispatcher':facts_dispatcher,'ledger-investigation':ledger_investigation,'enrichment-batch':enrichment_batch,'access-check':access_result}
 
@@ -288,7 +291,15 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
                     extract(raw,Path(o['directory']),expected=o['sha256'],expanded_limit=o['expanded_limit'])
                     return {'sha256':o['sha256'],'bytes':len(raw)}
                 ctx.step('input-materialization',materialize)
-            if check['kind'] != 'replay':
+            if check['kind']=='guided-investigation':
+                # The guided reader checks identity, endpoint and read-only policy
+                # on its admitted path. A whole-estate access audit is health
+                # work, not a prerequisite repeated for every support ticket.
+                # Smokes and standalone access checks retain their full probes.
+                ctx.access_result={'status':'NOT_RUN','rows':[],
+                    'reason':'PATH_ACCESS_CHECKED_BY_NATIVE_READS; whole-estate audit belongs to smoke'}
+                ctx.record('access-audit-not-repeated',ctx.access_result)
+            if check['kind'] not in ('replay','guided-investigation'):
                 from .access_check import configured as check_access
                 access = ctx.step('check-access', lambda: check_access(config.get('access_check'),retain=ctx.record))
                 ctx.access_result=access

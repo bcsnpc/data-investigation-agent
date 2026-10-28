@@ -144,7 +144,7 @@ def model_session(settings):
     else:
         raise ValueError('CLOUD_MODEL_AUTHENTICATION_MODE_REQUIRED')
     endpoint = settings['endpoint']
-    if not re.fullmatch(r'https://[a-zA-Z0-9-]+\.openai\.azure\.com/?', endpoint):
+    if endpoint!='https://api.anthropic.com' and not re.fullmatch(r'https://[a-zA-Z0-9-]+\.openai\.azure\.com/?', endpoint):
         raise ValueError('MODEL_ENDPOINT_INVALID')
     from investigator.provider_selection import DEPLOYMENT
     selection = MODEL_SESSION.set({'endpoint': endpoint, 'credential': credential})

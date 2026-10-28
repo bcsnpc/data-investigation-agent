@@ -1,0 +1,78 @@
+{
+  "held_out": {
+    "input_tokens_per_call": {
+      "n": 99,
+      "median": 43165,
+      "p90": 81003
+    },
+    "native_call_usage": 99,
+    "phase_seconds": {
+      "route_schema_seconds": {
+        "n": 20,
+        "median": 45.13060014700022,
+        "p90": 51.72238126700006
+      },
+      "triage_seconds": {
+        "n": 20,
+        "median": 28.008886394000058,
+        "p90": 33.554136563999975
+      },
+      "investigation_wall_seconds": {
+        "n": 20,
+        "median": 105.67929393799989,
+        "p90": 199.27069784100001
+      },
+      "model_seconds": {
+        "n": 20,
+        "median": 42.478102221000086,
+        "p90": 55.93786017599632
+      },
+      "native_query_sum_seconds": {
+        "n": 20,
+        "median": 41.36336564450221,
+        "p90": 99.60610741400001
+      },
+      "startup_seconds": {
+        "n": 20,
+        "median": 25.406709,
+        "p90": 29.114732
+      },
+      "publication_seconds": {
+        "n": 20,
+        "median": 14.246269071506958,
+        "p90": 16.815227624998784
+      }
+    },
+    "job_record_azure_seconds": {
+      "n": 3,
+      "median": 179.0,
+      "p90": 273.0
+    },
+    "job_record_calls": [
+      {
+        "ticket": "v3-failed-application-load",
+        "calls": 3,
+        "cost_microdollars": 320904
+      },
+      {
+        "ticket": "v3-failed-billing-transform",
+        "calls": 4,
+        "cost_microdollars": 574513
+      },
+      {
+        "ticket": "v3-waiting-application-load",
+        "calls": 2,
+        "cost_microdollars": 242652
+      }
+    ],
+    "handoff_quality": {
+      "counts": {
+        "0": 15,
+        "1": 0,
+        "2": 5
+      },
+      "mean": 0.5
+    }
+  },
+  "phases_are_inclusive_and_overlap_never_sum": true
+}

@@ -1,0 +1,1166 @@
+{
+  "dev_forms": 40,
+  "estate_reads": 0,
+  "method": "Actual sealed dev forms and retained estate graph/catalog; production Factory route assembly twice, actual wire and all top-level inventory bookkeeping removed. Native schema/endpoint ports use offline retained-schema shape stubs; no data values, live probe or finding is claimed. Invalid report IDs are not substituted.",
+  "model_calls": 0,
+  "observed_at": "2026-10-28T07:55:57.387325+00:00",
+  "reason": "Generic procedure-owner/context/schema changes; all40 re-executed offline, original39 valid forms and one unknown-report refusal unchanged.",
+  "results": [
+    {
+      "actual_wire": {
+        "context_bytes": 102886,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-application-baseline-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 105185,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 101753,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-application-baseline-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 104049,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 124901,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-fixture-quantity-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 125938,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 124609,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-fixture-quantity-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 125647,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 101721,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-failed-application-load-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 104019,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 101720,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-failed-application-load-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 104018,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 102197,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-waiting-application-load-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 104496,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 101837,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-waiting-application-load-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 104133,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 102527,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-latency-record-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 104826,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 102139,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-latency-record-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 104438,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 102502,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-stale-model-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 104801,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 102235,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-stale-model-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 104532,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 102958,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-warehouse-scope-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 105257,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "estate": "fixture",
+      "id": "v2-warehouse-scope-v2",
+      "reason": "UNKNOWN_REPORT",
+      "status": "INTAKE_REFUSED"
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 102288,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-before-temporal-retention-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 104585,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 101938,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-before-temporal-retention-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 104237,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 101770,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-record-absent-everywhere-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 104068,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 101771,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-record-absent-everywhere-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 104066,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 125046,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-record-repeated-gold-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 126084,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 124722,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-record-repeated-gold-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 125760,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 102216,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-source-history-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 104513,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 101911,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-source-history-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 104209,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 113010,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-screenshot-record-01-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 115728,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 112686,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-screenshot-record-01-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 115403,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 112865,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-screenshot-record-02-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 115581,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 112470,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-screenshot-record-02-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 115188,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 112837,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-screenshot-record-03-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 115554,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 112517,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-screenshot-record-03-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 115235,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 112642,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-screenshot-record-04-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 115359,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 112339,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "fixture",
+      "id": "v2-screenshot-record-04-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 115057,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "layers": 3,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 220015,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "billing",
+      "id": "v2-billing-mrr-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 221696,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 219590,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "billing",
+      "id": "v2-billing-mrr-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 221270,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 70201,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 2,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "billing",
+      "id": "v2-billing-invoices-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 70411,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 2,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 69828,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 2,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "billing",
+      "id": "v2-billing-invoices-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 70038,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 2,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 69450,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 2,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "billing",
+      "id": "v2-failed-billing-transform-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 69659,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 2,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 69158,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 2,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "billing",
+      "id": "v2-failed-billing-transform-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 69367,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 2,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 586844,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "billing",
+      "id": "v2-access-export-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 592094,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 586572,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "billing",
+      "id": "v2-access-export-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 591823,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 157515,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "billing",
+      "id": "v2-other-collected-definition-v1",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 158354,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    },
+    {
+      "actual_wire": {
+        "context_bytes": 157209,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      },
+      "estate": "billing",
+      "id": "v2-other-collected-definition-v2",
+      "status": "ASSEMBLED",
+      "without_bookkeeping": {
+        "context_bytes": 158049,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
+          "native:f87556d4485196602461"
+        ],
+        "layers": 4,
+        "queryable": true,
+        "status": "ASSEMBLED",
+        "warnings": 2
+      }
+    }
+  ],
+  "route_sources": {
+    "scripts/investigator/adapters/ai_native_catalog.py": "69606892baf99bb6cf3b6a45f490de824cc1945be98b77537a7362c9974eace7",
+    "scripts/investigator/estate_graph_api.py": "63b94d397c0c906a3d2dfbc8f20b8c7eb26f72fbff029fa863c2599843e4bd3c",
+    "scripts/investigator/guided_investigator_installation.py": "f207615b6ef7165bd90db5d842f0d2136966cb3b3286dfd6d715bdef13a04e2d"
+  },
+  "ticket_canonical_sha256": "e432069828e6c35aeee68f7a0a4b8566e0c05d10371aa374135711c6583d7a2a",
+  "ticket_canonical_encoding": "JSON sort_keys,separators comma/colon,ensure_ascii=True; same unchanged ticket records"
+}
