@@ -1,5 +1,5 @@
 {
-  "version": "round25-frozen-engine/1",
+  "version": "round25-frozen-engine/2",
   "tag": "v0.24",
   "commit": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0",
   "main_base": "8f50e74935e83b6dd3aa1b758b4c4eca374e5558",
@@ -2018,5 +2018,7 @@
   "engine_files_sha256": "26a62994b19bf0fc2b680f6ad4f472d993c2f34d0729bd19dc6f56b6178e2de7",
   "observed_at_utc": "2026-10-28T15:35:02.463641+00:00",
   "investigator_changes_allowed": false,
-  "measurement_only": true
+  "measurement_only": true,
+  "comparison": "Git canonical blob identity in batch; working-tree SHA256 retained separately. CRLF conversion is not an engine change.",
+  "initial_receipt": "docs/runs/round-twenty-five-freeze-initial.json"
 }
