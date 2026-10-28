@@ -45,3 +45,5 @@ Early independent safety monitor: first5 dev outcomes all-three5/5, harmful0; th
 
 
 2026-10-28 checkpoint: twelve dev01 outcomes saved on unchanged dee9a7f9/image25895f1e. First5 monitoring grades5/5,harmful0; seven more submitted. Failed-billing2 unresolved at tool/time limits, with native procedure ownership absent from that image path; generic repair offline. Waiting/latency restored. History1 answered; history2 CLI404 after native start acceptance, unestablished/unscored, no duplicate. Final dev/second grades, v3 held-out and release remain pending.
+
+Freeze validation retained its original failure: 5,605 tests, 21 failures, 12 errors, 50 skips. Historical transport/policy assumptions were repaired in tests only; 27 and 34 focused tests pass. No tape, golden expectation or scored output changed. A fresh full suite is required before held-out admission.

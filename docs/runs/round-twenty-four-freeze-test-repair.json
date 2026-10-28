@@ -1,0 +1,69 @@
+{
+  "experiment": "ROUND24_PREHELDOUT_TEST_COMPATIBILITY_REPAIR",
+  "original_full_suite": {
+    "revision": "6b7c669439385c5176cc9f30c456267110190c1b",
+    "elapsed_seconds": 717.7638401000004,
+    "statuses": [
+      {
+        "shard": 0,
+        "exit_code": 0
+      },
+      {
+        "shard": 1,
+        "exit_code": 1
+      },
+      {
+        "shard": 2,
+        "exit_code": 1
+      },
+      {
+        "shard": 3,
+        "exit_code": 1
+      }
+    ],
+    "results": [
+      {
+        "tests": 1402,
+        "failures": 0,
+        "errors": 0,
+        "skips": 6,
+        "successful": true
+      },
+      {
+        "tests": 1401,
+        "failures": 8,
+        "errors": 0,
+        "skips": 0,
+        "successful": false
+      },
+      {
+        "tests": 1401,
+        "failures": 11,
+        "errors": 12,
+        "skips": 15,
+        "successful": false
+      },
+      {
+        "tests": 1401,
+        "failures": 2,
+        "errors": 0,
+        "skips": 29,
+        "successful": false
+      }
+    ]
+  },
+  "focused_tests": [
+    {
+      "tests": 27,
+      "successful": true
+    },
+    {
+      "tests": 34,
+      "successful": true
+    }
+  ],
+  "runtime_changes": false,
+  "expectation_or_tape_changes": false,
+  "reason": "Historical Azure wire fixtures explicitly use their offline archived transport; dated budget tests isolate their original policy; current provider default is Anthropic; valid scoped parameterized temporal SELECT is accepted while writes and other objects remain rejected.",
+  "held_out_admitted": false
+}
