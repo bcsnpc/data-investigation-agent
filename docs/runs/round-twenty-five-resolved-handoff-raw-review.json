@@ -255,6 +255,82 @@
       "handoff_applicable": false,
       "query_evidence": [],
       "delivered_conclusion": "waiting on job"
+    },
+    {
+      "ticket": "v2-stale-model-v1",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered answer returns 'refresh stale', matching expected verdict exactly. Layer/split: delivered correctly identifies the gap between the landing table (Bronze) and the semantic model, matching 'Bronze to semantic model'. Cause: delivered answer correctly identifies that the landing table was updated (multiple successful pipeline runs post-refresh, 363 rows read/written) while the model's automatic refresh schedule is disabled and its last refresh was at 13:52 before the later loads, meaning the model is stale relative to the landing table. This aligns with the expected cause (real loads advanced landing while model automatic updates were off). The 31-unit gap (7692-7661=31) matches. All key evidence is cited. Handoff: the delivered answer has an empty handoff object and status is ANSWERED, so there is no unresolved handoff to grade; scored 0 as N/A (no handoff needed for a resolved answer, but the schema requires a value; 0 reflects that no handoff was left open rather than a poor one).",
+        "verdict_match": true
+      },
+      "raw_outcome_sha256": "f76ed3be5a3249ba1e5babeee74a3a80ab238148cfe7c79491a100226b695ecf",
+      "reason": "The raw DAX returns7661 while both source and landing SQL return7692; native job/refresh facts place successful loads after the last model refresh. Both graders correctly accept the stale-model split and cause, with the automatic-update setting explicitly unavailable to the investigator. Their disagreement is handoff quality on an ANSWERED case. The contract applies handoff grading to unresolved tickets, so this is not applicable (represented0); neither numeric1 nor2 applies to this resolved case. No accuracy or harmful judgment changes.",
+      "handoff_applicable": false,
+      "query_evidence": [
+        {
+          "id": "query:d9e2677e79949c2bed58a60daefa15a72df5da9f6689088295dc4b508dc6d6b5:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "6dd52c06644b8f41e155ce46bc530a6a5f42976962aee8f0ebef6636b3c1a410"
+        },
+        {
+          "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba"
+        },
+        {
+          "id": "query:61e1ef357414429a0e11fb88194c9cf369c4bc070613fd8ede458bebb5888e45:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9e9db673d65cd62602815f09e12e0f9713470fda2ca65e344d475a9f928d9079"
+        }
+      ],
+      "delivered_conclusion": "refresh stale"
+    },
+    {
+      "ticket": "v2-stale-model-v2",
+      "winner": "neither",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered answer says 'refresh stale' matching sealed expected verdict. Layer: delivered correctly identifies the gap between the lakehouse (Bronze) and the semantic model, matching 'Bronze to semantic model'. Cause: the delivered answer establishes that the model's last refresh was at 13:52, its schedule is disabled (and automatic updates could not be confirmed), while the load pipeline ran successfully after that time bringing the lakehouse to 7692, leaving the model at 7661. This matches the sealed cause of 'load advanced landing while model automatic updates were off'. The delivered answer correctly names all three numbers (7661, 7692, 7692) and identifies the pipeline runs including the 363-row write. Minor discrepancy: delivered mentions 363 rows as the pipeline write count while the sealed cause says +31 rows net advance; this is a pipeline-level detail vs a net delta, not a contradiction. The sealed cause references 'automatic updates off' which the delivered answer covers (schedule disabled, automatic-update setting unavailable). Handoff quality is high: clear stopping point, rerunnable queries provided, model refresh as next action is obvious, honest qualification about what could not be confirmed.",
+        "verdict_match": true
+      },
+      "raw_outcome_sha256": "7768efefc08219aab5a2cbd6f397733910eb8a5b887a3d07669e170e8fd2c20d",
+      "reason": "The raw DAX returns7661 while both source and landing SQL return7692; native job/refresh facts place successful loads after the last model refresh. Both graders correctly accept the stale-model split and cause, with the automatic-update setting explicitly unavailable to the investigator. Their disagreement is handoff quality on an ANSWERED case. The contract applies handoff grading to unresolved tickets, so this is not applicable (represented0); neither numeric1 nor2 applies to this resolved case. No accuracy or harmful judgment changes.",
+      "handoff_applicable": false,
+      "query_evidence": [
+        {
+          "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba"
+        },
+        {
+          "id": "query:d9e2677e79949c2bed58a60daefa15a72df5da9f6689088295dc4b508dc6d6b5:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "fb61243e8068bfa93fa0c9efe508691e77e725b4a0aa70f308fbcd69df406e47"
+        },
+        {
+          "id": "query:61e1ef357414429a0e11fb88194c9cf369c4bc070613fd8ede458bebb5888e45:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9e9db673d65cd62602815f09e12e0f9713470fda2ca65e344d475a9f928d9079"
+        }
+      ],
+      "delivered_conclusion": "refresh stale"
     }
   ],
   "estate_reads": 0,

@@ -1,141 +1,141 @@
 {
   "official_primary": {
     "all_three": {
-      "correct": 13,
-      "total": 13,
+      "correct": 15,
+      "total": 15,
       "accuracy": 1.0,
-      "lower": 0.7719046276458016,
-      "upper": 0.9999999999999999,
+      "lower": 0.7961166989641515,
+      "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 13,
-      "total": 13,
+      "correct": 15,
+      "total": 15,
       "accuracy": 1.0,
-      "lower": 0.7719046276458016,
-      "upper": 0.9999999999999999,
+      "lower": 0.7961166989641515,
+      "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 13,
-      "total": 13,
+      "correct": 15,
+      "total": 15,
       "accuracy": 1.0,
-      "lower": 0.7719046276458016,
-      "upper": 0.9999999999999999,
+      "lower": 0.7961166989641515,
+      "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 13,
-      "total": 13,
+      "correct": 15,
+      "total": 15,
       "accuracy": 1.0,
-      "lower": 0.7719046276458016,
-      "upper": 0.9999999999999999,
+      "lower": 0.7961166989641515,
+      "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 13,
+      "total": 15,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.22809537235419838,
+      "upper": 0.20388330103584862,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "strict": {
     "all_three": {
-      "correct": 11,
-      "total": 13,
-      "accuracy": 0.8461538461538461,
-      "lower": 0.5776536898051745,
-      "upper": 0.9567418216419186,
+      "correct": 13,
+      "total": 15,
+      "accuracy": 0.8666666666666667,
+      "lower": 0.6211801716767764,
+      "upper": 0.9626387408969346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 11,
-      "total": 13,
-      "accuracy": 0.8461538461538461,
-      "lower": 0.5776536898051745,
-      "upper": 0.9567418216419186,
+      "correct": 13,
+      "total": 15,
+      "accuracy": 0.8666666666666667,
+      "lower": 0.6211801716767764,
+      "upper": 0.9626387408969346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 11,
-      "total": 13,
-      "accuracy": 0.8461538461538461,
-      "lower": 0.5776536898051745,
-      "upper": 0.9567418216419186,
+      "correct": 13,
+      "total": 15,
+      "accuracy": 0.8666666666666667,
+      "lower": 0.6211801716767764,
+      "upper": 0.9626387408969346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 11,
-      "total": 13,
-      "accuracy": 0.8461538461538461,
-      "lower": 0.5776536898051745,
-      "upper": 0.9567418216419186,
+      "correct": 13,
+      "total": 15,
+      "accuracy": 0.8666666666666667,
+      "lower": 0.6211801716767764,
+      "upper": 0.9626387408969346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 2,
-      "total": 13,
-      "accuracy": 0.15384615384615385,
-      "lower": 0.043258178358081184,
-      "upper": 0.4223463101948254,
+      "total": 15,
+      "accuracy": 0.13333333333333333,
+      "lower": 0.03736125910306537,
+      "upper": 0.37881982832322364,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "raw_reviewed": {
     "all_three": {
-      "correct": 11,
-      "total": 13,
-      "accuracy": 0.8461538461538461,
-      "lower": 0.5776536898051745,
-      "upper": 0.9567418216419186,
+      "correct": 13,
+      "total": 15,
+      "accuracy": 0.8666666666666667,
+      "lower": 0.6211801716767764,
+      "upper": 0.9626387408969346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 11,
-      "total": 13,
-      "accuracy": 0.8461538461538461,
-      "lower": 0.5776536898051745,
-      "upper": 0.9567418216419186,
+      "correct": 13,
+      "total": 15,
+      "accuracy": 0.8666666666666667,
+      "lower": 0.6211801716767764,
+      "upper": 0.9626387408969346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 11,
-      "total": 13,
-      "accuracy": 0.8461538461538461,
-      "lower": 0.5776536898051745,
-      "upper": 0.9567418216419186,
+      "correct": 13,
+      "total": 15,
+      "accuracy": 0.8666666666666667,
+      "lower": 0.6211801716767764,
+      "upper": 0.9626387408969346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 11,
-      "total": 13,
-      "accuracy": 0.8461538461538461,
-      "lower": 0.5776536898051745,
-      "upper": 0.9567418216419186,
+      "correct": 13,
+      "total": 15,
+      "accuracy": 0.8666666666666667,
+      "lower": 0.6211801716767764,
+      "upper": 0.9626387408969346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 2,
-      "total": 13,
-      "accuracy": 0.15384615384615385,
-      "lower": 0.043258178358081184,
-      "upper": 0.4223463101948254,
+      "total": 15,
+      "accuracy": 0.13333333333333333,
+      "lower": 0.03736125910306537,
+      "upper": 0.37881982832322364,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,107 +143,107 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 13,
+  "completed_graded": 15,
   "primary": {
     "all_three": {
-      "correct": 13,
-      "total": 13,
+      "correct": 15,
+      "total": 15,
       "accuracy": 1.0,
-      "lower": 0.7719046276458016,
-      "upper": 0.9999999999999999,
+      "lower": 0.7961166989641515,
+      "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 13,
-      "total": 13,
+      "correct": 15,
+      "total": 15,
       "accuracy": 1.0,
-      "lower": 0.7719046276458016,
-      "upper": 0.9999999999999999,
+      "lower": 0.7961166989641515,
+      "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 13,
-      "total": 13,
+      "correct": 15,
+      "total": 15,
       "accuracy": 1.0,
-      "lower": 0.7719046276458016,
-      "upper": 0.9999999999999999,
+      "lower": 0.7961166989641515,
+      "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 13,
-      "total": 13,
+      "correct": 15,
+      "total": 15,
       "accuracy": 1.0,
-      "lower": 0.7719046276458016,
-      "upper": 0.9999999999999999,
+      "lower": 0.7961166989641515,
+      "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 13,
+      "total": 15,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.22809537235419838,
+      "upper": 0.20388330103584862,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "secondary": {
     "all_three": {
-      "correct": 11,
-      "total": 13,
-      "accuracy": 0.8461538461538461,
-      "lower": 0.5776536898051745,
-      "upper": 0.9567418216419186,
+      "correct": 13,
+      "total": 15,
+      "accuracy": 0.8666666666666667,
+      "lower": 0.6211801716767764,
+      "upper": 0.9626387408969346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 11,
-      "total": 13,
-      "accuracy": 0.8461538461538461,
-      "lower": 0.5776536898051745,
-      "upper": 0.9567418216419186,
+      "correct": 13,
+      "total": 15,
+      "accuracy": 0.8666666666666667,
+      "lower": 0.6211801716767764,
+      "upper": 0.9626387408969346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 11,
-      "total": 13,
-      "accuracy": 0.8461538461538461,
-      "lower": 0.5776536898051745,
-      "upper": 0.9567418216419186,
+      "correct": 13,
+      "total": 15,
+      "accuracy": 0.8666666666666667,
+      "lower": 0.6211801716767764,
+      "upper": 0.9626387408969346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 11,
-      "total": 13,
-      "accuracy": 0.8461538461538461,
-      "lower": 0.5776536898051745,
-      "upper": 0.9567418216419186,
+      "correct": 13,
+      "total": 15,
+      "accuracy": 0.8666666666666667,
+      "lower": 0.6211801716767764,
+      "upper": 0.9626387408969346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 2,
-      "total": 13,
-      "accuracy": 0.15384615384615385,
-      "lower": 0.043258178358081184,
-      "upper": 0.4223463101948254,
+      "total": 15,
+      "accuracy": 0.13333333333333333,
+      "lower": 0.03736125910306537,
+      "upper": 0.37881982832322364,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 11,
-    "total": 13,
-    "accuracy": 0.8461538461538461,
-    "lower": 0.5776536898051745,
-    "upper": 0.9567418216419186,
+    "correct": 13,
+    "total": 15,
+    "accuracy": 0.8666666666666667,
+    "lower": 0.6211801716767764,
+    "upper": 0.9626387408969346,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -732,6 +732,132 @@
         },
         "reason": "Full captured business output explicitly says no retained source history was read, and the query list contains current-state reads only. Source-ahead facts are true; they do not fulfill the sealed historical-edit question. Primary treats latency and source-changed-history as interchangeable; original primary grades remain official and unchanged. This is grader interpretation disagreement, not a projection/recorder defect.",
         "raw_outcome_sha256": "f073e125febb42ffd48cc7a36a9507f7daa0435b2743dc620c65cfa7cb4786e8"
+      }
+    },
+    {
+      "ticket": "v2-stale-model-v1",
+      "class": "v2-stale-model",
+      "fixture": "stale",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered answer returns 'refresh stale', matching expected verdict exactly. Layer/split: delivered correctly identifies the gap between the landing table (Bronze) and the semantic model, matching 'Bronze to semantic model'. Cause: delivered answer correctly identifies that the landing table was updated (multiple successful pipeline runs post-refresh, 363 rows read/written) while the model's automatic refresh schedule is disabled and its last refresh was at 13:52 before the later loads, meaning the model is stale relative to the landing table. This aligns with the expected cause (real loads advanced landing while model automatic updates were off). The 31-unit gap (7692-7661=31) matches. All key evidence is cited. Handoff: the delivered answer has an empty handoff object and status is ANSWERED, so there is no unresolved handoff to grade; scored 0 as N/A (no handoff needed for a resolved answer, but the schema requires a value; 0 reflects that no handoff was left open rather than a poor one).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says 'refresh stale', which matches the sealed record. Layer: it puts the split between the landing table (round_two_bronze_20261003, 7692) and the semantic model (7661), with source and landing both at 7692. That matches the expected 'Bronze to semantic model'. Cause: the sealed cause is that a real load moved landing forward by 31 units while the model's automatic updates were off. The delivered cause has the same mechanism. The load pipeline succeeded several times after the model's last refresh at 13:52Z, most recently run d6ece968 at 17:59\u201318:00Z with 363/363 rows. The 01:00 schedule is disabled, so the Direct Lake model is still showing the 13:52 data. It also cites both values and native refresh/schedule facts. Possible disagreement: the answer could not read the automatic-update setting itself, says so plainly, and does not claim it was off. It also does not break the 31 down into 7+11+13. I judged these as missing supporting detail, not a different or wrong cause, because the named cause (the model fell behind later landing loads and was not updated) is substantively the same. A stricter grader could mark cause_match partial on the missing automatic-updates fact. The answer is not harmful: the conclusion is correct and the gaps are disclosed. Handoff: the three queries are recorded verbatim and can be rerun, and the stopping point is clear. But the handoff object is empty, with no explicit next checks (for example, read the automatic-updates/Direct Lake framing setting or trigger a refresh and recompare), so it scores 1.",
+        "verdict_match": true
+      },
+      "raw_review": {
+        "ticket": "v2-stale-model-v1",
+        "winner": "primary",
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "Verdict: delivered answer returns 'refresh stale', matching expected verdict exactly. Layer/split: delivered correctly identifies the gap between the landing table (Bronze) and the semantic model, matching 'Bronze to semantic model'. Cause: delivered answer correctly identifies that the landing table was updated (multiple successful pipeline runs post-refresh, 363 rows read/written) while the model's automatic refresh schedule is disabled and its last refresh was at 13:52 before the later loads, meaning the model is stale relative to the landing table. This aligns with the expected cause (real loads advanced landing while model automatic updates were off). The 31-unit gap (7692-7661=31) matches. All key evidence is cited. Handoff: the delivered answer has an empty handoff object and status is ANSWERED, so there is no unresolved handoff to grade; scored 0 as N/A (no handoff needed for a resolved answer, but the schema requires a value; 0 reflects that no handoff was left open rather than a poor one).",
+          "verdict_match": true
+        },
+        "raw_outcome_sha256": "f76ed3be5a3249ba1e5babeee74a3a80ab238148cfe7c79491a100226b695ecf",
+        "reason": "The raw DAX returns7661 while both source and landing SQL return7692; native job/refresh facts place successful loads after the last model refresh. Both graders correctly accept the stale-model split and cause, with the automatic-update setting explicitly unavailable to the investigator. Their disagreement is handoff quality on an ANSWERED case. The contract applies handoff grading to unresolved tickets, so this is not applicable (represented0); neither numeric1 nor2 applies to this resolved case. No accuracy or harmful judgment changes.",
+        "handoff_applicable": false,
+        "query_evidence": [
+          {
+            "id": "query:d9e2677e79949c2bed58a60daefa15a72df5da9f6689088295dc4b508dc6d6b5:1",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "6dd52c06644b8f41e155ce46bc530a6a5f42976962aee8f0ebef6636b3c1a410"
+          },
+          {
+            "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba"
+          },
+          {
+            "id": "query:61e1ef357414429a0e11fb88194c9cf369c4bc070613fd8ede458bebb5888e45:1",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "9e9db673d65cd62602815f09e12e0f9713470fda2ca65e344d475a9f928d9079"
+          }
+        ],
+        "delivered_conclusion": "refresh stale"
+      }
+    },
+    {
+      "ticket": "v2-stale-model-v2",
+      "class": "v2-stale-model",
+      "fixture": "stale",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered answer says 'refresh stale' matching sealed expected verdict. Layer: delivered correctly identifies the gap between the lakehouse (Bronze) and the semantic model, matching 'Bronze to semantic model'. Cause: the delivered answer establishes that the model's last refresh was at 13:52, its schedule is disabled (and automatic updates could not be confirmed), while the load pipeline ran successfully after that time bringing the lakehouse to 7692, leaving the model at 7661. This matches the sealed cause of 'load advanced landing while model automatic updates were off'. The delivered answer correctly names all three numbers (7661, 7692, 7692) and identifies the pipeline runs including the 363-row write. Minor discrepancy: delivered mentions 363 rows as the pipeline write count while the sealed cause says +31 rows net advance; this is a pipeline-level detail vs a net delta, not a contradiction. The sealed cause references 'automatic updates off' which the delivered answer covers (schedule disabled, automatic-update setting unavailable). Handoff quality is high: clear stopping point, rerunnable queries provided, model refresh as next action is obvious, honest qualification about what could not be confirmed.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered verdict 'refresh stale' matches the expected one. Layer: the answer places the problem between the lakehouse (bronze, round_two_bronze_20261003) and the semantic model, and says the load from ordersops is fine. That matches the expected 'Bronze to semantic model' split. Cause: the expected cause is that the real load moved landing ahead by 31 while the model's automatic updates were off, supported by both values and the native refresh/update facts. The delivered answer has the model at 7661 and both the lakehouse and source at 7692, so the gap is 31. It shows the load pipeline succeeding after the model's last refresh (13:52, run 763348570), with the latest run moving 363 rows. It finds the refresh schedule disabled. It concludes the model has not picked up lakehouse data loaded after that refresh. In substance this is the same mechanism: landing moved ahead while the model was not updated. It also correctly rules out the earlier controlled 2011 pipeline failures. Disagreement / caveat: the answer could not read the automatic-update setting and says so openly. It relies on the disabled refresh schedule and the missing refresh after 13:52 instead of confirming that automatic updates were off. It also hedges ('most likely'). I count the cause as matching in substance because the named mechanism and its location are the same, even though the specific automatic-update fact was not confirmed. A stricter grader could call this partial. The answer is not harmful: it says nothing false and states its limits.",
+        "verdict_match": true
+      },
+      "raw_review": {
+        "ticket": "v2-stale-model-v2",
+        "winner": "neither",
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "Verdict: delivered answer says 'refresh stale' matching sealed expected verdict. Layer: delivered correctly identifies the gap between the lakehouse (Bronze) and the semantic model, matching 'Bronze to semantic model'. Cause: the delivered answer establishes that the model's last refresh was at 13:52, its schedule is disabled (and automatic updates could not be confirmed), while the load pipeline ran successfully after that time bringing the lakehouse to 7692, leaving the model at 7661. This matches the sealed cause of 'load advanced landing while model automatic updates were off'. The delivered answer correctly names all three numbers (7661, 7692, 7692) and identifies the pipeline runs including the 363-row write. Minor discrepancy: delivered mentions 363 rows as the pipeline write count while the sealed cause says +31 rows net advance; this is a pipeline-level detail vs a net delta, not a contradiction. The sealed cause references 'automatic updates off' which the delivered answer covers (schedule disabled, automatic-update setting unavailable). Handoff quality is high: clear stopping point, rerunnable queries provided, model refresh as next action is obvious, honest qualification about what could not be confirmed.",
+          "verdict_match": true
+        },
+        "raw_outcome_sha256": "7768efefc08219aab5a2cbd6f397733910eb8a5b887a3d07669e170e8fd2c20d",
+        "reason": "The raw DAX returns7661 while both source and landing SQL return7692; native job/refresh facts place successful loads after the last model refresh. Both graders correctly accept the stale-model split and cause, with the automatic-update setting explicitly unavailable to the investigator. Their disagreement is handoff quality on an ANSWERED case. The contract applies handoff grading to unresolved tickets, so this is not applicable (represented0); neither numeric1 nor2 applies to this resolved case. No accuracy or harmful judgment changes.",
+        "handoff_applicable": false,
+        "query_evidence": [
+          {
+            "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba"
+          },
+          {
+            "id": "query:d9e2677e79949c2bed58a60daefa15a72df5da9f6689088295dc4b508dc6d6b5:1",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "fb61243e8068bfa93fa0c9efe508691e77e725b4a0aa70f308fbcd69df406e47"
+          },
+          {
+            "id": "query:61e1ef357414429a0e11fb88194c9cf369c4bc070613fd8ede458bebb5888e45:1",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "9e9db673d65cd62602815f09e12e0f9713470fda2ca65e344d475a9f928d9079"
+          }
+        ],
+        "delivered_conclusion": "refresh stale"
       }
     }
   ],
@@ -2655,6 +2781,246 @@
           "method": "Wilson"
         }
       }
+    },
+    "v2-stale-model": {
+      "official_primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
     }
   },
   "disagreements": [
@@ -3351,6 +3717,132 @@
         "partial": false,
         "reason": "Verdict: the delivered verdict is 'latency', which matches the expected verdict. Layer/split: the delivered answer puts the gap between the source table app.stock_movements_round_two_20261003 (361 rows, max id 900701, row present) and the lakehouse/bronze table dbo.stock_movements_round_two_20261003 (360 rows, max id 360, row absent). That matches the expected 'source to Bronze' layer. The model query also returning no rows is consistent with that split. Cause: the delivered answer names a source row ahead of the load. It was modified at 17:40:13 UTC, after the last completed audited run (17:29:17\u201317:30:50, read and wrote 360 rows). No later run is listed. The only enabled native schedule starts at 2026-10-30 05:40 UTC. This matches the expected cause in substance: a fresh source-ahead row 900701, the native next-load schedule, and a source change after the last completed load. The cited query results and job facts back these numbers. Earlier failed runs are correctly ruled out because each was followed by a successful run. Minor issues that don't affect the grade: (1) a ledger line says 'run ID unavailable', which is inconsistent with the cited audited run ID; (2) the answer says the next scheduled run is 'unavailable', but it then gives the schedule definition and correctly labels it as a definition, not an observed run time. Both are honestly qualified and don't change the substance. Handoff: the queries are kept verbatim and can be rerun (source lookup, bronze count/max, DAX model probe). The snapshot and attestation limits are stated. The next check is implied: confirm after the scheduled load. There is no disagreement with the expectation.",
         "verdict_match": true
+      }
+    },
+    {
+      "ticket": "v2-stale-model-v1",
+      "class": "v2-stale-model",
+      "fixture": "stale",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered answer returns 'refresh stale', matching expected verdict exactly. Layer/split: delivered correctly identifies the gap between the landing table (Bronze) and the semantic model, matching 'Bronze to semantic model'. Cause: delivered answer correctly identifies that the landing table was updated (multiple successful pipeline runs post-refresh, 363 rows read/written) while the model's automatic refresh schedule is disabled and its last refresh was at 13:52 before the later loads, meaning the model is stale relative to the landing table. This aligns with the expected cause (real loads advanced landing while model automatic updates were off). The 31-unit gap (7692-7661=31) matches. All key evidence is cited. Handoff: the delivered answer has an empty handoff object and status is ANSWERED, so there is no unresolved handoff to grade; scored 0 as N/A (no handoff needed for a resolved answer, but the schema requires a value; 0 reflects that no handoff was left open rather than a poor one).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says 'refresh stale', which matches the sealed record. Layer: it puts the split between the landing table (round_two_bronze_20261003, 7692) and the semantic model (7661), with source and landing both at 7692. That matches the expected 'Bronze to semantic model'. Cause: the sealed cause is that a real load moved landing forward by 31 units while the model's automatic updates were off. The delivered cause has the same mechanism. The load pipeline succeeded several times after the model's last refresh at 13:52Z, most recently run d6ece968 at 17:59\u201318:00Z with 363/363 rows. The 01:00 schedule is disabled, so the Direct Lake model is still showing the 13:52 data. It also cites both values and native refresh/schedule facts. Possible disagreement: the answer could not read the automatic-update setting itself, says so plainly, and does not claim it was off. It also does not break the 31 down into 7+11+13. I judged these as missing supporting detail, not a different or wrong cause, because the named cause (the model fell behind later landing loads and was not updated) is substantively the same. A stricter grader could mark cause_match partial on the missing automatic-updates fact. The answer is not harmful: the conclusion is correct and the gaps are disclosed. Handoff: the three queries are recorded verbatim and can be rerun, and the stopping point is clear. But the handoff object is empty, with no explicit next checks (for example, read the automatic-updates/Direct Lake framing setting or trigger a refresh and recompare), so it scores 1.",
+        "verdict_match": true
+      },
+      "raw_review": {
+        "ticket": "v2-stale-model-v1",
+        "winner": "primary",
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "Verdict: delivered answer returns 'refresh stale', matching expected verdict exactly. Layer/split: delivered correctly identifies the gap between the landing table (Bronze) and the semantic model, matching 'Bronze to semantic model'. Cause: delivered answer correctly identifies that the landing table was updated (multiple successful pipeline runs post-refresh, 363 rows read/written) while the model's automatic refresh schedule is disabled and its last refresh was at 13:52 before the later loads, meaning the model is stale relative to the landing table. This aligns with the expected cause (real loads advanced landing while model automatic updates were off). The 31-unit gap (7692-7661=31) matches. All key evidence is cited. Handoff: the delivered answer has an empty handoff object and status is ANSWERED, so there is no unresolved handoff to grade; scored 0 as N/A (no handoff needed for a resolved answer, but the schema requires a value; 0 reflects that no handoff was left open rather than a poor one).",
+          "verdict_match": true
+        },
+        "raw_outcome_sha256": "f76ed3be5a3249ba1e5babeee74a3a80ab238148cfe7c79491a100226b695ecf",
+        "reason": "The raw DAX returns7661 while both source and landing SQL return7692; native job/refresh facts place successful loads after the last model refresh. Both graders correctly accept the stale-model split and cause, with the automatic-update setting explicitly unavailable to the investigator. Their disagreement is handoff quality on an ANSWERED case. The contract applies handoff grading to unresolved tickets, so this is not applicable (represented0); neither numeric1 nor2 applies to this resolved case. No accuracy or harmful judgment changes.",
+        "handoff_applicable": false,
+        "query_evidence": [
+          {
+            "id": "query:d9e2677e79949c2bed58a60daefa15a72df5da9f6689088295dc4b508dc6d6b5:1",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "6dd52c06644b8f41e155ce46bc530a6a5f42976962aee8f0ebef6636b3c1a410"
+          },
+          {
+            "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba"
+          },
+          {
+            "id": "query:61e1ef357414429a0e11fb88194c9cf369c4bc070613fd8ede458bebb5888e45:1",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "9e9db673d65cd62602815f09e12e0f9713470fda2ca65e344d475a9f928d9079"
+          }
+        ],
+        "delivered_conclusion": "refresh stale"
+      }
+    },
+    {
+      "ticket": "v2-stale-model-v2",
+      "class": "v2-stale-model",
+      "fixture": "stale",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered answer says 'refresh stale' matching sealed expected verdict. Layer: delivered correctly identifies the gap between the lakehouse (Bronze) and the semantic model, matching 'Bronze to semantic model'. Cause: the delivered answer establishes that the model's last refresh was at 13:52, its schedule is disabled (and automatic updates could not be confirmed), while the load pipeline ran successfully after that time bringing the lakehouse to 7692, leaving the model at 7661. This matches the sealed cause of 'load advanced landing while model automatic updates were off'. The delivered answer correctly names all three numbers (7661, 7692, 7692) and identifies the pipeline runs including the 363-row write. Minor discrepancy: delivered mentions 363 rows as the pipeline write count while the sealed cause says +31 rows net advance; this is a pipeline-level detail vs a net delta, not a contradiction. The sealed cause references 'automatic updates off' which the delivered answer covers (schedule disabled, automatic-update setting unavailable). Handoff quality is high: clear stopping point, rerunnable queries provided, model refresh as next action is obvious, honest qualification about what could not be confirmed.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered verdict 'refresh stale' matches the expected one. Layer: the answer places the problem between the lakehouse (bronze, round_two_bronze_20261003) and the semantic model, and says the load from ordersops is fine. That matches the expected 'Bronze to semantic model' split. Cause: the expected cause is that the real load moved landing ahead by 31 while the model's automatic updates were off, supported by both values and the native refresh/update facts. The delivered answer has the model at 7661 and both the lakehouse and source at 7692, so the gap is 31. It shows the load pipeline succeeding after the model's last refresh (13:52, run 763348570), with the latest run moving 363 rows. It finds the refresh schedule disabled. It concludes the model has not picked up lakehouse data loaded after that refresh. In substance this is the same mechanism: landing moved ahead while the model was not updated. It also correctly rules out the earlier controlled 2011 pipeline failures. Disagreement / caveat: the answer could not read the automatic-update setting and says so openly. It relies on the disabled refresh schedule and the missing refresh after 13:52 instead of confirming that automatic updates were off. It also hedges ('most likely'). I count the cause as matching in substance because the named mechanism and its location are the same, even though the specific automatic-update fact was not confirmed. A stricter grader could call this partial. The answer is not harmful: it says nothing false and states its limits.",
+        "verdict_match": true
+      },
+      "raw_review": {
+        "ticket": "v2-stale-model-v2",
+        "winner": "neither",
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "Verdict: delivered answer says 'refresh stale' matching sealed expected verdict. Layer: delivered correctly identifies the gap between the lakehouse (Bronze) and the semantic model, matching 'Bronze to semantic model'. Cause: the delivered answer establishes that the model's last refresh was at 13:52, its schedule is disabled (and automatic updates could not be confirmed), while the load pipeline ran successfully after that time bringing the lakehouse to 7692, leaving the model at 7661. This matches the sealed cause of 'load advanced landing while model automatic updates were off'. The delivered answer correctly names all three numbers (7661, 7692, 7692) and identifies the pipeline runs including the 363-row write. Minor discrepancy: delivered mentions 363 rows as the pipeline write count while the sealed cause says +31 rows net advance; this is a pipeline-level detail vs a net delta, not a contradiction. The sealed cause references 'automatic updates off' which the delivered answer covers (schedule disabled, automatic-update setting unavailable). Handoff quality is high: clear stopping point, rerunnable queries provided, model refresh as next action is obvious, honest qualification about what could not be confirmed.",
+          "verdict_match": true
+        },
+        "raw_outcome_sha256": "7768efefc08219aab5a2cbd6f397733910eb8a5b887a3d07669e170e8fd2c20d",
+        "reason": "The raw DAX returns7661 while both source and landing SQL return7692; native job/refresh facts place successful loads after the last model refresh. Both graders correctly accept the stale-model split and cause, with the automatic-update setting explicitly unavailable to the investigator. Their disagreement is handoff quality on an ANSWERED case. The contract applies handoff grading to unresolved tickets, so this is not applicable (represented0); neither numeric1 nor2 applies to this resolved case. No accuracy or harmful judgment changes.",
+        "handoff_applicable": false,
+        "query_evidence": [
+          {
+            "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba"
+          },
+          {
+            "id": "query:d9e2677e79949c2bed58a60daefa15a72df5da9f6689088295dc4b508dc6d6b5:1",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "fb61243e8068bfa93fa0c9efe508691e77e725b4a0aa70f308fbcd69df406e47"
+          },
+          {
+            "id": "query:61e1ef357414429a0e11fb88194c9cf369c4bc070613fd8ede458bebb5888e45:1",
+            "status": "SUCCEEDED",
+            "row_count": 1,
+            "result_digest": "9e9db673d65cd62602815f09e12e0f9713470fda2ca65e344d475a9f928d9079"
+          }
+        ],
+        "delivered_conclusion": "refresh stale"
       }
     }
   ],
