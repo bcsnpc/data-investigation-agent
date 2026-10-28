@@ -102,6 +102,36 @@ def static_wave_width(remaining_requests, *, requested=3, per_case=40, restore_h
     return min(requested, max(0, (remaining_requests-restore_headroom)//per_case))
 
 
+def three_scores(cases):
+    """Raw review never silently inherits a disputed primary grade."""
+    primary=[]; strict=[]; reviewed=[]; pending=[]
+    for case in cases:
+        a,b=case['primary'],case['secondary']
+        primary.append(a)
+        strict.append({**{k:a[k] and b[k] for k in GRADE_FIELDS},
+                       'harmful':a['harmful'] or b['harmful']})
+        differs=any(a.get(k)!=b.get(k) for k in (*GRADE_FIELDS,'harmful','handoff_quality'))
+        if not differs:
+            reviewed.append(a)
+            continue
+        review=case.get('raw_review')
+        if not review:
+            pending.append(case['ticket'])
+            continue
+        if (review.get('winner') not in ('primary','secondary','mixed','neither')
+                or not review.get('raw_outcome_sha256') or not review.get('reason')):
+            raise ValueError('RAW_REVIEW_EVIDENCE_REQUIRED')
+        grade=review['grade'];score(grade)
+        if review['winner'] in ('primary','secondary'):
+            chosen=case[review['winner']]
+            if any(grade.get(k)!=chosen.get(k) for k in (*GRADE_FIELDS,'harmful','handoff_quality')):
+                raise ValueError('RAW_REVIEW_WINNER_GRADE_MISMATCH')
+        reviewed.append(grade)
+    return {'official_primary':accuracy_table(primary),'strict':accuracy_table(strict),
+            'raw_reviewed':accuracy_table(reviewed),'raw_review_pending':pending,
+            'raw_review_complete':not pending,'headline':'raw_reviewed' if not pending else 'pending raw review'}
+
+
 def cohort_metrics(cases):
     """Only supplied, independently graded cases count; no missing cases become zeros."""
     from collections import defaultdict
@@ -109,9 +139,9 @@ def cohort_metrics(cases):
     for case in cases:grouped[case['class']].append(case)
     primary=[c['primary']for c in cases];secondary=[c['secondary']for c in cases]
     agreement=sum(all(c['primary'][k]==c['secondary'][k]for k in (*GRADE_FIELDS,'harmful'))for c in cases)
-    return {'completed_graded':len(cases),'primary':accuracy_table(primary),
+    return {**three_scores(cases),'completed_graded':len(cases),'primary':accuracy_table(primary),
             'secondary':accuracy_table(secondary),'agreement':wilson(agreement,len(cases)),
-            'per_class':{name:{'primary':accuracy_table([c['primary']for c in rows]),
+            'per_class':{name:{**three_scores(rows),'primary':accuracy_table([c['primary']for c in rows]),
                                'secondary':accuracy_table([c['secondary']for c in rows])}for name,rows in grouped.items()},
             'disagreements':[c for c in cases if any(c['primary'][k]!=c['secondary'][k]for k in (*GRADE_FIELDS,'harmful'))]}
 
@@ -125,3 +155,28 @@ def require_existing_probe_route(base, config, database, objects):
                and set(objects)<=set(route['objects'])and route.get('read_only')is True for route in routes):
         raise ValueError('EXISTING_NATIVE_PROBE_ROUTE_REQUIRED')
     return True
+
+
+def fact_reference_known(reference, facts):
+    """Resolve oracle namespace labels against supplied native JSON, not guessed facts."""
+    if not isinstance(reference,str)or not reference:return False
+    if reference.startswith('native_facts.'):reference=reference[len('native_facts.'):]
+    if any(reference==key or reference.startswith(key+'.')for key in facts):return True
+    # An exact descendant container label (e.g. reports) is an abbreviated
+    # reference to a supplied namespace. It is never proof of its values.
+    def contains(value):
+        if isinstance(value,dict):
+            return reference in value or any(contains(v)for v in value.values())
+        if isinstance(value,list):return any(contains(v)for v in value)
+        return False
+    return contains(facts)
+
+
+def plumbing_replacement_label(*, error_type, delivered, replacements_used):
+    """Only one plumbing replacement; an engine answer never earns a rerun."""
+    if type(delivered)is not bool or type(replacements_used)is not int:
+        raise ValueError('REPLACEMENT_FACTS_REQUIRED')
+    permitted={'LockNotAvailable','OperationalError','AZURE_START_LOST','CAPTURE_LOSS'}
+    if delivered or replacements_used!=0 or error_type not in permitted:
+        raise ValueError('NO_PLUMBING_REPLACEMENT_ALLOWED')
+    return '-replacement01'

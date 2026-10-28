@@ -1,24 +1,36 @@
-# Quality of frozen v0.24 — Round 25
+# Quality of frozen v0.24 - Round 25
 
-Measurement is in progress. No final quality claim or release is made here. The investigator, prompts, models, caching and queries remain frozen to v0.24.
+Measurement is in progress. The primary and secondary graders disagree materially on the history family, so the current primary score must not be presented as a clean quality pass. No investigator, prompt, model, caching or query change has been made.
 
-G1 currently has 9 independently double-graded outcomes, all correct; 95% Wilson interval 70.1–100%. Both graders report harmful 0 and full agreement. This is an interim subset of the requested 40 dev cases. Related variants share fixtures, so the Wilson interval is descriptive and does not establish accuracy on independent client estates.
+The raw-reviewed headline for the 11 completed G1 tickets is **9/11** (95% Wilson 52.3?94.9%), with **2 harmful historical-question answers**. The official primary score remains 11/11 (74.1?100.0%); strict, requiring both graders to say correct, is 9/11 (52.3?94.9%). Raw review supports the second grader on both history disagreements: current source-ahead reads do not answer the historical-edit question. The history family is paused. Neither original grade nor expectation was changed.
 
-| Cohort | Status | Accuracy |
-|---|---|---|
-| G1, unchanged v2 dev | 9/40 graded so far | 9/9, Wilson 95% 70.1–100% |
-| G2, new held-out v4 — headline | Not started; native fact verification and sealing pending | Not measured |
-| G3, unchanged R22 text | Not started; lower priority | Not measured |
-| G4, prior R23 held-out v2 — regression | Not started; lower priority | Not measured |
+| Completed G1 | Official primary | Strict | Raw-reviewed (headline) |
+|---|---|---|---|
+| Correct / graded | 11/11 | 9/11 | 9/11 |
+| 95% Wilson | 74.1?100.0% | 52.3?94.9% | 52.3?94.9% |
+| Harmful flags | 0 | 2 (either grader) | 2 confirmed |
 
-The independent writer produced 60 unsealed drafts, including 12 free-text inputs, six unchanged real screenshots and all three estates. No new held-out wording has been opened. Native fact checks and oracle drafting are still in progress; an unverified scenario will not be sealed or scored.
+R24's held-out disagreement was also checked from its saved raw capture, without a run or regrade. The second grader was right on cause: three successful zero-row record lookups established absence at source, Bronze and model, and the answer explicitly ruled out a pipeline drop. Both graders still marked the delivered `not found` verdict wrong against `as designed`. Thus its all-three zero and R24's official 18/20 remain unchanged. [Raw review and query receipts](runs/round-twenty-five-r24-held-disagreement-raw-review.json).
 
-## Interim measurements
+Agreement is 9/11 (95% Wilson 52.3-94.9%). Related variants share fixtures; these intervals describe the observed sample and do not establish accuracy on independent client estates.
 
-The 9 graded tickets used $3.898022 for investigation, averaging $0.433114 and 26.1 estate requests per ticket. Native Azure job duration, including startup and publication, has median 213.0s and p90 299.0s. Authoring, grading and fixture-control costs are separate and will be reconciled in the final report.
+| Cohort | Status |
+|---|---|
+| G1, unchanged v2 dev | 11/40 double-graded so far; remaining cases pending |
+| G2, new held-out v4 - headline | Not started; native fact verification and sealing pending |
+| G3, unchanged R22 text | Not started; lower priority |
+| G4, prior R23 held-out v2 - regression | Not started; lower priority |
 
-Class results with separate verdict/layer/cause scores and Wilson intervals are retained in [the interim record](runs/round-twenty-five-g1-current-grades.json). No zeros or grader disagreements have appeared in this subset. Final failure groups, walkthroughs, cache usage and ranked next-round fixes await the complete measurement.
+The independent writer produced 60 unsealed drafts, including 12 free-text inputs, six unchanged real screenshots and all three estates. New held-out wording remains unopened. A separate writer correction supplies the native comparison report omitted from one scaffold; the original draft is retained. Native target definitions, model partitions, source/landing numbers and producer definitions have been captured for independent oracle verification. No unverified scenario is sealed.
 
-## Retained operational failures
+## Current failure pattern
 
-The billing control first stopped on a 5-second PostgreSQL advisory-lock timeout before scoring. Its existing native failed job was reconciled and the original pipeline hash restored. The open one-request reservation was settled UNCERTAIN and remains charged. The normal billing bootstrap still returns the pre-existing 2011 CREATE SCHEMA error; it was not repaired. The waiting cohort completed and restored its original pipeline hash. A history precheck SQL timeout occurred before any source mutation; its original receipt remains, with a distinct continuation. A native billing boundary control used the fixture gateway configuration and was correctly denied SQL_CONNECTION_NOT_ALLOWED; one replacement used the existing billing route. No reader permission was broadened, and no scored engine result was retried for these controls.
+Both history cases compare current source47 against landing/model41 and choose latency. They explicitly admit that no retained source history was read. The second grader correctly distinguishes that current-state observation from proving a historical edit. The primary treats the two verdict classes as interchangeable and passes both. Both explanations are preserved in [the per-ticket record](runs/round-twenty-five-g1-current-grades.json), with [raw-output review](runs/round-twenty-five-history-raw-review.json) and [saved-trace backtrack](failure-backtrack.md). This is an interpretation disagreement, not lost projection bytes or an altered expectation; no engine rerun or silent score override was made.
+
+The native current-state numbers are supported. The unsupported step is presenting latency as the answer to the historical-change question. The answer footer also reports job details unavailable after the narrative has named a successful job window. These belong in the next-round fix list; the engine remains frozen here.
+
+## Timing, costs and retained operational failures
+
+The first9 uncontested cases used $3.898022 for investigation, averaging $0.433114 and26.1estate requests per ticket. Native Azure duration (startup and publication included) had median213.0s,p90299.0s. Complete per-class timing, cache and cost tables will follow the full measurement. Authoring, grading and controls are separate costs.
+
+The billing control first stopped on a 5-second PostgreSQL budget lock before scoring. Its existing failed job was reconciled and the original pipeline hash restored. One open request was settled UNCERTAIN and remains charged. The normal billing bootstrap still returns its pre-existing2011 CREATE SCHEMA error; it was not repaired. Waiting completed and restored its original hash. The first history precheck timed out before mutation; its distinct continuation delivered both cases and restored the original360-row/source-schema hashes plus a successful real load. A billing boundary probe correctly rejected a fixture-policy connection; one replacement used the unchanged billing reader route. The first latency case failed on a PostgreSQL lock before delivery and preserved a partial capture; its source row/schedule were restored, and one new-case replacement is in progress. No identity or permission was changed.

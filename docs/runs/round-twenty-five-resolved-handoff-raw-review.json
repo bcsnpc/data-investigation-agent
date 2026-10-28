@@ -1,0 +1,263 @@
+{
+  "cases": [
+    {
+      "ticket": "v2-application-baseline-v1",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered answer says 'definition explained' which is substantively equivalent to 'as designed' \u2014 the figure is correct by design, matching SUM(units) across model, landing table and source. Layer: delivered answer identifies the source application layer (ordersops \u2192 app.stock_movements_round_two_20261003 \u2192 dbo.stock_movements_round_two_20261003 \u2192 Movements model), matching 'source application'. Cause: delivered answer explicitly states Movement Units = SUM('Movements'[units]), confirms 7661 in model, lakehouse (dbo) and ordersops source, 360 rows in all three, matching the sealed cause 'SUM(units) agrees across model, landing and declared application source; 7661.' All three dimensions match. Status is ANSWERED so handoff quality is not applicable (scored 0 as no handoff needed).",
+        "verdict_match": true
+      },
+      "raw_outcome_sha256": "ae7b356f714dcb5e1381044d98191603c97c73ad19e1dbe26bd1c060a53883f4",
+      "reason": "Both graders agree on verdict, layer, cause and harmful status. Raw business and technical outputs confirm an ANSWERED result. The only disagreement is handoff: primary uses 0 for not applicable; secondary scores the presence or absence of rerunnable queries/next checks. The round contract grades handoff for unresolved tickets, so primary is right on applicability. Preserve both original numeric grades; this resolved-ticket handoff difference does not change accuracy.",
+      "handoff_applicable": false,
+      "query_evidence": [
+        {
+          "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba"
+        },
+        {
+          "id": "query:61e1ef357414429a0e11fb88194c9cf369c4bc070613fd8ede458bebb5888e45:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "cea5f4065e99334d8f91ef6cc6dde43103c11f9b7ccde2b8b1e3e1e513fb76f4"
+        },
+        {
+          "id": "query:d9e2677e79949c2bed58a60daefa15a72df5da9f6689088295dc4b508dc6d6b5:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "0bb4f966d5820a50a3f51f7825996612e8b07a4132c8f57ec27f85b63d9c340b"
+        },
+        {
+          "id": "query:f3b8eb568b1cca202cf30a94b647e2d024067cd61212a5379ac0509c52b1bfd6:4",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "36c2d4a985feed7be3f784fb22ccb2406971b1bba7095d89bae09ed1f694d4c6"
+        },
+        {
+          "id": "query:88d07cdf280559c8d65a84ae80699186f7b5eb3a786b3a9bc16c6dec6272482b:5",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "2825c1b7aa0dbdbdc15b9729d4bb7c75ff65ea140537d3ac2354cd63cf9b44af"
+        },
+        {
+          "id": "query:a5af9f9a41b95cb5c39676af63d598bc63f38ae77235cd506df5e31d6444d066:6",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9b0d921065af73865971686338ba7f98e0545a26aadd420e1fcd034ea79920da"
+        },
+        {
+          "id": "query:5b06e2def202089c8e1edc44b2aa954fab84c0625523f959879954d89d1a16f0:7",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "cd940b857abd2e844df7272fc9688f9e75f7dba76cd318b3888f3ea6dd293b8a"
+        }
+      ],
+      "delivered_conclusion": "definition explained"
+    },
+    {
+      "ticket": "v2-billing-mrr-v1",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'definition explained' which maps to 'as designed' \u2014 the number is working as intended by the formula. Match. Layer: expected 'source application'; delivered traces the value all the way back to app.subscriptions/app.plans in billingapp and confirms consistency at every layer including source, so source application is covered. Match. Cause: expected 'Active subscription plan prices 250+100+250=600; measure removes Plans filters.' Delivered confirms exactly 3 ACTIVE subscriptions summing to 600 (1 CHURNED at 100 excluded), REMOVEFILTERS(Plans) cited explicitly, and the SUMX/FILTER(status=ACTIVE)/RELATED(monthly_price) formula stated in full. The individual plan prices (250+100+250) are not enumerated, but the subscription count (3), total (600), and exclusion (1 CHURNED at 100) are all correct and the formula logic matches. Cause match. Handoff: the answer is fully resolved with a stated answer, so handoff quality is not applicable; scored 0 as there is no unresolved handoff to evaluate.",
+        "verdict_match": true
+      },
+      "raw_outcome_sha256": "089cc801e412b8b16928dff26f0875447eb68ed0839ba95ce31d3f3c71ef8578",
+      "reason": "Both graders agree on verdict, layer, cause and harmful status. Raw business and technical outputs confirm an ANSWERED result. The only disagreement is handoff: primary uses 0 for not applicable; secondary scores the presence or absence of rerunnable queries/next checks. The round contract grades handoff for unresolved tickets, so primary is right on applicability. Preserve both original numeric grades; this resolved-ticket handoff difference does not change accuracy.",
+      "handoff_applicable": false,
+      "query_evidence": [
+        {
+          "id": "query:f52122b1756eb5631591848546e7ec61756b80081d3dd3ceab5c87f8c4536623:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "8b885b54ca82305fcdafe8ed8a883808dd413483223957ba57d67d145bc9ccbd"
+        },
+        {
+          "id": "query:0847215719a138da13161d2d6e36827f4950aad787005d44da58a484f1e8e593:2",
+          "status": "SUCCEEDED",
+          "row_count": 2,
+          "result_digest": "ca319eb585f688521218ce50bda577e95a89a715c97d8489af5a9dccb004e0cd"
+        },
+        {
+          "id": "query:c4c1077c75b70f57b17ffb0bb422ff59fefb4c0124d1c2a04ac74fabce8cb23e:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "851383ae98bb4b6df5e664dc6a32f4492865e2a9937ece2c68a2c69a1b8aebbd"
+        },
+        {
+          "id": "query:df392a583c0713606a7453e30231b6fa4043cc4047c89b59d06e93e12e58c594:4",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "6b699b6f28a0fb187b80ffbfc9293810911507a8ac5033c5d552c1c3ae2bba00"
+        },
+        {
+          "id": "query:c58536dfbaebc8b5db9b93b2d1963f4c849ca15f8e85fa149f2929ab754c460b:5",
+          "status": "ERROR",
+          "row_count": null,
+          "result_digest": null
+        },
+        {
+          "id": "query:1ab2a6ae3cc701dd6f4f094be02962e75bc054b4b132b37ec1f615fdbf021621:6",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "6c493901b998cb0a7c2582ff850ed7e10cf6bac6d69767a33840667d0da27ad8"
+        }
+      ],
+      "delivered_conclusion": "definition explained"
+    },
+    {
+      "ticket": "v2-fixture-quantity-v1",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: 'transformation logic' matches. Layer: the answer correctly identifies the Silver-to-Gold join as the split point where units inflate. Cause: the answer correctly identifies the left-join of silver stock_movements to silver product_rates on product_id alone, where product 7 has 2 rate rows causing each product 7 movement to appear twice in gold, inflating 7661 to 8765 by exactly 1104 units. All three graded dimensions match the sealed expectation. Handoff is scored 0 because the status is ANSWERED (fully resolved), so handoff quality is not applicable/irrelevant rather than meaningful; per schema using 0 for a resolved answer with no open handoff needed.",
+        "verdict_match": true
+      },
+      "raw_outcome_sha256": "60ac3e8aa021fb867dc72cd731b1a23e72ab5fa6ce64017c25efad24ee1f24cf",
+      "reason": "Both graders agree on verdict, layer, cause and harmful status. Raw business and technical outputs confirm an ANSWERED result. The only disagreement is handoff: primary uses 0 for not applicable; secondary scores the presence or absence of rerunnable queries/next checks. The round contract grades handoff for unresolved tickets, so primary is right on applicability. Preserve both original numeric grades; this resolved-ticket handoff difference does not change accuracy.",
+      "handoff_applicable": false,
+      "query_evidence": [
+        {
+          "id": "query:59185bb522fec637da752959b5f3f41303501689784477067b4966d2badcafbb:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "a9ced097797a86d28bbd1d255cf7efb2a36a699babcc9416b1ba9a8a9df81f1d"
+        },
+        {
+          "id": "query:74569ca0102091e1c24c0597ea4386b16379e3183e16f98560f853ec353c24c0:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "4fa0ed16dff4b39a99dbe8761fffa2addbab6ca38af23e91adaac73c5770845a"
+        },
+        {
+          "id": "query:f36ed6c012bc4994160e4b004c6b86103dadd4edd576a07f1b72e3574c40dc0c:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "c0351c11ae668d936d238a2880d5de1fabe1ff96d8e7d4d89f7a925832cefabb"
+        },
+        {
+          "id": "query:7c92a8b3b58a895730c7f1c4d3100902e054a5ecc7511ed2c710525e6abac49f:4",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "0418efb50167d61a04f56e0f1ee21292e9bba694bc154b9b69153626a2f4fa7e"
+        },
+        {
+          "id": "query:6a0f2caea57630f87f3dfc1792e4935217ca378c31f37f5f8c47851a55073e0d:5",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "811120cf81bf8d614895a756e079313d9ad06df70805711bb5a57e09451b6274"
+        },
+        {
+          "id": "query:df360941ce811e693fd0d0f0134dcda978480e1dec72c37f0cdb794e59ddee7e:6",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "393597ee80427a71d75b6b7af69db50ef161bb24581955844e13fc40acb9b30d"
+        },
+        {
+          "id": "query:b172a840e26c4d02f548d0958799c876d07d41309d8999c54ea73e4a0d560f13:6",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "0a27d1ecb8c9b2e05f849df8008332a8cac6a4ee3f1177738926307450f17aaa"
+        }
+      ],
+      "delivered_conclusion": "transformation logic"
+    },
+    {
+      "ticket": "v2-failed-application-load-v2",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: 'failed job'. Layer matches: application load pipeline (round_two_application_load_audited_20261003). Cause matches: the answer cites the latest native failed run with job name (round_two_application_load_audited_20261003), run ID (3680dfc7-1292-4b2a-ad12-886d2d8390cf), start (2026-10-28T16:12:39.37Z), end (2026-10-28T16:13:05.4433333Z), and error code/message (2011, Round22 controlled fixture failure before original activities). All required citation elements are present. Handoff scored 0 as the answer is fully resolved (status ANSWERED, no handoff block), so handoff quality is not applicable/scored as 0.",
+        "verdict_match": true
+      },
+      "raw_outcome_sha256": "14cad05bc364387ad716bd570a9120e50c9ca36aa3f42da512086e06ab61549b",
+      "reason": "Both graders agree on verdict, layer, cause and harmful status. Raw business and technical outputs confirm an ANSWERED result. The only disagreement is handoff: primary uses 0 for not applicable; secondary scores the presence or absence of rerunnable queries/next checks. The round contract grades handoff for unresolved tickets, so primary is right on applicability. Preserve both original numeric grades; this resolved-ticket handoff difference does not change accuracy.",
+      "handoff_applicable": false,
+      "query_evidence": [
+        {
+          "id": "query:d9e2677e79949c2bed58a60daefa15a72df5da9f6689088295dc4b508dc6d6b5:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "ce42b8ff06fd5eb6a19ea496a77789e1470119e5abe22efcc7f5de2647d3aa44"
+        },
+        {
+          "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba"
+        },
+        {
+          "id": "query:61e1ef357414429a0e11fb88194c9cf369c4bc070613fd8ede458bebb5888e45:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "14967ff72eedf730403e9c9cce96dda83aa20ab9dbd93f6675831894ccd00a78"
+        }
+      ],
+      "delivered_conclusion": "failed job"
+    },
+    {
+      "ticket": "v2-waiting-application-load-v1",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: 'waiting on job' is correct. Layer matches: application load pipeline (round_two_application_load_audited_20261003) is correctly identified. Cause matches: the answer correctly identifies a native running pipeline run (78c23b46..., status RUNNING, ~3min 15sec elapsed, no error recorded), consistent with 'Native running Wait activity/run, exact status and times; no evidence supports a database-lock cause.' The answer provides run IDs, start times, prior success/failure history, and correctly notes no evidence of a lock or other cause. No confident incorrect cause is stated. The answer is ANSWERED (not unresolved), so handoff quality is moot/0 by convention.",
+        "verdict_match": true
+      },
+      "raw_outcome_sha256": "9c3a32a0f1933e5ad7a363249671f52a59c16e45e42d1c42339c52503eb69c63",
+      "reason": "Both graders agree on verdict, layer, cause and harmful status. Raw business and technical outputs confirm an ANSWERED result. The only disagreement is handoff: primary uses 0 for not applicable; secondary scores the presence or absence of rerunnable queries/next checks. The round contract grades handoff for unresolved tickets, so primary is right on applicability. Preserve both original numeric grades; this resolved-ticket handoff difference does not change accuracy.",
+      "handoff_applicable": false,
+      "query_evidence": [],
+      "delivered_conclusion": "waiting on job"
+    },
+    {
+      "ticket": "v2-waiting-application-load-v2",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: 'waiting on job'. Layer matches: application load pipeline (round_two_application_load_audited_20261003). Cause matches: the native run history shows run 78c23b46 as RUNNING with start time, no end time, no error \u2014 exactly matching 'Native running Wait activity/run, exact status and times'. The answer correctly avoids asserting a database-lock or other incorrect cause. All key facts (run ID, start time, RUNNING status, prior SUCCEEDED and FAILED runs with correct error code 2011) are accurately reported. Handoff quality is 0 because status=ANSWERED with no handoff block, stop, or rerunnable queries provided \u2014 there is nothing for a next agent to act on if the run is still in flight.",
+        "verdict_match": true
+      },
+      "raw_outcome_sha256": "7ad78b220ebf59857f5cc457b4c844444e5dde9cfc68ff7779e3bdd101f3ca89",
+      "reason": "Both graders agree on verdict, layer, cause and harmful status. Raw business and technical outputs confirm an ANSWERED result. The only disagreement is handoff: primary uses 0 for not applicable; secondary scores the presence or absence of rerunnable queries/next checks. The round contract grades handoff for unresolved tickets, so primary is right on applicability. Preserve both original numeric grades; this resolved-ticket handoff difference does not change accuracy.",
+      "handoff_applicable": false,
+      "query_evidence": [],
+      "delivered_conclusion": "waiting on job"
+    }
+  ],
+  "estate_reads": 0,
+  "model_calls": 0,
+  "official_grades_unchanged": true
+}

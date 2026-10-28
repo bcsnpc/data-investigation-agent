@@ -261,3 +261,12 @@ Round25 waiting g1 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_requ
 
 
 Round25 history g1 PREPARED_NOT_APPLIED; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-five\injections\g1-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round25 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-five\injections\g1-history-continuation01\status.json. Temporal history ON; native historical versions retained.
+
+
+Round25 latency g1 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-five\injections\g1-latency-admission05\status.json. Temporal remains ON.
+
+
+Round25 latency g1 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-five\injections\g1-latency-admission06\status.json. Temporal remains ON.

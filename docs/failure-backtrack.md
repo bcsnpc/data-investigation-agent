@@ -16773,3 +16773,6518 @@ Sealed expected:
   "verdict": "as designed"
 }
 ```
+
+
+## Round25 G1 secondary history disagreements automatic backtrack
+
+{'graded': 2, 'score': 0, 'harmful': 2, 'correctness': {'cause_match': 0, 'layer_match': 0, 'verdict_match': 0}, 'zero_groups': {'conclusion': 2}}
+
+| Ticket | First wrong step | Reason and correct action |
+|---|---|---|
+| v2-source-history-v1 | conclusion | Expected: verdict 'source changed history', layer 'source application'. The cause should be the native before (41) and after (47) values of the source row, plus the time it changed, kept separate from the business event date, with no claim about pipeline arithmetic. Delivered: verdict 'latency'. It frames the problem as delivery falling behind the source: the source row now shows 47, while the landing table and the Movement Units measure still show 41. Verdict does not match. Layer: the answer places the split between source and landing/delivery, not in the source application as the place where a historical record was edited, so no credit. Cause: the answer does collect relevant raw evidence. The landing copy is version 0x28E1 at 17:11:12 with 41 units. The source is version 0x28E2 at 17:18:00 with 47 units. The source modification time is clearly separate from the 2026-09-18 event day, and the answer makes no arithmetic claim. However, it names stale delivery as the cause and says outright that it has not established when or how the source value changed. So it does not identify that the source changed a historical record, and no credit is given. This is a partial overlap, which scores zero. It counts as harmful because the answer is ANSWERED with a confident verdict, 'latency', that is wrong, even though it adds some caveats about its reads. It also says 'both later exports show 47', which misstates the ticket: the user described one earlier export at 41 and one later export at 47. Handoff: the queries are rerunnable verbatim (SQL and DAX with parameters) and the unavailable triage checks are listed. But the handoff object is empty, and no next check is proposed, such as a retained-history or temporal read of the source row. Score 1. The first failing step is the conclusion: the evidence was gathered correctly, but it was read as latency rather than as a change to source history. Restrict the cause to what the cited native evidence establishes. |
+| v2-source-history-v2 | conclusion | The sealed expectation is: verdict 'source changed history', layer 'source application', cause = the source's own native history showing the value was 41 before and 47 after, with a change timestamp separate from the September business date. The delivered answer's verdict is 'latency'. It frames the issue as the landing/model layer (41) lagging behind the source (47) because the last successful load ran 17:11–17:12 and the source row was modified at 17:18:00. Its facts are accurate and partly overlap the expected cause: 41 vs 47, a 17:18 source modification after the business date, and the source being ahead. Overlap only counts as partial, though, and a partial match scores zero. The verdict differs: latency vs source rewrote history. The split it names is the load gap between source and landing, not the source application as where the change began. It also says outright that no retained source history was read and that the earlier source value and reason for the edit are 'not established'. So it never shows the native before-41/after-47 change, which is the expected cause. It also brings in pipeline evidence (361 rows read/written, failed runs), which the expectation explicitly avoids. Marked harmful: 'latency' is stated confidently as the verdict, and it misreads a historical rewrite at the source as a load delay, which points the user toward waiting for a reload. Handoff quality 1: the queries are given verbatim and can be rerun, and the limitations clearly name the missing source-history check. But the status is ANSWERED rather than a clear stopping point, the handoff object is empty, and no next steps are spelled out. First failing step: wrong conclusion. The evidence was gathered correctly but read as latency. Restrict the cause to what the cited native evidence establishes. |
+
+### v2-source-history-v1
+Expected: verdict 'source changed history', layer 'source application'. The cause should be the native before (41) and after (47) values of the source row, plus the time it changed, kept separate from the business event date, with no claim about pipeline arithmetic. Delivered: verdict 'latency'. It frames the problem as delivery falling behind the source: the source row now shows 47, while the landing table and the Movement Units measure still show 41. Verdict does not match. Layer: the answer places the split between source and landing/delivery, not in the source application as the place where a historical record was edited, so no credit. Cause: the answer does collect relevant raw evidence. The landing copy is version 0x28E1 at 17:11:12 with 41 units. The source is version 0x28E2 at 17:18:00 with 47 units. The source modification time is clearly separate from the 2026-09-18 event day, and the answer makes no arithmetic claim. However, it names stale delivery as the cause and says outright that it has not established when or how the source value changed. So it does not identify that the source changed a historical record, and no credit is given. This is a partial overlap, which scores zero. It counts as harmful because the answer is ANSWERED with a confident verdict, 'latency', that is wrong, even though it adds some caveats about its reads. It also says 'both later exports show 47', which misstates the ticket: the user described one earlier export at 41 and one later export at 47. Handoff: the queries are rerunnable verbatim (SQL and DAX with parameters) and the unavailable triage checks are listed. But the handoff object is empty, and no next check is proposed, such as a retained-history or temporal read of the source row. Score 1. The first failing step is the conclusion: the evidence was gathered correctly, but it was read as latency rather than as a change to source history. Restrict the cause to what the cited native evidence establishes.
+
+Target:
+```json
+{
+  "path": {
+    "as_of": null,
+    "declared_route_bridges": [
+      {
+        "column_bindings": [
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003/column/movement_id",
+            "semantic_column": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/movement_id"
+          },
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003/column/warehouse_id",
+            "semantic_column": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/warehouse_id"
+          },
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003/column/product_id",
+            "semantic_column": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/product_id"
+          },
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003/column/units",
+            "semantic_column": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/units"
+          }
+        ],
+        "confidence": "DECLARED",
+        "definition_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/part/model.bim",
+        "definition_hash": "a87545a3e875d2260873432f55b447cbbe4d461928395aa15254ff574d34c5f6",
+        "graph_nodes": [
+          "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+          "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c"
+        ],
+        "literal_expression": "let database = Sql.Database(\"i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com\", \"fbbccea4-d943-4f58-b91f-e6cbcb912620\") in database",
+        "native_ownership": [
+          {
+            "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/native-relation/5847348b3fe731e359d488a7c71321000b58db7362e3d339eda7af1eb0e37c92",
+            "inventory_digest_qualification": "Retained inventory digests matched; this is not a current query-bound attestation.",
+            "metadata": {
+              "container_asset_hash": "d4fe38b53f7492e7e0634b5a277a155d2399772c5dd352b9f1371a48172ba817",
+              "container_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+              "context_hash": "42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6",
+              "context_version": "4cae0d14-fd5d-4ff1-89ce-adf346790084",
+              "endpoint_asset_hash": "dacb9d4b7db91da731f9c761c50043780a5dd2d501a41a33c559e8c7d20dc6e4",
+              "endpoint_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/fbbccea4-d943-4f58-b91f-e6cbcb912620",
+              "observed_at": "2026-10-21T21:33:21.054850Z",
+              "relation": {
+                "evidence": [
+                  {
+                    "scope": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+                    "source_api": "fabric_item_relations_beta"
+                  }
+                ],
+                "provenance": "DISCOVERED",
+                "relation": "NATIVE_CASCADEDELETE",
+                "source": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/fbbccea4-d943-4f58-b91f-e6cbcb912620",
+                "target": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3"
+              },
+              "relation_pointer": "/graph/edges/843"
+            }
+          }
+        ],
+        "partition_source": {
+          "entityName": "stock_movements_round_two_20261003",
+          "expressionSource": "ApplicationLoadSource",
+          "schemaName": "dbo",
+          "type": "entity"
+        },
+        "physical_table": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+        "qualification": "Declared route only; value agreement and aligned snapshots are not implied.",
+        "semantic_table": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements"
+      },
+      {
+        "basis": "ESTATE_MANIFEST_BINDING",
+        "binding": {
+          "from_layer": "application",
+          "provenance": "DECLARED_BY_DEFINITION",
+          "to_layer": "landing"
+        },
+        "confidence": "DECLARED",
+        "delivery_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+        "graph_nodes": [
+          "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a"
+        ],
+        "producers": [
+          {
+            "audit": {
+              "resource": "load-audit",
+              "status": "PRESENT"
+            },
+            "audit_resource": {
+              "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/bea673e0-a206-461e-9b2f-1b3b827e80de/table/dbo.load_run_audit",
+              "id": "load-audit",
+              "reach": {
+                "adapter": "estate-reader",
+                "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/bea673e0-a206-461e-9b2f-1b3b827e80de/table/dbo.load_run_audit",
+                "reader": "investigator-reader"
+              }
+            },
+            "delivery_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+            "from_layer": "application",
+            "history_resource": "load-history",
+            "id": "application-load",
+            "producer_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c",
+            "to_layer": "landing"
+          }
+        ],
+        "qualification": "Declared mapping only; compare native values and retained load evidence to establish a cause.",
+        "source_asset": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+      }
+    ],
+    "edges": [
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "06c8ec3ee7932e03fa0cee970e877a9f1ead91ab1a4024627716196f880d993b",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "COPY_MAPPING_WITH_EXACT_NATIVE_SOURCE",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "6e29c19610d2451365f4424018e56a87b8702eb485f499cad6349e1810ac5f54",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "17d8b434f56b320cba6bfc4ea56049014c39e0a7de73b71151e3c6d5bf7efabf",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "04338ce830d63e3ab63d30a827b752e9163a7a50c36a3a8e2b6127b0480e5a34",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "1e0a1aeaad2107704ac9c0da4f0b98a7649a1ac176baccd5e152e17c542d8c65",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "7c4042009085cafc8ca9e5985af173de9af07bd6f919c9bb16d195e45b177dc2",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "1eb4e7a69c34396385d68cd4b33f6b0007a5d7a9467a1a903fb6dfa02bfc6b99",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "COPY_MAPPING_WITH_EXACT_NATIVE_SOURCE",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7c4042009085cafc8ca9e5985af173de9af07bd6f919c9bb16d195e45b177dc2",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "20487352dbe71aaa186e04cd2a0b49c5fd2b9cb4fbff126fd0cfbec2b7b4edf1",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "properties": {
+          "binding_kind": "DIRECTLAKE_ENTITY",
+          "catalog_id": "fbbccea4-d943-4f58-b91f-e6cbcb912620",
+          "container_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+          "container_binding": {
+            "definition_hash": "23669eefffb853c2ca9014ee305dc7269cb2fa5a63160a33f5a2a1dc82cd665f",
+            "observed_at": "2026-10-28T03:35:17.564451Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/native-relation/5847348b3fe731e359d488a7c71321000b58db7362e3d339eda7af1eb0e37c92",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "container_bindings": [
+            {
+              "definition_hash": "23669eefffb853c2ca9014ee305dc7269cb2fa5a63160a33f5a2a1dc82cd665f",
+              "observed_at": "2026-10-28T03:35:17.564451Z",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/native-relation/5847348b3fe731e359d488a7c71321000b58db7362e3d339eda7af1eb0e37c92",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            }
+          ],
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+          "entity": "stock_movements_round_two_20261003",
+          "expression_pointer": "/model/expressions/0",
+          "expression_source": "ApplicationLoadSource",
+          "physical_column_definition": {
+            "definition_hash": "52c4a51badb36efea3e9a0ae19c764e87af8d48b152040b4e23ec7279e1f28e4",
+            "observed_at": "2026-10-11T16:27:31.868191Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003/column/units",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "physical_definition": {
+            "definition_hash": "ec45d792a5e5f2d5c4bd2a04f33e4e5396583c1820af85c2f99f7722d124eaab",
+            "observed_at": "2026-10-11T16:27:31.868191Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "schema": "dbo",
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+          "source_column": "units"
+        },
+        "provenance": {
+          "definition_hash": "18be79d2ba4c304d1bba31d0823850f93bf964b2ff9feb002abe66a52463f43c",
+          "observed_at": "2026-10-28T03:35:17.564451Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/part/model.bim",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/model/tables/0/columns/3/sourceColumn"
+          }
+        },
+        "source": "497b809aab319a091c08598988a6c8202715e5629e01a5d8b6be448d45edd062",
+        "target": "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "30577e94eeede86f93ae7f5c6d5c239e886ef3ca6899b04c13e4c44b33994c87",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "COPY_MAPPING_WITH_EXACT_NATIVE_SOURCE",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "98be0634236a82a68e454d0e412716413cb967afd7244820b176c58d5da08707",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "3070875cfdd22ac7316d00981f391fe2f98a8905cab84684200e5629ee85f028",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "COPY_MAPPING_WITH_EXACT_NATIVE_SOURCE",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "3334860e93f6632b17abd31fc175afe2ba07e7918ba0fda5cc6d5bcab485d210",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "33fcdac3222c9bb64858c980d34b1d898a3f22f194274e0c15a02c71b5ef90b8",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "EXACT_CONNECTION_UUID_AND_NATIVE_OBJECT_ADDRESS",
+          "connection_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/connection/3f5891f3-092b-4c26-b838-1d024e989501",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "destination_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+          "native_destination": {
+            "artifactId": "33618b8d-46eb-4fe7-b80b-122c331260a3",
+            "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+          },
+          "source_asset": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+          "source_query": null
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "4c0ff82c658eead5142c04a645bb4def66f5475cc1a73ba2f43153f6b08887be",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "3334860e93f6632b17abd31fc175afe2ba07e7918ba0fda5cc6d5bcab485d210",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "57151bc18eeb30ee23d6da4e325cfd193ca0ed9bcf396a93fde0a7ced7adfb7c",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "114f64a965934e8f034687583f17f05e5c8bfddf3d771753eecddd0020920222",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "666c5579851a32a3b5a9f56bc7018d2b92ae01305bf7c4e0d6f3f198604b10cb",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "6e29c19610d2451365f4424018e56a87b8702eb485f499cad6349e1810ac5f54",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "669400314dab93454b3c1af392293ee7f557a499a1a8c432ed3c99dfa31b0df0",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "COPY_MAPPING_WITH_EXACT_NATIVE_SOURCE",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "aa287d7cf4522d7100e8b12742bf7a826862d71bc1a8b43f22ab12d49a0d0a0d",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "6792c3f8c484ae44c108b4e528d0fee217da3e35fbfb0966ab729c0fdee2d6f4",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "aa287d7cf4522d7100e8b12742bf7a826862d71bc1a8b43f22ab12d49a0d0a0d",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "6e8fd211e6242e2ab549b7c841781ec6c41779696ad5e41f4eded9f85203ac98",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "properties": {
+          "binding_kind": "DIRECTLAKE_ENTITY",
+          "catalog_id": "fbbccea4-d943-4f58-b91f-e6cbcb912620",
+          "container_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+          "container_binding": {
+            "definition_hash": "23669eefffb853c2ca9014ee305dc7269cb2fa5a63160a33f5a2a1dc82cd665f",
+            "observed_at": "2026-10-28T03:35:17.564451Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/native-relation/5847348b3fe731e359d488a7c71321000b58db7362e3d339eda7af1eb0e37c92",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "container_bindings": [
+            {
+              "definition_hash": "23669eefffb853c2ca9014ee305dc7269cb2fa5a63160a33f5a2a1dc82cd665f",
+              "observed_at": "2026-10-28T03:35:17.564451Z",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/native-relation/5847348b3fe731e359d488a7c71321000b58db7362e3d339eda7af1eb0e37c92",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            }
+          ],
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+          "entity": "stock_movements_round_two_20261003",
+          "expression_pointer": "/model/expressions/0",
+          "expression_source": "ApplicationLoadSource",
+          "physical_definition": {
+            "definition_hash": "ec45d792a5e5f2d5c4bd2a04f33e4e5396583c1820af85c2f99f7722d124eaab",
+            "observed_at": "2026-10-11T16:27:31.868191Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "schema": "dbo",
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+        },
+        "provenance": {
+          "definition_hash": "18be79d2ba4c304d1bba31d0823850f93bf964b2ff9feb002abe66a52463f43c",
+          "observed_at": "2026-10-28T03:35:17.564451Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/part/model.bim",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/model/tables/0/partitions"
+          }
+        },
+        "source": "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+        "target": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "75f76c47eb9b8c836e06dee841dcf4664448e803c0c31b7dd674b71bb01124c4",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/598e4fff-47c2-4991-90e5-269c0aa7c1ef",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/598e4fff-47c2-4991-90e5-269c0aa7c1ef"
+        },
+        "provenance": {
+          "definition_hash": "01316df16f1ed86a54c0d457aaa55897df288ddc1f0ddf1bd79642bad475b997",
+          "observed_at": "2026-10-27T04:06:22.268955Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/598e4fff-47c2-4991-90e5-269c0aa7c1ef/part/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2F25189fcc5fe05539b3b6%2Fvisual.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/queryState/Values/projections/0/field/Measure"
+          }
+        },
+        "source": "5534dcab52ea12e3a590fc6ad8d7e5fa79ca8611cc06be894a80b65f6fe792ce",
+        "target": "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+        "unknown": null,
+        "valid_from": "2026-10-27T05:07:37.477893Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "7890d5105e809712fb07172a11aba9dbc04cc52b62155242cbec941b8ee9691b",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "98be0634236a82a68e454d0e412716413cb967afd7244820b176c58d5da08707",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "7a22811d7d0ff9dbfc8559326230903f5071ee75b2d8a0cbc72433da2576f31a",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "COPY_MAPPING_WITH_EXACT_NATIVE_SOURCE",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "114f64a965934e8f034687583f17f05e5c8bfddf3d771753eecddd0020920222",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "7f56d35b6bd08b5d9a99614402b448388cce5494525f4283358e8085803c8246",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "properties": {
+          "completeness": "ROW_ONLY",
+          "definition": {
+            "bytes": 561,
+            "sha256": "0899aeb41756ce76b582aed568a9d970d85295c35729f7c368dc454aabc939f9",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/0899aeb41756ce76b582aed568a9d970d85295c35729f7c368dc454aabc939f9"
+          },
+          "model_definition_hash": "18be79d2ba4c304d1bba31d0823850f93bf964b2ff9feb002abe66a52463f43c",
+          "native_row_hash": "1ae9d5c404cc7749f33fa87a36ce702bef793fc0f3c5af3f018eaffde6acecbf"
+        },
+        "provenance": {
+          "definition_hash": "0899aeb41756ce76b582aed568a9d970d85295c35729f7c368dc454aabc939f9",
+          "observed_at": "2026-10-13T17:11:21.310792Z",
+          "source": "ENGINE_DEPENDENCY",
+          "source_id": "d06d2b3daefe976c10cbcbf1f2e3e207c8256f81621d3e73ceedf036b04cc58a",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/rows/1"
+          }
+        },
+        "source": "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+        "target": "497b809aab319a091c08598988a6c8202715e5629e01a5d8b6be448d45edd062",
+        "unknown": null,
+        "valid_from": "2026-10-13T17:11:21.310792Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "8612d5915b69806d03ff4a870b21803697afb820297940c7a4739b651bdf073f",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+        "properties": {
+          "basis": "EXACT_CONNECTION_UUID_AND_NATIVE_OBJECT_ADDRESS",
+          "connection_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/connection/3f5891f3-092b-4c26-b838-1d024e989501",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "destination_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+          "native_destination": {
+            "artifactId": "33618b8d-46eb-4fe7-b80b-122c331260a3",
+            "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+          },
+          "source_asset": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+          "source_query": null
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+        "target": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "97f1475120b8e2f1af28620b77651bc1afa195532d92b63e29dce5142293cbd6",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "COPY_MAPPING_WITH_EXACT_NATIVE_SOURCE",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "569a3aaab8bae720214d342c6dfbaf14ccaaa08ce8faf3fb5da731023b3dd457",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "b1326b7138cadf5b67e4fb8e437fd9b5c1860e4e061d56eb35a25b5a85ad7f83",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "COPY_MAPPING_WITH_EXACT_NATIVE_SOURCE",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "04338ce830d63e3ab63d30a827b752e9163a7a50c36a3a8e2b6127b0480e5a34",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "cbde8d939597b988cb7186578be98c95bab4275a11c9212027c5e6075df8df69",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "569a3aaab8bae720214d342c6dfbaf14ccaaa08ce8faf3fb5da731023b3dd457",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "db4094fac448b7bc3463118d25c4523d3131409d5fbc9f4cc688cad8906edc7a",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "properties": {
+          "completeness": "ROW_ONLY",
+          "definition": {
+            "bytes": 561,
+            "sha256": "0899aeb41756ce76b582aed568a9d970d85295c35729f7c368dc454aabc939f9",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/0899aeb41756ce76b582aed568a9d970d85295c35729f7c368dc454aabc939f9"
+          },
+          "model_definition_hash": "18be79d2ba4c304d1bba31d0823850f93bf964b2ff9feb002abe66a52463f43c",
+          "native_row_hash": "019f5aa703e133bee59f21b8ec1db58e30de10b5199e0200b54b815b47584415"
+        },
+        "provenance": {
+          "definition_hash": "0899aeb41756ce76b582aed568a9d970d85295c35729f7c368dc454aabc939f9",
+          "observed_at": "2026-10-13T17:11:21.310792Z",
+          "source": "ENGINE_DEPENDENCY",
+          "source_id": "d06d2b3daefe976c10cbcbf1f2e3e207c8256f81621d3e73ceedf036b04cc58a",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/rows/0"
+          }
+        },
+        "source": "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+        "target": "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+        "unknown": null,
+        "valid_from": "2026-10-13T17:11:21.310792Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "275b6a0f2d4511949028c3fe5a581b5c1b746fbab9f49a1ba8b76eb757d1a4e8",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "NATIVE_COPY_ACTIVITY_OWNERSHIP",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+        "target": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "c120038524885218e7bc72b6f2a60622a60146a0285607c6d495b26b90ede2cb",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c",
+        "properties": {
+          "basis": "NATIVE_INVOKE_COPY_JOB_UUID",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c"
+        },
+        "provenance": {
+          "definition_hash": "2ad010f0f8c75662d1fab7ebc89e2ef801da946287e2b62becbee58038477fdc",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c/part/pipeline-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+        "target": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      }
+    ],
+    "estate": "fixture",
+    "nodes": [
+      {
+        "confidence": "DECLARED",
+        "id": "04338ce830d63e3ab63d30a827b752e9163a7a50c36a3a8e2b6127b0480e5a34",
+        "kind": "QUERY_STEP",
+        "label": "Explicit copy mapping",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "mapping": {
+            "destination": {
+              "name": "movement_type"
+            },
+            "source": {
+              "name": "movement_type"
+            }
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "114f64a965934e8f034687583f17f05e5c8bfddf3d771753eecddd0020920222",
+        "kind": "QUERY_STEP",
+        "label": "Explicit copy mapping",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "mapping": {
+            "destination": {
+              "name": "event_day"
+            },
+            "source": {
+              "name": "event_day"
+            }
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c",
+        "kind": "COLUMN",
+        "label": "units",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003/column/units",
+          "definition": {
+            "bytes": 217,
+            "sha256": "52c4a51badb36efea3e9a0ae19c764e87af8d48b152040b4e23ec7279e1f28e4",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/52c4a51badb36efea3e9a0ae19c764e87af8d48b152040b4e23ec7279e1f28e4"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+          "hidden": null,
+          "native_kind": "LakehouseColumn",
+          "retained_metadata_hash_encoding": "SORTED_JSON_SPACED"
+        },
+        "provenance": {
+          "definition_hash": "52c4a51badb36efea3e9a0ae19c764e87af8d48b152040b4e23ec7279e1f28e4",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003/column/units",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-11T16:27:31.868191Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "3334860e93f6632b17abd31fc175afe2ba07e7918ba0fda5cc6d5bcab485d210",
+        "kind": "QUERY_STEP",
+        "label": "Explicit copy mapping",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "mapping": {
+            "destination": {
+              "name": "source_modified_at_utc"
+            },
+            "source": {
+              "name": "source_modified_at_utc"
+            }
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+        "kind": "TABLE",
+        "label": "Movements",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+          "definition": {
+            "bytes": 714,
+            "sha256": "0bcb2b34b6dc2d54895df1997446c507fc5ee161d94de631776d395219242b0a",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/0bcb2b34b6dc2d54895df1997446c507fc5ee161d94de631776d395219242b0a"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+          "hidden": null,
+          "native_kind": "SemanticTable"
+        },
+        "provenance": {
+          "definition_hash": "0bcb2b34b6dc2d54895df1997446c507fc5ee161d94de631776d395219242b0a",
+          "observed_at": "2026-10-13T17:11:21.310792Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:11:21.310792Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "497b809aab319a091c08598988a6c8202715e5629e01a5d8b6be448d45edd062",
+        "kind": "COLUMN",
+        "label": "units",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/units",
+          "dataType": "int64",
+          "definition": {
+            "bytes": 86,
+            "sha256": "7cd3462864ca0771eb694e8d79584f93c5af27e2f4f2e9d773adc3b085a86e2f",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/7cd3462864ca0771eb694e8d79584f93c5af27e2f4f2e9d773adc3b085a86e2f"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+          "hidden": null,
+          "native_kind": "SemanticColumn",
+          "sourceColumn": "units"
+        },
+        "provenance": {
+          "definition_hash": "7cd3462864ca0771eb694e8d79584f93c5af27e2f4f2e9d773adc3b085a86e2f",
+          "observed_at": "2026-10-13T17:11:21.310792Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/units",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:11:21.310792Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+        "kind": "MEASURE",
+        "label": "Movement Units",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units",
+          "definition": {
+            "bytes": 67,
+            "sha256": "9bac4b87495b487a3fade3ae0eda2eac30dd456247b18b7be78404985255a599",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/9bac4b87495b487a3fade3ae0eda2eac30dd456247b18b7be78404985255a599"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+          "hidden": null,
+          "native_kind": "Measure"
+        },
+        "provenance": {
+          "definition_hash": "9bac4b87495b487a3fade3ae0eda2eac30dd456247b18b7be78404985255a599",
+          "observed_at": "2026-10-13T17:11:21.310792Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:11:21.310792Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "5534dcab52ea12e3a590fc6ad8d7e5fa79ca8611cc06be894a80b65f6fe792ce",
+        "kind": "VISUAL",
+        "label": "Movement Units",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/598e4fff-47c2-4991-90e5-269c0aa7c1ef",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/598e4fff-47c2-4991-90e5-269c0aa7c1ef/visual/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2F25189fcc5fe05539b3b6%2Fvisual.json",
+          "definition": {
+            "bytes": 2994,
+            "sha256": "01316df16f1ed86a54c0d457aaa55897df288ddc1f0ddf1bd79642bad475b997",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/01316df16f1ed86a54c0d457aaa55897df288ddc1f0ddf1bd79642bad475b997"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/598e4fff-47c2-4991-90e5-269c0aa7c1ef",
+          "hidden": null,
+          "native_kind": "ReportVisual",
+          "retained_metadata_hash_encoding": "SORTED_JSON_SPACED"
+        },
+        "provenance": {
+          "definition_hash": "01316df16f1ed86a54c0d457aaa55897df288ddc1f0ddf1bd79642bad475b997",
+          "observed_at": "2026-10-27T03:31:50.268163Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/598e4fff-47c2-4991-90e5-269c0aa7c1ef/part/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2F25189fcc5fe05539b3b6%2Fvisual.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-27T03:31:50.268163Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "569a3aaab8bae720214d342c6dfbaf14ccaaa08ce8faf3fb5da731023b3dd457",
+        "kind": "QUERY_STEP",
+        "label": "Explicit copy mapping",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "mapping": {
+            "destination": {
+              "name": "units"
+            },
+            "source": {
+              "name": "units"
+            }
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "id": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+        "kind": "TABLE",
+        "label": "dbo.stock_movements_round_two_20261003",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+          "definition_source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "6e29c19610d2451365f4424018e56a87b8702eb485f499cad6349e1810ac5f54",
+        "kind": "QUERY_STEP",
+        "label": "Explicit copy mapping",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "mapping": {
+            "destination": {
+              "name": "source_row_version"
+            },
+            "source": {
+              "name": "source_row_version"
+            }
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "kind": "COPY_ACTIVITY",
+        "label": "e8fc7b29-f267-4696-8ab2-4fdd4f78b5b9",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "activity_type": "Copy",
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "native_copy_binding": {
+            "basis": "EXACT_CONNECTION_UUID_AND_NATIVE_OBJECT_ADDRESS",
+            "connection_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/connection/3f5891f3-092b-4c26-b838-1d024e989501",
+            "destination_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+            "native_destination": {
+              "artifactId": "33618b8d-46eb-4fe7-b80b-122c331260a3",
+              "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+            },
+            "source_asset": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+            "source_query": null
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "kind": "TABLE",
+        "label": "app.stock_movements_round_two_20261003",
+        "owner": "sql://sql-orderops-9696025.database.windows.net/ordersops",
+        "properties": {
+          "asset_id": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+          "definition": {
+            "bytes": 2353,
+            "sha256": "3edcd22eef92476a95134e8c91850521d94c3f3456df841fd22c64785462dbf8",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/3edcd22eef92476a95134e8c91850521d94c3f3456df841fd22c64785462dbf8"
+          },
+          "definition_source_owner": "sql://sql-orderops-9696025.database.windows.net/ordersops",
+          "hidden": null,
+          "native_kind": "SqlObject",
+          "retained_metadata_hash_encoding": "SORTED_JSON_SPACED",
+          "source_system_object": true
+        },
+        "provenance": {
+          "definition_hash": "3edcd22eef92476a95134e8c91850521d94c3f3456df841fd22c64785462dbf8",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "7c4042009085cafc8ca9e5985af173de9af07bd6f919c9bb16d195e45b177dc2",
+        "kind": "QUERY_STEP",
+        "label": "Explicit copy mapping",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "mapping": {
+            "destination": {
+              "name": "product_id"
+            },
+            "source": {
+              "name": "product_id"
+            }
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "98be0634236a82a68e454d0e412716413cb967afd7244820b176c58d5da08707",
+        "kind": "QUERY_STEP",
+        "label": "Explicit copy mapping",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "mapping": {
+            "destination": {
+              "name": "warehouse_id"
+            },
+            "source": {
+              "name": "warehouse_id"
+            }
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "aa287d7cf4522d7100e8b12742bf7a826862d71bc1a8b43f22ab12d49a0d0a0d",
+        "kind": "QUERY_STEP",
+        "label": "Explicit copy mapping",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "mapping": {
+            "destination": {
+              "name": "movement_id"
+            },
+            "source": {
+              "name": "movement_id"
+            }
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "id": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+        "kind": "MODEL",
+        "label": "Application load fixture 20261003",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+          "definition_source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+        "kind": "PIPELINE",
+        "label": "round_two_application_load_audited_20261003",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c",
+          "definition": {
+            "bytes": 311,
+            "sha256": "41fdb793abce933f29b74bfc1f7ce0aef4b9f1f558a61985d02049908edfc528",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/41fdb793abce933f29b74bfc1f7ce0aef4b9f1f558a61985d02049908edfc528"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c",
+          "hidden": null,
+          "native_kind": "DataPipeline"
+        },
+        "provenance": {
+          "definition_hash": "41fdb793abce933f29b74bfc1f7ce0aef4b9f1f558a61985d02049908edfc528",
+          "observed_at": "2026-10-13T17:50:04.516006Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:50:04.516006Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+        "kind": "PIPELINE",
+        "label": "investigation_round_two_history_probe_20261003",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "definition": {
+            "bytes": 322,
+            "sha256": "2eb93cba09c1422b79507a518e2edcda3c4b6762d0550bef154954aa3d845d1e",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/2eb93cba09c1422b79507a518e2edcda3c4b6762d0550bef154954aa3d845d1e"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "hidden": null,
+          "native_kind": "CopyJob"
+        },
+        "provenance": {
+          "definition_hash": "2eb93cba09c1422b79507a518e2edcda3c4b6762d0550bef154954aa3d845d1e",
+          "observed_at": "2026-10-13T17:20:33.292207Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:20:33.292207Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      }
+    ],
+    "stops": [
+      {
+        "node": "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "497b809aab319a091c08598988a6c8202715e5629e01a5d8b6be448d45edd062",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "497b809aab319a091c08598988a6c8202715e5629e01a5d8b6be448d45edd062",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c",
+        "reason": "Owner definition refresh unavailable: RuntimeError",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c",
+        "reason": "No retained upstream dependency is declared for this object."
+      },
+      {
+        "node": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+        "reason": "Owner definition refresh unavailable: RuntimeError",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+        "reason": "Owner definition refresh unavailable: RuntimeError",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "04338ce830d63e3ab63d30a827b752e9163a7a50c36a3a8e2b6127b0480e5a34",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "04338ce830d63e3ab63d30a827b752e9163a7a50c36a3a8e2b6127b0480e5a34",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7c4042009085cafc8ca9e5985af173de9af07bd6f919c9bb16d195e45b177dc2",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "7c4042009085cafc8ca9e5985af173de9af07bd6f919c9bb16d195e45b177dc2",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "reason": "No retained upstream dependency is declared for this object."
+      },
+      {
+        "node": "3334860e93f6632b17abd31fc175afe2ba07e7918ba0fda5cc6d5bcab485d210",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "3334860e93f6632b17abd31fc175afe2ba07e7918ba0fda5cc6d5bcab485d210",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "114f64a965934e8f034687583f17f05e5c8bfddf3d771753eecddd0020920222",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "114f64a965934e8f034687583f17f05e5c8bfddf3d771753eecddd0020920222",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "6e29c19610d2451365f4424018e56a87b8702eb485f499cad6349e1810ac5f54",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "6e29c19610d2451365f4424018e56a87b8702eb485f499cad6349e1810ac5f54",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "aa287d7cf4522d7100e8b12742bf7a826862d71bc1a8b43f22ab12d49a0d0a0d",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "aa287d7cf4522d7100e8b12742bf7a826862d71bc1a8b43f22ab12d49a0d0a0d",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "98be0634236a82a68e454d0e412716413cb967afd7244820b176c58d5da08707",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "98be0634236a82a68e454d0e412716413cb967afd7244820b176c58d5da08707",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "569a3aaab8bae720214d342c6dfbaf14ccaaa08ce8faf3fb5da731023b3dd457",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "569a3aaab8bae720214d342c6dfbaf14ccaaa08ce8faf3fb5da731023b3dd457",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      }
+    ],
+    "truncated": false,
+    "unavailable_owners": {
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6": {
+        "at": "2026-10-28T12:01:45.422064Z",
+        "failure": {
+          "errno": null,
+          "error_type": "MetadataUnavailable",
+          "http_status": 404,
+          "line": 106,
+          "message": "Metadata provider request unavailable",
+          "message_redacted": false,
+          "module": "metadata_auth.py",
+          "provider_code": "EntityNotFound"
+        },
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "status": "UNAVAILABLE"
+      },
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3": {
+        "at": "2026-10-28T12:02:01.830739Z",
+        "failure": {
+          "errno": null,
+          "error_type": "RuntimeError",
+          "line": 88,
+          "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+          "message_redacted": false,
+          "module": "graph_change_collector.py"
+        },
+        "reason": "Owner definition refresh unavailable: RuntimeError",
+        "status": "UNAVAILABLE"
+      },
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782": {
+        "at": "2026-10-28T12:02:21.421355Z",
+        "failure": {
+          "errno": null,
+          "error_type": "MetadataUnavailable",
+          "http_status": 401,
+          "line": 106,
+          "message": "Metadata provider request unavailable",
+          "message_redacted": false,
+          "module": "metadata_auth.py",
+          "provider_code": "Unauthorized"
+        },
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "status": "UNAVAILABLE"
+      }
+    }
+  },
+  "layers": {
+    "native:4caf47d120d4fd198ffe": {
+      "label": "Application load fixture 20261003",
+      "dialect": "DAX"
+    },
+    "native:9e3796a26d8d5c1a039e": {
+      "label": "ordersops",
+      "dialect": "T-SQL"
+    },
+    "native:e95b94fd338e7086320f": {
+      "label": "round_two_bronze_20261003",
+      "dialect": "T-SQL"
+    }
+  }
+}
+```
+
+Triage:
+```json
+{
+  "facts": [
+    {
+      "cached": false,
+      "check": "MODEL_REFRESH",
+      "observed_at": "2026-10-28T17:21:30.643094Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T17:21:30.643094Z",
+          "freshness": "CURRENT",
+          "id": "c8a98301bc861aff5453e8069fe1fab705ae8b02415e4391eb9719298d4e4213",
+          "kind": "RUN_HISTORY",
+          "observed_at": "2026-10-28T17:21:30.643094Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:0d587e8d1dcede92748f0f19a13fcfb00793a9fd0ccc4aed323ed67f94daf384"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "listing_complete": true,
+            "runs": [
+              {
+                "end": "2026-10-28T13:52:37.930000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "763348570",
+                "start": "2026-10-28T13:52:34.943000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T11:06:44.580000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "763295893",
+                "start": "2026-10-28T11:06:17.773000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T08:22:28.950000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "763241357",
+                "start": "2026-10-28T08:22:02.380000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:56:11.943000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967533",
+                "start": "2026-10-27T15:55:47.577000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:55:31.980000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967527",
+                "start": "2026-10-27T15:55:17.423000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T11:22:45.240000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762883014",
+                "start": "2026-10-27T11:22:42.810000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T10:04:03.517000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762859376",
+                "start": "2026-10-27T10:03:42.330000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:20.813000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762589234",
+                "start": "2026-10-26T18:20:20.733000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:33.260000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762588999",
+                "start": "2026-10-26T18:19:56.113000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T01:27:55.313000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "761468506",
+                "start": "2026-10-24T01:26:52.530000Z",
+                "status": "SUCCEEDED"
+              }
+            ]
+          }
+        },
+        {
+          "collected_at": "2026-10-28T17:21:30.643094Z",
+          "freshness": "CURRENT",
+          "id": "d3eb61f5d53032ac0304475e12853d13969d33a35f08430a039aacbab65a72e6",
+          "kind": "REFRESH_RUN",
+          "observed_at": "2026-10-28T17:21:30.643094Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:0d587e8d1dcede92748f0f19a13fcfb00793a9fd0ccc4aed323ed67f94daf384"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "accounting": "UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA",
+            "end": "2026-10-28T13:52:37.930000Z",
+            "error": null,
+            "recent_runs": [
+              {
+                "end": "2026-10-28T13:52:37.930000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "763348570",
+                "start": "2026-10-28T13:52:34.943000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T11:06:44.580000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "763295893",
+                "start": "2026-10-28T11:06:17.773000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T08:22:28.950000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "763241357",
+                "start": "2026-10-28T08:22:02.380000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:56:11.943000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967533",
+                "start": "2026-10-27T15:55:47.577000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:55:31.980000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967527",
+                "start": "2026-10-27T15:55:17.423000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T11:22:45.240000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762883014",
+                "start": "2026-10-27T11:22:42.810000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T10:04:03.517000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762859376",
+                "start": "2026-10-27T10:03:42.330000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:20.813000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762589234",
+                "start": "2026-10-26T18:20:20.733000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:33.260000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762588999",
+                "start": "2026-10-26T18:19:56.113000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T01:27:55.313000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "761468506",
+                "start": "2026-10-24T01:26:52.530000Z",
+                "status": "SUCCEEDED"
+              }
+            ],
+            "rows_read": null,
+            "rows_written": null,
+            "run_id": "763348570",
+            "start": "2026-10-28T13:52:34.943000Z",
+            "status": "SUCCEEDED"
+          }
+        },
+        {
+          "collected_at": "2026-10-28T17:21:30.643094Z",
+          "freshness": "CURRENT",
+          "id": "e1860acaba4d283e65eb5169b34d78ac1532500b8b8f62f7b8f345cd04cd7a5b",
+          "kind": "REFRESH_STATE",
+          "observed_at": "2026-10-28T17:21:30.643094Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:0d587e8d1dcede92748f0f19a13fcfb00793a9fd0ccc4aed323ed67f94daf384"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "last_end": "2026-10-28T13:52:37.930000Z",
+            "run_id": "763348570",
+            "state": "SUCCEEDED"
+          }
+        }
+      ]
+    },
+    {
+      "cached": false,
+      "check": "REFRESH_SCHEDULE",
+      "observed_at": "2026-10-28T17:21:06.960444Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T17:21:30.643094Z",
+          "freshness": "CURRENT",
+          "id": "0ef6c4a70968f65065655df96e408a7bbd04c80bc8ec7ff74cfb278315a0f6b2",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T17:21:30.643094Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:582a69e3e6c24c5ba0d3d12497f5a2b8452d04878fcf734ad64bb91d1806dd1f"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "enabled": false,
+            "native_schedule": {
+              "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+              "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ],
+              "enabled": false,
+              "localTimeZoneId": "UTC",
+              "notifyOption": "MailOnFailure",
+              "times": [
+                "01:00"
+              ]
+            },
+            "next_due": null,
+            "previous_due": null
+          }
+        },
+        {
+          "collected_at": "2026-10-28T17:21:06.960444Z",
+          "freshness": "CURRENT",
+          "id": "1ebfd0eb78456b0f4cdfdde6a3500e822a99c8db7ef9cddad929136af14c2074",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T17:21:06.960444Z",
+          "provenance": {
+            "collector": "microsoft-runtime:50ed9389d7d5682c8f2f36c6c2f43a2a3731a84b0c91204d9e25890e096564dc",
+            "evidence_ids": [
+              "sha256:1b7583cbc5632f2b076014dd7e3f1586fc0add89db675dc35b3d9dcad8ee986e"
+            ],
+            "locator": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "value": {
+            "native_schedules": {
+              "value": []
+            },
+            "next_due": null,
+            "reason": "Job schedule recurrence retained; unsupported recurrence types remain a named coverage gap."
+          }
+        }
+      ]
+    },
+    {
+      "check": "AUTOMATIC_UPDATES",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:AUTOMATIC_UPDATES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "cached": false,
+      "check": "JOB_RUNS",
+      "observed_at": "2026-10-28T17:21:06.960444Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T17:21:24.860585Z",
+          "freshness": "CURRENT",
+          "id": "3c324584aed9f4ad67f1c6c5ffda256dec921ef44e0f3fc07defd324b28ec981",
+          "kind": "JOB_RUN",
+          "observed_at": "2026-10-28T17:21:24.860585Z",
+          "provenance": {
+            "collector": "microsoft-runtime:d90ae203d1e049b5d17b28ad8d56b3e9cbbe0ea8e79c91698aded7cf5e687f7e",
+            "evidence_ids": [
+              "sha256:9cabe449600719258182515f9123fc82d2eb9111d0ba460f35dc38a08e13bd8c"
+            ],
+            "locator": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+          "value": {
+            "accounting": "UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA",
+            "end": "2026-10-28T17:12:18.7389862Z",
+            "error": null,
+            "recent_runs": [
+              {
+                "end": "2026-10-28T17:12:18.7389862Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "bfdeea1f-5dd6-4d39-91e2-42397abb0bae",
+                "start": "2026-10-28T17:11:47.423519Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T16:22:34.1819489Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "4fa04c39-8a6c-4b9e-acce-3e68f12a1969",
+                "start": "2026-10-28T16:22:03.2000377Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T11:02:08.6672195Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "a6acedec-4dd6-4db7-89cf-7e28b75e16f3",
+                "start": "2026-10-28T11:00:50.0325628Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T10:49:19.7721168Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "463b6045-6252-4ccb-8800-151e5e1ae145",
+                "start": "2026-10-28T10:48:51.3195695Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T10:44:16.146751Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "282e67dc-9468-44b7-8478-8a1f8e817cbb",
+                "start": "2026-10-28T10:43:46.4326654Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T10:34:53.7981325Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "eaea454c-badf-43d9-b89b-a9affe92605f",
+                "start": "2026-10-28T10:34:23.9920488Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T09:53:39.8805158Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "177fd1d9-1491-42b6-8a6f-357ed42611ea",
+                "start": "2026-10-28T09:53:11.6264364Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T08:16:41.2629279Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "7237d82d-a728-4286-8891-6f548097cdcd",
+                "start": "2026-10-28T08:16:11.3116784Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T08:03:50.0016825Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "353770e7-8eb4-47bc-8709-0a667ddb04ad",
+                "start": "2026-10-28T08:03:00.469989Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T07:58:25.018859Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "7de99675-2ef8-4bd1-8292-c512f5121dbb",
+                "start": "2026-10-28T07:57:40.5054246Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T06:58:07.0533205Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "15dfbcf2-6985-41e8-8ada-d1973f3ec8a0",
+                "start": "2026-10-28T06:57:34.3969215Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T06:16:46.3062373Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "56e7ecc6-efb1-4d67-b6f8-0645b5de2d21",
+                "start": "2026-10-28T06:14:52.7382767Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:54:02.6605794Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "c0e2613f-b446-4d00-a2c5-7f44c4662ae2",
+                "start": "2026-10-27T15:53:32.7157778Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:44:05.0886872Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "a33b8ae0-57b8-4794-9cab-f50ec12e03ca",
+                "start": "2026-10-27T15:43:33.6916187Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:20:29.5709877Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "fa3d9c73-ff5a-410a-89c8-907afd3f623c",
+                "start": "2026-10-27T15:19:55.229535Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:10:24.4533955Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "644ef25a-bad3-4e5e-87b0-3f27c9b4498c",
+                "start": "2026-10-27T15:09:53.1889637Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T14:31:41.1898358Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "5caa5c35-5e58-4dc1-94f0-fb8a9ab6619a",
+                "start": "2026-10-27T14:31:09.9560782Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:59:50.6670091Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "d3d519f4-55b9-48ef-bf68-ee9b3d6fd724",
+                "start": "2026-10-27T09:59:21.4245453Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:49:04.8377033Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "f12d45ba-a321-4a76-9f38-cfd86501054b",
+                "start": "2026-10-27T09:48:35.0709386Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:41:49.8935835Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "4eda71d5-c497-4d52-b447-232386f672b5",
+                "start": "2026-10-27T09:41:18.3358933Z",
+                "status": "SUCCEEDED"
+              }
+            ],
+            "rows_read": null,
+            "rows_written": null,
+            "run_id": "bfdeea1f-5dd6-4d39-91e2-42397abb0bae",
+            "start": "2026-10-28T17:11:47.423519Z",
+            "status": "SUCCEEDED"
+          }
+        },
+        {
+          "collected_at": "2026-10-28T17:21:06.960444Z",
+          "freshness": "CURRENT",
+          "id": "23099075ac2435ec9b4eedd2d103afbb3acec3b3b123dfaf2c97538c0004f1c3",
+          "kind": "JOB_RUN",
+          "observed_at": "2026-10-28T17:21:06.960444Z",
+          "provenance": {
+            "collector": "microsoft-runtime:50ed9389d7d5682c8f2f36c6c2f43a2a3731a84b0c91204d9e25890e096564dc",
+            "evidence_ids": [
+              "sha256:8b0c8da698e6f9a13d6fb576b5526aa7776c60dd1496aa96b954ea9a6b6b5c9c",
+              "sha256:1ab5a3fbf810ff31ce31808382b448e6aa658dd594f1ad43c57277fa21b65060"
+            ],
+            "locator": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "value": {
+            "accounting": "DECLARED_WAREHOUSE_AUDIT",
+            "end": "2026-10-28T17:12:57.970000Z",
+            "error": null,
+            "recent_runs": [
+              {
+                "end": "2026-10-28T17:12:57.970000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "0d728d94-10a0-449e-9a3c-7e1910c84951",
+                "start": "2026-10-28T17:11:20.5264037Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T17:06:36.7666667Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "78c23b46-0543-44c8-869f-59b7dfb34a23",
+                "start": "2026-10-28T16:56:27.2028153Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T16:23:13.3266667Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "f797cd9a-caf8-4acd-b268-dbb777cc7081",
+                "start": "2026-10-28T16:21:35.3466667Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T16:13:05.4433333Z",
+                "error": {
+                  "errorCode": "2011",
+                  "isRetriable": false,
+                  "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+                  "requestId": "7e2f71f3-3de7-42f0-8e59-e653058f0be9"
+                },
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "3680dfc7-1292-4b2a-ad12-886d2d8390cf",
+                "start": "2026-10-28T16:12:39.370000Z",
+                "status": "FAILED"
+              },
+              {
+                "end": "2026-10-28T11:03:30.460000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "caf179c6-2bcb-412e-84bc-4718a7c37e69",
+                "start": "2026-10-28T11:00:10.1515204Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T10:49:56.480000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "aaf1ecb7-2d66-453b-9cd6-8dc96cbb7342",
+                "start": "2026-10-28T10:48:28.5833333Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T10:44:56.6366667Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "0eaa1d46-bd14-4d04-af70-9fc509cd5823",
+                "start": "2026-10-28T10:43:26.1951905Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T10:35:30.890000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "1afa0047-d016-4431-a711-cf12f6de79ee",
+                "start": "2026-10-28T10:33:59.2739912Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T10:14:11.9166667Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "9b148ef9-0353-46f5-964e-568852949147",
+                "start": "2026-10-28T10:04:00.8859056Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T09:54:20.9633333Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "7b0c1f8e-4f81-4b98-a26a-2ce003dcde16",
+                "start": "2026-10-28T09:52:48.3330368Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T09:48:59.5566667Z",
+                "error": {
+                  "errorCode": "2011",
+                  "isRetriable": false,
+                  "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+                  "requestId": "7e2f71f3-3de7-42f0-8e59-e653058f0be9"
+                },
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "039aea4f-76d6-4b00-bc4d-89778c9fa53b",
+                "start": "2026-10-28T09:48:32.9366667Z",
+                "status": "FAILED"
+              },
+              {
+                "end": "2026-10-28T08:17:21.010000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "b19be888-92f6-4c34-81bc-0a3433cb578b",
+                "start": "2026-10-28T08:15:49.4748707Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T08:04:45.0766667Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "c4317ee4-2ce8-49b4-91aa-aa75f1d6448d",
+                "start": "2026-10-28T08:02:16.3610689Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T07:59:05.190000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "009b614d-7e17-4523-a350-d40769c4e997",
+                "start": "2026-10-28T07:57:19.3760961Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T06:58:48.380000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "0f681f9d-b78a-4498-8c2f-14f7d6d52175",
+                "start": "2026-10-28T06:57:11.0246836Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T06:40:27.6233333Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "4456ed50-6454-41f3-ab53-90102beb10e3",
+                "start": "2026-10-28T06:30:10.5600019Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T06:18:21.950000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "ccb5f004-5b06-488c-9009-0464682b820b",
+                "start": "2026-10-28T06:09:45.2412485Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T05:59:56.280000Z",
+                "error": {
+                  "errorCode": "2011",
+                  "isRetriable": false,
+                  "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+                  "requestId": "7e2f71f3-3de7-42f0-8e59-e653058f0be9"
+                },
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "60332cec-53c5-4268-86e2-f875836b597c",
+                "start": "2026-10-28T05:59:25.2333333Z",
+                "status": "FAILED"
+              },
+              {
+                "end": "2026-10-27T15:54:40.3733333Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "fd221a3c-173c-40a6-8f79-ff1b8b5484fd",
+                "start": "2026-10-27T15:53:11.6517633Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:44:49.2866667Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "8b738527-489f-4efc-92c3-ba9f30d8da9c",
+                "start": "2026-10-27T15:43:10.051129Z",
+                "status": "SUCCEEDED"
+              }
+            ],
+            "rows_read": 361,
+            "rows_written": 361,
+            "run_id": "0d728d94-10a0-449e-9a3c-7e1910c84951",
+            "start": "2026-10-28T17:11:20.5264037Z",
+            "status": "SUCCEEDED"
+          }
+        }
+      ]
+    },
+    {
+      "check": "LAYER_FRESHNESS",
+      "detail": "FRESH_PATH_FACT_NOT_AVAILABLE:LAYER_FRESHNESS",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "SOURCE_CHANGES",
+      "detail": "FRESH_PATH_FACT_NOT_AVAILABLE:SOURCE_CHANGES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "cached": false,
+      "check": "NEXT_LOAD",
+      "observed_at": "2026-10-28T17:21:06.960444Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T17:21:30.643094Z",
+          "freshness": "CURRENT",
+          "id": "0ef6c4a70968f65065655df96e408a7bbd04c80bc8ec7ff74cfb278315a0f6b2",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T17:21:30.643094Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:582a69e3e6c24c5ba0d3d12497f5a2b8452d04878fcf734ad64bb91d1806dd1f"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "enabled": false,
+            "native_schedule": {
+              "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+              "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ],
+              "enabled": false,
+              "localTimeZoneId": "UTC",
+              "notifyOption": "MailOnFailure",
+              "times": [
+                "01:00"
+              ]
+            },
+            "next_due": null,
+            "previous_due": null
+          }
+        },
+        {
+          "collected_at": "2026-10-28T17:21:06.960444Z",
+          "freshness": "CURRENT",
+          "id": "1ebfd0eb78456b0f4cdfdde6a3500e822a99c8db7ef9cddad929136af14c2074",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T17:21:06.960444Z",
+          "provenance": {
+            "collector": "microsoft-runtime:50ed9389d7d5682c8f2f36c6c2f43a2a3731a84b0c91204d9e25890e096564dc",
+            "evidence_ids": [
+              "sha256:1b7583cbc5632f2b076014dd7e3f1586fc0add89db675dc35b3d9dcad8ee986e"
+            ],
+            "locator": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "value": {
+            "native_schedules": {
+              "value": []
+            },
+            "next_due": null,
+            "reason": "Job schedule recurrence retained; unsupported recurrence types remain a named coverage gap."
+          }
+        }
+      ]
+    },
+    {
+      "check": "CONNECTION_MODE",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:CONNECTION_MODE",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "SECURITY_PRESENCE",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:SECURITY_PRESENCE",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "DEFINITION_CHANGES",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:DEFINITION_CHANGES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    }
+  ],
+  "path": [
+    "04338ce830d63e3ab63d30a827b752e9163a7a50c36a3a8e2b6127b0480e5a34",
+    "114f64a965934e8f034687583f17f05e5c8bfddf3d771753eecddd0020920222",
+    "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c",
+    "3334860e93f6632b17abd31fc175afe2ba07e7918ba0fda5cc6d5bcab485d210",
+    "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+    "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+    "497b809aab319a091c08598988a6c8202715e5629e01a5d8b6be448d45edd062",
+    "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+    "5534dcab52ea12e3a590fc6ad8d7e5fa79ca8611cc06be894a80b65f6fe792ce",
+    "569a3aaab8bae720214d342c6dfbaf14ccaaa08ce8faf3fb5da731023b3dd457",
+    "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+    "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+    "6e29c19610d2451365f4424018e56a87b8702eb485f499cad6349e1810ac5f54",
+    "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+    "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+    "7c4042009085cafc8ca9e5985af173de9af07bd6f919c9bb16d195e45b177dc2",
+    "98be0634236a82a68e454d0e412716413cb967afd7244820b176c58d5da08707",
+    "aa287d7cf4522d7100e8b12742bf7a826862d71bc1a8b43f22ab12d49a0d0a0d",
+    "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+  ],
+  "refresh_operations": 10,
+  "what_triage_suggests": "Triage has unavailable checks (AUTOMATIC_UPDATES, LAYER_FRESHNESS, SOURCE_CHANGES, CONNECTION_MODE, SECURITY_PRESENCE, DEFINITION_CHANGES); this does not establish that those mechanisms are absent."
+}
+```
+
+Queries:
+```json
+[
+  {
+    "asset_ids": [
+      "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+    ],
+    "duration_seconds": 5.198275526999964,
+    "executed_text": "SELECT TOP 251 [stock_movements_round_two_20261003].[movement_id] AS [movement_id], [stock_movements_round_two_20261003].[warehouse_id] AS [warehouse_id], [stock_movements_round_two_20261003].[product_id] AS [product_id], [stock_movements_round_two_20261003].[units] AS [units], [stock_movements_round_two_20261003].[event_day] AS [event_day], [stock_movements_round_two_20261003].[movement_type] AS [movement_type], [stock_movements_round_two_20261003].[source_modified_at_utc] AS [source_modified_at_utc], [stock_movements_round_two_20261003].[source_row_version] AS [source_row_version] FROM [app].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003] WHERE [stock_movements_round_two_20261003].[movement_id] = CAST(@p0 AS BIGINT)",
+    "id": "query:14e132cb5db8b3dd181884861e1ab3bd7541dfa1c8f77bd78e54b6c5dbcc03cf:1",
+    "layer": "native:9e3796a26d8d5c1a039e",
+    "parameters": [
+      {
+        "name": "@p0",
+        "value": "900201"
+      }
+    ],
+    "purpose": "record",
+    "result": {
+      "column_types": {
+        "event_day": "String",
+        "movement_id": "Int64",
+        "movement_type": "String",
+        "product_id": "Int64",
+        "source_modified_at_utc": "DateTime",
+        "source_row_version": "Unknown",
+        "units": "Int64",
+        "warehouse_id": "Int64"
+      },
+      "connection_attempts": [
+        {
+          "attempt": 1,
+          "finished_at": "2026-10-28T17:21:49.324563+00:00",
+          "retry_delay_seconds": 0,
+          "sql_error_number": null,
+          "stage": null,
+          "started_at": "2026-10-28T17:21:44.797176+00:00",
+          "status": "SUCCEEDED"
+        }
+      ],
+      "execution_identity": {
+        "database": "ordersops",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "sql-orderops-9696025.database.windows.net"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "event_day": "2026-09-18",
+          "movement_id": "900201",
+          "movement_type": "RECEIPT",
+          "product_id": "1",
+          "source_modified_at_utc": "2026-10-28 17:18:00.306385",
+          "source_row_version": "b'\\x00\\x00\\x00\\x00\\x00\\x01(\\xe2'",
+          "units": "47",
+          "warehouse_id": "3"
+        }
+      ]
+    },
+    "result_digest": "3a0f0084d2740bd88af2605800062fa4c4d41f7f8a7c653c1a72ad4f92726d89",
+    "row_count": 1,
+    "signature": "14e132cb5db8b3dd181884861e1ab3bd7541dfa1c8f77bd78e54b6c5dbcc03cf",
+    "status": "SUCCEEDED",
+    "text": "SELECT movement_id, warehouse_id, product_id, units, event_day, movement_type, source_modified_at_utc, source_row_version FROM [app].[stock_movements_round_two_20261003] WHERE movement_id = 900201",
+    "time": "2026-10-28T17:21:44.414912+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+    ],
+    "duration_seconds": 7.278831182999966,
+    "executed_text": "SELECT TOP 251 [stock_movements_round_two_20261003].[movement_id] AS [movement_id], [stock_movements_round_two_20261003].[warehouse_id] AS [warehouse_id], [stock_movements_round_two_20261003].[product_id] AS [product_id], [stock_movements_round_two_20261003].[units] AS [units], [stock_movements_round_two_20261003].[event_day] AS [event_day], [stock_movements_round_two_20261003].[movement_type] AS [movement_type], [stock_movements_round_two_20261003].[source_modified_at_utc] AS [source_modified_at_utc], [stock_movements_round_two_20261003].[source_row_version] AS [source_row_version] FROM [dbo].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003] WHERE [stock_movements_round_two_20261003].[movement_id] = CAST(@p0 AS BIGINT)",
+    "id": "query:d75943184a34d9570be00e8027029b38b1761f40cdc8a57aacd630650937f2da:2",
+    "layer": "native:e95b94fd338e7086320f",
+    "parameters": [
+      {
+        "name": "@p0",
+        "value": "900201"
+      }
+    ],
+    "purpose": "record",
+    "result": {
+      "column_types": {
+        "event_day": "String",
+        "movement_id": "Int64",
+        "movement_type": "String",
+        "product_id": "Int64",
+        "source_modified_at_utc": "DateTime",
+        "source_row_version": "Unknown",
+        "units": "Int64",
+        "warehouse_id": "Int64"
+      },
+      "execution_identity": {
+        "database": "round_two_bronze_20261003",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "event_day": "2026-09-18",
+          "movement_id": "900201",
+          "movement_type": "RECEIPT",
+          "product_id": "1",
+          "source_modified_at_utc": "2026-10-28 17:11:12.289055",
+          "source_row_version": "b'\\x00\\x00\\x00\\x00\\x00\\x01(\\xe1'",
+          "units": "41",
+          "warehouse_id": "3"
+        }
+      ]
+    },
+    "result_digest": "f95d67baacec604a9e37aef16ba9f081cf9183ef2d6b117fa5e07998723bf084",
+    "row_count": 1,
+    "signature": "d75943184a34d9570be00e8027029b38b1761f40cdc8a57aacd630650937f2da",
+    "status": "SUCCEEDED",
+    "text": "SELECT movement_id, warehouse_id, product_id, units, event_day, movement_type, source_modified_at_utc, source_row_version FROM [dbo].[stock_movements_round_two_20261003] WHERE movement_id = 900201",
+    "time": "2026-10-28T17:21:49.626299+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/movement_id",
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units"
+    ],
+    "duration_seconds": 6.193198905000031,
+    "executed_text": "EVALUATE TOPN(251,ROW(\"rows\",COUNTROWS(FILTER('Movements','Movements'[movement_id] = 900201)),\"Movement Units\",CALCULATE([Movement Units],'Movements'[movement_id] = 900201)))",
+    "id": "query:e875e753823cd4134be96ad1802fbdeccf736a7aaab76e48995633ce4689cc89:3",
+    "layer": "native:4caf47d120d4fd198ffe",
+    "parameters": [],
+    "purpose": "record",
+    "result": {
+      "rows": [
+        {
+          "[Movement Units]": 41,
+          "[rows]": 1
+        }
+      ],
+      "warnings": [
+        "attestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
+      ]
+    },
+    "result_digest": "ba61958879b7f288d775e1374166f6cba967a1f2eb488a8fbca4bc2b89f7f15b",
+    "row_count": 1,
+    "signature": "e875e753823cd4134be96ad1802fbdeccf736a7aaab76e48995633ce4689cc89",
+    "status": "SUCCEEDED",
+    "text": "EVALUATE ROW(\"rows\", COUNTROWS(FILTER('Movements', 'Movements'[movement_id] = 900201)), \"Movement Units\", CALCULATE([Movement Units], 'Movements'[movement_id] = 900201))",
+    "time": "2026-10-28T17:21:56.916009+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/movement_id",
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units"
+    ],
+    "duration_seconds": 4.809128708000003,
+    "executed_text": "EVALUATE TOPN(251,SUMMARIZECOLUMNS('Movements'[movement_id],FILTER(ALL('Movements'[movement_id]),'Movements'[movement_id] = 900201),\"rows\",COUNTROWS('Movements'),\"Movement Units\",[Movement Units]))",
+    "id": "query:42463c0e308744c0ac4f3f2f39667237f4faca19dd45ef8dd5b9b5b4f1c7b7de:4",
+    "layer": "native:4caf47d120d4fd198ffe",
+    "parameters": [],
+    "purpose": "record",
+    "result": {
+      "rows": [
+        {
+          "Movements[movement_id]": 900201,
+          "[Movement Units]": 41,
+          "[rows]": 1
+        }
+      ],
+      "warnings": [
+        "attestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
+      ]
+    },
+    "result_digest": "efb0b6a813d5b503a71b57017e7f64c514a760b86435c9fda65bac67ae042dcc",
+    "row_count": 1,
+    "signature": "42463c0e308744c0ac4f3f2f39667237f4faca19dd45ef8dd5b9b5b4f1c7b7de",
+    "status": "SUCCEEDED",
+    "text": "EVALUATE SUMMARIZECOLUMNS('Movements'[movement_id], FILTER(ALL('Movements'[movement_id]), 'Movements'[movement_id] = 900201), \"rows\", COUNTROWS('Movements'), \"Movement Units\", [Movement Units])",
+    "time": "2026-10-28T17:22:22.075405+00:00",
+    "truncated": false
+  }
+]
+```
+
+Final answer:
+```json
+"latency. Movement 900201 (warehouse 3, product 1, RECEIPT, event day 2026-09-18) is present exactly once in each layer. Its value differs because the source row in the ordersops application table now shows units 47, while the lakehouse landing table and the Movement Units measure still show 41. The source row's current source_modified_at_utc is 2026-10-28 17:18:00.306385, and its row version ends 0x28E2. The landing copy has 17:11:12.289055 and row version 0x28E1. The latest run of the load pipeline (round_two_application_load_audited_20261003) succeeded from 17:11:20.526 to 17:12:57.970 UTC, reading and writing 361 rows. That ended before the source's current modification timestamp, so delivery is behind the source. Both later exports show 47, but the model's current value is 41. The model's Direct Lake partition reads the landing table, which matches 41. The pipeline has no schedule, so no next load is due. Earlier failed pipeline runs (16:12, 09:48 and 05:59 UTC, error 2011) were followed by successful runs. These are current-layer reads, not a retained history read, so this does not establish when or how often the source value changed.\nNumbers: 900201, 41, 47, 361, 1.\nChecked: ordersops, round_two_bronze_20261003, Application load fixture 20261003.\nLedger job details: round_two_application_load_audited_20261003; run ID: unavailable (no run recorded); status: unavailable; start: unavailable; end: unavailable; observed: 2026-10-28T17:22:03.340351Z.\nRecorded job error: unavailable (not recorded)\nNext scheduled run: unavailable from the retained ledger facts.\nNative comparisons are observational snapshots; aligned query-bound versions are not established.\nCatalog bookkeeping unavailable: collector containment (recovered from literal native address), current inventory availability, inventory content hashes (metadata digests are derived and labelled), inventory provenance, per-asset collector timestamps. This does not block investigation; successful queries establish present readability only.\nattestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
+```
+
+Sealed expected:
+```json
+{
+  "case_id": "v2-source-history",
+  "cause": "Temporal native before41/after47 and change timestamp, distinct from business event date; no pipeline arithmetic claim.",
+  "estate": "fixture",
+  "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+  "fixture": "history",
+  "id": "v2-source-history-v1",
+  "layer": "source application",
+  "split": "DEV",
+  "variation": "detailed support question",
+  "verdict": "source changed history"
+}
+```
+
+### v2-source-history-v2
+The sealed expectation is: verdict 'source changed history', layer 'source application', cause = the source's own native history showing the value was 41 before and 47 after, with a change timestamp separate from the September business date. The delivered answer's verdict is 'latency'. It frames the issue as the landing/model layer (41) lagging behind the source (47) because the last successful load ran 17:11–17:12 and the source row was modified at 17:18:00. Its facts are accurate and partly overlap the expected cause: 41 vs 47, a 17:18 source modification after the business date, and the source being ahead. Overlap only counts as partial, though, and a partial match scores zero. The verdict differs: latency vs source rewrote history. The split it names is the load gap between source and landing, not the source application as where the change began. It also says outright that no retained source history was read and that the earlier source value and reason for the edit are 'not established'. So it never shows the native before-41/after-47 change, which is the expected cause. It also brings in pipeline evidence (361 rows read/written, failed runs), which the expectation explicitly avoids. Marked harmful: 'latency' is stated confidently as the verdict, and it misreads a historical rewrite at the source as a load delay, which points the user toward waiting for a reload. Handoff quality 1: the queries are given verbatim and can be rerun, and the limitations clearly name the missing source-history check. But the status is ANSWERED rather than a clear stopping point, the handoff object is empty, and no next steps are spelled out. First failing step: wrong conclusion. The evidence was gathered correctly but read as latency. Restrict the cause to what the cited native evidence establishes.
+
+Target:
+```json
+{
+  "path": {
+    "as_of": null,
+    "declared_route_bridges": [
+      {
+        "column_bindings": [
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003/column/movement_id",
+            "semantic_column": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/movement_id"
+          },
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003/column/warehouse_id",
+            "semantic_column": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/warehouse_id"
+          },
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003/column/product_id",
+            "semantic_column": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/product_id"
+          },
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003/column/units",
+            "semantic_column": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/units"
+          }
+        ],
+        "confidence": "DECLARED",
+        "definition_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/part/model.bim",
+        "definition_hash": "a87545a3e875d2260873432f55b447cbbe4d461928395aa15254ff574d34c5f6",
+        "graph_nodes": [
+          "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+          "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c"
+        ],
+        "literal_expression": "let database = Sql.Database(\"i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com\", \"fbbccea4-d943-4f58-b91f-e6cbcb912620\") in database",
+        "native_ownership": [
+          {
+            "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/native-relation/5847348b3fe731e359d488a7c71321000b58db7362e3d339eda7af1eb0e37c92",
+            "inventory_digest_qualification": "Retained inventory digests matched; this is not a current query-bound attestation.",
+            "metadata": {
+              "container_asset_hash": "d4fe38b53f7492e7e0634b5a277a155d2399772c5dd352b9f1371a48172ba817",
+              "container_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+              "context_hash": "42e974374d54fb08f1b1e3cc761ab80543200ed796a78917082f3bb2e6f8d0f6",
+              "context_version": "4cae0d14-fd5d-4ff1-89ce-adf346790084",
+              "endpoint_asset_hash": "dacb9d4b7db91da731f9c761c50043780a5dd2d501a41a33c559e8c7d20dc6e4",
+              "endpoint_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/fbbccea4-d943-4f58-b91f-e6cbcb912620",
+              "observed_at": "2026-10-21T21:33:21.054850Z",
+              "relation": {
+                "evidence": [
+                  {
+                    "scope": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+                    "source_api": "fabric_item_relations_beta"
+                  }
+                ],
+                "provenance": "DISCOVERED",
+                "relation": "NATIVE_CASCADEDELETE",
+                "source": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/fbbccea4-d943-4f58-b91f-e6cbcb912620",
+                "target": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3"
+              },
+              "relation_pointer": "/graph/edges/843"
+            }
+          }
+        ],
+        "partition_source": {
+          "entityName": "stock_movements_round_two_20261003",
+          "expressionSource": "ApplicationLoadSource",
+          "schemaName": "dbo",
+          "type": "entity"
+        },
+        "physical_table": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+        "qualification": "Declared route only; value agreement and aligned snapshots are not implied.",
+        "semantic_table": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements"
+      },
+      {
+        "basis": "ESTATE_MANIFEST_BINDING",
+        "binding": {
+          "from_layer": "application",
+          "provenance": "DECLARED_BY_DEFINITION",
+          "to_layer": "landing"
+        },
+        "confidence": "DECLARED",
+        "delivery_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+        "graph_nodes": [
+          "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a"
+        ],
+        "producers": [
+          {
+            "audit": {
+              "resource": "load-audit",
+              "status": "PRESENT"
+            },
+            "audit_resource": {
+              "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/bea673e0-a206-461e-9b2f-1b3b827e80de/table/dbo.load_run_audit",
+              "id": "load-audit",
+              "reach": {
+                "adapter": "estate-reader",
+                "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/bea673e0-a206-461e-9b2f-1b3b827e80de/table/dbo.load_run_audit",
+                "reader": "investigator-reader"
+              }
+            },
+            "delivery_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+            "from_layer": "application",
+            "history_resource": "load-history",
+            "id": "application-load",
+            "producer_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c",
+            "to_layer": "landing"
+          }
+        ],
+        "qualification": "Declared mapping only; compare native values and retained load evidence to establish a cause.",
+        "source_asset": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+      }
+    ],
+    "edges": [
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "06c8ec3ee7932e03fa0cee970e877a9f1ead91ab1a4024627716196f880d993b",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "COPY_MAPPING_WITH_EXACT_NATIVE_SOURCE",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "6e29c19610d2451365f4424018e56a87b8702eb485f499cad6349e1810ac5f54",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "17d8b434f56b320cba6bfc4ea56049014c39e0a7de73b71151e3c6d5bf7efabf",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "04338ce830d63e3ab63d30a827b752e9163a7a50c36a3a8e2b6127b0480e5a34",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "1e0a1aeaad2107704ac9c0da4f0b98a7649a1ac176baccd5e152e17c542d8c65",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "7c4042009085cafc8ca9e5985af173de9af07bd6f919c9bb16d195e45b177dc2",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "1eb4e7a69c34396385d68cd4b33f6b0007a5d7a9467a1a903fb6dfa02bfc6b99",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "COPY_MAPPING_WITH_EXACT_NATIVE_SOURCE",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7c4042009085cafc8ca9e5985af173de9af07bd6f919c9bb16d195e45b177dc2",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "20487352dbe71aaa186e04cd2a0b49c5fd2b9cb4fbff126fd0cfbec2b7b4edf1",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "properties": {
+          "binding_kind": "DIRECTLAKE_ENTITY",
+          "catalog_id": "fbbccea4-d943-4f58-b91f-e6cbcb912620",
+          "container_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+          "container_binding": {
+            "definition_hash": "23669eefffb853c2ca9014ee305dc7269cb2fa5a63160a33f5a2a1dc82cd665f",
+            "observed_at": "2026-10-28T03:35:17.564451Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/native-relation/5847348b3fe731e359d488a7c71321000b58db7362e3d339eda7af1eb0e37c92",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "container_bindings": [
+            {
+              "definition_hash": "23669eefffb853c2ca9014ee305dc7269cb2fa5a63160a33f5a2a1dc82cd665f",
+              "observed_at": "2026-10-28T03:35:17.564451Z",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/native-relation/5847348b3fe731e359d488a7c71321000b58db7362e3d339eda7af1eb0e37c92",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            }
+          ],
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+          "entity": "stock_movements_round_two_20261003",
+          "expression_pointer": "/model/expressions/0",
+          "expression_source": "ApplicationLoadSource",
+          "physical_column_definition": {
+            "definition_hash": "52c4a51badb36efea3e9a0ae19c764e87af8d48b152040b4e23ec7279e1f28e4",
+            "observed_at": "2026-10-11T16:27:31.868191Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003/column/units",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "physical_definition": {
+            "definition_hash": "ec45d792a5e5f2d5c4bd2a04f33e4e5396583c1820af85c2f99f7722d124eaab",
+            "observed_at": "2026-10-11T16:27:31.868191Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "schema": "dbo",
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+          "source_column": "units"
+        },
+        "provenance": {
+          "definition_hash": "18be79d2ba4c304d1bba31d0823850f93bf964b2ff9feb002abe66a52463f43c",
+          "observed_at": "2026-10-28T03:35:17.564451Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/part/model.bim",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/model/tables/0/columns/3/sourceColumn"
+          }
+        },
+        "source": "497b809aab319a091c08598988a6c8202715e5629e01a5d8b6be448d45edd062",
+        "target": "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "30577e94eeede86f93ae7f5c6d5c239e886ef3ca6899b04c13e4c44b33994c87",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "COPY_MAPPING_WITH_EXACT_NATIVE_SOURCE",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "98be0634236a82a68e454d0e412716413cb967afd7244820b176c58d5da08707",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "3070875cfdd22ac7316d00981f391fe2f98a8905cab84684200e5629ee85f028",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "COPY_MAPPING_WITH_EXACT_NATIVE_SOURCE",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "3334860e93f6632b17abd31fc175afe2ba07e7918ba0fda5cc6d5bcab485d210",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "33fcdac3222c9bb64858c980d34b1d898a3f22f194274e0c15a02c71b5ef90b8",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "EXACT_CONNECTION_UUID_AND_NATIVE_OBJECT_ADDRESS",
+          "connection_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/connection/3f5891f3-092b-4c26-b838-1d024e989501",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "destination_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+          "native_destination": {
+            "artifactId": "33618b8d-46eb-4fe7-b80b-122c331260a3",
+            "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+          },
+          "source_asset": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+          "source_query": null
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "4c0ff82c658eead5142c04a645bb4def66f5475cc1a73ba2f43153f6b08887be",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "3334860e93f6632b17abd31fc175afe2ba07e7918ba0fda5cc6d5bcab485d210",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "57151bc18eeb30ee23d6da4e325cfd193ca0ed9bcf396a93fde0a7ced7adfb7c",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "114f64a965934e8f034687583f17f05e5c8bfddf3d771753eecddd0020920222",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "666c5579851a32a3b5a9f56bc7018d2b92ae01305bf7c4e0d6f3f198604b10cb",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "6e29c19610d2451365f4424018e56a87b8702eb485f499cad6349e1810ac5f54",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "669400314dab93454b3c1af392293ee7f557a499a1a8c432ed3c99dfa31b0df0",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "COPY_MAPPING_WITH_EXACT_NATIVE_SOURCE",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "aa287d7cf4522d7100e8b12742bf7a826862d71bc1a8b43f22ab12d49a0d0a0d",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "6792c3f8c484ae44c108b4e528d0fee217da3e35fbfb0966ab729c0fdee2d6f4",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "aa287d7cf4522d7100e8b12742bf7a826862d71bc1a8b43f22ab12d49a0d0a0d",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "6e8fd211e6242e2ab549b7c841781ec6c41779696ad5e41f4eded9f85203ac98",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "properties": {
+          "binding_kind": "DIRECTLAKE_ENTITY",
+          "catalog_id": "fbbccea4-d943-4f58-b91f-e6cbcb912620",
+          "container_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+          "container_binding": {
+            "definition_hash": "23669eefffb853c2ca9014ee305dc7269cb2fa5a63160a33f5a2a1dc82cd665f",
+            "observed_at": "2026-10-28T03:35:17.564451Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/native-relation/5847348b3fe731e359d488a7c71321000b58db7362e3d339eda7af1eb0e37c92",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "container_bindings": [
+            {
+              "definition_hash": "23669eefffb853c2ca9014ee305dc7269cb2fa5a63160a33f5a2a1dc82cd665f",
+              "observed_at": "2026-10-28T03:35:17.564451Z",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/native-relation/5847348b3fe731e359d488a7c71321000b58db7362e3d339eda7af1eb0e37c92",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            }
+          ],
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+          "entity": "stock_movements_round_two_20261003",
+          "expression_pointer": "/model/expressions/0",
+          "expression_source": "ApplicationLoadSource",
+          "physical_definition": {
+            "definition_hash": "ec45d792a5e5f2d5c4bd2a04f33e4e5396583c1820af85c2f99f7722d124eaab",
+            "observed_at": "2026-10-11T16:27:31.868191Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "schema": "dbo",
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+        },
+        "provenance": {
+          "definition_hash": "18be79d2ba4c304d1bba31d0823850f93bf964b2ff9feb002abe66a52463f43c",
+          "observed_at": "2026-10-28T03:35:17.564451Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/part/model.bim",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/model/tables/0/partitions"
+          }
+        },
+        "source": "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+        "target": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "75f76c47eb9b8c836e06dee841dcf4664448e803c0c31b7dd674b71bb01124c4",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/598e4fff-47c2-4991-90e5-269c0aa7c1ef",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/598e4fff-47c2-4991-90e5-269c0aa7c1ef"
+        },
+        "provenance": {
+          "definition_hash": "01316df16f1ed86a54c0d457aaa55897df288ddc1f0ddf1bd79642bad475b997",
+          "observed_at": "2026-10-27T04:06:22.268955Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/598e4fff-47c2-4991-90e5-269c0aa7c1ef/part/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2F25189fcc5fe05539b3b6%2Fvisual.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/queryState/Values/projections/0/field/Measure"
+          }
+        },
+        "source": "5534dcab52ea12e3a590fc6ad8d7e5fa79ca8611cc06be894a80b65f6fe792ce",
+        "target": "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+        "unknown": null,
+        "valid_from": "2026-10-27T05:07:37.477893Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "7890d5105e809712fb07172a11aba9dbc04cc52b62155242cbec941b8ee9691b",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "98be0634236a82a68e454d0e412716413cb967afd7244820b176c58d5da08707",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "7a22811d7d0ff9dbfc8559326230903f5071ee75b2d8a0cbc72433da2576f31a",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "COPY_MAPPING_WITH_EXACT_NATIVE_SOURCE",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "114f64a965934e8f034687583f17f05e5c8bfddf3d771753eecddd0020920222",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "7f56d35b6bd08b5d9a99614402b448388cce5494525f4283358e8085803c8246",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "properties": {
+          "completeness": "ROW_ONLY",
+          "definition": {
+            "bytes": 561,
+            "sha256": "0899aeb41756ce76b582aed568a9d970d85295c35729f7c368dc454aabc939f9",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/0899aeb41756ce76b582aed568a9d970d85295c35729f7c368dc454aabc939f9"
+          },
+          "model_definition_hash": "18be79d2ba4c304d1bba31d0823850f93bf964b2ff9feb002abe66a52463f43c",
+          "native_row_hash": "1ae9d5c404cc7749f33fa87a36ce702bef793fc0f3c5af3f018eaffde6acecbf"
+        },
+        "provenance": {
+          "definition_hash": "0899aeb41756ce76b582aed568a9d970d85295c35729f7c368dc454aabc939f9",
+          "observed_at": "2026-10-13T17:11:21.310792Z",
+          "source": "ENGINE_DEPENDENCY",
+          "source_id": "d06d2b3daefe976c10cbcbf1f2e3e207c8256f81621d3e73ceedf036b04cc58a",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/rows/1"
+          }
+        },
+        "source": "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+        "target": "497b809aab319a091c08598988a6c8202715e5629e01a5d8b6be448d45edd062",
+        "unknown": null,
+        "valid_from": "2026-10-13T17:11:21.310792Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "8612d5915b69806d03ff4a870b21803697afb820297940c7a4739b651bdf073f",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+        "properties": {
+          "basis": "EXACT_CONNECTION_UUID_AND_NATIVE_OBJECT_ADDRESS",
+          "connection_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/connection/3f5891f3-092b-4c26-b838-1d024e989501",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "destination_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+          "native_destination": {
+            "artifactId": "33618b8d-46eb-4fe7-b80b-122c331260a3",
+            "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+          },
+          "source_asset": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+          "source_query": null
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+        "target": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "97f1475120b8e2f1af28620b77651bc1afa195532d92b63e29dce5142293cbd6",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "COPY_MAPPING_WITH_EXACT_NATIVE_SOURCE",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "569a3aaab8bae720214d342c6dfbaf14ccaaa08ce8faf3fb5da731023b3dd457",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "b1326b7138cadf5b67e4fb8e437fd9b5c1860e4e061d56eb35a25b5a85ad7f83",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "COPY_MAPPING_WITH_EXACT_NATIVE_SOURCE",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "04338ce830d63e3ab63d30a827b752e9163a7a50c36a3a8e2b6127b0480e5a34",
+        "target": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "cbde8d939597b988cb7186578be98c95bab4275a11c9212027c5e6075df8df69",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "target": "569a3aaab8bae720214d342c6dfbaf14ccaaa08ce8faf3fb5da731023b3dd457",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "db4094fac448b7bc3463118d25c4523d3131409d5fbc9f4cc688cad8906edc7a",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "properties": {
+          "completeness": "ROW_ONLY",
+          "definition": {
+            "bytes": 561,
+            "sha256": "0899aeb41756ce76b582aed568a9d970d85295c35729f7c368dc454aabc939f9",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/0899aeb41756ce76b582aed568a9d970d85295c35729f7c368dc454aabc939f9"
+          },
+          "model_definition_hash": "18be79d2ba4c304d1bba31d0823850f93bf964b2ff9feb002abe66a52463f43c",
+          "native_row_hash": "019f5aa703e133bee59f21b8ec1db58e30de10b5199e0200b54b815b47584415"
+        },
+        "provenance": {
+          "definition_hash": "0899aeb41756ce76b582aed568a9d970d85295c35729f7c368dc454aabc939f9",
+          "observed_at": "2026-10-13T17:11:21.310792Z",
+          "source": "ENGINE_DEPENDENCY",
+          "source_id": "d06d2b3daefe976c10cbcbf1f2e3e207c8256f81621d3e73ceedf036b04cc58a",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/rows/0"
+          }
+        },
+        "source": "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+        "target": "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+        "unknown": null,
+        "valid_from": "2026-10-13T17:11:21.310792Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "275b6a0f2d4511949028c3fe5a581b5c1b746fbab9f49a1ba8b76eb757d1a4e8",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "basis": "NATIVE_COPY_ACTIVITY_OWNERSHIP",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782"
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+        "target": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "c120038524885218e7bc72b6f2a60622a60146a0285607c6d495b26b90ede2cb",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c",
+        "properties": {
+          "basis": "NATIVE_INVOKE_COPY_JOB_UUID",
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c"
+        },
+        "provenance": {
+          "definition_hash": "2ad010f0f8c75662d1fab7ebc89e2ef801da946287e2b62becbee58038477fdc",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c/part/pipeline-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "source": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+        "target": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      }
+    ],
+    "estate": "fixture",
+    "nodes": [
+      {
+        "confidence": "DECLARED",
+        "id": "04338ce830d63e3ab63d30a827b752e9163a7a50c36a3a8e2b6127b0480e5a34",
+        "kind": "QUERY_STEP",
+        "label": "Explicit copy mapping",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "mapping": {
+            "destination": {
+              "name": "movement_type"
+            },
+            "source": {
+              "name": "movement_type"
+            }
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "114f64a965934e8f034687583f17f05e5c8bfddf3d771753eecddd0020920222",
+        "kind": "QUERY_STEP",
+        "label": "Explicit copy mapping",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "mapping": {
+            "destination": {
+              "name": "event_day"
+            },
+            "source": {
+              "name": "event_day"
+            }
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c",
+        "kind": "COLUMN",
+        "label": "units",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003/column/units",
+          "definition": {
+            "bytes": 217,
+            "sha256": "52c4a51badb36efea3e9a0ae19c764e87af8d48b152040b4e23ec7279e1f28e4",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/52c4a51badb36efea3e9a0ae19c764e87af8d48b152040b4e23ec7279e1f28e4"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+          "hidden": null,
+          "native_kind": "LakehouseColumn",
+          "retained_metadata_hash_encoding": "SORTED_JSON_SPACED"
+        },
+        "provenance": {
+          "definition_hash": "52c4a51badb36efea3e9a0ae19c764e87af8d48b152040b4e23ec7279e1f28e4",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003/column/units",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-11T16:27:31.868191Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "3334860e93f6632b17abd31fc175afe2ba07e7918ba0fda5cc6d5bcab485d210",
+        "kind": "QUERY_STEP",
+        "label": "Explicit copy mapping",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "mapping": {
+            "destination": {
+              "name": "source_modified_at_utc"
+            },
+            "source": {
+              "name": "source_modified_at_utc"
+            }
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+        "kind": "TABLE",
+        "label": "Movements",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+          "definition": {
+            "bytes": 714,
+            "sha256": "0bcb2b34b6dc2d54895df1997446c507fc5ee161d94de631776d395219242b0a",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/0bcb2b34b6dc2d54895df1997446c507fc5ee161d94de631776d395219242b0a"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+          "hidden": null,
+          "native_kind": "SemanticTable"
+        },
+        "provenance": {
+          "definition_hash": "0bcb2b34b6dc2d54895df1997446c507fc5ee161d94de631776d395219242b0a",
+          "observed_at": "2026-10-13T17:11:21.310792Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:11:21.310792Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "497b809aab319a091c08598988a6c8202715e5629e01a5d8b6be448d45edd062",
+        "kind": "COLUMN",
+        "label": "units",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/units",
+          "dataType": "int64",
+          "definition": {
+            "bytes": 86,
+            "sha256": "7cd3462864ca0771eb694e8d79584f93c5af27e2f4f2e9d773adc3b085a86e2f",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/7cd3462864ca0771eb694e8d79584f93c5af27e2f4f2e9d773adc3b085a86e2f"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+          "hidden": null,
+          "native_kind": "SemanticColumn",
+          "sourceColumn": "units"
+        },
+        "provenance": {
+          "definition_hash": "7cd3462864ca0771eb694e8d79584f93c5af27e2f4f2e9d773adc3b085a86e2f",
+          "observed_at": "2026-10-13T17:11:21.310792Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/units",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:11:21.310792Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+        "kind": "MEASURE",
+        "label": "Movement Units",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units",
+          "definition": {
+            "bytes": 67,
+            "sha256": "9bac4b87495b487a3fade3ae0eda2eac30dd456247b18b7be78404985255a599",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/9bac4b87495b487a3fade3ae0eda2eac30dd456247b18b7be78404985255a599"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+          "hidden": null,
+          "native_kind": "Measure"
+        },
+        "provenance": {
+          "definition_hash": "9bac4b87495b487a3fade3ae0eda2eac30dd456247b18b7be78404985255a599",
+          "observed_at": "2026-10-13T17:11:21.310792Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:11:21.310792Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "5534dcab52ea12e3a590fc6ad8d7e5fa79ca8611cc06be894a80b65f6fe792ce",
+        "kind": "VISUAL",
+        "label": "Movement Units",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/598e4fff-47c2-4991-90e5-269c0aa7c1ef",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/598e4fff-47c2-4991-90e5-269c0aa7c1ef/visual/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2F25189fcc5fe05539b3b6%2Fvisual.json",
+          "definition": {
+            "bytes": 2994,
+            "sha256": "01316df16f1ed86a54c0d457aaa55897df288ddc1f0ddf1bd79642bad475b997",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/01316df16f1ed86a54c0d457aaa55897df288ddc1f0ddf1bd79642bad475b997"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/598e4fff-47c2-4991-90e5-269c0aa7c1ef",
+          "hidden": null,
+          "native_kind": "ReportVisual",
+          "retained_metadata_hash_encoding": "SORTED_JSON_SPACED"
+        },
+        "provenance": {
+          "definition_hash": "01316df16f1ed86a54c0d457aaa55897df288ddc1f0ddf1bd79642bad475b997",
+          "observed_at": "2026-10-27T03:31:50.268163Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/598e4fff-47c2-4991-90e5-269c0aa7c1ef/part/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2F25189fcc5fe05539b3b6%2Fvisual.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-27T03:31:50.268163Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "569a3aaab8bae720214d342c6dfbaf14ccaaa08ce8faf3fb5da731023b3dd457",
+        "kind": "QUERY_STEP",
+        "label": "Explicit copy mapping",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "mapping": {
+            "destination": {
+              "name": "units"
+            },
+            "source": {
+              "name": "units"
+            }
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "id": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+        "kind": "TABLE",
+        "label": "dbo.stock_movements_round_two_20261003",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+          "definition_source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "6e29c19610d2451365f4424018e56a87b8702eb485f499cad6349e1810ac5f54",
+        "kind": "QUERY_STEP",
+        "label": "Explicit copy mapping",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "mapping": {
+            "destination": {
+              "name": "source_row_version"
+            },
+            "source": {
+              "name": "source_row_version"
+            }
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "kind": "COPY_ACTIVITY",
+        "label": "e8fc7b29-f267-4696-8ab2-4fdd4f78b5b9",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "activity_type": "Copy",
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "native_copy_binding": {
+            "basis": "EXACT_CONNECTION_UUID_AND_NATIVE_OBJECT_ADDRESS",
+            "connection_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/connection/3f5891f3-092b-4c26-b838-1d024e989501",
+            "destination_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+            "native_destination": {
+              "artifactId": "33618b8d-46eb-4fe7-b80b-122c331260a3",
+              "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+            },
+            "source_asset": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+            "source_query": null
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "kind": "TABLE",
+        "label": "app.stock_movements_round_two_20261003",
+        "owner": "sql://sql-orderops-9696025.database.windows.net/ordersops",
+        "properties": {
+          "asset_id": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+          "definition": {
+            "bytes": 2353,
+            "sha256": "3edcd22eef92476a95134e8c91850521d94c3f3456df841fd22c64785462dbf8",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/3edcd22eef92476a95134e8c91850521d94c3f3456df841fd22c64785462dbf8"
+          },
+          "definition_source_owner": "sql://sql-orderops-9696025.database.windows.net/ordersops",
+          "hidden": null,
+          "native_kind": "SqlObject",
+          "retained_metadata_hash_encoding": "SORTED_JSON_SPACED",
+          "source_system_object": true
+        },
+        "provenance": {
+          "definition_hash": "3edcd22eef92476a95134e8c91850521d94c3f3456df841fd22c64785462dbf8",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "7c4042009085cafc8ca9e5985af173de9af07bd6f919c9bb16d195e45b177dc2",
+        "kind": "QUERY_STEP",
+        "label": "Explicit copy mapping",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "mapping": {
+            "destination": {
+              "name": "product_id"
+            },
+            "source": {
+              "name": "product_id"
+            }
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "98be0634236a82a68e454d0e412716413cb967afd7244820b176c58d5da08707",
+        "kind": "QUERY_STEP",
+        "label": "Explicit copy mapping",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "mapping": {
+            "destination": {
+              "name": "warehouse_id"
+            },
+            "source": {
+              "name": "warehouse_id"
+            }
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "aa287d7cf4522d7100e8b12742bf7a826862d71bc1a8b43f22ab12d49a0d0a0d",
+        "kind": "QUERY_STEP",
+        "label": "Explicit copy mapping",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "definition": {
+            "bytes": 3366,
+            "sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "mapping": {
+            "destination": {
+              "name": "movement_id"
+            },
+            "source": {
+              "name": "movement_id"
+            }
+          }
+        },
+        "provenance": {
+          "definition_hash": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+          "observed_at": "2026-10-11T16:27:31.868191Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "id": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+        "kind": "MODEL",
+        "label": "Application load fixture 20261003",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+          "definition_source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+        "kind": "PIPELINE",
+        "label": "round_two_application_load_audited_20261003",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c",
+          "definition": {
+            "bytes": 311,
+            "sha256": "41fdb793abce933f29b74bfc1f7ce0aef4b9f1f558a61985d02049908edfc528",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/41fdb793abce933f29b74bfc1f7ce0aef4b9f1f558a61985d02049908edfc528"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c",
+          "hidden": null,
+          "native_kind": "DataPipeline"
+        },
+        "provenance": {
+          "definition_hash": "41fdb793abce933f29b74bfc1f7ce0aef4b9f1f558a61985d02049908edfc528",
+          "observed_at": "2026-10-13T17:50:04.516006Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:50:04.516006Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+        "kind": "PIPELINE",
+        "label": "investigation_round_two_history_probe_20261003",
+        "owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "properties": {
+          "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "definition": {
+            "bytes": 322,
+            "sha256": "2eb93cba09c1422b79507a518e2edcda3c4b6762d0550bef154954aa3d845d1e",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/2eb93cba09c1422b79507a518e2edcda3c4b6762d0550bef154954aa3d845d1e"
+          },
+          "definition_source_owner": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "hidden": null,
+          "native_kind": "CopyJob"
+        },
+        "provenance": {
+          "definition_hash": "2eb93cba09c1422b79507a518e2edcda3c4b6762d0550bef154954aa3d845d1e",
+          "observed_at": "2026-10-13T17:20:33.292207Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:20:33.292207Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      }
+    ],
+    "stops": [
+      {
+        "node": "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "497b809aab319a091c08598988a6c8202715e5629e01a5d8b6be448d45edd062",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "497b809aab319a091c08598988a6c8202715e5629e01a5d8b6be448d45edd062",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c",
+        "reason": "Owner definition refresh unavailable: RuntimeError",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c",
+        "reason": "No retained upstream dependency is declared for this object."
+      },
+      {
+        "node": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+        "reason": "Owner definition refresh unavailable: RuntimeError",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+        "reason": "Owner definition refresh unavailable: RuntimeError",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "04338ce830d63e3ab63d30a827b752e9163a7a50c36a3a8e2b6127b0480e5a34",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "04338ce830d63e3ab63d30a827b752e9163a7a50c36a3a8e2b6127b0480e5a34",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "7c4042009085cafc8ca9e5985af173de9af07bd6f919c9bb16d195e45b177dc2",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "7c4042009085cafc8ca9e5985af173de9af07bd6f919c9bb16d195e45b177dc2",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+        "reason": "No retained upstream dependency is declared for this object."
+      },
+      {
+        "node": "3334860e93f6632b17abd31fc175afe2ba07e7918ba0fda5cc6d5bcab485d210",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "3334860e93f6632b17abd31fc175afe2ba07e7918ba0fda5cc6d5bcab485d210",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "114f64a965934e8f034687583f17f05e5c8bfddf3d771753eecddd0020920222",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "114f64a965934e8f034687583f17f05e5c8bfddf3d771753eecddd0020920222",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "6e29c19610d2451365f4424018e56a87b8702eb485f499cad6349e1810ac5f54",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "6e29c19610d2451365f4424018e56a87b8702eb485f499cad6349e1810ac5f54",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "aa287d7cf4522d7100e8b12742bf7a826862d71bc1a8b43f22ab12d49a0d0a0d",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "aa287d7cf4522d7100e8b12742bf7a826862d71bc1a8b43f22ab12d49a0d0a0d",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "98be0634236a82a68e454d0e412716413cb967afd7244820b176c58d5da08707",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "98be0634236a82a68e454d0e412716413cb967afd7244820b176c58d5da08707",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "569a3aaab8bae720214d342c6dfbaf14ccaaa08ce8faf3fb5da731023b3dd457",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "569a3aaab8bae720214d342c6dfbaf14ccaaa08ce8faf3fb5da731023b3dd457",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      }
+    ],
+    "truncated": false,
+    "unavailable_owners": {
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6": {
+        "at": "2026-10-28T12:01:45.422064Z",
+        "failure": {
+          "errno": null,
+          "error_type": "MetadataUnavailable",
+          "http_status": 404,
+          "line": 106,
+          "message": "Metadata provider request unavailable",
+          "message_redacted": false,
+          "module": "metadata_auth.py",
+          "provider_code": "EntityNotFound"
+        },
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "status": "UNAVAILABLE"
+      },
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3": {
+        "at": "2026-10-28T12:02:01.830739Z",
+        "failure": {
+          "errno": null,
+          "error_type": "RuntimeError",
+          "line": 88,
+          "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+          "message_redacted": false,
+          "module": "graph_change_collector.py"
+        },
+        "reason": "Owner definition refresh unavailable: RuntimeError",
+        "status": "UNAVAILABLE"
+      },
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782": {
+        "at": "2026-10-28T12:02:21.421355Z",
+        "failure": {
+          "errno": null,
+          "error_type": "MetadataUnavailable",
+          "http_status": 401,
+          "line": 106,
+          "message": "Metadata provider request unavailable",
+          "message_redacted": false,
+          "module": "metadata_auth.py",
+          "provider_code": "Unauthorized"
+        },
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "status": "UNAVAILABLE"
+      }
+    }
+  },
+  "layers": {
+    "native:4caf47d120d4fd198ffe": {
+      "label": "Application load fixture 20261003",
+      "dialect": "DAX"
+    },
+    "native:9e3796a26d8d5c1a039e": {
+      "label": "ordersops",
+      "dialect": "T-SQL"
+    },
+    "native:e95b94fd338e7086320f": {
+      "label": "round_two_bronze_20261003",
+      "dialect": "T-SQL"
+    }
+  }
+}
+```
+
+Triage:
+```json
+{
+  "facts": [
+    {
+      "cached": true,
+      "check": "MODEL_REFRESH",
+      "observed_at": "2026-10-28T17:21:30.643094Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T17:21:30.643094Z",
+          "freshness": "CURRENT",
+          "id": "c8a98301bc861aff5453e8069fe1fab705ae8b02415e4391eb9719298d4e4213",
+          "kind": "RUN_HISTORY",
+          "observed_at": "2026-10-28T17:21:30.643094Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:0d587e8d1dcede92748f0f19a13fcfb00793a9fd0ccc4aed323ed67f94daf384"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "listing_complete": true,
+            "runs": [
+              {
+                "end": "2026-10-28T13:52:37.930000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "763348570",
+                "start": "2026-10-28T13:52:34.943000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T11:06:44.580000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "763295893",
+                "start": "2026-10-28T11:06:17.773000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T08:22:28.950000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "763241357",
+                "start": "2026-10-28T08:22:02.380000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:56:11.943000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967533",
+                "start": "2026-10-27T15:55:47.577000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:55:31.980000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967527",
+                "start": "2026-10-27T15:55:17.423000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T11:22:45.240000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762883014",
+                "start": "2026-10-27T11:22:42.810000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T10:04:03.517000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762859376",
+                "start": "2026-10-27T10:03:42.330000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:20.813000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762589234",
+                "start": "2026-10-26T18:20:20.733000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:33.260000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762588999",
+                "start": "2026-10-26T18:19:56.113000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T01:27:55.313000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "761468506",
+                "start": "2026-10-24T01:26:52.530000Z",
+                "status": "SUCCEEDED"
+              }
+            ]
+          }
+        },
+        {
+          "collected_at": "2026-10-28T17:21:30.643094Z",
+          "freshness": "CURRENT",
+          "id": "d3eb61f5d53032ac0304475e12853d13969d33a35f08430a039aacbab65a72e6",
+          "kind": "REFRESH_RUN",
+          "observed_at": "2026-10-28T17:21:30.643094Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:0d587e8d1dcede92748f0f19a13fcfb00793a9fd0ccc4aed323ed67f94daf384"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "accounting": "UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA",
+            "end": "2026-10-28T13:52:37.930000Z",
+            "error": null,
+            "recent_runs": [
+              {
+                "end": "2026-10-28T13:52:37.930000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "763348570",
+                "start": "2026-10-28T13:52:34.943000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T11:06:44.580000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "763295893",
+                "start": "2026-10-28T11:06:17.773000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T08:22:28.950000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "763241357",
+                "start": "2026-10-28T08:22:02.380000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:56:11.943000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967533",
+                "start": "2026-10-27T15:55:47.577000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:55:31.980000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967527",
+                "start": "2026-10-27T15:55:17.423000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T11:22:45.240000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762883014",
+                "start": "2026-10-27T11:22:42.810000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T10:04:03.517000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762859376",
+                "start": "2026-10-27T10:03:42.330000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:20.813000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762589234",
+                "start": "2026-10-26T18:20:20.733000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:33.260000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762588999",
+                "start": "2026-10-26T18:19:56.113000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T01:27:55.313000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "761468506",
+                "start": "2026-10-24T01:26:52.530000Z",
+                "status": "SUCCEEDED"
+              }
+            ],
+            "rows_read": null,
+            "rows_written": null,
+            "run_id": "763348570",
+            "start": "2026-10-28T13:52:34.943000Z",
+            "status": "SUCCEEDED"
+          }
+        },
+        {
+          "collected_at": "2026-10-28T17:21:30.643094Z",
+          "freshness": "CURRENT",
+          "id": "e1860acaba4d283e65eb5169b34d78ac1532500b8b8f62f7b8f345cd04cd7a5b",
+          "kind": "REFRESH_STATE",
+          "observed_at": "2026-10-28T17:21:30.643094Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:0d587e8d1dcede92748f0f19a13fcfb00793a9fd0ccc4aed323ed67f94daf384"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "last_end": "2026-10-28T13:52:37.930000Z",
+            "run_id": "763348570",
+            "state": "SUCCEEDED"
+          }
+        }
+      ]
+    },
+    {
+      "cached": true,
+      "check": "REFRESH_SCHEDULE",
+      "observed_at": "2026-10-28T17:21:30.643094Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T17:22:03.340351Z",
+          "freshness": "CURRENT",
+          "id": "b97a407ce67bc8da01ada4d264cc438f9bdc25ebed5ee66edeaae493aae8bae9",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T17:22:03.340351Z",
+          "provenance": {
+            "collector": "microsoft-runtime:50ed9389d7d5682c8f2f36c6c2f43a2a3731a84b0c91204d9e25890e096564dc",
+            "evidence_ids": [
+              "sha256:d7721db78aa66ceed7f1352ac861ee223220212566405eb11a4ce59b7c3c519e"
+            ],
+            "locator": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "value": {
+            "native_schedules": {
+              "value": []
+            },
+            "next_due": null,
+            "reason": "Job schedule recurrence retained; unsupported recurrence types remain a named coverage gap."
+          }
+        },
+        {
+          "collected_at": "2026-10-28T17:21:30.643094Z",
+          "freshness": "CURRENT",
+          "id": "0ef6c4a70968f65065655df96e408a7bbd04c80bc8ec7ff74cfb278315a0f6b2",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T17:21:30.643094Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:582a69e3e6c24c5ba0d3d12497f5a2b8452d04878fcf734ad64bb91d1806dd1f"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "enabled": false,
+            "native_schedule": {
+              "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+              "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ],
+              "enabled": false,
+              "localTimeZoneId": "UTC",
+              "notifyOption": "MailOnFailure",
+              "times": [
+                "01:00"
+              ]
+            },
+            "next_due": null,
+            "previous_due": null
+          }
+        }
+      ]
+    },
+    {
+      "check": "AUTOMATIC_UPDATES",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:AUTOMATIC_UPDATES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "cached": false,
+      "check": "JOB_RUNS",
+      "observed_at": "2026-10-28T17:26:24.165482Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T17:26:40.407809Z",
+          "freshness": "CURRENT",
+          "id": "ab345fc9fc2654f5077f60ab03bdd06455b6f38befc570249c469e18ff0128ae",
+          "kind": "JOB_RUN",
+          "observed_at": "2026-10-28T17:26:40.407809Z",
+          "provenance": {
+            "collector": "microsoft-runtime:d90ae203d1e049b5d17b28ad8d56b3e9cbbe0ea8e79c91698aded7cf5e687f7e",
+            "evidence_ids": [
+              "sha256:aff9a29dc75f5df08968a1187e3967b90352b32b13d2c68e46793c8dfce4c0ff"
+            ],
+            "locator": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+          "value": {
+            "accounting": "UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA",
+            "end": "2026-10-28T17:12:18.7389862Z",
+            "error": null,
+            "recent_runs": [
+              {
+                "end": "2026-10-28T17:12:18.7389862Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "bfdeea1f-5dd6-4d39-91e2-42397abb0bae",
+                "start": "2026-10-28T17:11:47.423519Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T16:22:34.1819489Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "4fa04c39-8a6c-4b9e-acce-3e68f12a1969",
+                "start": "2026-10-28T16:22:03.2000377Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T11:02:08.6672195Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "a6acedec-4dd6-4db7-89cf-7e28b75e16f3",
+                "start": "2026-10-28T11:00:50.0325628Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T10:49:19.7721168Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "463b6045-6252-4ccb-8800-151e5e1ae145",
+                "start": "2026-10-28T10:48:51.3195695Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T10:44:16.146751Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "282e67dc-9468-44b7-8478-8a1f8e817cbb",
+                "start": "2026-10-28T10:43:46.4326654Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T10:34:53.7981325Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "eaea454c-badf-43d9-b89b-a9affe92605f",
+                "start": "2026-10-28T10:34:23.9920488Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T09:53:39.8805158Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "177fd1d9-1491-42b6-8a6f-357ed42611ea",
+                "start": "2026-10-28T09:53:11.6264364Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T08:16:41.2629279Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "7237d82d-a728-4286-8891-6f548097cdcd",
+                "start": "2026-10-28T08:16:11.3116784Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T08:03:50.0016825Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "353770e7-8eb4-47bc-8709-0a667ddb04ad",
+                "start": "2026-10-28T08:03:00.469989Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T07:58:25.018859Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "7de99675-2ef8-4bd1-8292-c512f5121dbb",
+                "start": "2026-10-28T07:57:40.5054246Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T06:58:07.0533205Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "15dfbcf2-6985-41e8-8ada-d1973f3ec8a0",
+                "start": "2026-10-28T06:57:34.3969215Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T06:16:46.3062373Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "56e7ecc6-efb1-4d67-b6f8-0645b5de2d21",
+                "start": "2026-10-28T06:14:52.7382767Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:54:02.6605794Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "c0e2613f-b446-4d00-a2c5-7f44c4662ae2",
+                "start": "2026-10-27T15:53:32.7157778Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:44:05.0886872Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "a33b8ae0-57b8-4794-9cab-f50ec12e03ca",
+                "start": "2026-10-27T15:43:33.6916187Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:20:29.5709877Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "fa3d9c73-ff5a-410a-89c8-907afd3f623c",
+                "start": "2026-10-27T15:19:55.229535Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:10:24.4533955Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "644ef25a-bad3-4e5e-87b0-3f27c9b4498c",
+                "start": "2026-10-27T15:09:53.1889637Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T14:31:41.1898358Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "5caa5c35-5e58-4dc1-94f0-fb8a9ab6619a",
+                "start": "2026-10-27T14:31:09.9560782Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:59:50.6670091Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "d3d519f4-55b9-48ef-bf68-ee9b3d6fd724",
+                "start": "2026-10-27T09:59:21.4245453Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:49:04.8377033Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "f12d45ba-a321-4a76-9f38-cfd86501054b",
+                "start": "2026-10-27T09:48:35.0709386Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:41:49.8935835Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "4eda71d5-c497-4d52-b447-232386f672b5",
+                "start": "2026-10-27T09:41:18.3358933Z",
+                "status": "SUCCEEDED"
+              }
+            ],
+            "rows_read": null,
+            "rows_written": null,
+            "run_id": "bfdeea1f-5dd6-4d39-91e2-42397abb0bae",
+            "start": "2026-10-28T17:11:47.423519Z",
+            "status": "SUCCEEDED"
+          }
+        },
+        {
+          "collected_at": "2026-10-28T17:26:24.165482Z",
+          "freshness": "CURRENT",
+          "id": "5bff92c95c86ae0efdf8b797f9dc308888058077e44514389d8024039f98e01d",
+          "kind": "JOB_RUN",
+          "observed_at": "2026-10-28T17:26:24.165482Z",
+          "provenance": {
+            "collector": "microsoft-runtime:50ed9389d7d5682c8f2f36c6c2f43a2a3731a84b0c91204d9e25890e096564dc",
+            "evidence_ids": [
+              "sha256:d96dd9d5e9b9fe402ce1da8e12aa9d45f6c610153261b7f8a0c6fa043921c0da",
+              "sha256:1ab5a3fbf810ff31ce31808382b448e6aa658dd594f1ad43c57277fa21b65060"
+            ],
+            "locator": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "value": {
+            "accounting": "DECLARED_WAREHOUSE_AUDIT",
+            "end": "2026-10-28T17:12:57.970000Z",
+            "error": null,
+            "recent_runs": [
+              {
+                "end": "2026-10-28T17:12:57.970000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "0d728d94-10a0-449e-9a3c-7e1910c84951",
+                "start": "2026-10-28T17:11:20.5264037Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T17:06:36.7666667Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "78c23b46-0543-44c8-869f-59b7dfb34a23",
+                "start": "2026-10-28T16:56:27.2028153Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T16:23:13.3266667Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "f797cd9a-caf8-4acd-b268-dbb777cc7081",
+                "start": "2026-10-28T16:21:35.3466667Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T16:13:05.4433333Z",
+                "error": {
+                  "errorCode": "2011",
+                  "isRetriable": false,
+                  "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+                  "requestId": "6ce8a9b6-149b-43d6-90bd-6838cfbc99a4"
+                },
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "3680dfc7-1292-4b2a-ad12-886d2d8390cf",
+                "start": "2026-10-28T16:12:39.370000Z",
+                "status": "FAILED"
+              },
+              {
+                "end": "2026-10-28T11:03:30.460000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "caf179c6-2bcb-412e-84bc-4718a7c37e69",
+                "start": "2026-10-28T11:00:10.1515204Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T10:49:56.480000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "aaf1ecb7-2d66-453b-9cd6-8dc96cbb7342",
+                "start": "2026-10-28T10:48:28.5833333Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T10:44:56.6366667Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "0eaa1d46-bd14-4d04-af70-9fc509cd5823",
+                "start": "2026-10-28T10:43:26.1951905Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T10:35:30.890000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "1afa0047-d016-4431-a711-cf12f6de79ee",
+                "start": "2026-10-28T10:33:59.2739912Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T10:14:11.9166667Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "9b148ef9-0353-46f5-964e-568852949147",
+                "start": "2026-10-28T10:04:00.8859056Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T09:54:20.9633333Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "7b0c1f8e-4f81-4b98-a26a-2ce003dcde16",
+                "start": "2026-10-28T09:52:48.3330368Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T09:48:59.5566667Z",
+                "error": {
+                  "errorCode": "2011",
+                  "isRetriable": false,
+                  "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+                  "requestId": "6ce8a9b6-149b-43d6-90bd-6838cfbc99a4"
+                },
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "039aea4f-76d6-4b00-bc4d-89778c9fa53b",
+                "start": "2026-10-28T09:48:32.9366667Z",
+                "status": "FAILED"
+              },
+              {
+                "end": "2026-10-28T08:17:21.010000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "b19be888-92f6-4c34-81bc-0a3433cb578b",
+                "start": "2026-10-28T08:15:49.4748707Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T08:04:45.0766667Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "c4317ee4-2ce8-49b4-91aa-aa75f1d6448d",
+                "start": "2026-10-28T08:02:16.3610689Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T07:59:05.190000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "009b614d-7e17-4523-a350-d40769c4e997",
+                "start": "2026-10-28T07:57:19.3760961Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T06:58:48.380000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "0f681f9d-b78a-4498-8c2f-14f7d6d52175",
+                "start": "2026-10-28T06:57:11.0246836Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T06:40:27.6233333Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "4456ed50-6454-41f3-ab53-90102beb10e3",
+                "start": "2026-10-28T06:30:10.5600019Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T06:18:21.950000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "ccb5f004-5b06-488c-9009-0464682b820b",
+                "start": "2026-10-28T06:09:45.2412485Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T05:59:56.280000Z",
+                "error": {
+                  "errorCode": "2011",
+                  "isRetriable": false,
+                  "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+                  "requestId": "6ce8a9b6-149b-43d6-90bd-6838cfbc99a4"
+                },
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "60332cec-53c5-4268-86e2-f875836b597c",
+                "start": "2026-10-28T05:59:25.2333333Z",
+                "status": "FAILED"
+              },
+              {
+                "end": "2026-10-27T15:54:40.3733333Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "fd221a3c-173c-40a6-8f79-ff1b8b5484fd",
+                "start": "2026-10-27T15:53:11.6517633Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:44:49.2866667Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "8b738527-489f-4efc-92c3-ba9f30d8da9c",
+                "start": "2026-10-27T15:43:10.051129Z",
+                "status": "SUCCEEDED"
+              }
+            ],
+            "rows_read": 361,
+            "rows_written": 361,
+            "run_id": "0d728d94-10a0-449e-9a3c-7e1910c84951",
+            "start": "2026-10-28T17:11:20.5264037Z",
+            "status": "SUCCEEDED"
+          }
+        }
+      ]
+    },
+    {
+      "check": "LAYER_FRESHNESS",
+      "detail": "FRESH_PATH_FACT_NOT_AVAILABLE:LAYER_FRESHNESS",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "SOURCE_CHANGES",
+      "detail": "FRESH_PATH_FACT_NOT_AVAILABLE:SOURCE_CHANGES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "cached": false,
+      "check": "NEXT_LOAD",
+      "observed_at": "2026-10-28T17:26:24.165482Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T17:26:45.707944Z",
+          "freshness": "CURRENT",
+          "id": "b0a07aa25047d0d6c4a74f01ddbf05a9ea182d0e08bda09e8da784d366b5a3d2",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T17:26:45.707944Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:ab16d19790a366260218296efde9c5aa332b229aec3dc8b79543504ab0d4282b"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "enabled": false,
+            "native_schedule": {
+              "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+              "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ],
+              "enabled": false,
+              "localTimeZoneId": "UTC",
+              "notifyOption": "MailOnFailure",
+              "times": [
+                "01:00"
+              ]
+            },
+            "next_due": null,
+            "previous_due": null
+          }
+        },
+        {
+          "collected_at": "2026-10-28T17:26:24.165482Z",
+          "freshness": "CURRENT",
+          "id": "37dd1ca22064ae67e6bfa26ed47026f1517e1aefa42ea8465a637e5ee32d14c3",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T17:26:24.165482Z",
+          "provenance": {
+            "collector": "microsoft-runtime:50ed9389d7d5682c8f2f36c6c2f43a2a3731a84b0c91204d9e25890e096564dc",
+            "evidence_ids": [
+              "sha256:355e86e4b86482224ea496d73bb767ca543ba3c3aab856a849f2a0635e762ff0"
+            ],
+            "locator": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "value": {
+            "native_schedules": {
+              "value": []
+            },
+            "next_due": null,
+            "reason": "Job schedule recurrence retained; unsupported recurrence types remain a named coverage gap."
+          }
+        }
+      ]
+    },
+    {
+      "check": "CONNECTION_MODE",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:CONNECTION_MODE",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "SECURITY_PRESENCE",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:SECURITY_PRESENCE",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "DEFINITION_CHANGES",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:DEFINITION_CHANGES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    }
+  ],
+  "path": [
+    "04338ce830d63e3ab63d30a827b752e9163a7a50c36a3a8e2b6127b0480e5a34",
+    "114f64a965934e8f034687583f17f05e5c8bfddf3d771753eecddd0020920222",
+    "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c",
+    "3334860e93f6632b17abd31fc175afe2ba07e7918ba0fda5cc6d5bcab485d210",
+    "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+    "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+    "497b809aab319a091c08598988a6c8202715e5629e01a5d8b6be448d45edd062",
+    "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+    "5534dcab52ea12e3a590fc6ad8d7e5fa79ca8611cc06be894a80b65f6fe792ce",
+    "569a3aaab8bae720214d342c6dfbaf14ccaaa08ce8faf3fb5da731023b3dd457",
+    "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+    "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+    "6e29c19610d2451365f4424018e56a87b8702eb485f499cad6349e1810ac5f54",
+    "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+    "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+    "7c4042009085cafc8ca9e5985af173de9af07bd6f919c9bb16d195e45b177dc2",
+    "98be0634236a82a68e454d0e412716413cb967afd7244820b176c58d5da08707",
+    "aa287d7cf4522d7100e8b12742bf7a826862d71bc1a8b43f22ab12d49a0d0a0d",
+    "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+  ],
+  "refresh_operations": 8,
+  "what_triage_suggests": "Triage has unavailable checks (AUTOMATIC_UPDATES, LAYER_FRESHNESS, SOURCE_CHANGES, CONNECTION_MODE, SECURITY_PRESENCE, DEFINITION_CHANGES); this does not establish that those mechanisms are absent."
+}
+```
+
+Queries:
+```json
+[
+  {
+    "asset_ids": [
+      "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+    ],
+    "duration_seconds": 5.456651945999965,
+    "executed_text": "SELECT TOP 251 [stock_movements_round_two_20261003].[movement_id] AS [movement_id], [stock_movements_round_two_20261003].[warehouse_id] AS [warehouse_id], [stock_movements_round_two_20261003].[product_id] AS [product_id], [stock_movements_round_two_20261003].[units] AS [units], [stock_movements_round_two_20261003].[event_day] AS [event_day], [stock_movements_round_two_20261003].[movement_type] AS [movement_type], [stock_movements_round_two_20261003].[source_modified_at_utc] AS [source_modified_at_utc], CONVERT(VARCHAR(20), CAST([stock_movements_round_two_20261003].[source_row_version] AS VARBINARY(8)), CAST(@p0 AS BIGINT)) AS [row_version] FROM [app].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003] WHERE [stock_movements_round_two_20261003].[movement_id] = CAST(@p1 AS BIGINT)",
+    "id": "query:2e41ee03f495db3c9b46323d179d6a353f21781bbc9737c7511f70c236da7627:1",
+    "layer": "native:9e3796a26d8d5c1a039e",
+    "parameters": [
+      {
+        "name": "@p0",
+        "value": "1"
+      },
+      {
+        "name": "@p1",
+        "value": "900201"
+      }
+    ],
+    "purpose": "record",
+    "result": {
+      "column_types": {
+        "event_day": "String",
+        "movement_id": "Int64",
+        "movement_type": "String",
+        "product_id": "Int64",
+        "row_version": "String",
+        "source_modified_at_utc": "DateTime",
+        "units": "Int64",
+        "warehouse_id": "Int64"
+      },
+      "connection_attempts": [
+        {
+          "attempt": 1,
+          "finished_at": "2026-10-28T17:27:06.421305+00:00",
+          "retry_delay_seconds": 0,
+          "sql_error_number": null,
+          "stage": null,
+          "started_at": "2026-10-28T17:27:01.729732+00:00",
+          "status": "SUCCEEDED"
+        }
+      ],
+      "execution_identity": {
+        "database": "ordersops",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "sql-orderops-9696025.database.windows.net"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "event_day": "2026-09-18",
+          "movement_id": "900201",
+          "movement_type": "RECEIPT",
+          "product_id": "1",
+          "row_version": "0x00000000000128E2",
+          "source_modified_at_utc": "2026-10-28 17:18:00.306385",
+          "units": "47",
+          "warehouse_id": "3"
+        }
+      ]
+    },
+    "result_digest": "ac5d80b91378ce7e011b8bfbae071261a4ee13cc9238d4c2bc9cfa6e89c9d1f8",
+    "row_count": 1,
+    "signature": "2e41ee03f495db3c9b46323d179d6a353f21781bbc9737c7511f70c236da7627",
+    "status": "SUCCEEDED",
+    "text": "SELECT movement_id, warehouse_id, product_id, units, event_day, movement_type, source_modified_at_utc, CONVERT(varchar(20), CAST(source_row_version AS varbinary(8)), 1) AS row_version FROM [app].[stock_movements_round_two_20261003] WHERE movement_id = 900201",
+    "time": "2026-10-28T17:27:01.265469+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+    ],
+    "duration_seconds": 8.679768581000019,
+    "executed_text": "SELECT TOP 251 [stock_movements_round_two_20261003].[movement_id] AS [movement_id], [stock_movements_round_two_20261003].[warehouse_id] AS [warehouse_id], [stock_movements_round_two_20261003].[product_id] AS [product_id], [stock_movements_round_two_20261003].[units] AS [units], [stock_movements_round_two_20261003].[event_day] AS [event_day], [stock_movements_round_two_20261003].[movement_type] AS [movement_type], [stock_movements_round_two_20261003].[source_modified_at_utc] AS [source_modified_at_utc], CONVERT(VARCHAR(20), [stock_movements_round_two_20261003].[source_row_version], CAST(@p0 AS BIGINT)) AS [row_version] FROM [dbo].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003] WHERE [stock_movements_round_two_20261003].[movement_id] = CAST(@p1 AS BIGINT)",
+    "id": "query:d3dcd398661b878f86e3928723e1c2413f35a2158a925cebf49ee56257aac927:2",
+    "layer": "native:e95b94fd338e7086320f",
+    "parameters": [
+      {
+        "name": "@p0",
+        "value": "1"
+      },
+      {
+        "name": "@p1",
+        "value": "900201"
+      }
+    ],
+    "purpose": "record",
+    "result": {
+      "column_types": {
+        "event_day": "String",
+        "movement_id": "Int64",
+        "movement_type": "String",
+        "product_id": "Int64",
+        "row_version": "String",
+        "source_modified_at_utc": "DateTime",
+        "units": "Int64",
+        "warehouse_id": "Int64"
+      },
+      "execution_identity": {
+        "database": "round_two_bronze_20261003",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "event_day": "2026-09-18",
+          "movement_id": "900201",
+          "movement_type": "RECEIPT",
+          "product_id": "1",
+          "row_version": "0x00000000000128E1",
+          "source_modified_at_utc": "2026-10-28 17:11:12.289055",
+          "units": "41",
+          "warehouse_id": "3"
+        }
+      ]
+    },
+    "result_digest": "9c8fde8f0033e6d7c92e264eda3155393e9457c6d64266bb2b6d0829b79e9fc9",
+    "row_count": 1,
+    "signature": "d3dcd398661b878f86e3928723e1c2413f35a2158a925cebf49ee56257aac927",
+    "status": "SUCCEEDED",
+    "text": "SELECT movement_id, warehouse_id, product_id, units, event_day, movement_type, source_modified_at_utc, CONVERT(varchar(20), source_row_version, 1) AS row_version FROM [dbo].[stock_movements_round_two_20261003] WHERE movement_id = 900201",
+    "time": "2026-10-28T17:27:06.735084+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/movement_id",
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units"
+    ],
+    "duration_seconds": 7.391599414000041,
+    "executed_text": "EVALUATE TOPN(251,SUMMARIZECOLUMNS('Movements'[movement_id],TREATAS({900201},'Movements'[movement_id]),\"Rows\",COUNTROWS('Movements'),\"Movement Units\",[Movement Units]))",
+    "id": "query:f002d55a26d03cb69905bed9a247472193f5614eeb0bcef2d2cdf5c9c302895a:3",
+    "layer": "native:4caf47d120d4fd198ffe",
+    "parameters": [],
+    "purpose": "record",
+    "result": {
+      "rows": [
+        {
+          "Movements[movement_id]": 900201,
+          "[Movement Units]": 41,
+          "[Rows]": 1
+        }
+      ],
+      "warnings": [
+        "attestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
+      ]
+    },
+    "result_digest": "b522d551d549962f32c8b7e476c0a68d3dbf30fb09055ae666af28b0bb3f499d",
+    "row_count": 1,
+    "signature": "f002d55a26d03cb69905bed9a247472193f5614eeb0bcef2d2cdf5c9c302895a",
+    "status": "SUCCEEDED",
+    "text": "EVALUATE SUMMARIZECOLUMNS('Movements'[movement_id], TREATAS({900201}, 'Movements'[movement_id]), \"Rows\", COUNTROWS('Movements'), \"Movement Units\", [Movement Units])",
+    "time": "2026-10-28T17:27:15.424694+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/movement_id",
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units"
+    ],
+    "duration_seconds": 4.084766953999974,
+    "executed_text": "EVALUATE TOPN(251,ROW(\"Rows900201\",COUNTROWS(FILTER('Movements','Movements'[movement_id] = 900201)),\"Units900201\",CALCULATE([Movement Units],'Movements'[movement_id] = 900201),\"TotalRows\",COUNTROWS('Movements'),\"MinId\",MIN('Movements'[movement_id]),\"MaxId\",MAX('Movements'[movement_id])))",
+    "id": "query:572819d0b90f9f0d856d73d3cf5802220e3e91f1d4cc113f7966046961c8ccea:4",
+    "layer": "native:4caf47d120d4fd198ffe",
+    "parameters": [],
+    "purpose": "lookup",
+    "result": {
+      "rows": [
+        {
+          "[MaxId]": 900201,
+          "[MinId]": 1,
+          "[Rows900201]": 1,
+          "[TotalRows]": 361,
+          "[Units900201]": 41
+        }
+      ],
+      "warnings": [
+        "attestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
+      ]
+    },
+    "result_digest": "fdc13d437c8a583dd290cdae143f1197d3f66767d706eb0591c8d5d49045c1d6",
+    "row_count": 1,
+    "signature": "572819d0b90f9f0d856d73d3cf5802220e3e91f1d4cc113f7966046961c8ccea",
+    "status": "SUCCEEDED",
+    "text": "EVALUATE ROW(\"Rows900201\", COUNTROWS(FILTER('Movements', 'Movements'[movement_id] = 900201)), \"Units900201\", CALCULATE([Movement Units], 'Movements'[movement_id] = 900201), \"TotalRows\", COUNTROWS('Movements'), \"MinId\", MIN('Movements'[movement_id]), \"MaxId\", MAX('Movements'[movement_id]))",
+    "time": "2026-10-28T17:27:48.210636+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+    ],
+    "duration_seconds": 4.7125774990000195,
+    "executed_text": "SELECT TOP 251 COUNT(*) AS [rows_observed], MIN([stock_movements_round_two_20261003].[movement_id]) AS [min_id], MAX([stock_movements_round_two_20261003].[movement_id]) AS [max_id], SUM(CASE WHEN CAST([stock_movements_round_two_20261003].[movement_id] AS VARCHAR(20)) LIKE @p2 THEN CAST(@p1 AS BIGINT) ELSE CAST(@p0 AS BIGINT) END) AS [like_key], MIN([stock_movements_round_two_20261003].[event_day]) AS [min_day], MAX([stock_movements_round_two_20261003].[event_day]) AS [max_day] FROM [app].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003]",
+    "id": "query:c2140c9e61db93e112edf08b348837cb351e35487c40609936fa2c52953d7c46:4",
+    "layer": "native:9e3796a26d8d5c1a039e",
+    "parameters": [
+      {
+        "name": "@p0",
+        "value": "0"
+      },
+      {
+        "name": "@p1",
+        "value": "1"
+      },
+      {
+        "name": "@p2",
+        "value": "%900201%"
+      }
+    ],
+    "purpose": "lookup",
+    "result": {
+      "column_types": {
+        "like_key": "Int64",
+        "max_day": "String",
+        "max_id": "Int64",
+        "min_day": "String",
+        "min_id": "Int64",
+        "rows_observed": "Int64"
+      },
+      "connection_attempts": [
+        {
+          "attempt": 1,
+          "finished_at": "2026-10-28T17:27:52.818310+00:00",
+          "retry_delay_seconds": 0,
+          "sql_error_number": null,
+          "stage": null,
+          "started_at": "2026-10-28T17:27:48.649470+00:00",
+          "status": "SUCCEEDED"
+        }
+      ],
+      "execution_identity": {
+        "database": "ordersops",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "sql-orderops-9696025.database.windows.net"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "like_key": "1",
+          "max_day": "2026-09-18",
+          "max_id": "900201",
+          "min_day": "2026-09-10",
+          "min_id": "1",
+          "rows_observed": "361"
+        }
+      ]
+    },
+    "result_digest": "c9034386697ec2f2b863b9c596e23a32cd934ae89d6fea139f76ef5d9c98da95",
+    "row_count": 1,
+    "signature": "c2140c9e61db93e112edf08b348837cb351e35487c40609936fa2c52953d7c46",
+    "status": "SUCCEEDED",
+    "text": "SELECT COUNT(*) AS rows_observed, MIN(movement_id) AS min_id, MAX(movement_id) AS max_id, SUM(CASE WHEN CAST(movement_id AS varchar(20)) LIKE '%900201%' THEN 1 ELSE 0 END) AS like_key, MIN(event_day) AS min_day, MAX(event_day) AS max_day FROM [app].[stock_movements_round_two_20261003]",
+    "time": "2026-10-28T17:27:48.201842+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+    ],
+    "duration_seconds": 8.731233633000045,
+    "executed_text": "SELECT TOP 251 COUNT(*) AS [rows_observed], MIN([stock_movements_round_two_20261003].[movement_id]) AS [min_id], MAX([stock_movements_round_two_20261003].[movement_id]) AS [max_id], SUM(CASE WHEN CAST([stock_movements_round_two_20261003].[movement_id] AS VARCHAR(20)) LIKE @p2 THEN CAST(@p1 AS BIGINT) ELSE CAST(@p0 AS BIGINT) END) AS [like_key], MIN([stock_movements_round_two_20261003].[event_day]) AS [min_day], MAX([stock_movements_round_two_20261003].[event_day]) AS [max_day] FROM [dbo].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003]",
+    "id": "query:6510e4d62fb587fbf234fbcbfcc46981ab9f7168f1b179b5da656feaea685fc5:4",
+    "layer": "native:e95b94fd338e7086320f",
+    "parameters": [
+      {
+        "name": "@p0",
+        "value": "0"
+      },
+      {
+        "name": "@p1",
+        "value": "1"
+      },
+      {
+        "name": "@p2",
+        "value": "%900201%"
+      }
+    ],
+    "purpose": "lookup",
+    "result": {
+      "column_types": {
+        "like_key": "Int64",
+        "max_day": "String",
+        "max_id": "Int64",
+        "min_day": "String",
+        "min_id": "Int64",
+        "rows_observed": "Int64"
+      },
+      "execution_identity": {
+        "database": "round_two_bronze_20261003",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "like_key": "1",
+          "max_day": "2026-09-18",
+          "max_id": "900201",
+          "min_day": "2026-09-10",
+          "min_id": "1",
+          "rows_observed": "361"
+        }
+      ]
+    },
+    "result_digest": "346de0144ac2308793ebf755dddcbba7982af40f6d4f7a587778e4358e43af43",
+    "row_count": 1,
+    "signature": "6510e4d62fb587fbf234fbcbfcc46981ab9f7168f1b179b5da656feaea685fc5",
+    "status": "SUCCEEDED",
+    "text": "SELECT COUNT(*) AS rows_observed, MIN(movement_id) AS min_id, MAX(movement_id) AS max_id, SUM(CASE WHEN CAST(movement_id AS varchar(20)) LIKE '%900201%' THEN 1 ELSE 0 END) AS like_key, MIN(event_day) AS min_day, MAX(event_day) AS max_day FROM [dbo].[stock_movements_round_two_20261003]",
+    "time": "2026-10-28T17:27:48.207018+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+    ],
+    "duration_seconds": 3.6015449619999913,
+    "executed_text": "SELECT TOP 251 [stock_movements_round_two_20261003].[movement_id] AS [movement_id], [stock_movements_round_two_20261003].[warehouse_id] AS [warehouse_id], [stock_movements_round_two_20261003].[product_id] AS [product_id], [stock_movements_round_two_20261003].[units] AS [units], [stock_movements_round_two_20261003].[event_day] AS [event_day], [stock_movements_round_two_20261003].[movement_type] AS [movement_type], [stock_movements_round_two_20261003].[source_modified_at_utc] AS [source_modified_at_utc] FROM [app].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003] WHERE [stock_movements_round_two_20261003].[movement_id] = CAST(@p0 AS BIGINT)",
+    "id": "query:ba6bc0be57546c9c184bb0dd1eaeb7370ef4fc2ea7de3ac74990725fa372476a:7",
+    "layer": "native:9e3796a26d8d5c1a039e",
+    "parameters": [
+      {
+        "name": "@p0",
+        "value": "900201"
+      }
+    ],
+    "purpose": "record",
+    "result": {
+      "column_types": {
+        "event_day": "String",
+        "movement_id": "Int64",
+        "movement_type": "String",
+        "product_id": "Int64",
+        "source_modified_at_utc": "DateTime",
+        "units": "Int64",
+        "warehouse_id": "Int64"
+      },
+      "connection_attempts": [
+        {
+          "attempt": 1,
+          "finished_at": "2026-10-28T17:28:08.276679+00:00",
+          "retry_delay_seconds": 0,
+          "sql_error_number": null,
+          "stage": null,
+          "started_at": "2026-10-28T17:28:05.386281+00:00",
+          "status": "SUCCEEDED"
+        }
+      ],
+      "execution_identity": {
+        "database": "ordersops",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "sql-orderops-9696025.database.windows.net"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "event_day": "2026-09-18",
+          "movement_id": "900201",
+          "movement_type": "RECEIPT",
+          "product_id": "1",
+          "source_modified_at_utc": "2026-10-28 17:18:00.306385",
+          "units": "47",
+          "warehouse_id": "3"
+        }
+      ]
+    },
+    "result_digest": "5cb70f176cf257c32287d612e5731b35775d1e5ba57eeda58d73340757b59e46",
+    "row_count": 1,
+    "signature": "ba6bc0be57546c9c184bb0dd1eaeb7370ef4fc2ea7de3ac74990725fa372476a",
+    "status": "SUCCEEDED",
+    "text": "SELECT movement_id, warehouse_id, product_id, units, event_day, movement_type, source_modified_at_utc FROM [app].[stock_movements_round_two_20261003] WHERE movement_id = 900201",
+    "time": "2026-10-28T17:28:04.966593+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+    ],
+    "duration_seconds": 8.576738236999972,
+    "executed_text": "SELECT TOP 251 [stock_movements_round_two_20261003].[movement_id] AS [movement_id], [stock_movements_round_two_20261003].[warehouse_id] AS [warehouse_id], [stock_movements_round_two_20261003].[product_id] AS [product_id], [stock_movements_round_two_20261003].[units] AS [units], [stock_movements_round_two_20261003].[event_day] AS [event_day], [stock_movements_round_two_20261003].[movement_type] AS [movement_type], [stock_movements_round_two_20261003].[source_modified_at_utc] AS [source_modified_at_utc] FROM [dbo].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003] WHERE [stock_movements_round_two_20261003].[movement_id] = CAST(@p0 AS BIGINT)",
+    "id": "query:079eb7ca2fde4752426ddbca98e164355e5c10126547af4b607f3006f2db9c78:8",
+    "layer": "native:e95b94fd338e7086320f",
+    "parameters": [
+      {
+        "name": "@p0",
+        "value": "900201"
+      }
+    ],
+    "purpose": "record",
+    "result": {
+      "column_types": {
+        "event_day": "String",
+        "movement_id": "Int64",
+        "movement_type": "String",
+        "product_id": "Int64",
+        "source_modified_at_utc": "DateTime",
+        "units": "Int64",
+        "warehouse_id": "Int64"
+      },
+      "execution_identity": {
+        "database": "round_two_bronze_20261003",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "event_day": "2026-09-18",
+          "movement_id": "900201",
+          "movement_type": "RECEIPT",
+          "product_id": "1",
+          "source_modified_at_utc": "2026-10-28 17:11:12.289055",
+          "units": "41",
+          "warehouse_id": "3"
+        }
+      ]
+    },
+    "result_digest": "1906a9183e6d598218c7d480a6c151d50ccfc7588431838d22a220d1f5d5b702",
+    "row_count": 1,
+    "signature": "079eb7ca2fde4752426ddbca98e164355e5c10126547af4b607f3006f2db9c78",
+    "status": "SUCCEEDED",
+    "text": "SELECT movement_id, warehouse_id, product_id, units, event_day, movement_type, source_modified_at_utc FROM [dbo].[stock_movements_round_two_20261003] WHERE movement_id = 900201",
+    "time": "2026-10-28T17:28:08.901788+00:00",
+    "truncated": false
+  }
+]
+```
+
+Final answer:
+```json
+"latency. Record movement900201 (movement_id 900201, warehouse 3, product 1, RECEIPT, event_day 2026-09-18) exists once in each layer. It is not missing. The two layers simply hold different values right now. The application source table app.stock_movements_round_two_20261003 (ordersops) holds 47 units, with source_modified_at_utc 2026-10-28 17:18:00.306385. The landing lakehouse table dbo.stock_movements_round_two_20261003 holds 41 units, with source_modified_at_utc 2026-10-28 17:11:12.289055. The Movement Units measure, SUM('Movements'[units]) in Direct Lake mode, also returns 41 for this record. So the model matches the landing table. The source row was last modified at 17:18:00, after the latest successful run of the load pipeline round_two_application_load_audited_20261003. That run (0d728d94-10a0-449e-9a3c-7e1910c84951) SUCCEEDED, started 17:11:20 and ended 17:12:57 on 2026-10-28, and read and wrote 361 rows according to the declared audit. The pipeline has no native schedule, so no next load is due. The 41 matches what has been delivered. The 47 matches the current source row, which is ahead of the last load. Earlier pipeline runs failed (16:12, 09:48 and 05:59 on 2026-10-28, error 2011, a controlled failure before the original activities). Later runs succeeded, so those failures do not explain the current difference. Limitations: no retained source history was read. The earlier source value and the reason it was edited are therefore not established; only current rows and their modified timestamps were compared. The first record_trace reported ABSENT at source and landing, but direct key reads at both layers found the row. Its row-count and units columns were also read separately, so that trace result is not counted as absence. It is not established which layer each export was taken from.\nNumbers: 900201, 47, 41, 41, 361, 361.\nChecked: ordersops, round_two_bronze_20261003, Application load fixture 20261003.\nLedger job details: round_two_application_load_audited_20261003; run ID: unavailable (no run recorded); status: unavailable; start: unavailable; end: unavailable; observed: 2026-10-28T17:27:23.086972Z.\nRecorded job error: unavailable (not recorded)\nNext scheduled run: unavailable from the retained ledger facts.\nNative comparisons are observational snapshots; aligned query-bound versions are not established.\nCatalog bookkeeping unavailable: collector containment (recovered from literal native address), current inventory availability, inventory content hashes (metadata digests are derived and labelled), inventory provenance, per-asset collector timestamps. This does not block investigation; successful queries establish present readability only.\nattestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
+```
+
+Sealed expected:
+```json
+{
+  "case_id": "v2-source-history",
+  "cause": "Temporal native before41/after47 and change timestamp, distinct from business event date; no pipeline arithmetic claim.",
+  "estate": "fixture",
+  "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+  "fixture": "history",
+  "id": "v2-source-history-v2",
+  "layer": "source application",
+  "split": "DEV",
+  "variation": "brief support question",
+  "verdict": "source changed history"
+}
+```

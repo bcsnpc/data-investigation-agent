@@ -65,6 +65,24 @@ class MeasurementTests(unittest.TestCase):
 
 
 class CohortTests(unittest.TestCase):
+    def test_raw_review_requires_evidence_and_keeps_official_score(self):
+        from round25_quality import three_scores
+        good=dict(verdict_match=True,layer_match=True,cause_match=True,harmful=False,handoff_quality=2)
+        bad=dict(good,cause_match=False,harmful=True,handoff_quality=1)
+        case={'ticket':'disputed','primary':good,'secondary':bad}
+        value=three_scores([case])
+        self.assertEqual(value['strict']['all_three']['correct'],0)
+        self.assertEqual(value['raw_review_pending'],['disputed'])
+        self.assertEqual(value['raw_reviewed']['all_three']['total'],0)
+        case['raw_review']={'winner':'secondary','grade':bad,'raw_outcome_sha256':'a'*64,'reason':'Saved queries omit history.'}
+        value=three_scores([case])
+        self.assertTrue(value['raw_review_complete'])
+        self.assertEqual(value['official_primary']['all_three']['correct'],1)
+        self.assertEqual(value['raw_reviewed']['all_three']['correct'],0)
+        self.assertEqual(value['raw_reviewed']['harmful']['correct'],1)
+        case['raw_review']['grade']=good
+        with self.assertRaises(ValueError):three_scores([case])
+
     def test_partial_cohorts_and_disagreements_stay_explicit(self):
         from round25_quality import cohort_metrics
         good=dict(verdict_match=True,layer_match=True,cause_match=True,harmful=False,reason='native facts')
@@ -91,6 +109,27 @@ class NativeProbeRouteTests(unittest.TestCase):
         with self.assertRaises(ValueError):require_existing_probe_route(base,config,'billing',['[gold].[other]'])
         route['read_only']=False;base['environment']['DIA_PLATFORM_GATEWAY_POLICY']=json.dumps({'identities':{'investigation':{'sql':[route]}}})
         with self.assertRaises(ValueError):require_existing_probe_route(base,config,'billing',['[gold].[invoices]'])
+
+class FactReferenceTests(unittest.TestCase):
+    def test_root_and_descendant_container_labels_resolve_only_to_supplied_facts(self):
+        from round25_quality import fact_reference_known
+        facts={'target_bindings':{'reports':{'report-one':{'binding':'model-one'}}},'baseline':{'value':16}}
+        before=json.dumps(facts,sort_keys=True)
+        self.assertTrue(fact_reference_known('target_bindings.reports',facts))
+        self.assertTrue(fact_reference_known('reports',facts))
+        self.assertTrue(fact_reference_known('native_facts.baseline',facts))
+        self.assertFalse(fact_reference_known('invented_namespace',facts))
+        self.assertFalse(fact_reference_known('binding.model-two',facts))
+        self.assertEqual(json.dumps(facts,sort_keys=True),before)
+
+class ReplacementTests(unittest.TestCase):
+    def test_only_undelivered_plumbing_can_be_replaced_once(self):
+        from round25_quality import plumbing_replacement_label
+        self.assertEqual(plumbing_replacement_label(error_type='LockNotAvailable',delivered=False,replacements_used=0),'-replacement01')
+        for options in ({'error_type':'LockNotAvailable','delivered':True,'replacements_used':0},
+                        {'error_type':'WRONG_VERDICT','delivered':False,'replacements_used':0},
+                        {'error_type':'CAPTURE_LOSS','delivered':False,'replacements_used':1}):
+            with self.assertRaises(ValueError):plumbing_replacement_label(**options)
 
 class WaveTests(unittest.TestCase):
     def test_no_concurrent_wave_can_consume_restore_headroom(self):
