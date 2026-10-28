@@ -80,6 +80,8 @@ class CohortTests(unittest.TestCase):
         self.assertEqual(value['official_primary']['all_three']['correct'],1)
         self.assertEqual(value['raw_reviewed']['all_three']['correct'],0)
         self.assertEqual(value['raw_reviewed']['harmful']['correct'],1)
+        self.assertEqual(case['primary'],good)
+        self.assertEqual(case['secondary'],bad)
         case['raw_review']['grade']=good
         with self.assertRaises(ValueError):three_scores([case])
 

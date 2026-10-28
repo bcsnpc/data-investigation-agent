@@ -23,6 +23,17 @@ Agreement is 11/13 (95% Wilson 57.8?95.7%). Related variants share fixtures; the
 
 The independent writer produced 60 unsealed drafts, including 12 free-text inputs, six unchanged real screenshots and all three estates. New held-out wording remains unopened. A separate writer correction supplies the native comparison report omitted from one scaffold; the original draft is retained. Native target definitions, model partitions, source/landing numbers and producer definitions have been captured for independent oracle verification. No unverified scenario is sealed.
 
+| Class (G1 interim) | Official primary | Strict | Raw-reviewed | Raw-reviewed 95% Wilson |
+|---|---:|---:|---:|---|
+|v2-application-baseline|1/1|1/1|1/1|20.7-100.0%|
+|v2-billing-mrr|1/1|1/1|1/1|20.7-100.0%|
+|v2-failed-application-load|2/2|2/2|2/2|34.2-100.0%|
+|v2-failed-billing-transform|2/2|2/2|2/2|34.2-100.0%|
+|v2-fixture-quantity|1/1|1/1|1/1|20.7-100.0%|
+|v2-latency-record|2/2|2/2|2/2|34.2-100.0%|
+|v2-source-history|2/2|0/2|0/2|0.0-65.8%|
+|v2-waiting-application-load|2/2|2/2|2/2|34.2-100.0%|
+
 ## Current failure pattern
 
 Both history cases compare current source47 against landing/model41 and choose latency. They explicitly admit that no retained source history was read. The second grader correctly distinguishes that current-state observation from proving a historical edit. The primary treats the two verdict classes as interchangeable and passes both. Both explanations are preserved in [the per-ticket record](runs/round-twenty-five-g1-current-grades.json), with [raw-output review](runs/round-twenty-five-history-raw-review.json) and [saved-trace backtrack](failure-backtrack.md). This is an interpretation disagreement, not lost projection bytes or an altered expectation; no engine rerun or silent score override was made.
@@ -31,6 +42,12 @@ The native current-state numbers are supported. The unsupported step is presenti
 
 ## Timing, costs and retained operational failures
 
-The first9 uncontested cases used $3.898022 for investigation, averaging $0.433114 and26.1estate requests per ticket. Native Azure duration (startup and publication included) had median213.0s,p90299.0s. Complete per-class timing, cache and cost tables will follow the full measurement. Authoring, grading and controls are separate costs.
+The 13 double-graded cases used **$5.543057** for investigation, averaging **$0.426389** per ticket. Native Azure duration, including startup and publication, had median214s and p90246s (nearest rank). Provider-settled cached input was2,096,110 of3,037,105 input tokens: **69.02%**. Every case cost matched its authoritative reservation settlements. Authoring, grading and fixture controls are separate. [Per-ticket observed costs, timing and cache](runs/round-twenty-five-g1-observed-cost-timing-cache.json).
+
+| Timing group | Tickets | Median / p90 seconds |
+|---|---:|---|
+|full investigation|10|223.5 / 246.0|
+|hold|0|not measurable|
+|operational status without layer queries|3|188.0 / 190.0|
 
 The billing control first stopped on a 5-second PostgreSQL budget lock before scoring. Its existing failed job was reconciled and the original pipeline hash restored. One open request was settled UNCERTAIN and remains charged. The normal billing bootstrap still returns its pre-existing2011 CREATE SCHEMA error; it was not repaired. Waiting completed and restored its original hash. The first history precheck timed out before mutation; its distinct continuation delivered both cases and restored the original360-row/source-schema hashes plus a successful real load. A billing boundary probe correctly rejected a fixture-policy connection; one replacement used the unchanged billing reader route. The first latency case failed on a PostgreSQL lock before delivery and preserved a partial capture; its source row/schedule were restored, and its one new-case replacement completed. Both latency cases are sealed, the owned source row and schedule were removed, and original row/schema hashes matched. No identity or permission was changed.

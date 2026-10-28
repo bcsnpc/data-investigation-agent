@@ -270,3 +270,9 @@ Round25 latency g1 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_requir
 
 
 Round25 latency g1 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-five\injections\g1-latency-admission06\status.json. Temporal remains ON.
+
+
+Round25 stale g1 DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_restoration_required=False, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-five\injections\g1-stale\status.json. No source/model figure was authored from an engine query.
+
+
+Round25 g1 stale final restoration: original source row/business-schema hashes matched, original360 real restore load Completed; automatic updates restoredON in existing publisher UI, own API model refresh Completed (exact request/time in retained native receipt), native model read7661. Both dependent outcomes were sealed before restore. Refresh controls chargedRESTORATION, model verification1 chargedRESTORATION; no identity, role or connection change. Native receipt .local/round-twenty-five/injections/g1-stale/status.json; screenshots private, hashes ledger-linked.

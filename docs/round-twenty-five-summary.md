@@ -12,7 +12,11 @@ _pending_
 
 ## Part B: independent grading and confidence intervals
 
-_pending_
+Owner's 2026-10-28 steer applies throughout: official primary, strict (both graders correct) and raw-reviewed appear side by side. Raw-reviewed is the plain-language headline. Every disagreement is checked against the saved capture; original grades and sealed expectations stay unchanged. Pending reviews remain explicit.
+
+Interim G1: **raw-reviewed11/13**, strict11/13 (both95%Wilson57.8?95.7%); official primary13/13 (77.2?100.0%). Raw-confirmed harmful2 in source-history; that family is paused. Current source-ahead reads did not establish the requested historical edits. Six additional disagreements concerned handoff scoring on resolved answers; handoff is applicable to unresolved tickets under the prompt and these do not change accuracy. [Per-ticket grades and adjudications](runs/round-twenty-five-g1-current-grades.json).
+
+R24's sole held-out disagreement was reviewed without a rerun or official regrade. The secondary was right on the absence cause, which the three successful zero-row record queries and delivered answer establish. Both graders still found the verdict wrong. The all-three zero and official18/20 are unchanged. [Dated raw review](runs/round-twenty-five-r24-held-disagreement-raw-review.json).
 
 ## G1: full dev v2
 
