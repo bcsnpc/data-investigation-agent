@@ -32,7 +32,9 @@ Saved-outcome post-grade reporting now separates verdict/layer/cause, groups zer
 
 ## Part G: Scored proof
 
-_pending_
+Dev01 closed at the owner's80% monthly request stop:15 completed,25notrun. Primary13/15 (verdict13,layer14,cause13), harmful0; second12/15,harmful1, agreement13/15 on all four fields. The disputed harmful failed-application consistency answer and both judgments remain unchanged. Generic current-native-fault disposition was repaired against its saved submit before the next freeze. No further dev admission is permitted after the stop. Investigation costUSD5.545856; cache-read ratio64.24%, below70%. Completed multilayer Azure-job median216s/p90279s; worker median180.18s. Harness times include extra fixture admission/polling and are reported separately. These15 results do not establish a complete40-ticket score.
+
+The corrected frozen engine is b78299f6/image595047cf:5,606 tests,50skips,zero failures/errors plus hosted focused image checks. New20v3forms were independently authored and sealed after native scenario verification, with wording unopened. The once-only run is underway. All13 baseline cases saved sealed answers/AzureSucceeded,374physical,60model calls,USD5.596574; correctness is still independently ungraded. Fault cohorts remain serialized with fresh admission and restoration.
 
 ## Part H: Restoration and release
 

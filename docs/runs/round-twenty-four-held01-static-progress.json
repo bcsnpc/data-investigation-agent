@@ -1,0 +1,142 @@
+{
+  "status": "13_STATIC_OUTCOMES_SAVED_CORRECTNESS_NOT_YET_SCORED",
+  "source": "b78299f6aee852fd10d5c5776fe69087aaef86f2",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:595047cfadca5d7709e2463dc52d6438cbc80e3786763af89f6bf192b7652f86",
+  "tickets": 13,
+  "physical_requests": 374,
+  "model_calls": 60,
+  "cost_microdollars": 5596574,
+  "cases": [
+    {
+      "ticket": "v3-application-baseline",
+      "native_status": "Succeeded",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 25,
+      "model_calls": 2,
+      "cost_microdollars": 199804,
+      "seal": "1fa69dfc4eb0e43c575e43b24108d998723f6ce7d052f55dc5ead70b389c16f4",
+      "outcome_sha256": "d3bef69a3fad5c8b5654207a8c4120ba8d02a09086fcac474f4d6dc45e441a08"
+    },
+    {
+      "ticket": "v3-before-temporal-retention",
+      "native_status": "Succeeded",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 31,
+      "model_calls": 8,
+      "cost_microdollars": 651487,
+      "seal": "6d8225e16dcee876071b9a72fe3911c9a9724c8faa2fb8ca722129b2d9231f24",
+      "outcome_sha256": "29f4e8cf4d8d4185439b70e82a8c030380d0673699a23f079359951ea347d440"
+    },
+    {
+      "ticket": "v3-billing-invoices",
+      "native_status": "Succeeded",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 37,
+      "model_calls": 5,
+      "cost_microdollars": 640039,
+      "seal": "15509914dc20e6820821064a3cd872994c723884cdb5f1b53543e1bd59fcbf8a",
+      "outcome_sha256": "02b5931717272994a514bc27634faf5c1ac5bc31e3009d02ff2340b676c45b0f"
+    },
+    {
+      "ticket": "v3-billing-mrr",
+      "native_status": "Succeeded",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 30,
+      "model_calls": 5,
+      "cost_microdollars": 615058,
+      "seal": "40d8b7be781f9931d158131696fd1ee77bebd2bce81157856b3e0b72d2f461b1",
+      "outcome_sha256": "bb400f55a1e1d2aa044a7d968eb54cdba678150b412cfed962521e8714d55d46"
+    },
+    {
+      "ticket": "v3-fixture-quantity",
+      "native_status": "Succeeded",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 27,
+      "model_calls": 3,
+      "cost_microdollars": 317434,
+      "seal": "9381b0d69d59872bc9a0625cf0cd6e00d865758fad9e5a114af63b3b97ee9a65",
+      "outcome_sha256": "291fbe01c733e8101707e5c389e331546033e45f2fc74cf7704a17df417f5cf9"
+    },
+    {
+      "ticket": "v3-other-collected-definition",
+      "native_status": "Succeeded",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 28,
+      "model_calls": 4,
+      "cost_microdollars": 436485,
+      "seal": "e94b768c9b991db656d0e6cee5e617bdea03b3f4e300e646d4ebb95133a2fb0c",
+      "outcome_sha256": "f3efcd18c7a7d2dfe1ca94abf8529bcd03680a204d96175eff279c3c6892a7c7"
+    },
+    {
+      "ticket": "v3-record-absent-everywhere",
+      "native_status": "Succeeded",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 27,
+      "model_calls": 4,
+      "cost_microdollars": 277496,
+      "seal": "f7a0ebf716c4bc4f3a3a53bc76332f645054a16b4db9f47c8b816388f51485c0",
+      "outcome_sha256": "f9f23d45a9edd12c582b37e4864715a2a1949481c1735e56f368a08a54e81e8e"
+    },
+    {
+      "ticket": "v3-record-repeated-gold",
+      "native_status": "Succeeded",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 30,
+      "model_calls": 4,
+      "cost_microdollars": 377451,
+      "seal": "0022ec54683c6d5f85e6cd5de3be6f02942734aa72ce5ca089b7ef13eea7f7e1",
+      "outcome_sha256": "268e3dce6dba86bd8e824694d62249aa72f9c7aee51a8a35a57f0da48d2a7255"
+    },
+    {
+      "ticket": "v3-screenshot-record-01",
+      "native_status": "Succeeded",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 29,
+      "model_calls": 5,
+      "cost_microdollars": 435789,
+      "seal": "7372b5ebac40e072d33917d52b4f0bc730684399dd699e726a0a66e248fcaecb",
+      "outcome_sha256": "bbeda2bdc885e29eb4b24fa81416f14975f5baa26cb64a4e7337013d640802a1"
+    },
+    {
+      "ticket": "v3-screenshot-record-02",
+      "native_status": "Succeeded",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 29,
+      "model_calls": 6,
+      "cost_microdollars": 460063,
+      "seal": "dba2fea8ac63b4537452951be4e593265aac2832caf5af32cda89328b9cab134",
+      "outcome_sha256": "b69fdbd27f3b3689dc28478a99f9c697fa2b29593f66965cdb3a8e4589fd6985"
+    },
+    {
+      "ticket": "v3-screenshot-record-03",
+      "native_status": "Succeeded",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 28,
+      "model_calls": 8,
+      "cost_microdollars": 531894,
+      "seal": "3d242b8e18829a04b21f2ec3ff79720e2d34fcb21a4e82bcfdbe4da17ccf2793",
+      "outcome_sha256": "357ec8247e0e549e3ae1952de59703879fda4ee3c72258029ac524779cd46034"
+    },
+    {
+      "ticket": "v3-screenshot-record-04",
+      "native_status": "Succeeded",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 29,
+      "model_calls": 4,
+      "cost_microdollars": 422800,
+      "seal": "80b38e8d72a46df936ec9153d474c386e0d457122ee726e03cf07851bc7a2c9e",
+      "outcome_sha256": "72318b1031b0fe9ca1421254c2ed8e29a89f0414d0ebf148648ffe7439b8aa22"
+    },
+    {
+      "ticket": "v3-warehouse-scope",
+      "native_status": "Succeeded",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 24,
+      "model_calls": 2,
+      "cost_microdollars": 230774,
+      "seal": "b7313bf4e3c4f5c515a7086e2b5754003e16211bd778b0a9cc84060a5a9f6648",
+      "outcome_sha256": "acd710e22c501eff154e7951901a252d668161af3d26be39533e2d63ed8ca8cf"
+    }
+  ],
+  "engine_or_expectations_changed": false
+}
