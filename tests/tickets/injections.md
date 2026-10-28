@@ -240,3 +240,9 @@ Round24 latency held01 LATENCY_COHORT_COMPLETED; restoration_required=False. Nat
 
 
 Round24 history held01 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-four\injections\held01-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round24 stale held01 DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_restoration_required=False, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-four\injections\held01-stale\status.json. No source/model figure was authored from an engine query.
+
+
+Round24 held01 stale final restoration: original source row/business-schema hashes matched, original360 real restore load Completed; automatic updates restoredON in existing publisher UI, own API model refresh Completed (exact request/time in retained native receipt), native model read7661. The dependent outcome were sealed before restore. Refresh controls chargedRESTORATION, model verification1 chargedRESTORATION; no identity, role or connection change. Native receipt .local/round-twenty-four/injections/held01-stale/status.json; screenshots private, hashes ledger-linked.
