@@ -63,7 +63,11 @@ class TicketBudget:
         if type(output) is not int or not 1<=output<=16000:raise SpendHold('MODEL_OUTPUT_BOUND_REQUIRED')
         inputs=len(encoded(body).encode('utf8'))+4096 if input_tokens_upper_bound is None else input_tokens_upper_bound
         if type(inputs) is not int or inputs<1:raise SpendHold('INPUT_TOKEN_BOUND_REQUIRED')
-        bound=self.rate.price(inputs,output)
+        maximum=self.rate.price(inputs,output)
+        # Ticket actual-use policy estimates a normal response plus25% margin;
+        # the monthly ledger separately commits the full permitted response.
+        estimated_output=min(output,2500)
+        bound=self.rate.price(inputs,estimated_output) if self.actual_usage_limit is not None else maximum
         account=ensure_model_account(self.state,self.clock())
         identity='reasoning:'+str(uuid4())
         detail={'case_id':self.case_id,'model':self.rate.model,'purpose':'INVESTIGATOR',
@@ -77,15 +81,17 @@ class TicketBudget:
             if snapshot['violated']:raise SpendHold('MODEL_ACCOUNT_VIOLATION')
             from .build_phase import model_ceiling
             monthly_ceiling=min(amount(snapshot['ceiling'])-amount(snapshot['protected']),model_ceiling(self.clock()))
-            if amount(snapshot['charged'])+bound>monthly_ceiling:raise SpendHold('MONTHLY_MODEL_EXHAUSTED')
+            from .anthropic_credit import pending_exposure
+            committed=pending_exposure(self.state,db,account)
+            if amount(snapshot['charged'])+committed+maximum>monthly_ceiling:raise SpendHold('MONTHLY_MODEL_EXHAUSTED')
             charged=self._charged(db,account)
             if ((self.actual_usage_limit is not None and charged>=self.actual_usage_limit)
                     or (self.actual_usage_limit is None and charged+bound>TICKET_MODEL_MICRODOLLARS)):
                 raise SpendHold('TICKET_MODEL_EXHAUSTED')
             if self.actual_usage_limit is not None:
-                detail.update(charge_basis='ACTUAL_USAGE_DIAGNOSTIC',ticket_limit_microdollars=self.actual_usage_limit)
+                detail.update(charge_basis='ACTUAL_PROVIDER_USAGE',ticket_limit_microdollars=self.actual_usage_limit,maximum_commitment_microdollars=maximum,reservation_is_estimate=True)
             from .anthropic_credit import admit
-            admit(self.state,db,account,bound,self.clock())
+            admit(self.state,db,account,maximum,self.clock())
             self.state.sql(db,'INSERT INTO state_reservations VALUES(?,?,?,?,?,?,?)',
                 (account,identity,self.owner,bound,bound,'RESERVED',encoded(detail)))
         self.reservations[identity]=account
@@ -123,6 +129,6 @@ class TicketBudget:
         result={'charged_microdollars':int(charged),'ceiling_microdollars':limit,
                 'warning':charged>=(limit//2 if self.actual_usage_limit else TICKET_MODEL_WARNING_MICRODOLLARS),'month_account':account}
         if self.actual_usage_limit is not None:
-            result.update(charge_basis='ACTUAL_USAGE_DIAGNOSTIC',monthly_reservations_remain_conservative=True,
+            result.update(charge_basis='ACTUAL_PROVIDER_USAGE',monthly_commitments_remain_conservative=True,
                           limit_is_actual_use_stop=True,final_inflight_call_may_cross_ticket_threshold=True)
         return result

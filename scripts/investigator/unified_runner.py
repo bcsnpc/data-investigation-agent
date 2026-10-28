@@ -210,8 +210,8 @@ def handlers():
                 with scope(lambda kind,fn:meter(fn)):return _gold_read(payload)
             return meter(execute)
         demo_kind=o.get('demo_kind','ledger-investigation')
-        if demo_kind not in ('ledger-investigation','legacy-baseline'):raise ValueError('SMOKE_ENGINE_KIND')
-        demo_handler=ledger_investigation if demo_kind=='ledger-investigation' else investigation
+        if demo_kind not in ('guided-investigation','ledger-investigation','legacy-baseline'):raise ValueError('SMOKE_ENGINE_KIND')
+        demo_handler={'guided-investigation':guided_investigation,'ledger-investigation':ledger_investigation,'legacy-baseline':investigation}[demo_kind]
         demo=(lambda:demo_handler({**plan,'options':o['demo']},ctx)) if o['config']['demo_earned'] else None
         try:return run_smoke(o['config'],ctx,state=state,gold_read=gold,blob_roundtrip=lambda config,body:capture_roundtrip(ctx,body),demo=demo)
         finally:meter.close()

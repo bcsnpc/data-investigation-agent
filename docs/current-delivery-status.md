@@ -747,3 +747,5 @@ before November1. Round22 is closed at af73a1b, v0.22 on validated merge567a95b.
 
 
 Round24 started2026-10-27 on fresh branch; implementation and live proof pending. R23 results unchanged.
+
+Round24 checkpoint2026-10-27: cloud budget readback preserved all accounting;39/40 offline forms assemble, one unknown-report refusal unchanged. Raw retained graph0/73 complete declared-source paths; diagnostic only. Focused policy/cost/query/smoke/triage tests pass; no live R24 model or estate pass admitted yet. Engine freeze invalidated for R24, R23 scored pins retained.

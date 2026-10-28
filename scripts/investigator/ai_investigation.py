@@ -29,6 +29,13 @@ change unless the cited query actually reads retained native history.
 Ask only as a last resort after candidate checks and a recreation attempt, only
 for an unreadable user fact or business policy, using named multiple choices.
 Submit a plain answer with verdict, cause, numbers and what was checked. No fixes.
+Never conclude as designed while a fresh triage fault is unexplained. A failed
+job, stale refresh, source ahead of delivery, running job or retained history
+change needs explicit evidence and disposition. Check the comparison side, not
+only the user's value. Definition questions: retained definition first, then its
+actual inputs. Record questions: key presence through the declared path first.
+Access questions: retained roles and mappings, then ordinary read-only filter
+recreation; never impersonate or infer membership from inaccessible APIs.
 Value agreement never establishes snapshot alignment. A statement about a
 whole source chain requires actual reads of its boundaries. For a calculation
 trace, follow declared route bridges and retained transformations beyond the
@@ -103,12 +110,14 @@ class Investigator:
         self.read_tools_factory=read_tools if callable(read_tools) else lambda:read_tools
         self.validate_finding,self.validate_question=validate_finding,validate_question
         self.checkpoint,self.case_id=checkpoint,case_id
-        self.context,self.triage=deepcopy(context),deepcopy(triage)
+        self.context,self.triage=deepcopy(context),deepcopy(triage if isinstance(triage,dict) else {'facts':triage})
+        from .triage_hints import suggestion
+        self.triage['what_triage_suggests']=suggestion(self.triage)
         self.clock,self.tool_limit,self.deadline_seconds=clock,tool_limit,deadline_seconds
         self.refresh_tools()
         self.stable=INSTRUCTIONS+'\nAdmitted path, schema, retained definitions and toolbox:\n'+canonical(context)+'\nCompleted path triage:\n'+canonical(triage)
         from .model_case_presentation import Presentation
-        self.presentation=Presentation(context,triage,INSTRUCTIONS)
+        self.presentation=Presentation(context,self.triage,INSTRUCTIONS)
 
     def refresh_tools(self):
         self.read_tools=self.read_tools_factory()
