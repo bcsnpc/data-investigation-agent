@@ -1149,3 +1149,6 @@ Section8 Round24 held-out stale restoration,2026-10-28: original360 source rows/
 
 
 Owner Round25 decision,2026-10-28: frozen v0.24 measurement only, existing October AI146USD/physical12000 and November150USD/9000 unchanged;3USD actual per ticket. Priority G1 dev40, G2 newheld60, G3 messy60, G4 priorheld20; independent two-model grading and Wilson95%intervals, original expectations/tapes retained. No engine/model/prompt/caching or permission change. See docs/round-twenty-five-summary.md.
+
+
+Owner Round25 decision,2026-10-28: frozen v0.24 measurement only, existing October AI146USD/physical12000 and November150USD/9000 unchanged;3USD actual per ticket. Priority G1 dev40, G2 newheld60, G3 messy60, G4 priorheld20; independent two-model grading and Wilson95%intervals, original expectations/tapes retained. No engine/model/prompt/caching or permission change. See docs/round-twenty-five-summary.md.
