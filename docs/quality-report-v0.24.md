@@ -10,7 +10,7 @@ The raw-reviewed headline for the 29 double-graded G1 tickets is **24/29** (95% 
 | 95% Wilson | 73.6-96.4% | 61.6-90.2% | 65.5-92.4% |
 | Harmful flags | 0 | 2 (either grader) | 2 confirmed |
 
-R24's held-out disagreement was also checked from its saved raw capture, without a run or regrade. The second grader was right on cause: three successful zero-row record lookups established absence at source, Bronze and model, and the answer explicitly ruled out a pipeline drop. Both graders still marked the delivered `not found` verdict wrong against `as designed`. Thus its all-three zero and R24's official 18/20 remain unchanged. [Raw review and query receipts](runs/round-twenty-five-r24-held-disagreement-raw-review.json).
+R24's held-out official score remains18/20. Retrospective raw review finds the secondary right on the absent-record cause, and both graders overly strict on its verdict label under the existing substance-based contract. The earlier raw review is preserved with a dated correction; no ticket, expectation, official score, engine run or provider grade was changed. [Saved-capture review](runs/round-twenty-five-r24-held-disagreement-raw-review.json).
 
 Agreement is 26/29 (95% Wilson 73.6-96.4%). Related variants share fixtures; these intervals describe the observed sample and do not establish accuracy on independent client estates.
 
