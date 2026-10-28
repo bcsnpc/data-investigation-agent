@@ -1,10 +1,12 @@
 import unittest,json,copy
+from unittest.mock import patch
 from investigator.live_gateway import Gateway,GatewayDenied
 from investigator.adapters.anthropic_runtime_policy import audit,migrate
 from investigator.adapters.enrichment_anthropic import BatchClient,SESSION,request_for,ENDPOINT
 from investigator.adapters.evaluation_anthropic import request_for as evaluation
 from test_enrichment import source,secret_reference
 class GatewayComponents(unittest.TestCase):
+ @patch.dict('os.environ',{'DIA_LIVE_ACCESS_DISABLED':'0'})
  def test_every_anthropic_component_uses_only_its_exact_gateway_contract(self):
   policy={'version':1,'live_enabled':True,'identities':{'reasoning':{'role':'model','reasoning_models':['claude-opus-5-5'],'http':[{'method':'POST','url':'https://api.anthropic.com/v1/'+p,'purpose':'reasoning_model'}for p in ('messages','messages/count_tokens')]},'enrichment':{'role':'enrichment','enrichment_batches':{'provider':'anthropic','purpose':'ENRICHMENT_ONLY','model':'claude-sonnet-4-6'}},'model':{'http':[{'method':'POST','url':'https://unused.openai.azure.com/openai/v1/responses','purpose':'model'}]}}}
   before=copy.deepcopy(policy);policy=migrate(policy);self.assertTrue(all(r['admitted']for r in audit(policy)));self.assertEqual(before['identities']['reasoning'],policy['identities']['reasoning'])
