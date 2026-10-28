@@ -12,6 +12,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 TEST_MODULES = (
+    'test_round24_parallel_capture.py',
     'test_round24_legacy_native.py',
     'test_round24_retained_schema.py',
     'test_round24_control_errors.py',

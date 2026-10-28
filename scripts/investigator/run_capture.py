@@ -117,8 +117,12 @@ class DurableCapture:
         def publish():
             from .shared_state import TRANSACTION_ACTIVE
             if TRANSACTION_ACTIVE.get():raise RuntimeError('CAPTURE_PUBLICATION_DURING_TRANSACTION')
-            for index,item in enumerate(self._pending_publications):
-                if item[0]==ref['key']:return self._publish_pending(index)
+            # Resolve and remove the queued index under the same lock used by
+            # ordinary flushes. Parallel child callbacks must not pop a shifted
+            # index and acknowledge a different, unpublished evidence record.
+            with self._lock:
+                for index,item in enumerate(self._pending_publications):
+                    if item[0]==ref['key']:return self._publish_pending(index)
         from .shared_state import after_transaction
         after_transaction(publish)
 
@@ -131,11 +135,13 @@ class DurableCapture:
         every original record is acknowledged. A crash leaves the previously
         published step-start and an incomplete execution, never a fake result.
         """
-        self._publication_holds+=1
+        with self._lock:self._publication_holds+=1
         try:yield
         finally:
-            self._publication_holds-=1
-            if not self._publication_holds:
+            with self._lock:
+                self._publication_holds-=1
+                flush=not self._publication_holds
+            if flush:
                 from .shared_state import after_transaction
                 after_transaction(self.flush_publications)
 

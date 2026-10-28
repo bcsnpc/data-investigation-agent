@@ -294,8 +294,8 @@
         ],
         "break_counts": {
           "scanner data: AMBIGUOUS_OR_UNKNOWN_DEPENDENCY": 7,
-          "scanner data: PBIR-Legacy structure retained; embedded query, filter and interaction semantics are not interpreted.": 7,
-          "scanner data: NO_UPSTREAM_BINDING": 7,
+          "scanner data: PBIR-Legacy filter and interaction semantics remain uninterpreted; explicit prototype-query fields, when present, are retained separately.": 7,
+          "scanner data: NO_UPSTREAM_BINDING": 25,
           "route builder: NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED": 7,
           "route builder: NO_PRODUCER_REACHED": 7
         },
@@ -308,7 +308,7 @@
             "fully_traceable": false,
             "nodes": [
               "08f8182053d4f1ec4bfb0d837af31f1a4ee8a5e9d0c51f8bf3308bb9d4bb144e",
-              "eee73e9d818166d49ffdadba2d70f675b5be0f76f86ae541bf0cc7e3a63b7ad6"
+              "efac236718cf16212ff49ab83c7e5128031ca13922feecad74c25491505a9856"
             ],
             "breaks": [
               {
@@ -317,12 +317,12 @@
                 "component": "scanner data"
               },
               {
-                "node": "eee73e9d818166d49ffdadba2d70f675b5be0f76f86ae541bf0cc7e3a63b7ad6",
-                "reason": "PBIR-Legacy structure retained; embedded query, filter and interaction semantics are not interpreted.",
+                "node": "efac236718cf16212ff49ab83c7e5128031ca13922feecad74c25491505a9856",
+                "reason": "PBIR-Legacy filter and interaction semantics remain uninterpreted; explicit prototype-query fields, when present, are retained separately.",
                 "component": "scanner data"
               },
               {
-                "node": "eee73e9d818166d49ffdadba2d70f675b5be0f76f86ae541bf0cc7e3a63b7ad6",
+                "node": "efac236718cf16212ff49ab83c7e5128031ca13922feecad74c25491505a9856",
                 "reason": "NO_UPSTREAM_BINDING",
                 "component": "scanner data"
               },
@@ -346,7 +346,9 @@
             "fully_traceable": false,
             "nodes": [
               "0dc417c155075cfe7df8c8a3504cf4608e4c8e7320d874c78db32ff437fcc5be",
-              "b68b55ca57f9504a1ce501e0d17a78afbf48f5a1a0ba2947c56cdde7326082df"
+              "43689b97769059dd1f22df7ee8d1a42b03129468cd02f96985a4c90a8d0d517d",
+              "a861a4d351e94a197368dbcc979fda1d7d8ebbfc065625dfcbc8e8f1a812d694",
+              "cfe3b4c05f40737d7eeb47d5d7cc8b42bd3e23a0a60b0502a45ad70420dc0f90"
             ],
             "breaks": [
               {
@@ -355,12 +357,22 @@
                 "component": "scanner data"
               },
               {
-                "node": "b68b55ca57f9504a1ce501e0d17a78afbf48f5a1a0ba2947c56cdde7326082df",
-                "reason": "PBIR-Legacy structure retained; embedded query, filter and interaction semantics are not interpreted.",
+                "node": "cfe3b4c05f40737d7eeb47d5d7cc8b42bd3e23a0a60b0502a45ad70420dc0f90",
+                "reason": "NO_UPSTREAM_BINDING",
                 "component": "scanner data"
               },
               {
-                "node": "b68b55ca57f9504a1ce501e0d17a78afbf48f5a1a0ba2947c56cdde7326082df",
+                "node": "a861a4d351e94a197368dbcc979fda1d7d8ebbfc065625dfcbc8e8f1a812d694",
+                "reason": "PBIR-Legacy filter and interaction semantics remain uninterpreted; explicit prototype-query fields, when present, are retained separately.",
+                "component": "scanner data"
+              },
+              {
+                "node": "a861a4d351e94a197368dbcc979fda1d7d8ebbfc065625dfcbc8e8f1a812d694",
+                "reason": "NO_UPSTREAM_BINDING",
+                "component": "scanner data"
+              },
+              {
+                "node": "43689b97769059dd1f22df7ee8d1a42b03129468cd02f96985a4c90a8d0d517d",
                 "reason": "NO_UPSTREAM_BINDING",
                 "component": "scanner data"
               },
@@ -383,8 +395,14 @@
             "report_name": "AdventureWorks Sales",
             "fully_traceable": false,
             "nodes": [
-              "04b06607d5623fcdb9ab981787bcce032a622bc3ad0f790ab1cd4152398f6133",
-              "581a13a933487c52c78b80f65bbd1702aed006531d65cd20269d1e9209cbb801"
+              "0325018a8b897e9a448756c7bebffc51966217fe51e21a71cf49176058c7f681",
+              "318bb3b1c202fde425f3109a4d5be65be5f6a3a8a087de7b6f99601ced82f634",
+              "5284ba376742160b201c1f4a99572315ba09fceaf8b4072040ce1ee04eb72246",
+              "581a13a933487c52c78b80f65bbd1702aed006531d65cd20269d1e9209cbb801",
+              "6b117f0a826d4c0100b0350083a2a510d64be47608533aef50439fdfc75044ae",
+              "b2deb91cf7a7a435974e615311e486a60a63dc3894c7f9ec2d425120800942f9",
+              "f382eaa164f8dc224d5a3c819cf9f9b26414b921023b59d893d7764b8f774d7a",
+              "f613e384223bec9a63617b9628344a8fd6ca0bf4dcbefcd1968d7b6389713d88"
             ],
             "breaks": [
               {
@@ -393,12 +411,37 @@
                 "component": "scanner data"
               },
               {
-                "node": "04b06607d5623fcdb9ab981787bcce032a622bc3ad0f790ab1cd4152398f6133",
-                "reason": "PBIR-Legacy structure retained; embedded query, filter and interaction semantics are not interpreted.",
+                "node": "0325018a8b897e9a448756c7bebffc51966217fe51e21a71cf49176058c7f681",
+                "reason": "NO_UPSTREAM_BINDING",
                 "component": "scanner data"
               },
               {
-                "node": "04b06607d5623fcdb9ab981787bcce032a622bc3ad0f790ab1cd4152398f6133",
+                "node": "318bb3b1c202fde425f3109a4d5be65be5f6a3a8a087de7b6f99601ced82f634",
+                "reason": "PBIR-Legacy filter and interaction semantics remain uninterpreted; explicit prototype-query fields, when present, are retained separately.",
+                "component": "scanner data"
+              },
+              {
+                "node": "318bb3b1c202fde425f3109a4d5be65be5f6a3a8a087de7b6f99601ced82f634",
+                "reason": "NO_UPSTREAM_BINDING",
+                "component": "scanner data"
+              },
+              {
+                "node": "b2deb91cf7a7a435974e615311e486a60a63dc3894c7f9ec2d425120800942f9",
+                "reason": "NO_UPSTREAM_BINDING",
+                "component": "scanner data"
+              },
+              {
+                "node": "5284ba376742160b201c1f4a99572315ba09fceaf8b4072040ce1ee04eb72246",
+                "reason": "NO_UPSTREAM_BINDING",
+                "component": "scanner data"
+              },
+              {
+                "node": "6b117f0a826d4c0100b0350083a2a510d64be47608533aef50439fdfc75044ae",
+                "reason": "NO_UPSTREAM_BINDING",
+                "component": "scanner data"
+              },
+              {
+                "node": "f613e384223bec9a63617b9628344a8fd6ca0bf4dcbefcd1968d7b6389713d88",
                 "reason": "NO_UPSTREAM_BINDING",
                 "component": "scanner data"
               },
@@ -421,8 +464,11 @@
             "report_name": "AdventureWorks Sales",
             "fully_traceable": false,
             "nodes": [
+              "0325018a8b897e9a448756c7bebffc51966217fe51e21a71cf49176058c7f681",
+              "0e3fcb76f70758c5daeeca82eef895fac5a99ba3ad7a4d6a5c1a0338cc088578",
+              "2d8c370d1f196673413b1df83a5b0a0e1628b7702aebd65bb1539be85f2c3b00",
               "5c32c55479781164b64c254463685ceec0b8e99ba97a1afda6faacaf8ecdf5cb",
-              "783a8bb54f1be7ec18e25e0979b2328ed8fc421c4110107f83edb4022c1341c1"
+              "6cf51332039cd162017b9cc686b7a365a10f7a8201b5b30052010aa88af84823"
             ],
             "breaks": [
               {
@@ -431,12 +477,27 @@
                 "component": "scanner data"
               },
               {
-                "node": "783a8bb54f1be7ec18e25e0979b2328ed8fc421c4110107f83edb4022c1341c1",
-                "reason": "PBIR-Legacy structure retained; embedded query, filter and interaction semantics are not interpreted.",
+                "node": "0325018a8b897e9a448756c7bebffc51966217fe51e21a71cf49176058c7f681",
+                "reason": "NO_UPSTREAM_BINDING",
                 "component": "scanner data"
               },
               {
-                "node": "783a8bb54f1be7ec18e25e0979b2328ed8fc421c4110107f83edb4022c1341c1",
+                "node": "2d8c370d1f196673413b1df83a5b0a0e1628b7702aebd65bb1539be85f2c3b00",
+                "reason": "PBIR-Legacy filter and interaction semantics remain uninterpreted; explicit prototype-query fields, when present, are retained separately.",
+                "component": "scanner data"
+              },
+              {
+                "node": "2d8c370d1f196673413b1df83a5b0a0e1628b7702aebd65bb1539be85f2c3b00",
+                "reason": "NO_UPSTREAM_BINDING",
+                "component": "scanner data"
+              },
+              {
+                "node": "0e3fcb76f70758c5daeeca82eef895fac5a99ba3ad7a4d6a5c1a0338cc088578",
+                "reason": "NO_UPSTREAM_BINDING",
+                "component": "scanner data"
+              },
+              {
+                "node": "6cf51332039cd162017b9cc686b7a365a10f7a8201b5b30052010aa88af84823",
                 "reason": "NO_UPSTREAM_BINDING",
                 "component": "scanner data"
               },
@@ -459,8 +520,11 @@
             "report_name": "AdventureWorks Sales",
             "fully_traceable": false,
             "nodes": [
+              "0325018a8b897e9a448756c7bebffc51966217fe51e21a71cf49176058c7f681",
+              "0e3fcb76f70758c5daeeca82eef895fac5a99ba3ad7a4d6a5c1a0338cc088578",
               "67934b90042b4ee28de920faea5f6622145b9a0c2e78f64ab76d6400ed5a4f0a",
-              "b9143c221bf657d0a8d42eca7adcf8e085f87542fa257108d069a86083b8e8f1"
+              "6cf51332039cd162017b9cc686b7a365a10f7a8201b5b30052010aa88af84823",
+              "be6682985854d2b04084a69d7edb234193c6d8b09fb059cc66777b0e310507d5"
             ],
             "breaks": [
               {
@@ -469,12 +533,27 @@
                 "component": "scanner data"
               },
               {
-                "node": "b9143c221bf657d0a8d42eca7adcf8e085f87542fa257108d069a86083b8e8f1",
-                "reason": "PBIR-Legacy structure retained; embedded query, filter and interaction semantics are not interpreted.",
+                "node": "be6682985854d2b04084a69d7edb234193c6d8b09fb059cc66777b0e310507d5",
+                "reason": "PBIR-Legacy filter and interaction semantics remain uninterpreted; explicit prototype-query fields, when present, are retained separately.",
                 "component": "scanner data"
               },
               {
-                "node": "b9143c221bf657d0a8d42eca7adcf8e085f87542fa257108d069a86083b8e8f1",
+                "node": "be6682985854d2b04084a69d7edb234193c6d8b09fb059cc66777b0e310507d5",
+                "reason": "NO_UPSTREAM_BINDING",
+                "component": "scanner data"
+              },
+              {
+                "node": "6cf51332039cd162017b9cc686b7a365a10f7a8201b5b30052010aa88af84823",
+                "reason": "NO_UPSTREAM_BINDING",
+                "component": "scanner data"
+              },
+              {
+                "node": "0e3fcb76f70758c5daeeca82eef895fac5a99ba3ad7a4d6a5c1a0338cc088578",
+                "reason": "NO_UPSTREAM_BINDING",
+                "component": "scanner data"
+              },
+              {
+                "node": "0325018a8b897e9a448756c7bebffc51966217fe51e21a71cf49176058c7f681",
                 "reason": "NO_UPSTREAM_BINDING",
                 "component": "scanner data"
               },
@@ -497,8 +576,8 @@
             "report_name": "AdventureWorks Sales",
             "fully_traceable": false,
             "nodes": [
-              "8451b2d1463e11ec08e5d6d5fcf34c284ca5adefaa55d233ffa33788b352c656",
-              "b330c8b0e69ff236ef6decf6dd95d4093a41b90e2cd869b2fa7d024bc43cce36"
+              "375b6427839a6019252da9c3eaaa7bb0ea39738a4fb8407f2a0e552b634a508c",
+              "8451b2d1463e11ec08e5d6d5fcf34c284ca5adefaa55d233ffa33788b352c656"
             ],
             "breaks": [
               {
@@ -507,12 +586,12 @@
                 "component": "scanner data"
               },
               {
-                "node": "b330c8b0e69ff236ef6decf6dd95d4093a41b90e2cd869b2fa7d024bc43cce36",
-                "reason": "PBIR-Legacy structure retained; embedded query, filter and interaction semantics are not interpreted.",
+                "node": "375b6427839a6019252da9c3eaaa7bb0ea39738a4fb8407f2a0e552b634a508c",
+                "reason": "PBIR-Legacy filter and interaction semantics remain uninterpreted; explicit prototype-query fields, when present, are retained separately.",
                 "component": "scanner data"
               },
               {
-                "node": "b330c8b0e69ff236ef6decf6dd95d4093a41b90e2cd869b2fa7d024bc43cce36",
+                "node": "375b6427839a6019252da9c3eaaa7bb0ea39738a4fb8407f2a0e552b634a508c",
                 "reason": "NO_UPSTREAM_BINDING",
                 "component": "scanner data"
               },
@@ -535,8 +614,14 @@
             "report_name": "AdventureWorks Sales",
             "fully_traceable": false,
             "nodes": [
-              "5a40e126e3ddcccb2f65889274720d17f695eec4cfac2f481e9e25679a3e5dfc",
-              "ecbda5f4d09d48b7e541e90e65df0cc21626b56e6897ba3ee4fc90cdd47f028b"
+              "0325018a8b897e9a448756c7bebffc51966217fe51e21a71cf49176058c7f681",
+              "5284ba376742160b201c1f4a99572315ba09fceaf8b4072040ce1ee04eb72246",
+              "6b117f0a826d4c0100b0350083a2a510d64be47608533aef50439fdfc75044ae",
+              "b2deb91cf7a7a435974e615311e486a60a63dc3894c7f9ec2d425120800942f9",
+              "c34f9118dff0f9593d0764065c5dbb59ca2ce800ef973ac26fbb6217060dd759",
+              "ecbda5f4d09d48b7e541e90e65df0cc21626b56e6897ba3ee4fc90cdd47f028b",
+              "f382eaa164f8dc224d5a3c819cf9f9b26414b921023b59d893d7764b8f774d7a",
+              "f613e384223bec9a63617b9628344a8fd6ca0bf4dcbefcd1968d7b6389713d88"
             ],
             "breaks": [
               {
@@ -545,12 +630,37 @@
                 "component": "scanner data"
               },
               {
-                "node": "5a40e126e3ddcccb2f65889274720d17f695eec4cfac2f481e9e25679a3e5dfc",
-                "reason": "PBIR-Legacy structure retained; embedded query, filter and interaction semantics are not interpreted.",
+                "node": "0325018a8b897e9a448756c7bebffc51966217fe51e21a71cf49176058c7f681",
+                "reason": "NO_UPSTREAM_BINDING",
                 "component": "scanner data"
               },
               {
-                "node": "5a40e126e3ddcccb2f65889274720d17f695eec4cfac2f481e9e25679a3e5dfc",
+                "node": "c34f9118dff0f9593d0764065c5dbb59ca2ce800ef973ac26fbb6217060dd759",
+                "reason": "PBIR-Legacy filter and interaction semantics remain uninterpreted; explicit prototype-query fields, when present, are retained separately.",
+                "component": "scanner data"
+              },
+              {
+                "node": "c34f9118dff0f9593d0764065c5dbb59ca2ce800ef973ac26fbb6217060dd759",
+                "reason": "NO_UPSTREAM_BINDING",
+                "component": "scanner data"
+              },
+              {
+                "node": "b2deb91cf7a7a435974e615311e486a60a63dc3894c7f9ec2d425120800942f9",
+                "reason": "NO_UPSTREAM_BINDING",
+                "component": "scanner data"
+              },
+              {
+                "node": "5284ba376742160b201c1f4a99572315ba09fceaf8b4072040ce1ee04eb72246",
+                "reason": "NO_UPSTREAM_BINDING",
+                "component": "scanner data"
+              },
+              {
+                "node": "6b117f0a826d4c0100b0350083a2a510d64be47608533aef50439fdfc75044ae",
+                "reason": "NO_UPSTREAM_BINDING",
+                "component": "scanner data"
+              },
+              {
+                "node": "f613e384223bec9a63617b9628344a8fd6ca0bf4dcbefcd1968d7b6389713d88",
                 "reason": "NO_UPSTREAM_BINDING",
                 "component": "scanner data"
               },

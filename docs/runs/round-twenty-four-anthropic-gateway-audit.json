@@ -58,5 +58,25 @@
       "azure_identity_or_permission_changes": false
     }
   ],
-  "new_azure_roles_or_secret": false
+  "new_azure_roles_or_secret": false,
+  "active_direct_writer_route": {
+    "component": "v3 independent writer",
+    "identity": "reasoning",
+    "model": "claude-opus-5-5",
+    "methods": [
+      "POST /v1/messages",
+      "POST /v1/messages/count_tokens"
+    ],
+    "estate_tools_executed": false,
+    "budget_purpose": "WRITER",
+    "entry_point": ".local/round-twenty-four/author-v3.py"
+  },
+  "secondary_grader_route": {
+    "identity": "reasoning",
+    "model": "claude-opus-5-5",
+    "budget_purpose": "GRADING",
+    "estate_tools_executed": false,
+    "primary_grader": "claude-sonnet-4-6 exact bounded batch factory under enrichment identity"
+  },
+  "test_coverage": "All six components; exact direct reasoning route also covers writer/grader, bounded batches cover enrichment/writer/grader. Unadmitted batches and wrong endpoints refused; model alias is Anthropic only."
 }
