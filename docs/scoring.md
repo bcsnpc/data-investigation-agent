@@ -156,3 +156,10 @@ Round23 current independent progression: partial dev03 0/32, complete dev04 1/40
 
 
 Round23 final scored results,2026-10-27: once-only frozen held-out6/20, original harmful0;80%/every-class/under2-minute targets missed. Messy60 owner-skipped,zero runs, so no new R22 comparison score. Cached Opus diagnostic5/13 is unscored and separate. A second different-model dev audit grades113 preserved outcomes, with five disagreements and one borderline harmful historical-existence assertion; no official grade changed. Saved-trace first-wrong-step review covers104 zeros,40IDs,0new estate/model calls. See grading-audit.md and failure-backtrack.md.
+
+
+## Round24 evaluation accounting, 2026-10-28
+
+The unchanged v2 dev set has40 requested records. Monthly physical usage crossed the absolute80% stop during the fault cohorts, so dev01 closed with15 completed and25 NOT_RUN. Primary all-three13/15; secondary12/15, agreement13/15 on verdict/layer/cause/harm. Primary harmful0, secondary harmful1: the disputed failed-application answer remains recorded and its generic cause was repaired before the held-out freeze. This is a partial dev pass, not13/40 or an improved full40 score. Original failed starts, grader judgments and expectations remain unchanged.
+
+New v3 held-out forms were independently authored and sealed after native scenario verification. Developer wording remains unopened. Fresh fault facts must exist at each dependent ticket. The engine/source/image are frozen before any scored held-out submission, and no held-out result may drive an engine or expectation change. Primary all-three score and separate verdict/layer/cause, harmful, handoff, two-model agreement, time groups and native cache/cost counters are reported separately. A refused/undelivered answer is not a confident wrong cause; a disputed harmful judgment is never silently cleared. Automatic first-wrong-step reports retain the saved trace and graders' reasons. Original R23 scores remain unchanged.
