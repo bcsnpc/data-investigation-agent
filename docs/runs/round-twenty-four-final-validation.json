@@ -1,0 +1,125 @@
+{
+  "observed_at_utc": "2026-10-28T12:13:38.906134+00:00",
+  "premerge_full_suite": {
+    "revision": "9e56bdaaf0f5c688411318debafa07e887b78e78",
+    "elapsed_seconds": 712.0377882999892,
+    "statuses": [
+      {
+        "shard": 0,
+        "exit_code": 0
+      },
+      {
+        "shard": 1,
+        "exit_code": 0
+      },
+      {
+        "shard": 2,
+        "exit_code": 0
+      },
+      {
+        "shard": 3,
+        "exit_code": 0
+      }
+    ],
+    "results": [
+      {
+        "tests": 1402,
+        "failures": 0,
+        "errors": 0,
+        "skips": 7,
+        "successful": true
+      },
+      {
+        "tests": 1402,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0,
+        "successful": true
+      },
+      {
+        "tests": 1401,
+        "failures": 0,
+        "errors": 0,
+        "skips": 15,
+        "successful": true
+      },
+      {
+        "tests": 1401,
+        "failures": 0,
+        "errors": 0,
+        "skips": 28,
+        "successful": true
+      }
+    ]
+  },
+  "full_suite_result_sha256": "1124cc9b96b1fab02fc5612a8ad12418452ce10f70e0f2960b2ffe009b1d1944",
+  "final_smokes": {
+    "results": [
+      {
+        "attempt": 1,
+        "checks": {
+          "blob_write_read": "PASS",
+          "check_access": "PASS",
+          "family_a_demo": "PASS",
+          "gold_read": "PASS",
+          "postgres_write_read": "PASS",
+          "sign_in": "PASS"
+        },
+        "execution": {
+          "endTime": "2026-10-28T12:01:16+00:00",
+          "execution_name": "job-dia-worker-xg9iwd2",
+          "startTime": "2026-10-28T11:54:50+00:00",
+          "status": "Succeeded"
+        },
+        "pass": true,
+        "seal": "bb1b9501ab610e9c35be8187faa4125f40fd06005a46d2744b98d57dddc2cda7",
+        "status": "PASS"
+      },
+      {
+        "attempt": 2,
+        "checks": {
+          "blob_write_read": "PASS",
+          "check_access": "PASS",
+          "family_a_demo": "PASS",
+          "gold_read": "PASS",
+          "postgres_write_read": "PASS",
+          "sign_in": "PASS"
+        },
+        "execution": {
+          "endTime": "2026-10-28T12:07:28+00:00",
+          "execution_name": "job-dia-worker-5shmgkb",
+          "startTime": "2026-10-28T12:01:42+00:00",
+          "status": "Succeeded"
+        },
+        "pass": true,
+        "seal": "1fee91ac09363939049642510f2b8fd15b7946341a35ff5e064f892e059b2b4f",
+        "status": "PASS"
+      },
+      {
+        "attempt": 3,
+        "checks": {
+          "blob_write_read": "PASS",
+          "check_access": "PASS",
+          "family_a_demo": "PASS",
+          "gold_read": "PASS",
+          "postgres_write_read": "PASS",
+          "sign_in": "PASS"
+        },
+        "execution": {
+          "endTime": "2026-10-28T12:13:10+00:00",
+          "execution_name": "job-dia-worker-obgdzyd",
+          "startTime": "2026-10-28T12:07:55+00:00",
+          "status": "Succeeded"
+        },
+        "pass": true,
+        "seal": "54833938b34df574104d20fbc31f18af678ae41d1120b5830a2a92e8d86bdfd1",
+        "status": "PASS"
+      }
+    ],
+    "status": "THREE_GREEN"
+  },
+  "runtime_code_unchanged_since_frozen_source": "b78299f6aee852fd10d5c5776fe69087aaef86f2",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:595047cfadca5d7709e2463dc52d6438cbc80e3786763af89f6bf192b7652f86",
+  "hosted_pr_head_ci": "checked separately before merge",
+  "merge_and_tag_not_yet_claimed": true
+}

@@ -8,7 +8,7 @@ Held-out v3: **18/20, harmful0**. Different-model second grade: **18/20, harmful
 
 R23 closed at merge6d91b7bc/v0.23; main44c1c60 was the branch base. Approved October146USD combined AI,12000physical (SCAN2500/INV9405/REST95); November onward150USD/9000 (2500/6405/95). All historical/uncertain charges retained; no reset/refund. Three dollars initially protected for independent grading. Per-ticket3USD actual provider usage, monthly pending commitments included. Azure platform cap20USD unchanged, no new paid resource/identity/grant/secret.
 
-Latest native ledger: AI$112.071069/146USD October, against100USD credit warning and150USD November default; $33.928931 available including pending commitment rules. Physical10432/12000, categories{'SCAN': 2208, 'RESTORATION': 37, 'INVESTIGATION': 8117}, restoration58 remaining of95. Historical70restoration still charged separately. Native Azure cost refresh succeeded after429backoff; billing can lag and the private response stays local. No cap was bypassed or observation timestamp invented.
+Latest native ledger: AI$112.986601/146USD October, against100USD credit warning and150USD November default; $33.013399 available including pending commitment rules. Physical10621/12000, categories{'RESTORATION': 37, 'INVESTIGATION': 8270, 'SCAN': 2244}, restoration58 remaining of95. Historical70restoration still charged separately. Native Azure cost refresh succeeded after429backoff; billing can lag and the private response stays local. No cap was bypassed or observation timestamp invented.
 
 | Recorded monthly AI purpose | Charged USD |
 |---|---:|
@@ -17,7 +17,7 @@ Latest native ledger: AI$112.071069/146USD October, against100USD credit warning
 | enrichment | $10.806285 |
 | writer | $0.376174 |
 | grading | $2.799767 |
-| smoke | $2.216963 |
+| smoke | $3.132495 |
 | unattributed historical | $1.725264 |
 
 Purpose labels are reported as recorded. Screenshot lookup helpers deliberately share the investigator case budget and are charged under INVESTIGATOR; separate SCREENSHOT0 is not a claim of free vision calls. The99native usage records include helper calls as well as the91investigation model turns. Unattributed historical amounts remain included, never dropped or re-labelled in sealed evidence.
@@ -107,7 +107,7 @@ Zeros: before-temporal-retention concluded a definition explanation instead of t
 
 All15canonical control records have clear restoration flags. Original source row/business-schema hashes matched, original pipelines/schedules restored, temporary access objects removed with native ownership checks, original catalog owner hash and roles restored. Automatic updatesON persisted after reload, own refresh171364e4-a1b6-493a-9867-f240a8d8aaaeCompleted, native7661verified. Temporal history deliberately staysON; legitimate audit/history rows remain. Original billing bootstrap2011CREATE_SCHEMAfailure remains a known build issue, not an un-restored injection.
 
-Frozen full suite5,606tests/50skips/zero failures. Final premerge full suite: not yet earned. Final3smokes: not yet earned.
+Frozen full suite5,606tests/50skips/zero failures. Final premerge full suite: PASS 5606 tests. Final3smokes: THREE_GREEN.
 PR remains draft until final checks. Merge, main validation and tag are not yet claimed.
 
 Open items: two conclusion classes, route/schema latency, incomplete graph sources/sample semantics, local-only mutation controllers, private security-membership gap, old billing bootstrap idempotency and the preserved disputed dev harmful flag. Unused Azure OpenAI deletion/warm service require owner decisions; no such change was made. See [owner-actions.md](owner-actions.md), [scoring.md](scoring.md), native run receipts and [injections](../tests/tickets/injections.md).
