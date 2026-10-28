@@ -33,5 +33,29 @@
       "approval": "owner-approved 2026-10-27",
       "reason": "Closing Anthropic credit window; $96 normalized October hard ceiling across inference and grading, no auto-reload."
     }
+  },
+  "round24": {
+    "effective_at": "2026-10-28T01:37:47.180265+00:00",
+    "approval": "owner-approved 2026-10-27",
+    "monthly_model_warning_microdollars": 100000000,
+    "per_ticket_actual_microdollars": 3000000,
+    "october": {
+      "total_limit": 12000,
+      "limits": {
+        "SCAN": 2500,
+        "INVESTIGATION": 9405,
+        "RESTORATION": 95
+      },
+      "model_microdollars": 146000000
+    },
+    "default": {
+      "total_limit": 9000,
+      "limits": {
+        "SCAN": 2500,
+        "INVESTIGATION": 6405,
+        "RESTORATION": 95
+      },
+      "model_microdollars": 150000000
+    }
   }
 }

@@ -350,6 +350,8 @@ class SharedState:
                 raise StateConflict('ACCOUNT_VIOLATION_LATCHED')
             if exact_sum([snapshot['charged'],bound,snapshot['protected']]) > amount(snapshot['ceiling']):
                 raise StateConflict('ACCOUNT_CAP_REACHED')
+            from .anthropic_credit import admit
+            admit(self,db,identity,bound)
             self.sql(db, 'INSERT INTO state_reservations VALUES(?,?,?,?,?,?,?)', (identity, key, owner, decimal_text(bound), decimal_text(bound), 'RESERVED', encoded(detail)))
             return key
 

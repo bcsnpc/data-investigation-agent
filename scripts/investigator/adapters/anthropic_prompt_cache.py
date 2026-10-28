@@ -1,4 +1,4 @@
-"""Explicit, opt-in stable-prefix caching for the owner's Opus diagnostic."""
+"""Stable-prefix caching for Opus investigation requests."""
 from copy import deepcopy
 from hashlib import sha256
 from ..estate_graph_contract import canonical
@@ -54,4 +54,4 @@ class StablePrefix:
                 'successful_call':self.calls,**counts,
                 'total_input_tokens':sum(counts[key]for key in('input_tokens','cache_creation_input_tokens','cache_read_input_tokens')),
                 'subsequent_cache_read_check':'NOT_APPLICABLE'if self.calls==1 else'PASS'if counts['cache_read_input_tokens']>0 else'FAIL',
-                'ttl':'5m','minimum_cacheable_tokens':512,'diagnostic_only':True}
+                'ttl':'5m','minimum_cacheable_tokens':512,'diagnostic_only':False}

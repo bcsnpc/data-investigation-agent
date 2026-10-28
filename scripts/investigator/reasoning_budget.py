@@ -84,6 +84,8 @@ class TicketBudget:
                 raise SpendHold('TICKET_MODEL_EXHAUSTED')
             if self.actual_usage_limit is not None:
                 detail.update(charge_basis='ACTUAL_USAGE_DIAGNOSTIC',ticket_limit_microdollars=self.actual_usage_limit)
+            from .anthropic_credit import admit
+            admit(self.state,db,account,bound,self.clock())
             self.state.sql(db,'INSERT INTO state_reservations VALUES(?,?,?,?,?,?,?)',
                 (account,identity,self.owner,bound,bound,'RESERVED',encoded(detail)))
         self.reservations[identity]=account

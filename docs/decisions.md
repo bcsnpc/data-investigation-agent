@@ -361,3 +361,6 @@ DECIDED WITHOUT REVIEW,2026-10-27: corrected an operator-invented green-smoke re
 
 ## Round24 owner approval, 2026-10-27
 The owner authorizes October combined AI ceiling USD146 (USD3 protected grading), gross physical12000 with SCAN2500/INV9405/REST95. November onward AI150 (warning100), physical9000 with SCAN2500/INV6405/REST95. Historical usage and restoration uses remain charged. Per-ticket USD3 actual provider usage; realistic estimates plus small margin, strict monthly cap. Existing Anthropic only, investigator Opus5.5, Azure platform20 unchanged. No identity, permission, credential or paid resource change. Cloud-policy application and readback are pending.
+
+
+Round24 model choice, 2026-10-27: Opus5.5 is the investigator default, Fable only a separate optional post-held-out comparison. Anthropic pricing checked: base input4USD/MTok, output20, five-minute write5, read0.20; minimum cacheable prefix512tokens. Existing retained pricing pins are not rewritten. Sources: https://platform.claude.com/docs/en/about-claude/pricing and https://platform.claude.com/docs/en/models/opus-5-5/overview .

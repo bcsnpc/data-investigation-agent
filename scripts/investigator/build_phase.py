@@ -107,6 +107,9 @@ def physical_status(rows, allocations, now):
         limits={k:override['limits'][k] for k in PURPOSES}
         if sum(limits.values())!=total_limit or limits['RESTORATION']!=RESTORATION_REQUESTS:
             raise ValueError('MONTHLY_ALLOCATION_MUST_PRESERVE_TOTAL_AND_RESTORATION')
+    current = round24_limits(now)
+    if current is not None:
+        total_limit, limits = current['total_limit'], dict(current['limits'])
     total = sum(used.values())
     credit = min(historical_restoration, reset['historical_requests']) if resetting else 0
     used['RESTORATION'] -= credit
@@ -187,7 +190,15 @@ def shared_physical_rows(state, db, now):
     return retained, allocations
 
 
+def round24_limits(now):
+    policy=POLICY.get('round24')
+    if not policy or now < datetime.fromisoformat(policy['effective_at']).timestamp():return None
+    return policy['october'] if month_window(now)[0]=='2026-10' else policy['default']
+
+
 def model_ceiling(now):
+    current=round24_limits(now)
+    if current is not None:return current['model_microdollars']
     month=month_window(now)[0]
     return POLICY.get('monthly_model_overrides',{}).get(month,{}).get('ceiling_microdollars',MODEL_MICRODOLLARS)
 
@@ -263,7 +274,10 @@ def check_shared_request_policy(state, db, now, status, category):
     policy = json.loads(row[0])
     if status.get('historical_restoration_requests') and policy.get('restoration_reset') != POLICY.get('restoration_reset'):
         raise UsageHold('AUTHORITATIVE_RESTORATION_RESET_NOT_APPLIED')
-    total = min(status['total_limit'], policy['total_limit'])
+    authoritative_total=policy['total_limit']
+    if policy.get('limits_effective_month') and status['month_utc']!=policy['limits_effective_month']:
+        authoritative_total=policy.get('default_total_limit',authoritative_total)
+    total = min(status['total_limit'], authoritative_total)
     policy_limits=policy['limits']
     if policy.get('limits_effective_month') and status['month_utc']!=policy['limits_effective_month']:
         policy_limits=policy['default_limits']

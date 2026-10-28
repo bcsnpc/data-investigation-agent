@@ -35,14 +35,14 @@ def wire_tools(tools):
     return [{**deepcopy(t),'input_schema':project(t['input_schema'])} for t in tools]
 # Preference is operator policy, not ticket or model instructions. Discovery
 # records the exact accessible ID before use; pricing is separately pinned.
-PREFERENCE=('claude-fable-5-1','claude-opus-5-5','claude-opus-5','claude-opus-4-8',
+PREFERENCE=('claude-opus-5-5','claude-fable-5-1','claude-opus-5','claude-opus-4-8',
             'claude-opus-4-7','claude-opus-4-6','claude-sonnet-5-5','claude-sonnet-5','claude-sonnet-4-6')
 
 
 class ProviderHTTPError(RuntimeError):
-    def __init__(self,status):
+    def __init__(self,status,message=None):
         self.http_status=status
-        super().__init__('ANTHROPIC_HTTP_'+str(status))
+        super().__init__('ANTHROPIC_HTTP_'+str(status)+((': '+message) if message else ''))
 
 
 def authorize_body(permissions,method,url,raw):
@@ -61,7 +61,7 @@ def authorize_body(permissions,method,url,raw):
     if not isinstance(body['tools'],list) or not body['tools']:raise ValueError('CLIENT_TOOLS_REQUIRED')
     for index,tool in enumerate(body['tools']):
         fields={'name','description','input_schema'}
-        cached=permissions.get('diagnostic_prompt_cache')is True and body['model']=='claude-opus-5-5'
+        cached=body['model']=='claude-opus-5-5'
         if not isinstance(tool,dict) or not fields<=set(tool)<=fields|({'cache_control'}if cached else set()) or tool['name'] not in names:
             raise ValueError('SERVER_OR_UNKNOWN_TOOL_REFUSED')
         if 'cache_control'in tool and (index!=len(body['tools'])-1 or tool['cache_control']!={'type':'ephemeral'}):
@@ -85,7 +85,7 @@ def choose_model(listing,preference=PREFERENCE):
 
 
 class Client:
-    def __init__(self,*,model,budget,identity,secret_reference,record,send=None,key_reader=None,sleep=time.sleep,count_tokens=None,diagnostic_prompt_cache=False):
+    def __init__(self,*,model,budget,identity,secret_reference,record,send=None,key_reader=None,sleep=time.sleep,count_tokens=None,diagnostic_prompt_cache=None):
         from .managed_identity import validate_secret_reference
         validate_secret_reference(secret_reference)
         if budget.rate.model!=model:raise ValueError('MODEL_RATE_MISMATCH')
@@ -94,6 +94,7 @@ class Client:
         self.send=send;self.key_reader=key_reader
         self.sleep=sleep
         self.count_tokens=(send is None) if count_tokens is None else count_tokens
+        if diagnostic_prompt_cache is None:diagnostic_prompt_cache=(model=='claude-opus-5-5')
         if type(diagnostic_prompt_cache)is not bool or (diagnostic_prompt_cache and model!='claude-opus-5-5'):
             raise ValueError('OWNER_DIAGNOSTIC_CACHE_MODEL_REQUIRED')
         from .anthropic_prompt_cache import StablePrefix
@@ -118,7 +119,11 @@ class Client:
             if key in data.decode('utf8',errors='replace'):raise ValueError('MODEL_SECRET_ECHO')
             return json.loads(data)
         except HTTPError as error:
-            raise ProviderHTTPError(error.code) from None
+            raw=error.read(16384).decode('utf8',errors='replace')
+            if key in raw:raise ValueError('MODEL_SECRET_ECHO') from None
+            from ..planner_recording import _safe
+            _safe(raw.encode())
+            raise ProviderHTTPError(error.code,raw) from None
         finally:key=None;request=None
 
     def discover(self):
@@ -151,6 +156,7 @@ class Client:
             self.record({'event':'REASONING_TOKEN_COUNT','input_tokens':count,'reservation_margin_tokens':4096})
             if hasattr(type(self.budget),'output_limit'):
                 body['max_tokens']=self.budget.output_limit(input_bound,body['max_tokens'])
+        body={key:body[key] for key in ('tools','system','messages','model','max_tokens')}
         for attempt in range(3):
             identity=(self.budget.reserve(body) if input_bound is None else
                       self.budget.reserve(body,input_tokens_upper_bound=input_bound))

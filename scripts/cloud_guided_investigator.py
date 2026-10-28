@@ -105,12 +105,12 @@ def run(plan,context):
     def budget(case_id):
         if case_id not in budgets:
             budgets[case_id]=TicketBudget(state,case_id=case_id,owner=spec['reasoning']['worker_identity'],rate=rate,
-                actual_usage_limit=spec.get('diagnostic_budget',{}).get('actual_usage_limit_microdollars'))
+                actual_usage_limit=spec.get('diagnostic_budget',{}).get('actual_usage_limit_microdollars',3000000))
         return budgets[case_id]
     def model(case_id):
         return Client(model=rate.model,budget=budget(case_id),identity=spec['reasoning']['gateway_identity'],
                       secret_reference=spec['reasoning']['secret_reference'],record=record,
-                      diagnostic_prompt_cache=spec.get('diagnostic_prompt_cache',False))
+                      diagnostic_prompt_cache=spec.get('diagnostic_prompt_cache',True))
     request_key=plan.get('run_id',getattr(context,'run_id',root.name))
     from investigator.estate_graph_contract import digest
     case_id='guided:'+digest([graph_spec['estate'],request_key])
