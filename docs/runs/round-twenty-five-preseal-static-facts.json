@@ -1,0 +1,30 @@
+{
+  "facts": [
+    {
+      "kind": "baseline",
+      "status": "BASELINE_NUMBERS_AND_SOURCE_ROWS_VERIFIED",
+      "physical_requests": 7,
+      "receipt_sha256": "a79285efb3c84a6110bc40fa1ee7239a5883fada7cc8112b521af6d81fa1ee09",
+      "native_control_only": true,
+      "investigation_evidence": false
+    },
+    {
+      "kind": "definitions",
+      "status": "LIVE_DEFINITIONS_AND_HISTORY_RETENTION_VERIFIED",
+      "physical_requests": 11,
+      "receipt_sha256": "b1553fdbd27ee11771b5bdd7b1a398e13c8da0a221f38437cb1b50fe1389c73e",
+      "native_control_only": true,
+      "investigation_evidence": false
+    },
+    {
+      "kind": "sample",
+      "status": "SAMPLE_DEFINITION_NATIVE_VERIFIED_VALUE_VERIFIED",
+      "physical_requests": 4,
+      "receipt_sha256": "606cf5061993c11ff1bc3eac7eced92784e1c8e537c4734678bd6d9f6677c4d0",
+      "native_control_only": true,
+      "investigation_evidence": false
+    }
+  ],
+  "model_calls": 0,
+  "wording_opened": false
+}

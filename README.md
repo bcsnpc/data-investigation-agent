@@ -1,3 +1,4 @@
+Round25 in progress: G1 raw-reviewed26/31 (official28/31; strict25/31), two confirmed harmful source-history findings; family paused. Frozen v0.24, draftPR432. Further investigation admissions defer to November (37 October INV requests left, next case bounded40).
 <!-- ROUND24-CURRENT-BEGIN -->
 Round24: Released v0.24. Held-out18/20,harm0 from both graders,agreement19/20;20sealed answers. Devpartial13/15 (25notrun); secondary12/15 with1disputed harmful flag retained. Graph0->9/80,cache70.44%; full native-job median234.5s misses120s and2classes remainzero. Allpracticecontrolsrestored,temporalON. Frozenb78299f6/image595047cf; no held-out tuning. Post-freeze admission-log wording exposure is disclosed. [Full report](docs/round-twenty-four-summary.md). Earlier dated entries below are historical.
 <!-- ROUND24-CURRENT-END -->
@@ -694,3 +695,6 @@ query loop are being built and tested offline. No new live investigation or
 accuracy claim; live passes are explicitly deferred until November1. Released
 Round22 remains dev14/40 and held-out5/20, zero harmful; its accuracy target was
 missed. See `docs/round-twenty-three-summary.md`.
+
+
+Round25 scoring update, 2026-10-28: G1 interim raw-reviewed 11/13 (95% Wilson 57.8-95.7%), strict 11/13, official primary 13/13 (77.2-100%). Raw-confirmed harmful2; history family paused. R24 official18/20 unchanged after raw disagreement review. Full measurement remains in progress; see docs/quality-report-v0.24.md.

@@ -183,3 +183,17 @@ Round24 later CI option: a hosted live Anthropic intake-quality job would need a
 
 <!-- ROUND24-COST-OBSERVATION-MAINTENANCE -->
 Round24 scheduled-runner maintenance: the native owner Cost Management observation copied into the existing runner configurations reaches its24-hour freshness bound at 2026-10-29T10:26:13.778590+00:00. Refresh it from a new native response with the existing owner authority and publish that observation to the same jobs before later runs. Do not restamp the old observation, bypass the USD20cap or grant a wider role. Static cost-observation renewal remains an operational limitation; three immediate green smokes are not a multi-day stability claim. Financial response bodies remain local. No resource/identity/permission was changed for this item.
+
+
+## Round 25: renew the native Azure cost observation
+
+Run before 2026-10-29 10:26 UTC, then repeat within24hours while these static observations are used. Reason: the existing runner requires a fresh native cost response to enforce the unchanged USD20 platform cap; changing an old timestamp is not renewal.
+
+```powershell
+Set-Location 'C:\temp\dia-r25-quality'
+& '.local\llm-env\Scripts\python.exe' 'scripts\renew_platform_cost_observation.py' --apply --publish-schedules --output '.local\round-twenty-five\cost-maintenance'
+```
+
+Uses only the existing owner Azure CLI sign-in. Financial response stays local; stdout contains timestamps, hashes and readback status only. Patches only existing cost-observation fields on the three existing jobs, retaining image, schedules, resources, identity and all scopes. A throttled read backs off; a failed read never invents an observation. If it lapses, Round25 measurement continues as owner-directed, with the lapse recorded; no budget cap or permission is widened.
+
+Round25 checkpoint2026-10-28: no new identity, scope or resource approval is required for the prepared November continuation. The existing native model account and physical policy were read back (150USD;9000total,2500SCAN/6405INV/95REST). October has37INV requests remaining versus the40-request case bound. Retain the previously documented cost-observation renewal command; the current observation expires2026-10-29T15:42UTC and a lapse is recorded, not a live-quality gate, under the owner prompt.

@@ -1,0 +1,22 @@
+{
+  "status": "OFFLINE_PREPARATION_ONLY_NOT_RUN",
+  "source_files": [
+    {
+      "path": "tests\\tickets\\scored-set-v1-dev.json",
+      "sha256": "68fcba6df4aea127e11e9e77c236dce9dbc98d6808daef027faffd0f54096858",
+      "tickets": 40
+    },
+    {
+      "path": "tests\\tickets\\scored-set-v1-heldout.json",
+      "sha256": "2fbbc0625c8781f668587efef8777ccc08aaaebb9711ae8827fd062503ddd4b2",
+      "tickets": 20
+    }
+  ],
+  "prepared_record_set_sha256": "22b5adc88c666ddce0f512f3c9a453af0737b211cf9a5df426b4478a24726a3a",
+  "text_hash_multiset_matches_original_sixty": true,
+  "original_wording_unchanged": true,
+  "held_out_wording_opened": false,
+  "engine_runs": 0,
+  "estate_reads": 0,
+  "model_calls": 0
+}

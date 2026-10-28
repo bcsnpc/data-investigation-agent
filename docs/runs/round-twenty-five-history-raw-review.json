@@ -1,0 +1,29 @@
+{
+  "experiment": "ROUND25_HISTORY_RAW_FAIL_REVIEW",
+  "cases": [
+    {
+      "raw_outcome_sha256": "0eb64d1f4c3d87a9332c16a892adec89b612bc1d9e88da375110d4ec731daf94",
+      "checker_defect": false,
+      "raw_review_status": "CONFIRMED_SECONDARY_FAIL_MISSING_NATIVE_HISTORY_AND_DISTINCT_VERDICT",
+      "review": "Full captured business output explicitly says no retained source history was read, and the query list contains current-state reads only. Source-ahead facts are true; they do not fulfill the sealed historical-edit question. Primary treats latency and source-changed-history as interchangeable; original primary grades remain official and unchanged. This is grader interpretation disagreement, not a projection/recorder defect.",
+      "primary_score_unchanged": true,
+      "secondary_harm_flag_retained": true,
+      "ticket": "v2-source-history-v1"
+    },
+    {
+      "raw_outcome_sha256": "f073e125febb42ffd48cc7a36a9507f7daa0435b2743dc620c65cfa7cb4786e8",
+      "checker_defect": false,
+      "raw_review_status": "CONFIRMED_SECONDARY_FAIL_MISSING_NATIVE_HISTORY_AND_DISTINCT_VERDICT",
+      "review": "Full captured business output explicitly says no retained source history was read, and the query list contains current-state reads only. Source-ahead facts are true; they do not fulfill the sealed historical-edit question. Primary treats latency and source-changed-history as interchangeable; original primary grades remain official and unchanged. This is grader interpretation disagreement, not a projection/recorder defect.",
+      "primary_score_unchanged": true,
+      "secondary_harm_flag_retained": true,
+      "ticket": "v2-source-history-v2"
+    }
+  ],
+  "estate_reads": 0,
+  "model_calls": 0,
+  "official_primary_grades_unchanged": true,
+  "expectations_unchanged": true,
+  "family_paused": "source changed history",
+  "scope": "Both secondary zero/harm flags confirmed against raw saved outputs. No further live history-family ticket is admitted this round while frozen."
+}

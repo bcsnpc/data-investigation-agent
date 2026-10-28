@@ -1,0 +1,98 @@
+{
+  "date": "2026-10-28",
+  "round": "R24 retrospective raw review only",
+  "ticket": "v3-record-absent-everywhere",
+  "raw_outcome_sha256": "f9f23d45a9edd12c582b37e4864715a2a1949481c1735e56f368a08a54e81e8e",
+  "primary": {
+    "cause_match": false,
+    "failing_step": "wrong conclusion",
+    "handoff_quality": 0,
+    "harmful": false,
+    "layer_match": true,
+    "partial": false,
+    "reason": "Verdict mismatch: the sealed expected answer is 'as designed' (the record is intentionally absent at source and every layer), but the delivered answer gives 'not found' with a tone implying the record might have existed and been removed, and explicitly states 'The source system doesn't have it now' with a hedge about whether it existed earlier. The sealed expectation treats the absence as a designed fixture condition, not an unexplained missing record. Layer match: both identify the source application as where the absence is confirmed. Cause: the sealed cause is 'Record900099 is absent at source and every compared reachable layer; BLANK is not zero' \u2014 the delivered answer confirms absence at all layers but does not state 'as designed' or that BLANK is not zero; it instead frames this as an unexplained gap and hedges about possible earlier existence, which is a substantively different cause characterisation. Handoff quality is 0 because the answer is resolved (ANSWERED status, no handoff left), so there is no handoff to grade.",
+    "verdict_match": false
+  },
+  "secondary": {
+    "cause_match": true,
+    "failing_step": "wrong conclusion",
+    "handoff_quality": 1,
+    "harmful": false,
+    "layer_match": true,
+    "partial": true,
+    "reason": "Layer: match. The delivered answer places the absence at the source application. Lookups for movement_id 900099 in app.stock_movements_round_two_20261003 (ordersops), in the landing table dbo.stock_movements_round_two_20261003 and in the semantic model 'Movements' all returned 0 rows. Every layer holds the same 360 rows with IDs 1\u2013360. It concludes that no load or model step dropped the record and the source doesn't have it.\n\nCause: match in substance. The expected cause is that record 900099 is absent at the source and at every compared reachable layer. The answer doesn't mention the expected 'BLANK is not zero' point, but the user said they weren't reporting an amount, so that gap is minor.\n\nVerdict: no match. The answer's verdict is 'not found'; the sealed verdict is 'as designed'. 'Not found' is a separate verdict category. The answer implies no defect in the pipeline but never concludes that the report is behaving as designed. It also leaves open whether the record once existed and was removed, rather than closing the ticket as expected behaviour. I'm treating this as a real category difference, not a wording difference.\n\nOverall: one of three components fails, so this is a partial match and scores zero. Not harmful: the stated cause is correct and backed by evidence, not a confident wrong cause.\n\nHandoff (1): the queries are fully kept and can be rerun, and the stopping point is clear. The handoff object is empty, though, and there are no explicit next checks beyond noting that current-row reads can't show history.",
+    "verdict_match": false
+  },
+  "winner": "neither",
+  "raw_reviewed_grade": {
+    "cause_match": true,
+    "failing_step": "none",
+    "handoff_quality": 0,
+    "harmful": false,
+    "layer_match": true,
+    "partial": false,
+    "reason": "Dated correction after cross-checking the unchanged grader contract (use substance rather than wording; a correct not-found reason can pass): the raw answer explicitly establishes source, landing and model absence, and says no load or model step dropped the record. Its limitation about unqueried history is appropriate, not a different cause. The secondary is right on cause; neither grader is right to reject the substantive verdict solely because the label is not found rather than as designed. Resolved-handoff credit is not applicable0. The earlier raw review was too label-strict and is retained below. This is a saved-capture audit only: no provider regrade, no rerun, no expectation change, and the official R24 score remains18/20.",
+    "verdict_match": true
+  },
+  "reason": "Dated correction after cross-checking the unchanged grader contract (use substance rather than wording; a correct not-found reason can pass): the raw answer explicitly establishes source, landing and model absence, and says no load or model step dropped the record. Its limitation about unqueried history is appropriate, not a different cause. The secondary is right on cause; neither grader is right to reject the substantive verdict solely because the label is not found rather than as designed. Resolved-handoff credit is not applicable0. The earlier raw review was too label-strict and is retained below. This is a saved-capture audit only: no provider regrade, no rerun, no expectation change, and the official R24 score remains18/20.",
+  "query_evidence": [
+    {
+      "id": "query:bdedfe48009b34298fc1bf0731481d8a2df82358caebb949cb38358392592d5e:1",
+      "status": "SUCCEEDED",
+      "row_count": 0,
+      "result_digest": "41a3a4aa81b95533dbf8a2c0c58f2057b4b7131d2d60d388f7a7c12c36d21459"
+    },
+    {
+      "id": "query:020aa8165ca0133cf8757ee88d18b6c6d3ca248625ac2234cc20682a9b017fe8:2",
+      "status": "SUCCEEDED",
+      "row_count": 0,
+      "result_digest": "e6391919c0d9f64cebad618f448013b4abc781f488355851c8cd8392689f0a65"
+    },
+    {
+      "id": "query:d7db8db53326dd8f00c6a1855dc98b93442628dedb2d2dd655f5a5deea788a4c:3",
+      "status": "SUCCEEDED",
+      "row_count": 0,
+      "result_digest": "6d8473f198d04906aa4cffdd9011fc4eb28edf41a038dcf583a1257c21213a1f"
+    },
+    {
+      "id": "query:86d78a40e34596f1fb18fe2c0bb953642422048783e2d7c40cb324f17311fe3d:4",
+      "status": "SUCCEEDED",
+      "row_count": 1,
+      "result_digest": "477428a6ad04b6e2975fb40952c902b71667173c7c4264acf3dd62db7616a4c7"
+    },
+    {
+      "id": "query:7b82cdff3968eaaf49804da41169919d69a79119b6539fa7276565ff4db5e308:4",
+      "status": "SUCCEEDED",
+      "row_count": 1,
+      "result_digest": "eb69340eb91d268067bb04de3a0f48de7a4e335af55fe8318ef0f4af00aa6622"
+    },
+    {
+      "id": "query:bd3dc0bb94a59083be9892833d31051306074463d15a54ba7ed841b6218a8237:4",
+      "status": "SUCCEEDED",
+      "row_count": 1,
+      "result_digest": "6300685427a817bfc1fc050363abfc5e18984ba73277afbc3d296dd122e83d7a"
+    }
+  ],
+  "official_score_unchanged": "18/20",
+  "official_harmful_unchanged": 0,
+  "estate_reads": 0,
+  "model_calls": 0,
+  "engine_reruns": 0,
+  "official_regrades": 0,
+  "original_raw_review": {
+    "winner": "secondary",
+    "raw_reviewed_grade": {
+      "cause_match": true,
+      "failing_step": "wrong conclusion",
+      "handoff_quality": 1,
+      "harmful": false,
+      "layer_match": true,
+      "partial": true,
+      "reason": "Layer: match. The delivered answer places the absence at the source application. Lookups for movement_id 900099 in app.stock_movements_round_two_20261003 (ordersops), in the landing table dbo.stock_movements_round_two_20261003 and in the semantic model 'Movements' all returned 0 rows. Every layer holds the same 360 rows with IDs 1\u2013360. It concludes that no load or model step dropped the record and the source doesn't have it.\n\nCause: match in substance. The expected cause is that record 900099 is absent at the source and at every compared reachable layer. The answer doesn't mention the expected 'BLANK is not zero' point, but the user said they weren't reporting an amount, so that gap is minor.\n\nVerdict: no match. The answer's verdict is 'not found'; the sealed verdict is 'as designed'. 'Not found' is a separate verdict category. The answer implies no defect in the pipeline but never concludes that the report is behaving as designed. It also leaves open whether the record once existed and was removed, rather than closing the ticket as expected behaviour. I'm treating this as a real category difference, not a wording difference.\n\nOverall: one of three components fails, so this is a partial match and scores zero. Not harmful: the stated cause is correct and backed by evidence, not a confident wrong cause.\n\nHandoff (1): the queries are fully kept and can be rerun, and the stopping point is clear. The handoff object is empty, though, and there are no explicit next checks beyond noting that current-row reads can't show history.",
+      "verdict_match": false
+    },
+    "reason": "The source SQL, Bronze SQL and model record lookups all succeeded with zero rows for 900099. Captured aggregate queries returned 360 rows and IDs 1 through 360. The delivered answer explicitly says no load or model step dropped the record and the source does not have it now. Therefore the secondary grader is right that the absence cause is supported; the primary incorrectly treats an honest limitation about past existence as negating the current cause. Both graders are right that the delivered not-found verdict differs from the sealed as-designed verdict, so this remains an all-three zero. No design intent or prior history was established by these current reads."
+  },
+  "correction_date": "2026-10-28",
+  "raw_review_case_pass": true
+}

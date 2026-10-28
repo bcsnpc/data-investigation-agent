@@ -1,0 +1,54 @@
+{
+  "status": "STALE_DATA_ORIGINAL_HASH_AUTOON_MODEL_REFRESH_BASELINE_VERIFIED",
+  "source_rows_and_schema_hashes": {
+    "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+    "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+    "temporal_period_columns_excluded_explicitly": true
+  },
+  "restore_load": {
+    "endTimeUtc": "2026-10-28T18:15:10.4266667",
+    "failureReason": null,
+    "id": "2dca79da-9cd9-4f1a-85ea-2211040b2ae3",
+    "invokeType": "Manual",
+    "itemId": "b4871498-bd35-45be-916c-9a642568012c",
+    "jobType": "Pipeline",
+    "rootActivityId": "d2ffe1c4-1c2b-4592-abe9-3098cd584b3c",
+    "startTimeUtc": "2026-10-28T18:13:35.2439574",
+    "status": "Completed"
+  },
+  "automatic_updates": "ON confirmed after apply and reload",
+  "model_restore_verified": {
+    "native_refresh": {
+      "endTime": "2026-10-28T18:17:36Z",
+      "id": 763420081,
+      "refreshAttempts": [
+        {
+          "attemptId": 1,
+          "endTime": "2026-10-28T18:17:25.7967062Z",
+          "executionMetrics": [],
+          "startTime": "2026-10-28T18:17:09.9803462Z",
+          "type": "Data"
+        },
+        {
+          "attemptId": 1,
+          "endTime": "2026-10-28T18:17:27.9842368Z",
+          "executionMetrics": [],
+          "startTime": "2026-10-28T18:17:26.6873453Z",
+          "type": "Query"
+        }
+      ],
+      "refreshType": "ViaApi",
+      "requestId": "04f62920-724e-4bbd-bef9-3372031ce374",
+      "startTime": "2026-10-28T18:17:09.87Z",
+      "status": "Completed"
+    },
+    "quantity": 7661,
+    "screenshot_sha256": "42278eaca7cee6efdee2cce8aac1fe468bd3b3be497aedf83e351e1cd7081eaf",
+    "ui_checked": true,
+    "verification_requests": 1
+  },
+  "native_refresh_receipt_sha256": "303e4334f1495feb2e18744902f993504e56c3e9ee95be779c75bf0171907cd4",
+  "two_scored_outcomes_sealed_before_restore": true,
+  "temporal_history": "ON",
+  "identity_or_permission_changes": false
+}

@@ -1,0 +1,21 @@
+{
+  "observed_at": "2026-10-28T20:06:44.450537+00:00",
+  "rows": [
+    [
+      "SETTLED",
+      107,
+      "7725137"
+    ]
+  ],
+  "read_only": true,
+  "counters_reset": false,
+  "engine_case_ids_count": 31,
+  "including_owned_engine_cases_rows": [
+    [
+      "SETTLED",
+      250,
+      "21050480"
+    ]
+  ],
+  "all_owned_model_reservations_settled": true
+}

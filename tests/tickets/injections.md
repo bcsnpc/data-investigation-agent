@@ -249,3 +249,33 @@ Round24 held01 stale final restoration: original source row/business-schema hash
 
 
 Round24 access held01 ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-four\injections\held01-access-admission01\status.json.
+
+
+Round25 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-five\injections\g1-failed-fixture\status.json. No grant/identity change.
+
+
+Round25 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-five\injections\g1-failed-billing\status.json. No grant/identity change.
+
+
+Round25 waiting g1 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-five\injections\g1-waiting\status.json.
+
+
+Round25 history g1 PREPARED_NOT_APPLIED; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-five\injections\g1-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round25 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-five\injections\g1-history-continuation01\status.json. Temporal history ON; native historical versions retained.
+
+
+Round25 latency g1 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-five\injections\g1-latency-admission05\status.json. Temporal remains ON.
+
+
+Round25 latency g1 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-five\injections\g1-latency-admission06\status.json. Temporal remains ON.
+
+
+Round25 stale g1 DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_restoration_required=False, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-five\injections\g1-stale\status.json. No source/model figure was authored from an engine query.
+
+
+Round25 g1 stale final restoration: original source row/business-schema hashes matched, original360 real restore load Completed; automatic updates restoredON in existing publisher UI, own API model refresh Completed (exact request/time in retained native receipt), native model read7661. Both dependent outcomes were sealed before restore. Refresh controls chargedRESTORATION, model verification1 chargedRESTORATION; no identity, role or connection change. Native receipt .local/round-twenty-five/injections/g1-stale/status.json; screenshots private, hashes ledger-linked.
+
+
+Round25 access g1 ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-five\injections\g1-access-admission01\status.json.

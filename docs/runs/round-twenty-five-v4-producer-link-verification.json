@@ -1,0 +1,25 @@
+{
+  "experiment": "ROUND25_V4_NATIVE_APPLICATION_PRODUCER_LINK",
+  "status": "NATIVE_ITEM_NAMES_COPY_DESTINATION_READ",
+  "physical_requests": 3,
+  "native_receipt_sha256": "98455eefce3314018a88ea4c63ce2deb30c91c5cb30837580fb3e84d1ecbe16c",
+  "model_calls_for_read": 0,
+  "held_out_wording_opened": false,
+  "read_only": true,
+  "identity_or_permission_changes": false,
+  "independent_oracle_validation": [
+    {
+      "cases": 3,
+      "group": "v4-failed-application-load",
+      "seal_eligible": 3,
+      "unsupported_counts": [
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "original_unverified_oracle_retained": true,
+  "new_oracle_sha256": "3cf02ff517a3a9c53fe38b2e1578e325a5b7a665bc6bacbeb9689f43d904fa5e",
+  "sealed": false
+}
