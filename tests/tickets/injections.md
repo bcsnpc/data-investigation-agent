@@ -228,3 +228,6 @@ Round24 failed-fixture held01: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCE
 
 
 Round24 failed-billing held01: FAILED_JOB_ESTABLISHED_DEFINITION_HASH_RESTORED. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-four\injections\held01-failed-billing\status.json. No grant/identity change.
+
+
+Round24 waiting held01 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-four\injections\held01-waiting\status.json.
