@@ -686,3 +686,6 @@ Round24 release CI correction, 2026-10-28: marking the PR ready activated the hi
 
 <!-- ROUND24-COST-OBSERVATION-MAINTENANCE -->
 Round24 scheduled-runner maintenance: the native owner Cost Management observation copied into the existing runner configurations reaches its24-hour freshness bound at 2026-10-29T10:26:13.778590+00:00. Refresh it from a new native response with the existing owner authority and publish that observation to the same jobs before later runs. Do not restamp the old observation, bypass the USD20cap or grant a wider role. Static cost-observation renewal remains an operational limitation; three immediate green smokes are not a multi-day stability claim. Financial response bodies remain local. No resource/identity/permission was changed for this item.
+
+
+Round25 2026-10-28: billing control stopped on PostgreSQL LockNotAvailable (5-second shared budget advisory-lock wait), before either scored ticket was dispatched. Subsequent read-only pg_stat_activity returned no other sessions. The native failed job was retained; a distinct continuation re-read and restored the original definition hash before scoring. No engine retry, role change, fabricated result or budget refund. Original control/capture and uncertain accounting retained.

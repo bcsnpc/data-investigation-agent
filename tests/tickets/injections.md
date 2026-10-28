@@ -249,3 +249,6 @@ Round24 held01 stale final restoration: original source row/business-schema hash
 
 
 Round24 access held01 ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-four\injections\held01-access-admission01\status.json.
+
+
+Round25 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-five\injections\g1-failed-fixture\status.json. No grant/identity change.

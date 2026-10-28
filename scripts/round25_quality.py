@@ -1,5 +1,6 @@
 """Offline measurement helpers. Never imported by the investigator or its prompts."""
 import hashlib
+import copy
 import json
 import math
 import subprocess
@@ -71,6 +72,24 @@ def audit_failure(wrapped, grade, *,outcome_bytes):
     if score(grade):
         raise ValueError('FAIL_AUDIT_REQUIRES_ZERO')
     return {'raw_outcome_sha256': hashlib.sha256(outcome_bytes).hexdigest(),
-            'raw_answer': raw_answer(wrapped), 'original_grade': grade,
+            'raw_answer': copy.deepcopy(raw_answer(wrapped)), 'original_grade': copy.deepcopy(grade),
             'checker_defect': None, 'raw_review_status': 'REVIEW_REQUIRED',
             'engine_rerun_allowed': False, 'expectation_change_allowed': False}
+
+
+def restored_job_status(fixture, native):
+    """Describe a post-score control job, never change a scored engine result.
+
+    The original billing bootstrap has a separately recorded pre-existing
+    CREATE SCHEMA failure. Do not claim success or retry the scored ticket.
+    """
+    if native.get('status') in ('Completed', 'Succeeded'):
+        return 'ORIGINAL_JOB_COMPLETED'
+    error = native.get('failureReason') or {}
+    message = error.get('message', '')
+    if (fixture == 'failed-billing' and native.get('status') == 'Failed'
+            and error.get('errorCode') == '2011'
+            and "already an object named 'bronze'" in message
+            and 'CREATE SCHEMA failed' in message):
+        return 'ORIGINAL_EXISTING_BILLING_BOOTSTRAP_FAILED_2011'
+    raise ValueError('UNEXPECTED_ORIGINAL_CONTROL_JOB_STATE')

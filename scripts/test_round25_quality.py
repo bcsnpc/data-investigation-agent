@@ -1,7 +1,7 @@
 import json
 import unittest
 from unittest.mock import patch
-from round25_quality import wilson, accuracy_table, score, verify_freeze, audit_failure
+from round25_quality import wilson, accuracy_table, score, verify_freeze, audit_failure, restored_job_status
 
 
 class MeasurementTests(unittest.TestCase):
@@ -48,6 +48,20 @@ class MeasurementTests(unittest.TestCase):
         self.assertFalse(audit['engine_rerun_allowed'])
         self.assertFalse(audit['expectation_change_allowed'])
         self.assertEqual(audit['raw_review_status'],'REVIEW_REQUIRED')
+        audit['original_grade']['reason']='New audit note'
+        audit['raw_answer']['handoff']['cause']='Audit annotation'
+        self.assertEqual(grade['reason'],'Original reason')
+        self.assertEqual(wrapped['result']['handoff']['cause'],'retained')
+
+    def test_postscore_fixture_reporting_preserves_native_failure_and_rejects_other_causes(self):
+        native={'status':'Failed','failureReason':{'errorCode':'2011','message':"There is already an object named 'bronze' in the database. CREATE SCHEMA failed due to previous errors."}}
+        before=json.dumps(native,sort_keys=True)
+        self.assertEqual(restored_job_status('failed-billing',native),'ORIGINAL_EXISTING_BILLING_BOOTSTRAP_FAILED_2011')
+        self.assertEqual(json.dumps(native,sort_keys=True),before)
+        self.assertEqual(restored_job_status('failed-fixture',{'status':'Completed'}),'ORIGINAL_JOB_COMPLETED')
+        with self.assertRaises(ValueError):restored_job_status('failed-fixture',native)
+        native['failureReason']['message']='An unrelated SQL permission failure'
+        with self.assertRaises(ValueError):restored_job_status('failed-billing',native)
 
 
 if __name__=='__main__':unittest.main()

@@ -1,0 +1,192 @@
+{
+  "status": "G1_INTERIM_ONLY",
+  "completed_graded": 3,
+  "requested": 40,
+  "official_model": "claude-sonnet-4-6",
+  "secondary_model": "claude-opus-5-5",
+  "primary": {
+    "all_three": {
+      "correct": 3,
+      "total": 3,
+      "accuracy": 1.0,
+      "lower": 0.4385029682449546,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 3,
+      "total": 3,
+      "accuracy": 1.0,
+      "lower": 0.4385029682449546,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 3,
+      "total": 3,
+      "accuracy": 1.0,
+      "lower": 0.4385029682449546,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 3,
+      "total": 3,
+      "accuracy": 1.0,
+      "lower": 0.4385029682449546,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 3,
+      "accuracy": 0.0,
+      "lower": 5.551115123125783e-17,
+      "upper": 0.5614970317550454,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "secondary": {
+    "all_three": {
+      "correct": 3,
+      "total": 3,
+      "accuracy": 1.0,
+      "lower": 0.4385029682449546,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 3,
+      "total": 3,
+      "accuracy": 1.0,
+      "lower": 0.4385029682449546,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 3,
+      "total": 3,
+      "accuracy": 1.0,
+      "lower": 0.4385029682449546,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 3,
+      "total": 3,
+      "accuracy": 1.0,
+      "lower": 0.4385029682449546,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 3,
+      "accuracy": 0.0,
+      "lower": 5.551115123125783e-17,
+      "upper": 0.5614970317550454,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "agreement": {
+    "correct": 3,
+    "total": 3,
+    "accuracy": 1.0,
+    "lower": 0.4385029682449546,
+    "upper": 1.0,
+    "confidence": 0.95,
+    "method": "Wilson"
+  },
+  "cases": [
+    {
+      "ticket": "v2-application-baseline-v1",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered answer says 'definition explained' which is substantively equivalent to 'as designed' \u2014 the figure is correct by design, matching SUM(units) across model, landing table and source. Layer: delivered answer identifies the source application layer (ordersops \u2192 app.stock_movements_round_two_20261003 \u2192 dbo.stock_movements_round_two_20261003 \u2192 Movements model), matching 'source application'. Cause: delivered answer explicitly states Movement Units = SUM('Movements'[units]), confirms 7661 in model, lakehouse (dbo) and ordersops source, 360 rows in all three, matching the sealed cause 'SUM(units) agrees across model, landing and declared application source; 7661.' All three dimensions match. Status is ANSWERED so handoff quality is not applicable (scored 0 as no handoff needed).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Expected: verdict 'as designed', layer 'source application', cause 'SUM(units) is 7661 and agrees across the model, landing table and declared application source'. Delivered: verdict 'definition explained'. The answer says Movement Units = SUM('Movements'[units]) with no filters or deduplication, traces the lineage from the Direct Lake model to lakehouse dbo.stock_movements_round_two_20261003 to the copy job and then to ordersops app.stock_movements_round_two_20261003, and shows by query that the sum is 7661 at all three layers (DAX measure, lakehouse SUM, ordersops SUM). It also shows 360 rows at each layer, with 360 distinct movement IDs in the lakehouse. Verdict: the label differs ('definition explained' vs 'as designed'), but in substance both say there is no defect and the figure is correct by its definition, so I credited it. I note this as a wording difference, not a disagreement in substance. Layer: the answer verified agreement all the way down to the declared application source (ordersops), which matches 'source application'. It does not label a split point as such; I did not treat the expected 'DEV' split as something the answer needed to repeat. Cause: matches in substance. The SUM(units) definition and the 7661 agreement across model, landing and source are both stated and backed by query records. The answer is honest that the reads were separate snapshots, which is accurate and does not count against it. Not harmful. Handoff: the answer was resolved, so no handoff was needed, but all 7 queries are recorded verbatim with rerunnable text and results, and the unavailable triage checks are named, so I scored handoff quality 2.",
+        "verdict_match": true
+      },
+      "all_three_correct": 1,
+      "agreement": true,
+      "raw_outcome_sha256": "ae7b356f714dcb5e1381044d98191603c97c73ad19e1dbe26bd1c060a53883f4"
+    },
+    {
+      "ticket": "v2-billing-mrr-v1",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'definition explained' which maps to 'as designed' \u2014 the number is working as intended by the formula. Match. Layer: expected 'source application'; delivered traces the value all the way back to app.subscriptions/app.plans in billingapp and confirms consistency at every layer including source, so source application is covered. Match. Cause: expected 'Active subscription plan prices 250+100+250=600; measure removes Plans filters.' Delivered confirms exactly 3 ACTIVE subscriptions summing to 600 (1 CHURNED at 100 excluded), REMOVEFILTERS(Plans) cited explicitly, and the SUMX/FILTER(status=ACTIVE)/RELATED(monthly_price) formula stated in full. The individual plan prices (250+100+250) are not enumerated, but the subscription count (3), total (600), and exclusion (1 CHURNED at 100) are all correct and the formula logic matches. Cause match. Handoff: the answer is fully resolved with a stated answer, so handoff quality is not applicable; scored 0 as there is no unresolved handoff to evaluate.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered 'definition explained' means the same as the expected 'as designed'. The answer finds no defect, says the 600 is correct, and explains the measure. Layer: the answer follows the figure from the model through billing_serving gold and billing_bronze to app.subscriptions and app.plans in billingapp. The same ACTIVE-only sum returns 600 at each step, so the figure starts in the source application, as expected. Cause: the expected cause is that the active subscriptions' plan prices (250+100+250) add up to 600 and the measure removes Plans filters. The answer says 3 ACTIVE subscriptions have plan prices adding to 600, the 1 CHURNED subscription (100) is left out, and REMOVEFILTERS(Plans) makes the measure cover all plans. It does not list the individual 250/100/250 prices, but the substance matches. The answer also reports a failed pipeline run, but correctly says the failure did not change the 600, so this is not a wrong cause stated as fact. It also notes that the layer reads were not taken at the same moment. Not harmful. This is a full match, so the first failing step is none. Handoff: the case is answered, not left unresolved, and the handoff object is empty. Even so, the queries are recorded word for word and can be rerun, the stopping point is clear, and the snapshot caveat suggests a sensible next check. Handoff score is 2.",
+        "verdict_match": true
+      },
+      "all_three_correct": 1,
+      "agreement": true,
+      "raw_outcome_sha256": "089cc801e412b8b16928dff26f0875447eb68ed0839ba95ce31d3f3c71ef8578"
+    },
+    {
+      "ticket": "v2-fixture-quantity-v1",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: 'transformation logic' matches. Layer: the answer correctly identifies the Silver-to-Gold join as the split point where units inflate. Cause: the answer correctly identifies the left-join of silver stock_movements to silver product_rates on product_id alone, where product 7 has 2 rate rows causing each product 7 movement to appear twice in gold, inflating 7661 to 8765 by exactly 1104 units. All three graded dimensions match the sealed expectation. Handoff is scored 0 because the status is ANSWERED (fully resolved), so handoff quality is not applicable/irrelevant rather than meaningful; per schema using 0 for a resolved answer with no open handoff needed.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered verdict is 'transformation logic', which is the same as the expected verdict. Layer/split point: bronze and silver stock_movements both total 7661, and gold movement_values and the model both total 8765. That places the change between silver and gold, built by the Warehouse valuation notebook, which matches the expected 'Silver to Gold'. The expected 'split: DEV' label looks like a fixture/environment tag, not a pipeline location. Nothing in the answer contradicts it, so I do not count it as a disagreement. Cause: the answer names a left join from silver stock movements to product_rates on product_id alone. Product 7 has 2 rate rows, so its movements are duplicated: 406 gold rows for 360 distinct movements, and the 1104 extra units equal product 7's silver total, which is the 8765 - 7661 gap. That is the expected cause: a left join on product_id repeats matches and pushes the units from 7661 to 8765. The supporting queries succeeded and the numbers agree with each other. The answer is not harmful because the cause is correct and caveated as current snapshots. Handoff: the answer is resolved, so the handoff object is empty. Even so, every query is listed with its literal executed text and parameters and can be rerun, the stopping point is clear, and the unavailable triage checks are stated openly. I scored handoff 2 for that reason. This score does not affect the verdict/layer/cause credit.",
+        "verdict_match": true
+      },
+      "all_three_correct": 1,
+      "agreement": true,
+      "raw_outcome_sha256": "60ac3e8aa021fb867dc72cd731b1a23e72ab5fa6ce64017c25efad24ee1f24cf"
+    }
+  ],
+  "expectations_unchanged": true,
+  "engine_unchanged": true
+}
