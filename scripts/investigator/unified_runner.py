@@ -291,7 +291,15 @@ def _run(config,target,*,registry=None,put=None,sleep=time.sleep,run_id=None):
                     extract(raw,Path(o['directory']),expected=o['sha256'],expanded_limit=o['expanded_limit'])
                     return {'sha256':o['sha256'],'bytes':len(raw)}
                 ctx.step('input-materialization',materialize)
-            if check['kind'] != 'replay':
+            if check['kind']=='guided-investigation':
+                # The guided reader checks identity, endpoint and read-only policy
+                # on its admitted path. A whole-estate access audit is health
+                # work, not a prerequisite repeated for every support ticket.
+                # Smokes and standalone access checks retain their full probes.
+                ctx.access_result={'status':'NOT_RUN','rows':[],
+                    'reason':'PATH_ACCESS_CHECKED_BY_NATIVE_READS; whole-estate audit belongs to smoke'}
+                ctx.record('access-audit-not-repeated',ctx.access_result)
+            if check['kind'] not in ('replay','guided-investigation'):
                 from .access_check import configured as check_access
                 access = ctx.step('check-access', lambda: check_access(config.get('access_check'),retain=ctx.record))
                 ctx.access_result=access
