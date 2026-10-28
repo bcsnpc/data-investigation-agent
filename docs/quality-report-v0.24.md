@@ -17,11 +17,11 @@ Agreement is 28/31 (95% Wilson 75.1-96.7%). Related variants share fixtures; the
 | Cohort | Status |
 |---|---|
 | G1, unchanged v2 dev | 31/40 double-graded so far; remaining cases pending |
-| G2, new held-out v4 - headline | Not started; native fact verification and sealing pending |
-| G3, unchanged R22 text | Not started; lower priority |
-| G4, prior R23 held-out v2 - regression | Not started; lower priority |
+| G2, new held-out v4 - headline |60 native-verified tickets sealed at c61a5c3e; prepared, not run |
+| G3, unchanged R22 text |60 unchanged text inputs prepared; not run |
+| G4, prior R23 held-out v2 - regression |20 unchanged sealed inputs prepared; not run |
 
-The independent writer produced 60 unsealed drafts, including 12 free-text inputs, six unchanged real screenshots and all three estates. New held-out wording remains unopened. A separate writer correction supplies the native comparison report omitted from one scaffold; the original draft is retained. Native target definitions, model partitions, source/landing numbers and producer definitions have been captured for independent oracle verification. No unverified scenario is sealed.
+The independent writer produced60 new tickets:48forms,12free text, six real screenshots and all three estates. Every oracle is native-fact verified and the set was sealed at commit c61a5c3e before any G2 execution; wording remains unopened by the engine developer. Original drafts and all pre-seal oracle versions survive. Wrong-page selections were preserved and independently reviewed. Fresh native fault checks remain required at execution. [Seal](runs/round-twenty-five-v4-seal.json).
 
 | Class (G1 interim) | Official primary (95% CI) | Strict (95% CI) | Raw-reviewed (95% CI) |
 |---|---|---|---|
@@ -63,3 +63,6 @@ The 31 double-graded cases used **$13.325343** for investigation, averaging **$0
 |operational status without layer queries|3|3|188.0 / 190.0|154.97200069000002 / 159.73575022|
 
 The billing control first stopped on a 5-second PostgreSQL budget lock before scoring. Its existing failed job was reconciled and the original pipeline hash restored. One open request was settled UNCERTAIN and remains charged. The normal billing bootstrap still returns its pre-existing2011 CREATE SCHEMA error; it was not repaired. Waiting completed and restored its original hash. The first history precheck timed out before mutation; its distinct continuation delivered both cases and restored the original360-row/source-schema hashes plus a successful real load. A billing boundary probe correctly rejected a fixture-policy connection; one replacement used the unchanged billing reader route. The first latency case failed on a PostgreSQL lock before delivery and preserved a partial capture; its source row/schedule were restored, and its one new-case replacement completed. Both latency cases are sealed, the owned source row and schedule were removed, and original row/schema hashes matched. No identity or permission was changed.
+
+
+October checkpoint: further investigation admissions defer because37 investigation requests remain against the unchanged40-request case bound. Remaining9G1 precede G2/G3/G4 in November; this is not a completed Round25 result. All250 owned model reservations (including31 engine case IDs) are settled, all injections are restored, and no local worker/grader remains active. AI account134.455715/146USD; SCAN2291/2500, INV9368/9405, REST45/95 with50restoration requests left; historical70kept. No cap or reserve was changed.

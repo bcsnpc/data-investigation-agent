@@ -195,3 +195,5 @@ Set-Location 'C:\temp\dia-r25-quality'
 ```
 
 Uses only the existing owner Azure CLI sign-in. Financial response stays local; stdout contains timestamps, hashes and readback status only. Patches only existing cost-observation fields on the three existing jobs, retaining image, schedules, resources, identity and all scopes. A throttled read backs off; a failed read never invents an observation. If it lapses, Round25 measurement continues as owner-directed, with the lapse recorded; no budget cap or permission is widened.
+
+Round25 checkpoint2026-10-28: no new identity, scope or resource approval is required for the prepared November continuation. The existing native model account and physical policy were read back (150USD;9000total,2500SCAN/6405INV/95REST). October has37INV requests remaining versus the40-request case bound. Retain the previously documented cost-observation renewal command; the current observation expires2026-10-29T15:42UTC and a lapse is recorded, not a live-quality gate, under the owner prompt.

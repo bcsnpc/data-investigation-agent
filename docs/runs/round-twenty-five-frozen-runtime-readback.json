@@ -1,0 +1,10 @@
+{
+  "files_checked": 502,
+  "runtime_unchanged": true,
+  "frozen_commit": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0",
+  "worker_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:595047cfadca5d7709e2463dc52d6438cbc80e3786763af89f6bf192b7652f86",
+  "observed_at": "2026-10-28T20:06:23.683415+00:00",
+  "measurement_tests": 20,
+  "measurement_only_helper": "measurement_ticket binds sealed input without inventing an output echo; fake-port test confirms returned clarification object untouched",
+  "no_engine_outputs_rewritten": true
+}

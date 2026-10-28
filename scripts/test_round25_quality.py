@@ -239,6 +239,34 @@ class ReplacementTests(unittest.TestCase):
             with self.assertRaises(ValueError):plumbing_replacement_label(**options)
 
 class WaveTests(unittest.TestCase):
+    def test_clarification_without_echo_is_retained_unchanged(self):
+        from round25_quality import measurement_ticket
+        from investigator.investigator_harness import CaseLog, RunHarness
+        from tempfile import TemporaryDirectory
+        from pathlib import Path
+        envelope={'text':'Which revenue number is this?'}
+        pinned=json.dumps(envelope).encode()
+        ticket=measurement_ticket('case-1',envelope,pinned)
+        result={'result':{'status':'NEEDS_INPUT','business':'Which report?'}}
+        class User:
+            def submit(self, submitted):
+                assert submitted==ticket
+                return {'run_id':'run-1'}
+            def poll(self, run):return {'status':'Succeeded'}
+            def outcome(self, run, status):return result
+        with TemporaryDirectory() as folder:
+            returned=RunHarness(User(),CaseLog(Path(folder)/'case.jsonl'),
+                                admit=lambda _: {'input_sha256':ticket['input_sha256']}).run(ticket)
+        self.assertIs(returned,result)
+        self.assertNotIn('ticket',returned['result'])
+        self.assertEqual(envelope,{'text':'Which revenue number is this?'})
+
+    def test_measurement_binding_refuses_changed_input(self):
+        from round25_quality import measurement_ticket
+        with self.assertRaisesRegex(ValueError,'DIFFERS_FROM_PIN'):
+            measurement_ticket('case-1',{'intake':{'report':'one'}},
+                               json.dumps({'intake':{'report':'two'}}).encode())
+
     def test_no_concurrent_wave_can_consume_restore_headroom(self):
         from round25_quality import static_wave_width
         self.assertEqual(static_wave_width(59),0)

@@ -4,7 +4,7 @@ Measurement only on frozen v0.24. No investigator, intake, triage, routing, quer
 
 ## Part 0: freeze and budgets
 
-_pending_
+R24 closure/tag/main ancestry confirmed. Round25 uses frozen v0.24 release d7f5d2b0 and image595047cf (actual image source b78299f6). All502 runtime files match; no investigator, model, prompt or caching change. Reporting/input-serialization/state-write-recovery helpers have20 focused passing tests. October AI146 and physical12000 allocations remain unchanged; November native accounts/policy read back150USD and9000 requests. The cost-observation renewal command was recorded before its deadline; native observation was renewed28Oct15:42UTC. [Runtime check](runs/round-twenty-five-frozen-runtime-readback.json), [November readiness](runs/round-twenty-five-november-budget-readiness.json).
 
 ## Part A: new held-out v4
 
@@ -28,11 +28,11 @@ _pending_
 
 ## G3: unchanged R22 messy input
 
-_pending_
+All60 original text records are hash-verified and prepared with the frozen model configuration; no G3 run admitted yet. Original dev/held-out expectation copies are unchanged. [Preparation](runs/round-twenty-five-g3-prepared.json).
 
 ## G4: R23 held-out regression
 
-_pending_
+The original sealed20-ticket regression inputs are prepared; no G4 run admitted yet. [Preparation](runs/round-twenty-five-g4-prepared.json).
 
 ## Part H: analysis, restoration and release
 

@@ -10,6 +10,21 @@ GRADE_FIELDS = ('verdict_match', 'layer_match', 'cause_match')
 ASSESSMENT_FIELDS = (*GRADE_FIELDS, 'harmful', 'handoff_quality', 'failing_step', 'partial')
 
 
+def measurement_ticket(identity, envelope, pinned_bytes):
+    """Bind the operator port to its sealed input, without requiring an echo.
+
+    Early free-text clarifications do not echo the ticket. The worker still
+    verifies the input ZIP/spec hashes. This changes only the harness envelope;
+    neither the submitted engine input nor its returned result is rewritten.
+    """
+    if set(envelope) not in ({'text'}, {'intake'}):
+        raise ValueError('MEASUREMENT_INPUT_ENVELOPE')
+    if json.loads(pinned_bytes) != envelope:
+        raise ValueError('MEASUREMENT_INPUT_DIFFERS_FROM_PIN')
+    return {'id': identity, 'target': identity,
+            'input_sha256': hashlib.sha256(pinned_bytes).hexdigest()}
+
+
 def serialize_form_choices(intake, catalog, *, preserve_known_conflicts=False):
     """Serialize selected dropdown labels into IDs before sealing new tickets.
 
