@@ -744,3 +744,6 @@ triage and generic read-tool components have synthetic tests. Cloud assembly
 and consumer-validator/native-port wiring remain incomplete. No live scoring,
 model discovery, injections, smokes, merge or v0.23 tag. Build/offline tests only
 before November1. Round22 is closed at af73a1b, v0.22 on validated merge567a95b.
+
+
+Round24 started2026-10-27 on fresh branch; implementation and live proof pending. R23 results unchanged.
