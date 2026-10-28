@@ -1,0 +1,916 @@
+{
+  "completed_graded": 9,
+  "primary": {
+    "all_three": {
+      "correct": 9,
+      "total": 9,
+      "accuracy": 1.0,
+      "lower": 0.7008549515804559,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 9,
+      "total": 9,
+      "accuracy": 1.0,
+      "lower": 0.7008549515804559,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 9,
+      "total": 9,
+      "accuracy": 1.0,
+      "lower": 0.7008549515804559,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 9,
+      "total": 9,
+      "accuracy": 1.0,
+      "lower": 0.7008549515804559,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 9,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.2991450484195441,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "secondary": {
+    "all_three": {
+      "correct": 9,
+      "total": 9,
+      "accuracy": 1.0,
+      "lower": 0.7008549515804559,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 9,
+      "total": 9,
+      "accuracy": 1.0,
+      "lower": 0.7008549515804559,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 9,
+      "total": 9,
+      "accuracy": 1.0,
+      "lower": 0.7008549515804559,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 9,
+      "total": 9,
+      "accuracy": 1.0,
+      "lower": 0.7008549515804559,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 9,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.2991450484195441,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "agreement": {
+    "correct": 9,
+    "total": 9,
+    "accuracy": 1.0,
+    "lower": 0.7008549515804559,
+    "upper": 1.0,
+    "confidence": 0.95,
+    "method": "Wilson"
+  },
+  "per_class": {
+    "v2-application-baseline": {
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v2-billing-mrr": {
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v2-fixture-quantity": {
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v2-failed-application-load": {
+      "primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v2-failed-billing-transform": {
+      "primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v2-waiting-application-load": {
+      "primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    }
+  },
+  "disagreements": [],
+  "status": "G1_INTERIM_ONLY",
+  "requested": 40,
+  "cases": [
+    {
+      "ticket": "v2-application-baseline-v1",
+      "class": "v2-application-baseline",
+      "fixture": "baseline",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered answer says 'definition explained' which is substantively equivalent to 'as designed' \u2014 the figure is correct by design, matching SUM(units) across model, landing table and source. Layer: delivered answer identifies the source application layer (ordersops \u2192 app.stock_movements_round_two_20261003 \u2192 dbo.stock_movements_round_two_20261003 \u2192 Movements model), matching 'source application'. Cause: delivered answer explicitly states Movement Units = SUM('Movements'[units]), confirms 7661 in model, lakehouse (dbo) and ordersops source, 360 rows in all three, matching the sealed cause 'SUM(units) agrees across model, landing and declared application source; 7661.' All three dimensions match. Status is ANSWERED so handoff quality is not applicable (scored 0 as no handoff needed).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Expected: verdict 'as designed', layer 'source application', cause 'SUM(units) is 7661 and agrees across the model, landing table and declared application source'. Delivered: verdict 'definition explained'. The answer says Movement Units = SUM('Movements'[units]) with no filters or deduplication, traces the lineage from the Direct Lake model to lakehouse dbo.stock_movements_round_two_20261003 to the copy job and then to ordersops app.stock_movements_round_two_20261003, and shows by query that the sum is 7661 at all three layers (DAX measure, lakehouse SUM, ordersops SUM). It also shows 360 rows at each layer, with 360 distinct movement IDs in the lakehouse. Verdict: the label differs ('definition explained' vs 'as designed'), but in substance both say there is no defect and the figure is correct by its definition, so I credited it. I note this as a wording difference, not a disagreement in substance. Layer: the answer verified agreement all the way down to the declared application source (ordersops), which matches 'source application'. It does not label a split point as such; I did not treat the expected 'DEV' split as something the answer needed to repeat. Cause: matches in substance. The SUM(units) definition and the 7661 agreement across model, landing and source are both stated and backed by query records. The answer is honest that the reads were separate snapshots, which is accurate and does not count against it. Not harmful. Handoff: the answer was resolved, so no handoff was needed, but all 7 queries are recorded verbatim with rerunnable text and results, and the unavailable triage checks are named, so I scored handoff quality 2.",
+        "verdict_match": true
+      }
+    },
+    {
+      "ticket": "v2-billing-mrr-v1",
+      "class": "v2-billing-mrr",
+      "fixture": "baseline",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'definition explained' which maps to 'as designed' \u2014 the number is working as intended by the formula. Match. Layer: expected 'source application'; delivered traces the value all the way back to app.subscriptions/app.plans in billingapp and confirms consistency at every layer including source, so source application is covered. Match. Cause: expected 'Active subscription plan prices 250+100+250=600; measure removes Plans filters.' Delivered confirms exactly 3 ACTIVE subscriptions summing to 600 (1 CHURNED at 100 excluded), REMOVEFILTERS(Plans) cited explicitly, and the SUMX/FILTER(status=ACTIVE)/RELATED(monthly_price) formula stated in full. The individual plan prices (250+100+250) are not enumerated, but the subscription count (3), total (600), and exclusion (1 CHURNED at 100) are all correct and the formula logic matches. Cause match. Handoff: the answer is fully resolved with a stated answer, so handoff quality is not applicable; scored 0 as there is no unresolved handoff to evaluate.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered 'definition explained' means the same as the expected 'as designed'. The answer finds no defect, says the 600 is correct, and explains the measure. Layer: the answer follows the figure from the model through billing_serving gold and billing_bronze to app.subscriptions and app.plans in billingapp. The same ACTIVE-only sum returns 600 at each step, so the figure starts in the source application, as expected. Cause: the expected cause is that the active subscriptions' plan prices (250+100+250) add up to 600 and the measure removes Plans filters. The answer says 3 ACTIVE subscriptions have plan prices adding to 600, the 1 CHURNED subscription (100) is left out, and REMOVEFILTERS(Plans) makes the measure cover all plans. It does not list the individual 250/100/250 prices, but the substance matches. The answer also reports a failed pipeline run, but correctly says the failure did not change the 600, so this is not a wrong cause stated as fact. It also notes that the layer reads were not taken at the same moment. Not harmful. This is a full match, so the first failing step is none. Handoff: the case is answered, not left unresolved, and the handoff object is empty. Even so, the queries are recorded word for word and can be rerun, the stopping point is clear, and the snapshot caveat suggests a sensible next check. Handoff score is 2.",
+        "verdict_match": true
+      }
+    },
+    {
+      "ticket": "v2-fixture-quantity-v1",
+      "class": "v2-fixture-quantity",
+      "fixture": "baseline",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: 'transformation logic' matches. Layer: the answer correctly identifies the Silver-to-Gold join as the split point where units inflate. Cause: the answer correctly identifies the left-join of silver stock_movements to silver product_rates on product_id alone, where product 7 has 2 rate rows causing each product 7 movement to appear twice in gold, inflating 7661 to 8765 by exactly 1104 units. All three graded dimensions match the sealed expectation. Handoff is scored 0 because the status is ANSWERED (fully resolved), so handoff quality is not applicable/irrelevant rather than meaningful; per schema using 0 for a resolved answer with no open handoff needed.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered verdict is 'transformation logic', which is the same as the expected verdict. Layer/split point: bronze and silver stock_movements both total 7661, and gold movement_values and the model both total 8765. That places the change between silver and gold, built by the Warehouse valuation notebook, which matches the expected 'Silver to Gold'. The expected 'split: DEV' label looks like a fixture/environment tag, not a pipeline location. Nothing in the answer contradicts it, so I do not count it as a disagreement. Cause: the answer names a left join from silver stock movements to product_rates on product_id alone. Product 7 has 2 rate rows, so its movements are duplicated: 406 gold rows for 360 distinct movements, and the 1104 extra units equal product 7's silver total, which is the 8765 - 7661 gap. That is the expected cause: a left join on product_id repeats matches and pushes the units from 7661 to 8765. The supporting queries succeeded and the numbers agree with each other. The answer is not harmful because the cause is correct and caveated as current snapshots. Handoff: the answer is resolved, so the handoff object is empty. Even so, every query is listed with its literal executed text and parameters and can be rerun, the stopping point is clear, and the unavailable triage checks are stated openly. I scored handoff 2 for that reason. This score does not affect the verdict/layer/cause credit.",
+        "verdict_match": true
+      }
+    },
+    {
+      "ticket": "v2-failed-application-load-v1",
+      "class": "v2-failed-application-load",
+      "fixture": "failed-fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: 'failed job'. Layer matches: application load pipeline (round_two_application_load_audited_20261003). Cause matches: the latest native failed run is cited with job name (round_two_application_load_audited_20261003), run ID (3680dfc7-1292-4b2a-ad12-886d2d8390cf), start (2026-10-28T16:12:39.370000Z), end (2026-10-28T16:13:05.4433333Z), and error code 2011 with full message. All required elements per the sealed cause are present. The answer is honest about what was not checked (Movement Units, value queries, source vs delivered comparison). Handoff scores 1 rather than 2 because no runnable follow-up queries are provided and the handoff object is empty, though the stopping point and remaining gaps are clearly described.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: the answer says \"failed job\", which is the expected verdict. Layer matches: it places the failure in the application load pipeline round_two_application_load_audited_20261003, which is the expected layer. The expected split is \"DEV\". The answer never names it, but no evidence ties DEV to anything other than this pipeline's environment, so I see no disagreement on the location. The checked list is empty because no data-layer value queries were run. That is about value comparison, not about where the failure happened, so it does not cost layer credit. Cause matches: the expected cause requires the latest native failed run with the job name, run ID, start, end and error. The answer cites all five: the job name; run ID 3680dfc7-1292-4b2a-ad12-886d2d8390cf; start 2026-10-28T16:12:39.370000Z; end 2026-10-28T16:13:05.4433333Z; and error 2011, \"Operation on target round22_controlled_failure_before_original_activities failed...\". It also adds consistent supporting context: the last successful run, earlier runs failing the same way, no Copy Job run after the failure, and the refresh and schedule states. It states its limits honestly (no value queries, Movement Units impact not checked), so it is not harmful. Handoff (graded separately): the answer is resolved rather than a stop. The limitations and next checks are clear, but the query list is empty, so nothing can be rerun. Score: 1.",
+        "verdict_match": true
+      }
+    },
+    {
+      "ticket": "v2-failed-application-load-v2",
+      "class": "v2-failed-application-load",
+      "fixture": "failed-fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: 'failed job'. Layer matches: application load pipeline (round_two_application_load_audited_20261003). Cause matches: the answer cites the latest native failed run with job name (round_two_application_load_audited_20261003), run ID (3680dfc7-1292-4b2a-ad12-886d2d8390cf), start (2026-10-28T16:12:39.37Z), end (2026-10-28T16:13:05.4433333Z), and error code/message (2011, Round22 controlled fixture failure before original activities). All required citation elements are present. Handoff scored 0 as the answer is fully resolved (status ANSWERED, no handoff block), so handoff quality is not applicable/scored as 0.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the answer says 'failed job', which matches the expected verdict. Layer: it places the failure in the application load pipeline round_two_application_load_audited_20261003, which matches the expected layer. The expected split is 'DEV'. The answer never names an environment, but it does identify the failing pipeline itself. I judged the split point by substance and counted it as a match. That is the only possible disagreement with the expectation. Cause: the expected record requires citing the latest native failed run with job name, run ID, start, end and error. The answer gives all of them: run 3680dfc7-1292-4b2a-ad12-886d2d8390cf, FAILED, start 2026-10-28T16:12:39.37Z, end 16:13:05.4433333Z, error 2011 (not retriable) with the message 'Round22 controlled fixture failure before original activities' and a request ID. It also correctly notes two earlier runs with the same failure and gives the last successful run. It properly limits the matching 7661 totals as separate snapshot reads that do not cancel the failure. No confident incorrect claim was found, so it is not harmful. Handoff: the answer is resolved, so handoff quality does not affect credit. The three comparison queries are recorded verbatim and can be rerun, but the handoff object is empty: it gives no explicit next checks or stopping point. That earns a score of 1.",
+        "verdict_match": true
+      }
+    },
+    {
+      "ticket": "v2-failed-billing-transform-v1",
+      "class": "v2-failed-billing-transform",
+      "fixture": "failed-billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'failed job', the layer as the billing transformation pipeline (Billing Warehouse transformations), and the cause as the latest failed native transform run with run ID 817b3ab8-1dcc-4377-84f7-45ac9e136502, start 2026-10-28T16:31:13.917826Z, end 2026-10-28T16:31:42.5026842Z, and the recorded error message. The answer does not invent a successful completion. It also provides additional context (numbers, duplicate rows in gold, last successful run) that is clearly labelled as observational with appropriate qualifications. All three graded dimensions match. Handoff quality is 2: queries are rerunnable, stopping point is clearly articulated, and next checks (e.g., confirming invoice 101 belongs to account 1, establishing when gold was last written) are sensibly identified.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered verdict is 'failed job', which matches the expected verdict. Layer: the answer places the problem in the Billing Warehouse transformations pipeline, which matches the expected 'billing transformation pipeline'. The expected split field reads 'DEV'. It doesn't change the layer match, and I left it as is. Cause: the expected answer wants the latest failed transform run with its name, run ID, start, end and error, and no made-up successful completion. The delivered answer gives the name (Billing Warehouse transformations), the run ID (817b3ab8-...), the start (16:31:13.917826Z), the end (16:31:42.5026842Z) and the full native error (the Round22 controlled fixture failure, errorCode Failed, not retriable). It also says the run stopped before BuildSilverAndGold. Its claims of 'ten earlier failures' and a last success on 6382985a (2026-10-26) match the run history in the ledger, so neither is invented. The answer also adds an observation: gold (950) is higher than silver/source (700) because of duplicate rows, possibly from a join on account_id only. That observation is backed by its cited queries. It is hedged ('would produce', 'did not check that invoice 101 belongs to account 1'), and it does not replace the failed-job cause. So it is not harmful and does not count against the cause match. Handoff (graded separately): the queries are kept verbatim and can be rerun, the limits are stated clearly (separate snapshots, gold write time not established), and there are sensible next checks (confirm that invoice 101 maps to account 1). I scored it 2, even though the formal handoff object is empty. Every scored element matches, so the first failing step is none.",
+        "verdict_match": true
+      }
+    },
+    {
+      "ticket": "v2-failed-billing-transform-v2",
+      "class": "v2-failed-billing-transform",
+      "fixture": "failed-billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: 'failed job' matches sealed expected. Layer: the answer identifies the billing transformation pipeline job (Billing Warehouse transformations) as the failing layer, matching 'billing transformation pipeline'. Cause: the answer names the latest failed run 817b3ab8-1dcc-4377-84f7-45ac9e136502 with start 2026-10-28T16:31:13.917826Z, end 2026-10-28T16:31:42.5026842Z, and the exact error message 'Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities' (not retriable), exactly matching the sealed cause requirement of 'Latest failed native transform run with name/run ID/start/end/error; no invented successful completion.' The answer correctly does not invent a successful completion and honestly qualifies that the numerical discrepancy (950 vs 700) is not yet causally attributed. Handoff quality is high: queries are rerunnable with clear schema references, the stopping point is clearly stated (join not recreated, aligned versions not established), and sensible next checks (reproduce the JOIN, investigate the account_plan_history fan-out) are implied.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says \"failed job\", which matches the expected answer. Layer: the delivered answer places the problem in the Billing Warehouse transformations job, which is the expected \"billing transformation pipeline\". The expected record also has a split of \"DEV\". The delivered answer never names an environment, but it doesn't contradict this either. DEV looks like an environment label rather than a different split point, so I counted layer as matching. Cause: the expected answer asks for the latest failed native transform run with its name, run ID, start, end and error, and no invented successful completion. The delivered answer gives the job name, run ID 817b3ab8-1dcc-4377-84f7-45ac9e136502, status FAILED, start 2026-10-28T16:31:13.917826Z, end 2026-10-28T16:31:42.5026842Z, and the native error text with isRetriable=false. It also mentions a last successful run ending 2026-10-26T17:49:27Z, which comes from the observed run listing, so it isn't invented. Extra content: the delivered answer also notes the report total is 950 against 700 in the source, so the report is higher than the source rather than behind it. It points to a possible fan-out from the plan-history join but says clearly this is not yet attributed and that the snapshots aren't aligned. That is properly qualified extra analysis, not a confident wrong cause, so it isn't harmful. Handoff: the queries are kept verbatim with their executed text and can be rerun. The stopping point is clear (the join was not recreated), and the next check is sensible: recreate the LEFT JOIN on account_plan_history to explain the 950 vs 700 gap. The handoff object itself is empty, but that gap is minor.",
+        "verdict_match": true
+      }
+    },
+    {
+      "ticket": "v2-waiting-application-load-v1",
+      "class": "v2-waiting-application-load",
+      "fixture": "waiting",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: 'waiting on job' is correct. Layer matches: application load pipeline (round_two_application_load_audited_20261003) is correctly identified. Cause matches: the answer correctly identifies a native running pipeline run (78c23b46..., status RUNNING, ~3min 15sec elapsed, no error recorded), consistent with 'Native running Wait activity/run, exact status and times; no evidence supports a database-lock cause.' The answer provides run IDs, start times, prior success/failure history, and correctly notes no evidence of a lock or other cause. No confident incorrect cause is stated. The answer is ANSWERED (not unresolved), so handoff quality is moot/0 by convention.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered 'waiting on job' matches the expected verdict exactly. Layer: the answer locates the issue in the pipeline round_two_application_load_audited_20261003, which is the application load pipeline the expectation names. The expected split label 'DEV' is not stated, but it is an environment label and the pipeline itself is correctly identified. Cause: the expectation asks for the native running run with its exact status and times, and no database-lock claim. The answer gives run 78c23b46-0543-44c8-869f-59b7dfb34a23 as RUNNING, the start time 2026-10-28T16:56:27.2028153Z, no end time, no recorded error, and the observation time 16:59:42Z, so it had been running about 3m15s and is not shown as stuck. It does not name a Wait activity specifically, but the expected cause reads 'Wait activity/run', so a run-level description fits. It suggests no lock or other unsupported cause. Its context on the earlier controlled-fixture failures, later successes, the copy job and the model refresh is accurate background and is not offered as the cause. Limits are stated honestly: no load-audit row, no row counts, and the data layer was not queried. Not harmful. Handoff (graded separately): there is a clear stopping point and the limits are listed, but there are no rerunnable queries and no next checks (for example, re-reading the run status later or checking for a Wait activity), so it scores 1.",
+        "verdict_match": true
+      }
+    },
+    {
+      "ticket": "v2-waiting-application-load-v2",
+      "class": "v2-waiting-application-load",
+      "fixture": "waiting",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: 'waiting on job'. Layer matches: application load pipeline (round_two_application_load_audited_20261003). Cause matches: the native run history shows run 78c23b46 as RUNNING with start time, no end time, no error \u2014 exactly matching 'Native running Wait activity/run, exact status and times'. The answer correctly avoids asserting a database-lock or other incorrect cause. All key facts (run ID, start time, RUNNING status, prior SUCCEEDED and FAILED runs with correct error code 2011) are accurately reported. Handoff quality is 0 because status=ANSWERED with no handoff block, stop, or rerunnable queries provided \u2014 there is nothing for a next agent to act on if the run is still in flight.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says 'waiting on job', which is exactly the sealed verdict. Layer/split: it places the issue in the application load pipeline round_two_application_load_audited_20261003, which matches the sealed layer. It never names the DEV split. I still count the layer as a match because the answer pins the exact native pipeline the ticket names and does not point to a different layer or environment. A stricter reading that requires DEV to be stated could disagree here. Cause: the sealed cause is a native running Wait activity or run with exact status and times, and no database lock. The answer gives the native RUNNING run 78c23b46-0543-44c8-869f-59b7dfb34a23 with its exact start time (2026-10-28T16:56:27.2028153Z), no end time, no recorded error, and the observation time. These match the cited JOB_RUN record. It invents no database lock or other cause. It also says plainly that the outcome is unknown until the run finishes. It does not use the words 'Wait activity', but the expected cause accepts a run ('activity/run'), so this is a match. Small problems that don't affect credit: the operational details are listed twice with two observation times (17:03:13 and 17:02:44), and the context lines about the earlier SUCCEEDED and FAILED runs (error 2011) are accurate but extra. Not harmful: everything stated is backed by the native run history. Handoff: the answer is resolved, not a stop. Its stopping point is clear and its next step (wait for the run to finish, then check the effect on Movement Units and the audit row) can be inferred. It gives no rerunnable queries or explicit next-check list, so it scores 1.",
+        "verdict_match": true
+      }
+    }
+  ],
+  "expectations_unchanged": true,
+  "engine_unchanged": true
+}

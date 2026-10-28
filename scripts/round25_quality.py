@@ -93,3 +93,35 @@ def restored_job_status(fixture, native):
             and 'CREATE SCHEMA failed' in message):
         return 'ORIGINAL_EXISTING_BILLING_BOOTSTRAP_FAILED_2011'
     raise ValueError('UNEXPECTED_ORIGINAL_CONTROL_JOB_STATE')
+
+
+def static_wave_width(remaining_requests, *, requested=3, per_case=40, restore_headroom=20):
+    """Runner scheduling only; authoritative per-request admission is unchanged."""
+    if any(type(v) is not int or v < 0 for v in (remaining_requests, requested, per_case, restore_headroom)) or per_case == 0:
+        raise ValueError('WAVE_BOUNDS_REQUIRED')
+    return min(requested, max(0, (remaining_requests-restore_headroom)//per_case))
+
+
+def cohort_metrics(cases):
+    """Only supplied, independently graded cases count; no missing cases become zeros."""
+    from collections import defaultdict
+    grouped=defaultdict(list)
+    for case in cases:grouped[case['class']].append(case)
+    primary=[c['primary']for c in cases];secondary=[c['secondary']for c in cases]
+    agreement=sum(all(c['primary'][k]==c['secondary'][k]for k in (*GRADE_FIELDS,'harmful'))for c in cases)
+    return {'completed_graded':len(cases),'primary':accuracy_table(primary),
+            'secondary':accuracy_table(secondary),'agreement':wilson(agreement,len(cases)),
+            'per_class':{name:{'primary':accuracy_table([c['primary']for c in rows]),
+                               'secondary':accuracy_table([c['secondary']for c in rows])}for name,rows in grouped.items()},
+            'disagreements':[c for c in cases if any(c['primary'][k]!=c['secondary'][k]for k in (*GRADE_FIELDS,'harmful'))]}
+
+
+def require_existing_probe_route(base, config, database, objects):
+    """Fixture tooling must use its estate's existing reader route, never expand it."""
+    policy=json.loads(base['environment']['DIA_PLATFORM_GATEWAY_POLICY'])
+    reader=config['fabric']['sql_reader']
+    routes=policy['identities']['investigation']['sql']
+    if not any(route['server']==reader['server']and route['database']==database
+               and set(objects)<=set(route['objects'])and route.get('read_only')is True for route in routes):
+        raise ValueError('EXISTING_NATIVE_PROBE_ROUTE_REQUIRED')
+    return True

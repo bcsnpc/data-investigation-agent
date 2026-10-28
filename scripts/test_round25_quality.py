@@ -64,4 +64,44 @@ class MeasurementTests(unittest.TestCase):
         with self.assertRaises(ValueError):restored_job_status('failed-billing',native)
 
 
+class CohortTests(unittest.TestCase):
+    def test_partial_cohorts_and_disagreements_stay_explicit(self):
+        from round25_quality import cohort_metrics
+        good=dict(verdict_match=True,layer_match=True,cause_match=True,harmful=False,reason='native facts')
+        bad=dict(good,cause_match=False,reason='cause not established')
+        cases=[{'ticket':'one','class':'defined','primary':good,'secondary':bad}]
+        value=cohort_metrics(cases)
+        self.assertEqual(value['completed_graded'],1)
+        self.assertEqual(value['primary']['all_three']['correct'],1)
+        self.assertEqual(value['secondary']['all_three']['correct'],0)
+        self.assertEqual(value['agreement']['correct'],0)
+        self.assertEqual(value['disagreements'],cases)
+        self.assertEqual(value['per_class']['defined']['primary']['all_three']['total'],1)
+        self.assertIsNone(cohort_metrics([])['primary']['all_three']['accuracy'])
+
+class NativeProbeRouteTests(unittest.TestCase):
+    def test_a_probe_uses_only_its_existing_estate_route(self):
+        from round25_quality import require_existing_probe_route
+        route={'server':'reader-endpoint','database':'billing','objects':['[gold].[invoices]'],'read_only':True}
+        base={'environment':{'DIA_PLATFORM_GATEWAY_POLICY':json.dumps({'identities':{'investigation':{'sql':[route]}}})}}
+        before=json.dumps(base,sort_keys=True);config={'fabric':{'sql_reader':{'server':'reader-endpoint'}}}
+        self.assertTrue(require_existing_probe_route(base,config,'billing',['[gold].[invoices]']))
+        self.assertEqual(json.dumps(base,sort_keys=True),before)
+        with self.assertRaises(ValueError):require_existing_probe_route(base,config,'fixture',['[gold].[invoices]'])
+        with self.assertRaises(ValueError):require_existing_probe_route(base,config,'billing',['[gold].[other]'])
+        route['read_only']=False;base['environment']['DIA_PLATFORM_GATEWAY_POLICY']=json.dumps({'identities':{'investigation':{'sql':[route]}}})
+        with self.assertRaises(ValueError):require_existing_probe_route(base,config,'billing',['[gold].[invoices]'])
+
+class WaveTests(unittest.TestCase):
+    def test_no_concurrent_wave_can_consume_restore_headroom(self):
+        from round25_quality import static_wave_width
+        self.assertEqual(static_wave_width(59),0)
+        self.assertEqual(static_wave_width(60),1)
+        self.assertEqual(static_wave_width(100),2)
+        self.assertEqual(static_wave_width(140),3)
+        for available in range(200):
+            width=static_wave_width(available)
+            if width:self.assertLessEqual(width*40+20,available)
+        with self.assertRaises(ValueError):static_wave_width(-1)
+
 if __name__=='__main__':unittest.main()
