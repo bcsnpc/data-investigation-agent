@@ -218,6 +218,29 @@ class Investigator:
         self.state['pending']=None;self.save()
         return result
 
+    def prime_operational_run(self):
+        """Read the current triage run before asking the model about values."""
+        from .triage_hints import job_hint
+        self.refresh_tools()
+        for hint in job_hint(self.triage):
+            subject=hint.get('subject')
+            for name in ('get_job_runs','get_refresh_history'):
+                tool=self.read_tools.get(name)
+                if not tool or subject not in tool['schema']['properties']['node'].get('enum',[]):continue
+                args={'node':subject};key=digest([name,args])
+                if key in self.state['cache']:return
+                self.state['pending']={'kind':'TOOL','name':name,'signature':key};self.save()
+                self.state['tools_used']+=1
+                try:
+                    value=self.dispatch(name,args)
+                    ident=self.evidence({'tool':name,'arguments':args,'result':value})
+                    self.state['cache'][key]={'evidence_id':ident,'result':value}
+                    self.state['messages'].append({'role':'user','content':canonical({'first_path_run_evidence':ident,'result':value,'instruction':'Establish this run status, times and error before unrelated comparisons; it is not automatically the cause of every ticket.'})})
+                except (SpendHold,UsageHold,GatewayDenied):raise
+                except Exception as error:
+                    self.evidence({'operational_read_failed':name,'error_type':type(error).__name__})
+                self.state['pending']=None;self.save();return
+
     def run(self):
         started=self.clock();self._started=started;pins=digest([self.case_id,self.context,self.triage])
         saved=self.checkpoint.load()
@@ -245,6 +268,7 @@ class Investigator:
             self._elapsed_before=0
             self.evidence({'kind':'TRIAGE','facts':self.triage})
         try:
+            if not saved:self.prime_operational_run()
             while self.state['tools_used']<self.tool_limit and self.state['model_calls']<self.tool_limit+3:
                 if self._elapsed_before+self.clock()-started>=self.deadline_seconds:break
                 recitation={'case_id':self.case_id,'tools_used':self.state['tools_used'],

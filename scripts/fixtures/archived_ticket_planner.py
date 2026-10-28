@@ -118,7 +118,7 @@ def _azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='tic
     key = model_key(cloud_session) if cloud_session else os.environ.get('AZURE_OPENAI_API_KEY', '')
     if not re.fullmatch(r'https://[a-zA-Z0-9-]+\.openai\.azure\.com/?', endpoint) or not deployment or not key:
         raise ValueError('Azure endpoint, deployment and local API key must be configured')
-    if endpoint not in ('https://test.openai.azure.com','https://synthetic.openai.azure.com'):raise ValueError('ARCHIVED_PROTOCOL_SYNTHETIC_ENDPOINT_ONLY')
+    if endpoint not in ('https://test.openai.azure.com','https://synthetic.openai.azure.com','https://offline.openai.azure.com'):raise ValueError('ARCHIVED_PROTOCOL_SYNTHETIC_ENDPOINT_ONLY')
     from openai import OpenAI
     from investigator.planner_recording import http_options
     from investigator.model_spend import admission

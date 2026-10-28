@@ -1,0 +1,732 @@
+{
+  "observed_at": "2026-10-28T03:05:39.978643+00:00",
+  "dev_forms": 40,
+  "results": [
+    {
+      "id": "v2-application-baseline-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-application-baseline-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-fixture-quantity-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-fixture-quantity-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-failed-application-load-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-failed-application-load-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-waiting-application-load-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-waiting-application-load-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-latency-record-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-latency-record-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-stale-model-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-stale-model-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-warehouse-scope-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-warehouse-scope-v2",
+      "estate": "fixture",
+      "status": "INTAKE_REFUSED",
+      "reason": "UNKNOWN_REPORT"
+    },
+    {
+      "id": "v2-before-temporal-retention-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-before-temporal-retention-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-record-absent-everywhere-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-record-absent-everywhere-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-record-repeated-gold-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-record-repeated-gold-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-source-history-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-source-history-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-screenshot-record-01-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-screenshot-record-01-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-screenshot-record-02-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-screenshot-record-02-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-screenshot-record-03-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-screenshot-record-03-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-screenshot-record-04-v1",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-screenshot-record-04-v2",
+      "estate": "fixture",
+      "actual_wire": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "without_bookkeeping": {
+        "status": "FAILED",
+        "type": "ValueError",
+        "reason": "GRAPH_ALLOWLIST_BOUND"
+      },
+      "status": "FAILED"
+    },
+    {
+      "id": "v2-billing-mrr-v1",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 182250
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 183722
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-billing-mrr-v2",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 181824
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 183294
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-billing-invoices-v1",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 2,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 112825
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 2,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 113035
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-billing-invoices-v2",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 2,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 112453
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 2,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 112663
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-failed-billing-transform-v1",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 2,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 112075
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 2,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 112285
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-failed-billing-transform-v2",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 2,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 111781
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 2,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 111992
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-access-export-v1",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 444252
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 448452
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-access-export-v2",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 443978
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 448178
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-other-collected-definition-v1",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 143943
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 144784
+      },
+      "status": "ASSEMBLED"
+    },
+    {
+      "id": "v2-other-collected-definition-v2",
+      "estate": "billing",
+      "actual_wire": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 143637
+      },
+      "without_bookkeeping": {
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4aae8dbb1d373ebef783",
+          "native:ac3ebe915b1cc00c45d7",
+          "native:f87556d4485196602461"
+        ],
+        "warnings": 2,
+        "context_bytes": 144478
+      },
+      "status": "ASSEMBLED"
+    }
+  ],
+  "estate_reads": 0,
+  "model_calls": 0,
+  "method": "Actual sealed dev forms and retained estate graph/catalog; production Factory route assembly twice, actual wire and all top-level inventory bookkeeping removed. Native schema/endpoint ports use offline retained-schema shape stubs; no data values, live probe or finding is claimed. Invalid report IDs are not substituted."
+}

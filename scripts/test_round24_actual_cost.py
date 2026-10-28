@@ -37,6 +37,19 @@ class ActualCostTests(unittest.TestCase):
   with self.assertRaisesRegex(SpendHold,'MONTHLY_MODEL_EXHAUSTED'):self.budget.reserve({'model':self.rate.model,'max_tokens':8000},input_tokens_upper_bound=10000)
 
 class TriageTests(unittest.TestCase):
+ def test_operational_read_precedes_model_and_is_cached(self):
+  from investigator.ai_investigation import Investigator
+  from unittest.mock import Mock
+  from investigator.estate_graph_contract import digest
+  engine=Investigator.__new__(Investigator)
+  engine.triage={'facts':[{'check':'JOB_RUNS','state':'OBSERVED','source':'native','value':{'subject':'job','status':'Failed','run_id':'r'}}]}
+  engine.state={'cache':{},'tools_used':0,'messages':[]}
+  engine.refresh_tools=Mock();engine.read_tools={'get_job_runs':{'schema':{'properties':{'node':{'enum':['job']}}}}}
+  engine.save=Mock();engine.dispatch=Mock(return_value={'source':'native','status':'Failed'});engine.evidence=Mock(return_value='e1')
+  engine.prime_operational_run();engine.prime_operational_run()
+  engine.dispatch.assert_called_once_with('get_job_runs',{'node':'job'})
+  self.assertEqual(engine.state['tools_used'],1)
+  self.assertIn(digest(['get_job_runs',{'node':'job'}]),engine.state['cache'])
  def test_old_failed_history_does_not_override_latest_success(self):
   triage={'facts':[{'check':'JOB_RUNS','state':'OBSERVED','source':'native','value':[{'kind':'JOB_RUN','subject':'job','value':{'run_id':'new','status':'Completed'}},{'kind':'RUN_HISTORY','subject':'job','value':{'runs':[{'run_id':'old','status':'Failed'}]}}]}]}
   self.assertEqual(job_hint(triage),[])
