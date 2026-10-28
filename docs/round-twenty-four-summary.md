@@ -8,7 +8,7 @@ R23 pins verified; draft #431 opened. Source and cloud budgets applied and read 
 
 ## Part A: Anthropic and plumbing
 
-_pending_
+Current structured-call transport now uses Anthropic; production constructor scan passes, archived fake-endpoint Azure protocol fixtures remain separate. New guided smoke checks native boundary records. One live Opus credit control succeeded:430input/51output,USD0.002740,zero estate reads. PostgreSQL closed-socket detection added; existing short-transaction, token renewal, timeout subclass and idempotent retry tests pass. Cloud mutation-scope gaps remain local; no role added. Early3green smokes still pending.
 
 ## Part B: Model, caching, cost and speed
 

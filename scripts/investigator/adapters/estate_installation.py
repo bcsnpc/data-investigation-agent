@@ -128,6 +128,10 @@ def validate_registered_options(manifest):
 def provider(name,credential):
     from ..adaptive_planner import azure_plan
     from ..question_intake import azure_resolve
-    if name!='azure':raise ValueError('Model provider is not installed: '+name)
-    validate_provider_credential(credential)
+    if name not in ('anthropic','azure'):raise ValueError('Model provider is not installed: '+name)
+    if name=='anthropic':
+        from .managed_identity import validate_secret_reference
+        if credential.get('mode')!='key_vault':raise ValueError('ANTHROPIC_KEY_VAULT_REQUIRED')
+        validate_secret_reference(credential['reference'])
+    else:validate_provider_credential(credential)
     return azure_plan,azure_resolve

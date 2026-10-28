@@ -364,3 +364,6 @@ The owner authorizes October combined AI ceiling USD146 (USD3 protected grading)
 
 
 Round24 model choice, 2026-10-27: Opus5.5 is the investigator default, Fable only a separate optional post-held-out comparison. Anthropic pricing checked: base input4USD/MTok, output20, five-minute write5, read0.20; minimum cacheable prefix512tokens. Existing retained pricing pins are not rewritten. Sources: https://platform.claude.com/docs/en/about-claude/pricing and https://platform.claude.com/docs/en/models/opus-5-5/overview .
+
+
+Round24 runtime migration2026-10-27: structured legacy entry-point names now delegate to the guarded Anthropic client; there is no production OpenAI constructor. Old synthetic Azure protocol tests explicitly import an archived fixture restricted to test.openai.azure.com; frozen request bytes remain untouched. Guided smoke validates native boundary reads separately from model claims. Current engine freeze invalidated; historic R23 score pins unchanged.

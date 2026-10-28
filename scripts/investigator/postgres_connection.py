@@ -83,7 +83,10 @@ class ObservedConnection:
 
     def _call(self,operation,call,*args,**kwargs):
         started=self.clock();idle=max(0,started-self.responded)
-        try:result=call(*args,**kwargs)
+        try:
+            closed=getattr(self.connection,'closed',False)
+            if type(closed) in (bool,int) and closed:raise ConnectionError('POSTGRES_STALE_SOCKET_CLOSED')
+            result=call(*args,**kwargs)
         except Exception as error:
             timing={'operation':operation,'idle_before_request_seconds':round(idle,6),
                 'failed_request_seconds':round(max(0,self.clock()-started),6),

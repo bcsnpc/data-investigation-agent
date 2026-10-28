@@ -110,46 +110,12 @@ def _azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='tic
             from investigator.process_tape import event
             event('CONFIGURATION',{'control':'INTAKE_REQUEST_OVERSIZE','characters':size,'cap':max_request_characters})
             raise ValueError('INTAKE_REQUEST_OVERSIZE: '+str(size)+' > '+str(max_request_characters))
-    from investigator.adapters.managed_identity import MODEL_SESSION,model_key
-    cloud_session=MODEL_SESSION.get()
-    endpoint = cloud_session['endpoint'] if cloud_session else os.environ.get('AZURE_OPENAI_ENDPOINT', '')
-    deployment = body['model']
-    key = model_key(cloud_session) if cloud_session else os.environ.get('AZURE_OPENAI_API_KEY', '')
-    if not re.fullmatch(r'https://[a-zA-Z0-9-]+\.openai\.azure\.com/?', endpoint) or not deployment or not key:
-        raise ValueError('Azure endpoint, deployment and local API key must be configured')
-    from openai import OpenAI
-    from investigator.planner_recording import http_options
-    from investigator.model_spend import admission
-    def send(unchanged_body):
-        with admission(unchanged_body) as settle_spend:
-            from investigator.model_transport_retry import timeout
-            with OpenAI(api_key=key, base_url=endpoint.rstrip('/') + '/openai/v1/', timeout=timeout(policy['timeout_seconds']), max_retries=0, **http_options()) as client:
-                response=client.responses.create(**unchanged_body)
-            settle_spend(response.usage.model_dump() if response.usage else None)
-            return response
-    from investigator.model_transport_retry import dispatch
-    response=dispatch(body,send)
-    from investigator.generation_policy import ProviderResponseError
-    usage=response.usage.model_dump() if response.usage else None
-    if any(c.type=='refusal' for item in response.output if item.type=='message' for c in item.content):
-        raise ProviderResponseError('REFUSAL',usage)
-    if response.status=='incomplete':
-        reason=getattr(getattr(response,'incomplete_details',None),'reason',None)
-        code={'max_output_tokens':'OUTPUT_TOKEN_LIMIT','content_filter':'CONTENT_FILTER'}.get(reason,'INCOMPLETE')
-        raise ProviderResponseError(code,usage)
-    if response.status!='completed':raise ProviderResponseError('RESPONSE_NOT_COMPLETED',usage)
-    if decision_tool:
-        calls=[item for item in response.output if item.type=='function_call']
-        if len(calls)!=1 or calls[0].name!=name or any(item.type not in ('function_call','reasoning') for item in response.output):
-            raise ProviderResponseError('DECISION_CALL_SHAPE',usage)
-        raw=calls[0].arguments
-    elif agent_final_answer:
-        from investigator.agent_response import final_text
-        raw=final_text(response,usage)
-    else:raw=response.output_text
-    try:value=json.loads(raw)
-    except (ValueError,TypeError):raise ProviderResponseError('INVALID_JSON',usage) from None
-    return value, {'response_id':response.id,'model':response.model,'usage':usage}
+    # Historical entry-point name remains API-compatible. Current transport is
+    # Anthropic only; the archived protocol is never imported by runtime.
+    from investigator.adapters.runtime_anthropic import generate
+    return generate(payload,instructions,schema,name,max_tokens=policy['max_output_tokens'],
+                    image_data_url=image_data_url)
+
 
 
 

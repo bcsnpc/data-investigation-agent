@@ -197,7 +197,7 @@ class ScreenshotTests(unittest.TestCase):
 
 class VisionTransportTests(unittest.TestCase):
     def test_sdk_receives_inline_image_and_existing_limits(self):
-        from ticket_planner import azure_generate
+        from fixtures.archived_ticket_planner import azure_generate
         from openai import DefaultHttpxClient
         client = MagicMock(); client.__enter__.return_value = client
         client.responses.create.return_value = SimpleNamespace(status='completed', output=[SimpleNamespace(type='function_call', name='vision', arguments='{}')],

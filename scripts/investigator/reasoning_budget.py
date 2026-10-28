@@ -41,11 +41,13 @@ class RateCard:
 
 
 class TicketBudget:
-    def __init__(self,state,*,case_id,owner,rate,clock=time.time,actual_usage_limit=None):
+    def __init__(self,state,*,case_id,owner,rate,clock=time.time,actual_usage_limit=None,purpose="INVESTIGATOR"):
         if not case_id or not owner:raise ValueError('CASE_AND_WORKER_REQUIRED')
         if actual_usage_limit is not None and (type(actual_usage_limit)is not int or actual_usage_limit!=3_000_000):
             raise ValueError('OWNER_DIAGNOSTIC_LIMIT_REQUIRED')
         self.state,self.case_id,self.owner,self.rate,self.clock=state,case_id,owner,rate,clock
+        if purpose not in ('INVESTIGATOR','SCREENSHOT','ENRICHMENT','WRITER','GRADING','SMOKE'):raise ValueError('MODEL_PURPOSE_REQUIRED')
+        self.purpose=purpose
         self.actual_usage_limit=actual_usage_limit
         self.reservations={}
 
@@ -70,7 +72,7 @@ class TicketBudget:
         bound=self.rate.price(inputs,estimated_output) if self.actual_usage_limit is not None else maximum
         account=ensure_model_account(self.state,self.clock())
         identity='reasoning:'+str(uuid4())
-        detail={'case_id':self.case_id,'model':self.rate.model,'purpose':'INVESTIGATOR',
+        detail={'case_id':self.case_id,'model':self.rate.model,'purpose':self.purpose,
                 'rate_source':self.rate.source,'rate_observed_at':self.rate.observed_at,
                 'input_rate':str(self.rate.input_rate),'output_rate':str(self.rate.output_rate),
                 'base_input_rate':str(self.rate.base_input_rate),'cache_read_rate':str(self.rate.cache_read_rate),
@@ -80,7 +82,7 @@ class TicketBudget:
             snapshot=self.state._totals(db,account)
             if snapshot['violated']:raise SpendHold('MODEL_ACCOUNT_VIOLATION')
             from .build_phase import model_ceiling
-            monthly_ceiling=min(amount(snapshot['ceiling'])-amount(snapshot['protected']),model_ceiling(self.clock()))
+            monthly_ceiling=min(amount(snapshot['ceiling'])-(0 if self.purpose=='GRADING' else amount(snapshot['protected'])),model_ceiling(self.clock()))
             from .anthropic_credit import pending_exposure
             committed=pending_exposure(self.state,db,account)
             if amount(snapshot['charged'])+committed+maximum>monthly_ceiling:raise SpendHold('MONTHLY_MODEL_EXHAUSTED')
@@ -91,7 +93,7 @@ class TicketBudget:
             if self.actual_usage_limit is not None:
                 detail.update(charge_basis='ACTUAL_PROVIDER_USAGE',ticket_limit_microdollars=self.actual_usage_limit,maximum_commitment_microdollars=maximum,reservation_is_estimate=True)
             from .anthropic_credit import admit
-            admit(self.state,db,account,maximum,self.clock())
+            admit(self.state,db,account,maximum,self.clock(),purpose=self.purpose)
             self.state.sql(db,'INSERT INTO state_reservations VALUES(?,?,?,?,?,?,?)',
                 (account,identity,self.owner,bound,bound,'RESERVED',encoded(detail)))
         self.reservations[identity]=account
@@ -108,7 +110,7 @@ class TicketBudget:
             case_available=(self.actual_usage_limit or TICKET_MODEL_MICRODOLLARS)-self._charged(db,account)
             if case_available<=0:raise SpendHold('TICKET_MODEL_EXHAUSTED')
             from .build_phase import model_ceiling
-            monthly_available=min(amount(snapshot['ceiling'])-amount(snapshot['protected']),model_ceiling(self.clock()))-amount(snapshot['charged'])
+            monthly_available=min(amount(snapshot['ceiling'])-(0 if self.purpose=='GRADING' else amount(snapshot['protected'])),model_ceiling(self.clock()))-amount(snapshot['charged'])
             available=monthly_available if self.actual_usage_limit is not None else min(case_available,monthly_available)
         result=min(requested,int((available-inputs*self.rate.input_rate)/self.rate.output_rate))
         if result<512:raise SpendHold('TICKET_MODEL_EXHAUSTED')

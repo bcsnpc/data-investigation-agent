@@ -160,3 +160,6 @@ Review the five disagreements in grading-audit.md, especially the borderline har
 
 
 Round23 Azure model route issue,2026-10-27: aoai-investigator-9696025 (rg-investigator-dev), deployment investigator-quality-54 and alternate existing investigator-intake-f-55 both list Running/Succeeded with Responses support, but POST https://aoai-investigator-9696025.openai.azure.com/openai/v1/responses returned404 DeploymentNotFound on both. The same exact54 request failed in Azure smoke and laptop health control; no role, key, deployment or quota changed. Investigate the resource data-plane routing with Azure support or confirm a working existing deployment before relying on the legacy ledger demo. Do not redeploy or rotate credentials from this note. Exact errors/receipts: runs/round-twenty-three-azure-model-route-failure.json. Round23 build-phase release continues with the failed smoke reported; no green-smoke claim.
+
+
+Round24: optional, owner only: delete the unused Azure OpenAI deployments after reviewing dependencies. No deletion or deployment change was performed. Practice injection controllers still use the existing local publisher/SQL-owner where cloud identity lacks mutation scope; no new cloud role inferred.
