@@ -176,3 +176,6 @@ Round24 optional warm-worker proposal, not provisioned (2026-10-28UTC): at South
 - Measured held-out startup median25.41s,route/schema45.13s,triage28.01s. Prioritize lazy schema/job-only initialization and independent reads. Warm-worker gross idle5.832USD/month plus current19.878333estimate=25.710333USD before free grants, above20; no warm resource created.
 - The old billing-account budget address's GET returned404; this does not establish absence at the current scope. Check current portal scope if confirming Azure alert delivery. No budget or role was changed. Native Cost Management query later succeeded and the existing platform cap remained in force.
 - Optional unused Azure OpenAI deletion remains owner-only; nothing deleted. Existing billing bootstrap CREATE_SCHEMA2011 still needs an owner decision on idempotent reruns; no unplanned estate repair was performed.
+
+
+Round24 later CI option: a hosted live Anthropic intake-quality job would need an explicitly scoped Key Vault/gateway/shared-budget installation. None was provisioned. Current hosted intake check is offline contracts only; sealed independently graded live results are recorded separately. The retired Azure-profile workflow is no longer dispatched.
