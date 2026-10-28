@@ -1,0 +1,21 @@
+{
+  "status": "LATENCY_ADMISSION_PREFLIGHT_FAILURE_RESTORED_UNSCORED",
+  "error": "RUNNER_PLATFORM_COST_OBSERVATION_STALE",
+  "failure_before_azure_dispatch": true,
+  "deployment_source_order": "runner_deployment.launch checks cost age before first Azure CLI command",
+  "scored_ticket_submission_attempts": 0,
+  "native_bronze_control_dispatched": false,
+  "source_original_hashes": {
+    "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+    "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+    "temporal_period_columns_excluded_explicitly": true
+  },
+  "owned_future_schedule_removed": true,
+  "engine_or_expectation_changes": false,
+  "control_helper_before_sha256": "12658dcb885b4a3aec0e8b1e1fd60db84f80172e31f38f575a02be78f22a1b46",
+  "control_helper_after_sha256": "8f52a10114952dee2bd2f50681e292454b7c98e2b1fe43480956c51b8b574599",
+  "old_observation_age_seconds": 87350.59707021713,
+  "replacement_observation_age_seconds": 25.18276619911194,
+  "observation_provenance": "Copied unchanged from already validated frozen held-out runner, not a fabricated refreshed timestamp",
+  "diagnostic_exposure": "One held-out intake description was inadvertently displayed from CASE_OPEN while inspecting the admission log after engine freeze. No engine/expectation change is made or permitted from it; use event metadata only thereafter."
+}

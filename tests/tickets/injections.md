@@ -231,3 +231,6 @@ Round24 failed-billing held01: FAILED_JOB_ESTABLISHED_DEFINITION_HASH_RESTORED. 
 
 
 Round24 waiting held01 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-four\injections\held01-waiting\status.json.
+
+
+Round24 latency held01 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-four\injections\held01-latency-admission05\status.json. Temporal remains ON.
