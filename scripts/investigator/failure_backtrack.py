@@ -30,6 +30,7 @@ def report(cases,*,pass_id):
         queries=out.get('case',{}).get('queries',[])
         errors=[{'id':q.get('id'),'error':q.get('error'),'query':q.get('text')}for q in queries if q.get('status')=='ERROR']
         rows.append({'ticket':case['id'],'first_wrong_step':step,'reason':grade['reason'],
+           'saved_trace':case.get('saved_trace',{}),
            'basis':'Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.',
            'retained_query_errors':errors,'correct_action':{'target':'Open the named native target and its exact declared upstream routes.', 'query':'Use the returned native error and schema to correct this read before concluding.', 'triage':'Read and act on the current path run or freshness fact first.', 'budget stop':'Report the furthest evidenced boundary; do not turn the missing read into a finding.', 'reading results':'Interpret the saved result with its actual scope and native semantics.', 'intake':'Resolve only the missing user fact using the admitted catalog.', 'conclusion':'Restrict the cause to what the cited native evidence establishes.', 'write-up':'State the supported verdict, boundary and cause explicitly.'}.get(step,'Choose the tool that checks the unmet hypothesis.')})
     walkthroughs=[]
@@ -47,5 +48,13 @@ def report(cases,*,pass_id):
 def markdown(value):
     lines=['## '+value['pass']+' automatic backtrack','',str({k:value[k]for k in ('graded','score','harmful','correctness','zero_groups')}),'','| Ticket | First wrong step | Reason and correct action |','|---|---|---|']
     for row in value['zeros']:lines.append('| '+row['ticket']+' | '+row['first_wrong_step']+' | '+(row['reason']+' '+row['correct_action']).replace('|','/').replace('\n',' ')+' |')
-    for row in value['walkthroughs']:lines+=['','### '+row['ticket'],row['reason']+' '+row['correct_action'],str(row['retained_query_errors'])]
+    import json
+    for row in value['walkthroughs']:
+        lines+=['','### '+row['ticket'],row['reason']+' '+row['correct_action']]
+        trace=row.get('saved_trace',{})
+        if trace:
+            for label in ('intake','target','triage','tool_decisions','queries','final_answer','sealed_expected'):
+                if label in trace:lines+=['',label.replace('_',' ').capitalize()+':','```json',json.dumps(trace[label],ensure_ascii=False,indent=2,default=str),'```']
+            if trace.get('checkpoint_sha256'):lines+=['','Saved checkpoint SHA-256: '+trace['checkpoint_sha256']+'. Only recorded tool choices are shown; no new queries or model calls.']
+        else:lines+=['','Saved query errors: '+str(row['retained_query_errors'])]
     return '\n'.join(lines)+'\n'

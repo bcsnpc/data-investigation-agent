@@ -10,6 +10,9 @@ class GatewayComponents(unittest.TestCase):
  def test_every_anthropic_component_uses_only_its_exact_gateway_contract(self):
   policy={'version':1,'live_enabled':True,'identities':{'reasoning':{'role':'model','reasoning_models':['claude-opus-5-5'],'http':[{'method':'POST','url':'https://api.anthropic.com/v1/'+p,'purpose':'reasoning_model'}for p in ('messages','messages/count_tokens')]},'enrichment':{'role':'enrichment','enrichment_batches':{'provider':'anthropic','purpose':'ENRICHMENT_ONLY','model':'claude-sonnet-4-6'}},'model':{'http':[{'method':'POST','url':'https://unused.openai.azure.com/openai/v1/responses','purpose':'model'}]}}}
   before=copy.deepcopy(policy);policy=migrate(policy);self.assertTrue(all(r['admitted']for r in audit(policy)));self.assertEqual(before['identities']['reasoning'],policy['identities']['reasoning'])
+  routes={(r['component'],r['identity'])for r in audit(policy)}
+  for component in ('writer','grader'):
+   self.assertIn((component,'reasoning'),routes);self.assertIn((component,'enrichment'),routes)
   gateway=Gateway(policy)
   for component in ('investigator','smoke','screenshot','writer','grader'):
    body={'model':'claude-opus-5-5','max_tokens':1000,'system':[{'type':'text','text':'instructions','cache_control':{'type':'ephemeral'}}],'messages':[{'role':'user','content':'input'}],'tools':[{'name':'resolve_intake'if component in ('screenshot','writer','grader')else'run_sql','description':'read','input_schema':{'type':'object'}}]}

@@ -180,6 +180,28 @@ def shared_physical_rows(state, db, now):
     """
     from .shared_usage import rows
     _, start, end = month_window(now)
+    if state.backend=='postgresql':
+        # Aggregate on the authoritative server under the same transaction.
+        # Sending thousands of reservation rows while holding the write lock
+        # can leave PostgreSQL waiting on ClientWrite across a slow WAN.
+        # Separate the restoration-reset buckets so its historical credit is
+        # still calculated by the unchanged physical_status function.
+        reset=POLICY.get('restoration_reset',{})
+        cutoff=datetime.fromisoformat(reset['effective_at']).timestamp() if reset else start
+        grouped=rows(state,db,
+            "WITH charges AS (SELECT u.created,CASE WHEN a.reservation_key IS NULL THEN 'INVESTIGATION' ELSE a.purpose END AS category,"
+            "u.reserved::jsonb->'cloud_calls' AS calls FROM state_usage u LEFT JOIN state_read_allocations a "
+            "ON a.environment=u.environment AND a.session_id=u.session_id AND a.reservation_key=u.reservation_key "
+            "WHERE u.created>=? AND u.created<?), checked AS (SELECT *,"
+            "(calls IS NULL OR (jsonb_typeof(calls)='number' AND calls::text ~ '^[0-9]+$')) AS valid FROM charges) "
+            "SELECT category,CASE WHEN created<? THEN 0 ELSE 1 END AS reset_bucket,MIN(created) AS created,"
+            "SUM(CASE WHEN calls IS NULL THEN 0 WHEN valid THEN calls::text::numeric ELSE 0 END) AS cloud_calls,"
+            "SUM(CASE WHEN valid THEN 0 ELSE 1 END) AS invalid FROM checked GROUP BY category,reset_bucket",
+            (start,end,cutoff))
+        # Preserve the old interpretation/error for malformed historical data;
+        # never silently omit it or coerce strings/booleans into counts.
+        if all(not row['invalid']for row in grouped):
+            return physical_group_rows(grouped)
     retained = rows(state, db,
         'SELECT environment,session_id,reservation_key,reserved,created FROM state_usage WHERE created>=? AND created<?',
         (start, end))
@@ -188,6 +210,17 @@ def shared_physical_rows(state, db, now):
         'JOIN state_usage u ON a.environment=u.environment AND a.session_id=u.session_id '
         'AND a.reservation_key=u.reservation_key WHERE u.created>=? AND u.created<?', (start, end))
     return retained, allocations
+
+
+def physical_group_rows(groups):
+    """Lossless sufficient projection for physical_status; not ledger rows."""
+    import json
+    retained=[];allocations=[]
+    for index,group in enumerate(groups):
+        key={'environment':'monthly-authoritative-aggregate','session_id':str(index),'reservation_key':'aggregate'}
+        retained.append({**key,'created':group['created'],'reserved':json.dumps({'cloud_calls':int(group['cloud_calls'])})})
+        allocations.append({**key,'purpose':group['category']})
+    return retained,allocations
 
 
 def round24_limits(now):

@@ -2,7 +2,7 @@
 from copy import deepcopy
 from urllib.parse import urlsplit
 
-COMPONENTS={'investigator':'reasoning','smoke':'reasoning','screenshot':'reasoning','enrichment':'enrichment','writer':'enrichment','grader':'enrichment'}
+COMPONENTS={'investigator':('reasoning',),'smoke':('reasoning',),'screenshot':('reasoning',),'enrichment':('enrichment',),'writer':('reasoning','enrichment'),'grader':('enrichment','reasoning')}
 
 
 def migrate(policy):
@@ -18,7 +18,8 @@ def migrate(policy):
 
 def audit(policy):
     identities=policy['identities'];rows=[]
-    for component,identity in COMPONENTS.items():
+    for component,routes in COMPONENTS.items():
+      for identity in routes:
         entry=identities.get(identity,{})
         if identity=='reasoning':
             urls={(r['method'],r['url'],r.get('purpose'))for r in entry.get('http',[])}

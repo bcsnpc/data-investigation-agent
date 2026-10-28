@@ -40,3 +40,5 @@ _pending_
 
 
 Cloud checkpoint: early smoke06 delivered the correct native transformation finding (7,661 to8,765), but the original smoke consumer read the wrong verdict field and recorded FAIL. The consumer is fixed; no historical failure is relabelled green. Smoke07 start is unconfirmed during Microsoft.App execution API502/timeouts; no duplicate launch admitted. The later capture-fixed sequence earned three consecutive green smokes; scored dev is now admitted.
+
+Early independent safety monitor: first5 dev outcomes all-three5/5, harmful0; this is not the forty-ticket pass score. The first failed-job answer leads with boundary consistency but reports the actual failure; the primary grader accepted its substance. Second grading remains pending. Job-class speed/cost targets are not yet met. See runs/round-twenty-four-dev01-wave1-monitor.json.

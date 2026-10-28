@@ -53,8 +53,9 @@ class MonthlyTests(unittest.TestCase):
         rows,alloc=self.rows(3924)
         status=b.admit_physical(rows,alloc,instant('2026-10-21'),'INVESTIGATION')
         self.assertIn('INVESTIGATION_MONTHLY_80_PERCENT',status['warnings'])
-        self.assertTrue(b.model_status(76_800_000,'2026-10')['warning'])
-        self.assertFalse(b.model_status(76_800_000,'2026-10')['exhausted'])
+        monthly=b.model_status(0,'2026-10')['ceiling_microdollars']
+        self.assertTrue(b.model_status(monthly*4//5,'2026-10')['warning'])
+        self.assertFalse(b.model_status(monthly*4//5,'2026-10')['exhausted'])
         self.assertTrue(b.admit_platform(16_000_000,instant('2026-10-21'))['warning'])
 
     def test_platform_exhaustion_does_not_block_local_or_estate_budget(self):
@@ -95,7 +96,7 @@ class MonthlyTests(unittest.TestCase):
         for date in ('2026-10-26','2026-11-01','2027-01-01'):
             status=b.physical_status([],[],instant(date))
             self.assertEqual(status['total_limit'],9000)
-            self.assertEqual(status['limits'],{'INVESTIGATION':6905,'SCAN':2000,'RESTORATION':95})
+            self.assertEqual(status['limits'],{'INVESTIGATION':6905,'SCAN':2000,'RESTORATION':95}if date=='2026-10-26'else{'INVESTIGATION':6405,'SCAN':2500,'RESTORATION':95})
         rows,alloc=self.rows(6905)
         with self.assertRaises(UsageHold): b.admit_physical(rows,alloc,instant('2026-10-26'),'INVESTIGATION')
         b.admit_physical(rows,alloc,instant('2026-10-26'),'RESTORATION')
@@ -138,7 +139,7 @@ class MonthlyTests(unittest.TestCase):
                 status=budget.snapshot()
                 self.assertEqual(status['charged_usd'],.001)
                 self.assertEqual(status['historical_cumulative_usd_informational'],107.958725)
-                self.assertEqual(status['monthly']['ceiling_microdollars'],96_000_000)
+                self.assertEqual(status['monthly']['ceiling_microdollars'],b.model_status(0,'2026-10')['ceiling_microdollars'])
                 self.assertTrue(identity)
             db=sqlite3.connect(path)
             self.assertEqual(db.execute('SELECT charged FROM model_spend WHERE id=?',('historical',)).fetchone()[0],107_957_725)
