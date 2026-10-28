@@ -10,13 +10,14 @@ def job_hint(triage):
         if isinstance(value,list):
             for row in value:visit(row,subject)
         elif isinstance(value,dict):
+            if value.get('kind')=='RUN_HISTORY':return
             subject=value.get('subject',subject)
             status=value.get('status')
             if isinstance(status,str)and status.casefold().replace(' ','')in ACTIVE:
                 candidates.append({'subject':subject,'status':status,'run_id':value.get('run_id',value.get('id')),'native':deepcopy(value)})
             else:
                 for key,item in value.items():
-                    if key not in ('previous','retained'):visit(item,subject)
+                    if key not in ('previous','retained','recent_runs'):visit(item,subject)
     for fact in triage.get('facts',[]):
         if fact.get('check') in ('JOB_RUNS','MODEL_REFRESH') and fact.get('state')=='OBSERVED' and fact.get('source'):
             visit(fact.get('value'))

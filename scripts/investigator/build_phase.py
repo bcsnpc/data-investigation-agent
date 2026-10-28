@@ -204,10 +204,12 @@ def model_ceiling(now):
 
 
 def model_status(charged, month, *, ceiling=None):
-    if ceiling is None:ceiling=POLICY.get('monthly_model_overrides',{}).get(month,{}).get('ceiling_microdollars',MODEL_MICRODOLLARS)
+    if ceiling is None:
+        at=datetime.fromisoformat(month+'-28T23:59:59+00:00').timestamp()
+        ceiling=model_ceiling(at)
     return {'mode': MODE, 'month_utc': month, 'charged_microdollars': charged,
             'ceiling_microdollars': ceiling, 'protected_microdollars': 0,
-            'warning': charged * 5 >= ceiling * 4,
+            'warning': charged >= 100000000 if month>='2026-11' else charged * 5 >= ceiling * 4,
             'exhausted': charged >= ceiling}
 
 

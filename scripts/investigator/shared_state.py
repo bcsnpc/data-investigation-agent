@@ -335,7 +335,10 @@ class SharedState:
         bound = amount(bound)
         if bound <= 0:
             raise ValueError('POSITIVE_RESERVATION_REQUIRED')
-        detail = detail or {}
+        detail = dict(detail or {})
+        if identity.startswith('enrichment:'):
+            from datetime import datetime,timezone
+            detail.setdefault('month_utc',datetime.now(timezone.utc).strftime('%Y-%m'))
         commitment=amount(detail.get('maximum_commitment_microdollars',bound))
         if commitment<bound:raise ValueError('COMMITMENT_BELOW_RESERVATION')
         with self.transaction() as db:

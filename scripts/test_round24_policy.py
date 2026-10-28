@@ -20,6 +20,18 @@ class PolicyTests(unittest.TestCase):
   self.assertEqual(november['limits'],{'SCAN':2500,'INVESTIGATION':6405,'RESTORATION':95})
   self.assertEqual(b.model_ceiling(at('2026-10-29')),146000000)
   self.assertEqual(b.model_ceiling(at('2026-11-01')),150000000)
+ def test_november_combines_only_month_tagged_auxiliary_usage(self):
+  from investigator.anthropic_credit import status
+  with tempfile.TemporaryDirectory()as folder:
+   state=SharedState.offline(Path(folder)/'s.sqlite');state.migrate()
+   with state.transaction()as db:
+    for name in ('model-microdollars:2026-11','enrichment:round-twenty-one'):
+     db.execute('INSERT INTO state_accounts VALUES(?,?,?,?,?,?)',(name,'MICRODOLLARS',150000000,0,0,0))
+    for key,month,cost in [('old','2026-10',9000000),('new','2026-11',2000000)]:
+     db.execute('INSERT INTO state_reservations VALUES(?,?,?,?,?,?,?)',('enrichment:round-twenty-one',key,'worker',cost,cost,'SETTLED',json.dumps({'month_utc':month})))
+   report=status(state,datetime(2026,11,2,tzinfo=timezone.utc).timestamp())
+   self.assertEqual(report['charged_microdollars'],2000000)
+   self.assertEqual(report['remaining_microdollars'],148000000)
  def test_combined_cap_includes_grading_and_protects_its_margin(self):
   with tempfile.TemporaryDirectory()as folder:
    state=SharedState.offline(Path(folder)/'s.sqlite');state.migrate()

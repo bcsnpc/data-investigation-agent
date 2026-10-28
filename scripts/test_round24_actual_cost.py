@@ -37,6 +37,10 @@ class ActualCostTests(unittest.TestCase):
   with self.assertRaisesRegex(SpendHold,'MONTHLY_MODEL_EXHAUSTED'):self.budget.reserve({'model':self.rate.model,'max_tokens':8000},input_tokens_upper_bound=10000)
 
 class TriageTests(unittest.TestCase):
+ def test_old_failed_history_does_not_override_latest_success(self):
+  triage={'facts':[{'check':'JOB_RUNS','state':'OBSERVED','source':'native','value':[{'kind':'JOB_RUN','subject':'job','value':{'run_id':'new','status':'Completed'}},{'kind':'RUN_HISTORY','subject':'job','value':{'runs':[{'run_id':'old','status':'Failed'}]}}]}]}
+  self.assertEqual(job_hint(triage),[])
+
  def test_failed_native_run_is_first_hint_and_unavailable_never_becomes_fault(self):
   triage={'facts':[{'check':'JOB_RUNS','state':'OBSERVED','source':'native-history','value':[{'subject':'job','value':{'id':'r','status':'Failed','failureReason':{'message':'native failure'}}}]}]}
   self.assertEqual(job_hint(triage)[0]['subject'],'job');self.assertIn('first',suggestion(triage))
