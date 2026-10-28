@@ -169,6 +169,8 @@ class Factory:
         context=deepcopy(self.context_for(path,intake))
         # A context builder cannot replace the selected target/path/intake.
         context.update(intake=intake,path=deepcopy(path),layers=deepcopy(layers))
+        from .query_context import sheet
+        context['query_dialect_sheets']={i:sheet(layer)for i,layer in layers.items()}
         context['route_registry_hash']=digest(self.routes)
         from .facts_ledger import FactLedger
         scope={k:intake[k] for k in ('report','page','visual','details') if k in intake}

@@ -87,8 +87,12 @@ class GraphAPI:
         """
         admitted=sorted(self.allowed)
         for start in range(0,len(admitted),1000):self.gateway.graph_objects(self.estate,admitted[start:start+1000],identity=self.identity)
-        retained=self.repository.records(self.estate,at=self.at,identities=self.allowed,limit=10000)
-        if retained['truncated']:raise ValueError('NATIVE_GRAPH_INDEX_TRUNCATED')
+        retained={'nodes':[]}
+        if len(admitted)>10000:raise ValueError('NATIVE_GRAPH_INDEX_OBJECT_BOUND')
+        for start in range(0,len(admitted),1000):
+            batch=self.repository.records(self.estate,at=self.at,identities=admitted[start:start+1000],limit=10000)
+            if batch['truncated']:raise ValueError('NATIVE_GRAPH_INDEX_TRUNCATED')
+            retained['nodes'].extend(batch['nodes'])
         nodes=[{'id':n['id'],'kind':n['kind'],'label':n['label'],'owner':n['owner'],
             'properties':{**{k:v for k,v in n.get('properties',{}).items()if k in ('asset_id','parent_id','data_type')},'definition_source_id':n.get('provenance',{}).get('source_id')}}
             for n in retained['nodes']if n['id']in self.allowed]

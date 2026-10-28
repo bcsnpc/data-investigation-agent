@@ -8,6 +8,16 @@ from investigator.adapters.ai_native_catalog import NativeCatalog
 from test_estate_graph import proof,T0
 from investigator import estate_graph_contract as c
 class NativeIndexTests(unittest.TestCase):
+ def test_more_than_one_thousand_admitted_nodes_are_batched_without_widening(self):
+  repo=Mock();gateway=Mock();gateway.graph_objects.side_effect=lambda estate,ids,**kw:list(ids);seen=[]
+  def records(estate,**kw):
+   self.assertLessEqual(len(kw['identities']),1000);seen.extend(kw['identities'])
+   return {'truncated':False,'nodes':[{'id':i,'kind':'COLUMN','label':i,'owner':'o','properties':{},'provenance':{}}for i in kw['identities']]}
+  repo.records.side_effect=records
+  allowed={str(i)for i in range(1148)}
+  graph=GraphAPI(repo,gateway,identity='reader',estate='estate',allowed_objects=allowed)
+  self.assertEqual({n['id']for n in graph.native_index()['nodes']},allowed)
+  self.assertEqual(set(seen),allowed);self.assertEqual(repo.records.call_count,2)
  def test_column_and_step_survive_native_index_while_form_catalog_stays_small(self):
   with tempfile.TemporaryDirectory()as folder:
    state=SharedState.offline(Path(folder)/'s.sqlite');repo=GraphRepository(state);repo.migrate()
