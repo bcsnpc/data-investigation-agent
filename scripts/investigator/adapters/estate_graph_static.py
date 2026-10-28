@@ -176,7 +176,11 @@ class StaticGraph:
 
     def fields(self,origin,value,model,proof):
         found=0
-        aliases={entry.get('Name'):entry.get('Entity') for entry in value.get('From',[]) if isinstance(entry,dict)} if isinstance(value,dict) else {}
+        declarations={}
+        for entry in value.get('From',[]) if isinstance(value,dict) else []:
+            if isinstance(entry,dict) and isinstance(entry.get('Name'),str) and isinstance(entry.get('Entity'),str):
+                declarations.setdefault(entry['Name'],set()).add(entry['Entity'])
+        aliases={key:next(iter(values)) for key,values in declarations.items() if len(values)==1}
         for path,item in walk(value):
             if not isinstance(item,dict):continue
             for native,kind in (('Measure','Measure'),('Column','SemanticColumn')):
@@ -256,8 +260,21 @@ class StaticGraph:
             if asset['kind'] in ('Report','ReportPage','ReportVisual'):
                 report=self.ancestor(aid,'Report');model=self.model_for_report(report) if report else None
                 if self.legacy(asset):
-                    self.gap(node,'PBIR-Legacy structure retained; embedded query, filter and interaction semantics are not interpreted.',
-                        'Use a supported explicit legacy semantic reader; do not treat this structural graph as complete visual lineage.',proof)
+                    # The native prototype query carries literal member/alias
+                    # declarations even when queryBinary is opaque. Preserve
+                    # those dependencies without claiming interpreted filters
+                    # or complete legacy visual scope.
+                    if asset['kind']=='ReportVisual':
+                        from .legacy_report import object_json
+                        raw=meta.get('config')
+                        try:config=object_json(raw)
+                        except (ValueError,TypeError):config={}
+                        query=config.get('singleVisual',{}).get('prototypeQuery')
+                        if isinstance(raw,str) and isinstance(query,dict):
+                            at=self.proof(asset,raw,path='/singleVisual/prototypeQuery')
+                            self.fields(node,query,model,at)
+                    self.gap(node,'PBIR-Legacy filter and interaction semantics remain uninterpreted; explicit prototype-query fields, when present, are retained separately.',
+                        'Do not treat retained prototype member references as complete visual scope; collect supported runtime scope or interpret the remaining native filters.',proof)
                     continue
                 self.filters(node,meta,model,proof,scope={'Report':'report','ReportPage':'page','ReportVisual':'visual'}[asset['kind']])
                 if asset['kind']=='ReportVisual':

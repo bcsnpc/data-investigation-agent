@@ -163,3 +163,6 @@ Round23 Azure model route issue,2026-10-27: aoai-investigator-9696025 (rg-invest
 
 
 Round24: optional, owner only: delete the unused Azure OpenAI deployments after reviewing dependencies. No deletion or deployment change was performed. Practice injection controllers still use the existing local publisher/SQL-owner where cloud identity lacks mutation scope; no new cloud role inferred.
+
+
+Round24 optional warm-worker proposal, not provisioned (2026-10-28UTC): at South Central US Standard consumption retail rates, a0.25vCPU/0.5GiB minimum replica costs aboutUSD5.832 per30-day month if entirely idle, orUSD19.44 if continuously active, before any remaining free grant and request/storage costs. Existing platform estimateUSD19.077 means even the gross idle addition would exceed theUSD20 platform cap. Keep current jobs scaling to zero; an owner decision is required before creating a warm service. Do not label all job/body timing difference as container startup: access audit and capture work also contribute. Official pricing: https://azure.microsoft.com/en-us/pricing/details/container-apps/ ; saved SouthCentralUS RetailAPI rate receipt is local round-twenty-four/aca-retail-prices.json.

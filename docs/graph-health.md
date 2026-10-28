@@ -968,28 +968,31 @@ Overall: {'visuals': 66, 'fully_traceable': 2, 'percentage': 3.03}
 
 ## Published batch: remaining breaks by reason and native layer
 
-Published native graph only; layer is the closest explicit native containment kind, never inferred from names. Break groups overlap, so affected visual counts must not be summed.
+Published native graph only; layer follows explicit graph containment and native asset kind, never labels. Where no container is present the node kind is retained. Groups overlap; affected visual counts must not be summed.
 
 | Estate | Native layer | Reason | Affected visuals | Distinct nodes |
 |---|---|---|---:|---:|
-| fixture | REPORT | NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED | 64 | 64 |
-| fixture | TABLE | NO_UPSTREAM_BINDING | 51 | 13 |
+| fixture | VISUAL | NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED | 64 | 64 |
+| fixture | LAKEHOUSE | NO_UPSTREAM_BINDING | 51 | 13 |
 | fixture | BOUNDARY | NO_UPSTREAM_BINDING | 40 | 25 |
-| fixture | COLUMN | AMBIGUOUS_OR_UNKNOWN_DEPENDENCY | 27 | 12 |
+| fixture | SEMANTIC_MODEL | AMBIGUOUS_OR_UNKNOWN_DEPENDENCY | 28 | 13 |
 | fixture | BOUNDARY | DIRECT_LAKE_COLUMN_BINDING_ABSENT_OR_AMBIGUOUS | 27 | 12 |
-| fixture | REPORT | NO_PRODUCER_REACHED | 13 | 13 |
-| fixture | REPORT | AMBIGUOUS_OR_UNKNOWN_DEPENDENCY | 12 | 12 |
+| fixture | VISUAL | NO_PRODUCER_REACHED | 13 | 13 |
+| fixture | VISUAL | AMBIGUOUS_OR_UNKNOWN_DEPENDENCY | 12 | 12 |
 | fixture | BOUNDARY | No supported explicit field reference was found in the retained visual query. | 12 | 12 |
-| fixture | REPORT | NO_INSTALLED_QUERY_ROUTE | 12 | 12 |
-| dia-sample-estate | REPORT | AMBIGUOUS_OR_UNKNOWN_DEPENDENCY | 7 | 7 |
+| fixture | VISUAL | NO_INSTALLED_QUERY_ROUTE | 12 | 12 |
+| dia-sample-estate | VISUAL | AMBIGUOUS_OR_UNKNOWN_DEPENDENCY | 7 | 7 |
 | dia-sample-estate | BOUNDARY | PBIR-Legacy structure retained; embedded query, filter and interaction semantics are not interpreted. | 7 | 7 |
 | dia-sample-estate | BOUNDARY | NO_UPSTREAM_BINDING | 7 | 7 |
-| dia-sample-estate | REPORT | NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED | 7 | 7 |
-| dia-sample-estate | REPORT | NO_PRODUCER_REACHED | 7 | 7 |
-| billing | TABLE | NO_UPSTREAM_BINDING | 2 | 1 |
-| billing | REPORT | NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED | 1 | 1 |
-| billing | REPORT | NO_PRODUCER_REACHED | 1 | 1 |
-| fixture | MEASURE | AMBIGUOUS_OR_UNKNOWN_DEPENDENCY | 1 | 1 |
+| dia-sample-estate | VISUAL | NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED | 7 | 7 |
+| dia-sample-estate | VISUAL | NO_PRODUCER_REACHED | 7 | 7 |
+| billing | WAREHOUSE | NO_UPSTREAM_BINDING | 2 | 1 |
+| billing | VISUAL | NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED | 1 | 1 |
+| billing | VISUAL | NO_PRODUCER_REACHED | 1 | 1 |
 | fixture | BOUNDARY | Engine-resolved expression dependencies have not been collected. | 1 | 1 |
 
-The copy/source-object and script-producer batch raised full paths from 0/80 to 7/80 (fixture 2/66, billing 5/7, sample 0/7). Remaining inline-seeded notebook paths have no native application-source address; no external source is invented for them. Missing column bindings and unsupported visual query definitions remain separate repair groups.
+The copy/source-object and script-producer batch raised full paths from0/80 to7/80 (fixture2/66,billing5/7,sample0/7). Remaining inline-seeded notebook paths have no native application-source address; no external source is invented. Missing column bindings and unsupported visual query definitions remain separate repair groups.
+
+## Batch 2: native legacy prototype references (offline)
+
+Explicit member edges in the Microsoft sample increase from0/7 to5/7 visuals by parsing the retained config.singleVisual.prototypeQuery and its exact native From aliases. Raw config bytes and JSON pointers are retained. Conflicting aliases do not select the last declaration. Legacy filters/interactions and opaque queryBinary remain UNKNOWN, so complete health stays7/80; no scope or source proof is invented. This batch is prepared offline and not yet published while the smoke is in flight. See runs/round-twenty-four-graph-health-batch2.json. Focused graph regression37PASS.

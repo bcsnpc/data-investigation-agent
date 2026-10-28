@@ -378,3 +378,9 @@ Round24 caching: the successful three-model-call FamilyA answer had81690 cached/
 
 
 2026-10-28 UTC Round24 DECIDED WITHOUT REVIEW: guided ticket runs no longer repeat the whole-estate access audit before entering their admitted path. Native reads still enforce existing identity, endpoint and read-only gateway checks; full smoke/access-check probes remain. Rejected repeating seven unrelated health probes for every ticket: it adds cost and startup time without replacing per-read enforcement. Regression proves a gateway refusal still propagates and smoke still calls the audit.
+
+
+2026-10-28 UTC DECIDED WITHOUT REVIEW: admit one distinct corrected-image baseline smoke08, not a resubmission of unconfirmed07. Worker execution-list502 is isolated; known execution GET and graph-job list work. All175 first-capture HEADs show no new capture, monthly pending model exposure is zero, and both possible executions remain baseline read-only under the same budget hard caps (at most2concurrent, within3). Original07 remains UNESTABLISHED/unscored; no fault injection will be admitted while it is unresolved. Rejected blocking all offline-tested read-only progress on a non-safety history-list failure.
+
+
+2026-10-28 UTC Round24 DECIDED WITHOUT REVIEW: use explicit PBIR-Legacy prototype-query field declarations for native dependency edges, while retaining UNKNOWN for unsupported filter/interaction semantics. Never infer members from visible titles or choose a last conflicting From alias. Rejected treating an opaque queryBinary as a reason to discard separately available literal field evidence, and rejected calling those partial edges a fully traced source path. Focused37graph tests passed.
