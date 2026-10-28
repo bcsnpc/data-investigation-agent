@@ -8,7 +8,7 @@ _pending_
 
 ## Part A: new held-out v4
 
-_pending_
+60 independently authored tickets are sealed before any G2 engine run:48forms,12free text, six real screenshots, three estates. Every scenario has a native-fact oracle and pinned source receipts; faults must be freshly reestablished at scoring. Exact unique dropdown selections were serialized from names to IDs, with inverse witnesses proving no prose/figure change. The wrong-page billing form retains both original selections and received independent pre-seal review. All original drafts and earlier unsealed oracle versions remain. [Seal and coverage](runs/round-twenty-five-v4-seal.json).
 
 ## Part B: independent grading and confidence intervals
 

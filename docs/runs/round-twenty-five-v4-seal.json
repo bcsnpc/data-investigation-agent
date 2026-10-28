@@ -1,0 +1,49 @@
+{
+  "status": "V4_SIXTY_SEALED_BEFORE_ANY_ENGINE_RUN",
+  "seal_sha256": "c8ef73407aae2db385d6a36067bac157ad8f97fe5a1083cb211b43085b2eaedc",
+  "tickets": 60,
+  "form": 48,
+  "text": 12,
+  "real_screenshots": 6,
+  "estates": [
+    "billing",
+    "dia-sample-estate",
+    "fixture"
+  ],
+  "scenario_counts": {
+    "v4-access-export": 3,
+    "v4-application-baseline": 3,
+    "v4-before-temporal-retention": 3,
+    "v4-billing-invoices": 3,
+    "v4-billing-mrr": 3,
+    "v4-failed-application-load": 3,
+    "v4-failed-billing-transform": 3,
+    "v4-fixture-quantity": 3,
+    "v4-latency-record": 3,
+    "v4-other-collected-definition": 3,
+    "v4-record-absent-everywhere": 3,
+    "v4-record-repeated-gold": 3,
+    "v4-sample-business-meaning": 3,
+    "v4-sample-technical": 3,
+    "v4-screenshot-billing-invoices": 1,
+    "v4-screenshot-billing-mrr": 1,
+    "v4-screenshot-fixture-01": 1,
+    "v4-screenshot-fixture-02": 1,
+    "v4-screenshot-fixture-03": 1,
+    "v4-screenshot-fixture-04": 1,
+    "v4-source-history": 3,
+    "v4-stale-model": 3,
+    "v4-waiting-application-load": 3,
+    "v4-warehouse-scope": 3
+  },
+  "native_facts_verified": true,
+  "source_oracles_pinned": true,
+  "independent_wrong_page_review": true,
+  "no_held_out_wording_opened": true,
+  "input_and_expectation_sha256": {
+    "expectations.sealed.json": "f97b6ae4870a377ae4a79c3fb50cf9ac05750895315c0178c79fabdaeb7cab29",
+    "held-out.sealed.json": "a8132f462f3b9ec9f901de6baa6d10c137aa2c421f3e59cdf46db90bb3e6f1e0"
+  },
+  "engine_runs": 0,
+  "scope_changes": false
+}
