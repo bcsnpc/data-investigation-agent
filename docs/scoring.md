@@ -168,3 +168,16 @@ New v3 held-out forms were independently authored and sealed after native scenar
 
 
 Round24 final held-out: primary18/20 (verdict18,layer19,cause18),harm0; secondary18/20,harm0; all-four-field agreement19/20. Exactly20scored submissions on frozenb78299f6/image595047cf. Twelve monitor tasks and both graders' outputs were hash-verified/reused unchanged, with8new grades each. Official scores and v2/v3oracle bytes remain unchanged. Source-history-before-retention and absent-everywhere are the two zero classes; the second grader accepts the latter's cause while both reject its verdict label. Review that terminology distinction separately without changing this phase. All20were ANSWERED; no intake holds or unrun held-out records. Native multilayer Azure median234.5s,p90388s; cache70.44%;10.011597USDtotal/0.500580USDper ticket. All15canonical controls restored,temporalON. See the explicit post-freeze diagnostic-exposure limitation above.
+
+
+## Round25 owner scoring steer (2026-10-28)
+
+Every scored ticket and cohort reports three columns, with 95% Wilson intervals for each accuracy:
+
+- Official primary: the original primary grader's all-three verdict/layer/cause score.
+- Strict: correct only when both independent graders mark all three correct.
+- Raw-reviewed: unanimous correctness judgments stand; every disagreement is adjudicated against saved raw queries, results and delivered conclusions. Record the winning grader (or a mixed/neither decision), the reason, raw outcome SHA-256 and the resulting dimensions. This is the headline in the plain-language summary.
+
+Original grader records, official scores and sealed expectations are never overwritten by raw review. A pending disagreement remains explicitly pending; the tool does not inherit the primary grade and call it reviewed. Raw-reviewed denominators are visibly partial until every disagreement is resolved. Harmful counts are shown separately for each view. Handoff quality applies to unresolved tickets: grader differences over a numeric handoff rating on an ANSWERED ticket are recorded as not applicable, without changing its correctness score.
+
+R24's one held-out v3 disagreement receives only a retrospective raw-capture review. Three successful zero-row record lookups support the secondary grader's cause judgment. Both graders still mark the delivered verdict wrong, so its all-three zero and the official18/20 are unchanged. No engine run or official regrade was performed.

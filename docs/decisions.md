@@ -411,3 +411,6 @@ DECIDED WITHOUT REVIEW, Round25 2026-10-28: runner-only static waves shrink to t
 
 
 Owner steer, 2026-10-28 ? Round25 reports official primary, strict (both graders correct), and raw-reviewed scores side by side for every measured cohort. Every disagreement is checked against saved raw evidence; raw-reviewed is the plain-language headline. Official grades and sealed expectations remain unchanged. The R24 held-out disagreement receives a dated retrospective raw review only, with no rerun or official regrade. Reporting tooling is outside the frozen engine.
+
+
+DECIDED WITHOUT REVIEW, 2026-10-28 ? Round25 static-wave scheduling reserves the existing40-request maximum per admitted ticket, with no extra investigation-allocation restoration cushion after every temporary fixture is fully restored. The earlier operator20-request cushion is retained for fault controls, where restoration work remains. Rejected alternative: defer read-only static tickets merely because fewer than60 investigation requests remain despite a40-request bound and a separate unchanged restoration allocation. This changes no monthly ceiling, allocation, authoritative reservation/settlement, per-run bound or frozen engine file. Focused tests cover the zero-cushion wave bounds.

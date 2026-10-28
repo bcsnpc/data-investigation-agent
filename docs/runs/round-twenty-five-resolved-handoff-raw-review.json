@@ -331,6 +331,256 @@
         }
       ],
       "delivered_conclusion": "refresh stale"
+    },
+    {
+      "ticket": "v2-access-export-v1",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: 'access difference'. Layer matches: the answer correctly identifies the application export view (app.round22_access_export) as the layer, not RLS or role-based permissions. Cause matches: the answer correctly explains that the view joins app.round22_access_rows to app.round22_access_readers on visibility_group with reader_name = CURRENT_USER, meaning each user sees only the groups they are mapped to. orderops_investigator is mapped only to group 0 (10 units, 1 row) while dia-investigator-round19 is mapped to groups 0 and 1 (25 units, 2 rows). The answer confirms no impersonation was done and uses a read-only query substituting each username to reproduce the reported numbers (10/1 and 25/2). This matches the sealed expected cause exactly. The answer is fully resolved with no handoff needed, so handoff quality is not applicable (set to 0 as there is nothing to hand off).",
+        "verdict_match": true
+      },
+      "raw_outcome_sha256": "5e939bad41baab2f814bcd85f80c1f7b53e887375ca866d69e1c4b7a08bd1bdd",
+      "reason": "Raw successful reads show source units10 and15 in groups0 and1, mappings for the two named readers, and a literal read-only filter returning10/1 and25/2. The delivered conclusion attributes the difference to the CURRENT_USER mapping in the application export view, discloses identity-check limitations and makes no report-level RLS claim. Both graders are right on verdict/layer/cause and no harmful finding. Their only disagreement is the numeric handoff score on this ANSWERED case: handoff is not applicable under the round contract (represented0). Original numeric grades remain unchanged.",
+      "handoff_applicable": false,
+      "query_evidence": [
+        {
+          "id": "query:f4dcdd1436173a0ab177c6e9a79cbbc396c2ab7ea8742c762941690a2261a554:1",
+          "status": "SUCCEEDED",
+          "row_count": 3,
+          "result_digest": "993c010d4d9a7045ebe65741446e180fb7617b6e4b784aae17ebaa9cc36abc85"
+        },
+        {
+          "id": "query:ad69bdf8db3b3b35bebcc82313a27a31389f31be776514c76bb3cfb45219a044:2",
+          "status": "ERROR",
+          "row_count": null,
+          "result_digest": null
+        },
+        {
+          "id": "query:2a02062c7519e1b90295cb8f55b35e062c035e76d5dc197fca49cfc11de37706:3",
+          "status": "SUCCEEDED",
+          "row_count": 2,
+          "result_digest": "2f6774269723227402854471947ff900c2d333f11f41189cef4f9fb4cebe01c9"
+        }
+      ],
+      "delivered_conclusion": "access difference"
+    },
+    {
+      "ticket": "v2-access-export-v2",
+      "winner": "neither",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: 'access difference'. Layer matches: correctly identifies app.round22_access_export as the application export view causing the split. Cause matches: correctly identifies the CURRENT_USER-based visibility_group mapping in the view joining round22_access_rows to round22_access_readers, with orderops_investigator mapped only to group 0 (10 units, 1 row) and dia-investigator-round19 mapped to groups 0 and 1 (25 units, 2 rows), confirmed by direct SQL queries without impersonation. Numbers 10, 1, 25, 2, 15 all confirmed by evidence. The answer is fully supported by retrieved data. Handoff quality is 1: the handoff is minimal (empty handoff object) but the answer is marked ANSWERED with clear stopping reasoning; there are no rerunnable queries staged for follow-up, though the honest qualification about CURRENT_USER login name verification is noted.",
+        "verdict_match": true
+      },
+      "raw_outcome_sha256": "80ce805588ceb1c154b884e37bc3eb40090c73cb5a399c19064bcd053582b1b9",
+      "reason": "Raw successful reads show source units10 and15 in groups0 and1, mappings for the two named readers, and a literal read-only filter returning10/1 and25/2. The delivered conclusion attributes the difference to the CURRENT_USER mapping in the application export view, discloses identity-check limitations and makes no report-level RLS claim. Both graders are right on verdict/layer/cause and no harmful finding. Their only disagreement is the numeric handoff score on this ANSWERED case: handoff is not applicable under the round contract (represented0). Original numeric grades remain unchanged.",
+      "handoff_applicable": false,
+      "query_evidence": [
+        {
+          "id": "query:db6b3fe41757ca00b410afa460290ca696228cc56890728771e54892b6b9c37f:1",
+          "status": "ERROR",
+          "row_count": null,
+          "result_digest": null
+        },
+        {
+          "id": "query:7cd2f37f2c66c73b1af42951b7f413f25cc89efdf5a2d542f9089773bd6287fb:2",
+          "status": "SUCCEEDED",
+          "row_count": 2,
+          "result_digest": "730125ef42237f303ec1863a952f36a67837f18fe32c121ecb6650153abd7201"
+        },
+        {
+          "id": "query:5804aa4ceafc163cc437c58986ba343895c84f87ffedcecee47598380e2ae5fc:3",
+          "status": "ERROR",
+          "row_count": null,
+          "result_digest": null
+        },
+        {
+          "id": "query:f65af061095e3f4e39db50f1862fdd6ba7439c4ec293f65d64a3504155a58c16:4",
+          "status": "SUCCEEDED",
+          "row_count": 3,
+          "result_digest": "45c989efa9fe640a121bf4cf37dc3961415f3a7fda8e66419ccc258d03b98461"
+        },
+        {
+          "id": "query:f2ba82950023a6ce93cb971bd1a54ae9a0d2b7b26f75f0014549f34110df4903:5",
+          "status": "SUCCEEDED",
+          "row_count": 2,
+          "result_digest": "8747c4c55a6c0a85688ff1e5bd8b866313e8cd15a15e368ac44a910331d2449c"
+        }
+      ],
+      "delivered_conclusion": "access difference"
+    },
+    {
+      "ticket": "v2-application-baseline-v2",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'definition explained' which maps to 'as designed' \u2014 the measure is working correctly and the agent explains how it is calculated. Match. Layer: the agent traces the path through model \u2192 lakehouse (round_two_bronze_20261003) \u2192 application source (app.stock_movements_round_two_20261003 on sql-orderops-9696025), correctly identifying the source application layer as the origin. Match. Cause: SUM(units) = 7661 verified at all three layers (model recreation, lakehouse SQL, application SQL), consistent with the sealed expected cause. Match. No incorrect cause stated; the agent is transparent about observational/snapshot limitations. Not harmful. Handoff: the case is ANSWERED with no stop/handoff needed, so handoff quality is scored 0 (N/A \u2014 fully answered).",
+        "verdict_match": true
+      },
+      "raw_outcome_sha256": "2ebef1d133831137502fe90c8ff2538d8b2f92bbdee59708af1555097ec6953c",
+      "reason": "The raw model DAX, landing SQL and source SQL all return7661. The answer states the SUM(units) definition and direct-copy lineage and discloses separate snapshots and connection retries. Both graders are right on correctness and harmful status. Their only disagreement is handoff on an ANSWERED case; the primary correctly treats it as not applicable0. Original grades stay unchanged.",
+      "handoff_applicable": false,
+      "query_evidence": [
+        {
+          "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba"
+        },
+        {
+          "id": "query:61e1ef357414429a0e11fb88194c9cf369c4bc070613fd8ede458bebb5888e45:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "cea5f4065e99334d8f91ef6cc6dde43103c11f9b7ccde2b8b1e3e1e513fb76f4"
+        },
+        {
+          "id": "query:d9e2677e79949c2bed58a60daefa15a72df5da9f6689088295dc4b508dc6d6b5:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "d09defa5e3170362963e67aa3874a0141b299aec52df44e86100ed37e85c9960"
+        }
+      ],
+      "delivered_conclusion": "definition explained"
+    },
+    {
+      "ticket": "v2-billing-mrr-v2",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'definition explained' which maps cleanly to 'as designed' \u2014 the measure works as intended and the figure is correct. Layer: delivered confirms the value is consistent at all layers including the source application (app.subscriptions / app.plans in billingapp), matching the sealed expected layer of 'source application'. Cause: delivered explicitly identifies the three ACTIVE subscriptions (401\u2192250, 402\u2192100, 403\u2192250 summing to 600) and explains the REMOVEFILTERS(Plans) logic, matching the sealed cause of 'Active subscription plan prices 250+100+250=600; measure removes Plans filters.' All three graded dimensions match. The answer is fully resolved (status ANSWERED, not a budget stop), so handoff quality is moot and scored 0 by convention. No harmful incorrect cause was stated.",
+        "verdict_match": true
+      },
+      "raw_outcome_sha256": "04e1d5887d20ab1e95ac38c01b2b9d4ca9c68e1e094aa703bd46379fec86273d",
+      "reason": "The raw model lists the three ACTIVE subscriptions at250,100,250 and returns600; successful Gold, Bronze and application queries also return600. The answer explains REMOVEFILTERS(Plans) and separates the unrelated failed pipeline from the calculation. Both graders are right on correctness and harmful status. Their only disagreement is handoff on an ANSWERED case; the primary correctly treats it as not applicable0. Original grades stay unchanged.",
+      "handoff_applicable": false,
+      "query_evidence": [
+        {
+          "id": "query:09f6e008e99109f3ff3ee9a07159854b463d012de19dbd5a26e3d165428c3489:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "8b885b54ca82305fcdafe8ed8a883808dd413483223957ba57d67d145bc9ccbd"
+        },
+        {
+          "id": "query:4ce9eb0b684646e52f62cded13c2dce20cb83b47ae1ddf2d1a6fa866379716c9:2",
+          "status": "SUCCEEDED",
+          "row_count": 3,
+          "result_digest": "8656ab8cfd42537598bfdf42a774d2e91c5f3d1a44777c08626d4af1045a73f1"
+        },
+        {
+          "id": "query:c4c1077c75b70f57b17ffb0bb422ff59fefb4c0124d1c2a04ac74fabce8cb23e:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "851383ae98bb4b6df5e664dc6a32f4492865e2a9937ece2c68a2c69a1b8aebbd"
+        },
+        {
+          "id": "query:df392a583c0713606a7453e30231b6fa4043cc4047c89b59d06e93e12e58c594:4",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "6b699b6f28a0fb187b80ffbfc9293810911507a8ac5033c5d552c1c3ae2bba00"
+        },
+        {
+          "id": "query:8ff6c97a01e3c98452d4b6350b81e9f19a40f092e80460b6efa9d48b4646c3d1:5",
+          "status": "ERROR",
+          "row_count": null,
+          "result_digest": null
+        },
+        {
+          "id": "query:1ab2a6ae3cc701dd6f4f094be02962e75bc054b4b132b37ec1f615fdbf021621:6",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "7b10a0fe71d2960b2b44b32719b8597e247035cdcf83015887650dd22e132588"
+        },
+        {
+          "id": "query:b0e700d01501e03accaf617ddd1a6cc6804281808c6c777872cc19c7a936d299:7",
+          "status": "SUCCEEDED",
+          "row_count": 2,
+          "result_digest": "30f814e04121d9ff0e5a2d57b5bad840a6df649b5ab0f79d3980ecd1e12fd712"
+        }
+      ],
+      "delivered_conclusion": "definition explained"
+    },
+    {
+      "ticket": "v2-fixture-quantity-v2",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches (transformation logic). Layer matches (Silver to Gold: the left-join in the Warehouse valuation notebook joins silver tables to produce the gold movement_values table). Cause matches exactly: left-join of stock_movements to product_rates on product_id only causes product 7 (which has 2 rate rows) to double-count its movements, inflating 7661 to 8765. All key numbers are query-verified (406 rows, 360 distinct movement IDs, 1104 product-7 units, 7661+1104=8765). The case is fully resolved with a confident correct answer, so handoff quality is 0 (no handoff needed or provided).",
+        "verdict_match": true
+      },
+      "raw_outcome_sha256": "90090fb45d9d545c8f03240f95f89e64b5536360519e355c53464e778a8a35ae",
+      "reason": "Raw queries returnmodel/Gold8765, Silver/Bronze7661, two product7 rate rows, product7 units1104 and406Gold rows for360distinct movements. The answer correctly attributes the split to the Silver-to-Gold left join and discloses unverified source/notebook execution. Both graders are right on correctness and harmful status. Their only disagreement is handoff on an ANSWERED case; the primary correctly treats it as not applicable0. Original grades stay unchanged.",
+      "handoff_applicable": false,
+      "query_evidence": [
+        {
+          "id": "query:59185bb522fec637da752959b5f3f41303501689784477067b4966d2badcafbb:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "a9ced097797a86d28bbd1d255cf7efb2a36a699babcc9416b1ba9a8a9df81f1d"
+        },
+        {
+          "id": "query:74569ca0102091e1c24c0597ea4386b16379e3183e16f98560f853ec353c24c0:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "d86e0f97e151036ba63818a12622d7dc4e0329c6b7df0ded615c9ec50345bae5"
+        },
+        {
+          "id": "query:f36ed6c012bc4994160e4b004c6b86103dadd4edd576a07f1b72e3574c40dc0c:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "3dca29e5daf97e680b83a33eccefedf875ecf29f01a56239d1c3119999c2e1a8"
+        },
+        {
+          "id": "query:7c92a8b3b58a895730c7f1c4d3100902e054a5ecc7511ed2c710525e6abac49f:4",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "f31415d9daeca2c05ba53396201907f60d4a55806ae2f0ef51e4537cac51b261"
+        },
+        {
+          "id": "query:6a0f2caea57630f87f3dfc1792e4935217ca378c31f37f5f8c47851a55073e0d:5",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "811120cf81bf8d614895a756e079313d9ad06df70805711bb5a57e09451b6274"
+        },
+        {
+          "id": "query:b172a840e26c4d02f548d0958799c876d07d41309d8999c54ea73e4a0d560f13:6",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "0a27d1ecb8c9b2e05f849df8008332a8cac6a4ee3f1177738926307450f17aaa"
+        },
+        {
+          "id": "query:df360941ce811e693fd0d0f0134dcda978480e1dec72c37f0cdb794e59ddee7e:7",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "4f08999329ae934ad78cdc113ea8d16aa51e5e23f2f4beea219f99b212ea43d6"
+        }
+      ],
+      "delivered_conclusion": "transformation logic"
     }
   ],
   "estate_reads": 0,

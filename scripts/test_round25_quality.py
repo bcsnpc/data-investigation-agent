@@ -84,6 +84,11 @@ class CohortTests(unittest.TestCase):
         self.assertEqual(case['secondary'],bad)
         case['raw_review']['grade']=good
         with self.assertRaises(ValueError):three_scores([case])
+        case['raw_review']['winner']='primary'
+        value=three_scores([case])
+        self.assertEqual(value['strict']['all_three']['correct'],0)
+        self.assertEqual(value['raw_reviewed']['all_three']['correct'],1)
+        self.assertEqual(value['official_primary']['all_three']['correct'],1)
 
     def test_partial_cohorts_and_disagreements_stay_explicit(self):
         from round25_quality import cohort_metrics
@@ -129,6 +134,7 @@ class ReplacementTests(unittest.TestCase):
         from round25_quality import plumbing_replacement_label
         self.assertEqual(plumbing_replacement_label(error_type='LockNotAvailable',delivered=False,replacements_used=0),'-replacement01')
         for options in ({'error_type':'LockNotAvailable','delivered':True,'replacements_used':0},
+                        {'error_type':'OperationalError','delivered':False,'replacements_used':0},
                         {'error_type':'WRONG_VERDICT','delivered':False,'replacements_used':0},
                         {'error_type':'CAPTURE_LOSS','delivered':False,'replacements_used':1}):
             with self.assertRaises(ValueError):plumbing_replacement_label(**options)
@@ -140,6 +146,10 @@ class WaveTests(unittest.TestCase):
         self.assertEqual(static_wave_width(60),1)
         self.assertEqual(static_wave_width(100),2)
         self.assertEqual(static_wave_width(140),3)
+        # A restored, read-only static wave needs no additional mutation cushion.
+        self.assertEqual(static_wave_width(39,restore_headroom=0),0)
+        self.assertEqual(static_wave_width(40,restore_headroom=0),1)
+        self.assertEqual(static_wave_width(80,restore_headroom=0),2)
         for available in range(200):
             width=static_wave_width(available)
             if width:self.assertLessEqual(width*40+20,available)

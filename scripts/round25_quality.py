@@ -177,7 +177,7 @@ def plumbing_replacement_label(*, error_type, delivered, replacements_used):
     """Only one plumbing replacement; an engine answer never earns a rerun."""
     if type(delivered)is not bool or type(replacements_used)is not int:
         raise ValueError('REPLACEMENT_FACTS_REQUIRED')
-    permitted={'LockNotAvailable','OperationalError','AZURE_START_LOST','CAPTURE_LOSS'}
+    permitted={'LockNotAvailable','POSTGRES_CONNECTION_DROPPED','AZURE_START_LOST','CAPTURE_LOSS'}
     if delivered or replacements_used!=0 or error_type not in permitted:
         raise ValueError('NO_PLUMBING_REPLACEMENT_ALLOWED')
     return '-replacement01'
