@@ -166,3 +166,13 @@ Round24: optional, owner only: delete the unused Azure OpenAI deployments after 
 
 
 Round24 optional warm-worker proposal, not provisioned (2026-10-28UTC): at South Central US Standard consumption retail rates, a0.25vCPU/0.5GiB minimum replica costs aboutUSD5.832 per30-day month if entirely idle, orUSD19.44 if continuously active, before any remaining free grant and request/storage costs. Existing platform estimateUSD19.077 means even the gross idle addition would exceed theUSD20 platform cap. Keep current jobs scaling to zero; an owner decision is required before creating a warm service. Do not label all job/body timing difference as container startup: access audit and capture work also contribute. Official pricing: https://azure.microsoft.com/en-us/pricing/details/container-apps/ ; saved SouthCentralUS RetailAPI rate receipt is local round-twenty-four/aca-retail-prices.json.
+
+
+## Round24 remaining owner/design decisions,2026-10-28
+
+- Review the absent-record verdict terminology: observational source consistency versus not-found is not a judgment of business intent. Primary/secondary both18/20,harm0; their cause flag differs on that case. No v3expectation or score changed. Fix before-retention reasoning on future dev data, not by altering this held-out oracle.
+- Native external application provenance is absent for the largest inline-seeded fixture notebook group; declare an actual source/binding only with native evidence. Legacy sample report interaction/filter semantics and missing physical columns remain open.
+- Mutation controllers cannot move to the read-only cloud investigator without a separately approved control identity/scope. Existing local owner/publisher was used; no credential migration or extra grant performed.
+- Measured held-out startup median25.41s,route/schema45.13s,triage28.01s. Prioritize lazy schema/job-only initialization and independent reads. Warm-worker gross idle5.832USD/month plus current19.878333estimate=25.710333USD before free grants, above20; no warm resource created.
+- The old billing-account budget address's GET returned404; this does not establish absence at the current scope. Check current portal scope if confirming Azure alert delivery. No budget or role was changed. Native Cost Management query later succeeded and the existing platform cap remained in force.
+- Optional unused Azure OpenAI deletion remains owner-only; nothing deleted. Existing billing bootstrap CREATE_SCHEMA2011 still needs an owner decision on idempotent reruns; no unplanned estate repair was performed.

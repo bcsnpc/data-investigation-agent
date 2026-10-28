@@ -246,3 +246,6 @@ Round24 stale held01 DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_rest
 
 
 Round24 held01 stale final restoration: original source row/business-schema hashes matched, original360 real restore load Completed; automatic updates restoredON in existing publisher UI, own API model refresh Completed (exact request/time in retained native receipt), native model read7661. The dependent outcome were sealed before restore. Refresh controls chargedRESTORATION, model verification1 chargedRESTORATION; no identity, role or connection change. Native receipt .local/round-twenty-four/injections/held01-stale/status.json; screenshots private, hashes ledger-linked.
+
+
+Round24 access held01 ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-four\injections\held01-access-admission01\status.json.

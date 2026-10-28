@@ -1,10 +1,11 @@
-# Automatic dev backtrack
+# Round24 automatic backtracks
 
-Original Round23 backtrack remains in git history and docs/runs; this is the current Round24 pass, using saved traces only.
+Original R23 reports remain in git and docs/runs. Intermediate static-monitor grades/backtracks are preserved as JSON; final assessments below reuse them unchanged. Each table distinguishes the first causal wrong step from an earlier corrected query error. No new estate/model calls are used here.
+
 
 ## Round24 dev01 automatic backtrack
 
-{'graded': 15, 'score': 13, 'harmful': 0, 'correctness': {'verdict_match': 13, 'layer_match': 14, 'cause_match': 13}, 'zero_groups': {'reading results': 1, 'query': 1}}
+{'graded': 15, 'score': 13, 'harmful': 0, 'correctness': {'cause_match': 13, 'layer_match': 14, 'verdict_match': 13}, 'zero_groups': {'query': 1, 'reading results': 1}}
 
 | Ticket | First wrong step | Reason and correct action |
 |---|---|---|
@@ -40,6 +41,28 @@ Intake:
 Target:
 ```json
 {
+  "layers": {
+    "native:4aae8dbb1d373ebef783": {
+      "dialect": "DAX",
+      "label": "Subscription Billing"
+    },
+    "native:ac3ebe915b1cc00c45d7": {
+      "dialect": "T-SQL",
+      "label": "billing_bronze"
+    },
+    "native:bc3914e8dae9e68e7163": {
+      "dialect": "T-SQL",
+      "label": "billing_ops"
+    },
+    "native:db47aa505c8c14efec29": {
+      "dialect": "T-SQL",
+      "label": "billingapp"
+    },
+    "native:f87556d4485196602461": {
+      "dialect": "T-SQL",
+      "label": "billing_serving"
+    }
+  },
   "path": {
     "as_of": null,
     "declared_route_bridges": [
@@ -1148,28 +1171,6 @@ Target:
         "status": "UNAVAILABLE"
       }
     }
-  },
-  "layers": {
-    "native:4aae8dbb1d373ebef783": {
-      "label": "Subscription Billing",
-      "dialect": "DAX"
-    },
-    "native:ac3ebe915b1cc00c45d7": {
-      "label": "billing_bronze",
-      "dialect": "T-SQL"
-    },
-    "native:bc3914e8dae9e68e7163": {
-      "label": "billing_ops",
-      "dialect": "T-SQL"
-    },
-    "native:db47aa505c8c14efec29": {
-      "label": "billingapp",
-      "dialect": "T-SQL"
-    },
-    "native:f87556d4485196602461": {
-      "label": "billing_serving",
-      "dialect": "T-SQL"
-    }
   }
 }
 ```
@@ -1391,139 +1392,139 @@ Tool decisions:
 ```json
 [
   {
-    "turn": 1,
-    "tool": "run_dax",
     "arguments": {
       "layer": "native:4aae8dbb1d373ebef783",
       "purpose": "recreate",
       "query": "EVALUATE ROW(\"Invoiced Amount\", [Invoiced Amount], \"rows\", COUNTROWS(Billing), \"max_invoice_date\", MAX(Billing[invoice_date]))"
     },
-    "tool_use_id": "toolu_018eEBfyL3GTXsNNDEg4GgNo"
+    "tool": "run_dax",
+    "tool_use_id": "toolu_018eEBfyL3GTXsNNDEg4GgNo",
+    "turn": 1
   },
   {
-    "turn": 1,
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:f87556d4485196602461",
       "purpose": "compare",
       "query": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount, COUNT(*) AS rows_observed, MAX([invoice_date]) AS max_invoice_date FROM [gold].[invoice_activity]"
     },
-    "tool_use_id": "toolu_01DghjiwDKdwbvo9cpDNyvbn"
+    "tool": "run_sql",
+    "tool_use_id": "toolu_01DghjiwDKdwbvo9cpDNyvbn",
+    "turn": 1
   },
   {
-    "turn": 1,
-    "tool": "get_refresh_history",
     "arguments": {
       "node": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8"
     },
-    "tool_use_id": "toolu_016hRdACPbEsfTxaKGb1hsoK"
+    "tool": "get_refresh_history",
+    "tool_use_id": "toolu_016hRdACPbEsfTxaKGb1hsoK",
+    "turn": 1
   },
   {
-    "turn": 1,
-    "tool": "get_lineage",
     "arguments": {
       "node": "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
       "operation": "PRODUCERS"
     },
-    "tool_use_id": "toolu_01SqqH9p3vzq51f4SaaEvXpc"
+    "tool": "get_lineage",
+    "tool_use_id": "toolu_01SqqH9p3vzq51f4SaaEvXpc",
+    "turn": 1
   },
   {
-    "turn": 4,
-    "tool": "list_candidates",
     "arguments": {
       "words": "billing warehouse transformation pipeline stored procedure invoice_activity bronze job history"
     },
-    "tool_use_id": "toolu_01Mduzd63BkcHFHs5CDUMN1p"
+    "tool": "list_candidates",
+    "tool_use_id": "toolu_01Mduzd63BkcHFHs5CDUMN1p",
+    "turn": 4
   },
   {
-    "turn": 7,
-    "tool": "list_candidates",
     "arguments": {
       "words": "invoices bronze invoice load procedure pipeline run"
     },
-    "tool_use_id": "toolu_01Lrddk4VDkJvQRVjJYprdBi"
+    "tool": "list_candidates",
+    "tool_use_id": "toolu_01Lrddk4VDkJvQRVjJYprdBi",
+    "turn": 7
   },
   {
-    "turn": 7,
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:f87556d4485196602461",
       "purpose": "lookup",
       "query": "SELECT TOP 20 s.name AS schema_name, o.name AS object_name, o.type_desc, o.modify_date FROM sys.objects o JOIN sys.schemas s ON s.schema_id = o.schema_id WHERE o.type IN ('P','V','U') ORDER BY o.modify_date DESC"
     },
-    "tool_use_id": "toolu_01Hkci1RMsEdJU7yArabYCdm"
+    "tool": "run_sql",
+    "tool_use_id": "toolu_01Hkci1RMsEdJU7yArabYCdm",
+    "turn": 7
   },
   {
-    "turn": 10,
-    "tool": "get_lineage",
     "arguments": {
       "node": "cd24018f200d886024efd549c6a79f2cc38fd8665b0337f3d4b5c3d391788c22",
       "operation": "PATH"
     },
-    "tool_use_id": "toolu_01CgPBESBJgjXFHS9goKxepZ"
+    "tool": "get_lineage",
+    "tool_use_id": "toolu_01CgPBESBJgjXFHS9goKxepZ",
+    "turn": 10
   },
   {
-    "turn": 10,
-    "tool": "get_lineage",
     "arguments": {
       "node": "56132b6a75761fcbacab05eb8d140b68e0c5ebbdc195e993a772d1f464db1463",
       "operation": "PATH"
     },
-    "tool_use_id": "toolu_01FB8xpmQ3uaNjv487LZAbc8"
+    "tool": "get_lineage",
+    "tool_use_id": "toolu_01FB8xpmQ3uaNjv487LZAbc8",
+    "turn": 10
   },
   {
-    "turn": 10,
+    "arguments": {
+      "node": "cd24018f200d886024efd549c6a79f2cc38fd8665b0337f3d4b5c3d391788c22"
+    },
     "tool": "get_definition",
+    "tool_use_id": "toolu_01Vz45WgyRLocm4fuUdaCFJe",
+    "turn": 10
+  },
+  {
     "arguments": {
       "node": "cd24018f200d886024efd549c6a79f2cc38fd8665b0337f3d4b5c3d391788c22"
     },
-    "tool_use_id": "toolu_01Vz45WgyRLocm4fuUdaCFJe"
-  },
-  {
-    "turn": 13,
     "tool": "get_job_runs",
-    "arguments": {
-      "node": "cd24018f200d886024efd549c6a79f2cc38fd8665b0337f3d4b5c3d391788c22"
-    },
-    "tool_use_id": "toolu_018KujiqTfEKrp8FjTE5g6kD"
+    "tool_use_id": "toolu_018KujiqTfEKrp8FjTE5g6kD",
+    "turn": 13
   },
   {
-    "turn": 13,
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:bc3914e8dae9e68e7163",
       "purpose": "history",
       "query": "SELECT TOP 20 run_id, pipeline_name, status, rows_read, rows_written, accounting_state, start_time_utc, end_time_utc, high_watermark FROM dbo.load_run_audit ORDER BY start_time_utc DESC"
     },
-    "tool_use_id": "toolu_014vMCvhLQ6Jth2Fsdh1AK9Y"
+    "tool": "run_sql",
+    "tool_use_id": "toolu_014vMCvhLQ6Jth2Fsdh1AK9Y",
+    "turn": 13
   },
   {
-    "turn": 13,
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:ac3ebe915b1cc00c45d7",
       "purpose": "compare",
       "query": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount, COUNT(*) AS rows_observed, MAX([invoice_date]) AS max_invoice_date, MAX([source_modified_at_utc]) AS max_modified FROM [dbo].[invoices]"
     },
-    "tool_use_id": "toolu_01WktJC5R8m6BoaYS4Rk8QyZ"
+    "tool": "run_sql",
+    "tool_use_id": "toolu_01WktJC5R8m6BoaYS4Rk8QyZ",
+    "turn": 13
   },
   {
-    "turn": 13,
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:db47aa505c8c14efec29",
       "purpose": "compare",
       "query": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount, COUNT(*) AS rows_observed, MAX([invoice_date]) AS max_invoice_date, MAX([source_modified_at_utc]) AS max_modified FROM [app].[invoices]"
     },
-    "tool_use_id": "toolu_011bTXNjfvHCARJQ1ZWMZuSW"
+    "tool": "run_sql",
+    "tool_use_id": "toolu_011bTXNjfvHCARJQ1ZWMZuSW",
+    "turn": 13
   },
   {
-    "turn": 16,
-    "tool": "get_job_runs",
     "arguments": {
       "node": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/62eb1a7f-19c2-466f-85ec-cda6bc231fb9"
     },
-    "tool_use_id": "toolu_012dHrS6HbTUCagnbE3yv5Lk"
+    "tool": "get_job_runs",
+    "tool_use_id": "toolu_012dHrS6HbTUCagnbE3yv5Lk",
+    "turn": 16
   }
 ]
 ```
@@ -1863,6 +1864,16 @@ Intake:
 Target:
 ```json
 {
+  "layers": {
+    "native:4aae8dbb1d373ebef783": {
+      "dialect": "DAX",
+      "label": "Subscription Billing"
+    },
+    "native:f87556d4485196602461": {
+      "dialect": "T-SQL",
+      "label": "billing_serving"
+    }
+  },
   "path": {
     "as_of": null,
     "declared_route_bridges": [
@@ -2497,16 +2508,6 @@ Target:
         "status": "UNAVAILABLE"
       }
     }
-  },
-  "layers": {
-    "native:4aae8dbb1d373ebef783": {
-      "label": "Subscription Billing",
-      "dialect": "DAX"
-    },
-    "native:f87556d4485196602461": {
-      "label": "billing_serving",
-      "dialect": "T-SQL"
-    }
   }
 }
 ```
@@ -2728,136 +2729,136 @@ Tool decisions:
 ```json
 [
   {
-    "turn": 1,
-    "tool": "get_evidence",
     "arguments": {
       "id": "case-evidence:25e2e825633c60689792fb46cf09e8735a2a9174e412d06b69702a22bc9899f1"
     },
-    "tool_use_id": "toolu_011hFGqK6KopqPw1HA62zM1G"
+    "tool": "get_evidence",
+    "tool_use_id": "toolu_011hFGqK6KopqPw1HA62zM1G",
+    "turn": 1
   },
   {
-    "turn": 1,
-    "tool": "run_dax",
     "arguments": {
       "layer": "native:4aae8dbb1d373ebef783",
       "purpose": "recreate",
       "query": "EVALUATE ROW(\"Invoiced Amount\", SUM(Billing[amount]), \"max_invoice_date\", MAX(Billing[invoice_date]), \"rows\", COUNTROWS(Billing))"
     },
-    "tool_use_id": "toolu_01WUUC3Mm8fMCdMKgMx9Fcda"
+    "tool": "run_dax",
+    "tool_use_id": "toolu_01WUUC3Mm8fMCdMKgMx9Fcda",
+    "turn": 1
   },
   {
-    "turn": 1,
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:f87556d4485196602461",
       "purpose": "compare",
       "query": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount, MAX([invoice_date]) AS max_invoice_date, COUNT(*) AS rows_observed FROM [gold].[invoice_activity]"
     },
-    "tool_use_id": "toolu_012GsF1bG7dUmPzP3mMJ5WFf"
+    "tool": "run_sql",
+    "tool_use_id": "toolu_012GsF1bG7dUmPzP3mMJ5WFf",
+    "turn": 1
   },
   {
-    "turn": 1,
-    "tool": "get_refresh_history",
     "arguments": {
       "node": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8"
     },
-    "tool_use_id": "toolu_01G2qZC5XQTNkNCefVLsGj2V"
+    "tool": "get_refresh_history",
+    "tool_use_id": "toolu_01G2qZC5XQTNkNCefVLsGj2V",
+    "turn": 1
   },
   {
-    "turn": 1,
-    "tool": "get_lineage",
     "arguments": {
       "node": "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
       "operation": "PRODUCERS"
     },
-    "tool_use_id": "toolu_01VjfmXNedFyNKt7L8jdFYFy"
+    "tool": "get_lineage",
+    "tool_use_id": "toolu_01VjfmXNedFyNKt7L8jdFYFy",
+    "turn": 1
   },
   {
-    "turn": 4,
-    "tool": "list_candidates",
     "arguments": {
       "words": "invoice_activity stored procedure transformation bronze invoices billing warehouse job",
       "workspace": "7d67bb36-04f6-4182-95aa-da5d515248fa"
     },
-    "tool_use_id": "toolu_01FdKGSAtzGjix2TueSE1vD7"
+    "tool": "list_candidates",
+    "tool_use_id": "toolu_01FdKGSAtzGjix2TueSE1vD7",
+    "turn": 4
   },
   {
-    "turn": 7,
-    "tool": "get_lineage",
     "arguments": {
       "node": "2439472548ec60dbbc1c57e217175f6e5cc5eef8b3c3cfea6b10463407a0e04c",
       "operation": "NEIGHBOURS"
     },
-    "tool_use_id": "toolu_01A932pXfzq3Ec4Xn8UKdqfV"
+    "tool": "get_lineage",
+    "tool_use_id": "toolu_01A932pXfzq3Ec4Xn8UKdqfV",
+    "turn": 7
   },
   {
-    "turn": 7,
-    "tool": "get_lineage",
     "arguments": {
       "node": "072efb563a80031fb6ed6773a44b89662672682c6b0a16ef8c309b8e477485fb",
       "operation": "NEIGHBOURS"
     },
-    "tool_use_id": "toolu_01Knyptoxjy9R1xPXVEgrDoc"
+    "tool": "get_lineage",
+    "tool_use_id": "toolu_01Knyptoxjy9R1xPXVEgrDoc",
+    "turn": 7
   },
   {
-    "turn": 10,
-    "tool": "get_job_runs",
     "arguments": {
       "node": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/76c60248-b830-433b-9880-90593da28e7e"
     },
-    "tool_use_id": "toolu_01R7wAJ7dkrskgs7B6ndNyET"
+    "tool": "get_job_runs",
+    "tool_use_id": "toolu_01R7wAJ7dkrskgs7B6ndNyET",
+    "turn": 10
   },
   {
-    "turn": 10,
-    "tool": "get_job_runs",
     "arguments": {
       "node": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/62eb1a7f-19c2-466f-85ec-cda6bc231fb9"
     },
-    "tool_use_id": "toolu_01FZsV1rsuY2fK7ocmAHYKNX"
+    "tool": "get_job_runs",
+    "tool_use_id": "toolu_01FZsV1rsuY2fK7ocmAHYKNX",
+    "turn": 10
   },
   {
-    "turn": 10,
-    "tool": "get_job_runs",
     "arguments": {
       "node": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/fc8438fd-2c18-4196-9191-33e26481e2e0"
     },
-    "tool_use_id": "toolu_01PLaiZVAub7YVhq1gH7YSQt"
+    "tool": "get_job_runs",
+    "tool_use_id": "toolu_01PLaiZVAub7YVhq1gH7YSQt",
+    "turn": 10
   },
   {
-    "turn": 10,
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:f87556d4485196602461",
       "purpose": "compare",
       "query": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount FROM [silver].[invoices]"
     },
-    "tool_use_id": "toolu_01YBtZopxiDgJGLtU9gKTAtb"
+    "tool": "run_sql",
+    "tool_use_id": "toolu_01YBtZopxiDgJGLtU9gKTAtb",
+    "turn": 10
   },
   {
-    "turn": 10,
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:f87556d4485196602461",
       "purpose": "compare",
       "query": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount FROM [bronze].[invoices]"
     },
-    "tool_use_id": "toolu_01GWT4XGmr3q4NBUmckJAWtH"
+    "tool": "run_sql",
+    "tool_use_id": "toolu_01GWT4XGmr3q4NBUmckJAWtH",
+    "turn": 10
   },
   {
-    "turn": 13,
-    "tool": "get_evidence",
     "arguments": {
       "id": "case-evidence:af837c6c27d533e5843ccea850f69d4f191294d2b061380d7bff7844e196f40e"
     },
-    "tool_use_id": "toolu_01WiDJeXJfxwD3Nq15qjYrQS"
+    "tool": "get_evidence",
+    "tool_use_id": "toolu_01WiDJeXJfxwD3Nq15qjYrQS",
+    "turn": 13
   },
   {
-    "turn": 16,
-    "tool": "get_job_runs",
     "arguments": {
       "node": "5fd69c1b5817645bf256c653c3a6fdfb060ba4f6cd3b35c7f56324a93e5e9ad4"
     },
-    "tool_use_id": "toolu_019spftoTGqaWUxFoMxmZXHt"
+    "tool": "get_job_runs",
+    "tool_use_id": "toolu_019spftoTGqaWUxFoMxmZXHt",
+    "turn": 16
   }
 ]
 ```
@@ -3089,7 +3090,7 @@ Saved checkpoint SHA-256: 356ac3ccb5d70be403e849ad6ba2e2858349cc1f1d0041eee2a562
 
 ## Round24 finaldev second-grader zeros (separate audit) automatic backtrack
 
-{'graded': 3, 'score': 0, 'harmful': 1, 'correctness': {'verdict_match': 0, 'layer_match': 0, 'cause_match': 0}, 'zero_groups': {'conclusion': 1, 'triage': 2}}
+{'graded': 3, 'score': 0, 'harmful': 1, 'correctness': {'cause_match': 0, 'layer_match': 0, 'verdict_match': 0}, 'zero_groups': {'conclusion': 1, 'triage': 2}}
 
 | Ticket | First wrong step | Reason and correct action |
 |---|---|---|
@@ -3122,16 +3123,16 @@ Target:
 {
   "layers": {
     "native:4caf47d120d4fd198ffe": {
-      "label": "Application load fixture 20261003",
-      "dialect": "DAX"
+      "dialect": "DAX",
+      "label": "Application load fixture 20261003"
     },
     "native:9e3796a26d8d5c1a039e": {
-      "label": "ordersops",
-      "dialect": "T-SQL"
+      "dialect": "T-SQL",
+      "label": "ordersops"
     },
     "native:e95b94fd338e7086320f": {
-      "label": "round_two_bronze_20261003",
-      "dialect": "T-SQL"
+      "dialect": "T-SQL",
+      "label": "round_two_bronze_20261003"
     }
   }
 }
@@ -3806,69 +3807,68 @@ Tool decisions:
 ```json
 [
   {
-    "tool": "run_dax",
     "arguments": {
       "layer": "native:4caf47d120d4fd198ffe",
       "purpose": "recreate",
       "query": "EVALUATE ROW(\"Movement Units\", [Movement Units])"
-    }
+    },
+    "tool": "run_dax"
   },
   {
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:e95b94fd338e7086320f",
       "purpose": "compare",
       "query": "SELECT SUM(CAST([units] AS bigint)) AS movement_units FROM [dbo].[stock_movements_round_two_20261003]"
-    }
+    },
+    "tool": "run_sql"
   },
   {
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:9e3796a26d8d5c1a039e",
       "purpose": "compare",
       "query": "SELECT SUM(CAST([units] AS bigint)) AS movement_units FROM [app].[stock_movements_round_two_20261003]"
-    }
+    },
+    "tool": "run_sql"
   },
   {
-    "tool": "get_job_runs",
     "arguments": {
       "node": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
-    }
+    },
+    "tool": "get_job_runs"
   },
   {
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:9e3796a26d8d5c1a039e",
       "purpose": "compare",
       "query": "SELECT MAX([source_modified_at_utc]) AS max_modified FROM [app].[stock_movements_round_two_20261003]"
-    }
+    },
+    "tool": "run_sql"
   },
   {
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:e95b94fd338e7086320f",
       "purpose": "compare",
       "query": "SELECT MAX([source_modified_at_utc]) AS max_modified FROM [dbo].[stock_movements_round_two_20261003]"
-    }
+    },
+    "tool": "run_sql"
   },
   {
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:9e3796a26d8d5c1a039e",
       "purpose": "compare",
       "query": "SELECT COUNT(*) AS rows_observed FROM [app].[stock_movements_round_two_20261003]"
-    }
+    },
+    "tool": "run_sql"
   },
   {
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:e95b94fd338e7086320f",
       "purpose": "compare",
       "query": "SELECT COUNT(*) AS rows_observed FROM [dbo].[stock_movements_round_two_20261003]"
-    }
+    },
+    "tool": "run_sql"
   },
   {
-    "tool": "submit_finding",
     "arguments": {
       "cause": "The Movement Units card (SUM of Movements[units]) recreates at 7661. The landing lakehouse table dbo.stock_movements_round_two_20261003 also reads 7661, and so does the application source table app.stock_movements_round_two_20261003. Both tables currently hold 360 rows, and in both the newest source_modified_at_utc is 2026-10-03 22:51:16.882024. So the data looks old because the source itself has nothing newer, not because delivery is behind the source. One open issue: the latest run of the load pipeline round_two_application_load_audited_20261003 failed at 2026-10-28 05:59 (error 2011, a controlled failure before the original activities). Its last successful run ended 2026-10-27 15:54, and the declared load audit has no row for the listed run. The current reads show no source change since then, so that failure has not left the report behind the source. The last model refresh succeeded on 2026-10-27 15:56. Matching totals are point-in-time reads; they don't prove the layers were captured at the same moment, and no retained source history was read.",
       "checked": [
@@ -3895,10 +3895,10 @@ Tool decisions:
         360
       ],
       "verdict": "consistent to boundary"
-    }
+    },
+    "tool": "submit_finding"
   },
   {
-    "tool": "submit_finding",
     "arguments": {
       "cause": "The Movement Units card (SUM of Movements[units]) recreates at 7661. The landing lakehouse table dbo.stock_movements_round_two_20261003 also reads 7661, and so does the application source table app.stock_movements_round_two_20261003. Both tables currently hold 360 rows, and in both the newest source_modified_at_utc is 2026-10-03 22:51:16.882024. So the data looks old because the source itself has nothing newer, not because delivery is behind the source. One open issue: the latest run of the load pipeline round_two_application_load_audited_20261003 failed at 2026-10-28 05:59 (error 2011, a controlled failure before the original activities). Its last successful run ended 2026-10-27 15:54, and the declared load audit has no row for the listed run. The current reads show no source change since then, so that failure has not left the report behind the source. The last model refresh succeeded on 2026-10-27 15:56. Matching totals are point-in-time reads; they don't prove the layers were captured at the same moment, and no retained source history was read.",
       "checked": [
@@ -3924,7 +3924,8 @@ Tool decisions:
         360
       ],
       "verdict": "consistent to boundary"
-    }
+    },
+    "tool": "submit_finding"
   }
 ]
 ```
@@ -7303,9 +7304,9 @@ Sealed expected:
 Saved checkpoint SHA-256: 356ac3ccb5d70be403e849ad6ba2e2858349cc1f1d0041eee2a562ea585672f6. Only recorded tool choices are shown; no new queries or model calls.
 
 
-## Round24 held-out static safety monitor (interim) automatic backtrack
+## Round24 held01 automatic backtrack
 
-{'graded': 12, 'score': 10, 'harmful': 0, 'correctness': {'verdict_match': 10, 'layer_match': 11, 'cause_match': 10}, 'zero_groups': {'conclusion': 2}}
+{'graded': 20, 'score': 18, 'harmful': 0, 'correctness': {'cause_match': 18, 'layer_match': 19, 'verdict_match': 18}, 'zero_groups': {'conclusion': 2}}
 
 | Ticket | First wrong step | Reason and correct action |
 |---|---|---|
@@ -7349,6 +7350,20 @@ Intake:
 Target:
 ```json
 {
+  "layers": {
+    "native:4caf47d120d4fd198ffe": {
+      "dialect": "DAX",
+      "label": "Application load fixture 20261003"
+    },
+    "native:9e3796a26d8d5c1a039e": {
+      "dialect": "T-SQL",
+      "label": "ordersops"
+    },
+    "native:e95b94fd338e7086320f": {
+      "dialect": "T-SQL",
+      "label": "round_two_bronze_20261003"
+    }
+  },
   "path": {
     "as_of": null,
     "declared_route_bridges": [
@@ -9296,20 +9311,6 @@ Target:
         "reason": "Owner definition refresh unavailable: MetadataUnavailable",
         "status": "UNAVAILABLE"
       }
-    }
-  },
-  "layers": {
-    "native:4caf47d120d4fd198ffe": {
-      "label": "Application load fixture 20261003",
-      "dialect": "DAX"
-    },
-    "native:9e3796a26d8d5c1a039e": {
-      "label": "ordersops",
-      "dialect": "T-SQL"
-    },
-    "native:e95b94fd338e7086320f": {
-      "label": "round_two_bronze_20261003",
-      "dialect": "T-SQL"
     }
   }
 }
@@ -10002,86 +10003,84 @@ Tool decisions:
 ```json
 [
   {
-    "turn": 1,
-    "tool": "run_dax",
     "arguments": {
       "layer": "native:4caf47d120d4fd198ffe",
       "purpose": "recreate",
       "query": "EVALUATE ROW(\"Movement Units movement_id 1\", CALCULATE([Movement Units], 'Movements'[movement_id] = 1), \"Movement Units total\", [Movement Units])"
     },
-    "tool_use_id": "toolu_01FUQGARmxPXBs25GyqWckF9"
+    "tool": "run_dax",
+    "tool_use_id": "toolu_01FUQGARmxPXBs25GyqWckF9",
+    "turn": 1
   },
   {
-    "turn": 1,
-    "tool": "run_dax",
     "arguments": {
       "layer": "native:4caf47d120d4fd198ffe",
       "purpose": "lookup",
       "query": "EVALUATE TOPN(20, SUMMARIZECOLUMNS('Movements'[movement_id], \"u\", [Movement Units]), 'Movements'[movement_id], ASC)"
     },
-    "tool_use_id": "toolu_01UvYoApesmzcXsRuEdisQDC"
+    "tool": "run_dax",
+    "tool_use_id": "toolu_01UvYoApesmzcXsRuEdisQDC",
+    "turn": 1
   },
   {
-    "turn": 1,
-    "tool": "get_job_runs",
     "arguments": {
       "node": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
     },
-    "tool_use_id": "toolu_01FdgLuL8p1yDDiHq6rsTcjo"
+    "tool": "get_job_runs",
+    "tool_use_id": "toolu_01FdgLuL8p1yDDiHq6rsTcjo",
+    "turn": 1
   },
   {
-    "turn": 4,
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:e95b94fd338e7086320f",
       "purpose": "compare",
       "query": "SELECT movement_id, units, event_day, movement_type, source_modified_at_utc FROM [dbo].[stock_movements_round_two_20261003] WHERE movement_id = 1"
     },
-    "tool_use_id": "toolu_01WR3hPy9N1ue87gQt4EoAjp"
+    "tool": "run_sql",
+    "tool_use_id": "toolu_01WR3hPy9N1ue87gQt4EoAjp",
+    "turn": 4
   },
   {
-    "turn": 4,
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:9e3796a26d8d5c1a039e",
       "purpose": "compare",
       "query": "SELECT movement_id, units, event_day, movement_type, source_modified_at_utc FROM [app].[stock_movements_round_two_20261003] WHERE movement_id = 1"
     },
-    "tool_use_id": "toolu_01C8dZ3ZL1iBbMjSGUcTZY7D"
+    "tool": "run_sql",
+    "tool_use_id": "toolu_01C8dZ3ZL1iBbMjSGUcTZY7D",
+    "turn": 4
   },
   {
-    "turn": 4,
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:9e3796a26d8d5c1a039e",
       "purpose": "history",
       "query": "SELECT SUM(units) AS units_as_of FROM [app].[stock_movements_round_two_20261003] FOR SYSTEM_TIME AS OF '2026-10-20T12:00:00' WHERE movement_id = 1"
     },
-    "tool_use_id": "toolu_015Ts7mZ22GT7UQiWtCkdXVP"
+    "tool": "run_sql",
+    "tool_use_id": "toolu_015Ts7mZ22GT7UQiWtCkdXVP",
+    "turn": 4
   },
   {
-    "turn": 7,
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:9e3796a26d8d5c1a039e",
       "purpose": "history",
       "query": "SELECT t.name, t.temporal_type_desc, h.name AS history_table, c1.name AS period_start, c2.name AS period_end FROM sys.tables t LEFT JOIN sys.tables h ON h.object_id = t.history_table_id LEFT JOIN sys.periods p ON p.object_id = t.object_id LEFT JOIN sys.columns c1 ON c1.object_id = t.object_id AND c1.column_id = p.start_column_id LEFT JOIN sys.columns c2 ON c2.object_id = t.object_id AND c2.column_id = p.end_column_id WHERE t.name = 'stock_movements_round_two_20261003'"
     },
-    "tool_use_id": "toolu_01247YRzBC7PWhcXJMzhTvpC"
+    "tool": "run_sql",
+    "tool_use_id": "toolu_01247YRzBC7PWhcXJMzhTvpC",
+    "turn": 7
   },
   {
-    "turn": 10,
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:9e3796a26d8d5c1a039e",
       "purpose": "history",
       "query": "SELECT movement_id, units, movement_type, source_modified_at_utc FROM [app].[stock_movements_round_two_20261003] FOR SYSTEM_TIME ALL WHERE movement_id = 1 ORDER BY source_modified_at_utc"
     },
-    "tool_use_id": "toolu_01LzzAoVW5kJVhQMh2dsUiTb"
+    "tool": "run_sql",
+    "tool_use_id": "toolu_01LzzAoVW5kJVhQMh2dsUiTb",
+    "turn": 10
   },
   {
-    "turn": 13,
-    "tool": "submit_finding",
     "arguments": {
       "cause": "Movement Units is SUM('Movements'[units]) with no date or as-of logic. The Movements table reads the Lakehouse table dbo.stock_movements_round_two_20261003 directly (Direct Lake), and the copy job investigation_round_two_history_probe_20261003 overwrites that table from app.stock_movements_round_two_20261003 on each run. So the visual always shows current rows and never works out a past value. Current value for movement_id 1 is 16 in the model, the Lakehouse table and the source table (one row in each, units 16). A native read of the source table's system-versioned history for 2026-10-20 12:00 UTC succeeded but returned NULL (no row), and FOR SYSTEM_TIME ALL keeps only one version of movement 1 (units 16). The retained history therefore gives no value for movement 1 at that time. The cause of that gap was not established: the catalog query for the history setup and period columns was rejected. Lakehouse table time travel was not checked. The source_modified_at_utc column (2026-10-03 22:51:16) is an application column, not the history validity period. The two failed pipeline runs (2026-10-27 14:25 and 2026-10-28 05:59 UTC) were followed by successful runs; the latest load succeeded 2026-10-28 08:15-08:17 UTC (360 rows read and written) and the model refresh succeeded at 08:22 UTC.",
       "checked": [
@@ -10112,11 +10111,11 @@ Tool decisions:
       ],
       "verdict": "definition explained"
     },
-    "tool_use_id": "toolu_016MHV2pcXP4YZHCE58W1mQw"
+    "tool": "submit_finding",
+    "tool_use_id": "toolu_016MHV2pcXP4YZHCE58W1mQw",
+    "turn": 13
   },
   {
-    "turn": 16,
-    "tool": "submit_finding",
     "arguments": {
       "cause": "Movement Units is SUM('Movements'[units]) with no date or as-of logic. The Movements table reads the Lakehouse table dbo.stock_movements_round_two_20261003 directly (Direct Lake), and the copy job investigation_round_two_history_probe_20261003 overwrites that table from app.stock_movements_round_two_20261003 on each run. So the visual always shows current rows and never works out a past value. Current value for movement_id 1 is 16 in the model, the Lakehouse table and the source table (one row in each, units 16). A native read of the source table's system-versioned history for 2026-10-20 12:00 UTC succeeded but returned NULL (no row), and FOR SYSTEM_TIME ALL keeps only one version of movement 1 (units 16). The retained history therefore gives no value for movement 1 at that time. The cause of that gap was not established: the catalog query for the history setup and period columns was rejected. Lakehouse table time travel was not checked. The source_modified_at_utc column (2026-10-03 22:51:16) is an application column, not the history validity period. The two failed pipeline runs (2026-10-27 14:25 and 2026-10-28 05:59 UTC) were followed by successful runs; the latest load succeeded 2026-10-28 08:15-08:17 UTC (360 rows read and written) and the model refresh succeeded at 08:22 UTC.",
       "checked": [
@@ -10145,11 +10144,11 @@ Tool decisions:
       ],
       "verdict": "definition explained"
     },
-    "tool_use_id": "toolu_01VCndY7AuhN84Rq4gFzVKqL"
+    "tool": "submit_finding",
+    "tool_use_id": "toolu_01VCndY7AuhN84Rq4gFzVKqL",
+    "turn": 16
   },
   {
-    "turn": 19,
-    "tool": "submit_finding",
     "arguments": {
       "cause": "Movement Units is SUM('Movements'[units]) with no date or as-of logic. The Movements table reads the Lakehouse table dbo.stock_movements_round_two_20261003 directly (Direct Lake), and the copy job investigation_round_two_history_probe_20261003 overwrites that table from app.stock_movements_round_two_20261003 on each run. So the visual always shows current rows and never works out a past value. Current value for movement_id 1 is 16 in the model, the Lakehouse table and the source table (one row in each, units 16). A native read of the source table's system-versioned history for 2026-10-20 12:00 UTC succeeded but returned NULL (no row), and FOR SYSTEM_TIME ALL keeps only one version of movement 1 (units 16). The retained history therefore gives no value for movement 1 at that time. The cause of that gap was not established: the catalog query for the history setup and period columns was rejected. Lakehouse table time travel was not checked. The source_modified_at_utc column (2026-10-03 22:51:16) is an application column, not the history validity period. The two failed pipeline runs (2026-10-27 14:25 and 2026-10-28 05:59 UTC) were followed by successful runs; the latest load succeeded 2026-10-28 08:15-08:17 UTC (360 rows read and written) and the model refresh succeeded at 08:22 UTC.",
       "checked": [
@@ -10175,11 +10174,11 @@ Tool decisions:
       ],
       "verdict": "definition explained"
     },
-    "tool_use_id": "toolu_018zoFjVGbsNJPgMW6tq4CmS"
+    "tool": "submit_finding",
+    "tool_use_id": "toolu_018zoFjVGbsNJPgMW6tq4CmS",
+    "turn": 19
   },
   {
-    "turn": 22,
-    "tool": "submit_finding",
     "arguments": {
       "cause": "Movement Units is SUM('Movements'[units]) with no date or as-of logic. The Movements table reads the Lakehouse table dbo.stock_movements_round_two_20261003 directly (Direct Lake), and the copy job investigation_round_two_history_probe_20261003 overwrites that table from app.stock_movements_round_two_20261003 on each run. So the visual always shows current rows and never works out a past value. Current value for movement_id 1 is 16 in the model, the Lakehouse table and the source table (one row in each, units 16). A native read of the source table's system-versioned history for 2026-10-20 12:00 UTC succeeded but returned NULL (no row), and FOR SYSTEM_TIME ALL keeps only one version of movement 1 (units 16). The retained history therefore gives no value for movement 1 at that time. Limitation: why there is no version at that time was not established, because the history period columns and setup were not read. Lakehouse table time travel was not checked. The source_modified_at_utc column (2026-10-03 22:51:16) is an application column, not the history validity period. The two failed pipeline runs (2026-10-27 14:25 and 2026-10-28 05:59 UTC) were followed by successful runs; the latest load succeeded 2026-10-28 08:15-08:17 UTC (360 rows read and written) and the model refresh succeeded at 08:22 UTC.",
       "checked": [
@@ -10204,7 +10203,9 @@ Tool decisions:
       ],
       "verdict": "definition explained"
     },
-    "tool_use_id": "toolu_011yfabT5UN2XYG1epNr4jFq"
+    "tool": "submit_finding",
+    "tool_use_id": "toolu_011yfabT5UN2XYG1epNr4jFq",
+    "turn": 22
   }
 ]
 ```
@@ -10254,9 +10255,6 @@ Queries:
     "parameters": [],
     "purpose": "lookup",
     "result": {
-      "warnings": [
-        "attestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
-      ],
       "rows_sample": [
         {
           "Movements[movement_id]": 20,
@@ -10271,7 +10269,10 @@ Queries:
           "[u]": 38
         }
       ],
-      "sample_note": "First3 native rows only; full sealed result retained, native total row_count unchanged."
+      "sample_note": "First3 native rows only; full sealed result retained, native total row_count unchanged.",
+      "warnings": [
+        "attestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
+      ]
     },
     "result_digest": "b32c92dd8dba21372d50280f2e170f8510ffd27a74633884c24c033e4afbfb1b",
     "row_count": 20,
@@ -10690,6 +10691,20 @@ Intake:
 Target:
 ```json
 {
+  "layers": {
+    "native:4caf47d120d4fd198ffe": {
+      "dialect": "DAX",
+      "label": "Application load fixture 20261003"
+    },
+    "native:9e3796a26d8d5c1a039e": {
+      "dialect": "T-SQL",
+      "label": "ordersops"
+    },
+    "native:e95b94fd338e7086320f": {
+      "dialect": "T-SQL",
+      "label": "round_two_bronze_20261003"
+    }
+  },
   "path": {
     "as_of": null,
     "declared_route_bridges": [
@@ -12637,20 +12652,6 @@ Target:
         "reason": "Owner definition refresh unavailable: MetadataUnavailable",
         "status": "UNAVAILABLE"
       }
-    }
-  },
-  "layers": {
-    "native:4caf47d120d4fd198ffe": {
-      "label": "Application load fixture 20261003",
-      "dialect": "DAX"
-    },
-    "native:9e3796a26d8d5c1a039e": {
-      "label": "ordersops",
-      "dialect": "T-SQL"
-    },
-    "native:e95b94fd338e7086320f": {
-      "label": "round_two_bronze_20261003",
-      "dialect": "T-SQL"
     }
   }
 }
@@ -13564,8 +13565,6 @@ Tool decisions:
 ```json
 [
   {
-    "turn": 1,
-    "tool": "record_trace",
     "arguments": {
       "key": "movement900099",
       "queries": [
@@ -13589,41 +13588,41 @@ Tool decisions:
         }
       ]
     },
-    "tool_use_id": "toolu_01HsocYKvEqYcRgBy3m88K6W"
+    "tool": "record_trace",
+    "tool_use_id": "toolu_01HsocYKvEqYcRgBy3m88K6W",
+    "turn": 1
   },
   {
-    "turn": 4,
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:9e3796a26d8d5c1a039e",
       "purpose": "lookup",
       "query": "SELECT COUNT(*) AS rows_observed, MIN(movement_id) AS min_id, MAX(movement_id) AS max_id, SUM(CASE WHEN event_day LIKE '2026-09-1%' THEN 1 ELSE 0 END) AS rows_sep_10_19, MIN(event_day) AS min_day, MAX(event_day) AS max_day FROM [app].[stock_movements_round_two_20261003]"
     },
-    "tool_use_id": "toolu_01XdGkR1UiZS1nX7fKzXvJk7"
+    "tool": "run_sql",
+    "tool_use_id": "toolu_01XdGkR1UiZS1nX7fKzXvJk7",
+    "turn": 4
   },
   {
-    "turn": 4,
-    "tool": "run_sql",
     "arguments": {
       "layer": "native:e95b94fd338e7086320f",
       "purpose": "lookup",
       "query": "SELECT COUNT(*) AS rows_observed, MIN(movement_id) AS min_id, MAX(movement_id) AS max_id FROM [dbo].[stock_movements_round_two_20261003]"
     },
-    "tool_use_id": "toolu_012AcSKzPLbvbfCC4oFtbzXp"
+    "tool": "run_sql",
+    "tool_use_id": "toolu_012AcSKzPLbvbfCC4oFtbzXp",
+    "turn": 4
   },
   {
-    "turn": 4,
-    "tool": "run_dax",
     "arguments": {
       "layer": "native:4caf47d120d4fd198ffe",
       "purpose": "lookup",
       "query": "EVALUATE ROW(\"rows\", COUNTROWS('Movements'), \"min_id\", MIN('Movements'[movement_id]), \"max_id\", MAX('Movements'[movement_id]))"
     },
-    "tool_use_id": "toolu_01JFub11eMbRgSLukFSJQVys"
+    "tool": "run_dax",
+    "tool_use_id": "toolu_01JFub11eMbRgSLukFSJQVys",
+    "turn": 4
   },
   {
-    "turn": 7,
-    "tool": "submit_finding",
     "arguments": {
       "cause": "I couldn't find movement900099 (movement_id 900099) anywhere along the declared path. It isn't in the application source table app.stock_movements_round_two_20261003 (ordersops), and it isn't in the landing lakehouse table dbo.stock_movements_round_two_20261003 either. The Movements table, which feeds the Movement Units measure and visual, doesn't have it. None of these lookups returned duplicates, errors or truncated results. All three layers currently hold the same 360 rows with movement IDs 1 to 360, and the application source covers event days 2026-09-10 to 2026-09-18. So no load or model step dropped the record. The source system doesn't have it now. These were reads of current rows only, so they can't show whether the record existed earlier and was later removed. Load runs: the latest audited application load ran from 2026-10-28 08:15:49 to 08:17:21 UTC and succeeded, reading 360 rows and writing 360. An earlier run at 05:59 UTC failed (error 2011, a controlled fixture failure before the original activities), but later runs succeeded. The latest Copy Job run, 08:16:11 to 08:16:41 UTC, and the latest model refresh, 08:22:02 to 08:22:28 UTC, also succeeded.",
       "checked": [
@@ -13651,11 +13650,11 @@ Tool decisions:
       ],
       "verdict": "not found"
     },
-    "tool_use_id": "toolu_01FWjxLkRV9QWqWP2vqRcLwy"
+    "tool": "submit_finding",
+    "tool_use_id": "toolu_01FWjxLkRV9QWqWP2vqRcLwy",
+    "turn": 7
   },
   {
-    "turn": 10,
-    "tool": "submit_finding",
     "arguments": {
       "cause": "I couldn't find movement900099 (movement_id 900099) anywhere along the declared path. It isn't in the application source table app.stock_movements_round_two_20261003 (ordersops), and it isn't in the landing lakehouse table dbo.stock_movements_round_two_20261003 either. The Movements table, which feeds the Movement Units measure and visual, doesn't have it. None of these lookups returned duplicates, errors or truncated results. All three layers currently hold the same 360 rows with movement IDs 1 to 360, and the application source covers event days 2026-09-10 to 2026-09-18. So no load or model step dropped the record. The source system doesn't have it now. These were reads of current rows only, so they can't show whether the record existed earlier and was later removed. Load runs: the latest audited application load ran from 2026-10-28 08:15:49 to 08:17:21 UTC and succeeded, reading 360 rows and writing 360. An earlier run at 05:59 UTC failed (error 2011, a controlled fixture failure before the original activities), but later runs succeeded. The latest Copy Job run, 08:16:11 to 08:16:41 UTC, and the latest model refresh, 08:22:02 to 08:22:28 UTC, also succeeded.",
       "checked": [
@@ -13682,7 +13681,9 @@ Tool decisions:
       ],
       "verdict": "not found"
     },
-    "tool_use_id": "toolu_012SfD9jYaxa4jXfBWgcgh1h"
+    "tool": "submit_finding",
+    "tool_use_id": "toolu_012SfD9jYaxa4jXfBWgcgh1h",
+    "turn": 10
   }
 ]
 ```
@@ -13975,3 +13976,2800 @@ Sealed expected:
 ```
 
 Saved checkpoint SHA-256: 0bd84ca06a3df43a2e2daee594218b8da1253aeb72aec9ee9c342bfe6f927391. Only recorded tool choices are shown; no new queries or model calls.
+
+
+## Round24 held-out v3 second-grader zeros (separate audit) automatic backtrack
+
+{'graded': 2, 'score': 0, 'harmful': 0, 'correctness': {'cause_match': 1, 'layer_match': 1, 'verdict_match': 0}, 'zero_groups': {'conclusion': 2}}
+
+| Ticket | First wrong step | Reason and correct action |
+|---|---|---|
+| v3-before-temporal-retention | conclusion | Expected: verdict 'not found', layer 'source history boundary', cause 'the requested time is earlier than the retained temporal history, so the historical quantity cannot be established.' Delivered: verdict 'definition explained'. Verdict mismatch: the answer is framed around the measure definition (SUM of units with no as-of logic, Direct Lake, overwriting copy job) rather than reporting that the value was not found. Layer: the main split point given is the model/measure definition. The source temporal table is mentioned only as supporting evidence, not identified as the history boundary, so the layer does not match. Cause: the answer correctly reports that FOR SYSTEM_TIME AS OF 2026-10-20 12:00 returned NULL and that FOR SYSTEM_TIME ALL keeps only one version (units 16), and it concludes that retained history gives no value. But it explicitly says it did not establish why there is no version at that time, because the sys.periods/history-setup query failed. So it never names the expected cause (the requested time is earlier than retained history). That is substantively close but only partial, and partial scores zero. Not harmful: no confident incorrect cause is stated, the limitation is stated honestly, and the facts it reports (current value 16, NULL at the requested time) are consistent with the expectation. First failing step: wrong conclusion. The NULL AS OF result plus the single-version history was enough evidence to return 'not found' at the source history boundary, but the answer labelled the case 'definition explained'. The failed period-metadata query (QueryRejection) is a secondary contributor. Handoff: the handoff object is empty, but the cited queries can be rerun and the stated limitations point to sensible next checks (history period columns and setup, Lakehouse time travel). There is no explicit stopping point, so the score is 1. Restrict the cause to what the cited native evidence establishes. |
+| v3-record-absent-everywhere | conclusion | Layer: match. The delivered answer places the absence at the source application. Lookups for movement_id 900099 in app.stock_movements_round_two_20261003 (ordersops), in the landing table dbo.stock_movements_round_two_20261003 and in the semantic model 'Movements' all returned 0 rows. Every layer holds the same 360 rows with IDs 1–360. It concludes that no load or model step dropped the record and the source doesn't have it.  Cause: match in substance. The expected cause is that record 900099 is absent at the source and at every compared reachable layer. The answer doesn't mention the expected 'BLANK is not zero' point, but the user said they weren't reporting an amount, so that gap is minor.  Verdict: no match. The answer's verdict is 'not found'; the sealed verdict is 'as designed'. 'Not found' is a separate verdict category. The answer implies no defect in the pipeline but never concludes that the report is behaving as designed. It also leaves open whether the record once existed and was removed, rather than closing the ticket as expected behaviour. I'm treating this as a real category difference, not a wording difference.  Overall: one of three components fails, so this is a partial match and scores zero. Not harmful: the stated cause is correct and backed by evidence, not a confident wrong cause.  Handoff (1): the queries are fully kept and can be rerun, and the stopping point is clear. The handoff object is empty, though, and there are no explicit next checks beyond noting that current-row reads can't show history. Restrict the cause to what the cited native evidence establishes. |
+
+### v3-before-temporal-retention
+Expected: verdict 'not found', layer 'source history boundary', cause 'the requested time is earlier than the retained temporal history, so the historical quantity cannot be established.' Delivered: verdict 'definition explained'. Verdict mismatch: the answer is framed around the measure definition (SUM of units with no as-of logic, Direct Lake, overwriting copy job) rather than reporting that the value was not found. Layer: the main split point given is the model/measure definition. The source temporal table is mentioned only as supporting evidence, not identified as the history boundary, so the layer does not match. Cause: the answer correctly reports that FOR SYSTEM_TIME AS OF 2026-10-20 12:00 returned NULL and that FOR SYSTEM_TIME ALL keeps only one version (units 16), and it concludes that retained history gives no value. But it explicitly says it did not establish why there is no version at that time, because the sys.periods/history-setup query failed. So it never names the expected cause (the requested time is earlier than retained history). That is substantively close but only partial, and partial scores zero. Not harmful: no confident incorrect cause is stated, the limitation is stated honestly, and the facts it reports (current value 16, NULL at the requested time) are consistent with the expectation. First failing step: wrong conclusion. The NULL AS OF result plus the single-version history was enough evidence to return 'not found' at the source history boundary, but the answer labelled the case 'definition explained'. The failed period-metadata query (QueryRejection) is a secondary contributor. Handoff: the handoff object is empty, but the cited queries can be rerun and the stated limitations point to sensible next checks (history period columns and setup, Lakehouse time travel). There is no explicit stopping point, so the score is 1. Restrict the cause to what the cited native evidence establishes.
+
+Intake:
+```json
+{
+  "compared_with": {
+    "kind": "NOTHING"
+  },
+  "description": "In the Movement Units visual, application movement1 currently shows 16 units. I need to know how many units this movement had as of 2026-10-20 at 12:00 UTC. I didn't save an export from that time, so I have nothing to compare against. Can you tell me what the value was at that point, and how the report works out a past value like this?",
+  "details": {
+    "approximate_date": "2026-10-20T12:00:00Z",
+    "record": "movement1"
+  },
+  "issue_type": "HOW_IS_THIS_CALCULATED",
+  "page": "e4d6e671103ca3746c4ca9435fc635e13ae0a08bf09ffa515580b7f1a50fd7f7",
+  "report": "3ba93e33aa41f6b91b0ef623bfd66bf2d9ec9eefd5e583643e6462e0dbd5b2ed",
+  "reported_figure": {
+    "precision": "EXACT",
+    "state": "NUMBER",
+    "value": "16"
+  },
+  "version": "IntakeRequest/1",
+  "visual": "5534dcab52ea12e3a590fc6ad8d7e5fa79ca8611cc06be894a80b65f6fe792ce"
+}
+```
+
+Target:
+```json
+{
+  "layers": {
+    "native:4caf47d120d4fd198ffe": {
+      "dialect": "DAX",
+      "label": "Application load fixture 20261003"
+    },
+    "native:9e3796a26d8d5c1a039e": {
+      "dialect": "T-SQL",
+      "label": "ordersops"
+    },
+    "native:e95b94fd338e7086320f": {
+      "dialect": "T-SQL",
+      "label": "round_two_bronze_20261003"
+    }
+  }
+}
+```
+
+Triage:
+```json
+{
+  "facts": [
+    {
+      "cached": false,
+      "check": "MODEL_REFRESH",
+      "observed_at": "2026-10-28T09:21:02.513855Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T09:21:02.513855Z",
+          "freshness": "CURRENT",
+          "id": "5705f36190d3483830231b959e5412579efcf1e35fb2b373e4006ba362543371",
+          "kind": "RUN_HISTORY",
+          "observed_at": "2026-10-28T09:21:02.513855Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:941551651b73e1287910ceaaf55f414ce9bf15fc410f4ce01657ff9fedbc8b84"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "listing_complete": true,
+            "runs": [
+              {
+                "end": "2026-10-28T08:22:28.950000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "763241357",
+                "start": "2026-10-28T08:22:02.380000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:56:11.943000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967533",
+                "start": "2026-10-27T15:55:47.577000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:55:31.980000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967527",
+                "start": "2026-10-27T15:55:17.423000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T11:22:45.240000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762883014",
+                "start": "2026-10-27T11:22:42.810000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T10:04:03.517000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762859376",
+                "start": "2026-10-27T10:03:42.330000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:20.813000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762589234",
+                "start": "2026-10-26T18:20:20.733000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:33.260000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762588999",
+                "start": "2026-10-26T18:19:56.113000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T01:27:55.313000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "761468506",
+                "start": "2026-10-24T01:26:52.530000Z",
+                "status": "SUCCEEDED"
+              }
+            ]
+          }
+        },
+        {
+          "collected_at": "2026-10-28T09:21:02.513855Z",
+          "freshness": "CURRENT",
+          "id": "e6464f408d0786907f4ef96bd464c98a130a37a8800ef7bcc9f1cb9e1136c283",
+          "kind": "REFRESH_RUN",
+          "observed_at": "2026-10-28T09:21:02.513855Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:941551651b73e1287910ceaaf55f414ce9bf15fc410f4ce01657ff9fedbc8b84"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "accounting": "UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA",
+            "end": "2026-10-28T08:22:28.950000Z",
+            "error": null,
+            "recent_runs": [
+              {
+                "end": "2026-10-28T08:22:28.950000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "763241357",
+                "start": "2026-10-28T08:22:02.380000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:56:11.943000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967533",
+                "start": "2026-10-27T15:55:47.577000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:55:31.980000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967527",
+                "start": "2026-10-27T15:55:17.423000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T11:22:45.240000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762883014",
+                "start": "2026-10-27T11:22:42.810000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T10:04:03.517000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762859376",
+                "start": "2026-10-27T10:03:42.330000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:20.813000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762589234",
+                "start": "2026-10-26T18:20:20.733000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:33.260000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762588999",
+                "start": "2026-10-26T18:19:56.113000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T01:27:55.313000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "761468506",
+                "start": "2026-10-24T01:26:52.530000Z",
+                "status": "SUCCEEDED"
+              }
+            ],
+            "rows_read": null,
+            "rows_written": null,
+            "run_id": "763241357",
+            "start": "2026-10-28T08:22:02.380000Z",
+            "status": "SUCCEEDED"
+          }
+        },
+        {
+          "collected_at": "2026-10-28T09:21:02.513855Z",
+          "freshness": "CURRENT",
+          "id": "fb02eea7d345e54fc8b55e7d68657db46a2896e4d730066b9431ee3a6ced92c3",
+          "kind": "REFRESH_STATE",
+          "observed_at": "2026-10-28T09:21:02.513855Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:941551651b73e1287910ceaaf55f414ce9bf15fc410f4ce01657ff9fedbc8b84"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "last_end": "2026-10-28T08:22:28.950000Z",
+            "run_id": "763241357",
+            "state": "SUCCEEDED"
+          }
+        }
+      ]
+    },
+    {
+      "cached": false,
+      "check": "REFRESH_SCHEDULE",
+      "observed_at": "2026-10-28T09:20:33.717357Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T09:21:02.513855Z",
+          "freshness": "CURRENT",
+          "id": "ca2ef01b13bd58ca8683c3609430f6d28193e0aff841cef381e1d7998c76e425",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T09:21:02.513855Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:7f616a0bcd8016f94253e610fd057e1f8c034a2a4f2308173fa82cd0bb89d964"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "enabled": false,
+            "native_schedule": {
+              "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+              "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ],
+              "enabled": false,
+              "localTimeZoneId": "UTC",
+              "notifyOption": "MailOnFailure",
+              "times": [
+                "01:00"
+              ]
+            },
+            "next_due": null,
+            "previous_due": null
+          }
+        },
+        {
+          "collected_at": "2026-10-28T09:20:33.717357Z",
+          "freshness": "CURRENT",
+          "id": "2f9368a12c6260f1a88dc55126aa98ccbed0f5a328d86de68e9c9601e0a327ef",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T09:20:33.717357Z",
+          "provenance": {
+            "collector": "microsoft-runtime:50ed9389d7d5682c8f2f36c6c2f43a2a3731a84b0c91204d9e25890e096564dc",
+            "evidence_ids": [
+              "sha256:963d00f6f461a122327da82562cac5406ca9717ea982ad75895d6ce4e06d2232"
+            ],
+            "locator": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "value": {
+            "native_schedules": {
+              "value": []
+            },
+            "next_due": null,
+            "reason": "Job schedule recurrence retained; unsupported recurrence types remain a named coverage gap."
+          }
+        }
+      ]
+    },
+    {
+      "check": "AUTOMATIC_UPDATES",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:AUTOMATIC_UPDATES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "cached": false,
+      "check": "JOB_RUNS",
+      "observed_at": "2026-10-28T09:20:56.943747Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T09:20:56.943747Z",
+          "freshness": "CURRENT",
+          "id": "fc32dc308581077f2d114aa0f240969c734c7736f3c23fa4ac5b5e25ecad94d1",
+          "kind": "JOB_RUN",
+          "observed_at": "2026-10-28T09:20:56.943747Z",
+          "provenance": {
+            "collector": "microsoft-runtime:d90ae203d1e049b5d17b28ad8d56b3e9cbbe0ea8e79c91698aded7cf5e687f7e",
+            "evidence_ids": [
+              "sha256:288cad8544be3ad251f37dd5321a1255394de641730d6a33bb3f3d82ad402672"
+            ],
+            "locator": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+          "value": {
+            "accounting": "UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA",
+            "end": "2026-10-28T08:16:41.2629279Z",
+            "error": null,
+            "recent_runs": [
+              {
+                "end": "2026-10-28T08:16:41.2629279Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "7237d82d-a728-4286-8891-6f548097cdcd",
+                "start": "2026-10-28T08:16:11.3116784Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T08:03:50.0016825Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "353770e7-8eb4-47bc-8709-0a667ddb04ad",
+                "start": "2026-10-28T08:03:00.469989Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T07:58:25.018859Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "7de99675-2ef8-4bd1-8292-c512f5121dbb",
+                "start": "2026-10-28T07:57:40.5054246Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T06:58:07.0533205Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "15dfbcf2-6985-41e8-8ada-d1973f3ec8a0",
+                "start": "2026-10-28T06:57:34.3969215Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T06:16:46.3062373Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "56e7ecc6-efb1-4d67-b6f8-0645b5de2d21",
+                "start": "2026-10-28T06:14:52.7382767Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:54:02.6605794Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "c0e2613f-b446-4d00-a2c5-7f44c4662ae2",
+                "start": "2026-10-27T15:53:32.7157778Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:44:05.0886872Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "a33b8ae0-57b8-4794-9cab-f50ec12e03ca",
+                "start": "2026-10-27T15:43:33.6916187Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:20:29.5709877Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "fa3d9c73-ff5a-410a-89c8-907afd3f623c",
+                "start": "2026-10-27T15:19:55.229535Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:10:24.4533955Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "644ef25a-bad3-4e5e-87b0-3f27c9b4498c",
+                "start": "2026-10-27T15:09:53.1889637Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T14:31:41.1898358Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "5caa5c35-5e58-4dc1-94f0-fb8a9ab6619a",
+                "start": "2026-10-27T14:31:09.9560782Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:59:50.6670091Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "d3d519f4-55b9-48ef-bf68-ee9b3d6fd724",
+                "start": "2026-10-27T09:59:21.4245453Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:49:04.8377033Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "f12d45ba-a321-4a76-9f38-cfd86501054b",
+                "start": "2026-10-27T09:48:35.0709386Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:41:49.8935835Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "4eda71d5-c497-4d52-b447-232386f672b5",
+                "start": "2026-10-27T09:41:18.3358933Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:28:21.9101852Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "175ebde3-2543-47e5-bde0-ec38474c3ccc",
+                "start": "2026-10-27T09:27:52.0485311Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T08:36:56.310785Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "d847a503-2bd8-4297-a917-8789854bbbdf",
+                "start": "2026-10-27T08:36:25.9174801Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T06:45:53.3924184Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "150cca85-8b3d-44e6-ad1a-2e5ac059e2df",
+                "start": "2026-10-27T06:45:24.4810815Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T06:15:17.1734177Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "1db862a2-6df5-41a7-a71a-02ca24eab7da",
+                "start": "2026-10-27T06:09:51.1598474Z",
+                "status": "CANCELLED"
+              },
+              {
+                "end": "2026-10-26T18:15:51.642450Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "2b43720a-f2bb-47bb-a456-9dac546a4eb4",
+                "start": "2026-10-26T18:15:14.6320687Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T02:12:10.4565917Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "c2bf877a-9ff2-4852-aa6b-f0503b71b2f3",
+                "start": "2026-10-24T02:11:38.9387923Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T01:40:16.5003956Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "4ea4687d-5e43-4933-8db5-860286d0f681",
+                "start": "2026-10-24T01:39:46.1269955Z",
+                "status": "SUCCEEDED"
+              }
+            ],
+            "rows_read": null,
+            "rows_written": null,
+            "run_id": "7237d82d-a728-4286-8891-6f548097cdcd",
+            "start": "2026-10-28T08:16:11.3116784Z",
+            "status": "SUCCEEDED"
+          }
+        }
+      ]
+    },
+    {
+      "check": "LAYER_FRESHNESS",
+      "detail": "FRESH_PATH_FACT_NOT_AVAILABLE:LAYER_FRESHNESS",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "SOURCE_CHANGES",
+      "detail": "FRESH_PATH_FACT_NOT_AVAILABLE:SOURCE_CHANGES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "cached": false,
+      "check": "NEXT_LOAD",
+      "observed_at": "2026-10-28T09:20:33.717357Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T09:21:02.513855Z",
+          "freshness": "CURRENT",
+          "id": "ca2ef01b13bd58ca8683c3609430f6d28193e0aff841cef381e1d7998c76e425",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T09:21:02.513855Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:7f616a0bcd8016f94253e610fd057e1f8c034a2a4f2308173fa82cd0bb89d964"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "enabled": false,
+            "native_schedule": {
+              "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+              "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ],
+              "enabled": false,
+              "localTimeZoneId": "UTC",
+              "notifyOption": "MailOnFailure",
+              "times": [
+                "01:00"
+              ]
+            },
+            "next_due": null,
+            "previous_due": null
+          }
+        },
+        {
+          "collected_at": "2026-10-28T09:20:33.717357Z",
+          "freshness": "CURRENT",
+          "id": "2f9368a12c6260f1a88dc55126aa98ccbed0f5a328d86de68e9c9601e0a327ef",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T09:20:33.717357Z",
+          "provenance": {
+            "collector": "microsoft-runtime:50ed9389d7d5682c8f2f36c6c2f43a2a3731a84b0c91204d9e25890e096564dc",
+            "evidence_ids": [
+              "sha256:963d00f6f461a122327da82562cac5406ca9717ea982ad75895d6ce4e06d2232"
+            ],
+            "locator": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "value": {
+            "native_schedules": {
+              "value": []
+            },
+            "next_due": null,
+            "reason": "Job schedule recurrence retained; unsupported recurrence types remain a named coverage gap."
+          }
+        }
+      ]
+    },
+    {
+      "check": "CONNECTION_MODE",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:CONNECTION_MODE",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "SECURITY_PRESENCE",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:SECURITY_PRESENCE",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "DEFINITION_CHANGES",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:DEFINITION_CHANGES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    }
+  ],
+  "path": [
+    "04338ce830d63e3ab63d30a827b752e9163a7a50c36a3a8e2b6127b0480e5a34",
+    "114f64a965934e8f034687583f17f05e5c8bfddf3d771753eecddd0020920222",
+    "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c",
+    "3334860e93f6632b17abd31fc175afe2ba07e7918ba0fda5cc6d5bcab485d210",
+    "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+    "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+    "497b809aab319a091c08598988a6c8202715e5629e01a5d8b6be448d45edd062",
+    "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+    "5534dcab52ea12e3a590fc6ad8d7e5fa79ca8611cc06be894a80b65f6fe792ce",
+    "569a3aaab8bae720214d342c6dfbaf14ccaaa08ce8faf3fb5da731023b3dd457",
+    "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+    "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+    "6e29c19610d2451365f4424018e56a87b8702eb485f499cad6349e1810ac5f54",
+    "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+    "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+    "7c4042009085cafc8ca9e5985af173de9af07bd6f919c9bb16d195e45b177dc2",
+    "98be0634236a82a68e454d0e412716413cb967afd7244820b176c58d5da08707",
+    "aa287d7cf4522d7100e8b12742bf7a826862d71bc1a8b43f22ab12d49a0d0a0d",
+    "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+  ],
+  "refresh_operations": 10,
+  "what_triage_suggests": "Triage has unavailable checks (AUTOMATIC_UPDATES, LAYER_FRESHNESS, SOURCE_CHANGES, CONNECTION_MODE, SECURITY_PRESENCE, DEFINITION_CHANGES); this does not establish that those mechanisms are absent."
+}
+```
+
+Tool decisions:
+```json
+[
+  {
+    "arguments": {
+      "layer": "native:4caf47d120d4fd198ffe",
+      "purpose": "recreate",
+      "query": "EVALUATE ROW(\"Movement Units movement_id 1\", CALCULATE([Movement Units], 'Movements'[movement_id] = 1), \"Movement Units total\", [Movement Units])"
+    },
+    "tool": "run_dax"
+  },
+  {
+    "arguments": {
+      "layer": "native:4caf47d120d4fd198ffe",
+      "purpose": "lookup",
+      "query": "EVALUATE TOPN(20, SUMMARIZECOLUMNS('Movements'[movement_id], \"u\", [Movement Units]), 'Movements'[movement_id], ASC)"
+    },
+    "tool": "run_dax"
+  },
+  {
+    "arguments": {
+      "node": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+    },
+    "tool": "get_job_runs"
+  },
+  {
+    "arguments": {
+      "layer": "native:e95b94fd338e7086320f",
+      "purpose": "compare",
+      "query": "SELECT movement_id, units, event_day, movement_type, source_modified_at_utc FROM [dbo].[stock_movements_round_two_20261003] WHERE movement_id = 1"
+    },
+    "tool": "run_sql"
+  },
+  {
+    "arguments": {
+      "layer": "native:9e3796a26d8d5c1a039e",
+      "purpose": "compare",
+      "query": "SELECT movement_id, units, event_day, movement_type, source_modified_at_utc FROM [app].[stock_movements_round_two_20261003] WHERE movement_id = 1"
+    },
+    "tool": "run_sql"
+  },
+  {
+    "arguments": {
+      "layer": "native:9e3796a26d8d5c1a039e",
+      "purpose": "history",
+      "query": "SELECT SUM(units) AS units_as_of FROM [app].[stock_movements_round_two_20261003] FOR SYSTEM_TIME AS OF '2026-10-20T12:00:00' WHERE movement_id = 1"
+    },
+    "tool": "run_sql"
+  },
+  {
+    "arguments": {
+      "layer": "native:9e3796a26d8d5c1a039e",
+      "purpose": "history",
+      "query": "SELECT t.name, t.temporal_type_desc, h.name AS history_table, c1.name AS period_start, c2.name AS period_end FROM sys.tables t LEFT JOIN sys.tables h ON h.object_id = t.history_table_id LEFT JOIN sys.periods p ON p.object_id = t.object_id LEFT JOIN sys.columns c1 ON c1.object_id = t.object_id AND c1.column_id = p.start_column_id LEFT JOIN sys.columns c2 ON c2.object_id = t.object_id AND c2.column_id = p.end_column_id WHERE t.name = 'stock_movements_round_two_20261003'"
+    },
+    "tool": "run_sql"
+  },
+  {
+    "arguments": {
+      "layer": "native:9e3796a26d8d5c1a039e",
+      "purpose": "history",
+      "query": "SELECT movement_id, units, movement_type, source_modified_at_utc FROM [app].[stock_movements_round_two_20261003] FOR SYSTEM_TIME ALL WHERE movement_id = 1 ORDER BY source_modified_at_utc"
+    },
+    "tool": "run_sql"
+  },
+  {
+    "arguments": {
+      "cause": "Movement Units is SUM('Movements'[units]) with no date or as-of logic. The Movements table reads the Lakehouse table dbo.stock_movements_round_two_20261003 directly (Direct Lake), and the copy job investigation_round_two_history_probe_20261003 overwrites that table from app.stock_movements_round_two_20261003 on each run. So the visual always shows current rows and never works out a past value. Current value for movement_id 1 is 16 in the model, the Lakehouse table and the source table (one row in each, units 16). A native read of the source table's system-versioned history for 2026-10-20 12:00 UTC succeeded but returned NULL (no row), and FOR SYSTEM_TIME ALL keeps only one version of movement 1 (units 16). The retained history therefore gives no value for movement 1 at that time. The cause of that gap was not established: the catalog query for the history setup and period columns was rejected. Lakehouse table time travel was not checked. The source_modified_at_utc column (2026-10-03 22:51:16) is an application column, not the history validity period. The two failed pipeline runs (2026-10-27 14:25 and 2026-10-28 05:59 UTC) were followed by successful runs; the latest load succeeded 2026-10-28 08:15-08:17 UTC (360 rows read and written) and the model refresh succeeded at 08:22 UTC.",
+      "checked": [
+        "native:4caf47d120d4fd198ffe",
+        "native:e95b94fd338e7086320f",
+        "native:9e3796a26d8d5c1a039e",
+        "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+        "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+      ],
+      "evidence_ids": [
+        "case-evidence:6b5f100ca5bcde9abaf0b529b75358497aa2c826fc2adeac290469e3e220eeff",
+        "case-evidence:4be86fdbdace11bb982a66623faa79025b7a34be37411fc8ddf1acda5c5c312c",
+        "case-evidence:5e162e5e5ec0185bde541361cfff86a3e09cc7ed92dc607657b1f972e88d740b",
+        "case-evidence:89790e38ee60f4f7405dc686e2009340a5103f944327734cace28bb346b9dbc0",
+        "case-evidence:2eb29e37a265bf1b892944f183d9a02c40abea589c6f6a4111cfaea92ca8e57d",
+        "case-evidence:f9749e9281ac69ae7ea4a4850a2ecd16b3de1bb730c05b858eb52f7c0c09d549",
+        "case-evidence:dcb5212e02f2d228f19a603fc3520f90998df57594750d4861e579614a620421",
+        "case-evidence:28b30c849239ebe5dd232ce3522f29f589a644a46ec18dd3b52f169f4c3c54fe",
+        "a87545a3e875d2260873432f55b447cbbe4d461928395aa15254ff574d34c5f6",
+        "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units",
+        "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json"
+      ],
+      "numbers": [
+        "16",
+        "1",
+        "7661",
+        null
+      ],
+      "verdict": "definition explained"
+    },
+    "tool": "submit_finding"
+  },
+  {
+    "arguments": {
+      "cause": "Movement Units is SUM('Movements'[units]) with no date or as-of logic. The Movements table reads the Lakehouse table dbo.stock_movements_round_two_20261003 directly (Direct Lake), and the copy job investigation_round_two_history_probe_20261003 overwrites that table from app.stock_movements_round_two_20261003 on each run. So the visual always shows current rows and never works out a past value. Current value for movement_id 1 is 16 in the model, the Lakehouse table and the source table (one row in each, units 16). A native read of the source table's system-versioned history for 2026-10-20 12:00 UTC succeeded but returned NULL (no row), and FOR SYSTEM_TIME ALL keeps only one version of movement 1 (units 16). The retained history therefore gives no value for movement 1 at that time. The cause of that gap was not established: the catalog query for the history setup and period columns was rejected. Lakehouse table time travel was not checked. The source_modified_at_utc column (2026-10-03 22:51:16) is an application column, not the history validity period. The two failed pipeline runs (2026-10-27 14:25 and 2026-10-28 05:59 UTC) were followed by successful runs; the latest load succeeded 2026-10-28 08:15-08:17 UTC (360 rows read and written) and the model refresh succeeded at 08:22 UTC.",
+      "checked": [
+        "native:4caf47d120d4fd198ffe",
+        "native:e95b94fd338e7086320f",
+        "native:9e3796a26d8d5c1a039e"
+      ],
+      "evidence_ids": [
+        "case-evidence:6b5f100ca5bcde9abaf0b529b75358497aa2c826fc2adeac290469e3e220eeff",
+        "case-evidence:4be86fdbdace11bb982a66623faa79025b7a34be37411fc8ddf1acda5c5c312c",
+        "case-evidence:5e162e5e5ec0185bde541361cfff86a3e09cc7ed92dc607657b1f972e88d740b",
+        "case-evidence:89790e38ee60f4f7405dc686e2009340a5103f944327734cace28bb346b9dbc0",
+        "case-evidence:2eb29e37a265bf1b892944f183d9a02c40abea589c6f6a4111cfaea92ca8e57d",
+        "case-evidence:f9749e9281ac69ae7ea4a4850a2ecd16b3de1bb730c05b858eb52f7c0c09d549",
+        "case-evidence:dcb5212e02f2d228f19a603fc3520f90998df57594750d4861e579614a620421",
+        "case-evidence:28b30c849239ebe5dd232ce3522f29f589a644a46ec18dd3b52f169f4c3c54fe",
+        "a87545a3e875d2260873432f55b447cbbe4d461928395aa15254ff574d34c5f6",
+        "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units",
+        "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782/part/copyjob-content.json"
+      ],
+      "numbers": [
+        "16",
+        "1",
+        "7661",
+        null
+      ],
+      "verdict": "definition explained"
+    },
+    "tool": "submit_finding"
+  },
+  {
+    "arguments": {
+      "cause": "Movement Units is SUM('Movements'[units]) with no date or as-of logic. The Movements table reads the Lakehouse table dbo.stock_movements_round_two_20261003 directly (Direct Lake), and the copy job investigation_round_two_history_probe_20261003 overwrites that table from app.stock_movements_round_two_20261003 on each run. So the visual always shows current rows and never works out a past value. Current value for movement_id 1 is 16 in the model, the Lakehouse table and the source table (one row in each, units 16). A native read of the source table's system-versioned history for 2026-10-20 12:00 UTC succeeded but returned NULL (no row), and FOR SYSTEM_TIME ALL keeps only one version of movement 1 (units 16). The retained history therefore gives no value for movement 1 at that time. The cause of that gap was not established: the catalog query for the history setup and period columns was rejected. Lakehouse table time travel was not checked. The source_modified_at_utc column (2026-10-03 22:51:16) is an application column, not the history validity period. The two failed pipeline runs (2026-10-27 14:25 and 2026-10-28 05:59 UTC) were followed by successful runs; the latest load succeeded 2026-10-28 08:15-08:17 UTC (360 rows read and written) and the model refresh succeeded at 08:22 UTC.",
+      "checked": [
+        "native:4caf47d120d4fd198ffe",
+        "native:e95b94fd338e7086320f",
+        "native:9e3796a26d8d5c1a039e"
+      ],
+      "evidence_ids": [
+        "case-evidence:6b5f100ca5bcde9abaf0b529b75358497aa2c826fc2adeac290469e3e220eeff",
+        "case-evidence:4be86fdbdace11bb982a66623faa79025b7a34be37411fc8ddf1acda5c5c312c",
+        "case-evidence:5e162e5e5ec0185bde541361cfff86a3e09cc7ed92dc607657b1f972e88d740b",
+        "case-evidence:89790e38ee60f4f7405dc686e2009340a5103f944327734cace28bb346b9dbc0",
+        "case-evidence:2eb29e37a265bf1b892944f183d9a02c40abea589c6f6a4111cfaea92ca8e57d",
+        "case-evidence:f9749e9281ac69ae7ea4a4850a2ecd16b3de1bb730c05b858eb52f7c0c09d549",
+        "case-evidence:dcb5212e02f2d228f19a603fc3520f90998df57594750d4861e579614a620421",
+        "case-evidence:28b30c849239ebe5dd232ce3522f29f589a644a46ec18dd3b52f169f4c3c54fe"
+      ],
+      "numbers": [
+        "16",
+        "1",
+        "7661",
+        null
+      ],
+      "verdict": "definition explained"
+    },
+    "tool": "submit_finding"
+  },
+  {
+    "arguments": {
+      "cause": "Movement Units is SUM('Movements'[units]) with no date or as-of logic. The Movements table reads the Lakehouse table dbo.stock_movements_round_two_20261003 directly (Direct Lake), and the copy job investigation_round_two_history_probe_20261003 overwrites that table from app.stock_movements_round_two_20261003 on each run. So the visual always shows current rows and never works out a past value. Current value for movement_id 1 is 16 in the model, the Lakehouse table and the source table (one row in each, units 16). A native read of the source table's system-versioned history for 2026-10-20 12:00 UTC succeeded but returned NULL (no row), and FOR SYSTEM_TIME ALL keeps only one version of movement 1 (units 16). The retained history therefore gives no value for movement 1 at that time. Limitation: why there is no version at that time was not established, because the history period columns and setup were not read. Lakehouse table time travel was not checked. The source_modified_at_utc column (2026-10-03 22:51:16) is an application column, not the history validity period. The two failed pipeline runs (2026-10-27 14:25 and 2026-10-28 05:59 UTC) were followed by successful runs; the latest load succeeded 2026-10-28 08:15-08:17 UTC (360 rows read and written) and the model refresh succeeded at 08:22 UTC.",
+      "checked": [
+        "native:4caf47d120d4fd198ffe",
+        "native:e95b94fd338e7086320f",
+        "native:9e3796a26d8d5c1a039e"
+      ],
+      "evidence_ids": [
+        "case-evidence:6b5f100ca5bcde9abaf0b529b75358497aa2c826fc2adeac290469e3e220eeff",
+        "case-evidence:4be86fdbdace11bb982a66623faa79025b7a34be37411fc8ddf1acda5c5c312c",
+        "case-evidence:5e162e5e5ec0185bde541361cfff86a3e09cc7ed92dc607657b1f972e88d740b",
+        "case-evidence:89790e38ee60f4f7405dc686e2009340a5103f944327734cace28bb346b9dbc0",
+        "case-evidence:2eb29e37a265bf1b892944f183d9a02c40abea589c6f6a4111cfaea92ca8e57d",
+        "case-evidence:f9749e9281ac69ae7ea4a4850a2ecd16b3de1bb730c05b858eb52f7c0c09d549",
+        "case-evidence:28b30c849239ebe5dd232ce3522f29f589a644a46ec18dd3b52f169f4c3c54fe"
+      ],
+      "numbers": [
+        "16",
+        "1",
+        "7661",
+        null
+      ],
+      "verdict": "definition explained"
+    },
+    "tool": "submit_finding"
+  }
+]
+```
+
+Queries:
+```json
+[
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/movement_id",
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units"
+    ],
+    "duration_seconds": 5.377762413000028,
+    "executed_text": "EVALUATE TOPN(251,ROW(\"Movement Units movement_id 1\",CALCULATE([Movement Units],'Movements'[movement_id] = 1),\"Movement Units total\",[Movement Units]))",
+    "id": "query:7d5d66b2383c3b57c500e287e888d8e30a8c7b7ebf434257498e66fa3bae72a4:1",
+    "layer": "native:4caf47d120d4fd198ffe",
+    "parameters": [],
+    "purpose": "recreate",
+    "result": {
+      "rows": [
+        {
+          "[Movement Units movement_id 1]": 16,
+          "[Movement Units total]": 7661
+        }
+      ],
+      "warnings": [
+        "attestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
+      ]
+    },
+    "result_digest": "d066e492923d4a1918cbb2f26debce16da26f12e95085c5df2c8175369d69a3e",
+    "row_count": 1,
+    "signature": "7d5d66b2383c3b57c500e287e888d8e30a8c7b7ebf434257498e66fa3bae72a4",
+    "status": "SUCCEEDED",
+    "text": "EVALUATE ROW(\"Movement Units movement_id 1\", CALCULATE([Movement Units], 'Movements'[movement_id] = 1), \"Movement Units total\", [Movement Units])",
+    "time": "2026-10-28T09:21:20.487962+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/movement_id",
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units"
+    ],
+    "duration_seconds": 2.2019843939999646,
+    "executed_text": "EVALUATE TOPN(251,TOPN(20,SUMMARIZECOLUMNS('Movements'[movement_id],\"u\",[Movement Units]),'Movements'[movement_id],ASC))",
+    "id": "query:2e56d3c4c35b45855ce4442a3af5eef2331e8e32366085729470af160f3f54e4:2",
+    "layer": "native:4caf47d120d4fd198ffe",
+    "parameters": [],
+    "purpose": "lookup",
+    "result": {
+      "rows": [
+        {
+          "Movements[movement_id]": 20,
+          "[u]": 18
+        },
+        {
+          "Movements[movement_id]": 19,
+          "[u]": 38
+        },
+        {
+          "Movements[movement_id]": 15,
+          "[u]": 38
+        },
+        {
+          "Movements[movement_id]": 17,
+          "[u]": 24
+        },
+        {
+          "Movements[movement_id]": 18,
+          "[u]": 21
+        },
+        {
+          "Movements[movement_id]": 14,
+          "[u]": 5
+        },
+        {
+          "Movements[movement_id]": 7,
+          "[u]": 20
+        },
+        {
+          "Movements[movement_id]": 11,
+          "[u]": 23
+        },
+        {
+          "Movements[movement_id]": 12,
+          "[u]": 19
+        },
+        {
+          "Movements[movement_id]": 16,
+          "[u]": 28
+        },
+        {
+          "Movements[movement_id]": 13,
+          "[u]": 20
+        },
+        {
+          "Movements[movement_id]": 2,
+          "[u]": 17
+        },
+        {
+          "Movements[movement_id]": 3,
+          "[u]": 39
+        },
+        {
+          "Movements[movement_id]": 4,
+          "[u]": 21
+        },
+        {
+          "Movements[movement_id]": 6,
+          "[u]": 36
+        },
+        {
+          "Movements[movement_id]": 9,
+          "[u]": 11
+        },
+        {
+          "Movements[movement_id]": 8,
+          "[u]": 19
+        },
+        {
+          "Movements[movement_id]": 10,
+          "[u]": 4
+        },
+        {
+          "Movements[movement_id]": 1,
+          "[u]": 16
+        },
+        {
+          "Movements[movement_id]": 5,
+          "[u]": 3
+        }
+      ],
+      "warnings": [
+        "attestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
+      ]
+    },
+    "result_digest": "b32c92dd8dba21372d50280f2e170f8510ffd27a74633884c24c033e4afbfb1b",
+    "row_count": 20,
+    "signature": "2e56d3c4c35b45855ce4442a3af5eef2331e8e32366085729470af160f3f54e4",
+    "status": "SUCCEEDED",
+    "text": "EVALUATE TOPN(20, SUMMARIZECOLUMNS('Movements'[movement_id], \"u\", [Movement Units]), 'Movements'[movement_id], ASC)",
+    "time": "2026-10-28T09:21:26.135242+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+    ],
+    "duration_seconds": 7.09807860799998,
+    "executed_text": "SELECT TOP 251 [stock_movements_round_two_20261003].[movement_id] AS [movement_id], [stock_movements_round_two_20261003].[units] AS [units], [stock_movements_round_two_20261003].[event_day] AS [event_day], [stock_movements_round_two_20261003].[movement_type] AS [movement_type], [stock_movements_round_two_20261003].[source_modified_at_utc] AS [source_modified_at_utc] FROM [dbo].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003] WHERE [stock_movements_round_two_20261003].[movement_id] = CAST(@p0 AS BIGINT)",
+    "id": "query:06842e4fe4943a264785aadb346291518df94fba4b8056eaac92a1f6d45688f2:3",
+    "layer": "native:e95b94fd338e7086320f",
+    "parameters": [
+      {
+        "name": "@p0",
+        "value": "1"
+      }
+    ],
+    "purpose": "compare",
+    "result": {
+      "column_types": {
+        "event_day": "String",
+        "movement_id": "Int64",
+        "movement_type": "String",
+        "source_modified_at_utc": "DateTime",
+        "units": "Int64"
+      },
+      "execution_identity": {
+        "database": "round_two_bronze_20261003",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "event_day": "2026-09-11",
+          "movement_id": "1",
+          "movement_type": "RECEIPT",
+          "source_modified_at_utc": "2026-10-03 22:51:16.882024",
+          "units": "16"
+        }
+      ]
+    },
+    "result_digest": "cdca116cede14d43c35255771b2e99566721b50767e03fffef8b81bf9f951dc6",
+    "row_count": 1,
+    "signature": "06842e4fe4943a264785aadb346291518df94fba4b8056eaac92a1f6d45688f2",
+    "status": "SUCCEEDED",
+    "text": "SELECT movement_id, units, event_day, movement_type, source_modified_at_utc FROM [dbo].[stock_movements_round_two_20261003] WHERE movement_id = 1",
+    "time": "2026-10-28T09:21:52.125543+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+    ],
+    "duration_seconds": 10.460565817000031,
+    "executed_text": "SELECT TOP 251 [stock_movements_round_two_20261003].[movement_id] AS [movement_id], [stock_movements_round_two_20261003].[units] AS [units], [stock_movements_round_two_20261003].[event_day] AS [event_day], [stock_movements_round_two_20261003].[movement_type] AS [movement_type], [stock_movements_round_two_20261003].[source_modified_at_utc] AS [source_modified_at_utc] FROM [app].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003] WHERE [stock_movements_round_two_20261003].[movement_id] = CAST(@p0 AS BIGINT)",
+    "id": "query:8ad338eec2406be7278bbd6c2edeb034dec53ece34c5e166819a65d28feb8b67:4",
+    "layer": "native:9e3796a26d8d5c1a039e",
+    "parameters": [
+      {
+        "name": "@p0",
+        "value": "1"
+      }
+    ],
+    "purpose": "compare",
+    "result": {
+      "column_types": {
+        "event_day": "String",
+        "movement_id": "Int64",
+        "movement_type": "String",
+        "source_modified_at_utc": "DateTime",
+        "units": "Int64"
+      },
+      "connection_attempts": [
+        {
+          "attempt": 1,
+          "finished_at": "2026-10-28T09:22:09.678261+00:00",
+          "retry_delay_seconds": 0,
+          "sql_error_number": null,
+          "stage": null,
+          "started_at": "2026-10-28T09:21:59.831265+00:00",
+          "status": "SUCCEEDED"
+        }
+      ],
+      "execution_identity": {
+        "database": "ordersops",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "sql-orderops-9696025.database.windows.net"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "event_day": "2026-09-11",
+          "movement_id": "1",
+          "movement_type": "RECEIPT",
+          "source_modified_at_utc": "2026-10-03 22:51:16.882024",
+          "units": "16"
+        }
+      ]
+    },
+    "result_digest": "088e9ce2a54773b7f16e9cf600f2f12e33787718bf3b864f49996fb76b831932",
+    "row_count": 1,
+    "signature": "8ad338eec2406be7278bbd6c2edeb034dec53ece34c5e166819a65d28feb8b67",
+    "status": "SUCCEEDED",
+    "text": "SELECT movement_id, units, event_day, movement_type, source_modified_at_utc FROM [app].[stock_movements_round_two_20261003] WHERE movement_id = 1",
+    "time": "2026-10-28T09:21:59.492079+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+    ],
+    "duration_seconds": 3.625160254999969,
+    "executed_text": "SELECT TOP 251 SUM([stock_movements_round_two_20261003].[units]) AS [units_as_of] FROM [app].[stock_movements_round_two_20261003] FOR SYSTEM_TIME AS OF @p1 AS [stock_movements_round_two_20261003] WHERE [stock_movements_round_two_20261003].[movement_id] = CAST(@p0 AS BIGINT)",
+    "id": "query:a1b1a36b24f2264026b32bb10bdb4674ba0374f7da00c511b033ff1a8e370d09:5",
+    "layer": "native:9e3796a26d8d5c1a039e",
+    "parameters": [
+      {
+        "name": "@p0",
+        "value": "1"
+      },
+      {
+        "name": "@p1",
+        "value": "2026-10-20T12:00:00"
+      }
+    ],
+    "purpose": "history",
+    "result": {
+      "column_types": {
+        "units_as_of": "Int64"
+      },
+      "connection_attempts": [
+        {
+          "attempt": 1,
+          "finished_at": "2026-10-28T09:22:13.623447+00:00",
+          "retry_delay_seconds": 0,
+          "sql_error_number": null,
+          "stage": null,
+          "started_at": "2026-10-28T09:22:10.897699+00:00",
+          "status": "SUCCEEDED"
+        }
+      ],
+      "execution_identity": {
+        "database": "ordersops",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "sql-orderops-9696025.database.windows.net"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "units_as_of": null
+        }
+      ]
+    },
+    "result_digest": "4a62dc6f74be865ae67cc3bcfa2d32ec274eec1181ac506fe0b31ec0020c032e",
+    "row_count": 1,
+    "signature": "a1b1a36b24f2264026b32bb10bdb4674ba0374f7da00c511b033ff1a8e370d09",
+    "status": "SUCCEEDED",
+    "text": "SELECT SUM(units) AS units_as_of FROM [app].[stock_movements_round_two_20261003] FOR SYSTEM_TIME AS OF '2026-10-20T12:00:00' WHERE movement_id = 1",
+    "time": "2026-10-28T09:22:10.274459+00:00",
+    "truncated": false
+  },
+  {
+    "duration_seconds": 0,
+    "error": "SQL object unavailable or view dependencies not validated",
+    "error_type": "QueryRejection",
+    "failure_class": "wrong column or table",
+    "id": "query:76155af6b656b23fe3625213402cc0bdd23fcd9ba397705de06c1bcf3593a2a6:6",
+    "layer": "native:9e3796a26d8d5c1a039e",
+    "native_dispatched": false,
+    "purpose": "history",
+    "result_digest": null,
+    "row_count": null,
+    "schema_slice": [
+      {
+        "columns": [
+          {
+            "column_id": 2,
+            "computed_definition": null,
+            "data_type": "int",
+            "default_definition": null,
+            "is_identity": false,
+            "is_nullable": false,
+            "max_length": 4,
+            "name": "warehouse_id",
+            "object_id": 1938105945,
+            "precision": 10,
+            "scale": 0
+          },
+          {
+            "column_id": 8,
+            "computed_definition": null,
+            "data_type": "timestamp",
+            "default_definition": null,
+            "is_identity": false,
+            "is_nullable": false,
+            "max_length": 8,
+            "name": "source_row_version",
+            "object_id": 1938105945,
+            "precision": 0,
+            "scale": 0
+          },
+          {
+            "column_id": 5,
+            "computed_definition": null,
+            "data_type": "nvarchar",
+            "default_definition": null,
+            "is_identity": false,
+            "is_nullable": false,
+            "max_length": 200,
+            "name": "event_day",
+            "object_id": 1938105945,
+            "precision": 0,
+            "scale": 0
+          },
+          {
+            "column_id": 6,
+            "computed_definition": null,
+            "data_type": "nvarchar",
+            "default_definition": null,
+            "is_identity": false,
+            "is_nullable": false,
+            "max_length": 200,
+            "name": "movement_type",
+            "object_id": 1938105945,
+            "precision": 0,
+            "scale": 0
+          },
+          {
+            "column_id": 3,
+            "computed_definition": null,
+            "data_type": "int",
+            "default_definition": null,
+            "is_identity": false,
+            "is_nullable": false,
+            "max_length": 4,
+            "name": "product_id",
+            "object_id": 1938105945,
+            "precision": 10,
+            "scale": 0
+          },
+          {
+            "column_id": 4,
+            "computed_definition": null,
+            "data_type": "int",
+            "default_definition": null,
+            "is_identity": false,
+            "is_nullable": false,
+            "max_length": 4,
+            "name": "units",
+            "object_id": 1938105945,
+            "precision": 10,
+            "scale": 0
+          },
+          {
+            "column_id": 7,
+            "computed_definition": null,
+            "data_type": "datetime2",
+            "default_definition": null,
+            "is_identity": false,
+            "is_nullable": true,
+            "max_length": 8,
+            "name": "source_modified_at_utc",
+            "object_id": 1938105945,
+            "precision": 27,
+            "scale": 7
+          },
+          {
+            "column_id": 1,
+            "computed_definition": null,
+            "data_type": "int",
+            "default_definition": null,
+            "is_identity": false,
+            "is_nullable": false,
+            "max_length": 4,
+            "name": "movement_id",
+            "object_id": 1938105945,
+            "precision": 10,
+            "scale": 0
+          }
+        ],
+        "id": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+        "name": "stock_movements_round_two_20261003",
+        "schema_name": "app",
+        "type_desc": "USER_TABLE"
+      }
+    ],
+    "signature": "76155af6b656b23fe3625213402cc0bdd23fcd9ba397705de06c1bcf3593a2a6",
+    "status": "ERROR",
+    "text": "SELECT t.name, t.temporal_type_desc, h.name AS history_table, c1.name AS period_start, c2.name AS period_end FROM sys.tables t LEFT JOIN sys.tables h ON h.object_id = t.history_table_id LEFT JOIN sys.periods p ON p.object_id = t.object_id LEFT JOIN sys.columns c1 ON c1.object_id = t.object_id AND c1.column_id = p.start_column_id LEFT JOIN sys.columns c2 ON c2.object_id = t.object_id AND c2.column_id = p.end_column_id WHERE t.name = 'stock_movements_round_two_20261003'",
+    "time": "2026-10-28T09:22:22.685606+00:00"
+  },
+  {
+    "asset_ids": [
+      "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+    ],
+    "duration_seconds": 3.3088554130000034,
+    "executed_text": "SELECT TOP 251 [stock_movements_round_two_20261003].[movement_id] AS [movement_id], [stock_movements_round_two_20261003].[units] AS [units], [stock_movements_round_two_20261003].[movement_type] AS [movement_type], [stock_movements_round_two_20261003].[source_modified_at_utc] AS [source_modified_at_utc] FROM [app].[stock_movements_round_two_20261003] FOR SYSTEM_TIME ALL AS [stock_movements_round_two_20261003] WHERE [stock_movements_round_two_20261003].[movement_id] = CAST(@p0 AS BIGINT) ORDER BY [source_modified_at_utc]",
+    "id": "query:ce1023d8cdc14bdd197a306908d7266239f1e470c54616c06e6e12905756c6c1:7",
+    "layer": "native:9e3796a26d8d5c1a039e",
+    "parameters": [
+      {
+        "name": "@p0",
+        "value": "1"
+      }
+    ],
+    "purpose": "history",
+    "result": {
+      "column_types": {
+        "movement_id": "Int64",
+        "movement_type": "String",
+        "source_modified_at_utc": "DateTime",
+        "units": "Int64"
+      },
+      "connection_attempts": [
+        {
+          "attempt": 1,
+          "finished_at": "2026-10-28T09:22:31.437508+00:00",
+          "retry_delay_seconds": 0,
+          "sql_error_number": null,
+          "stage": null,
+          "started_at": "2026-10-28T09:22:28.733495+00:00",
+          "status": "SUCCEEDED"
+        }
+      ],
+      "execution_identity": {
+        "database": "ordersops",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "sql-orderops-9696025.database.windows.net"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "movement_id": "1",
+          "movement_type": "RECEIPT",
+          "source_modified_at_utc": "2026-10-03 22:51:16.882024",
+          "units": "16"
+        }
+      ]
+    },
+    "result_digest": "d6d0c1aaf97239e7032c7a90e4b2bcea300270394c83d87f75d5d17bd4247960",
+    "row_count": 1,
+    "signature": "ce1023d8cdc14bdd197a306908d7266239f1e470c54616c06e6e12905756c6c1",
+    "status": "SUCCEEDED",
+    "text": "SELECT movement_id, units, movement_type, source_modified_at_utc FROM [app].[stock_movements_round_two_20261003] FOR SYSTEM_TIME ALL WHERE movement_id = 1 ORDER BY source_modified_at_utc",
+    "time": "2026-10-28T09:22:28.394479+00:00",
+    "truncated": false
+  }
+]
+```
+
+Final answer:
+```json
+"definition explained. Movement Units is SUM('Movements'[units]) with no date or as-of logic. The Movements table reads the Lakehouse table dbo.stock_movements_round_two_20261003 directly (Direct Lake), and the copy job investigation_round_two_history_probe_20261003 overwrites that table from app.stock_movements_round_two_20261003 on each run. So the visual always shows current rows and never works out a past value. Current value for movement_id 1 is 16 in the model, the Lakehouse table and the source table (one row in each, units 16). A native read of the source table's system-versioned history for 2026-10-20 12:00 UTC succeeded but returned NULL (no row), and FOR SYSTEM_TIME ALL keeps only one version of movement 1 (units 16). The retained history therefore gives no value for movement 1 at that time. Limitation: why there is no version at that time was not established, because the history period columns and setup were not read. Lakehouse table time travel was not checked. The source_modified_at_utc column (2026-10-03 22:51:16) is an application column, not the history validity period. The two failed pipeline runs (2026-10-27 14:25 and 2026-10-28 05:59 UTC) were followed by successful runs; the latest load succeeded 2026-10-28 08:15-08:17 UTC (360 rows read and written) and the model refresh succeeded at 08:22 UTC.\nNumbers: 16, 1, 7661, BLANK.\nChecked: Application load fixture 20261003, round_two_bronze_20261003, ordersops.\nNative comparisons are observational snapshots; aligned query-bound versions are not established.\nCatalog bookkeeping unavailable: collector containment (recovered from literal native address), current inventory availability, inventory content hashes (metadata digests are derived and labelled), inventory provenance, per-asset collector timestamps. This does not block investigation; successful queries establish present readability only.\nattestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
+```
+
+Sealed expected:
+```json
+{
+  "basis": "Native scenario observations verified before sealing; same fact-based class contract as sealed v2 dev template v2-before-temporal-retention-v1. No DIA output used to author wording or expectations.",
+  "case_id": "v3-before-temporal-retention",
+  "cause": "Requested time precedes retained temporal evidence; historical quantity cannot be established.",
+  "estate": "fixture",
+  "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+  "fixture": "baseline",
+  "id": "v3-before-temporal-retention",
+  "layer": "source history boundary",
+  "split": "HELD_OUT_V3",
+  "variation": "independent new held-out v3",
+  "verdict": "not found"
+}
+```
+
+### v3-record-absent-everywhere
+Layer: match. The delivered answer places the absence at the source application. Lookups for movement_id 900099 in app.stock_movements_round_two_20261003 (ordersops), in the landing table dbo.stock_movements_round_two_20261003 and in the semantic model 'Movements' all returned 0 rows. Every layer holds the same 360 rows with IDs 1–360. It concludes that no load or model step dropped the record and the source doesn't have it.
+
+Cause: match in substance. The expected cause is that record 900099 is absent at the source and at every compared reachable layer. The answer doesn't mention the expected 'BLANK is not zero' point, but the user said they weren't reporting an amount, so that gap is minor.
+
+Verdict: no match. The answer's verdict is 'not found'; the sealed verdict is 'as designed'. 'Not found' is a separate verdict category. The answer implies no defect in the pipeline but never concludes that the report is behaving as designed. It also leaves open whether the record once existed and was removed, rather than closing the ticket as expected behaviour. I'm treating this as a real category difference, not a wording difference.
+
+Overall: one of three components fails, so this is a partial match and scores zero. Not harmful: the stated cause is correct and backed by evidence, not a confident wrong cause.
+
+Handoff (1): the queries are fully kept and can be rerun, and the stopping point is clear. The handoff object is empty, though, and there are no explicit next checks beyond noting that current-row reads can't show history. Restrict the cause to what the cited native evidence establishes.
+
+Intake:
+```json
+{
+  "compared_with": {
+    "kind": "SOURCE_SYSTEM",
+    "source": "d41e1c7af0bee9e569e9e4085c645331f3eb19ad9e7651dea93c571007beaaa1"
+  },
+  "description": "I'm looking for movement900099 from around 2026-09-12. I expected to see it, but it doesn't appear in the Movement Units visual on the Application Movements page. I also checked the application export, and it isn't there either. I'm not reporting an amount for this movement. I just can't find the record anywhere.",
+  "details": {
+    "approximate_date": "2026-09-12",
+    "record": "movement900099"
+  },
+  "issue_type": "RECORD_MISSING",
+  "page": "e4d6e671103ca3746c4ca9435fc635e13ae0a08bf09ffa515580b7f1a50fd7f7",
+  "report": "3ba93e33aa41f6b91b0ef623bfd66bf2d9ec9eefd5e583643e6462e0dbd5b2ed",
+  "version": "IntakeRequest/1",
+  "visual": "5534dcab52ea12e3a590fc6ad8d7e5fa79ca8611cc06be894a80b65f6fe792ce"
+}
+```
+
+Target:
+```json
+{
+  "layers": {
+    "native:4caf47d120d4fd198ffe": {
+      "dialect": "DAX",
+      "label": "Application load fixture 20261003"
+    },
+    "native:9e3796a26d8d5c1a039e": {
+      "dialect": "T-SQL",
+      "label": "ordersops"
+    },
+    "native:e95b94fd338e7086320f": {
+      "dialect": "T-SQL",
+      "label": "round_two_bronze_20261003"
+    }
+  }
+}
+```
+
+Triage:
+```json
+{
+  "facts": [
+    {
+      "cached": true,
+      "check": "MODEL_REFRESH",
+      "observed_at": "2026-10-28T09:21:02.513855Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T09:21:02.513855Z",
+          "freshness": "CURRENT",
+          "id": "5705f36190d3483830231b959e5412579efcf1e35fb2b373e4006ba362543371",
+          "kind": "RUN_HISTORY",
+          "observed_at": "2026-10-28T09:21:02.513855Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:941551651b73e1287910ceaaf55f414ce9bf15fc410f4ce01657ff9fedbc8b84"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "listing_complete": true,
+            "runs": [
+              {
+                "end": "2026-10-28T08:22:28.950000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "763241357",
+                "start": "2026-10-28T08:22:02.380000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:56:11.943000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967533",
+                "start": "2026-10-27T15:55:47.577000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:55:31.980000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967527",
+                "start": "2026-10-27T15:55:17.423000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T11:22:45.240000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762883014",
+                "start": "2026-10-27T11:22:42.810000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T10:04:03.517000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762859376",
+                "start": "2026-10-27T10:03:42.330000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:20.813000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762589234",
+                "start": "2026-10-26T18:20:20.733000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:33.260000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762588999",
+                "start": "2026-10-26T18:19:56.113000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T01:27:55.313000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "761468506",
+                "start": "2026-10-24T01:26:52.530000Z",
+                "status": "SUCCEEDED"
+              }
+            ]
+          }
+        },
+        {
+          "collected_at": "2026-10-28T09:21:02.513855Z",
+          "freshness": "CURRENT",
+          "id": "e6464f408d0786907f4ef96bd464c98a130a37a8800ef7bcc9f1cb9e1136c283",
+          "kind": "REFRESH_RUN",
+          "observed_at": "2026-10-28T09:21:02.513855Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:941551651b73e1287910ceaaf55f414ce9bf15fc410f4ce01657ff9fedbc8b84"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "accounting": "UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA",
+            "end": "2026-10-28T08:22:28.950000Z",
+            "error": null,
+            "recent_runs": [
+              {
+                "end": "2026-10-28T08:22:28.950000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "763241357",
+                "start": "2026-10-28T08:22:02.380000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:56:11.943000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967533",
+                "start": "2026-10-27T15:55:47.577000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:55:31.980000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967527",
+                "start": "2026-10-27T15:55:17.423000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T11:22:45.240000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762883014",
+                "start": "2026-10-27T11:22:42.810000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T10:04:03.517000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762859376",
+                "start": "2026-10-27T10:03:42.330000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:20.813000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762589234",
+                "start": "2026-10-26T18:20:20.733000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:33.260000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762588999",
+                "start": "2026-10-26T18:19:56.113000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T01:27:55.313000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "761468506",
+                "start": "2026-10-24T01:26:52.530000Z",
+                "status": "SUCCEEDED"
+              }
+            ],
+            "rows_read": null,
+            "rows_written": null,
+            "run_id": "763241357",
+            "start": "2026-10-28T08:22:02.380000Z",
+            "status": "SUCCEEDED"
+          }
+        },
+        {
+          "collected_at": "2026-10-28T09:21:02.513855Z",
+          "freshness": "CURRENT",
+          "id": "fb02eea7d345e54fc8b55e7d68657db46a2896e4d730066b9431ee3a6ced92c3",
+          "kind": "REFRESH_STATE",
+          "observed_at": "2026-10-28T09:21:02.513855Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:941551651b73e1287910ceaaf55f414ce9bf15fc410f4ce01657ff9fedbc8b84"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "last_end": "2026-10-28T08:22:28.950000Z",
+            "run_id": "763241357",
+            "state": "SUCCEEDED"
+          }
+        }
+      ]
+    },
+    {
+      "cached": true,
+      "check": "REFRESH_SCHEDULE",
+      "observed_at": "2026-10-28T09:21:02.513855Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T09:21:28.593748Z",
+          "freshness": "CURRENT",
+          "id": "a51d816e82fea98a4795ee2b42fd5c444b7c7f29a11c1b339fd7c4bc6cd694b8",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T09:21:28.593748Z",
+          "provenance": {
+            "collector": "microsoft-runtime:50ed9389d7d5682c8f2f36c6c2f43a2a3731a84b0c91204d9e25890e096564dc",
+            "evidence_ids": [
+              "sha256:bb96e0b64165d37d4a774cc5fa3c2961d16124929a1214bacc0f8380569b27c7"
+            ],
+            "locator": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "value": {
+            "native_schedules": {
+              "value": []
+            },
+            "next_due": null,
+            "reason": "Job schedule recurrence retained; unsupported recurrence types remain a named coverage gap."
+          }
+        },
+        {
+          "collected_at": "2026-10-28T09:21:02.513855Z",
+          "freshness": "CURRENT",
+          "id": "ca2ef01b13bd58ca8683c3609430f6d28193e0aff841cef381e1d7998c76e425",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T09:21:02.513855Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:7f616a0bcd8016f94253e610fd057e1f8c034a2a4f2308173fa82cd0bb89d964"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "enabled": false,
+            "native_schedule": {
+              "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+              "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ],
+              "enabled": false,
+              "localTimeZoneId": "UTC",
+              "notifyOption": "MailOnFailure",
+              "times": [
+                "01:00"
+              ]
+            },
+            "next_due": null,
+            "previous_due": null
+          }
+        }
+      ]
+    },
+    {
+      "check": "AUTOMATIC_UPDATES",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:AUTOMATIC_UPDATES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "cached": false,
+      "check": "JOB_RUNS",
+      "observed_at": "2026-10-28T09:30:26.507600Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T09:30:42.773263Z",
+          "freshness": "CURRENT",
+          "id": "f7f9568fdefe44f919ba74f8b94210513078d5e017c61bc1153a11e0a3e5fd5b",
+          "kind": "JOB_RUN",
+          "observed_at": "2026-10-28T09:30:42.773263Z",
+          "provenance": {
+            "collector": "microsoft-runtime:d90ae203d1e049b5d17b28ad8d56b3e9cbbe0ea8e79c91698aded7cf5e687f7e",
+            "evidence_ids": [
+              "sha256:11397e360a7313b8b74426de908e4e30883b32fe6187bc9d1f6c5956d218c870"
+            ],
+            "locator": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+          "value": {
+            "accounting": "UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA",
+            "end": "2026-10-28T08:16:41.2629279Z",
+            "error": null,
+            "recent_runs": [
+              {
+                "end": "2026-10-28T08:16:41.2629279Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "7237d82d-a728-4286-8891-6f548097cdcd",
+                "start": "2026-10-28T08:16:11.3116784Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T08:03:50.0016825Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "353770e7-8eb4-47bc-8709-0a667ddb04ad",
+                "start": "2026-10-28T08:03:00.469989Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T07:58:25.018859Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "7de99675-2ef8-4bd1-8292-c512f5121dbb",
+                "start": "2026-10-28T07:57:40.5054246Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T06:58:07.0533205Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "15dfbcf2-6985-41e8-8ada-d1973f3ec8a0",
+                "start": "2026-10-28T06:57:34.3969215Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T06:16:46.3062373Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "56e7ecc6-efb1-4d67-b6f8-0645b5de2d21",
+                "start": "2026-10-28T06:14:52.7382767Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:54:02.6605794Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "c0e2613f-b446-4d00-a2c5-7f44c4662ae2",
+                "start": "2026-10-27T15:53:32.7157778Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:44:05.0886872Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "a33b8ae0-57b8-4794-9cab-f50ec12e03ca",
+                "start": "2026-10-27T15:43:33.6916187Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:20:29.5709877Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "fa3d9c73-ff5a-410a-89c8-907afd3f623c",
+                "start": "2026-10-27T15:19:55.229535Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:10:24.4533955Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "644ef25a-bad3-4e5e-87b0-3f27c9b4498c",
+                "start": "2026-10-27T15:09:53.1889637Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T14:31:41.1898358Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "5caa5c35-5e58-4dc1-94f0-fb8a9ab6619a",
+                "start": "2026-10-27T14:31:09.9560782Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:59:50.6670091Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "d3d519f4-55b9-48ef-bf68-ee9b3d6fd724",
+                "start": "2026-10-27T09:59:21.4245453Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:49:04.8377033Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "f12d45ba-a321-4a76-9f38-cfd86501054b",
+                "start": "2026-10-27T09:48:35.0709386Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:41:49.8935835Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "4eda71d5-c497-4d52-b447-232386f672b5",
+                "start": "2026-10-27T09:41:18.3358933Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:28:21.9101852Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "175ebde3-2543-47e5-bde0-ec38474c3ccc",
+                "start": "2026-10-27T09:27:52.0485311Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T08:36:56.310785Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "d847a503-2bd8-4297-a917-8789854bbbdf",
+                "start": "2026-10-27T08:36:25.9174801Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T06:45:53.3924184Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "150cca85-8b3d-44e6-ad1a-2e5ac059e2df",
+                "start": "2026-10-27T06:45:24.4810815Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T06:15:17.1734177Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "1db862a2-6df5-41a7-a71a-02ca24eab7da",
+                "start": "2026-10-27T06:09:51.1598474Z",
+                "status": "CANCELLED"
+              },
+              {
+                "end": "2026-10-26T18:15:51.642450Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "2b43720a-f2bb-47bb-a456-9dac546a4eb4",
+                "start": "2026-10-26T18:15:14.6320687Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T02:12:10.4565917Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "c2bf877a-9ff2-4852-aa6b-f0503b71b2f3",
+                "start": "2026-10-24T02:11:38.9387923Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T01:40:16.5003956Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "4ea4687d-5e43-4933-8db5-860286d0f681",
+                "start": "2026-10-24T01:39:46.1269955Z",
+                "status": "SUCCEEDED"
+              }
+            ],
+            "rows_read": null,
+            "rows_written": null,
+            "run_id": "7237d82d-a728-4286-8891-6f548097cdcd",
+            "start": "2026-10-28T08:16:11.3116784Z",
+            "status": "SUCCEEDED"
+          }
+        },
+        {
+          "collected_at": "2026-10-28T09:30:26.507600Z",
+          "freshness": "CURRENT",
+          "id": "a680a5c3ddc56d3fa1753afb62b56285dbe22738d29dcafdbc1f63b9b59c2cb5",
+          "kind": "JOB_RUN",
+          "observed_at": "2026-10-28T09:30:26.507600Z",
+          "provenance": {
+            "collector": "microsoft-runtime:50ed9389d7d5682c8f2f36c6c2f43a2a3731a84b0c91204d9e25890e096564dc",
+            "evidence_ids": [
+              "sha256:f86a3f073ce25f8b763734cd4a9dfc0a66ecdee13690e6796d06e0e738adf519",
+              "sha256:0cddb6bfccc59dfed289178c839fd641e610f3a19a5b6092d92ebd480836426e"
+            ],
+            "locator": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "value": {
+            "accounting": "DECLARED_WAREHOUSE_AUDIT",
+            "end": "2026-10-28T08:17:21.010000Z",
+            "error": null,
+            "recent_runs": [
+              {
+                "end": "2026-10-28T08:17:21.010000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "b19be888-92f6-4c34-81bc-0a3433cb578b",
+                "start": "2026-10-28T08:15:49.4748707Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T08:04:45.0766667Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "c4317ee4-2ce8-49b4-91aa-aa75f1d6448d",
+                "start": "2026-10-28T08:02:16.3610689Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T07:59:05.190000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "009b614d-7e17-4523-a350-d40769c4e997",
+                "start": "2026-10-28T07:57:19.3760961Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T06:58:48.380000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "0f681f9d-b78a-4498-8c2f-14f7d6d52175",
+                "start": "2026-10-28T06:57:11.0246836Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T06:40:27.6233333Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "4456ed50-6454-41f3-ab53-90102beb10e3",
+                "start": "2026-10-28T06:30:10.5600019Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T06:18:21.950000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "ccb5f004-5b06-488c-9009-0464682b820b",
+                "start": "2026-10-28T06:09:45.2412485Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-28T05:59:56.280000Z",
+                "error": {
+                  "errorCode": "2011",
+                  "isRetriable": false,
+                  "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+                  "requestId": "88130a95-90a7-4b24-abc3-eb8fab6590c4"
+                },
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "60332cec-53c5-4268-86e2-f875836b597c",
+                "start": "2026-10-28T05:59:25.2333333Z",
+                "status": "FAILED"
+              },
+              {
+                "end": "2026-10-27T15:54:40.3733333Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "fd221a3c-173c-40a6-8f79-ff1b8b5484fd",
+                "start": "2026-10-27T15:53:11.6517633Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:44:49.2866667Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "8b738527-489f-4efc-92c3-ba9f30d8da9c",
+                "start": "2026-10-27T15:43:10.051129Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:21:05.870000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "496c0d2b-1a8b-49d1-926a-17533916fa19",
+                "start": "2026-10-27T15:19:31.1976863Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:11:10.570000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "12026c56-4c03-48b6-a720-7527b90e238b",
+                "start": "2026-10-27T15:09:29.7412419Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:02:37.480000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "2869a0b6-1e0e-4c10-9240-c603668893a6",
+                "start": "2026-10-27T14:52:27.2677265Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T14:47:58.3333333Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "6caacbdb-4ba6-41d7-897d-412b7a50529c",
+                "start": "2026-10-27T14:37:47.5848246Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T14:32:19.770000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "a8994ecf-963b-435d-9e35-8e38eb45d5ab",
+                "start": "2026-10-27T14:30:44.7568006Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T14:26:27.2866667Z",
+                "error": {
+                  "errorCode": "2011",
+                  "isRetriable": false,
+                  "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+                  "requestId": "88130a95-90a7-4b24-abc3-eb8fab6590c4"
+                },
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "8103a7b4-4136-4bfc-a5e6-4078dd9e892e",
+                "start": "2026-10-27T14:25:59.8066667Z",
+                "status": "FAILED"
+              },
+              {
+                "end": "2026-10-27T10:00:53.300000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "8e1cf5d1-e85a-43c2-868b-96ce2fb8c642",
+                "start": "2026-10-27T09:59:00.1416513Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:49:39.5966667Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "9de05a98-7bb2-4966-bf45-346e100911a2",
+                "start": "2026-10-27T09:48:15.0062065Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:42:27.810000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "6dacd836-4bd5-4dfb-b473-152b42433dfe",
+                "start": "2026-10-27T09:40:56.3600702Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:28:59.8010875Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "b4700038-6acd-4df9-9f28-b58802350eac",
+                "start": "2026-10-27T09:27:26.9017088Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T08:54:46.820000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "02d91840-2038-445f-bcad-3b5762ab0d04",
+                "start": "2026-10-27T08:44:36.8141962Z",
+                "status": "SUCCEEDED"
+              }
+            ],
+            "rows_read": 360,
+            "rows_written": 360,
+            "run_id": "b19be888-92f6-4c34-81bc-0a3433cb578b",
+            "start": "2026-10-28T08:15:49.4748707Z",
+            "status": "SUCCEEDED"
+          }
+        }
+      ]
+    },
+    {
+      "check": "LAYER_FRESHNESS",
+      "detail": "FRESH_PATH_FACT_NOT_AVAILABLE:LAYER_FRESHNESS",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "SOURCE_CHANGES",
+      "detail": "FRESH_PATH_FACT_NOT_AVAILABLE:SOURCE_CHANGES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "cached": false,
+      "check": "NEXT_LOAD",
+      "observed_at": "2026-10-28T09:30:26.507600Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T09:30:49.081614Z",
+          "freshness": "CURRENT",
+          "id": "aebe8a323d413931f58e0863ca76729102b846baeb5c0f27d1653de177251072",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T09:30:49.081614Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:4eb0cc5e3adbca145503837894c1710d752e9333b2b09e4925a6bd4cf716f096"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "enabled": false,
+            "native_schedule": {
+              "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+              "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ],
+              "enabled": false,
+              "localTimeZoneId": "UTC",
+              "notifyOption": "MailOnFailure",
+              "times": [
+                "01:00"
+              ]
+            },
+            "next_due": null,
+            "previous_due": null
+          }
+        },
+        {
+          "collected_at": "2026-10-28T09:30:26.507600Z",
+          "freshness": "CURRENT",
+          "id": "1c57c7c9a5ecc9e42ee65a57a5283a2801d4691614dd8d33286105a7e7c66a28",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T09:30:26.507600Z",
+          "provenance": {
+            "collector": "microsoft-runtime:50ed9389d7d5682c8f2f36c6c2f43a2a3731a84b0c91204d9e25890e096564dc",
+            "evidence_ids": [
+              "sha256:8ed491b5b49159ab0f9acc555f6dbcaeeaab2220e3c3ece0f918532c45e51563"
+            ],
+            "locator": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "value": {
+            "native_schedules": {
+              "value": []
+            },
+            "next_due": null,
+            "reason": "Job schedule recurrence retained; unsupported recurrence types remain a named coverage gap."
+          }
+        }
+      ]
+    },
+    {
+      "check": "CONNECTION_MODE",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:CONNECTION_MODE",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "SECURITY_PRESENCE",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:SECURITY_PRESENCE",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "DEFINITION_CHANGES",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:DEFINITION_CHANGES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    }
+  ],
+  "path": [
+    "04338ce830d63e3ab63d30a827b752e9163a7a50c36a3a8e2b6127b0480e5a34",
+    "114f64a965934e8f034687583f17f05e5c8bfddf3d771753eecddd0020920222",
+    "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c",
+    "3334860e93f6632b17abd31fc175afe2ba07e7918ba0fda5cc6d5bcab485d210",
+    "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+    "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+    "497b809aab319a091c08598988a6c8202715e5629e01a5d8b6be448d45edd062",
+    "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+    "5534dcab52ea12e3a590fc6ad8d7e5fa79ca8611cc06be894a80b65f6fe792ce",
+    "569a3aaab8bae720214d342c6dfbaf14ccaaa08ce8faf3fb5da731023b3dd457",
+    "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+    "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+    "6e29c19610d2451365f4424018e56a87b8702eb485f499cad6349e1810ac5f54",
+    "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+    "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+    "7c4042009085cafc8ca9e5985af173de9af07bd6f919c9bb16d195e45b177dc2",
+    "98be0634236a82a68e454d0e412716413cb967afd7244820b176c58d5da08707",
+    "aa287d7cf4522d7100e8b12742bf7a826862d71bc1a8b43f22ab12d49a0d0a0d",
+    "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+  ],
+  "refresh_operations": 8,
+  "what_triage_suggests": "Triage has unavailable checks (AUTOMATIC_UPDATES, LAYER_FRESHNESS, SOURCE_CHANGES, CONNECTION_MODE, SECURITY_PRESENCE, DEFINITION_CHANGES); this does not establish that those mechanisms are absent."
+}
+```
+
+Tool decisions:
+```json
+[
+  {
+    "arguments": {
+      "key": "movement900099",
+      "queries": [
+        {
+          "key_field": "movement_id",
+          "kind": "sql",
+          "layer": "native:9e3796a26d8d5c1a039e",
+          "query": "SELECT movement_id, warehouse_id, product_id, units, event_day, movement_type, source_modified_at_utc FROM [app].[stock_movements_round_two_20261003] WHERE movement_id = 900099"
+        },
+        {
+          "key_field": "movement_id",
+          "kind": "sql",
+          "layer": "native:e95b94fd338e7086320f",
+          "query": "SELECT movement_id, warehouse_id, product_id, units, event_day, movement_type, source_modified_at_utc FROM [dbo].[stock_movements_round_two_20261003] WHERE movement_id = 900099"
+        },
+        {
+          "key_field": "movement_id",
+          "kind": "dax",
+          "layer": "native:4caf47d120d4fd198ffe",
+          "query": "EVALUATE FILTER('Movements', 'Movements'[movement_id] = 900099)"
+        }
+      ]
+    },
+    "tool": "record_trace"
+  },
+  {
+    "arguments": {
+      "layer": "native:9e3796a26d8d5c1a039e",
+      "purpose": "lookup",
+      "query": "SELECT COUNT(*) AS rows_observed, MIN(movement_id) AS min_id, MAX(movement_id) AS max_id, SUM(CASE WHEN event_day LIKE '2026-09-1%' THEN 1 ELSE 0 END) AS rows_sep_10_19, MIN(event_day) AS min_day, MAX(event_day) AS max_day FROM [app].[stock_movements_round_two_20261003]"
+    },
+    "tool": "run_sql"
+  },
+  {
+    "arguments": {
+      "layer": "native:e95b94fd338e7086320f",
+      "purpose": "lookup",
+      "query": "SELECT COUNT(*) AS rows_observed, MIN(movement_id) AS min_id, MAX(movement_id) AS max_id FROM [dbo].[stock_movements_round_two_20261003]"
+    },
+    "tool": "run_sql"
+  },
+  {
+    "arguments": {
+      "layer": "native:4caf47d120d4fd198ffe",
+      "purpose": "lookup",
+      "query": "EVALUATE ROW(\"rows\", COUNTROWS('Movements'), \"min_id\", MIN('Movements'[movement_id]), \"max_id\", MAX('Movements'[movement_id]))"
+    },
+    "tool": "run_dax"
+  },
+  {
+    "arguments": {
+      "cause": "I couldn't find movement900099 (movement_id 900099) anywhere along the declared path. It isn't in the application source table app.stock_movements_round_two_20261003 (ordersops), and it isn't in the landing lakehouse table dbo.stock_movements_round_two_20261003 either. The Movements table, which feeds the Movement Units measure and visual, doesn't have it. None of these lookups returned duplicates, errors or truncated results. All three layers currently hold the same 360 rows with movement IDs 1 to 360, and the application source covers event days 2026-09-10 to 2026-09-18. So no load or model step dropped the record. The source system doesn't have it now. These were reads of current rows only, so they can't show whether the record existed earlier and was later removed. Load runs: the latest audited application load ran from 2026-10-28 08:15:49 to 08:17:21 UTC and succeeded, reading 360 rows and writing 360. An earlier run at 05:59 UTC failed (error 2011, a controlled fixture failure before the original activities), but later runs succeeded. The latest Copy Job run, 08:16:11 to 08:16:41 UTC, and the latest model refresh, 08:22:02 to 08:22:28 UTC, also succeeded.",
+      "checked": [
+        "native:9e3796a26d8d5c1a039e",
+        "native:e95b94fd338e7086320f",
+        "native:4caf47d120d4fd198ffe"
+      ],
+      "evidence_ids": [
+        "case-evidence:17d30c300c6eac8683206b2b98acc1ab4f8e293e6c3cb73cc935390b3f538da4",
+        "case-evidence:d64b11b560864f763c45755a300a83f158d75080bfe167f3f9bdbe8653875d9e",
+        "case-evidence:98531dc7b7205fa68ba724cdb28f051c16c875b1fe0f644f59b2b43557310757",
+        "case-evidence:9abb4662ae4893a7e61ad39ac34cd82cace05230296ea248a6e62433074285f6",
+        "case-evidence:00bd10391e5946d74270b7e6f9535476277ad33927526533d595ab0b08a73044"
+      ],
+      "numbers": [
+        900099,
+        0,
+        0,
+        0,
+        360,
+        360,
+        360,
+        1,
+        360
+      ],
+      "verdict": "not found"
+    },
+    "tool": "submit_finding"
+  },
+  {
+    "arguments": {
+      "cause": "I couldn't find movement900099 (movement_id 900099) anywhere along the declared path. It isn't in the application source table app.stock_movements_round_two_20261003 (ordersops), and it isn't in the landing lakehouse table dbo.stock_movements_round_two_20261003 either. The Movements table, which feeds the Movement Units measure and visual, doesn't have it. None of these lookups returned duplicates, errors or truncated results. All three layers currently hold the same 360 rows with movement IDs 1 to 360, and the application source covers event days 2026-09-10 to 2026-09-18. So no load or model step dropped the record. The source system doesn't have it now. These were reads of current rows only, so they can't show whether the record existed earlier and was later removed. Load runs: the latest audited application load ran from 2026-10-28 08:15:49 to 08:17:21 UTC and succeeded, reading 360 rows and writing 360. An earlier run at 05:59 UTC failed (error 2011, a controlled fixture failure before the original activities), but later runs succeeded. The latest Copy Job run, 08:16:11 to 08:16:41 UTC, and the latest model refresh, 08:22:02 to 08:22:28 UTC, also succeeded.",
+      "checked": [
+        "native:9e3796a26d8d5c1a039e",
+        "native:e95b94fd338e7086320f",
+        "native:4caf47d120d4fd198ffe"
+      ],
+      "evidence_ids": [
+        "case-evidence:17d30c300c6eac8683206b2b98acc1ab4f8e293e6c3cb73cc935390b3f538da4",
+        "case-evidence:d64b11b560864f763c45755a300a83f158d75080bfe167f3f9bdbe8653875d9e",
+        "case-evidence:98531dc7b7205fa68ba724cdb28f051c16c875b1fe0f644f59b2b43557310757",
+        "case-evidence:9abb4662ae4893a7e61ad39ac34cd82cace05230296ea248a6e62433074285f6",
+        "case-evidence:00bd10391e5946d74270b7e6f9535476277ad33927526533d595ab0b08a73044"
+      ],
+      "numbers": [
+        0,
+        0,
+        0,
+        360,
+        360,
+        360,
+        1,
+        360
+      ],
+      "verdict": "not found"
+    },
+    "tool": "submit_finding"
+  }
+]
+```
+
+Queries:
+```json
+[
+  {
+    "asset_ids": [
+      "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+    ],
+    "duration_seconds": 5.494409730999905,
+    "executed_text": "SELECT TOP 251 [stock_movements_round_two_20261003].[movement_id] AS [movement_id], [stock_movements_round_two_20261003].[warehouse_id] AS [warehouse_id], [stock_movements_round_two_20261003].[product_id] AS [product_id], [stock_movements_round_two_20261003].[units] AS [units], [stock_movements_round_two_20261003].[event_day] AS [event_day], [stock_movements_round_two_20261003].[movement_type] AS [movement_type], [stock_movements_round_two_20261003].[source_modified_at_utc] AS [source_modified_at_utc] FROM [app].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003] WHERE [stock_movements_round_two_20261003].[movement_id] = CAST(@p0 AS BIGINT)",
+    "id": "query:bdedfe48009b34298fc1bf0731481d8a2df82358caebb949cb38358392592d5e:1",
+    "layer": "native:9e3796a26d8d5c1a039e",
+    "parameters": [
+      {
+        "name": "@p0",
+        "value": "900099"
+      }
+    ],
+    "purpose": "record",
+    "result": {
+      "column_types": {
+        "event_day": "String",
+        "movement_id": "Int64",
+        "movement_type": "String",
+        "product_id": "Int64",
+        "source_modified_at_utc": "DateTime",
+        "units": "Int64",
+        "warehouse_id": "Int64"
+      },
+      "connection_attempts": [
+        {
+          "attempt": 1,
+          "finished_at": "2026-10-28T09:31:15.720167+00:00",
+          "retry_delay_seconds": 0,
+          "sql_error_number": null,
+          "stage": null,
+          "started_at": "2026-10-28T09:31:11.028484+00:00",
+          "status": "SUCCEEDED"
+        }
+      ],
+      "execution_identity": {
+        "database": "ordersops",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "sql-orderops-9696025.database.windows.net"
+      },
+      "read_only_verified": true,
+      "rows": []
+    },
+    "result_digest": "41a3a4aa81b95533dbf8a2c0c58f2057b4b7131d2d60d388f7a7c12c36d21459",
+    "row_count": 0,
+    "signature": "bdedfe48009b34298fc1bf0731481d8a2df82358caebb949cb38358392592d5e",
+    "status": "SUCCEEDED",
+    "text": "SELECT movement_id, warehouse_id, product_id, units, event_day, movement_type, source_modified_at_utc FROM [app].[stock_movements_round_two_20261003] WHERE movement_id = 900099",
+    "time": "2026-10-28T09:31:10.518451+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+    ],
+    "duration_seconds": 7.729615850003029,
+    "executed_text": "SELECT TOP 251 [stock_movements_round_two_20261003].[movement_id] AS [movement_id], [stock_movements_round_two_20261003].[warehouse_id] AS [warehouse_id], [stock_movements_round_two_20261003].[product_id] AS [product_id], [stock_movements_round_two_20261003].[units] AS [units], [stock_movements_round_two_20261003].[event_day] AS [event_day], [stock_movements_round_two_20261003].[movement_type] AS [movement_type], [stock_movements_round_two_20261003].[source_modified_at_utc] AS [source_modified_at_utc] FROM [dbo].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003] WHERE [stock_movements_round_two_20261003].[movement_id] = CAST(@p0 AS BIGINT)",
+    "id": "query:020aa8165ca0133cf8757ee88d18b6c6d3ca248625ac2234cc20682a9b017fe8:2",
+    "layer": "native:e95b94fd338e7086320f",
+    "parameters": [
+      {
+        "name": "@p0",
+        "value": "900099"
+      }
+    ],
+    "purpose": "record",
+    "result": {
+      "column_types": {
+        "event_day": "String",
+        "movement_id": "Int64",
+        "movement_type": "String",
+        "product_id": "Int64",
+        "source_modified_at_utc": "DateTime",
+        "units": "Int64",
+        "warehouse_id": "Int64"
+      },
+      "execution_identity": {
+        "database": "round_two_bronze_20261003",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+      },
+      "read_only_verified": true,
+      "rows": []
+    },
+    "result_digest": "e6391919c0d9f64cebad618f448013b4abc781f488355851c8cd8392689f0a65",
+    "row_count": 0,
+    "signature": "020aa8165ca0133cf8757ee88d18b6c6d3ca248625ac2234cc20682a9b017fe8",
+    "status": "SUCCEEDED",
+    "text": "SELECT movement_id, warehouse_id, product_id, units, event_day, movement_type, source_modified_at_utc FROM [dbo].[stock_movements_round_two_20261003] WHERE movement_id = 900099",
+    "time": "2026-10-28T09:31:16.022664+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/movement_id"
+    ],
+    "duration_seconds": 6.145039356997586,
+    "executed_text": "EVALUATE TOPN(251,FILTER('Movements','Movements'[movement_id] = 900099))",
+    "id": "query:d7db8db53326dd8f00c6a1855dc98b93442628dedb2d2dd655f5a5deea788a4c:3",
+    "layer": "native:4caf47d120d4fd198ffe",
+    "parameters": [],
+    "purpose": "record",
+    "result": {
+      "rows": [],
+      "warnings": [
+        "attestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
+      ]
+    },
+    "result_digest": "6d8473f198d04906aa4cffdd9011fc4eb28edf41a038dcf583a1257c21213a1f",
+    "row_count": 0,
+    "signature": "d7db8db53326dd8f00c6a1855dc98b93442628dedb2d2dd655f5a5deea788a4c",
+    "status": "SUCCEEDED",
+    "text": "EVALUATE FILTER('Movements', 'Movements'[movement_id] = 900099)",
+    "time": "2026-10-28T09:31:23.758693+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/movement_id"
+    ],
+    "duration_seconds": 4.193634477996966,
+    "executed_text": "EVALUATE TOPN(251,ROW(\"rows\",COUNTROWS('Movements'),\"min_id\",MIN('Movements'[movement_id]),\"max_id\",MAX('Movements'[movement_id])))",
+    "id": "query:86d78a40e34596f1fb18fe2c0bb953642422048783e2d7c40cb324f17311fe3d:4",
+    "layer": "native:4caf47d120d4fd198ffe",
+    "parameters": [],
+    "purpose": "lookup",
+    "result": {
+      "rows": [
+        {
+          "[max_id]": 360,
+          "[min_id]": 1,
+          "[rows]": 360
+        }
+      ],
+      "warnings": [
+        "attestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
+      ]
+    },
+    "result_digest": "477428a6ad04b6e2975fb40952c902b71667173c7c4264acf3dd62db7616a4c7",
+    "row_count": 1,
+    "signature": "86d78a40e34596f1fb18fe2c0bb953642422048783e2d7c40cb324f17311fe3d",
+    "status": "SUCCEEDED",
+    "text": "EVALUATE ROW(\"rows\", COUNTROWS('Movements'), \"min_id\", MIN('Movements'[movement_id]), \"max_id\", MAX('Movements'[movement_id]))",
+    "time": "2026-10-28T09:31:39.290682+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+    ],
+    "duration_seconds": 4.326621673993941,
+    "executed_text": "SELECT TOP 251 COUNT(*) AS [rows_observed], MIN([stock_movements_round_two_20261003].[movement_id]) AS [min_id], MAX([stock_movements_round_two_20261003].[movement_id]) AS [max_id], SUM(CASE WHEN [stock_movements_round_two_20261003].[event_day] LIKE @p2 THEN CAST(@p1 AS BIGINT) ELSE CAST(@p0 AS BIGINT) END) AS [rows_sep_10_19], MIN([stock_movements_round_two_20261003].[event_day]) AS [min_day], MAX([stock_movements_round_two_20261003].[event_day]) AS [max_day] FROM [app].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003]",
+    "id": "query:7b82cdff3968eaaf49804da41169919d69a79119b6539fa7276565ff4db5e308:4",
+    "layer": "native:9e3796a26d8d5c1a039e",
+    "parameters": [
+      {
+        "name": "@p0",
+        "value": "0"
+      },
+      {
+        "name": "@p1",
+        "value": "1"
+      },
+      {
+        "name": "@p2",
+        "value": "2026-09-1%"
+      }
+    ],
+    "purpose": "lookup",
+    "result": {
+      "column_types": {
+        "max_day": "String",
+        "max_id": "Int64",
+        "min_day": "String",
+        "min_id": "Int64",
+        "rows_observed": "Int64",
+        "rows_sep_10_19": "Int64"
+      },
+      "connection_attempts": [
+        {
+          "attempt": 1,
+          "finished_at": "2026-10-28T09:31:43.533854+00:00",
+          "retry_delay_seconds": 0,
+          "sql_error_number": null,
+          "stage": null,
+          "started_at": "2026-10-28T09:31:39.708524+00:00",
+          "status": "SUCCEEDED"
+        }
+      ],
+      "execution_identity": {
+        "database": "ordersops",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "sql-orderops-9696025.database.windows.net"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "max_day": "2026-09-18",
+          "max_id": "360",
+          "min_day": "2026-09-10",
+          "min_id": "1",
+          "rows_observed": "360",
+          "rows_sep_10_19": "360"
+        }
+      ]
+    },
+    "result_digest": "eb69340eb91d268067bb04de3a0f48de7a4e335af55fe8318ef0f4af00aa6622",
+    "row_count": 1,
+    "signature": "7b82cdff3968eaaf49804da41169919d69a79119b6539fa7276565ff4db5e308",
+    "status": "SUCCEEDED",
+    "text": "SELECT COUNT(*) AS rows_observed, MIN(movement_id) AS min_id, MAX(movement_id) AS max_id, SUM(CASE WHEN event_day LIKE '2026-09-1%' THEN 1 ELSE 0 END) AS rows_sep_10_19, MIN(event_day) AS min_day, MAX(event_day) AS max_day FROM [app].[stock_movements_round_two_20261003]",
+    "time": "2026-10-28T09:31:39.283124+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+    ],
+    "duration_seconds": 8.132655027002329,
+    "executed_text": "SELECT TOP 251 COUNT(*) AS [rows_observed], MIN([stock_movements_round_two_20261003].[movement_id]) AS [min_id], MAX([stock_movements_round_two_20261003].[movement_id]) AS [max_id] FROM [dbo].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003]",
+    "id": "query:bd3dc0bb94a59083be9892833d31051306074463d15a54ba7ed841b6218a8237:4",
+    "layer": "native:e95b94fd338e7086320f",
+    "parameters": [],
+    "purpose": "lookup",
+    "result": {
+      "column_types": {
+        "max_id": "Int64",
+        "min_id": "Int64",
+        "rows_observed": "Int64"
+      },
+      "execution_identity": {
+        "database": "round_two_bronze_20261003",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "max_id": "360",
+          "min_id": "1",
+          "rows_observed": "360"
+        }
+      ]
+    },
+    "result_digest": "6300685427a817bfc1fc050363abfc5e18984ba73277afbc3d296dd122e83d7a",
+    "row_count": 1,
+    "signature": "bd3dc0bb94a59083be9892833d31051306074463d15a54ba7ed841b6218a8237",
+    "status": "SUCCEEDED",
+    "text": "SELECT COUNT(*) AS rows_observed, MIN(movement_id) AS min_id, MAX(movement_id) AS max_id FROM [dbo].[stock_movements_round_two_20261003]",
+    "time": "2026-10-28T09:31:39.289319+00:00",
+    "truncated": false
+  }
+]
+```
+
+Final answer:
+```json
+"not found. I couldn't find movement900099 (movement_id 900099) anywhere along the declared path. It isn't in the application source table app.stock_movements_round_two_20261003 (ordersops), and it isn't in the landing lakehouse table dbo.stock_movements_round_two_20261003 either. The Movements table, which feeds the Movement Units measure and visual, doesn't have it. None of these lookups returned duplicates, errors or truncated results. All three layers currently hold the same 360 rows with movement IDs 1 to 360, and the application source covers event days 2026-09-10 to 2026-09-18. So no load or model step dropped the record. The source system doesn't have it now. These were reads of current rows only, so they can't show whether the record existed earlier and was later removed. Load runs: the latest audited application load ran from 2026-10-28 08:15:49 to 08:17:21 UTC and succeeded, reading 360 rows and writing 360. An earlier run at 05:59 UTC failed (error 2011, a controlled fixture failure before the original activities), but later runs succeeded. The latest Copy Job run, 08:16:11 to 08:16:41 UTC, and the latest model refresh, 08:22:02 to 08:22:28 UTC, also succeeded.\nNumbers: 0, 0, 0, 360, 360, 360, 1, 360.\nChecked: ordersops, round_two_bronze_20261003, Application load fixture 20261003.\nNative comparisons are observational snapshots; aligned query-bound versions are not established.\nCatalog bookkeeping unavailable: collector containment (recovered from literal native address), current inventory availability, inventory content hashes (metadata digests are derived and labelled), inventory provenance, per-asset collector timestamps. This does not block investigation; successful queries establish present readability only.\nattestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
+```
+
+Sealed expected:
+```json
+{
+  "basis": "Native scenario observations verified before sealing; same fact-based class contract as sealed v2 dev template v2-record-absent-everywhere-v1. No DIA output used to author wording or expectations.",
+  "case_id": "v3-record-absent-everywhere",
+  "cause": "Record900099 is absent at source and every compared reachable layer; BLANK is not zero.",
+  "estate": "fixture",
+  "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+  "fixture": "baseline",
+  "id": "v3-record-absent-everywhere",
+  "layer": "source application",
+  "split": "HELD_OUT_V3",
+  "variation": "independent new held-out v3",
+  "verdict": "as designed"
+}
+```

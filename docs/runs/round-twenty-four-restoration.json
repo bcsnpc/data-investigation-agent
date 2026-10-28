@@ -1,0 +1,224 @@
+{
+  "status": "ALL_ROUND24_CURRENT_RESTORATION_FLAGS_CLEAR_NATIVE_HASH_PROOFS_VERIFIED",
+  "controls": [
+    {
+      "control": "dev01-failed-billing",
+      "status": "FAILED_JOB_ESTABLISHED_DEFINITION_HASH_RESTORED",
+      "current_flags": {
+        "restoration_required": false
+      },
+      "status_sha256": "30f218d331964e08091b339c33fba88ce654e30a1c426fed0ac6ea6b7054449d",
+      "original_definition_hash": "392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552"
+    },
+    {
+      "control": "dev01-failed-fixture",
+      "status": "COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS",
+      "current_flags": {
+        "restoration_required": false
+      },
+      "status_sha256": "c35b507ffc55bd2cfd53bbfc2f3d77f921a44c4757f730f7e38269065504aad6",
+      "original_definition_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259"
+    },
+    {
+      "control": "dev01-history",
+      "status": "HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON",
+      "current_flags": {
+        "restoration_required": false
+      },
+      "status_sha256": "62e59156f62f8512588e955f79e52fd54d56fc38a44b6f7785eeb48cbdaf7849",
+      "original_definition_hash": null,
+      "native_original_row_and_business_schema_hashes": {
+        "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+        "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+        "temporal_period_columns_excluded_explicitly": true
+      }
+    },
+    {
+      "control": "dev01-latency-admission05",
+      "status": "LATENCY_COHORT_COMPLETED",
+      "current_flags": {
+        "restoration_required": false
+      },
+      "status_sha256": "2b27fb1a13b4e8cac803fdbeac058f6225dc05e384a84bfad6b17391744c926b",
+      "original_definition_hash": null,
+      "native_original_row_and_business_schema_hashes": {
+        "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+        "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+        "temporal_period_columns_excluded_explicitly": true
+      }
+    },
+    {
+      "control": "dev01-stale",
+      "status": "STALE_DATA_ORIGINAL_HASH_AUTOON_MODEL_REFRESH_BASELINE_VERIFIED",
+      "current_flags": {
+        "restoration_required": false,
+        "automatic_update_restoration_required": false
+      },
+      "status_sha256": "76485bb02610f21bf85241241bf5031d02dba0c7ce2de83cc9b6eead5e2e6f49",
+      "original_definition_hash": null,
+      "native_original_row_and_business_schema_hashes": {
+        "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+        "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+        "temporal_period_columns_excluded_explicitly": true
+      }
+    },
+    {
+      "control": "dev01-waiting",
+      "status": "WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED",
+      "current_flags": {
+        "restoration_required": false
+      },
+      "status_sha256": "bc4650928fab183624f9cb8de3bea6a5b297e784c8c307892296ad039ec24162",
+      "original_definition_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259"
+    },
+    {
+      "control": "held01-access-admission01",
+      "status": "ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED",
+      "current_flags": {
+        "restoration_required": false,
+        "catalog_restoration_required": false
+      },
+      "status_sha256": "87c853d699c2f4008ea9a78899d386eab6036333ac43053e5e9b7c11dcd814b9",
+      "original_definition_hash": null
+    },
+    {
+      "control": "held01-failed-billing",
+      "status": "FAILED_JOB_ESTABLISHED_DEFINITION_HASH_RESTORED",
+      "current_flags": {
+        "restoration_required": false
+      },
+      "status_sha256": "fe0c4e6fe88ba5c7dd7c1abee0dae3c5aa61f08aa9b993d94d502e68860c61a5",
+      "original_definition_hash": "392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552"
+    },
+    {
+      "control": "held01-failed-fixture",
+      "status": "COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS",
+      "current_flags": {
+        "restoration_required": false
+      },
+      "status_sha256": "7c7c12c6ed505d391ecddecd6c2554e66ba179ea314a14e6f84f76b39a3e849c",
+      "original_definition_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259"
+    },
+    {
+      "control": "held01-history",
+      "status": "HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON",
+      "current_flags": {
+        "restoration_required": false
+      },
+      "status_sha256": "ecb4f98378e6b2a9575614e713b24ddf434bc29e612f6f2fb141200964413383",
+      "original_definition_hash": null,
+      "native_original_row_and_business_schema_hashes": {
+        "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+        "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+        "temporal_period_columns_excluded_explicitly": true
+      }
+    },
+    {
+      "control": "held01-latency-admission05",
+      "status": "INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED",
+      "current_flags": {
+        "restoration_required": false
+      },
+      "status_sha256": "76c92da22130679de5d0e46915d7dbbc67988d04680cb6abcca0a666722ee303",
+      "original_definition_hash": null,
+      "native_original_row_and_business_schema_hashes": {
+        "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+        "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+        "temporal_period_columns_excluded_explicitly": true
+      }
+    },
+    {
+      "control": "held01-latency-admission06",
+      "status": "LATENCY_COHORT_COMPLETED",
+      "current_flags": {
+        "restoration_required": false
+      },
+      "status_sha256": "45d6e94520084e201d07a6185b29d8d6f546b35decb6a569e18a371a446b48b5",
+      "original_definition_hash": null,
+      "native_original_row_and_business_schema_hashes": {
+        "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+        "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+        "temporal_period_columns_excluded_explicitly": true
+      }
+    },
+    {
+      "control": "held01-stale",
+      "status": "STALE_DATA_ORIGINAL_HASH_AUTOON_MODEL_REFRESH_BASELINE_VERIFIED",
+      "current_flags": {
+        "restoration_required": false,
+        "automatic_update_restoration_required": false
+      },
+      "status_sha256": "0c7e39e3e229e8d07aa600ddfd963a75535af7b557971b2206c2e80614bedb29",
+      "original_definition_hash": null,
+      "native_original_row_and_business_schema_hashes": {
+        "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+        "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+        "temporal_period_columns_excluded_explicitly": true
+      }
+    },
+    {
+      "control": "held01-waiting",
+      "status": "WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED",
+      "current_flags": {
+        "restoration_required": false
+      },
+      "status_sha256": "e88a78e536a9f29702e3ab92bc2c5af4442db2f2416dedc39760de2a0b8a9bdb",
+      "original_definition_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259"
+    },
+    {
+      "control": "v3-access-native-admission01",
+      "status": "ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED",
+      "current_flags": {
+        "restoration_required": false,
+        "catalog_restoration_required": false
+      },
+      "status_sha256": "0a3999cfb20cce3ebc20e5df1597082a6190ce0865c9bff391591c5f6123d69b",
+      "original_definition_hash": null
+    }
+  ],
+  "source_original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+  "source_original_business_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+  "temporal_history": "ON_RETAINED_BY_OWNER_DECISION",
+  "stale_model": {
+    "native_refresh": {
+      "endTime": "2026-10-28T11:06:44.58Z",
+      "id": 763295893,
+      "refreshAttempts": [
+        {
+          "attemptId": 1,
+          "endTime": "2026-10-28T11:06:34.2165054Z",
+          "executionMetrics": [],
+          "startTime": "2026-10-28T11:06:17.8522836Z",
+          "type": "Data"
+        },
+        {
+          "attemptId": 1,
+          "endTime": "2026-10-28T11:06:36.3736668Z",
+          "executionMetrics": [],
+          "startTime": "2026-10-28T11:06:35.091534Z",
+          "type": "Query"
+        }
+      ],
+      "refreshType": "ViaApi",
+      "requestId": "171364e4-a1b6-493a-9867-f240a8d8aaae",
+      "startTime": "2026-10-28T11:06:17.773Z",
+      "status": "Completed"
+    },
+    "quantity": 7661,
+    "screenshot_sha256": "9c88e32bf71c6cfa86ddad863b0b4defc71dbfefd6ac2e0837f631fb8eb1be8b",
+    "ui_checked": true,
+    "verification_requests": 1
+  },
+  "access_catalog": {
+    "graph_history_preserved": true,
+    "original_sha256": "2428c1d30ac56d7d114a943a2312ea3c430c74cf46fd9c97077cddde68e0cbd8",
+    "sha256": "2428c1d30ac56d7d114a943a2312ea3c430c74cf46fd9c97077cddde68e0cbd8",
+    "status": "ORIGINAL_OWNER_PAYLOAD_HASH_MATCHED"
+  },
+  "access_roles_and_owned_object_inventory_restored": true,
+  "identity_permission_secret_changes": false,
+  "new_estate_reads": 0,
+  "new_model_calls": 0,
+  "known_original_billing_bootstrap_failure_retained": "2011 CREATE SCHEMA bronze already exists; original definition restored, no unplanned permanent repair",
+  "scope": "Native per-control restore receipts and current canonical flags, not a whole-estate atomic snapshot or removal of legitimate audit/history rows."
+}

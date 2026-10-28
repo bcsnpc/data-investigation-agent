@@ -52,15 +52,39 @@
     "basis": "Every retained ERROR query attempt, including corrected attempts and validator refusals. Cached duplicates are not new queries. This differs from the R23 first-query failure among official-zero outcomes; no false like-for-like reduction is claimed."
   },
   "held01": {
-    "completed_cases": 15,
-    "recorded_query_attempts": 103,
-    "query_error_attempts": 9,
+    "completed_cases": 20,
+    "recorded_query_attempts": 120,
+    "query_error_attempts": 12,
     "counts": {
-      "wrong column or table": 6,
-      "endpoint error": 1,
-      "validator rejection": 2
+      "validator rejection": 4,
+      "wrong column or table": 7,
+      "endpoint error": 1
     },
     "cases": [
+      {
+        "ticket": "v3-access-export",
+        "query": "query:d099bfa854f09d121e83fb1f8e73202d4b3070338ce029f8206ee35938d73ece:1",
+        "class": "validator rejection",
+        "native_dispatched": false,
+        "error_type": "ValueError",
+        "outcome_sha256": "d5c5783d87343d4650143bfdaab5f75025551847f65d27a98bf10a61e6f8081e"
+      },
+      {
+        "ticket": "v3-access-export",
+        "query": "query:9b418aec0136ba9e85c71d18132b5062db05c2938402343e284b20b7cc8ea511:2",
+        "class": "validator rejection",
+        "native_dispatched": false,
+        "error_type": "ValueError",
+        "outcome_sha256": "d5c5783d87343d4650143bfdaab5f75025551847f65d27a98bf10a61e6f8081e"
+      },
+      {
+        "ticket": "v3-access-export",
+        "query": "query:5529a30d26168d86cacb3c547911aedd8f15b35ad3d37c8df0ed9330aae1a442:3",
+        "class": "wrong column or table",
+        "native_dispatched": false,
+        "error_type": "QueryRejection",
+        "outcome_sha256": "d5c5783d87343d4650143bfdaab5f75025551847f65d27a98bf10a61e6f8081e"
+      },
       {
         "ticket": "v3-before-temporal-retention",
         "query": "query:76155af6b656b23fe3625213402cc0bdd23fcd9ba397705de06c1bcf3593a2a6:6",

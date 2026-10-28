@@ -1034,3 +1034,6 @@ Current published batch3; native containment establishes layers; groups overlap.
 | fixture | BOUNDARY | Engine-resolved expression dependencies have not been collected. | 1 | 1 |
 
 Billing Warehouse producer gaps are now closed by exact native procedure bodies/calls. The largest remaining fixture group ends at inline-seeded notebooks without a declared external application source; a source-object link cannot be invented. Missing native physical columns and unsupported report/query semantics remain separate parser/inventory repair groups.
+
+
+Round24 evaluation closure,2026-10-28: current declared-source graph9/80 (11.25%), initial0/80. Billing7/7,fixture2/66,sample0/7; the exact break groups above remain open. Native temporary access owner payload was restored to its original SHA2428c1d30ac56d7d114a943a2312ea3c430c74cf46fd9c97077cddde68e0cbd8, preserving the permanent native producer improvements. All39 valid dev forms open queryable layers; the original unknown-report refusal is not counted as a valid route. New held-out20/20delivered answers,18/20independently correct; live readability and structural completeness remain distinct measurements. No source link invented for inline-generated data.
