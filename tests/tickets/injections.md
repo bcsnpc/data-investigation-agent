@@ -237,3 +237,6 @@ Round24 latency held01 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_re
 
 
 Round24 latency held01 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-four\injections\held01-latency-admission06\status.json. Temporal remains ON.
+
+
+Round24 history held01 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-four\injections\held01-history\status.json. Temporal history ON; native historical versions retained.
