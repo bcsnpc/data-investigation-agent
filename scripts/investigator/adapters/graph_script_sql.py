@@ -61,12 +61,13 @@ def attach_scripts(graph,parent,activity,index,proof):
                 {'schema_evidence':'CODE_DECLARED_NOT_OBSERVED','execution_established':False,
                  'script_database':database,'script_name':name(target)},owner=graph.nodes[graph.by_asset[database]]['owner'])
             objects[(database,name(target))]=root;graph.link('CONTAINS',graph.by_asset[database],root,at)
-        graph.link('DERIVED_IN_STEP',root,step,at)
         query=tree.expression
         if query is None and isinstance(tree.this,exp.Schema):
             for definition in tree.this.expressions:
                 if isinstance(definition,exp.ColumnDef):code_column(root,definition.name,at)
+            graph.nodes[step]['properties']['definition_only']=True
             continue
+        graph.link('DERIVED_IN_STEP',root,step,at)
         if (not isinstance(query,exp.Select) or query.args.get('with_') or query.find(exp.Star)
                 or len(list(query.find_all(exp.Select)))!=1):
             gap('Script query is not a supported explicit-column SELECT; set operations, CTEs or stars remain unresolved.');continue
@@ -77,6 +78,8 @@ def attach_scripts(graph,parent,activity,index,proof):
                 gap('Script source table is unresolved or ambiguous: '+table.sql(dialect='tsql'));unresolved=True
             else:tables[table.alias_or_name]=resolved
         if unresolved:continue
+        for source in sorted(set(tables.values())):
+            graph.link('COMPUTED_FROM',step,source,at,properties={'basis':'EXACT_SCRIPT_DATABASE_AND_TABLE','execution_established':False})
         def refs(expression):
             found=set()
             for col in expression.find_all(exp.Column):

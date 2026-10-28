@@ -12,23 +12,23 @@ Current structured-call transport now uses Anthropic; production constructor sca
 
 ## Part B: Model, caching, cost and speed
 
-_pending_
+Opus5.5 is the current investigator default, with stable tools/system prefix caching. Monthly accounting separates realistic estimates, full pending commitments, settled usage and unknown charges. Independent model-requested reads on distinct layers can overlap; exact historical tape mode stays serial. Per-phase timings and native cache counters are retained. Scored speed/cache results pending.
 
 ## Part C: Graph health and paths
 
-Ticket-free retained structural baseline0/73 complete declared-source paths. Reproduce with scripts/graph_health.py --snapshot <metadata-snapshot> --json <receipt> --markdown docs/graph-health.md. All39 valid dev forms assemble query layers; the remaining original unknown-report form refuses. This does not establish correct complete paths or live data readability. Native bridge fixes and all-target backtrack regression remain pending.
+Ticket-free persisted structural baseline0/80 across fixture66, billing7 and Microsoft sample7 complete declared-source paths. Reproduce with scripts/graph_health.py --snapshot <metadata-snapshot> --json <receipt> --markdown docs/graph-health.md. All39 valid dev forms assemble query layers; the remaining original unknown-report form refuses. This does not establish correct complete paths or live data readability. The full production manifest check assembles all39 valid forms with native indexing and exact table/column bridges; screenshot routes now open model, landing and application. All28 target failure rows and the five walkthroughs are pinned to this offline route result; the unknown report remains an explicit refusal. Complete source-path health remains0%, separately from query access.
 
 ## Part D: Query quality
 
-Saved-trace baseline28 query failures:12 wrong object/member,11 validator,2 dialect,2 conversion,1 temporal date. Native definition HTTP400 is a separate probe finding, not double-counted. Focused read-pattern regression passes CTE,CONVERT/TRY_CAST,window,DEFINE/VAR,SUMMARIZECOLUMNS/TREATAS and rejects writes/out-of-graph. Schema/error feedback and definition migration remain pending.
+Saved-trace baseline28 query failures:12 wrong object/member,11 validator,2 dialect,2 conversion,1 temporal date. Native definition HTTP400 is a separate probe finding, not double-counted. Focused read-pattern regression passes CTE,CONVERT/TRY_CAST,window,DEFINE/VAR,SUMMARIZECOLUMNS/TREATAS and rejects writes/out-of-graph. Two corrected read attempts retain native errors, failed text and relevant schemas. Retained measure/code definitions are preferred before native introspection. Each admitted layer gets validated syntax examples from its own schema; no sample values are invented.
 
 ## Part E: Triage and fast path
 
-_pending_
+Current operational hints ignore older RUN_HISTORY when selecting the current run. A matching admitted job/refresh is read before the first model decision, retained as native evidence and cached. The model still establishes relevance; a failed unrelated or historical run is not automatically the cause. Focused51-test triage/reasoning suite passed. Live class results pending.
 
 ## Part F: Backtrack and grading
 
-_pending_
+Saved-outcome post-grade reporting now separates verdict/layer/cause, groups zero first-step assessments and emits three walkthroughs. Corrected query errors alone are not automatically treated as the cause. Second-grade selection is deterministic random25%, or100% for final dev/held-out. Live integration and results pending.
 
 ## Part G: Scored proof
 

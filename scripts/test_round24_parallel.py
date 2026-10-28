@@ -16,7 +16,6 @@ class ParallelTests(unittest.TestCase):
   calls=[{'type':'tool_use','id':'read-'+name,'name':'run_sql','input':{'layer':name,'query':'SELECT SUM(quantity) AS n FROM dbo.Items','purpose':'compare'}}for name in layers]
   model=Mock();model.complete.side_effect=[{'content':calls},{'content':[{'type':'tool_use','id':'finish','name':'submit_finding','input':{'verdict':'observed value','cause':'Two native observations.','numbers':[7],'checked':['a','b'],'evidence_ids':['placeholder']}}]}]
   loop=Investigator(queries=queries,model=model,read_tools={},checkpoint=MemoryCheckpoint(),case_id='parallel',context={'intake':{'report':'r'},'path':{'nodes':[]}},triage={'facts':[]},validate_finding=lambda *a:{'business':'Two native observations.'})
-  responses=model.complete.side_effect
   def complete(**kwargs):
    if not queries.records:return {'content':calls}
    return {'content':[{'type':'tool_use','id':'finish','name':'submit_finding','input':{'verdict':'observed value','cause':'Two native observations.','numbers':[7],'checked':['a','b'],'evidence_ids':list(loop.state['evidence'])[:1]}}]}

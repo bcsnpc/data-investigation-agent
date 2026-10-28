@@ -82,7 +82,10 @@ class NativeCatalog:
             identity=pending.pop();asset=self.assets.get(identity,{})
             parent=asset.get('parent_id')
             if parent and parent not in reached and parent not in ancestors:
-                ancestors.add(parent);pending.append(parent)
+                # A measure home table is storage ownership, not an input.
+                # Keep its model ancestor without inventing a data dependency.
+                if asset.get('kind')!='Measure':ancestors.add(parent)
+                pending.append(parent)
         present={n['id'] for n in path['nodes']}
         return [deepcopy(n) for n in self.graph_nodes.values() if n['id'] not in present
                 and n.get('kind') in ('TABLE','VIEW','MODEL')

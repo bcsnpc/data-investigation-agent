@@ -19,7 +19,7 @@ def effective(snapshot,assets,manifest):
     known={a['id']:a for a in assets}
     for a in assets:
         parent=known.get(a.get('parent_id'),{})
-        if a['kind']in ('SemanticColumn','Measure','SqlColumn','LakehouseColumn','WarehouseColumn')and parent.get('kind')in ('SemanticTable','SqlObject','LakehouseTable','WarehouseTable'):
+        if a['kind']in ('SemanticColumn','SqlColumn','LakehouseColumn','WarehouseColumn')and parent.get('kind')in ('SemanticTable','SqlObject','LakehouseTable','WarehouseTable'):
             link(a['id'],parent['id'],{'basis':'EXACT_NATIVE_PARENT_ADDRESS','asset_id':a['id'],'content_hash':a.get('content_hash')})
     class Snapshot:
         allowed=set(nodes)

@@ -1,0 +1,69 @@
+{
+  "recorded_utc": "2026-10-28T03:32:13.952163+00:00",
+  "basis": "Offline native-definition rebuild with production exact-address route overlay. Not yet published to shared graph.",
+  "before": {
+    "visuals": 80,
+    "fully_traceable": 0,
+    "percentage": 0.0
+  },
+  "after": {
+    "visuals": 80,
+    "fully_traceable": 7,
+    "percentage": 8.75
+  },
+  "estates": [
+    {
+      "estate": "fixture",
+      "overall": {
+        "visuals": 66,
+        "fully_traceable": 2,
+        "percentage": 3.03
+      },
+      "break_counts": {
+        "scanner data: NO_UPSTREAM_BINDING": 186,
+        "route builder: NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED": 64,
+        "scanner data: AMBIGUOUS_OR_UNKNOWN_DEPENDENCY": 73,
+        "scanner data: DirectLake sourceColumn is absent or ambiguous: units": 24,
+        "scanner data: DirectLake sourceColumn is absent or ambiguous: movement_value": 12,
+        "scanner data: DirectLake sourceColumn is absent or ambiguous: movement_type": 18,
+        "scanner data: Engine-resolved expression dependencies have not been collected.": 1,
+        "route builder: NO_PRODUCER_REACHED": 13,
+        "scanner data: No supported explicit field reference was found in the retained visual query.": 12,
+        "route builder: NO_INSTALLED_QUERY_ROUTE": 12,
+        "scanner data: DirectLake sourceColumn is absent or ambiguous: warehouse_name": 6
+      }
+    },
+    {
+      "estate": "billing",
+      "overall": {
+        "visuals": 7,
+        "fully_traceable": 5,
+        "percentage": 71.43
+      },
+      "break_counts": {
+        "scanner data: NO_UPSTREAM_BINDING": 2,
+        "route builder: NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED": 1,
+        "route builder: NO_PRODUCER_REACHED": 1
+      }
+    },
+    {
+      "estate": "dia-sample-estate",
+      "overall": {
+        "visuals": 7,
+        "fully_traceable": 0,
+        "percentage": 0.0
+      }
+    }
+  ],
+  "changes": [
+    "Copy source connection UUID and native sink workspace/item UUID",
+    "CopyJob activity datasets inherit explicit connection declarations",
+    "InvokeCopyJob binds its named item UUID",
+    "Script SELECT and notebook write steps carry table-level row dependencies",
+    "Schema-only CREATE TABLE is retained as schema, not a data producer",
+    "Measure home-table ownership does not create a data dependency",
+    "Schema-enabled HTTPS OneLake addresses and nested native columns preserve parent JSON pointer"
+  ],
+  "estate_reads": 0,
+  "model_calls": 0
+}

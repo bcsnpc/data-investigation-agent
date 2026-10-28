@@ -12,6 +12,10 @@ class ActualCostTests(unittest.TestCase):
   self.state=SharedState.offline(Path(self.tmp.name)/'s.sqlite');self.state.migrate()
   self.rate=RateCard(model='claude-opus-5-5',input_rate='5',base_input_rate='4',cache_read_rate='.20',output_rate='20',source='https://platform.claude.com/docs/en/about-claude/pricing',observed_at='2026-10-27')
   self.budget=TicketBudget(self.state,case_id='x',owner='worker',rate=self.rate,clock=lambda:datetime(2026,11,1,tzinfo=timezone.utc).timestamp(),actual_usage_limit=3000000)
+ def test_ai_step_tags_smoke_without_changing_ticket_or_monthly_account(self):
+  from investigator.reasoning_budget import ai_step
+  with ai_step('SMOKE'):budget=TicketBudget(self.state,case_id='smoke',owner='worker',rate=self.rate)
+  self.assertEqual(budget.purpose,'SMOKE');self.assertEqual(self.budget.purpose,'INVESTIGATOR')
  def test_estimate_and_actual_differ_without_false_violation_monthly_commitment_remains(self):
   key=self.budget.reserve({'model':self.rate.model,'max_tokens':8000},input_tokens_upper_bound=10000)
   before=self.state.snapshot('model-microdollars:2026-11')['reservations'][0]

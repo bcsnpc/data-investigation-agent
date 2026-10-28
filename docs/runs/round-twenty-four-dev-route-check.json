@@ -1,201 +1,387 @@
 {
-  "observed_at": "2026-10-28T03:05:39.978643+00:00",
+  "observed_at": "2026-10-28T03:30:55.803591+00:00",
   "dev_forms": 40,
   "results": [
     {
       "id": "v2-application-baseline-v1",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 56275
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 58574
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-application-baseline-v2",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 55143
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 57441
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-fixture-quantity-v1",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 4,
+        "queryable": true,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "warnings": 2,
+        "context_bytes": 115824
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 4,
+        "queryable": true,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "warnings": 2,
+        "context_bytes": 116652
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-fixture-quantity-v2",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 4,
+        "queryable": true,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "warnings": 2,
+        "context_bytes": 115533
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 4,
+        "queryable": true,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "warnings": 2,
+        "context_bytes": 116362
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-failed-application-load-v1",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 55111
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 57409
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-failed-application-load-v2",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 55110
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 57410
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-waiting-application-load-v1",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 55589
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 57887
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-waiting-application-load-v2",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 55227
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 57524
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-latency-record-v1",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 55916
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 58215
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-latency-record-v2",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 55528
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 57827
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-stale-model-v1",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 55892
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 58188
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-stale-model-v2",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 55625
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 57923
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-warehouse-scope-v1",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 56348
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 58646
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-warehouse-scope-v2",
@@ -207,241 +393,469 @@
       "id": "v2-before-temporal-retention-v1",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 55677
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 57975
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-before-temporal-retention-v2",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 55328
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 57626
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-record-absent-everywhere-v1",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 55160
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 57457
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-record-absent-everywhere-v2",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 55159
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 57458
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-record-repeated-gold-v1",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 4,
+        "queryable": true,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "warnings": 2,
+        "context_bytes": 115970
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 4,
+        "queryable": true,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "warnings": 2,
+        "context_bytes": 116798
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-record-repeated-gold-v2",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 4,
+        "queryable": true,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "warnings": 2,
+        "context_bytes": 115646
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 4,
+        "queryable": true,
+        "layer_ids": [
+          "native:2bace10c68be9c1798d1",
+          "native:2d42754f9d02ac097d82",
+          "native:4cae44c18700427b5bd6",
+          "native:5f79ea32cda68657788b"
+        ],
+        "warnings": 2,
+        "context_bytes": 116474
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-source-history-v1",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 55605
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 57902
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-source-history-v2",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 55303
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 57599
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-screenshot-record-01-v1",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 61148
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 63866
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-screenshot-record-01-v2",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 60824
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 63541
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-screenshot-record-02-v1",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 61004
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 63719
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-screenshot-record-02-v2",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 60608
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 63325
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-screenshot-record-03-v1",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 60975
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 63693
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-screenshot-record-03-v2",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 60655
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 63373
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-screenshot-record-04-v1",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 60779
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 63497
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-screenshot-record-04-v2",
       "estate": "fixture",
       "actual_wire": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 60477
       },
       "without_bookkeeping": {
-        "status": "FAILED",
-        "type": "ValueError",
-        "reason": "GRAPH_ALLOWLIST_BOUND"
+        "status": "ASSEMBLED",
+        "layers": 3,
+        "queryable": true,
+        "layer_ids": [
+          "native:4caf47d120d4fd198ffe",
+          "native:9e3796a26d8d5c1a039e",
+          "native:e95b94fd338e7086320f"
+        ],
+        "warnings": 2,
+        "context_bytes": 63196
       },
-      "status": "FAILED"
+      "status": "ASSEMBLED"
     },
     {
       "id": "v2-billing-mrr-v1",
@@ -456,7 +870,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 182250
+        "context_bytes": 171376
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -468,7 +882,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 183722
+        "context_bytes": 172636
       },
       "status": "ASSEMBLED"
     },
@@ -485,7 +899,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 181824
+        "context_bytes": 170947
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -497,7 +911,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 183294
+        "context_bytes": 172209
       },
       "status": "ASSEMBLED"
     },
@@ -513,7 +927,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 112825
+        "context_bytes": 114166
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -524,7 +938,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 113035
+        "context_bytes": 114376
       },
       "status": "ASSEMBLED"
     },
@@ -540,7 +954,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 112453
+        "context_bytes": 113791
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -551,7 +965,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 112663
+        "context_bytes": 114003
       },
       "status": "ASSEMBLED"
     },
@@ -567,7 +981,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 112075
+        "context_bytes": 113415
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -578,7 +992,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 112285
+        "context_bytes": 113624
       },
       "status": "ASSEMBLED"
     },
@@ -594,7 +1008,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 111781
+        "context_bytes": 113123
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -605,7 +1019,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 111992
+        "context_bytes": 113334
       },
       "status": "ASSEMBLED"
     },
@@ -622,7 +1036,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 444252
+        "context_bytes": 446224
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -634,7 +1048,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 448452
+        "context_bytes": 450424
       },
       "status": "ASSEMBLED"
     },
@@ -651,7 +1065,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 443978
+        "context_bytes": 445952
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -663,7 +1077,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 448178
+        "context_bytes": 450153
       },
       "status": "ASSEMBLED"
     },
@@ -680,7 +1094,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 143943
+        "context_bytes": 133098
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -692,7 +1106,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 144784
+        "context_bytes": 133728
       },
       "status": "ASSEMBLED"
     },
@@ -709,7 +1123,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 143637
+        "context_bytes": 132792
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -721,12 +1135,19 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 144478
+        "context_bytes": 133424
       },
       "status": "ASSEMBLED"
     }
   ],
   "estate_reads": 0,
   "model_calls": 0,
-  "method": "Actual sealed dev forms and retained estate graph/catalog; production Factory route assembly twice, actual wire and all top-level inventory bookkeeping removed. Native schema/endpoint ports use offline retained-schema shape stubs; no data values, live probe or finding is claimed. Invalid report IDs are not substituted."
+  "method": "Actual sealed dev forms and retained estate graph/catalog; production Factory route assembly twice, actual wire and all top-level inventory bookkeeping removed. Native schema/endpoint ports use offline retained-schema shape stubs; no data values, live probe or finding is claimed. Invalid report IDs are not substituted.",
+  "route_sources": {
+    "scripts/investigator/adapters/ai_native_catalog.py": "827f618dd85ae515a6f6c7957b3c6ed4f6417a879a0ae6da2bca8c212a09d4d1",
+    "scripts/investigator/guided_investigator_installation.py": "f207615b6ef7165bd90db5d842f0d2136966cb3b3286dfd6d715bdef13a04e2d",
+    "scripts/investigator/estate_graph_api.py": "63b94d397c0c906a3d2dfbc8f20b8c7eb26f72fbff029fa863c2599843e4bd3c"
+  },
+  "ticket_canonical_sha256": "e432069828e6c35aeee68f7a0a4b8566e0c05d10371aa374135711c6583d7a2a",
+  "ticket_file_sha256": "d2ec241a3d89623b188a347496fbb217b82fcdd5b647b57387df4c0863255633"
 }

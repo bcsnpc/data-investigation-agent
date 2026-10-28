@@ -115,7 +115,7 @@ def guided_demo_matches(bundle,expected):
     from decimal import Decimal,InvalidOperation
     if not isinstance(expected,dict) or set(expected)!={'verdict','reads'} or len(expected['reads'])<2:
         raise ValueError('SMOKE_GUIDED_EXPECTATION_SHAPE')
-    if bundle.get('status')!='ANSWERED' or bundle.get('verdict')!=expected['verdict'] or not all(bundle.get('outputs',{}).get(k)for k in ('business','technical')):return False
+    if bundle.get('status')!='ANSWERED' or bundle.get('verdict',bundle.get('technical',{}).get('verdict'))!=expected['verdict'] or not all(bundle.get('outputs',{}).get(k)for k in ('business','technical')):return False
     queries=bundle.get('case',{}).get('queries',[])
     surfaces=[]
     for asset,value in expected['reads'].items():

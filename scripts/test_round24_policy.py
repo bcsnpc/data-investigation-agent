@@ -32,6 +32,7 @@ class PolicyTests(unittest.TestCase):
    report=status(state,datetime(2026,11,2,tzinfo=timezone.utc).timestamp())
    self.assertEqual(report['charged_microdollars'],2000000)
    self.assertEqual(report['remaining_microdollars'],148000000)
+   self.assertEqual(sum(report['by_ai_step_microdollars'].values()),2000000)
  def test_combined_cap_includes_grading_and_protects_its_margin(self):
   with tempfile.TemporaryDirectory()as folder:
    state=SharedState.offline(Path(folder)/'s.sqlite');state.migrate()

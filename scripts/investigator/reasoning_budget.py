@@ -6,6 +6,17 @@ provider outcome is unknown. Only counts, model and case IDs enter this ledger.
 from decimal import Decimal, ROUND_CEILING
 import json
 import time
+from contextvars import ContextVar
+from contextlib import contextmanager
+
+PURPOSE=ContextVar("anthropic_ai_step",default="INVESTIGATOR")
+
+@contextmanager
+def ai_step(name):
+    token=PURPOSE.set(name)
+    try:yield
+    finally:PURPOSE.reset(token)
+
 from .build_phase import (MODEL_MICRODOLLARS,TICKET_MODEL_MICRODOLLARS,
                           TICKET_MODEL_WARNING_MICRODOLLARS,ensure_model_account)
 from .model_spend import SpendHold
@@ -41,11 +52,12 @@ class RateCard:
 
 
 class TicketBudget:
-    def __init__(self,state,*,case_id,owner,rate,clock=time.time,actual_usage_limit=None,purpose="INVESTIGATOR"):
+    def __init__(self,state,*,case_id,owner,rate,clock=time.time,actual_usage_limit=None,purpose=None):
         if not case_id or not owner:raise ValueError('CASE_AND_WORKER_REQUIRED')
         if actual_usage_limit is not None and (type(actual_usage_limit)is not int or actual_usage_limit!=3_000_000):
             raise ValueError('OWNER_DIAGNOSTIC_LIMIT_REQUIRED')
         self.state,self.case_id,self.owner,self.rate,self.clock=state,case_id,owner,rate,clock
+        purpose=purpose or PURPOSE.get()
         if purpose not in ('INVESTIGATOR','SCREENSHOT','ENRICHMENT','WRITER','GRADING','SMOKE'):raise ValueError('MODEL_PURPOSE_REQUIRED')
         self.purpose=purpose
         self.actual_usage_limit=actual_usage_limit

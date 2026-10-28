@@ -8,6 +8,11 @@ from test_round23_intake_queries import graph,request
 class PathTests(unittest.TestCase):
  def factory(self):
   f=Factory.__new__(Factory);f.associated_nodes=None;f.definition_for=None;f.graph=Mock();f.graph.allowed={'model','physical','job','source'};f.graph.intake_catalog.return_value={'nodes':[{'id':'job','kind':'PIPELINE'}]};return f
+ def test_measure_home_is_not_a_physical_data_dependency(self):
+  c=NativeCatalog.__new__(NativeCatalog);c.assets={'measure':{'id':'measure','kind':'Measure','parent_id':'home'},'home':{'id':'home','kind':'SemanticTable','parent_id':'model'},'model':{'id':'model','kind':'SemanticModel','parent_id':'workspace'}}
+  c.graph_nodes={k:{'id':k,'kind':kind,'properties':{'asset_id':asset}}for k,kind,asset in [('m','MEASURE','measure'),('h','TABLE','home'),('model','MODEL','model')]}
+  extra=c.associated_nodes({'nodes':[c.graph_nodes['m']]})
+  self.assertEqual([n['id']for n in extra],['model'])
  def test_declared_bridges_resolve_until_closure_on_every_expansion(self):
   f=self.factory()
   def path(root):return {'nodes':[{'id':root,'kind':'TABLE'}],'edges':[]}

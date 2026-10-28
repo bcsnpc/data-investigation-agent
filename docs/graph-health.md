@@ -437,3 +437,10 @@ Overall: {'visuals': 80, 'fully_traceable': 0, 'percentage': 0.0}
 - Declared predicate fixture 20261001 / 6b1bb066d22d5e9a9cc3 (`fd3512569e223fa583f312a19af675e13a1d80840c94e63be920a19486b9245e`): route builder: NO_PRODUCER_REACHED at `fd3512569e223fa583f312a19af675e13a1d80840c94e63be920a19486b9245e`.
 
 All persisted scanned estates included. This metadata read does not reread estate data. Production route overlays are reported separately; zero complete paths is not zero queryable layers.
+
+
+## Native-definition batch 1, 2026-10-28 UTC
+
+Before:0/80 (0%). Offline rebuilt routes:7/80 (8.75%), comprising fixture2/66 and billing5/7; Microsoft sample0/7. These are declared structural paths, not value or snapshot verification. Source terminals are exact retained SQL user-table objects; no inline fixture literal was relabelled an application source. Shared-graph publication is pending.
+
+Largest baseline groups: fixture no-upstream column98 occurrences, table52, unknown boundary13;64 rebuilt fixture visuals still do not reach an external source. Billing copy activities previously lacked native source/destination identities; script steps lacked row-source edges. Two billing visuals still reach the observed gold.invoice_activity table without a retained data-producing write. Microsoft sample7 legacy PBIR visual-query gaps remain explicit. Per-report and every-break details remain above; batch receipt is runs/round-twenty-four-graph-health-batch1.json.

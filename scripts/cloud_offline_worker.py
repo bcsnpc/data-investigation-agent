@@ -12,6 +12,10 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 TEST_MODULES = (
+    'test_round24_gateway_components.py',
+    'test_round24_copy_bindings.py',
+    'test_round24_backtrack.py',
+    'test_round24_backtrack_routes.py',
     'test_round24_query_context.py',
     'test_round24_native_index.py',
     'test_round24_parallel.py',

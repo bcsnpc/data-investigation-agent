@@ -213,7 +213,10 @@ def handlers():
         if demo_kind not in ('guided-investigation','ledger-investigation','legacy-baseline'):raise ValueError('SMOKE_ENGINE_KIND')
         demo_handler={'guided-investigation':guided_investigation,'ledger-investigation':ledger_investigation,'legacy-baseline':investigation}[demo_kind]
         demo=(lambda:demo_handler({**plan,'options':o['demo']},ctx)) if o['config']['demo_earned'] else None
-        try:return run_smoke(o['config'],ctx,state=state,gold_read=gold,blob_roundtrip=lambda config,body:capture_roundtrip(ctx,body),demo=demo)
+        try:
+            from .reasoning_budget import ai_step
+            with ai_step('SMOKE'):
+                return run_smoke(o['config'],ctx,state=state,gold_read=gold,blob_roundtrip=lambda config,body:capture_roundtrip(ctx,body),demo=demo)
         finally:meter.close()
     return {'verification':verification,'investigation':ledger_investigation,'guided-investigation':guided_investigation,'legacy-baseline':investigation,'scan':scan,'replay':replay,'prepare':prepare,'probe':probe,'smoke':smoke,'authorization-check':authorization_check,'value-verification':value_verification,'collect-facts':collect_facts,'facts-dispatcher':facts_dispatcher,'ledger-investigation':ledger_investigation,'enrichment-batch':enrichment_batch,'access-check':access_result}
 

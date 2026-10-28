@@ -36,9 +36,20 @@ def status(state,now=None):
         grading_delta=grading_charge(state,db,policy,grading)
         charged=policy['baseline_higher_microdollars']+model_delta+grading_delta
         extra=pending_exposure(state,db,policy['model_account'])+pending_exposure(state,db,policy['grading_account'])
+        purposes={name:0 for name in ('INVESTIGATOR','SCREENSHOT','ENRICHMENT','WRITER','GRADING','SMOKE','UNATTRIBUTED_HISTORICAL')}
+        rows=state.sql(db,'SELECT account,charged,detail FROM state_reservations WHERE account IN (?,?)',(policy['model_account'],policy['grading_account'])).fetchall()
+        for account,value,detail in rows:
+            detail=json.loads(detail)
+            if account==policy['grading_account'] and 'grading_month_tag'in policy and detail.get('month_utc')!=month:continue
+            purpose=detail.get('purpose','UNATTRIBUTED_HISTORICAL')
+            if purpose=='ENRICHMENT_ONLY':purpose='ENRICHMENT'
+            purposes[purpose if purpose in purposes else 'UNATTRIBUTED_HISTORICAL']+=int(value)
+        # Retained console/ledger normalization is an offset, never erased.
+        purposes['UNATTRIBUTED_HISTORICAL']+=charged-sum(purposes.values())
+
         return {'month_utc':month,'ceiling_microdollars':policy['normalized_ceiling_microdollars'],
                 'charged_microdollars':charged,'additional_pending_commitment_microdollars':extra,'committed_microdollars':charged+extra,'remaining_microdollars':policy['normalized_ceiling_microdollars']-charged-extra,
-                'warning':charged>=100000000,'monthly_credit_microdollars':100000000,
+                'warning':charged>=100000000,'monthly_credit_microdollars':100000000,'by_ai_step_microdollars':purposes,
                 'grading_remaining_microdollars':max(0,policy['protected_grading_microdollars']-grading_delta),
                 'model_account':model,'grading_account':grading,'reserved_maxima_included':True,
                 'basis':'Larger recorded ledger/console baseline plus subsequent charges across both existing accounts.'}

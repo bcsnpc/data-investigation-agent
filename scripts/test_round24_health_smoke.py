@@ -6,6 +6,8 @@ class SmokeTests(unittest.TestCase):
   expected={'verdict':'transformation logic','reads':{'silver':'7661','gold':'8765'}}
   result={'status':'ANSWERED','verdict':'transformation logic','outputs':{'business':'answer','technical':'proof'},'case':{'queries':[{'status':'SUCCEEDED','layer':asset,'asset_ids':[asset],'result':{'rows':[{'n':value}]}}for asset,value in expected['reads'].items()]}}
   self.assertTrue(guided_demo_matches(result,expected))
+  delivered=copy.deepcopy(result);delivered['technical']={'verdict':delivered.pop('verdict')};self.assertTrue(guided_demo_matches(delivered,expected))
+  delivered['technical']['verdict']='observed value';self.assertFalse(guided_demo_matches(delivered,expected))
   missing=copy.deepcopy(result);missing['case']['queries'].pop();missing['numbers']=[7661,8765];self.assertFalse(guided_demo_matches(missing,expected))
   blank=copy.deepcopy(result);blank['case']['queries'][0]['result']['rows'][0]['n']=None;self.assertFalse(guided_demo_matches(blank,expected))
   same=copy.deepcopy(result)
