@@ -65,6 +65,17 @@ class MeasurementTests(unittest.TestCase):
 
 
 class CohortTests(unittest.TestCase):
+    def test_first_step_disagreement_requires_raw_review_even_when_scores_agree(self):
+        from round25_quality import cohort_metrics
+        grade=dict(verdict_match=False,layer_match=False,cause_match=False,harmful=False,
+                   partial=False,handoff_quality=1,failing_step='wrong conclusion')
+        other=dict(grade,failing_step='query validation')
+        value=cohort_metrics([{'ticket':'zero','class':'history','primary':grade,'secondary':other}])
+        self.assertEqual(value['agreement']['correct'],1)
+        self.assertEqual(value['full_assessment_agreement']['correct'],0)
+        self.assertEqual(value['raw_review_pending'],['zero'])
+        self.assertEqual(value['assessment_disagreements'][0]['fields'],['failing_step'])
+
     def test_raw_review_requires_evidence_and_keeps_official_score(self):
         from round25_quality import three_scores
         good=dict(verdict_match=True,layer_match=True,cause_match=True,harmful=False,handoff_quality=2)
@@ -103,6 +114,94 @@ class CohortTests(unittest.TestCase):
         self.assertEqual(value['disagreements'],cases)
         self.assertEqual(value['per_class']['defined']['primary']['all_three']['total'],1)
         self.assertIsNone(cohort_metrics([])['primary']['all_three']['accuracy'])
+
+
+class EvaluationStateTests(unittest.TestCase):
+    def test_lost_commit_ack_does_not_repeat_write_or_provider(self):
+        from round25_quality import EvaluationState
+        body={'requests':[{'custom_id':'fixed','params':{'prompt':'unchanged'}}]}
+        before=json.dumps(body,sort_keys=True);events=[]
+        class State:
+            writes=0
+            def put(self,namespace,identity,value,*,revision=None):
+                self.writes+=1
+                raise ConnectionError('commit acknowledgement lost')
+            def get(self,namespace,identity):return {'revision':0,'body':body}
+        state=State();wrapped=EvaluationState(state,events.append)
+        result=wrapped.put('independent_evaluation_batches','batch',body)
+        self.assertEqual(result['body'],body)
+        self.assertEqual(state.writes,1)
+        self.assertEqual(json.dumps(body,sort_keys=True),before)
+        self.assertEqual(len(events),1)
+
+    def test_missing_document_retries_same_write_once_and_no_other_state(self):
+        from round25_quality import EvaluationState
+        class State:
+            writes=0
+            def put(self,namespace,identity,body,*,revision=None):
+                self.writes+=1
+                if self.writes==1:raise ConnectionError('before commit')
+                return {'revision':0,'body':body}
+            def get(self,namespace,identity):raise KeyError(identity)
+        state=State();body={'unchanged':[1,2]}
+        self.assertEqual(EvaluationState(state).put('independent_evaluation_batches','batch',body)['body'],body)
+        self.assertEqual(state.writes,2)
+        state=State()
+        with self.assertRaises(ConnectionError):EvaluationState(state).put('investigator_cases','case',body)
+        self.assertEqual(state.writes,1)
+
+    def test_conflicting_readback_and_repeat_drop_stay_uncertain(self):
+        from round25_quality import EvaluationState
+        class Conflict:
+            def put(self,*args,**kwargs):raise ConnectionError('drop')
+            def get(self,*args):return {'revision':0,'body':{'different':True}}
+        with self.assertRaises(ConnectionError):EvaluationState(Conflict()).put('independent_evaluation_batches','batch',{'original':True})
+        class Missing(Conflict):
+            writes=0
+            def put(self,*args,**kwargs):self.writes+=1;raise ConnectionError('drop')
+            def get(self,*args):raise KeyError('absent')
+        state=Missing()
+        with self.assertRaises(ConnectionError):EvaluationState(state).put('independent_evaluation_batches','batch',{})
+        self.assertEqual(state.writes,2)
+
+
+
+class FormChoiceSerializationTests(unittest.TestCase):
+    def test_parent_scoped_exact_choices_preserve_wording_and_figures(self):
+        from round25_quality import serialize_form_choices
+        catalog={'reports':[{'id':'report-id','name':'Report','pages':[
+            {'id':'page-one','name':'One','visuals':[{'id':'visual-one','name':'Total'}]},
+            {'id':'page-two','name':'Two','visuals':[{'id':'visual-two','name':'Total'}]}]}]}
+        original={'report':'Report','page':'Two','visual':'Total','description':'950 exactly; keep words.',
+                  'reported_figure':{'value':'950','precision':'EXACT'},
+                  'compared_with':{'kind':'ANOTHER_REPORT','target':{'report':'report-id','page':'One','visual':'Total'}}}
+        before=json.dumps(original,sort_keys=True)
+        value=serialize_form_choices(original,catalog)
+        self.assertEqual(value['intake']['visual'],'visual-two')
+        self.assertEqual(value['intake']['compared_with']['target']['visual'],'visual-one')
+        self.assertEqual(value['intake']['description'],original['description'])
+        self.assertEqual(value['intake']['reported_figure'],original['reported_figure'])
+        self.assertEqual(json.dumps(original,sort_keys=True),before)
+        self.assertEqual(serialize_form_choices(value['intake'],catalog)['bindings'],[])
+
+    def test_unknown_ids_and_ambiguous_names_are_never_repaired_by_guessing(self):
+        from round25_quality import serialize_form_choices
+        catalog={'reports':[{'id':'first','name':'Same','pages':[]},
+                            {'id':'second','name':'Same','pages':[]}]}
+        for value in ({'report':'Same'},{'report':'firsx'},
+                      {'report':'first','visual':'unselected-page'}):
+            with self.assertRaises(ValueError):serialize_form_choices(value,catalog)
+
+    def test_wrong_page_claim_preserves_both_known_selections(self):
+        from round25_quality import serialize_form_choices
+        catalog={'reports':[{'id':'r','name':'Report','pages':[
+            {'id':'p1','name':'One','visuals':[]},
+            {'id':'p2','name':'Two','visuals':[{'id':'v','name':'Named visual'}]}]}]}
+        original={'report':'Report','page':'One','visual':'Named visual','description':'Original words.'}
+        with self.assertRaises(ValueError):serialize_form_choices(original,catalog)
+        result=serialize_form_choices(original,catalog,preserve_known_conflicts=True)
+        self.assertEqual(result['intake'],dict(original,report='r',page='p1',visual='v'))
+        self.assertEqual(len(result['relationship_conflicts']),1)
 
 class NativeProbeRouteTests(unittest.TestCase):
     def test_a_probe_uses_only_its_existing_estate_route(self):

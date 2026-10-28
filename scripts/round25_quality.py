@@ -7,6 +7,113 @@ import subprocess
 from pathlib import Path
 
 GRADE_FIELDS = ('verdict_match', 'layer_match', 'cause_match')
+ASSESSMENT_FIELDS = (*GRADE_FIELDS, 'harmful', 'handoff_quality', 'failing_step', 'partial')
+
+
+def serialize_form_choices(intake, catalog, *, preserve_known_conflicts=False):
+    """Serialize selected dropdown labels into IDs before sealing new tickets.
+
+    No fuzzy matching, missing-field completion or changes to prose/figures.
+    Existing IDs must be valid in their selected parent, just as in the UI.
+    """
+    result = copy.deepcopy(intake)
+    bindings = []
+    conflicts = []
+
+    def select(target, field, choices, path):
+        supplied = target[field]
+        matches = [r for r in choices if r['id'] == supplied]
+        if not matches:
+            matches = [r for r in choices if r['name'] == supplied]
+        if len(matches) != 1:
+            raise ValueError('UNRESOLVED_FORM_SELECTION:' + '.'.join(path + [field]))
+        chosen = matches[0]
+        if supplied != chosen['id']:
+            bindings.append({'path': path + [field], 'supplied': supplied,
+                             'selected_id': chosen['id']})
+            target[field] = chosen['id']
+        return chosen
+
+    def target(value, path):
+        if not any(k in value for k in ('report', 'page', 'visual')):
+            return
+        if 'report' not in value:
+            raise ValueError('FORM_REPORT_REQUIRED_FOR_SELECTION')
+        report = select(value, 'report', catalog['reports'], path)
+        page = select(value, 'page', report['pages'], path) if 'page' in value else None
+        if 'visual' in value:
+            if page is None:
+                raise ValueError('FORM_VISUAL_REQUIRES_SELECTED_PAGE')
+            try:
+                select(value, 'visual', page['visuals'], path)
+            except ValueError:
+                if not preserve_known_conflicts:
+                    raise
+                # A deliberately wrong-page ticket must keep both named
+                # objects. Resolve only a unique exact visual in this report;
+                # never substitute a page or search another report.
+                select(value, 'visual', [v for p in report['pages']
+                                        for v in p['visuals']], path)
+                conflicts.append({'path': path, 'selected_page': page['id'],
+                                  'named_visual': value['visual'],
+                                  'kind': 'KNOWN_VISUAL_OUTSIDE_SELECTED_PAGE'})
+
+    target(result, [])
+    if (result.get('compared_with') or {}).get('target'):
+        target(result['compared_with']['target'], ['compared_with', 'target'])
+    # Reverting only witnessed selection fields must reproduce every other byte
+    # of the canonical original record, including all text and exact figures.
+    restored = copy.deepcopy(result)
+    for binding in bindings:
+        parent = restored
+        for key in binding['path'][:-1]:
+            parent = parent[key]
+        parent[binding['path'][-1]] = binding['supplied']
+    if restored != intake:
+        raise ValueError('FORM_NON_SELECTION_FIELD_CHANGED')
+    return {'intake': result, 'bindings': bindings, 'relationship_conflicts': conflicts}
+
+
+class EvaluationState:
+    """Reporting-only recovery of keyed grading metadata, never model calls.
+
+    A dropped commit is read back first. An identical committed document is
+    accepted; a missing document permits one retry of the same keyed write.
+    Reservations, requests, provider calls and investigator state are delegated.
+    """
+    def __init__(self, state, record=lambda event: None):
+        self.state, self.record = state, record
+
+    def __getattr__(self, name):
+        return getattr(self.state, name)
+
+    def put(self, namespace, identity, body, *, revision=None):
+        if namespace != 'independent_evaluation_batches':
+            return self.state.put(namespace, identity, body, revision=revision)
+        from investigator.postgres_connection import dropped_connection
+        expected = copy.deepcopy(body)
+        expected_revision = 0 if revision is None else revision + 1
+        for attempt in range(2):
+            try:
+                return self.state.put(namespace, identity, body, revision=revision)
+            except Exception as error:
+                if not dropped_connection(error):
+                    raise
+                try:
+                    observed = self.state.get(namespace, identity)
+                except KeyError:
+                    if attempt:
+                        raise error
+                    self.record({'event': 'GRADING_DOCUMENT_RETRY_AFTER_ABSENT_READBACK',
+                                 'namespace': namespace, 'identity': identity})
+                    continue
+                if (observed['revision'] != expected_revision
+                        or observed['body'] != expected):
+                    raise error
+                self.record({'event': 'GRADING_DOCUMENT_COMMIT_CONFIRMED_BY_READBACK',
+                             'namespace': namespace, 'identity': identity,
+                             'revision': expected_revision})
+                return observed
 
 
 def wilson(correct, total):
@@ -110,7 +217,7 @@ def three_scores(cases):
         primary.append(a)
         strict.append({**{k:a[k] and b[k] for k in GRADE_FIELDS},
                        'harmful':a['harmful'] or b['harmful']})
-        differs=any(a.get(k)!=b.get(k) for k in (*GRADE_FIELDS,'harmful','handoff_quality'))
+        differs=any(a.get(k)!=b.get(k) for k in ASSESSMENT_FIELDS)
         if not differs:
             reviewed.append(a)
             continue
@@ -124,7 +231,7 @@ def three_scores(cases):
         grade=review['grade'];score(grade)
         if review['winner'] in ('primary','secondary'):
             chosen=case[review['winner']]
-            if any(grade.get(k)!=chosen.get(k) for k in (*GRADE_FIELDS,'harmful','handoff_quality')):
+            if any(grade.get(k)!=chosen.get(k) for k in ASSESSMENT_FIELDS):
                 raise ValueError('RAW_REVIEW_WINNER_GRADE_MISMATCH')
         reviewed.append(grade)
     return {'official_primary':accuracy_table(primary),'strict':accuracy_table(strict),
@@ -141,6 +248,9 @@ def cohort_metrics(cases):
     agreement=sum(all(c['primary'][k]==c['secondary'][k]for k in (*GRADE_FIELDS,'harmful'))for c in cases)
     return {**three_scores(cases),'completed_graded':len(cases),'primary':accuracy_table(primary),
             'secondary':accuracy_table(secondary),'agreement':wilson(agreement,len(cases)),
+            'agreement_fields':[*GRADE_FIELDS,'harmful'],
+            'full_assessment_agreement':wilson(sum(all(c['primary'].get(k)==c['secondary'].get(k)for k in ASSESSMENT_FIELDS)for c in cases),len(cases)),
+            'assessment_disagreements':[{'ticket':c['ticket'],'fields':[k for k in ASSESSMENT_FIELDS if c['primary'].get(k)!=c['secondary'].get(k)]}for c in cases if any(c['primary'].get(k)!=c['secondary'].get(k)for k in ASSESSMENT_FIELDS)],
             'handoff_disagreements':[c for c in cases if c['primary'].get('handoff_quality')!=c['secondary'].get('handoff_quality')],
             'per_class':{name:{**three_scores(rows),'primary':accuracy_table([c['primary']for c in rows]),
                                'secondary':accuracy_table([c['secondary']for c in rows])}for name,rows in grouped.items()},

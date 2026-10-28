@@ -1,5 +1,4 @@
-Round25 measurement is in progress on frozen v0.24. G1 interim: primary11/11, secondary9/11; two secondary harmful-history flags are confirmed against raw captures and the family is paused. These are partial, disputed results, not a clean quality pass. Wilson intervals and both graders: [quality report](quality-report-v0.24.md).
-
+Round25 in progress: G1 raw-reviewed24/29 (official26/29; strict23/29), two confirmed harmful source-history findings; family paused. Frozen v0.24, draftPR432. Full cohorts and release pending.
 <!-- ROUND24-CURRENT-BEGIN -->
 Round24: Released v0.24. Held-out18/20,harm0 from both graders,agreement19/20;20sealed answers. Devpartial13/15 (25notrun); secondary12/15 with1disputed harmful flag retained. Graph0->9/80,cache70.44%; full native-job median234.5s misses120s and2classes remainzero. Allpracticecontrolsrestored,temporalON. Frozenb78299f6/image595047cf; no held-out tuning. Post-freeze admission-log wording exposure is disclosed. [Full report](round-twenty-four-summary.md). Earlier dated entries below are historical.
 <!-- ROUND24-CURRENT-END -->
