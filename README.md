@@ -696,3 +696,6 @@ query loop are being built and tested offline. No new live investigation or
 accuracy claim; live passes are explicitly deferred until November1. Released
 Round22 remains dev14/40 and held-out5/20, zero harmful; its accuracy target was
 missed. See `docs/round-twenty-three-summary.md`.
+
+
+Round25 scoring update, 2026-10-28: G1 interim raw-reviewed 11/13 (95% Wilson 57.8-95.7%), strict 11/13, official primary 13/13 (77.2-100%). Raw-confirmed harmful2; history family paused. R24 official18/20 unchanged after raw disagreement review. Full measurement remains in progress; see docs/quality-report-v0.24.md.

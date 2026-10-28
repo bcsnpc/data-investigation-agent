@@ -141,6 +141,7 @@ def cohort_metrics(cases):
     agreement=sum(all(c['primary'][k]==c['secondary'][k]for k in (*GRADE_FIELDS,'harmful'))for c in cases)
     return {**three_scores(cases),'completed_graded':len(cases),'primary':accuracy_table(primary),
             'secondary':accuracy_table(secondary),'agreement':wilson(agreement,len(cases)),
+            'handoff_disagreements':[c for c in cases if c['primary'].get('handoff_quality')!=c['secondary'].get('handoff_quality')],
             'per_class':{name:{**three_scores(rows),'primary':accuracy_table([c['primary']for c in rows]),
                                'secondary':accuracy_table([c['secondary']for c in rows])}for name,rows in grouped.items()},
             'disagreements':[c for c in cases if any(c['primary'][k]!=c['secondary'][k]for k in (*GRADE_FIELDS,'harmful'))]}

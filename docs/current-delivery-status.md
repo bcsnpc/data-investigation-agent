@@ -761,3 +761,6 @@ before November1. Round22 is closed at af73a1b, v0.22 on validated merge567a95b.
 Round24 started2026-10-27 on fresh branch; implementation and live proof pending. R23 results unchanged.
 
 Round24 checkpoint2026-10-27: cloud budget readback preserved all accounting;39/40 offline forms assemble, one unknown-report refusal unchanged. Raw retained graph0/73 complete declared-source paths; diagnostic only. Focused policy/cost/query/smoke/triage tests pass; no live R24 model or estate pass admitted yet. Engine freeze invalidated for R24, R23 scored pins retained.
+
+
+Round25 scoring update, 2026-10-28: G1 interim raw-reviewed 11/13 (95% Wilson 57.8-95.7%), strict 11/13, official primary 13/13 (77.2-100%). Raw-confirmed harmful2; history family paused. R24 official18/20 unchanged after raw disagreement review. Full measurement remains in progress; see docs/quality-report-v0.24.md.
