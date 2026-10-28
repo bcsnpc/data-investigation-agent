@@ -370,3 +370,8 @@ Round24 runtime migration2026-10-27: structured legacy entry-point names now del
 
 
 Round24, owner date 2026-10-27: route construction now consumes the native address index, including column and transformation nodes, rather than the deliberately smaller intake catalog. Retained definitions are used before native introspection. Independent model-requested reads on distinct layers may overlap; accounting and capture writes remain serialized. No native binding is guessed by name. Earlier smoke failures remain recorded.
+
+
+Round24 DECIDED WITHOUT REVIEW, 2026-10-28 UTC: technical HOW_IS_THIS_CALCULATED with comparison NOTHING can explain its retained definition and native recreation without claiming full source consistency. The prior shared "as designed" gate required a declared source even for that narrower question, making valid definition answers impossible on estates without a declared system of record. Rejected alternative: broadly weaken source consistency. Source comparisons still require the declared source and actual boundary reads; current operational faults still refuse an as-designed definition answer. The output explicitly qualifies that it does not establish business correctness or source-chain consistency. Focused19 tests pass; expectations unchanged.
+
+Round24 caching: the successful three-model-call FamilyA answer had81690 cached/132300 total input tokens (61.75%), no later zero-cache-read call, USD0.298823. We do not add wasteful calls to reach70%; three cold-start calls have at most two subsequent cache opportunities. Report the measured pass ratio, not a changed cache target.

@@ -118,7 +118,7 @@ class NativeCatalog:
         if route['kind']=='DAX' or (route['kind']=='SOURCE_SQL' and self.source_read is None):return projected()
         pending=[a for a in route['objects'] if a['id'] in self.opened[identity] and
                  (not a['metadata'].get('columns') or route['kind']=='SOURCE_SQL' and not a['metadata'].get('fresh_native_schema'))]
-        if not pending:return projected()
+        if not pending and (route['kind']!='FABRIC_SQL'or 'database'in route):return projected()
         parent=route['container'];container=self.assets[parent]
         if route['kind']=='FABRIC_SQL':
             workspace,item=parent.removeprefix('fabric://').split('/')
@@ -136,6 +136,23 @@ class NativeCatalog:
             route['database']=endpoint['name']
             route['endpoint_evidence']=deepcopy(observed)
         else:props={'connectionString':route['config']['sql']['server']}
+        if route['kind']=='FABRIC_SQL':
+            for obj in pending:
+                metadata=obj['metadata']
+                candidates=[a for a in self.assets.values()if a['kind']=='GraphSchemaEvidence'and a.get('parent_id')==obj['id']
+                    and a.get('metadata',{}).get('scope')=='DECLARED_RETAINED_TABLE_ONLY'
+                    and a['metadata'].get('proof',{}).get('kind')=='NATIVE_TARGET_CATALOG'
+                    and a['metadata']['proof'].get('asset_id')==obj['id']
+                    and a['metadata']['proof'].get('database')==route['database']
+                    and a['metadata']['proof'].get('schema')==metadata['schema_name']
+                    and a['metadata']['proof'].get('table')==metadata['name']]
+                if len(candidates)!=1:continue
+                proof=candidates[0]['metadata']['proof'];columns=proof.get('columns',[])
+                if not columns or any(not c.get('name')or not c.get('data_type')for c in columns):continue
+                metadata['columns']=deepcopy(columns);metadata['schema_basis']='RETAINED_EXACT_NATIVE_CATALOG'
+                metadata['schema_qualification']='Retained schema, not a fresh observation. Native query errors remain errors, not absent data.'
+                self.record({'event':'RETAINED_QUERY_SCHEMA','asset_id':obj['id'],'evidence_asset':candidates[0]['id'],'proof':deepcopy(proof)})
+            pending=[obj for obj in pending if not obj['metadata'].get('columns')]
         from .binding_catalog import read_many
         for offset in range(0,len(pending),8):
             batch=pending[offset:offset+8]

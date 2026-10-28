@@ -354,10 +354,11 @@ class SharedState:
             if snapshot['violated']:
                 raise StateConflict('ACCOUNT_VIOLATION_LATCHED')
             from .anthropic_credit import pending_exposure
-            if exact_sum([snapshot['charged'],pending_exposure(self,db,identity),commitment,snapshot['protected']]) > amount(snapshot['ceiling']):
+            protected=0 if identity.startswith('model-microdollars:')and detail.get('purpose')=='GRADING'else snapshot['protected']
+            if exact_sum([snapshot['charged'],pending_exposure(self,db,identity),commitment,protected]) > amount(snapshot['ceiling']):
                 raise StateConflict('ACCOUNT_CAP_REACHED')
             from .anthropic_credit import admit
-            admit(self,db,identity,commitment)
+            admit(self,db,identity,commitment,purpose=detail.get('purpose'))
             self.sql(db, 'INSERT INTO state_reservations VALUES(?,?,?,?,?,?,?)', (identity, key, owner, decimal_text(bound), decimal_text(bound), 'RESERVED', encoded(detail)))
             return key
 

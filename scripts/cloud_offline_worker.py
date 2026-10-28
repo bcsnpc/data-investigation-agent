@@ -12,6 +12,9 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 TEST_MODULES = (
+    'test_round24_retained_schema.py',
+    'test_round24_control_errors.py',
+    'test_round24_calculation_explanation.py',
     'test_round24_gateway_components.py',
     'test_round24_copy_bindings.py',
     'test_round24_backtrack.py',

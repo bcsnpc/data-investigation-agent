@@ -4,6 +4,13 @@ from pathlib import Path
 from unittest.mock import Mock,patch
 from investigator.adapters import runtime_anthropic as runtime
 class RuntimeTests(unittest.TestCase):
+ def test_ticket_identity_survives_nested_calls_with_sidecar_recording_disabled(self):
+  from investigator.planner_recording import recording,SESSION,ACTIVE
+  with patch.dict('os.environ',{'INVESTIGATOR_RECORD_PLANNER':'0'}):
+   with recording({'session_id':'intake:one'}):
+    self.assertIsNone(ACTIVE.get());self.assertEqual(SESSION.get(),'intake:one')
+    with recording({'session_id':'standalone:inner'}):self.assertEqual(SESSION.get(),'intake:one')
+   self.assertIsNone(SESSION.get())
  def test_legacy_named_entry_point_uses_anthropic_and_never_azure_sdk(self):
   from ticket_planner import _azure_generate
   client=Mock();client.model='claude-opus-5-5';client.complete.return_value={'id':'response','content':[{'type':'tool_use','name':'resolve_intake','input':{'answer':'value'}}],'usage':{'input_tokens':1,'output_tokens':1}}

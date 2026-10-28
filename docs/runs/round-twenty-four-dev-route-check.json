@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-28T03:30:55.803591+00:00",
+  "observed_at": "2026-10-28T04:12:47.562011+00:00",
   "dev_forms": 40,
   "results": [
     {
@@ -15,7 +15,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 56275
+        "context_bytes": 101621
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -27,7 +27,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 58574
+        "context_bytes": 103920
       },
       "status": "ASSEMBLED"
     },
@@ -44,7 +44,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 55143
+        "context_bytes": 100489
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -56,7 +56,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 57441
+        "context_bytes": 102785
       },
       "status": "ASSEMBLED"
     },
@@ -74,7 +74,7 @@
           "native:5f79ea32cda68657788b"
         ],
         "warnings": 2,
-        "context_bytes": 115824
+        "context_bytes": 127718
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -87,7 +87,7 @@
           "native:5f79ea32cda68657788b"
         ],
         "warnings": 2,
-        "context_bytes": 116652
+        "context_bytes": 128759
       },
       "status": "ASSEMBLED"
     },
@@ -105,7 +105,7 @@
           "native:5f79ea32cda68657788b"
         ],
         "warnings": 2,
-        "context_bytes": 115533
+        "context_bytes": 127431
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -118,7 +118,7 @@
           "native:5f79ea32cda68657788b"
         ],
         "warnings": 2,
-        "context_bytes": 116362
+        "context_bytes": 128469
       },
       "status": "ASSEMBLED"
     },
@@ -135,7 +135,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 55111
+        "context_bytes": 100456
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -147,7 +147,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 57409
+        "context_bytes": 102755
       },
       "status": "ASSEMBLED"
     },
@@ -164,7 +164,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 55110
+        "context_bytes": 100455
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -176,7 +176,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 57410
+        "context_bytes": 102755
       },
       "status": "ASSEMBLED"
     },
@@ -193,7 +193,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 55589
+        "context_bytes": 100935
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -205,7 +205,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 57887
+        "context_bytes": 103233
       },
       "status": "ASSEMBLED"
     },
@@ -222,7 +222,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 55227
+        "context_bytes": 100573
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -234,7 +234,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 57524
+        "context_bytes": 102870
       },
       "status": "ASSEMBLED"
     },
@@ -251,7 +251,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 55916
+        "context_bytes": 101264
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -263,7 +263,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 58215
+        "context_bytes": 103561
       },
       "status": "ASSEMBLED"
     },
@@ -280,7 +280,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 55528
+        "context_bytes": 100875
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -292,7 +292,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 57827
+        "context_bytes": 103173
       },
       "status": "ASSEMBLED"
     },
@@ -309,7 +309,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 55892
+        "context_bytes": 101237
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -321,7 +321,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 58188
+        "context_bytes": 103537
       },
       "status": "ASSEMBLED"
     },
@@ -338,7 +338,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 55625
+        "context_bytes": 100971
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -350,7 +350,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 57923
+        "context_bytes": 103268
       },
       "status": "ASSEMBLED"
     },
@@ -367,7 +367,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 56348
+        "context_bytes": 101694
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -379,7 +379,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 58646
+        "context_bytes": 103991
       },
       "status": "ASSEMBLED"
     },
@@ -402,7 +402,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 55677
+        "context_bytes": 101023
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -414,7 +414,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 57975
+        "context_bytes": 103322
       },
       "status": "ASSEMBLED"
     },
@@ -431,7 +431,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 55328
+        "context_bytes": 100674
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -443,7 +443,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 57626
+        "context_bytes": 102972
       },
       "status": "ASSEMBLED"
     },
@@ -460,7 +460,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 55160
+        "context_bytes": 100507
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -472,7 +472,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 57457
+        "context_bytes": 102804
       },
       "status": "ASSEMBLED"
     },
@@ -489,7 +489,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 55159
+        "context_bytes": 100503
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -501,7 +501,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 57458
+        "context_bytes": 102803
       },
       "status": "ASSEMBLED"
     },
@@ -519,7 +519,7 @@
           "native:5f79ea32cda68657788b"
         ],
         "warnings": 2,
-        "context_bytes": 115970
+        "context_bytes": 127867
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -532,7 +532,7 @@
           "native:5f79ea32cda68657788b"
         ],
         "warnings": 2,
-        "context_bytes": 116798
+        "context_bytes": 128904
       },
       "status": "ASSEMBLED"
     },
@@ -550,7 +550,7 @@
           "native:5f79ea32cda68657788b"
         ],
         "warnings": 2,
-        "context_bytes": 115646
+        "context_bytes": 127543
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -563,7 +563,7 @@
           "native:5f79ea32cda68657788b"
         ],
         "warnings": 2,
-        "context_bytes": 116474
+        "context_bytes": 128580
       },
       "status": "ASSEMBLED"
     },
@@ -580,7 +580,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 55605
+        "context_bytes": 100951
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -592,7 +592,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 57902
+        "context_bytes": 103249
       },
       "status": "ASSEMBLED"
     },
@@ -609,7 +609,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 55303
+        "context_bytes": 100648
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -621,7 +621,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 57599
+        "context_bytes": 102945
       },
       "status": "ASSEMBLED"
     },
@@ -638,7 +638,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 61148
+        "context_bytes": 112124
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -650,7 +650,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 63866
+        "context_bytes": 114841
       },
       "status": "ASSEMBLED"
     },
@@ -667,7 +667,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 60824
+        "context_bytes": 111798
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -679,7 +679,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 63541
+        "context_bytes": 114517
       },
       "status": "ASSEMBLED"
     },
@@ -696,7 +696,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 61004
+        "context_bytes": 111978
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -708,7 +708,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 63719
+        "context_bytes": 114696
       },
       "status": "ASSEMBLED"
     },
@@ -725,7 +725,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 60608
+        "context_bytes": 111582
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -737,7 +737,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 63325
+        "context_bytes": 114301
       },
       "status": "ASSEMBLED"
     },
@@ -754,7 +754,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 60975
+        "context_bytes": 111949
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -766,7 +766,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 63693
+        "context_bytes": 114668
       },
       "status": "ASSEMBLED"
     },
@@ -783,7 +783,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 60655
+        "context_bytes": 111629
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -795,7 +795,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 63373
+        "context_bytes": 114348
       },
       "status": "ASSEMBLED"
     },
@@ -812,7 +812,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 60779
+        "context_bytes": 111754
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -824,7 +824,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 63497
+        "context_bytes": 114473
       },
       "status": "ASSEMBLED"
     },
@@ -841,7 +841,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 60477
+        "context_bytes": 111451
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -853,7 +853,7 @@
           "native:e95b94fd338e7086320f"
         ],
         "warnings": 2,
-        "context_bytes": 63196
+        "context_bytes": 114169
       },
       "status": "ASSEMBLED"
     },
@@ -862,27 +862,29 @@
       "estate": "billing",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 3,
+        "layers": 4,
         "queryable": true,
         "layer_ids": [
           "native:4aae8dbb1d373ebef783",
           "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 171376
+        "context_bytes": 238635
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 3,
+        "layers": 4,
         "queryable": true,
         "layer_ids": [
           "native:4aae8dbb1d373ebef783",
           "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 172636
+        "context_bytes": 240315
       },
       "status": "ASSEMBLED"
     },
@@ -891,27 +893,29 @@
       "estate": "billing",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 3,
+        "layers": 4,
         "queryable": true,
         "layer_ids": [
           "native:4aae8dbb1d373ebef783",
           "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 170947
+        "context_bytes": 238206
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 3,
+        "layers": 4,
         "queryable": true,
         "layer_ids": [
           "native:4aae8dbb1d373ebef783",
           "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 172209
+        "context_bytes": 239888
       },
       "status": "ASSEMBLED"
     },
@@ -927,7 +931,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 114166
+        "context_bytes": 95117
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -938,7 +942,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 114376
+        "context_bytes": 95326
       },
       "status": "ASSEMBLED"
     },
@@ -954,7 +958,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 113791
+        "context_bytes": 94743
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -965,7 +969,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 114003
+        "context_bytes": 94954
       },
       "status": "ASSEMBLED"
     },
@@ -981,7 +985,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 113415
+        "context_bytes": 94366
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -992,7 +996,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 113624
+        "context_bytes": 94576
       },
       "status": "ASSEMBLED"
     },
@@ -1008,7 +1012,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 113123
+        "context_bytes": 94074
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
@@ -1019,7 +1023,7 @@
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 113334
+        "context_bytes": 94284
       },
       "status": "ASSEMBLED"
     },
@@ -1028,27 +1032,29 @@
       "estate": "billing",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 3,
+        "layers": 4,
         "queryable": true,
         "layer_ids": [
           "native:4aae8dbb1d373ebef783",
           "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 446224
+        "context_bytes": 580103
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 3,
+        "layers": 4,
         "queryable": true,
         "layer_ids": [
           "native:4aae8dbb1d373ebef783",
           "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 450424
+        "context_bytes": 585352
       },
       "status": "ASSEMBLED"
     },
@@ -1057,27 +1063,29 @@
       "estate": "billing",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 3,
+        "layers": 4,
         "queryable": true,
         "layer_ids": [
           "native:4aae8dbb1d373ebef783",
           "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 445952
+        "context_bytes": 579831
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 3,
+        "layers": 4,
         "queryable": true,
         "layer_ids": [
           "native:4aae8dbb1d373ebef783",
           "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 450153
+        "context_bytes": 585080
       },
       "status": "ASSEMBLED"
     },
@@ -1086,27 +1094,29 @@
       "estate": "billing",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 3,
+        "layers": 4,
         "queryable": true,
         "layer_ids": [
           "native:4aae8dbb1d373ebef783",
           "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 133098
+        "context_bytes": 179983
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 3,
+        "layers": 4,
         "queryable": true,
         "layer_ids": [
           "native:4aae8dbb1d373ebef783",
           "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 133728
+        "context_bytes": 180823
       },
       "status": "ASSEMBLED"
     },
@@ -1115,27 +1125,29 @@
       "estate": "billing",
       "actual_wire": {
         "status": "ASSEMBLED",
-        "layers": 3,
+        "layers": 4,
         "queryable": true,
         "layer_ids": [
           "native:4aae8dbb1d373ebef783",
           "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 132792
+        "context_bytes": 179677
       },
       "without_bookkeeping": {
         "status": "ASSEMBLED",
-        "layers": 3,
+        "layers": 4,
         "queryable": true,
         "layer_ids": [
           "native:4aae8dbb1d373ebef783",
           "native:ac3ebe915b1cc00c45d7",
+          "native:db47aa505c8c14efec29",
           "native:f87556d4485196602461"
         ],
         "warnings": 2,
-        "context_bytes": 133424
+        "context_bytes": 180518
       },
       "status": "ASSEMBLED"
     }
@@ -1143,11 +1155,10 @@
   "estate_reads": 0,
   "model_calls": 0,
   "method": "Actual sealed dev forms and retained estate graph/catalog; production Factory route assembly twice, actual wire and all top-level inventory bookkeeping removed. Native schema/endpoint ports use offline retained-schema shape stubs; no data values, live probe or finding is claimed. Invalid report IDs are not substituted.",
+  "ticket_canonical_sha256": "e432069828e6c35aeee68f7a0a4b8566e0c05d10371aa374135711c6583d7a2a",
   "route_sources": {
-    "scripts/investigator/adapters/ai_native_catalog.py": "827f618dd85ae515a6f6c7957b3c6ed4f6417a879a0ae6da2bca8c212a09d4d1",
+    "scripts/investigator/adapters/ai_native_catalog.py": "89000a0e545b67208ceea4b97251c4b70991fc6d993665a8c50b5ed2c9ec6784",
     "scripts/investigator/guided_investigator_installation.py": "f207615b6ef7165bd90db5d842f0d2136966cb3b3286dfd6d715bdef13a04e2d",
     "scripts/investigator/estate_graph_api.py": "63b94d397c0c906a3d2dfbc8f20b8c7eb26f72fbff029fa863c2599843e4bd3c"
-  },
-  "ticket_canonical_sha256": "e432069828e6c35aeee68f7a0a4b8566e0c05d10371aa374135711c6583d7a2a",
-  "ticket_file_sha256": "d2ec241a3d89623b188a347496fbb217b82fcdd5b647b57387df4c0863255633"
+  }
 }

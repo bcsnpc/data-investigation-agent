@@ -1,0 +1,62 @@
+{
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:6f56a9644c73f133de6508f50dc3ddb34ad278ebe7d332acf387b12a62f2c88e",
+  "source": "936b58b5",
+  "workflow": 40627579992,
+  "bundle_sha256": "24063f1d8bd3819f2741d9b878b29cccf93faeb9cd3754e80c7622fb647b44fd",
+  "stored_md5_matched": true,
+  "gateway_ai_components": [
+    {
+      "component": "investigator",
+      "identity": "reasoning",
+      "admitted": true,
+      "contract": "Pinned client-side tools; POST messages/count_tokens only, existing Key Vault GET."
+    },
+    {
+      "component": "smoke",
+      "identity": "reasoning",
+      "admitted": true,
+      "contract": "Pinned client-side tools; POST messages/count_tokens only, existing Key Vault GET."
+    },
+    {
+      "component": "screenshot",
+      "identity": "reasoning",
+      "admitted": true,
+      "contract": "Pinned client-side tools; POST messages/count_tokens only, existing Key Vault GET."
+    },
+    {
+      "component": "enrichment",
+      "identity": "enrichment",
+      "admitted": true,
+      "contract": "Exact bounded batch factory; GET only batch IDs admitted by this session and their ended results."
+    },
+    {
+      "component": "writer",
+      "identity": "enrichment",
+      "admitted": true,
+      "contract": "Exact bounded batch factory; GET only batch IDs admitted by this session and their ended results."
+    },
+    {
+      "component": "grader",
+      "identity": "enrichment",
+      "admitted": true,
+      "contract": "Exact bounded batch factory; GET only batch IDs admitted by this session and their ended results."
+    }
+  ],
+  "logical_graph_refresh": [
+    {
+      "estate": "fixture",
+      "old_nodes": 1148,
+      "new_nodes": 1220,
+      "new_native_item_owners": 0,
+      "azure_identity_or_permission_changes": false
+    },
+    {
+      "estate": "billing",
+      "old_nodes": 402,
+      "new_nodes": 395,
+      "new_native_item_owners": 0,
+      "azure_identity_or_permission_changes": false
+    }
+  ],
+  "new_azure_roles_or_secret": false
+}

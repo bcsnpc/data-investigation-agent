@@ -16,7 +16,7 @@ Opus5.5 is the current investigator default, with stable tools/system prefix cac
 
 ## Part C: Graph health and paths
 
-Ticket-free persisted structural baseline0/80 across fixture66, billing7 and Microsoft sample7 complete declared-source paths. Reproduce with scripts/graph_health.py --snapshot <metadata-snapshot> --json <receipt> --markdown docs/graph-health.md. All39 valid dev forms assemble query layers; the remaining original unknown-report form refuses. This does not establish correct complete paths or live data readability. The full production manifest check assembles all39 valid forms with native indexing and exact table/column bridges; screenshot routes now open model, landing and application. All28 target failure rows and the five walkthroughs are pinned to this offline route result; the unknown report remains an explicit refusal. Complete source-path health remains0%, separately from query access.
+Ticket-free persisted structural baseline0/80 across fixture66, billing7 and Microsoft sample7 complete declared-source paths. Reproduce with scripts/graph_health.py --snapshot <metadata-snapshot> --json <receipt> --markdown docs/graph-health.md. All39 valid dev forms assemble query layers; the remaining original unknown-report form refuses. This does not establish correct complete paths or live data readability. The full production manifest check assembles all39 valid forms with native indexing and exact table/column bridges; screenshot routes now open model, landing and application. All28 target failure rows and the five walkthroughs are pinned to this offline route result; the unknown report remains an explicit refusal. Published native copy/source and script-producer fixes raised complete paths from0/80 to7/80: fixture2/66, billing5/7, sample0/7. Remaining breaks are grouped by native layer and reason in docs/graph-health.md; no source binding is inferred from a name.
 
 ## Part D: Query quality
 
@@ -38,3 +38,5 @@ _pending_
 
 _pending_
 
+
+Cloud checkpoint: early smoke06 delivered the correct native transformation finding (7,661 to8,765), but the original smoke consumer read the wrong verdict field and recorded FAIL. The consumer is fixed; no historical failure is relabelled green. Smoke07 start is unconfirmed during Microsoft.App execution API502/timeouts; no duplicate launch admitted. Three early green smokes and scored passes remain pending.

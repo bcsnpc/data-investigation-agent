@@ -20,6 +20,19 @@ class PolicyTests(unittest.TestCase):
   self.assertEqual(november['limits'],{'SCAN':2500,'INVESTIGATION':6405,'RESTORATION':95})
   self.assertEqual(b.model_ceiling(at('2026-10-29')),146000000)
   self.assertEqual(b.model_ceiling(at('2026-11-01')),150000000)
+ def test_new_batches_use_monthly_combined_account_without_erasing_old_usage(self):
+  from investigator.enrichment_job import EnrichmentSpendBudget
+  from investigator.adapters.evaluation_anthropic import request_for
+  with tempfile.TemporaryDirectory()as folder:
+   state=SharedState.offline(Path(folder)/'s.sqlite');state.migrate()
+   state.put('build_phase_policy','monthly-physical',{'total_limit':12000,'default_total_limit':9000})
+   with state.transaction()as db:db.execute('INSERT INTO state_accounts VALUES(?,?,?,?,?,?)',('enrichment:round-twenty-one','MICRODOLLARS',25000000,0,9000000,0))
+   budget=EnrichmentSpendBudget(state,owner='grader',price=lambda i,o:100)
+   self.assertTrue(budget.monthly);self.assertTrue(budget.account.startswith('model-microdollars:'))
+   request=request_for({'protocol':'scored-evaluation-v1','purpose':'GRADE_GUIDED_ANSWER','case_id':'case','expected':{},'delivered':{}},'a'*64)
+   budget.reserve(request,'one');budget.settle('one',{'input_tokens':10,'output_tokens':10})
+   row=state.snapshot(budget.account)['reservations'][0]
+   self.assertEqual(row['detail']['purpose'],'GRADING');self.assertEqual(state.totals('enrichment:round-twenty-one')['charged'],'9000000')
  def test_november_combines_only_month_tagged_auxiliary_usage(self):
   from investigator.anthropic_credit import status
   with tempfile.TemporaryDirectory()as folder:

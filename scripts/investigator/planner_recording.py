@@ -11,6 +11,7 @@ from uuid import uuid4
 
 ROOT = Path(__file__).resolve().parents[2]
 ACTIVE = ContextVar('planner_recording', default=None)
+SESSION = ContextVar('planner_model_session', default=None)
 FLAG = 'INVESTIGATOR_RECORD_PLANNER'
 
 
@@ -112,7 +113,7 @@ class CallRecord:
 
 
 @contextmanager
-def recording(metadata, *, distinct=False, directory=None):
+def _recording(metadata, *, distinct=False, directory=None):
     """The flag is operator process configuration, never a ticket/provider field."""
     from .process_tape import ACTIVE as RUN_TAPE
     tape=RUN_TAPE.get()
@@ -135,6 +136,19 @@ def recording(metadata, *, distinct=False, directory=None):
     finally:
         ACTIVE.reset(token)
         record.finish(error)
+
+
+@contextmanager
+def recording(metadata, *, distinct=False, directory=None):
+    # Accounting identity exists even when optional local sidecars are off.
+    # Do not evaluate lazy recording-only metadata or add replay events.
+    token=None
+    if SESSION.get() is None and isinstance(metadata,dict) and metadata.get('session_id'):
+        token=SESSION.set(metadata['session_id'])
+    try:
+        with _recording(metadata,distinct=distinct,directory=directory) as record:yield record
+    finally:
+        if token is not None:SESSION.reset(token)
 
 
 def http_options():

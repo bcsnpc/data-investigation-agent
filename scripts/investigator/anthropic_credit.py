@@ -25,6 +25,11 @@ def grading_charge(state,db,policy,totals):
     return sum(int(charged) for charged,detail in rows if json.loads(detail).get('month_utc')==policy['grading_month_tag'])
 
 
+def model_grading_charge(state,db,account):
+    rows=state.sql(db,'SELECT charged,detail FROM state_reservations WHERE account=?',(account,)).fetchall()
+    return sum(int(charged)for charged,detail in rows if json.loads(detail).get('purpose')=='GRADING')
+
+
 def status(state,now=None):
     month=datetime.fromtimestamp(time.time() if now is None else now,timezone.utc).strftime('%Y-%m')
     def read(db):
@@ -50,7 +55,7 @@ def status(state,now=None):
         return {'month_utc':month,'ceiling_microdollars':policy['normalized_ceiling_microdollars'],
                 'charged_microdollars':charged,'additional_pending_commitment_microdollars':extra,'committed_microdollars':charged+extra,'remaining_microdollars':policy['normalized_ceiling_microdollars']-charged-extra,
                 'warning':charged>=100000000,'monthly_credit_microdollars':100000000,'by_ai_step_microdollars':purposes,
-                'grading_remaining_microdollars':max(0,policy['protected_grading_microdollars']-grading_delta),
+                'grading_remaining_microdollars':max(0,policy['protected_grading_microdollars']-grading_delta-model_grading_charge(state,db,policy['model_account'])),
                 'model_account':model,'grading_account':grading,'reserved_maxima_included':True,
                 'basis':'Larger recorded ledger/console baseline plus subsequent charges across both existing accounts.'}
     return state._read_transaction(read)
@@ -66,7 +71,7 @@ def admit(state,db,account,bound,now=None,*,purpose=None):
     model_delta=max(0,int(model['charged'])-policy['baseline_model_charged'])
     grading_delta=grading_charge(state,db,policy,grading)
     total=policy['baseline_higher_microdollars']+model_delta+grading_delta+pending_exposure(state,db,policy['model_account'])+pending_exposure(state,db,policy['grading_account'])
-    protected=max(0,policy['protected_grading_microdollars']-grading_delta) if account==policy['model_account'] and purpose!='GRADING' else 0
+    protected=max(0,policy['protected_grading_microdollars']-grading_delta-model_grading_charge(state,db,policy['model_account'])) if account==policy['model_account'] and purpose!='GRADING' else 0
     if total+bound+protected>policy['normalized_ceiling_microdollars']:
         from .model_spend import SpendHold
         raise SpendHold('COMBINED_ANTHROPIC_MONTHLY_EXHAUSTED')
