@@ -179,3 +179,7 @@ Round24 optional warm-worker proposal, not provisioned (2026-10-28UTC): at South
 
 
 Round24 later CI option: a hosted live Anthropic intake-quality job would need an explicitly scoped Key Vault/gateway/shared-budget installation. None was provisioned. Current hosted intake check is offline contracts only; sealed independently graded live results are recorded separately. The retired Azure-profile workflow is no longer dispatched.
+
+
+<!-- ROUND24-COST-OBSERVATION-MAINTENANCE -->
+Round24 scheduled-runner maintenance: the native owner Cost Management observation copied into the existing runner configurations reaches its24-hour freshness bound at 2026-10-29T10:26:13.778590+00:00. Refresh it from a new native response with the existing owner authority and publish that observation to the same jobs before later runs. Do not restamp the old observation, bypass the USD20cap or grant a wider role. Static cost-observation renewal remains an operational limitation; three immediate green smokes are not a multi-day stability claim. Financial response bodies remain local. No resource/identity/permission was changed for this item.

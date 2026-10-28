@@ -1,14 +1,14 @@
 # Round 24 — reach the data
 
-Frozen evaluation complete; release checks in progress. Runtime frozen at `b78299f6aee852fd10d5c5776fe69087aaef86f2`, image `ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:595047cfadca5d7709e2463dc52d6438cbc80e3786763af89f6bf192b7652f86`. Draft/release PR [#431](https://github.com/bcsnpc/data-investigation-agent/pull/431). Execution date2026-10-28UTC; owner prompt dated2026-10-27.
+Released v0.24. Runtime frozen at `b78299f6aee852fd10d5c5776fe69087aaef86f2`, image `ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:595047cfadca5d7709e2463dc52d6438cbc80e3786763af89f6bf192b7652f86`. Merged PR [#431](https://github.com/bcsnpc/data-investigation-agent/pull/431). Execution date2026-10-28UTC; owner prompt dated2026-10-27.
 
-Held-out v3: **18/20, harmful0**. Different-model second grade: **18/20, harmful0**, all-four-field agreement19/20. Every ticket delivered an ANSWERED result and sealed capture. Accuracy>=80% and zero-harm targets met; **the overall pass line is missed** because two classes scored zero and full-investigation median234.5s exceeds120s. There is no general production-readiness claim.
+Held-out v3: **18/20, harmful 0**. Different-model second grade: **18/20, harmful 0**, all-four-field agreement 19/20. Every ticket delivered an ANSWERED result and sealed capture. Accuracy>=80% and zero-harm targets met; **the overall pass line is missed** because two classes scored zero and full-investigation median 234.5s exceeds 120s. There is no general production-readiness claim.
 
 ## Part 0: Start and budgets
 
 R23 closed at merge6d91b7bc/v0.23; main44c1c60 was the branch base. Approved October146USD combined AI,12000physical (SCAN2500/INV9405/REST95); November onward150USD/9000 (2500/6405/95). All historical/uncertain charges retained; no reset/refund. Three dollars initially protected for independent grading. Per-ticket3USD actual provider usage, monthly pending commitments included. Azure platform cap20USD unchanged, no new paid resource/identity/grant/secret.
 
-Latest native ledger: AI$112.986601/146USD October, against100USD credit warning and150USD November default; $33.013399 available including pending commitment rules. Physical10621/12000, categories{'RESTORATION': 37, 'INVESTIGATION': 8270, 'SCAN': 2244}, restoration58 remaining of95. Historical70restoration still charged separately. Native Azure cost refresh succeeded after429backoff; billing can lag and the private response stays local. No cap was bypassed or observation timestamp invented.
+Latest native ledger: AI$112.986601/146USD October, against100USD credit warning and150USD November default; $33.013399 available including pending commitment rules. Physical10621/12000, categories{'INVESTIGATION': 8270, 'SCAN': 2244, 'RESTORATION': 37}, restoration58 remaining of95. Historical70restoration still charged separately. Native Azure cost refresh succeeded after429backoff; billing can lag and the private response stays local. No cap was bypassed or observation timestamp invented.
 
 | Recorded monthly AI purpose | Charged USD |
 |---|---:|
@@ -68,7 +68,7 @@ Current native failed/running facts are read first and cannot be dismissed by va
 
 Primary Sonnet4.6, second Opus5.5; no investigator tools or first-grade judgments supplied to the second grader. Final dev and held-out second-graded100%. Initial12held-out monitor tasks and both grades were byte-verified/reused, only8new grades per model. Verdict/layer/cause held-out correctness={'cause_match': 18, 'layer_match': 19, 'verdict_match': 18}; handoff grades={'0': 15, '1': 0, '2': 5}, mean0.50/2.
 
-Dev primary first-zero groups{'query': 1, 'reading results': 1}; final held-out{'conclusion': 2}. [failure-backtrack.md](failure-backtrack.md) contains saved tools/queries/results and up to3walkthroughs per assessment; only2held-out zeros exist, so2distinct zero walkthroughs are shown. Original scores/oracles/tapes unchanged. Both held-out graders give18/20,harm0,agreement19/20; their cause flag differs for the absent-record case. Owner review is requested without changing this phase's score.
+Dev primary first-zero groups{'query': 1, 'reading results': 1}; final held-out{'conclusion': 2}. [failure-backtrack.md](failure-backtrack.md) contains saved tools/queries/results and up to3walkthroughs per assessment; only2held-out zeros exist, so2distinct zero walkthroughs are shown. Original scores/oracles/tapes unchanged. Both held-out graders give18/20,harm0,agreement 19/20; their cause flag differs for the absent-record case. Owner review is requested without changing this phase's score.
 
 ## Part G: Scored proof
 
@@ -107,7 +107,14 @@ Zeros: before-temporal-retention concluded a definition explanation instead of t
 
 All15canonical control records have clear restoration flags. Original source row/business-schema hashes matched, original pipelines/schedules restored, temporary access objects removed with native ownership checks, original catalog owner hash and roles restored. Automatic updatesON persisted after reload, own refresh171364e4-a1b6-493a-9867-f240a8d8aaaeCompleted, native7661verified. Temporal history deliberately staysON; legitimate audit/history rows remain. Original billing bootstrap2011CREATE_SCHEMAfailure remains a known build issue, not an un-restored injection.
 
-Frozen full suite5,606tests/50skips/zero failures. Final premerge full suite: PASS 5606 tests. Final3smokes: THREE_GREEN.
-PR remains draft until final checks. Merge, main validation and tag are not yet claimed.
+Frozen full suite5,606tests/50skips/zero failures. Final premerge full suite: PASS 5607 tests. Final3smokes: THREE_GREEN.
+Merge d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0; main full suite and CI PASS; tagv0.24 pushed. Summary follows on main.
+
+Release CI correction: the historical Round10 Azure-profile intake job was cancelled when the ready PR activated it. Hosted CI now checks explicitly offline intake/span/name/gateway contracts with live access disabled and no provider secrets. This is not a live model-quality score; sealed independent grades above remain the measurement. Its added regression brings final premerge/main discovery to5,607tests/50skips. Investigator/runtime/infra files and frozen image stayed unchanged. Original5,606-test validation and the cancelled workflow are preserved; no result was relabelled to pass. See [CI correction](runs/round-twenty-four-ci-profile-correction.json) and the release receipt.
 
 Open items: two conclusion classes, route/schema latency, incomplete graph sources/sample semantics, local-only mutation controllers, private security-membership gap, old billing bootstrap idempotency and the preserved disputed dev harmful flag. Unused Azure OpenAI deletion/warm service require owner decisions; no such change was made. See [owner-actions.md](owner-actions.md), [scoring.md](scoring.md), native run receipts and [injections](../tests/tickets/injections.md).
+
+
+Release records: merge `d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0`, tag `v0.24` verified on the remote. Premerge and exact-merge full suites each passed **5,607 tests, 50 skips, zero failures/errors**. PR-head CI: {'skipped': 2, 'success': 28}; merge CI: {'skipped': 2, 'success': 21}, including8/8offline worker shards in each. Final smokes1/2/3 each passed all6checks with Azure Succeeded and retained capture seals. See [release receipt](runs/round-twenty-four-release.json). This final summary is committed separately on main after tagging the validated merge.
+
+Owner maintenance: refresh the static native platform-cost observation before 2026-10-29T10:26:13.778590+00:00; do not merely change its timestamp. No warm service or unused-resource deletion was performed.

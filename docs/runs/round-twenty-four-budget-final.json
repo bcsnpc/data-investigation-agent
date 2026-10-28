@@ -19,9 +19,9 @@
     "mode": "BUILD_PHASE",
     "month_utc": "2026-10",
     "used": {
-      "RESTORATION": 37,
       "INVESTIGATION": 8270,
-      "SCAN": 2244
+      "SCAN": 2244,
+      "RESTORATION": 37
     },
     "limits": {
       "SCAN": 2500,

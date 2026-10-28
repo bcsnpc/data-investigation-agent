@@ -1,8 +1,8 @@
 {
-  "observed_at_utc": "2026-10-28T12:13:38.906134+00:00",
+  "observed_at_utc": "2026-10-28T12:54:06.798166+00:00",
   "premerge_full_suite": {
-    "revision": "9e56bdaaf0f5c688411318debafa07e887b78e78",
-    "elapsed_seconds": 712.0377882999892,
+    "revision": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d",
+    "elapsed_seconds": 737.0849234000198,
     "statuses": [
       {
         "shard": 0,
@@ -26,7 +26,7 @@
         "tests": 1402,
         "failures": 0,
         "errors": 0,
-        "skips": 7,
+        "skips": 6,
         "successful": true
       },
       {
@@ -37,10 +37,10 @@
         "successful": true
       },
       {
-        "tests": 1401,
+        "tests": 1402,
         "failures": 0,
         "errors": 0,
-        "skips": 15,
+        "skips": 16,
         "successful": true
       },
       {
@@ -52,7 +52,7 @@
       }
     ]
   },
-  "full_suite_result_sha256": "1124cc9b96b1fab02fc5612a8ad12418452ce10f70e0f2960b2ffe009b1d1944",
+  "full_suite_result_sha256": "f37518d40f7254a9a35a9764a531b889f9ab49946cb40b1ffd61653ae4340499",
   "final_smokes": {
     "results": [
       {

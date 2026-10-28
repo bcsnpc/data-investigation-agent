@@ -1,0 +1,581 @@
+{
+  "status": "RELEASED",
+  "observed_at_utc": "2026-10-28T13:00:07.769885+00:00",
+  "pr": 431,
+  "merge_commit": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0",
+  "tag": "v0.24",
+  "tag_pushed_verified": true,
+  "frozen_engine_source": "b78299f6aee852fd10d5c5776fe69087aaef86f2",
+  "runtime_changed_after_freeze": false,
+  "ci_only_correction": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d",
+  "premerge_suite": {
+    "revision": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d",
+    "elapsed_seconds": 737.0849234000198,
+    "statuses": [
+      {
+        "shard": 0,
+        "exit_code": 0
+      },
+      {
+        "shard": 1,
+        "exit_code": 0
+      },
+      {
+        "shard": 2,
+        "exit_code": 0
+      },
+      {
+        "shard": 3,
+        "exit_code": 0
+      }
+    ],
+    "results": [
+      {
+        "tests": 1402,
+        "failures": 0,
+        "errors": 0,
+        "skips": 6,
+        "successful": true
+      },
+      {
+        "tests": 1402,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0,
+        "successful": true
+      },
+      {
+        "tests": 1402,
+        "failures": 0,
+        "errors": 0,
+        "skips": 16,
+        "successful": true
+      },
+      {
+        "tests": 1401,
+        "failures": 0,
+        "errors": 0,
+        "skips": 28,
+        "successful": true
+      }
+    ]
+  },
+  "main_suite": {
+    "revision": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0",
+    "elapsed_seconds": 739.7550698000123,
+    "statuses": [
+      {
+        "shard": 0,
+        "exit_code": 0
+      },
+      {
+        "shard": 1,
+        "exit_code": 0
+      },
+      {
+        "shard": 2,
+        "exit_code": 0
+      },
+      {
+        "shard": 3,
+        "exit_code": 0
+      }
+    ],
+    "results": [
+      {
+        "tests": 1402,
+        "failures": 0,
+        "errors": 0,
+        "skips": 6,
+        "successful": true
+      },
+      {
+        "tests": 1402,
+        "failures": 0,
+        "errors": 0,
+        "skips": 0,
+        "successful": true
+      },
+      {
+        "tests": 1402,
+        "failures": 0,
+        "errors": 0,
+        "skips": 16,
+        "successful": true
+      },
+      {
+        "tests": 1401,
+        "failures": 0,
+        "errors": 0,
+        "skips": 28,
+        "successful": true
+      }
+    ]
+  },
+  "pr_head_ci": {
+    "revision": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d",
+    "checks": [
+      {
+        "name": "publish",
+        "status": "completed",
+        "conclusion": "skipped",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665906/job/122811833337",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "focused-dev",
+        "status": "completed",
+        "conclusion": "skipped",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665906/job/122811239127",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "offline-shards (2)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665906/job/122811237102",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "offline-shards (4)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665906/job/122811237048",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "offline-shards (3)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665906/job/122811237047",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "offline-shards (7)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665906/job/122811237018",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "offline-shards (0)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665906/job/122811236944",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "offline-shards (6)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665906/job/122811236918",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "offline-shards (1)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665906/job/122811236889",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "offline-shards (5)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665906/job/122811236879",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "round-ten-earned-4",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686666019/job/122810661404",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "round-ten-earned-1",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686666019/job/122810661286",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "round-ten-earned-2",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686666019/job/122810661251",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "round-ten-earned-3",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686666019/job/122810660788",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "current-intake-evaluation",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686666013/job/122810660425",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "generator-tests",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665916/job/122810660362",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "model-step-regression",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665916/job/122810660352",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "powershell-syntax",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665916/job/122810660311",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "ledger-access-rotation",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665941/job/122810660246",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "portal",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665916/job/122810659980",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "build",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665906/job/122810659936",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "known-domain-acceptance",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665947/job/122810659887",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "round-thirteen-billing-metadata-replay",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665974/job/122810659767",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "deny-by-default",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686665915/job/122810659756",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "deny-by-default",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686657301/job/122810630700",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "ledger-access-rotation",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686657179/job/122810629758",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "generator-tests",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686657041/job/122810629447",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "portal",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686657041/job/122810629277",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "model-step-regression",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686657041/job/122810629148",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      },
+      {
+        "name": "powershell-syntax",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40686657041/job/122810629133",
+        "head_sha": "18b8859ddf6c89b911fc4b5f6a6bd23a30e2414d"
+      }
+    ],
+    "counts": {
+      "skipped": 2,
+      "success": 28
+    },
+    "all_green": true,
+    "offline_shards_passed": 8
+  },
+  "merge_ci": {
+    "revision": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0",
+    "checks": [
+      {
+        "name": "publish",
+        "status": "completed",
+        "conclusion": "skipped",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689580980/job/122821630017",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "focused-dev",
+        "status": "completed",
+        "conclusion": "skipped",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689580980/job/122821060666",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "offline-shards (1)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689580980/job/122821058478",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "offline-shards (0)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689580980/job/122821058461",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "offline-shards (7)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689580980/job/122821058459",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "offline-shards (3)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689580980/job/122821058458",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "offline-shards (2)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689580980/job/122821058451",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "offline-shards (5)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689580980/job/122821058415",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "offline-shards (6)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689580980/job/122821058410",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "offline-shards (4)",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689580980/job/122821058361",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "round-ten-earned-4",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689581101/job/122820653962",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "model-step-regression",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689581218/job/122820653942",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "generator-tests",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689581218/job/122820653936",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "round-ten-earned-2",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689581101/job/122820653826",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "powershell-syntax",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689581218/job/122820653818",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "round-ten-earned-3",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689581101/job/122820653763",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "round-ten-earned-1",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689581101/job/122820653679",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "portal",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689581218/job/122820653502",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "deny-by-default",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689581127/job/122820653149",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "build",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689580980/job/122820652794",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "round-thirteen-billing-metadata-replay",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689581105/job/122820652695",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "ledger-access-rotation",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689580933/job/122820652657",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      },
+      {
+        "name": "known-domain-acceptance",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/40689580941/job/122820652519",
+        "head_sha": "d7f5d2b0d3a498485b03184384a9bac5e8ddbdf0"
+      }
+    ],
+    "counts": {
+      "skipped": 2,
+      "success": 21
+    },
+    "all_green": true,
+    "offline_shards_passed": 8
+  },
+  "final_smokes": {
+    "results": [
+      {
+        "attempt": 1,
+        "checks": {
+          "blob_write_read": "PASS",
+          "check_access": "PASS",
+          "family_a_demo": "PASS",
+          "gold_read": "PASS",
+          "postgres_write_read": "PASS",
+          "sign_in": "PASS"
+        },
+        "execution": {
+          "endTime": "2026-10-28T12:01:16+00:00",
+          "execution_name": "job-dia-worker-xg9iwd2",
+          "startTime": "2026-10-28T11:54:50+00:00",
+          "status": "Succeeded"
+        },
+        "pass": true,
+        "seal": "bb1b9501ab610e9c35be8187faa4125f40fd06005a46d2744b98d57dddc2cda7",
+        "status": "PASS"
+      },
+      {
+        "attempt": 2,
+        "checks": {
+          "blob_write_read": "PASS",
+          "check_access": "PASS",
+          "family_a_demo": "PASS",
+          "gold_read": "PASS",
+          "postgres_write_read": "PASS",
+          "sign_in": "PASS"
+        },
+        "execution": {
+          "endTime": "2026-10-28T12:07:28+00:00",
+          "execution_name": "job-dia-worker-5shmgkb",
+          "startTime": "2026-10-28T12:01:42+00:00",
+          "status": "Succeeded"
+        },
+        "pass": true,
+        "seal": "1fee91ac09363939049642510f2b8fd15b7946341a35ff5e064f892e059b2b4f",
+        "status": "PASS"
+      },
+      {
+        "attempt": 3,
+        "checks": {
+          "blob_write_read": "PASS",
+          "check_access": "PASS",
+          "family_a_demo": "PASS",
+          "gold_read": "PASS",
+          "postgres_write_read": "PASS",
+          "sign_in": "PASS"
+        },
+        "execution": {
+          "endTime": "2026-10-28T12:13:10+00:00",
+          "execution_name": "job-dia-worker-obgdzyd",
+          "startTime": "2026-10-28T12:07:55+00:00",
+          "status": "Succeeded"
+        },
+        "pass": true,
+        "seal": "54833938b34df574104d20fbc31f18af678ae41d1120b5830a2a92e8d86bdfd1",
+        "status": "PASS"
+      }
+    ],
+    "status": "THREE_GREEN"
+  },
+  "held_out_score": 18,
+  "held_out_total": 20,
+  "both_graders_harmful": 0,
+  "second_grader_agreement": 19,
+  "overall_product_pass_line": "MISSED: two zero classes and multilayer median234.5s exceeds120s",
+  "injections_restored": true,
+  "temporal_history_retained": true,
+  "new_identity_permission_or_resource_change": false
+}
