@@ -75,11 +75,12 @@ class PlannerProjectionTests(unittest.TestCase):
                 self.assertEqual(project(case), self.golden[name])
                 self.assertEqual(encoded(case), before)
 
-    def test_recorded_sdk_requests_match_all_wire_goldens_without_network(self):
+    def test_archived_sdk_requests_match_all_wire_goldens_without_network(self):
         import httpx
         from openai import DefaultHttpxClient
         from investigator import planner_recording
         from investigator.adaptive_planner import azure_plan
+        from fixtures.archived_ticket_planner import azure_generate as archived_generate
         with tempfile.TemporaryDirectory() as folder:
             def transport(request):
                 body = json.loads(request.content)
@@ -93,6 +94,7 @@ class PlannerProjectionTests(unittest.TestCase):
             with patch.object(planner_recording, 'ROOT', Path(folder)), patch.dict(os.environ, {
                     'INVESTIGATOR_RECORD_PLANNER': '1', 'AZURE_OPENAI_ENDPOINT': 'https://offline.openai.azure.com',
                     'AZURE_OPENAI_DEPLOYMENT': 'offline', 'AZURE_OPENAI_API_KEY': 'offline-placeholder-credential'}), \
+                    patch('ticket_planner.azure_generate',archived_generate), \
                     patch('openai.DefaultHttpxClient', side_effect=lambda **kw: DefaultHttpxClient(
                         transport=httpx.MockTransport(transport), **kw)):
                 for name, case in self.inputs.items():

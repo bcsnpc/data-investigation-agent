@@ -76,6 +76,13 @@ def finding(args,case):
     support=cited(args,case)
     if not args['verdict'].strip() or not args['cause'].strip():raise ValueError('VERDICT_AND_CAUSE_REQUIRED')
     normalized=args['verdict'].casefold().replace('_',' ').replace('-',' ')
+    if normalized in ('as designed','consistent to source','consistent to boundary'):
+        from .triage_hints import current_job_hints
+        current_faults=current_job_hints(case)
+        if current_faults:
+            details=', '.join(str(f['status'])+' '+str(f.get('run_id')or f.get('subject'))for f in current_faults)
+            raise ValueError('CURRENT_OPERATIONAL_FAULT_NEEDS_DISPOSITION_BEFORE_CONSISTENCY: '+details+
+                '; report the native run status and details first. Value agreement does not establish that the run had no effect; qualify unmeasured numerical impact separately.')
     issue=case['intake'].get('classified_issue_type')or args.get('classified_issue_type')or case['intake'].get('issue_type')
     definition_only=(normalized=='as designed'and issue=='HOW_IS_THIS_CALCULATED'
         and case['intake'].get('compared_with',{}).get('kind')=='NOTHING')

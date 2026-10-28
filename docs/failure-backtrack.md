@@ -2,9 +2,9 @@
 
 Original Round23 backtrack remains in git history and docs/runs; this is the current Round24 pass, using saved traces only.
 
-## Round24 dev01 first12 monitoring automatic backtrack
+## Round24 dev01 automatic backtrack
 
-{'graded': 12, 'score': 10, 'harmful': 0, 'correctness': {'verdict_match': 10, 'layer_match': 11, 'cause_match': 10}, 'zero_groups': {'reading results': 1, 'query': 1}}
+{'graded': 15, 'score': 13, 'harmful': 0, 'correctness': {'verdict_match': 13, 'layer_match': 14, 'cause_match': 13}, 'zero_groups': {'reading results': 1, 'query': 1}}
 
 | Ticket | First wrong step | Reason and correct action |
 |---|---|---|
@@ -2858,6 +2858,4222 @@ Tool decisions:
       "node": "5fd69c1b5817645bf256c653c3a6fdfb060ba4f6cd3b35c7f56324a93e5e9ad4"
     },
     "tool_use_id": "toolu_019spftoTGqaWUxFoMxmZXHt"
+  }
+]
+```
+
+Queries:
+```json
+[
+  {
+    "asset_ids": [
+      "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing",
+      "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/amount",
+      "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/invoice_date"
+    ],
+    "duration_seconds": 6.573167568000031,
+    "executed_text": "EVALUATE TOPN(251,ROW(\"Invoiced Amount\",SUM(Billing[amount]),\"max_invoice_date\",MAX(Billing[invoice_date]),\"rows\",COUNTROWS(Billing)))",
+    "id": "query:c1a7cd18dfc92ed71deead3e5846f934c0ee4e00aa65abac09f8ab0ca1cba89d:1",
+    "layer": "native:4aae8dbb1d373ebef783",
+    "parameters": [],
+    "purpose": "recreate",
+    "result": {
+      "rows": [
+        {
+          "[Invoiced Amount]": 950,
+          "[max_invoice_date]": "2026-10-01T00:00:00",
+          "[rows]": 5
+        }
+      ],
+      "warnings": [
+        "attestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
+      ]
+    },
+    "result_digest": "768c09ce7732d94e86a1cb7b15cfaca800790def6ed32f5e8a21996794489f75",
+    "row_count": 1,
+    "signature": "c1a7cd18dfc92ed71deead3e5846f934c0ee4e00aa65abac09f8ab0ca1cba89d",
+    "status": "SUCCEEDED",
+    "text": "EVALUATE ROW(\"Invoiced Amount\", SUM(Billing[amount]), \"max_invoice_date\", MAX(Billing[invoice_date]), \"rows\", COUNTROWS(Billing))",
+    "time": "2026-10-28T06:25:21.693175+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity"
+    ],
+    "duration_seconds": 9.90300928900001,
+    "executed_text": "SELECT TOP 251 SUM(CAST([invoice_activity].[amount] AS BIGINT)) AS [invoiced_amount], MAX([invoice_activity].[invoice_date]) AS [max_invoice_date], COUNT(*) AS [rows_observed] FROM [gold].[invoice_activity] AS [invoice_activity]",
+    "id": "query:76aa9664ef825db16af5b28737f38d5cfa02fea5d8177a57e6ff3d35d9b63ec6:2",
+    "layer": "native:f87556d4485196602461",
+    "parameters": [],
+    "purpose": "compare",
+    "result": {
+      "column_types": {
+        "invoiced_amount": "Int64",
+        "max_invoice_date": "DateTime",
+        "rows_observed": "Int64"
+      },
+      "execution_identity": {
+        "database": "billing_serving",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "invoiced_amount": "950",
+          "max_invoice_date": "2026-10-01",
+          "rows_observed": "5"
+        }
+      ]
+    },
+    "result_digest": "9bd1e64a4f8477fb9245c7757b56cbe2b1f0b48b252d208dd3dea7392b4641d7",
+    "row_count": 1,
+    "signature": "76aa9664ef825db16af5b28737f38d5cfa02fea5d8177a57e6ff3d35d9b63ec6",
+    "status": "SUCCEEDED",
+    "text": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount, MAX([invoice_date]) AS max_invoice_date, COUNT(*) AS rows_observed FROM [gold].[invoice_activity]",
+    "time": "2026-10-28T06:25:28.457579+00:00",
+    "truncated": false
+  },
+  {
+    "duration_seconds": 0,
+    "error": "SQL object unavailable or view dependencies not validated",
+    "error_type": "QueryRejection",
+    "failure_class": "wrong column or table",
+    "id": "query:cb48f0c186d2b6715c604905c0df4c18f493ed77f119d4cb581f837cf594003b:3",
+    "layer": "native:f87556d4485196602461",
+    "native_dispatched": false,
+    "purpose": "compare",
+    "result_digest": null,
+    "row_count": null,
+    "schema_slice": [
+      {
+        "columns": [
+          {
+            "collation_name": null,
+            "data_type": "int",
+            "name": "invoice_id",
+            "observed_type": "int"
+          },
+          {
+            "collation_name": null,
+            "data_type": "int",
+            "name": "account_id",
+            "observed_type": "int"
+          },
+          {
+            "collation_name": null,
+            "data_type": "int",
+            "name": "plan_id",
+            "observed_type": "int"
+          },
+          {
+            "collation_name": null,
+            "data_type": "date",
+            "name": "invoice_date",
+            "observed_type": "date"
+          },
+          {
+            "collation_name": null,
+            "data_type": "int",
+            "name": "amount",
+            "observed_type": "int"
+          },
+          {
+            "collation_name": "Latin1_General_100_BIN2_UTF8",
+            "data_type": "varchar",
+            "name": "status",
+            "observed_type": "varchar"
+          }
+        ],
+        "id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity",
+        "name": "invoice_activity",
+        "schema_name": "gold",
+        "type_desc": "USER_TABLE"
+      }
+    ],
+    "signature": "cb48f0c186d2b6715c604905c0df4c18f493ed77f119d4cb581f837cf594003b",
+    "status": "ERROR",
+    "text": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount FROM [silver].[invoices]",
+    "time": "2026-10-28T06:26:05.831706+00:00"
+  },
+  {
+    "duration_seconds": 0,
+    "error": "SQL object unavailable or view dependencies not validated",
+    "error_type": "QueryRejection",
+    "failure_class": "wrong column or table",
+    "id": "query:9f7efcc07564548ddfb194dc777e195d6a5a6828aa2f40d10019323a2eb5f8d7:4",
+    "layer": "native:f87556d4485196602461",
+    "native_dispatched": false,
+    "purpose": "compare",
+    "result_digest": null,
+    "row_count": null,
+    "schema_slice": [
+      {
+        "columns": [
+          {
+            "collation_name": null,
+            "data_type": "int",
+            "name": "invoice_id",
+            "observed_type": "int"
+          },
+          {
+            "collation_name": null,
+            "data_type": "int",
+            "name": "account_id",
+            "observed_type": "int"
+          },
+          {
+            "collation_name": null,
+            "data_type": "int",
+            "name": "plan_id",
+            "observed_type": "int"
+          },
+          {
+            "collation_name": null,
+            "data_type": "date",
+            "name": "invoice_date",
+            "observed_type": "date"
+          },
+          {
+            "collation_name": null,
+            "data_type": "int",
+            "name": "amount",
+            "observed_type": "int"
+          },
+          {
+            "collation_name": "Latin1_General_100_BIN2_UTF8",
+            "data_type": "varchar",
+            "name": "status",
+            "observed_type": "varchar"
+          }
+        ],
+        "id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity",
+        "name": "invoice_activity",
+        "schema_name": "gold",
+        "type_desc": "USER_TABLE"
+      }
+    ],
+    "signature": "9f7efcc07564548ddfb194dc777e195d6a5a6828aa2f40d10019323a2eb5f8d7",
+    "status": "ERROR",
+    "text": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount FROM [bronze].[invoices]",
+    "time": "2026-10-28T06:26:06.283089+00:00"
+  }
+]
+```
+
+Final answer:
+```json
+"The checks did not establish a cause within this ticket’s limits."
+```
+
+Sealed expected:
+```json
+{
+  "case_id": "v2-failed-billing-transform",
+  "cause": "Latest failed native transform run with name/run ID/start/end/error; no invented successful completion.",
+  "estate": "billing",
+  "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+  "fixture": "failed-billing",
+  "id": "v2-failed-billing-transform-v2",
+  "layer": "billing transformation pipeline",
+  "split": "DEV",
+  "variation": "brief support question",
+  "verdict": "failed job"
+}
+```
+
+Saved checkpoint SHA-256: 356ac3ccb5d70be403e849ad6ba2e2858349cc1f1d0041eee2a562ea585672f6. Only recorded tool choices are shown; no new queries or model calls.
+
+
+## Round24 finaldev second-grader zeros (separate audit) automatic backtrack
+
+{'graded': 3, 'score': 0, 'harmful': 1, 'correctness': {'verdict_match': 0, 'layer_match': 0, 'cause_match': 0}, 'zero_groups': {'conclusion': 1, 'triage': 2}}
+
+| Ticket | First wrong step | Reason and correct action |
+|---|---|---|
+| v2-failed-application-load-v1 | conclusion | Expected: verdict 'failed job' at the application load pipeline layer. The cause should be the latest native failed run, citing the job name, run ID, start, end and error. Delivered: verdict 'consistent to boundary'. It states as fact that the data looks old because the source has nothing newer, not because delivery is behind. That is a confident cause that contradicts the expected failed-job cause, so it is harmful. The answer does find the failed run: it names pipeline round_two_application_load_audited_20261003, a failure at 2026-10-28 05:59, and error 2011. But it calls this only an 'open issue' and says it did not leave the report behind. It also never cites the failed run's run ID or both its start and end times. So the layer was not identified as the split point and the cause is not named as required. This is a partial match, which scores zero. The answer is wrong at the conclusion step, not because evidence was missing. Handoff: the queries are literal and can be rerun, but the handoff object is empty. There is no stopping point or next check, such as pulling the failed run's details or the load audit row. Score 1. Restrict the cause to what the cited native evidence establishes. |
+| v2-failed-billing-transform-v1 | triage | Expected: verdict 'failed job' in the billing transformation pipeline (split DEV). The cause should be the latest failed native transform run, with its name, run ID, start/end times and error, and no made-up successful completion. The delivered answer is UNRESOLVED (TOOL_OR_TIME_LIMIT). It gives no verdict, no layer or split point and no named cause, so all three dimensions score zero. Nothing matched, so partial is false. It is not harmful: it states honestly that no cause was established and does not claim a successful run. It never retrieved the failed transform run that the ticket asks about. Triage reported JOB_RUNS (along with LAYER_FRESHNESS and SOURCE_CHANGES) as UNAVAILABLE. The only job-history-like query (billing_ops dbo.load_run_audit) returned a single successful copy run from 2026-10-09, not the failed transform. Model refresh history was empty and the schedule was disabled. Gold (5 rows / 950) and bronze (4 rows / 700) disagree, but this was not followed up. Handoff quality is 1. The queries are recorded verbatim and can be rerun, and the stopping point is clear. However, the only next check is to review a failed sys.objects metadata query. It does not point to the obvious next step: getting job history for the Billing Warehouse transformation pipeline and its latest failed run (run ID, times, error), or explaining the gold/bronze gap. The first failing step is triage, because the job-run fact needed to answer the ticket was unavailable and was never gathered another way. Read and act on the current path run or freshness fact first. |
+| v2-failed-billing-transform-v2 | triage | Expected: verdict 'failed job' in the billing transformation pipeline, with the cause being the latest failed native transform run (name, run ID, start/end time, error). The delivered answer is UNRESOLVED (TOOL_OR_TIME_LIMIT). It names no verdict, no layer or split point, and no cause, so all three score zero. The grading rule also says an unresolved budget stop is not a successful technical answer. The answer is not harmful: it honestly says no cause was established and doesn't invent a successful run or a wrong cause. Where it went wrong: the ticket explicitly says the transformation job shows Failed, but the JOB_RUNS triage fact was UNAVAILABLE (FRESH_PATH_FACT_NOT_AVAILABLE). The investigation then compared the semantic model with gold.invoice_activity (both 950 / 5 rows / max 2026-10-01) and tried to query silver.invoices and bronze.invoices, which don't exist. It never looked at the pipeline run history. Handoff quality is 1. The queries are recorded word for word and can be rerun, and the stopping point is clearly stated. However, the next checks only say to review the queries rejected for missing silver/bronze objects. They don't suggest the obvious next step: get the latest run status and error for the Billing Warehouse transformation job, even though the ticket points straight to it. Read and act on the current path run or freshness fact first. |
+
+### v2-failed-application-load-v1
+Expected: verdict 'failed job' at the application load pipeline layer. The cause should be the latest native failed run, citing the job name, run ID, start, end and error. Delivered: verdict 'consistent to boundary'. It states as fact that the data looks old because the source has nothing newer, not because delivery is behind. That is a confident cause that contradicts the expected failed-job cause, so it is harmful. The answer does find the failed run: it names pipeline round_two_application_load_audited_20261003, a failure at 2026-10-28 05:59, and error 2011. But it calls this only an 'open issue' and says it did not leave the report behind. It also never cites the failed run's run ID or both its start and end times. So the layer was not identified as the split point and the cause is not named as required. This is a partial match, which scores zero. The answer is wrong at the conclusion step, not because evidence was missing. Handoff: the queries are literal and can be rerun, but the handoff object is empty. There is no stopping point or next check, such as pulling the failed run's details or the load audit row. Score 1. Restrict the cause to what the cited native evidence establishes.
+
+Intake:
+```json
+{
+  "compared_with": {
+    "kind": "NOTHING"
+  },
+  "details": {
+    "record": "round_two_application_load_audited_20261003"
+  },
+  "issue_type": "DATA_LOOKS_OLD",
+  "page": "e4d6e671103ca3746c4ca9435fc635e13ae0a08bf09ffa515580b7f1a50fd7f7",
+  "report": "3ba93e33aa41f6b91b0ef623bfd66bf2d9ec9eefd5e583643e6462e0dbd5b2ed",
+  "version": "IntakeRequest/1",
+  "visual": "5534dcab52ea12e3a590fc6ad8d7e5fa79ca8611cc06be894a80b65f6fe792ce"
+}
+```
+
+Target:
+```json
+{
+  "layers": {
+    "native:4caf47d120d4fd198ffe": {
+      "label": "Application load fixture 20261003",
+      "dialect": "DAX"
+    },
+    "native:9e3796a26d8d5c1a039e": {
+      "label": "ordersops",
+      "dialect": "T-SQL"
+    },
+    "native:e95b94fd338e7086320f": {
+      "label": "round_two_bronze_20261003",
+      "dialect": "T-SQL"
+    }
+  }
+}
+```
+
+Triage:
+```json
+{
+  "facts": [
+    {
+      "cached": false,
+      "check": "MODEL_REFRESH",
+      "observed_at": "2026-10-28T06:03:45.192045Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T06:03:45.192045Z",
+          "freshness": "CURRENT",
+          "id": "0813c24647c79e63d5d228598a98416c83cc589bdc2b2c4aaf2ef7c565c900ca",
+          "kind": "RUN_HISTORY",
+          "observed_at": "2026-10-28T06:03:45.192045Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:07c699f26ee9bacb86e202ea45602e142e0bc1f6beb9bbdace1cdbc2a47eaecc"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "listing_complete": true,
+            "runs": [
+              {
+                "end": "2026-10-27T15:56:11.943000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967533",
+                "start": "2026-10-27T15:55:47.577000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:55:31.980000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967527",
+                "start": "2026-10-27T15:55:17.423000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T11:22:45.240000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762883014",
+                "start": "2026-10-27T11:22:42.810000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T10:04:03.517000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762859376",
+                "start": "2026-10-27T10:03:42.330000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:20.813000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762589234",
+                "start": "2026-10-26T18:20:20.733000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:33.260000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762588999",
+                "start": "2026-10-26T18:19:56.113000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T01:27:55.313000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "761468506",
+                "start": "2026-10-24T01:26:52.530000Z",
+                "status": "SUCCEEDED"
+              }
+            ]
+          }
+        },
+        {
+          "collected_at": "2026-10-28T06:03:45.192045Z",
+          "freshness": "CURRENT",
+          "id": "2e60c156929dff59ed5e0a433f6936e63a6829539d73c019ece8f5afcdfba133",
+          "kind": "REFRESH_RUN",
+          "observed_at": "2026-10-28T06:03:45.192045Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:07c699f26ee9bacb86e202ea45602e142e0bc1f6beb9bbdace1cdbc2a47eaecc"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "accounting": "UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA",
+            "end": "2026-10-27T15:56:11.943000Z",
+            "error": null,
+            "recent_runs": [
+              {
+                "end": "2026-10-27T15:56:11.943000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967533",
+                "start": "2026-10-27T15:55:47.577000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:55:31.980000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762967527",
+                "start": "2026-10-27T15:55:17.423000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T11:22:45.240000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762883014",
+                "start": "2026-10-27T11:22:42.810000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T10:04:03.517000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762859376",
+                "start": "2026-10-27T10:03:42.330000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:20.813000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762589234",
+                "start": "2026-10-26T18:20:20.733000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-26T18:20:33.260000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "762588999",
+                "start": "2026-10-26T18:19:56.113000Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T01:27:55.313000Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "761468506",
+                "start": "2026-10-24T01:26:52.530000Z",
+                "status": "SUCCEEDED"
+              }
+            ],
+            "rows_read": null,
+            "rows_written": null,
+            "run_id": "762967533",
+            "start": "2026-10-27T15:55:47.577000Z",
+            "status": "SUCCEEDED"
+          }
+        },
+        {
+          "collected_at": "2026-10-28T06:03:45.192045Z",
+          "freshness": "CURRENT",
+          "id": "dadf9b538d81d60964e2f068231f586b49d072d84813af505481ee2757452c6a",
+          "kind": "REFRESH_STATE",
+          "observed_at": "2026-10-28T06:03:45.192045Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:07c699f26ee9bacb86e202ea45602e142e0bc1f6beb9bbdace1cdbc2a47eaecc"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "last_end": "2026-10-27T15:56:11.943000Z",
+            "run_id": "762967533",
+            "state": "SUCCEEDED"
+          }
+        }
+      ]
+    },
+    {
+      "cached": false,
+      "check": "REFRESH_SCHEDULE",
+      "observed_at": "2026-10-28T06:03:19.550779Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T06:03:45.192045Z",
+          "freshness": "CURRENT",
+          "id": "ecc0189dfc2f70a4d9303abb650c168427a7879dba0c82565b8a81e8a378232a",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T06:03:45.192045Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:7a55ebca2f0b3182a80bc69a8733e03bbb751b8cd668ceb94146ecb79f1b6c3f"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "enabled": false,
+            "native_schedule": {
+              "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+              "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ],
+              "enabled": false,
+              "localTimeZoneId": "UTC",
+              "notifyOption": "MailOnFailure",
+              "times": [
+                "01:00"
+              ]
+            },
+            "next_due": null,
+            "previous_due": null
+          }
+        },
+        {
+          "collected_at": "2026-10-28T06:03:19.550779Z",
+          "freshness": "CURRENT",
+          "id": "09c5ba81c0e36d233305d72dd183917c9b258cc057e8485303d9f742a9713817",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T06:03:19.550779Z",
+          "provenance": {
+            "collector": "microsoft-runtime:50ed9389d7d5682c8f2f36c6c2f43a2a3731a84b0c91204d9e25890e096564dc",
+            "evidence_ids": [
+              "sha256:934e05110c283815011ccfbcc809d65c007737e7ac5bdb66c2e9fc19473941c7"
+            ],
+            "locator": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "value": {
+            "native_schedules": {
+              "value": []
+            },
+            "next_due": null,
+            "reason": "Job schedule recurrence retained; unsupported recurrence types remain a named coverage gap."
+          }
+        }
+      ]
+    },
+    {
+      "check": "AUTOMATIC_UPDATES",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:AUTOMATIC_UPDATES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "cached": false,
+      "check": "JOB_RUNS",
+      "observed_at": "2026-10-28T06:03:39.305110Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T06:03:39.305110Z",
+          "freshness": "CURRENT",
+          "id": "5e9db6ba4c8fcf13e06129ac9cc22cc010a2e7d00c51409941d6f19615f59ae9",
+          "kind": "JOB_RUN",
+          "observed_at": "2026-10-28T06:03:39.305110Z",
+          "provenance": {
+            "collector": "microsoft-runtime:d90ae203d1e049b5d17b28ad8d56b3e9cbbe0ea8e79c91698aded7cf5e687f7e",
+            "evidence_ids": [
+              "sha256:bdc882ff58bd4d502e9fadfe8f1f318a3bdd24ea54678be0c3d5df7c260d4adb"
+            ],
+            "locator": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+          "value": {
+            "accounting": "UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA",
+            "end": "2026-10-27T15:54:02.6605794Z",
+            "error": null,
+            "recent_runs": [
+              {
+                "end": "2026-10-27T15:54:02.6605794Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "c0e2613f-b446-4d00-a2c5-7f44c4662ae2",
+                "start": "2026-10-27T15:53:32.7157778Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:44:05.0886872Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "a33b8ae0-57b8-4794-9cab-f50ec12e03ca",
+                "start": "2026-10-27T15:43:33.6916187Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:20:29.5709877Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "fa3d9c73-ff5a-410a-89c8-907afd3f623c",
+                "start": "2026-10-27T15:19:55.229535Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T15:10:24.4533955Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "644ef25a-bad3-4e5e-87b0-3f27c9b4498c",
+                "start": "2026-10-27T15:09:53.1889637Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T14:31:41.1898358Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "5caa5c35-5e58-4dc1-94f0-fb8a9ab6619a",
+                "start": "2026-10-27T14:31:09.9560782Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:59:50.6670091Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "d3d519f4-55b9-48ef-bf68-ee9b3d6fd724",
+                "start": "2026-10-27T09:59:21.4245453Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:49:04.8377033Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "f12d45ba-a321-4a76-9f38-cfd86501054b",
+                "start": "2026-10-27T09:48:35.0709386Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:41:49.8935835Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "4eda71d5-c497-4d52-b447-232386f672b5",
+                "start": "2026-10-27T09:41:18.3358933Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T09:28:21.9101852Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "175ebde3-2543-47e5-bde0-ec38474c3ccc",
+                "start": "2026-10-27T09:27:52.0485311Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T08:36:56.310785Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "d847a503-2bd8-4297-a917-8789854bbbdf",
+                "start": "2026-10-27T08:36:25.9174801Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T06:45:53.3924184Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "150cca85-8b3d-44e6-ad1a-2e5ac059e2df",
+                "start": "2026-10-27T06:45:24.4810815Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-27T06:15:17.1734177Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "1db862a2-6df5-41a7-a71a-02ca24eab7da",
+                "start": "2026-10-27T06:09:51.1598474Z",
+                "status": "CANCELLED"
+              },
+              {
+                "end": "2026-10-26T18:15:51.642450Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "2b43720a-f2bb-47bb-a456-9dac546a4eb4",
+                "start": "2026-10-26T18:15:14.6320687Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T02:12:10.4565917Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "c2bf877a-9ff2-4852-aa6b-f0503b71b2f3",
+                "start": "2026-10-24T02:11:38.9387923Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T01:40:16.5003956Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "4ea4687d-5e43-4933-8db5-860286d0f681",
+                "start": "2026-10-24T01:39:46.1269955Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T01:38:34.0644025Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "98fae91b-2011-485b-855d-fa288e98a292",
+                "start": "2026-10-24T01:38:03.7174285Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T01:30:31.4662186Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "6f06aae7-d60b-4d61-beeb-0fab21e4c5b2",
+                "start": "2026-10-24T01:29:12.6228674Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-24T00:33:09.2916262Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "8d7d15cc-b985-4b12-85cb-495691a8d417",
+                "start": "2026-10-24T00:31:48.7636953Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-06T04:14:36.7034118Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "d748fff0-b0d4-43de-89c7-8a929be24642",
+                "start": "2026-10-06T04:14:04.0430647Z",
+                "status": "SUCCEEDED"
+              },
+              {
+                "end": "2026-10-06T03:33:24.3307242Z",
+                "error": null,
+                "rows_read": null,
+                "rows_written": null,
+                "run_id": "ccc21d6a-41a7-4e20-839d-0b5d8cf8858c",
+                "start": "2026-10-06T03:32:52.1454566Z",
+                "status": "SUCCEEDED"
+              }
+            ],
+            "rows_read": null,
+            "rows_written": null,
+            "run_id": "c0e2613f-b446-4d00-a2c5-7f44c4662ae2",
+            "start": "2026-10-27T15:53:32.7157778Z",
+            "status": "SUCCEEDED"
+          }
+        }
+      ]
+    },
+    {
+      "check": "LAYER_FRESHNESS",
+      "detail": "FRESH_PATH_FACT_NOT_AVAILABLE:LAYER_FRESHNESS",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "SOURCE_CHANGES",
+      "detail": "FRESH_PATH_FACT_NOT_AVAILABLE:SOURCE_CHANGES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "cached": false,
+      "check": "NEXT_LOAD",
+      "observed_at": "2026-10-28T06:03:19.550779Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T06:03:45.192045Z",
+          "freshness": "CURRENT",
+          "id": "ecc0189dfc2f70a4d9303abb650c168427a7879dba0c82565b8a81e8a378232a",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T06:03:45.192045Z",
+          "provenance": {
+            "collector": "microsoft-runtime:760ed377e2f865e9fedbfa20799364e7e4367d4fc476d2be3066b7d19e89191e",
+            "evidence_ids": [
+              "sha256:7a55ebca2f0b3182a80bc69a8733e03bbb751b8cd668ceb94146ecb79f1b6c3f"
+            ],
+            "locator": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5",
+          "value": {
+            "enabled": false,
+            "native_schedule": {
+              "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+              "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ],
+              "enabled": false,
+              "localTimeZoneId": "UTC",
+              "notifyOption": "MailOnFailure",
+              "times": [
+                "01:00"
+              ]
+            },
+            "next_due": null,
+            "previous_due": null
+          }
+        },
+        {
+          "collected_at": "2026-10-28T06:03:19.550779Z",
+          "freshness": "CURRENT",
+          "id": "09c5ba81c0e36d233305d72dd183917c9b258cc057e8485303d9f742a9713817",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T06:03:19.550779Z",
+          "provenance": {
+            "collector": "microsoft-runtime:50ed9389d7d5682c8f2f36c6c2f43a2a3731a84b0c91204d9e25890e096564dc",
+            "evidence_ids": [
+              "sha256:934e05110c283815011ccfbcc809d65c007737e7ac5bdb66c2e9fc19473941c7"
+            ],
+            "locator": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+          "value": {
+            "native_schedules": {
+              "value": []
+            },
+            "next_due": null,
+            "reason": "Job schedule recurrence retained; unsupported recurrence types remain a named coverage gap."
+          }
+        }
+      ]
+    },
+    {
+      "check": "CONNECTION_MODE",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:CONNECTION_MODE",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "SECURITY_PRESENCE",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:SECURITY_PRESENCE",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "DEFINITION_CHANGES",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:DEFINITION_CHANGES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    }
+  ],
+  "path": [
+    "04338ce830d63e3ab63d30a827b752e9163a7a50c36a3a8e2b6127b0480e5a34",
+    "114f64a965934e8f034687583f17f05e5c8bfddf3d771753eecddd0020920222",
+    "2780f358d5d1d2020da83986f3c092484c455eae1568e6f3517d35bf445a6c9c",
+    "3334860e93f6632b17abd31fc175afe2ba07e7918ba0fda5cc6d5bcab485d210",
+    "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba",
+    "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+    "497b809aab319a091c08598988a6c8202715e5629e01a5d8b6be448d45edd062",
+    "4bc2a3e5f557b5591acd4ef788526cf6b3daac89f9d641094861d2f219033083",
+    "5534dcab52ea12e3a590fc6ad8d7e5fa79ca8611cc06be894a80b65f6fe792ce",
+    "569a3aaab8bae720214d342c6dfbaf14ccaaa08ce8faf3fb5da731023b3dd457",
+    "5cc53633c459f46f51ae8362fdb549d859ecfe8e6f8dc9676764a9dde91241b4",
+    "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+    "6e29c19610d2451365f4424018e56a87b8702eb485f499cad6349e1810ac5f54",
+    "7334e052ba13d44cd117f9d5027516b2b1d52a38ee2983984ab2da06d54a2d1c",
+    "77dca8a7a87c321d590c91d9b5dce32583bfa7913a30d3f22103016bb630985a",
+    "7c4042009085cafc8ca9e5985af173de9af07bd6f919c9bb16d195e45b177dc2",
+    "98be0634236a82a68e454d0e412716413cb967afd7244820b176c58d5da08707",
+    "aa287d7cf4522d7100e8b12742bf7a826862d71bc1a8b43f22ab12d49a0d0a0d",
+    "e90cca5c02d187ae130fcb29bd7769aa732b2e23c08cd18c311d93afbd1dd4f5"
+  ],
+  "refresh_operations": 10,
+  "what_triage_suggests": "Triage has unavailable checks (AUTOMATIC_UPDATES, LAYER_FRESHNESS, SOURCE_CHANGES, CONNECTION_MODE, SECURITY_PRESENCE, DEFINITION_CHANGES); this does not establish that those mechanisms are absent."
+}
+```
+
+Tool decisions:
+```json
+[
+  {
+    "tool": "run_dax",
+    "arguments": {
+      "layer": "native:4caf47d120d4fd198ffe",
+      "purpose": "recreate",
+      "query": "EVALUATE ROW(\"Movement Units\", [Movement Units])"
+    }
+  },
+  {
+    "tool": "run_sql",
+    "arguments": {
+      "layer": "native:e95b94fd338e7086320f",
+      "purpose": "compare",
+      "query": "SELECT SUM(CAST([units] AS bigint)) AS movement_units FROM [dbo].[stock_movements_round_two_20261003]"
+    }
+  },
+  {
+    "tool": "run_sql",
+    "arguments": {
+      "layer": "native:9e3796a26d8d5c1a039e",
+      "purpose": "compare",
+      "query": "SELECT SUM(CAST([units] AS bigint)) AS movement_units FROM [app].[stock_movements_round_two_20261003]"
+    }
+  },
+  {
+    "tool": "get_job_runs",
+    "arguments": {
+      "node": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+    }
+  },
+  {
+    "tool": "run_sql",
+    "arguments": {
+      "layer": "native:9e3796a26d8d5c1a039e",
+      "purpose": "compare",
+      "query": "SELECT MAX([source_modified_at_utc]) AS max_modified FROM [app].[stock_movements_round_two_20261003]"
+    }
+  },
+  {
+    "tool": "run_sql",
+    "arguments": {
+      "layer": "native:e95b94fd338e7086320f",
+      "purpose": "compare",
+      "query": "SELECT MAX([source_modified_at_utc]) AS max_modified FROM [dbo].[stock_movements_round_two_20261003]"
+    }
+  },
+  {
+    "tool": "run_sql",
+    "arguments": {
+      "layer": "native:9e3796a26d8d5c1a039e",
+      "purpose": "compare",
+      "query": "SELECT COUNT(*) AS rows_observed FROM [app].[stock_movements_round_two_20261003]"
+    }
+  },
+  {
+    "tool": "run_sql",
+    "arguments": {
+      "layer": "native:e95b94fd338e7086320f",
+      "purpose": "compare",
+      "query": "SELECT COUNT(*) AS rows_observed FROM [dbo].[stock_movements_round_two_20261003]"
+    }
+  },
+  {
+    "tool": "submit_finding",
+    "arguments": {
+      "cause": "The Movement Units card (SUM of Movements[units]) recreates at 7661. The landing lakehouse table dbo.stock_movements_round_two_20261003 also reads 7661, and so does the application source table app.stock_movements_round_two_20261003. Both tables currently hold 360 rows, and in both the newest source_modified_at_utc is 2026-10-03 22:51:16.882024. So the data looks old because the source itself has nothing newer, not because delivery is behind the source. One open issue: the latest run of the load pipeline round_two_application_load_audited_20261003 failed at 2026-10-28 05:59 (error 2011, a controlled failure before the original activities). Its last successful run ended 2026-10-27 15:54, and the declared load audit has no row for the listed run. The current reads show no source change since then, so that failure has not left the report behind the source. The last model refresh succeeded on 2026-10-27 15:56. Matching totals are point-in-time reads; they don't prove the layers were captured at the same moment, and no retained source history was read.",
+      "checked": [
+        "native:4caf47d120d4fd198ffe",
+        "native:e95b94fd338e7086320f",
+        "native:9e3796a26d8d5c1a039e",
+        "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+      ],
+      "evidence_ids": [
+        "case-evidence:07e8e3947ce864aeb8f9c405ef346dd0978894bbb974d0bf1ebd8c63678ceae3",
+        "case-evidence:5efedfd682e4ad42704af4ce66423891c5a0c4d5ef216e7a254f1c8cd43d3fc6",
+        "case-evidence:15668322d54828d48bbccb31bfb05ffb91252a8f5fb0e8cd815bab28a4e44981",
+        "case-evidence:a49840af63840cbd21540e29db374c323db0bad2460b108c6b67be2d9ab68fcf",
+        "case-evidence:653bc2881c31961771799162d4ebc0ed127ccccb1a2cc7a89dfd0c17efb0d19a",
+        "case-evidence:3889f9ab659033051ef02b1732f48504bba0543d3f3ee3ffe38eac3de9ed4d63",
+        "case-evidence:673c248d4714401ecca64113d17265111b7354aabd54c18a5aee3515ee4e3fbf",
+        "case-evidence:aee8abc1ac370cd435720e4dd0f21aba9c704505561f7e592ca8ed1fd4e6a652"
+      ],
+      "numbers": [
+        7661,
+        7661,
+        7661,
+        360,
+        360
+      ],
+      "verdict": "consistent to boundary"
+    }
+  },
+  {
+    "tool": "submit_finding",
+    "arguments": {
+      "cause": "The Movement Units card (SUM of Movements[units]) recreates at 7661. The landing lakehouse table dbo.stock_movements_round_two_20261003 also reads 7661, and so does the application source table app.stock_movements_round_two_20261003. Both tables currently hold 360 rows, and in both the newest source_modified_at_utc is 2026-10-03 22:51:16.882024. So the data looks old because the source itself has nothing newer, not because delivery is behind the source. One open issue: the latest run of the load pipeline round_two_application_load_audited_20261003 failed at 2026-10-28 05:59 (error 2011, a controlled failure before the original activities). Its last successful run ended 2026-10-27 15:54, and the declared load audit has no row for the listed run. The current reads show no source change since then, so that failure has not left the report behind the source. The last model refresh succeeded on 2026-10-27 15:56. Matching totals are point-in-time reads; they don't prove the layers were captured at the same moment, and no retained source history was read.",
+      "checked": [
+        "native:4caf47d120d4fd198ffe",
+        "native:e95b94fd338e7086320f",
+        "native:9e3796a26d8d5c1a039e"
+      ],
+      "evidence_ids": [
+        "case-evidence:07e8e3947ce864aeb8f9c405ef346dd0978894bbb974d0bf1ebd8c63678ceae3",
+        "case-evidence:5efedfd682e4ad42704af4ce66423891c5a0c4d5ef216e7a254f1c8cd43d3fc6",
+        "case-evidence:15668322d54828d48bbccb31bfb05ffb91252a8f5fb0e8cd815bab28a4e44981",
+        "case-evidence:a49840af63840cbd21540e29db374c323db0bad2460b108c6b67be2d9ab68fcf",
+        "case-evidence:653bc2881c31961771799162d4ebc0ed127ccccb1a2cc7a89dfd0c17efb0d19a",
+        "case-evidence:3889f9ab659033051ef02b1732f48504bba0543d3f3ee3ffe38eac3de9ed4d63",
+        "case-evidence:673c248d4714401ecca64113d17265111b7354aabd54c18a5aee3515ee4e3fbf",
+        "case-evidence:aee8abc1ac370cd435720e4dd0f21aba9c704505561f7e592ca8ed1fd4e6a652"
+      ],
+      "numbers": [
+        7661,
+        7661,
+        7661,
+        360,
+        360
+      ],
+      "verdict": "consistent to boundary"
+    }
+  }
+]
+```
+
+Queries:
+```json
+[
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units"
+    ],
+    "duration_seconds": 3.6742456540000603,
+    "executed_text": "EVALUATE TOPN(251,ROW(\"Movement Units\",[Movement Units]))",
+    "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+    "layer": "native:4caf47d120d4fd198ffe",
+    "parameters": [],
+    "purpose": "recreate",
+    "result": {
+      "rows": [
+        {
+          "[Movement Units]": 7661
+        }
+      ],
+      "warnings": [
+        "attestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
+      ]
+    },
+    "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba",
+    "row_count": 1,
+    "signature": "de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a",
+    "status": "SUCCEEDED",
+    "text": "EVALUATE ROW(\"Movement Units\", [Movement Units])",
+    "time": "2026-10-28T06:04:00.738740+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+    ],
+    "duration_seconds": 12.074448176000033,
+    "executed_text": "SELECT TOP 251 SUM(CAST([stock_movements_round_two_20261003].[units] AS BIGINT)) AS [movement_units] FROM [dbo].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003]",
+    "id": "query:61e1ef357414429a0e11fb88194c9cf369c4bc070613fd8ede458bebb5888e45:2",
+    "layer": "native:e95b94fd338e7086320f",
+    "parameters": [],
+    "purpose": "compare",
+    "result": {
+      "column_types": {
+        "movement_units": "Int64"
+      },
+      "execution_identity": {
+        "database": "round_two_bronze_20261003",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "movement_units": "7661"
+        }
+      ]
+    },
+    "result_digest": "55899439a64256b0e5a0201a7acf008e51e8c3c6fb5627d7375a336e3f1d11ef",
+    "row_count": 1,
+    "signature": "61e1ef357414429a0e11fb88194c9cf369c4bc070613fd8ede458bebb5888e45",
+    "status": "SUCCEEDED",
+    "text": "SELECT SUM(CAST([units] AS bigint)) AS movement_units FROM [dbo].[stock_movements_round_two_20261003]",
+    "time": "2026-10-28T06:04:04.703723+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+    ],
+    "duration_seconds": 3.5433835260000706,
+    "executed_text": "SELECT TOP 251 SUM(CAST([stock_movements_round_two_20261003].[units] AS BIGINT)) AS [movement_units] FROM [app].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003]",
+    "id": "query:d9e2677e79949c2bed58a60daefa15a72df5da9f6689088295dc4b508dc6d6b5:3",
+    "layer": "native:9e3796a26d8d5c1a039e",
+    "parameters": [],
+    "purpose": "compare",
+    "result": {
+      "column_types": {
+        "movement_units": "Int64"
+      },
+      "connection_attempts": [
+        {
+          "attempt": 1,
+          "finished_at": "2026-10-28T06:04:20.263953+00:00",
+          "retry_delay_seconds": 0,
+          "sql_error_number": null,
+          "stage": null,
+          "started_at": "2026-10-28T06:04:17.198105+00:00",
+          "status": "SUCCEEDED"
+        }
+      ],
+      "execution_identity": {
+        "database": "ordersops",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "sql-orderops-9696025.database.windows.net"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "movement_units": "7661"
+        }
+      ]
+    },
+    "result_digest": "a3105e1a64489a88c1620d9af3c8f481e16840595d1361de311d0fadfc70cb4a",
+    "row_count": 1,
+    "signature": "d9e2677e79949c2bed58a60daefa15a72df5da9f6689088295dc4b508dc6d6b5",
+    "status": "SUCCEEDED",
+    "text": "SELECT SUM(CAST([units] AS bigint)) AS movement_units FROM [app].[stock_movements_round_two_20261003]",
+    "time": "2026-10-28T06:04:16.994411+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+    ],
+    "duration_seconds": 3.2043418189998647,
+    "executed_text": "SELECT TOP 251 MAX([stock_movements_round_two_20261003].[source_modified_at_utc]) AS [max_modified] FROM [app].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003]",
+    "id": "query:df9353b165605c359e4e6b89287b56b208beea4921073ec5d5c81ef32ccf3270:4",
+    "layer": "native:9e3796a26d8d5c1a039e",
+    "parameters": [],
+    "purpose": "compare",
+    "result": {
+      "column_types": {
+        "max_modified": "DateTime"
+      },
+      "connection_attempts": [
+        {
+          "attempt": 1,
+          "finished_at": "2026-10-28T06:04:46.361872+00:00",
+          "retry_delay_seconds": 0,
+          "sql_error_number": null,
+          "stage": null,
+          "started_at": "2026-10-28T06:04:43.643703+00:00",
+          "status": "SUCCEEDED"
+        }
+      ],
+      "execution_identity": {
+        "database": "ordersops",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "sql-orderops-9696025.database.windows.net"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "max_modified": "2026-10-03 22:51:16.882024"
+        }
+      ]
+    },
+    "result_digest": "c6dedc0b7762c167b09b4a72478e4101418278eb7d435ba3aff5362f28c4cee9",
+    "row_count": 1,
+    "signature": "df9353b165605c359e4e6b89287b56b208beea4921073ec5d5c81ef32ccf3270",
+    "status": "SUCCEEDED",
+    "text": "SELECT MAX([source_modified_at_utc]) AS max_modified FROM [app].[stock_movements_round_two_20261003]",
+    "time": "2026-10-28T06:04:43.434252+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+    ],
+    "duration_seconds": 5.41629114400007,
+    "executed_text": "SELECT TOP 251 MAX([stock_movements_round_two_20261003].[source_modified_at_utc]) AS [max_modified] FROM [dbo].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003]",
+    "id": "query:618831286451eb222c8af2d110b4f699fb861a8e554f9602acdfa5b2978733f4:5",
+    "layer": "native:e95b94fd338e7086320f",
+    "parameters": [],
+    "purpose": "compare",
+    "result": {
+      "column_types": {
+        "max_modified": "DateTime"
+      },
+      "execution_identity": {
+        "database": "round_two_bronze_20261003",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "max_modified": "2026-10-03 22:51:16.882024"
+        }
+      ]
+    },
+    "result_digest": "2a11c14d49835a52daf9374880a3f4b012239d4b56af61ef13bcc31041836dec",
+    "row_count": 1,
+    "signature": "618831286451eb222c8af2d110b4f699fb861a8e554f9602acdfa5b2978733f4",
+    "status": "SUCCEEDED",
+    "text": "SELECT MAX([source_modified_at_utc]) AS max_modified FROM [dbo].[stock_movements_round_two_20261003]",
+    "time": "2026-10-28T06:04:46.911386+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+    ],
+    "duration_seconds": 3.107711436999807,
+    "executed_text": "SELECT TOP 251 COUNT(*) AS [rows_observed] FROM [app].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003]",
+    "id": "query:f3b8eb568b1cca202cf30a94b647e2d024067cd61212a5379ac0509c52b1bfd6:6",
+    "layer": "native:9e3796a26d8d5c1a039e",
+    "parameters": [],
+    "purpose": "compare",
+    "result": {
+      "column_types": {
+        "rows_observed": "Int64"
+      },
+      "connection_attempts": [
+        {
+          "attempt": 1,
+          "finished_at": "2026-10-28T06:04:55.430829+00:00",
+          "retry_delay_seconds": 0,
+          "sql_error_number": null,
+          "stage": null,
+          "started_at": "2026-10-28T06:04:52.805384+00:00",
+          "status": "SUCCEEDED"
+        }
+      ],
+      "execution_identity": {
+        "database": "ordersops",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "sql-orderops-9696025.database.windows.net"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "rows_observed": "360"
+        }
+      ]
+    },
+    "result_digest": "5a85d4649806d838bedd21451b5d85ce8ba20bd4853712317590e00b7d24a9ca",
+    "row_count": 1,
+    "signature": "f3b8eb568b1cca202cf30a94b647e2d024067cd61212a5379ac0509c52b1bfd6",
+    "status": "SUCCEEDED",
+    "text": "SELECT COUNT(*) AS rows_observed FROM [app].[stock_movements_round_two_20261003]",
+    "time": "2026-10-28T06:04:52.600846+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+    ],
+    "duration_seconds": 5.8232743159999245,
+    "executed_text": "SELECT TOP 251 COUNT(*) AS [rows_observed] FROM [dbo].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003]",
+    "id": "query:88d07cdf280559c8d65a84ae80699186f7b5eb3a786b3a9bc16c6dec6272482b:7",
+    "layer": "native:e95b94fd338e7086320f",
+    "parameters": [],
+    "purpose": "compare",
+    "result": {
+      "column_types": {
+        "rows_observed": "Int64"
+      },
+      "execution_identity": {
+        "database": "round_two_bronze_20261003",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "rows_observed": "360"
+        }
+      ]
+    },
+    "result_digest": "2825c1b7aa0dbdbdc15b9729d4bb7c75ff65ea140537d3ac2354cd63cf9b44af",
+    "row_count": 1,
+    "signature": "88d07cdf280559c8d65a84ae80699186f7b5eb3a786b3a9bc16c6dec6272482b",
+    "status": "SUCCEEDED",
+    "text": "SELECT COUNT(*) AS rows_observed FROM [dbo].[stock_movements_round_two_20261003]",
+    "time": "2026-10-28T06:04:55.980410+00:00",
+    "truncated": false
+  }
+]
+```
+
+Final answer:
+```json
+"consistent to boundary. The Movement Units card (SUM of Movements[units]) recreates at 7661. The landing lakehouse table dbo.stock_movements_round_two_20261003 also reads 7661, and so does the application source table app.stock_movements_round_two_20261003. Both tables currently hold 360 rows, and in both the newest source_modified_at_utc is 2026-10-03 22:51:16.882024. So the data looks old because the source itself has nothing newer, not because delivery is behind the source. One open issue: the latest run of the load pipeline round_two_application_load_audited_20261003 failed at 2026-10-28 05:59 (error 2011, a controlled failure before the original activities). Its last successful run ended 2026-10-27 15:54, and the declared load audit has no row for the listed run. The current reads show no source change since then, so that failure has not left the report behind the source. The last model refresh succeeded on 2026-10-27 15:56. Matching totals are point-in-time reads; they don't prove the layers were captured at the same moment, and no retained source history was read.\nNumbers: 7661, 7661, 7661, 360, 360.\nChecked: Application load fixture 20261003, round_two_bronze_20261003, ordersops.\nNative comparisons are observational snapshots; aligned query-bound versions are not established.\nCatalog bookkeeping unavailable: collector containment (recovered from literal native address), current inventory availability, inventory content hashes (metadata digests are derived and labelled), inventory provenance, per-asset collector timestamps. This does not block investigation; successful queries establish present readability only.\nattestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
+```
+
+Sealed expected:
+```json
+{
+  "case_id": "v2-failed-application-load",
+  "cause": "Latest native failed run, job name/run ID/start/end/error must be cited.",
+  "estate": "fixture",
+  "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+  "fixture": "failed-fixture",
+  "id": "v2-failed-application-load-v1",
+  "layer": "application load pipeline",
+  "split": "DEV",
+  "variation": "detailed support question",
+  "verdict": "failed job"
+}
+```
+
+### v2-failed-billing-transform-v1
+Expected: verdict 'failed job' in the billing transformation pipeline (split DEV). The cause should be the latest failed native transform run, with its name, run ID, start/end times and error, and no made-up successful completion. The delivered answer is UNRESOLVED (TOOL_OR_TIME_LIMIT). It gives no verdict, no layer or split point and no named cause, so all three dimensions score zero. Nothing matched, so partial is false. It is not harmful: it states honestly that no cause was established and does not claim a successful run. It never retrieved the failed transform run that the ticket asks about. Triage reported JOB_RUNS (along with LAYER_FRESHNESS and SOURCE_CHANGES) as UNAVAILABLE. The only job-history-like query (billing_ops dbo.load_run_audit) returned a single successful copy run from 2026-10-09, not the failed transform. Model refresh history was empty and the schedule was disabled. Gold (5 rows / 950) and bronze (4 rows / 700) disagree, but this was not followed up. Handoff quality is 1. The queries are recorded verbatim and can be rerun, and the stopping point is clear. However, the only next check is to review a failed sys.objects metadata query. It does not point to the obvious next step: getting job history for the Billing Warehouse transformation pipeline and its latest failed run (run ID, times, error), or explaining the gold/bronze gap. The first failing step is triage, because the job-run fact needed to answer the ticket was unavailable and was never gathered another way. Read and act on the current path run or freshness fact first.
+
+Intake:
+```json
+{
+  "classified_issue_type": "DATA_LOOKS_OLD",
+  "compared_with": {
+    "kind": "NOTHING"
+  },
+  "description": "I noticed that the Billing Warehouse transformation pipeline shows a Failed status on its latest job-history run. Because of this, I'm concerned the Invoiced Amount figure on the Subscription Billing page may not be reflecting current data. Can you tell me what happened with that failed run and whether the numbers in this report are stale as a result? I'd like to understand the impact on the data before I share this report with the finance team.",
+  "issue_type": "DATA_LOOKS_OLD",
+  "measure_candidates": [
+    {
+      "id": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+      "name": "Invoiced Amount"
+    }
+  ],
+  "page": "69271186d3ccfbba0cccf5a28033b28f779e8c46e00b6f45adad14d97507539e",
+  "report": "44dc6baac12f79e0f4a1c4474c63bb2867262137212e4061f4ce0882c4a90257",
+  "status": "READY",
+  "version": "IntakeRequest/1",
+  "visual": "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b"
+}
+```
+
+Target:
+```json
+{
+  "layers": {
+    "native:4aae8dbb1d373ebef783": {
+      "dialect": "DAX",
+      "label": "Subscription Billing"
+    },
+    "native:ac3ebe915b1cc00c45d7": {
+      "dialect": "T-SQL",
+      "label": "billing_bronze"
+    },
+    "native:bc3914e8dae9e68e7163": {
+      "dialect": "T-SQL",
+      "label": "billing_ops"
+    },
+    "native:db47aa505c8c14efec29": {
+      "dialect": "T-SQL",
+      "label": "billingapp"
+    },
+    "native:f87556d4485196602461": {
+      "dialect": "T-SQL",
+      "label": "billing_serving"
+    }
+  },
+  "path": {
+    "as_of": null,
+    "declared_route_bridges": [
+      {
+        "column_bindings": [
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/invoice_id",
+            "semantic_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/invoice_id"
+          },
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/account_id",
+            "semantic_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/account_id"
+          },
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/plan_id",
+            "semantic_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/plan_id"
+          },
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/invoice_date",
+            "semantic_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/invoice_date"
+          },
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/amount",
+            "semantic_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/amount"
+          },
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/status",
+            "semantic_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/status"
+          }
+        ],
+        "confidence": "DECLARED",
+        "definition_asset": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/part/model.bim",
+        "definition_hash": "7565c9db1f3083abd3e08cf3d16d74e0a8f93f5c6efd1119ef278dc5db152db1",
+        "graph_nodes": [
+          "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+          "191cfb575489c32fd0d75d43d1edbaa3929cd88cd07d8823c2360d32d42237bd"
+        ],
+        "literal_expression": "let database = Sql.Database(\"i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com\", \"406dcb89-0526-4f48-bb77-397d52471c89\") in database",
+        "native_ownership": [],
+        "partition_source": {
+          "entityName": "invoice_activity",
+          "expressionSource": "BillingServingSource",
+          "schemaName": "gold",
+          "type": "entity"
+        },
+        "physical_table": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity",
+        "qualification": "Declared route only; value agreement and aligned snapshots are not implied.",
+        "semantic_table": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing"
+      }
+    ],
+    "edges": [
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "3a6ba8ce4d7efd8c326192d087b8dfb05c43ca5209cf86cf5fb79cdbd9e4534c",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "properties": {
+          "binding_kind": "DIRECTLAKE_ENTITY",
+          "catalog_id": "406dcb89-0526-4f48-bb77-397d52471c89",
+          "container_asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+          "container_binding": {
+            "definition_hash": "3e654caa0eaa113e180f9997155d8a102b13a78bc4e15ddaccebc4e82564bdc1",
+            "observed_at": "2026-10-12T06:22:48.745954Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "container_bindings": [
+            {
+              "definition_hash": "3e654caa0eaa113e180f9997155d8a102b13a78bc4e15ddaccebc4e82564bdc1",
+              "observed_at": "2026-10-12T06:22:48.745954Z",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            }
+          ],
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+          "entity": "invoice_activity",
+          "expression_pointer": "/model/expressions/0",
+          "expression_source": "BillingServingSource",
+          "physical_definition": {
+            "definition_hash": "b32a45a2bf55337bb1a7b5ad78602572341ad2b6ebb249dc7657a32d3fb9e876",
+            "observed_at": "2026-10-12T06:22:48.745954Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "schema": "gold",
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com"
+        },
+        "provenance": {
+          "definition_hash": "73f6ea95a163d1b9ceb5e9d7eec29653c05c83d0e19f879daeac7b9b5a4823b1",
+          "observed_at": "2026-10-13T17:33:39.523856Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/part/model.bim",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/model/tables/5/partitions"
+          }
+        },
+        "source": "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+        "target": "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+        "unknown": null,
+        "valid_from": "2026-10-27T10:08:38.481811Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "5b1782b90d25ef08907c1313aa35b95c128b4ee89d888d8371860a27ea6d1804",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "properties": {
+          "completeness": "ROW_ONLY",
+          "definition": {
+            "bytes": 8289,
+            "sha256": "fb3cd6f0527e4a3b6621e12a0a081d9d43b26f9af8b78693b9cb841b5edd1d8c",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/fb3cd6f0527e4a3b6621e12a0a081d9d43b26f9af8b78693b9cb841b5edd1d8c"
+          },
+          "model_definition_hash": "73f6ea95a163d1b9ceb5e9d7eec29653c05c83d0e19f879daeac7b9b5a4823b1",
+          "native_row_hash": "f46ed22f744430f4f9406a42a056fdac7f90072a2f613406dbf2866e92b476f0"
+        },
+        "provenance": {
+          "definition_hash": "fb3cd6f0527e4a3b6621e12a0a081d9d43b26f9af8b78693b9cb841b5edd1d8c",
+          "observed_at": "2026-10-13T17:33:39.523856Z",
+          "source": "ENGINE_DEPENDENCY",
+          "source_id": "24dc7f097c6839881270308e2651f9937a44cdfcbaa0d58448f2364a4d6b8627",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/rows/21"
+          }
+        },
+        "source": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+        "target": "43a0c02d3d2889262b20a0d477b2bc41fa5985831578b1ece2f691c1da18fa5b",
+        "unknown": null,
+        "valid_from": "2026-10-13T17:33:39.523856Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "62f0613f9f6894eaf7b5e2c5047953bea360ce5bfb26ff07c9cc1e26a9b073ac",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a",
+        "properties": {
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a"
+        },
+        "provenance": {
+          "definition_hash": "c7a45e237c6350ece678a65742b3a13db4ea3e874521898574f52d08de4e70db",
+          "observed_at": "2026-10-13T17:34:44.997022Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/part/definition%2Fpages%2Fc9b267726b645332927d%2Fvisuals%2F788498de9a325c7bb6a9%2Fvisual.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/queryState/Values/projections/0/field/Measure"
+          }
+        },
+        "source": "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b",
+        "target": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+        "unknown": null,
+        "valid_from": "2026-10-13T17:34:44.997022Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "6a48e802bd984e9779fdd00a33e71b6841ab618cd095b9bcbcfdf73b2a654aae",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "properties": {
+          "completeness": "ROW_ONLY",
+          "definition": {
+            "bytes": 8289,
+            "sha256": "fb3cd6f0527e4a3b6621e12a0a081d9d43b26f9af8b78693b9cb841b5edd1d8c",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/fb3cd6f0527e4a3b6621e12a0a081d9d43b26f9af8b78693b9cb841b5edd1d8c"
+          },
+          "model_definition_hash": "73f6ea95a163d1b9ceb5e9d7eec29653c05c83d0e19f879daeac7b9b5a4823b1",
+          "native_row_hash": "ad0462db0652c3ca7c3eb37d57ab7ff55057e3edc0d3374449f3517a4d07d6e5"
+        },
+        "provenance": {
+          "definition_hash": "fb3cd6f0527e4a3b6621e12a0a081d9d43b26f9af8b78693b9cb841b5edd1d8c",
+          "observed_at": "2026-10-13T17:33:39.523856Z",
+          "source": "ENGINE_DEPENDENCY",
+          "source_id": "24dc7f097c6839881270308e2651f9937a44cdfcbaa0d58448f2364a4d6b8627",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/rows/20"
+          }
+        },
+        "source": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+        "target": "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+        "unknown": null,
+        "valid_from": "2026-10-13T17:33:39.523856Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "d8908c0765aacbfb72890a1818efd03f1efd4d224259f81635ba81fa609075dc",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "properties": {
+          "binding_kind": "DIRECTLAKE_ENTITY",
+          "catalog_id": "406dcb89-0526-4f48-bb77-397d52471c89",
+          "container_asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+          "container_binding": {
+            "definition_hash": "3e654caa0eaa113e180f9997155d8a102b13a78bc4e15ddaccebc4e82564bdc1",
+            "observed_at": "2026-10-12T06:22:48.745954Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "container_bindings": [
+            {
+              "definition_hash": "3e654caa0eaa113e180f9997155d8a102b13a78bc4e15ddaccebc4e82564bdc1",
+              "observed_at": "2026-10-12T06:22:48.745954Z",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            }
+          ],
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+          "entity": "invoice_activity",
+          "expression_pointer": "/model/expressions/0",
+          "expression_source": "BillingServingSource",
+          "physical_column_definition": {
+            "definition_hash": "e1906c3b8a1609c4564d8aac4481e9fbfe04c6b65ec9220c1b37169bd9ed8f9d",
+            "observed_at": "2026-10-13T17:41:15.000678Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/amount",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "physical_definition": {
+            "definition_hash": "b32a45a2bf55337bb1a7b5ad78602572341ad2b6ebb249dc7657a32d3fb9e876",
+            "observed_at": "2026-10-12T06:22:48.745954Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "schema": "gold",
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com",
+          "source_column": "amount"
+        },
+        "provenance": {
+          "definition_hash": "73f6ea95a163d1b9ceb5e9d7eec29653c05c83d0e19f879daeac7b9b5a4823b1",
+          "observed_at": "2026-10-13T17:33:39.523856Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/part/model.bim",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/model/tables/5/columns/4/sourceColumn"
+          }
+        },
+        "source": "43a0c02d3d2889262b20a0d477b2bc41fa5985831578b1ece2f691c1da18fa5b",
+        "target": "191cfb575489c32fd0d75d43d1edbaa3929cd88cd07d8823c2360d32d42237bd",
+        "unknown": null,
+        "valid_from": "2026-10-27T10:08:38.481811Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "6042ff3c9dfb5abdf8c92b18f134b7e2be824412f423aa110475bf6b076cb4ad",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+        "properties": {
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/76c60248-b830-433b-9880-90593da28e7e"
+        },
+        "provenance": {
+          "definition_hash": "6a8b2cf63f4dd89c731612162da50b38507fbc9120d3b5d88507d8c0653ab6cf",
+          "observed_at": "2026-10-12T06:22:48.745954Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/76c60248-b830-433b-9880-90593da28e7e/part/pipeline-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0/typeProperties/scripts/9/text"
+          }
+        },
+        "source": "cd24018f200d886024efd549c6a79f2cc38fd8665b0337f3d4b5c3d391788c22",
+        "target": "5824559a10e087711ceb49661818923333c1c87efa9ed0a2c80433e8f7f8c654",
+        "unknown": null,
+        "valid_from": "2026-10-13T07:41:50.583455Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "68a96a39b4f2f455ef383009526418b8fff04c3eb8d00a148a01b989068b86a1",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/76c60248-b830-433b-9880-90593da28e7e",
+        "properties": {
+          "basis": "EXACT_SCRIPT_DATABASE_AND_TABLE",
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/76c60248-b830-433b-9880-90593da28e7e",
+          "execution_established": false
+        },
+        "provenance": {
+          "definition_hash": "6a8b2cf63f4dd89c731612162da50b38507fbc9120d3b5d88507d8c0653ab6cf",
+          "observed_at": "2026-10-12T06:22:48.745954Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/76c60248-b830-433b-9880-90593da28e7e/part/pipeline-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0/typeProperties/scripts/9/text"
+          }
+        },
+        "source": "5824559a10e087711ceb49661818923333c1c87efa9ed0a2c80433e8f7f8c654",
+        "target": "072efb563a80031fb6ed6773a44b89662672682c6b0a16ef8c309b8e477485fb",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "7aaa34af4c1bad7ccfc7ce3f765a2d4843fae4616ddeac1bd97374180f1cb8a9",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/1853cbbb-06d1-4ae9-b378-370007c574ba",
+        "properties": {
+          "basis": "EXACT_CONNECTION_UUID_AND_NATIVE_OBJECT_ADDRESS",
+          "connection_asset": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/connection/93fd5fbf-5835-4756-bc59-bbf07302f321",
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/fc8438fd-2c18-4196-9191-33e26481e2e0",
+          "destination_asset": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/1853cbbb-06d1-4ae9-b378-370007c574ba/table/invoices",
+          "native_destination": {
+            "artifactId": "1853cbbb-06d1-4ae9-b378-370007c574ba",
+            "workspaceId": "7d67bb36-04f6-4182-95aa-da5d515248fa"
+          },
+          "source_asset": "sql://sql-orderops-9696025.database.windows.net/billingapp/object/1941581955",
+          "source_query": "SELECT [invoice_id],[account_id],[invoice_date],[amount],[status],CAST(source_row_version AS bigint) AS source_row_version,source_modified_at_utc FROM [app].[invoices]"
+        },
+        "provenance": {
+          "definition_hash": "0389f86a2811c8e11ae84891984d39ea93e5a9fb631135b78d38b22c42b3574c",
+          "observed_at": "2026-10-12T06:22:48.745954Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/fc8438fd-2c18-4196-9191-33e26481e2e0/part/pipeline-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/4"
+          }
+        },
+        "source": "072efb563a80031fb6ed6773a44b89662672682c6b0a16ef8c309b8e477485fb",
+        "target": "5fd69c1b5817645bf256c653c3a6fdfb060ba4f6cd3b35c7f56324a93e5e9ad4",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "7c9ceae9e132e23285f38c8c42b36b40efb0edd02bdc646b1d6d852abf5d992b",
+        "kind": "DERIVED_IN_STEP",
+        "label": "DERIVED_IN_STEP",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+        "properties": {
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/62eb1a7f-19c2-466f-85ec-cda6bc231fb9"
+        },
+        "provenance": {
+          "definition_hash": "b6cf6663945807581f86d5ce8432c465c4265cdf5db9fa438945d43f9ea65e09",
+          "observed_at": "2026-10-12T06:22:48.745954Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/62eb1a7f-19c2-466f-85ec-cda6bc231fb9/part/pipeline-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0/typeProperties/scripts/7/text"
+          }
+        },
+        "source": "cd24018f200d886024efd549c6a79f2cc38fd8665b0337f3d4b5c3d391788c22",
+        "target": "18e99db0461c73d0ab6adfdd91203ddfa934583167f2a525f0f33f54cfa5b780",
+        "unknown": null,
+        "valid_from": "2026-10-13T07:41:50.583455Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "9d47086709abdedd0e7709cb370976f363b0befdb19e7af7ba7005b63d4c162b",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/fc8438fd-2c18-4196-9191-33e26481e2e0",
+        "properties": {
+          "basis": "EXACT_CONNECTION_UUID_AND_NATIVE_OBJECT_ADDRESS",
+          "connection_asset": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/connection/93fd5fbf-5835-4756-bc59-bbf07302f321",
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/fc8438fd-2c18-4196-9191-33e26481e2e0",
+          "destination_asset": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/1853cbbb-06d1-4ae9-b378-370007c574ba/table/invoices",
+          "native_destination": {
+            "artifactId": "1853cbbb-06d1-4ae9-b378-370007c574ba",
+            "workspaceId": "7d67bb36-04f6-4182-95aa-da5d515248fa"
+          },
+          "source_asset": "sql://sql-orderops-9696025.database.windows.net/billingapp/object/1941581955",
+          "source_query": "SELECT [invoice_id],[account_id],[invoice_date],[amount],[status],CAST(source_row_version AS bigint) AS source_row_version,source_modified_at_utc FROM [app].[invoices]"
+        },
+        "provenance": {
+          "definition_hash": "0389f86a2811c8e11ae84891984d39ea93e5a9fb631135b78d38b22c42b3574c",
+          "observed_at": "2026-10-12T06:22:48.745954Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/fc8438fd-2c18-4196-9191-33e26481e2e0/part/pipeline-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/4"
+          }
+        },
+        "source": "5fd69c1b5817645bf256c653c3a6fdfb060ba4f6cd3b35c7f56324a93e5e9ad4",
+        "target": "564adac92668939502d6e329320c18788ae803227e5ba70fa31a65e501f9612e",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "acaa3c15195e3d45419cf863e36b0b0e599c85db8769685c4f4a86baa6590234",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/62eb1a7f-19c2-466f-85ec-cda6bc231fb9",
+        "properties": {
+          "basis": "EXACT_SCRIPT_DATABASE_AND_TABLE",
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/62eb1a7f-19c2-466f-85ec-cda6bc231fb9",
+          "execution_established": false
+        },
+        "provenance": {
+          "definition_hash": "b6cf6663945807581f86d5ce8432c465c4265cdf5db9fa438945d43f9ea65e09",
+          "observed_at": "2026-10-12T06:22:48.745954Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/62eb1a7f-19c2-466f-85ec-cda6bc231fb9/part/pipeline-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0/typeProperties/scripts/7/text"
+          }
+        },
+        "source": "18e99db0461c73d0ab6adfdd91203ddfa934583167f2a525f0f33f54cfa5b780",
+        "target": "072efb563a80031fb6ed6773a44b89662672682c6b0a16ef8c309b8e477485fb",
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      }
+    ],
+    "estate": "billing",
+    "nodes": [
+      {
+        "confidence": "DECLARED",
+        "id": "191cfb575489c32fd0d75d43d1edbaa3929cd88cd07d8823c2360d32d42237bd",
+        "kind": "COLUMN",
+        "label": "amount",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+        "properties": {
+          "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/amount",
+          "definition": {
+            "bytes": 249,
+            "sha256": "e1906c3b8a1609c4564d8aac4481e9fbfe04c6b65ec9220c1b37169bd9ed8f9d",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/e1906c3b8a1609c4564d8aac4481e9fbfe04c6b65ec9220c1b37169bd9ed8f9d"
+          },
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+          "hidden": null,
+          "native_kind": "WarehouseColumn"
+        },
+        "provenance": {
+          "definition_hash": "e1906c3b8a1609c4564d8aac4481e9fbfe04c6b65ec9220c1b37169bd9ed8f9d",
+          "observed_at": "2026-10-13T17:41:15.000678Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/amount",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:41:15.000678Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "43a0c02d3d2889262b20a0d477b2bc41fa5985831578b1ece2f691c1da18fa5b",
+        "kind": "COLUMN",
+        "label": "amount",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "properties": {
+          "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/amount",
+          "dataType": "int64",
+          "definition": {
+            "bytes": 88,
+            "sha256": "b1f9170e2c11581cbb5f36f01e51d440deff9cc017c473c9a2e93af6501741f5",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/b1f9170e2c11581cbb5f36f01e51d440deff9cc017c473c9a2e93af6501741f5"
+          },
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+          "hidden": null,
+          "native_kind": "SemanticColumn",
+          "sourceColumn": "amount"
+        },
+        "provenance": {
+          "definition_hash": "b1f9170e2c11581cbb5f36f01e51d440deff9cc017c473c9a2e93af6501741f5",
+          "observed_at": "2026-10-13T17:33:39.523856Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/amount",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:33:39.523856Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+        "kind": "TABLE",
+        "label": "Billing",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "properties": {
+          "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing",
+          "definition": {
+            "bytes": 1459,
+            "sha256": "6b0f856158e5e4207753b23208cf3d6770986030db7b78d0e8f3434b54cc7177",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/6b0f856158e5e4207753b23208cf3d6770986030db7b78d0e8f3434b54cc7177"
+          },
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+          "hidden": null,
+          "native_kind": "SemanticTable"
+        },
+        "provenance": {
+          "definition_hash": "6b0f856158e5e4207753b23208cf3d6770986030db7b78d0e8f3434b54cc7177",
+          "observed_at": "2026-10-13T17:33:39.523856Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:33:39.523856Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b",
+        "kind": "VISUAL",
+        "label": "Invoiced Amount",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a",
+        "properties": {
+          "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/visual/definition%2Fpages%2Fc9b267726b645332927d%2Fvisuals%2F788498de9a325c7bb6a9%2Fvisual.json",
+          "definition": {
+            "bytes": 1360,
+            "sha256": "c7a45e237c6350ece678a65742b3a13db4ea3e874521898574f52d08de4e70db",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7a45e237c6350ece678a65742b3a13db4ea3e874521898574f52d08de4e70db"
+          },
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a",
+          "hidden": null,
+          "native_kind": "ReportVisual"
+        },
+        "provenance": {
+          "definition_hash": "c7a45e237c6350ece678a65742b3a13db4ea3e874521898574f52d08de4e70db",
+          "observed_at": "2026-10-13T17:34:44.997022Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/part/definition%2Fpages%2Fc9b267726b645332927d%2Fvisuals%2F788498de9a325c7bb6a9%2Fvisual.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-24T08:27:13.767574Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+        "kind": "MEASURE",
+        "label": "Invoiced Amount",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "properties": {
+          "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/measures/Invoiced%20Amount",
+          "definition": {
+            "bytes": 65,
+            "sha256": "a26b55b6f4cb71659087dca20a9ec79fed75dc019546cf877c8da04323a8f13d",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/a26b55b6f4cb71659087dca20a9ec79fed75dc019546cf877c8da04323a8f13d"
+          },
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+          "hidden": null,
+          "native_kind": "Measure"
+        },
+        "provenance": {
+          "definition_hash": "a26b55b6f4cb71659087dca20a9ec79fed75dc019546cf877c8da04323a8f13d",
+          "observed_at": "2026-10-13T17:33:39.523856Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/measures/Invoiced%20Amount",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:33:39.523856Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "id": "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+        "kind": "TABLE",
+        "label": "gold.invoice_activity",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+        "properties": {
+          "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity",
+          "definition_source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity"
+        }
+      },
+      {
+        "id": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+        "kind": "MODEL",
+        "label": "Subscription Billing",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "properties": {
+          "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+          "definition_source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "072efb563a80031fb6ed6773a44b89662672682c6b0a16ef8c309b8e477485fb",
+        "kind": "TABLE",
+        "label": "invoices",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/1853cbbb-06d1-4ae9-b378-370007c574ba",
+        "properties": {
+          "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/1853cbbb-06d1-4ae9-b378-370007c574ba/table/invoices",
+          "definition": {
+            "bytes": 2325,
+            "sha256": "ab15c7afa25e113c01bfb1da86109ba2d05b7e565b1febe526d3bbe5c4fa9aa6",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/ab15c7afa25e113c01bfb1da86109ba2d05b7e565b1febe526d3bbe5c4fa9aa6"
+          },
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/1853cbbb-06d1-4ae9-b378-370007c574ba",
+          "hidden": null,
+          "native_kind": "LakehouseTable",
+          "retained_metadata_hash_encoding": "SORTED_JSON_COMPACT_LEGACY"
+        },
+        "provenance": {
+          "definition_hash": "ab15c7afa25e113c01bfb1da86109ba2d05b7e565b1febe526d3bbe5c4fa9aa6",
+          "observed_at": "2026-10-12T06:22:48.745954Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/1853cbbb-06d1-4ae9-b378-370007c574ba/table/invoices",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-12T06:22:48.745954Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "18e99db0461c73d0ab6adfdd91203ddfa934583167f2a525f0f33f54cfa5b780",
+        "kind": "QUERY_STEP",
+        "label": "Declared SQL script",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/62eb1a7f-19c2-466f-85ec-cda6bc231fb9",
+        "properties": {
+          "definition": {
+            "bytes": 7287,
+            "sha256": "b6cf6663945807581f86d5ce8432c465c4265cdf5db9fa438945d43f9ea65e09",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/b6cf6663945807581f86d5ce8432c465c4265cdf5db9fa438945d43f9ea65e09"
+          },
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/62eb1a7f-19c2-466f-85ec-cda6bc231fb9",
+          "execution_established": false,
+          "expression": "CREATE VIEW [bronze].[invoices] AS SELECT [invoice_id],[account_id],[invoice_date],[amount],[status],source_row_version,source_modified_at_utc FROM [billing_bronze].[dbo].[invoices];",
+          "language": "TSQL"
+        },
+        "provenance": {
+          "definition_hash": "b6cf6663945807581f86d5ce8432c465c4265cdf5db9fa438945d43f9ea65e09",
+          "observed_at": "2026-10-12T06:22:48.745954Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/62eb1a7f-19c2-466f-85ec-cda6bc231fb9/part/pipeline-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0/typeProperties/scripts/7/text"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T07:41:50.583455Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "564adac92668939502d6e329320c18788ae803227e5ba70fa31a65e501f9612e",
+        "kind": "TABLE",
+        "label": "app.invoices",
+        "owner": "sql://sql-orderops-9696025.database.windows.net/billingapp",
+        "properties": {
+          "asset_id": "sql://sql-orderops-9696025.database.windows.net/billingapp/object/1941581955",
+          "definition": {
+            "bytes": 1936,
+            "sha256": "3a9f9060f6d5dd82a343bf33e2a8677046c0fecdac24025dc111a10fbbf8d3a7",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/3a9f9060f6d5dd82a343bf33e2a8677046c0fecdac24025dc111a10fbbf8d3a7"
+          },
+          "definition_source_owner": "sql://sql-orderops-9696025.database.windows.net/billingapp",
+          "hidden": null,
+          "native_kind": "SqlObject",
+          "retained_metadata_hash_encoding": "SORTED_JSON_SPACED",
+          "source_system_object": true
+        },
+        "provenance": {
+          "definition_hash": "3a9f9060f6d5dd82a343bf33e2a8677046c0fecdac24025dc111a10fbbf8d3a7",
+          "observed_at": "2026-10-12T06:22:48.745954Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "sql://sql-orderops-9696025.database.windows.net/billingapp/object/1941581955",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "5824559a10e087711ceb49661818923333c1c87efa9ed0a2c80433e8f7f8c654",
+        "kind": "QUERY_STEP",
+        "label": "Declared SQL script",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/76c60248-b830-433b-9880-90593da28e7e",
+        "properties": {
+          "definition": {
+            "bytes": 7645,
+            "sha256": "6a8b2cf63f4dd89c731612162da50b38507fbc9120d3b5d88507d8c0653ab6cf",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/6a8b2cf63f4dd89c731612162da50b38507fbc9120d3b5d88507d8c0653ab6cf"
+          },
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/76c60248-b830-433b-9880-90593da28e7e",
+          "execution_established": false,
+          "expression": "CREATE VIEW [bronze].[invoices] AS SELECT [invoice_id],[account_id],[invoice_date],[amount],[status],source_row_version,source_modified_at_utc FROM [billing_bronze].[dbo].[invoices];",
+          "language": "TSQL"
+        },
+        "provenance": {
+          "definition_hash": "6a8b2cf63f4dd89c731612162da50b38507fbc9120d3b5d88507d8c0653ab6cf",
+          "observed_at": "2026-10-12T06:22:48.745954Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/76c60248-b830-433b-9880-90593da28e7e/part/pipeline-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0/typeProperties/scripts/9/text"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T07:41:50.583455Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "5fd69c1b5817645bf256c653c3a6fdfb060ba4f6cd3b35c7f56324a93e5e9ad4",
+        "kind": "COPY_ACTIVITY",
+        "label": "Copy_invoices",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/fc8438fd-2c18-4196-9191-33e26481e2e0",
+        "properties": {
+          "activity_type": "Copy",
+          "definition": {
+            "bytes": 21384,
+            "sha256": "0389f86a2811c8e11ae84891984d39ea93e5a9fb631135b78d38b22c42b3574c",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/0389f86a2811c8e11ae84891984d39ea93e5a9fb631135b78d38b22c42b3574c"
+          },
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/fc8438fd-2c18-4196-9191-33e26481e2e0",
+          "native_copy_binding": {
+            "basis": "EXACT_CONNECTION_UUID_AND_NATIVE_OBJECT_ADDRESS",
+            "connection_asset": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/connection/93fd5fbf-5835-4756-bc59-bbf07302f321",
+            "destination_asset": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/1853cbbb-06d1-4ae9-b378-370007c574ba/table/invoices",
+            "native_destination": {
+              "artifactId": "1853cbbb-06d1-4ae9-b378-370007c574ba",
+              "workspaceId": "7d67bb36-04f6-4182-95aa-da5d515248fa"
+            },
+            "source_asset": "sql://sql-orderops-9696025.database.windows.net/billingapp/object/1941581955",
+            "source_query": "SELECT [invoice_id],[account_id],[invoice_date],[amount],[status],CAST(source_row_version AS bigint) AS source_row_version,source_modified_at_utc FROM [app].[invoices]"
+          }
+        },
+        "provenance": {
+          "definition_hash": "0389f86a2811c8e11ae84891984d39ea93e5a9fb631135b78d38b22c42b3574c",
+          "observed_at": "2026-10-12T06:22:48.745954Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/fc8438fd-2c18-4196-9191-33e26481e2e0/part/pipeline-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/4"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-28T03:35:17.564451Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "cd24018f200d886024efd549c6a79f2cc38fd8665b0337f3d4b5c3d391788c22",
+        "kind": "VIEW",
+        "label": "bronze.invoices",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+        "properties": {
+          "definition": {
+            "bytes": 7287,
+            "sha256": "b6cf6663945807581f86d5ce8432c465c4265cdf5db9fa438945d43f9ea65e09",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/b6cf6663945807581f86d5ce8432c465c4265cdf5db9fa438945d43f9ea65e09"
+          },
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/62eb1a7f-19c2-466f-85ec-cda6bc231fb9",
+          "execution_established": false,
+          "schema_evidence": "CODE_DECLARED_NOT_OBSERVED",
+          "script_database": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+          "script_name": "bronze.invoices"
+        },
+        "provenance": {
+          "definition_hash": "b6cf6663945807581f86d5ce8432c465c4265cdf5db9fa438945d43f9ea65e09",
+          "observed_at": "2026-10-12T06:22:48.745954Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/62eb1a7f-19c2-466f-85ec-cda6bc231fb9/part/pipeline-content.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/properties/activities/0/typeProperties/scripts/7/text"
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T07:41:50.583455Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "56132b6a75761fcbacab05eb8d140b68e0c5ebbdc195e993a772d1f464db1463",
+        "kind": "TABLE",
+        "label": "dbo.load_run_audit",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/9cd1829b-7e2e-4340-8f59-fdf996033198",
+        "properties": {
+          "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/9cd1829b-7e2e-4340-8f59-fdf996033198/table/dbo.load_run_audit",
+          "definition": {
+            "bytes": 1402,
+            "sha256": "e980b97b290eade70d549961586aa27e43aa5e199de1ec36021cf92a5533568c",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/e980b97b290eade70d549961586aa27e43aa5e199de1ec36021cf92a5533568c"
+          },
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/9cd1829b-7e2e-4340-8f59-fdf996033198",
+          "hidden": null,
+          "native_kind": "WarehouseTable",
+          "retained_metadata_hash_encoding": "SORTED_JSON_SPACED"
+        },
+        "provenance": {
+          "definition_hash": "e980b97b290eade70d549961586aa27e43aa5e199de1ec36021cf92a5533568c",
+          "observed_at": "2026-10-12T06:22:48.745954Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/9cd1829b-7e2e-4340-8f59-fdf996033198/table/dbo.load_run_audit",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-12T06:22:48.745954Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      }
+    ],
+    "stops": [
+      {
+        "node": "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "43a0c02d3d2889262b20a0d477b2bc41fa5985831578b1ece2f691c1da18fa5b",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "43a0c02d3d2889262b20a0d477b2bc41fa5985831578b1ece2f691c1da18fa5b",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "191cfb575489c32fd0d75d43d1edbaa3929cd88cd07d8823c2360d32d42237bd",
+        "reason": "Owner definition refresh unavailable: RuntimeError",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "191cfb575489c32fd0d75d43d1edbaa3929cd88cd07d8823c2360d32d42237bd",
+        "reason": "No retained upstream dependency is declared for this object."
+      },
+      {
+        "node": "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+        "reason": "Owner definition refresh unavailable: RuntimeError",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+        "reason": "No retained upstream dependency is declared for this object."
+      }
+    ],
+    "truncated": false,
+    "unavailable_owners": {
+      "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89": {
+        "at": "2026-10-28T06:03:11.630566Z",
+        "failure": {
+          "errno": null,
+          "error_type": "RuntimeError",
+          "line": 88,
+          "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+          "message_redacted": false,
+          "module": "graph_change_collector.py"
+        },
+        "reason": "Owner definition refresh unavailable: RuntimeError",
+        "status": "UNAVAILABLE"
+      },
+      "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188": {
+        "at": "2026-10-28T06:03:20.599000Z",
+        "failure": {
+          "errno": null,
+          "error_type": "MetadataUnavailable",
+          "http_status": 404,
+          "line": 106,
+          "message": "Metadata provider request unavailable",
+          "message_redacted": false,
+          "module": "metadata_auth.py",
+          "provider_code": "EntityNotFound"
+        },
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "status": "UNAVAILABLE"
+      },
+      "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a": {
+        "at": "2026-10-28T06:03:23.952432Z",
+        "failure": {
+          "errno": null,
+          "error_type": "MetadataUnavailable",
+          "http_status": 404,
+          "line": 106,
+          "message": "Metadata provider request unavailable",
+          "message_redacted": false,
+          "module": "metadata_auth.py",
+          "provider_code": "EntityNotFound"
+        },
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "status": "UNAVAILABLE"
+      }
+    }
+  }
+}
+```
+
+Triage:
+```json
+{
+  "facts": [
+    {
+      "cached": false,
+      "check": "MODEL_REFRESH",
+      "observed_at": "2026-10-28T06:21:43.643661Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED_NEGATIVE",
+      "value": [
+        {
+          "collected_at": "2026-10-28T06:21:43.643661Z",
+          "freshness": "CURRENT",
+          "id": "65fd28349e41df4f2669d89da23dd1de597e5fd5a2db9b05aa481c3c0eeefd78",
+          "kind": "RUN_HISTORY",
+          "observed_at": "2026-10-28T06:21:43.643661Z",
+          "provenance": {
+            "collector": "microsoft-runtime:8b8add39b1b3bbf05051200684642bc68ee0c9695580165440fd17fca6875167",
+            "evidence_ids": [
+              "sha256:5518e69e59a63ae9599830ab0ea2552a1c16ca90d74383d71cc10ca34d69ac77"
+            ],
+            "locator": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED_NEGATIVE",
+          "subject": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+          "value": {
+            "listing_complete": true,
+            "runs": []
+          }
+        }
+      ]
+    },
+    {
+      "cached": false,
+      "check": "REFRESH_SCHEDULE",
+      "observed_at": "2026-10-28T06:21:43.643661Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T06:21:43.643661Z",
+          "freshness": "CURRENT",
+          "id": "bf606243fbce354e0c2b91ac6a1f0b6715f84ac09d309b0fab4a9b9e200e6036",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T06:21:43.643661Z",
+          "provenance": {
+            "collector": "microsoft-runtime:8b8add39b1b3bbf05051200684642bc68ee0c9695580165440fd17fca6875167",
+            "evidence_ids": [
+              "sha256:82b1cbfbfff465c33982765807dc9f50a201edeba662730817051b285b134874"
+            ],
+            "locator": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+          "value": {
+            "enabled": false,
+            "native_schedule": {
+              "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/7d67bb36-04f6-4182-95aa-da5d515248fa/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+              "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ],
+              "enabled": false,
+              "localTimeZoneId": "UTC",
+              "notifyOption": "MailOnFailure",
+              "times": [
+                "19:00"
+              ]
+            },
+            "next_due": null,
+            "previous_due": null
+          }
+        }
+      ]
+    },
+    {
+      "check": "AUTOMATIC_UPDATES",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:AUTOMATIC_UPDATES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "JOB_RUNS",
+      "detail": "FRESH_PATH_FACT_NOT_AVAILABLE:JOB_RUNS",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "LAYER_FRESHNESS",
+      "detail": "FRESH_PATH_FACT_NOT_AVAILABLE:LAYER_FRESHNESS",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "SOURCE_CHANGES",
+      "detail": "FRESH_PATH_FACT_NOT_AVAILABLE:SOURCE_CHANGES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "cached": false,
+      "check": "NEXT_LOAD",
+      "observed_at": "2026-10-28T06:21:43.643661Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T06:21:43.643661Z",
+          "freshness": "CURRENT",
+          "id": "bf606243fbce354e0c2b91ac6a1f0b6715f84ac09d309b0fab4a9b9e200e6036",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T06:21:43.643661Z",
+          "provenance": {
+            "collector": "microsoft-runtime:8b8add39b1b3bbf05051200684642bc68ee0c9695580165440fd17fca6875167",
+            "evidence_ids": [
+              "sha256:82b1cbfbfff465c33982765807dc9f50a201edeba662730817051b285b134874"
+            ],
+            "locator": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+          "value": {
+            "enabled": false,
+            "native_schedule": {
+              "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/7d67bb36-04f6-4182-95aa-da5d515248fa/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+              "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ],
+              "enabled": false,
+              "localTimeZoneId": "UTC",
+              "notifyOption": "MailOnFailure",
+              "times": [
+                "19:00"
+              ]
+            },
+            "next_due": null,
+            "previous_due": null
+          }
+        }
+      ]
+    },
+    {
+      "check": "CONNECTION_MODE",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:CONNECTION_MODE",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "SECURITY_PRESENCE",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:SECURITY_PRESENCE",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "DEFINITION_CHANGES",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:DEFINITION_CHANGES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    }
+  ],
+  "path": [
+    "191cfb575489c32fd0d75d43d1edbaa3929cd88cd07d8823c2360d32d42237bd",
+    "43a0c02d3d2889262b20a0d477b2bc41fa5985831578b1ece2f691c1da18fa5b",
+    "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+    "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+    "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b",
+    "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+    "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1"
+  ],
+  "refresh_operations": 10,
+  "what_triage_suggests": "Triage has unavailable checks (AUTOMATIC_UPDATES, JOB_RUNS, LAYER_FRESHNESS, SOURCE_CHANGES, CONNECTION_MODE, SECURITY_PRESENCE, DEFINITION_CHANGES); this does not establish that those mechanisms are absent."
+}
+```
+
+Tool decisions:
+```json
+[
+  {
+    "arguments": {
+      "layer": "native:4aae8dbb1d373ebef783",
+      "purpose": "recreate",
+      "query": "EVALUATE ROW(\"Invoiced Amount\", [Invoiced Amount], \"rows\", COUNTROWS(Billing), \"max_invoice_date\", MAX(Billing[invoice_date]))"
+    },
+    "tool": "run_dax",
+    "tool_use_id": "toolu_018eEBfyL3GTXsNNDEg4GgNo",
+    "turn": 1
+  },
+  {
+    "arguments": {
+      "layer": "native:f87556d4485196602461",
+      "purpose": "compare",
+      "query": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount, COUNT(*) AS rows_observed, MAX([invoice_date]) AS max_invoice_date FROM [gold].[invoice_activity]"
+    },
+    "tool": "run_sql",
+    "tool_use_id": "toolu_01DghjiwDKdwbvo9cpDNyvbn",
+    "turn": 1
+  },
+  {
+    "arguments": {
+      "node": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8"
+    },
+    "tool": "get_refresh_history",
+    "tool_use_id": "toolu_016hRdACPbEsfTxaKGb1hsoK",
+    "turn": 1
+  },
+  {
+    "arguments": {
+      "node": "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+      "operation": "PRODUCERS"
+    },
+    "tool": "get_lineage",
+    "tool_use_id": "toolu_01SqqH9p3vzq51f4SaaEvXpc",
+    "turn": 1
+  },
+  {
+    "arguments": {
+      "words": "billing warehouse transformation pipeline stored procedure invoice_activity bronze job history"
+    },
+    "tool": "list_candidates",
+    "tool_use_id": "toolu_01Mduzd63BkcHFHs5CDUMN1p",
+    "turn": 4
+  },
+  {
+    "arguments": {
+      "words": "invoices bronze invoice load procedure pipeline run"
+    },
+    "tool": "list_candidates",
+    "tool_use_id": "toolu_01Lrddk4VDkJvQRVjJYprdBi",
+    "turn": 7
+  },
+  {
+    "arguments": {
+      "layer": "native:f87556d4485196602461",
+      "purpose": "lookup",
+      "query": "SELECT TOP 20 s.name AS schema_name, o.name AS object_name, o.type_desc, o.modify_date FROM sys.objects o JOIN sys.schemas s ON s.schema_id = o.schema_id WHERE o.type IN ('P','V','U') ORDER BY o.modify_date DESC"
+    },
+    "tool": "run_sql",
+    "tool_use_id": "toolu_01Hkci1RMsEdJU7yArabYCdm",
+    "turn": 7
+  },
+  {
+    "arguments": {
+      "node": "cd24018f200d886024efd549c6a79f2cc38fd8665b0337f3d4b5c3d391788c22",
+      "operation": "PATH"
+    },
+    "tool": "get_lineage",
+    "tool_use_id": "toolu_01CgPBESBJgjXFHS9goKxepZ",
+    "turn": 10
+  },
+  {
+    "arguments": {
+      "node": "56132b6a75761fcbacab05eb8d140b68e0c5ebbdc195e993a772d1f464db1463",
+      "operation": "PATH"
+    },
+    "tool": "get_lineage",
+    "tool_use_id": "toolu_01FB8xpmQ3uaNjv487LZAbc8",
+    "turn": 10
+  },
+  {
+    "arguments": {
+      "node": "cd24018f200d886024efd549c6a79f2cc38fd8665b0337f3d4b5c3d391788c22"
+    },
+    "tool": "get_definition",
+    "tool_use_id": "toolu_01Vz45WgyRLocm4fuUdaCFJe",
+    "turn": 10
+  },
+  {
+    "arguments": {
+      "node": "cd24018f200d886024efd549c6a79f2cc38fd8665b0337f3d4b5c3d391788c22"
+    },
+    "tool": "get_job_runs",
+    "tool_use_id": "toolu_018KujiqTfEKrp8FjTE5g6kD",
+    "turn": 13
+  },
+  {
+    "arguments": {
+      "layer": "native:bc3914e8dae9e68e7163",
+      "purpose": "history",
+      "query": "SELECT TOP 20 run_id, pipeline_name, status, rows_read, rows_written, accounting_state, start_time_utc, end_time_utc, high_watermark FROM dbo.load_run_audit ORDER BY start_time_utc DESC"
+    },
+    "tool": "run_sql",
+    "tool_use_id": "toolu_014vMCvhLQ6Jth2Fsdh1AK9Y",
+    "turn": 13
+  },
+  {
+    "arguments": {
+      "layer": "native:ac3ebe915b1cc00c45d7",
+      "purpose": "compare",
+      "query": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount, COUNT(*) AS rows_observed, MAX([invoice_date]) AS max_invoice_date, MAX([source_modified_at_utc]) AS max_modified FROM [dbo].[invoices]"
+    },
+    "tool": "run_sql",
+    "tool_use_id": "toolu_01WktJC5R8m6BoaYS4Rk8QyZ",
+    "turn": 13
+  },
+  {
+    "arguments": {
+      "layer": "native:db47aa505c8c14efec29",
+      "purpose": "compare",
+      "query": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount, COUNT(*) AS rows_observed, MAX([invoice_date]) AS max_invoice_date, MAX([source_modified_at_utc]) AS max_modified FROM [app].[invoices]"
+    },
+    "tool": "run_sql",
+    "tool_use_id": "toolu_011bTXNjfvHCARJQ1ZWMZuSW",
+    "turn": 13
+  },
+  {
+    "arguments": {
+      "node": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/62eb1a7f-19c2-466f-85ec-cda6bc231fb9"
+    },
+    "tool": "get_job_runs",
+    "tool_use_id": "toolu_012dHrS6HbTUCagnbE3yv5Lk",
+    "turn": 16
+  }
+]
+```
+
+Queries:
+```json
+[
+  {
+    "asset_ids": [
+      "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing",
+      "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/invoice_date",
+      "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/measures/Invoiced%20Amount"
+    ],
+    "duration_seconds": 11.482870622000064,
+    "executed_text": "EVALUATE TOPN(251,ROW(\"Invoiced Amount\",[Invoiced Amount],\"rows\",COUNTROWS(Billing),\"max_invoice_date\",MAX(Billing[invoice_date])))",
+    "id": "query:af218d97b40a5fa42330fb33dab6ecb3feb73968404870ad81f458d338248199:1",
+    "layer": "native:4aae8dbb1d373ebef783",
+    "parameters": [],
+    "purpose": "recreate",
+    "result": {
+      "rows": [
+        {
+          "[Invoiced Amount]": 950,
+          "[max_invoice_date]": "2026-10-01T00:00:00",
+          "[rows]": 5
+        }
+      ],
+      "warnings": [
+        "attestation limited: the engine can’t self-report the calling principal; the token and connection were verified separately"
+      ]
+    },
+    "result_digest": "768c09ce7732d94e86a1cb7b15cfaca800790def6ed32f5e8a21996794489f75",
+    "row_count": 1,
+    "signature": "af218d97b40a5fa42330fb33dab6ecb3feb73968404870ad81f458d338248199",
+    "status": "SUCCEEDED",
+    "text": "EVALUATE ROW(\"Invoiced Amount\", [Invoiced Amount], \"rows\", COUNTROWS(Billing), \"max_invoice_date\", MAX(Billing[invoice_date]))",
+    "time": "2026-10-28T06:21:57.633301+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity"
+    ],
+    "duration_seconds": 8.618429688999981,
+    "executed_text": "SELECT TOP 251 SUM(CAST([invoice_activity].[amount] AS BIGINT)) AS [invoiced_amount], COUNT(*) AS [rows_observed], MAX([invoice_activity].[invoice_date]) AS [max_invoice_date] FROM [gold].[invoice_activity] AS [invoice_activity]",
+    "id": "query:eb0a6a56597dd8f881f57a31589ffd5bcf8e91fb244fee5ffdb6a400bb2825f6:2",
+    "layer": "native:f87556d4485196602461",
+    "parameters": [],
+    "purpose": "compare",
+    "result": {
+      "column_types": {
+        "invoiced_amount": "Int64",
+        "max_invoice_date": "DateTime",
+        "rows_observed": "Int64"
+      },
+      "execution_identity": {
+        "database": "billing_serving",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "invoiced_amount": "950",
+          "max_invoice_date": "2026-10-01",
+          "rows_observed": "5"
+        }
+      ]
+    },
+    "result_digest": "9bd1e64a4f8477fb9245c7757b56cbe2b1f0b48b252d208dd3dea7392b4641d7",
+    "row_count": 1,
+    "signature": "eb0a6a56597dd8f881f57a31589ffd5bcf8e91fb244fee5ffdb6a400bb2825f6",
+    "status": "SUCCEEDED",
+    "text": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount, COUNT(*) AS rows_observed, MAX([invoice_date]) AS max_invoice_date FROM [gold].[invoice_activity]",
+    "time": "2026-10-28T06:22:09.369952+00:00",
+    "truncated": false
+  },
+  {
+    "duration_seconds": 0,
+    "error": "SQL object unavailable or view dependencies not validated",
+    "error_type": "QueryRejection",
+    "failure_class": "wrong column or table",
+    "id": "query:82ba092806fe06c9d423feb229d34b5969876832f61b5a818cb23b50eb49ea54:3",
+    "layer": "native:f87556d4485196602461",
+    "native_dispatched": false,
+    "purpose": "lookup",
+    "result_digest": null,
+    "row_count": null,
+    "schema_slice": [
+      {
+        "columns": [
+          {
+            "collation_name": null,
+            "data_type": "int",
+            "name": "invoice_id",
+            "observed_type": "int"
+          },
+          {
+            "collation_name": null,
+            "data_type": "int",
+            "name": "account_id",
+            "observed_type": "int"
+          },
+          {
+            "collation_name": null,
+            "data_type": "int",
+            "name": "plan_id",
+            "observed_type": "int"
+          },
+          {
+            "collation_name": null,
+            "data_type": "date",
+            "name": "invoice_date",
+            "observed_type": "date"
+          },
+          {
+            "collation_name": null,
+            "data_type": "int",
+            "name": "amount",
+            "observed_type": "int"
+          },
+          {
+            "collation_name": "Latin1_General_100_BIN2_UTF8",
+            "data_type": "varchar",
+            "name": "status",
+            "observed_type": "varchar"
+          }
+        ],
+        "id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity",
+        "name": "invoice_activity",
+        "schema_name": "gold",
+        "type_desc": "USER_TABLE"
+      }
+    ],
+    "signature": "82ba092806fe06c9d423feb229d34b5969876832f61b5a818cb23b50eb49ea54",
+    "status": "ERROR",
+    "text": "SELECT TOP 20 s.name AS schema_name, o.name AS object_name, o.type_desc, o.modify_date FROM sys.objects o JOIN sys.schemas s ON s.schema_id = o.schema_id WHERE o.type IN ('P','V','U') ORDER BY o.modify_date DESC",
+    "time": "2026-10-28T06:22:35.299499+00:00"
+  },
+  {
+    "asset_ids": [
+      "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/9cd1829b-7e2e-4340-8f59-fdf996033198/table/dbo.load_run_audit"
+    ],
+    "duration_seconds": 16.039217263999944,
+    "executed_text": "SELECT TOP 20 [load_run_audit].[run_id] AS [run_id], [load_run_audit].[pipeline_name] AS [pipeline_name], [load_run_audit].[status] AS [status], [load_run_audit].[rows_read] AS [rows_read], [load_run_audit].[rows_written] AS [rows_written], [load_run_audit].[accounting_state] AS [accounting_state], [load_run_audit].[start_time_utc] AS [start_time_utc], [load_run_audit].[end_time_utc] AS [end_time_utc], [load_run_audit].[high_watermark] AS [high_watermark] FROM [dbo].[load_run_audit] AS [load_run_audit] ORDER BY [start_time_utc] DESC",
+    "id": "query:89a3fff720af43d3727a83b3fd069c4e36dc0eff46e6cfd1cefc241f8c3e2173:4",
+    "layer": "native:bc3914e8dae9e68e7163",
+    "parameters": [],
+    "purpose": "history",
+    "result": {
+      "column_types": {
+        "accounting_state": "String",
+        "end_time_utc": "String",
+        "high_watermark": "String",
+        "pipeline_name": "String",
+        "rows_read": "Int64",
+        "rows_written": "Int64",
+        "run_id": "String",
+        "start_time_utc": "String",
+        "status": "String"
+      },
+      "execution_identity": {
+        "database": "billing_ops",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "accounting_state": "OBSERVED_COPY_OUTPUT",
+          "end_time_utc": "2026-10-09T21:54:56.6775595",
+          "high_watermark": null,
+          "pipeline_name": "fc8438fd-2c18-4196-9191-33e26481e2e0",
+          "rows_read": "26",
+          "rows_written": "26",
+          "run_id": "e82f690b-6865-48b5-a38c-9a116cd9c132",
+          "start_time_utc": "2026-10-09T21:51:03.1830083Z",
+          "status": "Succeeded"
+        }
+      ]
+    },
+    "result_digest": "3bc8ab902f07870146ce8ca1030281b9c1b0d1d7b31de7331702fd87eb951559",
+    "row_count": 1,
+    "signature": "89a3fff720af43d3727a83b3fd069c4e36dc0eff46e6cfd1cefc241f8c3e2173",
+    "status": "SUCCEEDED",
+    "text": "SELECT TOP 20 run_id, pipeline_name, status, rows_read, rows_written, accounting_state, start_time_utc, end_time_utc, high_watermark FROM dbo.load_run_audit ORDER BY start_time_utc DESC",
+    "time": "2026-10-28T06:23:17.141150+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/1853cbbb-06d1-4ae9-b378-370007c574ba/table/invoices"
+    ],
+    "duration_seconds": 12.495990182000014,
+    "executed_text": "SELECT TOP 251 SUM(CAST([invoices].[amount] AS BIGINT)) AS [invoiced_amount], COUNT(*) AS [rows_observed], MAX([invoices].[invoice_date]) AS [max_invoice_date], MAX([invoices].[source_modified_at_utc]) AS [max_modified] FROM [dbo].[invoices] AS [invoices]",
+    "id": "query:a0003b4ea20aa9bf2035a3a69a6e8866c2e49a503043f6d437206b4b34b9d3ca:5",
+    "layer": "native:ac3ebe915b1cc00c45d7",
+    "parameters": [],
+    "purpose": "compare",
+    "result": {
+      "column_types": {
+        "invoiced_amount": "Int64",
+        "max_invoice_date": "DateTime",
+        "max_modified": "DateTime",
+        "rows_observed": "Int64"
+      },
+      "execution_identity": {
+        "database": "billing_bronze",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@dff91047-ebc2-4657-8dbe-5af328d57780",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "invoiced_amount": "700",
+          "max_invoice_date": "2026-10-01",
+          "max_modified": "2026-10-09 21:42:24.128711",
+          "rows_observed": "4"
+        }
+      ]
+    },
+    "result_digest": "cbe01cb0338cc410b7a3fd52e2435e0a392671fd2622b6877473de31231d01cf",
+    "row_count": 1,
+    "signature": "a0003b4ea20aa9bf2035a3a69a6e8866c2e49a503043f6d437206b4b34b9d3ca",
+    "status": "SUCCEEDED",
+    "text": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount, COUNT(*) AS rows_observed, MAX([invoice_date]) AS max_invoice_date, MAX([source_modified_at_utc]) AS max_modified FROM [dbo].[invoices]",
+    "time": "2026-10-28T06:23:33.562782+00:00",
+    "truncated": false
+  },
+  {
+    "asset_ids": [
+      "sql://sql-orderops-9696025.database.windows.net/billingapp/object/1941581955"
+    ],
+    "duration_seconds": 3.1794493909999346,
+    "executed_text": "SELECT TOP 251 SUM(CAST([invoices].[amount] AS BIGINT)) AS [invoiced_amount], COUNT(*) AS [rows_observed], MAX([invoices].[invoice_date]) AS [max_invoice_date], MAX([invoices].[source_modified_at_utc]) AS [max_modified] FROM [app].[invoices] AS [invoices]",
+    "id": "query:0d13e699ed49e6f09872497c31b76b96a8436c203b5fd5dccb5d1ba78bed5002:6",
+    "layer": "native:db47aa505c8c14efec29",
+    "parameters": [],
+    "purpose": "compare",
+    "result": {
+      "column_types": {
+        "invoiced_amount": "Int64",
+        "max_invoice_date": "DateTime",
+        "max_modified": "DateTime",
+        "rows_observed": "Int64"
+      },
+      "connection_attempts": [
+        {
+          "attempt": 1,
+          "finished_at": "2026-10-28T06:23:49.343472+00:00",
+          "retry_delay_seconds": 0,
+          "sql_error_number": null,
+          "stage": null,
+          "started_at": "2026-10-28T06:23:46.643843+00:00",
+          "status": "SUCCEEDED"
+        }
+      ],
+      "execution_identity": {
+        "database": "billingapp",
+        "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+        "provenance": "TRANSPORT_PERMISSION_CHECK",
+        "server": "sql-orderops-9696025.database.windows.net"
+      },
+      "read_only_verified": true,
+      "rows": [
+        {
+          "invoiced_amount": "700",
+          "max_invoice_date": "2026-10-01",
+          "max_modified": "2026-10-09 21:42:24.128711",
+          "rows_observed": "4"
+        }
+      ]
+    },
+    "result_digest": "2fed1e78ac4875f097bfcbacb4bcc533fa104e72116dc79d524daf3b39af62be",
+    "row_count": 1,
+    "signature": "0d13e699ed49e6f09872497c31b76b96a8436c203b5fd5dccb5d1ba78bed5002",
+    "status": "SUCCEEDED",
+    "text": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount, COUNT(*) AS rows_observed, MAX([invoice_date]) AS max_invoice_date, MAX([source_modified_at_utc]) AS max_modified FROM [app].[invoices]",
+    "time": "2026-10-28T06:23:46.436400+00:00",
+    "truncated": false
+  }
+]
+```
+
+Final answer:
+```json
+"The checks did not establish a cause within this ticket’s limits."
+```
+
+Sealed expected:
+```json
+{
+  "case_id": "v2-failed-billing-transform",
+  "cause": "Latest failed native transform run with name/run ID/start/end/error; no invented successful completion.",
+  "estate": "billing",
+  "expectation_basis": "Practice source literals, declared definitions and reversible scenario plan; never an engine answer.",
+  "fixture": "failed-billing",
+  "id": "v2-failed-billing-transform-v1",
+  "layer": "billing transformation pipeline",
+  "split": "DEV",
+  "variation": "detailed support question",
+  "verdict": "failed job"
+}
+```
+
+Saved checkpoint SHA-256: f5dda9f77f33795cf942922f2724e333b0e3c9761a4a41e38c710f5931cd280d. Only recorded tool choices are shown; no new queries or model calls.
+
+### v2-failed-billing-transform-v2
+Expected: verdict 'failed job' in the billing transformation pipeline, with the cause being the latest failed native transform run (name, run ID, start/end time, error). The delivered answer is UNRESOLVED (TOOL_OR_TIME_LIMIT). It names no verdict, no layer or split point, and no cause, so all three score zero. The grading rule also says an unresolved budget stop is not a successful technical answer. The answer is not harmful: it honestly says no cause was established and doesn't invent a successful run or a wrong cause. Where it went wrong: the ticket explicitly says the transformation job shows Failed, but the JOB_RUNS triage fact was UNAVAILABLE (FRESH_PATH_FACT_NOT_AVAILABLE). The investigation then compared the semantic model with gold.invoice_activity (both 950 / 5 rows / max 2026-10-01) and tried to query silver.invoices and bronze.invoices, which don't exist. It never looked at the pipeline run history. Handoff quality is 1. The queries are recorded word for word and can be rerun, and the stopping point is clearly stated. However, the next checks only say to review the queries rejected for missing silver/bronze objects. They don't suggest the obvious next step: get the latest run status and error for the Billing Warehouse transformation job, even though the ticket points straight to it. Read and act on the current path run or freshness fact first.
+
+Intake:
+```json
+{
+  "classified_issue_type": "DATA_LOOKS_OLD",
+  "compared_with": {
+    "kind": "NOTHING"
+  },
+  "description": "The Billing Warehouse transformation job shows Failed on the latest run. Is the Invoiced Amount on the Subscription Billing page out of date because of this?",
+  "issue_type": "DATA_LOOKS_OLD",
+  "measure_candidates": [
+    {
+      "id": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+      "name": "Invoiced Amount"
+    }
+  ],
+  "page": "69271186d3ccfbba0cccf5a28033b28f779e8c46e00b6f45adad14d97507539e",
+  "report": "44dc6baac12f79e0f4a1c4474c63bb2867262137212e4061f4ce0882c4a90257",
+  "status": "READY",
+  "version": "IntakeRequest/1",
+  "visual": "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b"
+}
+```
+
+Target:
+```json
+{
+  "layers": {
+    "native:4aae8dbb1d373ebef783": {
+      "dialect": "DAX",
+      "label": "Subscription Billing"
+    },
+    "native:f87556d4485196602461": {
+      "dialect": "T-SQL",
+      "label": "billing_serving"
+    }
+  },
+  "path": {
+    "as_of": null,
+    "declared_route_bridges": [
+      {
+        "column_bindings": [
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/invoice_id",
+            "semantic_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/invoice_id"
+          },
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/account_id",
+            "semantic_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/account_id"
+          },
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/plan_id",
+            "semantic_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/plan_id"
+          },
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/invoice_date",
+            "semantic_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/invoice_date"
+          },
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/amount",
+            "semantic_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/amount"
+          },
+          {
+            "basis": "EXACT_PARTITION_SOURCE_COLUMN",
+            "physical_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/status",
+            "semantic_column": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/status"
+          }
+        ],
+        "confidence": "DECLARED",
+        "definition_asset": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/part/model.bim",
+        "definition_hash": "7565c9db1f3083abd3e08cf3d16d74e0a8f93f5c6efd1119ef278dc5db152db1",
+        "graph_nodes": [
+          "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+          "191cfb575489c32fd0d75d43d1edbaa3929cd88cd07d8823c2360d32d42237bd"
+        ],
+        "literal_expression": "let database = Sql.Database(\"i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com\", \"406dcb89-0526-4f48-bb77-397d52471c89\") in database",
+        "native_ownership": [],
+        "partition_source": {
+          "entityName": "invoice_activity",
+          "expressionSource": "BillingServingSource",
+          "schemaName": "gold",
+          "type": "entity"
+        },
+        "physical_table": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity",
+        "qualification": "Declared route only; value agreement and aligned snapshots are not implied.",
+        "semantic_table": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing"
+      }
+    ],
+    "edges": [
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "3a6ba8ce4d7efd8c326192d087b8dfb05c43ca5209cf86cf5fb79cdbd9e4534c",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "properties": {
+          "binding_kind": "DIRECTLAKE_ENTITY",
+          "catalog_id": "406dcb89-0526-4f48-bb77-397d52471c89",
+          "container_asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+          "container_binding": {
+            "definition_hash": "3e654caa0eaa113e180f9997155d8a102b13a78bc4e15ddaccebc4e82564bdc1",
+            "observed_at": "2026-10-12T06:22:48.745954Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "container_bindings": [
+            {
+              "definition_hash": "3e654caa0eaa113e180f9997155d8a102b13a78bc4e15ddaccebc4e82564bdc1",
+              "observed_at": "2026-10-12T06:22:48.745954Z",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            }
+          ],
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+          "entity": "invoice_activity",
+          "expression_pointer": "/model/expressions/0",
+          "expression_source": "BillingServingSource",
+          "physical_definition": {
+            "definition_hash": "b32a45a2bf55337bb1a7b5ad78602572341ad2b6ebb249dc7657a32d3fb9e876",
+            "observed_at": "2026-10-12T06:22:48.745954Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "schema": "gold",
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com"
+        },
+        "provenance": {
+          "definition_hash": "73f6ea95a163d1b9ceb5e9d7eec29653c05c83d0e19f879daeac7b9b5a4823b1",
+          "observed_at": "2026-10-13T17:33:39.523856Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/part/model.bim",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/model/tables/5/partitions"
+          }
+        },
+        "source": "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+        "target": "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+        "unknown": null,
+        "valid_from": "2026-10-27T10:08:38.481811Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "5b1782b90d25ef08907c1313aa35b95c128b4ee89d888d8371860a27ea6d1804",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "properties": {
+          "completeness": "ROW_ONLY",
+          "definition": {
+            "bytes": 8289,
+            "sha256": "fb3cd6f0527e4a3b6621e12a0a081d9d43b26f9af8b78693b9cb841b5edd1d8c",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/fb3cd6f0527e4a3b6621e12a0a081d9d43b26f9af8b78693b9cb841b5edd1d8c"
+          },
+          "model_definition_hash": "73f6ea95a163d1b9ceb5e9d7eec29653c05c83d0e19f879daeac7b9b5a4823b1",
+          "native_row_hash": "f46ed22f744430f4f9406a42a056fdac7f90072a2f613406dbf2866e92b476f0"
+        },
+        "provenance": {
+          "definition_hash": "fb3cd6f0527e4a3b6621e12a0a081d9d43b26f9af8b78693b9cb841b5edd1d8c",
+          "observed_at": "2026-10-13T17:33:39.523856Z",
+          "source": "ENGINE_DEPENDENCY",
+          "source_id": "24dc7f097c6839881270308e2651f9937a44cdfcbaa0d58448f2364a4d6b8627",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/rows/21"
+          }
+        },
+        "source": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+        "target": "43a0c02d3d2889262b20a0d477b2bc41fa5985831578b1ece2f691c1da18fa5b",
+        "unknown": null,
+        "valid_from": "2026-10-13T17:33:39.523856Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "62f0613f9f6894eaf7b5e2c5047953bea360ce5bfb26ff07c9cc1e26a9b073ac",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a",
+        "properties": {
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a"
+        },
+        "provenance": {
+          "definition_hash": "c7a45e237c6350ece678a65742b3a13db4ea3e874521898574f52d08de4e70db",
+          "observed_at": "2026-10-13T17:34:44.997022Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/part/definition%2Fpages%2Fc9b267726b645332927d%2Fvisuals%2F788498de9a325c7bb6a9%2Fvisual.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/queryState/Values/projections/0/field/Measure"
+          }
+        },
+        "source": "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b",
+        "target": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+        "unknown": null,
+        "valid_from": "2026-10-13T17:34:44.997022Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "6a48e802bd984e9779fdd00a33e71b6841ab618cd095b9bcbcfdf73b2a654aae",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "properties": {
+          "completeness": "ROW_ONLY",
+          "definition": {
+            "bytes": 8289,
+            "sha256": "fb3cd6f0527e4a3b6621e12a0a081d9d43b26f9af8b78693b9cb841b5edd1d8c",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/fb3cd6f0527e4a3b6621e12a0a081d9d43b26f9af8b78693b9cb841b5edd1d8c"
+          },
+          "model_definition_hash": "73f6ea95a163d1b9ceb5e9d7eec29653c05c83d0e19f879daeac7b9b5a4823b1",
+          "native_row_hash": "ad0462db0652c3ca7c3eb37d57ab7ff55057e3edc0d3374449f3517a4d07d6e5"
+        },
+        "provenance": {
+          "definition_hash": "fb3cd6f0527e4a3b6621e12a0a081d9d43b26f9af8b78693b9cb841b5edd1d8c",
+          "observed_at": "2026-10-13T17:33:39.523856Z",
+          "source": "ENGINE_DEPENDENCY",
+          "source_id": "24dc7f097c6839881270308e2651f9937a44cdfcbaa0d58448f2364a4d6b8627",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/rows/20"
+          }
+        },
+        "source": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+        "target": "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+        "unknown": null,
+        "valid_from": "2026-10-13T17:33:39.523856Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "base_confidence": "DECLARED",
+        "confidence": "DECLARED",
+        "id": "d8908c0765aacbfb72890a1818efd03f1efd4d224259f81635ba81fa609075dc",
+        "kind": "COMPUTED_FROM",
+        "label": "COMPUTED_FROM",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "properties": {
+          "binding_kind": "DIRECTLAKE_ENTITY",
+          "catalog_id": "406dcb89-0526-4f48-bb77-397d52471c89",
+          "container_asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+          "container_binding": {
+            "definition_hash": "3e654caa0eaa113e180f9997155d8a102b13a78bc4e15ddaccebc4e82564bdc1",
+            "observed_at": "2026-10-12T06:22:48.745954Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "container_bindings": [
+            {
+              "definition_hash": "3e654caa0eaa113e180f9997155d8a102b13a78bc4e15ddaccebc4e82564bdc1",
+              "observed_at": "2026-10-12T06:22:48.745954Z",
+              "source": "STATIC_DEFINITION",
+              "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+              "span": {
+                "kind": "JSON_POINTER",
+                "path": ""
+              }
+            }
+          ],
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+          "entity": "invoice_activity",
+          "expression_pointer": "/model/expressions/0",
+          "expression_source": "BillingServingSource",
+          "physical_column_definition": {
+            "definition_hash": "e1906c3b8a1609c4564d8aac4481e9fbfe04c6b65ec9220c1b37169bd9ed8f9d",
+            "observed_at": "2026-10-13T17:41:15.000678Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/amount",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "physical_definition": {
+            "definition_hash": "b32a45a2bf55337bb1a7b5ad78602572341ad2b6ebb249dc7657a32d3fb9e876",
+            "observed_at": "2026-10-12T06:22:48.745954Z",
+            "source": "STATIC_DEFINITION",
+            "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity",
+            "span": {
+              "kind": "JSON_POINTER",
+              "path": ""
+            }
+          },
+          "schema": "gold",
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com",
+          "source_column": "amount"
+        },
+        "provenance": {
+          "definition_hash": "73f6ea95a163d1b9ceb5e9d7eec29653c05c83d0e19f879daeac7b9b5a4823b1",
+          "observed_at": "2026-10-13T17:33:39.523856Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/part/model.bim",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": "/model/tables/5/columns/4/sourceColumn"
+          }
+        },
+        "source": "43a0c02d3d2889262b20a0d477b2bc41fa5985831578b1ece2f691c1da18fa5b",
+        "target": "191cfb575489c32fd0d75d43d1edbaa3929cd88cd07d8823c2360d32d42237bd",
+        "unknown": null,
+        "valid_from": "2026-10-27T10:08:38.481811Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      }
+    ],
+    "estate": "billing",
+    "nodes": [
+      {
+        "confidence": "DECLARED",
+        "id": "191cfb575489c32fd0d75d43d1edbaa3929cd88cd07d8823c2360d32d42237bd",
+        "kind": "COLUMN",
+        "label": "amount",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+        "properties": {
+          "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/amount",
+          "definition": {
+            "bytes": 249,
+            "sha256": "e1906c3b8a1609c4564d8aac4481e9fbfe04c6b65ec9220c1b37169bd9ed8f9d",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/e1906c3b8a1609c4564d8aac4481e9fbfe04c6b65ec9220c1b37169bd9ed8f9d"
+          },
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+          "hidden": null,
+          "native_kind": "WarehouseColumn"
+        },
+        "provenance": {
+          "definition_hash": "e1906c3b8a1609c4564d8aac4481e9fbfe04c6b65ec9220c1b37169bd9ed8f9d",
+          "observed_at": "2026-10-13T17:41:15.000678Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity/column/amount",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:41:15.000678Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "43a0c02d3d2889262b20a0d477b2bc41fa5985831578b1ece2f691c1da18fa5b",
+        "kind": "COLUMN",
+        "label": "amount",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "properties": {
+          "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/amount",
+          "dataType": "int64",
+          "definition": {
+            "bytes": 88,
+            "sha256": "b1f9170e2c11581cbb5f36f01e51d440deff9cc017c473c9a2e93af6501741f5",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/b1f9170e2c11581cbb5f36f01e51d440deff9cc017c473c9a2e93af6501741f5"
+          },
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+          "hidden": null,
+          "native_kind": "SemanticColumn",
+          "sourceColumn": "amount"
+        },
+        "provenance": {
+          "definition_hash": "b1f9170e2c11581cbb5f36f01e51d440deff9cc017c473c9a2e93af6501741f5",
+          "observed_at": "2026-10-13T17:33:39.523856Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/columns/amount",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:33:39.523856Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+        "kind": "TABLE",
+        "label": "Billing",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "properties": {
+          "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing",
+          "definition": {
+            "bytes": 1459,
+            "sha256": "6b0f856158e5e4207753b23208cf3d6770986030db7b78d0e8f3434b54cc7177",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/6b0f856158e5e4207753b23208cf3d6770986030db7b78d0e8f3434b54cc7177"
+          },
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+          "hidden": null,
+          "native_kind": "SemanticTable"
+        },
+        "provenance": {
+          "definition_hash": "6b0f856158e5e4207753b23208cf3d6770986030db7b78d0e8f3434b54cc7177",
+          "observed_at": "2026-10-13T17:33:39.523856Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:33:39.523856Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b",
+        "kind": "VISUAL",
+        "label": "Invoiced Amount",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a",
+        "properties": {
+          "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/visual/definition%2Fpages%2Fc9b267726b645332927d%2Fvisuals%2F788498de9a325c7bb6a9%2Fvisual.json",
+          "definition": {
+            "bytes": 1360,
+            "sha256": "c7a45e237c6350ece678a65742b3a13db4ea3e874521898574f52d08de4e70db",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/c7a45e237c6350ece678a65742b3a13db4ea3e874521898574f52d08de4e70db"
+          },
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a",
+          "hidden": null,
+          "native_kind": "ReportVisual"
+        },
+        "provenance": {
+          "definition_hash": "c7a45e237c6350ece678a65742b3a13db4ea3e874521898574f52d08de4e70db",
+          "observed_at": "2026-10-13T17:34:44.997022Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/part/definition%2Fpages%2Fc9b267726b645332927d%2Fvisuals%2F788498de9a325c7bb6a9%2Fvisual.json",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-24T08:27:13.767574Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "confidence": "DECLARED",
+        "id": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+        "kind": "MEASURE",
+        "label": "Invoiced Amount",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "properties": {
+          "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/measures/Invoiced%20Amount",
+          "definition": {
+            "bytes": 65,
+            "sha256": "a26b55b6f4cb71659087dca20a9ec79fed75dc019546cf877c8da04323a8f13d",
+            "uri": "https://diaplatformd5dd7d65.blob.core.windows.net/snapshots/files/a26b55b6f4cb71659087dca20a9ec79fed75dc019546cf877c8da04323a8f13d"
+          },
+          "definition_source_owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+          "hidden": null,
+          "native_kind": "Measure"
+        },
+        "provenance": {
+          "definition_hash": "a26b55b6f4cb71659087dca20a9ec79fed75dc019546cf877c8da04323a8f13d",
+          "observed_at": "2026-10-13T17:33:39.523856Z",
+          "source": "STATIC_DEFINITION",
+          "source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/measures/Invoiced%20Amount",
+          "span": {
+            "kind": "JSON_POINTER",
+            "path": ""
+          }
+        },
+        "unknown": null,
+        "valid_from": "2026-10-13T17:33:39.523856Z",
+        "valid_to": null,
+        "verification": {
+          "evidence_ids": [],
+          "scope_hash": null,
+          "state": "NOT_VERIFIED"
+        }
+      },
+      {
+        "id": "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+        "kind": "TABLE",
+        "label": "gold.invoice_activity",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89",
+        "properties": {
+          "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity",
+          "definition_source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89/table/gold.invoice_activity"
+        }
+      },
+      {
+        "id": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+        "kind": "MODEL",
+        "label": "Subscription Billing",
+        "owner": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+        "properties": {
+          "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+          "definition_source_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188"
+        }
+      }
+    ],
+    "stops": [
+      {
+        "node": "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "43a0c02d3d2889262b20a0d477b2bc41fa5985831578b1ece2f691c1da18fa5b",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "43a0c02d3d2889262b20a0d477b2bc41fa5985831578b1ece2f691c1da18fa5b",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "remedy": "Warning: following the retained dependency; current collection failed."
+      },
+      {
+        "node": "191cfb575489c32fd0d75d43d1edbaa3929cd88cd07d8823c2360d32d42237bd",
+        "reason": "Owner definition refresh unavailable: RuntimeError",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "191cfb575489c32fd0d75d43d1edbaa3929cd88cd07d8823c2360d32d42237bd",
+        "reason": "No retained upstream dependency is declared for this object."
+      },
+      {
+        "node": "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+        "reason": "Owner definition refresh unavailable: RuntimeError",
+        "remedy": "Warning: using the retained definition; current collection failed."
+      },
+      {
+        "node": "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+        "reason": "No retained upstream dependency is declared for this object."
+      }
+    ],
+    "truncated": false,
+    "unavailable_owners": {
+      "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/406dcb89-0526-4f48-bb77-397d52471c89": {
+        "at": "2026-10-28T06:03:11.630566Z",
+        "failure": {
+          "errno": null,
+          "error_type": "RuntimeError",
+          "line": 88,
+          "message": "GRAPH_DEFINITION_KIND_UNAVAILABLE",
+          "message_redacted": false,
+          "module": "graph_change_collector.py"
+        },
+        "reason": "Owner definition refresh unavailable: RuntimeError",
+        "status": "UNAVAILABLE"
+      },
+      "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188": {
+        "at": "2026-10-28T06:03:20.599000Z",
+        "failure": {
+          "errno": null,
+          "error_type": "MetadataUnavailable",
+          "http_status": 404,
+          "line": 106,
+          "message": "Metadata provider request unavailable",
+          "message_redacted": false,
+          "module": "metadata_auth.py",
+          "provider_code": "EntityNotFound"
+        },
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "status": "UNAVAILABLE"
+      },
+      "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a": {
+        "at": "2026-10-28T06:03:23.952432Z",
+        "failure": {
+          "errno": null,
+          "error_type": "MetadataUnavailable",
+          "http_status": 404,
+          "line": 106,
+          "message": "Metadata provider request unavailable",
+          "message_redacted": false,
+          "module": "metadata_auth.py",
+          "provider_code": "EntityNotFound"
+        },
+        "reason": "Owner definition refresh unavailable: MetadataUnavailable",
+        "status": "UNAVAILABLE"
+      }
+    }
+  }
+}
+```
+
+Triage:
+```json
+{
+  "facts": [
+    {
+      "cached": true,
+      "check": "MODEL_REFRESH",
+      "observed_at": "2026-10-28T06:22:18.194285Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED_NEGATIVE",
+      "value": [
+        {
+          "collected_at": "2026-10-28T06:22:18.194285Z",
+          "freshness": "CURRENT",
+          "id": "f55f20bf6ff328d22705b4043ea996e110df3eda334d3be5ee99988b8814b942",
+          "kind": "RUN_HISTORY",
+          "observed_at": "2026-10-28T06:22:18.194285Z",
+          "provenance": {
+            "collector": "microsoft-runtime:8b8add39b1b3bbf05051200684642bc68ee0c9695580165440fd17fca6875167",
+            "evidence_ids": [
+              "sha256:5af1889bed514118e966f6e5667727c75b7e45bc338836793d373e3b2046235b"
+            ],
+            "locator": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED_NEGATIVE",
+          "subject": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+          "value": {
+            "listing_complete": true,
+            "runs": []
+          }
+        }
+      ]
+    },
+    {
+      "cached": true,
+      "check": "REFRESH_SCHEDULE",
+      "observed_at": "2026-10-28T06:22:18.194285Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T06:22:18.194285Z",
+          "freshness": "CURRENT",
+          "id": "5364674dabc7d981b7989ddd96151fdd04d0a85f8d0207c61da08b0fc2e9374a",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T06:22:18.194285Z",
+          "provenance": {
+            "collector": "microsoft-runtime:8b8add39b1b3bbf05051200684642bc68ee0c9695580165440fd17fca6875167",
+            "evidence_ids": [
+              "sha256:a141b182fa6e710f7ad086c88e702f3d73a0a158301326e03f14360e093b4e52"
+            ],
+            "locator": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+          "value": {
+            "enabled": false,
+            "native_schedule": {
+              "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/7d67bb36-04f6-4182-95aa-da5d515248fa/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+              "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ],
+              "enabled": false,
+              "localTimeZoneId": "UTC",
+              "notifyOption": "MailOnFailure",
+              "times": [
+                "19:00"
+              ]
+            },
+            "next_due": null,
+            "previous_due": null
+          }
+        }
+      ]
+    },
+    {
+      "check": "AUTOMATIC_UPDATES",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:AUTOMATIC_UPDATES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "JOB_RUNS",
+      "detail": "FRESH_PATH_FACT_NOT_AVAILABLE:JOB_RUNS",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "LAYER_FRESHNESS",
+      "detail": "FRESH_PATH_FACT_NOT_AVAILABLE:LAYER_FRESHNESS",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "SOURCE_CHANGES",
+      "detail": "FRESH_PATH_FACT_NOT_AVAILABLE:SOURCE_CHANGES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "cached": false,
+      "check": "NEXT_LOAD",
+      "observed_at": "2026-10-28T06:25:06.836417Z",
+      "source": "facts-ledger",
+      "state": "OBSERVED",
+      "value": [
+        {
+          "collected_at": "2026-10-28T06:25:06.836417Z",
+          "freshness": "CURRENT",
+          "id": "acce0facb9594bc9f16cdb9bdedce6b90140dc7aea917b378a29e8076f930a25",
+          "kind": "SCHEDULE",
+          "observed_at": "2026-10-28T06:25:06.836417Z",
+          "provenance": {
+            "collector": "microsoft-runtime:8b8add39b1b3bbf05051200684642bc68ee0c9695580165440fd17fca6875167",
+            "evidence_ids": [
+              "sha256:387d3b298ba159e8d6315019426f5dec299aeedefb66bef074d154a5f91220f1"
+            ],
+            "locator": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8"
+          },
+          "reason": null,
+          "source": "RUNTIME_OBSERVATION",
+          "state": "OBSERVED",
+          "subject": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+          "value": {
+            "enabled": false,
+            "native_schedule": {
+              "@odata.context": "https://wabi-india-central-a-primary-redirect.analysis.windows.net/v1.0/myorg/groups/7d67bb36-04f6-4182-95aa-da5d515248fa/$metadata#Microsoft.PowerBI.ServiceContracts.Api.V1.RefreshSchedule",
+              "days": [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ],
+              "enabled": false,
+              "localTimeZoneId": "UTC",
+              "notifyOption": "MailOnFailure",
+              "times": [
+                "19:00"
+              ]
+            },
+            "next_due": null,
+            "previous_due": null
+          }
+        }
+      ]
+    },
+    {
+      "check": "CONNECTION_MODE",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:CONNECTION_MODE",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "SECURITY_PRESENCE",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:SECURITY_PRESENCE",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "check": "DEFINITION_CHANGES",
+      "detail": "CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:DEFINITION_CHANGES",
+      "observed_at": null,
+      "previous": null,
+      "reason": "ValueError",
+      "source": null,
+      "state": "UNAVAILABLE"
+    }
+  ],
+  "path": [
+    "191cfb575489c32fd0d75d43d1edbaa3929cd88cd07d8823c2360d32d42237bd",
+    "43a0c02d3d2889262b20a0d477b2bc41fa5985831578b1ece2f691c1da18fa5b",
+    "65cb9c1f1a3864da8e2e4f0a23f759fe3edf25c3ea2b033b3b4ea6016f6469f7",
+    "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8",
+    "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b",
+    "d2134e5898e279c2662565bf22d60de79ec7b5516ae09128fade437079f4b6fe",
+    "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1"
+  ],
+  "refresh_operations": 8,
+  "what_triage_suggests": "Triage has unavailable checks (AUTOMATIC_UPDATES, JOB_RUNS, LAYER_FRESHNESS, SOURCE_CHANGES, CONNECTION_MODE, SECURITY_PRESENCE, DEFINITION_CHANGES); this does not establish that those mechanisms are absent."
+}
+```
+
+Tool decisions:
+```json
+[
+  {
+    "arguments": {
+      "id": "case-evidence:25e2e825633c60689792fb46cf09e8735a2a9174e412d06b69702a22bc9899f1"
+    },
+    "tool": "get_evidence",
+    "tool_use_id": "toolu_011hFGqK6KopqPw1HA62zM1G",
+    "turn": 1
+  },
+  {
+    "arguments": {
+      "layer": "native:4aae8dbb1d373ebef783",
+      "purpose": "recreate",
+      "query": "EVALUATE ROW(\"Invoiced Amount\", SUM(Billing[amount]), \"max_invoice_date\", MAX(Billing[invoice_date]), \"rows\", COUNTROWS(Billing))"
+    },
+    "tool": "run_dax",
+    "tool_use_id": "toolu_01WUUC3Mm8fMCdMKgMx9Fcda",
+    "turn": 1
+  },
+  {
+    "arguments": {
+      "layer": "native:f87556d4485196602461",
+      "purpose": "compare",
+      "query": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount, MAX([invoice_date]) AS max_invoice_date, COUNT(*) AS rows_observed FROM [gold].[invoice_activity]"
+    },
+    "tool": "run_sql",
+    "tool_use_id": "toolu_012GsF1bG7dUmPzP3mMJ5WFf",
+    "turn": 1
+  },
+  {
+    "arguments": {
+      "node": "85ebcba2928d8f8528fb24a35f5eef13ba764e4ad8f00d738c85558dc2a53bd8"
+    },
+    "tool": "get_refresh_history",
+    "tool_use_id": "toolu_01G2qZC5XQTNkNCefVLsGj2V",
+    "turn": 1
+  },
+  {
+    "arguments": {
+      "node": "d9f7093f1620cf2715c3b6b0d43f5e569975ad02e75519892fd133ea007142c1",
+      "operation": "PRODUCERS"
+    },
+    "tool": "get_lineage",
+    "tool_use_id": "toolu_01VjfmXNedFyNKt7L8jdFYFy",
+    "turn": 1
+  },
+  {
+    "arguments": {
+      "words": "invoice_activity stored procedure transformation bronze invoices billing warehouse job",
+      "workspace": "7d67bb36-04f6-4182-95aa-da5d515248fa"
+    },
+    "tool": "list_candidates",
+    "tool_use_id": "toolu_01FdKGSAtzGjix2TueSE1vD7",
+    "turn": 4
+  },
+  {
+    "arguments": {
+      "node": "2439472548ec60dbbc1c57e217175f6e5cc5eef8b3c3cfea6b10463407a0e04c",
+      "operation": "NEIGHBOURS"
+    },
+    "tool": "get_lineage",
+    "tool_use_id": "toolu_01A932pXfzq3Ec4Xn8UKdqfV",
+    "turn": 7
+  },
+  {
+    "arguments": {
+      "node": "072efb563a80031fb6ed6773a44b89662672682c6b0a16ef8c309b8e477485fb",
+      "operation": "NEIGHBOURS"
+    },
+    "tool": "get_lineage",
+    "tool_use_id": "toolu_01Knyptoxjy9R1xPXVEgrDoc",
+    "turn": 7
+  },
+  {
+    "arguments": {
+      "node": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/76c60248-b830-433b-9880-90593da28e7e"
+    },
+    "tool": "get_job_runs",
+    "tool_use_id": "toolu_01R7wAJ7dkrskgs7B6ndNyET",
+    "turn": 10
+  },
+  {
+    "arguments": {
+      "node": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/62eb1a7f-19c2-466f-85ec-cda6bc231fb9"
+    },
+    "tool": "get_job_runs",
+    "tool_use_id": "toolu_01FZsV1rsuY2fK7ocmAHYKNX",
+    "turn": 10
+  },
+  {
+    "arguments": {
+      "node": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/fc8438fd-2c18-4196-9191-33e26481e2e0"
+    },
+    "tool": "get_job_runs",
+    "tool_use_id": "toolu_01PLaiZVAub7YVhq1gH7YSQt",
+    "turn": 10
+  },
+  {
+    "arguments": {
+      "layer": "native:f87556d4485196602461",
+      "purpose": "compare",
+      "query": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount FROM [silver].[invoices]"
+    },
+    "tool": "run_sql",
+    "tool_use_id": "toolu_01YBtZopxiDgJGLtU9gKTAtb",
+    "turn": 10
+  },
+  {
+    "arguments": {
+      "layer": "native:f87556d4485196602461",
+      "purpose": "compare",
+      "query": "SELECT SUM(CAST([amount] AS bigint)) AS invoiced_amount FROM [bronze].[invoices]"
+    },
+    "tool": "run_sql",
+    "tool_use_id": "toolu_01GWT4XGmr3q4NBUmckJAWtH",
+    "turn": 10
+  },
+  {
+    "arguments": {
+      "id": "case-evidence:af837c6c27d533e5843ccea850f69d4f191294d2b061380d7bff7844e196f40e"
+    },
+    "tool": "get_evidence",
+    "tool_use_id": "toolu_01WiDJeXJfxwD3Nq15qjYrQS",
+    "turn": 13
+  },
+  {
+    "arguments": {
+      "node": "5fd69c1b5817645bf256c653c3a6fdfb060ba4f6cd3b35c7f56324a93e5e9ad4"
+    },
+    "tool": "get_job_runs",
+    "tool_use_id": "toolu_019spftoTGqaWUxFoMxmZXHt",
+    "turn": 16
   }
 ]
 ```
