@@ -195,3 +195,18 @@ Round23 stale held01 DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_rest
 
 
 Round23 held01 stale final restoration: original source row/business-schema hashes matched, original360 real restore load Completed; automatic updates restoredON in existing publisher UI, own API model refreshf5181b94-b40a-4a0a-afda-970e040d8f7f Completed2026-10-27T15:56:11.943Z, native model read7661. The once-only held-out outcome was sealed before restore. Refresh6physical chargedRESTORATION, model verification1 chargedINV; no identity, role or connection change. Native receipt .local/round-twenty-three/injections/held01-stale/status.json; screenshots private, hashes ledger-linked.
+
+
+Round24 failed-fixture dev01: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-four\injections\dev01-failed-fixture\status.json. No grant/identity change.
+
+
+Round24 failed-billing dev01: FAILED_JOB_ESTABLISHED_DEFINITION_HASH_RESTORED. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-four\injections\dev01-failed-billing\status.json. No grant/identity change.
+
+
+Round24 waiting dev01 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-four\injections\dev01-waiting\status.json.
+
+
+Round24 latency dev01 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-four\injections\dev01-latency-admission05\status.json. Temporal remains ON.
+
+
+Round24 history dev01 SOURCE47_LOADED41_TEMPORAL_NATIVE_HISTORY_HELD; restoration_required=True. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-four\injections\dev01-history\status.json. Temporal history ON; native historical versions retained.

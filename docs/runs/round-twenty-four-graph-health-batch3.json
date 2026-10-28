@@ -1,0 +1,41 @@
+{
+  "batch": "same-activity native procedure declarations and execution calls",
+  "estate_reads": 0,
+  "model_calls": 0,
+  "results": [
+    {
+      "estate": "fixture",
+      "complete": {
+        "visuals": 66,
+        "fully_traceable": 2,
+        "percentage": 3.03
+      },
+      "visuals_with_explicit_member_edges_before": 54,
+      "visuals_with_explicit_member_edges_after": 54,
+      "published": false
+    },
+    {
+      "estate": "billing",
+      "complete": {
+        "visuals": 7,
+        "fully_traceable": 7,
+        "percentage": 100.0
+      },
+      "visuals_with_explicit_member_edges_before": 7,
+      "visuals_with_explicit_member_edges_after": 7,
+      "published": false
+    },
+    {
+      "estate": "dia-sample-estate",
+      "complete": {
+        "visuals": 7,
+        "fully_traceable": 0,
+        "percentage": 0.0
+      },
+      "visuals_with_explicit_member_edges_before": 5,
+      "visuals_with_explicit_member_edges_after": 5,
+      "published": false
+    }
+  ],
+  "complete_path_increase_claimed": false
+}

@@ -77,6 +77,14 @@ class NativeCatalog:
         table/model ancestors using retained native parent identities.
         """
         reached={n.get('properties',{}).get('asset_id') for n in path['nodes']}
+        # A producing expression is owned by the retained definition part,
+        # even when the derived step has no separate inventory asset. Keep
+        # that literal owner available for native job history; it is not a
+        # same-name source/producer inference.
+        for node in path['nodes']:
+            if node.get('kind')in ('QUERY_STEP','PROCEDURE','FILTER')and node.get('properties',{}).get('expression'):
+                source=node.get('provenance',{}).get('source_id')
+                if self.assets.get(source,{}).get('kind')=='DefinitionPart':reached.add(source)
         pending=list(reached);ancestors=set()
         while pending:
             identity=pending.pop();asset=self.assets.get(identity,{})
@@ -88,7 +96,7 @@ class NativeCatalog:
                 pending.append(parent)
         present={n['id'] for n in path['nodes']}
         return [deepcopy(n) for n in self.graph_nodes.values() if n['id'] not in present
-                and n.get('kind') in ('TABLE','VIEW','MODEL')
+                  and n.get('kind') in ('TABLE','VIEW','MODEL','PIPELINE','COPY_ACTIVITY','NOTEBOOK','PROCEDURE')
                 and n.get('properties',{}).get('asset_id') in ancestors]
 
     def prepare(self, identity, nodes=None):
@@ -96,28 +104,46 @@ class NativeCatalog:
         route=self.routes[identity]
         selected={a['id'] for a in route['objects'] if nodes is None or set(nodes).intersection(self.object_nodes(a['id']))}
         if route['kind']=='DAX':
-            tables={a['id'] for a in route['objects'] if a['kind']=='SemanticTable' and
-                    (nodes is None or set(nodes).intersection(self.object_nodes(a['id'])))}
-            names={a['name'] for a in route['objects'] if a['id'] in tables}
-            # Schema relationships belong in the context; unrelated model
-            # tables do not. This does not select the investigative next step.
-            relationships=[a['metadata'] for a in self.assets.values() if a['kind']=='SemanticRelationship' and a['parent_id']==route['container']]
-            for _ in range(len(relationships)+1):
-                before=set(names)
-                for relationship in relationships:
-                    if names.intersection({relationship.get('fromTable'),relationship.get('toTable')}):
-                        names.update(t for t in (relationship.get('fromTable'),relationship.get('toTable')) if t)
-                if names==before:break
-            tables.update(a['id'] for a in route['objects'] if a['kind']=='SemanticTable' and a['name'] in names)
-            selected={a['id'] for a in route['objects'] if a['id'] in tables or a.get('parent_id') in tables}
+            if nodes is None:selected={a['id']for a in route['objects']}
+            else:
+                nodes=set(nodes)
+                measures={a['id']for a in route['objects']if a['kind']=='Measure'and nodes.intersection(self.object_nodes(a['id']))}
+                columns={a['id']for a in route['objects']if a['kind']=='SemanticColumn'and nodes.intersection(self.object_nodes(a['id']))}
+                inputs={a['id']for a in route['objects']if a['kind']=='SemanticTable'and nodes.intersection(self.nodes[a['id']])}
+                inputs.update(a['parent_id']for a in route['objects']if a['id']in columns)
+                input_names={a['name']for a in route['objects']if a['id']in inputs}
+                dimensions={a['metadata'].get('toTable')for a in self.assets.values()
+                    if a['kind']=='SemanticRelationship'and a.get('parent_id')==route['container']and a['metadata'].get('fromTable')in input_names}
+                inputs.update(a['id']for a in route['objects']if a['kind']=='SemanticTable'and a['name']in dimensions)
+                homes={a['parent_id']for a in route['objects']if a['id']in measures}
+                # A measure's storage home and transitive relationship
+                # neighbours are not all inputs to this ticket. Keep the
+                # home container, selected measures, input-table columns and
+                # their immediate filtering dimensions, not the transitive
+                # model component. Further objects need explicit lineage.
+                selected={a['id']for a in route['objects']if a['id']in inputs|homes|measures
+                    or a['kind']=='SemanticColumn'and a.get('parent_id')in inputs}
         self.opened[identity].update(selected)
         def projected():
             result=deepcopy(route)
             result['objects']=[a for a in result['objects'] if a['id'] in self.opened[identity]]
             return result
         if route['kind']=='DAX' or (route['kind']=='SOURCE_SQL' and self.source_read is None):return projected()
+        def retained_source_table(obj):
+            metadata=obj['metadata'];columns=metadata.get('columns',[])
+            return (metadata.get('type_desc',metadata.get('type'))in ('USER_TABLE','U')
+                and bool(columns)and all(c.get('name')and c.get('data_type')for c in columns))
+        if route['kind']=='SOURCE_SQL':
+            for obj in route['objects']:
+                metadata=obj['metadata']
+                if (obj['id']in self.opened[identity]and retained_source_table(obj)
+                    and not metadata.get('fresh_native_schema')):
+                    if metadata.get('schema_basis')!='RETAINED_EXACT_NATIVE_CATALOG':
+                        self.record({'event':'RETAINED_QUERY_SCHEMA','asset_id':obj['id'],'basis':'EXACT_DECLARED_SOURCE_DATABASE_AND_OBJECT','fresh':False})
+                    metadata['schema_basis']='RETAINED_EXACT_NATIVE_CATALOG'
+                    metadata['schema_qualification']='Retained native table schema, not a fresh observation. Native read-only enforcement and query errors remain unchanged.'
         pending=[a for a in route['objects'] if a['id'] in self.opened[identity] and
-                 (not a['metadata'].get('columns') or route['kind']=='SOURCE_SQL' and not a['metadata'].get('fresh_native_schema'))]
+                 (not a['metadata'].get('columns') or route['kind']=='SOURCE_SQL' and not a['metadata'].get('fresh_native_schema')and not retained_source_table(a))]
         if not pending and (route['kind']!='FABRIC_SQL'or 'database'in route):return projected()
         parent=route['container'];container=self.assets[parent]
         if route['kind']=='FABRIC_SQL':

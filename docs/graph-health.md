@@ -1,3 +1,5 @@
+Current checkpoint2026-10-28: the initial table below is the preserved0/80 baseline. Published native batches reach7/80. Procedure batch3 reaches9/80 offline, pending publication/readback. These are structural paths, not live value verification.
+
 # Graph health
 
 Retained declared graph structure; not proof of live readability, snapshot alignment or data correctness.
@@ -996,3 +998,8 @@ The copy/source-object and script-producer batch raised full paths from0/80 to7/
 ## Batch 2: native legacy prototype references (offline)
 
 Explicit member edges in the Microsoft sample increase from0/7 to5/7 visuals by parsing the retained config.singleVisual.prototypeQuery and its exact native From aliases. Raw config bytes and JSON pointers are retained. Conflicting aliases do not select the last declaration. Legacy filters/interactions and opaque queryBinary remain UNKNOWN, so complete health stays7/80; no scope or source proof is invented. The sample-only batch is now published after the failed concurrent transaction was reconciled and retried in a quiet window; fixture and billing graphs were not changed by batch2. See runs/round-twenty-four-graph-health-batch2.json. Focused graph regression37PASS.
+
+
+## Batch3: exact native procedure declarations and calls, offline2026-10-28
+
+The billing Warehouse gap is a producer declared by CREATE PROCEDURE and explicitly called in the same native Script activity. Literal INSERT(column-list) SELECT lineage retains exact Warehouse addresses and join/filter expressions. Ambiguous bodies, parameters, dynamic/cross-database calls, unresolved columns and missing connection addresses never bind. Definition evidence does not establish successful execution. Offline complete paths7/80 ->9/80 (fixture2/66,billing7/7,sample0/7). Publication waits for the history case to be reconciled. See runs/round-twenty-four-graph-health-batch3.json.

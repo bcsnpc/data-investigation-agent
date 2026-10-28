@@ -6,6 +6,21 @@ from investigator.adapters.ai_native_catalog import NativeCatalog
 from investigator.investigation_read_tools import ReadTools
 from test_round23_intake_queries import graph,request
 class PathTests(unittest.TestCase):
+ def test_one_measure_does_not_open_its_storage_siblings_or_transitive_relationship_tables(self):
+  import test_round23_native_catalog as f
+  h=f.NativeCatalogTests();h.setUp();model='fabric://workspace/model';home=model+'/table/Home';input=model+'/table/Input';other=model+'/table/Other'
+  h.assets += [f.asset(model,'SemanticModel','fabric://workspace','Model',{}),f.asset(home,'SemanticTable',model,'Home',{}),f.asset(input,'SemanticTable',model,'Input',{}),f.asset(other,'SemanticTable',model,'Other',{}),f.asset(home+'/m','Measure',home,'Selected',{'expression':'SUM(Input[units])'}),f.asset(home+'/sibling','Measure',home,'Unrelated',{'expression':'SUM(Other[amount])'}),f.asset(home+'/c','SemanticColumn',home,'Unused',{}),f.asset(input+'/c','SemanticColumn',input,'units',{}),f.asset(other+'/c','SemanticColumn',other,'amount',{}),f.asset(model+'/r','SemanticRelationship',model,'Relationship',{'fromTable':'Input','toTable':'Other'})]
+  h.nodes += [{'id':name,'kind':kind,'properties':{'asset_id':identity}}for name,kind,identity in [('model','MODEL',model),('home','TABLE',home),('input','TABLE',input),('other','TABLE',other),('measure','MEASURE',home+'/m'),('sibling','MEASURE',home+'/sibling'),('column','COLUMN',input+'/c')]]
+  tail=model+'/table/Tail';h.assets.extend([f.asset(tail,'SemanticTable',model,'Tail',{}),f.asset(tail+'/c','SemanticColumn',tail,'unused',{}),f.asset(model+'/r2','SemanticRelationship',model,'Further relationship',{'fromTable':'Other','toTable':'Tail'})]);h.nodes.append({'id':'tail','kind':'TABLE','properties':{'asset_id':tail}})
+  c=h.build();identity=next(i for i,r in c.routes.items()if r['kind']=='DAX');projected=c.prepare(identity,{'measure','column'})
+  ids={a['id']for a in projected['objects']};self.assertEqual(ids,{home,input,other,home+'/m',input+'/c',other+'/c'});self.assertNotIn(tail,ids)
+  opened=c.prepare(identity,{'other'});self.assertIn(other+'/c',{a['id']for a in opened['objects']})
+ def test_producing_native_expression_keeps_its_literal_pipeline_owner_for_run_reads(self):
+  c=NativeCatalog.__new__(NativeCatalog);c.assets={'part':{'kind':'DefinitionPart','parent_id':'pipeline'},'pipeline':{'kind':'DataPipeline','parent_id':'workspace'}}
+  c.graph_nodes={'job':{'id':'job','kind':'PIPELINE','properties':{'asset_id':'pipeline'}},'other':{'id':'other','kind':'PIPELINE','properties':{'asset_id':'unrelated'}}}
+  node={'id':'step','kind':'QUERY_STEP','properties':{'expression':'INSERT ... SELECT ...'},'provenance':{'source_id':'part'}}
+  self.assertEqual([n['id']for n in c.associated_nodes({'nodes':[node]})],['job'])
+  node['provenance']['source_id']='missing';self.assertEqual(c.associated_nodes({'nodes':[node]}),[])
  def factory(self):
   f=Factory.__new__(Factory);f.associated_nodes=None;f.definition_for=None;f.graph=Mock();f.graph.allowed={'model','physical','job','source'};f.graph.intake_catalog.return_value={'nodes':[{'id':'job','kind':'PIPELINE'}]};return f
  def test_measure_home_is_not_a_physical_data_dependency(self):

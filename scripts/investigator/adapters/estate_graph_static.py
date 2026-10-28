@@ -694,6 +694,8 @@ class StaticGraph:
             if activity.get('type')=='Script':
                 from .graph_script_sql import attach_scripts
                 attach_scripts(self,parent,activity,index,proof)
+                from .graph_script_procedures import attach as attach_procedures
+                attach_procedures(self,parent,activity,index,proof)
             at={**proof,'span':{'kind':'JSON_POINTER','path':'/properties/activities/'+str(index)}}
             kind='COPY_ACTIVITY' if activity.get('type')=='Copy' else 'QUERY_STEP'
             node=self.add(kind,activity.get('name','Unnamed activity'),[parent,'activity',index],at,{'activity_type':activity.get('type')})
