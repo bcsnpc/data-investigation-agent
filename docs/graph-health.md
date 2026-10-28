@@ -1008,3 +1008,29 @@ The billing Warehouse gap is a producer declared by CREATE PROCEDURE and explici
 
 
 Batch3 publication completed2026-10-28: current retained catalog loaded (no historical overwrite), source hashes checked under unchanged catalog revision, only billing graph partitions replaced. Native source observation times conserved. Persisted readback9/80, billing7/7. Details runs/round-twenty-four-graph-batch3-billing-publication.json and runs/round-twenty-four-graph-health-published.json.
+
+
+## Batch3 current remaining breaks by native layer and reason,2026-10-28
+
+Current published batch3; native containment establishes layers; groups overlap. No new estate/model reads.
+
+| Estate | Native layer | Reason | Affected visuals | Distinct nodes |
+|---|---|---|---:|---:|
+| fixture | VISUAL | NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED | 64 | 64 |
+| fixture | LAKEHOUSE | NO_UPSTREAM_BINDING | 51 | 13 |
+| fixture | BOUNDARY | NO_UPSTREAM_BINDING | 40 | 25 |
+| fixture | SEMANTIC_MODEL | AMBIGUOUS_OR_UNKNOWN_DEPENDENCY | 28 | 13 |
+| fixture | BOUNDARY | DIRECT_LAKE_COLUMN_BINDING_ABSENT_OR_AMBIGUOUS | 27 | 12 |
+| fixture | VISUAL | NO_PRODUCER_REACHED | 13 | 13 |
+| fixture | VISUAL | AMBIGUOUS_OR_UNKNOWN_DEPENDENCY | 12 | 12 |
+| fixture | BOUNDARY | No supported explicit field reference was found in the retained visual query. | 12 | 12 |
+| fixture | VISUAL | NO_INSTALLED_QUERY_ROUTE | 12 | 12 |
+| dia-sample-estate | VISUAL | AMBIGUOUS_OR_UNKNOWN_DEPENDENCY | 7 | 7 |
+| dia-sample-estate | BOUNDARY | PBIR-Legacy filter and interaction semantics remain uninterpreted; explicit prototype-query fields, when present, are retained separately. | 7 | 7 |
+| dia-sample-estate | BOUNDARY | NO_UPSTREAM_BINDING | 7 | 7 |
+| dia-sample-estate | VISUAL | NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED | 7 | 7 |
+| dia-sample-estate | VISUAL | NO_PRODUCER_REACHED | 7 | 7 |
+| dia-sample-estate | SEMANTIC_MODEL | NO_UPSTREAM_BINDING | 5 | 9 |
+| fixture | BOUNDARY | Engine-resolved expression dependencies have not been collected. | 1 | 1 |
+
+Billing Warehouse producer gaps are now closed by exact native procedure bodies/calls. The largest remaining fixture group ends at inline-seeded notebooks without a declared external application source; a source-object link cannot be invented. Missing native physical columns and unsupported report/query semantics remain separate parser/inventory repair groups.
