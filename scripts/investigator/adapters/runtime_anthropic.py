@@ -5,7 +5,7 @@ from .reasoning_anthropic import Client
 from ..reasoning_budget import TicketBudget,RateCard
 from ..shared_state import configured_state
 from ..process_tape import uuid4
-from ..planner_recording import _safe
+from ..planner_recording import _safe, ACTIVE
 
 CONFIG_ENV='DIA_RUNTIME_ANTHROPIC_JSON'
 CLIENT=ContextVar('runtime_anthropic_client',default=None)
@@ -18,7 +18,11 @@ def installed_client():
     if set(config)!={'model','rate_card','secret_reference','gateway_identity','worker_identity'} or config['model']!='claude-opus-5-5':raise ValueError('ANTHROPIC_RUNTIME_CONFIGURATION')
     state=configured_state()
     if state is None:raise ValueError('ANTHROPIC_SHARED_BUDGET_REQUIRED')
-    budget=TicketBudget(state,case_id='structured:'+str(uuid4()),owner=config['worker_identity'],rate=RateCard(model=config['model'],**config['rate_card']),actual_usage_limit=3000000)
+    record=ACTIVE.get()
+    metadata=getattr(record,'metadata',{})
+    session=metadata.get('session_id') or os.environ.get('DIA_RUN_ID')
+    if not session:raise ValueError('ANTHROPIC_TICKET_ID_REQUIRED')
+    budget=TicketBudget(state,case_id='structured:'+str(session),owner=config['worker_identity'],rate=RateCard(model=config['model'],**config['rate_card']),actual_usage_limit=3000000)
     # The caller's ordinary recording context remains in force; no credential
     # or raw response is copied to shared accounting.
     def record(value):

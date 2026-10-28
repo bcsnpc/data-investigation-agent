@@ -94,7 +94,6 @@ def run(plan,context):
     catalog=Catalog.from_graph(graph)
     # Only names/containment cross the catalog boundary. Raw definitions are
     # obtained for the actual selected path, not the historical catalog.
-    metadata=graph.intake_catalog()
     collector=None;collector_config=None
     if 'collector' in spec:
         collector_config=json.loads(reference(spec['collector'],maximum=500000).read_bytes())
@@ -123,7 +122,7 @@ def run(plan,context):
         submitted={'intake':mapped['intake'],'source':mapped['source']}
     if not isinstance(submitted,dict) or not {'intake'}<=set(submitted)<={'intake','source'}:
         raise ValueError('GUIDED_TICKET_ENVELOPE')
-    meter=Meter(state,{'environment':manifest['environment']},spec['max_requests'],reporting_mirror=False)
+    meter=Meter(state,{'environment':manifest['environment']},spec['max_requests'],reporting_mirror=False,enforce_limit=True)
     def physical(kind,call):
         if meter.used>=spec['max_requests']:raise UsageHold('GUIDED_PHYSICAL_CAP_REACHED')
         return meter(call)
@@ -145,12 +144,12 @@ def run(plan,context):
             record({'event':'NATIVE_ENDPOINT_METADATA','asset_id':container['id'],'response':response})
         return endpoint_cache[container['id']]
     from run_source_diagnostic import transport as source_transport
-    native_catalog=NativeCatalog(assets=assets,graph_nodes=metadata['nodes'],configuration=config,
+    native_catalog=NativeCatalog.from_graph(graph,assets=assets,configuration=config,
                                   endpoint=endpoint,sql_read=sql_read,record=record,
                                   source_read=lambda settings,q:metered(lambda:source_transport(settings,q)))
     native=NativeQueries(native_catalog.routes)
     from investigator.adapters.guided_security import Security
-    security=Security(assets=assets,nodes=metadata['nodes'],http=http)
+    security=Security(assets=assets,nodes=list(native_catalog.graph_nodes.values()),http=http)
     def execute_native(layer,bound,**kwargs):return metered(lambda:native(layer,bound,**kwargs))
     # Factory updates this installed registry after a native schema lookup.
     execute_native.routes=native.routes
@@ -190,6 +189,7 @@ def run(plan,context):
         security_definitions=security,
         declared_continuations=native_catalog.declared_continuations,
         associated_nodes=native_catalog.associated_nodes,
+        definition_for=native_catalog.definition,
         reserve=lambda *_:None,persist=lambda _,event:record(event),
         job_runs=lambda node:history(node,{'JOB_RUN','RUN_HISTORY','SCHEDULE','TABLE_LOAD'}),
         refresh_history=lambda node:history(node,{'REFRESH_RUN','REFRESH_STATE','SCHEDULE','RUN_HISTORY'}))
@@ -203,7 +203,7 @@ def run(plan,context):
         outcome=result['outcome']
         output={**outcome,'ticket':submitted['intake'],'case_id':queued['id'],
                 'physical_requests':meter.used,'budget_before':meter.before,'budget_after':meter.usage.snapshot(),
-                'cost':budget(case_id).status(),'timing':{'wall_seconds':time.monotonic()-started,'phases':phases},
+                'cost':budget(case_id).status(),'timing':{**outcome.get('timing',{}),'wall_seconds':time.monotonic()-started,'phases':phases},
                 'outputs':{'business':outcome['business'],'technical':json.dumps(outcome.get('technical',outcome.get('handoff',{})),ensure_ascii=False)}}
         context.record('guided-investigator-result',output)
         return output

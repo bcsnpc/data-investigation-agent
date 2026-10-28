@@ -114,6 +114,7 @@ class Investigator:
         from .triage_hints import suggestion
         self.triage['what_triage_suggests']=suggestion(self.triage)
         self.clock,self.tool_limit,self.deadline_seconds=clock,tool_limit,deadline_seconds
+        self.model_seconds=0
         self.refresh_tools()
         self.stable=INSTRUCTIONS+'\nAdmitted path, schema, retained definitions and toolbox:\n'+canonical(context)+'\nCompleted path triage:\n'+canonical(triage)
         from .model_case_presentation import Presentation
@@ -185,6 +186,38 @@ class Investigator:
                 'context':context,'triage':deepcopy(self.triage),
                 'evidence':deepcopy(self.state['evidence']),'queries':deepcopy(self.queries.records)}
 
+    def parallel_queries(self,calls):
+        """Only model-requested independent layers; results journal in call order."""
+        from .process_tape import ACTIVE
+        if ACTIVE.get() is not None:return {}  # Preserve serial exact-tape ordering.
+        if not 2<=len(calls)<=3 or len(calls)>self.tool_limit-self.state['tools_used']:return {}
+        if any(c.get('name') not in ('run_sql','run_dax') for c in calls):return {}
+        layers=[c.get('input',{}).get('layer')for c in calls]
+        if len(set(layers))!=len(layers):return {}
+        self.refresh_tools()
+        from .investigative_queries import validate
+        try:
+            for call in calls:
+                self.schemas[call['name']].validate(call['input'])
+                args=call['input'];validate(args['query'],self.queries.layers[args['layer']])
+                if digest([call['name'],args])in self.state['cache']:return {}
+        except Exception:return {}
+        self.state['pending']={'kind':'PARALLEL_READS','calls':deepcopy(calls)};self.save()
+        from concurrent.futures import ThreadPoolExecutor
+        from contextvars import copy_context
+        result={}
+        def execute(call):
+            args=call['input']
+            return self.queries.run(args['layer'],args['query'],kind=call['name'][4:],purpose=args['purpose'])
+        with ThreadPoolExecutor(max_workers=len(calls))as pool:
+            work=[pool.submit(copy_context().run,execute,call)for call in calls]
+            for call,future in zip(calls,work):
+                key=digest([call['name'],call['input']])
+                try:result[key]=(True,future.result())
+                except BaseException as error:result[key]=(False,error)
+        self.state['pending']=None;self.save()
+        return result
+
     def run(self):
         started=self.clock();self._started=started;pins=digest([self.case_id,self.context,self.triage])
         saved=self.checkpoint.load()
@@ -222,7 +255,9 @@ class Investigator:
                     self.refresh_tools()
                     self.state['messages'].append({'role':'user','content':canonical({'current_state':recitation})})
                     self.state['pending']={'kind':'MODEL','step':self.state['model_calls']+1};self.save()
-                    response=self.presentation.complete(self.model,system=self.stable,messages=self.state['messages'],tools=self.tools)
+                    model_started=self.clock()
+                    try:response=self.presentation.complete(self.model,system=self.stable,messages=self.state['messages'],tools=self.tools)
+                    finally:self.model_seconds+=max(0,self.clock()-model_started)
                     self.state['model_calls']+=1;self.state['pending']=None
                     self.evidence({'kind':'MODEL_RESPONSE','response':response})
                     content=response.get('content',[])
@@ -236,6 +271,7 @@ class Investigator:
                     self.save()
                 turn=self.state['turn'];results=turn['results']
                 calls=turn['calls'][len(results):]
+                parallel=self.parallel_queries(calls)
                 for call in calls:
                     if self.state['tools_used']>=self.tool_limit:break
                     name,args=call.get('name'),call.get('input');key=digest([name,args])
@@ -246,7 +282,10 @@ class Investigator:
                             previous=self.state['cache'][key]
                             result={'already_have':previous['evidence_id'],'note':'Already have this as evidence '+previous['evidence_id']+'. Use get_evidence if full details are needed.'}
                         else:
-                            result=self.dispatch(name,args)
+                            if key in parallel:
+                                success,result=parallel[key]
+                                if not success:raise result
+                            else:result=self.dispatch(name,args)
                             evidence_id=self.evidence({'tool':name,'arguments':args,'result':result})
                             result={'evidence_id':evidence_id,'result':result}
                             failed=isinstance(result['result'],dict) and result['result'].get('status')=='ERROR'
@@ -288,5 +327,8 @@ class Investigator:
                                 'next_checks':['Check the unread layer '+name+'.' for name in remaining]
                                               +['Review '+q['id']+': '+q['error'] for q in self.queries.records if q['status']=='ERROR']}
         outcome['model_calls']=self.state['model_calls'];outcome['tools_used']=self.state['tools_used']
+        outcome['timing']={**self.context.get('phase_timings',{}),'model_seconds':self.model_seconds,
+            'native_query_sum_seconds':sum(q.get('duration_seconds',0)for q in self.queries.records),
+            'investigation_wall_seconds':self.state.get('elapsed_seconds',0)}
         self.save()
         return outcome

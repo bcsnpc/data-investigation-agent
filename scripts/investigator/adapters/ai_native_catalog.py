@@ -11,6 +11,10 @@ from ..estate_graph_contract import digest
 
 
 class NativeCatalog:
+    @classmethod
+    def from_graph(cls,graph,**ports):
+        return cls(graph_nodes=graph.native_index()['nodes'],**ports)
+
     def __init__(self, *, assets, graph_nodes, configuration, endpoint, sql_read, record, source_read=None):
         from .native_catalog_projection import project
         self.assets,self.catalog_warnings=project(assets,graph_nodes)
@@ -146,6 +150,21 @@ class NativeCatalog:
         self.ready.add(identity)
         return projected()
 
+    def definition(self,node_id):
+        """Retained producer-native content, no DAX INFO or write-scoped API."""
+        node=self.graph_nodes.get(node_id,{})
+        asset=self.assets.get(node.get('properties',{}).get('asset_id'))
+        if asset is None:asset=self.assets.get(node.get('properties',{}).get('definition_source_id'))
+        if not asset:return None
+        meta=asset['metadata'];fields={k:deepcopy(meta[k]) for k in ('expression','definitions','content','computed_definition') if meta.get(k)}
+        if not fields:return None
+        return {'node':node_id,'asset_id':asset['id'],'name':asset['name'],'kind':asset['kind'],
+            'retained_native_definition':fields,'content':next(iter(fields.values())) if len(fields)==1 and isinstance(next(iter(fields.values())),str) else json.dumps(fields,ensure_ascii=False),
+            'projection':'NATIVE_FIELDS_ONLY_ORIGINAL_METADATA_RETAINED','content_hash':asset['content_hash'],
+            'provenance':deepcopy(asset.get('provenance')),
+            'basis':'RETAINED_NATIVE_DEFINITION','current_native_fetch_performed':False,
+            'qualification':'Retained producer content; no claim of current deployment freshness or aligned values.'}
+
     def candidate_details(self, catalog):
         catalog=deepcopy(catalog)
         roles={r['asset_id']:r['role'] for r in self.config.get('layer_roles',[])}
@@ -217,7 +236,14 @@ class NativeCatalog:
             for column in self.assets.values():
                 if column.get('parent_id')==physical[0]['id'] and column['kind'] in ('LakehouseColumn','WarehouseColumn') and column['name'] in source_columns:
                     ids.extend(self.nodes.get(column['id'],[]))
+            column_bindings=[]
+            for semantic in self.assets.values():
+                if semantic.get('parent_id')!=table['id']or semantic['kind']!='SemanticColumn':continue
+                source_name=semantic['metadata'].get('sourceColumn')
+                physical_columns=[a for a in self.assets.values()if a.get('parent_id')==physical[0]['id']and a['kind']in ('LakehouseColumn','WarehouseColumn')and a['name']==source_name]
+                if source_name and len(physical_columns)==1:column_bindings.append({'semantic_column':semantic['id'],'physical_column':physical_columns[0]['id'],'basis':'EXACT_PARTITION_SOURCE_COLUMN'})
             result.append({'confidence':'DECLARED','semantic_table':table['id'],'physical_table':physical[0]['id'],
+                'column_bindings':column_bindings,
                 'graph_nodes':list(ids),'definition_asset':definition['id'],'definition_hash':definition['content_hash'],
                 'partition_source':deepcopy(source),'literal_expression':expression,'native_ownership':witnesses,
                 'qualification':'Declared route only; value agreement and aligned snapshots are not implied.'})

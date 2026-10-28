@@ -367,3 +367,6 @@ Round24 model choice, 2026-10-27: Opus5.5 is the investigator default, Fable onl
 
 
 Round24 runtime migration2026-10-27: structured legacy entry-point names now delegate to the guarded Anthropic client; there is no production OpenAI constructor. Old synthetic Azure protocol tests explicitly import an archived fixture restricted to test.openai.azure.com; frozen request bytes remain untouched. Guided smoke validates native boundary reads separately from model claims. Current engine freeze invalidated; historic R23 score pins unchanged.
+
+
+Round24, owner date 2026-10-27: route construction now consumes the native address index, including column and transformation nodes, rather than the deliberately smaller intake catalog. Retained definitions are used before native introspection. Independent model-requested reads on distinct layers may overlap; accounting and capture writes remain serialized. No native binding is guessed by name. Earlier smoke failures remain recorded.

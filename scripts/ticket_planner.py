@@ -72,7 +72,7 @@ def provider_body(payload, instructions, schema, name, *, decision_tool=False, i
     from investigator.generation_policy import validate as generation_policy
     policy=generation_policy(generation_options)
     from investigator.provider_selection import DEPLOYMENT
-    deployment=DEPLOYMENT.get() or os.environ.get('AZURE_OPENAI_DEPLOYMENT','UNCONFIGURED')
+    deployment=DEPLOYMENT.get() or 'claude-opus-5-5'
     # Stored evidence is canonicalized by the catalog. Equivalent dictionaries
     # reconstructed in replay must produce the exact same provider input bytes.
     request_input = json.dumps(payload, sort_keys=True)

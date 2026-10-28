@@ -51,6 +51,7 @@ class CallRecord:
         from .privacy_capture import ACTIVE as PROJECTED_CAPTURE
         self.projected_capture=PROJECTED_CAPTURE.get()
         if self.projected_capture is None:self.path.mkdir(parents=True, exist_ok=False)
+        self.metadata = dict(metadata)
         self.bodies = {}
         self.exclusion = None
         self.safe_write('context.json', _bytes({'version': 1, 'created_utc': datetime.now(timezone.utc).isoformat(), **metadata}))

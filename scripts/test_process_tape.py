@@ -44,6 +44,9 @@ class TapeTests(unittest.TestCase):
     def setUp(self):
         from gateway_test_support import allow_models
         self.enterContext(allow_models())
+        # These synthetic fixtures retain their original archived wire contract.
+        from fixtures.archived_ticket_planner import _azure_generate
+        self.enterContext(patch("ticket_planner._azure_generate", _azure_generate))
 
     def test_peek_validates_without_consuming_and_has_no_wire_effect(self):
         with tempfile.TemporaryDirectory() as folder:

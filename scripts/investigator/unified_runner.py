@@ -15,7 +15,7 @@ from .run_capture import DurableCapture,blob_sink
 
 VERSION='dia-runner-estate-v1'
 KINDS=frozenset({'investigation','legacy-baseline','verification','probe','scan','replay','prepare','smoke','authorization-check','value-verification','collect-facts','facts-dispatcher','ledger-investigation','guided-investigation','enrichment-batch','access-check'})
-PUBLIC_ENV=frozenset(('DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JSON',
+PUBLIC_ENV=frozenset(('DIA_RUNTIME_ANTHROPIC_JSON','DIA_PLATFORM_GATEWAY_POLICY','DIA_CLOUD_SLIM_RECORDING_JSON',
     'INVESTIGATOR_STATE_BACKEND','INVESTIGATOR_PG_HOST','INVESTIGATOR_PG_DATABASE','INVESTIGATOR_PG_USER',
     'AZURE_CLIENT_ID','DIA_GATEWAY_HTTP_IDENTITY','DIA_GATEWAY_SQL_IDENTITY','DIA_GATEWAY_MODEL_IDENTITY',
     'DIA_GATEWAY_STATE_IDENTITY','DIA_PLATFORM_CONTROL_RECEIPTS','DIA_GATEWAY_AUDIT_FILE','DIA_LIVE_ACCESS_DISABLED'))

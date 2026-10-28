@@ -9,7 +9,7 @@ class RuntimeTests(unittest.TestCase):
   client=Mock();client.model='claude-opus-5-5';client.complete.return_value={'id':'response','content':[{'type':'tool_use','name':'resolve_intake','input':{'answer':'value'}}],'usage':{'input_tokens':1,'output_tokens':1}}
   token=runtime.CLIENT.set(client)
   try:
-   with patch('ticket_planner.provider_body',return_value={'model':'old-id'}),patch.dict('os.environ',{},clear=True):
+   with patch.dict('os.environ',{},clear=True):
     value,meta=_azure_generate({'input':'test'},schema={'type':'object'})
    self.assertEqual(value,{'answer':'value'});self.assertEqual(meta['model'],'claude-opus-5-5')
    self.assertEqual(client.complete.call_args.kwargs['tools'][0]['name'],'resolve_intake')

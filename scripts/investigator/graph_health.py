@@ -1,4 +1,4 @@
-﻿"""Ticket-free, offline structural graph health; never claims successful reads."""
+"""Ticket-free, offline structural graph health; never claims successful reads."""
 from collections import defaultdict,deque,Counter
 
 DATA_EDGES={'COMPUTED_FROM','JOINED_VIA','COPIED_TO','DERIVED_IN_STEP'}
@@ -23,15 +23,16 @@ def analyze(snapshot):
             if node['kind'] in AUXILIARY:continue
             if node.get('confidence')=='UNKNOWN':
                 breaks.append({'node':ident,'reason':(node.get('unknown') or {}).get('reason','UNKNOWN_BINDING'),'component':'scanner data'})
+            if node.get('properties',{}).get('system_of_record')or node.get('properties',{}).get('source_system_object'):continue
             linked=out[ident]
-            if not linked and not node.get('properties',{}).get('system_of_record'):
+            if not linked and not(node.get('properties',{}).get('system_of_record')or node.get('properties',{}).get('source_system_object')):
                 breaks.append({'node':ident,'reason':'NO_UPSTREAM_BINDING','component':'scanner data'})
             for edge in linked:
                 if edge.get('confidence')=='UNKNOWN':breaks.append({'node':ident,'reason':'AMBIGUOUS_OR_UNKNOWN_DEPENDENCY','component':'scanner data'})
                 queue.append(edge['target'])
         reached=[nodes[i]for i in seen if i in nodes]
-        if not any(n.get('properties',{}).get('system_of_record') for n in reached):
-            breaks.append({'node':visual['id'],'reason':'NO_DECLARED_SOURCE_SYSTEM_REACHED','component':'route builder'})
+        if not any(n.get('properties',{}).get('system_of_record')or n.get('properties',{}).get('source_system_object') for n in reached):
+            breaks.append({'node':visual['id'],'reason':'NO_DECLARED_SOURCE_SYSTEM_OBJECT_REACHED','component':'route builder'})
         if not any(n['kind'] in PRODUCERS for n in reached):
             breaks.append({'node':visual['id'],'reason':'NO_PRODUCER_REACHED','component':'route builder'})
         if queryable and not any(n.get('properties',{}).get('asset_id') in queryable for n in reached):

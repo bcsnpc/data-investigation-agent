@@ -43,6 +43,8 @@ class DurableCapture:
     def __init__(self, root, put, *, run_id, bootstrap,clock=None):
         validate_bootstrap_header(bootstrap)
         if not re.fullmatch(r'[A-Za-z0-9_.-]{1,100}',run_id):raise ValueError('RUN_ID_INVALID')
+        from threading import RLock
+        self._lock=RLock()
         self.root=Path(root);self.put=put;self.run_id=run_id;self.sequence=0;self.records=[]
         from .run_timing import RunTiming
         self.timing=RunTiming(clock)
@@ -54,42 +56,44 @@ class DurableCapture:
         self.record('status',{'status':'STARTED','partial':True})
 
     def record(self,kind,value):
-        started=self.timing.clock()
-        raw=bytes_of(value);_safe(raw)
-        encoding=None
-        if len(raw)>MAX_BLOB_BYTES:
-            if len(raw)>MAX_DECODED_BYTES:raise ValueError('CAPTURE_RECORD_DECODED_BOUND')
-            raw=bytes_of({'version':ENCODING,'bytes':len(raw),
-                'sha256':hashlib.sha256(raw).hexdigest(),
-                'payload':base64.b64encode(gzip.compress(raw,compresslevel=6,mtime=0)).decode('ascii')})
-            if len(raw)>MAX_BLOB_BYTES:raise ValueError('CAPTURE_RECORD_ENCODED_BOUND')
-            encoding=ENCODING
-        self.sequence+=1
-        name=f'{self.sequence:08d}-{kind}.json'
-        with (self.root/name).open('xb') as stream:
-            stream.write(raw);stream.flush()
-            __import__('os').fsync(stream.fileno())
-        ref={'key':self.run_id+'/'+name,'sha256':hashlib.sha256(raw).hexdigest()}
-        if encoding:ref['encoding']=encoding
-        self.records.append(ref)
-        # Preserve the original event immediately, even inside an application
-        # transaction. Only remote publication waits for the lock to release.
-        self._pending_publications.append((ref['key'], self.root/name, ref['sha256']))
-        self.timing.local_seconds+=max(0,self.timing.clock()-started)
-        from .shared_state import after_transaction
-        after_transaction(self.flush_publications)
-        return ref
+        with self._lock:
+            started=self.timing.clock()
+            raw=bytes_of(value);_safe(raw)
+            encoding=None
+            if len(raw)>MAX_BLOB_BYTES:
+                if len(raw)>MAX_DECODED_BYTES:raise ValueError('CAPTURE_RECORD_DECODED_BOUND')
+                raw=bytes_of({'version':ENCODING,'bytes':len(raw),
+                    'sha256':hashlib.sha256(raw).hexdigest(),
+                    'payload':base64.b64encode(gzip.compress(raw,compresslevel=6,mtime=0)).decode('ascii')})
+                if len(raw)>MAX_BLOB_BYTES:raise ValueError('CAPTURE_RECORD_ENCODED_BOUND')
+                encoding=ENCODING
+            self.sequence+=1
+            name=f'{self.sequence:08d}-{kind}.json'
+            with (self.root/name).open('xb') as stream:
+                stream.write(raw);stream.flush()
+                __import__('os').fsync(stream.fileno())
+            ref={'key':self.run_id+'/'+name,'sha256':hashlib.sha256(raw).hexdigest()}
+            if encoding:ref['encoding']=encoding
+            self.records.append(ref)
+            # Preserve the original event immediately, even inside an application
+            # transaction. Only remote publication waits for the lock to release.
+            self._pending_publications.append((ref['key'], self.root/name, ref['sha256']))
+            self.timing.local_seconds+=max(0,self.timing.clock()-started)
+            from .shared_state import after_transaction
+            after_transaction(self.flush_publications)
+            return ref
 
     def flush_publications(self):
-        from .shared_state import TRANSACTION_ACTIVE
-        if TRANSACTION_ACTIVE.get(): raise RuntimeError('CAPTURE_PUBLICATION_DURING_TRANSACTION')
-        if self._publication_holds:return
-        while self._pending_publications:
-            self._publish_pending(0)
-        # Every queued immutable record has now been acknowledged. A temporary
-        # transport failure must not permanently poison a later complete flush.
-        # Failed or changed records stay queued and cannot reach this point.
-        self._publication_failed=False
+        with self._lock:
+            from .shared_state import TRANSACTION_ACTIVE
+            if TRANSACTION_ACTIVE.get(): raise RuntimeError('CAPTURE_PUBLICATION_DURING_TRANSACTION')
+            if self._publication_holds:return
+            while self._pending_publications:
+                self._publish_pending(0)
+            # Every queued immutable record has now been acknowledged. A temporary
+            # transport failure must not permanently poison a later complete flush.
+            # Failed or changed records stay queued and cannot reach this point.
+            self._publication_failed=False
 
     def _publish_pending(self,index):
         key,path,expected=self._pending_publications[index]

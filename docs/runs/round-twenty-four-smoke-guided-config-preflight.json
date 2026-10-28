@@ -1,0 +1,79 @@
+{
+  "configuration_source": "Existing R23 guided-reader installation; full environment copied, only input URL changed.",
+  "endpoints": [
+    {
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82",
+      "method": "GET",
+      "admission": "PASS"
+    },
+    {
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/28a0c79d-86d6-473b-8c7a-485d8b8ff404",
+      "method": "GET",
+      "admission": "PASS"
+    },
+    {
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/32c6b358-f738-4d10-870c-a78db5b2c5f8",
+      "method": "GET",
+      "admission": "PASS"
+    },
+    {
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+      "method": "GET",
+      "admission": "PASS"
+    },
+    {
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/382adacf-ba00-44cf-ab62-070b96a961f9",
+      "method": "GET",
+      "admission": "PASS"
+    },
+    {
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/4728218b-9fff-4e1a-95f5-208e0ef3e47e",
+      "method": "GET",
+      "admission": "PASS"
+    },
+    {
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/5dbdbf17-eb9b-4189-9f8c-7071f365e842",
+      "method": "GET",
+      "admission": "PASS"
+    },
+    {
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/76fd529b-6cb2-4f3a-927a-bdd2407a2e80",
+      "method": "GET",
+      "admission": "PASS"
+    },
+    {
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/79109d35-b1f9-4ca2-9833-a43c8bf79572",
+      "method": "GET",
+      "admission": "PASS"
+    },
+    {
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/8195c990-f9ed-4190-a935-ec3fa2ef443c",
+      "method": "GET",
+      "admission": "PASS"
+    },
+    {
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/a3aca96f-d2f1-4495-8a0c-bf761774dfe4",
+      "method": "GET",
+      "admission": "PASS"
+    },
+    {
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+      "method": "GET",
+      "admission": "PASS"
+    },
+    {
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887",
+      "method": "GET",
+      "admission": "PASS"
+    },
+    {
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/bea673e0-a206-461e-9b2f-1b3b827e80de",
+      "method": "GET",
+      "admission": "PASS"
+    }
+  ],
+  "estate_reads": 0,
+  "model_calls": 0,
+  "azure_role_identity_secret_changes": false,
+  "original_failure": "ENDPOINT_METHOD_NOT_ALLOWED before engine initialization; original capture unchanged."
+}

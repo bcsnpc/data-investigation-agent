@@ -11,7 +11,7 @@ from sqlglot.optimizer.qualify import qualify
 from sqlglot.optimizer.scope import traverse_scope
 
 VERSION = 'bounded-tsql-v5'
-NODES = set('Select From Table Identifier TableAlias Column Alias Star Where Group Having Order Ordered Limit Join With CTE Subquery Paren And Or Not EQ NEQ GT GTE LT LTE Is In Between Like ILike Add Sub Mul Div Mod Neg Literal Null Boolean Parameter Var Distinct Case If Cast TryCast DataType DataTypeParam Count Sum Avg Min Max Coalesce Nullif Abs Round Floor Ceil DateAdd DateDiff CurrentDate CurrentTimestamp Extract Window RowNumber Partition Offset'.split())
+NODES = set('Select From Table Identifier TableAlias Column Alias Star Where Group Having Order Ordered Limit Join With CTE Subquery Paren And Or Not EQ NEQ GT GTE LT LTE Is In Between Like ILike Add Sub Mul Div Mod Neg Literal Null Boolean Parameter Var Distinct Case If Cast TryCast DataType DataTypeParam Count Sum Avg Min Max Coalesce Nullif Abs Round Floor Ceil DateAdd DateDiff CurrentDate CurrentTimestamp Extract Window RowNumber Partition Offset Concat CurrentSchema'.split())
 MAX_JOINS=4
 MAX_SELECTS=8
 NODES.update(('Upper','Lower','Trim'))
@@ -21,6 +21,19 @@ class QueryRejection(ValueError):
     def __init__(self, message, **feedback):
         super().__init__(message)
         self.feedback=feedback
+
+
+def temporal_read(node):
+    from datetime import datetime
+    if not isinstance(node.parent,exp.Table)or node.args.get('this')!='TIMESTAMP'or set(node.args)-{'this','kind','expression'}:return False
+    kind=node.args.get('kind');value=node.args.get('expression')
+    if kind=='ALL':return value is None
+    if kind!='AS OF':return False
+    if isinstance(value,exp.Parameter):return isinstance(value.this,exp.Var)
+    if not isinstance(value,exp.Literal)or not value.is_string:return False
+    try:datetime.fromisoformat(value.this.replace('Z','+00:00'))
+    except ValueError:return False
+    return True
 
 
 def capabilities():
@@ -114,10 +127,7 @@ def compile_query(query, objects, *, max_rows=limits.QUERY_ROWS, allow_views=Fal
     if allow_convert and 'Convert' in unsupported:unsupported.remove('Convert')
     if allow_set_operations:unsupported=[n for n in unsupported if n not in ('Union','Intersect','Except')]
     if allow_temporal_all and 'Version' in unsupported:
-        versions=list(tree.find_all(exp.Version))
-        if all(isinstance(n.parent,exp.Table) and n.args.get('this')=='TIMESTAMP' and n.args.get('kind')=='ALL'
-               and n.args.get('expression') is None and not set(n.args)-{'this','kind','expression'} for n in versions):
-            unsupported.remove('Version')
+        if all(temporal_read(n) for n in tree.find_all(exp.Version)):unsupported.remove('Version')
     # Two explicitly bounded scalar primitives used by exact string witnesses.
     # No arbitrary/user-defined function becomes executable through Anonymous.
     if 'Anonymous' in unsupported:

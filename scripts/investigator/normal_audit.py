@@ -19,25 +19,29 @@ class AuditContext:
     audit records too. No raw provider bodies or native tapes are captured here.
     """
     def __init__(self,parent,run_id):
+        from threading import RLock
+        self._lock=RLock()
         self.parent=parent;self.root=Path(parent.root);self.run_id=run_id;self.rows=[];self.timings=[];self.uploaded=0
         self.path=self.root/'normal-audit.jsonl';self.path.parent.mkdir(parents=True,exist_ok=True)
     def __getattr__(self,name):return getattr(self.parent,name)
     def record(self,kind,value):
-        raw=bytes_of(value);_safe(raw)
-        identity='audit:'+self.run_id+':'+str(len(self.rows)+1)
-        entry={'id':identity,'kind':kind,'sha256':hashlib.sha256(raw).hexdigest(),'value':json.loads(raw)}
-        encoded=bytes_of(entry);_safe(encoded)
-        with self.path.open('ab')as stream:stream.write(encoded+b'\n');stream.flush();os.fsync(stream.fileno())
-        self.rows.append(entry)
-        if len(self.rows)-self.uploaded>=64:self.flush(partial=True)
-        return {'key':identity,'sha256':entry['sha256']}
+        with self._lock:
+            raw=bytes_of(value);_safe(raw)
+            identity='audit:'+self.run_id+':'+str(len(self.rows)+1)
+            entry={'id':identity,'kind':kind,'sha256':hashlib.sha256(raw).hexdigest(),'value':json.loads(raw)}
+            encoded=bytes_of(entry);_safe(encoded)
+            with self.path.open('ab')as stream:stream.write(encoded+b'\n');stream.flush();os.fsync(stream.fileno())
+            self.rows.append(entry)
+            if len(self.rows)-self.uploaded>=64:self.flush(partial=True)
+            return {'key':identity,'sha256':entry['sha256']}
     def flush(self,*,partial):
-        pending=self.rows[self.uploaded:]
-        if not pending:return
-        reference=self.parent.record('normal-audit-batch',{'version':'normal-audit-v1','recording_mode':'NORMAL',
-            'byte_exact_replay':False,'partial':partial,'records':pending})
-        self.uploaded=len(self.rows)
-        self.parent.record('normal-audit-index',{'version':'normal-audit-index-v1','artifact':reference,'ids':[row['id']for row in pending]})
+        with self._lock:
+            pending=self.rows[self.uploaded:]
+            if not pending:return
+            reference=self.parent.record('normal-audit-batch',{'version':'normal-audit-v1','recording_mode':'NORMAL',
+                'byte_exact_replay':False,'partial':partial,'records':pending})
+            self.uploaded=len(self.rows)
+            self.parent.record('normal-audit-index',{'version':'normal-audit-index-v1','artifact':reference,'ids':[row['id']for row in pending]})
     def step(self,name,call):
         started=time.monotonic();self.record('step-start',{'name':name})
         try:value=call()
