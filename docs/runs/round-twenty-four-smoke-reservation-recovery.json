@@ -1,0 +1,54 @@
+{
+  "kind": "FAILED_SMOKE_RESERVATION_RECONCILIATION",
+  "native_execution": "job-dia-worker-l5voweg",
+  "native_status": "Failed",
+  "session": "graph-scan:e032889b-38dc-4fcd-b633-d8e282c3dbe1",
+  "reservation": "896587a1-c290-43c9-9db4-8df99e2b420d",
+  "from": "RESERVED",
+  "to": "UNCERTAIN",
+  "charged_cloud_calls_preserved": 1,
+  "before": {
+    "mode": "BUILD_PHASE",
+    "month_utc": "2026-10",
+    "used": {
+      "INVESTIGATION": 6520,
+      "SCAN": 2119,
+      "RESTORATION": 12
+    },
+    "limits": {
+      "SCAN": 2500,
+      "INVESTIGATION": 9405,
+      "RESTORATION": 95
+    },
+    "total": 8721,
+    "total_limit": 12000,
+    "historical_restoration_requests": 70,
+    "restoration_remaining": 83,
+    "warnings": [
+      "SCAN_MONTHLY_80_PERCENT"
+    ]
+  },
+  "after": {
+    "mode": "BUILD_PHASE",
+    "month_utc": "2026-10",
+    "used": {
+      "INVESTIGATION": 6520,
+      "SCAN": 2119,
+      "RESTORATION": 12
+    },
+    "limits": {
+      "SCAN": 2500,
+      "INVESTIGATION": 9405,
+      "RESTORATION": 95
+    },
+    "total": 8721,
+    "total_limit": 12000,
+    "historical_restoration_requests": 70,
+    "restoration_remaining": 83,
+    "warnings": [
+      "SCAN_MONTHLY_80_PERCENT"
+    ]
+  },
+  "historical_orphan_unchanged": true,
+  "model_reservations_open": 0
+}

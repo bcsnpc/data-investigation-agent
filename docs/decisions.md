@@ -384,3 +384,6 @@ Round24 caching: the successful three-model-call FamilyA answer had81690 cached/
 
 
 2026-10-28 UTC Round24 DECIDED WITHOUT REVIEW: use explicit PBIR-Legacy prototype-query field declarations for native dependency edges, while retaining UNKNOWN for unsupported filter/interaction semantics. Never infer members from visible titles or choose a last conflicting From alias. Rejected treating an opaque queryBinary as a reason to discard separately available literal field evidence, and rejected calling those partial edges a fully traced source path. Focused37graph tests passed.
+
+
+2026-10-28 Round24: native readback pins daily06UTC, six-hour graph, and half-hour collector to tested dee9a7f9/image25895f1e. Templates only; schedules, resources, timeouts and managed identities unchanged. Daily smoke now uses Anthropic and SCAN; manual early release smokes retain separately labelled INVESTIGATION allocation. Existing recurring estimateUSD19.878333/month remains, incremental schedule/resource cost0; timeout sensitivity and actualUSD20 guard unchanged. Readback: docs/runs/round-twenty-four-scheduled-images.json.

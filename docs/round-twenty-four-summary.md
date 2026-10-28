@@ -8,7 +8,7 @@ R23 pins verified; draft #431 opened. Source and cloud budgets applied and read 
 
 ## Part A: Anthropic and plumbing
 
-Current structured-call transport now uses Anthropic; production constructor scan passes, archived fake-endpoint Azure protocol fixtures remain separate. New guided smoke checks native boundary records. One live Opus credit control succeeded:430input/51output,USD0.002740,zero estate reads. PostgreSQL closed-socket detection added; existing short-transaction, token renewal, timeout subclass and idempotent retry tests pass. Cloud mutation-scope gaps remain local; no role added. Early3green smokes still pending.
+Current structured-call transport now uses Anthropic; production constructor scan passes, archived fake-endpoint Azure protocol fixtures remain separate. New guided smoke checks native boundary records. One live Opus credit control succeeded:430input/51output,USD0.002740,zero estate reads. PostgreSQL closed-socket detection added; existing short-transaction, token renewal, timeout subclass and idempotent retry tests pass. Cloud mutation-scope gaps remain local; no role added. Three consecutive early Anthropic smokes PASS on dee9a7f9 / image25895f1e; Azure Succeeded and native seals retained. Earlier failures remain unchanged, including a reproduced parallel capture-acknowledgement race now repaired.
 
 ## Part B: Model, caching, cost and speed
 
@@ -39,4 +39,4 @@ _pending_
 _pending_
 
 
-Cloud checkpoint: early smoke06 delivered the correct native transformation finding (7,661 to8,765), but the original smoke consumer read the wrong verdict field and recorded FAIL. The consumer is fixed; no historical failure is relabelled green. Smoke07 start is unconfirmed during Microsoft.App execution API502/timeouts; no duplicate launch admitted. Three early green smokes and scored passes remain pending.
+Cloud checkpoint: early smoke06 delivered the correct native transformation finding (7,661 to8,765), but the original smoke consumer read the wrong verdict field and recorded FAIL. The consumer is fixed; no historical failure is relabelled green. Smoke07 start is unconfirmed during Microsoft.App execution API502/timeouts; no duplicate launch admitted. The later capture-fixed sequence earned three consecutive green smokes; scored dev is now admitted.
