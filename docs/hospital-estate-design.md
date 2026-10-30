@@ -41,3 +41,60 @@ The diagram is the intended architecture, not a completion claim. Native pipelin
 ## Generator realism
 
 See hospital-estate-realism.md for every distribution, benchmark, assumption and code-set license. Built-in messiness and actual counts are emitted by verify.py, including late/cross-month charges, zero/bundles, cancelled/voided/reentered orders, payment reversal/refund/move pairs, duplicate/mergedMRNs, provider assignments, claim corrections/resubmissions, observation-to-IP, transfers, soft deletes, null providers, payer remaps and cross-system missing business numbers. No real persons or licensed CPT/CARC/NUBC content is used.
+
+## Build checkpoint, 2026-10-30
+
+The full seed-20261030 sources are complete locally: 60,000 patients,
+250,000 encounters, 1,500,000 order lines and 2,774,006 results. All 13
+independent relational, chronology and monetary checks passed. The current
+A/R snapshot equals charges plus adjustments minus payments exactly:
+6,506,074,701 cents. Native source loading is in progress; local success is
+not a claim of native reconciliation.
+
+Measured built-in messiness: 1,200 duplicate MRNs; 600 explicit merges;
+36 provider transfers; 383,820 late charges, of which 36,422 cross months;
+59,994 cancelled and 27,701 voided orders; 4,980 reentries; 2,208 payment
+reversals; 1,171 refunds; 813 mispost moves; 30,140 corrected claims and
+9,971 resubmissions; 2,064 observation-to-inpatient conversions;
+2,437 interhospital transfers; 202 soft-deleted encounters; 3,600 null
+attendings; 4,942 zero charges; 100 billing-only accounts and 497
+clinical-only encounters. These are synthetic mechanisms, not planted
+DIA expectations.
+
+The generator's arrival weighting is applied in UTC; ED timestamps are
+then converted to America/Chicago with their actual offsets. It is not a
+claim of calibrated local-hour arrival distributions. Full-source
+admission fraction from ED is 11.47%, completed inpatient ALOS 5.05 days,
+LWBS 2.21%, initial adjudicated denials 12.07%, final 2.86%. Benchmark
+populations differ; these measurements are not national estimates.
+
+Generated native artifacts now include both watermark pipelines, the
+reference Dataflow Gen2, explicit MPI notebook, warehouse procedures,
+three semantic models and three PBIR reports (30 visual containers,
+two filtered bookmarks, one drillthrough page). Offline field-binding
+validation and all 14 generator tests passed. Native publishing, refresh,
+rendering, baseline and owner role-testing remain pending. The MPI
+notebook is published but has not run. No DIA identity was granted access.
+
+The planned source cadence is daily (02:00 / 02:30 UTC), not every four
+hours. A 60-minute idle tail on six daily wakes can exceed the free SQL
+compute allowance; one daily wake leaves more room. Mandatory pause at
+the free limit remains enabled. Schedules stay disabled until native
+manual verification and allowance review; no paid overage fallback.
+
+The first source bulk load failed before a table commit because the TDS
+client interpreted untyped column names as NVARCHAR. Explicit BIGINT,
+FLOAT, NVARCHAR and DATETIME2 metadata fixes the class of error; its
+regression passes. The resumed load commits and journals bounded batches.
+
+Owner connection creation is not yet verified. The Clinical form showed
+OAuth login complete, but Create returned: "Unable to create connection
+for the following reason: It looks like the refresh token expired.
+Please go to this dataset's settings page, and reenter the credentials
+for the data source." The owner was asked to reauthenticate and save;
+no password, refresh token or administrator cache was copied into code.
+Warehouse SQL bootstrap attempts separately returned DNS error 11001 and
+"Couldn't complete the operation due to a system update. Close out this
+connection, sign in again, and retry the operation." Neither establishes
+a permission problem. Each failed receipt is retained locally; no native
+warehouse completion is claimed.

@@ -68,6 +68,9 @@ def ddl(system, dialect='sqlite'):
         prefix='[app].'if dialect=='azure'else''
         statements.append(f'CREATE TABLE {prefix}[{table}] ('+',\n'.join(fields)+');')
         statements.append(f'CREATE INDEX [ix_{table}_watermark] ON {prefix}[{table}]([updated_at],[id]);')
+        for name,_,_,reference in columns(definition):
+            if reference:
+                statements.append(f'CREATE INDEX [ix_{table}_{name}] ON {prefix}[{table}]([{name}]);')
     if dialect=='azure':
         for table,days in TEMPORAL[system].items():
             retention=f', HISTORY_RETENTION_PERIOD = {days} DAYS'if days else''

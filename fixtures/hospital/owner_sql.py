@@ -6,12 +6,45 @@ Only the two explicitly approved HealthNet databases can be targets.
 import argparse
 from datetime import datetime
 import json
+from contextlib import closing
 from pathlib import Path
 import sqlite3
 import subprocess
 from .schema import CLINICAL,BILLING,columns,ddl
 
 SERVER='sql-orderops-9696025.database.windows.net'
+
+
+def bulk_metadata(definition,base,types):
+    """python-tds treats bare column names as NVARCHAR, not target types."""
+    result=[]
+    for name,kind,nullable,_ in columns(definition):
+        if name.endswith('_utc')or name in('created_at','updated_at'):
+            sql_type=types.DateTime2Type(precision=6)
+        else:
+            sql_type={'int':types.BigIntType,'real':types.FloatType,'text':lambda:types.NVarCharType(size=240)}[kind]()
+        result.append(base.Column(name=name,type=sql_type,flags=base.Column.fNullable if nullable else 0))
+    return result
+
+
+def prepare(directory,azure_python):
+    """Schema only; never loads an unverified source population."""
+    import certifi
+    import pytds
+    directory=Path(directory)
+    path=directory/'sql-load.json'
+    state=json.loads(path.read_text())if path.exists()else{'tables':{},'identity':'existing Azure owner; Entra token in memory only'}
+    az=[str(azure_python),'-m','azure.cli']
+    def token():return json.loads(subprocess.check_output(az+['account','get-access-token','--resource','https://database.windows.net/','-o','json']))['accessToken']
+    for system in('clinical','billing'):
+        if state.get('schema_'+system):continue
+        with pytds.connect(server=SERVER,database='hn_'+system,access_token_callable=token,cafile=certifi.where(),timeout=180,login_timeout=60,appname='HealthNet-owner-build')as target:
+            c=target.cursor();c.execute("SELECT COUNT(*)FROM sys.tables WHERE schema_id=SCHEMA_ID('app')")
+            if c.fetchone()[0]:raise ValueError('Unjournaled existing schema; inspect before changes')
+            c.execute(ddl(system,'azure'));target.commit()
+        state['schema_'+system]=True
+        path.write_text(json.dumps(state,indent=2)+'\n',encoding='utf8')
+    return state
 
 
 def load(directory,azure_python):
@@ -27,6 +60,9 @@ def load(directory,azure_python):
     def save():journal_path.write_text(json.dumps(journal,indent=2)+'\n',encoding='utf8')
     for system,definitions in [('clinical',CLINICAL),('billing',BILLING)]:
         database='hn_'+system
+        policy=json.loads(subprocess.check_output(az+['sql','db','show','-g','rg-investigator-dev','-s','sql-orderops-9696025','-n',database,'--query','{free:useFreeLimit,exhaustion:freeLimitExhaustionBehavior,pause:autoPauseDelay}','-o','json']))
+        if policy!={'free':True,'exhaustion':'AutoPause','pause':60}:raise ValueError(('Approved free-offer settings differ',database,policy))
+        journal['policy_'+system]=policy;save()
         with pytds.connect(server=SERVER,database=database,access_token_callable=token,cafile=certifi.where(),
                           timeout=180,login_timeout=60,appname='HealthNet-owner-build')as target:
             cursor=target.cursor()
@@ -37,7 +73,7 @@ def load(directory,azure_python):
             elif not journal.get('schema_'+system):
                 raise ValueError('Unjournaled existing schema; inspect rather than overwrite')
             journal['schema_'+system]=True;save()
-            with sqlite3.connect(directory/(database+'.sqlite'))as source:
+            with closing(sqlite3.connect(directory/(database+'.sqlite')))as source:
                 for table,definition in definitions.items():
                     key=system+'.'+table
                     cursor.execute('SELECT COUNT(*),COALESCE(MAX(id),0)FROM [app].['+table+']')
@@ -46,6 +82,8 @@ def load(directory,azure_python):
                     if count!=last_id:raise ValueError(('Noncontiguous load; no automatic repair',key,count,last_id))
                     if count>expected:raise ValueError(('Unexpected target population',key))
                     names=[c[0]for c in columns(definition)]
+                    from pytds import tds_base,tds_types
+                    metadata=bulk_metadata(definition,tds_base,tds_types)
                     timestamps=[i for i,name in enumerate(names)if name.endswith('_utc')or name in('created_at','updated_at')]
                     rows=source.execute('SELECT * FROM ['+table+'] WHERE id>? ORDER BY id',(last_id,))
                     while True:
@@ -57,7 +95,7 @@ def load(directory,azure_python):
                             for i in timestamps:
                                 if row[i]is not None:row[i]=datetime.fromisoformat(row[i]).replace(tzinfo=None)
                             converted.append(tuple(row))
-                        cursor.copy_to(table_or_view=table,schema='app',columns=names,data=converted,check_constraints=True,keep_nulls=True,rows_per_batch=5000)
+                        cursor.copy_to(table_or_view=table,schema='app',columns=metadata,data=converted,check_constraints=True,keep_nulls=True,rows_per_batch=5000)
                         target.commit()
                         count+=len(batch)
                         journal['tables'][key]={'rows_committed':count,'expected':expected,'complete':False};save()

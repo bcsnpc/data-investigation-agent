@@ -1,0 +1,21 @@
+{
+  "workspace_id": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+  "lakehouse_id": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+  "warehouse_id": "ef705467-9870-481c-b977-aad877b83c30",
+  "warehouse_server": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+  "connections": {},
+  "missing_connections": [
+    "clinical",
+    "billing",
+    "warehouse"
+  ],
+  "native_pipelines_verified": false,
+  "planned_schedules": {
+    "clinical": "daily02UTC",
+    "billing": "daily0230UTC",
+    "warehouse": "daily03UTC",
+    "revenue_model": "daily04UTC"
+  },
+  "cadence_reason": "One source wake per day plus60minute inactivity tail is estimated within the free CPU allowance; continuous4hour wakes are not. Daily cadence deliberately permits latency.",
+  "schedule_enablement": "Only after manual verification and free-offer allowance review; never paid fallback"
+}

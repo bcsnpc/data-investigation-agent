@@ -22,6 +22,8 @@ CREATE TABLE [app].[department] ([id] BIGINT PRIMARY KEY,
 
 CREATE INDEX [ix_department_watermark] ON [app].[department]([updated_at],[id]);
 
+CREATE INDEX [ix_department_facility_id] ON [app].[department]([facility_id]);
+
 CREATE TABLE [app].[unit] ([id] BIGINT PRIMARY KEY,
 [department_id] BIGINT NOT NULL REFERENCES [app].[department]([id]),
 [name] NVARCHAR(240) NOT NULL,
@@ -31,6 +33,8 @@ CREATE TABLE [app].[unit] ([id] BIGINT PRIMARY KEY,
 [is_deleted] BIGINT NOT NULL);
 
 CREATE INDEX [ix_unit_watermark] ON [app].[unit]([updated_at],[id]);
+
+CREATE INDEX [ix_unit_department_id] ON [app].[unit]([department_id]);
 
 CREATE TABLE [app].[bed] ([id] BIGINT PRIMARY KEY,
 [unit_id] BIGINT NOT NULL REFERENCES [app].[unit]([id]),
@@ -42,6 +46,10 @@ CREATE TABLE [app].[bed] ([id] BIGINT PRIMARY KEY,
 [is_deleted] BIGINT NOT NULL);
 
 CREATE INDEX [ix_bed_watermark] ON [app].[bed]([updated_at],[id]);
+
+CREATE INDEX [ix_bed_unit_id] ON [app].[bed]([unit_id]);
+
+CREATE INDEX [ix_bed_facility_id] ON [app].[bed]([facility_id]);
 
 CREATE TABLE [app].[provider] ([id] BIGINT PRIMARY KEY,
 [synthetic_npi] NVARCHAR(240) NOT NULL,
@@ -57,6 +65,8 @@ CREATE TABLE [app].[provider] ([id] BIGINT PRIMARY KEY,
 
 CREATE INDEX [ix_provider_watermark] ON [app].[provider]([updated_at],[id]);
 
+CREATE INDEX [ix_provider_current_department_id] ON [app].[provider]([current_department_id]);
+
 CREATE TABLE [app].[provider_assignment] ([id] BIGINT PRIMARY KEY,
 [provider_id] BIGINT NOT NULL REFERENCES [app].[provider]([id]),
 [department_id] BIGINT NOT NULL REFERENCES [app].[department]([id]),
@@ -68,6 +78,10 @@ CREATE TABLE [app].[provider_assignment] ([id] BIGINT PRIMARY KEY,
 [is_deleted] BIGINT NOT NULL);
 
 CREATE INDEX [ix_provider_assignment_watermark] ON [app].[provider_assignment]([updated_at],[id]);
+
+CREATE INDEX [ix_provider_assignment_provider_id] ON [app].[provider_assignment]([provider_id]);
+
+CREATE INDEX [ix_provider_assignment_department_id] ON [app].[provider_assignment]([department_id]);
 
 CREATE TABLE [app].[payer_plan] ([id] BIGINT PRIMARY KEY,
 [plan_code] NVARCHAR(240) NOT NULL,
@@ -105,6 +119,10 @@ CREATE TABLE [app].[patient_alias] ([id] BIGINT PRIMARY KEY,
 
 CREATE INDEX [ix_patient_alias_watermark] ON [app].[patient_alias]([updated_at],[id]);
 
+CREATE INDEX [ix_patient_alias_patient_id] ON [app].[patient_alias]([patient_id]);
+
+CREATE INDEX [ix_patient_alias_alias_patient_id] ON [app].[patient_alias]([alias_patient_id]);
+
 CREATE TABLE [app].[patient_merge] ([id] BIGINT PRIMARY KEY,
 [survivor_id] BIGINT NOT NULL REFERENCES [app].[patient]([id]),
 [duplicate_id] BIGINT NOT NULL REFERENCES [app].[patient]([id]),
@@ -115,6 +133,10 @@ CREATE TABLE [app].[patient_merge] ([id] BIGINT PRIMARY KEY,
 [is_deleted] BIGINT NOT NULL);
 
 CREATE INDEX [ix_patient_merge_watermark] ON [app].[patient_merge]([updated_at],[id]);
+
+CREATE INDEX [ix_patient_merge_survivor_id] ON [app].[patient_merge]([survivor_id]);
+
+CREATE INDEX [ix_patient_merge_duplicate_id] ON [app].[patient_merge]([duplicate_id]);
 
 CREATE TABLE [app].[encounter] ([id] BIGINT PRIMARY KEY,
 [encounter_number] NVARCHAR(240) NOT NULL,
@@ -139,6 +161,20 @@ CREATE TABLE [app].[encounter] ([id] BIGINT PRIMARY KEY,
 
 CREATE INDEX [ix_encounter_watermark] ON [app].[encounter]([updated_at],[id]);
 
+CREATE INDEX [ix_encounter_patient_id] ON [app].[encounter]([patient_id]);
+
+CREATE INDEX [ix_encounter_facility_id] ON [app].[encounter]([facility_id]);
+
+CREATE INDEX [ix_encounter_department_id] ON [app].[encounter]([department_id]);
+
+CREATE INDEX [ix_encounter_attending_provider_id] ON [app].[encounter]([attending_provider_id]);
+
+CREATE INDEX [ix_encounter_payer_plan_id] ON [app].[encounter]([payer_plan_id]);
+
+CREATE INDEX [ix_encounter_readmission_of] ON [app].[encounter]([readmission_of]);
+
+CREATE INDEX [ix_encounter_transfer_from] ON [app].[encounter]([transfer_from]);
+
 CREATE TABLE [app].[adt_event] ([id] BIGINT PRIMARY KEY,
 [encounter_id] BIGINT NOT NULL REFERENCES [app].[encounter]([id]),
 [event_type] NVARCHAR(240) NOT NULL,
@@ -152,6 +188,12 @@ CREATE TABLE [app].[adt_event] ([id] BIGINT PRIMARY KEY,
 
 CREATE INDEX [ix_adt_event_watermark] ON [app].[adt_event]([updated_at],[id]);
 
+CREATE INDEX [ix_adt_event_encounter_id] ON [app].[adt_event]([encounter_id]);
+
+CREATE INDEX [ix_adt_event_from_facility_id] ON [app].[adt_event]([from_facility_id]);
+
+CREATE INDEX [ix_adt_event_to_facility_id] ON [app].[adt_event]([to_facility_id]);
+
 CREATE TABLE [app].[bed_assignment] ([id] BIGINT PRIMARY KEY,
 [encounter_id] BIGINT NOT NULL REFERENCES [app].[encounter]([id]),
 [bed_id] BIGINT NOT NULL REFERENCES [app].[bed]([id]),
@@ -163,6 +205,10 @@ CREATE TABLE [app].[bed_assignment] ([id] BIGINT PRIMARY KEY,
 [is_deleted] BIGINT NOT NULL);
 
 CREATE INDEX [ix_bed_assignment_watermark] ON [app].[bed_assignment]([updated_at],[id]);
+
+CREATE INDEX [ix_bed_assignment_encounter_id] ON [app].[bed_assignment]([encounter_id]);
+
+CREATE INDEX [ix_bed_assignment_bed_id] ON [app].[bed_assignment]([bed_id]);
 
 CREATE TABLE [app].[ed_visit_detail] ([id] BIGINT PRIMARY KEY,
 [encounter_id] BIGINT NOT NULL REFERENCES [app].[encounter]([id]),
@@ -181,6 +227,8 @@ CREATE TABLE [app].[ed_visit_detail] ([id] BIGINT PRIMARY KEY,
 
 CREATE INDEX [ix_ed_visit_detail_watermark] ON [app].[ed_visit_detail]([updated_at],[id]);
 
+CREATE INDEX [ix_ed_visit_detail_encounter_id] ON [app].[ed_visit_detail]([encounter_id]);
+
 CREATE TABLE [app].[diagnosis] ([id] BIGINT PRIMARY KEY,
 [encounter_id] BIGINT NOT NULL REFERENCES [app].[encounter]([id]),
 [code_system] NVARCHAR(240) NOT NULL,
@@ -193,6 +241,8 @@ CREATE TABLE [app].[diagnosis] ([id] BIGINT PRIMARY KEY,
 [is_deleted] BIGINT NOT NULL);
 
 CREATE INDEX [ix_diagnosis_watermark] ON [app].[diagnosis]([updated_at],[id]);
+
+CREATE INDEX [ix_diagnosis_encounter_id] ON [app].[diagnosis]([encounter_id]);
 
 CREATE TABLE [app].[procedure] ([id] BIGINT PRIMARY KEY,
 [encounter_id] BIGINT NOT NULL REFERENCES [app].[encounter]([id]),
@@ -209,6 +259,10 @@ CREATE TABLE [app].[procedure] ([id] BIGINT PRIMARY KEY,
 
 CREATE INDEX [ix_procedure_watermark] ON [app].[procedure]([updated_at],[id]);
 
+CREATE INDEX [ix_procedure_encounter_id] ON [app].[procedure]([encounter_id]);
+
+CREATE INDEX [ix_procedure_provider_id] ON [app].[procedure]([provider_id]);
+
 CREATE TABLE [app].[order_header] ([id] BIGINT PRIMARY KEY,
 [encounter_id] BIGINT NOT NULL REFERENCES [app].[encounter]([id]),
 [provider_id] BIGINT REFERENCES [app].[provider]([id]),
@@ -220,6 +274,10 @@ CREATE TABLE [app].[order_header] ([id] BIGINT PRIMARY KEY,
 [is_deleted] BIGINT NOT NULL);
 
 CREATE INDEX [ix_order_header_watermark] ON [app].[order_header]([updated_at],[id]);
+
+CREATE INDEX [ix_order_header_encounter_id] ON [app].[order_header]([encounter_id]);
+
+CREATE INDEX [ix_order_header_provider_id] ON [app].[order_header]([provider_id]);
 
 CREATE TABLE [app].[order_line] ([id] BIGINT PRIMARY KEY,
 [order_header_id] BIGINT NOT NULL REFERENCES [app].[order_header]([id]),
@@ -237,6 +295,10 @@ CREATE TABLE [app].[order_line] ([id] BIGINT PRIMARY KEY,
 
 CREATE INDEX [ix_order_line_watermark] ON [app].[order_line]([updated_at],[id]);
 
+CREATE INDEX [ix_order_line_order_header_id] ON [app].[order_line]([order_header_id]);
+
+CREATE INDEX [ix_order_line_replaces_order_line_id] ON [app].[order_line]([replaces_order_line_id]);
+
 CREATE TABLE [app].[result] ([id] BIGINT PRIMARY KEY,
 [order_line_id] BIGINT NOT NULL REFERENCES [app].[order_line]([id]),
 [component] NVARCHAR(240) NOT NULL,
@@ -253,6 +315,8 @@ CREATE TABLE [app].[result] ([id] BIGINT PRIMARY KEY,
 
 CREATE INDEX [ix_result_watermark] ON [app].[result]([updated_at],[id]);
 
+CREATE INDEX [ix_result_order_line_id] ON [app].[result]([order_line_id]);
+
 CREATE TABLE [app].[medication_admin] ([id] BIGINT PRIMARY KEY,
 [order_line_id] BIGINT NOT NULL REFERENCES [app].[order_line]([id]),
 [encounter_id] BIGINT NOT NULL REFERENCES [app].[encounter]([id]),
@@ -267,6 +331,10 @@ CREATE TABLE [app].[medication_admin] ([id] BIGINT PRIMARY KEY,
 [is_deleted] BIGINT NOT NULL);
 
 CREATE INDEX [ix_medication_admin_watermark] ON [app].[medication_admin]([updated_at],[id]);
+
+CREATE INDEX [ix_medication_admin_order_line_id] ON [app].[medication_admin]([order_line_id]);
+
+CREATE INDEX [ix_medication_admin_encounter_id] ON [app].[medication_admin]([encounter_id]);
 
 ALTER TABLE [app].[patient] ADD [valid_from] DATETIME2 GENERATED ALWAYS AS ROW START HIDDEN NOT NULL DEFAULT SYSUTCDATETIME(), [valid_to] DATETIME2 GENERATED ALWAYS AS ROW END HIDDEN NOT NULL DEFAULT CONVERT(DATETIME2,'9999-12-31 23:59:59.9999999'), PERIOD FOR SYSTEM_TIME([valid_from],[valid_to]);
 ALTER TABLE [app].[patient] SET (SYSTEM_VERSIONING=ON (HISTORY_TABLE=[app].[patient_history]));

@@ -1,0 +1,158 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "55957afac63a54799bc3",
+  "position": {
+    "x": 24,
+    "y": 300,
+    "width": 700,
+    "height": 230,
+    "z": 9,
+    "tabOrder": 9
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Gross service date vs post date'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#17324D'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "core_date"
+                    }
+                  },
+                  "Property": "year_month"
+                }
+              },
+              "queryRef": "core_date.year_month",
+              "nativeQueryRef": "year_month",
+              "displayName": "Year Month"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_charge"
+                    }
+                  },
+                  "Property": "Gross Charges"
+                }
+              },
+              "queryRef": "mart_charge.Gross Charges",
+              "nativeQueryRef": "Gross Charges",
+              "displayName": "Gross Charges"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_charge"
+                    }
+                  },
+                  "Property": "Gross Charges by Post Date"
+                }
+              },
+              "queryRef": "mart_charge.Gross Charges by Post Date",
+              "nativeQueryRef": "Gross Charges by Post Date",
+              "displayName": "Gross Charges by Post Date"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_payment"
+                    }
+                  },
+                  "Property": "Collections"
+                }
+              },
+              "queryRef": "mart_payment.Collections",
+              "nativeQueryRef": "Collections",
+              "displayName": "Collections"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

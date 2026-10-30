@@ -1,0 +1,1007 @@
+{
+  "name": "HealthNet Operations",
+  "compatibilityLevel": 1604,
+  "model": {
+    "culture": "en-US",
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "expressions": [
+      {
+        "name": "ServerName",
+        "kind": "m",
+        "expression": "\"i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com\" meta [IsParameterQuery=true,Type=\"Text\",IsParameterQueryRequired=true]"
+      },
+      {
+        "name": "DatabaseName",
+        "kind": "m",
+        "expression": "\"ef705467-9870-481c-b977-aad877b83c30\" meta [IsParameterQuery=true,Type=\"Text\",IsParameterQueryRequired=true]"
+      },
+      {
+        "name": "DatabaseQuery",
+        "kind": "m",
+        "expression": "Sql.Database(ServerName,DatabaseName,[CreateNavigationProperties=false])"
+      }
+    ],
+    "tables": [
+      {
+        "name": "core_facility",
+        "isHidden": false,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "name",
+            "dataType": "string",
+            "sourceColumn": "name",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "region",
+            "dataType": "string",
+            "sourceColumn": "region",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "licensed_beds",
+            "dataType": "int64",
+            "sourceColumn": "licensed_beds",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "created_at",
+            "dataType": "dateTime",
+            "sourceColumn": "created_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_at",
+            "dataType": "dateTime",
+            "sourceColumn": "updated_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_by",
+            "dataType": "string",
+            "sourceColumn": "updated_by",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_deleted",
+            "dataType": "int64",
+            "sourceColumn": "is_deleted",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "core_facility",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "core_facility",
+              "schemaName": "dbo",
+              "expressionSource": "DatabaseQuery"
+            }
+          }
+        ],
+        "measures": []
+      },
+      {
+        "name": "core_department",
+        "isHidden": false,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "facility_id",
+            "dataType": "int64",
+            "sourceColumn": "facility_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "name",
+            "dataType": "string",
+            "sourceColumn": "name",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "service_line",
+            "dataType": "string",
+            "sourceColumn": "service_line",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "created_at",
+            "dataType": "dateTime",
+            "sourceColumn": "created_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_at",
+            "dataType": "dateTime",
+            "sourceColumn": "updated_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_by",
+            "dataType": "string",
+            "sourceColumn": "updated_by",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_deleted",
+            "dataType": "int64",
+            "sourceColumn": "is_deleted",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "core_department",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "core_department",
+              "schemaName": "dbo",
+              "expressionSource": "DatabaseQuery"
+            }
+          }
+        ],
+        "measures": []
+      },
+      {
+        "name": "core_date",
+        "isHidden": false,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "calendar_date",
+            "dataType": "string",
+            "sourceColumn": "calendar_date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "year_month",
+            "dataType": "string",
+            "sourceColumn": "year_month",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "weekday_number",
+            "dataType": "int64",
+            "sourceColumn": "weekday_number",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "local_midnight_utc",
+            "dataType": "dateTime",
+            "sourceColumn": "local_midnight_utc",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "core_date",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "core_date",
+              "schemaName": "dbo",
+              "expressionSource": "DatabaseQuery"
+            }
+          }
+        ],
+        "measures": []
+      },
+      {
+        "name": "mart_encounter",
+        "isHidden": false,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "encounter_number",
+            "dataType": "string",
+            "sourceColumn": "encounter_number",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "patient_id",
+            "dataType": "int64",
+            "sourceColumn": "patient_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "facility_id",
+            "dataType": "int64",
+            "sourceColumn": "facility_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "department_id",
+            "dataType": "int64",
+            "sourceColumn": "department_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "attending_provider_id",
+            "dataType": "int64",
+            "sourceColumn": "attending_provider_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "payer_plan_id",
+            "dataType": "int64",
+            "sourceColumn": "payer_plan_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "encounter_type",
+            "dataType": "string",
+            "sourceColumn": "encounter_type",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "initial_status",
+            "dataType": "string",
+            "sourceColumn": "initial_status",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "status",
+            "dataType": "string",
+            "sourceColumn": "status",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "arrival_utc",
+            "dataType": "dateTime",
+            "sourceColumn": "arrival_utc",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "admit_utc",
+            "dataType": "dateTime",
+            "sourceColumn": "admit_utc",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "discharge_utc",
+            "dataType": "dateTime",
+            "sourceColumn": "discharge_utc",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "service_day",
+            "dataType": "string",
+            "sourceColumn": "service_day",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "readmission_of",
+            "dataType": "int64",
+            "sourceColumn": "readmission_of",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "transfer_from",
+            "dataType": "string",
+            "sourceColumn": "transfer_from",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "created_at",
+            "dataType": "dateTime",
+            "sourceColumn": "created_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_at",
+            "dataType": "dateTime",
+            "sourceColumn": "updated_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_by",
+            "dataType": "string",
+            "sourceColumn": "updated_by",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_deleted",
+            "dataType": "int64",
+            "sourceColumn": "is_deleted",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "mpi_patient_id",
+            "dataType": "int64",
+            "sourceColumn": "mpi_patient_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "masked_mrn",
+            "dataType": "string",
+            "sourceColumn": "masked_mrn",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "masked_given_name",
+            "dataType": "string",
+            "sourceColumn": "masked_given_name",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "masked_family_name",
+            "dataType": "string",
+            "sourceColumn": "masked_family_name",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "service_line",
+            "dataType": "string",
+            "sourceColumn": "service_line",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "service_provider_department_id",
+            "dataType": "int64",
+            "sourceColumn": "service_provider_department_id",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "mart_encounter",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "mart_encounter",
+              "schemaName": "dbo",
+              "expressionSource": "DatabaseQuery"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "ALOS",
+            "expression": "AVERAGEX(FILTER(mart_encounter,NOT ISBLANK(mart_encounter[admit_utc])&&NOT ISBLANK(mart_encounter[discharge_utc])),DIVIDE(DATEDIFF(mart_encounter[admit_utc],mart_encounter[discharge_utc],SECOND),86400))",
+            "description": "Completed inpatient admission-to-discharge days, excludes active admissions.",
+            "formatString": "#,0.00"
+          },
+          {
+            "name": "30-day Readmission %",
+            "expression": "DIVIDE(COUNTROWS(FILTER(mart_encounter,NOT ISBLANK(mart_encounter[readmission_of]))),COUNTROWS(FILTER(mart_encounter,NOT ISBLANK(mart_encounter[admit_utc]))))",
+            "description": "Explicit same-person unplanned synthetic readmission links within30days; not risk adjusted.",
+            "formatString": "0.00%"
+          },
+          {
+            "name": "Visits",
+            "expression": "COUNTROWS(mart_encounter)",
+            "description": "Non-soft-deleted encounters of non-soft-deleted source patients; a transfer can contribute two visits.",
+            "formatString": "#,0.00"
+          },
+          {
+            "name": "Unique Patients",
+            "expression": "DISTINCTCOUNT(mart_encounter[mpi_patient_id])",
+            "description": "Distinct MPI survivors among retained encounters, differs from distinct MRNs.",
+            "formatString": "#,0.00"
+          }
+        ]
+      },
+      {
+        "name": "mart_ed_visit",
+        "isHidden": false,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "encounter_id",
+            "dataType": "int64",
+            "sourceColumn": "encounter_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "triage_level",
+            "dataType": "int64",
+            "sourceColumn": "triage_level",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "arrival_local",
+            "dataType": "string",
+            "sourceColumn": "arrival_local",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "utc_offset_minutes",
+            "dataType": "int64",
+            "sourceColumn": "utc_offset_minutes",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "door_to_provider_minutes",
+            "dataType": "int64",
+            "sourceColumn": "door_to_provider_minutes",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ed_los_minutes",
+            "dataType": "int64",
+            "sourceColumn": "ed_los_minutes",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "lwbs",
+            "dataType": "int64",
+            "sourceColumn": "lwbs",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "admitted",
+            "dataType": "int64",
+            "sourceColumn": "admitted",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "transferred",
+            "dataType": "int64",
+            "sourceColumn": "transferred",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "created_at",
+            "dataType": "dateTime",
+            "sourceColumn": "created_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_at",
+            "dataType": "dateTime",
+            "sourceColumn": "updated_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_by",
+            "dataType": "string",
+            "sourceColumn": "updated_by",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_deleted",
+            "dataType": "int64",
+            "sourceColumn": "is_deleted",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "arrival_hour",
+            "dataType": "string",
+            "sourceColumn": "arrival_hour",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "facility_id",
+            "dataType": "int64",
+            "sourceColumn": "facility_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "department_id",
+            "dataType": "int64",
+            "sourceColumn": "department_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "attending_provider_id",
+            "dataType": "int64",
+            "sourceColumn": "attending_provider_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "service_day",
+            "dataType": "string",
+            "sourceColumn": "service_day",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "mart_ed_visit",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "mart_ed_visit",
+              "schemaName": "dbo",
+              "expressionSource": "DatabaseQuery"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "ED Door-to-Provider (median)",
+            "expression": "MEDIAN(mart_ed_visit[door_to_provider_minutes])",
+            "description": "Minutes from ED arrival to provider; blank for LWBS, median over nonblank observations.",
+            "formatString": "#,0.00"
+          },
+          {
+            "name": "LWBS %",
+            "expression": "DIVIDE(SUM(mart_ed_visit[lwbs]),COUNTROWS(mart_ed_visit))",
+            "description": "Left without being seen among all retained ED visits.",
+            "formatString": "0.00%"
+          },
+          {
+            "name": "ED Visits",
+            "expression": "COUNTROWS(mart_ed_visit)",
+            "description": "Retained ED visits, not all encounter types.",
+            "formatString": "#,0.00"
+          }
+        ]
+      },
+      {
+        "name": "mart_order",
+        "isHidden": false,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "order_header_id",
+            "dataType": "int64",
+            "sourceColumn": "order_header_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "line_number",
+            "dataType": "int64",
+            "sourceColumn": "line_number",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "item_code",
+            "dataType": "string",
+            "sourceColumn": "item_code",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "priority",
+            "dataType": "string",
+            "sourceColumn": "priority",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "status",
+            "dataType": "string",
+            "sourceColumn": "status",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ordered_utc",
+            "dataType": "dateTime",
+            "sourceColumn": "ordered_utc",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "completed_utc",
+            "dataType": "dateTime",
+            "sourceColumn": "completed_utc",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "replaces_order_line_id",
+            "dataType": "int64",
+            "sourceColumn": "replaces_order_line_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "created_at",
+            "dataType": "dateTime",
+            "sourceColumn": "created_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_at",
+            "dataType": "dateTime",
+            "sourceColumn": "updated_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_by",
+            "dataType": "string",
+            "sourceColumn": "updated_by",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_deleted",
+            "dataType": "int64",
+            "sourceColumn": "is_deleted",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "encounter_id",
+            "dataType": "int64",
+            "sourceColumn": "encounter_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "provider_id",
+            "dataType": "int64",
+            "sourceColumn": "provider_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "order_type",
+            "dataType": "string",
+            "sourceColumn": "order_type",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "facility_id",
+            "dataType": "int64",
+            "sourceColumn": "facility_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "department_id",
+            "dataType": "int64",
+            "sourceColumn": "department_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "service_day",
+            "dataType": "string",
+            "sourceColumn": "service_day",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "mart_order",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "mart_order",
+              "schemaName": "dbo",
+              "expressionSource": "DatabaseQuery"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Order Count",
+            "expression": "COUNTROWS(mart_order)",
+            "description": "Retained order lines including cancelled and voided statuses; select status to narrow.",
+            "formatString": "#,0.00"
+          },
+          {
+            "name": "Completed Orders",
+            "expression": "CALCULATE(COUNTROWS(mart_order),mart_order[status]=\"RESULTED\")",
+            "description": "Final resulted status only; excludes withdrawn void/reentry predecessors.",
+            "formatString": "#,0.00"
+          }
+        ]
+      },
+      {
+        "name": "mart_census_daily",
+        "isHidden": false,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "calendar_date",
+            "dataType": "string",
+            "sourceColumn": "calendar_date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "facility_id",
+            "dataType": "int64",
+            "sourceColumn": "facility_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "midnight_census",
+            "dataType": "int64",
+            "sourceColumn": "midnight_census",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "licensed_beds",
+            "dataType": "int64",
+            "sourceColumn": "licensed_beds",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "occupancy_fraction",
+            "dataType": "double",
+            "sourceColumn": "occupancy_fraction",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "mart_census_daily",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "mart_census_daily",
+              "schemaName": "dbo",
+              "expressionSource": "DatabaseQuery"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Midnight Census",
+            "expression": "SUM(mart_census_daily[midnight_census])",
+            "description": "Occupied beds at America/Chicago local midnight. Across several days this is occupied bed-days, not distinct patients.",
+            "formatString": "#,0.00"
+          },
+          {
+            "name": "Bed Occupancy %",
+            "expression": "DIVIDE(SUM(mart_census_daily[midnight_census]),SUM(mart_census_daily[licensed_beds]))",
+            "description": "Occupied bed-days divided by licensed available bed-days; capacity-weighted, not an average of facility percentages.",
+            "formatString": "0.00%"
+          }
+        ]
+      },
+      {
+        "name": "security_mapping",
+        "isHidden": true,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "upn",
+            "dataType": "string",
+            "sourceColumn": "upn",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "role",
+            "dataType": "string",
+            "sourceColumn": "role",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "facility_id",
+            "dataType": "int64",
+            "sourceColumn": "facility_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "department_id",
+            "dataType": "int64",
+            "sourceColumn": "department_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "provider_id",
+            "dataType": "int64",
+            "sourceColumn": "provider_id",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "security_mapping",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "entityName": "security_mapping",
+              "schemaName": "dbo",
+              "expressionSource": "DatabaseQuery"
+            }
+          }
+        ],
+        "measures": []
+      }
+    ],
+    "relationships": [
+      {
+        "name": "mart_encounter_facility_id",
+        "fromTable": "mart_encounter",
+        "fromColumn": "facility_id",
+        "toTable": "core_facility",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_encounter_department_id",
+        "fromTable": "mart_encounter",
+        "fromColumn": "department_id",
+        "toTable": "core_department",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_encounter_calendar",
+        "fromTable": "mart_encounter",
+        "fromColumn": "service_day",
+        "toTable": "core_date",
+        "toColumn": "calendar_date",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_ed_visit_facility_id",
+        "fromTable": "mart_ed_visit",
+        "fromColumn": "facility_id",
+        "toTable": "core_facility",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_ed_visit_department_id",
+        "fromTable": "mart_ed_visit",
+        "fromColumn": "department_id",
+        "toTable": "core_department",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_ed_visit_calendar",
+        "fromTable": "mart_ed_visit",
+        "fromColumn": "service_day",
+        "toTable": "core_date",
+        "toColumn": "calendar_date",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_order_facility_id",
+        "fromTable": "mart_order",
+        "fromColumn": "facility_id",
+        "toTable": "core_facility",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_order_department_id",
+        "fromTable": "mart_order",
+        "fromColumn": "department_id",
+        "toTable": "core_department",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_order_calendar",
+        "fromTable": "mart_order",
+        "fromColumn": "service_day",
+        "toTable": "core_date",
+        "toColumn": "calendar_date",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_census_daily_facility_id",
+        "fromTable": "mart_census_daily",
+        "fromColumn": "facility_id",
+        "toTable": "core_facility",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_census_daily_calendar",
+        "fromTable": "mart_census_daily",
+        "fromColumn": "calendar_date",
+        "toTable": "core_date",
+        "toColumn": "calendar_date",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      }
+    ],
+    "roles": [
+      {
+        "name": "Executive",
+        "modelPermission": "read",
+        "tablePermissions": [
+          {
+            "name": "core_facility",
+            "filterExpression": "COUNTROWS(FILTER(security_mapping,security_mapping[upn]=USERPRINCIPALNAME()&&security_mapping[role]=\"Executive\"))>0"
+          },
+          {
+            "name": "core_department",
+            "filterExpression": "COUNTROWS(FILTER(security_mapping,security_mapping[upn]=USERPRINCIPALNAME()&&security_mapping[role]=\"Executive\"))>0"
+          }
+        ]
+      },
+      {
+        "name": "HospitalManager",
+        "modelPermission": "read",
+        "tablePermissions": [
+          {
+            "name": "core_facility",
+            "filterExpression": "core_facility[id] IN SELECTCOLUMNS(FILTER(security_mapping,security_mapping[upn]=USERPRINCIPALNAME()&&security_mapping[role]=\"HospitalManager\"),\"allowed_id\",security_mapping[facility_id])"
+          },
+          {
+            "name": "core_department",
+            "filterExpression": "COUNTROWS(FILTER(security_mapping,security_mapping[upn]=USERPRINCIPALNAME()&&security_mapping[role]=\"HospitalManager\"))>0"
+          }
+        ]
+      },
+      {
+        "name": "DepartmentHead",
+        "modelPermission": "read",
+        "tablePermissions": [
+          {
+            "name": "core_facility",
+            "filterExpression": "COUNTROWS(FILTER(security_mapping,security_mapping[upn]=USERPRINCIPALNAME()&&security_mapping[role]=\"DepartmentHead\"))>0"
+          },
+          {
+            "name": "core_department",
+            "filterExpression": "core_department[id] IN SELECTCOLUMNS(FILTER(security_mapping,security_mapping[upn]=USERPRINCIPALNAME()&&security_mapping[role]=\"DepartmentHead\"),\"allowed_id\",security_mapping[department_id])"
+          },
+          {
+            "name": "mart_census_daily",
+            "filterExpression": "FALSE()"
+          }
+        ]
+      },
+      {
+        "name": "Doctor",
+        "modelPermission": "read",
+        "tablePermissions": [
+          {
+            "name": "core_facility",
+            "filterExpression": "FALSE()"
+          }
+        ]
+      }
+    ],
+    "annotations": [
+      {
+        "name": "HealthNetNativeValidation",
+        "value": "PENDING; definition generation is not live verification"
+      }
+    ]
+  }
+}

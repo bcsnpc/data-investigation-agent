@@ -1,0 +1,1403 @@
+{
+  "name": "HealthNet Revenue",
+  "compatibilityLevel": 1604,
+  "model": {
+    "culture": "en-US",
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "expressions": [
+      {
+        "name": "ServerName",
+        "kind": "m",
+        "expression": "\"i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com\" meta [IsParameterQuery=true,Type=\"Text\",IsParameterQueryRequired=true]"
+      },
+      {
+        "name": "DatabaseName",
+        "kind": "m",
+        "expression": "\"ef705467-9870-481c-b977-aad877b83c30\" meta [IsParameterQuery=true,Type=\"Text\",IsParameterQueryRequired=true]"
+      },
+      {
+        "name": "DatabaseQuery",
+        "kind": "m",
+        "expression": "Sql.Database(ServerName,DatabaseName,[CreateNavigationProperties=false])"
+      }
+    ],
+    "tables": [
+      {
+        "name": "core_facility",
+        "isHidden": false,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "name",
+            "dataType": "string",
+            "sourceColumn": "name",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "region",
+            "dataType": "string",
+            "sourceColumn": "region",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "licensed_beds",
+            "dataType": "int64",
+            "sourceColumn": "licensed_beds",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "created_at",
+            "dataType": "dateTime",
+            "sourceColumn": "created_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_at",
+            "dataType": "dateTime",
+            "sourceColumn": "updated_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_by",
+            "dataType": "string",
+            "sourceColumn": "updated_by",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_deleted",
+            "dataType": "int64",
+            "sourceColumn": "is_deleted",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "core_facility",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": "let Source=Sql.Database(ServerName,DatabaseName), Rows=Source{[Schema=\"dbo\",Item=\"core_facility\"]}[Data] in Rows"
+            }
+          }
+        ],
+        "measures": []
+      },
+      {
+        "name": "core_department",
+        "isHidden": false,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "facility_id",
+            "dataType": "int64",
+            "sourceColumn": "facility_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "name",
+            "dataType": "string",
+            "sourceColumn": "name",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "service_line",
+            "dataType": "string",
+            "sourceColumn": "service_line",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "created_at",
+            "dataType": "dateTime",
+            "sourceColumn": "created_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_at",
+            "dataType": "dateTime",
+            "sourceColumn": "updated_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_by",
+            "dataType": "string",
+            "sourceColumn": "updated_by",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_deleted",
+            "dataType": "int64",
+            "sourceColumn": "is_deleted",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "core_department",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": "let Source=Sql.Database(ServerName,DatabaseName), Rows=Source{[Schema=\"dbo\",Item=\"core_department\"]}[Data] in Rows"
+            }
+          }
+        ],
+        "measures": []
+      },
+      {
+        "name": "core_payer",
+        "isHidden": false,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "name",
+            "dataType": "string",
+            "sourceColumn": "name",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "payer_group",
+            "dataType": "string",
+            "sourceColumn": "payer_group",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "created_at",
+            "dataType": "dateTime",
+            "sourceColumn": "created_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_at",
+            "dataType": "dateTime",
+            "sourceColumn": "updated_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_by",
+            "dataType": "string",
+            "sourceColumn": "updated_by",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_deleted",
+            "dataType": "int64",
+            "sourceColumn": "is_deleted",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "core_payer",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": "let Source=Sql.Database(ServerName,DatabaseName), Rows=Source{[Schema=\"dbo\",Item=\"core_payer\"]}[Data] in Rows"
+            }
+          }
+        ],
+        "measures": []
+      },
+      {
+        "name": "core_date",
+        "isHidden": false,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "calendar_date",
+            "dataType": "string",
+            "sourceColumn": "calendar_date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "year_month",
+            "dataType": "string",
+            "sourceColumn": "year_month",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "weekday_number",
+            "dataType": "int64",
+            "sourceColumn": "weekday_number",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "local_midnight_utc",
+            "dataType": "dateTime",
+            "sourceColumn": "local_midnight_utc",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "core_date",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": "let Source=Sql.Database(ServerName,DatabaseName), Rows=Source{[Schema=\"dbo\",Item=\"core_date\"]}[Data] in Rows"
+            }
+          }
+        ],
+        "measures": []
+      },
+      {
+        "name": "mart_charge",
+        "isHidden": false,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "account_id",
+            "dataType": "int64",
+            "sourceColumn": "account_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "service_date",
+            "dataType": "string",
+            "sourceColumn": "service_date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "post_date",
+            "dataType": "string",
+            "sourceColumn": "post_date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "revenue_centre_code",
+            "dataType": "string",
+            "sourceColumn": "revenue_centre_code",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "procedure_code",
+            "dataType": "string",
+            "sourceColumn": "procedure_code",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "units",
+            "dataType": "int64",
+            "sourceColumn": "units",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "amount_cents",
+            "dataType": "int64",
+            "sourceColumn": "amount_cents",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "correction_of",
+            "dataType": "int64",
+            "sourceColumn": "correction_of",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "correction_reason",
+            "dataType": "string",
+            "sourceColumn": "correction_reason",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "created_at",
+            "dataType": "dateTime",
+            "sourceColumn": "created_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_at",
+            "dataType": "dateTime",
+            "sourceColumn": "updated_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_by",
+            "dataType": "string",
+            "sourceColumn": "updated_by",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_deleted",
+            "dataType": "int64",
+            "sourceColumn": "is_deleted",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "encounter_number",
+            "dataType": "string",
+            "sourceColumn": "encounter_number",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "facility_id",
+            "dataType": "int64",
+            "sourceColumn": "facility_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "department_id",
+            "dataType": "int64",
+            "sourceColumn": "department_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "payer_plan_id",
+            "dataType": "int64",
+            "sourceColumn": "payer_plan_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "payer_id",
+            "dataType": "int64",
+            "sourceColumn": "payer_id",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "mart_charge",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": "let Source=Sql.Database(ServerName,DatabaseName), Rows=Source{[Schema=\"dbo\",Item=\"mart_charge\"]}[Data] in Rows"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Gross Charges",
+            "expression": "SUM(mart_charge[amount_cents])/100",
+            "description": "Signed gross charges by service date, including corrections; not collections.",
+            "formatString": "#,0.00"
+          },
+          {
+            "name": "Net Revenue",
+            "expression": "[Gross Charges]+SUM(mart_adjustment[amount_cents])/100",
+            "description": "Service-date gross charges plus signed adjustments in their adjustment-date window; not cash. Payer remapping uses each event date.",
+            "formatString": "#,0.00"
+          },
+          {
+            "name": "Gross Charges by Post Date",
+            "expression": "CALCULATE([Gross Charges],USERELATIONSHIP(mart_charge[post_date],core_date[calendar_date]))",
+            "description": "Same signed charges, grouped by post date rather than service date.",
+            "formatString": "#,0.00"
+          }
+        ]
+      },
+      {
+        "name": "mart_claim",
+        "isHidden": false,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "account_id",
+            "dataType": "int64",
+            "sourceColumn": "account_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "claim_group",
+            "dataType": "string",
+            "sourceColumn": "claim_group",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "version",
+            "dataType": "int64",
+            "sourceColumn": "version",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "submission_type",
+            "dataType": "string",
+            "sourceColumn": "submission_type",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_original",
+            "dataType": "int64",
+            "sourceColumn": "is_original",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_final",
+            "dataType": "int64",
+            "sourceColumn": "is_final",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "bill_type",
+            "dataType": "string",
+            "sourceColumn": "bill_type",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ms_drg",
+            "dataType": "string",
+            "sourceColumn": "ms_drg",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "submitted_at",
+            "dataType": "dateTime",
+            "sourceColumn": "submitted_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "status",
+            "dataType": "string",
+            "sourceColumn": "status",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "billed_cents",
+            "dataType": "int64",
+            "sourceColumn": "billed_cents",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "created_at",
+            "dataType": "dateTime",
+            "sourceColumn": "created_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_at",
+            "dataType": "dateTime",
+            "sourceColumn": "updated_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_by",
+            "dataType": "string",
+            "sourceColumn": "updated_by",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_deleted",
+            "dataType": "int64",
+            "sourceColumn": "is_deleted",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "submitted_date",
+            "dataType": "string",
+            "sourceColumn": "submitted_date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "facility_id",
+            "dataType": "int64",
+            "sourceColumn": "facility_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "department_id",
+            "dataType": "int64",
+            "sourceColumn": "department_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "payer_plan_id",
+            "dataType": "int64",
+            "sourceColumn": "payer_plan_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "payer_id",
+            "dataType": "int64",
+            "sourceColumn": "payer_id",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "mart_claim",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": "let Source=Sql.Database(ServerName,DatabaseName), Rows=Source{[Schema=\"dbo\",Item=\"mart_claim\"]}[Data] in Rows"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Initial Denial Rate (count)",
+            "expression": "DIVIDE(CALCULATE(COUNTROWS(mart_claim),mart_claim[is_original]=1,mart_claim[status]=\"DENIED\"),CALCULATE(COUNTROWS(mart_claim),mart_claim[is_original]=1,mart_claim[status]<>\"SUBMITTED\"))",
+            "description": "Original adjudicated claim count; pending claims excluded.",
+            "formatString": "0.00%"
+          },
+          {
+            "name": "Final Denial Rate",
+            "expression": "DIVIDE(CALCULATE(COUNTROWS(mart_claim),mart_claim[is_final]=1,mart_claim[status]=\"DENIED\"),CALCULATE(COUNTROWS(mart_claim),mart_claim[is_final]=1,mart_claim[status]<>\"SUBMITTED\"))",
+            "description": "Latest version of each adjudicated claim group; differs from original claim rate.",
+            "formatString": "0.00%"
+          }
+        ]
+      },
+      {
+        "name": "mart_remittance",
+        "isHidden": false,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "remittance_id",
+            "dataType": "int64",
+            "sourceColumn": "remittance_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "claim_line_id",
+            "dataType": "int64",
+            "sourceColumn": "claim_line_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "paid_cents",
+            "dataType": "int64",
+            "sourceColumn": "paid_cents",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "adjusted_cents",
+            "dataType": "int64",
+            "sourceColumn": "adjusted_cents",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "denied_cents",
+            "dataType": "int64",
+            "sourceColumn": "denied_cents",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "denial_code",
+            "dataType": "string",
+            "sourceColumn": "denial_code",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "denial_category",
+            "dataType": "string",
+            "sourceColumn": "denial_category",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "remark_code",
+            "dataType": "string",
+            "sourceColumn": "remark_code",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "created_at",
+            "dataType": "dateTime",
+            "sourceColumn": "created_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_at",
+            "dataType": "dateTime",
+            "sourceColumn": "updated_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_by",
+            "dataType": "string",
+            "sourceColumn": "updated_by",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_deleted",
+            "dataType": "int64",
+            "sourceColumn": "is_deleted",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "claim_id",
+            "dataType": "int64",
+            "sourceColumn": "claim_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "received_at",
+            "dataType": "dateTime",
+            "sourceColumn": "received_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "received_date",
+            "dataType": "string",
+            "sourceColumn": "received_date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "account_id",
+            "dataType": "int64",
+            "sourceColumn": "account_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_original",
+            "dataType": "int64",
+            "sourceColumn": "is_original",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_final",
+            "dataType": "int64",
+            "sourceColumn": "is_final",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "facility_id",
+            "dataType": "int64",
+            "sourceColumn": "facility_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "department_id",
+            "dataType": "int64",
+            "sourceColumn": "department_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "payer_plan_id",
+            "dataType": "int64",
+            "sourceColumn": "payer_plan_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "payer_id",
+            "dataType": "int64",
+            "sourceColumn": "payer_id",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "mart_remittance",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": "let Source=Sql.Database(ServerName,DatabaseName), Rows=Source{[Schema=\"dbo\",Item=\"mart_remittance\"]}[Data] in Rows"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Denied Dollars",
+            "expression": "CALCULATE(SUM(mart_remittance[denied_cents]),mart_remittance[is_original]=1)/100",
+            "description": "Original adjudicated denied dollars by synthetic denial category.",
+            "formatString": "#,0.00"
+          },
+          {
+            "name": "Denial Rate ($)",
+            "expression": "DIVIDE(CALCULATE(SUM(mart_remittance[denied_cents]),mart_remittance[is_original]=1),CALCULATE(SUMX(mart_remittance,mart_remittance[paid_cents]+mart_remittance[adjusted_cents]+mart_remittance[denied_cents]),mart_remittance[is_original]=1))",
+            "description": "Denied dollars over original adjudicated remittance dollars; differs from count rate.",
+            "formatString": "0.00%"
+          }
+        ]
+      },
+      {
+        "name": "mart_payment",
+        "isHidden": false,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "account_id",
+            "dataType": "int64",
+            "sourceColumn": "account_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "claim_id",
+            "dataType": "int64",
+            "sourceColumn": "claim_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "payment_date",
+            "dataType": "string",
+            "sourceColumn": "payment_date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "amount_cents",
+            "dataType": "int64",
+            "sourceColumn": "amount_cents",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "payment_type",
+            "dataType": "string",
+            "sourceColumn": "payment_type",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "reverses_payment_id",
+            "dataType": "int64",
+            "sourceColumn": "reverses_payment_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "moved_to_account_id",
+            "dataType": "int64",
+            "sourceColumn": "moved_to_account_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "created_at",
+            "dataType": "dateTime",
+            "sourceColumn": "created_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_at",
+            "dataType": "dateTime",
+            "sourceColumn": "updated_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_by",
+            "dataType": "string",
+            "sourceColumn": "updated_by",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_deleted",
+            "dataType": "int64",
+            "sourceColumn": "is_deleted",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "facility_id",
+            "dataType": "int64",
+            "sourceColumn": "facility_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "department_id",
+            "dataType": "int64",
+            "sourceColumn": "department_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "payer_plan_id",
+            "dataType": "int64",
+            "sourceColumn": "payer_plan_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "payer_id",
+            "dataType": "int64",
+            "sourceColumn": "payer_id",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "mart_payment",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": "let Source=Sql.Database(ServerName,DatabaseName), Rows=Source{[Schema=\"dbo\",Item=\"mart_payment\"]}[Data] in Rows"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Collections",
+            "expression": "SUM(mart_payment[amount_cents])/100",
+            "description": "Signed posted insurance and patient cash, including reversals, moves and refunds.",
+            "formatString": "#,0.00"
+          }
+        ]
+      },
+      {
+        "name": "mart_adjustment",
+        "isHidden": false,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "account_id",
+            "dataType": "int64",
+            "sourceColumn": "account_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "adjustment_date",
+            "dataType": "string",
+            "sourceColumn": "adjustment_date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "amount_cents",
+            "dataType": "int64",
+            "sourceColumn": "amount_cents",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "adjustment_type",
+            "dataType": "string",
+            "sourceColumn": "adjustment_type",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "created_at",
+            "dataType": "dateTime",
+            "sourceColumn": "created_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_at",
+            "dataType": "dateTime",
+            "sourceColumn": "updated_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_by",
+            "dataType": "string",
+            "sourceColumn": "updated_by",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_deleted",
+            "dataType": "int64",
+            "sourceColumn": "is_deleted",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "facility_id",
+            "dataType": "int64",
+            "sourceColumn": "facility_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "department_id",
+            "dataType": "int64",
+            "sourceColumn": "department_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "payer_plan_id",
+            "dataType": "int64",
+            "sourceColumn": "payer_plan_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "payer_id",
+            "dataType": "int64",
+            "sourceColumn": "payer_id",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "mart_adjustment",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": "let Source=Sql.Database(ServerName,DatabaseName), Rows=Source{[Schema=\"dbo\",Item=\"mart_adjustment\"]}[Data] in Rows"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Writeoffs",
+            "expression": "-CALCULATE(SUM(mart_adjustment[amount_cents]),mart_adjustment[adjustment_type]=\"BAD_DEBT\")/100",
+            "description": "Positive display of signed bad-debt adjustments; excludes contractual and charity.",
+            "formatString": "#,0.00"
+          }
+        ]
+      },
+      {
+        "name": "mart_ar_aging",
+        "isHidden": false,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "snapshot_date",
+            "dataType": "string",
+            "sourceColumn": "snapshot_date",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "facility_id",
+            "dataType": "int64",
+            "sourceColumn": "facility_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "payer_id",
+            "dataType": "int64",
+            "sourceColumn": "payer_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "aging_bucket",
+            "dataType": "string",
+            "sourceColumn": "aging_bucket",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "balance_cents",
+            "dataType": "int64",
+            "sourceColumn": "balance_cents",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "created_at",
+            "dataType": "dateTime",
+            "sourceColumn": "created_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_at",
+            "dataType": "dateTime",
+            "sourceColumn": "updated_at",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "updated_by",
+            "dataType": "string",
+            "sourceColumn": "updated_by",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "is_deleted",
+            "dataType": "int64",
+            "sourceColumn": "is_deleted",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "mart_ar_aging",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": "let Source=Sql.Database(ServerName,DatabaseName), Rows=Source{[Schema=\"dbo\",Item=\"mart_ar_aging\"]}[Data] in Rows"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "A/R Balance",
+            "expression": "CALCULATE(SUM(mart_ar_aging[balance_cents]),mart_ar_aging[snapshot_date]=MAX(mart_ar_aging[snapshot_date]))/100",
+            "description": "Posted account balance at the latest snapshot in the selected context; never sums multiple snapshots.",
+            "formatString": "#,0.00"
+          }
+        ]
+      },
+      {
+        "name": "security_mapping",
+        "isHidden": true,
+        "columns": [
+          {
+            "name": "id",
+            "dataType": "int64",
+            "sourceColumn": "id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "upn",
+            "dataType": "string",
+            "sourceColumn": "upn",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "role",
+            "dataType": "string",
+            "sourceColumn": "role",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "facility_id",
+            "dataType": "int64",
+            "sourceColumn": "facility_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "department_id",
+            "dataType": "int64",
+            "sourceColumn": "department_id",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "provider_id",
+            "dataType": "int64",
+            "sourceColumn": "provider_id",
+            "summarizeBy": "none"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "security_mapping",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": "let Source=Sql.Database(ServerName,DatabaseName), Rows=Source{[Schema=\"dbo\",Item=\"security_mapping\"]}[Data] in Rows"
+            }
+          }
+        ],
+        "measures": []
+      }
+    ],
+    "relationships": [
+      {
+        "name": "mart_charge_facility_id",
+        "fromTable": "mart_charge",
+        "fromColumn": "facility_id",
+        "toTable": "core_facility",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_charge_department_id",
+        "fromTable": "mart_charge",
+        "fromColumn": "department_id",
+        "toTable": "core_department",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_charge_payer_id",
+        "fromTable": "mart_charge",
+        "fromColumn": "payer_id",
+        "toTable": "core_payer",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_charge_calendar",
+        "fromTable": "mart_charge",
+        "fromColumn": "service_date",
+        "toTable": "core_date",
+        "toColumn": "calendar_date",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "charge_post_date",
+        "isActive": false,
+        "fromTable": "mart_charge",
+        "fromColumn": "post_date",
+        "toTable": "core_date",
+        "toColumn": "calendar_date",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_claim_facility_id",
+        "fromTable": "mart_claim",
+        "fromColumn": "facility_id",
+        "toTable": "core_facility",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_claim_department_id",
+        "fromTable": "mart_claim",
+        "fromColumn": "department_id",
+        "toTable": "core_department",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_claim_payer_id",
+        "fromTable": "mart_claim",
+        "fromColumn": "payer_id",
+        "toTable": "core_payer",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_claim_calendar",
+        "fromTable": "mart_claim",
+        "fromColumn": "submitted_date",
+        "toTable": "core_date",
+        "toColumn": "calendar_date",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_remittance_facility_id",
+        "fromTable": "mart_remittance",
+        "fromColumn": "facility_id",
+        "toTable": "core_facility",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_remittance_department_id",
+        "fromTable": "mart_remittance",
+        "fromColumn": "department_id",
+        "toTable": "core_department",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_remittance_payer_id",
+        "fromTable": "mart_remittance",
+        "fromColumn": "payer_id",
+        "toTable": "core_payer",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_remittance_calendar",
+        "fromTable": "mart_remittance",
+        "fromColumn": "received_date",
+        "toTable": "core_date",
+        "toColumn": "calendar_date",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_payment_facility_id",
+        "fromTable": "mart_payment",
+        "fromColumn": "facility_id",
+        "toTable": "core_facility",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_payment_department_id",
+        "fromTable": "mart_payment",
+        "fromColumn": "department_id",
+        "toTable": "core_department",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_payment_payer_id",
+        "fromTable": "mart_payment",
+        "fromColumn": "payer_id",
+        "toTable": "core_payer",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_payment_calendar",
+        "fromTable": "mart_payment",
+        "fromColumn": "payment_date",
+        "toTable": "core_date",
+        "toColumn": "calendar_date",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_adjustment_facility_id",
+        "fromTable": "mart_adjustment",
+        "fromColumn": "facility_id",
+        "toTable": "core_facility",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_adjustment_department_id",
+        "fromTable": "mart_adjustment",
+        "fromColumn": "department_id",
+        "toTable": "core_department",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_adjustment_payer_id",
+        "fromTable": "mart_adjustment",
+        "fromColumn": "payer_id",
+        "toTable": "core_payer",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_adjustment_calendar",
+        "fromTable": "mart_adjustment",
+        "fromColumn": "adjustment_date",
+        "toTable": "core_date",
+        "toColumn": "calendar_date",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_ar_aging_facility_id",
+        "fromTable": "mart_ar_aging",
+        "fromColumn": "facility_id",
+        "toTable": "core_facility",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_ar_aging_payer_id",
+        "fromTable": "mart_ar_aging",
+        "fromColumn": "payer_id",
+        "toTable": "core_payer",
+        "toColumn": "id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      },
+      {
+        "name": "mart_ar_aging_calendar",
+        "fromTable": "mart_ar_aging",
+        "fromColumn": "snapshot_date",
+        "toTable": "core_date",
+        "toColumn": "calendar_date",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection"
+      }
+    ],
+    "roles": [
+      {
+        "name": "Executive",
+        "modelPermission": "read",
+        "tablePermissions": [
+          {
+            "name": "core_facility",
+            "filterExpression": "COUNTROWS(FILTER(security_mapping,security_mapping[upn]=USERPRINCIPALNAME()&&security_mapping[role]=\"Executive\"))>0"
+          },
+          {
+            "name": "core_department",
+            "filterExpression": "COUNTROWS(FILTER(security_mapping,security_mapping[upn]=USERPRINCIPALNAME()&&security_mapping[role]=\"Executive\"))>0"
+          }
+        ]
+      },
+      {
+        "name": "HospitalManager",
+        "modelPermission": "read",
+        "tablePermissions": [
+          {
+            "name": "core_facility",
+            "filterExpression": "core_facility[id] IN SELECTCOLUMNS(FILTER(security_mapping,security_mapping[upn]=USERPRINCIPALNAME()&&security_mapping[role]=\"HospitalManager\"),\"allowed_id\",security_mapping[facility_id])"
+          },
+          {
+            "name": "core_department",
+            "filterExpression": "COUNTROWS(FILTER(security_mapping,security_mapping[upn]=USERPRINCIPALNAME()&&security_mapping[role]=\"HospitalManager\"))>0"
+          }
+        ]
+      },
+      {
+        "name": "DepartmentHead",
+        "modelPermission": "read",
+        "tablePermissions": [
+          {
+            "name": "core_facility",
+            "filterExpression": "COUNTROWS(FILTER(security_mapping,security_mapping[upn]=USERPRINCIPALNAME()&&security_mapping[role]=\"DepartmentHead\"))>0"
+          },
+          {
+            "name": "core_department",
+            "filterExpression": "core_department[id] IN SELECTCOLUMNS(FILTER(security_mapping,security_mapping[upn]=USERPRINCIPALNAME()&&security_mapping[role]=\"DepartmentHead\"),\"allowed_id\",security_mapping[department_id])"
+          },
+          {
+            "name": "mart_ar_aging",
+            "filterExpression": "FALSE()"
+          }
+        ]
+      },
+      {
+        "name": "Doctor",
+        "modelPermission": "read",
+        "tablePermissions": [
+          {
+            "name": "core_facility",
+            "filterExpression": "FALSE()"
+          }
+        ]
+      }
+    ],
+    "annotations": [
+      {
+        "name": "HealthNetNativeValidation",
+        "value": "PENDING; definition generation is not live verification"
+      }
+    ]
+  }
+}
