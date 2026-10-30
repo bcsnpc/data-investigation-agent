@@ -183,3 +183,25 @@ Round24 later CI option: a hosted live Anthropic intake-quality job would need a
 
 <!-- ROUND24-COST-OBSERVATION-MAINTENANCE -->
 Round24 scheduled-runner maintenance: the native owner Cost Management observation copied into the existing runner configurations reaches its24-hour freshness bound at 2026-10-29T10:26:13.778590+00:00. Refresh it from a new native response with the existing owner authority and publish that observation to the same jobs before later runs. Do not restamp the old observation, bypass the USD20cap or grant a wider role. Static cost-observation renewal remains an operational limitation; three immediate green smokes are not a multi-day stability claim. Financial response bodies remain local. No resource/identity/permission was changed for this item.
+
+
+## HealthNet estate cost approval requested ? 2026-10-30
+
+The owner-supplied hospital-estate-build.md section0.6 requires item-specific approval before provisioning. None of these items has been created. Offline generator/definition/test work continues; no DIA access, scan, or AI spend.
+
+| Item | Configuration | Estimated incremental monthly USD | Pause/stop |
+|---|---|---:|---|
+| hn_clinical | Existing sql-orderops-9696025, Central US; GeneralPurpose Gen5 serverless max2/min0.5vCore,32GB, free-limit offer REQUIRED |0, conditional on native eligibility|Auto-pause60min, freeLimitExhaustionBehavior=AutoPause; no paid fallback|
+| hn_billing | Same existing server; separate database with identical free-offer limits |0, same condition|Same; daily batched load and close sessions|
+| HealthNet Analytics Fabric items | Existing capacity only; hn_raw, hn_dw, pipelines, Dataflow Gen2, notebook,3models/reports. No new capacity, scale-up or autoscale billing; project <=20GB including retained versions |0.46 storage estimate(20GB x0.023); request <=1/month for regional variation|Storage does not auto-pause. Clinical4-hourly/billingnightly batch; stop deployment if new paid SKU or >20GB projection needed|
+
+The existing ordersops and billingapp databases native-readback useFreeLimit=true, exhaustion AutoPause and inactivity60; only2non-system databases currently exist. This does not establish new database eligibility: verify native settings individually before loading and refuse paid fallback.
+
+Sources: [SQL free tier](https://learn.microsoft.com/en-us/azure/azure-sql/database/free-tier?view=azuresql), [serverless](https://learn.microsoft.com/en-us/azure/azure-sql/database/serverless-tier-overview?view=azuresql), [OneLake tiers](https://learn.microsoft.com/en-us/fabric/onelake/onelake-storage-tiers), [OneLake billing](https://learn.microsoft.com/en-us/fabric/onelake/onelake-consumption).
+
+Approval requested for these3items and bounds only; no new identity, DIA grants, capacity change or paid SQL overage. Existing owner sign-ins only. Any additional connection-identity scope decision is recorded separately before applying it.
+
+
+### HealthNet approval applied ? 2026-10-30
+
+Owner decision: "Approve all three within these bounds" (the two $0 free-offer databases and HealthNet items on the existing capacity, incremental storage <=$1/month). Before: hn_clinical and hn_billing absent. Owner CLI created both on sql-orderops-9696025 in Central US. Fresh Azure readback: each Online, GP_S_Gen5 GeneralPurpose serverless, max 2/min 0.5 vCore, 32 GiB, autoPauseDelay 60, useFreeLimit=true, freeLimitExhaustionBehavior=AutoPause. No paid-overage fallback, capacity change, identity or DIA grant. Native receipts are local under .local/hospital-estate/. Fabric provisioning and storage verification remain pending.
