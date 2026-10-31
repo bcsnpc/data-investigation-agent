@@ -1,141 +1,141 @@
 {
   "official_primary": {
     "all_three": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 3,
+      "total": 6,
       "accuracy": 0.0,
-      "lower": 5.551115123125783e-17,
-      "upper": 0.5614970317550454,
+      "lower": 2.7755575615628914e-17,
+      "upper": 0.3903342879021653,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "strict": {
     "all_three": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 3,
+      "total": 6,
       "accuracy": 0.0,
-      "lower": 5.551115123125783e-17,
-      "upper": 0.5614970317550454,
+      "lower": 2.7755575615628914e-17,
+      "upper": 0.3903342879021653,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "raw_reviewed": {
     "all_three": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 3,
+      "total": 6,
       "accuracy": 0.0,
-      "lower": 5.551115123125783e-17,
-      "upper": 0.5614970317550454,
+      "lower": 2.7755575615628914e-17,
+      "upper": 0.3903342879021653,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,106 +143,106 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 3,
+  "completed_graded": 6,
   "primary": {
     "all_three": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 3,
+      "total": 6,
       "accuracy": 0.0,
-      "lower": 5.551115123125783e-17,
-      "upper": 0.5614970317550454,
+      "lower": 2.7755575615628914e-17,
+      "upper": 0.3903342879021653,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "secondary": {
     "all_three": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 2,
-      "total": 3,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.2076596008020477,
-      "upper": 0.9385080552796037,
+      "correct": 5,
+      "total": 6,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.43649717781352987,
+      "upper": 0.9699466302516935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 3,
+      "total": 6,
       "accuracy": 0.0,
-      "lower": 5.551115123125783e-17,
-      "upper": 0.5614970317550454,
+      "lower": 2.7755575615628914e-17,
+      "upper": 0.3903342879021653,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 3,
-    "total": 3,
+    "correct": 6,
+    "total": 6,
     "accuracy": 1.0,
-    "lower": 0.4385029682449546,
+    "lower": 0.6096657120978346,
     "upper": 1.0,
     "confidence": 0.95,
     "method": "Wilson"
@@ -254,15 +254,27 @@
     "harmful"
   ],
   "full_assessment_agreement": {
-    "correct": 0,
-    "total": 3,
-    "accuracy": 0.0,
-    "lower": 5.551115123125783e-17,
-    "upper": 0.5614970317550454,
+    "correct": 1,
+    "total": 6,
+    "accuracy": 0.16666666666666666,
+    "lower": 0.030053369748306635,
+    "upper": 0.5635028221864702,
     "confidence": 0.95,
     "method": "Wilson"
   },
   "assessment_disagreements": [
+    {
+      "ticket": "v4-failed-application-load-1",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v4-failed-application-load-3",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
     {
       "ticket": "v4-source-history-1",
       "fields": [
@@ -284,6 +296,152 @@
     }
   ],
   "handoff_disagreements": [
+    {
+      "ticket": "v4-failed-application-load-1",
+      "class": "v4-failed-application-load",
+      "fixture": "failed-fixture",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches ('failed job'). Layer matches: the answer correctly identifies the pipeline orchestration layer and names round_two_application_load_audited_20261003. Cause matches: error code 2011 on activity round22_controlled_failure_before_original_activities, meaning the Copy and audit activities never ran and the table was not overwritten. The answer also correctly notes that the error preceded original activities, consistent with the expected cause. The answer is fully resolved (status ANSWERED, no stop), so handoff quality is 0 (not applicable / not an unresolved case).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: both say 'failed job'. Layer: the delivered answer puts the failure in the pipeline round_two_application_load_audited_20261003, at a step that runs before the original activities. That matches the expected pipeline-orchestration layer. Cause: the delivered answer gives error 2011 on round22_controlled_failure_before_original_activities, the same activity named in the expected cause. It says the failure came before the original activities, so the lakehouse table dbo.stock_movements_round_two_20261003 should still hold the earlier successful load. That matches the expected cause: CopyApplication never ran and the table was not overwritten. One difference is explained by the expected record itself. The failed run must be checked again as the latest run when the answer is scored. The delivered answer did that and found a newer failed run, da45f511 (2026-10-31 17:52 UTC), with the same error. That run comes after a successful run, so the premise that the latest run failed still holds. The answer also lists 3680dfc7, the expected run, among the earlier failures with the same error. Minor caveats: the answer does not name CopyApplication. It refers to a Copy Job called investigation_round_two_history_probe_20261003, while the expected definition uses Copy Job 57e128c3. It openly says it could not confirm whether the pipeline calls that Copy Job directly. This is an honest hedge, not a confidently wrong claim, so it is not harmful. Its issue type, DATA_LOOKS_OLD, is not a scored field. Handoff quality is 1: the answer clearly states what was not checked (no value queries, the pipeline definition was not kept, the model's refresh schedule is turned off). But the handoff object is empty and no queries that could be rerun are included.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-failure-fixture01",
+      "outcome_sha256": "430adea4eec54551d7bd5414f7a65bcd099a2e3a2330cb86b13ff9d2a405f879",
+      "status": "ANSWERED",
+      "native_duration_seconds": 179.0,
+      "worker_wall_seconds": 150.57076126100014,
+      "investigation_cost_microdollars": 380141,
+      "physical_requests": 21,
+      "model_calls": 3,
+      "timing_group": "answered_without_layer_queries",
+      "raw_review": {
+        "cost_microdollars": 172527,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows: a fresh get_job_runs call on pipeline node 3bf74ae1 (observed 17:55:37Z, listing_complete true) found that the latest run is da45f511. It FAILED from 17:52:20Z to 17:52:48Z with errorCode 2011, isRetriable false, and the message 'Operation on target round22_controlled_failure_before_original_activities failed'. The run just before it, 0c4ea2f3, succeeded. The expected run, 3680dfc7, and run 039aea4f are earlier failures with the same error. The sealed expectation asks for the failure to be confirmed again as the latest run when scoring. The answer did that and found that the latest run is still Failed, so the user's premise holds. Every run ID, time and error detail the answer quotes matches the capture. That includes both request IDs, 79b0d536 and 449c84c0, which come from two separate observations.\n\nAll three scored fields match:\n- **Verdict:** 'failed job' matches the expected verdict.\n- **Layer:** the answer places the failure in pipeline orchestration and names round_two_application_load_audited_20261003, as expected.\n- **Cause:** the answer names error 2011 on round22_controlled_failure_before_original_activities, a step that comes before the original activities. It concludes that the lakehouse table dbo.stock_movements_round_two_20261003 behind Movement Units should still reflect the earlier successful load. That is the same as the expected cause: the original copy step never ran and the table was not overwritten.\n\nThe answer does not name CopyApplication. It names Copy Job 5cc53633 (investigation_round_two_history_probe_20261003), while the expected definition uses Copy Job 57e128c3. However, it openly says the pipeline's full definition was not retained, so it was not confirmed whether the pipeline calls that Copy Job. That is honest uncertainty, not a confident wrong claim. The capture also partly supports the link: get_definition shows the pipeline is described as 'Existing isolated Copy Job followed by audit writer', and the Copy Job's last successful run (17:44:37\u201317:45:08) falls inside pipeline run 0c4ea2f3 (17:44:17\u201317:45:44). The answer states no value and does not overclaim the impact on the number, so it is not harmful.\n\nThe two graders differ only on handoff quality. The primary grader gave 0, calling handoff not applicable. Its reason also says the answer stated that the copy and audit activities never ran, but the answer only implied this through the table conclusion. The secondary grader gave 1, because the answer clearly says what was not checked: no value queries were run, the pipeline definition was not retained, and the model's refresh schedule is disabled. It also notes that the handoff object is empty and no rerunnable queries were included. That fits the saved answer better. The secondary grader's assessment is also more accurate and complete overall, so it wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "430adea4eec54551d7bd5414f7a65bcd099a2e3a2330cb86b13ff9d2a405f879",
+        "reason": "What the raw capture shows: a fresh get_job_runs call on pipeline node 3bf74ae1 (observed 17:55:37Z, listing_complete true) found that the latest run is da45f511. It FAILED from 17:52:20Z to 17:52:48Z with errorCode 2011, isRetriable false, and the message 'Operation on target round22_controlled_failure_before_original_activities failed'. The run just before it, 0c4ea2f3, succeeded. The expected run, 3680dfc7, and run 039aea4f are earlier failures with the same error. The sealed expectation asks for the failure to be confirmed again as the latest run when scoring. The answer did that and found that the latest run is still Failed, so the user's premise holds. Every run ID, time and error detail the answer quotes matches the capture. That includes both request IDs, 79b0d536 and 449c84c0, which come from two separate observations.\n\nAll three scored fields match:\n- **Verdict:** 'failed job' matches the expected verdict.\n- **Layer:** the answer places the failure in pipeline orchestration and names round_two_application_load_audited_20261003, as expected.\n- **Cause:** the answer names error 2011 on round22_controlled_failure_before_original_activities, a step that comes before the original activities. It concludes that the lakehouse table dbo.stock_movements_round_two_20261003 behind Movement Units should still reflect the earlier successful load. That is the same as the expected cause: the original copy step never ran and the table was not overwritten.\n\nThe answer does not name CopyApplication. It names Copy Job 5cc53633 (investigation_round_two_history_probe_20261003), while the expected definition uses Copy Job 57e128c3. However, it openly says the pipeline's full definition was not retained, so it was not confirmed whether the pipeline calls that Copy Job. That is honest uncertainty, not a confident wrong claim. The capture also partly supports the link: get_definition shows the pipeline is described as 'Existing isolated Copy Job followed by audit writer', and the Copy Job's last successful run (17:44:37\u201317:45:08) falls inside pipeline run 0c4ea2f3 (17:44:17\u201317:45:44). The answer states no value and does not overclaim the impact on the number, so it is not harmful.\n\nThe two graders differ only on handoff quality. The primary grader gave 0, calling handoff not applicable. Its reason also says the answer stated that the copy and audit activities never ran, but the answer only implied this through the table conclusion. The secondary grader gave 1, because the answer clearly says what was not checked: no value queries were run, the pipeline definition was not retained, and the model's refresh schedule is disabled. It also notes that the handoff object is empty and no rerunnable queries were included. That fits the saved answer better. The secondary grader's assessment is also more accurate and complete overall, so it wins.",
+        "source_sha256": "8ff98fd35ce036d0c3c72c977f31ac1cb5df8afef59262b988cc7c2e5928b865",
+        "ticket": "v4-failed-application-load-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 32608,
+          "output_tokens": 1885,
+          "output_tokens_details": {
+            "thinking_tokens": 681
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-failed-application-load-3",
+      "class": "v4-failed-application-load",
+      "fixture": "failed-fixture",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: both say 'failed job' \u2014 match. Layer: delivered identifies pipeline orchestration via round_two_application_load_audited_20261003 \u2014 matches expected 'pipeline orchestration (round_two_application_load_audited_20261003)'. Cause: delivered correctly identifies error code 2011, the controlled fixture failure at round22_controlled_failure_before_original_activities before CopyApplication ran, meaning no new data was written \u2014 matches expected cause. Evidence is solid: run ID da45f511, FAILED status, error 2011, value comparisons 7661/7661/7661 all confirmed by executed queries. Qualifications about observational snapshots and unavailable freshness/source-change history are appropriate. No incorrect confident claims. Handoff is not applicable (status=ANSWERED, stop=null, no open handoff), so handoff_quality=0 by default for a completed answer.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: both say 'failed job'. Layer: the delivered answer puts the failure in the round_two_application_load_audited_20261003 pipeline orchestration, matching the expected layer. Cause: the delivered answer cites native error 2011 (not retriable) at target round22_controlled_failure_before_original_activities. That is the same named cause the expected record gives. It also notes that the run read and wrote no rows and that the load audit has no row for it. This matches the expected point that CopyApplication never ran and no new data reached Movement Units. Run ID: the delivered run (da45f511) differs from the admission run in the expected record (3680dfc7). The expected native-fact basis explicitly requires the failure to be checked again at scored execution because it was restored after admission. The delivered answer did check it again: the ledger, observed at 18:02Z, lists da45f511 as the latest run, FAILED, with the same error and failing step. The previous run, 0c4ea2f3, succeeded. So the ID difference is expected and is not a disagreement. Effect on the measure: the answer reports Movement Units at 7661, matching source and landing, and the 7661 admission baseline. It carefully does not claim that no source changes were missed. This fits the expected statement that the measure keeps the previously loaded data. The answer does not say outright that CopyApplication was skipped or that the measure is still showing the earlier load. That is a small gap in wording, not substance, and it does not change any credit. No incorrect cause is stated as fact, so the answer is not harmful. Handoff: the answer is resolved, so this is graded only as supporting material. It includes rerunnable SQL and DAX comparison queries, a clear first-check path and named coverage gaps (source change history, layer freshness), so it scores 2.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-failure-fixture01",
+      "outcome_sha256": "3e25329ab608ac7989a6c5a15d06a2046c113cbe43eac06275fd54074d500c85",
+      "status": "ANSWERED",
+      "native_duration_seconds": 259.0,
+      "worker_wall_seconds": 196.50143783700003,
+      "investigation_cost_microdollars": 286271,
+      "physical_requests": 29,
+      "model_calls": 3,
+      "timing_group": "full_investigation",
+      "raw_review": {
+        "cost_microdollars": 188224,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence shows: The job ledger was read again at 18:02Z (records observed at 18:02:28Z and 18:02:57Z). It lists run da45f511 as the most recent run of round_two_application_load_audited_20261003. That run is FAILED (17:52:20Z to 17:52:48Z) with error 2011, not retriable: 'Operation on target round22_controlled_failure_before_original_activities failed'. The run before it, 0c4ea2f3, succeeded. Older runs 3680dfc7 and 039aea4f failed with the same error. The coverage record says DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN, and rows read and written are null. The pipeline's native schedule list is empty. All three queries succeeded: source = 7661, landing = 7661, Movement Units = 7661. The source query was refused twice because the source was paused (SQL error 40613) and succeeded on the third attempt. Source change history and layer freshness were UNAVAILABLE.\n\nScoring: The verdict 'failed job' matches. The layer (pipeline orchestration for round_two_application_load_audited_20261003) matches. The cause matches: error 2011 at round22_controlled_failure_before_original_activities, with no rows written. The run ID differs from the expected 3680dfc7, but this is not a disagreement. The expected record says the admission-time failure must be checked again at scored execution, and the answer did that, finding da45f511 as the latest failed run. The answer reports the 7661 match and says plainly that this does not prove no source changes were missed and does not clear the failure. That is honest uncertainty, not an unsupported claim. It does not say outright that CopyApplication was skipped or that the measure still shows the earlier load. That is a wording gap, not an error, so the answer is not harmful and not partial.\n\nWhy the secondary grader wins: Both graders got the three scored points right. However, the primary grader's reasoning says the answer identified the failure as happening 'before CopyApplication ran'. The answer never mentions CopyApplication, so this part of the primary grader's justification is wrong. On handoff quality, the secondary grader's score of 2 fits better: the answer is resolved, and it includes the native error details, SQL/DAX queries someone can rerun, and named coverage gaps. The primary grader's 0 ('not applicable') undervalues this. The evidence does not say how handoff quality should be scored for an answer that is already resolved, so this judgment is less certain.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "3e25329ab608ac7989a6c5a15d06a2046c113cbe43eac06275fd54074d500c85",
+        "reason": "What the saved evidence shows: The job ledger was read again at 18:02Z (records observed at 18:02:28Z and 18:02:57Z). It lists run da45f511 as the most recent run of round_two_application_load_audited_20261003. That run is FAILED (17:52:20Z to 17:52:48Z) with error 2011, not retriable: 'Operation on target round22_controlled_failure_before_original_activities failed'. The run before it, 0c4ea2f3, succeeded. Older runs 3680dfc7 and 039aea4f failed with the same error. The coverage record says DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN, and rows read and written are null. The pipeline's native schedule list is empty. All three queries succeeded: source = 7661, landing = 7661, Movement Units = 7661. The source query was refused twice because the source was paused (SQL error 40613) and succeeded on the third attempt. Source change history and layer freshness were UNAVAILABLE.\n\nScoring: The verdict 'failed job' matches. The layer (pipeline orchestration for round_two_application_load_audited_20261003) matches. The cause matches: error 2011 at round22_controlled_failure_before_original_activities, with no rows written. The run ID differs from the expected 3680dfc7, but this is not a disagreement. The expected record says the admission-time failure must be checked again at scored execution, and the answer did that, finding da45f511 as the latest failed run. The answer reports the 7661 match and says plainly that this does not prove no source changes were missed and does not clear the failure. That is honest uncertainty, not an unsupported claim. It does not say outright that CopyApplication was skipped or that the measure still shows the earlier load. That is a wording gap, not an error, so the answer is not harmful and not partial.\n\nWhy the secondary grader wins: Both graders got the three scored points right. However, the primary grader's reasoning says the answer identified the failure as happening 'before CopyApplication ran'. The answer never mentions CopyApplication, so this part of the primary grader's justification is wrong. On handoff quality, the secondary grader's score of 2 fits better: the answer is resolved, and it includes the native error details, SQL/DAX queries someone can rerun, and named coverage gaps. The primary grader's 0 ('not applicable') undervalues this. The evidence does not say how handoff quality should be scored for an answer that is already resolved, so this judgment is less certain.",
+        "source_sha256": "f01c0256c5c35d2402d1945a1c76966f3f8f35549463c58a446e76c4266acfe2",
+        "ticket": "v4-failed-application-load-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 33657,
+          "output_tokens": 2671,
+          "output_tokens_details": {
+            "thinking_tokens": 572
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
     {
       "ticket": "v4-source-history-1",
       "class": "v4-source-history",
@@ -505,6 +663,246 @@
     }
   ],
   "per_class": {
+    "v4-failed-application-load": {
+      "official_primary": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "v4-source-history": {
       "official_primary": {
         "all_three": {
@@ -750,6 +1148,187 @@
   "cohort": "g2",
   "cases": [
     {
+      "ticket": "v4-failed-application-load-1",
+      "class": "v4-failed-application-load",
+      "fixture": "failed-fixture",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches ('failed job'). Layer matches: the answer correctly identifies the pipeline orchestration layer and names round_two_application_load_audited_20261003. Cause matches: error code 2011 on activity round22_controlled_failure_before_original_activities, meaning the Copy and audit activities never ran and the table was not overwritten. The answer also correctly notes that the error preceded original activities, consistent with the expected cause. The answer is fully resolved (status ANSWERED, no stop), so handoff quality is 0 (not applicable / not an unresolved case).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: both say 'failed job'. Layer: the delivered answer puts the failure in the pipeline round_two_application_load_audited_20261003, at a step that runs before the original activities. That matches the expected pipeline-orchestration layer. Cause: the delivered answer gives error 2011 on round22_controlled_failure_before_original_activities, the same activity named in the expected cause. It says the failure came before the original activities, so the lakehouse table dbo.stock_movements_round_two_20261003 should still hold the earlier successful load. That matches the expected cause: CopyApplication never ran and the table was not overwritten. One difference is explained by the expected record itself. The failed run must be checked again as the latest run when the answer is scored. The delivered answer did that and found a newer failed run, da45f511 (2026-10-31 17:52 UTC), with the same error. That run comes after a successful run, so the premise that the latest run failed still holds. The answer also lists 3680dfc7, the expected run, among the earlier failures with the same error. Minor caveats: the answer does not name CopyApplication. It refers to a Copy Job called investigation_round_two_history_probe_20261003, while the expected definition uses Copy Job 57e128c3. It openly says it could not confirm whether the pipeline calls that Copy Job directly. This is an honest hedge, not a confidently wrong claim, so it is not harmful. Its issue type, DATA_LOOKS_OLD, is not a scored field. Handoff quality is 1: the answer clearly states what was not checked (no value queries, the pipeline definition was not kept, the model's refresh schedule is turned off). But the handoff object is empty and no queries that could be rerun are included.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-failure-fixture01",
+      "outcome_sha256": "430adea4eec54551d7bd5414f7a65bcd099a2e3a2330cb86b13ff9d2a405f879",
+      "status": "ANSWERED",
+      "native_duration_seconds": 179.0,
+      "worker_wall_seconds": 150.57076126100014,
+      "investigation_cost_microdollars": 380141,
+      "physical_requests": 21,
+      "model_calls": 3,
+      "timing_group": "answered_without_layer_queries",
+      "raw_review": {
+        "cost_microdollars": 172527,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows: a fresh get_job_runs call on pipeline node 3bf74ae1 (observed 17:55:37Z, listing_complete true) found that the latest run is da45f511. It FAILED from 17:52:20Z to 17:52:48Z with errorCode 2011, isRetriable false, and the message 'Operation on target round22_controlled_failure_before_original_activities failed'. The run just before it, 0c4ea2f3, succeeded. The expected run, 3680dfc7, and run 039aea4f are earlier failures with the same error. The sealed expectation asks for the failure to be confirmed again as the latest run when scoring. The answer did that and found that the latest run is still Failed, so the user's premise holds. Every run ID, time and error detail the answer quotes matches the capture. That includes both request IDs, 79b0d536 and 449c84c0, which come from two separate observations.\n\nAll three scored fields match:\n- **Verdict:** 'failed job' matches the expected verdict.\n- **Layer:** the answer places the failure in pipeline orchestration and names round_two_application_load_audited_20261003, as expected.\n- **Cause:** the answer names error 2011 on round22_controlled_failure_before_original_activities, a step that comes before the original activities. It concludes that the lakehouse table dbo.stock_movements_round_two_20261003 behind Movement Units should still reflect the earlier successful load. That is the same as the expected cause: the original copy step never ran and the table was not overwritten.\n\nThe answer does not name CopyApplication. It names Copy Job 5cc53633 (investigation_round_two_history_probe_20261003), while the expected definition uses Copy Job 57e128c3. However, it openly says the pipeline's full definition was not retained, so it was not confirmed whether the pipeline calls that Copy Job. That is honest uncertainty, not a confident wrong claim. The capture also partly supports the link: get_definition shows the pipeline is described as 'Existing isolated Copy Job followed by audit writer', and the Copy Job's last successful run (17:44:37\u201317:45:08) falls inside pipeline run 0c4ea2f3 (17:44:17\u201317:45:44). The answer states no value and does not overclaim the impact on the number, so it is not harmful.\n\nThe two graders differ only on handoff quality. The primary grader gave 0, calling handoff not applicable. Its reason also says the answer stated that the copy and audit activities never ran, but the answer only implied this through the table conclusion. The secondary grader gave 1, because the answer clearly says what was not checked: no value queries were run, the pipeline definition was not retained, and the model's refresh schedule is disabled. It also notes that the handoff object is empty and no rerunnable queries were included. That fits the saved answer better. The secondary grader's assessment is also more accurate and complete overall, so it wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "430adea4eec54551d7bd5414f7a65bcd099a2e3a2330cb86b13ff9d2a405f879",
+        "reason": "What the raw capture shows: a fresh get_job_runs call on pipeline node 3bf74ae1 (observed 17:55:37Z, listing_complete true) found that the latest run is da45f511. It FAILED from 17:52:20Z to 17:52:48Z with errorCode 2011, isRetriable false, and the message 'Operation on target round22_controlled_failure_before_original_activities failed'. The run just before it, 0c4ea2f3, succeeded. The expected run, 3680dfc7, and run 039aea4f are earlier failures with the same error. The sealed expectation asks for the failure to be confirmed again as the latest run when scoring. The answer did that and found that the latest run is still Failed, so the user's premise holds. Every run ID, time and error detail the answer quotes matches the capture. That includes both request IDs, 79b0d536 and 449c84c0, which come from two separate observations.\n\nAll three scored fields match:\n- **Verdict:** 'failed job' matches the expected verdict.\n- **Layer:** the answer places the failure in pipeline orchestration and names round_two_application_load_audited_20261003, as expected.\n- **Cause:** the answer names error 2011 on round22_controlled_failure_before_original_activities, a step that comes before the original activities. It concludes that the lakehouse table dbo.stock_movements_round_two_20261003 behind Movement Units should still reflect the earlier successful load. That is the same as the expected cause: the original copy step never ran and the table was not overwritten.\n\nThe answer does not name CopyApplication. It names Copy Job 5cc53633 (investigation_round_two_history_probe_20261003), while the expected definition uses Copy Job 57e128c3. However, it openly says the pipeline's full definition was not retained, so it was not confirmed whether the pipeline calls that Copy Job. That is honest uncertainty, not a confident wrong claim. The capture also partly supports the link: get_definition shows the pipeline is described as 'Existing isolated Copy Job followed by audit writer', and the Copy Job's last successful run (17:44:37\u201317:45:08) falls inside pipeline run 0c4ea2f3 (17:44:17\u201317:45:44). The answer states no value and does not overclaim the impact on the number, so it is not harmful.\n\nThe two graders differ only on handoff quality. The primary grader gave 0, calling handoff not applicable. Its reason also says the answer stated that the copy and audit activities never ran, but the answer only implied this through the table conclusion. The secondary grader gave 1, because the answer clearly says what was not checked: no value queries were run, the pipeline definition was not retained, and the model's refresh schedule is disabled. It also notes that the handoff object is empty and no rerunnable queries were included. That fits the saved answer better. The secondary grader's assessment is also more accurate and complete overall, so it wins.",
+        "source_sha256": "8ff98fd35ce036d0c3c72c977f31ac1cb5df8afef59262b988cc7c2e5928b865",
+        "ticket": "v4-failed-application-load-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 32608,
+          "output_tokens": 1885,
+          "output_tokens_details": {
+            "thinking_tokens": 681
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-failed-application-load-2",
+      "class": "v4-failed-application-load",
+      "fixture": "failed-fixture",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches (failed job). Layer matches (pipeline orchestration on round_two_application_load_audited_20261003). Cause matches: the delivered answer correctly identifies the latest run da45f511 as FAILED with errorCode 2011 at the controlled failure activity (round22_controlled_failure_before_original_activities) that runs before the copy/audit activities, meaning no copy ran and nothing was loaded. The answer also correctly notes the audit has no row for this run and the Copy Job's latest run preceded the failure. The answer appropriately states it did not check the Movement Units value and does not claim a business impact figure. The two extra requestIds (from triage vs native history) are a minor internal consistency note but do not affect correctness. Handoff scored 1: the answer is clear about what was found and what was not checked (value layer, row counts), but provides no rerunnable next queries or explicit next steps beyond noting gaps, making it only moderately useful for a handoff.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: 'failed job' matches. Layer: the answer puts the fault in the run of pipeline round_two_application_load_audited_20261003, which is the expected pipeline orchestration layer. Cause: the sealed record names run 3680dfc7, but it also says the failed run has to be shown again as the latest run when the answer is scored. The delivered answer did that with a fresh native read. The latest run is da45f511 (2026-10-31), status FAILED, errorCode 2011, and the error message says 'controlled fixture failure before original activities'. That is the same failure activity, running before the copy, that the sealed cause describes. The answer also correctly shows 3680dfc7 as an earlier FAILED run with the same error. It shows that no copy or audit ran for the failed run: the declared load audit has no row for it, and the Copy Job that loads stock_movements_round_two_20261003 has no run during or after the failure. Its last successful run was before the failure. So the report still reflects the last successful load, though the answer only implies this and never says it outright. Where I disagree with the sealed record: the run ID is different. I am grading on substance, because the expectation explicitly allows the failed latest run to be re-established, and the pipeline, error code, failure point and 'nothing loaded' result all match. The answer makes no claim about figures or business impact, which matches the expectation. Not harmful. Handoff: the answer has status ANSWERED with an empty handoff and no queries, so there is nothing to rerun. It does clearly say what was not checked (the effect on the Movement Units value), so I give it 1.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-failure-fixture01",
+      "outcome_sha256": "a06b3e495affeff6a41daf4d6e589bc0d821414c5d966aae2967f2ca4ea7b266",
+      "status": "ANSWERED",
+      "native_duration_seconds": 168.0,
+      "worker_wall_seconds": 140.48473194299993,
+      "investigation_cost_microdollars": 298645,
+      "physical_requests": 21,
+      "model_calls": 3,
+      "timing_group": "answered_without_layer_queries"
+    },
+    {
+      "ticket": "v4-failed-application-load-3",
+      "class": "v4-failed-application-load",
+      "fixture": "failed-fixture",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: both say 'failed job' \u2014 match. Layer: delivered identifies pipeline orchestration via round_two_application_load_audited_20261003 \u2014 matches expected 'pipeline orchestration (round_two_application_load_audited_20261003)'. Cause: delivered correctly identifies error code 2011, the controlled fixture failure at round22_controlled_failure_before_original_activities before CopyApplication ran, meaning no new data was written \u2014 matches expected cause. Evidence is solid: run ID da45f511, FAILED status, error 2011, value comparisons 7661/7661/7661 all confirmed by executed queries. Qualifications about observational snapshots and unavailable freshness/source-change history are appropriate. No incorrect confident claims. Handoff is not applicable (status=ANSWERED, stop=null, no open handoff), so handoff_quality=0 by default for a completed answer.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: both say 'failed job'. Layer: the delivered answer puts the failure in the round_two_application_load_audited_20261003 pipeline orchestration, matching the expected layer. Cause: the delivered answer cites native error 2011 (not retriable) at target round22_controlled_failure_before_original_activities. That is the same named cause the expected record gives. It also notes that the run read and wrote no rows and that the load audit has no row for it. This matches the expected point that CopyApplication never ran and no new data reached Movement Units. Run ID: the delivered run (da45f511) differs from the admission run in the expected record (3680dfc7). The expected native-fact basis explicitly requires the failure to be checked again at scored execution because it was restored after admission. The delivered answer did check it again: the ledger, observed at 18:02Z, lists da45f511 as the latest run, FAILED, with the same error and failing step. The previous run, 0c4ea2f3, succeeded. So the ID difference is expected and is not a disagreement. Effect on the measure: the answer reports Movement Units at 7661, matching source and landing, and the 7661 admission baseline. It carefully does not claim that no source changes were missed. This fits the expected statement that the measure keeps the previously loaded data. The answer does not say outright that CopyApplication was skipped or that the measure is still showing the earlier load. That is a small gap in wording, not substance, and it does not change any credit. No incorrect cause is stated as fact, so the answer is not harmful. Handoff: the answer is resolved, so this is graded only as supporting material. It includes rerunnable SQL and DAX comparison queries, a clear first-check path and named coverage gaps (source change history, layer freshness), so it scores 2.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-failure-fixture01",
+      "outcome_sha256": "3e25329ab608ac7989a6c5a15d06a2046c113cbe43eac06275fd54074d500c85",
+      "status": "ANSWERED",
+      "native_duration_seconds": 259.0,
+      "worker_wall_seconds": 196.50143783700003,
+      "investigation_cost_microdollars": 286271,
+      "physical_requests": 29,
+      "model_calls": 3,
+      "timing_group": "full_investigation",
+      "raw_review": {
+        "cost_microdollars": 188224,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence shows: The job ledger was read again at 18:02Z (records observed at 18:02:28Z and 18:02:57Z). It lists run da45f511 as the most recent run of round_two_application_load_audited_20261003. That run is FAILED (17:52:20Z to 17:52:48Z) with error 2011, not retriable: 'Operation on target round22_controlled_failure_before_original_activities failed'. The run before it, 0c4ea2f3, succeeded. Older runs 3680dfc7 and 039aea4f failed with the same error. The coverage record says DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN, and rows read and written are null. The pipeline's native schedule list is empty. All three queries succeeded: source = 7661, landing = 7661, Movement Units = 7661. The source query was refused twice because the source was paused (SQL error 40613) and succeeded on the third attempt. Source change history and layer freshness were UNAVAILABLE.\n\nScoring: The verdict 'failed job' matches. The layer (pipeline orchestration for round_two_application_load_audited_20261003) matches. The cause matches: error 2011 at round22_controlled_failure_before_original_activities, with no rows written. The run ID differs from the expected 3680dfc7, but this is not a disagreement. The expected record says the admission-time failure must be checked again at scored execution, and the answer did that, finding da45f511 as the latest failed run. The answer reports the 7661 match and says plainly that this does not prove no source changes were missed and does not clear the failure. That is honest uncertainty, not an unsupported claim. It does not say outright that CopyApplication was skipped or that the measure still shows the earlier load. That is a wording gap, not an error, so the answer is not harmful and not partial.\n\nWhy the secondary grader wins: Both graders got the three scored points right. However, the primary grader's reasoning says the answer identified the failure as happening 'before CopyApplication ran'. The answer never mentions CopyApplication, so this part of the primary grader's justification is wrong. On handoff quality, the secondary grader's score of 2 fits better: the answer is resolved, and it includes the native error details, SQL/DAX queries someone can rerun, and named coverage gaps. The primary grader's 0 ('not applicable') undervalues this. The evidence does not say how handoff quality should be scored for an answer that is already resolved, so this judgment is less certain.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "3e25329ab608ac7989a6c5a15d06a2046c113cbe43eac06275fd54074d500c85",
+        "reason": "What the saved evidence shows: The job ledger was read again at 18:02Z (records observed at 18:02:28Z and 18:02:57Z). It lists run da45f511 as the most recent run of round_two_application_load_audited_20261003. That run is FAILED (17:52:20Z to 17:52:48Z) with error 2011, not retriable: 'Operation on target round22_controlled_failure_before_original_activities failed'. The run before it, 0c4ea2f3, succeeded. Older runs 3680dfc7 and 039aea4f failed with the same error. The coverage record says DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN, and rows read and written are null. The pipeline's native schedule list is empty. All three queries succeeded: source = 7661, landing = 7661, Movement Units = 7661. The source query was refused twice because the source was paused (SQL error 40613) and succeeded on the third attempt. Source change history and layer freshness were UNAVAILABLE.\n\nScoring: The verdict 'failed job' matches. The layer (pipeline orchestration for round_two_application_load_audited_20261003) matches. The cause matches: error 2011 at round22_controlled_failure_before_original_activities, with no rows written. The run ID differs from the expected 3680dfc7, but this is not a disagreement. The expected record says the admission-time failure must be checked again at scored execution, and the answer did that, finding da45f511 as the latest failed run. The answer reports the 7661 match and says plainly that this does not prove no source changes were missed and does not clear the failure. That is honest uncertainty, not an unsupported claim. It does not say outright that CopyApplication was skipped or that the measure still shows the earlier load. That is a wording gap, not an error, so the answer is not harmful and not partial.\n\nWhy the secondary grader wins: Both graders got the three scored points right. However, the primary grader's reasoning says the answer identified the failure as happening 'before CopyApplication ran'. The answer never mentions CopyApplication, so this part of the primary grader's justification is wrong. On handoff quality, the secondary grader's score of 2 fits better: the answer is resolved, and it includes the native error details, SQL/DAX queries someone can rerun, and named coverage gaps. The primary grader's 0 ('not applicable') undervalues this. The evidence does not say how handoff quality should be scored for an answer that is already resolved, so this judgment is less certain.",
+        "source_sha256": "f01c0256c5c35d2402d1945a1c76966f3f8f35549463c58a446e76c4266acfe2",
+        "ticket": "v4-failed-application-load-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 33657,
+          "output_tokens": 2671,
+          "output_tokens_details": {
+            "thinking_tokens": 572
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
       "ticket": "v4-source-history-1",
       "class": "v4-source-history",
       "fixture": "history",
@@ -984,9 +1563,6 @@
     "v4-billing-invoices-1",
     "v4-billing-invoices-2",
     "v4-billing-invoices-3",
-    "v4-failed-application-load-1",
-    "v4-failed-application-load-2",
-    "v4-failed-application-load-3",
     "v4-failed-billing-transform-1",
     "v4-failed-billing-transform-2",
     "v4-failed-billing-transform-3",
@@ -1033,40 +1609,40 @@
   "status": "IN_PROGRESS",
   "timing_cost": {
     "all": {
-      "tickets": 3,
-      "native_observed": 2,
+      "tickets": 6,
+      "native_observed": 5,
       "native_missing": 1,
-      "native_median_seconds": 185.0,
-      "native_p90_seconds": 206.0,
-      "worker_median_seconds": 155.077304224,
-      "worker_p90_seconds": 171.92881492599997,
-      "investigation_cost_microdollars": 716158,
-      "cost_per_ticket_usd": 0.23871933333333334,
-      "physical_requests": 50
+      "native_median_seconds": 179.0,
+      "native_p90_seconds": 259.0,
+      "worker_median_seconds": 150.57076126100014,
+      "worker_p90_seconds": 196.50143783700003,
+      "investigation_cost_microdollars": 1681215,
+      "cost_per_ticket_usd": 0.2802025,
+      "physical_requests": 121
     },
     "full_investigation": {
+      "tickets": 3,
+      "native_observed": 3,
+      "native_missing": 0,
+      "native_median_seconds": 206.0,
+      "native_p90_seconds": 259.0,
+      "worker_median_seconds": 171.92881492599997,
+      "worker_p90_seconds": 196.50143783700003,
+      "investigation_cost_microdollars": 926739,
+      "cost_per_ticket_usd": 0.308913,
+      "physical_requests": 79
+    },
+    "answered_without_layer_queries": {
       "tickets": 2,
       "native_observed": 2,
       "native_missing": 0,
-      "native_median_seconds": 185.0,
-      "native_p90_seconds": 206.0,
-      "worker_median_seconds": 155.077304224,
-      "worker_p90_seconds": 171.92881492599997,
-      "investigation_cost_microdollars": 640468,
-      "cost_per_ticket_usd": 0.320234,
-      "physical_requests": 50
-    },
-    "answered_without_layer_queries": {
-      "tickets": 0,
-      "native_observed": 0,
-      "native_missing": 0,
-      "native_median_seconds": null,
-      "native_p90_seconds": null,
-      "worker_median_seconds": null,
-      "worker_p90_seconds": null,
-      "investigation_cost_microdollars": 0,
-      "cost_per_ticket_usd": null,
-      "physical_requests": 0
+      "native_median_seconds": 173.5,
+      "native_p90_seconds": 179.0,
+      "worker_median_seconds": 145.52774660200004,
+      "worker_p90_seconds": 150.57076126100014,
+      "investigation_cost_microdollars": 678786,
+      "cost_per_ticket_usd": 0.339393,
+      "physical_requests": 42
     },
     "holds": {
       "tickets": 1,
