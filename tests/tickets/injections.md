@@ -291,3 +291,6 @@ Round25 failed-billing g2: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLI
 
 
 Round25 waiting g2 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-five\injections\g2-waiting\status.json.
+
+
+Round25 latency g2 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-five\injections\g2-latency-admission05\status.json. Temporal remains ON.

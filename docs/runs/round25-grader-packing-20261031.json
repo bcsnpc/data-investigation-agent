@@ -1,0 +1,14 @@
+{
+  "status": "LOSSLESS_GRADING_TRANSPORT_ONLY",
+  "at": "2026-10-31T19:30:10.563858+00:00",
+  "original_oversized_characters": 25949,
+  "maximum_prepared_characters": 23809,
+  "bound_unchanged": 24000,
+  "tests_passed": 3,
+  "preservation": "Exact round-trip of the existing grader projection; existing explicitly labelled row/history sampling unchanged, no additional sampling or claim removal",
+  "engine_inputs_outputs_expectations_changed": false,
+  "submitted_task_files_changed": false,
+  "estate_reads": 0,
+  "model_calls": 0,
+  "tasks_sha256": "8dfed5fb734f898b4db386a4b6e7996452e7f775d51f8bb9b7840dcaab49e4bd"
+}
