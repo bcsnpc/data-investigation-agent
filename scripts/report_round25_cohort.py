@@ -1,10 +1,17 @@
 ﻿"""Aggregate saved Round25 cohort grades without opening wording on stdout."""
 import json,sys,hashlib,statistics,math
 from pathlib import Path
-from round25_cohort_report import summarize
+from round25_cohort_report import summarize,verdict_class
 r=Path('.local/round-twenty-five');cohort=sys.argv[1];assert cohort in ('g2','g3','g4')
 source={'g2':Path('acceptance/tickets/guided-v4/held-out.sealed.json'),'g3':r/'g3-records.json','g4':Path('acceptance/tickets/guided-v2/held-out.sealed.json')}[cohort]
 rows=json.loads(source.read_bytes())['tickets'];meta={x['id']:x for x in rows};cases={}
+oracle_path={'g2':Path('acceptance/tickets/guided-v4/expectations.sealed.json'),'g3':r/'g3-original-expectations.json','g4':Path('acceptance/tickets/guided-v2/expectations.sealed.json')}[cohort]
+oracles=json.loads(oracle_path.read_bytes())['expectations']
+oracles={x['id']:x for x in oracles} if isinstance(oracles,list) else oracles
+for entry in list(oracles.values()):
+ if isinstance(entry,dict) and entry.get('id'):
+  assert entry['id']not in oracles or oracles[entry['id']]==entry
+  oracles[entry['id']]=entry
 for path in sorted((r/'grading').glob('*/'+cohort+'-grader-result.json')):
  label=path.parent.name;p=json.loads(path.read_bytes());sp=r/'grading'/(label+'-second-result.json')
  if p.get('status')!='COMPLETED'or not sp.exists():continue
@@ -20,10 +27,14 @@ for path in sorted((r/'grading').glob('*/'+cohort+'-grader-result.json')):
    try:tech=json.loads(tech)
    except ValueError:tech={}
   case['timing_group']='holds'if a.get('status')!='ANSWERED'else'full_investigation'if isinstance(tech,dict)and tech.get('queries')else'answered_without_layer_queries'
+  case['expected_verdict_class']=verdict_class(oracles[ident])
   if ident in reviews:
    assert reviews[ident]['raw_outcome_sha256']==case['outcome_sha256'];case['raw_review']=reviews[ident]
   cases[ident]=case
 value=summarize(list(cases.values()),cohort);value['requested']=len(rows);value['not_yet_graded']=[i for i in meta if i not in cases];value['status']='COMPLETE'if len(cases)==len(rows)and value['raw_review_complete']else'IN_PROGRESS'
+from round25_quality import cohort_metrics
+value['per_expected_verdict_class']=cohort_metrics([{**c,'class':c['expected_verdict_class']} for c in cases.values()])['per_class']
+value['class_grouping_basis']='Original case IDs retained; additional verdict grouping uses exact sealed oracle labels only, no expectation changes.'
 for group,select in [('all',list(cases.values())),('full_investigation',[c for c in cases.values()if c['timing_group']=='full_investigation']),('answered_without_layer_queries',[c for c in cases.values()if c['timing_group']=='answered_without_layer_queries']),('holds',[c for c in cases.values()if c['timing_group']=='holds'])]:
  times=sorted(c['native_duration_seconds']for c in select if c['native_duration_seconds']is not None);worker=sorted(c['worker_wall_seconds']for c in select if isinstance(c['worker_wall_seconds'],(float,int)));cost=sum(c['investigation_cost_microdollars']for c in select)
  value.setdefault('timing_cost',{})[group]={'tickets':len(select),'native_observed':len(times),'native_missing':len(select)-len(times),'native_median_seconds':statistics.median(times)if times else None,'native_p90_seconds':times[math.ceil(.9*len(times))-1]if times else None,'worker_median_seconds':statistics.median(worker)if worker else None,'worker_p90_seconds':worker[math.ceil(.9*len(worker))-1]if worker else None,'investigation_cost_microdollars':cost,'cost_per_ticket_usd':cost/len(select)/1e6 if select else None,'physical_requests':sum(c['physical_requests']for c in select)}

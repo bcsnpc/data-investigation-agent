@@ -3,6 +3,12 @@ from copy import deepcopy
 from round25_quality import cohort_metrics
 from round25_independent_review import differs
 
+def verdict_class(expected):
+    """Group authored oracle labels without reading or rewriting ticket prose."""
+    record=expected.get('expected',expected)
+    value=record.get('verdict') if isinstance(record,dict) else None
+    return value if isinstance(value,str) and value else 'ORACLE_VERDICT_UNDECLARED'
+
 def summarize(cases,cohort):
     if cohort not in ('g2','g3','g4'):raise ValueError('INDEPENDENT_REVIEW_COHORT_REQUIRED')
     for case in cases:

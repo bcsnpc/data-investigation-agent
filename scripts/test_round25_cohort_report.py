@@ -1,6 +1,10 @@
 ﻿import unittest
-from round25_cohort_report import summarize
+from round25_cohort_report import summarize,verdict_class
 class CohortReviewTests(unittest.TestCase):
+ def test_authored_verdict_groups_preserve_legacy_and_direct_labels(self):
+  self.assertEqual(verdict_class({'expected':{'verdict':'source changed history'}}),'source changed history')
+  self.assertEqual(verdict_class({'verdict':'waiting on job'}),'waiting on job')
+  self.assertEqual(verdict_class({'cause':'not a verdict'}),'ORACLE_VERDICT_UNDECLARED')
  def case(self):
   grade={'verdict_match':True,'layer_match':True,'cause_match':True,'harmful':False,'handoff_quality':0,'failing_step':'none','partial':False,'reason':'a'}
   return {'ticket':'fixture','class':'as designed','primary':grade,'secondary':{**grade,'handoff_quality':2}}
