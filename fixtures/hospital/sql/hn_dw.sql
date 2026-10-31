@@ -409,165 +409,165 @@ CREATE TABLE dbo.[ref_department_mapping]([id] BIGINT NOT NULL,[provider_id] BIG
 CREATE TABLE dbo.[ref_payer_group_history]([id] BIGINT NOT NULL,[payer_plan_id] BIGINT NOT NULL,[payer_id] BIGINT NOT NULL,[valid_from] VARCHAR(240) NOT NULL,[valid_to] VARCHAR(240) NOT NULL,[created_at] DATETIME2(6) NOT NULL,[updated_at] DATETIME2(6) NOT NULL,[updated_by] VARCHAR(240) NOT NULL,[is_deleted] BIGINT NOT NULL);
 
 
-CREATE TABLE dbo.[core_facility] AS SELECT * FROM [hn_raw].[dbo].[raw_clinical_facility];
+CREATE TABLE dbo.[core_facility] AS SELECT src.[id],src.[name],src.[region],src.[licensed_beds],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted] FROM (SELECT * FROM [hn_raw].[dbo].[raw_clinical_facility]) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_core_facility] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[core_facility]; INSERT INTO dbo.[core_facility] SELECT * FROM [hn_raw].[dbo].[raw_clinical_facility]; COMMIT; END;
+CREATE OR ALTER PROCEDURE dbo.[sp_core_facility] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[core_facility]; INSERT INTO dbo.[core_facility] SELECT src.[id],src.[name],src.[region],src.[licensed_beds],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted] FROM (SELECT * FROM [hn_raw].[dbo].[raw_clinical_facility]) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[core_department] AS SELECT * FROM [hn_raw].[dbo].[raw_clinical_department];
+CREATE TABLE dbo.[core_department] AS SELECT src.[id],src.[facility_id],src.[name],src.[service_line],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted] FROM (SELECT * FROM [hn_raw].[dbo].[raw_clinical_department]) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_core_department] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[core_department]; INSERT INTO dbo.[core_department] SELECT * FROM [hn_raw].[dbo].[raw_clinical_department]; COMMIT; END;
+CREATE OR ALTER PROCEDURE dbo.[sp_core_department] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[core_department]; INSERT INTO dbo.[core_department] SELECT src.[id],src.[facility_id],src.[name],src.[service_line],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted] FROM (SELECT * FROM [hn_raw].[dbo].[raw_clinical_department]) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[core_provider] AS SELECT * FROM [hn_raw].[dbo].[raw_clinical_provider];
+CREATE TABLE dbo.[core_provider] AS SELECT src.[id],src.[synthetic_npi],src.[name],src.[specialty],src.[fte],src.[provider_type],src.[current_department_id],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted] FROM (SELECT * FROM [hn_raw].[dbo].[raw_clinical_provider]) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_core_provider] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[core_provider]; INSERT INTO dbo.[core_provider] SELECT * FROM [hn_raw].[dbo].[raw_clinical_provider]; COMMIT; END;
+CREATE OR ALTER PROCEDURE dbo.[sp_core_provider] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[core_provider]; INSERT INTO dbo.[core_provider] SELECT src.[id],src.[synthetic_npi],src.[name],src.[specialty],src.[fte],src.[provider_type],src.[current_department_id],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted] FROM (SELECT * FROM [hn_raw].[dbo].[raw_clinical_provider]) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[core_provider_department_history] AS SELECT * FROM ref_department_mapping;
+CREATE TABLE dbo.[core_provider_department_history] AS SELECT src.[id],src.[provider_id],src.[department_id],src.[valid_from],src.[valid_to],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted] FROM (SELECT * FROM ref_department_mapping) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_core_provider_department_history] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[core_provider_department_history]; INSERT INTO dbo.[core_provider_department_history] SELECT * FROM ref_department_mapping; COMMIT; END;
+CREATE OR ALTER PROCEDURE dbo.[sp_core_provider_department_history] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[core_provider_department_history]; INSERT INTO dbo.[core_provider_department_history] SELECT src.[id],src.[provider_id],src.[department_id],src.[valid_from],src.[valid_to],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted] FROM (SELECT * FROM ref_department_mapping) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[core_payer] AS SELECT * FROM [hn_raw].[dbo].[raw_billing_payer];
+CREATE TABLE dbo.[core_payer] AS SELECT src.[id],src.[name],src.[payer_group],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted] FROM (SELECT * FROM [hn_raw].[dbo].[raw_billing_payer]) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_core_payer] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[core_payer]; INSERT INTO dbo.[core_payer] SELECT * FROM [hn_raw].[dbo].[raw_billing_payer]; COMMIT; END;
+CREATE OR ALTER PROCEDURE dbo.[sp_core_payer] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[core_payer]; INSERT INTO dbo.[core_payer] SELECT src.[id],src.[name],src.[payer_group],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted] FROM (SELECT * FROM [hn_raw].[dbo].[raw_billing_payer]) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[core_payer_plan_history] AS SELECT * FROM ref_payer_group_history;
+CREATE TABLE dbo.[core_payer_plan_history] AS SELECT src.[id],src.[payer_plan_id],src.[payer_id],src.[valid_from],src.[valid_to],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted] FROM (SELECT * FROM ref_payer_group_history) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_core_payer_plan_history] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[core_payer_plan_history]; INSERT INTO dbo.[core_payer_plan_history] SELECT * FROM ref_payer_group_history; COMMIT; END;
+CREATE OR ALTER PROCEDURE dbo.[sp_core_payer_plan_history] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[core_payer_plan_history]; INSERT INTO dbo.[core_payer_plan_history] SELECT src.[id],src.[payer_plan_id],src.[payer_id],src.[valid_from],src.[valid_to],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted] FROM (SELECT * FROM ref_payer_group_history) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[stg_patient] AS SELECT * FROM [hn_raw].[dbo].[stg_patient];
+CREATE TABLE dbo.[stg_patient] AS SELECT src.[id],src.[person_key],src.[mrn],src.[given_name],src.[family_name],src.[birth_date],src.[sex],src.[fictional_address],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[mpi_patient_id] FROM (SELECT * FROM [hn_raw].[dbo].[stg_patient]) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_stg_patient] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[stg_patient]; INSERT INTO dbo.[stg_patient] SELECT * FROM [hn_raw].[dbo].[stg_patient]; COMMIT; END;
+CREATE OR ALTER PROCEDURE dbo.[sp_stg_patient] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[stg_patient]; INSERT INTO dbo.[stg_patient] SELECT src.[id],src.[person_key],src.[mrn],src.[given_name],src.[family_name],src.[birth_date],src.[sex],src.[fictional_address],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[mpi_patient_id] FROM (SELECT * FROM [hn_raw].[dbo].[stg_patient]) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[mart_encounter] AS SELECT e.*,p.mpi_patient_id,
+CREATE TABLE dbo.[mart_encounter] AS SELECT src.[id],src.[encounter_number],src.[patient_id],src.[facility_id],src.[department_id],src.[attending_provider_id],src.[payer_plan_id],src.[encounter_type],src.[initial_status],src.[status],CONVERT(DATETIME2(6),src.[arrival_utc]) [arrival_utc],CONVERT(DATETIME2(6),src.[admit_utc]) [admit_utc],CONVERT(DATETIME2(6),src.[discharge_utc]) [discharge_utc],src.[service_day],src.[readmission_of],src.[transfer_from],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[mpi_patient_id],src.[masked_mrn],src.[masked_given_name],src.[masked_family_name],src.[service_line],src.[service_provider_department_id] FROM (SELECT e.*,p.mpi_patient_id,
    CONCAT('SYN-***-',RIGHT(p.mrn,4)) masked_mrn,CONCAT(LEFT(p.given_name,1),'***') masked_given_name,CONCAT(LEFT(p.family_name,1),'***') masked_family_name,
    d.service_line,pa.department_id service_provider_department_id
    FROM [hn_raw].[dbo].[raw_clinical_encounter] e JOIN stg_patient p ON p.id=e.patient_id
    JOIN [hn_raw].[dbo].[raw_clinical_department] d ON d.id=e.department_id
    LEFT JOIN core_provider_department_history pa ON pa.provider_id=e.attending_provider_id
    AND e.service_day>=pa.valid_from AND e.service_day<pa.valid_to
-   WHERE e.is_deleted=0 AND p.is_deleted=0;
+   WHERE e.is_deleted=0 AND p.is_deleted=0) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_mart_encounter] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_encounter]; INSERT INTO dbo.[mart_encounter] SELECT e.*,p.mpi_patient_id,
+CREATE OR ALTER PROCEDURE dbo.[sp_mart_encounter] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_encounter]; INSERT INTO dbo.[mart_encounter] SELECT src.[id],src.[encounter_number],src.[patient_id],src.[facility_id],src.[department_id],src.[attending_provider_id],src.[payer_plan_id],src.[encounter_type],src.[initial_status],src.[status],CONVERT(DATETIME2(6),src.[arrival_utc]) [arrival_utc],CONVERT(DATETIME2(6),src.[admit_utc]) [admit_utc],CONVERT(DATETIME2(6),src.[discharge_utc]) [discharge_utc],src.[service_day],src.[readmission_of],src.[transfer_from],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[mpi_patient_id],src.[masked_mrn],src.[masked_given_name],src.[masked_family_name],src.[service_line],src.[service_provider_department_id] FROM (SELECT e.*,p.mpi_patient_id,
    CONCAT('SYN-***-',RIGHT(p.mrn,4)) masked_mrn,CONCAT(LEFT(p.given_name,1),'***') masked_given_name,CONCAT(LEFT(p.family_name,1),'***') masked_family_name,
    d.service_line,pa.department_id service_provider_department_id
    FROM [hn_raw].[dbo].[raw_clinical_encounter] e JOIN stg_patient p ON p.id=e.patient_id
    JOIN [hn_raw].[dbo].[raw_clinical_department] d ON d.id=e.department_id
    LEFT JOIN core_provider_department_history pa ON pa.provider_id=e.attending_provider_id
    AND e.service_day>=pa.valid_from AND e.service_day<pa.valid_to
-   WHERE e.is_deleted=0 AND p.is_deleted=0; COMMIT; END;
+   WHERE e.is_deleted=0 AND p.is_deleted=0) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[mart_ed_visit] AS SELECT v.*,SUBSTRING(v.arrival_local,12,2) arrival_hour,e.facility_id,e.department_id,e.attending_provider_id,e.service_day FROM [hn_raw].[dbo].[raw_clinical_ed_visit_detail] v JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.id=v.encounter_id WHERE e.is_deleted=0;
+CREATE TABLE dbo.[mart_ed_visit] AS SELECT src.[id],src.[encounter_id],src.[triage_level],src.[arrival_local],src.[utc_offset_minutes],src.[door_to_provider_minutes],src.[ed_los_minutes],src.[lwbs],src.[admitted],src.[transferred],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[arrival_hour],src.[facility_id],src.[department_id],src.[attending_provider_id],src.[service_day] FROM (SELECT v.*,SUBSTRING(v.arrival_local,12,2) arrival_hour,e.facility_id,e.department_id,e.attending_provider_id,e.service_day FROM [hn_raw].[dbo].[raw_clinical_ed_visit_detail] v JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.id=v.encounter_id WHERE e.is_deleted=0) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_mart_ed_visit] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_ed_visit]; INSERT INTO dbo.[mart_ed_visit] SELECT v.*,SUBSTRING(v.arrival_local,12,2) arrival_hour,e.facility_id,e.department_id,e.attending_provider_id,e.service_day FROM [hn_raw].[dbo].[raw_clinical_ed_visit_detail] v JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.id=v.encounter_id WHERE e.is_deleted=0; COMMIT; END;
+CREATE OR ALTER PROCEDURE dbo.[sp_mart_ed_visit] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_ed_visit]; INSERT INTO dbo.[mart_ed_visit] SELECT src.[id],src.[encounter_id],src.[triage_level],src.[arrival_local],src.[utc_offset_minutes],src.[door_to_provider_minutes],src.[ed_los_minutes],src.[lwbs],src.[admitted],src.[transferred],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[arrival_hour],src.[facility_id],src.[department_id],src.[attending_provider_id],src.[service_day] FROM (SELECT v.*,SUBSTRING(v.arrival_local,12,2) arrival_hour,e.facility_id,e.department_id,e.attending_provider_id,e.service_day FROM [hn_raw].[dbo].[raw_clinical_ed_visit_detail] v JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.id=v.encounter_id WHERE e.is_deleted=0) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[mart_order] AS SELECT l.*,h.encounter_id,h.provider_id,h.order_type,e.facility_id,e.department_id,e.service_day
+CREATE TABLE dbo.[mart_order] AS SELECT src.[id],src.[order_header_id],src.[line_number],src.[item_code],src.[priority],src.[status],CONVERT(DATETIME2(6),src.[ordered_utc]) [ordered_utc],CONVERT(DATETIME2(6),src.[completed_utc]) [completed_utc],src.[replaces_order_line_id],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[encounter_id],src.[provider_id],src.[order_type],src.[facility_id],src.[department_id],src.[service_day] FROM (SELECT l.*,h.encounter_id,h.provider_id,h.order_type,e.facility_id,e.department_id,e.service_day
    FROM [hn_raw].[dbo].[raw_clinical_order_line] l JOIN [hn_raw].[dbo].[raw_clinical_order_header] h ON h.id=l.order_header_id
-   JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.id=h.encounter_id WHERE l.is_deleted=0 AND e.is_deleted=0;
+   JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.id=h.encounter_id WHERE l.is_deleted=0 AND e.is_deleted=0) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_mart_order] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_order]; INSERT INTO dbo.[mart_order] SELECT l.*,h.encounter_id,h.provider_id,h.order_type,e.facility_id,e.department_id,e.service_day
+CREATE OR ALTER PROCEDURE dbo.[sp_mart_order] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_order]; INSERT INTO dbo.[mart_order] SELECT src.[id],src.[order_header_id],src.[line_number],src.[item_code],src.[priority],src.[status],CONVERT(DATETIME2(6),src.[ordered_utc]) [ordered_utc],CONVERT(DATETIME2(6),src.[completed_utc]) [completed_utc],src.[replaces_order_line_id],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[encounter_id],src.[provider_id],src.[order_type],src.[facility_id],src.[department_id],src.[service_day] FROM (SELECT l.*,h.encounter_id,h.provider_id,h.order_type,e.facility_id,e.department_id,e.service_day
    FROM [hn_raw].[dbo].[raw_clinical_order_line] l JOIN [hn_raw].[dbo].[raw_clinical_order_header] h ON h.id=l.order_header_id
-   JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.id=h.encounter_id WHERE l.is_deleted=0 AND e.is_deleted=0; COMMIT; END;
+   JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.id=h.encounter_id WHERE l.is_deleted=0 AND e.is_deleted=0) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[mart_charge] AS SELECT c.*,a.encounter_number,a.facility_id,e.department_id,a.payer_plan_id,h.payer_id
+CREATE TABLE dbo.[mart_charge] AS SELECT src.[id],src.[account_id],src.[service_date],src.[post_date],src.[revenue_centre_code],src.[procedure_code],src.[units],src.[amount_cents],src.[correction_of],src.[correction_reason],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[encounter_number],src.[facility_id],src.[department_id],src.[payer_plan_id],src.[payer_id] FROM (SELECT c.*,a.encounter_number,a.facility_id,e.department_id,a.payer_plan_id,h.payer_id
    FROM [hn_raw].[dbo].[raw_billing_charge] c JOIN [hn_raw].[dbo].[raw_billing_account] a ON a.id=c.account_id LEFT JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.encounter_number=a.encounter_number
    JOIN core_payer_plan_history h ON h.payer_plan_id=a.payer_plan_id
    AND c.service_date>=h.valid_from AND c.service_date<h.valid_to
-   WHERE c.is_deleted=0 AND a.is_deleted=0;
+   WHERE c.is_deleted=0 AND a.is_deleted=0) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_mart_charge] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_charge]; INSERT INTO dbo.[mart_charge] SELECT c.*,a.encounter_number,a.facility_id,e.department_id,a.payer_plan_id,h.payer_id
+CREATE OR ALTER PROCEDURE dbo.[sp_mart_charge] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_charge]; INSERT INTO dbo.[mart_charge] SELECT src.[id],src.[account_id],src.[service_date],src.[post_date],src.[revenue_centre_code],src.[procedure_code],src.[units],src.[amount_cents],src.[correction_of],src.[correction_reason],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[encounter_number],src.[facility_id],src.[department_id],src.[payer_plan_id],src.[payer_id] FROM (SELECT c.*,a.encounter_number,a.facility_id,e.department_id,a.payer_plan_id,h.payer_id
    FROM [hn_raw].[dbo].[raw_billing_charge] c JOIN [hn_raw].[dbo].[raw_billing_account] a ON a.id=c.account_id LEFT JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.encounter_number=a.encounter_number
    JOIN core_payer_plan_history h ON h.payer_plan_id=a.payer_plan_id
    AND c.service_date>=h.valid_from AND c.service_date<h.valid_to
-   WHERE c.is_deleted=0 AND a.is_deleted=0; COMMIT; END;
+   WHERE c.is_deleted=0 AND a.is_deleted=0) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[mart_claim] AS SELECT c.*,SUBSTRING(c.submitted_at,1,10) submitted_date,a.facility_id,e.department_id,a.payer_plan_id,ph.payer_id FROM [hn_raw].[dbo].[raw_billing_claim] c JOIN [hn_raw].[dbo].[raw_billing_account] a ON a.id=c.account_id LEFT JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.encounter_number=a.encounter_number JOIN core_payer_plan_history ph ON ph.payer_plan_id=a.payer_plan_id AND SUBSTRING(c.submitted_at,1,10)>=ph.valid_from AND SUBSTRING(c.submitted_at,1,10)<ph.valid_to WHERE c.is_deleted=0 AND a.is_deleted=0;
+CREATE TABLE dbo.[mart_claim] AS SELECT src.[id],src.[account_id],src.[claim_group],src.[version],src.[submission_type],src.[is_original],src.[is_final],src.[bill_type],src.[ms_drg],CONVERT(DATETIME2(6),src.[submitted_at]) [submitted_at],src.[status],src.[billed_cents],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[submitted_date],src.[facility_id],src.[department_id],src.[payer_plan_id],src.[payer_id] FROM (SELECT c.*,SUBSTRING(c.submitted_at,1,10) submitted_date,a.facility_id,e.department_id,a.payer_plan_id,ph.payer_id FROM [hn_raw].[dbo].[raw_billing_claim] c JOIN [hn_raw].[dbo].[raw_billing_account] a ON a.id=c.account_id LEFT JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.encounter_number=a.encounter_number JOIN core_payer_plan_history ph ON ph.payer_plan_id=a.payer_plan_id AND SUBSTRING(c.submitted_at,1,10)>=ph.valid_from AND SUBSTRING(c.submitted_at,1,10)<ph.valid_to WHERE c.is_deleted=0 AND a.is_deleted=0) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_mart_claim] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_claim]; INSERT INTO dbo.[mart_claim] SELECT c.*,SUBSTRING(c.submitted_at,1,10) submitted_date,a.facility_id,e.department_id,a.payer_plan_id,ph.payer_id FROM [hn_raw].[dbo].[raw_billing_claim] c JOIN [hn_raw].[dbo].[raw_billing_account] a ON a.id=c.account_id LEFT JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.encounter_number=a.encounter_number JOIN core_payer_plan_history ph ON ph.payer_plan_id=a.payer_plan_id AND SUBSTRING(c.submitted_at,1,10)>=ph.valid_from AND SUBSTRING(c.submitted_at,1,10)<ph.valid_to WHERE c.is_deleted=0 AND a.is_deleted=0; COMMIT; END;
+CREATE OR ALTER PROCEDURE dbo.[sp_mart_claim] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_claim]; INSERT INTO dbo.[mart_claim] SELECT src.[id],src.[account_id],src.[claim_group],src.[version],src.[submission_type],src.[is_original],src.[is_final],src.[bill_type],src.[ms_drg],CONVERT(DATETIME2(6),src.[submitted_at]) [submitted_at],src.[status],src.[billed_cents],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[submitted_date],src.[facility_id],src.[department_id],src.[payer_plan_id],src.[payer_id] FROM (SELECT c.*,SUBSTRING(c.submitted_at,1,10) submitted_date,a.facility_id,e.department_id,a.payer_plan_id,ph.payer_id FROM [hn_raw].[dbo].[raw_billing_claim] c JOIN [hn_raw].[dbo].[raw_billing_account] a ON a.id=c.account_id LEFT JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.encounter_number=a.encounter_number JOIN core_payer_plan_history ph ON ph.payer_plan_id=a.payer_plan_id AND SUBSTRING(c.submitted_at,1,10)>=ph.valid_from AND SUBSTRING(c.submitted_at,1,10)<ph.valid_to WHERE c.is_deleted=0 AND a.is_deleted=0) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[mart_remittance] AS SELECT l.*,r.claim_id,r.received_at,SUBSTRING(r.received_at,1,10) received_date,c.account_id,c.is_original,c.is_final,a.facility_id,e.department_id,a.payer_plan_id,ph.payer_id
+CREATE TABLE dbo.[mart_remittance] AS SELECT src.[id],src.[remittance_id],src.[claim_line_id],src.[paid_cents],src.[adjusted_cents],src.[denied_cents],src.[denial_code],src.[denial_category],src.[remark_code],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[claim_id],CONVERT(DATETIME2(6),src.[received_at]) [received_at],src.[received_date],src.[account_id],src.[is_original],src.[is_final],src.[facility_id],src.[department_id],src.[payer_plan_id],src.[payer_id] FROM (SELECT l.*,r.claim_id,r.received_at,SUBSTRING(r.received_at,1,10) received_date,c.account_id,c.is_original,c.is_final,a.facility_id,e.department_id,a.payer_plan_id,ph.payer_id
    FROM [hn_raw].[dbo].[raw_billing_remittance_line] l JOIN [hn_raw].[dbo].[raw_billing_remittance] r ON r.id=l.remittance_id
    JOIN [hn_raw].[dbo].[raw_billing_claim] c ON c.id=r.claim_id JOIN [hn_raw].[dbo].[raw_billing_account] a ON a.id=c.account_id LEFT JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.encounter_number=a.encounter_number
    JOIN core_payer_plan_history ph ON ph.payer_plan_id=a.payer_plan_id AND SUBSTRING(r.received_at,1,10)>=ph.valid_from AND SUBSTRING(r.received_at,1,10)<ph.valid_to
-   WHERE l.is_deleted=0 AND r.is_deleted=0 AND c.is_deleted=0 AND a.is_deleted=0;
+   WHERE l.is_deleted=0 AND r.is_deleted=0 AND c.is_deleted=0 AND a.is_deleted=0) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_mart_remittance] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_remittance]; INSERT INTO dbo.[mart_remittance] SELECT l.*,r.claim_id,r.received_at,SUBSTRING(r.received_at,1,10) received_date,c.account_id,c.is_original,c.is_final,a.facility_id,e.department_id,a.payer_plan_id,ph.payer_id
+CREATE OR ALTER PROCEDURE dbo.[sp_mart_remittance] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_remittance]; INSERT INTO dbo.[mart_remittance] SELECT src.[id],src.[remittance_id],src.[claim_line_id],src.[paid_cents],src.[adjusted_cents],src.[denied_cents],src.[denial_code],src.[denial_category],src.[remark_code],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[claim_id],CONVERT(DATETIME2(6),src.[received_at]) [received_at],src.[received_date],src.[account_id],src.[is_original],src.[is_final],src.[facility_id],src.[department_id],src.[payer_plan_id],src.[payer_id] FROM (SELECT l.*,r.claim_id,r.received_at,SUBSTRING(r.received_at,1,10) received_date,c.account_id,c.is_original,c.is_final,a.facility_id,e.department_id,a.payer_plan_id,ph.payer_id
    FROM [hn_raw].[dbo].[raw_billing_remittance_line] l JOIN [hn_raw].[dbo].[raw_billing_remittance] r ON r.id=l.remittance_id
    JOIN [hn_raw].[dbo].[raw_billing_claim] c ON c.id=r.claim_id JOIN [hn_raw].[dbo].[raw_billing_account] a ON a.id=c.account_id LEFT JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.encounter_number=a.encounter_number
    JOIN core_payer_plan_history ph ON ph.payer_plan_id=a.payer_plan_id AND SUBSTRING(r.received_at,1,10)>=ph.valid_from AND SUBSTRING(r.received_at,1,10)<ph.valid_to
-   WHERE l.is_deleted=0 AND r.is_deleted=0 AND c.is_deleted=0 AND a.is_deleted=0; COMMIT; END;
+   WHERE l.is_deleted=0 AND r.is_deleted=0 AND c.is_deleted=0 AND a.is_deleted=0) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[mart_payment] AS SELECT p.*,a.facility_id,e.department_id,a.payer_plan_id,ph.payer_id FROM [hn_raw].[dbo].[raw_billing_payment] p JOIN [hn_raw].[dbo].[raw_billing_account] a ON a.id=p.account_id LEFT JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.encounter_number=a.encounter_number JOIN core_payer_plan_history ph ON ph.payer_plan_id=a.payer_plan_id AND p.payment_date>=ph.valid_from AND p.payment_date<ph.valid_to WHERE p.is_deleted=0 AND a.is_deleted=0;
+CREATE TABLE dbo.[mart_payment] AS SELECT src.[id],src.[account_id],src.[claim_id],src.[payment_date],src.[amount_cents],src.[payment_type],src.[reverses_payment_id],src.[moved_to_account_id],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[facility_id],src.[department_id],src.[payer_plan_id],src.[payer_id] FROM (SELECT p.*,a.facility_id,e.department_id,a.payer_plan_id,ph.payer_id FROM [hn_raw].[dbo].[raw_billing_payment] p JOIN [hn_raw].[dbo].[raw_billing_account] a ON a.id=p.account_id LEFT JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.encounter_number=a.encounter_number JOIN core_payer_plan_history ph ON ph.payer_plan_id=a.payer_plan_id AND p.payment_date>=ph.valid_from AND p.payment_date<ph.valid_to WHERE p.is_deleted=0 AND a.is_deleted=0) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_mart_payment] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_payment]; INSERT INTO dbo.[mart_payment] SELECT p.*,a.facility_id,e.department_id,a.payer_plan_id,ph.payer_id FROM [hn_raw].[dbo].[raw_billing_payment] p JOIN [hn_raw].[dbo].[raw_billing_account] a ON a.id=p.account_id LEFT JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.encounter_number=a.encounter_number JOIN core_payer_plan_history ph ON ph.payer_plan_id=a.payer_plan_id AND p.payment_date>=ph.valid_from AND p.payment_date<ph.valid_to WHERE p.is_deleted=0 AND a.is_deleted=0; COMMIT; END;
+CREATE OR ALTER PROCEDURE dbo.[sp_mart_payment] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_payment]; INSERT INTO dbo.[mart_payment] SELECT src.[id],src.[account_id],src.[claim_id],src.[payment_date],src.[amount_cents],src.[payment_type],src.[reverses_payment_id],src.[moved_to_account_id],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[facility_id],src.[department_id],src.[payer_plan_id],src.[payer_id] FROM (SELECT p.*,a.facility_id,e.department_id,a.payer_plan_id,ph.payer_id FROM [hn_raw].[dbo].[raw_billing_payment] p JOIN [hn_raw].[dbo].[raw_billing_account] a ON a.id=p.account_id LEFT JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.encounter_number=a.encounter_number JOIN core_payer_plan_history ph ON ph.payer_plan_id=a.payer_plan_id AND p.payment_date>=ph.valid_from AND p.payment_date<ph.valid_to WHERE p.is_deleted=0 AND a.is_deleted=0) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[mart_adjustment] AS SELECT p.*,a.facility_id,e.department_id,a.payer_plan_id,ph.payer_id FROM [hn_raw].[dbo].[raw_billing_adjustment] p JOIN [hn_raw].[dbo].[raw_billing_account] a ON a.id=p.account_id LEFT JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.encounter_number=a.encounter_number JOIN core_payer_plan_history ph ON ph.payer_plan_id=a.payer_plan_id AND p.adjustment_date>=ph.valid_from AND p.adjustment_date<ph.valid_to WHERE p.is_deleted=0 AND a.is_deleted=0;
+CREATE TABLE dbo.[mart_adjustment] AS SELECT src.[id],src.[account_id],src.[adjustment_date],src.[amount_cents],src.[adjustment_type],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[facility_id],src.[department_id],src.[payer_plan_id],src.[payer_id] FROM (SELECT p.*,a.facility_id,e.department_id,a.payer_plan_id,ph.payer_id FROM [hn_raw].[dbo].[raw_billing_adjustment] p JOIN [hn_raw].[dbo].[raw_billing_account] a ON a.id=p.account_id LEFT JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.encounter_number=a.encounter_number JOIN core_payer_plan_history ph ON ph.payer_plan_id=a.payer_plan_id AND p.adjustment_date>=ph.valid_from AND p.adjustment_date<ph.valid_to WHERE p.is_deleted=0 AND a.is_deleted=0) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_mart_adjustment] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_adjustment]; INSERT INTO dbo.[mart_adjustment] SELECT p.*,a.facility_id,e.department_id,a.payer_plan_id,ph.payer_id FROM [hn_raw].[dbo].[raw_billing_adjustment] p JOIN [hn_raw].[dbo].[raw_billing_account] a ON a.id=p.account_id LEFT JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.encounter_number=a.encounter_number JOIN core_payer_plan_history ph ON ph.payer_plan_id=a.payer_plan_id AND p.adjustment_date>=ph.valid_from AND p.adjustment_date<ph.valid_to WHERE p.is_deleted=0 AND a.is_deleted=0; COMMIT; END;
+CREATE OR ALTER PROCEDURE dbo.[sp_mart_adjustment] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_adjustment]; INSERT INTO dbo.[mart_adjustment] SELECT src.[id],src.[account_id],src.[adjustment_date],src.[amount_cents],src.[adjustment_type],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[facility_id],src.[department_id],src.[payer_plan_id],src.[payer_id] FROM (SELECT p.*,a.facility_id,e.department_id,a.payer_plan_id,ph.payer_id FROM [hn_raw].[dbo].[raw_billing_adjustment] p JOIN [hn_raw].[dbo].[raw_billing_account] a ON a.id=p.account_id LEFT JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.encounter_number=a.encounter_number JOIN core_payer_plan_history ph ON ph.payer_plan_id=a.payer_plan_id AND p.adjustment_date>=ph.valid_from AND p.adjustment_date<ph.valid_to WHERE p.is_deleted=0 AND a.is_deleted=0) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[mart_ar_aging] AS SELECT * FROM [hn_raw].[dbo].[raw_billing_ar_snapshot_daily] WHERE is_deleted=0;
+CREATE TABLE dbo.[mart_ar_aging] AS SELECT src.[id],src.[snapshot_date],src.[facility_id],src.[payer_id],src.[aging_bucket],src.[balance_cents],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted] FROM (SELECT * FROM [hn_raw].[dbo].[raw_billing_ar_snapshot_daily] WHERE is_deleted=0) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_mart_ar_aging] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_ar_aging]; INSERT INTO dbo.[mart_ar_aging] SELECT * FROM [hn_raw].[dbo].[raw_billing_ar_snapshot_daily] WHERE is_deleted=0; COMMIT; END;
+CREATE OR ALTER PROCEDURE dbo.[sp_mart_ar_aging] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_ar_aging]; INSERT INTO dbo.[mart_ar_aging] SELECT src.[id],src.[snapshot_date],src.[facility_id],src.[payer_id],src.[aging_bucket],src.[balance_cents],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted] FROM (SELECT * FROM [hn_raw].[dbo].[raw_billing_ar_snapshot_daily] WHERE is_deleted=0) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[mart_procedure] AS SELECT p.*,e.facility_id,e.department_id,e.service_day FROM [hn_raw].[dbo].[raw_clinical_procedure] p
-   JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.id=p.encounter_id WHERE p.is_deleted=0 AND e.is_deleted=0;
+CREATE TABLE dbo.[mart_procedure] AS SELECT src.[id],src.[encounter_id],src.[provider_id],src.[code_system],src.[code],src.[description],CONVERT(DATETIME2(6),src.[performed_utc]) [performed_utc],src.[workload_units],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[facility_id],src.[department_id],src.[service_day] FROM (SELECT p.*,e.facility_id,e.department_id,e.service_day FROM [hn_raw].[dbo].[raw_clinical_procedure] p
+   JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.id=p.encounter_id WHERE p.is_deleted=0 AND e.is_deleted=0) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_mart_procedure] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_procedure]; INSERT INTO dbo.[mart_procedure] SELECT p.*,e.facility_id,e.department_id,e.service_day FROM [hn_raw].[dbo].[raw_clinical_procedure] p
-   JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.id=p.encounter_id WHERE p.is_deleted=0 AND e.is_deleted=0; COMMIT; END;
+CREATE OR ALTER PROCEDURE dbo.[sp_mart_procedure] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_procedure]; INSERT INTO dbo.[mart_procedure] SELECT src.[id],src.[encounter_id],src.[provider_id],src.[code_system],src.[code],src.[description],CONVERT(DATETIME2(6),src.[performed_utc]) [performed_utc],src.[workload_units],CONVERT(DATETIME2(6),src.[created_at]) [created_at],CONVERT(DATETIME2(6),src.[updated_at]) [updated_at],src.[updated_by],src.[is_deleted],src.[facility_id],src.[department_id],src.[service_day] FROM (SELECT p.*,e.facility_id,e.department_id,e.service_day FROM [hn_raw].[dbo].[raw_clinical_procedure] p
+   JOIN [hn_raw].[dbo].[raw_clinical_encounter] e ON e.id=p.encounter_id WHERE p.is_deleted=0 AND e.is_deleted=0) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[mart_census_daily] AS SELECT d.id*10+f.id id,d.calendar_date,f.id facility_id,
+CREATE TABLE dbo.[mart_census_daily] AS SELECT src.[id],src.[calendar_date],src.[facility_id],src.[midnight_census],src.[licensed_beds],src.[occupancy_fraction] FROM (SELECT d.id*10+f.id id,d.calendar_date,f.id facility_id,
    COUNT(b.id) midnight_census,f.licensed_beds,
    1.0*COUNT(b.id)/f.licensed_beds occupancy_fraction
    FROM core_date d CROSS JOIN [hn_raw].[dbo].[raw_clinical_facility] f
    LEFT JOIN [hn_raw].[dbo].[raw_clinical_bed] bed ON bed.facility_id=f.id
    LEFT JOIN [hn_raw].[dbo].[raw_clinical_bed_assignment] b ON b.bed_id=bed.id
      AND b.start_utc<=d.local_midnight_utc AND (b.end_utc>d.local_midnight_utc OR b.end_utc IS NULL)
-   GROUP BY d.id,d.calendar_date,f.id,f.licensed_beds;
+   GROUP BY d.id,d.calendar_date,f.id,f.licensed_beds) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_mart_census_daily] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_census_daily]; INSERT INTO dbo.[mart_census_daily] SELECT d.id*10+f.id id,d.calendar_date,f.id facility_id,
+CREATE OR ALTER PROCEDURE dbo.[sp_mart_census_daily] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_census_daily]; INSERT INTO dbo.[mart_census_daily] SELECT src.[id],src.[calendar_date],src.[facility_id],src.[midnight_census],src.[licensed_beds],src.[occupancy_fraction] FROM (SELECT d.id*10+f.id id,d.calendar_date,f.id facility_id,
    COUNT(b.id) midnight_census,f.licensed_beds,
    1.0*COUNT(b.id)/f.licensed_beds occupancy_fraction
    FROM core_date d CROSS JOIN [hn_raw].[dbo].[raw_clinical_facility] f
    LEFT JOIN [hn_raw].[dbo].[raw_clinical_bed] bed ON bed.facility_id=f.id
    LEFT JOIN [hn_raw].[dbo].[raw_clinical_bed_assignment] b ON b.bed_id=bed.id
      AND b.start_utc<=d.local_midnight_utc AND (b.end_utc>d.local_midnight_utc OR b.end_utc IS NULL)
-   GROUP BY d.id,d.calendar_date,f.id,f.licensed_beds; COMMIT; END;
+   GROUP BY d.id,d.calendar_date,f.id,f.licensed_beds) src; COMMIT; END;
 GO
 
-CREATE TABLE dbo.[mart_provider_productivity_daily] AS SELECT
+CREATE TABLE dbo.[mart_provider_productivity_daily] AS SELECT src.[id],src.[service_day],src.[provider_id],src.[facility_id],src.[department_id],src.[visits],src.[fte],src.[workload_units],src.[procedures],src.[orders],src.[synthetic_cost_cents],src.[synthetic_margin_cents] FROM (SELECT
    ROW_NUMBER()OVER(ORDER BY e.service_day,e.attending_provider_id,e.facility_id,pa.department_id) id,
    e.service_day,e.attending_provider_id provider_id,e.facility_id,pa.department_id,
    COUNT(*) visits,p.fte,
@@ -581,10 +581,10 @@ CREATE TABLE dbo.[mart_provider_productivity_daily] AS SELECT
    LEFT JOIN(SELECT encounter_id,COUNT(*) procedures,SUM(workload_units) workload_units FROM [hn_raw].[dbo].[raw_clinical_procedure] WHERE is_deleted=0 GROUP BY encounter_id)pr ON pr.encounter_id=e.id
    LEFT JOIN(SELECT encounter_id,COUNT(*) orders FROM [hn_raw].[dbo].[raw_clinical_order_header] WHERE is_deleted=0 GROUP BY encounter_id)o ON o.encounter_id=e.id
    WHERE e.is_deleted=0
-   GROUP BY e.service_day,e.attending_provider_id,e.facility_id,pa.department_id,p.fte;
+   GROUP BY e.service_day,e.attending_provider_id,e.facility_id,pa.department_id,p.fte) src;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.[sp_mart_provider_productivity_daily] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_provider_productivity_daily]; INSERT INTO dbo.[mart_provider_productivity_daily] SELECT
+CREATE OR ALTER PROCEDURE dbo.[sp_mart_provider_productivity_daily] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[mart_provider_productivity_daily]; INSERT INTO dbo.[mart_provider_productivity_daily] SELECT src.[id],src.[service_day],src.[provider_id],src.[facility_id],src.[department_id],src.[visits],src.[fte],src.[workload_units],src.[procedures],src.[orders],src.[synthetic_cost_cents],src.[synthetic_margin_cents] FROM (SELECT
    ROW_NUMBER()OVER(ORDER BY e.service_day,e.attending_provider_id,e.facility_id,pa.department_id) id,
    e.service_day,e.attending_provider_id provider_id,e.facility_id,pa.department_id,
    COUNT(*) visits,p.fte,
@@ -598,7 +598,7 @@ CREATE OR ALTER PROCEDURE dbo.[sp_mart_provider_productivity_daily] AS BEGIN SET
    LEFT JOIN(SELECT encounter_id,COUNT(*) procedures,SUM(workload_units) workload_units FROM [hn_raw].[dbo].[raw_clinical_procedure] WHERE is_deleted=0 GROUP BY encounter_id)pr ON pr.encounter_id=e.id
    LEFT JOIN(SELECT encounter_id,COUNT(*) orders FROM [hn_raw].[dbo].[raw_clinical_order_header] WHERE is_deleted=0 GROUP BY encounter_id)o ON o.encounter_id=e.id
    WHERE e.is_deleted=0
-   GROUP BY e.service_day,e.attending_provider_id,e.facility_id,pa.department_id,p.fte; COMMIT; END;
+   GROUP BY e.service_day,e.attending_provider_id,e.facility_id,pa.department_id,p.fte) src; COMMIT; END;
 GO
 
 CREATE OR ALTER PROCEDURE dbo.sp_run_all AS BEGIN SET NOCOUNT ON;

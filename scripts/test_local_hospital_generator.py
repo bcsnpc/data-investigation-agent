@@ -13,7 +13,7 @@ sys.path.insert(0,str(ROOT))
 from fixtures.hospital.generate import generate,Settings
 from fixtures.hospital.schema import ddl
 from fixtures.hospital.verify import verify
-from fixtures.hospital.marts import build_local,warehouse_sql
+from fixtures.hospital.marts import build_local,warehouse_sql,projection_columns
 from fixtures.hospital.models import model
 from fixtures.hospital.artifacts import pipeline,notebook,nightly_pipeline,reference_dataflow,warehouse_item_binding
 from fixtures.hospital.models import build as build_models
@@ -91,6 +91,16 @@ class HospitalGeneratorTests(unittest.TestCase):
         self.assertTrue(any('masked_mrn' in (r['query']or'') for r in queries))
         self.assertTrue(all('TOPN(100,T' in r['query'] and '__baseline_total_rows' in r['query'] for r in queries if r['query']))
         self.assertEqual(len({r['visual_id']for r in queries}),len(queries)//2)
+
+    def test_warehouse_timestamp_types_and_empty_schema_column_derivation(self):
+        names=projection_columns()
+        with closing(sqlite3.connect(self.path/'a/hn_dw.sqlite'))as db:
+            for table,actual in names.items():
+                self.assertEqual(actual,[r[1]for r in db.execute('PRAGMA table_info(['+table+'])')])
+        sql=warehouse_sql()
+        self.assertIn('CONVERT(DATETIME2(6),src.[admit_utc]) [admit_utc]',sql)
+        self.assertIn('CONVERT(DATETIME2(6),src.[submitted_at]) [submitted_at]',sql)
+        self.assertNotIn('TRY_CONVERT',sql)
 
     def test_job_admission_does_not_poll_item_operation_protocol(self):
         from unittest.mock import patch

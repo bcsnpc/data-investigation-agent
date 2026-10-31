@@ -4,6 +4,7 @@ No DIA engine or expectations. Source audit fields survive transformations.
 The warehouse SQL artifact is generated from the same explicit projections.
 """
 import json
+from contextlib import closing
 from pathlib import Path
 import sqlite3
 from datetime import timedelta
@@ -92,8 +93,32 @@ def bootstrap_sql():
     return '\n\n'.join(sql)+'\n'
 
 
+def projection_columns():
+    """Derive output names from empty schemas; never inspect or sample rows."""
+    with closing(sqlite3.connect(':memory:')) as db:
+        for system,definitions in [('clinical',CLINICAL),('billing',BILLING)]:
+            db.execute('ATTACH DATABASE ":memory:" AS '+system)
+            for table,definition in definitions.items():
+                fields=','.join('['+name+'] '+{'int':'INTEGER','real':'REAL','text':'TEXT'}[kind] for name,kind,_,_ in columns(definition))
+                db.execute('CREATE TABLE '+system+'.['+table+']('+fields+')')
+        db.execute('CREATE TABLE core_date(id INTEGER,calendar_date TEXT,year_month TEXT,weekday_number INTEGER,local_midnight_utc TEXT)')
+        db.execute('CREATE TABLE ref_department_mapping AS SELECT * FROM clinical.provider_assignment')
+        db.execute('CREATE TABLE ref_payer_group_history AS SELECT * FROM billing.payer_plan_history')
+        db.execute('CREATE TABLE mpi_result AS SELECT p.*,p.id mpi_patient_id FROM clinical.patient p')
+        result={}
+        for name,(_,query)in PROJECTIONS.items():
+            db.execute('CREATE TABLE ['+name+'] AS '+query.format(c='clinical.',b='billing.',mpi='mpi_result'))
+            result[name]=[row[1]for row in db.execute('PRAGMA table_info(['+name+'])')]
+        return result
+
+
+def datetime_column(name):
+    return name.endswith('_utc') or name in ('created_at','updated_at','received_at','submitted_at','opened_at','performed_utc')
+
+
 def warehouse_sql():
     sql=[bootstrap_sql()]
+    output_columns=projection_columns()
     for name,(_,query)in PROJECTIONS.items():
         c='[hn_raw].[dbo].[raw_clinical_';b='[hn_raw].[dbo].[raw_billing_'
         # Token replacement is on schema-known table tokens, not SQL names supplied by users.
@@ -102,6 +127,10 @@ def warehouse_sql():
         q=re.sub(r'\{b\}([a-z_]+)',lambda m:b+m[1]+']',q)
         q=q.replace('{mpi}','[hn_raw].[dbo].[stg_patient]')
         q=q.replace("'SYN-***-'||substr(p.mrn,-4)","CONCAT('SYN-***-',RIGHT(p.mrn,4))").replace("substr(p.given_name,1,1)||'***'","CONCAT(LEFT(p.given_name,1),'***')").replace("substr(p.family_name,1,1)||'***'","CONCAT(LEFT(p.family_name,1),'***')")
+        # Direct Lake requires physical column types to match the model. Source
+        # ISO UTC strings are converted, never silently coerced to null.
+        selections=[('CONVERT(DATETIME2(6),src.['+c+']) ['+c+']')if datetime_column(c)else('src.['+c+']')for c in output_columns[name]]
+        q='SELECT '+','.join(selections)+' FROM ('+q+') src'
         sql.append(f"CREATE TABLE dbo.[{name}] AS {q};\nGO")
         sql.append(f"CREATE OR ALTER PROCEDURE dbo.[sp_{name}] AS BEGIN SET NOCOUNT ON; BEGIN TRANSACTION; DELETE FROM dbo.[{name}]; INSERT INTO dbo.[{name}] {q}; COMMIT; END;\nGO")
     sql.append('CREATE OR ALTER PROCEDURE dbo.sp_run_all AS BEGIN SET NOCOUNT ON;\n'+'\n'.join('EXEC dbo.[sp_'+n+'];'for n in PROJECTIONS)+'\nEND;\nGO')

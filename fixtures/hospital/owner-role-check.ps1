@@ -15,7 +15,7 @@ try {
  $builder=New-Object System.Data.Common.DbConnectionStringBuilder
  $builder['Data Source']='powerbi://api.powerbi.com/v1.0/myorg/HealthNet Analytics';$builder['Initial Catalog']=$ModelId;$builder['User ID']='';$builder['Password']=$token;$builder['Roles']=$Role;$builder['EffectiveUserName']='admin@skynwhy.com';$builder['Connect Timeout']=60
  $connection.ConnectionString=$builder.ConnectionString;$connection.Open();$command=$connection.CreateCommand();$command.CommandTimeout=120
- $query=if($CheckOLS){'EVALUATE ROW("hidden_cost",SUM(mart_provider_productivity_daily[synthetic_cost_cents]))'}elseif($models[$ModelId] -eq 'Revenue'){'EVALUATE ROW("served_upn",USERPRINCIPALNAME(),"rows",COUNTROWS(mart_charge),"headline",[Gross Charges])'}else{'EVALUATE ROW("served_upn",USERPRINCIPALNAME(),"rows",COUNTROWS(mart_encounter),"headline",[Visits])'}
+ $query=if($CheckOLS){'EVALUATE ROW("hidden_cost",SUM(mart_provider_productivity_daily[synthetic_cost_cents]))'}elseif($models[$ModelId] -eq 'Revenue'){'EVALUATE ROW("served_upn",USERPRINCIPALNAME(),"rows",COALESCE(COUNTROWS(mart_charge),0),"headline",[Gross Charges])'}else{'EVALUATE ROW("served_upn",USERPRINCIPALNAME(),"rows",COALESCE(COUNTROWS(mart_encounter),0),"headline",[Visits])'}
  $result.query=$query;$reader=$command.ExecuteReader();$rows=@()
  try {while($reader.Read()){$row=[ordered]@{};for($i=0;$i -lt $reader.FieldCount;$i++){$v=$reader.GetValue($i);if($v -is [DBNull]){$v=$null};$row[$reader.GetName($i)]=$v};$rows+=,$row}}finally{$reader.Close()}
  $result.rows=$rows;$result.status='SERVED'
