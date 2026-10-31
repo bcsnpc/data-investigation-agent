@@ -1152,3 +1152,6 @@ Owner Round25 decision,2026-10-28: frozen v0.24 measurement only, existing Octob
 
 
 Owner Round25 decision,2026-10-28: frozen v0.24 measurement only, existing October AI146USD/physical12000 and November150USD/9000 unchanged;3USD actual per ticket. Priority G1 dev40, G2 newheld60, G3 messy60, G4 priorheld20; independent two-model grading and Wilson95%intervals, original expectations/tapes retained. No engine/model/prompt/caching or permission change. See docs/round-twenty-five-summary.md.
+
+
+Owner-approved 2026-10-31 (§8): October combined AI ceiling $166; physical total15,500, INVESTIGATION12,905, SCAN2,500, RESTORATION95. New Anthropic cycle credit available. Authoritative cloud policy and October model account updated; counters, reservations, protected grading, November $150/9,000 and all identity scopes unchanged. Native before/after: docs/runs/round25-owner-budget-20261031.json. Frozen measurement engine unchanged; deployment policy configuration only.

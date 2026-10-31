@@ -40,13 +40,13 @@
     "monthly_model_warning_microdollars": 100000000,
     "per_ticket_actual_microdollars": 3000000,
     "october": {
-      "total_limit": 12000,
+      "total_limit": 15500,
       "limits": {
         "SCAN": 2500,
-        "INVESTIGATION": 9405,
+        "INVESTIGATION": 12905,
         "RESTORATION": 95
       },
-      "model_microdollars": 146000000
+      "model_microdollars": 166000000
     },
     "default": {
       "total_limit": 9000,
