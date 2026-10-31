@@ -2,12 +2,12 @@
 
 ## Current measurement
 
-Saved-result snapshot: 2026-10-31T21:12:09.743605+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the new held-out set and is incomplete until all60 tickets are accounted for. Partial cohort figures must not be presented as full-set accuracy.
+Saved-result snapshot: 2026-10-31T21:37:35.710356+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the new held-out set and is incomplete until all60 tickets are accounted for. Partial cohort figures must not be presented as full-set accuracy.
 
 | Cohort | Official primary (95% Wilson) | Strict (95% Wilson) | Raw-reviewed (95% Wilson) | Raw harmful | Requested |
 |---|---|---|---|---:|---:|
 |G1|37/40 (80.1–97.4%)|34/40 (70.9–92.9%)|35/40 (73.9–94.5%)|2|40|
-|G2|19/33 (40.8–72.8%)|17/33 (35.2–67.5%)|19/33 (40.8–72.8%)|0|60|
+|G2|24/39 (45.9–75.1%)|22/39 (41.0–70.7%)|24/39 (45.9–75.1%)|0|60|
 |G3|not run|not run|not run|not measured|60|
 |G4|not run|not run|not run|not measured|20|
 
@@ -20,7 +20,7 @@ Core agreement means verdict, layer, cause and harm flags. Full assessment addit
 | Cohort | Core agreement (95% Wilson) | Full assessment agreement (95% Wilson) | Raw verdict | Raw layer | Raw cause | Pending raw reviews |
 |---|---|---|---|---|---|---:|
 |G1|37/40 (80.1–97.4%)|8/40 (10.5–34.8%)|35/40 (73.9–94.5%)|35/40 (73.9–94.5%)|35/40 (73.9–94.5%)|0|
-|G2|27/33 (65.6–91.4%)|5/33 (6.7–30.9%)|25/33 (59.0–87.2%)|26/33 (62.2–89.3%)|19/33 (40.8–72.8%)|0|
+|G2|33/39 (70.3–92.8%)|6/39 (7.2–29.7%)|30/39 (61.7–87.4%)|31/39 (64.5–89.2%)|24/39 (45.9–75.1%)|0|
 
 Operator blinding was partly broken by two accidental held-out staging/status fragments, disclosed in decisions.md and the round summary. No investigator logic or expectation was changed afterward. G1's original raw reviews remain; G2–G4 disagreements are decided by independent Claude calls receiving only the owner-approved packet.
 
@@ -57,7 +57,9 @@ Every cell includes its95% Wilson interval. Original case-family IDs are retaine
 |G2 / v4-billing-mrr|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|
 |G2 / v4-failed-application-load|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|
 |G2 / v4-failed-billing-transform|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|
+|G2 / v4-fixture-quantity|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|
 |G2 / v4-latency-record|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|
+|G2 / v4-other-collected-definition|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|
 |G2 / v4-source-history|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|
 |G2 / v4-stale-model|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|
 |G2 / v4-waiting-application-load|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|
@@ -69,9 +71,9 @@ Native provider settlements supply usage; missing capture usage is never substit
 | Cohort | Usage-observed tickets | Investigation USD | USD / usage-observed ticket | Cache-read ratio | Native observed / missing | Native median / p90 seconds |
 |---|---:|---:|---:|---:|---|---|
 |G1|40|16.526970|0.413174|67.49%|36 / 4|245.0 / 317.0|
-|G2|31|15.309877|0.493867|69.96%|25 / 6|206.0 / 274.0|
+|G2|36|17.516449|0.486568|69.52%|30 / 6|206.5 / 268.0|
 
-G2 has 2 unsealed native exceptions with unavailable usage; these remain graded but are outside the usage-observed denominator.
+G2 has 3 unsealed native exceptions with unavailable usage; these remain graded but are outside the usage-observed denominator.
 
 
 ## Failure walkthroughs and next-round priorities

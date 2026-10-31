@@ -259,7 +259,11 @@ class ReplacementTests(unittest.TestCase):
     def test_only_undelivered_plumbing_can_be_replaced_once(self):
         from round25_quality import plumbing_replacement_label
         self.assertEqual(plumbing_replacement_label(error_type='LockNotAvailable',delivered=False,replacements_used=0),'-replacement01')
+        self.assertEqual(plumbing_replacement_label(error_type='AZURE_CONTROL_READ_FAILED_BEFORE_START',
+                         delivered=False,replacements_used=0),'-replacement01')
         for options in ({'error_type':'LockNotAvailable','delivered':True,'replacements_used':0},
+                        {'error_type':'AZURE_CONTROL_READ_FAILED_BEFORE_START','delivered':True,'replacements_used':0},
+                        {'error_type':'AZURE_CONTROL_READ_FAILED_BEFORE_START','delivered':False,'replacements_used':1},
                         {'error_type':'OperationalError','delivered':False,'replacements_used':0},
                         {'error_type':'WRONG_VERDICT','delivered':False,'replacements_used':0},
                         {'error_type':'CAPTURE_LOSS','delivered':False,'replacements_used':1}):

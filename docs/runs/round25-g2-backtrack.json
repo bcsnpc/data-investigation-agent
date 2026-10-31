@@ -1,11 +1,11 @@
 {
   "pass": "Round25 G2 raw-reviewed",
-  "graded": 36,
-  "score": 21,
+  "graded": 39,
+  "score": 24,
   "correctness": {
-    "verdict_match": 27,
-    "layer_match": 28,
-    "cause_match": 21
+    "verdict_match": 30,
+    "layer_match": 31,
+    "cause_match": 24
   },
   "harmful": 0,
   "zero_groups": {

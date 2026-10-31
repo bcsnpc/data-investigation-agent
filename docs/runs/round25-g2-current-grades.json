@@ -1,141 +1,141 @@
 {
   "official_primary": {
     "all_three": {
-      "correct": 21,
-      "total": 36,
-      "accuracy": 0.5833333333333334,
-      "lower": 0.4220025157487166,
-      "upper": 0.7285943794855394,
+      "correct": 24,
+      "total": 39,
+      "accuracy": 0.6153846153846154,
+      "lower": 0.45899061456925083,
+      "upper": 0.7510862653443866,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 24,
-      "total": 36,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.5033399787115652,
-      "upper": 0.7978538117569468,
+      "correct": 27,
+      "total": 39,
+      "accuracy": 0.6923076923076923,
+      "lower": 0.5357874562585069,
+      "upper": 0.8143406769308886,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 28,
-      "total": 36,
-      "accuracy": 0.7777777777777778,
-      "lower": 0.6191529705388181,
-      "upper": 0.8828366802420353,
+      "correct": 31,
+      "total": 39,
+      "accuracy": 0.7948717948717948,
+      "lower": 0.644660319864177,
+      "upper": 0.8922028176928961,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 21,
-      "total": 36,
-      "accuracy": 0.5833333333333334,
-      "lower": 0.4220025157487166,
-      "upper": 0.7285943794855394,
+      "correct": 24,
+      "total": 39,
+      "accuracy": 0.6153846153846154,
+      "lower": 0.45899061456925083,
+      "upper": 0.7510862653443866,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 36,
+      "total": 39,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.09641862859446367,
+      "upper": 0.08966685370757144,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "strict": {
     "all_three": {
-      "correct": 19,
-      "total": 36,
-      "accuracy": 0.5277777777777778,
-      "lower": 0.37005938022987594,
-      "upper": 0.6801395848482095,
+      "correct": 22,
+      "total": 39,
+      "accuracy": 0.5641025641025641,
+      "lower": 0.40975691648669477,
+      "upper": 0.7069524612431037,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 23,
-      "total": 36,
-      "accuracy": 0.6388888888888888,
-      "lower": 0.4757507548555804,
-      "upper": 0.7752440705348462,
+      "correct": 26,
+      "total": 39,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.5097739439934599,
+      "upper": 0.7936704381040163,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 26,
-      "total": 36,
-      "accuracy": 0.7222222222222222,
-      "lower": 0.5600751000260289,
-      "upper": 0.841516620598654,
+      "correct": 29,
+      "total": 39,
+      "accuracy": 0.7435897435897436,
+      "lower": 0.5891834407831603,
+      "upper": 0.8543121945900741,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 19,
-      "total": 36,
-      "accuracy": 0.5277777777777778,
-      "lower": 0.37005938022987594,
-      "upper": 0.6801395848482095,
+      "correct": 22,
+      "total": 39,
+      "accuracy": 0.5641025641025641,
+      "lower": 0.40975691648669477,
+      "upper": 0.7069524612431037,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 36,
+      "total": 39,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.09641862859446367,
+      "upper": 0.08966685370757144,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "raw_reviewed": {
     "all_three": {
-      "correct": 21,
-      "total": 36,
-      "accuracy": 0.5833333333333334,
-      "lower": 0.4220025157487166,
-      "upper": 0.7285943794855394,
+      "correct": 24,
+      "total": 39,
+      "accuracy": 0.6153846153846154,
+      "lower": 0.45899061456925083,
+      "upper": 0.7510862653443866,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 27,
-      "total": 36,
-      "accuracy": 0.75,
-      "lower": 0.5892954623327166,
-      "upper": 0.8624952233700517,
+      "correct": 30,
+      "total": 39,
+      "accuracy": 0.7692307692307693,
+      "lower": 0.6166374277165825,
+      "upper": 0.8735419587485715,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 28,
-      "total": 36,
-      "accuracy": 0.7777777777777778,
-      "lower": 0.6191529705388181,
-      "upper": 0.8828366802420353,
+      "correct": 31,
+      "total": 39,
+      "accuracy": 0.7948717948717948,
+      "lower": 0.644660319864177,
+      "upper": 0.8922028176928961,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 21,
-      "total": 36,
-      "accuracy": 0.5833333333333334,
-      "lower": 0.4220025157487166,
-      "upper": 0.7285943794855394,
+      "correct": 24,
+      "total": 39,
+      "accuracy": 0.6153846153846154,
+      "lower": 0.45899061456925083,
+      "upper": 0.7510862653443866,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 36,
+      "total": 39,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.09641862859446367,
+      "upper": 0.08966685370757144,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,107 +143,107 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 36,
+  "completed_graded": 39,
   "primary": {
     "all_three": {
-      "correct": 21,
-      "total": 36,
-      "accuracy": 0.5833333333333334,
-      "lower": 0.4220025157487166,
-      "upper": 0.7285943794855394,
+      "correct": 24,
+      "total": 39,
+      "accuracy": 0.6153846153846154,
+      "lower": 0.45899061456925083,
+      "upper": 0.7510862653443866,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 24,
-      "total": 36,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.5033399787115652,
-      "upper": 0.7978538117569468,
+      "correct": 27,
+      "total": 39,
+      "accuracy": 0.6923076923076923,
+      "lower": 0.5357874562585069,
+      "upper": 0.8143406769308886,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 28,
-      "total": 36,
-      "accuracy": 0.7777777777777778,
-      "lower": 0.6191529705388181,
-      "upper": 0.8828366802420353,
+      "correct": 31,
+      "total": 39,
+      "accuracy": 0.7948717948717948,
+      "lower": 0.644660319864177,
+      "upper": 0.8922028176928961,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 21,
-      "total": 36,
-      "accuracy": 0.5833333333333334,
-      "lower": 0.4220025157487166,
-      "upper": 0.7285943794855394,
+      "correct": 24,
+      "total": 39,
+      "accuracy": 0.6153846153846154,
+      "lower": 0.45899061456925083,
+      "upper": 0.7510862653443866,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 36,
+      "total": 39,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.09641862859446367,
+      "upper": 0.08966685370757144,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "secondary": {
     "all_three": {
-      "correct": 21,
-      "total": 36,
-      "accuracy": 0.5833333333333334,
-      "lower": 0.4220025157487166,
-      "upper": 0.7285943794855394,
+      "correct": 24,
+      "total": 39,
+      "accuracy": 0.6153846153846154,
+      "lower": 0.45899061456925083,
+      "upper": 0.7510862653443866,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 26,
-      "total": 36,
-      "accuracy": 0.7222222222222222,
-      "lower": 0.5600751000260289,
-      "upper": 0.841516620598654,
+      "correct": 29,
+      "total": 39,
+      "accuracy": 0.7435897435897436,
+      "lower": 0.5891834407831603,
+      "upper": 0.8543121945900741,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 27,
-      "total": 36,
-      "accuracy": 0.75,
-      "lower": 0.5892954623327166,
-      "upper": 0.8624952233700517,
+      "correct": 30,
+      "total": 39,
+      "accuracy": 0.7692307692307693,
+      "lower": 0.6166374277165825,
+      "upper": 0.8735419587485715,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 21,
-      "total": 36,
-      "accuracy": 0.5833333333333334,
-      "lower": 0.4220025157487166,
-      "upper": 0.7285943794855394,
+      "correct": 24,
+      "total": 39,
+      "accuracy": 0.6153846153846154,
+      "lower": 0.45899061456925083,
+      "upper": 0.7510862653443866,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 36,
+      "total": 39,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.09641862859446367,
+      "upper": 0.08966685370757144,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 30,
-    "total": 36,
-    "accuracy": 0.8333333333333334,
-    "lower": 0.6810920568872054,
-    "upper": 0.9212955240498188,
+    "correct": 33,
+    "total": 39,
+    "accuracy": 0.8461538461538461,
+    "lower": 0.7027053635107331,
+    "upper": 0.927525276230179,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -255,10 +255,10 @@
   ],
   "full_assessment_agreement": {
     "correct": 6,
-    "total": 36,
-    "accuracy": 0.16666666666666666,
-    "lower": 0.07870447595018114,
-    "upper": 0.31890794311279463,
+    "total": 39,
+    "accuracy": 0.15384615384615385,
+    "lower": 0.07247472376982099,
+    "upper": 0.29729463648926696,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -457,6 +457,24 @@
     },
     {
       "ticket": "v4-fixture-quantity-2",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v4-other-collected-definition-1",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v4-other-collected-definition-2",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v4-other-collected-definition-3",
       "fields": [
         "handoff_quality"
       ]
@@ -2216,6 +2234,234 @@
           "speed": "standard"
         },
         "winner": "mixed"
+      }
+    },
+    {
+      "ticket": "v4-other-collected-definition-1",
+      "class": "v4-other-collected-definition",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'as designed' / 'definition explained' (the card shows exactly what the measure defines), correctly identifies the layer as the semantic model measure (SUM(Payments[amount]) with no filters), and correctly names the cause: the measure is defined as SUM(Payments[amount]) over the Payments table with no visual filter, producing 550 from 3 rows (200+100+250). The evidence is correct and matches the sealed expected record. The delivered answer is a full ANSWERED case with no handoff, so handoff_quality is scored 0 (not applicable/empty handoff object).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the expected verdict is \"as designed\" and the delivered verdict is \"definition explained\". These mean the same thing here: the 550 is correct given how the measure is defined, and nothing is broken. Layer: the expected layer is \"semantic model measure\". The delivered answer puts the explanation in the saved definition of the Collected Amount measure in the Subscription Billing model, so the layer matches. Cause: the expected cause is SUM(Payments[amount]) over the Payments table, which reads gold.payments in Direct Lake mode, with no filter on the card, so it adds up every payment row. The delivered answer says the same: SUM(Payments[amount]), no filters, Payments reads gold.payments in Direct Lake mode. It also backs this up with live queries. Recreating the measure gave 550 from 3 rows (payments 201, 202 and 203, amounts 200 + 100 + 250). gold.payments returns the same 3 rows, and the gold, bronze and app tables each total 550. One query failed with an ambiguous-member error, but a working rewrite replaced it, and that failed query was not used as evidence. The answer also mentions that the Billing Warehouse transformations pipeline failed on its latest run (error 2011). It reports this separately and says outright that it does not explain the figure, so it is not a confident wrong cause and is not harmful. Its caveat about comparing separate snapshots is honest. Handoff: the case was answered, not left unresolved. The handoff object is empty, but the queries are recorded with their exact text, so they can be rerun. The stopping point is clear, and the pipeline failure is a sensible next thing to check. I see no disagreement with the expected answer.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static06",
+      "outcome_sha256": "c8f591251057aefda49a0f0a02aab20369b88aa533d10f8ebe0df01d4e2abc69",
+      "status": "ANSWERED",
+      "native_duration_seconds": 207.0,
+      "worker_wall_seconds": 171.068875806,
+      "investigation_cost_microdollars": 463136,
+      "physical_requests": 28,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-other-collected-definition-1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 224259,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence shows:\n- **Card value.** The DAX query that recreates the card returned [Collected Amount]=550 and COUNTROWS('Payments')=3.\n- **Rows behind the total.** EVALUATE 'Payments' returned three rows: payment 201 (invoice 101, 2026-10-02, amount 200), payment 202 (invoice 102, 2026-10-03, amount 100) and payment 203 (invoice 103, 2026-10-04, amount 250). 200+100+250=550.\n- **Gold table.** gold.payments in billing_serving returned the same three rows.\n- **Upstream totals.** SUM(amount) is 550 in gold.payments, billing_bronze dbo.payments and billingapp app.payments.\n- **Failed query.** One SELECTCOLUMNS DAX query failed with \"Unknown or ambiguous DAX member\". It was never sent to the engine and is not cited as evidence. A working query replaced it.\n- **Pipeline and refresh facts.** The run listing confirms everything the answer says about the pipeline:\n  - The latest run, bc3b0674, failed with error 2011 (BuildSilverAndGold, \"There is already an object named 'bronze'\"), and the start and end times match.\n  - The last successful run in the listing is 6382985a, which ended 2026-10-26T17:49:27Z.\n  - Load accounting is unavailable for the run.\n  - The model has no refresh runs on record, and its refresh schedule has enabled=false.\n- **Not checked by these queries.** The answer also says the measure is SUM(Payments[amount]) with no filters, and that Payments reads gold.payments in Direct Lake mode. No saved query checks this, but it matches the sealed expectation exactly, and the results are consistent with it.\n\nScoring against the sealed expectation (all three must match):\n- **Verdict:** the expectation says \"as designed\" and the answer says \"definition explained\". Both mean the figure is correct given how the measure is defined, so this matches.\n- **Layer:** both put the explanation in the semantic model measure, so this matches.\n- **Cause:** both name SUM over the Payments table (Direct Lake on gold.payments), with no filter on the card, adding up every payment row. This matches.\n- **Result:** full credit, not partial.\n- **Harm:** the answer reports the pipeline failure as a separate item and is honest about the snapshot caveat. It does not give the failure as a wrong cause, so it is not harmful.\n\nThe disputed point is handoff_quality. The primary grader gave 0, treating \"not applicable\" as the lowest score. That penalises a fully answered case on a scale where 0 means a bad handoff. The case is ANSWERED and leaves nothing unresolved. The query text, results and pipeline run IDs are recorded, so the work can be repeated and the clear next item is visible. That supports 2.\n\nThe secondary grader slightly overstates when it says the answer \"says outright\" that the pipeline failure doesn't explain the figure. The answer actually says \"Separately \u2026 current values agree, but that does not clear this failure.\" That wording doesn't change any score. Both graders are right on the verdict, layer, cause and harm. Only the secondary is right on handoff.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "c8f591251057aefda49a0f0a02aab20369b88aa533d10f8ebe0df01d4e2abc69",
+        "reason": "What the saved evidence shows:\n- **Card value.** The DAX query that recreates the card returned [Collected Amount]=550 and COUNTROWS('Payments')=3.\n- **Rows behind the total.** EVALUATE 'Payments' returned three rows: payment 201 (invoice 101, 2026-10-02, amount 200), payment 202 (invoice 102, 2026-10-03, amount 100) and payment 203 (invoice 103, 2026-10-04, amount 250). 200+100+250=550.\n- **Gold table.** gold.payments in billing_serving returned the same three rows.\n- **Upstream totals.** SUM(amount) is 550 in gold.payments, billing_bronze dbo.payments and billingapp app.payments.\n- **Failed query.** One SELECTCOLUMNS DAX query failed with \"Unknown or ambiguous DAX member\". It was never sent to the engine and is not cited as evidence. A working query replaced it.\n- **Pipeline and refresh facts.** The run listing confirms everything the answer says about the pipeline:\n  - The latest run, bc3b0674, failed with error 2011 (BuildSilverAndGold, \"There is already an object named 'bronze'\"), and the start and end times match.\n  - The last successful run in the listing is 6382985a, which ended 2026-10-26T17:49:27Z.\n  - Load accounting is unavailable for the run.\n  - The model has no refresh runs on record, and its refresh schedule has enabled=false.\n- **Not checked by these queries.** The answer also says the measure is SUM(Payments[amount]) with no filters, and that Payments reads gold.payments in Direct Lake mode. No saved query checks this, but it matches the sealed expectation exactly, and the results are consistent with it.\n\nScoring against the sealed expectation (all three must match):\n- **Verdict:** the expectation says \"as designed\" and the answer says \"definition explained\". Both mean the figure is correct given how the measure is defined, so this matches.\n- **Layer:** both put the explanation in the semantic model measure, so this matches.\n- **Cause:** both name SUM over the Payments table (Direct Lake on gold.payments), with no filter on the card, adding up every payment row. This matches.\n- **Result:** full credit, not partial.\n- **Harm:** the answer reports the pipeline failure as a separate item and is honest about the snapshot caveat. It does not give the failure as a wrong cause, so it is not harmful.\n\nThe disputed point is handoff_quality. The primary grader gave 0, treating \"not applicable\" as the lowest score. That penalises a fully answered case on a scale where 0 means a bad handoff. The case is ANSWERED and leaves nothing unresolved. The query text, results and pipeline run IDs are recorded, so the work can be repeated and the clear next item is visible. That supports 2.\n\nThe secondary grader slightly overstates when it says the answer \"says outright\" that the pipeline failure doesn't explain the figure. The answer actually says \"Separately \u2026 current values agree, but that does not clear this failure.\" That wording doesn't change any score. Both graders are right on the verdict, layer, cause and harm. Only the secondary is right on handoff.",
+        "source_sha256": "70d7412b788cd34a55b45bb7e84161e6ed0ea0b3f5a4ee9163d9a3e5d5e92fc9",
+        "ticket": "v4-other-collected-definition-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 41061,
+          "output_tokens": 2781,
+          "output_tokens_details": {
+            "thinking_tokens": 1419
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-other-collected-definition-2",
+      "class": "v4-other-collected-definition",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: the delivered answer concludes 'definition explained' which aligns with 'as designed' for a HOW_IS_THIS_CALCULATED ticket. Layer matches: the answer correctly identifies the semantic model measure (SUM(Payments[amount])) as the definition layer. Cause matches: the answer correctly explains that Collected Amount is defined as SUM(Payments[amount]) over all rows in the Payments table (gold.payments) with no filter applied to the card, and lists the three payment rows (200+100+250=550). The answer is complete and correct. Handoff quality is N/A (status is ANSWERED, not unresolved), scored 0 by convention.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Expected: as designed; layer = semantic model measure; cause = Collected Amount is SUM(Payments[amount]) over all rows of the Payments table (gold.payments), with no filter on the card. Delivered verdict 'definition explained' means the same thing: the figure is correct and the answer explains how it is calculated. The delivered answer puts the explanation at the measure (Collected Amount = SUM(Payments[amount])) and traces Payments to gold.payments in billing_serving. A read-only recreation of the card returned 550. The model rows (201/202/203 = 200+100+250) matched gold.payments, which answers the user's request for the payment rows. It does not say 'no filter' or 'Direct Lake' outright. However, the unfiltered recreation and the full row list summing to 550 show the same thing, so the substance matches. The failed pipeline run appears only as an operational note, and the answer says it does not change the calculation. It is not given as a cause, so the answer is not harmful. The answer was resolved. Its queries are recorded verbatim and can be rerun, and its caveats (layer reads taken at different times, bronze/app rows not listed) are sensible.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static06",
+      "outcome_sha256": "38a6b772dcdff2ca29303ba2bd6f060eb375341a77a6634b9169b8293db63229",
+      "status": "ANSWERED",
+      "native_duration_seconds": 202.0,
+      "worker_wall_seconds": 166.91722966999987,
+      "investigation_cost_microdollars": 459475,
+      "physical_requests": 28,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-other-collected-definition-2-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 192608,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows: (1) The unfiltered DAX recreation EVALUATE ROW(\"Collected Amount\",[Collected Amount]) returned 550, the same as the reported exact figure. (2) The first row-listing DAX query failed because the validator rejects ORDER BY (\"One table-valued EVALUATE required\"). It was never sent to the engine. The retry without ORDER BY succeeded and returned all three Payments rows: 201/101/2026-10-02/200, 202/102/2026-10-03/100 and 203/103/2026-10-04/250. That result was not truncated. (3) A SQL read of gold.payments in billing_serving returned the same three rows, and its SUM was 550. (4) The SUM was also 550 in billing_bronze dbo.payments and billingapp app.payments. (5) Triage and get_job_runs show that pipeline run bc3b0674 FAILED with error 2011 ('bronze' already exists / CREATE SCHEMA failed) at 18:49:45\u201318:50:09Z. The last success listed is 2026-10-26, the model run history is empty and complete, and the refresh schedule has enabled=false. Every literal value in the answer matches these records.\n\nThe sealed expectation is: as designed; layer = semantic model measure; cause = SUM(Payments[amount]) over all rows of Payments (gold.payments), with no filter on the card.\n- Verdict: 'definition explained' on a HOW_IS_THIS_CALCULATED ticket means the same as 'as designed'. The figure is correct and the answer explains it.\n- Layer: the explanation sits at the measure, which matches.\n- Cause: the answer states SUM(Payments[amount]) and traces Payments to gold.payments. It does not say 'no filter' outright. However, the unfiltered recreation equals the card value and the full row list sums to 550, so the substance is shown. It also lists the rows the user asked for.\nAll three components match, so this is a full match, not partial.\n\nThe failed run is labelled an operational note, and the answer explicitly says it does not change the calculation. It is not presented as a cause, so the answer is not harmful.\n\nCaveats and limits: the answer says plainly that bronze/app rows were not listed and that the layer reads were taken at different times. That is honest uncertainty, not overclaiming. The bronze/app lineage wording ('retained script', 'view over') is not backed by a query in the capture. It is side detail and does not affect the scored cause.\n\nWhere the graders disagree: they agree on every scored item. The only difference is handoff_quality. Primary gave 0 'by convention', but no such convention appears in the materials. The answer is a resolved, self-contained package: verbatim queries that can be rerun, evidence IDs, and sensible qualifications. That supports 2, as the secondary grader found. Secondary's reasoning also covers the substance more closely (the missing 'no filter' wording, why the failed run is not harmful), so secondary wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "38a6b772dcdff2ca29303ba2bd6f060eb375341a77a6634b9169b8293db63229",
+        "reason": "What the raw capture shows: (1) The unfiltered DAX recreation EVALUATE ROW(\"Collected Amount\",[Collected Amount]) returned 550, the same as the reported exact figure. (2) The first row-listing DAX query failed because the validator rejects ORDER BY (\"One table-valued EVALUATE required\"). It was never sent to the engine. The retry without ORDER BY succeeded and returned all three Payments rows: 201/101/2026-10-02/200, 202/102/2026-10-03/100 and 203/103/2026-10-04/250. That result was not truncated. (3) A SQL read of gold.payments in billing_serving returned the same three rows, and its SUM was 550. (4) The SUM was also 550 in billing_bronze dbo.payments and billingapp app.payments. (5) Triage and get_job_runs show that pipeline run bc3b0674 FAILED with error 2011 ('bronze' already exists / CREATE SCHEMA failed) at 18:49:45\u201318:50:09Z. The last success listed is 2026-10-26, the model run history is empty and complete, and the refresh schedule has enabled=false. Every literal value in the answer matches these records.\n\nThe sealed expectation is: as designed; layer = semantic model measure; cause = SUM(Payments[amount]) over all rows of Payments (gold.payments), with no filter on the card.\n- Verdict: 'definition explained' on a HOW_IS_THIS_CALCULATED ticket means the same as 'as designed'. The figure is correct and the answer explains it.\n- Layer: the explanation sits at the measure, which matches.\n- Cause: the answer states SUM(Payments[amount]) and traces Payments to gold.payments. It does not say 'no filter' outright. However, the unfiltered recreation equals the card value and the full row list sums to 550, so the substance is shown. It also lists the rows the user asked for.\nAll three components match, so this is a full match, not partial.\n\nThe failed run is labelled an operational note, and the answer explicitly says it does not change the calculation. It is not presented as a cause, so the answer is not harmful.\n\nCaveats and limits: the answer says plainly that bronze/app rows were not listed and that the layer reads were taken at different times. That is honest uncertainty, not overclaiming. The bronze/app lineage wording ('retained script', 'view over') is not backed by a query in the capture. It is side detail and does not affect the scored cause.\n\nWhere the graders disagree: they agree on every scored item. The only difference is handoff_quality. Primary gave 0 'by convention', but no such convention appears in the materials. The answer is a resolved, self-contained package: verbatim queries that can be rerun, evidence IDs, and sensible qualifications. That supports 2, as the secondary grader found. Secondary's reasoning also covers the substance more closely (the missing 'no filter' wording, why the failed run is not harmful), so secondary wins.",
+        "source_sha256": "e89e0c08429235147f28448abf189f7c61a7d3d2f28a3f85ad04665ff1117814",
+        "ticket": "v4-other-collected-definition-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 38753,
+          "output_tokens": 1871,
+          "output_tokens_details": {
+            "thinking_tokens": 648
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-other-collected-definition-3",
+      "class": "v4-other-collected-definition",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'definition explained' which maps directly to 'as designed' - the measure works as intended, no bug. Layer: delivered correctly identifies the semantic model measure (SUM(Payments[amount]) on the Subscription Billing model, Direct Lake on gold.payments) as the layer where the answer lives. Cause: delivered correctly explains that Collected Amount is SUM(Payments[amount]) with no filter, covering every payment row, matching the expected cause. The breakdown of individual payments (201/200, 202/100, 203/250 = 550) is provided, satisfying the user's request. The pipeline failure is noted but correctly assessed as not affecting current values. All three scoring dimensions match. Handoff: the stop field is empty/null and there is no structured next-step handoff content, so handoff quality is 0 (not applicable since the case is resolved, but the field scores on rerunnable queries and clear stopping point - since it's answered there's no handoff to grade meaningfully; scoring 0 as there's nothing in the handoff object).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says \"definition explained\" and the expected answer says \"as designed.\" Both say there is no defect and that the figure comes from the defined calculation. The ticket is a how-is-this-calculated question, so I count this as a match. Layer: both put the explanation at the semantic model measure. Cause: both say Collected Amount is SUM(Payments[amount]) over the Direct Lake Payments table on gold.payments, with no filter, so every payment row is counted. The delivered answer recreated the measure and got 550. It listed the three payment rows (201/200, 202/100, 203/250), which add up to 550. This gives the row-level breakdown that the expected answer says must be read fresh. One small difference: the delivered answer says there is no filter in the measure, but it does not check the card's filters in the report definition. Still, the full-table row total matches the reported 550, which supports the claim that every row is counted. I do not treat this as a mismatch. The answer correctly calls source-to-gold totals separate snapshots. It mentions the failed pipeline as a side note and says it caused no value difference, so this is not a confident wrong cause. The answer is resolved, so the handoff rubric does not strictly apply. Even so, the answer includes queries that can be rerun and a clear endpoint, so I give it 2.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static06",
+      "outcome_sha256": "1a695d6d2959f9c5ee8ba553c79c588f039b18adbcb5c87b70d5f0713d9dbc13",
+      "status": "ANSWERED",
+      "native_duration_seconds": 197.0,
+      "worker_wall_seconds": 157.78027072700002,
+      "investigation_cost_microdollars": 505811,
+      "physical_requests": 26,
+      "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-other-collected-definition-3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 191248,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The two graders agree on every scoring field except handoff quality. The answer passes the all-three rule, so it is not partial.\n\nWhat the saved evidence shows:\n- Query 1 recreated [Collected Amount] on the model and got 550, the reported figure.\n- The first row lookup (query 2) was rejected by the validator because of its ORDER BY. DIA fixed it, and query 6 then returned exactly three Payments rows: 201/101/2026-10-02/200, 202/101\u2192102/2026-10-03/100 and 203/103/2026-10-04/250. They add up to 550. The query was not truncated.\n- Queries 3, 4 and 5 each returned a total of 550 from gold.payments in billing_serving, dbo.payments in billing_bronze and app.payments in billingapp. DIA correctly calls these separate snapshots, not proof that the layers are aligned.\n- The triage records show the Billing Warehouse transformations pipeline: its latest run, bc3b0674, failed at 18:49:45\u201318:50:09Z on 2026-10-31 with error 2011 (the 'bronze' object already exists). The last successful run was 6382985a on 2026-10-26. Row counts are unavailable. The model's refresh schedule is disabled and it has no recorded refresh runs.\n- Two earlier submissions were rejected for validation reasons (the unsupported number 3, then a node that was not an allowed 'checked' layer). Only the final submission was saved as the answer. Its claims are all supported or match the sealed expectation.\n\nVerdict: DIA's 'definition explained' matches the expected 'as designed' in substance. Both say there is no defect and the figure comes from the defined calculation.\n\nLayer: both place the answer in the semantic model's Collected Amount measure.\n\nCause: both say the measure is SUM(Payments[amount]) over the Direct Lake Payments table on gold.payments, with no filter, so every row is counted. The saved evidence contains no tool call that reads the measure definition. The definition and lineage text appears to come from retained native definitions, and the sealed native facts confirm it. DIA did not check the report card's filters. However, the full table totals 550, which matches the card, so the 'every row counted' claim holds up.\n\nPipeline failure: DIA reports it only as a side note and says it caused no difference in the values it checked. This is cautious, not a confident wrong cause, so the answer is not harmful.\n\nHandoff (the disputed field): the case is resolved and the handoff object is null. Even so, the answer gives the exact queries and the layers they ran on, evidence IDs, stated limits and a clear stopping point, so someone else could rerun and check it. That earns a 2. The primary grader's 0 contradicts its own reasoning: it says handoff is not applicable, then scores it 0 only because the field is empty. The secondary grader's analysis is the more accurate one.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "1a695d6d2959f9c5ee8ba553c79c588f039b18adbcb5c87b70d5f0713d9dbc13",
+        "reason": "The two graders agree on every scoring field except handoff quality. The answer passes the all-three rule, so it is not partial.\n\nWhat the saved evidence shows:\n- Query 1 recreated [Collected Amount] on the model and got 550, the reported figure.\n- The first row lookup (query 2) was rejected by the validator because of its ORDER BY. DIA fixed it, and query 6 then returned exactly three Payments rows: 201/101/2026-10-02/200, 202/101\u2192102/2026-10-03/100 and 203/103/2026-10-04/250. They add up to 550. The query was not truncated.\n- Queries 3, 4 and 5 each returned a total of 550 from gold.payments in billing_serving, dbo.payments in billing_bronze and app.payments in billingapp. DIA correctly calls these separate snapshots, not proof that the layers are aligned.\n- The triage records show the Billing Warehouse transformations pipeline: its latest run, bc3b0674, failed at 18:49:45\u201318:50:09Z on 2026-10-31 with error 2011 (the 'bronze' object already exists). The last successful run was 6382985a on 2026-10-26. Row counts are unavailable. The model's refresh schedule is disabled and it has no recorded refresh runs.\n- Two earlier submissions were rejected for validation reasons (the unsupported number 3, then a node that was not an allowed 'checked' layer). Only the final submission was saved as the answer. Its claims are all supported or match the sealed expectation.\n\nVerdict: DIA's 'definition explained' matches the expected 'as designed' in substance. Both say there is no defect and the figure comes from the defined calculation.\n\nLayer: both place the answer in the semantic model's Collected Amount measure.\n\nCause: both say the measure is SUM(Payments[amount]) over the Direct Lake Payments table on gold.payments, with no filter, so every row is counted. The saved evidence contains no tool call that reads the measure definition. The definition and lineage text appears to come from retained native definitions, and the sealed native facts confirm it. DIA did not check the report card's filters. However, the full table totals 550, which matches the card, so the 'every row counted' claim holds up.\n\nPipeline failure: DIA reports it only as a side note and says it caused no difference in the values it checked. This is cautious, not a confident wrong cause, so the answer is not harmful.\n\nHandoff (the disputed field): the case is resolved and the handoff object is null. Even so, the answer gives the exact queries and the layers they ran on, evidence IDs, stated limits and a clear stopping point, so someone else could rerun and check it. That earns a 2. The primary grader's 0 contradicts its own reasoning: it says handoff is not applicable, then scores it 0 only because the field is empty. The secondary grader's analysis is the more accurate one.",
+        "source_sha256": "4202266929e9ae4aa0e4d0e454a79b760eb38adb519a9f686cce7a6466c51fff",
+        "ticket": "v4-other-collected-definition-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 38093,
+          "output_tokens": 1935,
+          "output_tokens_details": {
+            "thinking_tokens": 742
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
       }
     }
   ],
@@ -4846,6 +5092,246 @@
           "accuracy": 0.6666666666666666,
           "lower": 0.2076596008020477,
           "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v4-other-collected-definition": {
+      "official_primary": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
           "confidence": 0.95,
           "method": "Wilson"
         },
@@ -7918,6 +8404,234 @@
       "expected_verdict_class": "transformation logic"
     },
     {
+      "ticket": "v4-other-collected-definition-1",
+      "class": "v4-other-collected-definition",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'as designed' / 'definition explained' (the card shows exactly what the measure defines), correctly identifies the layer as the semantic model measure (SUM(Payments[amount]) with no filters), and correctly names the cause: the measure is defined as SUM(Payments[amount]) over the Payments table with no visual filter, producing 550 from 3 rows (200+100+250). The evidence is correct and matches the sealed expected record. The delivered answer is a full ANSWERED case with no handoff, so handoff_quality is scored 0 (not applicable/empty handoff object).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the expected verdict is \"as designed\" and the delivered verdict is \"definition explained\". These mean the same thing here: the 550 is correct given how the measure is defined, and nothing is broken. Layer: the expected layer is \"semantic model measure\". The delivered answer puts the explanation in the saved definition of the Collected Amount measure in the Subscription Billing model, so the layer matches. Cause: the expected cause is SUM(Payments[amount]) over the Payments table, which reads gold.payments in Direct Lake mode, with no filter on the card, so it adds up every payment row. The delivered answer says the same: SUM(Payments[amount]), no filters, Payments reads gold.payments in Direct Lake mode. It also backs this up with live queries. Recreating the measure gave 550 from 3 rows (payments 201, 202 and 203, amounts 200 + 100 + 250). gold.payments returns the same 3 rows, and the gold, bronze and app tables each total 550. One query failed with an ambiguous-member error, but a working rewrite replaced it, and that failed query was not used as evidence. The answer also mentions that the Billing Warehouse transformations pipeline failed on its latest run (error 2011). It reports this separately and says outright that it does not explain the figure, so it is not a confident wrong cause and is not harmful. Its caveat about comparing separate snapshots is honest. Handoff: the case was answered, not left unresolved. The handoff object is empty, but the queries are recorded with their exact text, so they can be rerun. The stopping point is clear, and the pipeline failure is a sensible next thing to check. I see no disagreement with the expected answer.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static06",
+      "outcome_sha256": "c8f591251057aefda49a0f0a02aab20369b88aa533d10f8ebe0df01d4e2abc69",
+      "status": "ANSWERED",
+      "native_duration_seconds": 207.0,
+      "worker_wall_seconds": 171.068875806,
+      "investigation_cost_microdollars": 463136,
+      "physical_requests": 28,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-other-collected-definition-1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 224259,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence shows:\n- **Card value.** The DAX query that recreates the card returned [Collected Amount]=550 and COUNTROWS('Payments')=3.\n- **Rows behind the total.** EVALUATE 'Payments' returned three rows: payment 201 (invoice 101, 2026-10-02, amount 200), payment 202 (invoice 102, 2026-10-03, amount 100) and payment 203 (invoice 103, 2026-10-04, amount 250). 200+100+250=550.\n- **Gold table.** gold.payments in billing_serving returned the same three rows.\n- **Upstream totals.** SUM(amount) is 550 in gold.payments, billing_bronze dbo.payments and billingapp app.payments.\n- **Failed query.** One SELECTCOLUMNS DAX query failed with \"Unknown or ambiguous DAX member\". It was never sent to the engine and is not cited as evidence. A working query replaced it.\n- **Pipeline and refresh facts.** The run listing confirms everything the answer says about the pipeline:\n  - The latest run, bc3b0674, failed with error 2011 (BuildSilverAndGold, \"There is already an object named 'bronze'\"), and the start and end times match.\n  - The last successful run in the listing is 6382985a, which ended 2026-10-26T17:49:27Z.\n  - Load accounting is unavailable for the run.\n  - The model has no refresh runs on record, and its refresh schedule has enabled=false.\n- **Not checked by these queries.** The answer also says the measure is SUM(Payments[amount]) with no filters, and that Payments reads gold.payments in Direct Lake mode. No saved query checks this, but it matches the sealed expectation exactly, and the results are consistent with it.\n\nScoring against the sealed expectation (all three must match):\n- **Verdict:** the expectation says \"as designed\" and the answer says \"definition explained\". Both mean the figure is correct given how the measure is defined, so this matches.\n- **Layer:** both put the explanation in the semantic model measure, so this matches.\n- **Cause:** both name SUM over the Payments table (Direct Lake on gold.payments), with no filter on the card, adding up every payment row. This matches.\n- **Result:** full credit, not partial.\n- **Harm:** the answer reports the pipeline failure as a separate item and is honest about the snapshot caveat. It does not give the failure as a wrong cause, so it is not harmful.\n\nThe disputed point is handoff_quality. The primary grader gave 0, treating \"not applicable\" as the lowest score. That penalises a fully answered case on a scale where 0 means a bad handoff. The case is ANSWERED and leaves nothing unresolved. The query text, results and pipeline run IDs are recorded, so the work can be repeated and the clear next item is visible. That supports 2.\n\nThe secondary grader slightly overstates when it says the answer \"says outright\" that the pipeline failure doesn't explain the figure. The answer actually says \"Separately \u2026 current values agree, but that does not clear this failure.\" That wording doesn't change any score. Both graders are right on the verdict, layer, cause and harm. Only the secondary is right on handoff.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "c8f591251057aefda49a0f0a02aab20369b88aa533d10f8ebe0df01d4e2abc69",
+        "reason": "What the saved evidence shows:\n- **Card value.** The DAX query that recreates the card returned [Collected Amount]=550 and COUNTROWS('Payments')=3.\n- **Rows behind the total.** EVALUATE 'Payments' returned three rows: payment 201 (invoice 101, 2026-10-02, amount 200), payment 202 (invoice 102, 2026-10-03, amount 100) and payment 203 (invoice 103, 2026-10-04, amount 250). 200+100+250=550.\n- **Gold table.** gold.payments in billing_serving returned the same three rows.\n- **Upstream totals.** SUM(amount) is 550 in gold.payments, billing_bronze dbo.payments and billingapp app.payments.\n- **Failed query.** One SELECTCOLUMNS DAX query failed with \"Unknown or ambiguous DAX member\". It was never sent to the engine and is not cited as evidence. A working query replaced it.\n- **Pipeline and refresh facts.** The run listing confirms everything the answer says about the pipeline:\n  - The latest run, bc3b0674, failed with error 2011 (BuildSilverAndGold, \"There is already an object named 'bronze'\"), and the start and end times match.\n  - The last successful run in the listing is 6382985a, which ended 2026-10-26T17:49:27Z.\n  - Load accounting is unavailable for the run.\n  - The model has no refresh runs on record, and its refresh schedule has enabled=false.\n- **Not checked by these queries.** The answer also says the measure is SUM(Payments[amount]) with no filters, and that Payments reads gold.payments in Direct Lake mode. No saved query checks this, but it matches the sealed expectation exactly, and the results are consistent with it.\n\nScoring against the sealed expectation (all three must match):\n- **Verdict:** the expectation says \"as designed\" and the answer says \"definition explained\". Both mean the figure is correct given how the measure is defined, so this matches.\n- **Layer:** both put the explanation in the semantic model measure, so this matches.\n- **Cause:** both name SUM over the Payments table (Direct Lake on gold.payments), with no filter on the card, adding up every payment row. This matches.\n- **Result:** full credit, not partial.\n- **Harm:** the answer reports the pipeline failure as a separate item and is honest about the snapshot caveat. It does not give the failure as a wrong cause, so it is not harmful.\n\nThe disputed point is handoff_quality. The primary grader gave 0, treating \"not applicable\" as the lowest score. That penalises a fully answered case on a scale where 0 means a bad handoff. The case is ANSWERED and leaves nothing unresolved. The query text, results and pipeline run IDs are recorded, so the work can be repeated and the clear next item is visible. That supports 2.\n\nThe secondary grader slightly overstates when it says the answer \"says outright\" that the pipeline failure doesn't explain the figure. The answer actually says \"Separately \u2026 current values agree, but that does not clear this failure.\" That wording doesn't change any score. Both graders are right on the verdict, layer, cause and harm. Only the secondary is right on handoff.",
+        "source_sha256": "70d7412b788cd34a55b45bb7e84161e6ed0ea0b3f5a4ee9163d9a3e5d5e92fc9",
+        "ticket": "v4-other-collected-definition-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 41061,
+          "output_tokens": 2781,
+          "output_tokens_details": {
+            "thinking_tokens": 1419
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-other-collected-definition-2",
+      "class": "v4-other-collected-definition",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: the delivered answer concludes 'definition explained' which aligns with 'as designed' for a HOW_IS_THIS_CALCULATED ticket. Layer matches: the answer correctly identifies the semantic model measure (SUM(Payments[amount])) as the definition layer. Cause matches: the answer correctly explains that Collected Amount is defined as SUM(Payments[amount]) over all rows in the Payments table (gold.payments) with no filter applied to the card, and lists the three payment rows (200+100+250=550). The answer is complete and correct. Handoff quality is N/A (status is ANSWERED, not unresolved), scored 0 by convention.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Expected: as designed; layer = semantic model measure; cause = Collected Amount is SUM(Payments[amount]) over all rows of the Payments table (gold.payments), with no filter on the card. Delivered verdict 'definition explained' means the same thing: the figure is correct and the answer explains how it is calculated. The delivered answer puts the explanation at the measure (Collected Amount = SUM(Payments[amount])) and traces Payments to gold.payments in billing_serving. A read-only recreation of the card returned 550. The model rows (201/202/203 = 200+100+250) matched gold.payments, which answers the user's request for the payment rows. It does not say 'no filter' or 'Direct Lake' outright. However, the unfiltered recreation and the full row list summing to 550 show the same thing, so the substance matches. The failed pipeline run appears only as an operational note, and the answer says it does not change the calculation. It is not given as a cause, so the answer is not harmful. The answer was resolved. Its queries are recorded verbatim and can be rerun, and its caveats (layer reads taken at different times, bronze/app rows not listed) are sensible.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static06",
+      "outcome_sha256": "38a6b772dcdff2ca29303ba2bd6f060eb375341a77a6634b9169b8293db63229",
+      "status": "ANSWERED",
+      "native_duration_seconds": 202.0,
+      "worker_wall_seconds": 166.91722966999987,
+      "investigation_cost_microdollars": 459475,
+      "physical_requests": 28,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-other-collected-definition-2-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 192608,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows: (1) The unfiltered DAX recreation EVALUATE ROW(\"Collected Amount\",[Collected Amount]) returned 550, the same as the reported exact figure. (2) The first row-listing DAX query failed because the validator rejects ORDER BY (\"One table-valued EVALUATE required\"). It was never sent to the engine. The retry without ORDER BY succeeded and returned all three Payments rows: 201/101/2026-10-02/200, 202/102/2026-10-03/100 and 203/103/2026-10-04/250. That result was not truncated. (3) A SQL read of gold.payments in billing_serving returned the same three rows, and its SUM was 550. (4) The SUM was also 550 in billing_bronze dbo.payments and billingapp app.payments. (5) Triage and get_job_runs show that pipeline run bc3b0674 FAILED with error 2011 ('bronze' already exists / CREATE SCHEMA failed) at 18:49:45\u201318:50:09Z. The last success listed is 2026-10-26, the model run history is empty and complete, and the refresh schedule has enabled=false. Every literal value in the answer matches these records.\n\nThe sealed expectation is: as designed; layer = semantic model measure; cause = SUM(Payments[amount]) over all rows of Payments (gold.payments), with no filter on the card.\n- Verdict: 'definition explained' on a HOW_IS_THIS_CALCULATED ticket means the same as 'as designed'. The figure is correct and the answer explains it.\n- Layer: the explanation sits at the measure, which matches.\n- Cause: the answer states SUM(Payments[amount]) and traces Payments to gold.payments. It does not say 'no filter' outright. However, the unfiltered recreation equals the card value and the full row list sums to 550, so the substance is shown. It also lists the rows the user asked for.\nAll three components match, so this is a full match, not partial.\n\nThe failed run is labelled an operational note, and the answer explicitly says it does not change the calculation. It is not presented as a cause, so the answer is not harmful.\n\nCaveats and limits: the answer says plainly that bronze/app rows were not listed and that the layer reads were taken at different times. That is honest uncertainty, not overclaiming. The bronze/app lineage wording ('retained script', 'view over') is not backed by a query in the capture. It is side detail and does not affect the scored cause.\n\nWhere the graders disagree: they agree on every scored item. The only difference is handoff_quality. Primary gave 0 'by convention', but no such convention appears in the materials. The answer is a resolved, self-contained package: verbatim queries that can be rerun, evidence IDs, and sensible qualifications. That supports 2, as the secondary grader found. Secondary's reasoning also covers the substance more closely (the missing 'no filter' wording, why the failed run is not harmful), so secondary wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "38a6b772dcdff2ca29303ba2bd6f060eb375341a77a6634b9169b8293db63229",
+        "reason": "What the raw capture shows: (1) The unfiltered DAX recreation EVALUATE ROW(\"Collected Amount\",[Collected Amount]) returned 550, the same as the reported exact figure. (2) The first row-listing DAX query failed because the validator rejects ORDER BY (\"One table-valued EVALUATE required\"). It was never sent to the engine. The retry without ORDER BY succeeded and returned all three Payments rows: 201/101/2026-10-02/200, 202/102/2026-10-03/100 and 203/103/2026-10-04/250. That result was not truncated. (3) A SQL read of gold.payments in billing_serving returned the same three rows, and its SUM was 550. (4) The SUM was also 550 in billing_bronze dbo.payments and billingapp app.payments. (5) Triage and get_job_runs show that pipeline run bc3b0674 FAILED with error 2011 ('bronze' already exists / CREATE SCHEMA failed) at 18:49:45\u201318:50:09Z. The last success listed is 2026-10-26, the model run history is empty and complete, and the refresh schedule has enabled=false. Every literal value in the answer matches these records.\n\nThe sealed expectation is: as designed; layer = semantic model measure; cause = SUM(Payments[amount]) over all rows of Payments (gold.payments), with no filter on the card.\n- Verdict: 'definition explained' on a HOW_IS_THIS_CALCULATED ticket means the same as 'as designed'. The figure is correct and the answer explains it.\n- Layer: the explanation sits at the measure, which matches.\n- Cause: the answer states SUM(Payments[amount]) and traces Payments to gold.payments. It does not say 'no filter' outright. However, the unfiltered recreation equals the card value and the full row list sums to 550, so the substance is shown. It also lists the rows the user asked for.\nAll three components match, so this is a full match, not partial.\n\nThe failed run is labelled an operational note, and the answer explicitly says it does not change the calculation. It is not presented as a cause, so the answer is not harmful.\n\nCaveats and limits: the answer says plainly that bronze/app rows were not listed and that the layer reads were taken at different times. That is honest uncertainty, not overclaiming. The bronze/app lineage wording ('retained script', 'view over') is not backed by a query in the capture. It is side detail and does not affect the scored cause.\n\nWhere the graders disagree: they agree on every scored item. The only difference is handoff_quality. Primary gave 0 'by convention', but no such convention appears in the materials. The answer is a resolved, self-contained package: verbatim queries that can be rerun, evidence IDs, and sensible qualifications. That supports 2, as the secondary grader found. Secondary's reasoning also covers the substance more closely (the missing 'no filter' wording, why the failed run is not harmful), so secondary wins.",
+        "source_sha256": "e89e0c08429235147f28448abf189f7c61a7d3d2f28a3f85ad04665ff1117814",
+        "ticket": "v4-other-collected-definition-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 38753,
+          "output_tokens": 1871,
+          "output_tokens_details": {
+            "thinking_tokens": 648
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-other-collected-definition-3",
+      "class": "v4-other-collected-definition",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'definition explained' which maps directly to 'as designed' - the measure works as intended, no bug. Layer: delivered correctly identifies the semantic model measure (SUM(Payments[amount]) on the Subscription Billing model, Direct Lake on gold.payments) as the layer where the answer lives. Cause: delivered correctly explains that Collected Amount is SUM(Payments[amount]) with no filter, covering every payment row, matching the expected cause. The breakdown of individual payments (201/200, 202/100, 203/250 = 550) is provided, satisfying the user's request. The pipeline failure is noted but correctly assessed as not affecting current values. All three scoring dimensions match. Handoff: the stop field is empty/null and there is no structured next-step handoff content, so handoff quality is 0 (not applicable since the case is resolved, but the field scores on rerunnable queries and clear stopping point - since it's answered there's no handoff to grade meaningfully; scoring 0 as there's nothing in the handoff object).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says \"definition explained\" and the expected answer says \"as designed.\" Both say there is no defect and that the figure comes from the defined calculation. The ticket is a how-is-this-calculated question, so I count this as a match. Layer: both put the explanation at the semantic model measure. Cause: both say Collected Amount is SUM(Payments[amount]) over the Direct Lake Payments table on gold.payments, with no filter, so every payment row is counted. The delivered answer recreated the measure and got 550. It listed the three payment rows (201/200, 202/100, 203/250), which add up to 550. This gives the row-level breakdown that the expected answer says must be read fresh. One small difference: the delivered answer says there is no filter in the measure, but it does not check the card's filters in the report definition. Still, the full-table row total matches the reported 550, which supports the claim that every row is counted. I do not treat this as a mismatch. The answer correctly calls source-to-gold totals separate snapshots. It mentions the failed pipeline as a side note and says it caused no value difference, so this is not a confident wrong cause. The answer is resolved, so the handoff rubric does not strictly apply. Even so, the answer includes queries that can be rerun and a clear endpoint, so I give it 2.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static06",
+      "outcome_sha256": "1a695d6d2959f9c5ee8ba553c79c588f039b18adbcb5c87b70d5f0713d9dbc13",
+      "status": "ANSWERED",
+      "native_duration_seconds": 197.0,
+      "worker_wall_seconds": 157.78027072700002,
+      "investigation_cost_microdollars": 505811,
+      "physical_requests": 26,
+      "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-other-collected-definition-3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 191248,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The two graders agree on every scoring field except handoff quality. The answer passes the all-three rule, so it is not partial.\n\nWhat the saved evidence shows:\n- Query 1 recreated [Collected Amount] on the model and got 550, the reported figure.\n- The first row lookup (query 2) was rejected by the validator because of its ORDER BY. DIA fixed it, and query 6 then returned exactly three Payments rows: 201/101/2026-10-02/200, 202/101\u2192102/2026-10-03/100 and 203/103/2026-10-04/250. They add up to 550. The query was not truncated.\n- Queries 3, 4 and 5 each returned a total of 550 from gold.payments in billing_serving, dbo.payments in billing_bronze and app.payments in billingapp. DIA correctly calls these separate snapshots, not proof that the layers are aligned.\n- The triage records show the Billing Warehouse transformations pipeline: its latest run, bc3b0674, failed at 18:49:45\u201318:50:09Z on 2026-10-31 with error 2011 (the 'bronze' object already exists). The last successful run was 6382985a on 2026-10-26. Row counts are unavailable. The model's refresh schedule is disabled and it has no recorded refresh runs.\n- Two earlier submissions were rejected for validation reasons (the unsupported number 3, then a node that was not an allowed 'checked' layer). Only the final submission was saved as the answer. Its claims are all supported or match the sealed expectation.\n\nVerdict: DIA's 'definition explained' matches the expected 'as designed' in substance. Both say there is no defect and the figure comes from the defined calculation.\n\nLayer: both place the answer in the semantic model's Collected Amount measure.\n\nCause: both say the measure is SUM(Payments[amount]) over the Direct Lake Payments table on gold.payments, with no filter, so every row is counted. The saved evidence contains no tool call that reads the measure definition. The definition and lineage text appears to come from retained native definitions, and the sealed native facts confirm it. DIA did not check the report card's filters. However, the full table totals 550, which matches the card, so the 'every row counted' claim holds up.\n\nPipeline failure: DIA reports it only as a side note and says it caused no difference in the values it checked. This is cautious, not a confident wrong cause, so the answer is not harmful.\n\nHandoff (the disputed field): the case is resolved and the handoff object is null. Even so, the answer gives the exact queries and the layers they ran on, evidence IDs, stated limits and a clear stopping point, so someone else could rerun and check it. That earns a 2. The primary grader's 0 contradicts its own reasoning: it says handoff is not applicable, then scores it 0 only because the field is empty. The secondary grader's analysis is the more accurate one.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "1a695d6d2959f9c5ee8ba553c79c588f039b18adbcb5c87b70d5f0713d9dbc13",
+        "reason": "The two graders agree on every scoring field except handoff quality. The answer passes the all-three rule, so it is not partial.\n\nWhat the saved evidence shows:\n- Query 1 recreated [Collected Amount] on the model and got 550, the reported figure.\n- The first row lookup (query 2) was rejected by the validator because of its ORDER BY. DIA fixed it, and query 6 then returned exactly three Payments rows: 201/101/2026-10-02/200, 202/101\u2192102/2026-10-03/100 and 203/103/2026-10-04/250. They add up to 550. The query was not truncated.\n- Queries 3, 4 and 5 each returned a total of 550 from gold.payments in billing_serving, dbo.payments in billing_bronze and app.payments in billingapp. DIA correctly calls these separate snapshots, not proof that the layers are aligned.\n- The triage records show the Billing Warehouse transformations pipeline: its latest run, bc3b0674, failed at 18:49:45\u201318:50:09Z on 2026-10-31 with error 2011 (the 'bronze' object already exists). The last successful run was 6382985a on 2026-10-26. Row counts are unavailable. The model's refresh schedule is disabled and it has no recorded refresh runs.\n- Two earlier submissions were rejected for validation reasons (the unsupported number 3, then a node that was not an allowed 'checked' layer). Only the final submission was saved as the answer. Its claims are all supported or match the sealed expectation.\n\nVerdict: DIA's 'definition explained' matches the expected 'as designed' in substance. Both say there is no defect and the figure comes from the defined calculation.\n\nLayer: both place the answer in the semantic model's Collected Amount measure.\n\nCause: both say the measure is SUM(Payments[amount]) over the Direct Lake Payments table on gold.payments, with no filter, so every row is counted. The saved evidence contains no tool call that reads the measure definition. The definition and lineage text appears to come from retained native definitions, and the sealed native facts confirm it. DIA did not check the report card's filters. However, the full table totals 550, which matches the card, so the 'every row counted' claim holds up.\n\nPipeline failure: DIA reports it only as a side note and says it caused no difference in the values it checked. This is cautious, not a confident wrong cause, so the answer is not harmful.\n\nHandoff (the disputed field): the case is resolved and the handoff object is null. Even so, the answer gives the exact queries and the layers they ran on, evidence IDs, stated limits and a clear stopping point, so someone else could rerun and check it. That earns a 2. The primary grader's 0 contradicts its own reasoning: it says handoff is not applicable, then scores it 0 only because the field is empty. The secondary grader's analysis is the more accurate one.",
+        "source_sha256": "4202266929e9ae4aa0e4d0e454a79b760eb38adb519a9f686cce7a6466c51fff",
+        "ticket": "v4-other-collected-definition-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 38093,
+          "output_tokens": 1935,
+          "output_tokens_details": {
+            "thinking_tokens": 742
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
       "ticket": "v4-waiting-application-load-1",
       "class": "v4-waiting-application-load",
       "fixture": "waiting",
@@ -8082,9 +8796,6 @@
     "v4-record-repeated-gold-1",
     "v4-record-repeated-gold-2",
     "v4-record-repeated-gold-3",
-    "v4-other-collected-definition-1",
-    "v4-other-collected-definition-2",
-    "v4-other-collected-definition-3",
     "v4-screenshot-fixture-01",
     "v4-screenshot-fixture-02",
     "v4-screenshot-fixture-03",
@@ -9303,141 +10014,141 @@
     "as designed": {
       "official_primary": {
         "all_three": {
-          "correct": 3,
-          "total": 6,
-          "accuracy": 0.5,
-          "lower": 0.1876163064826506,
-          "upper": 0.8123836935173494,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 3,
-          "total": 6,
-          "accuracy": 0.5,
-          "lower": 0.1876163064826506,
-          "upper": 0.8123836935173494,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 4,
-          "total": 6,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.299993315138392,
-          "upper": 0.9032285888942195,
+          "correct": 7,
+          "total": 9,
+          "accuracy": 0.7777777777777778,
+          "lower": 0.45258896910698887,
+          "upper": 0.9367748928821533,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 3,
-          "total": 6,
-          "accuracy": 0.5,
-          "lower": 0.1876163064826506,
-          "upper": 0.8123836935173494,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 6,
+          "total": 9,
           "accuracy": 0.0,
-          "lower": 2.7755575615628914e-17,
-          "upper": 0.3903342879021653,
+          "lower": 0.0,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "strict": {
         "all_three": {
-          "correct": 3,
-          "total": 6,
-          "accuracy": 0.5,
-          "lower": 0.1876163064826506,
-          "upper": 0.8123836935173494,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 3,
-          "total": 6,
-          "accuracy": 0.5,
-          "lower": 0.1876163064826506,
-          "upper": 0.8123836935173494,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 4,
-          "total": 6,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.299993315138392,
-          "upper": 0.9032285888942195,
+          "correct": 7,
+          "total": 9,
+          "accuracy": 0.7777777777777778,
+          "lower": 0.45258896910698887,
+          "upper": 0.9367748928821533,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 3,
-          "total": 6,
-          "accuracy": 0.5,
-          "lower": 0.1876163064826506,
-          "upper": 0.8123836935173494,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 6,
+          "total": 9,
           "accuracy": 0.0,
-          "lower": 2.7755575615628914e-17,
-          "upper": 0.3903342879021653,
+          "lower": 0.0,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "raw_reviewed": {
         "all_three": {
-          "correct": 4,
-          "total": 6,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.299993315138392,
-          "upper": 0.9032285888942195,
+          "correct": 7,
+          "total": 9,
+          "accuracy": 0.7777777777777778,
+          "lower": 0.45258896910698887,
+          "upper": 0.9367748928821533,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 4,
-          "total": 6,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.299993315138392,
-          "upper": 0.9032285888942195,
+          "correct": 7,
+          "total": 9,
+          "accuracy": 0.7777777777777778,
+          "lower": 0.45258896910698887,
+          "upper": 0.9367748928821533,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 4,
-          "total": 6,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.299993315138392,
-          "upper": 0.9032285888942195,
+          "correct": 7,
+          "total": 9,
+          "accuracy": 0.7777777777777778,
+          "lower": 0.45258896910698887,
+          "upper": 0.9367748928821533,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 4,
-          "total": 6,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.299993315138392,
-          "upper": 0.9032285888942195,
+          "correct": 7,
+          "total": 9,
+          "accuracy": 0.7777777777777778,
+          "lower": 0.45258896910698887,
+          "upper": 0.9367748928821533,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 6,
+          "total": 9,
           "accuracy": 0.0,
-          "lower": 2.7755575615628914e-17,
-          "upper": 0.3903342879021653,
+          "lower": 0.0,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -9447,94 +10158,94 @@
       "headline": "raw_reviewed",
       "primary": {
         "all_three": {
-          "correct": 3,
-          "total": 6,
-          "accuracy": 0.5,
-          "lower": 0.1876163064826506,
-          "upper": 0.8123836935173494,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 3,
-          "total": 6,
-          "accuracy": 0.5,
-          "lower": 0.1876163064826506,
-          "upper": 0.8123836935173494,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 4,
-          "total": 6,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.299993315138392,
-          "upper": 0.9032285888942195,
+          "correct": 7,
+          "total": 9,
+          "accuracy": 0.7777777777777778,
+          "lower": 0.45258896910698887,
+          "upper": 0.9367748928821533,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 3,
-          "total": 6,
-          "accuracy": 0.5,
-          "lower": 0.1876163064826506,
-          "upper": 0.8123836935173494,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 6,
+          "total": 9,
           "accuracy": 0.0,
-          "lower": 2.7755575615628914e-17,
-          "upper": 0.3903342879021653,
+          "lower": 0.0,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "secondary": {
         "all_three": {
-          "correct": 4,
-          "total": 6,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.299993315138392,
-          "upper": 0.9032285888942195,
+          "correct": 7,
+          "total": 9,
+          "accuracy": 0.7777777777777778,
+          "lower": 0.45258896910698887,
+          "upper": 0.9367748928821533,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 4,
-          "total": 6,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.299993315138392,
-          "upper": 0.9032285888942195,
+          "correct": 7,
+          "total": 9,
+          "accuracy": 0.7777777777777778,
+          "lower": 0.45258896910698887,
+          "upper": 0.9367748928821533,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 4,
-          "total": 6,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.299993315138392,
-          "upper": 0.9032285888942195,
+          "correct": 7,
+          "total": 9,
+          "accuracy": 0.7777777777777778,
+          "lower": 0.45258896910698887,
+          "upper": 0.9367748928821533,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 4,
-          "total": 6,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.299993315138392,
-          "upper": 0.9032285888942195,
+          "correct": 7,
+          "total": 9,
+          "accuracy": 0.7777777777777778,
+          "lower": 0.45258896910698887,
+          "upper": 0.9367748928821533,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 6,
+          "total": 9,
           "accuracy": 0.0,
-          "lower": 2.7755575615628914e-17,
-          "upper": 0.3903342879021653,
+          "lower": 0.0,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -10504,33 +11215,33 @@
   "class_grouping_basis": "Original case IDs retained; additional verdict grouping uses exact sealed oracle labels only, no expectation changes.",
   "timing_cost": {
     "all": {
-      "tickets": 36,
-      "native_observed": 27,
+      "tickets": 39,
+      "native_observed": 30,
       "native_missing": 9,
-      "native_median_seconds": 213.0,
-      "native_p90_seconds": 274.0,
-      "worker_median_seconds": 177.75566541400002,
+      "native_median_seconds": 206.5,
+      "native_p90_seconds": 268.0,
+      "worker_median_seconds": 171.92881492599997,
       "worker_p90_seconds": 226.934745721,
-      "investigation_cost_microdollars_observed": 16088027,
-      "cost_observed": 33,
+      "investigation_cost_microdollars_observed": 17516449,
+      "cost_observed": 36,
       "cost_unavailable": 3,
-      "cost_per_observed_ticket_usd": 0.4875159696969697,
-      "physical_requests_observed": 779,
+      "cost_per_observed_ticket_usd": 0.48656802777777775,
+      "physical_requests_observed": 861,
       "physical_requests_unavailable": 3
     },
     "full_investigation": {
-      "tickets": 23,
-      "native_observed": 23,
+      "tickets": 26,
+      "native_observed": 26,
       "native_missing": 0,
-      "native_median_seconds": 230.0,
+      "native_median_seconds": 213.5,
       "native_p90_seconds": 274.0,
-      "worker_median_seconds": 196.50143783700003,
+      "worker_median_seconds": 177.75566541400002,
       "worker_p90_seconds": 238.297234413,
-      "investigation_cost_microdollars_observed": 10392895,
-      "cost_observed": 23,
+      "investigation_cost_microdollars_observed": 11821317,
+      "cost_observed": 26,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.451865,
-      "physical_requests_observed": 648,
+      "cost_per_observed_ticket_usd": 0.4546660384615384,
+      "physical_requests_observed": 730,
       "physical_requests_unavailable": 0
     },
     "answered_without_layer_queries": {
