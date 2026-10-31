@@ -291,6 +291,91 @@
       "outcome_sha256": "72dd5ed9620d907844e53d506bfbfefd8bcda5e07d8a304c129feaf542f72a07"
     },
     {
+      "ticket": "v4-latency-record-1",
+      "class": "v4-latency-record",
+      "timing_group": "hold",
+      "azure_total_seconds": null,
+      "worker_timing": {},
+      "cost_microdollars": 104519,
+      "physical_requests": 0,
+      "model_calls": 3,
+      "model_calls_basis": "count of native provider-usage settlements",
+      "cache_read_input_tokens": 5610,
+      "total_input_tokens": 21718,
+      "cache_read_ratio": 0.25831107836817385,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "4e8e614fffbadba3594e5ee485223d4a0fa06a61220d96adaa033fc839ce5166"
+    },
+    {
+      "ticket": "v4-latency-record-2",
+      "class": "v4-latency-record",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 244.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 110.47504606900003,
+        "model_seconds": 43.843261396000116,
+        "native_query_sum_seconds": 51.584836085999825,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 15.79823227899999
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 180.665086552
+          }
+        ],
+        "route_schema_seconds": 39.76765822699997,
+        "triage_seconds": 29.695300116999988,
+        "wall_seconds": 203.489456507
+      },
+      "cost_microdollars": 381245,
+      "physical_requests": 32,
+      "model_calls": 5,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 145460,
+      "total_input_tokens": 207077,
+      "cache_read_ratio": 0.7024440184086113,
+      "usage_calls": 5,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "d64fa935bc9efc0a2474fe54636c6525258ecf7b1319c2cf77b44ad391c6865d"
+    },
+    {
+      "ticket": "v4-latency-record-3",
+      "class": "v4-latency-record",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 230.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 112.31247547499999,
+        "model_seconds": 54.21102380399998,
+        "native_query_sum_seconds": 37.094437192999976,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 15.087652850999973
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 177.909482213
+          }
+        ],
+        "route_schema_seconds": 37.871622048999996,
+        "triage_seconds": 27.072819951000042,
+        "wall_seconds": 199.198549255
+      },
+      "cost_microdollars": 473013,
+      "physical_requests": 33,
+      "model_calls": 6,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 184395,
+      "total_input_tokens": 264231,
+      "cache_read_ratio": 0.6978552857159077,
+      "usage_calls": 6,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "7b4ac4f75561cfc451d9ad63426cb66880b7cb8531b39ab5daeb3b09ea0cf1ce"
+    },
+    {
       "ticket": "v4-waiting-application-load-1",
       "class": "v4-waiting-application-load",
       "timing_group": "full investigation",
@@ -394,50 +479,50 @@
     }
   ],
   "all": {
-    "tickets": 12,
-    "native_duration_observed": 11,
-    "native_duration_unavailable": 1,
-    "worker_wall_observed": 11,
-    "worker_wall_median_seconds": 153.60043148699992,
-    "worker_wall_p90_seconds": 196.50143783700003,
-    "median_seconds": 186.0,
+    "tickets": 15,
+    "native_duration_observed": 13,
+    "native_duration_unavailable": 2,
+    "worker_wall_observed": 13,
+    "worker_wall_median_seconds": 154.39144681699997,
+    "worker_wall_p90_seconds": 203.489456507,
+    "median_seconds": 188.0,
     "p90_seconds_nearest_rank": 259.0,
-    "investigation_cost_microdollars": 4545386,
-    "cost_per_ticket_usd": 0.3787821666666667,
-    "cache_read_input_tokens": 1401356,
-    "total_input_tokens": 2179114,
-    "cache_read_ratio": 0.643085217202955
+    "investigation_cost_microdollars": 5504163,
+    "cost_per_ticket_usd": 0.3669442,
+    "cache_read_input_tokens": 1736821,
+    "total_input_tokens": 2672140,
+    "cache_read_ratio": 0.6499738037677667
   },
   "timing_groups": {
     "full investigation": {
-      "tickets": 7,
-      "native_duration_observed": 7,
+      "tickets": 9,
+      "native_duration_observed": 9,
       "native_duration_unavailable": 0,
-      "worker_wall_observed": 7,
-      "worker_wall_median_seconds": 171.92881492599997,
+      "worker_wall_observed": 9,
+      "worker_wall_median_seconds": 180.75598343300004,
       "worker_wall_p90_seconds": 238.297234413,
-      "median_seconds": 206.0,
+      "median_seconds": 213.0,
       "p90_seconds_nearest_rank": 268.0,
-      "investigation_cost_microdollars": 3045729,
-      "cost_per_ticket_usd": 0.43510414285714283,
-      "cache_read_input_tokens": 1066012,
-      "total_input_tokens": 1581315,
-      "cache_read_ratio": 0.6741300752854428
+      "investigation_cost_microdollars": 3899987,
+      "cost_per_ticket_usd": 0.43333188888888885,
+      "cache_read_input_tokens": 1395867,
+      "total_input_tokens": 2052623,
+      "cache_read_ratio": 0.6800406114517863
     },
     "hold": {
-      "tickets": 1,
+      "tickets": 2,
       "native_duration_observed": 0,
-      "native_duration_unavailable": 1,
+      "native_duration_unavailable": 2,
       "worker_wall_observed": 0,
       "worker_wall_median_seconds": null,
       "worker_wall_p90_seconds": null,
       "median_seconds": null,
       "p90_seconds_nearest_rank": null,
-      "investigation_cost_microdollars": 75690,
-      "cost_per_ticket_usd": 0.07569,
-      "cache_read_input_tokens": 2805,
-      "total_input_tokens": 13446,
-      "cache_read_ratio": 0.20861222668451584
+      "investigation_cost_microdollars": 180209,
+      "cost_per_ticket_usd": 0.0901045,
+      "cache_read_input_tokens": 8415,
+      "total_input_tokens": 35164,
+      "cache_read_ratio": 0.2393072460470936
     },
     "operational status without layer queries": {
       "tickets": 4,

@@ -1,15 +1,15 @@
 {
   "pass": "Round25 G2 raw-reviewed",
-  "graded": 12,
-  "score": 10,
+  "graded": 15,
+  "score": 12,
   "correctness": {
-    "verdict_match": 10,
-    "layer_match": 11,
-    "cause_match": 10
+    "verdict_match": 12,
+    "layer_match": 13,
+    "cause_match": 12
   },
   "harmful": 0,
   "zero_groups": {
-    "intake": 1,
+    "intake": 2,
     "conclusion": 1
   },
   "zeros": [
@@ -26,6 +26,20 @@
       "retained_query_errors": [],
       "correct_action": "Resolve only the missing user fact using the admitted catalog.",
       "class": "v4-source-history"
+    },
+    {
+      "ticket": "v4-latency-record-1",
+      "first_wrong_step": "intake",
+      "reason": "What the saved record shows: the DIA answer is status NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED. The handoff and stop fields are null. In the saved evidence, triage, queries and evidence are all null, so no check was run. The intake prefill is correct and complete for this ticket. It has issue_type RECORD_MISSING, record movement900701, an EMPTY reported_figure, and a source comparison of exactly 17 units from ordersops. It also has the report, page and visual bindings. Even so, the system asked the user to pick a figure_interpretation: exact value, rounded precision or empty visual. The prefill had already settled that. The sealed answer expects verdict latency, layer ingestion (source to landing/bronze), and a cause: the record changed in the source after the last loads, and the next scheduled load is enabled but has not started. The answer reaches none of these, so verdict, layer and cause all fail, and under the all-three rule there is no partial credit. It is not harmful because it states no cause, right or wrong. Handoff quality is 0. There are no queries to rerun and no stop record. It suggests no next checks, such as comparing the source row with bronze or checking the load schedule. The one question it asks is pointless and misses the real ambiguity: 'Movement Units' is a card showing a total, not a visual with rows. The only disagreement between the graders is the failing step. Primary says 'intake'. But extraction did not actually fail, because every prefilled field matches the ticket. The first real error was stopping to ask the user an unnecessary question when the details were already established, so 'asked the user' is the better label. The secondary grader names this correctly and also points out the card-versus-row-visual ambiguity, so the secondary grader wins.",
+      "saved_trace": {
+        "outcome_sha256": "4e8e614fffbadba3594e5ee485223d4a0fa06a61220d96adaa033fc839ce5166",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-latency-record-1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "v4-latency-record"
     },
     {
       "ticket": "v4-waiting-application-load-3",
@@ -70,6 +84,20 @@
       "retained_query_errors": [],
       "correct_action": "Restrict the cause to what the cited native evidence establishes.",
       "class": "v4-waiting-application-load"
+    },
+    {
+      "ticket": "v4-latency-record-1",
+      "first_wrong_step": "intake",
+      "reason": "What the saved record shows: the DIA answer is status NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED. The handoff and stop fields are null. In the saved evidence, triage, queries and evidence are all null, so no check was run. The intake prefill is correct and complete for this ticket. It has issue_type RECORD_MISSING, record movement900701, an EMPTY reported_figure, and a source comparison of exactly 17 units from ordersops. It also has the report, page and visual bindings. Even so, the system asked the user to pick a figure_interpretation: exact value, rounded precision or empty visual. The prefill had already settled that. The sealed answer expects verdict latency, layer ingestion (source to landing/bronze), and a cause: the record changed in the source after the last loads, and the next scheduled load is enabled but has not started. The answer reaches none of these, so verdict, layer and cause all fail, and under the all-three rule there is no partial credit. It is not harmful because it states no cause, right or wrong. Handoff quality is 0. There are no queries to rerun and no stop record. It suggests no next checks, such as comparing the source row with bronze or checking the load schedule. The one question it asks is pointless and misses the real ambiguity: 'Movement Units' is a card showing a total, not a visual with rows. The only disagreement between the graders is the failing step. Primary says 'intake'. But extraction did not actually fail, because every prefilled field matches the ticket. The first real error was stopping to ask the user an unnecessary question when the details were already established, so 'asked the user' is the better label. The secondary grader names this correctly and also points out the card-versus-row-visual ambiguity, so the secondary grader wins.",
+      "saved_trace": {
+        "outcome_sha256": "4e8e614fffbadba3594e5ee485223d4a0fa06a61220d96adaa033fc839ce5166",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-latency-record-1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "v4-latency-record"
     }
   ],
   "estate_reads": 0,
@@ -77,6 +105,7 @@
   "scores_or_expectations_changed": false,
   "zero_classes": {
     "v4-source-history": 1,
+    "v4-latency-record": 1,
     "v4-waiting-application-load": 1
   }
 }
