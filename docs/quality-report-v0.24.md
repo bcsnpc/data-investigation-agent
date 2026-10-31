@@ -1,3 +1,26 @@
+# Quality of frozen v0.24 ? Round 25
+
+## Current measurement, 2026-10-31
+
+The completed dev set is correct on **35/40** after raw review, with **two harmful history answers**. The new held-out set is still running: **12/18 graded so far**, with **no harmful finding among those 18**. This partial held-out cohort is not a 60-ticket accuracy result and is not comparable to a full independent-client sample. The source-history pause was lifted for measurement; those harms and later history results remain counted.
+
+| Cohort | Official primary | Strict | Raw-reviewed headline | Raw 95% Wilson | Raw harmful |
+|---|---:|---:|---:|---|---:|
+|G1 full dev v2|37/40|34/40|35/40|73.9?94.5%|2|
+|G2 new held-out v4 (in progress)|12/18|12/18|12/18|43.7?83.7%|0|
+
+G3 (unchanged R22 messy60) and G4 (R23 held-out20 regression) remain not yet run. No claim is made against R22's14/40 dev +5/20 held-out or R23's6/20 until those comparisons are measured.
+
+G1 grader agreement37/40; G2 current verdict/layer/cause agreement17/18. All G2 assessment disagreements are independently reviewed in fresh Claude calls. Two accidental operator exposures to held-out staging/status fragments are disclosed in decisions.md and the round summary; full operator blinding is not claimed. Neither engine nor expectations were tuned after them.
+
+Current G2 classes: failed job6/6, source history2/3, waiting2/3, latency2/3, access0/3. The waiting zero is timing-confounded: the job completed during the third ticket and the independently reviewed answer correctly reported completion, while the sealed expectation still required waiting. Its zero is retained without changing the oracle. Access failures were one intake hold and two unresolved tool/time stops, not harmful findings.
+
+Investigation-only native totals: G1 $16.526970 ($0.413174/ticket), cache67.49%, native median245s/p90317s with36/40 timing observations. G2 $9.595119 ($0.533062/ticket), cache71.04%, native median188s/p90259s with13/18 observations. Missing native times are not estimated. Grading, authoring, controls and release checks are separate from these ticket costs.
+
+The frozen engine has not been repaired in this measurement round. Next-round priorities from saved-trace backtracks are historical-evidence reasoning, target/intake resolution, and bounded tool selection/handoff. Original tapes, expectations and official grades are unchanged. Details and every dimension are in [G1](runs/round-twenty-five-g1-current-grades.json) and [G2](runs/round25-g2-current-grades.json).
+
+## Archived earlier checkpoints
+
 # Quality of frozen v0.24 - Round 25
 
 Current G1 final (40): **raw-reviewed35/40 (87.5%, Wilson73.9-94.5%)**, official37/40 (80.1-97.4%), strict34/40 (70.9-92.9%). **Two raw-confirmed harmful history answers remain counted.** Owner31Oct lifted the history measurement pause; all3G2history will be measured. G2-G4 assessment disagreements will be adjudicated by fresh independent Claude calls, not the exposed operator. G2 headline remains pending.
