@@ -168,3 +168,12 @@ def review_resume_response(events):
 def review_budget(state,case_id,rate):
     from investigator.reasoning_budget import TicketBudget
     return TicketBudget(state,case_id=case_id,owner='round25-independent-reviewer',rate=rate,purpose='GRADING',actual_usage_limit=3_000_000)
+
+def use_compact_review(original,compact,completed_hash=None):
+    """Resume the exact completed packet; never invalidate an older review."""
+    original_hash=sha256(original).hexdigest();compact_hash=sha256(compact).hexdigest()
+    if completed_hash is not None:
+        if completed_hash==original_hash:return False
+        if completed_hash==compact_hash:return True
+        raise ValueError('COMPLETED_REVIEW_SOURCE_CHANGED')
+    return len(compact)<len(original)

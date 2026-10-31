@@ -1158,3 +1158,6 @@ Owner-approved 2026-10-31 (§8): October combined AI ceiling $166; physical tota
 
 
 Owner2026-10-31: source-history harm pause lifted for Round25 practice measurement; all3G2history admitted, prior2G1history remain scored and not rerun. Harmfulanswers still reported. G2/G3/G4 grader disagreements require a separate independent Claude raw review, supplied only ticket,savedanswer/evidence,sealedexpectation,bothreasons. Operator does not decide. Exposure disclosure retained. No engine,expectation,identity or further cap change.
+
+
+Owner-approved 2026-10-31 (Â§8): October combined AI ceiling $206; physical total17,000, INVESTIGATION14,405, SCAN2,500, RESTORATION95. New Anthropic cycle credit available. Authoritative cloud policy and October model account updated; counters, reservations, protected grading, November $150/9,000 and all identity scopes unchanged. Native before/after: docs/runs/round25-owner-budget-206-20261031.json. Frozen measurement engine unchanged; deployment policy configuration only.

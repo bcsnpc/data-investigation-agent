@@ -1,16 +1,16 @@
 {
   "pass": "Round25 G2 raw-reviewed",
-  "graded": 24,
-  "score": 13,
+  "graded": 30,
+  "score": 16,
   "correctness": {
-    "verdict_match": 16,
-    "layer_match": 17,
-    "cause_match": 13
+    "verdict_match": 22,
+    "layer_match": 23,
+    "cause_match": 16
   },
   "harmful": 0,
   "zero_groups": {
     "intake": 5,
-    "query": 1,
+    "query": 4,
     "conclusion": 2,
     "triage": 3
   },
@@ -208,6 +208,71 @@
       "class": "v4-application-baseline"
     },
     {
+      "ticket": "v4-before-temporal-retention-1",
+      "first_wrong_step": "query",
+      "reason": "This is a partial match, so it scores zero under the all-three rule. The verdict and layer match, but the named cause does not.\n\n**What the saved evidence shows**\n- **Current value:** The model (DAX), the lakehouse table dbo.stock_movements_round_two_20261003 and the ordersops source table all return 16 for movement 1 on 2026-10-31.\n- **Source row:** Its source_modified_at_utc is 2026-10-03 22:51:16.882024.\n- **Point-in-time query:** The only historical query used `OPTION (FOR TIMESTAMP AS OF ...)`. The validator rejected it with a ParseError (\"Unknown option FOR\"), and it was never sent to the warehouse (native_dispatched=false). No temporal-type check and no read of the retained history ever succeeded.\n- **Run and refresh history:** The load-job run listing starts on 2026-10-28. The model refresh history starts on 2026-10-24. Neither is the table's temporal retention.\n\n**Verdict: match.** The expected outcome is \"as designed; historical value not found\". The answer explains the calculation (`SUM('Movements'[units])`, Direct Lake over the lakehouse table). It also says the 2026-10-20 12:00 UTC value can't be given, and it never states an old number. The user gets the right outcome, so I count the verdict as matching. The secondary grader marked it false, but the gap it describes is really a cause gap.\n\n**Layer: match.** The measure, the Direct Lake binding and the source table are identified correctly.\n\n**Cause: no match.** The expected cause is that the table is system-versioned temporal and its earliest retained version is 2026-10-23T22:43:47.94, so no version exists for 2026-10-20. The answer never found the temporal type or the retention boundary. It blames its own failed query, and it suggests history is unavailable in principle (Overwrite copy, current-only source). The primary grader treated the run and refresh listing start dates as matching this cause. That is wrong: those are job and refresh logs, not table version retention. The primary's cause_match=true is therefore unsupported.\n\n**Not harmful.** The answer says plainly that the historical value is unconfirmed and that its query was rejected. It gives no false value.\n\n**First failing step: query validation.** The malformed temporal syntax was rejected before it ran.\n\n**Handoff quality: 1.** The stopping point is visible and the queries can be rerun. But there is no handoff object and no next step, such as retrying with `FOR SYSTEM_TIME AS OF`, checking the table's temporal type and retention, or asking the data owner. The answer also leaves out the report caveat: the unfiltered card shows the total (7661), and shows 16 only when filtered to movement 1.\n\n**Winner: secondary.** Its cause, partial, failing-step and handoff judgments are correct. It was too strict on verdict_match, but that doesn't change the zero score. The primary's full-match call rests on misreading the job and refresh logs as temporal retention.",
+      "saved_trace": {
+        "outcome_sha256": "af925cb1472bece68ac8f6fc3aa0098eb97a193ddb0157ae5569a8ed419fe9a6",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-before-temporal-retention-1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [
+        {
+          "id": "query:de503deee0d56dcb60e585808276a7314c727e51826c621ee2fbc75cc6035f98:5",
+          "error": "Unknown option FOR. Line 1, Col: 128.\n   AS units_total FROM [dbo].[stock_movements_round_two_20261003] WHERE [movement_id] = 1 OPTION (FOR \u001b[4mTIMESTAMP\u001b[0m AS OF '2026-10-20T12:00:00.000')",
+          "query": "SELECT SUM([units]) AS units_total FROM [dbo].[stock_movements_round_two_20261003] WHERE [movement_id] = 1 OPTION (FOR TIMESTAMP AS OF '2026-10-20T12:00:00.000')"
+        }
+      ],
+      "correct_action": "Use the returned native error and schema to correct this read before concluding.",
+      "class": "v4-before-temporal-retention"
+    },
+    {
+      "ticket": "v4-before-temporal-retention-2",
+      "first_wrong_step": "query",
+      "reason": "What the saved capture shows: The retained definition reads Movement Units = SUM('Movements'[units]). The DAX query recreated 16 from 1 row for movement 1. Lakehouse dbo.stock_movements_round_two_20261003 and app.stock_movements_round_two_20261003 in ordersops both returned units 16 with the same row version. These reads are current-state snapshots only. Both history queries failed before they reached the database. Query 4 was rejected by the validator for using OBJECT_ID. Query 5 was rejected as 'SQL object unavailable or view dependencies not validated'. Neither was dispatched. The run listings start at 2026-10-24 for model refreshes and 2026-10-28 for pipeline runs. Nothing in the capture shows the temporal boundary of 2026-10-23T22:43:47.94.\n\nVerdict: matches in substance. The expected verdict is 'as designed; historical value not found'. DIA explained the calculation and said the 2026-10-20 value is not established. It did not invent a figure or assume the value was 16. The '(no retained version before 2026-10-23)' qualifier is the cause, so it is scored under cause. Primary's verdict=false is too focused on the label.\n\nLayer: matches. DIA traced the right path: the semantic model measure, the Direct Lake table, the copy job and the source table. The fact that the source table has temporal history belongs to the cause. Secondary's layer=false counts the same miss twice.\n\nCause: does not match. The named cause is the retention boundary on 2026-10-23, and DIA never found it. It honestly said history was 'unknown, not shown to be absent'. Its fallback reason, that the run listings start after 2026-10-20, is weaker and different. Both graders agree on this.\n\nOverall: verdict and layer match but the cause does not, so this is a partial result and scores zero under the all-three rule. Primary's partial=false is wrong.\n\nHarm: not harmful. DIA was open about what it did not know and stated nothing false as fact.\n\nHandoff: 1. The status is ANSWERED with handoff null. The open question is stated clearly, but DIA gave no corrected history query, such as one using FOR SYSTEM_TIME or sys.tables without OBJECT_ID, and did not ask the user for an outside record.\n\nFirst failing step: query validation. The validator rejected both history checks, and the agent stopped without a rewrite that could pass. The conclusion followed honestly from what DIA had, so primary's 'wrong conclusion' is incorrect.\n\nWinner: secondary. Secondary is right on verdict, cause, harm, partial, handoff and failing step, and wrong only on layer. Primary is right on layer, cause, harm and handoff, but wrong on verdict, partial and failing step.",
+      "saved_trace": {
+        "outcome_sha256": "3e6a6a758bc3a167d907d60b0145b078715b05589144b1666d7108c8f21c7554",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-before-temporal-retention-2-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [
+        {
+          "id": "query:ee7583351b89b6f8a47911250cdd7cac6316ab2f52a266ba5b7fb58b1490abef:4",
+          "error": "Unsupported SQL syntax or function nodes: ObjectId. Remove these constructs or choose a supported diagnostic; no query executed.",
+          "query": "SELECT t.name, t.temporal_type_desc, t.history_table_id, t.is_tracked_by_cdc, (SELECT COUNT(*) FROM sys.change_tracking_tables c WHERE c.object_id = t.object_id) AS change_tracking FROM sys.tables t WHERE t.object_id = OBJECT_ID('app.stock_movements_round_two_20261003')"
+        },
+        {
+          "id": "query:39ce35a1016ddd1ef6d31678fc035c86182765f91229707676b5e9b2ea052781:5",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT t.name, t.temporal_type_desc, t.history_table_id, t.is_tracked_by_cdc FROM sys.tables t JOIN sys.schemas s ON s.schema_id = t.schema_id WHERE s.name = 'app' AND t.name = 'stock_movements_round_two_20261003'"
+        }
+      ],
+      "correct_action": "Use the returned native error and schema to correct this read before concluding.",
+      "class": "v4-before-temporal-retention"
+    },
+    {
+      "ticket": "v4-before-temporal-retention-3",
+      "first_wrong_step": "query",
+      "reason": "What the saved evidence shows: The retained definition is SUM('Movements'[units]). Today, movement 1 shows 16 in three places: the DAX query on the model, the lakehouse dbo table and the app source table. The source row has source_modified_at_utc 2026-10-03 and row_version 0x6D61. Model refresh history starts 2026-10-24 01:26:52 and the listing is complete. Pipeline run history starts 2026-10-28 09:52:48 and lists two FAILED 2011 runs. The only history query was 'OPTION (FOR TIMESTAMP AS OF ...)' against the lakehouse copy. The validator rejected it with a ParseError and it never ran. No FOR SYSTEM_TIME query was run against the temporal app table. One draft finding cited the failed query, and the system rejected it with FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING. The saved answer is the version that leaves the failed query out. It says plainly that no read of retained source or lakehouse history was completed.\n\nVerdict: matches. 'Definition explained' plus 'value at 2026-10-20: not established' is the expected 'as designed; historical value not found'. It does not claim the value was 16.\n\nLayer: matches. It names the semantic model measure over the Direct Lake table, which traces back to the source table.\n\nCause: does not match. The expected cause is that the source table keeps temporal history, but the earliest version is 2026-10-23T22:43:47.94, so no version exists for 2026-10-20. The answer never finds this. It only infers 'unknown' because refresh and pipeline history do not reach back to 2026-10-20. Those are different mechanisms. They do not show that source history starts after the requested time.\n\nThe primary grader says the answer named a source cutoff of 2026-10-23T22:43:47. That claim is wrong. The time appears only in the sealed expectation, not in the saved answer or evidence. The primary grader effectively gave credit for content that is not there. Under the all-three rule the answer therefore scores zero, with verdict and layer correct but no credit for partial.\n\nHarmful: no. The answer is honest that the value is unknown and makes no false causal claim.\n\nFailing step: the first failure is the temporal query that the validator rejected, so the history read never happened.\n\nHandoff quality 1: the queries can be rerun and the answer clearly separates what is known from what is unknown. The handoff is null, though, and there is no next step such as a FOR SYSTEM_TIME query on the app table or a request for an outside source.\n\nThe secondary grader is correct on every disputed point.",
+      "saved_trace": {
+        "outcome_sha256": "033fc8c982ee2e6eeed519d5e9b9a437d1ee7cd171f06b3b2bec325fdc1c8309",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-before-temporal-retention-3-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [
+        {
+          "id": "query:9a478ab05d2d3b3c1fd11be4db6e390ac2aa0ec04e96b99d2adc7cb1c846b433:5",
+          "error": "Unknown option FOR. Line 1, Col: 131.\n   movement_units FROM [dbo].[stock_movements_round_two_20261003] WHERE [movement_id] = 1 OPTION (FOR \u001b[4mTIMESTAMP\u001b[0m AS OF '2026-10-20T12:00:00.000')",
+          "query": "SELECT SUM([units]) AS movement_units FROM [dbo].[stock_movements_round_two_20261003] WHERE [movement_id] = 1 OPTION (FOR TIMESTAMP AS OF '2026-10-20T12:00:00.000')"
+        }
+      ],
+      "correct_action": "Use the returned native error and schema to correct this read before concluding.",
+      "class": "v4-before-temporal-retention"
+    },
+    {
       "ticket": "v4-waiting-application-load-3",
       "first_wrong_step": "conclusion",
       "reason": "What the saved capture shows: the triage JOB_RUNS fact, read at 2026-10-31T19:00:48Z for pipeline node 3bf74ae1, lists e2748b17-7057-482c-8556-b936713b931b as the newest run. That run started at 18:51:08Z and was RUNNING with no end time. The same listing shows that 78c23b46-0543-44c8-869f-59b7dfb34a23, the run the sealed expectation names, had already SUCCEEDED (16:56:27Z to 2026-10-28T17:06:36.77Z). A fresh native get_job_runs read at 19:01:18Z shows e2748b17 SUCCEEDED, ending at 19:01:17.99Z with no error. That read also has no audit row for the run (DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN).\n\nThe delivered answer reports these facts accurately. It does not assert a lock, saying only that one can be neither confirmed nor ruled out. It claims no data mismatch and lists its limits honestly: the Copy Job has no run in the window, the earlier run da45f511 failed with error 2011, and the model refresh 763470267 ended on 2026-10-28 with its schedule disabled. Every claim is backed by the evidence, so the answer is not harmful.\n\nScoring against the sealed expectation: the expected verdict is 'waiting on job', with 78c23b46 still InProgress. The delivered verdict is 'observed value', about a different run that has finished. So the verdict and the cause do not match. The layer, orchestration at the pipeline job instance, does match. Only one of the three criteria holds, so the result is partial and scores zero under the all-three rule.\n\nThe mismatch is caused by expectation drift, not by a mistake in the agent's work. The sealed record itself says the running state must be confirmed again with a fresh check at scored execution. The agent did exactly that, and the evidence shows the expected run had already finished before this session started. Even so, the scoring rule compares against the sealed expectation and does not allow correcting it.\n\nPrimary grader: its verdict, layer and cause judgments match mine, but its failing step is wrong. It says triage misidentified the run. In fact triage correctly picked e2748b17 as the latest RUNNING instance, and its own data shows 78c23b46 had already SUCCEEDED. Primary also marks partial=false even though the layer matched.\n\nSecondary grader: it gets every judgment right. It sets partial=true and correctly notes that the triage data shows 78c23b46 SUCCEEDED, so the expectation is probably stale. It does not override the expectation, which is correct under the protocol. I would label its failing step 'wrong conclusion' only in the sense of a mismatch at the conclusion stage, not a conclusion the evidence fails to support.\n\nHandoff quality is 1: the evidence IDs, timestamps and limits are clear, but there are no rerunnable queries and no explicit plan to recheck.",
@@ -327,6 +392,7 @@
     "v4-latency-record": 1,
     "v4-stale-model": 3,
     "v4-application-baseline": 2,
+    "v4-before-temporal-retention": 3,
     "v4-waiting-application-load": 1
   }
 }

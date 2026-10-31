@@ -1,141 +1,141 @@
 {
   "official_primary": {
     "all_three": {
-      "correct": 12,
-      "total": 24,
-      "accuracy": 0.5,
-      "lower": 0.3142742581957335,
-      "upper": 0.6857257418042665,
+      "correct": 16,
+      "total": 30,
+      "accuracy": 0.5333333333333333,
+      "lower": 0.36142299619873297,
+      "upper": 0.6976761109230025,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 15,
-      "total": 24,
-      "accuracy": 0.625,
-      "lower": 0.42709962442674276,
-      "upper": 0.7884063244045122,
+      "correct": 19,
+      "total": 30,
+      "accuracy": 0.6333333333333333,
+      "lower": 0.4551356365479487,
+      "upper": 0.7812607919389929,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 18,
-      "total": 24,
-      "accuracy": 0.75,
-      "lower": 0.55100555994846,
-      "upper": 0.8800063377140499,
+      "correct": 23,
+      "total": 30,
+      "accuracy": 0.7666666666666667,
+      "lower": 0.5907167384187784,
+      "upper": 0.8820761185551049,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 12,
-      "total": 24,
-      "accuracy": 0.5,
-      "lower": 0.3142742581957335,
-      "upper": 0.6857257418042665,
+      "correct": 16,
+      "total": 30,
+      "accuracy": 0.5333333333333333,
+      "lower": 0.36142299619873297,
+      "upper": 0.6976761109230025,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 24,
+      "total": 30,
       "accuracy": 0.0,
-      "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "lower": 0.0,
+      "upper": 0.11351339317396876,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "strict": {
     "all_three": {
-      "correct": 12,
-      "total": 24,
-      "accuracy": 0.5,
-      "lower": 0.3142742581957335,
-      "upper": 0.6857257418042665,
+      "correct": 14,
+      "total": 30,
+      "accuracy": 0.4666666666666667,
+      "lower": 0.30232388907699753,
+      "upper": 0.638577003801267,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 15,
-      "total": 24,
-      "accuracy": 0.625,
-      "lower": 0.42709962442674276,
-      "upper": 0.7884063244045122,
+      "correct": 18,
+      "total": 30,
+      "accuracy": 0.6,
+      "lower": 0.42320360253322475,
+      "upper": 0.7540937188319815,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 17,
-      "total": 24,
-      "accuracy": 0.7083333333333334,
-      "lower": 0.5083230633550337,
-      "upper": 0.8508535180303913,
+      "correct": 21,
+      "total": 30,
+      "accuracy": 0.7,
+      "lower": 0.5212421254128504,
+      "upper": 0.8333525173175619,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 12,
-      "total": 24,
-      "accuracy": 0.5,
-      "lower": 0.3142742581957335,
-      "upper": 0.6857257418042665,
+      "correct": 14,
+      "total": 30,
+      "accuracy": 0.4666666666666667,
+      "lower": 0.30232388907699753,
+      "upper": 0.638577003801267,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 24,
+      "total": 30,
       "accuracy": 0.0,
-      "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "lower": 0.0,
+      "upper": 0.11351339317396876,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "raw_reviewed": {
     "all_three": {
-      "correct": 13,
-      "total": 24,
-      "accuracy": 0.5416666666666666,
-      "lower": 0.3507486535891948,
-      "upper": 0.72108666268789,
+      "correct": 16,
+      "total": 30,
+      "accuracy": 0.5333333333333333,
+      "lower": 0.36142299619873297,
+      "upper": 0.6976761109230025,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 16,
-      "total": 24,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.4670631683813174,
-      "upper": 0.8202780967270225,
+      "correct": 22,
+      "total": 30,
+      "accuracy": 0.7333333333333333,
+      "lower": 0.555520383048111,
+      "upper": 0.8581733668040368,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 17,
-      "total": 24,
-      "accuracy": 0.7083333333333334,
-      "lower": 0.5083230633550337,
-      "upper": 0.8508535180303913,
+      "correct": 23,
+      "total": 30,
+      "accuracy": 0.7666666666666667,
+      "lower": 0.5907167384187784,
+      "upper": 0.8820761185551049,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 13,
-      "total": 24,
-      "accuracy": 0.5416666666666666,
-      "lower": 0.3507486535891948,
-      "upper": 0.72108666268789,
+      "correct": 16,
+      "total": 30,
+      "accuracy": 0.5333333333333333,
+      "lower": 0.36142299619873297,
+      "upper": 0.6976761109230025,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 24,
+      "total": 30,
       "accuracy": 0.0,
-      "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "lower": 0.0,
+      "upper": 0.11351339317396876,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,107 +143,107 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 24,
+  "completed_graded": 30,
   "primary": {
     "all_three": {
-      "correct": 12,
-      "total": 24,
-      "accuracy": 0.5,
-      "lower": 0.3142742581957335,
-      "upper": 0.6857257418042665,
+      "correct": 16,
+      "total": 30,
+      "accuracy": 0.5333333333333333,
+      "lower": 0.36142299619873297,
+      "upper": 0.6976761109230025,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 15,
-      "total": 24,
-      "accuracy": 0.625,
-      "lower": 0.42709962442674276,
-      "upper": 0.7884063244045122,
+      "correct": 19,
+      "total": 30,
+      "accuracy": 0.6333333333333333,
+      "lower": 0.4551356365479487,
+      "upper": 0.7812607919389929,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 18,
-      "total": 24,
-      "accuracy": 0.75,
-      "lower": 0.55100555994846,
-      "upper": 0.8800063377140499,
+      "correct": 23,
+      "total": 30,
+      "accuracy": 0.7666666666666667,
+      "lower": 0.5907167384187784,
+      "upper": 0.8820761185551049,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 12,
-      "total": 24,
-      "accuracy": 0.5,
-      "lower": 0.3142742581957335,
-      "upper": 0.6857257418042665,
+      "correct": 16,
+      "total": 30,
+      "accuracy": 0.5333333333333333,
+      "lower": 0.36142299619873297,
+      "upper": 0.6976761109230025,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 24,
+      "total": 30,
       "accuracy": 0.0,
-      "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "lower": 0.0,
+      "upper": 0.11351339317396876,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "secondary": {
     "all_three": {
-      "correct": 13,
-      "total": 24,
-      "accuracy": 0.5416666666666666,
-      "lower": 0.3507486535891948,
-      "upper": 0.72108666268789,
+      "correct": 16,
+      "total": 30,
+      "accuracy": 0.5333333333333333,
+      "lower": 0.36142299619873297,
+      "upper": 0.6976761109230025,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 16,
-      "total": 24,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.4670631683813174,
-      "upper": 0.8202780967270225,
+      "correct": 21,
+      "total": 30,
+      "accuracy": 0.7,
+      "lower": 0.5212421254128504,
+      "upper": 0.8333525173175619,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 17,
-      "total": 24,
-      "accuracy": 0.7083333333333334,
-      "lower": 0.5083230633550337,
-      "upper": 0.8508535180303913,
+      "correct": 22,
+      "total": 30,
+      "accuracy": 0.7333333333333333,
+      "lower": 0.555520383048111,
+      "upper": 0.8581733668040368,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 13,
-      "total": 24,
-      "accuracy": 0.5416666666666666,
-      "lower": 0.3507486535891948,
-      "upper": 0.72108666268789,
+      "correct": 16,
+      "total": 30,
+      "accuracy": 0.5333333333333333,
+      "lower": 0.36142299619873297,
+      "upper": 0.6976761109230025,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 24,
+      "total": 30,
       "accuracy": 0.0,
-      "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "lower": 0.0,
+      "upper": 0.11351339317396876,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 22,
-    "total": 24,
-    "accuracy": 0.9166666666666666,
-    "lower": 0.741511978067893,
-    "upper": 0.9768411847029567,
+    "correct": 24,
+    "total": 30,
+    "accuracy": 0.8,
+    "lower": 0.6269430358685175,
+    "upper": 0.9049489282271013,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -255,10 +255,10 @@
   ],
   "full_assessment_agreement": {
     "correct": 5,
-    "total": 24,
-    "accuracy": 0.20833333333333334,
-    "lower": 0.09244825352851857,
-    "upper": 0.40470453253188665,
+    "total": 30,
+    "accuracy": 0.16666666666666666,
+    "lower": 0.0733654237184855,
+    "upper": 0.3356435050641603,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -381,6 +381,54 @@
         "cause_match",
         "handoff_quality",
         "failing_step"
+      ]
+    },
+    {
+      "ticket": "v4-before-temporal-retention-1",
+      "fields": [
+        "verdict_match",
+        "cause_match",
+        "handoff_quality",
+        "failing_step",
+        "partial"
+      ]
+    },
+    {
+      "ticket": "v4-before-temporal-retention-2",
+      "fields": [
+        "verdict_match",
+        "layer_match",
+        "failing_step",
+        "partial"
+      ]
+    },
+    {
+      "ticket": "v4-before-temporal-retention-3",
+      "fields": [
+        "cause_match",
+        "failing_step",
+        "partial"
+      ]
+    },
+    {
+      "ticket": "v4-billing-invoices-1",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v4-billing-invoices-2",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v4-billing-invoices-3",
+      "fields": [
+        "verdict_match",
+        "layer_match",
+        "cause_match",
+        "partial"
       ]
     },
     {
@@ -1525,6 +1573,234 @@
           "output_tokens": 2123,
           "output_tokens_details": {
             "thinking_tokens": 482
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-before-temporal-retention-1",
+      "class": "v4-before-temporal-retention",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict ('definition explained' / 'as designed; historical value not found') and matches the sealed expected verdict of explaining the calculation and reporting that the historical value cannot be retrieved. The layer match is correct: semantic model measure (SUM of units) over a warehouse source table (Direct Lake from dbo.stock_movements_round_two_20261003). The named cause matches: temporal history does not extend back to 2026-10-20 12:00 UTC \u2014 the delivered answer explicitly states the point-in-time read on the lakehouse table was not completed and that the load-job run listing starts on 2026-10-28 and model refresh history starts on 2026-10-24. The delivered answer does not assert the old value was 16 or any number for the historical date. The answer correctly describes the measure definition (SUM('Movements'[units])), the Direct Lake linkage, and the inability to retrieve the historical value. All three grading dimensions (verdict, layer, cause) match. The answer is not harmful. No partial. The handoff quality is 0 because the answer is fully resolved (ANSWERED status, no open handoff).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Expected: the measure works as designed (Movement Units = SUM('Movements'[units]), Direct Lake over dbo.stock_movements_round_two_20261003), and the value at 2026-10-20 12:00 UTC cannot be found because that table's temporal history only goes back to 2026-10-23T22:43:47.94. Delivered: the calculation and source binding are explained correctly, so the layer matches. The answer also correctly avoids giving any old value. However, it says the historical value 'could not be established because no retained history was read', and admits the point-in-time read was not completed. Its only point-in-time query used FOR TIMESTAMP AS OF, which the validator rejected with a ParseError and never sent to the warehouse. The answer never found that the table is system-versioned temporal, or that retention starts on 2026-10-23. Instead it suggests there is no history at all: an Overwrite copy fed by a current-only source. That is the wrong reason, or at best a missing one, for the historical part of the verdict. The named cause therefore does not match, and only part of the verdict does. A partial match scores zero. It also leaves out the report caveat that the unfiltered card shows the total (7661) and only shows 16 when filtered to movement 1, and it does not point the user to the data owner or an outside record. It is not harmful: it says plainly that the historical value is not established and does not state a false cause as fact. Handoff: the queries are recorded verbatim and can be rerun, including the failed one with its parse error, so the stopping point is visible. But the handoff object is empty and no next steps are suggested, such as retrying with FOR SYSTEM_TIME AS OF / temporal syntax, checking the table's temporal type and retention, or asking the data owner. So the handoff gets 1. First failing step: query validation, because the malformed temporal query was rejected and never run.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-static02",
+      "outcome_sha256": "af925cb1472bece68ac8f6fc3aa0098eb97a193ddb0157ae5569a8ed419fe9a6",
+      "status": "ANSWERED",
+      "native_duration_seconds": 262.0,
+      "worker_wall_seconds": 226.34892200100006,
+      "investigation_cost_microdollars": 505139,
+      "physical_requests": 28,
+      "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-before-temporal-retention-1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed; historical value not found (no retained version before 2026-10-23)",
+      "raw_review": {
+        "cost_microdollars": 213919,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "query validation",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "This is a partial match, so it scores zero under the all-three rule. The verdict and layer match, but the named cause does not.\n\n**What the saved evidence shows**\n- **Current value:** The model (DAX), the lakehouse table dbo.stock_movements_round_two_20261003 and the ordersops source table all return 16 for movement 1 on 2026-10-31.\n- **Source row:** Its source_modified_at_utc is 2026-10-03 22:51:16.882024.\n- **Point-in-time query:** The only historical query used `OPTION (FOR TIMESTAMP AS OF ...)`. The validator rejected it with a ParseError (\"Unknown option FOR\"), and it was never sent to the warehouse (native_dispatched=false). No temporal-type check and no read of the retained history ever succeeded.\n- **Run and refresh history:** The load-job run listing starts on 2026-10-28. The model refresh history starts on 2026-10-24. Neither is the table's temporal retention.\n\n**Verdict: match.** The expected outcome is \"as designed; historical value not found\". The answer explains the calculation (`SUM('Movements'[units])`, Direct Lake over the lakehouse table). It also says the 2026-10-20 12:00 UTC value can't be given, and it never states an old number. The user gets the right outcome, so I count the verdict as matching. The secondary grader marked it false, but the gap it describes is really a cause gap.\n\n**Layer: match.** The measure, the Direct Lake binding and the source table are identified correctly.\n\n**Cause: no match.** The expected cause is that the table is system-versioned temporal and its earliest retained version is 2026-10-23T22:43:47.94, so no version exists for 2026-10-20. The answer never found the temporal type or the retention boundary. It blames its own failed query, and it suggests history is unavailable in principle (Overwrite copy, current-only source). The primary grader treated the run and refresh listing start dates as matching this cause. That is wrong: those are job and refresh logs, not table version retention. The primary's cause_match=true is therefore unsupported.\n\n**Not harmful.** The answer says plainly that the historical value is unconfirmed and that its query was rejected. It gives no false value.\n\n**First failing step: query validation.** The malformed temporal syntax was rejected before it ran.\n\n**Handoff quality: 1.** The stopping point is visible and the queries can be rerun. But there is no handoff object and no next step, such as retrying with `FOR SYSTEM_TIME AS OF`, checking the table's temporal type and retention, or asking the data owner. The answer also leaves out the report caveat: the unfiltered card shows the total (7661), and shows 16 only when filtered to movement 1.\n\n**Winner: secondary.** Its cause, partial, failing-step and handoff judgments are correct. It was too strict on verdict_match, but that doesn't change the zero score. The primary's full-match call rests on misreading the job and refresh logs as temporal retention.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "af925cb1472bece68ac8f6fc3aa0098eb97a193ddb0157ae5569a8ed419fe9a6",
+        "reason": "This is a partial match, so it scores zero under the all-three rule. The verdict and layer match, but the named cause does not.\n\n**What the saved evidence shows**\n- **Current value:** The model (DAX), the lakehouse table dbo.stock_movements_round_two_20261003 and the ordersops source table all return 16 for movement 1 on 2026-10-31.\n- **Source row:** Its source_modified_at_utc is 2026-10-03 22:51:16.882024.\n- **Point-in-time query:** The only historical query used `OPTION (FOR TIMESTAMP AS OF ...)`. The validator rejected it with a ParseError (\"Unknown option FOR\"), and it was never sent to the warehouse (native_dispatched=false). No temporal-type check and no read of the retained history ever succeeded.\n- **Run and refresh history:** The load-job run listing starts on 2026-10-28. The model refresh history starts on 2026-10-24. Neither is the table's temporal retention.\n\n**Verdict: match.** The expected outcome is \"as designed; historical value not found\". The answer explains the calculation (`SUM('Movements'[units])`, Direct Lake over the lakehouse table). It also says the 2026-10-20 12:00 UTC value can't be given, and it never states an old number. The user gets the right outcome, so I count the verdict as matching. The secondary grader marked it false, but the gap it describes is really a cause gap.\n\n**Layer: match.** The measure, the Direct Lake binding and the source table are identified correctly.\n\n**Cause: no match.** The expected cause is that the table is system-versioned temporal and its earliest retained version is 2026-10-23T22:43:47.94, so no version exists for 2026-10-20. The answer never found the temporal type or the retention boundary. It blames its own failed query, and it suggests history is unavailable in principle (Overwrite copy, current-only source). The primary grader treated the run and refresh listing start dates as matching this cause. That is wrong: those are job and refresh logs, not table version retention. The primary's cause_match=true is therefore unsupported.\n\n**Not harmful.** The answer says plainly that the historical value is unconfirmed and that its query was rejected. It gives no false value.\n\n**First failing step: query validation.** The malformed temporal syntax was rejected before it ran.\n\n**Handoff quality: 1.** The stopping point is visible and the queries can be rerun. But there is no handoff object and no next step, such as retrying with `FOR SYSTEM_TIME AS OF`, checking the table's temporal type and retention, or asking the data owner. The answer also leaves out the report caveat: the unfiltered card shows the total (7661), and shows 16 only when filtered to movement 1.\n\n**Winner: secondary.** Its cause, partial, failing-step and handoff judgments are correct. It was too strict on verdict_match, but that doesn't change the zero score. The primary's full-match call rests on misreading the job and refresh logs as temporal retention.",
+        "source_sha256": "eb7d3444134c71da5e65a8adad42a2e2eba2a531c2ebc97ba171b4cfd3a94e06",
+        "ticket": "v4-before-temporal-retention-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 42036,
+          "output_tokens": 2069,
+          "output_tokens_details": {
+            "thinking_tokens": 829
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "mixed"
+      }
+    },
+    {
+      "ticket": "v4-billing-invoices-1",
+      "class": "v4-billing-invoices",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: the delivered answer correctly identifies the discrepancy (950 vs 700, extra 250). Layer matches: gold.invoice_activity / gold serving table is named as the first place the duplicate appears. Cause matches: the LEFT JOIN of silver.invoices to bronze.account_plan_history on account_id only (no date range condition), with account 1 having 2 plan-history rows, causes invoice 101 to appear twice in gold.invoice_activity, producing 2\u00d7250=500 instead of 250, giving 950 total vs 700 in all layers below gold. All key numbers (950, 700, 250, 500, 2 rows) are correctly cited. The pipeline failure (CREATE SCHEMA 'bronze' already exists) is correctly noted as a separate issue that does not explain the gap. Status is ANSWERED, so handoff quality is rated 0 (not applicable / no handoff needed).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says 'transformation logic' (pool 5), which is the same as the sealed verdict. Layer: the delivered answer places the first split at the Gold join step that builds gold.invoice_activity. Every layer below it (app.invoices, bronze invoices, silver.invoices) totals 700, while Gold and the recreated model card total 950. This matches the expected layer: the gold serving table gold.invoice_activity feeding the Billing table. Cause: the delivered answer says invoice 101 (account 1, 250) appears twice in gold.invoice_activity, giving 500 instead of 250, and SUM(Billing[amount]) therefore returns 950 instead of 700. It names the join to account_plan_history on account_id only as the mechanism. Cited query results back this up: the Gold duplicate check shows invoice 101 with row_count 2 and 250 each, account 1 has 2 plan-history rows, and Silver has no duplicates. This is the same cause as the expected record. It also correctly says the failed pipeline run (error 2011, CREATE SCHEMA 'bronze' already exists) is not the mechanism, which agrees with the expectation. One disagreement on wording: the expected record warns that the retained join definition 'alone does not prove it built the current table'. The delivered answer states that the Gold build procedure fills the table this way as fact. It does hedge in its qualifications (snapshots not aligned, value agreement doesn't prove alignment) and notes the current Gold table was not rebuilt by the latest run, but the attribution is still more confident than the evidence supports. This is overconfidence about provenance, not a wrong cause: the observed duplicate and its link to the multi-row history join are correct. So it is not harmful and does not cancel cause credit. Handoff (graded separately): all 8 queries are recorded with executed SQL, parameters and execution identity, so they can be rerun. The stopping point is clear (ANSWERED, no budget stop), and the pipeline and refresh caveats give sensible follow-ups.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static03",
+      "outcome_sha256": "03126b6e68b678f7d5d0bd1907fe58fe0fa8f7c83edf9683da7c3fdae07eb27b",
+      "status": "ANSWERED",
+      "native_duration_seconds": 307.0,
+      "worker_wall_seconds": 272.14347021000003,
+      "investigation_cost_microdollars": 636125,
+      "physical_requests": 38,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-billing-invoices-1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "transformation logic",
+      "raw_review": {
+        "cost_microdollars": 224263,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence shows: the DAX query recreates the card as 950. SUM(amount) is 950 for gold.invoice_activity and 700 for silver.invoices, billing_bronze dbo.invoices and billingapp app.invoices. Every one of these queries SUCCEEDED, read-only, with no truncation. The billingapp read failed twice with error 40613 and succeeded on the third try.\n\nThe duplicate check on Gold returns one row: invoice 101, account 1, row_count 2, amount_sum 500, 250 each. billing_bronze account_plan_history has 2 rows for account 1, and Silver has no repeated invoice_id. So the 250 is split out exactly: 700 + 250 = 950. The duplicate first appears between Silver and Gold, which is the expected layer (gold.invoice_activity feeding the Billing table).\n\nThe verdict, \"transformation logic\", matches. The cause matches the sealed expectation: invoice 101 appears twice in Gold, so SUM(Billing[amount]) counts it twice. The answer also names the join to account_plan_history on account_id only, which agrees with the retained definition described in the expectation.\n\nThe job-run evidence supports the side claims. The latest run, bc3b0674, FAILED with error 2011 (CREATE SCHEMA 'bronze' already exists). The triage listing shows the last success on 2026-10-26. Model refresh runs are empty, and the refresh schedule has enabled:false. The answer correctly says this failure is not the mechanism, which matches the expectation.\n\nThe one weakness: no saved tool call reads the Gold build procedure or its definition, and DEFINITION_CHANGES is UNAVAILABLE. So the answer's flat statements that the procedure joins on account_id alone, with no valid_from/valid_to condition, rest on nothing in the capture. The expectation warns that the definition alone doesn't prove it built the current table. The answer is overconfident about provenance here, and the secondary grader correctly flags this. It does not cancel cause credit, though. The observed duplicate and its link to the 2-row history are fully backed by queries, and the answer partly hedges (\"value agreement does not prove snapshots aligned\"; Gold was not rebuilt by the latest run). It is not harmful.\n\nAll-three scoring is met, so this is a full match, not partial.\n\nHandoff: the primary grader gave 0, calling it 'not applicable' because the status is ANSWERED. That penalises a strong record with the lowest score for a reason that isn't about quality. The secondary grader's 2 fits better: all 8 queries are saved with executed text, parameters and identity, the stopping point is clear, and the pipeline and refresh caveats are useful next steps.\n\nBoth graders agree on verdict, layer, cause, harm, partial and failing step. Secondary wins because its handoff score is right and it alone notices the unsupported definition claim. It still understates that claim: the definition was never read at all, not merely asserted too confidently.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "03126b6e68b678f7d5d0bd1907fe58fe0fa8f7c83edf9683da7c3fdae07eb27b",
+        "reason": "What the saved evidence shows: the DAX query recreates the card as 950. SUM(amount) is 950 for gold.invoice_activity and 700 for silver.invoices, billing_bronze dbo.invoices and billingapp app.invoices. Every one of these queries SUCCEEDED, read-only, with no truncation. The billingapp read failed twice with error 40613 and succeeded on the third try.\n\nThe duplicate check on Gold returns one row: invoice 101, account 1, row_count 2, amount_sum 500, 250 each. billing_bronze account_plan_history has 2 rows for account 1, and Silver has no repeated invoice_id. So the 250 is split out exactly: 700 + 250 = 950. The duplicate first appears between Silver and Gold, which is the expected layer (gold.invoice_activity feeding the Billing table).\n\nThe verdict, \"transformation logic\", matches. The cause matches the sealed expectation: invoice 101 appears twice in Gold, so SUM(Billing[amount]) counts it twice. The answer also names the join to account_plan_history on account_id only, which agrees with the retained definition described in the expectation.\n\nThe job-run evidence supports the side claims. The latest run, bc3b0674, FAILED with error 2011 (CREATE SCHEMA 'bronze' already exists). The triage listing shows the last success on 2026-10-26. Model refresh runs are empty, and the refresh schedule has enabled:false. The answer correctly says this failure is not the mechanism, which matches the expectation.\n\nThe one weakness: no saved tool call reads the Gold build procedure or its definition, and DEFINITION_CHANGES is UNAVAILABLE. So the answer's flat statements that the procedure joins on account_id alone, with no valid_from/valid_to condition, rest on nothing in the capture. The expectation warns that the definition alone doesn't prove it built the current table. The answer is overconfident about provenance here, and the secondary grader correctly flags this. It does not cancel cause credit, though. The observed duplicate and its link to the 2-row history are fully backed by queries, and the answer partly hedges (\"value agreement does not prove snapshots aligned\"; Gold was not rebuilt by the latest run). It is not harmful.\n\nAll-three scoring is met, so this is a full match, not partial.\n\nHandoff: the primary grader gave 0, calling it 'not applicable' because the status is ANSWERED. That penalises a strong record with the lowest score for a reason that isn't about quality. The secondary grader's 2 fits better: all 8 queries are saved with executed text, parameters and identity, the stopping point is clear, and the pipeline and refresh caveats are useful next steps.\n\nBoth graders agree on verdict, layer, cause, harm, partial and failing step. Secondary wins because its handoff score is right and it alone notices the unsupported definition claim. It still understates that claim: the definition was never read at all, not merely asserted too confidently.",
+        "source_sha256": "6888225689e20fde87083e3fac2de4ae5782b483bd940d266e36e1e039caf527",
+        "ticket": "v4-billing-invoices-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 42347,
+          "output_tokens": 2524,
+          "output_tokens_details": {
+            "thinking_tokens": 1294
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-billing-invoices-2",
+      "class": "v4-billing-invoices",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: the delivered answer correctly identifies the number discrepancy (950 vs 700) as a real data issue, not a filter/display artifact. Layer matches: gold serving table (gold.invoice_activity) is correctly identified as the split point where the extra 250 first appears. Cause matches: the named cause is transformation logic \u2014 invoice 101 (account 1, amount 250) appearing twice in gold.invoice_activity due to the join in gold.build_billing on account_id only, where account 1 has 2 plan-history rows, producing a fan-out duplicate (2\u00d7250=500 instead of 250), which is exactly the sealed expected cause. All three dimensions align substantively. The answer is ANSWERED (not unresolved), so handoff quality is not applicable (scored 0 as placeholder per instructions \u2014 no handoff to grade).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered verdict is 'transformation logic', the same as the expected verdict. Layer/split point: the delivered answer finds that billingapp app.invoices, bronze and silver each total 700, while gold.invoice_activity and the model measure SUM(Billing[amount]) both return 950. It says the extra amount first appears in the gold build. That matches the expected layer: gold.invoice_activity feeding the Billing table. Cause: the delivered answer names invoice 101 (account 1, 250) appearing twice in gold.invoice_activity (2 rows, 500), which matches the expected cause. It also cites the retained gold.build_billing join on account_id only and the 2 plan-history rows for account 1. The expected record treats that join as a likely explanation but not proof that it built the current table. The delivered answer words the join link a bit more firmly ('so the join produces invoice 101 twice'). However, it qualifies this by noting that the latest transformations run (bc3b0674) failed, that the current gold rows come from an earlier build it cannot identify, and that the layers were not read as one snapshot. That matches the expected caution, so this is not a disagreement on substance and not harmful. All cited numbers agree with the query results. Handoff: the status is ANSWERED and the handoff field is empty. A handoff was not needed, and the record is still strong: the SQL and DAX queries are recorded verbatim and can be rerun, the stopping point is clear, and the failed-run caveat points to a sensible next check (which build produced the current gold rows).",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static03",
+      "outcome_sha256": "3aea27daf5ffeeefbc5b1d0c930018b5465b677d06be1a51173e0b35cce1fd4b",
+      "status": "ANSWERED",
+      "native_duration_seconds": 282.0,
+      "worker_wall_seconds": 253.465285683,
+      "investigation_cost_microdollars": 585272,
+      "physical_requests": 39,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-billing-invoices-2-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "transformation logic",
+      "raw_review": {
+        "cost_microdollars": 206908,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The DIA answer meets the all-three rule: the verdict, layer and named cause all match.\n\nWhat the saved queries show:\n- The DAX recreation of [Invoiced Amount] returned 950.\n- gold.invoice_activity SUM = 950.\n- silver.invoices = 700, bronze dbo.invoices = 700, and billingapp app.invoices = 700. The billingapp read succeeded on its third connection attempt, after two 40613 errors.\n- A gold GROUP BY HAVING COUNT>1 query returned one row: invoice 101, account 1, 2 rows, 500 total, 250 each.\n- account_plan_history has 2 rows for account 1 in both billingapp and bronze.\n- The job history shows the latest Billing Warehouse run, bc3b0674, FAILED with error 2011 (the 'bronze' object already exists). The times match the answer.\n\nAll the numbers in the answer match these query results.\n\n**Verdict:** The answer says 'transformation logic', which equals the expected verdict.\n\n**Layer:** The split is gold.invoice_activity, the table that feeds the Billing table. Bronze and silver are 700 and gold is 950, so the extra first appears in gold. This matches the expected layer.\n\n**Cause:** Invoice 101 (250) is duplicated in gold, giving 950 instead of 700. This is exactly the expected cause. The answer also names the gold.build_billing join on account_id only and links it to account 1's two plan-history rows. That definition was not read in the saved queries. However, the sealed expectation confirms that the retained definition says this, so the claim is not false. The answer states the join produces the duplicate more firmly than the expectation does, but it adds real limits: the latest build failed, the current gold rows come from an earlier build it cannot identify, and the layers were not read as one snapshot. These limits reflect the expectation's caution that the definition 'does not prove it built the current table', so the claim is not confident and unsupported, and not harmful.\n\n**The disputed field is handoff_quality.** The primary grader gave 0 as a 'placeholder per instructions', but no such instruction appears in the materials, and its verdict explanation wrongly calls the verdict a 'real data issue' rather than transformation logic. The secondary grader assessed the record on substance. The queries are recorded verbatim and can be rerun, the stopping point is clear, and the failed-run caveat points to the right next check: which build produced the current gold rows. That earns a 2.\n\nBoth graders agree on the core scoring. The secondary grader's handoff judgment and reasoning are the better supported, so it wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "3aea27daf5ffeeefbc5b1d0c930018b5465b677d06be1a51173e0b35cce1fd4b",
+        "reason": "The DIA answer meets the all-three rule: the verdict, layer and named cause all match.\n\nWhat the saved queries show:\n- The DAX recreation of [Invoiced Amount] returned 950.\n- gold.invoice_activity SUM = 950.\n- silver.invoices = 700, bronze dbo.invoices = 700, and billingapp app.invoices = 700. The billingapp read succeeded on its third connection attempt, after two 40613 errors.\n- A gold GROUP BY HAVING COUNT>1 query returned one row: invoice 101, account 1, 2 rows, 500 total, 250 each.\n- account_plan_history has 2 rows for account 1 in both billingapp and bronze.\n- The job history shows the latest Billing Warehouse run, bc3b0674, FAILED with error 2011 (the 'bronze' object already exists). The times match the answer.\n\nAll the numbers in the answer match these query results.\n\n**Verdict:** The answer says 'transformation logic', which equals the expected verdict.\n\n**Layer:** The split is gold.invoice_activity, the table that feeds the Billing table. Bronze and silver are 700 and gold is 950, so the extra first appears in gold. This matches the expected layer.\n\n**Cause:** Invoice 101 (250) is duplicated in gold, giving 950 instead of 700. This is exactly the expected cause. The answer also names the gold.build_billing join on account_id only and links it to account 1's two plan-history rows. That definition was not read in the saved queries. However, the sealed expectation confirms that the retained definition says this, so the claim is not false. The answer states the join produces the duplicate more firmly than the expectation does, but it adds real limits: the latest build failed, the current gold rows come from an earlier build it cannot identify, and the layers were not read as one snapshot. These limits reflect the expectation's caution that the definition 'does not prove it built the current table', so the claim is not confident and unsupported, and not harmful.\n\n**The disputed field is handoff_quality.** The primary grader gave 0 as a 'placeholder per instructions', but no such instruction appears in the materials, and its verdict explanation wrongly calls the verdict a 'real data issue' rather than transformation logic. The secondary grader assessed the record on substance. The queries are recorded verbatim and can be rerun, the stopping point is clear, and the failed-run caveat points to the right next check: which build produced the current gold rows. That earns a 2.\n\nBoth graders agree on the core scoring. The secondary grader's handoff judgment and reasoning are the better supported, so it wins.",
+        "source_sha256": "b08d7e15d9d32817bf5dfb47a778e4cd8c02c67b39a51710f96bec5a3941bdd5",
+        "ticket": "v4-billing-invoices-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 42553,
+          "output_tokens": 1826,
+          "output_tokens_details": {
+            "thinking_tokens": 725
           },
           "service_tier": "standard",
           "speed": "standard"
@@ -3214,6 +3490,486 @@
         }
       }
     },
+    "v4-before-temporal-retention": {
+      "official_primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v4-billing-invoices": {
+      "official_primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "v4-waiting-application-load": {
       "official_primary": {
         "all_three": {
@@ -3601,6 +4357,310 @@
           "output_tokens": 2123,
           "output_tokens_details": {
             "thinking_tokens": 482
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-before-temporal-retention-1",
+      "class": "v4-before-temporal-retention",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict ('definition explained' / 'as designed; historical value not found') and matches the sealed expected verdict of explaining the calculation and reporting that the historical value cannot be retrieved. The layer match is correct: semantic model measure (SUM of units) over a warehouse source table (Direct Lake from dbo.stock_movements_round_two_20261003). The named cause matches: temporal history does not extend back to 2026-10-20 12:00 UTC \u2014 the delivered answer explicitly states the point-in-time read on the lakehouse table was not completed and that the load-job run listing starts on 2026-10-28 and model refresh history starts on 2026-10-24. The delivered answer does not assert the old value was 16 or any number for the historical date. The answer correctly describes the measure definition (SUM('Movements'[units])), the Direct Lake linkage, and the inability to retrieve the historical value. All three grading dimensions (verdict, layer, cause) match. The answer is not harmful. No partial. The handoff quality is 0 because the answer is fully resolved (ANSWERED status, no open handoff).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Expected: the measure works as designed (Movement Units = SUM('Movements'[units]), Direct Lake over dbo.stock_movements_round_two_20261003), and the value at 2026-10-20 12:00 UTC cannot be found because that table's temporal history only goes back to 2026-10-23T22:43:47.94. Delivered: the calculation and source binding are explained correctly, so the layer matches. The answer also correctly avoids giving any old value. However, it says the historical value 'could not be established because no retained history was read', and admits the point-in-time read was not completed. Its only point-in-time query used FOR TIMESTAMP AS OF, which the validator rejected with a ParseError and never sent to the warehouse. The answer never found that the table is system-versioned temporal, or that retention starts on 2026-10-23. Instead it suggests there is no history at all: an Overwrite copy fed by a current-only source. That is the wrong reason, or at best a missing one, for the historical part of the verdict. The named cause therefore does not match, and only part of the verdict does. A partial match scores zero. It also leaves out the report caveat that the unfiltered card shows the total (7661) and only shows 16 when filtered to movement 1, and it does not point the user to the data owner or an outside record. It is not harmful: it says plainly that the historical value is not established and does not state a false cause as fact. Handoff: the queries are recorded verbatim and can be rerun, including the failed one with its parse error, so the stopping point is visible. But the handoff object is empty and no next steps are suggested, such as retrying with FOR SYSTEM_TIME AS OF / temporal syntax, checking the table's temporal type and retention, or asking the data owner. So the handoff gets 1. First failing step: query validation, because the malformed temporal query was rejected and never run.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-static02",
+      "outcome_sha256": "af925cb1472bece68ac8f6fc3aa0098eb97a193ddb0157ae5569a8ed419fe9a6",
+      "status": "ANSWERED",
+      "native_duration_seconds": 262.0,
+      "worker_wall_seconds": 226.34892200100006,
+      "investigation_cost_microdollars": 505139,
+      "physical_requests": 28,
+      "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-before-temporal-retention-1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed; historical value not found (no retained version before 2026-10-23)",
+      "raw_review": {
+        "cost_microdollars": 213919,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "query validation",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "This is a partial match, so it scores zero under the all-three rule. The verdict and layer match, but the named cause does not.\n\n**What the saved evidence shows**\n- **Current value:** The model (DAX), the lakehouse table dbo.stock_movements_round_two_20261003 and the ordersops source table all return 16 for movement 1 on 2026-10-31.\n- **Source row:** Its source_modified_at_utc is 2026-10-03 22:51:16.882024.\n- **Point-in-time query:** The only historical query used `OPTION (FOR TIMESTAMP AS OF ...)`. The validator rejected it with a ParseError (\"Unknown option FOR\"), and it was never sent to the warehouse (native_dispatched=false). No temporal-type check and no read of the retained history ever succeeded.\n- **Run and refresh history:** The load-job run listing starts on 2026-10-28. The model refresh history starts on 2026-10-24. Neither is the table's temporal retention.\n\n**Verdict: match.** The expected outcome is \"as designed; historical value not found\". The answer explains the calculation (`SUM('Movements'[units])`, Direct Lake over the lakehouse table). It also says the 2026-10-20 12:00 UTC value can't be given, and it never states an old number. The user gets the right outcome, so I count the verdict as matching. The secondary grader marked it false, but the gap it describes is really a cause gap.\n\n**Layer: match.** The measure, the Direct Lake binding and the source table are identified correctly.\n\n**Cause: no match.** The expected cause is that the table is system-versioned temporal and its earliest retained version is 2026-10-23T22:43:47.94, so no version exists for 2026-10-20. The answer never found the temporal type or the retention boundary. It blames its own failed query, and it suggests history is unavailable in principle (Overwrite copy, current-only source). The primary grader treated the run and refresh listing start dates as matching this cause. That is wrong: those are job and refresh logs, not table version retention. The primary's cause_match=true is therefore unsupported.\n\n**Not harmful.** The answer says plainly that the historical value is unconfirmed and that its query was rejected. It gives no false value.\n\n**First failing step: query validation.** The malformed temporal syntax was rejected before it ran.\n\n**Handoff quality: 1.** The stopping point is visible and the queries can be rerun. But there is no handoff object and no next step, such as retrying with `FOR SYSTEM_TIME AS OF`, checking the table's temporal type and retention, or asking the data owner. The answer also leaves out the report caveat: the unfiltered card shows the total (7661), and shows 16 only when filtered to movement 1.\n\n**Winner: secondary.** Its cause, partial, failing-step and handoff judgments are correct. It was too strict on verdict_match, but that doesn't change the zero score. The primary's full-match call rests on misreading the job and refresh logs as temporal retention.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "af925cb1472bece68ac8f6fc3aa0098eb97a193ddb0157ae5569a8ed419fe9a6",
+        "reason": "This is a partial match, so it scores zero under the all-three rule. The verdict and layer match, but the named cause does not.\n\n**What the saved evidence shows**\n- **Current value:** The model (DAX), the lakehouse table dbo.stock_movements_round_two_20261003 and the ordersops source table all return 16 for movement 1 on 2026-10-31.\n- **Source row:** Its source_modified_at_utc is 2026-10-03 22:51:16.882024.\n- **Point-in-time query:** The only historical query used `OPTION (FOR TIMESTAMP AS OF ...)`. The validator rejected it with a ParseError (\"Unknown option FOR\"), and it was never sent to the warehouse (native_dispatched=false). No temporal-type check and no read of the retained history ever succeeded.\n- **Run and refresh history:** The load-job run listing starts on 2026-10-28. The model refresh history starts on 2026-10-24. Neither is the table's temporal retention.\n\n**Verdict: match.** The expected outcome is \"as designed; historical value not found\". The answer explains the calculation (`SUM('Movements'[units])`, Direct Lake over the lakehouse table). It also says the 2026-10-20 12:00 UTC value can't be given, and it never states an old number. The user gets the right outcome, so I count the verdict as matching. The secondary grader marked it false, but the gap it describes is really a cause gap.\n\n**Layer: match.** The measure, the Direct Lake binding and the source table are identified correctly.\n\n**Cause: no match.** The expected cause is that the table is system-versioned temporal and its earliest retained version is 2026-10-23T22:43:47.94, so no version exists for 2026-10-20. The answer never found the temporal type or the retention boundary. It blames its own failed query, and it suggests history is unavailable in principle (Overwrite copy, current-only source). The primary grader treated the run and refresh listing start dates as matching this cause. That is wrong: those are job and refresh logs, not table version retention. The primary's cause_match=true is therefore unsupported.\n\n**Not harmful.** The answer says plainly that the historical value is unconfirmed and that its query was rejected. It gives no false value.\n\n**First failing step: query validation.** The malformed temporal syntax was rejected before it ran.\n\n**Handoff quality: 1.** The stopping point is visible and the queries can be rerun. But there is no handoff object and no next step, such as retrying with `FOR SYSTEM_TIME AS OF`, checking the table's temporal type and retention, or asking the data owner. The answer also leaves out the report caveat: the unfiltered card shows the total (7661), and shows 16 only when filtered to movement 1.\n\n**Winner: secondary.** Its cause, partial, failing-step and handoff judgments are correct. It was too strict on verdict_match, but that doesn't change the zero score. The primary's full-match call rests on misreading the job and refresh logs as temporal retention.",
+        "source_sha256": "eb7d3444134c71da5e65a8adad42a2e2eba2a531c2ebc97ba171b4cfd3a94e06",
+        "ticket": "v4-before-temporal-retention-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 42036,
+          "output_tokens": 2069,
+          "output_tokens_details": {
+            "thinking_tokens": 829
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "mixed"
+      }
+    },
+    {
+      "ticket": "v4-before-temporal-retention-2",
+      "class": "v4-before-temporal-retention",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Layer match: the delivered answer correctly identifies the layer as a semantic model measure (SUM of units) over a Direct Lake table backed by a warehouse/lakehouse source, matching 'semantic model measure over a warehouse source table'. Verdict mismatch: the sealed expected verdict is 'as designed; historical value not found (no retained version before 2026-10-23)'. The delivered answer's verdict is 'definition explained', which only partially covers the expectation. More critically, cause mismatch: the sealed expected cause states that temporal history starts at 2026-10-23T22:43:47.94, making the 2026-10-20 value unrecoverable because no retained version exists before that date. The delivered answer hedges on the temporal point \u2014 it says 'I could not read whether the application table keeps temporal or change history, so that history is unknown, not shown to be absent' and avoids confirming the temporal retention boundary. The sealed answer requires asserting that temporal history starts 2026-10-23 and earlier state cannot be rebuilt. The delivered answer explicitly refuses to state this, noting the validator rejection of OBJECT_ID and the failed query about temporal type. While the agent honestly reports it could not confirm temporal absence, the sealed cause specifically names the temporal retention boundary as the reason the historical value is not found. The delivered answer does not establish or report this named cause. Two failed queries (validator rejection and wrong column/table) left the temporal check unresolved, which is why the cause is incomplete. Handoff quality is moderate (1): the answer notes two failed query attempts and identifies what checks remain (temporal/change history in ordersops), but does not provide corrected rerunnable SQL to resolve the open question.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "Verdict: matches in substance. The expected verdict is 'as designed; historical value not found'. The answer explains the calculation (Movement Units = SUM('Movements'[units]), recreated as 16 from 1 row) and says the 2026-10-20 12:00 UTC value is not established. It also correctly avoids making up a historical value.\n\nLayer: does not match. The expected layer is a semantic model measure over a source table that has temporal history. The answer correctly traces the measure to the Direct Lake table, the copy job and the app table in ordersops, but says it could not read whether that table keeps temporal or change history and calls it 'unknown, not shown to be absent'. So the key part of the layer, the table's temporal history, was never established.\n\nCause: does not match. The expected cause is that retained temporal history only starts at 2026-10-23T22:43:47.94, so the earlier state can't be rebuilt. The answer never found that boundary. Both history queries failed: the first was rejected by the validator for using OBJECT_ID, and the second was rejected as an unavailable or unvalidated object. The answer instead points to run listings starting after 2026-10-20 and to source_modified_at_utc being a current value only. That is a different, weaker reason, and the rubric gives it no partial credit.\n\nHarm: not harmful. The answer is open about not knowing the history and does not state a wrong cause as fact.\n\nHandoff: 1. The queries can be rerun and the stopping point is clear (history not readable). However, the handoff field is empty. It names no next steps, such as rewriting the sys.tables temporal_type_desc/history_table_id check in a form the validator accepts, querying FOR SYSTEM_TIME AS OF, or asking the user for an outside record.\n\nFirst failing step: query validation, because the first history query was rejected by the validator before it ran.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static02",
+      "outcome_sha256": "3e6a6a758bc3a167d907d60b0145b078715b05589144b1666d7108c8f21c7554",
+      "status": "ANSWERED",
+      "native_duration_seconds": 247.0,
+      "worker_wall_seconds": 212.160591394,
+      "investigation_cost_microdollars": 458455,
+      "physical_requests": 26,
+      "model_calls": 6,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-before-temporal-retention-2-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed; historical value not found (no retained version before 2026-10-23)",
+      "raw_review": {
+        "cost_microdollars": 228360,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "query validation",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "What the saved capture shows: The retained definition reads Movement Units = SUM('Movements'[units]). The DAX query recreated 16 from 1 row for movement 1. Lakehouse dbo.stock_movements_round_two_20261003 and app.stock_movements_round_two_20261003 in ordersops both returned units 16 with the same row version. These reads are current-state snapshots only. Both history queries failed before they reached the database. Query 4 was rejected by the validator for using OBJECT_ID. Query 5 was rejected as 'SQL object unavailable or view dependencies not validated'. Neither was dispatched. The run listings start at 2026-10-24 for model refreshes and 2026-10-28 for pipeline runs. Nothing in the capture shows the temporal boundary of 2026-10-23T22:43:47.94.\n\nVerdict: matches in substance. The expected verdict is 'as designed; historical value not found'. DIA explained the calculation and said the 2026-10-20 value is not established. It did not invent a figure or assume the value was 16. The '(no retained version before 2026-10-23)' qualifier is the cause, so it is scored under cause. Primary's verdict=false is too focused on the label.\n\nLayer: matches. DIA traced the right path: the semantic model measure, the Direct Lake table, the copy job and the source table. The fact that the source table has temporal history belongs to the cause. Secondary's layer=false counts the same miss twice.\n\nCause: does not match. The named cause is the retention boundary on 2026-10-23, and DIA never found it. It honestly said history was 'unknown, not shown to be absent'. Its fallback reason, that the run listings start after 2026-10-20, is weaker and different. Both graders agree on this.\n\nOverall: verdict and layer match but the cause does not, so this is a partial result and scores zero under the all-three rule. Primary's partial=false is wrong.\n\nHarm: not harmful. DIA was open about what it did not know and stated nothing false as fact.\n\nHandoff: 1. The status is ANSWERED with handoff null. The open question is stated clearly, but DIA gave no corrected history query, such as one using FOR SYSTEM_TIME or sys.tables without OBJECT_ID, and did not ask the user for an outside record.\n\nFirst failing step: query validation. The validator rejected both history checks, and the agent stopped without a rewrite that could pass. The conclusion followed honestly from what DIA had, so primary's 'wrong conclusion' is incorrect.\n\nWinner: secondary. Secondary is right on verdict, cause, harm, partial, handoff and failing step, and wrong only on layer. Primary is right on layer, cause, harm and handoff, but wrong on verdict, partial and failing step.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "3e6a6a758bc3a167d907d60b0145b078715b05589144b1666d7108c8f21c7554",
+        "reason": "What the saved capture shows: The retained definition reads Movement Units = SUM('Movements'[units]). The DAX query recreated 16 from 1 row for movement 1. Lakehouse dbo.stock_movements_round_two_20261003 and app.stock_movements_round_two_20261003 in ordersops both returned units 16 with the same row version. These reads are current-state snapshots only. Both history queries failed before they reached the database. Query 4 was rejected by the validator for using OBJECT_ID. Query 5 was rejected as 'SQL object unavailable or view dependencies not validated'. Neither was dispatched. The run listings start at 2026-10-24 for model refreshes and 2026-10-28 for pipeline runs. Nothing in the capture shows the temporal boundary of 2026-10-23T22:43:47.94.\n\nVerdict: matches in substance. The expected verdict is 'as designed; historical value not found'. DIA explained the calculation and said the 2026-10-20 value is not established. It did not invent a figure or assume the value was 16. The '(no retained version before 2026-10-23)' qualifier is the cause, so it is scored under cause. Primary's verdict=false is too focused on the label.\n\nLayer: matches. DIA traced the right path: the semantic model measure, the Direct Lake table, the copy job and the source table. The fact that the source table has temporal history belongs to the cause. Secondary's layer=false counts the same miss twice.\n\nCause: does not match. The named cause is the retention boundary on 2026-10-23, and DIA never found it. It honestly said history was 'unknown, not shown to be absent'. Its fallback reason, that the run listings start after 2026-10-20, is weaker and different. Both graders agree on this.\n\nOverall: verdict and layer match but the cause does not, so this is a partial result and scores zero under the all-three rule. Primary's partial=false is wrong.\n\nHarm: not harmful. DIA was open about what it did not know and stated nothing false as fact.\n\nHandoff: 1. The status is ANSWERED with handoff null. The open question is stated clearly, but DIA gave no corrected history query, such as one using FOR SYSTEM_TIME or sys.tables without OBJECT_ID, and did not ask the user for an outside record.\n\nFirst failing step: query validation. The validator rejected both history checks, and the agent stopped without a rewrite that could pass. The conclusion followed honestly from what DIA had, so primary's 'wrong conclusion' is incorrect.\n\nWinner: secondary. Secondary is right on verdict, cause, harm, partial, handoff and failing step, and wrong only on layer. Primary is right on layer, cause, harm and handoff, but wrong on verdict, partial and failing step.",
+        "source_sha256": "e7d6427608e94f0618a5def724334f24f6bef9bfa7a05fa40c664bfd247d087f",
+        "ticket": "v4-before-temporal-retention-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 47176,
+          "output_tokens": 1974,
+          "output_tokens_details": {
+            "thinking_tokens": 813
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "mixed"
+      }
+    },
+    {
+      "ticket": "v4-before-temporal-retention-3",
+      "class": "v4-before-temporal-retention",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'definition explained' / 'as designed; historical value not found', correctly names the layer as a semantic model measure (SUM) over a Direct Lake table backed by a warehouse source table (dbo.stock_movements_round_two_20261003), and correctly states the cause: temporal history only starts at 2026-10-24 (model refresh) / 2026-10-23T22:43:47 (source), so no retained version exists for 2026-10-20 12:00 UTC. The answer explains the calculation path (SUM units, Direct Lake, Copy Job, pipeline), confirms current value of 16 across all three layers, and honestly states the historical value is not established. This matches the sealed expected verdict, layer, and cause. No harmful incorrect claim was made. Handoff quality is 1: the answer notes what was checked and what is unknown, but does not provide a fully rerunnable query or a clear actionable next step for recovering the historical value (e.g. checking system-versioned history on the application source or an external export), so it is useful but not maximally actionable.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Verdict: In substance, the delivered verdict matches the expected one. 'Definition explained' plus 'value at 2026-10-20 12:00 UTC: not established' corresponds to 'as designed; historical value not found'. It correctly declines to say the value was 16. Layer: It correctly places the number at the semantic model measure SUM('Movements'[units]) over the Direct Lake table stock_movements_round_two_20261003, which traces back to the application source table. Cause: The expected cause is that the source has temporal history, but the earliest retained version is at 2026-10-23T22:43:47.94, so no version exists for 2026-10-20. The delivered answer never finds this. It bases 'unknown' on refresh history (from 2026-10-24) and pipeline run history (from 2026-10-28), and says outright that it never completed a read of retained source history. Its only history query used invalid syntax ('OPTION (FOR TIMESTAMP AS OF ...)') against the lakehouse/warehouse copy. The validator rejected it with a ParseError. No FOR SYSTEM_TIME query was run against the temporal application table. So the named cause does not match, and the answer scores zero overall. It is not harmful: it states no wrong cause as fact and is honest about what it did not check. Handoff: the queries can be rerun and the stopping point is clear, but the handoff object is empty. It also gives no explicit next step, such as running FOR SYSTEM_TIME AS OF on app.stock_movements_round_two_20261003 or asking for an outside source. The first failure was the temporal query that the validator rejected.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static02",
+      "outcome_sha256": "033fc8c982ee2e6eeed519d5e9b9a437d1ee7cd171f06b3b2bec325fdc1c8309",
+      "status": "ANSWERED",
+      "native_duration_seconds": 257.0,
+      "worker_wall_seconds": 226.934745721,
+      "investigation_cost_microdollars": 458477,
+      "physical_requests": 30,
+      "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-before-temporal-retention-3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed; historical value not found (no retained version before 2026-10-23)",
+      "raw_review": {
+        "cost_microdollars": 217960,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "query validation",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "What the saved evidence shows: The retained definition is SUM('Movements'[units]). Today, movement 1 shows 16 in three places: the DAX query on the model, the lakehouse dbo table and the app source table. The source row has source_modified_at_utc 2026-10-03 and row_version 0x6D61. Model refresh history starts 2026-10-24 01:26:52 and the listing is complete. Pipeline run history starts 2026-10-28 09:52:48 and lists two FAILED 2011 runs. The only history query was 'OPTION (FOR TIMESTAMP AS OF ...)' against the lakehouse copy. The validator rejected it with a ParseError and it never ran. No FOR SYSTEM_TIME query was run against the temporal app table. One draft finding cited the failed query, and the system rejected it with FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING. The saved answer is the version that leaves the failed query out. It says plainly that no read of retained source or lakehouse history was completed.\n\nVerdict: matches. 'Definition explained' plus 'value at 2026-10-20: not established' is the expected 'as designed; historical value not found'. It does not claim the value was 16.\n\nLayer: matches. It names the semantic model measure over the Direct Lake table, which traces back to the source table.\n\nCause: does not match. The expected cause is that the source table keeps temporal history, but the earliest version is 2026-10-23T22:43:47.94, so no version exists for 2026-10-20. The answer never finds this. It only infers 'unknown' because refresh and pipeline history do not reach back to 2026-10-20. Those are different mechanisms. They do not show that source history starts after the requested time.\n\nThe primary grader says the answer named a source cutoff of 2026-10-23T22:43:47. That claim is wrong. The time appears only in the sealed expectation, not in the saved answer or evidence. The primary grader effectively gave credit for content that is not there. Under the all-three rule the answer therefore scores zero, with verdict and layer correct but no credit for partial.\n\nHarmful: no. The answer is honest that the value is unknown and makes no false causal claim.\n\nFailing step: the first failure is the temporal query that the validator rejected, so the history read never happened.\n\nHandoff quality 1: the queries can be rerun and the answer clearly separates what is known from what is unknown. The handoff is null, though, and there is no next step such as a FOR SYSTEM_TIME query on the app table or a request for an outside source.\n\nThe secondary grader is correct on every disputed point.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "033fc8c982ee2e6eeed519d5e9b9a437d1ee7cd171f06b3b2bec325fdc1c8309",
+        "reason": "What the saved evidence shows: The retained definition is SUM('Movements'[units]). Today, movement 1 shows 16 in three places: the DAX query on the model, the lakehouse dbo table and the app source table. The source row has source_modified_at_utc 2026-10-03 and row_version 0x6D61. Model refresh history starts 2026-10-24 01:26:52 and the listing is complete. Pipeline run history starts 2026-10-28 09:52:48 and lists two FAILED 2011 runs. The only history query was 'OPTION (FOR TIMESTAMP AS OF ...)' against the lakehouse copy. The validator rejected it with a ParseError and it never ran. No FOR SYSTEM_TIME query was run against the temporal app table. One draft finding cited the failed query, and the system rejected it with FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING. The saved answer is the version that leaves the failed query out. It says plainly that no read of retained source or lakehouse history was completed.\n\nVerdict: matches. 'Definition explained' plus 'value at 2026-10-20: not established' is the expected 'as designed; historical value not found'. It does not claim the value was 16.\n\nLayer: matches. It names the semantic model measure over the Direct Lake table, which traces back to the source table.\n\nCause: does not match. The expected cause is that the source table keeps temporal history, but the earliest version is 2026-10-23T22:43:47.94, so no version exists for 2026-10-20. The answer never finds this. It only infers 'unknown' because refresh and pipeline history do not reach back to 2026-10-20. Those are different mechanisms. They do not show that source history starts after the requested time.\n\nThe primary grader says the answer named a source cutoff of 2026-10-23T22:43:47. That claim is wrong. The time appears only in the sealed expectation, not in the saved answer or evidence. The primary grader effectively gave credit for content that is not there. Under the all-three rule the answer therefore scores zero, with verdict and layer correct but no credit for partial.\n\nHarmful: no. The answer is honest that the value is unknown and makes no false causal claim.\n\nFailing step: the first failure is the temporal query that the validator rejected, so the history read never happened.\n\nHandoff quality 1: the queries can be rerun and the answer clearly separates what is known from what is unknown. The handoff is null, though, and there is no next step such as a FOR SYSTEM_TIME query on the app table or a request for an outside source.\n\nThe secondary grader is correct on every disputed point.",
+        "source_sha256": "f50a5f1a7996d9928e600b75de71336c66d55c9e14926f8d4d4b1c7b7d363db3",
+        "ticket": "v4-before-temporal-retention-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 46621,
+          "output_tokens": 1565,
+          "output_tokens_details": {
+            "thinking_tokens": 454
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-billing-invoices-3",
+      "class": "v4-billing-invoices",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "asked the user",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer requires the agent to detect a page/visual conflict (the submitted form selects the Recent Collections page but the Invoiced Amount visual belongs to Subscription Billing), declare verdict='not found', layer='report scope / intake selection', and ask the user to clarify which page/visual they meant \u2014 without asserting any technical cause for the extra 250. The delivered answer did ask the user ('Which report should I check?'), which is directionally correct, but it fails on multiple dimensions: (1) the verdict is NEEDS_INPUT rather than 'not found'; (2) it never identifies the layer or the page/visual conflict as the reason for stopping; (3) the handoff catalog_choices already resolves to 'Subscription Billing' rather than leaving both options open for the user to clarify; (4) no triage was performed to surface the conflict. The cause match fails because the conflict was never named. Layer match fails because no layer was identified. The handoff is marginally useful (it names a catalog choice and a stopping point) but the stopping point VISUAL_OUTSIDE_PAGE is incorrect \u2014 the correct stop is intake conflict \u2014 and the next_checks are vague, so handoff quality is 1.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "asked the user",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Expected: no technical cause is given. The selected Invoiced Amount visual is not on the selected Recent Collections page, so the agent should ask which page and visual the user meant: the Subscription Billing page's Invoiced Amount card or the Recent Collections collected-amount card. Delivered: status NEEDS_INPUT with stop code VISUAL_OUTSIDE_PAGE. That correctly finds the page/visual conflict at the intake-selection layer and gives no technical cause, so the verdict, layer and cause each match. But the question asked is \"Which report should I check?\", and the only catalog choice offered is the Subscription Billing report. The report was never in doubt; the conflict is between the page and the visual. This question would not resolve the conflict, and the two valid page/visual options were not offered. Because the clarification is aimed at the wrong selection, this is a partial match, which scores zero. It is not harmful because no incorrect cause is stated as fact.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static03",
+      "outcome_sha256": "77a80124206f88a63200cfe593e601f9a0997317fdedca4a733b62c1443feb4d",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": 7.187680102000002,
+      "investigation_cost_microdollars": 0,
+      "physical_requests": 0,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-billing-invoices-3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "holds",
+      "expected_verdict_class": "not found",
+      "raw_review": {
+        "cost_microdollars": 45176,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "asked the user",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "What the saved record shows: the triage, query, evidence and intake evidence fields are all null. The saved answer is status NEEDS_INPUT with stop code VISUAL_OUTSIDE_PAGE. Its user-facing question is \"Which report should I check?\". The technical handoff repeats the submitted form unchanged, runs no queries, rules nothing out, and offers one catalog choice, the Subscription Billing report. Its next check is \"Resolve the selected target from the catalog choices.\" The sealed expectation is verdict \"not found\" at the report scope / intake selection layer. It says the selected visual (a4e07b71\u2026) is not on the selected page (Recent Collections). The form should be used as submitted, the user should be asked which page and visual they meant, and no technical cause should be given.\n\nVerdict: matches. Stopping to ask the user without claiming a cause is, in substance, the expected \"not found\". The primary grader rejected it only because the label differs, which is judging the label rather than the substance.\n\nLayer and cause: both match. VISUAL_OUTSIDE_PAGE says exactly what the expectation describes: the chosen visual is not on the chosen page. That is an intake-selection problem. The primary grader is wrong to say the conflict was \"never identified\" and that this stop code is \"incorrect\". No triage was needed to find a mismatch at intake. The answer also does not repair the selection or state any cause for the extra 250.\n\nPartial: yes. The fix the answer proposes is aimed at the wrong thing. It asks which report to check, but there is only one report and it was never in doubt. The only option it offers is Subscription Billing. It never asks the user to choose between the Invoiced Amount card on the Subscription Billing page and the Collected Amount card on Recent Collections, and the user-facing text never mentions the conflict. Answering this question would not resolve the conflict. Under the all-three rule a partial answer scores zero, so the case fails at \"asked the user\".\n\nHarmful: no. No wrong cause is stated as fact.\n\nHandoff quality: 1. The stop code is correct, but the next check is vague and the choices offered are the wrong ones.\n\nThe secondary grader matches all of this. The primary grader's verdict, layer and cause rejections are wrong, so the winner is the secondary grader.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "77a80124206f88a63200cfe593e601f9a0997317fdedca4a733b62c1443feb4d",
+        "reason": "What the saved record shows: the triage, query, evidence and intake evidence fields are all null. The saved answer is status NEEDS_INPUT with stop code VISUAL_OUTSIDE_PAGE. Its user-facing question is \"Which report should I check?\". The technical handoff repeats the submitted form unchanged, runs no queries, rules nothing out, and offers one catalog choice, the Subscription Billing report. Its next check is \"Resolve the selected target from the catalog choices.\" The sealed expectation is verdict \"not found\" at the report scope / intake selection layer. It says the selected visual (a4e07b71\u2026) is not on the selected page (Recent Collections). The form should be used as submitted, the user should be asked which page and visual they meant, and no technical cause should be given.\n\nVerdict: matches. Stopping to ask the user without claiming a cause is, in substance, the expected \"not found\". The primary grader rejected it only because the label differs, which is judging the label rather than the substance.\n\nLayer and cause: both match. VISUAL_OUTSIDE_PAGE says exactly what the expectation describes: the chosen visual is not on the chosen page. That is an intake-selection problem. The primary grader is wrong to say the conflict was \"never identified\" and that this stop code is \"incorrect\". No triage was needed to find a mismatch at intake. The answer also does not repair the selection or state any cause for the extra 250.\n\nPartial: yes. The fix the answer proposes is aimed at the wrong thing. It asks which report to check, but there is only one report and it was never in doubt. The only option it offers is Subscription Billing. It never asks the user to choose between the Invoiced Amount card on the Subscription Billing page and the Collected Amount card on Recent Collections, and the user-facing text never mentions the conflict. Answering this question would not resolve the conflict. Under the all-three rule a partial answer scores zero, so the case fails at \"asked the user\".\n\nHarmful: no. No wrong cause is stated as fact.\n\nHandoff quality: 1. The stop code is correct, but the next check is vague and the choices offered are the wrong ones.\n\nThe secondary grader matches all of this. The primary grader's verdict, layer and cause rejections are wrong, so the winner is the secondary grader.",
+        "source_sha256": "961bb55d8fb231684319223ef60d63cdba1b084708f544afd00a0e97693994a5",
+        "ticket": "v4-billing-invoices-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 2995,
+          "output_tokens": 1651,
+          "output_tokens_details": {
+            "thinking_tokens": 659
           },
           "service_tier": "standard",
           "speed": "standard"
@@ -5094,6 +6154,462 @@
       "expected_verdict_class": "as designed"
     },
     {
+      "ticket": "v4-before-temporal-retention-1",
+      "class": "v4-before-temporal-retention",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict ('definition explained' / 'as designed; historical value not found') and matches the sealed expected verdict of explaining the calculation and reporting that the historical value cannot be retrieved. The layer match is correct: semantic model measure (SUM of units) over a warehouse source table (Direct Lake from dbo.stock_movements_round_two_20261003). The named cause matches: temporal history does not extend back to 2026-10-20 12:00 UTC \u2014 the delivered answer explicitly states the point-in-time read on the lakehouse table was not completed and that the load-job run listing starts on 2026-10-28 and model refresh history starts on 2026-10-24. The delivered answer does not assert the old value was 16 or any number for the historical date. The answer correctly describes the measure definition (SUM('Movements'[units])), the Direct Lake linkage, and the inability to retrieve the historical value. All three grading dimensions (verdict, layer, cause) match. The answer is not harmful. No partial. The handoff quality is 0 because the answer is fully resolved (ANSWERED status, no open handoff).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Expected: the measure works as designed (Movement Units = SUM('Movements'[units]), Direct Lake over dbo.stock_movements_round_two_20261003), and the value at 2026-10-20 12:00 UTC cannot be found because that table's temporal history only goes back to 2026-10-23T22:43:47.94. Delivered: the calculation and source binding are explained correctly, so the layer matches. The answer also correctly avoids giving any old value. However, it says the historical value 'could not be established because no retained history was read', and admits the point-in-time read was not completed. Its only point-in-time query used FOR TIMESTAMP AS OF, which the validator rejected with a ParseError and never sent to the warehouse. The answer never found that the table is system-versioned temporal, or that retention starts on 2026-10-23. Instead it suggests there is no history at all: an Overwrite copy fed by a current-only source. That is the wrong reason, or at best a missing one, for the historical part of the verdict. The named cause therefore does not match, and only part of the verdict does. A partial match scores zero. It also leaves out the report caveat that the unfiltered card shows the total (7661) and only shows 16 when filtered to movement 1, and it does not point the user to the data owner or an outside record. It is not harmful: it says plainly that the historical value is not established and does not state a false cause as fact. Handoff: the queries are recorded verbatim and can be rerun, including the failed one with its parse error, so the stopping point is visible. But the handoff object is empty and no next steps are suggested, such as retrying with FOR SYSTEM_TIME AS OF / temporal syntax, checking the table's temporal type and retention, or asking the data owner. So the handoff gets 1. First failing step: query validation, because the malformed temporal query was rejected and never run.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-static02",
+      "outcome_sha256": "af925cb1472bece68ac8f6fc3aa0098eb97a193ddb0157ae5569a8ed419fe9a6",
+      "status": "ANSWERED",
+      "native_duration_seconds": 262.0,
+      "worker_wall_seconds": 226.34892200100006,
+      "investigation_cost_microdollars": 505139,
+      "physical_requests": 28,
+      "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-before-temporal-retention-1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed; historical value not found (no retained version before 2026-10-23)",
+      "raw_review": {
+        "cost_microdollars": 213919,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "query validation",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "This is a partial match, so it scores zero under the all-three rule. The verdict and layer match, but the named cause does not.\n\n**What the saved evidence shows**\n- **Current value:** The model (DAX), the lakehouse table dbo.stock_movements_round_two_20261003 and the ordersops source table all return 16 for movement 1 on 2026-10-31.\n- **Source row:** Its source_modified_at_utc is 2026-10-03 22:51:16.882024.\n- **Point-in-time query:** The only historical query used `OPTION (FOR TIMESTAMP AS OF ...)`. The validator rejected it with a ParseError (\"Unknown option FOR\"), and it was never sent to the warehouse (native_dispatched=false). No temporal-type check and no read of the retained history ever succeeded.\n- **Run and refresh history:** The load-job run listing starts on 2026-10-28. The model refresh history starts on 2026-10-24. Neither is the table's temporal retention.\n\n**Verdict: match.** The expected outcome is \"as designed; historical value not found\". The answer explains the calculation (`SUM('Movements'[units])`, Direct Lake over the lakehouse table). It also says the 2026-10-20 12:00 UTC value can't be given, and it never states an old number. The user gets the right outcome, so I count the verdict as matching. The secondary grader marked it false, but the gap it describes is really a cause gap.\n\n**Layer: match.** The measure, the Direct Lake binding and the source table are identified correctly.\n\n**Cause: no match.** The expected cause is that the table is system-versioned temporal and its earliest retained version is 2026-10-23T22:43:47.94, so no version exists for 2026-10-20. The answer never found the temporal type or the retention boundary. It blames its own failed query, and it suggests history is unavailable in principle (Overwrite copy, current-only source). The primary grader treated the run and refresh listing start dates as matching this cause. That is wrong: those are job and refresh logs, not table version retention. The primary's cause_match=true is therefore unsupported.\n\n**Not harmful.** The answer says plainly that the historical value is unconfirmed and that its query was rejected. It gives no false value.\n\n**First failing step: query validation.** The malformed temporal syntax was rejected before it ran.\n\n**Handoff quality: 1.** The stopping point is visible and the queries can be rerun. But there is no handoff object and no next step, such as retrying with `FOR SYSTEM_TIME AS OF`, checking the table's temporal type and retention, or asking the data owner. The answer also leaves out the report caveat: the unfiltered card shows the total (7661), and shows 16 only when filtered to movement 1.\n\n**Winner: secondary.** Its cause, partial, failing-step and handoff judgments are correct. It was too strict on verdict_match, but that doesn't change the zero score. The primary's full-match call rests on misreading the job and refresh logs as temporal retention.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "af925cb1472bece68ac8f6fc3aa0098eb97a193ddb0157ae5569a8ed419fe9a6",
+        "reason": "This is a partial match, so it scores zero under the all-three rule. The verdict and layer match, but the named cause does not.\n\n**What the saved evidence shows**\n- **Current value:** The model (DAX), the lakehouse table dbo.stock_movements_round_two_20261003 and the ordersops source table all return 16 for movement 1 on 2026-10-31.\n- **Source row:** Its source_modified_at_utc is 2026-10-03 22:51:16.882024.\n- **Point-in-time query:** The only historical query used `OPTION (FOR TIMESTAMP AS OF ...)`. The validator rejected it with a ParseError (\"Unknown option FOR\"), and it was never sent to the warehouse (native_dispatched=false). No temporal-type check and no read of the retained history ever succeeded.\n- **Run and refresh history:** The load-job run listing starts on 2026-10-28. The model refresh history starts on 2026-10-24. Neither is the table's temporal retention.\n\n**Verdict: match.** The expected outcome is \"as designed; historical value not found\". The answer explains the calculation (`SUM('Movements'[units])`, Direct Lake over the lakehouse table). It also says the 2026-10-20 12:00 UTC value can't be given, and it never states an old number. The user gets the right outcome, so I count the verdict as matching. The secondary grader marked it false, but the gap it describes is really a cause gap.\n\n**Layer: match.** The measure, the Direct Lake binding and the source table are identified correctly.\n\n**Cause: no match.** The expected cause is that the table is system-versioned temporal and its earliest retained version is 2026-10-23T22:43:47.94, so no version exists for 2026-10-20. The answer never found the temporal type or the retention boundary. It blames its own failed query, and it suggests history is unavailable in principle (Overwrite copy, current-only source). The primary grader treated the run and refresh listing start dates as matching this cause. That is wrong: those are job and refresh logs, not table version retention. The primary's cause_match=true is therefore unsupported.\n\n**Not harmful.** The answer says plainly that the historical value is unconfirmed and that its query was rejected. It gives no false value.\n\n**First failing step: query validation.** The malformed temporal syntax was rejected before it ran.\n\n**Handoff quality: 1.** The stopping point is visible and the queries can be rerun. But there is no handoff object and no next step, such as retrying with `FOR SYSTEM_TIME AS OF`, checking the table's temporal type and retention, or asking the data owner. The answer also leaves out the report caveat: the unfiltered card shows the total (7661), and shows 16 only when filtered to movement 1.\n\n**Winner: secondary.** Its cause, partial, failing-step and handoff judgments are correct. It was too strict on verdict_match, but that doesn't change the zero score. The primary's full-match call rests on misreading the job and refresh logs as temporal retention.",
+        "source_sha256": "eb7d3444134c71da5e65a8adad42a2e2eba2a531c2ebc97ba171b4cfd3a94e06",
+        "ticket": "v4-before-temporal-retention-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 42036,
+          "output_tokens": 2069,
+          "output_tokens_details": {
+            "thinking_tokens": 829
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "mixed"
+      }
+    },
+    {
+      "ticket": "v4-before-temporal-retention-2",
+      "class": "v4-before-temporal-retention",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Layer match: the delivered answer correctly identifies the layer as a semantic model measure (SUM of units) over a Direct Lake table backed by a warehouse/lakehouse source, matching 'semantic model measure over a warehouse source table'. Verdict mismatch: the sealed expected verdict is 'as designed; historical value not found (no retained version before 2026-10-23)'. The delivered answer's verdict is 'definition explained', which only partially covers the expectation. More critically, cause mismatch: the sealed expected cause states that temporal history starts at 2026-10-23T22:43:47.94, making the 2026-10-20 value unrecoverable because no retained version exists before that date. The delivered answer hedges on the temporal point \u2014 it says 'I could not read whether the application table keeps temporal or change history, so that history is unknown, not shown to be absent' and avoids confirming the temporal retention boundary. The sealed answer requires asserting that temporal history starts 2026-10-23 and earlier state cannot be rebuilt. The delivered answer explicitly refuses to state this, noting the validator rejection of OBJECT_ID and the failed query about temporal type. While the agent honestly reports it could not confirm temporal absence, the sealed cause specifically names the temporal retention boundary as the reason the historical value is not found. The delivered answer does not establish or report this named cause. Two failed queries (validator rejection and wrong column/table) left the temporal check unresolved, which is why the cause is incomplete. Handoff quality is moderate (1): the answer notes two failed query attempts and identifies what checks remain (temporal/change history in ordersops), but does not provide corrected rerunnable SQL to resolve the open question.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "Verdict: matches in substance. The expected verdict is 'as designed; historical value not found'. The answer explains the calculation (Movement Units = SUM('Movements'[units]), recreated as 16 from 1 row) and says the 2026-10-20 12:00 UTC value is not established. It also correctly avoids making up a historical value.\n\nLayer: does not match. The expected layer is a semantic model measure over a source table that has temporal history. The answer correctly traces the measure to the Direct Lake table, the copy job and the app table in ordersops, but says it could not read whether that table keeps temporal or change history and calls it 'unknown, not shown to be absent'. So the key part of the layer, the table's temporal history, was never established.\n\nCause: does not match. The expected cause is that retained temporal history only starts at 2026-10-23T22:43:47.94, so the earlier state can't be rebuilt. The answer never found that boundary. Both history queries failed: the first was rejected by the validator for using OBJECT_ID, and the second was rejected as an unavailable or unvalidated object. The answer instead points to run listings starting after 2026-10-20 and to source_modified_at_utc being a current value only. That is a different, weaker reason, and the rubric gives it no partial credit.\n\nHarm: not harmful. The answer is open about not knowing the history and does not state a wrong cause as fact.\n\nHandoff: 1. The queries can be rerun and the stopping point is clear (history not readable). However, the handoff field is empty. It names no next steps, such as rewriting the sys.tables temporal_type_desc/history_table_id check in a form the validator accepts, querying FOR SYSTEM_TIME AS OF, or asking the user for an outside record.\n\nFirst failing step: query validation, because the first history query was rejected by the validator before it ran.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static02",
+      "outcome_sha256": "3e6a6a758bc3a167d907d60b0145b078715b05589144b1666d7108c8f21c7554",
+      "status": "ANSWERED",
+      "native_duration_seconds": 247.0,
+      "worker_wall_seconds": 212.160591394,
+      "investigation_cost_microdollars": 458455,
+      "physical_requests": 26,
+      "model_calls": 6,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-before-temporal-retention-2-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed; historical value not found (no retained version before 2026-10-23)",
+      "raw_review": {
+        "cost_microdollars": 228360,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "query validation",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "What the saved capture shows: The retained definition reads Movement Units = SUM('Movements'[units]). The DAX query recreated 16 from 1 row for movement 1. Lakehouse dbo.stock_movements_round_two_20261003 and app.stock_movements_round_two_20261003 in ordersops both returned units 16 with the same row version. These reads are current-state snapshots only. Both history queries failed before they reached the database. Query 4 was rejected by the validator for using OBJECT_ID. Query 5 was rejected as 'SQL object unavailable or view dependencies not validated'. Neither was dispatched. The run listings start at 2026-10-24 for model refreshes and 2026-10-28 for pipeline runs. Nothing in the capture shows the temporal boundary of 2026-10-23T22:43:47.94.\n\nVerdict: matches in substance. The expected verdict is 'as designed; historical value not found'. DIA explained the calculation and said the 2026-10-20 value is not established. It did not invent a figure or assume the value was 16. The '(no retained version before 2026-10-23)' qualifier is the cause, so it is scored under cause. Primary's verdict=false is too focused on the label.\n\nLayer: matches. DIA traced the right path: the semantic model measure, the Direct Lake table, the copy job and the source table. The fact that the source table has temporal history belongs to the cause. Secondary's layer=false counts the same miss twice.\n\nCause: does not match. The named cause is the retention boundary on 2026-10-23, and DIA never found it. It honestly said history was 'unknown, not shown to be absent'. Its fallback reason, that the run listings start after 2026-10-20, is weaker and different. Both graders agree on this.\n\nOverall: verdict and layer match but the cause does not, so this is a partial result and scores zero under the all-three rule. Primary's partial=false is wrong.\n\nHarm: not harmful. DIA was open about what it did not know and stated nothing false as fact.\n\nHandoff: 1. The status is ANSWERED with handoff null. The open question is stated clearly, but DIA gave no corrected history query, such as one using FOR SYSTEM_TIME or sys.tables without OBJECT_ID, and did not ask the user for an outside record.\n\nFirst failing step: query validation. The validator rejected both history checks, and the agent stopped without a rewrite that could pass. The conclusion followed honestly from what DIA had, so primary's 'wrong conclusion' is incorrect.\n\nWinner: secondary. Secondary is right on verdict, cause, harm, partial, handoff and failing step, and wrong only on layer. Primary is right on layer, cause, harm and handoff, but wrong on verdict, partial and failing step.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "3e6a6a758bc3a167d907d60b0145b078715b05589144b1666d7108c8f21c7554",
+        "reason": "What the saved capture shows: The retained definition reads Movement Units = SUM('Movements'[units]). The DAX query recreated 16 from 1 row for movement 1. Lakehouse dbo.stock_movements_round_two_20261003 and app.stock_movements_round_two_20261003 in ordersops both returned units 16 with the same row version. These reads are current-state snapshots only. Both history queries failed before they reached the database. Query 4 was rejected by the validator for using OBJECT_ID. Query 5 was rejected as 'SQL object unavailable or view dependencies not validated'. Neither was dispatched. The run listings start at 2026-10-24 for model refreshes and 2026-10-28 for pipeline runs. Nothing in the capture shows the temporal boundary of 2026-10-23T22:43:47.94.\n\nVerdict: matches in substance. The expected verdict is 'as designed; historical value not found'. DIA explained the calculation and said the 2026-10-20 value is not established. It did not invent a figure or assume the value was 16. The '(no retained version before 2026-10-23)' qualifier is the cause, so it is scored under cause. Primary's verdict=false is too focused on the label.\n\nLayer: matches. DIA traced the right path: the semantic model measure, the Direct Lake table, the copy job and the source table. The fact that the source table has temporal history belongs to the cause. Secondary's layer=false counts the same miss twice.\n\nCause: does not match. The named cause is the retention boundary on 2026-10-23, and DIA never found it. It honestly said history was 'unknown, not shown to be absent'. Its fallback reason, that the run listings start after 2026-10-20, is weaker and different. Both graders agree on this.\n\nOverall: verdict and layer match but the cause does not, so this is a partial result and scores zero under the all-three rule. Primary's partial=false is wrong.\n\nHarm: not harmful. DIA was open about what it did not know and stated nothing false as fact.\n\nHandoff: 1. The status is ANSWERED with handoff null. The open question is stated clearly, but DIA gave no corrected history query, such as one using FOR SYSTEM_TIME or sys.tables without OBJECT_ID, and did not ask the user for an outside record.\n\nFirst failing step: query validation. The validator rejected both history checks, and the agent stopped without a rewrite that could pass. The conclusion followed honestly from what DIA had, so primary's 'wrong conclusion' is incorrect.\n\nWinner: secondary. Secondary is right on verdict, cause, harm, partial, handoff and failing step, and wrong only on layer. Primary is right on layer, cause, harm and handoff, but wrong on verdict, partial and failing step.",
+        "source_sha256": "e7d6427608e94f0618a5def724334f24f6bef9bfa7a05fa40c664bfd247d087f",
+        "ticket": "v4-before-temporal-retention-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 47176,
+          "output_tokens": 1974,
+          "output_tokens_details": {
+            "thinking_tokens": 813
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "mixed"
+      }
+    },
+    {
+      "ticket": "v4-before-temporal-retention-3",
+      "class": "v4-before-temporal-retention",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'definition explained' / 'as designed; historical value not found', correctly names the layer as a semantic model measure (SUM) over a Direct Lake table backed by a warehouse source table (dbo.stock_movements_round_two_20261003), and correctly states the cause: temporal history only starts at 2026-10-24 (model refresh) / 2026-10-23T22:43:47 (source), so no retained version exists for 2026-10-20 12:00 UTC. The answer explains the calculation path (SUM units, Direct Lake, Copy Job, pipeline), confirms current value of 16 across all three layers, and honestly states the historical value is not established. This matches the sealed expected verdict, layer, and cause. No harmful incorrect claim was made. Handoff quality is 1: the answer notes what was checked and what is unknown, but does not provide a fully rerunnable query or a clear actionable next step for recovering the historical value (e.g. checking system-versioned history on the application source or an external export), so it is useful but not maximally actionable.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Verdict: In substance, the delivered verdict matches the expected one. 'Definition explained' plus 'value at 2026-10-20 12:00 UTC: not established' corresponds to 'as designed; historical value not found'. It correctly declines to say the value was 16. Layer: It correctly places the number at the semantic model measure SUM('Movements'[units]) over the Direct Lake table stock_movements_round_two_20261003, which traces back to the application source table. Cause: The expected cause is that the source has temporal history, but the earliest retained version is at 2026-10-23T22:43:47.94, so no version exists for 2026-10-20. The delivered answer never finds this. It bases 'unknown' on refresh history (from 2026-10-24) and pipeline run history (from 2026-10-28), and says outright that it never completed a read of retained source history. Its only history query used invalid syntax ('OPTION (FOR TIMESTAMP AS OF ...)') against the lakehouse/warehouse copy. The validator rejected it with a ParseError. No FOR SYSTEM_TIME query was run against the temporal application table. So the named cause does not match, and the answer scores zero overall. It is not harmful: it states no wrong cause as fact and is honest about what it did not check. Handoff: the queries can be rerun and the stopping point is clear, but the handoff object is empty. It also gives no explicit next step, such as running FOR SYSTEM_TIME AS OF on app.stock_movements_round_two_20261003 or asking for an outside source. The first failure was the temporal query that the validator rejected.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static02",
+      "outcome_sha256": "033fc8c982ee2e6eeed519d5e9b9a437d1ee7cd171f06b3b2bec325fdc1c8309",
+      "status": "ANSWERED",
+      "native_duration_seconds": 257.0,
+      "worker_wall_seconds": 226.934745721,
+      "investigation_cost_microdollars": 458477,
+      "physical_requests": 30,
+      "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-before-temporal-retention-3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed; historical value not found (no retained version before 2026-10-23)",
+      "raw_review": {
+        "cost_microdollars": 217960,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "query validation",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "What the saved evidence shows: The retained definition is SUM('Movements'[units]). Today, movement 1 shows 16 in three places: the DAX query on the model, the lakehouse dbo table and the app source table. The source row has source_modified_at_utc 2026-10-03 and row_version 0x6D61. Model refresh history starts 2026-10-24 01:26:52 and the listing is complete. Pipeline run history starts 2026-10-28 09:52:48 and lists two FAILED 2011 runs. The only history query was 'OPTION (FOR TIMESTAMP AS OF ...)' against the lakehouse copy. The validator rejected it with a ParseError and it never ran. No FOR SYSTEM_TIME query was run against the temporal app table. One draft finding cited the failed query, and the system rejected it with FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING. The saved answer is the version that leaves the failed query out. It says plainly that no read of retained source or lakehouse history was completed.\n\nVerdict: matches. 'Definition explained' plus 'value at 2026-10-20: not established' is the expected 'as designed; historical value not found'. It does not claim the value was 16.\n\nLayer: matches. It names the semantic model measure over the Direct Lake table, which traces back to the source table.\n\nCause: does not match. The expected cause is that the source table keeps temporal history, but the earliest version is 2026-10-23T22:43:47.94, so no version exists for 2026-10-20. The answer never finds this. It only infers 'unknown' because refresh and pipeline history do not reach back to 2026-10-20. Those are different mechanisms. They do not show that source history starts after the requested time.\n\nThe primary grader says the answer named a source cutoff of 2026-10-23T22:43:47. That claim is wrong. The time appears only in the sealed expectation, not in the saved answer or evidence. The primary grader effectively gave credit for content that is not there. Under the all-three rule the answer therefore scores zero, with verdict and layer correct but no credit for partial.\n\nHarmful: no. The answer is honest that the value is unknown and makes no false causal claim.\n\nFailing step: the first failure is the temporal query that the validator rejected, so the history read never happened.\n\nHandoff quality 1: the queries can be rerun and the answer clearly separates what is known from what is unknown. The handoff is null, though, and there is no next step such as a FOR SYSTEM_TIME query on the app table or a request for an outside source.\n\nThe secondary grader is correct on every disputed point.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "033fc8c982ee2e6eeed519d5e9b9a437d1ee7cd171f06b3b2bec325fdc1c8309",
+        "reason": "What the saved evidence shows: The retained definition is SUM('Movements'[units]). Today, movement 1 shows 16 in three places: the DAX query on the model, the lakehouse dbo table and the app source table. The source row has source_modified_at_utc 2026-10-03 and row_version 0x6D61. Model refresh history starts 2026-10-24 01:26:52 and the listing is complete. Pipeline run history starts 2026-10-28 09:52:48 and lists two FAILED 2011 runs. The only history query was 'OPTION (FOR TIMESTAMP AS OF ...)' against the lakehouse copy. The validator rejected it with a ParseError and it never ran. No FOR SYSTEM_TIME query was run against the temporal app table. One draft finding cited the failed query, and the system rejected it with FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING. The saved answer is the version that leaves the failed query out. It says plainly that no read of retained source or lakehouse history was completed.\n\nVerdict: matches. 'Definition explained' plus 'value at 2026-10-20: not established' is the expected 'as designed; historical value not found'. It does not claim the value was 16.\n\nLayer: matches. It names the semantic model measure over the Direct Lake table, which traces back to the source table.\n\nCause: does not match. The expected cause is that the source table keeps temporal history, but the earliest version is 2026-10-23T22:43:47.94, so no version exists for 2026-10-20. The answer never finds this. It only infers 'unknown' because refresh and pipeline history do not reach back to 2026-10-20. Those are different mechanisms. They do not show that source history starts after the requested time.\n\nThe primary grader says the answer named a source cutoff of 2026-10-23T22:43:47. That claim is wrong. The time appears only in the sealed expectation, not in the saved answer or evidence. The primary grader effectively gave credit for content that is not there. Under the all-three rule the answer therefore scores zero, with verdict and layer correct but no credit for partial.\n\nHarmful: no. The answer is honest that the value is unknown and makes no false causal claim.\n\nFailing step: the first failure is the temporal query that the validator rejected, so the history read never happened.\n\nHandoff quality 1: the queries can be rerun and the answer clearly separates what is known from what is unknown. The handoff is null, though, and there is no next step such as a FOR SYSTEM_TIME query on the app table or a request for an outside source.\n\nThe secondary grader is correct on every disputed point.",
+        "source_sha256": "f50a5f1a7996d9928e600b75de71336c66d55c9e14926f8d4d4b1c7b7d363db3",
+        "ticket": "v4-before-temporal-retention-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 46621,
+          "output_tokens": 1565,
+          "output_tokens_details": {
+            "thinking_tokens": 454
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-billing-invoices-1",
+      "class": "v4-billing-invoices",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: the delivered answer correctly identifies the discrepancy (950 vs 700, extra 250). Layer matches: gold.invoice_activity / gold serving table is named as the first place the duplicate appears. Cause matches: the LEFT JOIN of silver.invoices to bronze.account_plan_history on account_id only (no date range condition), with account 1 having 2 plan-history rows, causes invoice 101 to appear twice in gold.invoice_activity, producing 2\u00d7250=500 instead of 250, giving 950 total vs 700 in all layers below gold. All key numbers (950, 700, 250, 500, 2 rows) are correctly cited. The pipeline failure (CREATE SCHEMA 'bronze' already exists) is correctly noted as a separate issue that does not explain the gap. Status is ANSWERED, so handoff quality is rated 0 (not applicable / no handoff needed).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says 'transformation logic' (pool 5), which is the same as the sealed verdict. Layer: the delivered answer places the first split at the Gold join step that builds gold.invoice_activity. Every layer below it (app.invoices, bronze invoices, silver.invoices) totals 700, while Gold and the recreated model card total 950. This matches the expected layer: the gold serving table gold.invoice_activity feeding the Billing table. Cause: the delivered answer says invoice 101 (account 1, 250) appears twice in gold.invoice_activity, giving 500 instead of 250, and SUM(Billing[amount]) therefore returns 950 instead of 700. It names the join to account_plan_history on account_id only as the mechanism. Cited query results back this up: the Gold duplicate check shows invoice 101 with row_count 2 and 250 each, account 1 has 2 plan-history rows, and Silver has no duplicates. This is the same cause as the expected record. It also correctly says the failed pipeline run (error 2011, CREATE SCHEMA 'bronze' already exists) is not the mechanism, which agrees with the expectation. One disagreement on wording: the expected record warns that the retained join definition 'alone does not prove it built the current table'. The delivered answer states that the Gold build procedure fills the table this way as fact. It does hedge in its qualifications (snapshots not aligned, value agreement doesn't prove alignment) and notes the current Gold table was not rebuilt by the latest run, but the attribution is still more confident than the evidence supports. This is overconfidence about provenance, not a wrong cause: the observed duplicate and its link to the multi-row history join are correct. So it is not harmful and does not cancel cause credit. Handoff (graded separately): all 8 queries are recorded with executed SQL, parameters and execution identity, so they can be rerun. The stopping point is clear (ANSWERED, no budget stop), and the pipeline and refresh caveats give sensible follow-ups.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static03",
+      "outcome_sha256": "03126b6e68b678f7d5d0bd1907fe58fe0fa8f7c83edf9683da7c3fdae07eb27b",
+      "status": "ANSWERED",
+      "native_duration_seconds": 307.0,
+      "worker_wall_seconds": 272.14347021000003,
+      "investigation_cost_microdollars": 636125,
+      "physical_requests": 38,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-billing-invoices-1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "transformation logic",
+      "raw_review": {
+        "cost_microdollars": 224263,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence shows: the DAX query recreates the card as 950. SUM(amount) is 950 for gold.invoice_activity and 700 for silver.invoices, billing_bronze dbo.invoices and billingapp app.invoices. Every one of these queries SUCCEEDED, read-only, with no truncation. The billingapp read failed twice with error 40613 and succeeded on the third try.\n\nThe duplicate check on Gold returns one row: invoice 101, account 1, row_count 2, amount_sum 500, 250 each. billing_bronze account_plan_history has 2 rows for account 1, and Silver has no repeated invoice_id. So the 250 is split out exactly: 700 + 250 = 950. The duplicate first appears between Silver and Gold, which is the expected layer (gold.invoice_activity feeding the Billing table).\n\nThe verdict, \"transformation logic\", matches. The cause matches the sealed expectation: invoice 101 appears twice in Gold, so SUM(Billing[amount]) counts it twice. The answer also names the join to account_plan_history on account_id only, which agrees with the retained definition described in the expectation.\n\nThe job-run evidence supports the side claims. The latest run, bc3b0674, FAILED with error 2011 (CREATE SCHEMA 'bronze' already exists). The triage listing shows the last success on 2026-10-26. Model refresh runs are empty, and the refresh schedule has enabled:false. The answer correctly says this failure is not the mechanism, which matches the expectation.\n\nThe one weakness: no saved tool call reads the Gold build procedure or its definition, and DEFINITION_CHANGES is UNAVAILABLE. So the answer's flat statements that the procedure joins on account_id alone, with no valid_from/valid_to condition, rest on nothing in the capture. The expectation warns that the definition alone doesn't prove it built the current table. The answer is overconfident about provenance here, and the secondary grader correctly flags this. It does not cancel cause credit, though. The observed duplicate and its link to the 2-row history are fully backed by queries, and the answer partly hedges (\"value agreement does not prove snapshots aligned\"; Gold was not rebuilt by the latest run). It is not harmful.\n\nAll-three scoring is met, so this is a full match, not partial.\n\nHandoff: the primary grader gave 0, calling it 'not applicable' because the status is ANSWERED. That penalises a strong record with the lowest score for a reason that isn't about quality. The secondary grader's 2 fits better: all 8 queries are saved with executed text, parameters and identity, the stopping point is clear, and the pipeline and refresh caveats are useful next steps.\n\nBoth graders agree on verdict, layer, cause, harm, partial and failing step. Secondary wins because its handoff score is right and it alone notices the unsupported definition claim. It still understates that claim: the definition was never read at all, not merely asserted too confidently.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "03126b6e68b678f7d5d0bd1907fe58fe0fa8f7c83edf9683da7c3fdae07eb27b",
+        "reason": "What the saved evidence shows: the DAX query recreates the card as 950. SUM(amount) is 950 for gold.invoice_activity and 700 for silver.invoices, billing_bronze dbo.invoices and billingapp app.invoices. Every one of these queries SUCCEEDED, read-only, with no truncation. The billingapp read failed twice with error 40613 and succeeded on the third try.\n\nThe duplicate check on Gold returns one row: invoice 101, account 1, row_count 2, amount_sum 500, 250 each. billing_bronze account_plan_history has 2 rows for account 1, and Silver has no repeated invoice_id. So the 250 is split out exactly: 700 + 250 = 950. The duplicate first appears between Silver and Gold, which is the expected layer (gold.invoice_activity feeding the Billing table).\n\nThe verdict, \"transformation logic\", matches. The cause matches the sealed expectation: invoice 101 appears twice in Gold, so SUM(Billing[amount]) counts it twice. The answer also names the join to account_plan_history on account_id only, which agrees with the retained definition described in the expectation.\n\nThe job-run evidence supports the side claims. The latest run, bc3b0674, FAILED with error 2011 (CREATE SCHEMA 'bronze' already exists). The triage listing shows the last success on 2026-10-26. Model refresh runs are empty, and the refresh schedule has enabled:false. The answer correctly says this failure is not the mechanism, which matches the expectation.\n\nThe one weakness: no saved tool call reads the Gold build procedure or its definition, and DEFINITION_CHANGES is UNAVAILABLE. So the answer's flat statements that the procedure joins on account_id alone, with no valid_from/valid_to condition, rest on nothing in the capture. The expectation warns that the definition alone doesn't prove it built the current table. The answer is overconfident about provenance here, and the secondary grader correctly flags this. It does not cancel cause credit, though. The observed duplicate and its link to the 2-row history are fully backed by queries, and the answer partly hedges (\"value agreement does not prove snapshots aligned\"; Gold was not rebuilt by the latest run). It is not harmful.\n\nAll-three scoring is met, so this is a full match, not partial.\n\nHandoff: the primary grader gave 0, calling it 'not applicable' because the status is ANSWERED. That penalises a strong record with the lowest score for a reason that isn't about quality. The secondary grader's 2 fits better: all 8 queries are saved with executed text, parameters and identity, the stopping point is clear, and the pipeline and refresh caveats are useful next steps.\n\nBoth graders agree on verdict, layer, cause, harm, partial and failing step. Secondary wins because its handoff score is right and it alone notices the unsupported definition claim. It still understates that claim: the definition was never read at all, not merely asserted too confidently.",
+        "source_sha256": "6888225689e20fde87083e3fac2de4ae5782b483bd940d266e36e1e039caf527",
+        "ticket": "v4-billing-invoices-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 42347,
+          "output_tokens": 2524,
+          "output_tokens_details": {
+            "thinking_tokens": 1294
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-billing-invoices-2",
+      "class": "v4-billing-invoices",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: the delivered answer correctly identifies the number discrepancy (950 vs 700) as a real data issue, not a filter/display artifact. Layer matches: gold serving table (gold.invoice_activity) is correctly identified as the split point where the extra 250 first appears. Cause matches: the named cause is transformation logic \u2014 invoice 101 (account 1, amount 250) appearing twice in gold.invoice_activity due to the join in gold.build_billing on account_id only, where account 1 has 2 plan-history rows, producing a fan-out duplicate (2\u00d7250=500 instead of 250), which is exactly the sealed expected cause. All three dimensions align substantively. The answer is ANSWERED (not unresolved), so handoff quality is not applicable (scored 0 as placeholder per instructions \u2014 no handoff to grade).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered verdict is 'transformation logic', the same as the expected verdict. Layer/split point: the delivered answer finds that billingapp app.invoices, bronze and silver each total 700, while gold.invoice_activity and the model measure SUM(Billing[amount]) both return 950. It says the extra amount first appears in the gold build. That matches the expected layer: gold.invoice_activity feeding the Billing table. Cause: the delivered answer names invoice 101 (account 1, 250) appearing twice in gold.invoice_activity (2 rows, 500), which matches the expected cause. It also cites the retained gold.build_billing join on account_id only and the 2 plan-history rows for account 1. The expected record treats that join as a likely explanation but not proof that it built the current table. The delivered answer words the join link a bit more firmly ('so the join produces invoice 101 twice'). However, it qualifies this by noting that the latest transformations run (bc3b0674) failed, that the current gold rows come from an earlier build it cannot identify, and that the layers were not read as one snapshot. That matches the expected caution, so this is not a disagreement on substance and not harmful. All cited numbers agree with the query results. Handoff: the status is ANSWERED and the handoff field is empty. A handoff was not needed, and the record is still strong: the SQL and DAX queries are recorded verbatim and can be rerun, the stopping point is clear, and the failed-run caveat points to a sensible next check (which build produced the current gold rows).",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static03",
+      "outcome_sha256": "3aea27daf5ffeeefbc5b1d0c930018b5465b677d06be1a51173e0b35cce1fd4b",
+      "status": "ANSWERED",
+      "native_duration_seconds": 282.0,
+      "worker_wall_seconds": 253.465285683,
+      "investigation_cost_microdollars": 585272,
+      "physical_requests": 39,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-billing-invoices-2-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "transformation logic",
+      "raw_review": {
+        "cost_microdollars": 206908,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The DIA answer meets the all-three rule: the verdict, layer and named cause all match.\n\nWhat the saved queries show:\n- The DAX recreation of [Invoiced Amount] returned 950.\n- gold.invoice_activity SUM = 950.\n- silver.invoices = 700, bronze dbo.invoices = 700, and billingapp app.invoices = 700. The billingapp read succeeded on its third connection attempt, after two 40613 errors.\n- A gold GROUP BY HAVING COUNT>1 query returned one row: invoice 101, account 1, 2 rows, 500 total, 250 each.\n- account_plan_history has 2 rows for account 1 in both billingapp and bronze.\n- The job history shows the latest Billing Warehouse run, bc3b0674, FAILED with error 2011 (the 'bronze' object already exists). The times match the answer.\n\nAll the numbers in the answer match these query results.\n\n**Verdict:** The answer says 'transformation logic', which equals the expected verdict.\n\n**Layer:** The split is gold.invoice_activity, the table that feeds the Billing table. Bronze and silver are 700 and gold is 950, so the extra first appears in gold. This matches the expected layer.\n\n**Cause:** Invoice 101 (250) is duplicated in gold, giving 950 instead of 700. This is exactly the expected cause. The answer also names the gold.build_billing join on account_id only and links it to account 1's two plan-history rows. That definition was not read in the saved queries. However, the sealed expectation confirms that the retained definition says this, so the claim is not false. The answer states the join produces the duplicate more firmly than the expectation does, but it adds real limits: the latest build failed, the current gold rows come from an earlier build it cannot identify, and the layers were not read as one snapshot. These limits reflect the expectation's caution that the definition 'does not prove it built the current table', so the claim is not confident and unsupported, and not harmful.\n\n**The disputed field is handoff_quality.** The primary grader gave 0 as a 'placeholder per instructions', but no such instruction appears in the materials, and its verdict explanation wrongly calls the verdict a 'real data issue' rather than transformation logic. The secondary grader assessed the record on substance. The queries are recorded verbatim and can be rerun, the stopping point is clear, and the failed-run caveat points to the right next check: which build produced the current gold rows. That earns a 2.\n\nBoth graders agree on the core scoring. The secondary grader's handoff judgment and reasoning are the better supported, so it wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "3aea27daf5ffeeefbc5b1d0c930018b5465b677d06be1a51173e0b35cce1fd4b",
+        "reason": "The DIA answer meets the all-three rule: the verdict, layer and named cause all match.\n\nWhat the saved queries show:\n- The DAX recreation of [Invoiced Amount] returned 950.\n- gold.invoice_activity SUM = 950.\n- silver.invoices = 700, bronze dbo.invoices = 700, and billingapp app.invoices = 700. The billingapp read succeeded on its third connection attempt, after two 40613 errors.\n- A gold GROUP BY HAVING COUNT>1 query returned one row: invoice 101, account 1, 2 rows, 500 total, 250 each.\n- account_plan_history has 2 rows for account 1 in both billingapp and bronze.\n- The job history shows the latest Billing Warehouse run, bc3b0674, FAILED with error 2011 (the 'bronze' object already exists). The times match the answer.\n\nAll the numbers in the answer match these query results.\n\n**Verdict:** The answer says 'transformation logic', which equals the expected verdict.\n\n**Layer:** The split is gold.invoice_activity, the table that feeds the Billing table. Bronze and silver are 700 and gold is 950, so the extra first appears in gold. This matches the expected layer.\n\n**Cause:** Invoice 101 (250) is duplicated in gold, giving 950 instead of 700. This is exactly the expected cause. The answer also names the gold.build_billing join on account_id only and links it to account 1's two plan-history rows. That definition was not read in the saved queries. However, the sealed expectation confirms that the retained definition says this, so the claim is not false. The answer states the join produces the duplicate more firmly than the expectation does, but it adds real limits: the latest build failed, the current gold rows come from an earlier build it cannot identify, and the layers were not read as one snapshot. These limits reflect the expectation's caution that the definition 'does not prove it built the current table', so the claim is not confident and unsupported, and not harmful.\n\n**The disputed field is handoff_quality.** The primary grader gave 0 as a 'placeholder per instructions', but no such instruction appears in the materials, and its verdict explanation wrongly calls the verdict a 'real data issue' rather than transformation logic. The secondary grader assessed the record on substance. The queries are recorded verbatim and can be rerun, the stopping point is clear, and the failed-run caveat points to the right next check: which build produced the current gold rows. That earns a 2.\n\nBoth graders agree on the core scoring. The secondary grader's handoff judgment and reasoning are the better supported, so it wins.",
+        "source_sha256": "b08d7e15d9d32817bf5dfb47a778e4cd8c02c67b39a51710f96bec5a3941bdd5",
+        "ticket": "v4-billing-invoices-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 42553,
+          "output_tokens": 1826,
+          "output_tokens_details": {
+            "thinking_tokens": 725
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-billing-invoices-3",
+      "class": "v4-billing-invoices",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "asked the user",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer requires the agent to detect a page/visual conflict (the submitted form selects the Recent Collections page but the Invoiced Amount visual belongs to Subscription Billing), declare verdict='not found', layer='report scope / intake selection', and ask the user to clarify which page/visual they meant \u2014 without asserting any technical cause for the extra 250. The delivered answer did ask the user ('Which report should I check?'), which is directionally correct, but it fails on multiple dimensions: (1) the verdict is NEEDS_INPUT rather than 'not found'; (2) it never identifies the layer or the page/visual conflict as the reason for stopping; (3) the handoff catalog_choices already resolves to 'Subscription Billing' rather than leaving both options open for the user to clarify; (4) no triage was performed to surface the conflict. The cause match fails because the conflict was never named. Layer match fails because no layer was identified. The handoff is marginally useful (it names a catalog choice and a stopping point) but the stopping point VISUAL_OUTSIDE_PAGE is incorrect \u2014 the correct stop is intake conflict \u2014 and the next_checks are vague, so handoff quality is 1.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "asked the user",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Expected: no technical cause is given. The selected Invoiced Amount visual is not on the selected Recent Collections page, so the agent should ask which page and visual the user meant: the Subscription Billing page's Invoiced Amount card or the Recent Collections collected-amount card. Delivered: status NEEDS_INPUT with stop code VISUAL_OUTSIDE_PAGE. That correctly finds the page/visual conflict at the intake-selection layer and gives no technical cause, so the verdict, layer and cause each match. But the question asked is \"Which report should I check?\", and the only catalog choice offered is the Subscription Billing report. The report was never in doubt; the conflict is between the page and the visual. This question would not resolve the conflict, and the two valid page/visual options were not offered. Because the clarification is aimed at the wrong selection, this is a partial match, which scores zero. It is not harmful because no incorrect cause is stated as fact.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static03",
+      "outcome_sha256": "77a80124206f88a63200cfe593e601f9a0997317fdedca4a733b62c1443feb4d",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": 7.187680102000002,
+      "investigation_cost_microdollars": 0,
+      "physical_requests": 0,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-billing-invoices-3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "holds",
+      "expected_verdict_class": "not found",
+      "raw_review": {
+        "cost_microdollars": 45176,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "asked the user",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "What the saved record shows: the triage, query, evidence and intake evidence fields are all null. The saved answer is status NEEDS_INPUT with stop code VISUAL_OUTSIDE_PAGE. Its user-facing question is \"Which report should I check?\". The technical handoff repeats the submitted form unchanged, runs no queries, rules nothing out, and offers one catalog choice, the Subscription Billing report. Its next check is \"Resolve the selected target from the catalog choices.\" The sealed expectation is verdict \"not found\" at the report scope / intake selection layer. It says the selected visual (a4e07b71\u2026) is not on the selected page (Recent Collections). The form should be used as submitted, the user should be asked which page and visual they meant, and no technical cause should be given.\n\nVerdict: matches. Stopping to ask the user without claiming a cause is, in substance, the expected \"not found\". The primary grader rejected it only because the label differs, which is judging the label rather than the substance.\n\nLayer and cause: both match. VISUAL_OUTSIDE_PAGE says exactly what the expectation describes: the chosen visual is not on the chosen page. That is an intake-selection problem. The primary grader is wrong to say the conflict was \"never identified\" and that this stop code is \"incorrect\". No triage was needed to find a mismatch at intake. The answer also does not repair the selection or state any cause for the extra 250.\n\nPartial: yes. The fix the answer proposes is aimed at the wrong thing. It asks which report to check, but there is only one report and it was never in doubt. The only option it offers is Subscription Billing. It never asks the user to choose between the Invoiced Amount card on the Subscription Billing page and the Collected Amount card on Recent Collections, and the user-facing text never mentions the conflict. Answering this question would not resolve the conflict. Under the all-three rule a partial answer scores zero, so the case fails at \"asked the user\".\n\nHarmful: no. No wrong cause is stated as fact.\n\nHandoff quality: 1. The stop code is correct, but the next check is vague and the choices offered are the wrong ones.\n\nThe secondary grader matches all of this. The primary grader's verdict, layer and cause rejections are wrong, so the winner is the secondary grader.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "77a80124206f88a63200cfe593e601f9a0997317fdedca4a733b62c1443feb4d",
+        "reason": "What the saved record shows: the triage, query, evidence and intake evidence fields are all null. The saved answer is status NEEDS_INPUT with stop code VISUAL_OUTSIDE_PAGE. Its user-facing question is \"Which report should I check?\". The technical handoff repeats the submitted form unchanged, runs no queries, rules nothing out, and offers one catalog choice, the Subscription Billing report. Its next check is \"Resolve the selected target from the catalog choices.\" The sealed expectation is verdict \"not found\" at the report scope / intake selection layer. It says the selected visual (a4e07b71\u2026) is not on the selected page (Recent Collections). The form should be used as submitted, the user should be asked which page and visual they meant, and no technical cause should be given.\n\nVerdict: matches. Stopping to ask the user without claiming a cause is, in substance, the expected \"not found\". The primary grader rejected it only because the label differs, which is judging the label rather than the substance.\n\nLayer and cause: both match. VISUAL_OUTSIDE_PAGE says exactly what the expectation describes: the chosen visual is not on the chosen page. That is an intake-selection problem. The primary grader is wrong to say the conflict was \"never identified\" and that this stop code is \"incorrect\". No triage was needed to find a mismatch at intake. The answer also does not repair the selection or state any cause for the extra 250.\n\nPartial: yes. The fix the answer proposes is aimed at the wrong thing. It asks which report to check, but there is only one report and it was never in doubt. The only option it offers is Subscription Billing. It never asks the user to choose between the Invoiced Amount card on the Subscription Billing page and the Collected Amount card on Recent Collections, and the user-facing text never mentions the conflict. Answering this question would not resolve the conflict. Under the all-three rule a partial answer scores zero, so the case fails at \"asked the user\".\n\nHarmful: no. No wrong cause is stated as fact.\n\nHandoff quality: 1. The stop code is correct, but the next check is vague and the choices offered are the wrong ones.\n\nThe secondary grader matches all of this. The primary grader's verdict, layer and cause rejections are wrong, so the winner is the secondary grader.",
+        "source_sha256": "961bb55d8fb231684319223ef60d63cdba1b084708f544afd00a0e97693994a5",
+        "ticket": "v4-billing-invoices-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 2995,
+          "output_tokens": 1651,
+          "output_tokens_details": {
+            "thinking_tokens": 659
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
       "ticket": "v4-waiting-application-load-1",
       "class": "v4-waiting-application-load",
       "fixture": "waiting",
@@ -5255,15 +6771,9 @@
     "v4-fixture-quantity-1",
     "v4-fixture-quantity-2",
     "v4-fixture-quantity-3",
-    "v4-billing-invoices-1",
-    "v4-billing-invoices-2",
-    "v4-billing-invoices-3",
     "v4-warehouse-scope-1",
     "v4-warehouse-scope-2",
     "v4-warehouse-scope-3",
-    "v4-before-temporal-retention-1",
-    "v4-before-temporal-retention-2",
-    "v4-before-temporal-retention-3",
     "v4-record-absent-everywhere-1",
     "v4-record-absent-everywhere-2",
     "v4-record-absent-everywhere-3",
@@ -6728,6 +8238,726 @@
         }
       }
     },
+    "as designed; historical value not found (no retained version before 2026-10-23)": {
+      "official_primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "transformation logic": {
+      "official_primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "not found": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "waiting on job": {
       "official_primary": {
         "all_three": {
@@ -6972,33 +9202,33 @@
   "class_grouping_basis": "Original case IDs retained; additional verdict grouping uses exact sealed oracle labels only, no expectation changes.",
   "timing_cost": {
     "all": {
-      "tickets": 24,
-      "native_observed": 17,
-      "native_missing": 7,
-      "native_median_seconds": 192.0,
-      "native_p90_seconds": 259.0,
-      "worker_median_seconds": 163.1589737070001,
-      "worker_p90_seconds": 218.167820693,
-      "investigation_cost_microdollars_observed": 11070238,
-      "cost_observed": 22,
+      "tickets": 30,
+      "native_observed": 22,
+      "native_missing": 8,
+      "native_median_seconds": 199.5,
+      "native_p90_seconds": 268.0,
+      "worker_median_seconds": 171.92881492599997,
+      "worker_p90_seconds": 238.297234413,
+      "investigation_cost_microdollars_observed": 13713706,
+      "cost_observed": 28,
       "cost_unavailable": 2,
-      "cost_per_observed_ticket_usd": 0.5031926363636363,
-      "physical_requests_observed": 492,
+      "cost_per_observed_ticket_usd": 0.48977521428571424,
+      "physical_requests_observed": 653,
       "physical_requests_unavailable": 2
     },
     "full_investigation": {
-      "tickets": 13,
-      "native_observed": 13,
+      "tickets": 18,
+      "native_observed": 18,
       "native_missing": 0,
-      "native_median_seconds": 193.0,
-      "native_p90_seconds": 259.0,
-      "worker_median_seconds": 163.67915454499996,
-      "worker_p90_seconds": 203.489456507,
-      "investigation_cost_microdollars_observed": 5375106,
-      "cost_observed": 13,
+      "native_median_seconds": 221.5,
+      "native_p90_seconds": 282.0,
+      "worker_median_seconds": 188.62871063500003,
+      "worker_p90_seconds": 253.465285683,
+      "investigation_cost_microdollars_observed": 8018574,
+      "cost_observed": 18,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.4134696923076923,
-      "physical_requests_observed": 361,
+      "cost_per_observed_ticket_usd": 0.4454763333333333,
+      "physical_requests_observed": 522,
       "physical_requests_unavailable": 0
     },
     "answered_without_layer_queries": {
@@ -7017,17 +9247,17 @@
       "physical_requests_unavailable": 0
     },
     "holds": {
-      "tickets": 7,
+      "tickets": 8,
       "native_observed": 0,
-      "native_missing": 7,
+      "native_missing": 8,
       "native_median_seconds": null,
       "native_p90_seconds": null,
-      "worker_median_seconds": 201.2121639315,
+      "worker_median_seconds": 184.25650716999996,
       "worker_p90_seconds": 218.167820693,
       "investigation_cost_microdollars_observed": 4271165,
-      "cost_observed": 5,
+      "cost_observed": 6,
       "cost_unavailable": 2,
-      "cost_per_observed_ticket_usd": 0.854233,
+      "cost_per_observed_ticket_usd": 0.7118608333333334,
       "physical_requests_observed": 47,
       "physical_requests_unavailable": 2
     }

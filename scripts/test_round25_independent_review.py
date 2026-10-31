@@ -1,8 +1,15 @@
 ﻿import unittest
 from copy import deepcopy
-from round25_independent_review import packet,exact_deduplicate,pack_embedded_json,compact_capture_packet,differs,schema,metric_winner,saved_evidence,review_resume_response,review_budget
+from round25_independent_review import packet,exact_deduplicate,pack_embedded_json,compact_capture_packet,differs,schema,metric_winner,saved_evidence,review_resume_response,review_budget,use_compact_review
 from jsonschema import Draft202012Validator
 class IndependentReviewTests(unittest.TestCase):
+ def test_completed_reviews_resume_original_encoding_without_new_dispatch(self):
+  from hashlib import sha256
+  original=b'original packet';compact=b'packed'
+  self.assertTrue(use_compact_review(original,compact))
+  self.assertFalse(use_compact_review(original,compact,sha256(original).hexdigest()))
+  self.assertTrue(use_compact_review(original,compact,sha256(compact).hexdigest()))
+  with self.assertRaisesRegex(ValueError,'SOURCE_CHANGED'):use_compact_review(original,compact,'0'*64)
  def test_review_budget_uses_owner_actual_limit_without_changing_monthly_authority(self):
   from unittest.mock import patch
   state=object();rate=object()
