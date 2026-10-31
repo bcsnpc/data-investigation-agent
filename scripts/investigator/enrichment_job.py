@@ -17,7 +17,7 @@ class EnrichmentSpendBudget:
         # batch account for NEW calls only. Historical rows remain untouched.
         try:physical=state.get('build_phase_policy','monthly-physical')['body']
         except KeyError:physical={}
-        if physical.get('total_limit')==12000 and physical.get('default_total_limit')==9000:
+        if physical.get('total_limit',0)>=12000 and physical.get('default_total_limit')==9000:
             from .build_phase import ensure_model_account
             import time
             self.account=ensure_model_account(state,time.time());self.monthly=True
