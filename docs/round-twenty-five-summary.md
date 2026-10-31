@@ -16,7 +16,7 @@ Owner resume,2026-10-31: October ceilings are now **AI $166; physical15,500; inv
 
 Owner's 2026-10-28 steer applies throughout: official primary, strict (both graders correct) and raw-reviewed appear side by side. Raw-reviewed is the plain-language headline. Every disagreement is checked against the saved capture; original grades and sealed expectations stay unchanged. Pending reviews remain explicit.
 
-Interim G1 (31 double-graded): **raw-reviewed 26/31 (95%Wilson67.4-92.9%)**, official 28/31 (95%Wilson75.1-96.7%), strict 25/31 (95%Wilson63.7-90.8%). Raw-confirmed harmful2 in source-history; that family stays paused. Every assessment disagreement has a saved-capture review; originals stay unchanged. The invalid-report-ID warehouse input remains a benchmark zero, separately identified as an authored contract finding. [Current scores](runs/round-twenty-five-g1-current-grades.json), [all disagreements](round-twenty-five-grader-disagreements.md).
+Historical checkpoint, G1 (31 double-graded): **raw-reviewed 26/31 (95%Wilson67.4-92.9%)**, official 28/31 (95%Wilson75.1-96.7%), strict 25/31 (95%Wilson63.7-90.8%). Raw-confirmed harmful2 in source-history caused the then-active pause. The owner lifted that pause for measurement on October31; the harmful answers remain counted. Every assessment disagreement has a saved-capture review; originals stay unchanged. The invalid-report-ID warehouse input remains a benchmark zero, separately identified as an authored contract finding. [Current scores](runs/round-twenty-five-g1-current-grades.json), [all disagreements](round-twenty-five-grader-disagreements.md).
 
 R24's absent-record capture has a dated raw-review correction: secondary is right on cause and both graders were overly strict on its verdict label under the unchanged substance rule. The initial review is preserved. Official18/20 stays unchanged, with no rerun or provider regrade. [Raw review](runs/round-twenty-five-r24-held-disagreement-raw-review.json).
 
@@ -26,7 +26,7 @@ All40 outcomes saved and double-graded. **Raw-reviewed35/40**, official37/40, st
 
 ## G2: headline held-out v4
 
-In progress. History measured first under owner pause-lift: all3counted, oneNEEDS_INPUT and twoANSWERED. Primary2/3,strict2/3,independently raw-reviewed2/3,harm0. Three fresh Claude disagreement reviews completed; operator did not adjudicate. Original source360row hash and real restoration load verified, temporalON. Other57pending. [Interim G2](runs/round25-g2-current-grades.json), [independent decisions](runs/g2-history01-independent-review.json).
+In progress. First six graded tickets: **official5/6, strict5/6, independently raw-reviewed5/6; harmful0**. History measured first under owner pause-lift: all3counted, oneNEEDS_INPUT and twoANSWERED. All3fixture failed-job tickets answered correctly. Fresh Claude calls adjudicated every assessment disagreement; the operator did not adjudicate. Original source360row hash, pipeline definition hash and real restoration loads verified, temporalON. Billing failed-job cohort is running; other results remain pending. [Interim G2](runs/round25-g2-current-grades.json), [history decisions](runs/g2-history01-independent-review.json), [fixture-failure decisions](runs/g2-failure-fixture01-independent-review.json).
 
 ## G3: unchanged R22 messy input
 
