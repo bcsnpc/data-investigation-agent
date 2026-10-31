@@ -796,6 +796,108 @@
       "outcome_sha256": "77a80124206f88a63200cfe593e601f9a0997317fdedca4a733b62c1443feb4d"
     },
     {
+      "ticket": "v4-billing-mrr-1",
+      "class": "v4-billing-mrr",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 214.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 81.75222596099997,
+        "model_seconds": 42.53440352399997,
+        "native_query_sum_seconds": 33.31054017299999,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 17.883830440000025
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 152.639544451
+          }
+        ],
+        "route_schema_seconds": 52.46029236199996,
+        "triage_seconds": 17.662299726000015,
+        "wall_seconds": 174.75534739500003
+      },
+      "cost_microdollars": 568264,
+      "physical_requests": 23,
+      "model_calls": 5,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 253566,
+      "total_input_tokens": 345290,
+      "cache_read_ratio": 0.7343566277621709,
+      "usage_calls": 7,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "d311a15eb28599ef77a844fa4e7782b3d4ac18f64381a9ace1700f1e9e4b261c"
+    },
+    {
+      "ticket": "v4-billing-mrr-2",
+      "class": "v4-billing-mrr",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 274.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 144.250735453,
+        "model_seconds": 39.186727769000015,
+        "native_query_sum_seconds": 102.31359941099998,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 4.9982360669999935
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 216.36507288
+          }
+        ],
+        "route_schema_seconds": 51.160983183999974,
+        "triage_seconds": 20.182283315000006,
+        "wall_seconds": 225.78359040099997
+      },
+      "cost_microdollars": 482951,
+      "physical_requests": 30,
+      "model_calls": 4,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 187827,
+      "total_input_tokens": 268391,
+      "cache_read_ratio": 0.6998260001266808,
+      "usage_calls": 4,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "02079dd8855d2fcaf13b64aa7fd93c2d87d1ff0d6de080fe560a6396e636bb08"
+    },
+    {
+      "ticket": "v4-billing-mrr-3",
+      "class": "v4-billing-mrr",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 204.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 88.72779531500004,
+        "model_seconds": 41.83079347699993,
+        "native_query_sum_seconds": 35.825260223999976,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.300403286000005
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 164.01375304700002
+          }
+        ],
+        "route_schema_seconds": 54.77274098799998,
+        "triage_seconds": 19.820424317999993,
+        "wall_seconds": 169.735375887
+      },
+      "cost_microdollars": 544956,
+      "physical_requests": 22,
+      "model_calls": 4,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 192180,
+      "total_input_tokens": 284695,
+      "cache_read_ratio": 0.6750381987741267,
+      "usage_calls": 4,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "c47bf661bb6aff1bf820f25d4bb8ec58193767ea25528e5b8f9e300145d96e91"
+    },
+    {
       "ticket": "v4-waiting-application-load-1",
       "class": "v4-waiting-application-load",
       "timing_group": "full investigation",
@@ -899,35 +1001,35 @@
     }
   ],
   "all": {
-    "tickets": 28,
-    "native_duration_observed": 22,
+    "tickets": 31,
+    "native_duration_observed": 25,
     "native_duration_unavailable": 6,
-    "worker_wall_observed": 25,
-    "worker_wall_median_seconds": 171.92881492599997,
+    "worker_wall_observed": 28,
+    "worker_wall_median_seconds": 173.34208116050002,
     "worker_wall_p90_seconds": 238.297234413,
-    "median_seconds": 199.5,
-    "p90_seconds_nearest_rank": 268.0,
-    "investigation_cost_microdollars": 13713706,
-    "cost_per_ticket_usd": 0.48977521428571424,
-    "cache_read_input_tokens": 5556053,
-    "total_input_tokens": 7949482,
-    "cache_read_ratio": 0.6989201308965792
+    "median_seconds": 206.0,
+    "p90_seconds_nearest_rank": 274.0,
+    "investigation_cost_microdollars": 15309877,
+    "cost_per_ticket_usd": 0.493867,
+    "cache_read_input_tokens": 6189626,
+    "total_input_tokens": 8847858,
+    "cache_read_ratio": 0.6995620861003873
   },
   "timing_groups": {
     "full investigation": {
-      "tickets": 18,
-      "native_duration_observed": 18,
+      "tickets": 21,
+      "native_duration_observed": 21,
       "native_duration_unavailable": 0,
-      "worker_wall_observed": 18,
-      "worker_wall_median_seconds": 188.62871063500003,
-      "worker_wall_p90_seconds": 253.465285683,
-      "median_seconds": 221.5,
-      "p90_seconds_nearest_rank": 282.0,
-      "investigation_cost_microdollars": 8018574,
-      "cost_per_ticket_usd": 0.4454763333333333,
-      "cache_read_input_tokens": 2774904,
-      "total_input_tokens": 4122345,
-      "cache_read_ratio": 0.6731372556154325
+      "worker_wall_observed": 21,
+      "worker_wall_median_seconds": 180.75598343300004,
+      "worker_wall_p90_seconds": 238.297234413,
+      "median_seconds": 214.0,
+      "p90_seconds_nearest_rank": 274.0,
+      "investigation_cost_microdollars": 9614745,
+      "cost_per_ticket_usd": 0.457845,
+      "cache_read_input_tokens": 3408477,
+      "total_input_tokens": 5020721,
+      "cache_read_ratio": 0.6788819773096334
     },
     "hold": {
       "tickets": 6,
@@ -965,7 +1067,7 @@
   "new_estate_reads": 0,
   "new_model_calls": 0,
   "monthly_ledger_read_only": true,
-  "graded_total_including_native_exceptions": 30,
+  "graded_total_including_native_exceptions": 33,
   "usage_unavailable_cases": [
     "v4-application-baseline-2",
     "v4-application-baseline-3"

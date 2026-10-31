@@ -1,141 +1,141 @@
 {
   "official_primary": {
     "all_three": {
-      "correct": 16,
-      "total": 30,
-      "accuracy": 0.5333333333333333,
-      "lower": 0.36142299619873297,
-      "upper": 0.6976761109230025,
+      "correct": 19,
+      "total": 33,
+      "accuracy": 0.5757575757575758,
+      "lower": 0.4080726333731245,
+      "upper": 0.7276440336658979,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 19,
-      "total": 30,
-      "accuracy": 0.6333333333333333,
-      "lower": 0.4551356365479487,
-      "upper": 0.7812607919389929,
+      "correct": 22,
+      "total": 33,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.4960789442780561,
+      "upper": 0.8024977232077931,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 23,
-      "total": 30,
-      "accuracy": 0.7666666666666667,
-      "lower": 0.5907167384187784,
-      "upper": 0.8820761185551049,
+      "correct": 26,
+      "total": 33,
+      "accuracy": 0.7878787878787878,
+      "lower": 0.6224835500784931,
+      "upper": 0.8932397846697919,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 16,
-      "total": 30,
-      "accuracy": 0.5333333333333333,
-      "lower": 0.36142299619873297,
-      "upper": 0.6976761109230025,
+      "correct": 19,
+      "total": 33,
+      "accuracy": 0.5757575757575758,
+      "lower": 0.4080726333731245,
+      "upper": 0.7276440336658979,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 30,
+      "total": 33,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.11351339317396876,
+      "upper": 0.10426999754245206,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "strict": {
     "all_three": {
-      "correct": 14,
-      "total": 30,
-      "accuracy": 0.4666666666666667,
-      "lower": 0.30232388907699753,
-      "upper": 0.638577003801267,
+      "correct": 17,
+      "total": 33,
+      "accuracy": 0.5151515151515151,
+      "lower": 0.3521837544891414,
+      "upper": 0.674959578918663,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 18,
-      "total": 30,
-      "accuracy": 0.6,
-      "lower": 0.42320360253322475,
-      "upper": 0.7540937188319815,
+      "correct": 21,
+      "total": 33,
+      "accuracy": 0.6363636363636364,
+      "lower": 0.466161783022664,
+      "upper": 0.7781282176475764,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 21,
-      "total": 30,
-      "accuracy": 0.7,
-      "lower": 0.5212421254128504,
-      "upper": 0.8333525173175619,
+      "correct": 24,
+      "total": 33,
+      "accuracy": 0.7272727272727273,
+      "lower": 0.5578244099712737,
+      "upper": 0.8493255911457935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 14,
-      "total": 30,
-      "accuracy": 0.4666666666666667,
-      "lower": 0.30232388907699753,
-      "upper": 0.638577003801267,
+      "correct": 17,
+      "total": 33,
+      "accuracy": 0.5151515151515151,
+      "lower": 0.3521837544891414,
+      "upper": 0.674959578918663,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 30,
+      "total": 33,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.11351339317396876,
+      "upper": 0.10426999754245206,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "raw_reviewed": {
     "all_three": {
-      "correct": 16,
-      "total": 30,
-      "accuracy": 0.5333333333333333,
-      "lower": 0.36142299619873297,
-      "upper": 0.6976761109230025,
+      "correct": 19,
+      "total": 33,
+      "accuracy": 0.5757575757575758,
+      "lower": 0.4080726333731245,
+      "upper": 0.7276440336658979,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 22,
-      "total": 30,
-      "accuracy": 0.7333333333333333,
-      "lower": 0.555520383048111,
-      "upper": 0.8581733668040368,
+      "correct": 25,
+      "total": 33,
+      "accuracy": 0.7575757575757576,
+      "lower": 0.5897538017044264,
+      "upper": 0.8716828662282499,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 23,
-      "total": 30,
-      "accuracy": 0.7666666666666667,
-      "lower": 0.5907167384187784,
-      "upper": 0.8820761185551049,
+      "correct": 26,
+      "total": 33,
+      "accuracy": 0.7878787878787878,
+      "lower": 0.6224835500784931,
+      "upper": 0.8932397846697919,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 16,
-      "total": 30,
-      "accuracy": 0.5333333333333333,
-      "lower": 0.36142299619873297,
-      "upper": 0.6976761109230025,
+      "correct": 19,
+      "total": 33,
+      "accuracy": 0.5757575757575758,
+      "lower": 0.4080726333731245,
+      "upper": 0.7276440336658979,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 30,
+      "total": 33,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.11351339317396876,
+      "upper": 0.10426999754245206,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,107 +143,107 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 30,
+  "completed_graded": 33,
   "primary": {
     "all_three": {
-      "correct": 16,
-      "total": 30,
-      "accuracy": 0.5333333333333333,
-      "lower": 0.36142299619873297,
-      "upper": 0.6976761109230025,
+      "correct": 19,
+      "total": 33,
+      "accuracy": 0.5757575757575758,
+      "lower": 0.4080726333731245,
+      "upper": 0.7276440336658979,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 19,
-      "total": 30,
-      "accuracy": 0.6333333333333333,
-      "lower": 0.4551356365479487,
-      "upper": 0.7812607919389929,
+      "correct": 22,
+      "total": 33,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.4960789442780561,
+      "upper": 0.8024977232077931,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 23,
-      "total": 30,
-      "accuracy": 0.7666666666666667,
-      "lower": 0.5907167384187784,
-      "upper": 0.8820761185551049,
+      "correct": 26,
+      "total": 33,
+      "accuracy": 0.7878787878787878,
+      "lower": 0.6224835500784931,
+      "upper": 0.8932397846697919,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 16,
-      "total": 30,
-      "accuracy": 0.5333333333333333,
-      "lower": 0.36142299619873297,
-      "upper": 0.6976761109230025,
+      "correct": 19,
+      "total": 33,
+      "accuracy": 0.5757575757575758,
+      "lower": 0.4080726333731245,
+      "upper": 0.7276440336658979,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 30,
+      "total": 33,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.11351339317396876,
+      "upper": 0.10426999754245206,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "secondary": {
     "all_three": {
-      "correct": 16,
-      "total": 30,
-      "accuracy": 0.5333333333333333,
-      "lower": 0.36142299619873297,
-      "upper": 0.6976761109230025,
+      "correct": 19,
+      "total": 33,
+      "accuracy": 0.5757575757575758,
+      "lower": 0.4080726333731245,
+      "upper": 0.7276440336658979,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 21,
-      "total": 30,
-      "accuracy": 0.7,
-      "lower": 0.5212421254128504,
-      "upper": 0.8333525173175619,
+      "correct": 24,
+      "total": 33,
+      "accuracy": 0.7272727272727273,
+      "lower": 0.5578244099712737,
+      "upper": 0.8493255911457935,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 22,
-      "total": 30,
-      "accuracy": 0.7333333333333333,
-      "lower": 0.555520383048111,
-      "upper": 0.8581733668040368,
+      "correct": 25,
+      "total": 33,
+      "accuracy": 0.7575757575757576,
+      "lower": 0.5897538017044264,
+      "upper": 0.8716828662282499,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 16,
-      "total": 30,
-      "accuracy": 0.5333333333333333,
-      "lower": 0.36142299619873297,
-      "upper": 0.6976761109230025,
+      "correct": 19,
+      "total": 33,
+      "accuracy": 0.5757575757575758,
+      "lower": 0.4080726333731245,
+      "upper": 0.7276440336658979,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 30,
+      "total": 33,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.11351339317396876,
+      "upper": 0.10426999754245206,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 24,
-    "total": 30,
-    "accuracy": 0.8,
-    "lower": 0.6269430358685175,
-    "upper": 0.9049489282271013,
+    "correct": 27,
+    "total": 33,
+    "accuracy": 0.8181818181818182,
+    "lower": 0.6561176836533009,
+    "upper": 0.9138923179105933,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -255,10 +255,10 @@
   ],
   "full_assessment_agreement": {
     "correct": 5,
-    "total": 30,
-    "accuracy": 0.16666666666666666,
-    "lower": 0.0733654237184855,
-    "upper": 0.3356435050641603,
+    "total": 33,
+    "accuracy": 0.15151515151515152,
+    "lower": 0.06650457281607568,
+    "upper": 0.3091987588044212,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -429,6 +429,24 @@
         "layer_match",
         "cause_match",
         "partial"
+      ]
+    },
+    {
+      "ticket": "v4-billing-mrr-1",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v4-billing-mrr-2",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v4-billing-mrr-3",
+      "fields": [
+        "handoff_quality"
       ]
     },
     {
@@ -1801,6 +1819,234 @@
           "output_tokens": 1826,
           "output_tokens_details": {
             "thinking_tokens": 725
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-billing-mrr-1",
+      "class": "v4-billing-mrr",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'as designed / definition explained', the layer as 'semantic model measure', and the cause as CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status]='ACTIVE'), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)) \u2014 matching the sealed expected cause both in formula and in explanation (ACTIVE filter on Subscriptions, REMOVEFILTERS on Plans, monthly_price summed via relationship). The answer correctly identifies 3 active subscriptions summing to 600 and names subscription 404 as CHURNED/excluded, which is consistent with the inclusion rule. The expected answer notes individual IDs are not part of native facts but says the answer should give the inclusion rule and count of 3; the delivered answer goes further and names IDs, which is additional detail rather than a contradiction. The warehouse and Direct Lake backing are correctly identified. The answer is fully resolved with no handoff needed, so handoff quality is scored 0 (no handoff scenario applies \u2014 the question was answered completely). No harmful incorrect cause was stated.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered verdict is 'definition explained' and the expected verdict is 'as designed'. They mean the same thing here. The user asked how the number is built, and both say the 600 comes from the current definition with no defect. That counts as a match. Layer: the delivered answer names the MRR All Plans measure in the Subscription Billing semantic model, which matches the expected 'semantic model measure'. Cause: the delivered DAX is the same as the expected definition: CALCULATE(SUMX(FILTER(Subscriptions, status=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)). It also explains it the same way: only ACTIVE subscriptions are included, the related plan monthly_price is summed, and filters on Plans are ignored. It reran the measure and got 600, matching the reported number. It also cross-checked against gold tables in the warehouse: 3 ACTIVE subscriptions, 250+100+250=600. Minor disagreement: the expected record says to give the inclusion rule and the count of 3, not a list of subscription IDs. The delivered answer does list IDs 401-403 (and 404 as CHURNED). Its own model and warehouse queries support the IDs, so this is extra detail, not an error. The claim that 404 is CHURNED is not visible in the grader samples, because one row was omitted from each query. It agrees with the row count of 4 and the ACTIVE total of 600, so it is not a confident wrong cause. One DAX lookup query failed with HTTP 400, but other successful queries got the same data. The answer is careful about limits: it says the snapshots are not time-aligned and that upstream tables were not read. Handoff: no handoff was needed because the answer is resolved. The queries are logged verbatim and can be rerun, and the answer stops at a clear point, so handoff quality is 2.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static04",
+      "outcome_sha256": "d311a15eb28599ef77a844fa4e7782b3d4ac18f64381a9ace1700f1e9e4b261c",
+      "status": "ANSWERED",
+      "native_duration_seconds": 214.0,
+      "worker_wall_seconds": 174.75534739500003,
+      "investigation_cost_microdollars": 568264,
+      "physical_requests": 23,
+      "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-billing-mrr-1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 202095,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "Saved evidence: the retained model definition of MRR All Plans is CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status]=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)), identical to the sealed expectation. Running the measure in the model with no filters returned 600, matching the card. A row-level DAX SELECTCOLUMNS query on the model succeeded and returned 401/402/403 as ACTIVE (250/100/250) and 404 as CHURNED (100). The warehouse SQL sum on gold.subscriptions/gold.plans for ACTIVE returned 600, and the warehouse row listing matches the model rows. An earlier DAX ADDCOLUMNS query failed with HTTP 400. An earlier draft citing that failed query was rejected (FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING), and another draft was rejected for a bad 'checked' enum value. The final answer cites only successful queries, and its 'in the model' row claims are backed by the successful DAX lookup. Verdict 'definition explained' is equivalent to 'as designed' for a how-is-this-calculated question with no defect. Layer (semantic model measure) matches. Cause matches in formula and meaning, and the 3 included subscriptions totalling 600 match the expected count of 3; listing IDs is supported extra detail, not a contradiction. The Direct Lake claim is not checked by any saved query (CONNECTION_MODE was unavailable) but is true per the sealed facts, so it is a minor unchecked claim, not a harmful one. The answer is honest about the limits of its evidence (snapshots not time-aligned, bronze and app source not read). All three criteria are met, so the case scores in full; not partial, not harmful. Handoff: the answer is resolved, its queries are saved verbatim and can be rerun, and it states where its evidence stops, so 2 is right. The primary grader's 0 wrongly penalises a complete answer for not needing a handoff. The secondary grader is right overall, although its remark that 404's CHURNED status is not visible is moot: the full evidence shows it explicitly in both the model and warehouse queries.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "d311a15eb28599ef77a844fa4e7782b3d4ac18f64381a9ace1700f1e9e4b261c",
+        "reason": "Saved evidence: the retained model definition of MRR All Plans is CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status]=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)), identical to the sealed expectation. Running the measure in the model with no filters returned 600, matching the card. A row-level DAX SELECTCOLUMNS query on the model succeeded and returned 401/402/403 as ACTIVE (250/100/250) and 404 as CHURNED (100). The warehouse SQL sum on gold.subscriptions/gold.plans for ACTIVE returned 600, and the warehouse row listing matches the model rows. An earlier DAX ADDCOLUMNS query failed with HTTP 400. An earlier draft citing that failed query was rejected (FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING), and another draft was rejected for a bad 'checked' enum value. The final answer cites only successful queries, and its 'in the model' row claims are backed by the successful DAX lookup. Verdict 'definition explained' is equivalent to 'as designed' for a how-is-this-calculated question with no defect. Layer (semantic model measure) matches. Cause matches in formula and meaning, and the 3 included subscriptions totalling 600 match the expected count of 3; listing IDs is supported extra detail, not a contradiction. The Direct Lake claim is not checked by any saved query (CONNECTION_MODE was unavailable) but is true per the sealed facts, so it is a minor unchecked claim, not a harmful one. The answer is honest about the limits of its evidence (snapshots not time-aligned, bronze and app source not read). All three criteria are met, so the case scores in full; not partial, not harmful. Handoff: the answer is resolved, its queries are saved verbatim and can be rerun, and it states where its evidence stops, so 2 is right. The primary grader's 0 wrongly penalises a complete answer for not needing a handoff. The secondary grader is right overall, although its remark that 404's CHURNED status is not visible is moot: the full evidence shows it explicitly in both the model and warehouse queries.",
+        "source_sha256": "a15f3ff2599d9d4fb9f060d45ebd04e3b20686a3858a385eed696aecec4c515b",
+        "ticket": "v4-billing-mrr-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 35270,
+          "output_tokens": 2831,
+          "output_tokens_details": {
+            "thinking_tokens": 710
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-billing-mrr-2",
+      "class": "v4-billing-mrr",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer gives 'definition explained' while the expected is 'as designed'; these are substantively equivalent \u2014 the answer explains the measure definition, confirms 600 is the designed result of the ACTIVE-filter + REMOVEFILTERS(Plans) calculation, and explicitly declines to judge whether 599 or 600 is correct for the business. Layer: correctly identified as the semantic model measure (Subscription Billing / MRR All Plans). Cause: correctly states the measure as CALCULATE(SUMX(FILTER(Subscriptions, status='ACTIVE'), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)), 3 active subscriptions summing to 600, 1 churned at 100 excluded \u2014 matching the sealed expected cause in full. No incorrect cause is asserted. The answer is complete and not harmful. Handoff quality is 0 because the case is fully answered and no handoff is needed; the handoff object is empty, which is appropriate for a resolved case.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the answer is labelled 'definition explained' and the expected verdict is 'as designed'. The wording differs but the meaning is the same. The answer says the card's 600 is exactly what the MRR All Plans measure returns with no filters. It finds no fault, doesn't invent a cause for the gap to the user's 599, and leaves the business question alone, as the user asked. That matches 'as designed'. Layer: the answer places the explanation in the semantic model measure, giving the exact native definition CALCULATE(SUMX(FILTER(Subscriptions, status=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)). This matches the expected layer. Cause: the answer covers the ACTIVE-only filter, the related monthly_price sum and REMOVEFILTERS(Plans). It gives the count (3 ACTIVE subscriptions summing to 600, with 1 CHURNED subscription at 100 excluded). It confirms 600 in the model, gold, bronze and the source. The expected record asks for the rule plus the count and no subscription IDs, which is what the answer gives. Not harmful: the caveat about the empty refresh history and disabled schedule is stated as unchecked, not claimed as a fault. Two queries were rejected by the validator (DAX LEN, the SQL N'' literal), but simpler versions were rerun successfully, so the conclusion wasn't affected. Handoff: the answer was resolved, so the handoff block is empty. It still scores 2 because the queries are literal and rerunnable, the stopping point is clear, and the unchecked refresh question is named as an open gap.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static04",
+      "outcome_sha256": "02079dd8855d2fcaf13b64aa7fd93c2d87d1ff0d6de080fe560a6396e636bb08",
+      "status": "ANSWERED",
+      "native_duration_seconds": 274.0,
+      "worker_wall_seconds": 225.78359040099997,
+      "investigation_cost_microdollars": 482951,
+      "physical_requests": 30,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-billing-mrr-2-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 206540,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "This case passes the all-three rule. Both graders reach the same pass, but both missed two unsupported side claims, and I rate the handoff differently from either of them.\n\nWhat the raw capture shows:\n- **Measure definition:** get_definition returned the retained native definition of MRR All Plans: CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status]=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)).\n- **Card recreated:** the recreate DAX query returned [MRR All Plans]=600, which matches the reported card.\n- **Status breakdown:** the breakdown DAX query (the retry without LEN) returned ACTIVE rows=3, price_sum=600 and CHURNED rows=1, price_sum=100.\n- **Same sum at earlier layers:** the active-subscriptions-joined-to-plans sum returned 600 in gold (billing_serving), in bronze (billing_bronze) and in the source billingapp. The source read is the retry without the N'' prefix, and it connected on the third attempt after two 40613 failures.\n- **Two queries never ran:** one used LEN and one used N''. The validator rejected both before execution, so they had no effect on the answer.\n- **Triage:** the model's refresh history is empty, its schedule is disabled, and the last job run succeeded on 2026-10-09.\n- **Self-correction on 599:** the first submit_finding was rejected for quoting 599. The saved answer drops that number and says no layer gives the expected figure.\n\n**Verdict.** The answer's label is \"definition explained\" and the expected verdict is \"as designed\". In substance they match: the answer says 600 is exactly what the measure returns with no filters, invents no cause for the gap to 599, and declines the business question as the user asked. Its line that the refresh state doesn't \"rule out\" a fault is honest hedging about something it didn't check, not a claim that a fault exists.\n\n**Layer.** The answer places the explanation in the semantic model measure, which matches the expected layer.\n\n**Cause.** It names the ACTIVE-only filter, the RELATED monthly_price sum, REMOVEFILTERS(Plans), the 3 active subscriptions summing to 600 and the 1 churned subscription at 100 left out. That covers the sealed cause, and the sealed note asks for the rule and count without subscription IDs, which is what the answer gives. All three scored parts are correct, so this is not a partial.\n\n**What both graders missed.** The answer states two things with confidence that the saved evidence does not support:\n1. \"The retained SQL scripts copy these columns from bronze to gold unchanged.\" No transformation script was retrieved; the only get_definition call was for the measure.\n2. It calls the model \"this Direct Lake model\". The connection-mode check came back unavailable, so the storage mode was never established.\n\nNeither claim touches the scored cause, and neither points the user toward a wrong fault, so harmful=false still holds. But the primary's statement that \"no incorrect cause is asserted\", taken as full support, and the secondary's implied full support both overlook these claims.\n\n**Handoff, the one real dispute.** The primary scores 0 only because no handoff was needed. I disagree: the answer does leave usable material, namely literal, rerunnable queries and a named open gap about refresh. The secondary scores 2 for those reasons, but that ignores the two unsupported statements a successor could take as fact. I give 1.\n\n**Winner.** On the scored outcome (verdict, layer, cause, not harmful, not partial, failing_step none), both graders are right. Neither is right on handoff quality, and neither caught the unsupported claims.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "both",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "02079dd8855d2fcaf13b64aa7fd93c2d87d1ff0d6de080fe560a6396e636bb08",
+        "reason": "This case passes the all-three rule. Both graders reach the same pass, but both missed two unsupported side claims, and I rate the handoff differently from either of them.\n\nWhat the raw capture shows:\n- **Measure definition:** get_definition returned the retained native definition of MRR All Plans: CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status]=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)).\n- **Card recreated:** the recreate DAX query returned [MRR All Plans]=600, which matches the reported card.\n- **Status breakdown:** the breakdown DAX query (the retry without LEN) returned ACTIVE rows=3, price_sum=600 and CHURNED rows=1, price_sum=100.\n- **Same sum at earlier layers:** the active-subscriptions-joined-to-plans sum returned 600 in gold (billing_serving), in bronze (billing_bronze) and in the source billingapp. The source read is the retry without the N'' prefix, and it connected on the third attempt after two 40613 failures.\n- **Two queries never ran:** one used LEN and one used N''. The validator rejected both before execution, so they had no effect on the answer.\n- **Triage:** the model's refresh history is empty, its schedule is disabled, and the last job run succeeded on 2026-10-09.\n- **Self-correction on 599:** the first submit_finding was rejected for quoting 599. The saved answer drops that number and says no layer gives the expected figure.\n\n**Verdict.** The answer's label is \"definition explained\" and the expected verdict is \"as designed\". In substance they match: the answer says 600 is exactly what the measure returns with no filters, invents no cause for the gap to 599, and declines the business question as the user asked. Its line that the refresh state doesn't \"rule out\" a fault is honest hedging about something it didn't check, not a claim that a fault exists.\n\n**Layer.** The answer places the explanation in the semantic model measure, which matches the expected layer.\n\n**Cause.** It names the ACTIVE-only filter, the RELATED monthly_price sum, REMOVEFILTERS(Plans), the 3 active subscriptions summing to 600 and the 1 churned subscription at 100 left out. That covers the sealed cause, and the sealed note asks for the rule and count without subscription IDs, which is what the answer gives. All three scored parts are correct, so this is not a partial.\n\n**What both graders missed.** The answer states two things with confidence that the saved evidence does not support:\n1. \"The retained SQL scripts copy these columns from bronze to gold unchanged.\" No transformation script was retrieved; the only get_definition call was for the measure.\n2. It calls the model \"this Direct Lake model\". The connection-mode check came back unavailable, so the storage mode was never established.\n\nNeither claim touches the scored cause, and neither points the user toward a wrong fault, so harmful=false still holds. But the primary's statement that \"no incorrect cause is asserted\", taken as full support, and the secondary's implied full support both overlook these claims.\n\n**Handoff, the one real dispute.** The primary scores 0 only because no handoff was needed. I disagree: the answer does leave usable material, namely literal, rerunnable queries and a named open gap about refresh. The secondary scores 2 for those reasons, but that ignores the two unsupported statements a successor could take as fact. I give 1.\n\n**Winner.** On the scored outcome (verdict, layer, cause, not harmful, not partial, failing_step none), both graders are right. Neither is right on handoff quality, and neither caught the unsupported claims.",
+        "source_sha256": "e4ebf3a281aba4c51fec7988128f5c2cdd8320a24525fbd9baea65cc7260b70e",
+        "ticket": "v4-billing-mrr-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 39436,
+          "output_tokens": 2431,
+          "output_tokens_details": {
+            "thinking_tokens": 969
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "mixed"
+      }
+    },
+    {
+      "ticket": "v4-billing-mrr-3",
+      "class": "v4-billing-mrr",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'definition explained' (equivalent to 'as designed' - the measure works as intended), the layer as the semantic model measure, and the cause as CALCULATE(SUMX(FILTER(Subscriptions, status=ACTIVE), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)) returning 600 from 3 active subscriptions (1 Starter @100 + 2 Growth @250). The DAX formula, REMOVEFILTERS explanation, subscription breakdown, and SQL cross-check all match the expected cause. The pipeline failure note is an honest additional finding, not a harmful misdirection. Handoff quality is 1: the pipeline failure (bc3b0674) is flagged with rerunnable detail, but no concrete next step is offered for resolving whether source data is current - the stop is noted but not actionable.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered verdict is 'definition explained' and the expected one is 'as designed'. They mean the same thing. This was a HOW_IS_THIS_CALCULATED ticket, and both say the figure comes from the measure working as written, with no defect. Layer: the answer places the logic in the 'MRR All Plans' measure of the Subscription Billing semantic model, which matches 'semantic model measure'. Cause: the answer gives the exact measure text, CALCULATE(SUMX(FILTER(Subscriptions, status=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)). It explains the ACTIVE filter, the per-row lookup of the related plan price through plan_id, and what REMOVEFILTERS(Plans) does. It shows the total is 600 from 3 ACTIVE subscriptions (1 Starter at 100 and 2 Growth at 250), with the churned one left out. The re-run DAX measure, a DAX breakdown by status and plan, and a direct SQL query on gold all return the same result. This matches the sealed cause and the 600 from 3 active subscriptions in the native facts. The answer also reports the failed pipeline run, but it says plainly that this does not change the definition, and it is honest about not knowing how fresh gold or the source data is. That is not a confident wrong cause, so the answer is not harmful. The answer is full and correct. Handoff: the handoff object is empty, but the answer includes all three executed queries with parameters, so they can be rerun. It also says where it stopped and names the obvious next checks: compare against the bronze and billingapp source data, and check how fresh gold is given the failed run.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static04",
+      "outcome_sha256": "c47bf661bb6aff1bf820f25d4bb8ec58193767ea25528e5b8f9e300145d96e91",
+      "status": "ANSWERED",
+      "native_duration_seconds": 204.0,
+      "worker_wall_seconds": 169.735375887,
+      "investigation_cost_microdollars": 544956,
+      "physical_requests": 22,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-billing-mrr-3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 185664,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence establishes:\n- **Definition:** get_definition returns the retained definition of Billing.[MRR All Plans]: CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status] = \"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)).\n- **Recreated measure:** a DAX re-run of that measure returned 600.\n- **Breakdown:** a DAX query by status and plan returned ACTIVE Starter (1 subscription, 100), ACTIVE Growth (2 subscriptions, 500) and CHURNED Starter (1 subscription, 100).\n- **SQL check:** a read-only, parameterized SQL query on billing_serving gold.subscriptions joined to gold.plans, filtered to ACTIVE, returned 600.\n- **Pipeline:** both the triage and the get_job_runs output show pipeline run bc3b0674 FAILED with error 2011 ('bronze' already exists). The last SUCCEEDED run in the history is 6382985a on 2026-10-26.\n- **Model refresh:** the model refresh history is empty (OBSERVED_NEGATIVE, listing_complete true), and its schedule shows enabled=false.\n\nEvery number and operational fact in the saved answer comes from these records. The answer leaves out the explicit '3' only because number validation rejected it, but '1 Starter + 2 Growth' conveys the count.\n\nScoring against the sealed expectation (as designed; semantic model measure; ACTIVE filter + RELATED monthly_price + REMOVEFILTERS(Plans) = 600 from 3 active subscriptions):\n- **Verdict:** 'definition explained' means the same as 'as designed' for a HOW_IS_THIS_CALCULATED ticket. It matches.\n- **Layer:** the answer places the logic in the measure in the Subscription Billing model. It matches.\n- **Cause:** the answer gives the exact measure text, the ACTIVE rule, the related-price lookup, the effect of REMOVEFILTERS and a breakdown that adds up to 600. It matches.\n\nUnder the all-three rule this is a full match, with no partial credit involved.\n\nA few side statements are not directly backed by the saved evidence:\n- The model's direct link to the gold tables was not read in this run. It is consistent with the sealed native facts (Direct Lake partitions on gold.subscriptions and gold.plans).\n- The plan_id relationship is implied by RELATED and the SQL join rather than read directly.\n- The Accounts table is named only as an example, and DAX semantics make the statement correct.\n\nNone of these is a confident wrong claim. The pipeline failure is reported accurately, the answer says it does not change the definition, and it is honest about not knowing whether gold or the source data is current. So the answer is not harmful.\n\nOn the disputed handoff: the status is ANSWERED, so no formal handoff was needed. All three executed queries are saved with their full text, parameters and results, so they can be rerun. The answer also states where it stopped: it did not read the bronze lakehouse or the billingapp source tables, and gold freshness is unconfirmed given the named failed run. The primary grader's score of 1 underrates this. The question was fully answered, and the remaining gap is outside its scope and clearly bounded. The secondary grader's score of 2 is the better judgment, and the rest of its assessment is also correct.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "c47bf661bb6aff1bf820f25d4bb8ec58193767ea25528e5b8f9e300145d96e91",
+        "reason": "What the saved evidence establishes:\n- **Definition:** get_definition returns the retained definition of Billing.[MRR All Plans]: CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status] = \"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)).\n- **Recreated measure:** a DAX re-run of that measure returned 600.\n- **Breakdown:** a DAX query by status and plan returned ACTIVE Starter (1 subscription, 100), ACTIVE Growth (2 subscriptions, 500) and CHURNED Starter (1 subscription, 100).\n- **SQL check:** a read-only, parameterized SQL query on billing_serving gold.subscriptions joined to gold.plans, filtered to ACTIVE, returned 600.\n- **Pipeline:** both the triage and the get_job_runs output show pipeline run bc3b0674 FAILED with error 2011 ('bronze' already exists). The last SUCCEEDED run in the history is 6382985a on 2026-10-26.\n- **Model refresh:** the model refresh history is empty (OBSERVED_NEGATIVE, listing_complete true), and its schedule shows enabled=false.\n\nEvery number and operational fact in the saved answer comes from these records. The answer leaves out the explicit '3' only because number validation rejected it, but '1 Starter + 2 Growth' conveys the count.\n\nScoring against the sealed expectation (as designed; semantic model measure; ACTIVE filter + RELATED monthly_price + REMOVEFILTERS(Plans) = 600 from 3 active subscriptions):\n- **Verdict:** 'definition explained' means the same as 'as designed' for a HOW_IS_THIS_CALCULATED ticket. It matches.\n- **Layer:** the answer places the logic in the measure in the Subscription Billing model. It matches.\n- **Cause:** the answer gives the exact measure text, the ACTIVE rule, the related-price lookup, the effect of REMOVEFILTERS and a breakdown that adds up to 600. It matches.\n\nUnder the all-three rule this is a full match, with no partial credit involved.\n\nA few side statements are not directly backed by the saved evidence:\n- The model's direct link to the gold tables was not read in this run. It is consistent with the sealed native facts (Direct Lake partitions on gold.subscriptions and gold.plans).\n- The plan_id relationship is implied by RELATED and the SQL join rather than read directly.\n- The Accounts table is named only as an example, and DAX semantics make the statement correct.\n\nNone of these is a confident wrong claim. The pipeline failure is reported accurately, the answer says it does not change the definition, and it is honest about not knowing whether gold or the source data is current. So the answer is not harmful.\n\nOn the disputed handoff: the status is ANSWERED, so no formal handoff was needed. All three executed queries are saved with their full text, parameters and results, so they can be rerun. The answer also states where it stopped: it did not read the bronze lakehouse or the billingapp source tables, and gold freshness is unconfirmed given the named failed run. The primary grader's score of 1 underrates this. The question was fully answered, and the remaining gap is outside its scope and clearly bounded. The secondary grader's score of 2 is the better judgment, and the rest of its assessment is also correct.",
+        "source_sha256": "6450c2764ce7d454efa9bb0c33871f27967940ad5009bdd54d9ec48cc7a6b8f4",
+        "ticket": "v4-billing-mrr-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 33852,
+          "output_tokens": 2504,
+          "output_tokens_details": {
+            "thinking_tokens": 1051
           },
           "service_tier": "standard",
           "speed": "standard"
@@ -3909,6 +4155,246 @@
           "accuracy": 0.6666666666666666,
           "lower": 0.2076596008020477,
           "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v4-billing-mrr": {
+      "official_primary": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
           "confidence": 0.95,
           "method": "Wilson"
         },
@@ -6610,6 +7096,234 @@
       }
     },
     {
+      "ticket": "v4-billing-mrr-1",
+      "class": "v4-billing-mrr",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'as designed / definition explained', the layer as 'semantic model measure', and the cause as CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status]='ACTIVE'), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)) \u2014 matching the sealed expected cause both in formula and in explanation (ACTIVE filter on Subscriptions, REMOVEFILTERS on Plans, monthly_price summed via relationship). The answer correctly identifies 3 active subscriptions summing to 600 and names subscription 404 as CHURNED/excluded, which is consistent with the inclusion rule. The expected answer notes individual IDs are not part of native facts but says the answer should give the inclusion rule and count of 3; the delivered answer goes further and names IDs, which is additional detail rather than a contradiction. The warehouse and Direct Lake backing are correctly identified. The answer is fully resolved with no handoff needed, so handoff quality is scored 0 (no handoff scenario applies \u2014 the question was answered completely). No harmful incorrect cause was stated.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered verdict is 'definition explained' and the expected verdict is 'as designed'. They mean the same thing here. The user asked how the number is built, and both say the 600 comes from the current definition with no defect. That counts as a match. Layer: the delivered answer names the MRR All Plans measure in the Subscription Billing semantic model, which matches the expected 'semantic model measure'. Cause: the delivered DAX is the same as the expected definition: CALCULATE(SUMX(FILTER(Subscriptions, status=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)). It also explains it the same way: only ACTIVE subscriptions are included, the related plan monthly_price is summed, and filters on Plans are ignored. It reran the measure and got 600, matching the reported number. It also cross-checked against gold tables in the warehouse: 3 ACTIVE subscriptions, 250+100+250=600. Minor disagreement: the expected record says to give the inclusion rule and the count of 3, not a list of subscription IDs. The delivered answer does list IDs 401-403 (and 404 as CHURNED). Its own model and warehouse queries support the IDs, so this is extra detail, not an error. The claim that 404 is CHURNED is not visible in the grader samples, because one row was omitted from each query. It agrees with the row count of 4 and the ACTIVE total of 600, so it is not a confident wrong cause. One DAX lookup query failed with HTTP 400, but other successful queries got the same data. The answer is careful about limits: it says the snapshots are not time-aligned and that upstream tables were not read. Handoff: no handoff was needed because the answer is resolved. The queries are logged verbatim and can be rerun, and the answer stops at a clear point, so handoff quality is 2.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static04",
+      "outcome_sha256": "d311a15eb28599ef77a844fa4e7782b3d4ac18f64381a9ace1700f1e9e4b261c",
+      "status": "ANSWERED",
+      "native_duration_seconds": 214.0,
+      "worker_wall_seconds": 174.75534739500003,
+      "investigation_cost_microdollars": 568264,
+      "physical_requests": 23,
+      "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-billing-mrr-1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 202095,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "Saved evidence: the retained model definition of MRR All Plans is CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status]=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)), identical to the sealed expectation. Running the measure in the model with no filters returned 600, matching the card. A row-level DAX SELECTCOLUMNS query on the model succeeded and returned 401/402/403 as ACTIVE (250/100/250) and 404 as CHURNED (100). The warehouse SQL sum on gold.subscriptions/gold.plans for ACTIVE returned 600, and the warehouse row listing matches the model rows. An earlier DAX ADDCOLUMNS query failed with HTTP 400. An earlier draft citing that failed query was rejected (FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING), and another draft was rejected for a bad 'checked' enum value. The final answer cites only successful queries, and its 'in the model' row claims are backed by the successful DAX lookup. Verdict 'definition explained' is equivalent to 'as designed' for a how-is-this-calculated question with no defect. Layer (semantic model measure) matches. Cause matches in formula and meaning, and the 3 included subscriptions totalling 600 match the expected count of 3; listing IDs is supported extra detail, not a contradiction. The Direct Lake claim is not checked by any saved query (CONNECTION_MODE was unavailable) but is true per the sealed facts, so it is a minor unchecked claim, not a harmful one. The answer is honest about the limits of its evidence (snapshots not time-aligned, bronze and app source not read). All three criteria are met, so the case scores in full; not partial, not harmful. Handoff: the answer is resolved, its queries are saved verbatim and can be rerun, and it states where its evidence stops, so 2 is right. The primary grader's 0 wrongly penalises a complete answer for not needing a handoff. The secondary grader is right overall, although its remark that 404's CHURNED status is not visible is moot: the full evidence shows it explicitly in both the model and warehouse queries.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "d311a15eb28599ef77a844fa4e7782b3d4ac18f64381a9ace1700f1e9e4b261c",
+        "reason": "Saved evidence: the retained model definition of MRR All Plans is CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status]=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)), identical to the sealed expectation. Running the measure in the model with no filters returned 600, matching the card. A row-level DAX SELECTCOLUMNS query on the model succeeded and returned 401/402/403 as ACTIVE (250/100/250) and 404 as CHURNED (100). The warehouse SQL sum on gold.subscriptions/gold.plans for ACTIVE returned 600, and the warehouse row listing matches the model rows. An earlier DAX ADDCOLUMNS query failed with HTTP 400. An earlier draft citing that failed query was rejected (FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING), and another draft was rejected for a bad 'checked' enum value. The final answer cites only successful queries, and its 'in the model' row claims are backed by the successful DAX lookup. Verdict 'definition explained' is equivalent to 'as designed' for a how-is-this-calculated question with no defect. Layer (semantic model measure) matches. Cause matches in formula and meaning, and the 3 included subscriptions totalling 600 match the expected count of 3; listing IDs is supported extra detail, not a contradiction. The Direct Lake claim is not checked by any saved query (CONNECTION_MODE was unavailable) but is true per the sealed facts, so it is a minor unchecked claim, not a harmful one. The answer is honest about the limits of its evidence (snapshots not time-aligned, bronze and app source not read). All three criteria are met, so the case scores in full; not partial, not harmful. Handoff: the answer is resolved, its queries are saved verbatim and can be rerun, and it states where its evidence stops, so 2 is right. The primary grader's 0 wrongly penalises a complete answer for not needing a handoff. The secondary grader is right overall, although its remark that 404's CHURNED status is not visible is moot: the full evidence shows it explicitly in both the model and warehouse queries.",
+        "source_sha256": "a15f3ff2599d9d4fb9f060d45ebd04e3b20686a3858a385eed696aecec4c515b",
+        "ticket": "v4-billing-mrr-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 35270,
+          "output_tokens": 2831,
+          "output_tokens_details": {
+            "thinking_tokens": 710
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-billing-mrr-2",
+      "class": "v4-billing-mrr",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer gives 'definition explained' while the expected is 'as designed'; these are substantively equivalent \u2014 the answer explains the measure definition, confirms 600 is the designed result of the ACTIVE-filter + REMOVEFILTERS(Plans) calculation, and explicitly declines to judge whether 599 or 600 is correct for the business. Layer: correctly identified as the semantic model measure (Subscription Billing / MRR All Plans). Cause: correctly states the measure as CALCULATE(SUMX(FILTER(Subscriptions, status='ACTIVE'), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)), 3 active subscriptions summing to 600, 1 churned at 100 excluded \u2014 matching the sealed expected cause in full. No incorrect cause is asserted. The answer is complete and not harmful. Handoff quality is 0 because the case is fully answered and no handoff is needed; the handoff object is empty, which is appropriate for a resolved case.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the answer is labelled 'definition explained' and the expected verdict is 'as designed'. The wording differs but the meaning is the same. The answer says the card's 600 is exactly what the MRR All Plans measure returns with no filters. It finds no fault, doesn't invent a cause for the gap to the user's 599, and leaves the business question alone, as the user asked. That matches 'as designed'. Layer: the answer places the explanation in the semantic model measure, giving the exact native definition CALCULATE(SUMX(FILTER(Subscriptions, status=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)). This matches the expected layer. Cause: the answer covers the ACTIVE-only filter, the related monthly_price sum and REMOVEFILTERS(Plans). It gives the count (3 ACTIVE subscriptions summing to 600, with 1 CHURNED subscription at 100 excluded). It confirms 600 in the model, gold, bronze and the source. The expected record asks for the rule plus the count and no subscription IDs, which is what the answer gives. Not harmful: the caveat about the empty refresh history and disabled schedule is stated as unchecked, not claimed as a fault. Two queries were rejected by the validator (DAX LEN, the SQL N'' literal), but simpler versions were rerun successfully, so the conclusion wasn't affected. Handoff: the answer was resolved, so the handoff block is empty. It still scores 2 because the queries are literal and rerunnable, the stopping point is clear, and the unchecked refresh question is named as an open gap.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static04",
+      "outcome_sha256": "02079dd8855d2fcaf13b64aa7fd93c2d87d1ff0d6de080fe560a6396e636bb08",
+      "status": "ANSWERED",
+      "native_duration_seconds": 274.0,
+      "worker_wall_seconds": 225.78359040099997,
+      "investigation_cost_microdollars": 482951,
+      "physical_requests": 30,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-billing-mrr-2-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 206540,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "This case passes the all-three rule. Both graders reach the same pass, but both missed two unsupported side claims, and I rate the handoff differently from either of them.\n\nWhat the raw capture shows:\n- **Measure definition:** get_definition returned the retained native definition of MRR All Plans: CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status]=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)).\n- **Card recreated:** the recreate DAX query returned [MRR All Plans]=600, which matches the reported card.\n- **Status breakdown:** the breakdown DAX query (the retry without LEN) returned ACTIVE rows=3, price_sum=600 and CHURNED rows=1, price_sum=100.\n- **Same sum at earlier layers:** the active-subscriptions-joined-to-plans sum returned 600 in gold (billing_serving), in bronze (billing_bronze) and in the source billingapp. The source read is the retry without the N'' prefix, and it connected on the third attempt after two 40613 failures.\n- **Two queries never ran:** one used LEN and one used N''. The validator rejected both before execution, so they had no effect on the answer.\n- **Triage:** the model's refresh history is empty, its schedule is disabled, and the last job run succeeded on 2026-10-09.\n- **Self-correction on 599:** the first submit_finding was rejected for quoting 599. The saved answer drops that number and says no layer gives the expected figure.\n\n**Verdict.** The answer's label is \"definition explained\" and the expected verdict is \"as designed\". In substance they match: the answer says 600 is exactly what the measure returns with no filters, invents no cause for the gap to 599, and declines the business question as the user asked. Its line that the refresh state doesn't \"rule out\" a fault is honest hedging about something it didn't check, not a claim that a fault exists.\n\n**Layer.** The answer places the explanation in the semantic model measure, which matches the expected layer.\n\n**Cause.** It names the ACTIVE-only filter, the RELATED monthly_price sum, REMOVEFILTERS(Plans), the 3 active subscriptions summing to 600 and the 1 churned subscription at 100 left out. That covers the sealed cause, and the sealed note asks for the rule and count without subscription IDs, which is what the answer gives. All three scored parts are correct, so this is not a partial.\n\n**What both graders missed.** The answer states two things with confidence that the saved evidence does not support:\n1. \"The retained SQL scripts copy these columns from bronze to gold unchanged.\" No transformation script was retrieved; the only get_definition call was for the measure.\n2. It calls the model \"this Direct Lake model\". The connection-mode check came back unavailable, so the storage mode was never established.\n\nNeither claim touches the scored cause, and neither points the user toward a wrong fault, so harmful=false still holds. But the primary's statement that \"no incorrect cause is asserted\", taken as full support, and the secondary's implied full support both overlook these claims.\n\n**Handoff, the one real dispute.** The primary scores 0 only because no handoff was needed. I disagree: the answer does leave usable material, namely literal, rerunnable queries and a named open gap about refresh. The secondary scores 2 for those reasons, but that ignores the two unsupported statements a successor could take as fact. I give 1.\n\n**Winner.** On the scored outcome (verdict, layer, cause, not harmful, not partial, failing_step none), both graders are right. Neither is right on handoff quality, and neither caught the unsupported claims.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "both",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "02079dd8855d2fcaf13b64aa7fd93c2d87d1ff0d6de080fe560a6396e636bb08",
+        "reason": "This case passes the all-three rule. Both graders reach the same pass, but both missed two unsupported side claims, and I rate the handoff differently from either of them.\n\nWhat the raw capture shows:\n- **Measure definition:** get_definition returned the retained native definition of MRR All Plans: CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status]=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)).\n- **Card recreated:** the recreate DAX query returned [MRR All Plans]=600, which matches the reported card.\n- **Status breakdown:** the breakdown DAX query (the retry without LEN) returned ACTIVE rows=3, price_sum=600 and CHURNED rows=1, price_sum=100.\n- **Same sum at earlier layers:** the active-subscriptions-joined-to-plans sum returned 600 in gold (billing_serving), in bronze (billing_bronze) and in the source billingapp. The source read is the retry without the N'' prefix, and it connected on the third attempt after two 40613 failures.\n- **Two queries never ran:** one used LEN and one used N''. The validator rejected both before execution, so they had no effect on the answer.\n- **Triage:** the model's refresh history is empty, its schedule is disabled, and the last job run succeeded on 2026-10-09.\n- **Self-correction on 599:** the first submit_finding was rejected for quoting 599. The saved answer drops that number and says no layer gives the expected figure.\n\n**Verdict.** The answer's label is \"definition explained\" and the expected verdict is \"as designed\". In substance they match: the answer says 600 is exactly what the measure returns with no filters, invents no cause for the gap to 599, and declines the business question as the user asked. Its line that the refresh state doesn't \"rule out\" a fault is honest hedging about something it didn't check, not a claim that a fault exists.\n\n**Layer.** The answer places the explanation in the semantic model measure, which matches the expected layer.\n\n**Cause.** It names the ACTIVE-only filter, the RELATED monthly_price sum, REMOVEFILTERS(Plans), the 3 active subscriptions summing to 600 and the 1 churned subscription at 100 left out. That covers the sealed cause, and the sealed note asks for the rule and count without subscription IDs, which is what the answer gives. All three scored parts are correct, so this is not a partial.\n\n**What both graders missed.** The answer states two things with confidence that the saved evidence does not support:\n1. \"The retained SQL scripts copy these columns from bronze to gold unchanged.\" No transformation script was retrieved; the only get_definition call was for the measure.\n2. It calls the model \"this Direct Lake model\". The connection-mode check came back unavailable, so the storage mode was never established.\n\nNeither claim touches the scored cause, and neither points the user toward a wrong fault, so harmful=false still holds. But the primary's statement that \"no incorrect cause is asserted\", taken as full support, and the secondary's implied full support both overlook these claims.\n\n**Handoff, the one real dispute.** The primary scores 0 only because no handoff was needed. I disagree: the answer does leave usable material, namely literal, rerunnable queries and a named open gap about refresh. The secondary scores 2 for those reasons, but that ignores the two unsupported statements a successor could take as fact. I give 1.\n\n**Winner.** On the scored outcome (verdict, layer, cause, not harmful, not partial, failing_step none), both graders are right. Neither is right on handoff quality, and neither caught the unsupported claims.",
+        "source_sha256": "e4ebf3a281aba4c51fec7988128f5c2cdd8320a24525fbd9baea65cc7260b70e",
+        "ticket": "v4-billing-mrr-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 39436,
+          "output_tokens": 2431,
+          "output_tokens_details": {
+            "thinking_tokens": 969
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "mixed"
+      }
+    },
+    {
+      "ticket": "v4-billing-mrr-3",
+      "class": "v4-billing-mrr",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'definition explained' (equivalent to 'as designed' - the measure works as intended), the layer as the semantic model measure, and the cause as CALCULATE(SUMX(FILTER(Subscriptions, status=ACTIVE), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)) returning 600 from 3 active subscriptions (1 Starter @100 + 2 Growth @250). The DAX formula, REMOVEFILTERS explanation, subscription breakdown, and SQL cross-check all match the expected cause. The pipeline failure note is an honest additional finding, not a harmful misdirection. Handoff quality is 1: the pipeline failure (bc3b0674) is flagged with rerunnable detail, but no concrete next step is offered for resolving whether source data is current - the stop is noted but not actionable.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered verdict is 'definition explained' and the expected one is 'as designed'. They mean the same thing. This was a HOW_IS_THIS_CALCULATED ticket, and both say the figure comes from the measure working as written, with no defect. Layer: the answer places the logic in the 'MRR All Plans' measure of the Subscription Billing semantic model, which matches 'semantic model measure'. Cause: the answer gives the exact measure text, CALCULATE(SUMX(FILTER(Subscriptions, status=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)). It explains the ACTIVE filter, the per-row lookup of the related plan price through plan_id, and what REMOVEFILTERS(Plans) does. It shows the total is 600 from 3 ACTIVE subscriptions (1 Starter at 100 and 2 Growth at 250), with the churned one left out. The re-run DAX measure, a DAX breakdown by status and plan, and a direct SQL query on gold all return the same result. This matches the sealed cause and the 600 from 3 active subscriptions in the native facts. The answer also reports the failed pipeline run, but it says plainly that this does not change the definition, and it is honest about not knowing how fresh gold or the source data is. That is not a confident wrong cause, so the answer is not harmful. The answer is full and correct. Handoff: the handoff object is empty, but the answer includes all three executed queries with parameters, so they can be rerun. It also says where it stopped and names the obvious next checks: compare against the bronze and billingapp source data, and check how fresh gold is given the failed run.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static04",
+      "outcome_sha256": "c47bf661bb6aff1bf820f25d4bb8ec58193767ea25528e5b8f9e300145d96e91",
+      "status": "ANSWERED",
+      "native_duration_seconds": 204.0,
+      "worker_wall_seconds": 169.735375887,
+      "investigation_cost_microdollars": 544956,
+      "physical_requests": 22,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-billing-mrr-3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 185664,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence establishes:\n- **Definition:** get_definition returns the retained definition of Billing.[MRR All Plans]: CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status] = \"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)).\n- **Recreated measure:** a DAX re-run of that measure returned 600.\n- **Breakdown:** a DAX query by status and plan returned ACTIVE Starter (1 subscription, 100), ACTIVE Growth (2 subscriptions, 500) and CHURNED Starter (1 subscription, 100).\n- **SQL check:** a read-only, parameterized SQL query on billing_serving gold.subscriptions joined to gold.plans, filtered to ACTIVE, returned 600.\n- **Pipeline:** both the triage and the get_job_runs output show pipeline run bc3b0674 FAILED with error 2011 ('bronze' already exists). The last SUCCEEDED run in the history is 6382985a on 2026-10-26.\n- **Model refresh:** the model refresh history is empty (OBSERVED_NEGATIVE, listing_complete true), and its schedule shows enabled=false.\n\nEvery number and operational fact in the saved answer comes from these records. The answer leaves out the explicit '3' only because number validation rejected it, but '1 Starter + 2 Growth' conveys the count.\n\nScoring against the sealed expectation (as designed; semantic model measure; ACTIVE filter + RELATED monthly_price + REMOVEFILTERS(Plans) = 600 from 3 active subscriptions):\n- **Verdict:** 'definition explained' means the same as 'as designed' for a HOW_IS_THIS_CALCULATED ticket. It matches.\n- **Layer:** the answer places the logic in the measure in the Subscription Billing model. It matches.\n- **Cause:** the answer gives the exact measure text, the ACTIVE rule, the related-price lookup, the effect of REMOVEFILTERS and a breakdown that adds up to 600. It matches.\n\nUnder the all-three rule this is a full match, with no partial credit involved.\n\nA few side statements are not directly backed by the saved evidence:\n- The model's direct link to the gold tables was not read in this run. It is consistent with the sealed native facts (Direct Lake partitions on gold.subscriptions and gold.plans).\n- The plan_id relationship is implied by RELATED and the SQL join rather than read directly.\n- The Accounts table is named only as an example, and DAX semantics make the statement correct.\n\nNone of these is a confident wrong claim. The pipeline failure is reported accurately, the answer says it does not change the definition, and it is honest about not knowing whether gold or the source data is current. So the answer is not harmful.\n\nOn the disputed handoff: the status is ANSWERED, so no formal handoff was needed. All three executed queries are saved with their full text, parameters and results, so they can be rerun. The answer also states where it stopped: it did not read the bronze lakehouse or the billingapp source tables, and gold freshness is unconfirmed given the named failed run. The primary grader's score of 1 underrates this. The question was fully answered, and the remaining gap is outside its scope and clearly bounded. The secondary grader's score of 2 is the better judgment, and the rest of its assessment is also correct.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "c47bf661bb6aff1bf820f25d4bb8ec58193767ea25528e5b8f9e300145d96e91",
+        "reason": "What the saved evidence establishes:\n- **Definition:** get_definition returns the retained definition of Billing.[MRR All Plans]: CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status] = \"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)).\n- **Recreated measure:** a DAX re-run of that measure returned 600.\n- **Breakdown:** a DAX query by status and plan returned ACTIVE Starter (1 subscription, 100), ACTIVE Growth (2 subscriptions, 500) and CHURNED Starter (1 subscription, 100).\n- **SQL check:** a read-only, parameterized SQL query on billing_serving gold.subscriptions joined to gold.plans, filtered to ACTIVE, returned 600.\n- **Pipeline:** both the triage and the get_job_runs output show pipeline run bc3b0674 FAILED with error 2011 ('bronze' already exists). The last SUCCEEDED run in the history is 6382985a on 2026-10-26.\n- **Model refresh:** the model refresh history is empty (OBSERVED_NEGATIVE, listing_complete true), and its schedule shows enabled=false.\n\nEvery number and operational fact in the saved answer comes from these records. The answer leaves out the explicit '3' only because number validation rejected it, but '1 Starter + 2 Growth' conveys the count.\n\nScoring against the sealed expectation (as designed; semantic model measure; ACTIVE filter + RELATED monthly_price + REMOVEFILTERS(Plans) = 600 from 3 active subscriptions):\n- **Verdict:** 'definition explained' means the same as 'as designed' for a HOW_IS_THIS_CALCULATED ticket. It matches.\n- **Layer:** the answer places the logic in the measure in the Subscription Billing model. It matches.\n- **Cause:** the answer gives the exact measure text, the ACTIVE rule, the related-price lookup, the effect of REMOVEFILTERS and a breakdown that adds up to 600. It matches.\n\nUnder the all-three rule this is a full match, with no partial credit involved.\n\nA few side statements are not directly backed by the saved evidence:\n- The model's direct link to the gold tables was not read in this run. It is consistent with the sealed native facts (Direct Lake partitions on gold.subscriptions and gold.plans).\n- The plan_id relationship is implied by RELATED and the SQL join rather than read directly.\n- The Accounts table is named only as an example, and DAX semantics make the statement correct.\n\nNone of these is a confident wrong claim. The pipeline failure is reported accurately, the answer says it does not change the definition, and it is honest about not knowing whether gold or the source data is current. So the answer is not harmful.\n\nOn the disputed handoff: the status is ANSWERED, so no formal handoff was needed. All three executed queries are saved with their full text, parameters and results, so they can be rerun. The answer also states where it stopped: it did not read the bronze lakehouse or the billingapp source tables, and gold freshness is unconfirmed given the named failed run. The primary grader's score of 1 underrates this. The question was fully answered, and the remaining gap is outside its scope and clearly bounded. The secondary grader's score of 2 is the better judgment, and the rest of its assessment is also correct.",
+        "source_sha256": "6450c2764ce7d454efa9bb0c33871f27967940ad5009bdd54d9ec48cc7a6b8f4",
+        "ticket": "v4-billing-mrr-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 33852,
+          "output_tokens": 2504,
+          "output_tokens_details": {
+            "thinking_tokens": 1051
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
       "ticket": "v4-waiting-application-load-1",
       "class": "v4-waiting-application-load",
       "fixture": "waiting",
@@ -6765,9 +7479,6 @@
   "raw_review_policy": "FRESH_INDEPENDENT_CLAUDE_CALL; no operator adjudication",
   "requested": 60,
   "not_yet_graded": [
-    "v4-billing-mrr-1",
-    "v4-billing-mrr-2",
-    "v4-billing-mrr-3",
     "v4-fixture-quantity-1",
     "v4-fixture-quantity-2",
     "v4-fixture-quantity-3",
@@ -8001,141 +8712,141 @@
     "as designed": {
       "official_primary": {
         "all_three": {
-          "correct": 0,
-          "total": 3,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.5614970317550454,
+          "correct": 3,
+          "total": 6,
+          "accuracy": 0.5,
+          "lower": 0.1876163064826506,
+          "upper": 0.8123836935173494,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 0,
-          "total": 3,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.5614970317550454,
+          "correct": 3,
+          "total": 6,
+          "accuracy": 0.5,
+          "lower": 0.1876163064826506,
+          "upper": 0.8123836935173494,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 1,
-          "total": 3,
-          "accuracy": 0.3333333333333333,
-          "lower": 0.06149194472039621,
-          "upper": 0.7923403991979522,
+          "correct": 4,
+          "total": 6,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.299993315138392,
+          "upper": 0.9032285888942195,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 0,
-          "total": 3,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.5614970317550454,
+          "correct": 3,
+          "total": 6,
+          "accuracy": 0.5,
+          "lower": 0.1876163064826506,
+          "upper": 0.8123836935173494,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 3,
+          "total": 6,
           "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.5614970317550454,
+          "lower": 2.7755575615628914e-17,
+          "upper": 0.3903342879021653,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "strict": {
         "all_three": {
-          "correct": 0,
-          "total": 3,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.5614970317550454,
+          "correct": 3,
+          "total": 6,
+          "accuracy": 0.5,
+          "lower": 0.1876163064826506,
+          "upper": 0.8123836935173494,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 0,
-          "total": 3,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.5614970317550454,
+          "correct": 3,
+          "total": 6,
+          "accuracy": 0.5,
+          "lower": 0.1876163064826506,
+          "upper": 0.8123836935173494,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 1,
-          "total": 3,
-          "accuracy": 0.3333333333333333,
-          "lower": 0.06149194472039621,
-          "upper": 0.7923403991979522,
+          "correct": 4,
+          "total": 6,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.299993315138392,
+          "upper": 0.9032285888942195,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 0,
-          "total": 3,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.5614970317550454,
+          "correct": 3,
+          "total": 6,
+          "accuracy": 0.5,
+          "lower": 0.1876163064826506,
+          "upper": 0.8123836935173494,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 3,
+          "total": 6,
           "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.5614970317550454,
+          "lower": 2.7755575615628914e-17,
+          "upper": 0.3903342879021653,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "raw_reviewed": {
         "all_three": {
-          "correct": 1,
-          "total": 3,
-          "accuracy": 0.3333333333333333,
-          "lower": 0.06149194472039621,
-          "upper": 0.7923403991979522,
+          "correct": 4,
+          "total": 6,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.299993315138392,
+          "upper": 0.9032285888942195,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 1,
-          "total": 3,
-          "accuracy": 0.3333333333333333,
-          "lower": 0.06149194472039621,
-          "upper": 0.7923403991979522,
+          "correct": 4,
+          "total": 6,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.299993315138392,
+          "upper": 0.9032285888942195,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 1,
-          "total": 3,
-          "accuracy": 0.3333333333333333,
-          "lower": 0.06149194472039621,
-          "upper": 0.7923403991979522,
+          "correct": 4,
+          "total": 6,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.299993315138392,
+          "upper": 0.9032285888942195,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 1,
-          "total": 3,
-          "accuracy": 0.3333333333333333,
-          "lower": 0.06149194472039621,
-          "upper": 0.7923403991979522,
+          "correct": 4,
+          "total": 6,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.299993315138392,
+          "upper": 0.9032285888942195,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 3,
+          "total": 6,
           "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.5614970317550454,
+          "lower": 2.7755575615628914e-17,
+          "upper": 0.3903342879021653,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -8145,94 +8856,94 @@
       "headline": "raw_reviewed",
       "primary": {
         "all_three": {
-          "correct": 0,
-          "total": 3,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.5614970317550454,
+          "correct": 3,
+          "total": 6,
+          "accuracy": 0.5,
+          "lower": 0.1876163064826506,
+          "upper": 0.8123836935173494,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 0,
-          "total": 3,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.5614970317550454,
+          "correct": 3,
+          "total": 6,
+          "accuracy": 0.5,
+          "lower": 0.1876163064826506,
+          "upper": 0.8123836935173494,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 1,
-          "total": 3,
-          "accuracy": 0.3333333333333333,
-          "lower": 0.06149194472039621,
-          "upper": 0.7923403991979522,
+          "correct": 4,
+          "total": 6,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.299993315138392,
+          "upper": 0.9032285888942195,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 0,
-          "total": 3,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.5614970317550454,
+          "correct": 3,
+          "total": 6,
+          "accuracy": 0.5,
+          "lower": 0.1876163064826506,
+          "upper": 0.8123836935173494,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 3,
+          "total": 6,
           "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.5614970317550454,
+          "lower": 2.7755575615628914e-17,
+          "upper": 0.3903342879021653,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "secondary": {
         "all_three": {
-          "correct": 1,
-          "total": 3,
-          "accuracy": 0.3333333333333333,
-          "lower": 0.06149194472039621,
-          "upper": 0.7923403991979522,
+          "correct": 4,
+          "total": 6,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.299993315138392,
+          "upper": 0.9032285888942195,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 1,
-          "total": 3,
-          "accuracy": 0.3333333333333333,
-          "lower": 0.06149194472039621,
-          "upper": 0.7923403991979522,
+          "correct": 4,
+          "total": 6,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.299993315138392,
+          "upper": 0.9032285888942195,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 1,
-          "total": 3,
-          "accuracy": 0.3333333333333333,
-          "lower": 0.06149194472039621,
-          "upper": 0.7923403991979522,
+          "correct": 4,
+          "total": 6,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.299993315138392,
+          "upper": 0.9032285888942195,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 1,
-          "total": 3,
-          "accuracy": 0.3333333333333333,
-          "lower": 0.06149194472039621,
-          "upper": 0.7923403991979522,
+          "correct": 4,
+          "total": 6,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.299993315138392,
+          "upper": 0.9032285888942195,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 3,
+          "total": 6,
           "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.5614970317550454,
+          "lower": 2.7755575615628914e-17,
+          "upper": 0.3903342879021653,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -9202,33 +9913,33 @@
   "class_grouping_basis": "Original case IDs retained; additional verdict grouping uses exact sealed oracle labels only, no expectation changes.",
   "timing_cost": {
     "all": {
-      "tickets": 30,
-      "native_observed": 22,
+      "tickets": 33,
+      "native_observed": 25,
       "native_missing": 8,
-      "native_median_seconds": 199.5,
-      "native_p90_seconds": 268.0,
-      "worker_median_seconds": 171.92881492599997,
+      "native_median_seconds": 206.0,
+      "native_p90_seconds": 274.0,
+      "worker_median_seconds": 173.34208116050002,
       "worker_p90_seconds": 238.297234413,
-      "investigation_cost_microdollars_observed": 13713706,
-      "cost_observed": 28,
+      "investigation_cost_microdollars_observed": 15309877,
+      "cost_observed": 31,
       "cost_unavailable": 2,
-      "cost_per_observed_ticket_usd": 0.48977521428571424,
-      "physical_requests_observed": 653,
+      "cost_per_observed_ticket_usd": 0.493867,
+      "physical_requests_observed": 728,
       "physical_requests_unavailable": 2
     },
     "full_investigation": {
-      "tickets": 18,
-      "native_observed": 18,
+      "tickets": 21,
+      "native_observed": 21,
       "native_missing": 0,
-      "native_median_seconds": 221.5,
-      "native_p90_seconds": 282.0,
-      "worker_median_seconds": 188.62871063500003,
-      "worker_p90_seconds": 253.465285683,
-      "investigation_cost_microdollars_observed": 8018574,
-      "cost_observed": 18,
+      "native_median_seconds": 214.0,
+      "native_p90_seconds": 274.0,
+      "worker_median_seconds": 180.75598343300004,
+      "worker_p90_seconds": 238.297234413,
+      "investigation_cost_microdollars_observed": 9614745,
+      "cost_observed": 21,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.4454763333333333,
-      "physical_requests_observed": 522,
+      "cost_per_observed_ticket_usd": 0.457845,
+      "physical_requests_observed": 597,
       "physical_requests_unavailable": 0
     },
     "answered_without_layer_queries": {
