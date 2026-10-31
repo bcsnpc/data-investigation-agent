@@ -1,6 +1,6 @@
-# HealthNet hospital estate — build result
+# HealthNet hospital estate â€” build result
 
-Owner date: 2026-10-30 (America/Chicago). Native verification continued on October 31 UTC. The estate is deployed and its native checks are recorded below. Incremental model refresh remains unimplemented; daily full refresh is used instead. Release awaits the final CI and merge record.
+Owner date: 2026-10-30 (America/Chicago). Native verification continued on October 31 UTC. The estate is deployed and its native checks are recorded below. Incremental model refresh remains unimplemented; daily full refresh is used instead. PR #433 was merged after all required CI passed; the release record is below.
 
 ## What was built
 
@@ -87,3 +87,19 @@ All 31 focused generator tests pass. Native verification found and fixed upsert 
 No engine files changed. No model API money was spent. No hospital ticket, DIA scan or investigation ran. Future reader/scanner grants are documented in `owner-actions.md` and remain unapplied. XMLA and modern role-query client failures are retained; the native owner Test as role feature supplied the security results.
 
 Round 25 remains paused until November 1 UTC, as instructed. This build did not spend its model budget.
+
+## Release record
+
+PR [#433](https://github.com/bcsnpc/data-investigation-agent/pull/433) merged into `main` with merge commit `3e2c30c8bfa1c15f0f2525eca618e304fa131209` at 2026-10-31 03:27:28 UTC. The tested PR head was `ee8b6bb37447f0946f2d9aee6bba2498a08ad6dd`: 20 hosted checks passed and two expected checks were skipped. The strict thirty-answer offline acceptance gate passed. The merged hospital code and tests are byte-identical to that tested head; there was no merge conflict or engine change.
+
+The generator's 31 focused tests pass. The scope audit covers 102 changed files, all within the authorized hospital fixture, generator tests and hospital documents, plus the expressly permitted owner-actions appendix. No raw generated dataset, secret or local receipt was committed. This final release-record edit changes documentation only.
+
+Existing owner sign-in is sufficient for these reports:
+
+| Report | Native link |
+|---|---|
+| HealthNet Operations | [Open report](https://app.powerbi.com/groups/d237966c-b0b6-4123-bc89-e69643f4bf1f/reports/da276dc2-b133-40a9-8da4-fde9f9980545) |
+| HealthNet Revenue | [Open report](https://app.powerbi.com/groups/d237966c-b0b6-4123-bc89-e69643f4bf1f/reports/d47bb5e2-608f-4294-85cd-8fb0ade7a5d4) |
+| HealthNet Doctor Productivity | [Open report](https://app.powerbi.com/groups/d237966c-b0b6-4123-bc89-e69643f4bf1f/reports/48b38369-2aac-427c-9c4b-a184fb464808) |
+
+All manual build operations ended and the temporary security page was restored. No hospital investigation or model run is being admitted. Round 25 remains paused until November 1 UTC, as the owner's hospital-build instruction requires.
