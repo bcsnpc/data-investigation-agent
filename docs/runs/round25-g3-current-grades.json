@@ -1,0 +1,1200 @@
+{
+  "official_primary": {
+    "all_three": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "strict": {
+    "all_three": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "raw_reviewed": {
+    "all_three": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "raw_review_pending": [],
+  "raw_review_complete": true,
+  "headline": "raw_reviewed",
+  "completed_graded": 2,
+  "primary": {
+    "all_three": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "secondary": {
+    "all_three": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "agreement": {
+    "correct": 2,
+    "total": 2,
+    "accuracy": 1.0,
+    "lower": 0.34238022750665303,
+    "upper": 1.0,
+    "confidence": 0.95,
+    "method": "Wilson"
+  },
+  "agreement_fields": [
+    "verdict_match",
+    "layer_match",
+    "cause_match",
+    "harmful"
+  ],
+  "full_assessment_agreement": {
+    "correct": 0,
+    "total": 2,
+    "accuracy": 0.0,
+    "lower": 0.0,
+    "upper": 0.6576197724933469,
+    "confidence": 0.95,
+    "method": "Wilson"
+  },
+  "assessment_disagreements": [
+    {
+      "ticket": "failed-fixture-load-v1",
+      "fields": [
+        "handoff_quality",
+        "failing_step"
+      ]
+    },
+    {
+      "ticket": "failed-fixture-load-v2",
+      "fields": [
+        "handoff_quality"
+      ]
+    }
+  ],
+  "handoff_disagreements": [
+    {
+      "ticket": "failed-fixture-load-v1",
+      "class": "failed-fixture-load",
+      "fixture": "failed-fixture",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer never investigated the failure at all. It got stuck in intake/triage asking the user to choose a report, rather than targeting the specific PIPELINE job round_two_application_load_audited_20261003 and its run at 2026-10-23 17:16:29 UTC. The expected verdict is 'failed job' at layer PIPELINE with named cause being a controlled SQL THROW2011 before any activities started (zero work completed). The delivered answer provides none of this: no verdict, no layer, no cause, no evidence consulted. The system presented a report-selection dropdown instead of proceeding to query the fixture evidence. This is not harmful (no confident wrong cause was stated), but it is entirely unresolved. Handoff quality is 1: the question asked is coherent and rerunnable in principle, but the stopping point is wrong \u2014 the report name was already given in the ticket and should have been resolved without asking the user.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer is a 'failed job' verdict at the PIPELINE layer for round_two_application_load_audited_20261003: the named run from 2026-10-23 17:16:29 UTC failed with controlled SQL THROW2011 before original activities and did not complete. The delivered answer stopped at NEEDS_INPUT and asked the user to pick a report from a list of unrelated reports, although the ticket explicitly names a pipeline and run start time. Intake classified it as SOMETHING_ELSE / BLANK_ERROR_OR_WONT_LOAD, targeted reports instead of the pipeline, never ran triage, and ran no queries. No verdict, layer or cause was given, so none match. It is not harmful because it states no confident incorrect cause. Handoff quality is 0: there are no rerunnable queries or clear stopping point, and the only next step offered (choosing a report) is irrelevant to the named pipeline run.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-failed-fixture01",
+      "outcome_sha256": "6ea7c6c7843ed6350bf551cee08f44c086ab274bcfd8589544671b6c00b99a9a",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 104410,
+      "physical_requests": 0,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-failed-fixture-load-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "holds",
+      "expected_verdict_class": "failed job",
+      "raw_review": {
+        "cost_microdollars": 50851,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "intake",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved record shows: the only thing DIA produced was an intake result with status NEEDS_INPUT. It recorded issue_type SOMETHING_ELSE and classified_issue_type BLANK_ERROR_OR_WONT_LOAD. compared_with is NOTHING. The only detail captured is approximate_date 2026-10-23 17:16:29 UTC. It then asked the user to pick a report from 12 choices, such as Application Load Support, Inventory Health and Warehouse Performance. None of those choices is the pipeline round_two_application_load_audited_20261003. Triage, queries and evidence are all null.\n\nScoring: the expected answer is verdict 'failed job', layer PIPELINE, with the named cause being a controlled SQL THROW2011 before the original activities ran, so the job did not complete. DIA gave no verdict, no layer and no cause, so all three fail. Partial credit is zero under the all-three rule. It is not harmful, because it never stated a wrong cause confidently; it simply did not answer.\n\nFailing step is intake. The ticket explicitly names a PIPELINE and a run start time, but intake treated it as a report or won't-load problem and never recorded the pipeline at all. Everything after that, including the report question, follows from this misclassification. So the failure was not a wrong pick among correctly identified objects ('target'), and asking the user was a symptom rather than the root cause.\n\nHandoff quality is 0. There are no queries to rerun, and the only next step offered, choosing a report, cannot lead to the named pipeline run because that pipeline is not among the choices.\n\nThe primary grader gets the three match fields, harmful and partial right. But it says 'the report name was already given in the ticket'. That is factually wrong: the ticket names a pipeline, not a report. It also calls the report question 'coherent and rerunnable in principle', which justifies a handoff score of 1. That is not supported, because the question could never reach the right object. Its 'target' label also misplaces the failure, which happened at intake classification.\n\nThe secondary grader describes the raw record accurately: the SOMETHING_ELSE / BLANK_ERROR_OR_WONT_LOAD classification, the unrelated report list, no triage and no queries. It also gives the correct handoff score of 0 and failing step 'intake'. The secondary grader wins.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "6ea7c6c7843ed6350bf551cee08f44c086ab274bcfd8589544671b6c00b99a9a",
+        "reason": "What the saved record shows: the only thing DIA produced was an intake result with status NEEDS_INPUT. It recorded issue_type SOMETHING_ELSE and classified_issue_type BLANK_ERROR_OR_WONT_LOAD. compared_with is NOTHING. The only detail captured is approximate_date 2026-10-23 17:16:29 UTC. It then asked the user to pick a report from 12 choices, such as Application Load Support, Inventory Health and Warehouse Performance. None of those choices is the pipeline round_two_application_load_audited_20261003. Triage, queries and evidence are all null.\n\nScoring: the expected answer is verdict 'failed job', layer PIPELINE, with the named cause being a controlled SQL THROW2011 before the original activities ran, so the job did not complete. DIA gave no verdict, no layer and no cause, so all three fail. Partial credit is zero under the all-three rule. It is not harmful, because it never stated a wrong cause confidently; it simply did not answer.\n\nFailing step is intake. The ticket explicitly names a PIPELINE and a run start time, but intake treated it as a report or won't-load problem and never recorded the pipeline at all. Everything after that, including the report question, follows from this misclassification. So the failure was not a wrong pick among correctly identified objects ('target'), and asking the user was a symptom rather than the root cause.\n\nHandoff quality is 0. There are no queries to rerun, and the only next step offered, choosing a report, cannot lead to the named pipeline run because that pipeline is not among the choices.\n\nThe primary grader gets the three match fields, harmful and partial right. But it says 'the report name was already given in the ticket'. That is factually wrong: the ticket names a pipeline, not a report. It also calls the report question 'coherent and rerunnable in principle', which justifies a handoff score of 1. That is not supported, because the question could never reach the right object. Its 'target' label also misplaces the failure, which happened at intake classification.\n\nThe secondary grader describes the raw record accurately: the SOMETHING_ELSE / BLANK_ERROR_OR_WONT_LOAD classification, the unrelated report list, no triage and no queries. It also gives the correct handoff score of 0 and failing step 'intake'. The secondary grader wins.",
+        "source_sha256": "dde0cfcae4053924e091a92b9d24ea38c0f9c6d71f6c19a7666e16a1a2bfa262",
+        "ticket": "failed-fixture-load-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 4569,
+          "output_tokens": 1409,
+          "output_tokens_details": {
+            "thinking_tokens": 394
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "failed-fixture-load-v2",
+      "class": "failed-fixture-load",
+      "fixture": "failed-fixture",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer never reached a technical conclusion. It stopped at NEEDS_INPUT, asking the user to select a report from a dropdown list of 12 reports. The expected answer requires identifying that the PIPELINE job 'round_two_application_load_audited_20261003' failed with a controlled SQL THROW2011 before original activities and terminated early. The agent failed to resolve the ticket name to the correct evidence (round-twenty-two-failure-controls.json) or any pipeline run at all. Verdict: no match (delivered=unresolved, expected=failed job). Layer: no match (expected=PIPELINE, delivered=not identified). Cause: no match (expected=THROW2011 controlled failure before activities, delivered=not identified). Not harmful since no confident incorrect cause was stated. Handoff quality is 1: the dropdown list of reports is plausible but the correct run name was already given in the ticket text, so asking for clarification is a step backward; no SQL queries were run; stopping point is clear but the next action is not well-guided.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected: verdict 'failed job', layer PIPELINE, cause = the named native run of round_two_application_load_audited_20261003 failed with a controlled SQL THROW2011 before its original activities ran, so it did not complete. The delivered answer stopped at NEEDS_INPUT and asked the user to pick a report from a list of 12. That list does not include the named pipeline. The ticket gave the pipeline name and the exact run start time. Intake classified the ticket as a report that would not load (BLANK_ERROR_OR_WONT_LOAD / SOMETHING_ELSE) instead of a pipeline run failure. No verdict, layer or cause was stated, so all three score zero. It is not harmful because it states no root cause as fact. Handoff quality is 0: there are no queries to rerun, no stopping point (stop is null), no next checks, and the follow-up question is about the wrong kind of object.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-failed-fixture01",
+      "outcome_sha256": "71e621d144342c728325c92190647e125164ab405944ebab8b565abce733a3db",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 81558,
+      "physical_requests": 0,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-failed-fixture-load-v2-result.json",
+      "usage_unavailable": false,
+      "timing_group": "holds",
+      "expected_verdict_class": "failed job",
+      "raw_review": {
+        "cost_microdollars": 41584,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "intake",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved data shows: the ticket names PIPELINE round_two_application_load_audited_20261003 and gives a run start time of 2026-10-23T17:16:29.31 UTC. It asks for the root-cause error and whether the job finished. The only saved evidence is intake. Intake set issue_type to SOMETHING_ELSE and classified_issue_type to BLANK_ERROR_OR_WONT_LOAD, which treats the ticket as a report that won't load. It kept only the date as a detail. Its figure_mentions tag one identifier and one date, but no pipeline object was resolved. The status is NEEDS_INPUT, with one question asking the user to pick a report from 12 choices. None of the 12 is the named pipeline. Triage, queries and evidence are all null, and handoff and stop are null. The sealed expectation is: verdict 'failed job', layer PIPELINE, and the cause that the named native run failed with a controlled SQL THROW2011 before its original activities and did not complete. The answer states no verdict, no layer and no cause, so all three fail. Under the all-three rule this scores zero. Partial is false because nothing was partly right. Harmful is false because no cause or completion claim was stated as fact. The failing step is intake: it routed a clearly named pipeline-run question into the report-won't-load path. Asking the user was a consequence of that error, not the root failure. The one disputed point is handoff quality. The primary grader gave 1 and called the report dropdown 'plausible'. That is wrong. The question asks about the wrong kind of object. It cannot lead to the named pipeline run, because that run is not among the choices and the ticket already identified it exactly. There are no queries to rerun, no stopping point (stop is null), no handoff, and no next checks. The secondary grader is right to give 0 and also correctly points out the misclassification. Both graders agree on everything else, so the secondary grader wins.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "71e621d144342c728325c92190647e125164ab405944ebab8b565abce733a3db",
+        "reason": "What the saved data shows: the ticket names PIPELINE round_two_application_load_audited_20261003 and gives a run start time of 2026-10-23T17:16:29.31 UTC. It asks for the root-cause error and whether the job finished. The only saved evidence is intake. Intake set issue_type to SOMETHING_ELSE and classified_issue_type to BLANK_ERROR_OR_WONT_LOAD, which treats the ticket as a report that won't load. It kept only the date as a detail. Its figure_mentions tag one identifier and one date, but no pipeline object was resolved. The status is NEEDS_INPUT, with one question asking the user to pick a report from 12 choices. None of the 12 is the named pipeline. Triage, queries and evidence are all null, and handoff and stop are null. The sealed expectation is: verdict 'failed job', layer PIPELINE, and the cause that the named native run failed with a controlled SQL THROW2011 before its original activities and did not complete. The answer states no verdict, no layer and no cause, so all three fail. Under the all-three rule this scores zero. Partial is false because nothing was partly right. Harmful is false because no cause or completion claim was stated as fact. The failing step is intake: it routed a clearly named pipeline-run question into the report-won't-load path. Asking the user was a consequence of that error, not the root failure. The one disputed point is handoff quality. The primary grader gave 1 and called the report dropdown 'plausible'. That is wrong. The question asks about the wrong kind of object. It cannot lead to the named pipeline run, because that run is not among the choices and the ticket already identified it exactly. There are no queries to rerun, no stopping point (stop is null), no handoff, and no next checks. The secondary grader is right to give 0 and also correctly points out the misclassification. Both graders agree on everything else, so the secondary grader wins.",
+        "source_sha256": "cadf666d39ce123ff0b6d3b8effacc9a87aeb8a154e5c64c0745c14d69a13cdf",
+        "ticket": "failed-fixture-load-v2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 4437,
+          "output_tokens": 1183,
+          "output_tokens_details": {
+            "thinking_tokens": 307
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    }
+  ],
+  "per_class": {
+    "failed-fixture-load": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    }
+  },
+  "disagreements": [],
+  "cohort": "g3",
+  "cases": [
+    {
+      "ticket": "failed-fixture-load-v1",
+      "class": "failed-fixture-load",
+      "fixture": "failed-fixture",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer never investigated the failure at all. It got stuck in intake/triage asking the user to choose a report, rather than targeting the specific PIPELINE job round_two_application_load_audited_20261003 and its run at 2026-10-23 17:16:29 UTC. The expected verdict is 'failed job' at layer PIPELINE with named cause being a controlled SQL THROW2011 before any activities started (zero work completed). The delivered answer provides none of this: no verdict, no layer, no cause, no evidence consulted. The system presented a report-selection dropdown instead of proceeding to query the fixture evidence. This is not harmful (no confident wrong cause was stated), but it is entirely unresolved. Handoff quality is 1: the question asked is coherent and rerunnable in principle, but the stopping point is wrong \u2014 the report name was already given in the ticket and should have been resolved without asking the user.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer is a 'failed job' verdict at the PIPELINE layer for round_two_application_load_audited_20261003: the named run from 2026-10-23 17:16:29 UTC failed with controlled SQL THROW2011 before original activities and did not complete. The delivered answer stopped at NEEDS_INPUT and asked the user to pick a report from a list of unrelated reports, although the ticket explicitly names a pipeline and run start time. Intake classified it as SOMETHING_ELSE / BLANK_ERROR_OR_WONT_LOAD, targeted reports instead of the pipeline, never ran triage, and ran no queries. No verdict, layer or cause was given, so none match. It is not harmful because it states no confident incorrect cause. Handoff quality is 0: there are no rerunnable queries or clear stopping point, and the only next step offered (choosing a report) is irrelevant to the named pipeline run.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-failed-fixture01",
+      "outcome_sha256": "6ea7c6c7843ed6350bf551cee08f44c086ab274bcfd8589544671b6c00b99a9a",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 104410,
+      "physical_requests": 0,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-failed-fixture-load-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "holds",
+      "expected_verdict_class": "failed job",
+      "raw_review": {
+        "cost_microdollars": 50851,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "intake",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved record shows: the only thing DIA produced was an intake result with status NEEDS_INPUT. It recorded issue_type SOMETHING_ELSE and classified_issue_type BLANK_ERROR_OR_WONT_LOAD. compared_with is NOTHING. The only detail captured is approximate_date 2026-10-23 17:16:29 UTC. It then asked the user to pick a report from 12 choices, such as Application Load Support, Inventory Health and Warehouse Performance. None of those choices is the pipeline round_two_application_load_audited_20261003. Triage, queries and evidence are all null.\n\nScoring: the expected answer is verdict 'failed job', layer PIPELINE, with the named cause being a controlled SQL THROW2011 before the original activities ran, so the job did not complete. DIA gave no verdict, no layer and no cause, so all three fail. Partial credit is zero under the all-three rule. It is not harmful, because it never stated a wrong cause confidently; it simply did not answer.\n\nFailing step is intake. The ticket explicitly names a PIPELINE and a run start time, but intake treated it as a report or won't-load problem and never recorded the pipeline at all. Everything after that, including the report question, follows from this misclassification. So the failure was not a wrong pick among correctly identified objects ('target'), and asking the user was a symptom rather than the root cause.\n\nHandoff quality is 0. There are no queries to rerun, and the only next step offered, choosing a report, cannot lead to the named pipeline run because that pipeline is not among the choices.\n\nThe primary grader gets the three match fields, harmful and partial right. But it says 'the report name was already given in the ticket'. That is factually wrong: the ticket names a pipeline, not a report. It also calls the report question 'coherent and rerunnable in principle', which justifies a handoff score of 1. That is not supported, because the question could never reach the right object. Its 'target' label also misplaces the failure, which happened at intake classification.\n\nThe secondary grader describes the raw record accurately: the SOMETHING_ELSE / BLANK_ERROR_OR_WONT_LOAD classification, the unrelated report list, no triage and no queries. It also gives the correct handoff score of 0 and failing step 'intake'. The secondary grader wins.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "6ea7c6c7843ed6350bf551cee08f44c086ab274bcfd8589544671b6c00b99a9a",
+        "reason": "What the saved record shows: the only thing DIA produced was an intake result with status NEEDS_INPUT. It recorded issue_type SOMETHING_ELSE and classified_issue_type BLANK_ERROR_OR_WONT_LOAD. compared_with is NOTHING. The only detail captured is approximate_date 2026-10-23 17:16:29 UTC. It then asked the user to pick a report from 12 choices, such as Application Load Support, Inventory Health and Warehouse Performance. None of those choices is the pipeline round_two_application_load_audited_20261003. Triage, queries and evidence are all null.\n\nScoring: the expected answer is verdict 'failed job', layer PIPELINE, with the named cause being a controlled SQL THROW2011 before the original activities ran, so the job did not complete. DIA gave no verdict, no layer and no cause, so all three fail. Partial credit is zero under the all-three rule. It is not harmful, because it never stated a wrong cause confidently; it simply did not answer.\n\nFailing step is intake. The ticket explicitly names a PIPELINE and a run start time, but intake treated it as a report or won't-load problem and never recorded the pipeline at all. Everything after that, including the report question, follows from this misclassification. So the failure was not a wrong pick among correctly identified objects ('target'), and asking the user was a symptom rather than the root cause.\n\nHandoff quality is 0. There are no queries to rerun, and the only next step offered, choosing a report, cannot lead to the named pipeline run because that pipeline is not among the choices.\n\nThe primary grader gets the three match fields, harmful and partial right. But it says 'the report name was already given in the ticket'. That is factually wrong: the ticket names a pipeline, not a report. It also calls the report question 'coherent and rerunnable in principle', which justifies a handoff score of 1. That is not supported, because the question could never reach the right object. Its 'target' label also misplaces the failure, which happened at intake classification.\n\nThe secondary grader describes the raw record accurately: the SOMETHING_ELSE / BLANK_ERROR_OR_WONT_LOAD classification, the unrelated report list, no triage and no queries. It also gives the correct handoff score of 0 and failing step 'intake'. The secondary grader wins.",
+        "source_sha256": "dde0cfcae4053924e091a92b9d24ea38c0f9c6d71f6c19a7666e16a1a2bfa262",
+        "ticket": "failed-fixture-load-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 4569,
+          "output_tokens": 1409,
+          "output_tokens_details": {
+            "thinking_tokens": 394
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "failed-fixture-load-v2",
+      "class": "failed-fixture-load",
+      "fixture": "failed-fixture",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer never reached a technical conclusion. It stopped at NEEDS_INPUT, asking the user to select a report from a dropdown list of 12 reports. The expected answer requires identifying that the PIPELINE job 'round_two_application_load_audited_20261003' failed with a controlled SQL THROW2011 before original activities and terminated early. The agent failed to resolve the ticket name to the correct evidence (round-twenty-two-failure-controls.json) or any pipeline run at all. Verdict: no match (delivered=unresolved, expected=failed job). Layer: no match (expected=PIPELINE, delivered=not identified). Cause: no match (expected=THROW2011 controlled failure before activities, delivered=not identified). Not harmful since no confident incorrect cause was stated. Handoff quality is 1: the dropdown list of reports is plausible but the correct run name was already given in the ticket text, so asking for clarification is a step backward; no SQL queries were run; stopping point is clear but the next action is not well-guided.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected: verdict 'failed job', layer PIPELINE, cause = the named native run of round_two_application_load_audited_20261003 failed with a controlled SQL THROW2011 before its original activities ran, so it did not complete. The delivered answer stopped at NEEDS_INPUT and asked the user to pick a report from a list of 12. That list does not include the named pipeline. The ticket gave the pipeline name and the exact run start time. Intake classified the ticket as a report that would not load (BLANK_ERROR_OR_WONT_LOAD / SOMETHING_ELSE) instead of a pipeline run failure. No verdict, layer or cause was stated, so all three score zero. It is not harmful because it states no root cause as fact. Handoff quality is 0: there are no queries to rerun, no stopping point (stop is null), no next checks, and the follow-up question is about the wrong kind of object.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-failed-fixture01",
+      "outcome_sha256": "71e621d144342c728325c92190647e125164ab405944ebab8b565abce733a3db",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 81558,
+      "physical_requests": 0,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-failed-fixture-load-v2-result.json",
+      "usage_unavailable": false,
+      "timing_group": "holds",
+      "expected_verdict_class": "failed job",
+      "raw_review": {
+        "cost_microdollars": 41584,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "intake",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved data shows: the ticket names PIPELINE round_two_application_load_audited_20261003 and gives a run start time of 2026-10-23T17:16:29.31 UTC. It asks for the root-cause error and whether the job finished. The only saved evidence is intake. Intake set issue_type to SOMETHING_ELSE and classified_issue_type to BLANK_ERROR_OR_WONT_LOAD, which treats the ticket as a report that won't load. It kept only the date as a detail. Its figure_mentions tag one identifier and one date, but no pipeline object was resolved. The status is NEEDS_INPUT, with one question asking the user to pick a report from 12 choices. None of the 12 is the named pipeline. Triage, queries and evidence are all null, and handoff and stop are null. The sealed expectation is: verdict 'failed job', layer PIPELINE, and the cause that the named native run failed with a controlled SQL THROW2011 before its original activities and did not complete. The answer states no verdict, no layer and no cause, so all three fail. Under the all-three rule this scores zero. Partial is false because nothing was partly right. Harmful is false because no cause or completion claim was stated as fact. The failing step is intake: it routed a clearly named pipeline-run question into the report-won't-load path. Asking the user was a consequence of that error, not the root failure. The one disputed point is handoff quality. The primary grader gave 1 and called the report dropdown 'plausible'. That is wrong. The question asks about the wrong kind of object. It cannot lead to the named pipeline run, because that run is not among the choices and the ticket already identified it exactly. There are no queries to rerun, no stopping point (stop is null), no handoff, and no next checks. The secondary grader is right to give 0 and also correctly points out the misclassification. Both graders agree on everything else, so the secondary grader wins.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "71e621d144342c728325c92190647e125164ab405944ebab8b565abce733a3db",
+        "reason": "What the saved data shows: the ticket names PIPELINE round_two_application_load_audited_20261003 and gives a run start time of 2026-10-23T17:16:29.31 UTC. It asks for the root-cause error and whether the job finished. The only saved evidence is intake. Intake set issue_type to SOMETHING_ELSE and classified_issue_type to BLANK_ERROR_OR_WONT_LOAD, which treats the ticket as a report that won't load. It kept only the date as a detail. Its figure_mentions tag one identifier and one date, but no pipeline object was resolved. The status is NEEDS_INPUT, with one question asking the user to pick a report from 12 choices. None of the 12 is the named pipeline. Triage, queries and evidence are all null, and handoff and stop are null. The sealed expectation is: verdict 'failed job', layer PIPELINE, and the cause that the named native run failed with a controlled SQL THROW2011 before its original activities and did not complete. The answer states no verdict, no layer and no cause, so all three fail. Under the all-three rule this scores zero. Partial is false because nothing was partly right. Harmful is false because no cause or completion claim was stated as fact. The failing step is intake: it routed a clearly named pipeline-run question into the report-won't-load path. Asking the user was a consequence of that error, not the root failure. The one disputed point is handoff quality. The primary grader gave 1 and called the report dropdown 'plausible'. That is wrong. The question asks about the wrong kind of object. It cannot lead to the named pipeline run, because that run is not among the choices and the ticket already identified it exactly. There are no queries to rerun, no stopping point (stop is null), no handoff, and no next checks. The secondary grader is right to give 0 and also correctly points out the misclassification. Both graders agree on everything else, so the secondary grader wins.",
+        "source_sha256": "cadf666d39ce123ff0b6d3b8effacc9a87aeb8a154e5c64c0745c14d69a13cdf",
+        "ticket": "failed-fixture-load-v2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 4437,
+          "output_tokens": 1183,
+          "output_tokens_details": {
+            "thinking_tokens": 307
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    }
+  ],
+  "raw_review_policy": "FRESH_INDEPENDENT_CLAUDE_CALL; no operator adjudication",
+  "requested": 60,
+  "not_yet_graded": [
+    "R17-01-v1",
+    "R17-02-v1",
+    "R17-03-v1",
+    "R17-04-v1",
+    "R17-05-v1",
+    "R17-06-v1",
+    "R17-07-v1",
+    "R17-08-v1",
+    "R17-09-v1",
+    "R17-10-v1",
+    "R17-11-v1",
+    "R17-12-v1",
+    "failed-billing-transform-v1",
+    "failed-billing-transform-v2",
+    "failed-billing-load-v1",
+    "failed-billing-load-v2",
+    "baseline-S01-v1",
+    "baseline-S01-v2",
+    "baseline-S02-v1",
+    "baseline-S02-v2",
+    "baseline-S03-v1",
+    "baseline-S03-v2",
+    "access-export-1-v1",
+    "access-export-1-v2",
+    "different-warehouse-v1",
+    "different-warehouse-v2",
+    "latency-900501-v1",
+    "latency-900501-v2",
+    "latency-900502-v1",
+    "latency-900502-v2",
+    "history-source-900201-v1",
+    "history-source-900201-v2",
+    "older-export-movement-1-v1",
+    "older-export-movement-1-v2",
+    "stale-total-v1",
+    "stale-total-v2",
+    "waiting-fixture-load-v1",
+    "waiting-fixture-load-v2",
+    "access-export-2-v1",
+    "access-export-3-v1",
+    "blocked-model-movement-1-v1",
+    "blocked-model-movement-2-v1",
+    "blocked-model-movement-3-v1",
+    "different-product-v1",
+    "different-day-v1",
+    "latency-900503-v1",
+    "fourth-design-model-formula-v1",
+    "fourth-design-model-formula-v2",
+    "fourth-failed-billing-transform-v1",
+    "fourth-failed-billing-transform-v2",
+    "older-export-movement-2-v1",
+    "older-export-movement-3-v1",
+    "history-source-900202-v1",
+    "history-source-900203-v1",
+    "stale-warehouse3-v1",
+    "stale-product1-v1",
+    "waiting-billing-transform-v1",
+    "waiting-billing-load-v1"
+  ],
+  "status": "IN_PROGRESS",
+  "per_expected_verdict_class": {
+    "failed job": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    }
+  },
+  "class_grouping_basis": "Original case IDs retained; additional verdict grouping uses exact sealed oracle labels only, no expectation changes.",
+  "timing_cost": {
+    "all": {
+      "tickets": 2,
+      "native_observed": 0,
+      "native_missing": 2,
+      "native_median_seconds": null,
+      "native_p90_seconds": null,
+      "worker_median_seconds": null,
+      "worker_p90_seconds": null,
+      "investigation_cost_microdollars_observed": 185968,
+      "cost_observed": 2,
+      "cost_unavailable": 0,
+      "cost_per_observed_ticket_usd": 0.092984,
+      "physical_requests_observed": 0,
+      "physical_requests_unavailable": 0
+    },
+    "full_investigation": {
+      "tickets": 0,
+      "native_observed": 0,
+      "native_missing": 0,
+      "native_median_seconds": null,
+      "native_p90_seconds": null,
+      "worker_median_seconds": null,
+      "worker_p90_seconds": null,
+      "investigation_cost_microdollars_observed": 0,
+      "cost_observed": 0,
+      "cost_unavailable": 0,
+      "cost_per_observed_ticket_usd": null,
+      "physical_requests_observed": 0,
+      "physical_requests_unavailable": 0
+    },
+    "answered_without_layer_queries": {
+      "tickets": 0,
+      "native_observed": 0,
+      "native_missing": 0,
+      "native_median_seconds": null,
+      "native_p90_seconds": null,
+      "worker_median_seconds": null,
+      "worker_p90_seconds": null,
+      "investigation_cost_microdollars_observed": 0,
+      "cost_observed": 0,
+      "cost_unavailable": 0,
+      "cost_per_observed_ticket_usd": null,
+      "physical_requests_observed": 0,
+      "physical_requests_unavailable": 0
+    },
+    "holds": {
+      "tickets": 2,
+      "native_observed": 0,
+      "native_missing": 2,
+      "native_median_seconds": null,
+      "native_p90_seconds": null,
+      "worker_median_seconds": null,
+      "worker_p90_seconds": null,
+      "investigation_cost_microdollars_observed": 185968,
+      "cost_observed": 2,
+      "cost_unavailable": 0,
+      "cost_per_observed_ticket_usd": 0.092984,
+      "physical_requests_observed": 0,
+      "physical_requests_unavailable": 0
+    }
+  }
+}
