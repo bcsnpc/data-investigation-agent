@@ -1,6 +1,6 @@
 {
   "pass": "Round25 G3 raw-reviewed",
-  "graded": 2,
+  "graded": 6,
   "score": 0,
   "correctness": {
     "verdict_match": 0,
@@ -9,9 +9,65 @@
   },
   "harmful": 0,
   "zero_groups": {
-    "intake": 2
+    "intake": 6
   },
   "zeros": [
+    {
+      "ticket": "failed-billing-transform-v1",
+      "first_wrong_step": "intake",
+      "reason": "The delivered answer never reached a technical conclusion. It classified the issue as DATA_LOOKS_OLD/SOMETHING_ELSE and asked the user to choose a report, meaning it stopped at intake without investigating the actual failure. The expected answer requires identifying the failed Billing Warehouse transformation run at the PIPELINE layer, naming the SQL THROW2011 controlled throw as cause, and confirming the job did not complete. None of those elements are present. The answer is not harmful (honest refusal/clarification request), but verdict, layer, and cause are all unmatched. Handoff quality is 0: no queries were run, no stopping point with actionable next steps was provided, and no rerunnable queries exist.",
+      "saved_trace": {
+        "outcome_sha256": "055a467b68dff93b419403cfabd9d7477b549e67f81cdbb63ff203c4c61f717a",
+        "local_outcome": ".local\\round-twenty-five\\g3-failed-billing-transform-v1-result.json",
+        "assessment_origin": "both independent graders agree"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "failed-billing-transform"
+    },
+    {
+      "ticket": "failed-billing-transform-v2",
+      "first_wrong_step": "intake",
+      "reason": "The delivered answer stopped at NEEDS_INPUT and asked the user to choose a report, providing no technical investigation, no layer identification, no named cause, and no verdict. The expected answer requires a full verdict (failed job), layer (PIPELINE), and named cause (SQL THROW2011 before original activities, job did not complete). None of these were produced. The system did not execute any queries and the handoff contains no rerunnable queries, no clear stopping point with evidence gathered, and no sensible next checks \u2014 just an unanswered clarification prompt. This is an intake-level failure.",
+      "saved_trace": {
+        "outcome_sha256": "d90b4d0c1e050ed8c6d2843ebd0a41d9e231ec6c32b0d577b7355f14b74e60d0",
+        "local_outcome": ".local\\round-twenty-five\\g3-failed-billing-transform-v2-result.json",
+        "assessment_origin": "both independent graders agree"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "failed-billing-transform"
+    },
+    {
+      "ticket": "fourth-failed-billing-transform-v1",
+      "first_wrong_step": "intake",
+      "reason": "What the saved data shows: the DIA's saved answer has status NEEDS_INPUT, with handoff null and stop null. The saved evidence contains only an intake record. Triage, queries and evidence are all null. Intake reclassified the ticket as DATA_LOOKS_OLD, with issue_type SOMETHING_ELSE and compared_with NOTHING. It then asked the user to pick a 'report', and the only choice offered was 'Subscription Billing'. The ticket asks a plain question about a named Billing Warehouse transformations job run with an exact start time. That run belongs to the pipeline layer, not to a report. The sealed expectation is: verdict 'failed job', layer PIPELINE, and the cause is that the named native run failed with a controlled SQL THROW2011 error before its original activities ran, so it did not complete.\n\nScoring: the answer gives no verdict, layer or cause, so all three dimensions miss. Under the all-three rule the score is zero, and partial is false. Both graders agree on this.\n\nHarmful: false. The answer states no wrong cause as fact, and it does not blame the old failure on the restored current definition. Both graders agree.\n\nFirst disputed point, the failing step. It is intake, not triage. Triage never ran (it is null in the capture). The failure started when intake classified a pipeline-run question as a stale-data report issue. That wrong routing is what produced the request for a report. 'Asked the user' is a symptom, not the first broken step. The primary grader's 'triage' does not fit the capture.\n\nSecond disputed point, handoff quality. It is 0, not 1. The handoff is null, there are no rerunnable queries, no stopping point is recorded and no next checks are suggested. The clarifying question also offers only an irrelevant choice ('Subscription Billing') for a job the ticket already names. The primary grader called that question 'somewhat sensible', but a question that cannot lead the user toward the job they named does not earn credit.\n\nThe secondary grader is right on every field. It also correctly notes the misclassification and the mismatched report choice.",
+      "saved_trace": {
+        "outcome_sha256": "cc73bbb059e57fe71fce4f7f7589736481135a3ebdceaddd72942cbfedf6da7a",
+        "local_outcome": ".local\\round-twenty-five\\g3-fourth-failed-billing-transform-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "fourth-failed-billing-transform"
+    },
+    {
+      "ticket": "fourth-failed-billing-transform-v2",
+      "first_wrong_step": "intake",
+      "reason": "What the saved evidence shows: DIA answered NEEDS_INPUT, with handoff null and stop null. In technical/saved_evidence, triage, queries and evidence are all null. Only intake ran. Intake set issue_type SOMETHING_ELSE and classified_issue_type DATA_LOOKS_OLD (a report-freshness issue), with compared_with NOTHING. It captured only the date (approximate_date 2026-10-24T02:42:48.01 UTC) and asked the user to pick a report from one choice, 'Subscription Billing'. But the ticket names a specific job run, Billing Warehouse transformations at that timestamp, and asks what happened and whether it completed. Nothing about a report needed choosing.\n\nExpected result: verdict 'failed job', layer PIPELINE, cause SQL THROW2011 before the original activities, and the run did not complete. DIA gave no verdict, no layer and no cause, so all three checks are false. Under the all-three rule this scores zero, so partial is false.\n\nHarmful: false. DIA made no wrong claim and blamed nothing on the restored current definition; it only asked an unnecessary question. Handoff quality: 0. No queries were run and there is no stop point, no handoff and no suggested next checks.\n\nWhere the graders disagree: the only difference is failing_step. The primary grader says 'triage', but triage never ran (it is null). The primary's own reason even says DIA 'stalled at intake' and 'never reached triage', which contradicts its label. The step that failed first is intake: it misclassified a job-run question as a report-freshness issue and pulled no job or estate details. The irrelevant question to the user came from that error, so 'asked the user' describes a symptom, not the first failure. The secondary grader identifies intake and explains the misclassification correctly, so the secondary grader wins. Both graders agree on every other score, and both are right on those.",
+      "saved_trace": {
+        "outcome_sha256": "caaa1ce8a9d8eaf793b8ff8e91f9254ae0a473219948204e2132f0832634b971",
+        "local_outcome": ".local\\round-twenty-five\\g3-fourth-failed-billing-transform-v2-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "fourth-failed-billing-transform"
+    },
     {
       "ticket": "failed-fixture-load-v1",
       "first_wrong_step": "intake",
@@ -43,38 +99,54 @@
   ],
   "walkthroughs": [
     {
-      "ticket": "failed-fixture-load-v1",
+      "ticket": "failed-billing-transform-v1",
       "first_wrong_step": "intake",
-      "reason": "What the saved record shows: the only thing DIA produced was an intake result with status NEEDS_INPUT. It recorded issue_type SOMETHING_ELSE and classified_issue_type BLANK_ERROR_OR_WONT_LOAD. compared_with is NOTHING. The only detail captured is approximate_date 2026-10-23 17:16:29 UTC. It then asked the user to pick a report from 12 choices, such as Application Load Support, Inventory Health and Warehouse Performance. None of those choices is the pipeline round_two_application_load_audited_20261003. Triage, queries and evidence are all null.\n\nScoring: the expected answer is verdict 'failed job', layer PIPELINE, with the named cause being a controlled SQL THROW2011 before the original activities ran, so the job did not complete. DIA gave no verdict, no layer and no cause, so all three fail. Partial credit is zero under the all-three rule. It is not harmful, because it never stated a wrong cause confidently; it simply did not answer.\n\nFailing step is intake. The ticket explicitly names a PIPELINE and a run start time, but intake treated it as a report or won't-load problem and never recorded the pipeline at all. Everything after that, including the report question, follows from this misclassification. So the failure was not a wrong pick among correctly identified objects ('target'), and asking the user was a symptom rather than the root cause.\n\nHandoff quality is 0. There are no queries to rerun, and the only next step offered, choosing a report, cannot lead to the named pipeline run because that pipeline is not among the choices.\n\nThe primary grader gets the three match fields, harmful and partial right. But it says 'the report name was already given in the ticket'. That is factually wrong: the ticket names a pipeline, not a report. It also calls the report question 'coherent and rerunnable in principle', which justifies a handoff score of 1. That is not supported, because the question could never reach the right object. Its 'target' label also misplaces the failure, which happened at intake classification.\n\nThe secondary grader describes the raw record accurately: the SOMETHING_ELSE / BLANK_ERROR_OR_WONT_LOAD classification, the unrelated report list, no triage and no queries. It also gives the correct handoff score of 0 and failing step 'intake'. The secondary grader wins.",
+      "reason": "The delivered answer never reached a technical conclusion. It classified the issue as DATA_LOOKS_OLD/SOMETHING_ELSE and asked the user to choose a report, meaning it stopped at intake without investigating the actual failure. The expected answer requires identifying the failed Billing Warehouse transformation run at the PIPELINE layer, naming the SQL THROW2011 controlled throw as cause, and confirming the job did not complete. None of those elements are present. The answer is not harmful (honest refusal/clarification request), but verdict, layer, and cause are all unmatched. Handoff quality is 0: no queries were run, no stopping point with actionable next steps was provided, and no rerunnable queries exist.",
       "saved_trace": {
-        "outcome_sha256": "6ea7c6c7843ed6350bf551cee08f44c086ab274bcfd8589544671b6c00b99a9a",
-        "local_outcome": ".local\\round-twenty-five\\g3-failed-fixture-load-v1-result.json",
-        "assessment_origin": "fresh independent Claude saved-evidence review"
+        "outcome_sha256": "055a467b68dff93b419403cfabd9d7477b549e67f81cdbb63ff203c4c61f717a",
+        "local_outcome": ".local\\round-twenty-five\\g3-failed-billing-transform-v1-result.json",
+        "assessment_origin": "both independent graders agree"
       },
       "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
       "retained_query_errors": [],
       "correct_action": "Resolve only the missing user fact using the admitted catalog.",
-      "class": "failed-fixture-load"
+      "class": "failed-billing-transform"
     },
     {
-      "ticket": "failed-fixture-load-v2",
+      "ticket": "failed-billing-transform-v2",
       "first_wrong_step": "intake",
-      "reason": "What the saved data shows: the ticket names PIPELINE round_two_application_load_audited_20261003 and gives a run start time of 2026-10-23T17:16:29.31 UTC. It asks for the root-cause error and whether the job finished. The only saved evidence is intake. Intake set issue_type to SOMETHING_ELSE and classified_issue_type to BLANK_ERROR_OR_WONT_LOAD, which treats the ticket as a report that won't load. It kept only the date as a detail. Its figure_mentions tag one identifier and one date, but no pipeline object was resolved. The status is NEEDS_INPUT, with one question asking the user to pick a report from 12 choices. None of the 12 is the named pipeline. Triage, queries and evidence are all null, and handoff and stop are null. The sealed expectation is: verdict 'failed job', layer PIPELINE, and the cause that the named native run failed with a controlled SQL THROW2011 before its original activities and did not complete. The answer states no verdict, no layer and no cause, so all three fail. Under the all-three rule this scores zero. Partial is false because nothing was partly right. Harmful is false because no cause or completion claim was stated as fact. The failing step is intake: it routed a clearly named pipeline-run question into the report-won't-load path. Asking the user was a consequence of that error, not the root failure. The one disputed point is handoff quality. The primary grader gave 1 and called the report dropdown 'plausible'. That is wrong. The question asks about the wrong kind of object. It cannot lead to the named pipeline run, because that run is not among the choices and the ticket already identified it exactly. There are no queries to rerun, no stopping point (stop is null), no handoff, and no next checks. The secondary grader is right to give 0 and also correctly points out the misclassification. Both graders agree on everything else, so the secondary grader wins.",
+      "reason": "The delivered answer stopped at NEEDS_INPUT and asked the user to choose a report, providing no technical investigation, no layer identification, no named cause, and no verdict. The expected answer requires a full verdict (failed job), layer (PIPELINE), and named cause (SQL THROW2011 before original activities, job did not complete). None of these were produced. The system did not execute any queries and the handoff contains no rerunnable queries, no clear stopping point with evidence gathered, and no sensible next checks \u2014 just an unanswered clarification prompt. This is an intake-level failure.",
       "saved_trace": {
-        "outcome_sha256": "71e621d144342c728325c92190647e125164ab405944ebab8b565abce733a3db",
-        "local_outcome": ".local\\round-twenty-five\\g3-failed-fixture-load-v2-result.json",
+        "outcome_sha256": "d90b4d0c1e050ed8c6d2843ebd0a41d9e231ec6c32b0d577b7355f14b74e60d0",
+        "local_outcome": ".local\\round-twenty-five\\g3-failed-billing-transform-v2-result.json",
+        "assessment_origin": "both independent graders agree"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "failed-billing-transform"
+    },
+    {
+      "ticket": "fourth-failed-billing-transform-v1",
+      "first_wrong_step": "intake",
+      "reason": "What the saved data shows: the DIA's saved answer has status NEEDS_INPUT, with handoff null and stop null. The saved evidence contains only an intake record. Triage, queries and evidence are all null. Intake reclassified the ticket as DATA_LOOKS_OLD, with issue_type SOMETHING_ELSE and compared_with NOTHING. It then asked the user to pick a 'report', and the only choice offered was 'Subscription Billing'. The ticket asks a plain question about a named Billing Warehouse transformations job run with an exact start time. That run belongs to the pipeline layer, not to a report. The sealed expectation is: verdict 'failed job', layer PIPELINE, and the cause is that the named native run failed with a controlled SQL THROW2011 error before its original activities ran, so it did not complete.\n\nScoring: the answer gives no verdict, layer or cause, so all three dimensions miss. Under the all-three rule the score is zero, and partial is false. Both graders agree on this.\n\nHarmful: false. The answer states no wrong cause as fact, and it does not blame the old failure on the restored current definition. Both graders agree.\n\nFirst disputed point, the failing step. It is intake, not triage. Triage never ran (it is null in the capture). The failure started when intake classified a pipeline-run question as a stale-data report issue. That wrong routing is what produced the request for a report. 'Asked the user' is a symptom, not the first broken step. The primary grader's 'triage' does not fit the capture.\n\nSecond disputed point, handoff quality. It is 0, not 1. The handoff is null, there are no rerunnable queries, no stopping point is recorded and no next checks are suggested. The clarifying question also offers only an irrelevant choice ('Subscription Billing') for a job the ticket already names. The primary grader called that question 'somewhat sensible', but a question that cannot lead the user toward the job they named does not earn credit.\n\nThe secondary grader is right on every field. It also correctly notes the misclassification and the mismatched report choice.",
+      "saved_trace": {
+        "outcome_sha256": "cc73bbb059e57fe71fce4f7f7589736481135a3ebdceaddd72942cbfedf6da7a",
+        "local_outcome": ".local\\round-twenty-five\\g3-fourth-failed-billing-transform-v1-result.json",
         "assessment_origin": "fresh independent Claude saved-evidence review"
       },
       "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
       "retained_query_errors": [],
       "correct_action": "Resolve only the missing user fact using the admitted catalog.",
-      "class": "failed-fixture-load"
+      "class": "fourth-failed-billing-transform"
     }
   ],
   "estate_reads": 0,
   "model_calls": 0,
   "scores_or_expectations_changed": false,
   "zero_classes": {
+    "failed-billing-transform": 2,
+    "fourth-failed-billing-transform": 2,
     "failed-fixture-load": 2
   }
 }
