@@ -1068,6 +1068,210 @@
       "outcome_sha256": "1a695d6d2959f9c5ee8ba553c79c588f039b18adbcb5c87b70d5f0713d9dbc13"
     },
     {
+      "ticket": "v4-record-repeated-gold-1",
+      "class": "v4-record-repeated-gold",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 296.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 173.374977075,
+        "model_seconds": 43.39538567300002,
+        "native_query_sum_seconds": 130.2497156209999,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 38.922678287
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 215.98920632400007
+          }
+        ],
+        "route_schema_seconds": 35.707645102000015,
+        "triage_seconds": 6.264989377999996,
+        "wall_seconds": 261.19824630299996
+      },
+      "cost_microdollars": 620069,
+      "physical_requests": 34,
+      "model_calls": 6,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 233000,
+      "total_input_tokens": 335741,
+      "cache_read_ratio": 0.6939873295188851,
+      "usage_calls": 10,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "0457c6ff207d1e3eedda71f9d8c4acc040755bc70fce48a4b251ba207cdedde8"
+    },
+    {
+      "ticket": "v4-sample-business-meaning-1",
+      "class": "v4-sample-business-meaning",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 74.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 31.53423494599997,
+        "model_seconds": 20.581912746999933,
+        "native_query_sum_seconds": 8.967019224999945,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 1.8145576859999437
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 40.90215023799999
+          }
+        ],
+        "route_schema_seconds": 2.817738892999955,
+        "triage_seconds": 6.041837535000013,
+        "wall_seconds": 44.10327117899999
+      },
+      "cost_microdollars": 355456,
+      "physical_requests": 3,
+      "model_calls": 3,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 112748,
+      "total_input_tokens": 173601,
+      "cache_read_ratio": 0.6494663049175984,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "4c5304dfdeb3ec3c4dd0a61c880af0b73194b0ae0a327e786634f51785281f73"
+    },
+    {
+      "ticket": "v4-sample-business-meaning-2",
+      "class": "v4-sample-business-meaning",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 79.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 30.955474405000132,
+        "model_seconds": 24.548085331999573,
+        "native_query_sum_seconds": 4.239532758000223,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 1.7643302859996766
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 41.19726975000003
+          }
+        ],
+        "route_schema_seconds": 3.4556721270000708,
+        "triage_seconds": 5.58189067100011,
+        "wall_seconds": 45.09490492499981
+      },
+      "cost_microdollars": 447178,
+      "physical_requests": 3,
+      "model_calls": 3,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 149738,
+      "total_input_tokens": 225825,
+      "cache_read_ratio": 0.6630709620281191,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "a6a8f77643aa01f63accb661ad3ffc395f3ef71d5fcdf960cb15b6a6b67e6b4c"
+    },
+    {
+      "ticket": "v4-sample-business-meaning-3",
+      "class": "v4-sample-business-meaning",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 83.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 36.91109030300004,
+        "model_seconds": 26.733189046000007,
+        "native_query_sum_seconds": 3.0103571330000136,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 1.7553593910000131
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 47.18888431099998
+          }
+        ],
+        "route_schema_seconds": 4.162348747999999,
+        "triage_seconds": 5.531880415999979,
+        "wall_seconds": 50.33655007700003
+      },
+      "cost_microdollars": 456258,
+      "physical_requests": 5,
+      "model_calls": 3,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 149514,
+      "total_input_tokens": 227755,
+      "cache_read_ratio": 0.6564685736866369,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "4d20919066295c81cc3cbcade3f011449c9422446ae37f58ff703d9fb76a26cc"
+    },
+    {
+      "ticket": "v4-screenshot-billing-invoices",
+      "class": "v4-screenshot-billing-invoices",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 314.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 217.41027259700002,
+        "model_seconds": 38.52793411300013,
+        "native_query_sum_seconds": 149.074615312,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.3406901410000955
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 280.33930866599997
+          }
+        ],
+        "route_schema_seconds": 44.077476958000034,
+        "triage_seconds": 16.825379621000025,
+        "wall_seconds": 286.14072304800004
+      },
+      "cost_microdollars": 584772,
+      "physical_requests": 38,
+      "model_calls": 4,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 211293,
+      "total_input_tokens": 313533,
+      "cache_read_ratio": 0.6739099233573499,
+      "usage_calls": 4,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "9ebd1307dbf18177653a6b4a5da20a280908fcfcfafd88d4a118347699ec81d4"
+    },
+    {
+      "ticket": "v4-screenshot-billing-mrr",
+      "class": "v4-screenshot-billing-mrr",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 165.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 69.07588492900004,
+        "model_seconds": 25.00935037299996,
+        "native_query_sum_seconds": 21.38614795600006,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.4924880159999248
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 128.179760333
+          }
+        ],
+        "route_schema_seconds": 41.02545712099993,
+        "triage_seconds": 16.14495016400008,
+        "wall_seconds": 134.20213217799994
+      },
+      "cost_microdollars": 455679,
+      "physical_requests": 22,
+      "model_calls": 3,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 132616,
+      "total_input_tokens": 212359,
+      "cache_read_ratio": 0.6244896613753126,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "c42253bc1f2c7ce67d7d5a1a7292fb6a8b36a832c7e6ae9923dc34cd1a6c986a"
+    },
+    {
       "ticket": "v4-waiting-application-load-1",
       "class": "v4-waiting-application-load",
       "timing_group": "full investigation",
@@ -1171,35 +1375,35 @@
     }
   ],
   "all": {
-    "tickets": 36,
-    "native_duration_observed": 30,
+    "tickets": 42,
+    "native_duration_observed": 36,
     "native_duration_unavailable": 6,
-    "worker_wall_observed": 33,
-    "worker_wall_median_seconds": 171.92881492599997,
-    "worker_wall_p90_seconds": 226.934745721,
-    "median_seconds": 206.5,
-    "p90_seconds_nearest_rank": 268.0,
-    "investigation_cost_microdollars": 17516449,
-    "cost_per_ticket_usd": 0.48656802777777775,
-    "cache_read_input_tokens": 6924677,
-    "total_input_tokens": 9961054,
-    "cache_read_ratio": 0.6951751290576278
+    "worker_wall_observed": 39,
+    "worker_wall_median_seconds": 171.068875806,
+    "worker_wall_p90_seconds": 253.465285683,
+    "median_seconds": 205.0,
+    "p90_seconds_nearest_rank": 282.0,
+    "investigation_cost_microdollars": 20435861,
+    "cost_per_ticket_usd": 0.48656811904761904,
+    "cache_read_input_tokens": 7913586,
+    "total_input_tokens": 11449868,
+    "cache_read_ratio": 0.6911508499486632
   },
   "timing_groups": {
     "full investigation": {
-      "tickets": 26,
-      "native_duration_observed": 26,
+      "tickets": 32,
+      "native_duration_observed": 32,
       "native_duration_unavailable": 0,
-      "worker_wall_observed": 26,
-      "worker_wall_median_seconds": 177.75566541400002,
-      "worker_wall_p90_seconds": 238.297234413,
-      "median_seconds": 213.5,
-      "p90_seconds_nearest_rank": 274.0,
-      "investigation_cost_microdollars": 11821317,
-      "cost_per_ticket_usd": 0.4546660384615384,
-      "cache_read_input_tokens": 4143528,
-      "total_input_tokens": 6133917,
-      "cache_read_ratio": 0.6755109337149492
+      "worker_wall_observed": 32,
+      "worker_wall_median_seconds": 173.34208116050002,
+      "worker_wall_p90_seconds": 253.465285683,
+      "median_seconds": 210.0,
+      "p90_seconds_nearest_rank": 282.0,
+      "investigation_cost_microdollars": 14740729,
+      "cost_per_ticket_usd": 0.46064778125,
+      "cache_read_input_tokens": 5132437,
+      "total_input_tokens": 7622731,
+      "cache_read_ratio": 0.6733068502614089
     },
     "hold": {
       "tickets": 6,
@@ -1237,11 +1441,16 @@
   "new_estate_reads": 0,
   "new_model_calls": 0,
   "monthly_ledger_read_only": true,
-  "graded_total_including_native_exceptions": 39,
+  "graded_total_including_native_exceptions": 50,
   "usage_unavailable_cases": [
     "v4-application-baseline-2",
     "v4-application-baseline-3",
-    "v4-fixture-quantity-3"
+    "v4-fixture-quantity-3",
+    "v4-record-absent-everywhere-1",
+    "v4-record-absent-everywhere-2",
+    "v4-record-absent-everywhere-3",
+    "v4-record-repeated-gold-2",
+    "v4-record-repeated-gold-3"
   ],
   "usage_denominator": "Only native sealed outcomes with ledger-reconciled usage; unsealed exceptions are not estimated as zero"
 }

@@ -1,141 +1,141 @@
 {
   "official_primary": {
     "all_three": {
-      "correct": 25,
-      "total": 45,
-      "accuracy": 0.5555555555555556,
-      "lower": 0.4117613449352105,
-      "upper": 0.6906106996500243,
+      "correct": 30,
+      "total": 50,
+      "accuracy": 0.6,
+      "lower": 0.4618143774758936,
+      "upper": 0.7239161026974346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 28,
-      "total": 45,
-      "accuracy": 0.6222222222222222,
-      "lower": 0.47629934480889535,
-      "upper": 0.7489191532786209,
+      "correct": 33,
+      "total": 50,
+      "accuracy": 0.66,
+      "lower": 0.521538260502326,
+      "upper": 0.7756305077749992,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 32,
-      "total": 45,
-      "accuracy": 0.7111111111111111,
-      "lower": 0.5663145942523844,
-      "upper": 0.8226991751715074,
+      "correct": 37,
+      "total": 50,
+      "accuracy": 0.74,
+      "lower": 0.6044684273515117,
+      "upper": 0.8412847250644762,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 25,
-      "total": 45,
-      "accuracy": 0.5555555555555556,
-      "lower": 0.4117613449352105,
-      "upper": 0.6906106996500243,
+      "correct": 30,
+      "total": 50,
+      "accuracy": 0.6,
+      "lower": 0.4618143774758936,
+      "upper": 0.7239161026974346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 45,
+      "total": 50,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.07865159873288836,
+      "lower": 6.938893903907228e-18,
+      "upper": 0.07134759913335872,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "strict": {
     "all_three": {
-      "correct": 23,
-      "total": 45,
-      "accuracy": 0.5111111111111111,
-      "lower": 0.3700446464458318,
-      "upper": 0.650429762471215,
+      "correct": 25,
+      "total": 50,
+      "accuracy": 0.5,
+      "lower": 0.3664451431682858,
+      "upper": 0.6335548568317142,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 27,
-      "total": 45,
-      "accuracy": 0.6,
-      "lower": 0.45451854590351387,
-      "upper": 0.7297511343499083,
+      "correct": 29,
+      "total": 50,
+      "accuracy": 0.58,
+      "lower": 0.4423344176857823,
+      "upper": 0.7062499664528802,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 30,
-      "total": 45,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.5207048830990042,
-      "upper": 0.7864112506566996,
+      "correct": 35,
+      "total": 50,
+      "accuracy": 0.7,
+      "lower": 0.562496495355466,
+      "upper": 0.8089644649911906,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 23,
-      "total": 45,
-      "accuracy": 0.5111111111111111,
-      "lower": 0.3700446464458318,
-      "upper": 0.650429762471215,
+      "correct": 28,
+      "total": 50,
+      "accuracy": 0.56,
+      "lower": 0.4230602802165686,
+      "upper": 0.6883780078874284,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 45,
+      "total": 50,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.07865159873288836,
+      "lower": 6.938893903907228e-18,
+      "upper": 0.07134759913335872,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "raw_reviewed": {
     "all_three": {
-      "correct": 25,
-      "total": 45,
-      "accuracy": 0.5555555555555556,
-      "lower": 0.4117613449352105,
-      "upper": 0.6906106996500243,
+      "correct": 29,
+      "total": 50,
+      "accuracy": 0.58,
+      "lower": 0.4423344176857823,
+      "upper": 0.7062499664528802,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 31,
-      "total": 45,
-      "accuracy": 0.6888888888888889,
-      "lower": 0.5433519442263318,
-      "upper": 0.804713007363466,
+      "correct": 35,
+      "total": 50,
+      "accuracy": 0.7,
+      "lower": 0.562496495355466,
+      "upper": 0.8089644649911906,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 32,
-      "total": 45,
-      "accuracy": 0.7111111111111111,
-      "lower": 0.5663145942523844,
-      "upper": 0.8226991751715074,
+      "correct": 37,
+      "total": 50,
+      "accuracy": 0.74,
+      "lower": 0.6044684273515117,
+      "upper": 0.8412847250644762,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 25,
-      "total": 45,
-      "accuracy": 0.5555555555555556,
-      "lower": 0.4117613449352105,
-      "upper": 0.6906106996500243,
+      "correct": 30,
+      "total": 50,
+      "accuracy": 0.6,
+      "lower": 0.4618143774758936,
+      "upper": 0.7239161026974346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 45,
+      "total": 50,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.07865159873288836,
+      "lower": 6.938893903907228e-18,
+      "upper": 0.07134759913335872,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,107 +143,107 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 45,
+  "completed_graded": 50,
   "primary": {
     "all_three": {
-      "correct": 25,
-      "total": 45,
-      "accuracy": 0.5555555555555556,
-      "lower": 0.4117613449352105,
-      "upper": 0.6906106996500243,
+      "correct": 30,
+      "total": 50,
+      "accuracy": 0.6,
+      "lower": 0.4618143774758936,
+      "upper": 0.7239161026974346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 28,
-      "total": 45,
-      "accuracy": 0.6222222222222222,
-      "lower": 0.47629934480889535,
-      "upper": 0.7489191532786209,
+      "correct": 33,
+      "total": 50,
+      "accuracy": 0.66,
+      "lower": 0.521538260502326,
+      "upper": 0.7756305077749992,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 32,
-      "total": 45,
-      "accuracy": 0.7111111111111111,
-      "lower": 0.5663145942523844,
-      "upper": 0.8226991751715074,
+      "correct": 37,
+      "total": 50,
+      "accuracy": 0.74,
+      "lower": 0.6044684273515117,
+      "upper": 0.8412847250644762,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 25,
-      "total": 45,
-      "accuracy": 0.5555555555555556,
-      "lower": 0.4117613449352105,
-      "upper": 0.6906106996500243,
+      "correct": 30,
+      "total": 50,
+      "accuracy": 0.6,
+      "lower": 0.4618143774758936,
+      "upper": 0.7239161026974346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 45,
+      "total": 50,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.07865159873288836,
+      "lower": 6.938893903907228e-18,
+      "upper": 0.07134759913335872,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "secondary": {
     "all_three": {
-      "correct": 25,
-      "total": 45,
-      "accuracy": 0.5555555555555556,
-      "lower": 0.4117613449352105,
-      "upper": 0.6906106996500243,
+      "correct": 27,
+      "total": 50,
+      "accuracy": 0.54,
+      "lower": 0.40398871399157477,
+      "upper": 0.6703034780777566,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 30,
-      "total": 45,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.5207048830990042,
-      "upper": 0.7864112506566996,
+      "correct": 32,
+      "total": 50,
+      "accuracy": 0.64,
+      "lower": 0.501410168761127,
+      "upper": 0.7586125034815325,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 31,
-      "total": 45,
-      "accuracy": 0.6888888888888889,
-      "lower": 0.5433519442263318,
-      "upper": 0.804713007363466,
+      "correct": 36,
+      "total": 50,
+      "accuracy": 0.72,
+      "lower": 0.5833487630404344,
+      "upper": 0.8252582933408878,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 25,
-      "total": 45,
-      "accuracy": 0.5555555555555556,
-      "lower": 0.4117613449352105,
-      "upper": 0.6906106996500243,
+      "correct": 30,
+      "total": 50,
+      "accuracy": 0.6,
+      "lower": 0.4618143774758936,
+      "upper": 0.7239161026974346,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 45,
+      "total": 50,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.07865159873288836,
+      "lower": 6.938893903907228e-18,
+      "upper": 0.07134759913335872,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 39,
-    "total": 45,
-    "accuracy": 0.8666666666666667,
-    "lower": 0.7382269817382293,
-    "upper": 0.9374285125243192,
+    "correct": 41,
+    "total": 50,
+    "accuracy": 0.82,
+    "lower": 0.6920394632569922,
+    "upper": 0.9022980732976582,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -255,10 +255,10 @@
   ],
   "full_assessment_agreement": {
     "correct": 11,
-    "total": 45,
-    "accuracy": 0.24444444444444444,
-    "lower": 0.1423547943377172,
-    "upper": 0.3867338005702035,
+    "total": 50,
+    "accuracy": 0.22,
+    "lower": 0.1275391597021442,
+    "upper": 0.3524154958125367,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -481,6 +481,42 @@
     },
     {
       "ticket": "v4-record-repeated-gold-1",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v4-sample-business-meaning-1",
+      "fields": [
+        "verdict_match",
+        "failing_step",
+        "partial"
+      ]
+    },
+    {
+      "ticket": "v4-sample-business-meaning-2",
+      "fields": [
+        "verdict_match",
+        "failing_step",
+        "partial"
+      ]
+    },
+    {
+      "ticket": "v4-sample-business-meaning-3",
+      "fields": [
+        "verdict_match",
+        "failing_step",
+        "partial"
+      ]
+    },
+    {
+      "ticket": "v4-screenshot-billing-invoices",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v4-screenshot-billing-mrr",
       "fields": [
         "handoff_quality"
       ]
@@ -2544,6 +2580,158 @@
           "speed": "standard"
         },
         "winner": "mixed"
+      }
+    },
+    {
+      "ticket": "v4-screenshot-billing-invoices",
+      "class": "v4-screenshot-billing-invoices",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict (extra 250 comes from a duplicate of invoice 101 in gold.invoice_activity), the layer (gold transformation), and the cause (fan-out join between silver.invoices and account_plan_history on account_id producing a duplicate row for invoice 101 with account_id=1 which has 2 history rows). All three graded dimensions match the sealed expected answer. The answer is ANSWERED with a handoff of empty {}, so handoff quality is 0 (no rerunnable queries, no stopping point, no next checks in the handoff object).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says 'transformation logic', which matches the sealed answer. Layer: the delivered answer puts the split between silver and gold, at the step that builds gold.invoice_activity, which feeds the Billing table. Silver, bronze and billingapp all total 700, while gold and the model total 950. The expected layer is 'gold transformation (gold.invoice_activity feeding the Billing table)', so this matches. Cause: the delivered answer names a duplicated invoice 101 in gold.invoice_activity (2 rows, 500 total, so 250 each), which adds 250. This matches the sealed cause. The cited queries back it up: the gold GROUP BY HAVING COUNT(*)>1 query returned 101/account 1/500/2, silver totals 700 across 4 rows, and the card returns 950. One difference from the expected basis, which is not a fault: the expected native basis says no plan-history rows were read, so the join fan-out was only plausible. The delivered answer did run a read-only query on billing_bronze dbo.account_plan_history, and it returned 2 rows for account 1. So its fan-out explanation is based on a recorded query rather than an unsupported claim. The answer also admits it has not shown which run built the current gold table. The failed pipeline run (error 2011, CREATE SCHEMA) is correctly ruled out because every layer below gold agrees at 700. This is a full match, and nothing harmful is stated as fact. Handoff: the queries are recorded verbatim and can be rerun, and the limits are clear (snapshots not aligned in time, no history, model refresh state not read).",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static11",
+      "outcome_sha256": "9ebd1307dbf18177653a6b4a5da20a280908fcfcfafd88d4a118347699ec81d4",
+      "status": "ANSWERED",
+      "native_duration_seconds": 314.0,
+      "worker_wall_seconds": 286.14072304800004,
+      "investigation_cost_microdollars": 584772,
+      "physical_requests": 38,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-screenshot-billing-invoices-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "transformation logic",
+      "raw_review": {
+        "cost_microdollars": 222515,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows: the DAX query for [Invoiced Amount] returned 950. gold.invoice_activity SUM = 950. silver.invoices SUM = 700, with 4 rows: 101/1/250, 102/2/100, 103/3/250, 104/4/100. billing_bronze dbo.invoices = 700 and billingapp app.invoices = 700. The duplicate check on gold returned invoice 101, account 1, 2 rows, 500. The bronze account_plan_history check returned account 1 with 2 rows. So the split is between silver and gold, and the extra 250 is the second copy of invoice 101. That matches the sealed verdict (transformation logic), layer (gold.invoice_activity feeding Billing) and cause (duplicated invoice 101 adding 250). Under the all-three rule this is a full match, not partial. The answer actually read plan-history, which the sealed basis says was not done, so its fan-out explanation rests on a recorded query. Its description of the gold.build_billing join was not read in the queries, but the sealed expectation confirms that retained definition exists, and the answer's own results support the mechanism. The failed run bc3b0674 (error 2011, CREATE SCHEMA) is correctly ruled out because every layer below gold reads 700. The last success it names, 6382985a, appears in the triage job-run facts. Minor inaccuracies: it says 'no history was read' although get_job_runs was called, and it says the model refresh state was not read although triage observed no refresh runs. These are over-cautious limit statements, not confident wrong claims, so nothing harmful. Handoff dispute: the primary grader gave 0 because the handoff was 'empty {}'. In fact the handoff field is null, as expected for an ANSWERED status. The technical payload has all eight queries with their exact text and parameters, their results, and explicit limits (snapshots not aligned in time, which run built gold not established, refresh not read), and those limits point to the next checks. Judged on substance that deserves 2, so the secondary grader is correct. Both graders agree on the match dimensions.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "9ebd1307dbf18177653a6b4a5da20a280908fcfcfafd88d4a118347699ec81d4",
+        "reason": "What the raw capture shows: the DAX query for [Invoiced Amount] returned 950. gold.invoice_activity SUM = 950. silver.invoices SUM = 700, with 4 rows: 101/1/250, 102/2/100, 103/3/250, 104/4/100. billing_bronze dbo.invoices = 700 and billingapp app.invoices = 700. The duplicate check on gold returned invoice 101, account 1, 2 rows, 500. The bronze account_plan_history check returned account 1 with 2 rows. So the split is between silver and gold, and the extra 250 is the second copy of invoice 101. That matches the sealed verdict (transformation logic), layer (gold.invoice_activity feeding Billing) and cause (duplicated invoice 101 adding 250). Under the all-three rule this is a full match, not partial. The answer actually read plan-history, which the sealed basis says was not done, so its fan-out explanation rests on a recorded query. Its description of the gold.build_billing join was not read in the queries, but the sealed expectation confirms that retained definition exists, and the answer's own results support the mechanism. The failed run bc3b0674 (error 2011, CREATE SCHEMA) is correctly ruled out because every layer below gold reads 700. The last success it names, 6382985a, appears in the triage job-run facts. Minor inaccuracies: it says 'no history was read' although get_job_runs was called, and it says the model refresh state was not read although triage observed no refresh runs. These are over-cautious limit statements, not confident wrong claims, so nothing harmful. Handoff dispute: the primary grader gave 0 because the handoff was 'empty {}'. In fact the handoff field is null, as expected for an ANSWERED status. The technical payload has all eight queries with their exact text and parameters, their results, and explicit limits (snapshots not aligned in time, which run built gold not established, refresh not read), and those limits point to the next checks. Judged on substance that deserves 2, so the secondary grader is correct. Both graders agree on the match dimensions.",
+        "source_sha256": "e3abd6e1792aec79b1461e9ec17d61fed7f14ee9078039288a99921c11486d29",
+        "ticket": "v4-screenshot-billing-invoices",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 41570,
+          "output_tokens": 2592,
+          "output_tokens_details": {
+            "thinking_tokens": 690
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-screenshot-billing-mrr",
+      "class": "v4-screenshot-billing-mrr",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'as designed / how-is-it-calculated', correctly names the layer as the semantic model measure MRR All Plans in the Subscription Billing model, and correctly states the cause: CALCULATE(SUMX(FILTER(Subscriptions, status='ACTIVE'), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)) yielding 600 from three active subscriptions (401/250, 402/100, 403/250). The measure definition, the REMOVEFILTERS logic, and the 3-subscription breakdown all match the sealed expected cause. The answer also correctly confirms the source (gold.subscriptions/gold.plans via billing_serving) gives the same 600, and notes the pipeline failure without misattributing it as the cause of the number. Individual subscription IDs were obtained by a fresh query rather than invented, which is consistent with the sealed expectation. The answer is complete and accurate. Handoff quality is 0 because the answer is fully resolved (no open handoff needed).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered 'definition explained' and the expected 'as designed' mean the same thing here. Both treat this as a how-is-it-calculated question, not a defect. The reported 600 matches the model value and the gold tables. Layer: the delivered answer names the semantic-model measure 'MRR All Plans' on the Subscription Billing model card, which matches the expected layer. Cause: the delivered DAX matches the sealed expression exactly: CALCULATE(SUMX(FILTER(Subscriptions, status=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)). It correctly explains the ACTIVE filter, the plan-price lookup and that Plans filters are ignored. Subscription IDs: the expectation warns against inventing IDs. The delivered IDs 401, 402 and 403 and their prices (250 + 100 + 250 = 600) come from a fresh, successful DAX query recorded in the answer, so they are not invented. Pipeline failure: the delivered answer mentions the error-2011 failure only as a separate, hedged caveat that gold 'may' be stale. It does not present this as the cause and says the calculation is correct on current gold data. This is a minor difference in emphasis from the expectation, which says the failure does not affect the question. It is not a confident wrong cause. Handoff: the answer is resolved, so no formal handoff was needed. It still includes rerunnable DAX/SQL with their executed text, a clear stopping point and an implied next check (upstream bronze/source tables not read).",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static12",
+      "outcome_sha256": "c42253bc1f2c7ce67d7d5a1a7292fb6a8b36a832c7e6ae9923dc34cd1a6c986a",
+      "status": "ANSWERED",
+      "native_duration_seconds": 165.0,
+      "worker_wall_seconds": 134.20213217799994,
+      "investigation_cost_microdollars": 455679,
+      "physical_requests": 22,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-screenshot-billing-mrr-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 185587,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "Raw capture: a fresh DAX recreate of [MRR All Plans] with nothing selected returned 600, matching the reported figure. A DAX row query returned exactly three ACTIVE subscriptions: 401 (plan 2, 250), 402 (plan 1, 100) and 403 (plan 2, 250), which sum to 600. A read-only SQL query on billing_serving gold.subscriptions joined to gold.plans also returned 600. Triage and get_job_runs show the latest Billing Warehouse transformations run (bc3b0674) FAILED with error 2011 (bronze schema already exists). The triage list shows the last success as 2026-10-26 17:44\u201317:49. Scoring: 'definition explained' is substantively the same as the expected 'as designed' (a how-is-it-calculated answer, not a defect), so verdict matches. DIA names the semantic-model measure MRR All Plans on the Subscription Billing model, so layer matches. The quoted formula CALCULATE(SUMX(FILTER(Subscriptions, status=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)) matches the sealed expression exactly, so cause matches. No saved tool call shows where the formula text was read. The subscription IDs are supported by a fresh query, as the sealed expectation requires, not invented. DIA presents the pipeline failure only as a hedged, separate caveat ('may not reflect'), says the calculation is correct on current gold data and states that upstream tables were not read. That is honest uncertainty, not a confident wrong cause, so it is not harmful. All three fields match, so the answer is not partial. A rejected submit (a pipeline node put in 'checked') was corrected and resubmitted, which is harmless. Disputed point: the primary grader scored handoff 0 only because no handoff was required, which confuses 'not needed' with 'poor'. The answer is well packaged: query text as written and as executed, result digests, evidence IDs, and an explicit statement of the unread upstream scope. Handoff quality is therefore 2, and the secondary grader is right.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "c42253bc1f2c7ce67d7d5a1a7292fb6a8b36a832c7e6ae9923dc34cd1a6c986a",
+        "reason": "Raw capture: a fresh DAX recreate of [MRR All Plans] with nothing selected returned 600, matching the reported figure. A DAX row query returned exactly three ACTIVE subscriptions: 401 (plan 2, 250), 402 (plan 1, 100) and 403 (plan 2, 250), which sum to 600. A read-only SQL query on billing_serving gold.subscriptions joined to gold.plans also returned 600. Triage and get_job_runs show the latest Billing Warehouse transformations run (bc3b0674) FAILED with error 2011 (bronze schema already exists). The triage list shows the last success as 2026-10-26 17:44\u201317:49. Scoring: 'definition explained' is substantively the same as the expected 'as designed' (a how-is-it-calculated answer, not a defect), so verdict matches. DIA names the semantic-model measure MRR All Plans on the Subscription Billing model, so layer matches. The quoted formula CALCULATE(SUMX(FILTER(Subscriptions, status=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)) matches the sealed expression exactly, so cause matches. No saved tool call shows where the formula text was read. The subscription IDs are supported by a fresh query, as the sealed expectation requires, not invented. DIA presents the pipeline failure only as a hedged, separate caveat ('may not reflect'), says the calculation is correct on current gold data and states that upstream tables were not read. That is honest uncertainty, not a confident wrong cause, so it is not harmful. All three fields match, so the answer is not partial. A rejected submit (a pipeline node put in 'checked') was corrected and resubmitted, which is harmless. Disputed point: the primary grader scored handoff 0 only because no handoff was required, which confuses 'not needed' with 'poor'. The answer is well packaged: query text as written and as executed, result digests, evidence IDs, and an explicit statement of the unread upstream scope. Handoff quality is therefore 2, and the secondary grader is right.",
+        "source_sha256": "c476f3ac8221a561f30e66cec35ae0d859c7661613d899c7deba8602126988dc",
+        "ticket": "v4-screenshot-billing-mrr",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 32183,
+          "output_tokens": 2623,
+          "output_tokens_details": {
+            "thinking_tokens": 788
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
       }
     }
   ],
@@ -5908,6 +6096,726 @@
         }
       }
     },
+    "v4-sample-business-meaning": {
+      "official_primary": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v4-screenshot-billing-invoices": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v4-screenshot-billing-mrr": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "v4-waiting-application-load": {
       "official_primary": {
         "all_three": {
@@ -6604,6 +7512,234 @@
           "speed": "standard"
         },
         "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-sample-business-meaning-1",
+      "class": "v4-sample-business-meaning",
+      "fixture": "baseline",
+      "estate": "dia-sample-estate",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict ('definition explained' vs 'different question' \u2014 these are substantively equivalent: the user is not reporting a defect and the answer explains the measure definition without alleging a fault), correctly identifies the layer as a business-policy/semantic-model-measure question requiring handoff to the definition owner, and correctly states the cause: the measure uses USERELATIONSHIP on DueDateKey, the total matches plain Sales Amount, and revenue recognition policy cannot be determined from technical evidence alone \u2014 it must be decided by the business or model owner. The DAX definition and total (109809274.20299947) match the sealed expected values. The answer explicitly refuses to invent a revenue-recognition rule and directs the question to the finance/model owner, which matches the expected stance. The handoff object is empty but the narrative clearly identifies the next responsible party (finance or model owner) and the stopping reason; however no rerunnable next-step queries or specific owner contact is provided, so handoff quality is 1 rather than 2.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Layer and cause match. The delivered answer correctly states the native definition: CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey])). It re-checks the value at execution (109809274.20299947, matching the admission-time 109809274.20). It does not allege a defect and does not invent a revenue-recognition rule. It also says this is a business or accounting policy question for the finance or model owner. That matches the expected cause and the business-definition/semantic-model layer with a handoff to the definition owner. However, the formal verdict is 'definition explained', not the expected 'different question'. Even though the prose recognises that the question is a business-policy one, the answer is filed as a definition explanation rather than routed as a question outside technical scope. I treated the verdict category as a separate scored decision, so it does not match. This is the main disagreement: on substance alone, a lenient grader could argue the verdict matches. Because partial matches score zero, the overall result fails. It is not harmful because nothing incorrect is stated confidently. Handoff quality is 1: the query can be rerun and the policy owner is named, but the structured handoff is empty and it omits the report visual bindings (Page 1 and Page 3) that the owner would need.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-static09",
+      "outcome_sha256": "4c5304dfdeb3ec3c4dd0a61c880af0b73194b0ae0a327e786634f51785281f73",
+      "status": "ANSWERED",
+      "native_duration_seconds": 74.0,
+      "worker_wall_seconds": 44.10327117899999,
+      "investigation_cost_microdollars": 355456,
+      "physical_requests": 3,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-sample-business-meaning-1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "different question",
+      "raw_review": {
+        "cost_microdollars": 99092,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence shows: (1) get_definition returned the retained native definition of the \"Sales Amount by Due Date\" measure as CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey])). This matches sample.native_definition in the expectation. (2) One recreate DAX query succeeded. It returned ByDueDate = ByOrderDateDefault = 109809274.20299947, which matches the admission value of 109809274.20 and re-checks it at execution time, as the expectation's warning requires. (3) Triage found a complete run listing with zero runs, and the refresh schedule is enabled=false. That supports the side remark about refresh. (4) The first submit was rejected by validation because of the checked field. It was resubmitted correctly, and the content did not change.\n\nDisputed point, the verdict: the expectation's verdict is 'different question'. It says the answer should explain what the measure does, allege no defect, not invent a revenue-recognition rule, and hand the policy question to the business or definition owner. The saved answer does all of this. It opens with \"This is a business-policy question\". It explains the measure. It says nothing in the model or estate sets which date is intended for revenue recognition. It says this is a policy decision for the finance or model owner that the investigation \"cannot confirm or judge\". It alleges no defect. The only difference from 'different question' is the label 'definition explained'. The instruction is to judge substance over labels, and in substance the answer treats the ticket as a different question outside technical scope. The secondary grader itself admits that on substance the verdict matches. Scoring it as a mismatch only because of the category label goes against that instruction. So verdict, layer and cause all match, and the case passes under the all-three rule.\n\nCaveat neither grader caught: the claims that the model links Sales to Date three ways, with Order Date as the active default and Due and Ship Date inactive, are not established by any saved relationship read. Only the measure definition and one query were read. USERELATIONSHIP strongly suggests the due-date link is inactive, but the ship-date link and which link is active were not observed. The column name \"ByOrderDateDefault\" is just a label on a plain SUM. This is a confident but unsupported side claim. It is minor and does not touch the core cause, the policy handoff, so I don't rate it harmful. It does mean the primary grader's claim of a fully correct answer overstates the support for that detail.\n\nHandoff quality is 1. The responsible party (finance or model owner) and the reason for stopping are clearly stated, and the query can be rerun. But the structured handoff is null, and the answer leaves out the Page 1 and Page 3 visual bindings the owner would need.\n\nWinner: primary. Its scoring is correct, though it missed the unsupported relationship detail. The secondary grader's verdict mismatch rests only on the label and contradicts its own reading of the substance.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "primary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "4c5304dfdeb3ec3c4dd0a61c880af0b73194b0ae0a327e786634f51785281f73",
+        "reason": "What the saved evidence shows: (1) get_definition returned the retained native definition of the \"Sales Amount by Due Date\" measure as CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey])). This matches sample.native_definition in the expectation. (2) One recreate DAX query succeeded. It returned ByDueDate = ByOrderDateDefault = 109809274.20299947, which matches the admission value of 109809274.20 and re-checks it at execution time, as the expectation's warning requires. (3) Triage found a complete run listing with zero runs, and the refresh schedule is enabled=false. That supports the side remark about refresh. (4) The first submit was rejected by validation because of the checked field. It was resubmitted correctly, and the content did not change.\n\nDisputed point, the verdict: the expectation's verdict is 'different question'. It says the answer should explain what the measure does, allege no defect, not invent a revenue-recognition rule, and hand the policy question to the business or definition owner. The saved answer does all of this. It opens with \"This is a business-policy question\". It explains the measure. It says nothing in the model or estate sets which date is intended for revenue recognition. It says this is a policy decision for the finance or model owner that the investigation \"cannot confirm or judge\". It alleges no defect. The only difference from 'different question' is the label 'definition explained'. The instruction is to judge substance over labels, and in substance the answer treats the ticket as a different question outside technical scope. The secondary grader itself admits that on substance the verdict matches. Scoring it as a mismatch only because of the category label goes against that instruction. So verdict, layer and cause all match, and the case passes under the all-three rule.\n\nCaveat neither grader caught: the claims that the model links Sales to Date three ways, with Order Date as the active default and Due and Ship Date inactive, are not established by any saved relationship read. Only the measure definition and one query were read. USERELATIONSHIP strongly suggests the due-date link is inactive, but the ship-date link and which link is active were not observed. The column name \"ByOrderDateDefault\" is just a label on a plain SUM. This is a confident but unsupported side claim. It is minor and does not touch the core cause, the policy handoff, so I don't rate it harmful. It does mean the primary grader's claim of a fully correct answer overstates the support for that detail.\n\nHandoff quality is 1. The responsible party (finance or model owner) and the reason for stopping are clearly stated, and the query can be rerun. But the structured handoff is null, and the answer leaves out the Page 1 and Page 3 visual bindings the owner would need.\n\nWinner: primary. Its scoring is correct, though it missed the unsupported relationship detail. The secondary grader's verdict mismatch rests only on the label and contradicts its own reading of the substance.",
+        "source_sha256": "27876dee1da0f109aea9c0ce36faa0fb9ef4d821ebb9e49b58aaa98dba1e9022",
+        "ticket": "v4-sample-business-meaning-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 15424,
+          "output_tokens": 1861,
+          "output_tokens_details": {
+            "thinking_tokens": 653
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "primary"
+      }
+    },
+    {
+      "ticket": "v4-sample-business-meaning-2",
+      "class": "v4-sample-business-meaning",
+      "fixture": "baseline",
+      "estate": "dia-sample-estate",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'different question' equivalent (explained what the measure calculates but explicitly refused to settle whether due date is appropriate for revenue recognition, calling it undeclared business/accounting policy). This matches the sealed expected verdict of 'different question'. The layer is correct: the answer addresses the semantic model measure and explicitly defers to a business/policy owner. The cause is correct: the user is asking about revenue recognition policy which is undeclared business policy that technical facts cannot resolve. The answer does not harmfully assert an incorrect cause \u2014 it honestly declines. The delivered answer goes further by providing verified DAX definition and numeric totals, but does not overstep into claiming a business policy conclusion. Handoff quality is rated 1: the answer explains what was found and why the question can't be technically resolved, but the handoff object is empty and there is no explicit named next step or owner to contact, making it only moderately actionable.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Verdict: no match. The sealed record expects 'different question' because the user asked a revenue-recognition policy question that technical facts can't settle, and that needs a handoff to the definition owner. The answer instead returned 'definition explained', which treats the case as a calculation question. That is the verdict the supplied HOW_IS_THIS_CALCULATED intake classification points to, but the user said plainly that they were asking about business policy, not reporting a fault. Layer: match. The answer places the issue in the business definition / semantic model measure and says the due-date-versus-other-date choice is a business and accounting policy decision that nothing in the model records. Cause: match in substance. It correctly says it can't say whether the measure fits revenue reporting, and its description of the measure (USERELATIONSHIP on DueDateKey) agrees with the native definition. Disagreement: the answer states as fact that the active relationship uses order date, that ship date is inactive, and that the other series is dated by order date. The sealed record warns against saying which relationship the other series uses, because no native relationship fact was supplied. This is an unsupported side claim, not a wrong cause, so I don't grade it harmful. Because the verdict is wrong, this is a partial match and scores zero. Handoff quality 1: the DAX check query can be rerun and the answer says the policy belongs to the business, but the handoff object is empty, no definition owner or next step is named, and the answer is labelled answered rather than handed off.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-static09",
+      "outcome_sha256": "a6a8f77643aa01f63accb661ad3ffc395f3ef71d5fcdf960cb15b6a6b67e6b4c",
+      "status": "ANSWERED",
+      "native_duration_seconds": 79.0,
+      "worker_wall_seconds": 45.09490492499981,
+      "investigation_cost_microdollars": 447178,
+      "physical_requests": 3,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-sample-business-meaning-2-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "different question",
+      "raw_review": {
+        "cost_microdollars": 120080,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "The secondary grader is right. Under the all-three rule, this answer is a partial match and scores zero.\n\n**What the raw capture shows:**\n- **Intake:** The user explicitly asked a policy question and said it was \"not reporting a fault\". Intake still classified it as HOW_IS_THIS_CALCULATED and offered one measure candidate.\n- **get_definition:** The retained native definition of Sales Amount by Due Date is `CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey]))`. It is labelled as retained metadata with no current fetch.\n- **run_dax:** The query succeeded. The order-date sum and the due-date measure both equal 109809274.20299947. Sales has 121253 rows. The blank-DueDateKey count came back null, which is a blank COUNTROWS. That supports \"no blank due date\".\n- **Refresh facts:** The run listing is complete with no runs, and the schedule is enabled:false.\n- **First submit:** It failed schema validation and was resubmitted with only the native layer in `checked`.\n- **Final output:** Status ANSWERED, verdict \"definition explained\", handoff null.\n\n**Verdict:** The sealed expectation is \"different question\", with a handoff to the definition owner because this is undeclared business policy. The DIA gave a technical \"definition explained\" verdict, marked the case answered and gave no handoff. In substance it treated the case as a calculation question, following intake's misclassification. It did not route the case as a policy question that needs an owner.\n\nThe primary grader called \"definition explained\" equivalent to \"different question\". That relabels the result rather than judging what was delivered: the expectation says the case needs a handoff, not a technical finding, and none was given. So verdict_match is false. Because the core verdict is wrong, I place the failing step at the conclusion, while noting that intake's misclassification fed into it.\n\n**Layer and cause:** Both match. The answer places the issue in the semantic model measure and business definition. It says plainly that the choice between due, order and ship date is an accounting policy decision that nothing in the model records, and it declines to say whether the measure fits revenue reporting. That is honest uncertainty on the core question, and its account of the measure matches the native definition.\n\n**Unsupported side claims:** The answer states as fact that the active Date relationship uses order date, that the ship-date relationship is inactive, and that the other series is dated by order date. No relationship fact was read; get_definition returned only the measure expression. The sealed expectation specifically warns against asserting this. The chart title and series composition were also not read in the saved evidence. They happen to match the sealed target_bindings, but nothing the DIA read supports them. These are confidently stated, unsupported side claims. They do not change the core policy answer, so I don't count them as harmful, but the primary grader missed them.\n\n**Handoff quality = 1:** The answer explains why the question can't be settled technically and gives a query that can be rerun. However, no owner or next step is named and the handoff object is null.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "a6a8f77643aa01f63accb661ad3ffc395f3ef71d5fcdf960cb15b6a6b67e6b4c",
+        "reason": "The secondary grader is right. Under the all-three rule, this answer is a partial match and scores zero.\n\n**What the raw capture shows:**\n- **Intake:** The user explicitly asked a policy question and said it was \"not reporting a fault\". Intake still classified it as HOW_IS_THIS_CALCULATED and offered one measure candidate.\n- **get_definition:** The retained native definition of Sales Amount by Due Date is `CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey]))`. It is labelled as retained metadata with no current fetch.\n- **run_dax:** The query succeeded. The order-date sum and the due-date measure both equal 109809274.20299947. Sales has 121253 rows. The blank-DueDateKey count came back null, which is a blank COUNTROWS. That supports \"no blank due date\".\n- **Refresh facts:** The run listing is complete with no runs, and the schedule is enabled:false.\n- **First submit:** It failed schema validation and was resubmitted with only the native layer in `checked`.\n- **Final output:** Status ANSWERED, verdict \"definition explained\", handoff null.\n\n**Verdict:** The sealed expectation is \"different question\", with a handoff to the definition owner because this is undeclared business policy. The DIA gave a technical \"definition explained\" verdict, marked the case answered and gave no handoff. In substance it treated the case as a calculation question, following intake's misclassification. It did not route the case as a policy question that needs an owner.\n\nThe primary grader called \"definition explained\" equivalent to \"different question\". That relabels the result rather than judging what was delivered: the expectation says the case needs a handoff, not a technical finding, and none was given. So verdict_match is false. Because the core verdict is wrong, I place the failing step at the conclusion, while noting that intake's misclassification fed into it.\n\n**Layer and cause:** Both match. The answer places the issue in the semantic model measure and business definition. It says plainly that the choice between due, order and ship date is an accounting policy decision that nothing in the model records, and it declines to say whether the measure fits revenue reporting. That is honest uncertainty on the core question, and its account of the measure matches the native definition.\n\n**Unsupported side claims:** The answer states as fact that the active Date relationship uses order date, that the ship-date relationship is inactive, and that the other series is dated by order date. No relationship fact was read; get_definition returned only the measure expression. The sealed expectation specifically warns against asserting this. The chart title and series composition were also not read in the saved evidence. They happen to match the sealed target_bindings, but nothing the DIA read supports them. These are confidently stated, unsupported side claims. They do not change the core policy answer, so I don't count them as harmful, but the primary grader missed them.\n\n**Handoff quality = 1:** The answer explains why the question can't be settled technically and gives a query that can be rerun. However, no owner or next step is named and the handoff object is null.",
+        "source_sha256": "54a9c90f77fe9b1b24ca7f7ce3cac89c1767b0e9f1495391d3d6113da5c188b2",
+        "ticket": "v4-sample-business-meaning-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 18461,
+          "output_tokens": 2303,
+          "output_tokens_details": {
+            "thinking_tokens": 1045
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-sample-business-meaning-3",
+      "class": "v4-sample-business-meaning",
+      "fixture": "baseline",
+      "estate": "dia-sample-estate",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the measure definition as CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey])), explains the inactive relationship switch, confirms totals match at 109809274.20, and explicitly states that whether due date is the agreed revenue-recognition rule is a business-policy decision that requires confirmation from the definition's owner. This matches the sealed expected verdict ('different question' / definition explained with handoff to owner), the correct layer (business definition / semantic model measure), and the correct cause (cannot confirm revenue-recognition policy from native facts, needs owner confirmation). The handoff section is empty ({}) which slightly reduces handoff quality, but the business answer text clearly identifies the next step (definition owner must confirm). No confident incorrect cause is stated. Handoff quality is 1: the stopping point and next action are clear in prose but no structured handoff record or contact info is provided.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Expected verdict is \"different question\": the user is asking for a business-policy confirmation (is due date the agreed revenue-recognition rule), which should be routed to the definition owner rather than given a technical verdict. The delivered answer uses status ANSWERED with verdict \"definition explained\", so its headline outcome says the question was answered as a calculation question. Its own text admits the actual question (revenue-recognition policy) was not answered. That is a different outcome category, not just different wording, so the verdict does not match. Layer matches: the semantic model measure Sales Amount by Due Date, plus a handoff to the definition owner. Cause matches in substance: the answer gives the correct USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey]) definition and the 109809274.20 total, which matches the admission-time value. It also says plainly that no declared business description or system of record establishes the policy, and that the owner must confirm it. It does not manufacture a defect, and the refresh-history note is correctly kept separate. Because the verdict does not match, this is a partial match and scores zero. Not harmful: no confident incorrect cause is stated, and the answer is honest about the policy question being out of scope. Handoff: the handoff object is empty, but the DAX query can be rerun, the stopping point (policy can't be shown from metadata or data) is clear, and the next step (definition owner confirms) is named. That earns partial credit of 1.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-static09",
+      "outcome_sha256": "4d20919066295c81cc3cbcade3f011449c9422446ae37f58ff703d9fb76a26cc",
+      "status": "ANSWERED",
+      "native_duration_seconds": 83.0,
+      "worker_wall_seconds": 50.33655007700003,
+      "investigation_cost_microdollars": 456258,
+      "physical_requests": 5,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-sample-business-meaning-3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "different question",
+      "raw_review": {
+        "cost_microdollars": 118136,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence shows: get_definition returned the retained measure expression CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey])), with no business description and no graph references. The single DAX query succeeded. It returned SalesAmountOrderDate = SalesAmountByDueDate = 109809274.20299947, and both RowsBlankDueKey and DueKeysNotInDate came back null. Null means COUNTROWS of an empty set, so the count is zero: no row has a blank due-date key and no due-date key is missing from the Date table. That supports the claim that the measure moves amounts between periods without changing the total. The total matches the admission-time value in the sealed expectation. The refresh-history call returned a complete listing with no runs, and the schedule shows enabled:false, so the refresh note is accurate and kept separate from the definition. A few details aren't in DIA's own retained records: the active OrderDateKey relationship, the Fiscal Month axis and the side-by-side area chart. The sealed target_bindings support them, though, and none of them is a confident wrong claim.\n\nDisputed verdict: the sealed expectation is 'different question'. Its own text says the expected answer 'explains the calculation and states plainly that it cannot confirm the revenue-recognition policy, and hands that off.' The DIA answer does exactly that. It explains the calculation, says plainly that whether due date is the revenue-recognition rule is a business-policy decision the data can't show, says the definition owner must confirm it, and says the investigation can neither confirm nor rule it out. It makes up no technical defect and makes no policy claim. Judged on substance, the outcome matches the expectation; only the labels differ. The secondary grader's point is that status ANSWERED with verdict 'definition explained' puts it in a different outcome category. That treats the label as decisive even though the content routes the policy question correctly. So verdict_match is true and the answer is not partial. The layer (semantic model measure, with a handoff to the definition owner) and the cause (no native fact declares the policy, so the owner must confirm) both match, as both graders agree.\n\nHarm: none. The answer is honest about what it doesn't know and states no confident wrong cause.\n\nHandoff quality is 1 rather than 2. The handoff field is null and the status is ANSWERED, so there is no structured routing record. The prose still names the stopping point and the next owner, and the query can be rerun. Overall the primary grader is right and the secondary grader wrongly marks this as partial on the verdict.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "primary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "4d20919066295c81cc3cbcade3f011449c9422446ae37f58ff703d9fb76a26cc",
+        "reason": "What the saved evidence shows: get_definition returned the retained measure expression CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey])), with no business description and no graph references. The single DAX query succeeded. It returned SalesAmountOrderDate = SalesAmountByDueDate = 109809274.20299947, and both RowsBlankDueKey and DueKeysNotInDate came back null. Null means COUNTROWS of an empty set, so the count is zero: no row has a blank due-date key and no due-date key is missing from the Date table. That supports the claim that the measure moves amounts between periods without changing the total. The total matches the admission-time value in the sealed expectation. The refresh-history call returned a complete listing with no runs, and the schedule shows enabled:false, so the refresh note is accurate and kept separate from the definition. A few details aren't in DIA's own retained records: the active OrderDateKey relationship, the Fiscal Month axis and the side-by-side area chart. The sealed target_bindings support them, though, and none of them is a confident wrong claim.\n\nDisputed verdict: the sealed expectation is 'different question'. Its own text says the expected answer 'explains the calculation and states plainly that it cannot confirm the revenue-recognition policy, and hands that off.' The DIA answer does exactly that. It explains the calculation, says plainly that whether due date is the revenue-recognition rule is a business-policy decision the data can't show, says the definition owner must confirm it, and says the investigation can neither confirm nor rule it out. It makes up no technical defect and makes no policy claim. Judged on substance, the outcome matches the expectation; only the labels differ. The secondary grader's point is that status ANSWERED with verdict 'definition explained' puts it in a different outcome category. That treats the label as decisive even though the content routes the policy question correctly. So verdict_match is true and the answer is not partial. The layer (semantic model measure, with a handoff to the definition owner) and the cause (no native fact declares the policy, so the owner must confirm) both match, as both graders agree.\n\nHarm: none. The answer is honest about what it doesn't know and states no confident wrong cause.\n\nHandoff quality is 1 rather than 2. The handoff field is null and the status is ANSWERED, so there is no structured routing record. The prose still names the stopping point and the next owner, and the query can be rerun. Overall the primary grader is right and the secondary grader wrongly marks this as partial on the verdict.",
+        "source_sha256": "1004a11cd5c3897ffb9cedece08a873ca1fd9f6ead14cd35f952e55e54dbe8d6",
+        "ticket": "v4-sample-business-meaning-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 20305,
+          "output_tokens": 1837,
+          "output_tokens_details": {
+            "thinking_tokens": 702
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "primary"
       }
     }
   ],
@@ -9460,6 +10596,386 @@
       "expected_verdict_class": "transformation logic"
     },
     {
+      "ticket": "v4-sample-business-meaning-1",
+      "class": "v4-sample-business-meaning",
+      "fixture": "baseline",
+      "estate": "dia-sample-estate",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict ('definition explained' vs 'different question' \u2014 these are substantively equivalent: the user is not reporting a defect and the answer explains the measure definition without alleging a fault), correctly identifies the layer as a business-policy/semantic-model-measure question requiring handoff to the definition owner, and correctly states the cause: the measure uses USERELATIONSHIP on DueDateKey, the total matches plain Sales Amount, and revenue recognition policy cannot be determined from technical evidence alone \u2014 it must be decided by the business or model owner. The DAX definition and total (109809274.20299947) match the sealed expected values. The answer explicitly refuses to invent a revenue-recognition rule and directs the question to the finance/model owner, which matches the expected stance. The handoff object is empty but the narrative clearly identifies the next responsible party (finance or model owner) and the stopping reason; however no rerunnable next-step queries or specific owner contact is provided, so handoff quality is 1 rather than 2.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Layer and cause match. The delivered answer correctly states the native definition: CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey])). It re-checks the value at execution (109809274.20299947, matching the admission-time 109809274.20). It does not allege a defect and does not invent a revenue-recognition rule. It also says this is a business or accounting policy question for the finance or model owner. That matches the expected cause and the business-definition/semantic-model layer with a handoff to the definition owner. However, the formal verdict is 'definition explained', not the expected 'different question'. Even though the prose recognises that the question is a business-policy one, the answer is filed as a definition explanation rather than routed as a question outside technical scope. I treated the verdict category as a separate scored decision, so it does not match. This is the main disagreement: on substance alone, a lenient grader could argue the verdict matches. Because partial matches score zero, the overall result fails. It is not harmful because nothing incorrect is stated confidently. Handoff quality is 1: the query can be rerun and the policy owner is named, but the structured handoff is empty and it omits the report visual bindings (Page 1 and Page 3) that the owner would need.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-static09",
+      "outcome_sha256": "4c5304dfdeb3ec3c4dd0a61c880af0b73194b0ae0a327e786634f51785281f73",
+      "status": "ANSWERED",
+      "native_duration_seconds": 74.0,
+      "worker_wall_seconds": 44.10327117899999,
+      "investigation_cost_microdollars": 355456,
+      "physical_requests": 3,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-sample-business-meaning-1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "different question",
+      "raw_review": {
+        "cost_microdollars": 99092,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence shows: (1) get_definition returned the retained native definition of the \"Sales Amount by Due Date\" measure as CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey])). This matches sample.native_definition in the expectation. (2) One recreate DAX query succeeded. It returned ByDueDate = ByOrderDateDefault = 109809274.20299947, which matches the admission value of 109809274.20 and re-checks it at execution time, as the expectation's warning requires. (3) Triage found a complete run listing with zero runs, and the refresh schedule is enabled=false. That supports the side remark about refresh. (4) The first submit was rejected by validation because of the checked field. It was resubmitted correctly, and the content did not change.\n\nDisputed point, the verdict: the expectation's verdict is 'different question'. It says the answer should explain what the measure does, allege no defect, not invent a revenue-recognition rule, and hand the policy question to the business or definition owner. The saved answer does all of this. It opens with \"This is a business-policy question\". It explains the measure. It says nothing in the model or estate sets which date is intended for revenue recognition. It says this is a policy decision for the finance or model owner that the investigation \"cannot confirm or judge\". It alleges no defect. The only difference from 'different question' is the label 'definition explained'. The instruction is to judge substance over labels, and in substance the answer treats the ticket as a different question outside technical scope. The secondary grader itself admits that on substance the verdict matches. Scoring it as a mismatch only because of the category label goes against that instruction. So verdict, layer and cause all match, and the case passes under the all-three rule.\n\nCaveat neither grader caught: the claims that the model links Sales to Date three ways, with Order Date as the active default and Due and Ship Date inactive, are not established by any saved relationship read. Only the measure definition and one query were read. USERELATIONSHIP strongly suggests the due-date link is inactive, but the ship-date link and which link is active were not observed. The column name \"ByOrderDateDefault\" is just a label on a plain SUM. This is a confident but unsupported side claim. It is minor and does not touch the core cause, the policy handoff, so I don't rate it harmful. It does mean the primary grader's claim of a fully correct answer overstates the support for that detail.\n\nHandoff quality is 1. The responsible party (finance or model owner) and the reason for stopping are clearly stated, and the query can be rerun. But the structured handoff is null, and the answer leaves out the Page 1 and Page 3 visual bindings the owner would need.\n\nWinner: primary. Its scoring is correct, though it missed the unsupported relationship detail. The secondary grader's verdict mismatch rests only on the label and contradicts its own reading of the substance.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "primary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "4c5304dfdeb3ec3c4dd0a61c880af0b73194b0ae0a327e786634f51785281f73",
+        "reason": "What the saved evidence shows: (1) get_definition returned the retained native definition of the \"Sales Amount by Due Date\" measure as CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey])). This matches sample.native_definition in the expectation. (2) One recreate DAX query succeeded. It returned ByDueDate = ByOrderDateDefault = 109809274.20299947, which matches the admission value of 109809274.20 and re-checks it at execution time, as the expectation's warning requires. (3) Triage found a complete run listing with zero runs, and the refresh schedule is enabled=false. That supports the side remark about refresh. (4) The first submit was rejected by validation because of the checked field. It was resubmitted correctly, and the content did not change.\n\nDisputed point, the verdict: the expectation's verdict is 'different question'. It says the answer should explain what the measure does, allege no defect, not invent a revenue-recognition rule, and hand the policy question to the business or definition owner. The saved answer does all of this. It opens with \"This is a business-policy question\". It explains the measure. It says nothing in the model or estate sets which date is intended for revenue recognition. It says this is a policy decision for the finance or model owner that the investigation \"cannot confirm or judge\". It alleges no defect. The only difference from 'different question' is the label 'definition explained'. The instruction is to judge substance over labels, and in substance the answer treats the ticket as a different question outside technical scope. The secondary grader itself admits that on substance the verdict matches. Scoring it as a mismatch only because of the category label goes against that instruction. So verdict, layer and cause all match, and the case passes under the all-three rule.\n\nCaveat neither grader caught: the claims that the model links Sales to Date three ways, with Order Date as the active default and Due and Ship Date inactive, are not established by any saved relationship read. Only the measure definition and one query were read. USERELATIONSHIP strongly suggests the due-date link is inactive, but the ship-date link and which link is active were not observed. The column name \"ByOrderDateDefault\" is just a label on a plain SUM. This is a confident but unsupported side claim. It is minor and does not touch the core cause, the policy handoff, so I don't rate it harmful. It does mean the primary grader's claim of a fully correct answer overstates the support for that detail.\n\nHandoff quality is 1. The responsible party (finance or model owner) and the reason for stopping are clearly stated, and the query can be rerun. But the structured handoff is null, and the answer leaves out the Page 1 and Page 3 visual bindings the owner would need.\n\nWinner: primary. Its scoring is correct, though it missed the unsupported relationship detail. The secondary grader's verdict mismatch rests only on the label and contradicts its own reading of the substance.",
+        "source_sha256": "27876dee1da0f109aea9c0ce36faa0fb9ef4d821ebb9e49b58aaa98dba1e9022",
+        "ticket": "v4-sample-business-meaning-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 15424,
+          "output_tokens": 1861,
+          "output_tokens_details": {
+            "thinking_tokens": 653
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "primary"
+      }
+    },
+    {
+      "ticket": "v4-sample-business-meaning-2",
+      "class": "v4-sample-business-meaning",
+      "fixture": "baseline",
+      "estate": "dia-sample-estate",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'different question' equivalent (explained what the measure calculates but explicitly refused to settle whether due date is appropriate for revenue recognition, calling it undeclared business/accounting policy). This matches the sealed expected verdict of 'different question'. The layer is correct: the answer addresses the semantic model measure and explicitly defers to a business/policy owner. The cause is correct: the user is asking about revenue recognition policy which is undeclared business policy that technical facts cannot resolve. The answer does not harmfully assert an incorrect cause \u2014 it honestly declines. The delivered answer goes further by providing verified DAX definition and numeric totals, but does not overstep into claiming a business policy conclusion. Handoff quality is rated 1: the answer explains what was found and why the question can't be technically resolved, but the handoff object is empty and there is no explicit named next step or owner to contact, making it only moderately actionable.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Verdict: no match. The sealed record expects 'different question' because the user asked a revenue-recognition policy question that technical facts can't settle, and that needs a handoff to the definition owner. The answer instead returned 'definition explained', which treats the case as a calculation question. That is the verdict the supplied HOW_IS_THIS_CALCULATED intake classification points to, but the user said plainly that they were asking about business policy, not reporting a fault. Layer: match. The answer places the issue in the business definition / semantic model measure and says the due-date-versus-other-date choice is a business and accounting policy decision that nothing in the model records. Cause: match in substance. It correctly says it can't say whether the measure fits revenue reporting, and its description of the measure (USERELATIONSHIP on DueDateKey) agrees with the native definition. Disagreement: the answer states as fact that the active relationship uses order date, that ship date is inactive, and that the other series is dated by order date. The sealed record warns against saying which relationship the other series uses, because no native relationship fact was supplied. This is an unsupported side claim, not a wrong cause, so I don't grade it harmful. Because the verdict is wrong, this is a partial match and scores zero. Handoff quality 1: the DAX check query can be rerun and the answer says the policy belongs to the business, but the handoff object is empty, no definition owner or next step is named, and the answer is labelled answered rather than handed off.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-static09",
+      "outcome_sha256": "a6a8f77643aa01f63accb661ad3ffc395f3ef71d5fcdf960cb15b6a6b67e6b4c",
+      "status": "ANSWERED",
+      "native_duration_seconds": 79.0,
+      "worker_wall_seconds": 45.09490492499981,
+      "investigation_cost_microdollars": 447178,
+      "physical_requests": 3,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-sample-business-meaning-2-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "different question",
+      "raw_review": {
+        "cost_microdollars": 120080,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "The secondary grader is right. Under the all-three rule, this answer is a partial match and scores zero.\n\n**What the raw capture shows:**\n- **Intake:** The user explicitly asked a policy question and said it was \"not reporting a fault\". Intake still classified it as HOW_IS_THIS_CALCULATED and offered one measure candidate.\n- **get_definition:** The retained native definition of Sales Amount by Due Date is `CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey]))`. It is labelled as retained metadata with no current fetch.\n- **run_dax:** The query succeeded. The order-date sum and the due-date measure both equal 109809274.20299947. Sales has 121253 rows. The blank-DueDateKey count came back null, which is a blank COUNTROWS. That supports \"no blank due date\".\n- **Refresh facts:** The run listing is complete with no runs, and the schedule is enabled:false.\n- **First submit:** It failed schema validation and was resubmitted with only the native layer in `checked`.\n- **Final output:** Status ANSWERED, verdict \"definition explained\", handoff null.\n\n**Verdict:** The sealed expectation is \"different question\", with a handoff to the definition owner because this is undeclared business policy. The DIA gave a technical \"definition explained\" verdict, marked the case answered and gave no handoff. In substance it treated the case as a calculation question, following intake's misclassification. It did not route the case as a policy question that needs an owner.\n\nThe primary grader called \"definition explained\" equivalent to \"different question\". That relabels the result rather than judging what was delivered: the expectation says the case needs a handoff, not a technical finding, and none was given. So verdict_match is false. Because the core verdict is wrong, I place the failing step at the conclusion, while noting that intake's misclassification fed into it.\n\n**Layer and cause:** Both match. The answer places the issue in the semantic model measure and business definition. It says plainly that the choice between due, order and ship date is an accounting policy decision that nothing in the model records, and it declines to say whether the measure fits revenue reporting. That is honest uncertainty on the core question, and its account of the measure matches the native definition.\n\n**Unsupported side claims:** The answer states as fact that the active Date relationship uses order date, that the ship-date relationship is inactive, and that the other series is dated by order date. No relationship fact was read; get_definition returned only the measure expression. The sealed expectation specifically warns against asserting this. The chart title and series composition were also not read in the saved evidence. They happen to match the sealed target_bindings, but nothing the DIA read supports them. These are confidently stated, unsupported side claims. They do not change the core policy answer, so I don't count them as harmful, but the primary grader missed them.\n\n**Handoff quality = 1:** The answer explains why the question can't be settled technically and gives a query that can be rerun. However, no owner or next step is named and the handoff object is null.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "a6a8f77643aa01f63accb661ad3ffc395f3ef71d5fcdf960cb15b6a6b67e6b4c",
+        "reason": "The secondary grader is right. Under the all-three rule, this answer is a partial match and scores zero.\n\n**What the raw capture shows:**\n- **Intake:** The user explicitly asked a policy question and said it was \"not reporting a fault\". Intake still classified it as HOW_IS_THIS_CALCULATED and offered one measure candidate.\n- **get_definition:** The retained native definition of Sales Amount by Due Date is `CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey]))`. It is labelled as retained metadata with no current fetch.\n- **run_dax:** The query succeeded. The order-date sum and the due-date measure both equal 109809274.20299947. Sales has 121253 rows. The blank-DueDateKey count came back null, which is a blank COUNTROWS. That supports \"no blank due date\".\n- **Refresh facts:** The run listing is complete with no runs, and the schedule is enabled:false.\n- **First submit:** It failed schema validation and was resubmitted with only the native layer in `checked`.\n- **Final output:** Status ANSWERED, verdict \"definition explained\", handoff null.\n\n**Verdict:** The sealed expectation is \"different question\", with a handoff to the definition owner because this is undeclared business policy. The DIA gave a technical \"definition explained\" verdict, marked the case answered and gave no handoff. In substance it treated the case as a calculation question, following intake's misclassification. It did not route the case as a policy question that needs an owner.\n\nThe primary grader called \"definition explained\" equivalent to \"different question\". That relabels the result rather than judging what was delivered: the expectation says the case needs a handoff, not a technical finding, and none was given. So verdict_match is false. Because the core verdict is wrong, I place the failing step at the conclusion, while noting that intake's misclassification fed into it.\n\n**Layer and cause:** Both match. The answer places the issue in the semantic model measure and business definition. It says plainly that the choice between due, order and ship date is an accounting policy decision that nothing in the model records, and it declines to say whether the measure fits revenue reporting. That is honest uncertainty on the core question, and its account of the measure matches the native definition.\n\n**Unsupported side claims:** The answer states as fact that the active Date relationship uses order date, that the ship-date relationship is inactive, and that the other series is dated by order date. No relationship fact was read; get_definition returned only the measure expression. The sealed expectation specifically warns against asserting this. The chart title and series composition were also not read in the saved evidence. They happen to match the sealed target_bindings, but nothing the DIA read supports them. These are confidently stated, unsupported side claims. They do not change the core policy answer, so I don't count them as harmful, but the primary grader missed them.\n\n**Handoff quality = 1:** The answer explains why the question can't be settled technically and gives a query that can be rerun. However, no owner or next step is named and the handoff object is null.",
+        "source_sha256": "54a9c90f77fe9b1b24ca7f7ce3cac89c1767b0e9f1495391d3d6113da5c188b2",
+        "ticket": "v4-sample-business-meaning-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 18461,
+          "output_tokens": 2303,
+          "output_tokens_details": {
+            "thinking_tokens": 1045
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-sample-business-meaning-3",
+      "class": "v4-sample-business-meaning",
+      "fixture": "baseline",
+      "estate": "dia-sample-estate",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the measure definition as CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey])), explains the inactive relationship switch, confirms totals match at 109809274.20, and explicitly states that whether due date is the agreed revenue-recognition rule is a business-policy decision that requires confirmation from the definition's owner. This matches the sealed expected verdict ('different question' / definition explained with handoff to owner), the correct layer (business definition / semantic model measure), and the correct cause (cannot confirm revenue-recognition policy from native facts, needs owner confirmation). The handoff section is empty ({}) which slightly reduces handoff quality, but the business answer text clearly identifies the next step (definition owner must confirm). No confident incorrect cause is stated. Handoff quality is 1: the stopping point and next action are clear in prose but no structured handoff record or contact info is provided.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Expected verdict is \"different question\": the user is asking for a business-policy confirmation (is due date the agreed revenue-recognition rule), which should be routed to the definition owner rather than given a technical verdict. The delivered answer uses status ANSWERED with verdict \"definition explained\", so its headline outcome says the question was answered as a calculation question. Its own text admits the actual question (revenue-recognition policy) was not answered. That is a different outcome category, not just different wording, so the verdict does not match. Layer matches: the semantic model measure Sales Amount by Due Date, plus a handoff to the definition owner. Cause matches in substance: the answer gives the correct USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey]) definition and the 109809274.20 total, which matches the admission-time value. It also says plainly that no declared business description or system of record establishes the policy, and that the owner must confirm it. It does not manufacture a defect, and the refresh-history note is correctly kept separate. Because the verdict does not match, this is a partial match and scores zero. Not harmful: no confident incorrect cause is stated, and the answer is honest about the policy question being out of scope. Handoff: the handoff object is empty, but the DAX query can be rerun, the stopping point (policy can't be shown from metadata or data) is clear, and the next step (definition owner confirms) is named. That earns partial credit of 1.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-static09",
+      "outcome_sha256": "4d20919066295c81cc3cbcade3f011449c9422446ae37f58ff703d9fb76a26cc",
+      "status": "ANSWERED",
+      "native_duration_seconds": 83.0,
+      "worker_wall_seconds": 50.33655007700003,
+      "investigation_cost_microdollars": 456258,
+      "physical_requests": 5,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-sample-business-meaning-3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "different question",
+      "raw_review": {
+        "cost_microdollars": 118136,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence shows: get_definition returned the retained measure expression CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey])), with no business description and no graph references. The single DAX query succeeded. It returned SalesAmountOrderDate = SalesAmountByDueDate = 109809274.20299947, and both RowsBlankDueKey and DueKeysNotInDate came back null. Null means COUNTROWS of an empty set, so the count is zero: no row has a blank due-date key and no due-date key is missing from the Date table. That supports the claim that the measure moves amounts between periods without changing the total. The total matches the admission-time value in the sealed expectation. The refresh-history call returned a complete listing with no runs, and the schedule shows enabled:false, so the refresh note is accurate and kept separate from the definition. A few details aren't in DIA's own retained records: the active OrderDateKey relationship, the Fiscal Month axis and the side-by-side area chart. The sealed target_bindings support them, though, and none of them is a confident wrong claim.\n\nDisputed verdict: the sealed expectation is 'different question'. Its own text says the expected answer 'explains the calculation and states plainly that it cannot confirm the revenue-recognition policy, and hands that off.' The DIA answer does exactly that. It explains the calculation, says plainly that whether due date is the revenue-recognition rule is a business-policy decision the data can't show, says the definition owner must confirm it, and says the investigation can neither confirm nor rule it out. It makes up no technical defect and makes no policy claim. Judged on substance, the outcome matches the expectation; only the labels differ. The secondary grader's point is that status ANSWERED with verdict 'definition explained' puts it in a different outcome category. That treats the label as decisive even though the content routes the policy question correctly. So verdict_match is true and the answer is not partial. The layer (semantic model measure, with a handoff to the definition owner) and the cause (no native fact declares the policy, so the owner must confirm) both match, as both graders agree.\n\nHarm: none. The answer is honest about what it doesn't know and states no confident wrong cause.\n\nHandoff quality is 1 rather than 2. The handoff field is null and the status is ANSWERED, so there is no structured routing record. The prose still names the stopping point and the next owner, and the query can be rerun. Overall the primary grader is right and the secondary grader wrongly marks this as partial on the verdict.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "primary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "4d20919066295c81cc3cbcade3f011449c9422446ae37f58ff703d9fb76a26cc",
+        "reason": "What the saved evidence shows: get_definition returned the retained measure expression CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey])), with no business description and no graph references. The single DAX query succeeded. It returned SalesAmountOrderDate = SalesAmountByDueDate = 109809274.20299947, and both RowsBlankDueKey and DueKeysNotInDate came back null. Null means COUNTROWS of an empty set, so the count is zero: no row has a blank due-date key and no due-date key is missing from the Date table. That supports the claim that the measure moves amounts between periods without changing the total. The total matches the admission-time value in the sealed expectation. The refresh-history call returned a complete listing with no runs, and the schedule shows enabled:false, so the refresh note is accurate and kept separate from the definition. A few details aren't in DIA's own retained records: the active OrderDateKey relationship, the Fiscal Month axis and the side-by-side area chart. The sealed target_bindings support them, though, and none of them is a confident wrong claim.\n\nDisputed verdict: the sealed expectation is 'different question'. Its own text says the expected answer 'explains the calculation and states plainly that it cannot confirm the revenue-recognition policy, and hands that off.' The DIA answer does exactly that. It explains the calculation, says plainly that whether due date is the revenue-recognition rule is a business-policy decision the data can't show, says the definition owner must confirm it, and says the investigation can neither confirm nor rule it out. It makes up no technical defect and makes no policy claim. Judged on substance, the outcome matches the expectation; only the labels differ. The secondary grader's point is that status ANSWERED with verdict 'definition explained' puts it in a different outcome category. That treats the label as decisive even though the content routes the policy question correctly. So verdict_match is true and the answer is not partial. The layer (semantic model measure, with a handoff to the definition owner) and the cause (no native fact declares the policy, so the owner must confirm) both match, as both graders agree.\n\nHarm: none. The answer is honest about what it doesn't know and states no confident wrong cause.\n\nHandoff quality is 1 rather than 2. The handoff field is null and the status is ANSWERED, so there is no structured routing record. The prose still names the stopping point and the next owner, and the query can be rerun. Overall the primary grader is right and the secondary grader wrongly marks this as partial on the verdict.",
+        "source_sha256": "1004a11cd5c3897ffb9cedece08a873ca1fd9f6ead14cd35f952e55e54dbe8d6",
+        "ticket": "v4-sample-business-meaning-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 20305,
+          "output_tokens": 1837,
+          "output_tokens_details": {
+            "thinking_tokens": 702
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "primary"
+      }
+    },
+    {
+      "ticket": "v4-screenshot-billing-invoices",
+      "class": "v4-screenshot-billing-invoices",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict (extra 250 comes from a duplicate of invoice 101 in gold.invoice_activity), the layer (gold transformation), and the cause (fan-out join between silver.invoices and account_plan_history on account_id producing a duplicate row for invoice 101 with account_id=1 which has 2 history rows). All three graded dimensions match the sealed expected answer. The answer is ANSWERED with a handoff of empty {}, so handoff quality is 0 (no rerunnable queries, no stopping point, no next checks in the handoff object).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says 'transformation logic', which matches the sealed answer. Layer: the delivered answer puts the split between silver and gold, at the step that builds gold.invoice_activity, which feeds the Billing table. Silver, bronze and billingapp all total 700, while gold and the model total 950. The expected layer is 'gold transformation (gold.invoice_activity feeding the Billing table)', so this matches. Cause: the delivered answer names a duplicated invoice 101 in gold.invoice_activity (2 rows, 500 total, so 250 each), which adds 250. This matches the sealed cause. The cited queries back it up: the gold GROUP BY HAVING COUNT(*)>1 query returned 101/account 1/500/2, silver totals 700 across 4 rows, and the card returns 950. One difference from the expected basis, which is not a fault: the expected native basis says no plan-history rows were read, so the join fan-out was only plausible. The delivered answer did run a read-only query on billing_bronze dbo.account_plan_history, and it returned 2 rows for account 1. So its fan-out explanation is based on a recorded query rather than an unsupported claim. The answer also admits it has not shown which run built the current gold table. The failed pipeline run (error 2011, CREATE SCHEMA) is correctly ruled out because every layer below gold agrees at 700. This is a full match, and nothing harmful is stated as fact. Handoff: the queries are recorded verbatim and can be rerun, and the limits are clear (snapshots not aligned in time, no history, model refresh state not read).",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static11",
+      "outcome_sha256": "9ebd1307dbf18177653a6b4a5da20a280908fcfcfafd88d4a118347699ec81d4",
+      "status": "ANSWERED",
+      "native_duration_seconds": 314.0,
+      "worker_wall_seconds": 286.14072304800004,
+      "investigation_cost_microdollars": 584772,
+      "physical_requests": 38,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-screenshot-billing-invoices-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "transformation logic",
+      "raw_review": {
+        "cost_microdollars": 222515,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows: the DAX query for [Invoiced Amount] returned 950. gold.invoice_activity SUM = 950. silver.invoices SUM = 700, with 4 rows: 101/1/250, 102/2/100, 103/3/250, 104/4/100. billing_bronze dbo.invoices = 700 and billingapp app.invoices = 700. The duplicate check on gold returned invoice 101, account 1, 2 rows, 500. The bronze account_plan_history check returned account 1 with 2 rows. So the split is between silver and gold, and the extra 250 is the second copy of invoice 101. That matches the sealed verdict (transformation logic), layer (gold.invoice_activity feeding Billing) and cause (duplicated invoice 101 adding 250). Under the all-three rule this is a full match, not partial. The answer actually read plan-history, which the sealed basis says was not done, so its fan-out explanation rests on a recorded query. Its description of the gold.build_billing join was not read in the queries, but the sealed expectation confirms that retained definition exists, and the answer's own results support the mechanism. The failed run bc3b0674 (error 2011, CREATE SCHEMA) is correctly ruled out because every layer below gold reads 700. The last success it names, 6382985a, appears in the triage job-run facts. Minor inaccuracies: it says 'no history was read' although get_job_runs was called, and it says the model refresh state was not read although triage observed no refresh runs. These are over-cautious limit statements, not confident wrong claims, so nothing harmful. Handoff dispute: the primary grader gave 0 because the handoff was 'empty {}'. In fact the handoff field is null, as expected for an ANSWERED status. The technical payload has all eight queries with their exact text and parameters, their results, and explicit limits (snapshots not aligned in time, which run built gold not established, refresh not read), and those limits point to the next checks. Judged on substance that deserves 2, so the secondary grader is correct. Both graders agree on the match dimensions.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "9ebd1307dbf18177653a6b4a5da20a280908fcfcfafd88d4a118347699ec81d4",
+        "reason": "What the raw capture shows: the DAX query for [Invoiced Amount] returned 950. gold.invoice_activity SUM = 950. silver.invoices SUM = 700, with 4 rows: 101/1/250, 102/2/100, 103/3/250, 104/4/100. billing_bronze dbo.invoices = 700 and billingapp app.invoices = 700. The duplicate check on gold returned invoice 101, account 1, 2 rows, 500. The bronze account_plan_history check returned account 1 with 2 rows. So the split is between silver and gold, and the extra 250 is the second copy of invoice 101. That matches the sealed verdict (transformation logic), layer (gold.invoice_activity feeding Billing) and cause (duplicated invoice 101 adding 250). Under the all-three rule this is a full match, not partial. The answer actually read plan-history, which the sealed basis says was not done, so its fan-out explanation rests on a recorded query. Its description of the gold.build_billing join was not read in the queries, but the sealed expectation confirms that retained definition exists, and the answer's own results support the mechanism. The failed run bc3b0674 (error 2011, CREATE SCHEMA) is correctly ruled out because every layer below gold reads 700. The last success it names, 6382985a, appears in the triage job-run facts. Minor inaccuracies: it says 'no history was read' although get_job_runs was called, and it says the model refresh state was not read although triage observed no refresh runs. These are over-cautious limit statements, not confident wrong claims, so nothing harmful. Handoff dispute: the primary grader gave 0 because the handoff was 'empty {}'. In fact the handoff field is null, as expected for an ANSWERED status. The technical payload has all eight queries with their exact text and parameters, their results, and explicit limits (snapshots not aligned in time, which run built gold not established, refresh not read), and those limits point to the next checks. Judged on substance that deserves 2, so the secondary grader is correct. Both graders agree on the match dimensions.",
+        "source_sha256": "e3abd6e1792aec79b1461e9ec17d61fed7f14ee9078039288a99921c11486d29",
+        "ticket": "v4-screenshot-billing-invoices",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 41570,
+          "output_tokens": 2592,
+          "output_tokens_details": {
+            "thinking_tokens": 690
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-screenshot-billing-mrr",
+      "class": "v4-screenshot-billing-mrr",
+      "fixture": "baseline",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'as designed / how-is-it-calculated', correctly names the layer as the semantic model measure MRR All Plans in the Subscription Billing model, and correctly states the cause: CALCULATE(SUMX(FILTER(Subscriptions, status='ACTIVE'), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)) yielding 600 from three active subscriptions (401/250, 402/100, 403/250). The measure definition, the REMOVEFILTERS logic, and the 3-subscription breakdown all match the sealed expected cause. The answer also correctly confirms the source (gold.subscriptions/gold.plans via billing_serving) gives the same 600, and notes the pipeline failure without misattributing it as the cause of the number. Individual subscription IDs were obtained by a fresh query rather than invented, which is consistent with the sealed expectation. The answer is complete and accurate. Handoff quality is 0 because the answer is fully resolved (no open handoff needed).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered 'definition explained' and the expected 'as designed' mean the same thing here. Both treat this as a how-is-it-calculated question, not a defect. The reported 600 matches the model value and the gold tables. Layer: the delivered answer names the semantic-model measure 'MRR All Plans' on the Subscription Billing model card, which matches the expected layer. Cause: the delivered DAX matches the sealed expression exactly: CALCULATE(SUMX(FILTER(Subscriptions, status=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)). It correctly explains the ACTIVE filter, the plan-price lookup and that Plans filters are ignored. Subscription IDs: the expectation warns against inventing IDs. The delivered IDs 401, 402 and 403 and their prices (250 + 100 + 250 = 600) come from a fresh, successful DAX query recorded in the answer, so they are not invented. Pipeline failure: the delivered answer mentions the error-2011 failure only as a separate, hedged caveat that gold 'may' be stale. It does not present this as the cause and says the calculation is correct on current gold data. This is a minor difference in emphasis from the expectation, which says the failure does not affect the question. It is not a confident wrong cause. Handoff: the answer is resolved, so no formal handoff was needed. It still includes rerunnable DAX/SQL with their executed text, a clear stopping point and an implied next check (upstream bronze/source tables not read).",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static12",
+      "outcome_sha256": "c42253bc1f2c7ce67d7d5a1a7292fb6a8b36a832c7e6ae9923dc34cd1a6c986a",
+      "status": "ANSWERED",
+      "native_duration_seconds": 165.0,
+      "worker_wall_seconds": 134.20213217799994,
+      "investigation_cost_microdollars": 455679,
+      "physical_requests": 22,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-screenshot-billing-mrr-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 185587,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "Raw capture: a fresh DAX recreate of [MRR All Plans] with nothing selected returned 600, matching the reported figure. A DAX row query returned exactly three ACTIVE subscriptions: 401 (plan 2, 250), 402 (plan 1, 100) and 403 (plan 2, 250), which sum to 600. A read-only SQL query on billing_serving gold.subscriptions joined to gold.plans also returned 600. Triage and get_job_runs show the latest Billing Warehouse transformations run (bc3b0674) FAILED with error 2011 (bronze schema already exists). The triage list shows the last success as 2026-10-26 17:44\u201317:49. Scoring: 'definition explained' is substantively the same as the expected 'as designed' (a how-is-it-calculated answer, not a defect), so verdict matches. DIA names the semantic-model measure MRR All Plans on the Subscription Billing model, so layer matches. The quoted formula CALCULATE(SUMX(FILTER(Subscriptions, status=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)) matches the sealed expression exactly, so cause matches. No saved tool call shows where the formula text was read. The subscription IDs are supported by a fresh query, as the sealed expectation requires, not invented. DIA presents the pipeline failure only as a hedged, separate caveat ('may not reflect'), says the calculation is correct on current gold data and states that upstream tables were not read. That is honest uncertainty, not a confident wrong cause, so it is not harmful. All three fields match, so the answer is not partial. A rejected submit (a pipeline node put in 'checked') was corrected and resubmitted, which is harmless. Disputed point: the primary grader scored handoff 0 only because no handoff was required, which confuses 'not needed' with 'poor'. The answer is well packaged: query text as written and as executed, result digests, evidence IDs, and an explicit statement of the unread upstream scope. Handoff quality is therefore 2, and the secondary grader is right.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "c42253bc1f2c7ce67d7d5a1a7292fb6a8b36a832c7e6ae9923dc34cd1a6c986a",
+        "reason": "Raw capture: a fresh DAX recreate of [MRR All Plans] with nothing selected returned 600, matching the reported figure. A DAX row query returned exactly three ACTIVE subscriptions: 401 (plan 2, 250), 402 (plan 1, 100) and 403 (plan 2, 250), which sum to 600. A read-only SQL query on billing_serving gold.subscriptions joined to gold.plans also returned 600. Triage and get_job_runs show the latest Billing Warehouse transformations run (bc3b0674) FAILED with error 2011 (bronze schema already exists). The triage list shows the last success as 2026-10-26 17:44\u201317:49. Scoring: 'definition explained' is substantively the same as the expected 'as designed' (a how-is-it-calculated answer, not a defect), so verdict matches. DIA names the semantic-model measure MRR All Plans on the Subscription Billing model, so layer matches. The quoted formula CALCULATE(SUMX(FILTER(Subscriptions, status=\"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans)) matches the sealed expression exactly, so cause matches. No saved tool call shows where the formula text was read. The subscription IDs are supported by a fresh query, as the sealed expectation requires, not invented. DIA presents the pipeline failure only as a hedged, separate caveat ('may not reflect'), says the calculation is correct on current gold data and states that upstream tables were not read. That is honest uncertainty, not a confident wrong cause, so it is not harmful. All three fields match, so the answer is not partial. A rejected submit (a pipeline node put in 'checked') was corrected and resubmitted, which is harmless. Disputed point: the primary grader scored handoff 0 only because no handoff was required, which confuses 'not needed' with 'poor'. The answer is well packaged: query text as written and as executed, result digests, evidence IDs, and an explicit statement of the unread upstream scope. Handoff quality is therefore 2, and the secondary grader is right.",
+        "source_sha256": "c476f3ac8221a561f30e66cec35ae0d859c7661613d899c7deba8602126988dc",
+        "ticket": "v4-screenshot-billing-mrr",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 32183,
+          "output_tokens": 2623,
+          "output_tokens_details": {
+            "thinking_tokens": 788
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
       "ticket": "v4-waiting-application-load-1",
       "class": "v4-waiting-application-load",
       "fixture": "waiting",
@@ -9622,14 +11138,9 @@
     "v4-screenshot-fixture-02",
     "v4-screenshot-fixture-03",
     "v4-screenshot-fixture-04",
-    "v4-screenshot-billing-mrr",
-    "v4-screenshot-billing-invoices",
     "v4-sample-technical-1",
     "v4-sample-technical-2",
-    "v4-sample-technical-3",
-    "v4-sample-business-meaning-1",
-    "v4-sample-business-meaning-2",
-    "v4-sample-business-meaning-3"
+    "v4-sample-technical-3"
   ],
   "status": "IN_PROGRESS",
   "per_expected_verdict_class": {
@@ -10836,141 +12347,141 @@
     "as designed": {
       "official_primary": {
         "all_three": {
-          "correct": 6,
-          "total": 9,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.3542021355803963,
-          "upper": 0.879416181613089,
+          "correct": 7,
+          "total": 10,
+          "accuracy": 0.7,
+          "lower": 0.39677814746114537,
+          "upper": 0.8922087325936989,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 6,
-          "total": 9,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.3542021355803963,
-          "upper": 0.879416181613089,
+          "correct": 7,
+          "total": 10,
+          "accuracy": 0.7,
+          "lower": 0.39677814746114537,
+          "upper": 0.8922087325936989,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 7,
-          "total": 9,
-          "accuracy": 0.7777777777777778,
-          "lower": 0.45258896910698887,
-          "upper": 0.9367748928821533,
+          "correct": 8,
+          "total": 10,
+          "accuracy": 0.8,
+          "lower": 0.49016247153664183,
+          "upper": 0.9433178485456247,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 6,
-          "total": 9,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.3542021355803963,
-          "upper": 0.879416181613089,
+          "correct": 7,
+          "total": 10,
+          "accuracy": 0.7,
+          "lower": 0.39677814746114537,
+          "upper": 0.8922087325936989,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 9,
+          "total": 10,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.2991450484195441,
+          "upper": 0.2775327998628892,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "strict": {
         "all_three": {
-          "correct": 6,
-          "total": 9,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.3542021355803963,
-          "upper": 0.879416181613089,
+          "correct": 7,
+          "total": 10,
+          "accuracy": 0.7,
+          "lower": 0.39677814746114537,
+          "upper": 0.8922087325936989,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 6,
-          "total": 9,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.3542021355803963,
-          "upper": 0.879416181613089,
+          "correct": 7,
+          "total": 10,
+          "accuracy": 0.7,
+          "lower": 0.39677814746114537,
+          "upper": 0.8922087325936989,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 7,
-          "total": 9,
-          "accuracy": 0.7777777777777778,
-          "lower": 0.45258896910698887,
-          "upper": 0.9367748928821533,
+          "correct": 8,
+          "total": 10,
+          "accuracy": 0.8,
+          "lower": 0.49016247153664183,
+          "upper": 0.9433178485456247,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 6,
-          "total": 9,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.3542021355803963,
-          "upper": 0.879416181613089,
+          "correct": 7,
+          "total": 10,
+          "accuracy": 0.7,
+          "lower": 0.39677814746114537,
+          "upper": 0.8922087325936989,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 9,
+          "total": 10,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.2991450484195441,
+          "upper": 0.2775327998628892,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "raw_reviewed": {
         "all_three": {
-          "correct": 7,
-          "total": 9,
-          "accuracy": 0.7777777777777778,
-          "lower": 0.45258896910698887,
-          "upper": 0.9367748928821533,
+          "correct": 8,
+          "total": 10,
+          "accuracy": 0.8,
+          "lower": 0.49016247153664183,
+          "upper": 0.9433178485456247,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 7,
-          "total": 9,
-          "accuracy": 0.7777777777777778,
-          "lower": 0.45258896910698887,
-          "upper": 0.9367748928821533,
+          "correct": 8,
+          "total": 10,
+          "accuracy": 0.8,
+          "lower": 0.49016247153664183,
+          "upper": 0.9433178485456247,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 7,
-          "total": 9,
-          "accuracy": 0.7777777777777778,
-          "lower": 0.45258896910698887,
-          "upper": 0.9367748928821533,
+          "correct": 8,
+          "total": 10,
+          "accuracy": 0.8,
+          "lower": 0.49016247153664183,
+          "upper": 0.9433178485456247,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 7,
-          "total": 9,
-          "accuracy": 0.7777777777777778,
-          "lower": 0.45258896910698887,
-          "upper": 0.9367748928821533,
+          "correct": 8,
+          "total": 10,
+          "accuracy": 0.8,
+          "lower": 0.49016247153664183,
+          "upper": 0.9433178485456247,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 9,
+          "total": 10,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.2991450484195441,
+          "upper": 0.2775327998628892,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -10980,94 +12491,94 @@
       "headline": "raw_reviewed",
       "primary": {
         "all_three": {
-          "correct": 6,
-          "total": 9,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.3542021355803963,
-          "upper": 0.879416181613089,
+          "correct": 7,
+          "total": 10,
+          "accuracy": 0.7,
+          "lower": 0.39677814746114537,
+          "upper": 0.8922087325936989,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 6,
-          "total": 9,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.3542021355803963,
-          "upper": 0.879416181613089,
+          "correct": 7,
+          "total": 10,
+          "accuracy": 0.7,
+          "lower": 0.39677814746114537,
+          "upper": 0.8922087325936989,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 7,
-          "total": 9,
-          "accuracy": 0.7777777777777778,
-          "lower": 0.45258896910698887,
-          "upper": 0.9367748928821533,
+          "correct": 8,
+          "total": 10,
+          "accuracy": 0.8,
+          "lower": 0.49016247153664183,
+          "upper": 0.9433178485456247,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 6,
-          "total": 9,
-          "accuracy": 0.6666666666666666,
-          "lower": 0.3542021355803963,
-          "upper": 0.879416181613089,
+          "correct": 7,
+          "total": 10,
+          "accuracy": 0.7,
+          "lower": 0.39677814746114537,
+          "upper": 0.8922087325936989,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 9,
+          "total": 10,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.2991450484195441,
+          "upper": 0.2775327998628892,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "secondary": {
         "all_three": {
-          "correct": 7,
-          "total": 9,
-          "accuracy": 0.7777777777777778,
-          "lower": 0.45258896910698887,
-          "upper": 0.9367748928821533,
+          "correct": 8,
+          "total": 10,
+          "accuracy": 0.8,
+          "lower": 0.49016247153664183,
+          "upper": 0.9433178485456247,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 7,
-          "total": 9,
-          "accuracy": 0.7777777777777778,
-          "lower": 0.45258896910698887,
-          "upper": 0.9367748928821533,
+          "correct": 8,
+          "total": 10,
+          "accuracy": 0.8,
+          "lower": 0.49016247153664183,
+          "upper": 0.9433178485456247,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 7,
-          "total": 9,
-          "accuracy": 0.7777777777777778,
-          "lower": 0.45258896910698887,
-          "upper": 0.9367748928821533,
+          "correct": 8,
+          "total": 10,
+          "accuracy": 0.8,
+          "lower": 0.49016247153664183,
+          "upper": 0.9433178485456247,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 7,
-          "total": 9,
-          "accuracy": 0.7777777777777778,
-          "lower": 0.45258896910698887,
-          "upper": 0.9367748928821533,
+          "correct": 8,
+          "total": 10,
+          "accuracy": 0.8,
+          "lower": 0.49016247153664183,
+          "upper": 0.9433178485456247,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 9,
+          "total": 10,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.2991450484195441,
+          "upper": 0.2775327998628892,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -11316,141 +12827,141 @@
     "transformation logic": {
       "official_primary": {
         "all_three": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 8,
+          "total": 9,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.32440756488388023,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "strict": {
         "all_three": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 8,
+          "total": 9,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.32440756488388023,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "raw_reviewed": {
         "all_three": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 8,
+          "total": 9,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.32440756488388023,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -11460,94 +12971,94 @@
       "headline": "raw_reviewed",
       "primary": {
         "all_three": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 8,
+          "total": 9,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.32440756488388023,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "secondary": {
         "all_three": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 5,
-          "total": 8,
-          "accuracy": 0.625,
-          "lower": 0.30574239460262737,
-          "upper": 0.8631557141764026,
+          "correct": 6,
+          "total": 9,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.3542021355803963,
+          "upper": 0.879416181613089,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 8,
+          "total": 9,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.32440756488388023,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -11788,6 +13299,246 @@
           "accuracy": 0.0,
           "lower": 0.0,
           "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "different question": {
+      "official_primary": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -12037,33 +13788,33 @@
   "class_grouping_basis": "Original case IDs retained; additional verdict grouping uses exact sealed oracle labels only, no expectation changes.",
   "timing_cost": {
     "all": {
-      "tickets": 45,
-      "native_observed": 31,
+      "tickets": 50,
+      "native_observed": 36,
       "native_missing": 14,
-      "native_median_seconds": 207.0,
-      "native_p90_seconds": 274.0,
-      "worker_median_seconds": 173.34208116050002,
-      "worker_p90_seconds": 238.297234413,
-      "investigation_cost_microdollars_observed": 18136518,
-      "cost_observed": 37,
+      "native_median_seconds": 205.0,
+      "native_p90_seconds": 282.0,
+      "worker_median_seconds": 171.068875806,
+      "worker_p90_seconds": 253.465285683,
+      "investigation_cost_microdollars_observed": 20435861,
+      "cost_observed": 42,
       "cost_unavailable": 8,
-      "cost_per_observed_ticket_usd": 0.4901761621621622,
-      "physical_requests_observed": 895,
+      "cost_per_observed_ticket_usd": 0.48656811904761904,
+      "physical_requests_observed": 966,
       "physical_requests_unavailable": 8
     },
     "full_investigation": {
-      "tickets": 27,
-      "native_observed": 27,
+      "tickets": 32,
+      "native_observed": 32,
       "native_missing": 0,
-      "native_median_seconds": 214.0,
+      "native_median_seconds": 210.0,
       "native_p90_seconds": 282.0,
-      "worker_median_seconds": 180.75598343300004,
+      "worker_median_seconds": 173.34208116050002,
       "worker_p90_seconds": 253.465285683,
-      "investigation_cost_microdollars_observed": 12441386,
-      "cost_observed": 27,
+      "investigation_cost_microdollars_observed": 14740729,
+      "cost_observed": 32,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.4607920740740741,
-      "physical_requests_observed": 764,
+      "cost_per_observed_ticket_usd": 0.46064778125,
+      "physical_requests_observed": 835,
       "physical_requests_unavailable": 0
     },
     "answered_without_layer_queries": {

@@ -1,17 +1,17 @@
 {
   "pass": "Round25 G2 raw-reviewed",
-  "graded": 45,
-  "score": 25,
+  "graded": 50,
+  "score": 29,
   "correctness": {
-    "verdict_match": 31,
-    "layer_match": 32,
-    "cause_match": 25
+    "verdict_match": 35,
+    "layer_match": 37,
+    "cause_match": 30
   },
   "harmful": 0,
   "zero_groups": {
     "intake": 11,
     "query": 4,
-    "conclusion": 2,
+    "conclusion": 3,
     "triage": 3
   },
   "zeros": [
@@ -357,6 +357,20 @@
       "class": "v4-record-repeated-gold"
     },
     {
+      "ticket": "v4-sample-business-meaning-2",
+      "first_wrong_step": "conclusion",
+      "reason": "The secondary grader is right. Under the all-three rule, this answer is a partial match and scores zero.\n\n**What the raw capture shows:**\n- **Intake:** The user explicitly asked a policy question and said it was \"not reporting a fault\". Intake still classified it as HOW_IS_THIS_CALCULATED and offered one measure candidate.\n- **get_definition:** The retained native definition of Sales Amount by Due Date is `CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey],'Date'[DateKey]))`. It is labelled as retained metadata with no current fetch.\n- **run_dax:** The query succeeded. The order-date sum and the due-date measure both equal 109809274.20299947. Sales has 121253 rows. The blank-DueDateKey count came back null, which is a blank COUNTROWS. That supports \"no blank due date\".\n- **Refresh facts:** The run listing is complete with no runs, and the schedule is enabled:false.\n- **First submit:** It failed schema validation and was resubmitted with only the native layer in `checked`.\n- **Final output:** Status ANSWERED, verdict \"definition explained\", handoff null.\n\n**Verdict:** The sealed expectation is \"different question\", with a handoff to the definition owner because this is undeclared business policy. The DIA gave a technical \"definition explained\" verdict, marked the case answered and gave no handoff. In substance it treated the case as a calculation question, following intake's misclassification. It did not route the case as a policy question that needs an owner.\n\nThe primary grader called \"definition explained\" equivalent to \"different question\". That relabels the result rather than judging what was delivered: the expectation says the case needs a handoff, not a technical finding, and none was given. So verdict_match is false. Because the core verdict is wrong, I place the failing step at the conclusion, while noting that intake's misclassification fed into it.\n\n**Layer and cause:** Both match. The answer places the issue in the semantic model measure and business definition. It says plainly that the choice between due, order and ship date is an accounting policy decision that nothing in the model records, and it declines to say whether the measure fits revenue reporting. That is honest uncertainty on the core question, and its account of the measure matches the native definition.\n\n**Unsupported side claims:** The answer states as fact that the active Date relationship uses order date, that the ship-date relationship is inactive, and that the other series is dated by order date. No relationship fact was read; get_definition returned only the measure expression. The sealed expectation specifically warns against asserting this. The chart title and series composition were also not read in the saved evidence. They happen to match the sealed target_bindings, but nothing the DIA read supports them. These are confidently stated, unsupported side claims. They do not change the core policy answer, so I don't count them as harmful, but the primary grader missed them.\n\n**Handoff quality = 1:** The answer explains why the question can't be settled technically and gives a query that can be rerun. However, no owner or next step is named and the handoff object is null.",
+      "saved_trace": {
+        "outcome_sha256": "a6a8f77643aa01f63accb661ad3ffc395f3ef71d5fcdf960cb15b6a6b67e6b4c",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-sample-business-meaning-2-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Restrict the cause to what the cited native evidence establishes.",
+      "class": "v4-sample-business-meaning"
+    },
+    {
       "ticket": "v4-waiting-application-load-3",
       "first_wrong_step": "conclusion",
       "reason": "What the saved capture shows: the triage JOB_RUNS fact, read at 2026-10-31T19:00:48Z for pipeline node 3bf74ae1, lists e2748b17-7057-482c-8556-b936713b931b as the newest run. That run started at 18:51:08Z and was RUNNING with no end time. The same listing shows that 78c23b46-0543-44c8-869f-59b7dfb34a23, the run the sealed expectation names, had already SUCCEEDED (16:56:27Z to 2026-10-28T17:06:36.77Z). A fresh native get_job_runs read at 19:01:18Z shows e2748b17 SUCCEEDED, ending at 19:01:17.99Z with no error. That read also has no audit row for the run (DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN).\n\nThe delivered answer reports these facts accurately. It does not assert a lock, saying only that one can be neither confirmed nor ruled out. It claims no data mismatch and lists its limits honestly: the Copy Job has no run in the window, the earlier run da45f511 failed with error 2011, and the model refresh 763470267 ended on 2026-10-28 with its schedule disabled. Every claim is backed by the evidence, so the answer is not harmful.\n\nScoring against the sealed expectation: the expected verdict is 'waiting on job', with 78c23b46 still InProgress. The delivered verdict is 'observed value', about a different run that has finished. So the verdict and the cause do not match. The layer, orchestration at the pipeline job instance, does match. Only one of the three criteria holds, so the result is partial and scores zero under the all-three rule.\n\nThe mismatch is caused by expectation drift, not by a mistake in the agent's work. The sealed record itself says the running state must be confirmed again with a fresh check at scored execution. The agent did exactly that, and the evidence shows the expected run had already finished before this session started. Even so, the scoring rule compares against the sealed expectation and does not allow correcting it.\n\nPrimary grader: its verdict, layer and cause judgments match mine, but its failing step is wrong. It says triage misidentified the run. In fact triage correctly picked e2748b17 as the latest RUNNING instance, and its own data shows 78c23b46 had already SUCCEEDED. Primary also marks partial=false even though the layer matched.\n\nSecondary grader: it gets every judgment right. It sets partial=true and correctly notes that the triage data shows 78c23b46 SUCCEEDED, so the expectation is probably stale. It does not override the expectation, which is correct under the protocol. I would label its failing step 'wrong conclusion' only in the sense of a mismatch at the conclusion stage, not a conclusion the evidence fails to support.\n\nHandoff quality is 1: the evidence IDs, timestamps and limits are clear, but there are no rerunnable queries and no explicit plan to recheck.",
@@ -480,6 +494,7 @@
     "v4-fixture-quantity": 1,
     "v4-record-absent-everywhere": 3,
     "v4-record-repeated-gold": 2,
+    "v4-sample-business-meaning": 1,
     "v4-waiting-application-load": 1
   }
 }

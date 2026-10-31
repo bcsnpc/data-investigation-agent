@@ -2,12 +2,12 @@
 
 ## Current measurement
 
-Saved-result snapshot: 2026-10-31T21:37:35.710356+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the new held-out set and is incomplete until all60 tickets are accounted for. Partial cohort figures must not be presented as full-set accuracy.
+Saved-result snapshot: 2026-10-31T22:15:36.133901+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the new held-out set and is incomplete until all60 tickets are accounted for. Partial cohort figures must not be presented as full-set accuracy.
 
 | Cohort | Official primary (95% Wilson) | Strict (95% Wilson) | Raw-reviewed (95% Wilson) | Raw harmful | Requested |
 |---|---|---|---|---:|---:|
 |G1|37/40 (80.1–97.4%)|34/40 (70.9–92.9%)|35/40 (73.9–94.5%)|2|40|
-|G2|24/39 (45.9–75.1%)|22/39 (41.0–70.7%)|24/39 (45.9–75.1%)|0|60|
+|G2|30/50 (46.2–72.4%)|25/50 (36.6–63.4%)|29/50 (44.2–70.6%)|0|60|
 |G3|not run|not run|not run|not measured|60|
 |G4|not run|not run|not run|not measured|20|
 
@@ -20,7 +20,7 @@ Core agreement means verdict, layer, cause and harm flags. Full assessment addit
 | Cohort | Core agreement (95% Wilson) | Full assessment agreement (95% Wilson) | Raw verdict | Raw layer | Raw cause | Pending raw reviews |
 |---|---|---|---|---|---|---:|
 |G1|37/40 (80.1–97.4%)|8/40 (10.5–34.8%)|35/40 (73.9–94.5%)|35/40 (73.9–94.5%)|35/40 (73.9–94.5%)|0|
-|G2|33/39 (70.3–92.8%)|6/39 (7.2–29.7%)|30/39 (61.7–87.4%)|31/39 (64.5–89.2%)|24/39 (45.9–75.1%)|0|
+|G2|41/50 (69.2–90.2%)|11/50 (12.8–35.2%)|35/50 (56.2–80.9%)|37/50 (60.4–84.1%)|30/50 (46.2–72.4%)|0|
 
 Operator blinding was partly broken by two accidental held-out staging/status fragments, disclosed in decisions.md and the round summary. No investigator logic or expectation was changed afterward. G1's original raw reviews remain; G2–G4 disagreements are decided by independent Claude calls receiving only the owner-approved packet.
 
@@ -60,20 +60,25 @@ Every cell includes its95% Wilson interval. Original case-family IDs are retaine
 |G2 / v4-fixture-quantity|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|
 |G2 / v4-latency-record|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|
 |G2 / v4-other-collected-definition|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|
+|G2 / v4-record-absent-everywhere|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|
+|G2 / v4-record-repeated-gold|1/3 (6.1–79.2%)|1/3 (6.1–79.2%)|1/3 (6.1–79.2%)|
+|G2 / v4-sample-business-meaning|3/3 (43.9–100.0%)|0/3 (0.0–56.1%)|2/3 (20.8–93.9%)|
+|G2 / v4-screenshot-billing-invoices|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|
+|G2 / v4-screenshot-billing-mrr|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|
 |G2 / v4-source-history|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|
 |G2 / v4-stale-model|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|
 |G2 / v4-waiting-application-load|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|
 
 ## Observed cost, cache and timing
 
-Native provider settlements supply usage; missing capture usage is never substituted with zero. Investigation costs exclude authoring, grading, controls and smokes. Native duration includes startup/publication where available; unavailable times are not estimated. Exact timing groups (investigations, operational-only answers and holds) are in the linked JSON reports.
+Native provider settlements supply usage; missing capture usage is never substituted with zero. Investigation costs exclude authoring, grading, controls and smokes. Native duration is the Azure execution start-to-end interval, separate from worker wall time. It does not establish complete ticket admission-to-delivery time: per-ticket admission and queue timestamps were not recorded in the immutable case journals. Do not use it to claim the end-to-end time target. Unavailable times are not estimated. Exact timing groups (investigations, operational-only answers and holds) are in the linked JSON reports.
 
 | Cohort | Usage-observed tickets | Investigation USD | USD / usage-observed ticket | Cache-read ratio | Native observed / missing | Native median / p90 seconds |
 |---|---:|---:|---:|---:|---|---|
 |G1|40|16.526970|0.413174|67.49%|36 / 4|245.0 / 317.0|
-|G2|36|17.516449|0.486568|69.52%|30 / 6|206.5 / 268.0|
+|G2|42|20.435861|0.486568|69.12%|36 / 6|205.0 / 282.0|
 
-G2 has 3 unsealed native exceptions with unavailable usage; these remain graded but are outside the usage-observed denominator.
+G2 has 8 unsealed native exceptions with unavailable usage; these remain graded but are outside the usage-observed denominator.
 
 
 ## Failure walkthroughs and next-round priorities
