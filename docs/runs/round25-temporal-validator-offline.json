@@ -1,0 +1,62 @@
+{
+  "observed_at_utc": "2026-10-31T20:59:26.256253+00:00",
+  "method": "Offline frozen validator and read-only gateway with synthetic approved table; no dispatch",
+  "estate_reads": 0,
+  "model_calls": 0,
+  "engine_changed": false,
+  "queries": [
+    {
+      "query": "SELECT id FROM dbo.Items FOR SYSTEM_TIME AS OF '2026-10-20'",
+      "accepted": true,
+      "compiled": {
+        "compiled_read": "SELECT TOP 251 [read_source_0].[id] AS [read_column_0] FROM [dbo].[items] FOR SYSTEM_TIME AS OF @p0 AS [read_source_0]",
+        "query": "SELECT TOP 251 [items].[id] AS [id] FROM [dbo].[items] FOR SYSTEM_TIME AS OF @p0 AS [items]",
+        "parameters": [
+          {
+            "name": "@p0",
+            "value": "2026-10-20"
+          }
+        ],
+        "asset_ids": [
+          "table"
+        ],
+        "result_columns": [
+          "id"
+        ],
+        "max_rows": 251,
+        "caller_limit": null,
+        "response_mode": "records",
+        "validator_version": "bounded-tsql-v5",
+        "limitation": "TOP limits results, not work scanned. Independent source read; no cross-system equivalence asserted."
+      }
+    },
+    {
+      "query": "SELECT id, quantity FROM dbo.Items FOR SYSTEM_TIME ALL",
+      "accepted": true,
+      "compiled": {
+        "compiled_read": "SELECT TOP 251 [read_source_0].[id] AS [read_column_0], [read_source_0].[quantity] AS [read_column_1] FROM [dbo].[items] FOR SYSTEM_TIME ALL AS [read_source_0]",
+        "query": "SELECT TOP 251 [items].[id] AS [id], [items].[quantity] AS [quantity] FROM [dbo].[items] FOR SYSTEM_TIME ALL AS [items]",
+        "parameters": [],
+        "asset_ids": [
+          "table"
+        ],
+        "result_columns": [
+          "id",
+          "quantity"
+        ],
+        "max_rows": 251,
+        "caller_limit": null,
+        "response_mode": "records",
+        "validator_version": "bounded-tsql-v5",
+        "limitation": "TOP limits results, not work scanned. Independent source read; no cross-system equivalence asserted."
+      }
+    },
+    {
+      "query": "SELECT id FROM dbo.Items OPTION (FOR TIMESTAMP AS OF '2026-10-20')",
+      "accepted": false,
+      "error_type": "ParseError",
+      "message": "Unknown option FOR. Line 1, Col: 46.\n  SELECT id FROM dbo.Items OPTION (FOR \u001b[4mTIMESTAMP\u001b[0m AS OF '2026-10-20')"
+    }
+  ],
+  "finding": "FOR SYSTEM_TIME ALL and AS OF are supported on the investigative route for approved objects. OPTION(FOR TIMESTAMP AS OF) is invalid syntax and rejected before dispatch. This is not a blanket temporal-query ban; missing approved objects still reject safely. Actual pre-retention answers did not establish retention limits."
+}

@@ -452,3 +452,6 @@ Owner2026-10-31: source-history harm pause lifted for Round25 practice measureme
 
 
 Owner-approved 2026-10-31 (Â§8): October combined AI ceiling $206; physical total17,000, INVESTIGATION14,405, SCAN2,500, RESTORATION95. New Anthropic cycle credit available. Authoritative cloud policy and October model account updated; counters, reservations, protected grading, November $150/9,000 and all identity scopes unchanged. Native before/after: docs/runs/round25-owner-budget-206-20261031.json. Frozen measurement engine unchanged; deployment policy configuration only.
+
+
+2026-10-31 owner steer: pre-retention history queries were rejected before dispatch. Offline frozen-validator check accepts native FOR SYSTEM_TIME AS OF and ALL for approved objects, rejects the attempted OPTION(FOR TIMESTAMP AS OF) syntax. No validator or engine fix this round; do not infer a retention limit from failed dispatch. Receipt: docs/runs/round25-temporal-validator-offline.json.
