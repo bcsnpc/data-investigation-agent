@@ -723,3 +723,6 @@ Round25, 2026-10-28 ? A three-case primary grading batch failed during the ADMIT
 
 
 2026-10-31 R25 runner correction: a two-wide static wave ended on one established intake exception before admitting its third ticket. The old outer coordinator tried to preserve a nonexistent third-run journal. The third ticket is NOT_ATTEMPTED, not an engine failure or retry. Generic remaining-wave handling now preserves only actual submitted failures, refuses uncertain dispatch, and admits only still-unattempted later slots after progress.24focused reporting/runner testsPASS; investigator bytes, inputs, expectations and saved answers unchanged.
+
+
+Round25 G3 initial6cases,2026-10-31: all6 exact original R22 free-text failed-job tickets stop at intake (NEEDS_INPUT), score0/6 under both graders and independent disagreement review, harmful0. They are engine outcomes, not plumbing retries. Original60ticket texts and native text envelopes are unchanged (runs/round25-g3-original-input-integrity.json). Keep this regression distinct from the Azure CLI preliminary-GET failure and the existing billing2011 baseline. Engine remains frozen; repairs belong to the ranked next-round list.

@@ -467,3 +467,6 @@ Owner-approved 2026-10-31 (Â§8): October combined AI ceiling $206; physical to
 
 
 2026-10-31 grading transport only: an UNSENT G2 primary task exceeded the fixed24000-character bound. New optionalv2 pool references choose a prefix absent from literal values, with backward-compatible decoding and exact round-trip checks. Existing prepared/submitted tasks are preserved;8 codec testsPASS including literal-marker collisions and old-packet replay. The failed28380-character packet fits23604characters without extra row/history sampling, new estate reads or changed expectations/engine outputs. Receipt docs/runs/round25-grader-packet-v2-reference-packing.json.
+
+
+Round25, owner-directed continuation2026-10-31: G3 billing first start failed in the installed Azure CLI preliminary job GET, before its start POST; the CLI masks that read failure as job-not-found. Preserve the original unscored run2516424b and authorize exactly one plumbing replacement under Part0.3. Resume the existing failed native job, without reinjection. Before/after definitions match392afac3; all4 outcomes preserved, normal original run retains preexisting billing bootstrap2011. Evidence: docs/runs/round25-g3-billing-prestart-failure.json and round25-g3-billing-cohort-control.json. No engine, identity or scope change.
