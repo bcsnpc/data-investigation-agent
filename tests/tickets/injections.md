@@ -294,3 +294,6 @@ Round25 waiting g2 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_requ
 
 
 Round25 latency g2 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-five\injections\g2-latency-admission05\status.json. Temporal remains ON.
+
+
+Round25 access g2 ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-five\injections\g2-access-admission01\status.json.
