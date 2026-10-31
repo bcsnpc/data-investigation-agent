@@ -125,5 +125,5 @@ def build(model_ids=None,root=None):
     r.cards(['Visits','Unique Patients'])
     r.visual('tableEx','Department and doctor leaderboard',24,300,1232,480,{'Values':[col('core_department','name','Department'),col('core_provider','id','Doctor ID'),col('core_provider','name','Doctor'),measure('Visits'),measure('Procedures'),measure('Order Count'),measure('RVU-style Workload per FTE')]})
     r.page('doctor-detail','Doctor Detail','Drillthrough uses the selected provider ID; cost and margin are OLS-hidden for Doctor.',True)
-    r.visual('tableEx','Doctor encounters',24,110,1232,670,{'Values':[col('core_provider','name'),col('mart_encounter','encounter_number'),col('mart_encounter','service_day'),col('mart_encounter','masked_mrn'),measure('Visits')]})
+    r.visual('tableEx','Doctor encounters',24,110,1232,670,{'Values':[col('core_provider','name'),col('mart_encounter','encounter_number'),col('mart_encounter','service_day'),col('mart_encounter','masked_mrn','Masked MRN'),col('mart_encounter','masked_given_name','Masked Given Name'),col('mart_encounter','masked_family_name','Masked Family Name'),measure('Visits')]})
     r.finish()

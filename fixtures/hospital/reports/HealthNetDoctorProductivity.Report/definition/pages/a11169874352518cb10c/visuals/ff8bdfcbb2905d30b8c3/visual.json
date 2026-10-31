@@ -144,7 +144,37 @@
               },
               "queryRef": "mart_encounter.masked_mrn",
               "nativeQueryRef": "mart_encounter.masked_mrn",
-              "displayName": "Masked Mrn"
+              "displayName": "Masked MRN"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_encounter"
+                    }
+                  },
+                  "Property": "masked_given_name"
+                }
+              },
+              "queryRef": "mart_encounter.masked_given_name",
+              "nativeQueryRef": "mart_encounter.masked_given_name",
+              "displayName": "Masked Given Name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_encounter"
+                    }
+                  },
+                  "Property": "masked_family_name"
+                }
+              },
+              "queryRef": "mart_encounter.masked_family_name",
+              "nativeQueryRef": "mart_encounter.masked_family_name",
+              "displayName": "Masked Family Name"
             },
             {
               "field": {

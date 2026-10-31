@@ -295,6 +295,19 @@ class HospitalGeneratorTests(unittest.TestCase):
         self.assertIn('did not converge',source)
         self.assertNotIn('given_name',source)
 
+    def test_patient_detail_exposes_only_masked_patient_identifiers(self):
+        import json
+        root=self.path/'masked-detail-reports';build_reports(root=root)
+        fields=[]
+        for path in root.rglob('visual.json'):
+            visual=json.loads(path.read_text())['visual']
+            for role in visual.get('query',{}).get('queryState',{}).values():
+                for p in role['projections']:
+                    c=p['field'].get('Column',{})
+                    if c.get('Expression',{}).get('SourceRef',{}).get('Entity')=='mart_encounter':fields.append(c['Property'])
+        for field in ['masked_mrn','masked_given_name','masked_family_name']:self.assertIn(field,fields)
+        for raw in ['given_name','family_name','mrn']:self.assertNotIn(raw,fields)
+
     def test_visual_native_references_are_unique_across_tables(self):
         import json
         root=self.path/'unique-reference-reports';build_reports(root=root)
