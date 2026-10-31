@@ -6,12 +6,14 @@ param(
     [Parameter(Mandatory=$true)][string]$AzureProfile,
     [switch]$InspectOnly,
     [string]$MartsSql,
-    [switch]$InspectRaw
+    [switch]$InspectRaw,
+    [string]$ReadSql
 )
 $ErrorActionPreference = 'Stop'
 $config = Get-Content -LiteralPath $Requirements -Raw | ConvertFrom-Json
 if ($config.warehouse_id -ne 'ef705467-9870-481c-b977-aad877b83c30') { throw 'Only HealthNet warehouse is approved' }
 $result = [ordered]@{database_id=$config.warehouse_id;server=$config.warehouse_server;identity='existing Fabric owner via isolated Azure profile';operation='HealthNet bootstrap only; no grants';client='System.Data.SqlClient'}
+if ($ReadSql) { $result.operation = 'HealthNet owner reconciliation SELECT only' }
 if ($MartsSql) { $result.operation = 'HealthNet marts/procedures only; existing bootstrap retained; no grants' }
 if ($InspectRaw) { $result.operation = 'HealthNet raw SQL endpoint metadata SELECT only' }
 if ($InspectOnly) { $result.operation = 'HealthNet audit/control SELECT only; no grants or writes' }
@@ -40,7 +42,31 @@ try {
     $result.served_identity = $command.ExecuteScalar()
     $command.CommandText = 'SELECT COUNT(*) FROM sys.tables'
     $result.tables_before = $command.ExecuteScalar()
-    if ($InspectRaw) {
+    if ($ReadSql) {
+        $text = Get-Content -LiteralPath $ReadSql -Raw
+        if ($text -match '(?i)\b(INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|EXEC|GRANT|REVOKE|TRUNCATE|MERGE)\b') { throw 'Reconciliation file must contain SELECT statements only' }
+        $command.CommandText = $text
+        $command.CommandTimeout = 900
+        $reader = $command.ExecuteReader()
+        $sets = @()
+        try {
+            do {
+                $rows = @()
+                while ($reader.Read()) {
+                    $row = [ordered]@{}
+                    for ($index=0; $index -lt $reader.FieldCount; $index++) {
+                        $value = $reader.GetValue($index)
+                        if ($value -is [DBNull]) { $value = $null }
+                        elseif ($value -is [DateTime]) { $value = $value.ToString('o') }
+                        $row[$reader.GetName($index)] = $value
+                    }
+                    $rows += $row
+                }
+                $sets += ,@($rows)
+            } while ($reader.NextResult())
+        } finally { $reader.Close() }
+        $result.result_sets = $sets
+    } elseif ($InspectRaw) {
         $command.CommandText = 'SELECT t.name table_name,c.name column_name,ty.name type_name FROM hn_raw.sys.tables t JOIN hn_raw.sys.columns c ON c.object_id=t.object_id JOIN hn_raw.sys.types ty ON ty.user_type_id=c.user_type_id ORDER BY t.name,c.column_id'
         $reader = $command.ExecuteReader()
         $rows = @()
@@ -92,7 +118,8 @@ try {
     $result | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $Receipt -Encoding UTF8
 }
 if ($result.status -ne 'SUCCEEDED') { Write-Output $result.error; exit 1 }
-if ($MartsSql) { Write-Output 'HealthNet marts/procedures deployed; receipt saved.' }
+if ($ReadSql) { Write-Output 'HealthNet owner reconciliation SELECTs completed; receipt saved.' }
+elseif ($MartsSql) { Write-Output 'HealthNet marts/procedures deployed; receipt saved.' }
 elseif ($InspectRaw) { Write-Output 'HealthNet raw SQL metadata inspected; receipt saved.' }
 elseif ($InspectOnly) { Write-Output 'HealthNet warehouse inspection succeeded; receipt saved.' }
 else { Write-Output 'HealthNet warehouse bootstrap succeeded; receipt saved.' }

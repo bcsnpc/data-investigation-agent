@@ -73,3 +73,18 @@ These values are independently evaluated SQLite projections from the full seeded
 | productivity/Workload per FTE | `360 rows; SHA-256 73f17d06192d9f188ae137f67b6835d7a9f92d3cc78717cbc50120cabe0d8286` |
 
 These local checks do not yet cover every generated visual or filtered bookmark. In particular, scalar checks and result-set hashes cannot replace native visual filtering/reconciliation. No missing native number is estimated.
+
+### First native raw/preparation reconciliation, 2026-10-30 (America/Chicago)
+
+These owner SELECTs ran through the Warehouse SQL endpoint against hn_raw after billing pipeline 4b3a5889 completed. They are native observations, not estimates.
+
+| Native raw check | Rows | Amount (integer cents) |
+|---|---:|---:|
+| Billing charge | 505,322 | 193,599,565,928 |
+| Billing payment | 256,716 | 74,799,888,773 |
+| Billing adjustment | 268,700 | -112,293,602,454 |
+| Billing A/R snapshots | 12,912 | 6,506,074,701 on 2026-10-29 |
+
+The conservation identity holds exactly: 193,599,565,928 - 112,293,602,454 - 74,799,888,773 = 6,506,074,701 cents. This does not assert that every claim-line rounding definition equals the account balance.
+
+Native MPI preparation contains 60,000 rows and 59,400 distinct survivor IDs. Native Dataflow output contains 14 payer-history and 396 department-mapping rows. These counts agree with the local independently evaluated projections. Receipt: `.local/hospital-estate/billing-native-checks01.json`, served owner admin@skynwhy.com. Clinical/raw full reconciliation and model/report checks are still pending at this checkpoint.

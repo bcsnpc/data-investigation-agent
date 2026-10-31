@@ -63,7 +63,7 @@ class HospitalGeneratorTests(unittest.TestCase):
         sql=commit['typeProperties']['scripts'][0]['text']
         self.assertEqual(commit['policy']['retry'],3)
         self.assertIn('IF NOT EXISTS',sql)
-        self.assertIn('SET XACT_ABORT ON',sql)
+        self.assertNotIn('XACT_ABORT',sql)
         self.assertNotIn('DELETE FROM dbo.load_watermark',sql)
         self.assertIn('INSERT INTO dbo.load_watermark',sql)
 
@@ -82,6 +82,15 @@ class HospitalGeneratorTests(unittest.TestCase):
         self.assertEqual(owner.state['definition_updates'][0]['before'],{'definition':{'parts':[]}})
         self.assertEqual(result,owner.state['definition_updates'][0]['after'])
         with self.assertRaisesRegex(ValueError,'reason required'):update(owner,'pl_clinical',folder,['pipeline-content.json'],'')
+
+    def test_native_visual_queries_cover_bookmarks_and_bound_patient_windows(self):
+        from fixtures.hospital.visual_queries import report_queries
+        root=self.path/'query-reports';build_reports(root=root)
+        queries=report_queries(root/'HealthNetOperations.Report')
+        self.assertTrue(any(r['context']=='North ED only' and 'TREATAS' in (r['query']or'') for r in queries))
+        self.assertTrue(any('masked_mrn' in (r['query']or'') for r in queries))
+        self.assertTrue(all('TOPN(100,T' in r['query'] and '__baseline_total_rows' in r['query'] for r in queries if r['query']))
+        self.assertEqual(len({r['visual_id']for r in queries}),len(queries)//2)
 
     def test_job_admission_does_not_poll_item_operation_protocol(self):
         from unittest.mock import patch

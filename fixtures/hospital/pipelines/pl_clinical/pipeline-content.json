@@ -147,7 +147,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='facility')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','facility','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_facility').output.rowsRead},@{activity('copy_facility').output.rowsCopied},'@{activity('upper_facility').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','facility','@{activity('upper_facility').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='facility')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','facility','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_facility').output.rowsRead},@{activity('copy_facility').output.rowsCopied},'@{activity('upper_facility').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','facility','@{activity('upper_facility').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -321,7 +321,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='department')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','department','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_department').output.rowsRead},@{activity('copy_department').output.rowsCopied},'@{activity('upper_department').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','department','@{activity('upper_department').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='department')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','department','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_department').output.rowsRead},@{activity('copy_department').output.rowsCopied},'@{activity('upper_department').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','department','@{activity('upper_department').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -495,7 +495,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='unit')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','unit','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_unit').output.rowsRead},@{activity('copy_unit').output.rowsCopied},'@{activity('upper_unit').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','unit','@{activity('upper_unit').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='unit')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','unit','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_unit').output.rowsRead},@{activity('copy_unit').output.rowsCopied},'@{activity('upper_unit').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','unit','@{activity('upper_unit').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -669,7 +669,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='bed')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','bed','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_bed').output.rowsRead},@{activity('copy_bed').output.rowsCopied},'@{activity('upper_bed').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','bed','@{activity('upper_bed').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='bed')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','bed','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_bed').output.rowsRead},@{activity('copy_bed').output.rowsCopied},'@{activity('upper_bed').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','bed','@{activity('upper_bed').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -843,7 +843,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='provider')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','provider','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_provider').output.rowsRead},@{activity('copy_provider').output.rowsCopied},'@{activity('upper_provider').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','provider','@{activity('upper_provider').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='provider')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','provider','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_provider').output.rowsRead},@{activity('copy_provider').output.rowsCopied},'@{activity('upper_provider').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','provider','@{activity('upper_provider').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -1017,7 +1017,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='provider_assignment')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','provider_assignment','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_provider_assignment').output.rowsRead},@{activity('copy_provider_assignment').output.rowsCopied},'@{activity('upper_provider_assignment').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','provider_assignment','@{activity('upper_provider_assignment').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='provider_assignment')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','provider_assignment','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_provider_assignment').output.rowsRead},@{activity('copy_provider_assignment').output.rowsCopied},'@{activity('upper_provider_assignment').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','provider_assignment','@{activity('upper_provider_assignment').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -1191,7 +1191,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='payer_plan')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','payer_plan','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_payer_plan').output.rowsRead},@{activity('copy_payer_plan').output.rowsCopied},'@{activity('upper_payer_plan').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','payer_plan','@{activity('upper_payer_plan').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='payer_plan')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','payer_plan','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_payer_plan').output.rowsRead},@{activity('copy_payer_plan').output.rowsCopied},'@{activity('upper_payer_plan').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','payer_plan','@{activity('upper_payer_plan').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -1365,7 +1365,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='patient')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','patient','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_patient').output.rowsRead},@{activity('copy_patient').output.rowsCopied},'@{activity('upper_patient').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','patient','@{activity('upper_patient').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='patient')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','patient','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_patient').output.rowsRead},@{activity('copy_patient').output.rowsCopied},'@{activity('upper_patient').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','patient','@{activity('upper_patient').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -1539,7 +1539,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='patient_alias')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','patient_alias','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_patient_alias').output.rowsRead},@{activity('copy_patient_alias').output.rowsCopied},'@{activity('upper_patient_alias').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','patient_alias','@{activity('upper_patient_alias').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='patient_alias')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','patient_alias','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_patient_alias').output.rowsRead},@{activity('copy_patient_alias').output.rowsCopied},'@{activity('upper_patient_alias').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','patient_alias','@{activity('upper_patient_alias').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -1713,7 +1713,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='patient_merge')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','patient_merge','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_patient_merge').output.rowsRead},@{activity('copy_patient_merge').output.rowsCopied},'@{activity('upper_patient_merge').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','patient_merge','@{activity('upper_patient_merge').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='patient_merge')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','patient_merge','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_patient_merge').output.rowsRead},@{activity('copy_patient_merge').output.rowsCopied},'@{activity('upper_patient_merge').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','patient_merge','@{activity('upper_patient_merge').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -1890,7 +1890,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='encounter')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','encounter','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_encounter').output.rowsRead},@{activity('copy_encounter').output.rowsCopied},'@{activity('upper_encounter').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','encounter','@{activity('upper_encounter').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='encounter')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','encounter','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_encounter').output.rowsRead},@{activity('copy_encounter').output.rowsCopied},'@{activity('upper_encounter').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','encounter','@{activity('upper_encounter').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -2064,7 +2064,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='adt_event')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','adt_event','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_adt_event').output.rowsRead},@{activity('copy_adt_event').output.rowsCopied},'@{activity('upper_adt_event').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','adt_event','@{activity('upper_adt_event').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='adt_event')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','adt_event','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_adt_event').output.rowsRead},@{activity('copy_adt_event').output.rowsCopied},'@{activity('upper_adt_event').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','adt_event','@{activity('upper_adt_event').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -2238,7 +2238,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='bed_assignment')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','bed_assignment','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_bed_assignment').output.rowsRead},@{activity('copy_bed_assignment').output.rowsCopied},'@{activity('upper_bed_assignment').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','bed_assignment','@{activity('upper_bed_assignment').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='bed_assignment')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','bed_assignment','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_bed_assignment').output.rowsRead},@{activity('copy_bed_assignment').output.rowsCopied},'@{activity('upper_bed_assignment').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','bed_assignment','@{activity('upper_bed_assignment').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -2412,7 +2412,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='ed_visit_detail')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','ed_visit_detail','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_ed_visit_detail').output.rowsRead},@{activity('copy_ed_visit_detail').output.rowsCopied},'@{activity('upper_ed_visit_detail').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','ed_visit_detail','@{activity('upper_ed_visit_detail').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='ed_visit_detail')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','ed_visit_detail','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_ed_visit_detail').output.rowsRead},@{activity('copy_ed_visit_detail').output.rowsCopied},'@{activity('upper_ed_visit_detail').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','ed_visit_detail','@{activity('upper_ed_visit_detail').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -2586,7 +2586,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='diagnosis')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','diagnosis','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_diagnosis').output.rowsRead},@{activity('copy_diagnosis').output.rowsCopied},'@{activity('upper_diagnosis').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','diagnosis','@{activity('upper_diagnosis').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='diagnosis')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','diagnosis','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_diagnosis').output.rowsRead},@{activity('copy_diagnosis').output.rowsCopied},'@{activity('upper_diagnosis').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','diagnosis','@{activity('upper_diagnosis').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -2760,7 +2760,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='procedure')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','procedure','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_procedure').output.rowsRead},@{activity('copy_procedure').output.rowsCopied},'@{activity('upper_procedure').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','procedure','@{activity('upper_procedure').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='procedure')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','procedure','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_procedure').output.rowsRead},@{activity('copy_procedure').output.rowsCopied},'@{activity('upper_procedure').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','procedure','@{activity('upper_procedure').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -2937,7 +2937,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='order_header')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','order_header','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_order_header').output.rowsRead},@{activity('copy_order_header').output.rowsCopied},'@{activity('upper_order_header').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','order_header','@{activity('upper_order_header').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='order_header')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','order_header','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_order_header').output.rowsRead},@{activity('copy_order_header').output.rowsCopied},'@{activity('upper_order_header').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','order_header','@{activity('upper_order_header').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -3114,7 +3114,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='order_line')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','order_line','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_order_line').output.rowsRead},@{activity('copy_order_line').output.rowsCopied},'@{activity('upper_order_line').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','order_line','@{activity('upper_order_line').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='order_line')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','order_line','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_order_line').output.rowsRead},@{activity('copy_order_line').output.rowsCopied},'@{activity('upper_order_line').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','order_line','@{activity('upper_order_line').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -3291,7 +3291,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='result')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','result','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_result').output.rowsRead},@{activity('copy_result').output.rowsCopied},'@{activity('upper_result').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','result','@{activity('upper_result').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='result')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','result','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_result').output.rowsRead},@{activity('copy_result').output.rowsCopied},'@{activity('upper_result').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','result','@{activity('upper_result').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
@@ -3468,7 +3468,7 @@
           "scripts": [
             {
               "type": "NonQuery",
-              "text": "BEGIN TRANSACTION;\nSET XACT_ABORT ON;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='medication_admin')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','medication_admin','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_medication_admin').output.rowsRead},@{activity('copy_medication_admin').output.rowsCopied},'@{activity('upper_medication_admin').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','medication_admin','@{activity('upper_medication_admin').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='medication_admin')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','medication_admin','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_medication_admin').output.rowsRead},@{activity('copy_medication_admin').output.rowsCopied},'@{activity('upper_medication_admin').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','medication_admin','@{activity('upper_medication_admin').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
           "scriptBlockExecutionTimeout": "00:10:00",
