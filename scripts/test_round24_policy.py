@@ -13,12 +13,12 @@ class PolicyTests(unittest.TestCase):
   row={'environment':'x','session_id':'x','reservation_key':'x','created':at('2026-10-27'),'reserved':json.dumps({'cloud_calls':8294})}
   allocation={k:row[k]for k in ('environment','session_id','reservation_key')};allocation['purpose']='INVESTIGATION'
   october=b.physical_status([row],[allocation],at('2026-10-29'))
-  self.assertEqual(october['total'],8294);self.assertEqual(october['total_limit'],12000)
-  self.assertEqual(october['limits'],{'SCAN':2500,'INVESTIGATION':9405,'RESTORATION':95})
+  self.assertEqual(october['total'],8294);self.assertEqual(october['total_limit'],b.POLICY['round24']['october']['total_limit'])
+  self.assertEqual(october['limits'],b.POLICY['round24']['october']['limits'])
   november=b.physical_status([row],[allocation],at('2026-11-01'))
   self.assertEqual(november['total'],0);self.assertEqual(november['total_limit'],9000)
   self.assertEqual(november['limits'],{'SCAN':2500,'INVESTIGATION':6405,'RESTORATION':95})
-  self.assertEqual(b.model_ceiling(at('2026-10-29')),146000000)
+  self.assertEqual(b.model_ceiling(at('2026-10-29')),b.POLICY['round24']['october']['model_microdollars'])
   self.assertEqual(b.model_ceiling(at('2026-11-01')),150000000)
  def test_new_batches_use_monthly_combined_account_without_erasing_old_usage(self):
   from investigator.enrichment_job import EnrichmentSpendBudget

@@ -1,0 +1,18 @@
+{
+  "reason": "Owner-approved October budget extension2026-10-31; deployment policy compatibility only",
+  "original_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:595047cfadca5d7709e2463dc52d6438cbc80e3786763af89f6bf192b7652f86",
+  "original_freeze_unchanged": true,
+  "frozen_files_checked": 502,
+  "changed_files": [
+    "scripts/investigator/build_phase_policy.json",
+    "scripts/investigator/enrichment_job.py"
+  ],
+  "investigation_rules_changed": false,
+  "grading_rules_changed": false,
+  "test_receipts": {
+    "budget": 17,
+    "monthly_grading_compatibility": 1,
+    "enrichment": 3,
+    "round25_tooling": 20
+  }
+}
