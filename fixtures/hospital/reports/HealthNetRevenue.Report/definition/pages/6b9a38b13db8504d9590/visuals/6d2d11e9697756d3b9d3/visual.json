@@ -1,0 +1,154 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "6d2d11e9697756d3b9d3",
+  "position": {
+    "x": 852,
+    "y": 548,
+    "width": 404,
+    "height": 240,
+    "z": 13,
+    "tabOrder": 13
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Denial definitions and writeoffs'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#17324D'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_claim"
+                    }
+                  },
+                  "Property": "Initial Denial Rate (count)"
+                }
+              },
+              "queryRef": "mart_claim.Initial Denial Rate (count)",
+              "nativeQueryRef": "mart_claim.Initial Denial Rate (count)",
+              "displayName": "Initial Denial Rate (count)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_claim"
+                    }
+                  },
+                  "Property": "Final Denial Rate"
+                }
+              },
+              "queryRef": "mart_claim.Final Denial Rate",
+              "nativeQueryRef": "mart_claim.Final Denial Rate",
+              "displayName": "Final Denial Rate"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_remittance"
+                    }
+                  },
+                  "Property": "Denial Rate ($)"
+                }
+              },
+              "queryRef": "mart_remittance.Denial Rate ($)",
+              "nativeQueryRef": "mart_remittance.Denial Rate ($)",
+              "displayName": "Denial Rate ($)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_adjustment"
+                    }
+                  },
+                  "Property": "Writeoffs"
+                }
+              },
+              "queryRef": "mart_adjustment.Writeoffs",
+              "nativeQueryRef": "mart_adjustment.Writeoffs",
+              "displayName": "Writeoffs"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+python-tds>=1.17,<2
+pyOpenSSL>=24,<26
+certifi
+tzdata; sys_platform == "win32"

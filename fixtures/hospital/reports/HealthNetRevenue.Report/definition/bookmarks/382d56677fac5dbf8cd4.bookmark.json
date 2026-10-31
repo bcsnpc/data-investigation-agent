@@ -1,0 +1,76 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
+  "name": "382d56677fac5dbf8cd4",
+  "displayName": "Commercial payers",
+  "options": {
+    "suppressData": false,
+    "suppressDisplay": true
+  },
+  "explorationState": {
+    "version": "1.0",
+    "activeSection": "6b9a38b13db8504d9590",
+    "filters": {
+      "byExpr": [
+        {
+          "name": "payer_scope",
+          "type": "Categorical",
+          "expression": {
+            "Column": {
+              "Expression": {
+                "SourceRef": {
+                  "Entity": "core_payer"
+                }
+              },
+              "Property": "payer_group"
+            }
+          },
+          "filter": {
+            "Version": 2,
+            "From": [
+              {
+                "Name": "f",
+                "Entity": "core_payer",
+                "Type": 0
+              }
+            ],
+            "Where": [
+              {
+                "Condition": {
+                  "In": {
+                    "Expressions": [
+                      {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Source": "f"
+                            }
+                          },
+                          "Property": "payer_group"
+                        }
+                      }
+                    ],
+                    "Values": [
+                      [
+                        {
+                          "Literal": {
+                            "Value": "'Commercial'"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "howCreated": 1
+        }
+      ]
+    },
+    "sections": {
+      "6b9a38b13db8504d9590": {
+        "visualContainers": {}
+      }
+    }
+  }
+}
