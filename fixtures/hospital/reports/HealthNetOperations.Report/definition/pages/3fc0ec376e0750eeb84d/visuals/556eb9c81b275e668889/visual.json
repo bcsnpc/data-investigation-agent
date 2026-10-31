@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "mart_encounter.service_line",
-              "nativeQueryRef": "service_line",
+              "nativeQueryRef": "mart_encounter.service_line",
               "displayName": "Service Line"
             }
           ]
@@ -117,7 +117,7 @@
                 }
               },
               "queryRef": "mart_encounter.ALOS",
-              "nativeQueryRef": "ALOS",
+              "nativeQueryRef": "mart_encounter.ALOS",
               "displayName": "ALOS"
             }
           ]

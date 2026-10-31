@@ -3,14 +3,14 @@
   "name": "dc25ac5688f9506d9bb7",
   "position": {
     "x": 24,
-    "y": 190,
-    "width": 1232,
-    "height": 590,
+    "y": 180,
+    "width": 290,
+    "height": 100,
     "z": 4,
     "tabOrder": 4
   },
   "visual": {
-    "visualType": "tableEx",
+    "visualType": "card",
     "visualContainerObjects": {
       "title": [
         {
@@ -25,7 +25,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Department and doctor leaderboard'"
+                  "Value": "'Visits'"
                 }
               }
             },
@@ -88,51 +88,6 @@
           "projections": [
             {
               "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "core_department"
-                    }
-                  },
-                  "Property": "name"
-                }
-              },
-              "queryRef": "core_department.name",
-              "nativeQueryRef": "name",
-              "displayName": "Name"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "core_provider"
-                    }
-                  },
-                  "Property": "id"
-                }
-              },
-              "queryRef": "core_provider.id",
-              "nativeQueryRef": "id",
-              "displayName": "Id"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "core_provider"
-                    }
-                  },
-                  "Property": "name"
-                }
-              },
-              "queryRef": "core_provider.name",
-              "nativeQueryRef": "name",
-              "displayName": "Name"
-            },
-            {
-              "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
@@ -143,57 +98,47 @@
                 }
               },
               "queryRef": "mart_encounter.Visits",
-              "nativeQueryRef": "Visits",
+              "nativeQueryRef": "mart_encounter.Visits",
               "displayName": "Visits"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "mart_procedure"
-                    }
-                  },
-                  "Property": "Procedures"
-                }
-              },
-              "queryRef": "mart_procedure.Procedures",
-              "nativeQueryRef": "Procedures",
-              "displayName": "Procedures"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "mart_order"
-                    }
-                  },
-                  "Property": "Order Count"
-                }
-              },
-              "queryRef": "mart_order.Order Count",
-              "nativeQueryRef": "Order Count",
-              "displayName": "Order Count"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "mart_provider_productivity_daily"
-                    }
-                  },
-                  "Property": "RVU-style Workload per FTE"
-                }
-              },
-              "queryRef": "mart_provider_productivity_daily.RVU-style Workload per FTE",
-              "nativeQueryRef": "RVU-style Workload per FTE",
-              "displayName": "RVU-style Workload per FTE"
             }
           ]
         }
       }
+    },
+    "objects": {
+      "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "28D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

@@ -88,3 +88,82 @@ These owner SELECTs ran through the Warehouse SQL endpoint against hn_raw after 
 The conservation identity holds exactly: 193,599,565,928 - 112,293,602,454 - 74,799,888,773 = 6,506,074,701 cents. This does not assert that every claim-line rounding definition equals the account balance.
 
 Native MPI preparation contains 60,000 rows and 59,400 distinct survivor IDs. Native Dataflow output contains 14 payer-history and 396 department-mapping rows. These counts agree with the local independently evaluated projections. Receipt: `.local/hospital-estate/billing-native-checks01.json`, served owner admin@skynwhy.com. Clinical/raw full reconciliation and model/report checks are still pending at this checkpoint.
+
+### Full-size reset verification, 2026-10-30 (America/Chicago)
+
+A second complete build in a fresh directory used seed20261030 and the full volumes (60,000 patients,250,000 encounters,1,500,000 order lines). All32 source row counts and canonical hashes match, and generation.json is byte-identical. The13 source invariants pass again. All19 local mart row counts/hashes and all28 independent local baseline query results match the first current build. This is a complete local reset test; it does not substitute for the native report/model checks. Local receipts: reset-v2/generation.json,verification.json,baseline.json and reset-comparison.json under .local/hospital-estate. No native source was reset during this test.
+
+### Final native visual query baseline, owner date 2026-10-30
+
+All three final model refreshes Completed. The 34 visual containers yield 62 default/bookmark contexts: 56 data queries and 6 static text contexts. These are native model queries compiled from the authored visual fields and categorical bookmark filters; browser rendering and role simulation are separate checks. Tables are deterministic windows of at most 100 rows, with the full result cardinality returned by the same query. A window hash does not claim to hash the full population. Receipt: `.local/hospital-estate/powerbi-owner.json`, `visual_baselines_final`.
+
+| Model / visual | Context | Native result |
+|---|---|---|
+| revenue / A/R aging at latest snapshot | default | `[{"[A/R Balance]":43654.18,"mart_ar_aging[aging_bucket]":"61-90"},{"[A/R Balance]":22267915.48,"mart_ar_aging[aging_bucket]":"31-60"},{"[A/R Balance]":42792831.53,"mart_ar_aging[aging_bucket]":"0-30"}]` |
+| revenue / A/R aging at latest snapshot | Commercial payers | `[{"[A/R Balance]":3312.95,"mart_ar_aging[aging_bucket]":"61-90"},{"[A/R Balance]":2358529.0,"mart_ar_aging[aging_bucket]":"31-60"},{"[A/R Balance]":4353533.01,"mart_ar_aging[aging_bucket]":"0-30"}]` |
+| revenue / Gross service date vs post date | default | `13 returned / 13 total; window SHA-256 d15069174bae40640c5fb931d172e8981adebb22a2eb585e9b98a48f618a2007` |
+| revenue / Gross service date vs post date | Commercial payers | `13 returned / 13 total; window SHA-256 9b14de3168402d1b5b859eb4d52aed66ddd40f512e70108ba5860d2a11b00ab0` |
+| revenue / Original denied dollars by category | default | `8 returned / 8 total; window SHA-256 56f9423e7520432a7afbb586d0e148c1cecd18fcd13ae5999cddf62fb8291f82` |
+| revenue / Original denied dollars by category | Commercial payers | `8 returned / 8 total; window SHA-256 435b510e6a7f54f9a92a3b35e6d98d1dc39b2e28abb8c736606d57a6a8704424` |
+| revenue / Net Revenue | default | `[{"[Net Revenue]":813059634.74}]` |
+| revenue / Net Revenue | Commercial payers | `[{"[Net Revenue]":186990499.73}]` |
+| revenue / Denial definitions and writeoffs | default | `[{"[Denial Rate ($)]":0.05145372557138885,"[Final Denial Rate]":0.028582168874601407,"[Initial Denial Rate (count)]":0.12066662945038711,"[Writeoffs]":14068188.01}]` |
+| revenue / Denial definitions and writeoffs | Commercial payers | `[{"[Denial Rate ($)]":0.05248571641372662,"[Final Denial Rate]":0.028684841222288794,"[Initial Denial Rate (count)]":0.12143401416172617,"[Writeoffs]":2778492.39}]` |
+| revenue / Payer | default | `[{"core_payer[payer_group]":"Medicare"},{"core_payer[payer_group]":"Medicaid"},{"core_payer[payer_group]":"Commercial"},{"core_payer[payer_group]":"SelfPay"}]` |
+| revenue / Payer | Commercial payers | `[{"core_payer[payer_group]":"Commercial"}]` |
+| revenue / Charge Rows | default | `[{"[Charge Rows]":505322}]` |
+| revenue / Charge Rows | Commercial payers | `[{"[Charge Rows]":113978}]` |
+| revenue / Initial Denial Rate (count) | default | `[{"[Initial Denial Rate (count)]":0.12066662945038711}]` |
+| revenue / Initial Denial Rate (count) | Commercial payers | `[{"[Initial Denial Rate (count)]":0.12143401416172617}]` |
+| revenue / Gross Charges | default | `[{"[Gross Charges]":1935995659.28}]` |
+| revenue / Gross Charges | Commercial payers | `[{"[Gross Charges]":438933821.15}]` |
+| revenue / Month | default | `13 returned / 13 total; window SHA-256 35fb927d5971177c8a82147c1493eb01478d731b48e0f738f8b8227802026974` |
+| revenue / Month | Commercial payers | `13 returned / 13 total; window SHA-256 35fb927d5971177c8a82147c1493eb01478d731b48e0f738f8b8227802026974` |
+| revenue / Facility | default | `[{"core_facility[name]":"HealthNet North"},{"core_facility[name]":"HealthNet Central"},{"core_facility[name]":"HealthNet South"}]` |
+| revenue / Facility | Commercial payers | `[{"core_facility[name]":"HealthNet North"},{"core_facility[name]":"HealthNet Central"},{"core_facility[name]":"HealthNet South"}]` |
+| revenue / Payer mix by service-date charges | default | `[{"[Gross Charges]":720250754.27,"core_payer[payer_group]":"Medicare"},{"[Gross Charges]":623429223.41,"core_payer[payer_group]":"Medicaid"},{"[Gross Charges]":438933821.15,"core_payer[payer_group]":"Commercial"},{"[Gross Charges]":153381860.45,"core_payer[payer_group]":"SelfPay"}]` |
+| revenue / Payer mix by service-date charges | Commercial payers | `[{"[Gross Charges]":438933821.15,"core_payer[payer_group]":"Commercial"}]` |
+| revenue / Collections | default | `[{"[Collections]":747998887.73}]` |
+| revenue / Collections | Commercial payers | `[{"[Collections]":163878752.95}]` |
+| revenue /  | default | `Static text; no data query` |
+| revenue /  | Commercial payers | `Static text; no data query` |
+| productivity / Month | default | `13 returned / 13 total; window SHA-256 35fb927d5971177c8a82147c1493eb01478d731b48e0f738f8b8227802026974` |
+| productivity /  | default | `Static text; no data query` |
+| productivity / Department | default | `33 returned / 33 total; window SHA-256 f34aef1153c26b36a99316d8f95f653bb40c9713853716dafa7744d1bc07930b` |
+| productivity / Department and doctor leaderboard | default | `100 returned / 435 total; window SHA-256 b35b095aee67bfa8700c8d8fad0ec9c4318a1ffdcc64ca8b6c9248b850e0f313` |
+| productivity /  | default | `Static text; no data query` |
+| productivity / Doctor encounters | default | `100 returned / 249575 total; window SHA-256 7d10df676ba5dc69989c1c49435b3047184303717a0c3cbb89a97d96617a7afe` |
+| operations / Admissions, discharges and readmissions | default | `[{"[30-day Readmission %]":0.1179753738656214,"[Admissions]":46942,"[Discharges]":248855,"[Visits]":249575}]` |
+| operations / Admissions, discharges and readmissions | North ED only | `[{"[30-day Readmission %]":null,"[Admissions]":null,"[Discharges]":47413,"[Visits]":47441}]` |
+| operations / ED arrivals by local hour | default | `24 returned / 24 total; window SHA-256 3786eb6f6c45d01cd85cbb1b8adcd2824c876e8afb0d21770fa7cea2987445c5` |
+| operations / ED arrivals by local hour | North ED only | `24 returned / 24 total; window SHA-256 6f74588f0a2fb901074170695f5cda937db7e293fdb12c10d3bbaf250451afa6` |
+| operations / Order lines by type and status | default | `15 returned / 15 total; window SHA-256 ee70494651dc1905b1a62314de1899029fb3043ca55f84535f22c50fd1318d95` |
+| operations / Order lines by type and status | North ED only | `15 returned / 15 total; window SHA-256 caf91866b315227305f327379b418412a8ba6a8968a88f9c54ef720b140b9a02` |
+| operations / ALOS by service line | default | `7 returned / 7 total; window SHA-256 44c13f1930783b63e6f625a8978fa6bd4ffeba6641cc13b660bb3b196719139e` |
+| operations / ALOS by service line | North ED only | `[]` |
+| operations /  | default | `Static text; no data query` |
+| operations /  | North ED only | `Static text; no data query` |
+| operations / Month | default | `14 returned / 14 total; window SHA-256 721558f3193f4e0b84de495eb31d372dd8c52248d67a8ae00026e0d011bb3ba3` |
+| operations / Month | North ED only | `14 returned / 14 total; window SHA-256 721558f3193f4e0b84de495eb31d372dd8c52248d67a8ae00026e0d011bb3ba3` |
+| operations / ED Door-to-Provider (median) | default | `[{"[ED Door-to-Provider (median)]":25}]` |
+| operations / ED Door-to-Provider (median) | North ED only | `[{"[ED Door-to-Provider (median)]":25}]` |
+| operations / Bed Occupancy % | default | `[{"[Bed Occupancy %]":0.6822767651130596}]` |
+| operations / Bed Occupancy % | North ED only | `[{"[Bed Occupancy %]":0.6821827411167513}]` |
+| operations / Masked synthetic patient rows | default | `100 returned / 249575 total; window SHA-256 7d4963edb6b70fc28236dfabc62c4a4ac5d0d86e6e79288eb22e77057409c522` |
+| operations / Masked synthetic patient rows | North ED only | `100 returned / 249575 total; window SHA-256 7d4963edb6b70fc28236dfabc62c4a4ac5d0d86e6e79288eb22e77057409c522` |
+| operations / LWBS % | default | `[{"[LWBS %]":0.02211421860229736}]` |
+| operations / LWBS % | North ED only | `[{"[LWBS %]":0.02419558625336927}]` |
+| operations / Midnight Census | default | `[{"[Midnight Census]":565}]` |
+| operations / Midnight Census | North ED only | `[{"[Midnight Census]":294}]` |
+| operations / Facility | default | `[{"core_facility[name]":"HealthNet North"},{"core_facility[name]":"HealthNet Central"},{"core_facility[name]":"HealthNet South"},{"core_facility[name]":null}]` |
+| operations / Facility | North ED only | `[{"core_facility[name]":"HealthNet North"}]` |
+| operations / Resulted order turnaround | default | `[{"[Order Turnaround (minutes)]":54.91373931504355,"mart_order[order_type]":"LAB"},{"[Order Turnaround (minutes)]":34.995811218998035,"mart_order[order_type]":"PHARMACY"},{"[Order Turnaround (minutes)]":89.85135964806508,"mart_order[order_type]":"IMAGING"}]` |
+| operations / Resulted order turnaround | North ED only | `[{"[Order Turnaround (minutes)]":49.84960095277702,"mart_order[order_type]":"LAB"},{"[Order Turnaround (minutes)]":31.674760868713008,"mart_order[order_type]":"PHARMACY"},{"[Order Turnaround (minutes)]":81.68544984499088,"mart_order[order_type]":"IMAGING"}]` |
+| operations / Department | default | `34 returned / 34 total; window SHA-256 657bd3ef973a49c6d841e2dfea8b62844467bf7197c0af554bc64c838da60214` |
+| operations / Department | North ED only | `[{"core_department[name]":"North ED"},{"core_department[name]":"Central ED"},{"core_department[name]":"South ED"}]` |
+
+### Native Revenue owner role tests, 2026-10-30
+
+Existing owner admin@skynwhy.com used Fabric Security -> Test as role, one role at a time; no role membership was added. Native visible Charge Rows / Gross Charges: Executive505322 /1935995659.28; HospitalManager258476 /996453130.76; DepartmentHead39458 /354517815.12; Doctor0 /Blank. All four match their independently computed slices. DepartmentHead's facility-only A/R visual is empty as intended. Productivity and Operations are not yet claimed security-verified.
+
+A/R definition caveat: A/R Balance chooses MAX(snapshot_date) within the current context. Grouping by aging_bucket can therefore retain an older nonempty bucket, while the global latest snapshot query excludes it. The native aging visual includes61-90=$43654.18 as well as0-30=$42792831.53 and31-60=$22267915.48; the independent fixed-global-date baseline has only the latter two. This is a context-definition difference, not equal reconciliation; the model expression and both observations are retained explicitly.

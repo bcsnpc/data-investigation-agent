@@ -57,6 +57,7 @@ class OwnerFabric:
                         if status.get('status')=='Failed':raise RuntimeError(json.dumps(status))
                         if status.get('status')=='Succeeded':
                             self.state.pop('pending_operation',None);self.save()
+                            if path.rstrip('/').endswith('/updateDefinition'):return {}
                             return self.call(location+'/result')
                     raise TimeoutError('Creation pending; saved operation must be inspected before retrying')
                 return result

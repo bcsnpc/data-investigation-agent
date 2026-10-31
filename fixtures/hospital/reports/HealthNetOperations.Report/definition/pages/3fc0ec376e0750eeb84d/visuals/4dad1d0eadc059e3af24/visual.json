@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "mart_order.order_type",
-              "nativeQueryRef": "order_type",
+              "nativeQueryRef": "mart_order.order_type",
               "displayName": "Order Type"
             },
             {
@@ -113,7 +113,7 @@
                 }
               },
               "queryRef": "mart_order.status",
-              "nativeQueryRef": "status",
+              "nativeQueryRef": "mart_order.status",
               "displayName": "Status"
             },
             {
@@ -128,7 +128,7 @@
                 }
               },
               "queryRef": "mart_order.Order Count",
-              "nativeQueryRef": "Order Count",
+              "nativeQueryRef": "mart_order.Order Count",
               "displayName": "Order Count"
             },
             {
@@ -143,7 +143,7 @@
                 }
               },
               "queryRef": "mart_order.Completed Orders",
-              "nativeQueryRef": "Completed Orders",
+              "nativeQueryRef": "mart_order.Completed Orders",
               "displayName": "Completed Orders"
             }
           ]

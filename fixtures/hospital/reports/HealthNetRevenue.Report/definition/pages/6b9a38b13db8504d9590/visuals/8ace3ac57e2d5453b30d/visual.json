@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "mart_claim.Initial Denial Rate (count)",
-              "nativeQueryRef": "Initial Denial Rate (count)",
+              "nativeQueryRef": "mart_claim.Initial Denial Rate (count)",
               "displayName": "Initial Denial Rate (count)"
             }
           ]
@@ -125,7 +125,14 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "34D"
+                  "Value": "28D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
                 }
               }
             }

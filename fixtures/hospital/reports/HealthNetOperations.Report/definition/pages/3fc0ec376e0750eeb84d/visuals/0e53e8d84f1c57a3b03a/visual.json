@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "mart_encounter.Visits",
-              "nativeQueryRef": "Visits",
+              "nativeQueryRef": "mart_encounter.Visits",
               "displayName": "Visits"
             },
             {
@@ -113,7 +113,7 @@
                 }
               },
               "queryRef": "mart_encounter.Admissions",
-              "nativeQueryRef": "Admissions",
+              "nativeQueryRef": "mart_encounter.Admissions",
               "displayName": "Admissions"
             },
             {
@@ -128,7 +128,7 @@
                 }
               },
               "queryRef": "mart_encounter.Discharges",
-              "nativeQueryRef": "Discharges",
+              "nativeQueryRef": "mart_encounter.Discharges",
               "displayName": "Discharges"
             },
             {
@@ -143,7 +143,7 @@
                 }
               },
               "queryRef": "mart_encounter.30-day Readmission %",
-              "nativeQueryRef": "30-day Readmission %",
+              "nativeQueryRef": "mart_encounter.30-day Readmission %",
               "displayName": "30-day Readmission %"
             }
           ]

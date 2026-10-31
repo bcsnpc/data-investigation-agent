@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "core_date.year_month",
-              "nativeQueryRef": "year_month",
+              "nativeQueryRef": "core_date.year_month",
               "displayName": "Month"
             }
           ]

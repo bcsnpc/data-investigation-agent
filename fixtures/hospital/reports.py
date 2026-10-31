@@ -13,7 +13,7 @@ def field(table,column,measure=False):
     return {'Measure' if measure else 'Column':{'Expression':{'SourceRef':{'Entity':table}},'Property':column}}
 def col(table,column,label=None):return (table,column,False,label or column.replace('_',' ').title())
 def measure(name):return (MEASURES[name][0],name,True,name)
-def projection(f):return {'field':field(*f[:3]),'queryRef':f[0]+'.'+f[1],'nativeQueryRef':f[1],'displayName':f[3]}
+def projection(f):return {'field':field(*f[:3]),'queryRef':f[0]+'.'+f[1],'nativeQueryRef':f[0]+'.'+f[1],'displayName':f[3]}
 def write(path,value):path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(value,indent=2)+'\n')
 
 class Report:
@@ -51,7 +51,7 @@ class Report:
             visual['visualContainerObjects']['title'][0]['properties']['show']=boolean(False)
         if kind=='card':
             visual['objects']={'categoryLabels':[{'properties':{'show':boolean(False)}}],
-             'labels':[{'properties':{'fontSize':num(34)}}]}
+             'labels':[{'properties':{'fontSize':num(28),'labelDisplayUnits':num(1)}}]}
         data={'$schema':BASE+'definition/visualContainer/2.4.0/schema.json','name':name,
          'position':{'x':x,'y':y,'width':w,'height':h,'z':self.seq,'tabOrder':self.seq},'visual':visual}
         write(self.root/f'definition/pages/{self.current}/visuals/{name}/visual.json',data)
@@ -113,13 +113,17 @@ def build(model_ids=None,root=None):
     r.visual('clusteredBarChart','A/R aging at latest snapshot',24,548,390,240,{'Category':[col('mart_ar_aging','aging_bucket')],'Y':[measure('A/R Balance')]})
     r.visual('clusteredBarChart','Payer mix by service-date charges',438,548,390,240,{'Category':[col('core_payer','payer_group')],'Y':[measure('Gross Charges')]})
     r.visual('tableEx','Denial definitions and writeoffs',852,548,404,240,{'Values':[measure('Initial Denial Rate (count)'),measure('Final Denial Rate'),measure('Denial Rate ($)'),measure('Writeoffs')]})
+    r.visual('card','Charge Rows',24,806,390,100,{'Values':[measure('Charge Rows')]})
+    revenue_page=r.root/f'definition/pages/{r.current}/page.json'
+    page=json.loads(revenue_page.read_text());page['height']=940;write(revenue_page,page)
     bookmark(r,'Commercial payers',[filter_state('payer_scope','core_payer','payer_group','Commercial')])
     r.finish()
     r=Report('HealthNetDoctorProductivity',model_ids['HealthNet Productivity'],root)
     r.page('productivity','Doctor Productivity','Synthetic workload units are not licensed RVUs | right-click a doctor for detail')
     r.slicer(col('core_department','name','Department'),24,600)
     r.slicer(col('core_date','year_month','Month'),652,604)
-    r.visual('tableEx','Department and doctor leaderboard',24,190,1232,590,{'Values':[col('core_department','name'),col('core_provider','id'),col('core_provider','name'),measure('Visits'),measure('Procedures'),measure('Order Count'),measure('RVU-style Workload per FTE')]})
+    r.cards(['Visits','Unique Patients'])
+    r.visual('tableEx','Department and doctor leaderboard',24,300,1232,480,{'Values':[col('core_department','name','Department'),col('core_provider','id','Doctor ID'),col('core_provider','name','Doctor'),measure('Visits'),measure('Procedures'),measure('Order Count'),measure('RVU-style Workload per FTE')]})
     r.page('doctor-detail','Doctor Detail','Drillthrough uses the selected provider ID; cost and margin are OLS-hidden for Doctor.',True)
     r.visual('tableEx','Doctor encounters',24,110,1232,670,{'Values':[col('core_provider','name'),col('mart_encounter','encounter_number'),col('mart_encounter','service_day'),col('mart_encounter','masked_mrn'),measure('Visits')]})
     r.finish()

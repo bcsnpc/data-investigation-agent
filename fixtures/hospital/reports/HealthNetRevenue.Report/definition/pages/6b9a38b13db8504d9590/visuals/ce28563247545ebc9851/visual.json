@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "core_payer.payer_group",
-              "nativeQueryRef": "payer_group",
+              "nativeQueryRef": "core_payer.payer_group",
               "displayName": "Payer Group"
             }
           ]
@@ -117,7 +117,7 @@
                 }
               },
               "queryRef": "mart_charge.Gross Charges",
-              "nativeQueryRef": "Gross Charges",
+              "nativeQueryRef": "mart_charge.Gross Charges",
               "displayName": "Gross Charges"
             }
           ]

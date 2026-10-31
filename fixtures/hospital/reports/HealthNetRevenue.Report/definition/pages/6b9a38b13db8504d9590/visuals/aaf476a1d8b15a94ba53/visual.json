@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "core_facility.name",
-              "nativeQueryRef": "name",
+              "nativeQueryRef": "core_facility.name",
               "displayName": "Facility"
             }
           ]

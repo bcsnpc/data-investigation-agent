@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "mart_remittance.denial_category",
-              "nativeQueryRef": "denial_category",
+              "nativeQueryRef": "mart_remittance.denial_category",
               "displayName": "Denial Category"
             }
           ]
@@ -117,7 +117,7 @@
                 }
               },
               "queryRef": "mart_remittance.Denied Dollars",
-              "nativeQueryRef": "Denied Dollars",
+              "nativeQueryRef": "mart_remittance.Denied Dollars",
               "displayName": "Denied Dollars"
             }
           ]

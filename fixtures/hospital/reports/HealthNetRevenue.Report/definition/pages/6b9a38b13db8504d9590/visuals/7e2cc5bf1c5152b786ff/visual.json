@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "core_payer.payer_group",
-              "nativeQueryRef": "payer_group",
+              "nativeQueryRef": "core_payer.payer_group",
               "displayName": "Payer"
             }
           ]

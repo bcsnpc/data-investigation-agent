@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "mart_ed_visit.arrival_hour",
-              "nativeQueryRef": "arrival_hour",
+              "nativeQueryRef": "mart_ed_visit.arrival_hour",
               "displayName": "Arrival Hour"
             }
           ]
@@ -117,7 +117,7 @@
                 }
               },
               "queryRef": "mart_ed_visit.ED Visits",
-              "nativeQueryRef": "ED Visits",
+              "nativeQueryRef": "mart_ed_visit.ED Visits",
               "displayName": "ED Visits"
             }
           ]

@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "mart_census_daily.Bed Occupancy %",
-              "nativeQueryRef": "Bed Occupancy %",
+              "nativeQueryRef": "mart_census_daily.Bed Occupancy %",
               "displayName": "Bed Occupancy %"
             }
           ]
@@ -125,7 +125,14 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "34D"
+                  "Value": "28D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
                 }
               }
             }

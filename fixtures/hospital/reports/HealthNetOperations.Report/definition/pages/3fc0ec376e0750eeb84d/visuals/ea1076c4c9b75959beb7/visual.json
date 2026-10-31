@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "mart_ed_visit.LWBS %",
-              "nativeQueryRef": "LWBS %",
+              "nativeQueryRef": "mart_ed_visit.LWBS %",
               "displayName": "LWBS %"
             }
           ]
@@ -125,7 +125,14 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "34D"
+                  "Value": "28D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
                 }
               }
             }

@@ -102,6 +102,23 @@ class HospitalGeneratorTests(unittest.TestCase):
         self.assertIn('CONVERT(DATETIME2(6),src.[submitted_at]) [submitted_at]',sql)
         self.assertNotIn('TRY_CONVERT',sql)
 
+    def test_async_definition_update_has_no_result_resource(self):
+        import json
+        from unittest.mock import patch
+        owner=object.__new__(OwnerFabric);owner.token='test-only'
+        owner.path=self.path/'owner-update-fake.json';owner.state={'receipts':[]}
+        class Response:
+            def __init__(self,status,body,headers=None):self.status=status;self.body=body;self.headers=headers or{}
+            def read(self):return json.dumps(self.body).encode()
+            def __enter__(self):return self
+            def __exit__(self,*args):pass
+        replies=[Response(202,{}, {'Location':'https://api.fabric.microsoft.com/v1/operations/op'}),Response(200,{'status':'Succeeded'})]
+        with patch('urllib.request.urlopen',side_effect=replies)as request,patch('time.sleep'):
+            result=owner.call('workspaces/ws/items/item/updateDefinition',{'definition':{'parts':[]}})
+        self.assertEqual(result,{})
+        self.assertEqual(request.call_count,2)
+        self.assertNotIn('pending_operation',owner.state)
+
     def test_job_admission_does_not_poll_item_operation_protocol(self):
         from unittest.mock import patch
         owner=object.__new__(OwnerFabric);owner.token='test-only'
@@ -277,6 +294,15 @@ class HospitalGeneratorTests(unittest.TestCase):
         self.assertIn('raw_clinical_patient_merge',source)
         self.assertIn('did not converge',source)
         self.assertNotIn('given_name',source)
+
+    def test_visual_native_references_are_unique_across_tables(self):
+        import json
+        root=self.path/'unique-reference-reports';build_reports(root=root)
+        for path in root.rglob('visual.json'):
+            visual=json.loads(path.read_text())['visual']
+            projections=[p for role in visual.get('query',{}).get('queryState',{}).values()for p in role['projections']]
+            refs=[p['nativeQueryRef']for p in projections]
+            self.assertEqual(len(refs),len(set(refs)),str(path))
 
     def test_three_reports_bind_every_field_and_keep_real_filtered_bookmarks(self):
         root=self.path/'assets'

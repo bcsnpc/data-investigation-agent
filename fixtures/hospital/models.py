@@ -6,6 +6,7 @@ import sqlite3
 from .artifacts import write
 
 MEASURES={
+ 'Charge Rows':('mart_charge','COALESCE(COUNTROWS(mart_charge),0)','Retained charge rows visible in the current report and security context; includes zero-dollar and correction rows.'),
  'Gross Charges':('mart_charge','SUM(mart_charge[amount_cents])/100','Signed gross charges by service date, including corrections; not collections.'),
  'Net Revenue':('mart_charge','[Gross Charges]+SUM(mart_adjustment[amount_cents])/100','Service-date gross charges plus signed adjustments in their adjustment-date window; not cash. Payer remapping uses each event date.'),
  'Collections':('mart_payment','SUM(mart_payment[amount_cents])/100','Signed posted insurance and patient cash, including reversals, moves and refunds.'),

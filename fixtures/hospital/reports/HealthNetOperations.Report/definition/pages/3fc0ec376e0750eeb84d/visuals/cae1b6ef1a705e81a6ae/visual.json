@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "mart_encounter.masked_mrn",
-              "nativeQueryRef": "masked_mrn",
+              "nativeQueryRef": "mart_encounter.masked_mrn",
               "displayName": "Masked Mrn"
             },
             {
@@ -113,7 +113,7 @@
                 }
               },
               "queryRef": "mart_encounter.masked_given_name",
-              "nativeQueryRef": "masked_given_name",
+              "nativeQueryRef": "mart_encounter.masked_given_name",
               "displayName": "Masked Given Name"
             },
             {
@@ -128,7 +128,7 @@
                 }
               },
               "queryRef": "mart_encounter.masked_family_name",
-              "nativeQueryRef": "masked_family_name",
+              "nativeQueryRef": "mart_encounter.masked_family_name",
               "displayName": "Masked Family Name"
             },
             {
@@ -143,7 +143,7 @@
                 }
               },
               "queryRef": "mart_encounter.encounter_number",
-              "nativeQueryRef": "encounter_number",
+              "nativeQueryRef": "mart_encounter.encounter_number",
               "displayName": "Encounter Number"
             }
           ]

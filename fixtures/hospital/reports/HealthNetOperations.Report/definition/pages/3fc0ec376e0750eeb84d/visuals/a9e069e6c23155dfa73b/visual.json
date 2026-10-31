@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "mart_ed_visit.ED Door-to-Provider (median)",
-              "nativeQueryRef": "ED Door-to-Provider (median)",
+              "nativeQueryRef": "mart_ed_visit.ED Door-to-Provider (median)",
               "displayName": "ED Door-to-Provider (median)"
             }
           ]
@@ -125,7 +125,14 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "34D"
+                  "Value": "28D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
                 }
               }
             }

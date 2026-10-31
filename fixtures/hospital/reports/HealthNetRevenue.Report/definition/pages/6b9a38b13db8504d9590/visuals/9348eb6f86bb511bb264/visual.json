@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "mart_charge.Gross Charges",
-              "nativeQueryRef": "Gross Charges",
+              "nativeQueryRef": "mart_charge.Gross Charges",
               "displayName": "Gross Charges"
             }
           ]
@@ -125,7 +125,14 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "34D"
+                  "Value": "28D"
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
                 }
               }
             }

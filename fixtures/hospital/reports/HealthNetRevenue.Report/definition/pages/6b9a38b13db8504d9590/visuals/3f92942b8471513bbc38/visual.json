@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "mart_ar_aging.aging_bucket",
-              "nativeQueryRef": "aging_bucket",
+              "nativeQueryRef": "mart_ar_aging.aging_bucket",
               "displayName": "Aging Bucket"
             }
           ]
@@ -117,7 +117,7 @@
                 }
               },
               "queryRef": "mart_ar_aging.A/R Balance",
-              "nativeQueryRef": "A/R Balance",
+              "nativeQueryRef": "mart_ar_aging.A/R Balance",
               "displayName": "A/R Balance"
             }
           ]

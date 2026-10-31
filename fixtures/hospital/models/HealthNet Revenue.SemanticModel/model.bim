@@ -389,6 +389,12 @@
         ],
         "measures": [
           {
+            "name": "Charge Rows",
+            "expression": "COALESCE(COUNTROWS(mart_charge),0)",
+            "description": "Retained charge rows visible in the current report and security context; includes zero-dollar and correction rows.",
+            "formatString": "#,0.00"
+          },
+          {
             "name": "Gross Charges",
             "expression": "SUM(mart_charge[amount_cents])/100",
             "description": "Signed gross charges by service date, including corrections; not collections.",

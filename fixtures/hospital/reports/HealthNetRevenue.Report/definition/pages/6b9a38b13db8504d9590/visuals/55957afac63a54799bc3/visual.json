@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "core_date.year_month",
-              "nativeQueryRef": "year_month",
+              "nativeQueryRef": "core_date.year_month",
               "displayName": "Year Month"
             }
           ]
@@ -117,7 +117,7 @@
                 }
               },
               "queryRef": "mart_charge.Gross Charges",
-              "nativeQueryRef": "Gross Charges",
+              "nativeQueryRef": "mart_charge.Gross Charges",
               "displayName": "Gross Charges"
             },
             {
@@ -132,7 +132,7 @@
                 }
               },
               "queryRef": "mart_charge.Gross Charges by Post Date",
-              "nativeQueryRef": "Gross Charges by Post Date",
+              "nativeQueryRef": "mart_charge.Gross Charges by Post Date",
               "displayName": "Gross Charges by Post Date"
             },
             {
@@ -147,7 +147,7 @@
                 }
               },
               "queryRef": "mart_payment.Collections",
-              "nativeQueryRef": "Collections",
+              "nativeQueryRef": "mart_payment.Collections",
               "displayName": "Collections"
             }
           ]

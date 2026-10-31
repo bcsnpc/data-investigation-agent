@@ -98,7 +98,7 @@
                 }
               },
               "queryRef": "mart_order.order_type",
-              "nativeQueryRef": "order_type",
+              "nativeQueryRef": "mart_order.order_type",
               "displayName": "Order Type"
             }
           ]
@@ -117,7 +117,7 @@
                 }
               },
               "queryRef": "mart_order.Order Turnaround (minutes)",
-              "nativeQueryRef": "Order Turnaround (minutes)",
+              "nativeQueryRef": "mart_order.Order Turnaround (minutes)",
               "displayName": "Order Turnaround (minutes)"
             }
           ]
