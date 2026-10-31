@@ -1,0 +1,52 @@
+{
+  "pass": "Round25 G2 raw-reviewed",
+  "graded": 9,
+  "score": 8,
+  "correctness": {
+    "verdict_match": 8,
+    "layer_match": 8,
+    "cause_match": 8
+  },
+  "harmful": 0,
+  "zero_groups": {
+    "intake": 1
+  },
+  "zeros": [
+    {
+      "ticket": "v4-source-history-1",
+      "first_wrong_step": "intake",
+      "reason": "What the saved capture shows: DIA stopped with status NEEDS_INPUT and code AMBIGUOUS_PRIMARY_FIGURE. It asked the user to choose between \"41 units\" and \"47 units\". Handoff and stop are null. In saved_evidence, only the intake object is filled in: a prefilled IntakeRequest with hashed report, page and visual IDs, details.record=movement900201, issue_type SOMETHING_ELSE and classified_issue_type NUMBER_LOOKS_WRONG. Triage, queries and evidence are all null.\n\nThe sealed expectation is the verdict \"source changed history\" at the source layer. The cause is a system-versioned temporal table update: movement 900201 had 41 units from 17:11:12 until 17:18:00, when it became 47 units. The completed load ran from 17:11:20 to 17:12:57, while the 41-unit version was current.\n\nScoring: DIA gave no verdict, layer or cause, so all three fail and the case scores zero under the all-three rule. Partial credit is not available. It stated no false cause as fact, so it is not harmful.\n\nDisputed failing step: the ticket already says which figure is which (41 in the earlier export, 47 in the later one) and asks why the value changed. That question needs both figures, so asking the user to pick one was unnecessary. The ambiguity check ran at intake, but the specific failure is that DIA asked the user a question it didn't need to ask. \"Asked the user\" is the most accurate label, so the secondary grader is right and the primary grader's \"intake\" is less precise.\n\nDisputed handoff quality: there is no handoff object, no queries to rerun, no evidence and no suggested next check, such as comparing the record's temporal history with the pipeline run times. The only stop reason is a misguided ambiguity code, and the clarifying question points away from the actual investigation. The prefilled intake fields just restate what the ticket already says and are not a useful next step. The primary grader's score of 1 is too generous, so 0 is right.\n\nThe secondary grader slightly overstates things by saying there was \"no stopping point or reason\", because an AMBIGUOUS_PRIMARY_FIGURE code does exist. That code is not a useful reason, though, so the secondary grader's conclusions still hold. Both graders agree on the core matches being false and on harmful=false. The secondary grader is right on both disputed fields.",
+      "saved_trace": {
+        "outcome_sha256": "39863e8868d7ab8710ae575da87acf4a4d610bc8f84b916f80ac801374360c44",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-source-history-1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "v4-source-history"
+    }
+  ],
+  "walkthroughs": [
+    {
+      "ticket": "v4-source-history-1",
+      "first_wrong_step": "intake",
+      "reason": "What the saved capture shows: DIA stopped with status NEEDS_INPUT and code AMBIGUOUS_PRIMARY_FIGURE. It asked the user to choose between \"41 units\" and \"47 units\". Handoff and stop are null. In saved_evidence, only the intake object is filled in: a prefilled IntakeRequest with hashed report, page and visual IDs, details.record=movement900201, issue_type SOMETHING_ELSE and classified_issue_type NUMBER_LOOKS_WRONG. Triage, queries and evidence are all null.\n\nThe sealed expectation is the verdict \"source changed history\" at the source layer. The cause is a system-versioned temporal table update: movement 900201 had 41 units from 17:11:12 until 17:18:00, when it became 47 units. The completed load ran from 17:11:20 to 17:12:57, while the 41-unit version was current.\n\nScoring: DIA gave no verdict, layer or cause, so all three fail and the case scores zero under the all-three rule. Partial credit is not available. It stated no false cause as fact, so it is not harmful.\n\nDisputed failing step: the ticket already says which figure is which (41 in the earlier export, 47 in the later one) and asks why the value changed. That question needs both figures, so asking the user to pick one was unnecessary. The ambiguity check ran at intake, but the specific failure is that DIA asked the user a question it didn't need to ask. \"Asked the user\" is the most accurate label, so the secondary grader is right and the primary grader's \"intake\" is less precise.\n\nDisputed handoff quality: there is no handoff object, no queries to rerun, no evidence and no suggested next check, such as comparing the record's temporal history with the pipeline run times. The only stop reason is a misguided ambiguity code, and the clarifying question points away from the actual investigation. The prefilled intake fields just restate what the ticket already says and are not a useful next step. The primary grader's score of 1 is too generous, so 0 is right.\n\nThe secondary grader slightly overstates things by saying there was \"no stopping point or reason\", because an AMBIGUOUS_PRIMARY_FIGURE code does exist. That code is not a useful reason, though, so the secondary grader's conclusions still hold. Both graders agree on the core matches being false and on harmful=false. The secondary grader is right on both disputed fields.",
+      "saved_trace": {
+        "outcome_sha256": "39863e8868d7ab8710ae575da87acf4a4d610bc8f84b916f80ac801374360c44",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-source-history-1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "v4-source-history"
+    }
+  ],
+  "estate_reads": 0,
+  "model_calls": 0,
+  "scores_or_expectations_changed": false,
+  "zero_classes": {
+    "v4-source-history": 1
+  }
+}
