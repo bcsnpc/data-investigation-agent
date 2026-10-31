@@ -2,46 +2,46 @@
   "official_primary": {
     "all_three": {
       "correct": 12,
-      "total": 18,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.43749467295945105,
-      "upper": 0.837212252491663,
+      "total": 21,
+      "accuracy": 0.5714285714285714,
+      "lower": 0.3654655436930671,
+      "upper": 0.7553003107462404,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 12,
-      "total": 18,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.43749467295945105,
-      "upper": 0.837212252491663,
+      "correct": 15,
+      "total": 21,
+      "accuracy": 0.7142857142857143,
+      "lower": 0.5004361928391441,
+      "upper": 0.8618613704787788,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 14,
-      "total": 18,
-      "accuracy": 0.7777777777777778,
-      "lower": 0.5478541568378739,
-      "upper": 0.9099907189139831,
+      "correct": 17,
+      "total": 21,
+      "accuracy": 0.8095238095238095,
+      "lower": 0.5999943530979508,
+      "upper": 0.9233243494723822,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 12,
-      "total": 18,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.43749467295945105,
-      "upper": 0.837212252491663,
+      "total": 21,
+      "accuracy": 0.5714285714285714,
+      "lower": 0.3654655436930671,
+      "upper": 0.7553003107462404,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 18,
+      "total": 21,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.17587922364665765,
+      "upper": 0.154639018924847,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -49,46 +49,46 @@
   "strict": {
     "all_three": {
       "correct": 12,
-      "total": 18,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.43749467295945105,
-      "upper": 0.837212252491663,
+      "total": 21,
+      "accuracy": 0.5714285714285714,
+      "lower": 0.3654655436930671,
+      "upper": 0.7553003107462404,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 12,
-      "total": 18,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.43749467295945105,
-      "upper": 0.837212252491663,
+      "correct": 15,
+      "total": 21,
+      "accuracy": 0.7142857142857143,
+      "lower": 0.5004361928391441,
+      "upper": 0.8618613704787788,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 13,
-      "total": 18,
-      "accuracy": 0.7222222222222222,
-      "lower": 0.4912734343970254,
-      "upper": 0.8750024662044601,
+      "correct": 16,
+      "total": 21,
+      "accuracy": 0.7619047619047619,
+      "lower": 0.5490882631704924,
+      "upper": 0.8937198697736354,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 12,
-      "total": 18,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.43749467295945105,
-      "upper": 0.837212252491663,
+      "total": 21,
+      "accuracy": 0.5714285714285714,
+      "lower": 0.3654655436930671,
+      "upper": 0.7553003107462404,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 18,
+      "total": 21,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.17587922364665765,
+      "upper": 0.154639018924847,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -96,46 +96,46 @@
   "raw_reviewed": {
     "all_three": {
       "correct": 12,
-      "total": 18,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.43749467295945105,
-      "upper": 0.837212252491663,
+      "total": 21,
+      "accuracy": 0.5714285714285714,
+      "lower": 0.3654655436930671,
+      "upper": 0.7553003107462404,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 12,
-      "total": 18,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.43749467295945105,
-      "upper": 0.837212252491663,
+      "correct": 15,
+      "total": 21,
+      "accuracy": 0.7142857142857143,
+      "lower": 0.5004361928391441,
+      "upper": 0.8618613704787788,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 13,
-      "total": 18,
-      "accuracy": 0.7222222222222222,
-      "lower": 0.4912734343970254,
-      "upper": 0.8750024662044601,
+      "correct": 16,
+      "total": 21,
+      "accuracy": 0.7619047619047619,
+      "lower": 0.5490882631704924,
+      "upper": 0.8937198697736354,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 12,
-      "total": 18,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.43749467295945105,
-      "upper": 0.837212252491663,
+      "total": 21,
+      "accuracy": 0.5714285714285714,
+      "lower": 0.3654655436930671,
+      "upper": 0.7553003107462404,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 18,
+      "total": 21,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.17587922364665765,
+      "upper": 0.154639018924847,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,50 +143,50 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 18,
+  "completed_graded": 21,
   "primary": {
     "all_three": {
       "correct": 12,
-      "total": 18,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.43749467295945105,
-      "upper": 0.837212252491663,
+      "total": 21,
+      "accuracy": 0.5714285714285714,
+      "lower": 0.3654655436930671,
+      "upper": 0.7553003107462404,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 12,
-      "total": 18,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.43749467295945105,
-      "upper": 0.837212252491663,
+      "correct": 15,
+      "total": 21,
+      "accuracy": 0.7142857142857143,
+      "lower": 0.5004361928391441,
+      "upper": 0.8618613704787788,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 14,
-      "total": 18,
-      "accuracy": 0.7777777777777778,
-      "lower": 0.5478541568378739,
-      "upper": 0.9099907189139831,
+      "correct": 17,
+      "total": 21,
+      "accuracy": 0.8095238095238095,
+      "lower": 0.5999943530979508,
+      "upper": 0.9233243494723822,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 12,
-      "total": 18,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.43749467295945105,
-      "upper": 0.837212252491663,
+      "total": 21,
+      "accuracy": 0.5714285714285714,
+      "lower": 0.3654655436930671,
+      "upper": 0.7553003107462404,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 18,
+      "total": 21,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.17587922364665765,
+      "upper": 0.154639018924847,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -194,56 +194,56 @@
   "secondary": {
     "all_three": {
       "correct": 12,
-      "total": 18,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.43749467295945105,
-      "upper": 0.837212252491663,
+      "total": 21,
+      "accuracy": 0.5714285714285714,
+      "lower": 0.3654655436930671,
+      "upper": 0.7553003107462404,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 12,
-      "total": 18,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.43749467295945105,
-      "upper": 0.837212252491663,
+      "correct": 15,
+      "total": 21,
+      "accuracy": 0.7142857142857143,
+      "lower": 0.5004361928391441,
+      "upper": 0.8618613704787788,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 13,
-      "total": 18,
-      "accuracy": 0.7222222222222222,
-      "lower": 0.4912734343970254,
-      "upper": 0.8750024662044601,
+      "correct": 16,
+      "total": 21,
+      "accuracy": 0.7619047619047619,
+      "lower": 0.5490882631704924,
+      "upper": 0.8937198697736354,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 12,
-      "total": 18,
-      "accuracy": 0.6666666666666666,
-      "lower": 0.43749467295945105,
-      "upper": 0.837212252491663,
+      "total": 21,
+      "accuracy": 0.5714285714285714,
+      "lower": 0.3654655436930671,
+      "upper": 0.7553003107462404,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 18,
+      "total": 21,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.17587922364665765,
+      "upper": 0.154639018924847,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 17,
-    "total": 18,
-    "accuracy": 0.9444444444444444,
-    "lower": 0.7424269921812741,
-    "upper": 0.990124809021697,
+    "correct": 20,
+    "total": 21,
+    "accuracy": 0.9523809523809523,
+    "lower": 0.7733063992587743,
+    "upper": 0.9915440121901737,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -255,10 +255,10 @@
   ],
   "full_assessment_agreement": {
     "correct": 3,
-    "total": 18,
-    "accuracy": 0.16666666666666666,
-    "lower": 0.05836576805861446,
-    "upper": 0.39222038103915724,
+    "total": 21,
+    "accuracy": 0.14285714285714285,
+    "lower": 0.04981012499725268,
+    "upper": 0.34636060280620945,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -350,6 +350,28 @@
       "ticket": "v4-latency-record-3",
       "fields": [
         "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v4-stale-model-1",
+      "fields": [
+        "failing_step",
+        "partial"
+      ]
+    },
+    {
+      "ticket": "v4-stale-model-2",
+      "fields": [
+        "handoff_quality",
+        "failing_step",
+        "partial"
+      ]
+    },
+    {
+      "ticket": "v4-stale-model-3",
+      "fields": [
+        "failing_step",
+        "partial"
       ]
     },
     {
@@ -1316,6 +1338,80 @@
           "output_tokens": 2107,
           "output_tokens_details": {
             "thinking_tokens": 861
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-stale-model-2",
+      "class": "v4-stale-model",
+      "fixture": "stale",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict (refresh stale) matches. Layer (semantic model / Direct Lake) matches. The expected cause is specifically that automatic updates were turned off for the Direct Lake model, which meant no reframing occurred after the load. The delivered answer identifies the model as stale and notes the refresh schedule is disabled, but it explicitly states it could not confirm whether automatic updates were on or off ('the check for automatic updates was unavailable'), and stops short of naming the disabled automatic-update setting as the cause. The sealed answer requires that the disabled automatic-update setting be positively identified as the named cause. The delivered answer hedges this critical point rather than asserting it, so cause does not match. No harmful incorrect cause was stated; the agent honestly flagged the gap. Handoff quality is 0: the answer is marked ANSWERED with no handoff object, and the unresolved automatic-updates check is the exact causal gap, so there is no actionable next step or rerunnable query left for a follow-up agent.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Verdict matches: the answer says \"refresh stale,\" as expected. The layer also matches. The answer puts the split between the landing table and the semantic model. Source and landing both total 7692, and the model shows 7661. It names Direct Lake, so this agrees with the expected layer: semantic model (Direct Lake refresh/framing). It also correctly rules out the \"load didn't finish\" guess. The latest pipeline run succeeded, read 363 rows and wrote 363 rows, and the earlier error 2011 failure is not relevant. The named cause does not match. The expected cause is that automatic updates were turned off for the Direct Lake model, so it never reframed after the load. The answer only says the model hasn't refreshed since the last load. It cites the disabled refresh schedule and the last refresh on 2026-10-28. It says the AUTOMATIC_UPDATES check was unavailable and that it can't confirm whether automatic reframing is on. That gets close to the mechanism but does not name the actual cause, so it is a partial match and scores zero. It is not harmful. The answer does not confidently state a wrong cause. It hedges correctly on the automatic-update setting and does not claim the disabled schedule is the root cause. The first failing step is triage, because the AUTOMATIC_UPDATES fact port was unavailable and that is the evidence that would have identified the cause. Handoff quality is 1. The three queries are recorded word for word and can be rerun, and the limits and unavailable checks are stated clearly. However, the handoff object is empty. The answer also does not explicitly say the next step is to check the model's Direct Lake automatic-updates setting or trigger a reframe.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-stale01",
+      "outcome_sha256": "d0a32a9672a8cfaeadc9bff94086851338d8af8987cc4b9884a3a625caf30cd4",
+      "status": "ANSWERED",
+      "native_duration_seconds": 193.0,
+      "worker_wall_seconds": 161.63647205299998,
+      "investigation_cost_microdollars": 382132,
+      "physical_requests": 28,
+      "model_calls": 5,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "refresh stale",
+      "raw_review": {
+        "cost_microdollars": 193896,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "triage",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "What the raw capture shows: The three queries ran at about 20:05Z on 2026-10-31. The DAX query returned [Movement Units]=7661. The landing table dbo.stock_movements_round_two_20261003 summed to 7692, and the source table app.stock_movements_round_two_20261003 in ordersops also summed to 7692. Load job runs (listing_complete=true) show that the latest run, 198bd54e, succeeded from 19:53:29 to 19:55:04Z with 363 rows read and 363 written (DECLARED_WAREHOUSE_AUDIT). Three runs succeeded after the 17:52Z failure, da45f511 (error 2011). Refresh history for model e90cca5c (listing_complete=true, no gaps) lists run 763470267 on 2026-10-28, ending 21:50:25Z, as the latest. Nothing appears after any 10-31 load. The refresh schedule has enabled=false. Triage could not run the AUTOMATIC_UPDATES and CONNECTION_MODE checks (CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT), so no saved evidence shows the automatic-update setting either way.\n\nThe saved answer is the first accepted submit_finding. It omits the number 31, because the version that included 31 was rejected under NUMBER_NOT_IN_CITED_RESULTS. It says 'refresh stale' and places the split between landing and the semantic model, so verdict and layer both match. Its factual claims about timing, row counts, the failed run and the disabled schedule all match the evidence. One claim is unsupported but harmless: it says the model reads in Direct Lake mode, yet the CONNECTION_MODE check was unavailable. That claim happens to agree with the sealed expectation.\n\nThe sealed cause is specific: automatic updates were turned off on the Direct Lake model. The answer names only the general symptom, that the model has not refreshed since the load. It also says outright that it cannot confirm whether automatic reframing is on. Under the all-three rule this is a cause miss, so the answer scores zero. Because verdict and layer are right and only the specific cause is missing, partial=true. Nothing is harmful: the answer flags the gap honestly and states no wrong cause.\n\nThe first failing step is triage, not the conclusion. The deciding fact came from a check that was unavailable, and no tool for it was installed. Given what it had, the agent reasoned correctly and stated the uncertainty, so it did not draw an unsupported conclusion.\n\nHandoff is 1. The answer was marked ANSWERED with no handoff object. However, the queries can be rerun word for word, the limits are listed, and the unresolved automatic-reframing question is named explicitly. That gives a partly actionable next step, though it is never framed as one.\n\nGrader verdicts: The primary grader is right on verdict, layer and cause. It is wrong to call the failing step 'wrong conclusion', since the gap came from triage and the agent hedged honestly. It is also wrong to set partial=false and to score handoff 0, because the answer flags the exact causal gap. The secondary grader's judgments all match this review, so the secondary wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "d0a32a9672a8cfaeadc9bff94086851338d8af8987cc4b9884a3a625caf30cd4",
+        "reason": "What the raw capture shows: The three queries ran at about 20:05Z on 2026-10-31. The DAX query returned [Movement Units]=7661. The landing table dbo.stock_movements_round_two_20261003 summed to 7692, and the source table app.stock_movements_round_two_20261003 in ordersops also summed to 7692. Load job runs (listing_complete=true) show that the latest run, 198bd54e, succeeded from 19:53:29 to 19:55:04Z with 363 rows read and 363 written (DECLARED_WAREHOUSE_AUDIT). Three runs succeeded after the 17:52Z failure, da45f511 (error 2011). Refresh history for model e90cca5c (listing_complete=true, no gaps) lists run 763470267 on 2026-10-28, ending 21:50:25Z, as the latest. Nothing appears after any 10-31 load. The refresh schedule has enabled=false. Triage could not run the AUTOMATIC_UPDATES and CONNECTION_MODE checks (CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT), so no saved evidence shows the automatic-update setting either way.\n\nThe saved answer is the first accepted submit_finding. It omits the number 31, because the version that included 31 was rejected under NUMBER_NOT_IN_CITED_RESULTS. It says 'refresh stale' and places the split between landing and the semantic model, so verdict and layer both match. Its factual claims about timing, row counts, the failed run and the disabled schedule all match the evidence. One claim is unsupported but harmless: it says the model reads in Direct Lake mode, yet the CONNECTION_MODE check was unavailable. That claim happens to agree with the sealed expectation.\n\nThe sealed cause is specific: automatic updates were turned off on the Direct Lake model. The answer names only the general symptom, that the model has not refreshed since the load. It also says outright that it cannot confirm whether automatic reframing is on. Under the all-three rule this is a cause miss, so the answer scores zero. Because verdict and layer are right and only the specific cause is missing, partial=true. Nothing is harmful: the answer flags the gap honestly and states no wrong cause.\n\nThe first failing step is triage, not the conclusion. The deciding fact came from a check that was unavailable, and no tool for it was installed. Given what it had, the agent reasoned correctly and stated the uncertainty, so it did not draw an unsupported conclusion.\n\nHandoff is 1. The answer was marked ANSWERED with no handoff object. However, the queries can be rerun word for word, the limits are listed, and the unresolved automatic-reframing question is named explicitly. That gives a partly actionable next step, though it is never framed as one.\n\nGrader verdicts: The primary grader is right on verdict, layer and cause. It is wrong to call the failing step 'wrong conclusion', since the gap came from triage and the agent hedged honestly. It is also wrong to set partial=false and to score handoff 0, because the answer flags the exact causal gap. The secondary grader's judgments all match this review, so the secondary wins.",
+        "source_sha256": "415d96aabacb3057e50eb557de66cc15b120f00bcf9873b8a54d0c68827a7d7b",
+        "ticket": "v4-stale-model-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 38045,
+          "output_tokens": 2077,
+          "output_tokens_details": {
+            "thinking_tokens": 776
           },
           "service_tier": "standard",
           "speed": "standard"
@@ -2511,6 +2607,246 @@
           "accuracy": 0.6666666666666666,
           "lower": 0.2076596008020477,
           "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v4-stale-model": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         },
@@ -3917,6 +4253,228 @@
       }
     },
     {
+      "ticket": "v4-stale-model-1",
+      "class": "v4-stale-model",
+      "fixture": "stale",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict (refresh stale) and layer (semantic model / Direct Lake framing) both match. However, the named cause does not match. The expected cause is that automatic Direct Lake updates were turned OFF for the model, meaning the model did not auto-refresh after new data landed. The delivered answer instead identifies the cause as the model's scheduled refresh being disabled (daily 01:00 UTC schedule turned off) and the model simply not having been manually refreshed after the pipeline ran. The delivered answer explicitly states 'I could not read whether automatic Direct Lake updates are turned on' \u2014 the automatic-update setting is the actual named cause per the sealed answer, and the delivered answer fails to establish it. This is a substantive difference: schedule-based refresh being off vs. automatic Direct Lake updates being off are distinct mechanisms. The delivered answer hedges honestly rather than asserting a wrong cause confidently, so it is not harmful, but cause_match fails. Handoff quality is moderate (1): the stopping point is clear, the unresolved item (automatic updates flag) is named, but no rerunnable query to check it is provided.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Verdict matches: 'refresh stale'. Layer matches: the answer places the gap between the landing table (7692) and the Direct Lake model (7661), which is the semantic model refresh/framing layer. Cause does not match: the sealed cause is that automatic updates were turned off on Direct Lake model 0c89889c. The answer instead blames the model not refreshing after the 2026-10-31 loads and notes the disabled 01:00 schedule. It also says plainly that it could not read the automatic-updates setting, because triage marked AUTOMATIC_UPDATES unavailable. So the deciding mechanism was never identified. Naming the refresh symptom without the auto-update cause is a partial match, which scores zero. The answer is not harmful: what it states as fact (last refresh 2026-10-28, schedule disabled, 7661 vs 7692, latest load 363 rows) is accurate, and it does not present the failed run da45f511 as the cause. It is open about its gaps. Handoff: the three queries are recorded verbatim and can be rerun, and the answer names the missing auto-update read and the unaligned snapshots. However, the handoff object is empty and it does not clearly recommend checking the Direct Lake automatic-updates setting next, so it scores 1.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-stale01",
+      "outcome_sha256": "47c67d95b48e2729e9a3022036291de8777df2308d9da00da85f10dd48ce668e",
+      "status": "ANSWERED",
+      "native_duration_seconds": 192.0,
+      "worker_wall_seconds": 163.1589737070001,
+      "investigation_cost_microdollars": 374701,
+      "physical_requests": 28,
+      "model_calls": 5,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "refresh stale",
+      "raw_review": {
+        "cost_microdollars": 180707,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "triage",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "What the saved evidence shows: the DAX query for Movement Units with no filters returned 7661. The landing table dbo.stock_movements_round_two_20261003 and the application table app.stock_movements_round_two_20261003 both totalled 7692. These were separate snapshots taken about 20:00Z on 2026-10-31. The model refresh history is complete, and its last successful refresh was run 763470267, ending 2026-10-28 21:50:25Z. The model's 01:00 UTC schedule is disabled. The pipeline (node 3bf74ae\u2026) ran again on 2026-10-31. One of those runs, da45f511, failed with a controlled fixture error 2011. The latest run, 198bd54e, succeeded at 19:55:04Z and read and wrote 363 rows. Triage could not check AUTOMATIC_UPDATES because no fact port is installed for it (CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT); CONNECTION_MODE, LAYER_FRESHNESS and several other checks were also unavailable.\n\nScoring: The verdict 'refresh stale' matches. The layer matches: the answer puts the gap between the landing table and the Direct Lake model, which is the semantic model refresh/framing layer. The cause does not match. The sealed cause is that the model's automatic Direct Lake updates setting was turned off. The answer only describes the symptom: the model has not refreshed since the loads and its schedule is disabled. It says outright that it could not read the automatic-updates setting. Two of three criteria are met, so this is a partial answer, and partial scores zero under the all-three rule.\n\nHarm: none. Every fact the answer states matches the raw records. It presents the failed run da45f511 as background, not as the cause, and it states its gaps honestly (automatic updates unreadable, snapshots not aligned).\n\nFailing step: triage. The deciding mechanism could only be confirmed through the AUTOMATIC_UPDATES check, and that check had no installed port. The answer did not reach a wrong conclusion. It reached a limited one and said so, which is honest uncertainty, not a confident wrong claim.\n\nHandoff (1): the three queries are recorded word for word and can be rerun, and the missing automatic-updates read is named. But the handoff field is empty (null), and the answer does not tell the next person to check the Direct Lake automatic-updates setting next.\n\nWinner: secondary. Primary got verdict, layer and cause right but marked partial=false and called the failing step 'wrong conclusion'; the conclusion was not wrong, it was blocked by the missing triage check. Secondary got partial, the failing step and the harm assessment right. One small flaw in primary: it treats the disabled schedule as the answer's named cause, when the answer actually blamed the missing refresh after the loads and mentioned the schedule only as context.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "47c67d95b48e2729e9a3022036291de8777df2308d9da00da85f10dd48ce668e",
+        "reason": "What the saved evidence shows: the DAX query for Movement Units with no filters returned 7661. The landing table dbo.stock_movements_round_two_20261003 and the application table app.stock_movements_round_two_20261003 both totalled 7692. These were separate snapshots taken about 20:00Z on 2026-10-31. The model refresh history is complete, and its last successful refresh was run 763470267, ending 2026-10-28 21:50:25Z. The model's 01:00 UTC schedule is disabled. The pipeline (node 3bf74ae\u2026) ran again on 2026-10-31. One of those runs, da45f511, failed with a controlled fixture error 2011. The latest run, 198bd54e, succeeded at 19:55:04Z and read and wrote 363 rows. Triage could not check AUTOMATIC_UPDATES because no fact port is installed for it (CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT); CONNECTION_MODE, LAYER_FRESHNESS and several other checks were also unavailable.\n\nScoring: The verdict 'refresh stale' matches. The layer matches: the answer puts the gap between the landing table and the Direct Lake model, which is the semantic model refresh/framing layer. The cause does not match. The sealed cause is that the model's automatic Direct Lake updates setting was turned off. The answer only describes the symptom: the model has not refreshed since the loads and its schedule is disabled. It says outright that it could not read the automatic-updates setting. Two of three criteria are met, so this is a partial answer, and partial scores zero under the all-three rule.\n\nHarm: none. Every fact the answer states matches the raw records. It presents the failed run da45f511 as background, not as the cause, and it states its gaps honestly (automatic updates unreadable, snapshots not aligned).\n\nFailing step: triage. The deciding mechanism could only be confirmed through the AUTOMATIC_UPDATES check, and that check had no installed port. The answer did not reach a wrong conclusion. It reached a limited one and said so, which is honest uncertainty, not a confident wrong claim.\n\nHandoff (1): the three queries are recorded word for word and can be rerun, and the missing automatic-updates read is named. But the handoff field is empty (null), and the answer does not tell the next person to check the Direct Lake automatic-updates setting next.\n\nWinner: secondary. Primary got verdict, layer and cause right but marked partial=false and called the failing step 'wrong conclusion'; the conclusion was not wrong, it was blocked by the missing triage check. Secondary got partial, the failing step and the harm assessment right. One small flaw in primary: it treats the disabled schedule as the answer's named cause, when the answer actually blamed the missing refresh after the loads and mentioned the schedule only as context.",
+        "source_sha256": "6ad295089e6b598a8481226218164574cb30ffedde7d8b581878ae78fe7404be",
+        "ticket": "v4-stale-model-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 34683,
+          "output_tokens": 1879,
+          "output_tokens_details": {
+            "thinking_tokens": 683
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-stale-model-2",
+      "class": "v4-stale-model",
+      "fixture": "stale",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict (refresh stale) matches. Layer (semantic model / Direct Lake) matches. The expected cause is specifically that automatic updates were turned off for the Direct Lake model, which meant no reframing occurred after the load. The delivered answer identifies the model as stale and notes the refresh schedule is disabled, but it explicitly states it could not confirm whether automatic updates were on or off ('the check for automatic updates was unavailable'), and stops short of naming the disabled automatic-update setting as the cause. The sealed answer requires that the disabled automatic-update setting be positively identified as the named cause. The delivered answer hedges this critical point rather than asserting it, so cause does not match. No harmful incorrect cause was stated; the agent honestly flagged the gap. Handoff quality is 0: the answer is marked ANSWERED with no handoff object, and the unresolved automatic-updates check is the exact causal gap, so there is no actionable next step or rerunnable query left for a follow-up agent.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Verdict matches: the answer says \"refresh stale,\" as expected. The layer also matches. The answer puts the split between the landing table and the semantic model. Source and landing both total 7692, and the model shows 7661. It names Direct Lake, so this agrees with the expected layer: semantic model (Direct Lake refresh/framing). It also correctly rules out the \"load didn't finish\" guess. The latest pipeline run succeeded, read 363 rows and wrote 363 rows, and the earlier error 2011 failure is not relevant. The named cause does not match. The expected cause is that automatic updates were turned off for the Direct Lake model, so it never reframed after the load. The answer only says the model hasn't refreshed since the last load. It cites the disabled refresh schedule and the last refresh on 2026-10-28. It says the AUTOMATIC_UPDATES check was unavailable and that it can't confirm whether automatic reframing is on. That gets close to the mechanism but does not name the actual cause, so it is a partial match and scores zero. It is not harmful. The answer does not confidently state a wrong cause. It hedges correctly on the automatic-update setting and does not claim the disabled schedule is the root cause. The first failing step is triage, because the AUTOMATIC_UPDATES fact port was unavailable and that is the evidence that would have identified the cause. Handoff quality is 1. The three queries are recorded word for word and can be rerun, and the limits and unavailable checks are stated clearly. However, the handoff object is empty. The answer also does not explicitly say the next step is to check the model's Direct Lake automatic-updates setting or trigger a reframe.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-stale01",
+      "outcome_sha256": "d0a32a9672a8cfaeadc9bff94086851338d8af8987cc4b9884a3a625caf30cd4",
+      "status": "ANSWERED",
+      "native_duration_seconds": 193.0,
+      "worker_wall_seconds": 161.63647205299998,
+      "investigation_cost_microdollars": 382132,
+      "physical_requests": 28,
+      "model_calls": 5,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "refresh stale",
+      "raw_review": {
+        "cost_microdollars": 193896,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "triage",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "What the raw capture shows: The three queries ran at about 20:05Z on 2026-10-31. The DAX query returned [Movement Units]=7661. The landing table dbo.stock_movements_round_two_20261003 summed to 7692, and the source table app.stock_movements_round_two_20261003 in ordersops also summed to 7692. Load job runs (listing_complete=true) show that the latest run, 198bd54e, succeeded from 19:53:29 to 19:55:04Z with 363 rows read and 363 written (DECLARED_WAREHOUSE_AUDIT). Three runs succeeded after the 17:52Z failure, da45f511 (error 2011). Refresh history for model e90cca5c (listing_complete=true, no gaps) lists run 763470267 on 2026-10-28, ending 21:50:25Z, as the latest. Nothing appears after any 10-31 load. The refresh schedule has enabled=false. Triage could not run the AUTOMATIC_UPDATES and CONNECTION_MODE checks (CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT), so no saved evidence shows the automatic-update setting either way.\n\nThe saved answer is the first accepted submit_finding. It omits the number 31, because the version that included 31 was rejected under NUMBER_NOT_IN_CITED_RESULTS. It says 'refresh stale' and places the split between landing and the semantic model, so verdict and layer both match. Its factual claims about timing, row counts, the failed run and the disabled schedule all match the evidence. One claim is unsupported but harmless: it says the model reads in Direct Lake mode, yet the CONNECTION_MODE check was unavailable. That claim happens to agree with the sealed expectation.\n\nThe sealed cause is specific: automatic updates were turned off on the Direct Lake model. The answer names only the general symptom, that the model has not refreshed since the load. It also says outright that it cannot confirm whether automatic reframing is on. Under the all-three rule this is a cause miss, so the answer scores zero. Because verdict and layer are right and only the specific cause is missing, partial=true. Nothing is harmful: the answer flags the gap honestly and states no wrong cause.\n\nThe first failing step is triage, not the conclusion. The deciding fact came from a check that was unavailable, and no tool for it was installed. Given what it had, the agent reasoned correctly and stated the uncertainty, so it did not draw an unsupported conclusion.\n\nHandoff is 1. The answer was marked ANSWERED with no handoff object. However, the queries can be rerun word for word, the limits are listed, and the unresolved automatic-reframing question is named explicitly. That gives a partly actionable next step, though it is never framed as one.\n\nGrader verdicts: The primary grader is right on verdict, layer and cause. It is wrong to call the failing step 'wrong conclusion', since the gap came from triage and the agent hedged honestly. It is also wrong to set partial=false and to score handoff 0, because the answer flags the exact causal gap. The secondary grader's judgments all match this review, so the secondary wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "d0a32a9672a8cfaeadc9bff94086851338d8af8987cc4b9884a3a625caf30cd4",
+        "reason": "What the raw capture shows: The three queries ran at about 20:05Z on 2026-10-31. The DAX query returned [Movement Units]=7661. The landing table dbo.stock_movements_round_two_20261003 summed to 7692, and the source table app.stock_movements_round_two_20261003 in ordersops also summed to 7692. Load job runs (listing_complete=true) show that the latest run, 198bd54e, succeeded from 19:53:29 to 19:55:04Z with 363 rows read and 363 written (DECLARED_WAREHOUSE_AUDIT). Three runs succeeded after the 17:52Z failure, da45f511 (error 2011). Refresh history for model e90cca5c (listing_complete=true, no gaps) lists run 763470267 on 2026-10-28, ending 21:50:25Z, as the latest. Nothing appears after any 10-31 load. The refresh schedule has enabled=false. Triage could not run the AUTOMATIC_UPDATES and CONNECTION_MODE checks (CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT), so no saved evidence shows the automatic-update setting either way.\n\nThe saved answer is the first accepted submit_finding. It omits the number 31, because the version that included 31 was rejected under NUMBER_NOT_IN_CITED_RESULTS. It says 'refresh stale' and places the split between landing and the semantic model, so verdict and layer both match. Its factual claims about timing, row counts, the failed run and the disabled schedule all match the evidence. One claim is unsupported but harmless: it says the model reads in Direct Lake mode, yet the CONNECTION_MODE check was unavailable. That claim happens to agree with the sealed expectation.\n\nThe sealed cause is specific: automatic updates were turned off on the Direct Lake model. The answer names only the general symptom, that the model has not refreshed since the load. It also says outright that it cannot confirm whether automatic reframing is on. Under the all-three rule this is a cause miss, so the answer scores zero. Because verdict and layer are right and only the specific cause is missing, partial=true. Nothing is harmful: the answer flags the gap honestly and states no wrong cause.\n\nThe first failing step is triage, not the conclusion. The deciding fact came from a check that was unavailable, and no tool for it was installed. Given what it had, the agent reasoned correctly and stated the uncertainty, so it did not draw an unsupported conclusion.\n\nHandoff is 1. The answer was marked ANSWERED with no handoff object. However, the queries can be rerun word for word, the limits are listed, and the unresolved automatic-reframing question is named explicitly. That gives a partly actionable next step, though it is never framed as one.\n\nGrader verdicts: The primary grader is right on verdict, layer and cause. It is wrong to call the failing step 'wrong conclusion', since the gap came from triage and the agent hedged honestly. It is also wrong to set partial=false and to score handoff 0, because the answer flags the exact causal gap. The secondary grader's judgments all match this review, so the secondary wins.",
+        "source_sha256": "415d96aabacb3057e50eb557de66cc15b120f00bcf9873b8a54d0c68827a7d7b",
+        "ticket": "v4-stale-model-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 38045,
+          "output_tokens": 2077,
+          "output_tokens_details": {
+            "thinking_tokens": 776
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-stale-model-3",
+      "class": "v4-stale-model",
+      "fixture": "stale",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict (refresh stale) and layer (semantic model / Direct Lake) both match the expected answer. However, the named cause does not match. The expected cause is specifically that automatic updates were turned off for the Direct Lake model, meaning the model does not self-update when the landing table changes. The delivered answer identifies the cause as the model's scheduled refresh being disabled plus the refresh schedule being disabled, and explicitly notes that whether Direct Lake automatic updates were enabled could not be checked (UNAVAILABLE). The delivered answer therefore does not state the correct named cause (automatic-update setting off for Direct Lake) \u2014 it instead says this was unknowable. Since the expected cause is precisely the automatic-update setting being off, and the delivered answer treats that as an unresolvable gap rather than the identified root cause, cause_match is false. The answer is not harmful because it honestly acknowledges the gap rather than asserting a wrong cause confidently. Handoff quality is 1: the stopping point is clear and the next check (verify Direct Lake automatic-update setting) is implied but not made explicit as a rerunnable query with specific parameters.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Verdict matches: both say 'refresh stale'. Layer matches: the delivered answer places the gap in the semantic model, which is Direct Lake. The measure is a plain SUM with no filtering, and the source and landing table both total 7692 against the card's 7661. That agrees with the expected 'semantic model (Direct Lake refresh/framing)'. Cause does not match. The expected cause is specific: automatic updates were turned off for the Direct Lake model. The delivered answer gives only a general cause, that the model has not been refreshed since the 2026-10-28 run. It also says outright that the automatic-update setting could not be checked because triage could not read it. It mentions that the refresh schedule is disabled, but it does not claim this is the cause. Getting the general area right without naming the mechanism is a partial match, which scores zero for cause. Not harmful: the delivered answer states no wrong cause as fact. Its claim that the model is behind is true, and it is open about the gap in the automatic-update check and about the timing-based inference. The first failing step is triage, where the AUTOMATIC_UPDATES check was UNAVAILABLE. That missing check is exactly the evidence needed to name the cause. Handoff quality is 1. The DAX and SQL queries can be rerun, and the unverified setting is named. However, the handoff block is empty and there are no explicit next checks, such as reading the Direct Lake automatic-update setting or checking which data version the model is serving.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-stale01",
+      "outcome_sha256": "b624ad0ece9c3e4c814269762ce2c4a9c4e78383f971f677caee46996d8c0fbf",
+      "status": "ANSWERED",
+      "native_duration_seconds": 190.0,
+      "worker_wall_seconds": 156.07676704099998,
+      "investigation_cost_microdollars": 376845,
+      "physical_requests": 28,
+      "model_calls": 5,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "refresh stale",
+      "raw_review": {
+        "cost_microdollars": 183400,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "triage",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "What the saved evidence shows:\n- **Card value:** the DAX recreate query returned 7661 for [Movement Units].\n- **Source totals:** the SQL sums on the app source table (ordersops) and on the landing table (round_two_bronze) each returned 7692.\n- **Model refresh:** the latest successful model refresh was run 763470267, which ended 2026-10-28T21:50:25Z. The run history is complete.\n- **Refresh schedule:** the model's refresh schedule shows enabled=false.\n- **Loads into the landing table:** the load job ran several times on 2026-10-31. The latest run, 198bd54e, succeeded and ended at 19:55:04Z, with an audit of 363 rows read and 363 written. Run da45f511 failed at 17:52 with error 2011, and later runs succeeded.\n- **Unavailable checks:** triage could not run AUTOMATIC_UPDATES or CONNECTION_MODE. Both report CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT.\n\nThe sealed expectation is: verdict refresh stale, layer semantic model (Direct Lake refresh/framing), and named cause \"automatic updates were turned off for the Direct Lake model\".\n\nScoring:\n- **Verdict:** matches. Both say refresh stale.\n- **Layer:** matches. The answer places the gap in the semantic model, since the source and landing table agree at 7692 and only the model shows 7661.\n- **Cause:** does not match. The answer gives only the general cause, that the model has not been refreshed since the last loads. It says outright that the automatic-update setting could not be checked. The specific mechanism the expectation requires is never named. Getting the area right without the mechanism is a partial match, and under the all-three rule a partial scores zero.\n- **Harmful:** no. Every claim that matters is true or openly hedged. The answer says the schedule is disabled but does not claim that is the cause, and it states that linking the card to the old refresh rests on run timing. Two lesser claims are not backed by any saved read, though the sealed expectation says they are true: that the measure is SUM('Movements'[units]), and that the model is in Direct Lake mode (CONNECTION_MODE was unavailable). This is a small overstatement, not a harmful one.\n- **Failing step:** triage. The one fact needed to name the cause (AUTOMATIC_UPDATES) was unavailable there, and the investigator had no tool to read it.\n- **Handoff quality:** 1. The queries can be rerun and the unchecked setting is named, but the handoff block is null and no explicit next check is given.\n\nWhy the secondary grader wins: the primary grader misreads the answer. It says the answer names \"the scheduled refresh being disabled\" as the cause, which the answer does not do. It also puts the failure at \"wrong conclusion\", but the conclusion is honestly hedged. The real failure is the triage gap. The secondary grader describes the answer accurately: it reads the schedule mention correctly, places the failure at triage, and marks partial correctly. Both graders agree on the verdict, layer and cause matches and on handoff quality 1.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "b624ad0ece9c3e4c814269762ce2c4a9c4e78383f971f677caee46996d8c0fbf",
+        "reason": "What the saved evidence shows:\n- **Card value:** the DAX recreate query returned 7661 for [Movement Units].\n- **Source totals:** the SQL sums on the app source table (ordersops) and on the landing table (round_two_bronze) each returned 7692.\n- **Model refresh:** the latest successful model refresh was run 763470267, which ended 2026-10-28T21:50:25Z. The run history is complete.\n- **Refresh schedule:** the model's refresh schedule shows enabled=false.\n- **Loads into the landing table:** the load job ran several times on 2026-10-31. The latest run, 198bd54e, succeeded and ended at 19:55:04Z, with an audit of 363 rows read and 363 written. Run da45f511 failed at 17:52 with error 2011, and later runs succeeded.\n- **Unavailable checks:** triage could not run AUTOMATIC_UPDATES or CONNECTION_MODE. Both report CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT.\n\nThe sealed expectation is: verdict refresh stale, layer semantic model (Direct Lake refresh/framing), and named cause \"automatic updates were turned off for the Direct Lake model\".\n\nScoring:\n- **Verdict:** matches. Both say refresh stale.\n- **Layer:** matches. The answer places the gap in the semantic model, since the source and landing table agree at 7692 and only the model shows 7661.\n- **Cause:** does not match. The answer gives only the general cause, that the model has not been refreshed since the last loads. It says outright that the automatic-update setting could not be checked. The specific mechanism the expectation requires is never named. Getting the area right without the mechanism is a partial match, and under the all-three rule a partial scores zero.\n- **Harmful:** no. Every claim that matters is true or openly hedged. The answer says the schedule is disabled but does not claim that is the cause, and it states that linking the card to the old refresh rests on run timing. Two lesser claims are not backed by any saved read, though the sealed expectation says they are true: that the measure is SUM('Movements'[units]), and that the model is in Direct Lake mode (CONNECTION_MODE was unavailable). This is a small overstatement, not a harmful one.\n- **Failing step:** triage. The one fact needed to name the cause (AUTOMATIC_UPDATES) was unavailable there, and the investigator had no tool to read it.\n- **Handoff quality:** 1. The queries can be rerun and the unchecked setting is named, but the handoff block is null and no explicit next check is given.\n\nWhy the secondary grader wins: the primary grader misreads the answer. It says the answer names \"the scheduled refresh being disabled\" as the cause, which the answer does not do. It also puts the failure at \"wrong conclusion\", but the conclusion is honestly hedged. The real failure is the triage gap. The secondary grader describes the answer accurately: it reads the schedule mention correctly, places the failure at triage, and marks partial correctly. Both graders agree on the verdict, layer and cause matches and on handoff quality 1.",
+        "source_sha256": "edcc7c99d47bc5b969efeb2f6096ce169336f173ada42ddea00b0e5dd8f0e2fc",
+        "ticket": "v4-stale-model-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 36446,
+          "output_tokens": 1872,
+          "output_tokens_details": {
+            "thinking_tokens": 579
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
       "ticket": "v4-waiting-application-load-1",
       "class": "v4-waiting-application-load",
       "fixture": "waiting",
@@ -4078,9 +4636,6 @@
     "v4-billing-invoices-1",
     "v4-billing-invoices-2",
     "v4-billing-invoices-3",
-    "v4-stale-model-1",
-    "v4-stale-model-2",
-    "v4-stale-model-3",
     "v4-warehouse-scope-1",
     "v4-warehouse-scope-2",
     "v4-warehouse-scope-3",
@@ -5071,6 +5626,246 @@
         }
       }
     },
+    "refresh stale": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "waiting on job": {
       "official_primary": {
         "all_three": {
@@ -5315,28 +6110,28 @@
   "class_grouping_basis": "Original case IDs retained; additional verdict grouping uses exact sealed oracle labels only, no expectation changes.",
   "timing_cost": {
     "all": {
-      "tickets": 18,
-      "native_observed": 13,
+      "tickets": 21,
+      "native_observed": 16,
       "native_missing": 5,
-      "native_median_seconds": 188.0,
+      "native_median_seconds": 191.0,
       "native_p90_seconds": 259.0,
-      "worker_median_seconds": 171.92881492599997,
+      "worker_median_seconds": 162.39772288000003,
       "worker_p90_seconds": 218.167820693,
-      "investigation_cost_microdollars": 9595119,
-      "cost_per_ticket_usd": 0.5330621666666666,
-      "physical_requests": 382
+      "investigation_cost_microdollars": 10728797,
+      "cost_per_ticket_usd": 0.5108950952380953,
+      "physical_requests": 466
     },
     "full_investigation": {
-      "tickets": 9,
-      "native_observed": 9,
+      "tickets": 12,
+      "native_observed": 12,
       "native_missing": 0,
-      "native_median_seconds": 213.0,
-      "native_p90_seconds": 268.0,
-      "worker_median_seconds": 180.75598343300004,
-      "worker_p90_seconds": 238.297234413,
-      "investigation_cost_microdollars": 3899987,
-      "cost_per_ticket_usd": 0.43333188888888885,
-      "physical_requests": 251
+      "native_median_seconds": 199.5,
+      "native_p90_seconds": 259.0,
+      "worker_median_seconds": 167.54389431650003,
+      "worker_p90_seconds": 203.489456507,
+      "investigation_cost_microdollars": 5033665,
+      "cost_per_ticket_usd": 0.4194720833333333,
+      "physical_requests": 335
     },
     "answered_without_layer_queries": {
       "tickets": 4,

@@ -1,0 +1,70 @@
+{
+  "experiment": "ROUND25_G2_STALE_FINAL_RESTORATION",
+  "status": "STALE_DATA_ORIGINAL_HASH_AUTOON_MODEL_REFRESH_BASELINE_VERIFIED",
+  "observed_at_utc": "2026-10-31T20:16:57.942852+00:00",
+  "model": "0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+  "original_rows": 360,
+  "original_hashes": {
+    "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+    "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+    "temporal_period_columns_excluded_explicitly": true
+  },
+  "original_copy_status": "Completed",
+  "model_restore": {
+    "native_refresh": {
+      "endTime": "2026-10-31T20:15:33.897Z",
+      "id": 764687151,
+      "refreshAttempts": [
+        {
+          "attemptId": 1,
+          "endTime": "2026-10-31T20:15:24.0326498Z",
+          "executionMetrics": [],
+          "startTime": "2026-10-31T20:15:09.8756027Z",
+          "type": "Data"
+        },
+        {
+          "attemptId": 1,
+          "endTime": "2026-10-31T20:15:26.0170725Z",
+          "executionMetrics": [],
+          "startTime": "2026-10-31T20:15:24.8295977Z",
+          "type": "Query"
+        }
+      ],
+      "refreshType": "ViaApi",
+      "requestId": "c057d575-6d3c-49ee-ab65-590542fc8d4d",
+      "startTime": "2026-10-31T20:15:09.767Z",
+      "status": "Completed"
+    },
+    "quantity": 7661,
+    "screenshot_sha256": "8fcee0cec3254459a1ee9a26278da1b22b0052fdd9c3a1f68e14f9da8523d2eb",
+    "ui_checked": true,
+    "verification_requests": 1
+  },
+  "automatic_updates": "On restored; original On",
+  "native_refresh": {
+    "endTime": "2026-10-31T20:15:33.897Z",
+    "id": 764687151,
+    "refreshAttempts": [
+      {
+        "attemptId": 1,
+        "endTime": "2026-10-31T20:15:24.0326498Z",
+        "executionMetrics": [],
+        "startTime": "2026-10-31T20:15:09.8756027Z",
+        "type": "Data"
+      },
+      {
+        "attemptId": 1,
+        "endTime": "2026-10-31T20:15:26.0170725Z",
+        "executionMetrics": [],
+        "startTime": "2026-10-31T20:15:24.8295977Z",
+        "type": "Query"
+      }
+    ],
+    "refreshType": "ViaApi",
+    "requestId": "c057d575-6d3c-49ee-ab65-590542fc8d4d",
+    "startTime": "2026-10-31T20:15:09.767Z",
+    "status": "Completed"
+  },
+  "permission_changes": false,
+  "receipt_sha256": "6c288dd67d746f972698474f87ba32d3993023d80a9dc80d0b8596ddcc9a098c"
+}

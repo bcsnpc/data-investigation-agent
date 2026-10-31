@@ -1,17 +1,18 @@
 {
   "pass": "Round25 G2 raw-reviewed",
-  "graded": 18,
+  "graded": 21,
   "score": 12,
   "correctness": {
-    "verdict_match": 12,
-    "layer_match": 13,
+    "verdict_match": 15,
+    "layer_match": 16,
     "cause_match": 12
   },
   "harmful": 0,
   "zero_groups": {
     "intake": 3,
     "query": 1,
-    "conclusion": 2
+    "conclusion": 2,
+    "triage": 3
   },
   "zeros": [
     {
@@ -137,6 +138,48 @@
       "class": "v4-latency-record"
     },
     {
+      "ticket": "v4-stale-model-1",
+      "first_wrong_step": "triage",
+      "reason": "What the saved evidence shows: the DAX query for Movement Units with no filters returned 7661. The landing table dbo.stock_movements_round_two_20261003 and the application table app.stock_movements_round_two_20261003 both totalled 7692. These were separate snapshots taken about 20:00Z on 2026-10-31. The model refresh history is complete, and its last successful refresh was run 763470267, ending 2026-10-28 21:50:25Z. The model's 01:00 UTC schedule is disabled. The pipeline (node 3bf74ae\u2026) ran again on 2026-10-31. One of those runs, da45f511, failed with a controlled fixture error 2011. The latest run, 198bd54e, succeeded at 19:55:04Z and read and wrote 363 rows. Triage could not check AUTOMATIC_UPDATES because no fact port is installed for it (CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT); CONNECTION_MODE, LAYER_FRESHNESS and several other checks were also unavailable.\n\nScoring: The verdict 'refresh stale' matches. The layer matches: the answer puts the gap between the landing table and the Direct Lake model, which is the semantic model refresh/framing layer. The cause does not match. The sealed cause is that the model's automatic Direct Lake updates setting was turned off. The answer only describes the symptom: the model has not refreshed since the loads and its schedule is disabled. It says outright that it could not read the automatic-updates setting. Two of three criteria are met, so this is a partial answer, and partial scores zero under the all-three rule.\n\nHarm: none. Every fact the answer states matches the raw records. It presents the failed run da45f511 as background, not as the cause, and it states its gaps honestly (automatic updates unreadable, snapshots not aligned).\n\nFailing step: triage. The deciding mechanism could only be confirmed through the AUTOMATIC_UPDATES check, and that check had no installed port. The answer did not reach a wrong conclusion. It reached a limited one and said so, which is honest uncertainty, not a confident wrong claim.\n\nHandoff (1): the three queries are recorded word for word and can be rerun, and the missing automatic-updates read is named. But the handoff field is empty (null), and the answer does not tell the next person to check the Direct Lake automatic-updates setting next.\n\nWinner: secondary. Primary got verdict, layer and cause right but marked partial=false and called the failing step 'wrong conclusion'; the conclusion was not wrong, it was blocked by the missing triage check. Secondary got partial, the failing step and the harm assessment right. One small flaw in primary: it treats the disabled schedule as the answer's named cause, when the answer actually blamed the missing refresh after the loads and mentioned the schedule only as context.",
+      "saved_trace": {
+        "outcome_sha256": "47c67d95b48e2729e9a3022036291de8777df2308d9da00da85f10dd48ce668e",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-stale-model-1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Read and act on the current path run or freshness fact first.",
+      "class": "v4-stale-model"
+    },
+    {
+      "ticket": "v4-stale-model-2",
+      "first_wrong_step": "triage",
+      "reason": "What the raw capture shows: The three queries ran at about 20:05Z on 2026-10-31. The DAX query returned [Movement Units]=7661. The landing table dbo.stock_movements_round_two_20261003 summed to 7692, and the source table app.stock_movements_round_two_20261003 in ordersops also summed to 7692. Load job runs (listing_complete=true) show that the latest run, 198bd54e, succeeded from 19:53:29 to 19:55:04Z with 363 rows read and 363 written (DECLARED_WAREHOUSE_AUDIT). Three runs succeeded after the 17:52Z failure, da45f511 (error 2011). Refresh history for model e90cca5c (listing_complete=true, no gaps) lists run 763470267 on 2026-10-28, ending 21:50:25Z, as the latest. Nothing appears after any 10-31 load. The refresh schedule has enabled=false. Triage could not run the AUTOMATIC_UPDATES and CONNECTION_MODE checks (CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT), so no saved evidence shows the automatic-update setting either way.\n\nThe saved answer is the first accepted submit_finding. It omits the number 31, because the version that included 31 was rejected under NUMBER_NOT_IN_CITED_RESULTS. It says 'refresh stale' and places the split between landing and the semantic model, so verdict and layer both match. Its factual claims about timing, row counts, the failed run and the disabled schedule all match the evidence. One claim is unsupported but harmless: it says the model reads in Direct Lake mode, yet the CONNECTION_MODE check was unavailable. That claim happens to agree with the sealed expectation.\n\nThe sealed cause is specific: automatic updates were turned off on the Direct Lake model. The answer names only the general symptom, that the model has not refreshed since the load. It also says outright that it cannot confirm whether automatic reframing is on. Under the all-three rule this is a cause miss, so the answer scores zero. Because verdict and layer are right and only the specific cause is missing, partial=true. Nothing is harmful: the answer flags the gap honestly and states no wrong cause.\n\nThe first failing step is triage, not the conclusion. The deciding fact came from a check that was unavailable, and no tool for it was installed. Given what it had, the agent reasoned correctly and stated the uncertainty, so it did not draw an unsupported conclusion.\n\nHandoff is 1. The answer was marked ANSWERED with no handoff object. However, the queries can be rerun word for word, the limits are listed, and the unresolved automatic-reframing question is named explicitly. That gives a partly actionable next step, though it is never framed as one.\n\nGrader verdicts: The primary grader is right on verdict, layer and cause. It is wrong to call the failing step 'wrong conclusion', since the gap came from triage and the agent hedged honestly. It is also wrong to set partial=false and to score handoff 0, because the answer flags the exact causal gap. The secondary grader's judgments all match this review, so the secondary wins.",
+      "saved_trace": {
+        "outcome_sha256": "d0a32a9672a8cfaeadc9bff94086851338d8af8987cc4b9884a3a625caf30cd4",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-stale-model-2-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Read and act on the current path run or freshness fact first.",
+      "class": "v4-stale-model"
+    },
+    {
+      "ticket": "v4-stale-model-3",
+      "first_wrong_step": "triage",
+      "reason": "What the saved evidence shows:\n- **Card value:** the DAX recreate query returned 7661 for [Movement Units].\n- **Source totals:** the SQL sums on the app source table (ordersops) and on the landing table (round_two_bronze) each returned 7692.\n- **Model refresh:** the latest successful model refresh was run 763470267, which ended 2026-10-28T21:50:25Z. The run history is complete.\n- **Refresh schedule:** the model's refresh schedule shows enabled=false.\n- **Loads into the landing table:** the load job ran several times on 2026-10-31. The latest run, 198bd54e, succeeded and ended at 19:55:04Z, with an audit of 363 rows read and 363 written. Run da45f511 failed at 17:52 with error 2011, and later runs succeeded.\n- **Unavailable checks:** triage could not run AUTOMATIC_UPDATES or CONNECTION_MODE. Both report CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT.\n\nThe sealed expectation is: verdict refresh stale, layer semantic model (Direct Lake refresh/framing), and named cause \"automatic updates were turned off for the Direct Lake model\".\n\nScoring:\n- **Verdict:** matches. Both say refresh stale.\n- **Layer:** matches. The answer places the gap in the semantic model, since the source and landing table agree at 7692 and only the model shows 7661.\n- **Cause:** does not match. The answer gives only the general cause, that the model has not been refreshed since the last loads. It says outright that the automatic-update setting could not be checked. The specific mechanism the expectation requires is never named. Getting the area right without the mechanism is a partial match, and under the all-three rule a partial scores zero.\n- **Harmful:** no. Every claim that matters is true or openly hedged. The answer says the schedule is disabled but does not claim that is the cause, and it states that linking the card to the old refresh rests on run timing. Two lesser claims are not backed by any saved read, though the sealed expectation says they are true: that the measure is SUM('Movements'[units]), and that the model is in Direct Lake mode (CONNECTION_MODE was unavailable). This is a small overstatement, not a harmful one.\n- **Failing step:** triage. The one fact needed to name the cause (AUTOMATIC_UPDATES) was unavailable there, and the investigator had no tool to read it.\n- **Handoff quality:** 1. The queries can be rerun and the unchecked setting is named, but the handoff block is null and no explicit next check is given.\n\nWhy the secondary grader wins: the primary grader misreads the answer. It says the answer names \"the scheduled refresh being disabled\" as the cause, which the answer does not do. It also puts the failure at \"wrong conclusion\", but the conclusion is honestly hedged. The real failure is the triage gap. The secondary grader describes the answer accurately: it reads the schedule mention correctly, places the failure at triage, and marks partial correctly. Both graders agree on the verdict, layer and cause matches and on handoff quality 1.",
+      "saved_trace": {
+        "outcome_sha256": "b624ad0ece9c3e4c814269762ce2c4a9c4e78383f971f677caee46996d8c0fbf",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-stale-model-3-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Read and act on the current path run or freshness fact first.",
+      "class": "v4-stale-model"
+    },
+    {
       "ticket": "v4-waiting-application-load-3",
       "first_wrong_step": "conclusion",
       "reason": "What the saved capture shows: the triage JOB_RUNS fact, read at 2026-10-31T19:00:48Z for pipeline node 3bf74ae1, lists e2748b17-7057-482c-8556-b936713b931b as the newest run. That run started at 18:51:08Z and was RUNNING with no end time. The same listing shows that 78c23b46-0543-44c8-869f-59b7dfb34a23, the run the sealed expectation names, had already SUCCEEDED (16:56:27Z to 2026-10-28T17:06:36.77Z). A fresh native get_job_runs read at 19:01:18Z shows e2748b17 SUCCEEDED, ending at 19:01:17.99Z with no error. That read also has no audit row for the run (DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN).\n\nThe delivered answer reports these facts accurately. It does not assert a lock, saying only that one can be neither confirmed nor ruled out. It claims no data mismatch and lists its limits honestly: the Copy Job has no run in the window, the earlier run da45f511 failed with error 2011, and the model refresh 763470267 ended on 2026-10-28 with its schedule disabled. Every claim is backed by the evidence, so the answer is not harmful.\n\nScoring against the sealed expectation: the expected verdict is 'waiting on job', with 78c23b46 still InProgress. The delivered verdict is 'observed value', about a different run that has finished. So the verdict and the cause do not match. The layer, orchestration at the pipeline job instance, does match. Only one of the three criteria holds, so the result is partial and scores zero under the all-three rule.\n\nThe mismatch is caused by expectation drift, not by a mistake in the agent's work. The sealed record itself says the running state must be confirmed again with a fresh check at scored execution. The agent did exactly that, and the evidence shows the expected run had already finished before this session started. Even so, the scoring rule compares against the sealed expectation and does not allow correcting it.\n\nPrimary grader: its verdict, layer and cause judgments match mine, but its failing step is wrong. It says triage misidentified the run. In fact triage correctly picked e2748b17 as the latest RUNNING instance, and its own data shows 78c23b46 had already SUCCEEDED. Primary also marks partial=false even though the layer matched.\n\nSecondary grader: it gets every judgment right. It sets partial=true and correctly notes that the triage data shows 78c23b46 SUCCEEDED, so the expectation is probably stale. It does not override the expectation, which is correct under the protocol. I would label its failing step 'wrong conclusion' only in the sense of a mismatch at the conclusion stage, not a conclusion the evidence fails to support.\n\nHandoff quality is 1: the evidence IDs, timestamps and limits are clear, but there are no rerunnable queries and no explicit plan to recheck.",
@@ -254,6 +297,7 @@
     "v4-access-export": 3,
     "v4-source-history": 1,
     "v4-latency-record": 1,
+    "v4-stale-model": 3,
     "v4-waiting-application-load": 1
   }
 }
