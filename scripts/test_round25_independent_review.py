@@ -1,6 +1,6 @@
 ﻿import unittest
 from copy import deepcopy
-from round25_independent_review import packet,exact_deduplicate,differs,schema,metric_winner
+from round25_independent_review import packet,exact_deduplicate,differs,schema,metric_winner,saved_evidence
 from jsonschema import Draft202012Validator
 class IndependentReviewTests(unittest.TestCase):
  def test_only_owner_allowed_inputs_and_no_mutation(self):
@@ -23,3 +23,9 @@ class IndependentReviewTests(unittest.TestCase):
   decision={'verdict_match':True,'handoff_quality':2,'winner':'primary'}
   self.assertEqual(metric_winner(decision,first,second),'mixed')
   self.assertEqual(decision['handoff_quality'],2)
+
+ def test_early_intake_hold_retains_structured_evidence(self):
+  intake={'status':'NEEDS_INPUT','question':'Which page?','choices':['Visible page']}
+  wrapped={'result':{'status':'NEEDS_INPUT','intake':intake,'outputs':{'business':{'question':'Which page?'}}}}
+  evidence=saved_evidence(wrapped);self.assertEqual(evidence['intake'],intake)
+  evidence['intake']['choices'].append('changed');self.assertEqual(intake['choices'],['Visible page'])

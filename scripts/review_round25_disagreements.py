@@ -2,7 +2,7 @@
 import json,sys,runpy,subprocess,hashlib
 from pathlib import Path
 sys.path.insert(0,'scripts')
-from round25_independent_review import packet,exact_deduplicate,differs,schema,SYSTEM,metric_winner
+from round25_independent_review import packet,exact_deduplicate,differs,schema,SYSTEM,metric_winner,saved_evidence
 from round25_quality import raw_answer
 from investigator.adapters.reasoning_anthropic import Client
 from investigator.reasoning_budget import TicketBudget,RateCard
@@ -30,7 +30,7 @@ rate=RateCard(model='claude-opus-5-5',**reason['rate_card']);results=[]
 with configured(policy):
  for row in selected:
   ident=row['case_id'];raw=(r/(cohort+'-'+ident+'-result.json')).read_bytes();w=json.loads(raw);case=w.get('result',w).get('case',{})
-  inputs=packet(ticket=tickets[ident],answer=raw_answer(w),evidence={k:case.get(k)for k in ('intake','queries','triage','evidence')},expectation=expected[ident],primary=row['output'],secondary=secondary[ident]);packed=exact_deduplicate(inputs);payload=bytes_of(packed);_safe(payload);source_hash=hashlib.sha256(payload).hexdigest()
+  inputs=packet(ticket=tickets[ident],answer=raw_answer(w),evidence=saved_evidence(w),expectation=expected[ident],primary=row['output'],secondary=secondary[ident]);packed=exact_deduplicate(inputs);payload=bytes_of(packed);_safe(payload);source_hash=hashlib.sha256(payload).hexdigest()
   source=folder/(ident+'-input.json');out=folder/(ident+'-review.json');provider=folder/(ident+'-provider.jsonl');started=folder/(ident+'-started.json')
   if source.exists():assert source.read_bytes()==payload
   else:source.write_bytes(payload)

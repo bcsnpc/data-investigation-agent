@@ -48,3 +48,9 @@ def metric_winner(decision,primary,secondary):
         selected=primary if winner=='primary'else secondary
         if differs(decision,selected):return 'mixed'
     return winner
+
+def saved_evidence(wrapped):
+    answer=wrapped.get('result',wrapped);case=answer.get('case')or{}
+    result={k:deepcopy(case.get(k))for k in ('queries','triage','evidence')}
+    result['intake']=deepcopy(case['intake']if 'intake'in case else answer.get('intake'))
+    return result

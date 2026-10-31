@@ -15,11 +15,16 @@ for path in sorted((r/'grading').glob('*/'+cohort+'-grader-result.json')):
   from datetime import datetime
   duration=(datetime.fromisoformat(end.replace('Z','+00:00'))-datetime.fromisoformat(start.replace('Z','+00:00'))).total_seconds()if start and end else None
   case={'ticket':ident,'class':meta[ident].get('case_id',meta[ident].get('class',meta[ident]['fixture'])),'fixture':meta[ident]['fixture'],'estate':meta[ident].get('estate'),'primary':result['output'],'secondary':second[ident],'grade_wave':label,'outcome_sha256':hashlib.sha256(raw).hexdigest(),'status':a.get('status'),'native_duration_seconds':duration,'worker_wall_seconds':a.get('timing',{}).get('wall_seconds'),'investigation_cost_microdollars':a.get('cost',{}).get('charged_microdollars',0),'physical_requests':a.get('physical_requests',0),'model_calls':a.get('model_calls')}
+  tech=a.get('outputs',{}).get('technical',{})
+  if isinstance(tech,str):
+   try:tech=json.loads(tech)
+   except ValueError:tech={}
+  case['timing_group']='holds'if a.get('status')!='ANSWERED'else'full_investigation'if isinstance(tech,dict)and tech.get('queries')else'answered_without_layer_queries'
   if ident in reviews:
    assert reviews[ident]['raw_outcome_sha256']==case['outcome_sha256'];case['raw_review']=reviews[ident]
   cases[ident]=case
 value=summarize(list(cases.values()),cohort);value['requested']=len(rows);value['not_yet_graded']=[i for i in meta if i not in cases];value['status']='COMPLETE'if len(cases)==len(rows)and value['raw_review_complete']else'IN_PROGRESS'
-for group,select in [('all',list(cases.values())),('full_investigation',[c for c in cases.values()if c['status']=='ANSWERED']),('holds',[c for c in cases.values()if c['status']!='ANSWERED'])]:
+for group,select in [('all',list(cases.values())),('full_investigation',[c for c in cases.values()if c['timing_group']=='full_investigation']),('answered_without_layer_queries',[c for c in cases.values()if c['timing_group']=='answered_without_layer_queries']),('holds',[c for c in cases.values()if c['timing_group']=='holds'])]:
  times=sorted(c['native_duration_seconds']for c in select if c['native_duration_seconds']is not None);worker=sorted(c['worker_wall_seconds']for c in select if isinstance(c['worker_wall_seconds'],(float,int)));cost=sum(c['investigation_cost_microdollars']for c in select)
  value.setdefault('timing_cost',{})[group]={'tickets':len(select),'native_observed':len(times),'native_missing':len(select)-len(times),'native_median_seconds':statistics.median(times)if times else None,'native_p90_seconds':times[math.ceil(.9*len(times))-1]if times else None,'worker_median_seconds':statistics.median(worker)if worker else None,'worker_p90_seconds':worker[math.ceil(.9*len(worker))-1]if worker else None,'investigation_cost_microdollars':cost,'cost_per_ticket_usd':cost/len(select)/1e6 if select else None,'physical_requests':sum(c['physical_requests']for c in select)}
 Path('docs/runs/round25-'+cohort+'-current-grades.json').write_text(json.dumps(value,indent=2)+'\n')
