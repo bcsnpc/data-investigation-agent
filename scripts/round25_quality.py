@@ -122,6 +122,13 @@ class EvaluationState:
                     self.record({'event': 'GRADING_DOCUMENT_RETRY_AFTER_ABSENT_READBACK',
                                  'namespace': namespace, 'identity': identity})
                     continue
+                if revision is not None and observed['revision'] == revision and not attempt:
+                    # The original revision still exists: the update did not commit.
+                    # Retry only this same keyed compare-and-swap, never the provider call.
+                    self.record({'event': 'GRADING_DOCUMENT_RETRY_AFTER_UNCHANGED_REVISION',
+                                 'namespace': namespace, 'identity': identity,
+                                 'revision': revision})
+                    continue
                 if (observed['revision'] != expected_revision
                         or observed['body'] != expected):
                     raise error

@@ -1,0 +1,16 @@
+{
+  "observed_at_utc": "2026-10-31T21:26:45.672919+00:00",
+  "action": "Terminate only orphaned owner grading-metadata connection",
+  "backend_pid": 1281480,
+  "backend_start": "2026-10-31 21:23:26.981559+00",
+  "transaction_start": "2026-10-31 21:23:27.169033+00",
+  "statement": "UPDATE state_documents (parameterized)",
+  "owner": "leelamounika14@gmail.com",
+  "client_ip": "184.105.12.85",
+  "evidence": "Created during exact failed submit receipt write; local submitter and all its parents exited; only older waiting follower process remained; ClientRead held shared advisory lock after original connection dropped. No current worker/grader process held this connection.",
+  "result": true,
+  "new_provider_submissions": 0,
+  "engine_changed": false,
+  "identity_or_permissions_changed": false,
+  "reservations_preserved": true
+}

@@ -455,3 +455,6 @@ Owner-approved 2026-10-31 (Â§8): October combined AI ceiling $206; physical to
 
 
 2026-10-31 owner steer: pre-retention history queries were rejected before dispatch. Offline frozen-validator check accepts native FOR SYSTEM_TIME AS OF and ALL for approved objects, rejects the attempted OPTION(FOR TIMESTAMP AS OF) syntax. No validator or engine fix this round; do not infer a retention limit from failed dispatch. Receipt: docs/runs/round25-temporal-validator-offline.json.
+
+
+2026-10-31 R25 grading recovery only: recovered one already-accepted provider batch from its exact captured POST/200 receipt, with identical requests and reservation IDs; no resubmission. Terminated only its identified orphan owner PostgreSQL backend after submitter exit; before/after receipts in round25-g2-static06-orphan-lock.json and grader-recovery.json. Reporting EvaluationState now retries one identical compare-and-swap only if the original revision remains, with changed-revision refusal;22 focused tests pass. All500 nonbudget frozen runtime files still match. No investigator/query/model/prompt changes.

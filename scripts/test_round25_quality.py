@@ -117,6 +117,33 @@ class CohortTests(unittest.TestCase):
 
 
 class EvaluationStateTests(unittest.TestCase):
+    def test_dropped_update_retries_same_revision_only_when_not_committed(self):
+        from round25_quality import EvaluationState
+        calls=[];events=[]
+        old={'status':'ADMITTED','requests':[{'custom_id':'fixed'}]}
+        new=dict(old,status='SUBMITTED',receipt={'id':'existing-batch'})
+        class State:
+            def put(self,namespace,identity,body,*,revision=None):
+                calls.append((namespace,identity,json.dumps(body,sort_keys=True),revision))
+                if len(calls)==1:raise ConnectionError('before update committed')
+                return {'revision':1,'body':body}
+            def get(self,namespace,identity):return {'revision':0,'body':old}
+        result=EvaluationState(State(),events.append).put('independent_evaluation_batches','batch',new,revision=0)
+        self.assertEqual(calls[0],calls[1])
+        self.assertEqual(result['body'],new)
+        self.assertEqual(events[0]['event'],'GRADING_DOCUMENT_RETRY_AFTER_UNCHANGED_REVISION')
+
+    def test_concurrent_grading_revision_is_not_overwritten_after_drop(self):
+        from round25_quality import EvaluationState
+        class State:
+            writes=0
+            def put(self,*args,**kwargs):self.writes+=1;raise ConnectionError('drop')
+            def get(self,*args):return {'revision':2,'body':{'other':True}}
+        state=State()
+        with self.assertRaises(ConnectionError):
+            EvaluationState(state).put('independent_evaluation_batches','batch',{'status':'SUBMITTED'},revision=0)
+        self.assertEqual(state.writes,1)
+
     def test_lost_commit_ack_does_not_repeat_write_or_provider(self):
         from round25_quality import EvaluationState
         body={'requests':[{'custom_id':'fixed','params':{'prompt':'unchanged'}}]}
