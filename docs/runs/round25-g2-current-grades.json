@@ -2,46 +2,46 @@
   "official_primary": {
     "all_three": {
       "correct": 12,
-      "total": 15,
-      "accuracy": 0.8,
-      "lower": 0.5481455128483065,
-      "upper": 0.9295245065301844,
+      "total": 18,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.43749467295945105,
+      "upper": 0.837212252491663,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 12,
-      "total": 15,
-      "accuracy": 0.8,
-      "lower": 0.5481455128483065,
-      "upper": 0.9295245065301844,
+      "total": 18,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.43749467295945105,
+      "upper": 0.837212252491663,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "correct": 14,
+      "total": 18,
+      "accuracy": 0.7777777777777778,
+      "lower": 0.5478541568378739,
+      "upper": 0.9099907189139831,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 12,
-      "total": 15,
-      "accuracy": 0.8,
-      "lower": 0.5481455128483065,
-      "upper": 0.9295245065301844,
+      "total": 18,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.43749467295945105,
+      "upper": 0.837212252491663,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 15,
+      "total": 18,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.20388330103584862,
+      "upper": 0.17587922364665765,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -49,46 +49,46 @@
   "strict": {
     "all_three": {
       "correct": 12,
-      "total": 15,
-      "accuracy": 0.8,
-      "lower": 0.5481455128483065,
-      "upper": 0.9295245065301844,
+      "total": 18,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.43749467295945105,
+      "upper": 0.837212252491663,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 12,
-      "total": 15,
-      "accuracy": 0.8,
-      "lower": 0.5481455128483065,
-      "upper": 0.9295245065301844,
+      "total": 18,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.43749467295945105,
+      "upper": 0.837212252491663,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "total": 18,
+      "accuracy": 0.7222222222222222,
+      "lower": 0.4912734343970254,
+      "upper": 0.8750024662044601,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 12,
-      "total": 15,
-      "accuracy": 0.8,
-      "lower": 0.5481455128483065,
-      "upper": 0.9295245065301844,
+      "total": 18,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.43749467295945105,
+      "upper": 0.837212252491663,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 15,
+      "total": 18,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.20388330103584862,
+      "upper": 0.17587922364665765,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -96,46 +96,46 @@
   "raw_reviewed": {
     "all_three": {
       "correct": 12,
-      "total": 15,
-      "accuracy": 0.8,
-      "lower": 0.5481455128483065,
-      "upper": 0.9295245065301844,
+      "total": 18,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.43749467295945105,
+      "upper": 0.837212252491663,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 12,
-      "total": 15,
-      "accuracy": 0.8,
-      "lower": 0.5481455128483065,
-      "upper": 0.9295245065301844,
+      "total": 18,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.43749467295945105,
+      "upper": 0.837212252491663,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "total": 18,
+      "accuracy": 0.7222222222222222,
+      "lower": 0.4912734343970254,
+      "upper": 0.8750024662044601,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 12,
-      "total": 15,
-      "accuracy": 0.8,
-      "lower": 0.5481455128483065,
-      "upper": 0.9295245065301844,
+      "total": 18,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.43749467295945105,
+      "upper": 0.837212252491663,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 15,
+      "total": 18,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.20388330103584862,
+      "upper": 0.17587922364665765,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,50 +143,50 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 15,
+  "completed_graded": 18,
   "primary": {
     "all_three": {
       "correct": 12,
-      "total": 15,
-      "accuracy": 0.8,
-      "lower": 0.5481455128483065,
-      "upper": 0.9295245065301844,
+      "total": 18,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.43749467295945105,
+      "upper": 0.837212252491663,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 12,
-      "total": 15,
-      "accuracy": 0.8,
-      "lower": 0.5481455128483065,
-      "upper": 0.9295245065301844,
+      "total": 18,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.43749467295945105,
+      "upper": 0.837212252491663,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "correct": 14,
+      "total": 18,
+      "accuracy": 0.7777777777777778,
+      "lower": 0.5478541568378739,
+      "upper": 0.9099907189139831,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 12,
-      "total": 15,
-      "accuracy": 0.8,
-      "lower": 0.5481455128483065,
-      "upper": 0.9295245065301844,
+      "total": 18,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.43749467295945105,
+      "upper": 0.837212252491663,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 15,
+      "total": 18,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.20388330103584862,
+      "upper": 0.17587922364665765,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -194,56 +194,56 @@
   "secondary": {
     "all_three": {
       "correct": 12,
-      "total": 15,
-      "accuracy": 0.8,
-      "lower": 0.5481455128483065,
-      "upper": 0.9295245065301844,
+      "total": 18,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.43749467295945105,
+      "upper": 0.837212252491663,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 12,
-      "total": 15,
-      "accuracy": 0.8,
-      "lower": 0.5481455128483065,
-      "upper": 0.9295245065301844,
+      "total": 18,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.43749467295945105,
+      "upper": 0.837212252491663,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "total": 18,
+      "accuracy": 0.7222222222222222,
+      "lower": 0.4912734343970254,
+      "upper": 0.8750024662044601,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 12,
-      "total": 15,
-      "accuracy": 0.8,
-      "lower": 0.5481455128483065,
-      "upper": 0.9295245065301844,
+      "total": 18,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.43749467295945105,
+      "upper": 0.837212252491663,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 15,
+      "total": 18,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.20388330103584862,
+      "upper": 0.17587922364665765,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 15,
-    "total": 15,
-    "accuracy": 1.0,
-    "lower": 0.7961166989641515,
-    "upper": 1.0,
+    "correct": 17,
+    "total": 18,
+    "accuracy": 0.9444444444444444,
+    "lower": 0.7424269921812741,
+    "upper": 0.990124809021697,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -255,14 +255,36 @@
   ],
   "full_assessment_agreement": {
     "correct": 3,
-    "total": 15,
-    "accuracy": 0.2,
-    "lower": 0.07047549346981563,
-    "upper": 0.45185448715169363,
+    "total": 18,
+    "accuracy": 0.16666666666666666,
+    "lower": 0.05836576805861446,
+    "upper": 0.39222038103915724,
     "confidence": 0.95,
     "method": "Wilson"
   },
   "assessment_disagreements": [
+    {
+      "ticket": "v4-access-export-1",
+      "fields": [
+        "handoff_quality",
+        "failing_step"
+      ]
+    },
+    {
+      "ticket": "v4-access-export-2",
+      "fields": [
+        "layer_match",
+        "handoff_quality",
+        "failing_step"
+      ]
+    },
+    {
+      "ticket": "v4-access-export-3",
+      "fields": [
+        "handoff_quality",
+        "failing_step"
+      ]
+    },
     {
       "ticket": "v4-failed-billing-transform-1",
       "fields": [
@@ -339,6 +361,228 @@
     }
   ],
   "handoff_disagreements": [
+    {
+      "ticket": "v4-access-export-1",
+      "class": "v4-access-export",
+      "fixture": "access",
+      "estate": "billing",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The agent did not reach a verdict; it stopped at NEEDS_INPUT to ask the user which reported figure the question is about. This misreads the ticket: the user explicitly stated neither sign-in has had a role change and asked why two sign-ins get different export results from the same query. The ticket is unambiguous \u2014 the discrepancy is 10 vs 25, both figures stated clearly. The agent failed at the intake/triage step by treating an unambiguous question as ambiguous rather than proceeding to investigate the access-control layer (per-sign-in reader mapping on the export app). No layer or cause was identified. Verdict is missing (NEEDS_INPUT vs expected 'access difference'). Layer is not identified (application export row access via reader mapping). Cause is not identified (per-sign-in reader mapping filters different row sets). Handoff scores 1: the clarification question itself is clear and rerunnable in principle, but it is unnecessary given the ticket text, so the stopping point is not well-reasoned.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "asked the user",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer stopped at NEEDS_INPUT (AMBIGUOUS_PRIMARY_FIGURE) and asked the user which reported figure they meant, offering 10 or 25. The ticket was not ambiguous. It says the question is not about any report card amount. It is about app.round22_access_export for record case_id1, where two sign-ins got different results (10 with 1 row vs 25 with 2 rows) and neither had a role change. The expected answer is an 'access difference' verdict in the application export layer (current-user row access, not the report or semantic model). The named cause is a per-sign-in reader mapping (readers_id 1970106059) that filters the owned export (rows_id 1938105945). The delivered answer gives no verdict, no layer and no cause, so all three score zero. Treating 10 and 25 as rival candidates for one figure misreads them; they are the two users' different results, which is the symptom to investigate. It is not harmful: no cause was stated as fact. Handoff quality is 0: no queries were run or recorded, the stop is null, the handoff is empty, and no next checks are suggested (for example, checking the export's reader mapping or row-level filter for the two sign-ins). The first failing step is asking the user a clarification the ticket had already answered.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-access01",
+      "outcome_sha256": "30e6d6d1df08ab861701a44ce9897c5b4d2162d76f5add04226c1becadeeac82",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 81507,
+      "physical_requests": 0,
+      "model_calls": null,
+      "timing_group": "holds",
+      "expected_verdict_class": "access difference",
+      "raw_review": {
+        "cost_microdollars": 43047,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "asked the user",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved record shows: the agent stopped with status NEEDS_INPUT, code AMBIGUOUS_PRIMARY_FIGURE, and asked \"Which reported figure is the question about?\" with choices 10 and 25. Its handoff and stop fields are null. In the saved evidence, only the intake step is filled in. Triage, queries and evidence are all null, so nothing was investigated. Intake did fill in the record (case_id1) and classified the ticket as OTHERS_SEE_DIFFERENT_NUMBER. That matches the ticket, which says the question is not about a report card amount. It is about app.round22_access_export for case_id1: orderops_investigator sees quantity 10 with 1 row, dia-investigator-round19 sees 25 with 2 rows, and neither sign-in had a role change.\n\nThe sealed expectation is a verdict of \"access difference\", in the application export layer (current-user row access, not the report or semantic model). The named cause is a per-sign-in reader mapping (readers_id 1970106059) that filters the export rows (rows_id 1938105945). The saved answer gives no verdict, no layer and no cause, so all three fail. Under the all-three rule this is a zero, and partial is false. It is not harmful because no cause was stated as fact. The agent was not being honestly cautious, either: 10 and 25 are the two users' different results, which is the symptom to explain, not two candidate figures to choose between.\n\nDisputed points:\n(1) Handoff quality. The primary grader gives 1 because the question is clear and could be rerun. But the question doesn't move the case forward: answering 10 or 25 doesn't help explain why the two sign-ins differ. There are no queries, no evidence and no suggested next check, such as looking at the export's reader mapping or row filter for each sign-in. Handoff quality is 0, as the secondary grader says.\n(2) Failing step. Intake extracted the record and classified the issue reasonably. The first wrong action was asking the user for a clarification the ticket had already answered. So the failing step is \"asked the user\", as the secondary grader says, rather than \"intake\".\n\nBoth graders agree on verdict, layer, cause, harm and partial, and they are right on those. The secondary grader is also right on the two disputed points, so the secondary grader wins.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "30e6d6d1df08ab861701a44ce9897c5b4d2162d76f5add04226c1becadeeac82",
+        "reason": "What the saved record shows: the agent stopped with status NEEDS_INPUT, code AMBIGUOUS_PRIMARY_FIGURE, and asked \"Which reported figure is the question about?\" with choices 10 and 25. Its handoff and stop fields are null. In the saved evidence, only the intake step is filled in. Triage, queries and evidence are all null, so nothing was investigated. Intake did fill in the record (case_id1) and classified the ticket as OTHERS_SEE_DIFFERENT_NUMBER. That matches the ticket, which says the question is not about a report card amount. It is about app.round22_access_export for case_id1: orderops_investigator sees quantity 10 with 1 row, dia-investigator-round19 sees 25 with 2 rows, and neither sign-in had a role change.\n\nThe sealed expectation is a verdict of \"access difference\", in the application export layer (current-user row access, not the report or semantic model). The named cause is a per-sign-in reader mapping (readers_id 1970106059) that filters the export rows (rows_id 1938105945). The saved answer gives no verdict, no layer and no cause, so all three fail. Under the all-three rule this is a zero, and partial is false. It is not harmful because no cause was stated as fact. The agent was not being honestly cautious, either: 10 and 25 are the two users' different results, which is the symptom to explain, not two candidate figures to choose between.\n\nDisputed points:\n(1) Handoff quality. The primary grader gives 1 because the question is clear and could be rerun. But the question doesn't move the case forward: answering 10 or 25 doesn't help explain why the two sign-ins differ. There are no queries, no evidence and no suggested next check, such as looking at the export's reader mapping or row filter for each sign-in. Handoff quality is 0, as the secondary grader says.\n(2) Failing step. Intake extracted the record and classified the issue reasonably. The first wrong action was asking the user for a clarification the ticket had already answered. So the failing step is \"asked the user\", as the secondary grader says, rather than \"intake\".\n\nBoth graders agree on verdict, layer, cause, harm and partial, and they are right on those. The secondary grader is also right on the two disputed points, so the secondary grader wins.",
+        "source_sha256": "d3aced698c7127cbf91b2200f99e707f7bc8f40778502627003fbce60cd589a3",
+        "ticket": "v4-access-export-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 2993,
+          "output_tokens": 1334,
+          "output_tokens_details": {
+            "thinking_tokens": 334
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-access-export-2",
+      "class": "v4-access-export",
+      "fixture": "access",
+      "estate": "billing",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong evidence",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer is UNRESOLVED with no stated cause, so verdict_match and cause_match are both false. Layer is effectively matched: the agent correctly identified the application export (app.round22_access_export) with per-sign-in row filtering as the relevant layer, consistent with 'application export (current-user row access)'. However, the agent never reached a verdict of 'access difference' \u2014 it stopped at TOOL_OR_TIME_LIMIT after query rejections without confirming the reader mapping cause. The expected cause is the per-sign-in reader mapping filtering rows differently for the two sign-ins; the delivered answer names no cause. The stopping point was query validation failures on the access tables (round22_access_readers, round22_access_rows), which are the exact tables needed to confirm the cause. Handoff quality is 2: the next_checks list is concrete and rerunnable (specific layer IDs and query IDs with error reasons), the stopping point is clearly named, and the ruled-out list and triage path are well-documented, giving a successor a clear path forward. No harmful incorrect cause was stated.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected: verdict 'access difference'. The split point is the application export app.round22_access_export with current-user row access, not the Subscription Billing report or model. The cause is a per-sign-in reader mapping (app.round22_access_readers) that filters the visible rows, so orderops_investigator sees 10 (1 row) and dia-investigator-round19 sees 25 (2 rows) with no role change. Delivered: UNRESOLVED with stop TOOL_OR_TIME_LIMIT, and it states no verdict, layer or cause. All three dimensions therefore score zero; the grading rule also says a budget stop is not a successful technical answer. It is not harmful: the answer honestly says no cause was established and makes no incorrect causal claim. First failing step is query validation. The agent did aim at the right objects (round22_access_rows joined to round22_access_readers on visibility_group, filtered to the two reader names). But the first diagnostic query was rejected before it ran because the validator does not accept the N'...' (National) string literals. The four later queries, which re-target round22_access_readers and round22_access_rows, were all rejected as 'SQL object unavailable / wrong column or table', so no evidence was gathered. Triage pointed at an unrelated failed pipeline run (BuildSilverAndGold / controlled fixture failure) and SECURITY_PRESENCE was unavailable. The agent did not follow that pointer, though, so triage was not the step that derailed it. Handoff quality is 1. Good: all query text is kept verbatim, with error types, and the stopping point is clear. Weak: the next checks are mostly opaque 'check unread layer native:<hash>' items plus restatements of the errors. They don't suggest the obvious fixes: rewriting the query without N'' literals, checking that the readers and rows objects exist and can be read under the diagnostic identity, or comparing visible rows per sign-in. The queries as written would fail again if rerun.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-access01",
+      "outcome_sha256": "3cdaf7ab85b237dc0ce64dc2bd7653e2ed72d1fea38d5306134ea46b16da196a",
+      "status": "UNRESOLVED",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": 218.167820693,
+      "investigation_cost_microdollars": 2164325,
+      "physical_requests": 20,
+      "model_calls": 8,
+      "timing_group": "holds",
+      "expected_verdict_class": "access difference",
+      "raw_review": {
+        "cost_microdollars": 2028991,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "query validation",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "The saved answer is status UNRESOLVED with stop TOOL_OR_TIME_LIMIT. Its business text says only that \"the checks did not establish a cause within this ticket's limits.\" The sealed expectation is the verdict \"access difference\": the application export app.round22_access_export filters rows through a per-sign-in reader mapping.\n\nThe capture shows the agent did find the right objects. It retrieved the retained view definition, which LEFT JOINs app.round22_access_rows to app.round22_access_readers on visibility_group and on reader_name = CURRENT_USER. It also drafted a correct finding, \"access difference\". But both submit_finding calls were rejected: the first failed schema validation (a ValidationError on the `checked` IDs) and the second returned FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING. That draft finding therefore never became the delivered answer.\n\nThe delivered answer states no verdict, no layer split and no cause, so all three dimensions score false. A rejected draft and a working trace do not count as a delivered layer, so I disagree with the primary grader's layer_match=true. The all-three rule scores the answer zero; partial is false. The answer is not harmful because it claims nothing incorrect. It explicitly declines to blame the failed warehouse run.\n\nFailing step:\n- The first diagnostic query was rejected by the validator before it ran, because of the N'...' (National) string literals.\n- The four later reads of round22_access_readers and round22_access_rows were rejected as \"SQL object unavailable / view dependencies not validated\".\n- The query correction limit was then reached.\n\nThat makes the failing step query validation, not \"wrong evidence\" as the primary grader said. The evidence the agent gathered (the view definition) was correct; it just could not confirm row values.\n\nHandoff quality is 1. The query text and error records are kept and the stopping point is clear. But next_checks are mostly opaque items like \"check unread layer native:<hash>\" plus restated errors, ruled_out is empty, and nothing suggests a concrete fix: removing the N'' literals, checking that the reader and rows tables can be read, or comparing the reader mappings for each sign-in.\n\nThe secondary grader's judgment is correct on every field.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "3cdaf7ab85b237dc0ce64dc2bd7653e2ed72d1fea38d5306134ea46b16da196a",
+        "reason": "The saved answer is status UNRESOLVED with stop TOOL_OR_TIME_LIMIT. Its business text says only that \"the checks did not establish a cause within this ticket's limits.\" The sealed expectation is the verdict \"access difference\": the application export app.round22_access_export filters rows through a per-sign-in reader mapping.\n\nThe capture shows the agent did find the right objects. It retrieved the retained view definition, which LEFT JOINs app.round22_access_rows to app.round22_access_readers on visibility_group and on reader_name = CURRENT_USER. It also drafted a correct finding, \"access difference\". But both submit_finding calls were rejected: the first failed schema validation (a ValidationError on the `checked` IDs) and the second returned FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING. That draft finding therefore never became the delivered answer.\n\nThe delivered answer states no verdict, no layer split and no cause, so all three dimensions score false. A rejected draft and a working trace do not count as a delivered layer, so I disagree with the primary grader's layer_match=true. The all-three rule scores the answer zero; partial is false. The answer is not harmful because it claims nothing incorrect. It explicitly declines to blame the failed warehouse run.\n\nFailing step:\n- The first diagnostic query was rejected by the validator before it ran, because of the N'...' (National) string literals.\n- The four later reads of round22_access_readers and round22_access_rows were rejected as \"SQL object unavailable / view dependencies not validated\".\n- The query correction limit was then reached.\n\nThat makes the failing step query validation, not \"wrong evidence\" as the primary grader said. The evidence the agent gathered (the view definition) was correct; it just could not confirm row values.\n\nHandoff quality is 1. The query text and error records are kept and the stopping point is clear. But next_checks are mostly opaque items like \"check unread layer native:<hash>\" plus restated errors, ruled_out is empty, and nothing suggests a concrete fix: removing the N'' literals, checking that the reader and rows tables can be read, or comparing the reader mappings for each sign-in.\n\nThe secondary grader's judgment is correct on every field.",
+        "source_sha256": "f7a7ea2b0c3e97277da0a5d7db63f623463c3d4b8eceadf095fa7c1a46653462",
+        "ticket": "v4-access-export-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 498804,
+          "output_tokens": 1469,
+          "output_tokens_details": {
+            "thinking_tokens": 483
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-access-export-3",
+      "class": "v4-access-export",
+      "fixture": "access",
+      "estate": "billing",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected verdict: 'access difference' with layer 'application export (current-user row access)' and cause 'per-sign-in reader mapping filters rows so each identity sees only its own mapped rows'. The delivered answer is UNRESOLVED with no verdict, no layer identification, and no named cause. The agent correctly ran queries and found evidence (round22_access_readers showing reader_name/visibility_group mappings for both users, and row-level data confirming different visibility groups), which was sufficient to establish the cause. The cause was visible in the query results: orderops_investigator maps to visibility_group 0 and 1, dia-investigator-round19 maps to 0 only (or similar split), explaining the different totals. The agent stopped at TOOL_OR_TIME_LIMIT without drawing the conclusion. Layer is not matched because no layer was stated. Cause is not matched because no cause was named. The handoff is rated 2: it names specific unread layers (native:4aae8dbb, native:ac3ebe9, native:f87556d4), flags SQL object unavailable queries with IDs for review, and provides a clear stopping point with actionable next steps including the FAILED job run to investigate first.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected: verdict 'access difference', at the application export layer (app.round22_access_export with current-user row access), not the Subscription Billing report or model. The expected cause is a per-sign-in reader mapping (round22_access_readers) that filters which rows each sign-in can see. Delivered: UNRESOLVED, stopped at TOOL_OR_TIME_LIMIT, with no verdict, layer or cause. So all three components score zero. A budget stop does not count as a correct blocked/not-found reason, because the evidence was reachable. The answer is not harmful because it states no cause with confidence. On failing step: intake was correct (READY, the right record, the export question kept and no report measure swapped in). Triage pointed at a failed pipeline run (BuildSilverAndGold 'bronze' schema error), which has nothing to do with an access question. The agent did not follow that lead, though, and went to access queries. The first concrete failure was query validation: three queries against the access tables and one against the export object were rejected before being sent ('SQL object unavailable or view dependencies not validated' / wrong column or table). One query did succeed. It returned the reader mapping: orderops_investigator maps to visibility_group 0 only, and dia-investigator-round19 maps to groups 0 and 1. That directly supports the expected cause, but it was never turned into a conclusion. The follow-up per-group rows query failed on 'Source transport unavailable'. Handoff quality is 1. Queries are kept verbatim and can be rerun, and the stopping point is stated clearly. However, the next checks are vague: opaque 'check unread layer native:<hash>' items and 'review query' items that just repeat the error messages. The handoff does not mention the mapping evidence it already had as the lead to follow, and its ruled_out list is empty.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-access01",
+      "outcome_sha256": "0d0a44629aaac4c10b4ec7b5a7f73038f3f53cf33db835522c68cdf5f6fc9dcc",
+      "status": "UNRESOLVED",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": 184.25650716999996,
+      "investigation_cost_microdollars": 1845124,
+      "physical_requests": 27,
+      "model_calls": 7,
+      "timing_group": "holds",
+      "expected_verdict_class": "access difference",
+      "raw_review": {
+        "cost_microdollars": 1995652,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "The sealed expectation is an access difference at the application export (app.round22_access_export with current-user row access). The named cause is a per-sign-in reader mapping that limits each identity to its own mapped rows.\n\nThe saved answer is UNRESOLVED with stop reason TOOL_OR_TIME_LIMIT. It gives no verdict, no layer and no cause. Under the all-three rule this scores zero, so partial is false. It is not harmful, because it makes no confident wrong claim and does not substitute a report measure. Both graders agree on all of this.\n\nWhat the raw capture establishes:\n- Intake was READY and kept the export question, so intake did not fail.\n- get_definition returned the retained view text. It LEFT JOINs round22_access_readers on visibility_group and on m.reader_name = CURRENT_USER, then sums units and counts rows only where a mapping exists.\n- Query 5 succeeded. It shows dia-investigator-round19 mapped to visibility groups 0 and 1, and orderops_investigator mapped to group 0 only. That fits the reported 2 rows vs 1 row.\n- Queries 1 to 4 were rejected before dispatch ('SQL object unavailable or view dependencies not validated'). Query 6, the per-group rows read, failed with 'Source transport unavailable'.\n\nWith the CURRENT_USER join in hand, plus a mapping that gives the two sign-ins different groups, the agent had enough evidence to name the cause. It stopped without drawing the conclusion. The decisive failure is therefore the conclusion step. The query rejections were real, but the agent worked around them and still had sufficient evidence. So I side with the primary's 'wrong conclusion' over the secondary's 'query validation'.\n\nHandoff:\n- next_checks are opaque 'check unread layer native:<hash>' items and 'review query' items that only repeat error text.\n- ruled_out is empty.\n- The triage pointer to the failed BuildSilverAndGold run is irrelevant to an access question.\n- Nothing points to the mapping evidence the agent already had.\n- Queries are retained verbatim, which gives some value.\nSo handoff quality is 1, not the primary's 2.\n\nThe primary also misstates the evidence: it says orderops_investigator maps to groups 0 and 1, which is the reverse of the captured result. It also counts the failed-job pointer as actionable.\n\nOn balance the secondary grader is more accurate in substance: correct evidence direction and correct handoff score. Its only weaker call is the failing-step label.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "0d0a44629aaac4c10b4ec7b5a7f73038f3f53cf33db835522c68cdf5f6fc9dcc",
+        "reason": "The sealed expectation is an access difference at the application export (app.round22_access_export with current-user row access). The named cause is a per-sign-in reader mapping that limits each identity to its own mapped rows.\n\nThe saved answer is UNRESOLVED with stop reason TOOL_OR_TIME_LIMIT. It gives no verdict, no layer and no cause. Under the all-three rule this scores zero, so partial is false. It is not harmful, because it makes no confident wrong claim and does not substitute a report measure. Both graders agree on all of this.\n\nWhat the raw capture establishes:\n- Intake was READY and kept the export question, so intake did not fail.\n- get_definition returned the retained view text. It LEFT JOINs round22_access_readers on visibility_group and on m.reader_name = CURRENT_USER, then sums units and counts rows only where a mapping exists.\n- Query 5 succeeded. It shows dia-investigator-round19 mapped to visibility groups 0 and 1, and orderops_investigator mapped to group 0 only. That fits the reported 2 rows vs 1 row.\n- Queries 1 to 4 were rejected before dispatch ('SQL object unavailable or view dependencies not validated'). Query 6, the per-group rows read, failed with 'Source transport unavailable'.\n\nWith the CURRENT_USER join in hand, plus a mapping that gives the two sign-ins different groups, the agent had enough evidence to name the cause. It stopped without drawing the conclusion. The decisive failure is therefore the conclusion step. The query rejections were real, but the agent worked around them and still had sufficient evidence. So I side with the primary's 'wrong conclusion' over the secondary's 'query validation'.\n\nHandoff:\n- next_checks are opaque 'check unread layer native:<hash>' items and 'review query' items that only repeat error text.\n- ruled_out is empty.\n- The triage pointer to the failed BuildSilverAndGold run is irrelevant to an access question.\n- Nothing points to the mapping evidence the agent already had.\n- Queries are retained verbatim, which gives some value.\nSo handoff quality is 1, not the primary's 2.\n\nThe primary also misstates the evidence: it says orderops_investigator maps to groups 0 and 1, which is the reverse of the captured result. It also counts the failed-job pointer as actionable.\n\nOn balance the secondary grader is more accurate in substance: correct evidence direction and correct handoff score. Its only weaker call is the failing-step label.",
+        "source_sha256": "1ec9592a384f3ed20fadba83065b7ed0510a8a317cfb94c0e916924bc5800657",
+        "ticket": "v4-access-export-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 489614,
+          "output_tokens": 1851,
+          "output_tokens_details": {
+            "thinking_tokens": 768
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "mixed"
+      }
+    },
     {
       "ticket": "v4-failed-billing-transform-1",
       "class": "v4-failed-billing-transform",
@@ -1081,6 +1325,246 @@
     }
   ],
   "per_class": {
+    "v4-access-export": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "v4-failed-billing-transform": {
       "official_primary": {
         "all_three": {
@@ -2282,9 +2766,306 @@
       }
     }
   },
-  "disagreements": [],
+  "disagreements": [
+    {
+      "ticket": "v4-access-export-2",
+      "class": "v4-access-export",
+      "fixture": "access",
+      "estate": "billing",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong evidence",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer is UNRESOLVED with no stated cause, so verdict_match and cause_match are both false. Layer is effectively matched: the agent correctly identified the application export (app.round22_access_export) with per-sign-in row filtering as the relevant layer, consistent with 'application export (current-user row access)'. However, the agent never reached a verdict of 'access difference' \u2014 it stopped at TOOL_OR_TIME_LIMIT after query rejections without confirming the reader mapping cause. The expected cause is the per-sign-in reader mapping filtering rows differently for the two sign-ins; the delivered answer names no cause. The stopping point was query validation failures on the access tables (round22_access_readers, round22_access_rows), which are the exact tables needed to confirm the cause. Handoff quality is 2: the next_checks list is concrete and rerunnable (specific layer IDs and query IDs with error reasons), the stopping point is clearly named, and the ruled-out list and triage path are well-documented, giving a successor a clear path forward. No harmful incorrect cause was stated.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected: verdict 'access difference'. The split point is the application export app.round22_access_export with current-user row access, not the Subscription Billing report or model. The cause is a per-sign-in reader mapping (app.round22_access_readers) that filters the visible rows, so orderops_investigator sees 10 (1 row) and dia-investigator-round19 sees 25 (2 rows) with no role change. Delivered: UNRESOLVED with stop TOOL_OR_TIME_LIMIT, and it states no verdict, layer or cause. All three dimensions therefore score zero; the grading rule also says a budget stop is not a successful technical answer. It is not harmful: the answer honestly says no cause was established and makes no incorrect causal claim. First failing step is query validation. The agent did aim at the right objects (round22_access_rows joined to round22_access_readers on visibility_group, filtered to the two reader names). But the first diagnostic query was rejected before it ran because the validator does not accept the N'...' (National) string literals. The four later queries, which re-target round22_access_readers and round22_access_rows, were all rejected as 'SQL object unavailable / wrong column or table', so no evidence was gathered. Triage pointed at an unrelated failed pipeline run (BuildSilverAndGold / controlled fixture failure) and SECURITY_PRESENCE was unavailable. The agent did not follow that pointer, though, so triage was not the step that derailed it. Handoff quality is 1. Good: all query text is kept verbatim, with error types, and the stopping point is clear. Weak: the next checks are mostly opaque 'check unread layer native:<hash>' items plus restatements of the errors. They don't suggest the obvious fixes: rewriting the query without N'' literals, checking that the readers and rows objects exist and can be read under the diagnostic identity, or comparing visible rows per sign-in. The queries as written would fail again if rerun.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-access01",
+      "outcome_sha256": "3cdaf7ab85b237dc0ce64dc2bd7653e2ed72d1fea38d5306134ea46b16da196a",
+      "status": "UNRESOLVED",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": 218.167820693,
+      "investigation_cost_microdollars": 2164325,
+      "physical_requests": 20,
+      "model_calls": 8,
+      "timing_group": "holds",
+      "expected_verdict_class": "access difference",
+      "raw_review": {
+        "cost_microdollars": 2028991,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "query validation",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "The saved answer is status UNRESOLVED with stop TOOL_OR_TIME_LIMIT. Its business text says only that \"the checks did not establish a cause within this ticket's limits.\" The sealed expectation is the verdict \"access difference\": the application export app.round22_access_export filters rows through a per-sign-in reader mapping.\n\nThe capture shows the agent did find the right objects. It retrieved the retained view definition, which LEFT JOINs app.round22_access_rows to app.round22_access_readers on visibility_group and on reader_name = CURRENT_USER. It also drafted a correct finding, \"access difference\". But both submit_finding calls were rejected: the first failed schema validation (a ValidationError on the `checked` IDs) and the second returned FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING. That draft finding therefore never became the delivered answer.\n\nThe delivered answer states no verdict, no layer split and no cause, so all three dimensions score false. A rejected draft and a working trace do not count as a delivered layer, so I disagree with the primary grader's layer_match=true. The all-three rule scores the answer zero; partial is false. The answer is not harmful because it claims nothing incorrect. It explicitly declines to blame the failed warehouse run.\n\nFailing step:\n- The first diagnostic query was rejected by the validator before it ran, because of the N'...' (National) string literals.\n- The four later reads of round22_access_readers and round22_access_rows were rejected as \"SQL object unavailable / view dependencies not validated\".\n- The query correction limit was then reached.\n\nThat makes the failing step query validation, not \"wrong evidence\" as the primary grader said. The evidence the agent gathered (the view definition) was correct; it just could not confirm row values.\n\nHandoff quality is 1. The query text and error records are kept and the stopping point is clear. But next_checks are mostly opaque items like \"check unread layer native:<hash>\" plus restated errors, ruled_out is empty, and nothing suggests a concrete fix: removing the N'' literals, checking that the reader and rows tables can be read, or comparing the reader mappings for each sign-in.\n\nThe secondary grader's judgment is correct on every field.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "3cdaf7ab85b237dc0ce64dc2bd7653e2ed72d1fea38d5306134ea46b16da196a",
+        "reason": "The saved answer is status UNRESOLVED with stop TOOL_OR_TIME_LIMIT. Its business text says only that \"the checks did not establish a cause within this ticket's limits.\" The sealed expectation is the verdict \"access difference\": the application export app.round22_access_export filters rows through a per-sign-in reader mapping.\n\nThe capture shows the agent did find the right objects. It retrieved the retained view definition, which LEFT JOINs app.round22_access_rows to app.round22_access_readers on visibility_group and on reader_name = CURRENT_USER. It also drafted a correct finding, \"access difference\". But both submit_finding calls were rejected: the first failed schema validation (a ValidationError on the `checked` IDs) and the second returned FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING. That draft finding therefore never became the delivered answer.\n\nThe delivered answer states no verdict, no layer split and no cause, so all three dimensions score false. A rejected draft and a working trace do not count as a delivered layer, so I disagree with the primary grader's layer_match=true. The all-three rule scores the answer zero; partial is false. The answer is not harmful because it claims nothing incorrect. It explicitly declines to blame the failed warehouse run.\n\nFailing step:\n- The first diagnostic query was rejected by the validator before it ran, because of the N'...' (National) string literals.\n- The four later reads of round22_access_readers and round22_access_rows were rejected as \"SQL object unavailable / view dependencies not validated\".\n- The query correction limit was then reached.\n\nThat makes the failing step query validation, not \"wrong evidence\" as the primary grader said. The evidence the agent gathered (the view definition) was correct; it just could not confirm row values.\n\nHandoff quality is 1. The query text and error records are kept and the stopping point is clear. But next_checks are mostly opaque items like \"check unread layer native:<hash>\" plus restated errors, ruled_out is empty, and nothing suggests a concrete fix: removing the N'' literals, checking that the reader and rows tables can be read, or comparing the reader mappings for each sign-in.\n\nThe secondary grader's judgment is correct on every field.",
+        "source_sha256": "f7a7ea2b0c3e97277da0a5d7db63f623463c3d4b8eceadf095fa7c1a46653462",
+        "ticket": "v4-access-export-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 498804,
+          "output_tokens": 1469,
+          "output_tokens_details": {
+            "thinking_tokens": 483
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    }
+  ],
   "cohort": "g2",
   "cases": [
+    {
+      "ticket": "v4-access-export-1",
+      "class": "v4-access-export",
+      "fixture": "access",
+      "estate": "billing",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The agent did not reach a verdict; it stopped at NEEDS_INPUT to ask the user which reported figure the question is about. This misreads the ticket: the user explicitly stated neither sign-in has had a role change and asked why two sign-ins get different export results from the same query. The ticket is unambiguous \u2014 the discrepancy is 10 vs 25, both figures stated clearly. The agent failed at the intake/triage step by treating an unambiguous question as ambiguous rather than proceeding to investigate the access-control layer (per-sign-in reader mapping on the export app). No layer or cause was identified. Verdict is missing (NEEDS_INPUT vs expected 'access difference'). Layer is not identified (application export row access via reader mapping). Cause is not identified (per-sign-in reader mapping filters different row sets). Handoff scores 1: the clarification question itself is clear and rerunnable in principle, but it is unnecessary given the ticket text, so the stopping point is not well-reasoned.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "asked the user",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer stopped at NEEDS_INPUT (AMBIGUOUS_PRIMARY_FIGURE) and asked the user which reported figure they meant, offering 10 or 25. The ticket was not ambiguous. It says the question is not about any report card amount. It is about app.round22_access_export for record case_id1, where two sign-ins got different results (10 with 1 row vs 25 with 2 rows) and neither had a role change. The expected answer is an 'access difference' verdict in the application export layer (current-user row access, not the report or semantic model). The named cause is a per-sign-in reader mapping (readers_id 1970106059) that filters the owned export (rows_id 1938105945). The delivered answer gives no verdict, no layer and no cause, so all three score zero. Treating 10 and 25 as rival candidates for one figure misreads them; they are the two users' different results, which is the symptom to investigate. It is not harmful: no cause was stated as fact. Handoff quality is 0: no queries were run or recorded, the stop is null, the handoff is empty, and no next checks are suggested (for example, checking the export's reader mapping or row-level filter for the two sign-ins). The first failing step is asking the user a clarification the ticket had already answered.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-access01",
+      "outcome_sha256": "30e6d6d1df08ab861701a44ce9897c5b4d2162d76f5add04226c1becadeeac82",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 81507,
+      "physical_requests": 0,
+      "model_calls": null,
+      "timing_group": "holds",
+      "expected_verdict_class": "access difference",
+      "raw_review": {
+        "cost_microdollars": 43047,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "asked the user",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved record shows: the agent stopped with status NEEDS_INPUT, code AMBIGUOUS_PRIMARY_FIGURE, and asked \"Which reported figure is the question about?\" with choices 10 and 25. Its handoff and stop fields are null. In the saved evidence, only the intake step is filled in. Triage, queries and evidence are all null, so nothing was investigated. Intake did fill in the record (case_id1) and classified the ticket as OTHERS_SEE_DIFFERENT_NUMBER. That matches the ticket, which says the question is not about a report card amount. It is about app.round22_access_export for case_id1: orderops_investigator sees quantity 10 with 1 row, dia-investigator-round19 sees 25 with 2 rows, and neither sign-in had a role change.\n\nThe sealed expectation is a verdict of \"access difference\", in the application export layer (current-user row access, not the report or semantic model). The named cause is a per-sign-in reader mapping (readers_id 1970106059) that filters the export rows (rows_id 1938105945). The saved answer gives no verdict, no layer and no cause, so all three fail. Under the all-three rule this is a zero, and partial is false. It is not harmful because no cause was stated as fact. The agent was not being honestly cautious, either: 10 and 25 are the two users' different results, which is the symptom to explain, not two candidate figures to choose between.\n\nDisputed points:\n(1) Handoff quality. The primary grader gives 1 because the question is clear and could be rerun. But the question doesn't move the case forward: answering 10 or 25 doesn't help explain why the two sign-ins differ. There are no queries, no evidence and no suggested next check, such as looking at the export's reader mapping or row filter for each sign-in. Handoff quality is 0, as the secondary grader says.\n(2) Failing step. Intake extracted the record and classified the issue reasonably. The first wrong action was asking the user for a clarification the ticket had already answered. So the failing step is \"asked the user\", as the secondary grader says, rather than \"intake\".\n\nBoth graders agree on verdict, layer, cause, harm and partial, and they are right on those. The secondary grader is also right on the two disputed points, so the secondary grader wins.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "30e6d6d1df08ab861701a44ce9897c5b4d2162d76f5add04226c1becadeeac82",
+        "reason": "What the saved record shows: the agent stopped with status NEEDS_INPUT, code AMBIGUOUS_PRIMARY_FIGURE, and asked \"Which reported figure is the question about?\" with choices 10 and 25. Its handoff and stop fields are null. In the saved evidence, only the intake step is filled in. Triage, queries and evidence are all null, so nothing was investigated. Intake did fill in the record (case_id1) and classified the ticket as OTHERS_SEE_DIFFERENT_NUMBER. That matches the ticket, which says the question is not about a report card amount. It is about app.round22_access_export for case_id1: orderops_investigator sees quantity 10 with 1 row, dia-investigator-round19 sees 25 with 2 rows, and neither sign-in had a role change.\n\nThe sealed expectation is a verdict of \"access difference\", in the application export layer (current-user row access, not the report or semantic model). The named cause is a per-sign-in reader mapping (readers_id 1970106059) that filters the export rows (rows_id 1938105945). The saved answer gives no verdict, no layer and no cause, so all three fail. Under the all-three rule this is a zero, and partial is false. It is not harmful because no cause was stated as fact. The agent was not being honestly cautious, either: 10 and 25 are the two users' different results, which is the symptom to explain, not two candidate figures to choose between.\n\nDisputed points:\n(1) Handoff quality. The primary grader gives 1 because the question is clear and could be rerun. But the question doesn't move the case forward: answering 10 or 25 doesn't help explain why the two sign-ins differ. There are no queries, no evidence and no suggested next check, such as looking at the export's reader mapping or row filter for each sign-in. Handoff quality is 0, as the secondary grader says.\n(2) Failing step. Intake extracted the record and classified the issue reasonably. The first wrong action was asking the user for a clarification the ticket had already answered. So the failing step is \"asked the user\", as the secondary grader says, rather than \"intake\".\n\nBoth graders agree on verdict, layer, cause, harm and partial, and they are right on those. The secondary grader is also right on the two disputed points, so the secondary grader wins.",
+        "source_sha256": "d3aced698c7127cbf91b2200f99e707f7bc8f40778502627003fbce60cd589a3",
+        "ticket": "v4-access-export-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 2993,
+          "output_tokens": 1334,
+          "output_tokens_details": {
+            "thinking_tokens": 334
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-access-export-2",
+      "class": "v4-access-export",
+      "fixture": "access",
+      "estate": "billing",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong evidence",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer is UNRESOLVED with no stated cause, so verdict_match and cause_match are both false. Layer is effectively matched: the agent correctly identified the application export (app.round22_access_export) with per-sign-in row filtering as the relevant layer, consistent with 'application export (current-user row access)'. However, the agent never reached a verdict of 'access difference' \u2014 it stopped at TOOL_OR_TIME_LIMIT after query rejections without confirming the reader mapping cause. The expected cause is the per-sign-in reader mapping filtering rows differently for the two sign-ins; the delivered answer names no cause. The stopping point was query validation failures on the access tables (round22_access_readers, round22_access_rows), which are the exact tables needed to confirm the cause. Handoff quality is 2: the next_checks list is concrete and rerunnable (specific layer IDs and query IDs with error reasons), the stopping point is clearly named, and the ruled-out list and triage path are well-documented, giving a successor a clear path forward. No harmful incorrect cause was stated.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected: verdict 'access difference'. The split point is the application export app.round22_access_export with current-user row access, not the Subscription Billing report or model. The cause is a per-sign-in reader mapping (app.round22_access_readers) that filters the visible rows, so orderops_investigator sees 10 (1 row) and dia-investigator-round19 sees 25 (2 rows) with no role change. Delivered: UNRESOLVED with stop TOOL_OR_TIME_LIMIT, and it states no verdict, layer or cause. All three dimensions therefore score zero; the grading rule also says a budget stop is not a successful technical answer. It is not harmful: the answer honestly says no cause was established and makes no incorrect causal claim. First failing step is query validation. The agent did aim at the right objects (round22_access_rows joined to round22_access_readers on visibility_group, filtered to the two reader names). But the first diagnostic query was rejected before it ran because the validator does not accept the N'...' (National) string literals. The four later queries, which re-target round22_access_readers and round22_access_rows, were all rejected as 'SQL object unavailable / wrong column or table', so no evidence was gathered. Triage pointed at an unrelated failed pipeline run (BuildSilverAndGold / controlled fixture failure) and SECURITY_PRESENCE was unavailable. The agent did not follow that pointer, though, so triage was not the step that derailed it. Handoff quality is 1. Good: all query text is kept verbatim, with error types, and the stopping point is clear. Weak: the next checks are mostly opaque 'check unread layer native:<hash>' items plus restatements of the errors. They don't suggest the obvious fixes: rewriting the query without N'' literals, checking that the readers and rows objects exist and can be read under the diagnostic identity, or comparing visible rows per sign-in. The queries as written would fail again if rerun.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-access01",
+      "outcome_sha256": "3cdaf7ab85b237dc0ce64dc2bd7653e2ed72d1fea38d5306134ea46b16da196a",
+      "status": "UNRESOLVED",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": 218.167820693,
+      "investigation_cost_microdollars": 2164325,
+      "physical_requests": 20,
+      "model_calls": 8,
+      "timing_group": "holds",
+      "expected_verdict_class": "access difference",
+      "raw_review": {
+        "cost_microdollars": 2028991,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "query validation",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "The saved answer is status UNRESOLVED with stop TOOL_OR_TIME_LIMIT. Its business text says only that \"the checks did not establish a cause within this ticket's limits.\" The sealed expectation is the verdict \"access difference\": the application export app.round22_access_export filters rows through a per-sign-in reader mapping.\n\nThe capture shows the agent did find the right objects. It retrieved the retained view definition, which LEFT JOINs app.round22_access_rows to app.round22_access_readers on visibility_group and on reader_name = CURRENT_USER. It also drafted a correct finding, \"access difference\". But both submit_finding calls were rejected: the first failed schema validation (a ValidationError on the `checked` IDs) and the second returned FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING. That draft finding therefore never became the delivered answer.\n\nThe delivered answer states no verdict, no layer split and no cause, so all three dimensions score false. A rejected draft and a working trace do not count as a delivered layer, so I disagree with the primary grader's layer_match=true. The all-three rule scores the answer zero; partial is false. The answer is not harmful because it claims nothing incorrect. It explicitly declines to blame the failed warehouse run.\n\nFailing step:\n- The first diagnostic query was rejected by the validator before it ran, because of the N'...' (National) string literals.\n- The four later reads of round22_access_readers and round22_access_rows were rejected as \"SQL object unavailable / view dependencies not validated\".\n- The query correction limit was then reached.\n\nThat makes the failing step query validation, not \"wrong evidence\" as the primary grader said. The evidence the agent gathered (the view definition) was correct; it just could not confirm row values.\n\nHandoff quality is 1. The query text and error records are kept and the stopping point is clear. But next_checks are mostly opaque items like \"check unread layer native:<hash>\" plus restated errors, ruled_out is empty, and nothing suggests a concrete fix: removing the N'' literals, checking that the reader and rows tables can be read, or comparing the reader mappings for each sign-in.\n\nThe secondary grader's judgment is correct on every field.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "3cdaf7ab85b237dc0ce64dc2bd7653e2ed72d1fea38d5306134ea46b16da196a",
+        "reason": "The saved answer is status UNRESOLVED with stop TOOL_OR_TIME_LIMIT. Its business text says only that \"the checks did not establish a cause within this ticket's limits.\" The sealed expectation is the verdict \"access difference\": the application export app.round22_access_export filters rows through a per-sign-in reader mapping.\n\nThe capture shows the agent did find the right objects. It retrieved the retained view definition, which LEFT JOINs app.round22_access_rows to app.round22_access_readers on visibility_group and on reader_name = CURRENT_USER. It also drafted a correct finding, \"access difference\". But both submit_finding calls were rejected: the first failed schema validation (a ValidationError on the `checked` IDs) and the second returned FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING. That draft finding therefore never became the delivered answer.\n\nThe delivered answer states no verdict, no layer split and no cause, so all three dimensions score false. A rejected draft and a working trace do not count as a delivered layer, so I disagree with the primary grader's layer_match=true. The all-three rule scores the answer zero; partial is false. The answer is not harmful because it claims nothing incorrect. It explicitly declines to blame the failed warehouse run.\n\nFailing step:\n- The first diagnostic query was rejected by the validator before it ran, because of the N'...' (National) string literals.\n- The four later reads of round22_access_readers and round22_access_rows were rejected as \"SQL object unavailable / view dependencies not validated\".\n- The query correction limit was then reached.\n\nThat makes the failing step query validation, not \"wrong evidence\" as the primary grader said. The evidence the agent gathered (the view definition) was correct; it just could not confirm row values.\n\nHandoff quality is 1. The query text and error records are kept and the stopping point is clear. But next_checks are mostly opaque items like \"check unread layer native:<hash>\" plus restated errors, ruled_out is empty, and nothing suggests a concrete fix: removing the N'' literals, checking that the reader and rows tables can be read, or comparing the reader mappings for each sign-in.\n\nThe secondary grader's judgment is correct on every field.",
+        "source_sha256": "f7a7ea2b0c3e97277da0a5d7db63f623463c3d4b8eceadf095fa7c1a46653462",
+        "ticket": "v4-access-export-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 498804,
+          "output_tokens": 1469,
+          "output_tokens_details": {
+            "thinking_tokens": 483
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-access-export-3",
+      "class": "v4-access-export",
+      "fixture": "access",
+      "estate": "billing",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected verdict: 'access difference' with layer 'application export (current-user row access)' and cause 'per-sign-in reader mapping filters rows so each identity sees only its own mapped rows'. The delivered answer is UNRESOLVED with no verdict, no layer identification, and no named cause. The agent correctly ran queries and found evidence (round22_access_readers showing reader_name/visibility_group mappings for both users, and row-level data confirming different visibility groups), which was sufficient to establish the cause. The cause was visible in the query results: orderops_investigator maps to visibility_group 0 and 1, dia-investigator-round19 maps to 0 only (or similar split), explaining the different totals. The agent stopped at TOOL_OR_TIME_LIMIT without drawing the conclusion. Layer is not matched because no layer was stated. Cause is not matched because no cause was named. The handoff is rated 2: it names specific unread layers (native:4aae8dbb, native:ac3ebe9, native:f87556d4), flags SQL object unavailable queries with IDs for review, and provides a clear stopping point with actionable next steps including the FAILED job run to investigate first.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected: verdict 'access difference', at the application export layer (app.round22_access_export with current-user row access), not the Subscription Billing report or model. The expected cause is a per-sign-in reader mapping (round22_access_readers) that filters which rows each sign-in can see. Delivered: UNRESOLVED, stopped at TOOL_OR_TIME_LIMIT, with no verdict, layer or cause. So all three components score zero. A budget stop does not count as a correct blocked/not-found reason, because the evidence was reachable. The answer is not harmful because it states no cause with confidence. On failing step: intake was correct (READY, the right record, the export question kept and no report measure swapped in). Triage pointed at a failed pipeline run (BuildSilverAndGold 'bronze' schema error), which has nothing to do with an access question. The agent did not follow that lead, though, and went to access queries. The first concrete failure was query validation: three queries against the access tables and one against the export object were rejected before being sent ('SQL object unavailable or view dependencies not validated' / wrong column or table). One query did succeed. It returned the reader mapping: orderops_investigator maps to visibility_group 0 only, and dia-investigator-round19 maps to groups 0 and 1. That directly supports the expected cause, but it was never turned into a conclusion. The follow-up per-group rows query failed on 'Source transport unavailable'. Handoff quality is 1. Queries are kept verbatim and can be rerun, and the stopping point is stated clearly. However, the next checks are vague: opaque 'check unread layer native:<hash>' items and 'review query' items that just repeat the error messages. The handoff does not mention the mapping evidence it already had as the lead to follow, and its ruled_out list is empty.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-access01",
+      "outcome_sha256": "0d0a44629aaac4c10b4ec7b5a7f73038f3f53cf33db835522c68cdf5f6fc9dcc",
+      "status": "UNRESOLVED",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": 184.25650716999996,
+      "investigation_cost_microdollars": 1845124,
+      "physical_requests": 27,
+      "model_calls": 7,
+      "timing_group": "holds",
+      "expected_verdict_class": "access difference",
+      "raw_review": {
+        "cost_microdollars": 1995652,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "The sealed expectation is an access difference at the application export (app.round22_access_export with current-user row access). The named cause is a per-sign-in reader mapping that limits each identity to its own mapped rows.\n\nThe saved answer is UNRESOLVED with stop reason TOOL_OR_TIME_LIMIT. It gives no verdict, no layer and no cause. Under the all-three rule this scores zero, so partial is false. It is not harmful, because it makes no confident wrong claim and does not substitute a report measure. Both graders agree on all of this.\n\nWhat the raw capture establishes:\n- Intake was READY and kept the export question, so intake did not fail.\n- get_definition returned the retained view text. It LEFT JOINs round22_access_readers on visibility_group and on m.reader_name = CURRENT_USER, then sums units and counts rows only where a mapping exists.\n- Query 5 succeeded. It shows dia-investigator-round19 mapped to visibility groups 0 and 1, and orderops_investigator mapped to group 0 only. That fits the reported 2 rows vs 1 row.\n- Queries 1 to 4 were rejected before dispatch ('SQL object unavailable or view dependencies not validated'). Query 6, the per-group rows read, failed with 'Source transport unavailable'.\n\nWith the CURRENT_USER join in hand, plus a mapping that gives the two sign-ins different groups, the agent had enough evidence to name the cause. It stopped without drawing the conclusion. The decisive failure is therefore the conclusion step. The query rejections were real, but the agent worked around them and still had sufficient evidence. So I side with the primary's 'wrong conclusion' over the secondary's 'query validation'.\n\nHandoff:\n- next_checks are opaque 'check unread layer native:<hash>' items and 'review query' items that only repeat error text.\n- ruled_out is empty.\n- The triage pointer to the failed BuildSilverAndGold run is irrelevant to an access question.\n- Nothing points to the mapping evidence the agent already had.\n- Queries are retained verbatim, which gives some value.\nSo handoff quality is 1, not the primary's 2.\n\nThe primary also misstates the evidence: it says orderops_investigator maps to groups 0 and 1, which is the reverse of the captured result. It also counts the failed-job pointer as actionable.\n\nOn balance the secondary grader is more accurate in substance: correct evidence direction and correct handoff score. Its only weaker call is the failing-step label.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "0d0a44629aaac4c10b4ec7b5a7f73038f3f53cf33db835522c68cdf5f6fc9dcc",
+        "reason": "The sealed expectation is an access difference at the application export (app.round22_access_export with current-user row access). The named cause is a per-sign-in reader mapping that limits each identity to its own mapped rows.\n\nThe saved answer is UNRESOLVED with stop reason TOOL_OR_TIME_LIMIT. It gives no verdict, no layer and no cause. Under the all-three rule this scores zero, so partial is false. It is not harmful, because it makes no confident wrong claim and does not substitute a report measure. Both graders agree on all of this.\n\nWhat the raw capture establishes:\n- Intake was READY and kept the export question, so intake did not fail.\n- get_definition returned the retained view text. It LEFT JOINs round22_access_readers on visibility_group and on m.reader_name = CURRENT_USER, then sums units and counts rows only where a mapping exists.\n- Query 5 succeeded. It shows dia-investigator-round19 mapped to visibility groups 0 and 1, and orderops_investigator mapped to group 0 only. That fits the reported 2 rows vs 1 row.\n- Queries 1 to 4 were rejected before dispatch ('SQL object unavailable or view dependencies not validated'). Query 6, the per-group rows read, failed with 'Source transport unavailable'.\n\nWith the CURRENT_USER join in hand, plus a mapping that gives the two sign-ins different groups, the agent had enough evidence to name the cause. It stopped without drawing the conclusion. The decisive failure is therefore the conclusion step. The query rejections were real, but the agent worked around them and still had sufficient evidence. So I side with the primary's 'wrong conclusion' over the secondary's 'query validation'.\n\nHandoff:\n- next_checks are opaque 'check unread layer native:<hash>' items and 'review query' items that only repeat error text.\n- ruled_out is empty.\n- The triage pointer to the failed BuildSilverAndGold run is irrelevant to an access question.\n- Nothing points to the mapping evidence the agent already had.\n- Queries are retained verbatim, which gives some value.\nSo handoff quality is 1, not the primary's 2.\n\nThe primary also misstates the evidence: it says orderops_investigator maps to groups 0 and 1, which is the reverse of the captured result. It also counts the failed-job pointer as actionable.\n\nOn balance the secondary grader is more accurate in substance: correct evidence direction and correct handoff score. Its only weaker call is the failing-step label.",
+        "source_sha256": "1ec9592a384f3ed20fadba83065b7ed0510a8a317cfb94c0e916924bc5800657",
+        "ticket": "v4-access-export-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 489614,
+          "output_tokens": 1851,
+          "output_tokens_details": {
+            "thinking_tokens": 768
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "mixed"
+      }
+    },
     {
       "ticket": "v4-failed-billing-transform-1",
       "class": "v4-failed-billing-transform",
@@ -3300,9 +4081,6 @@
     "v4-stale-model-1",
     "v4-stale-model-2",
     "v4-stale-model-3",
-    "v4-access-export-1",
-    "v4-access-export-2",
-    "v4-access-export-3",
     "v4-warehouse-scope-1",
     "v4-warehouse-scope-2",
     "v4-warehouse-scope-3",
@@ -3333,6 +4111,246 @@
   ],
   "status": "IN_PROGRESS",
   "per_expected_verdict_class": {
+    "access difference": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "failed job": {
       "official_primary": {
         "all_three": {
@@ -4297,16 +5315,16 @@
   "class_grouping_basis": "Original case IDs retained; additional verdict grouping uses exact sealed oracle labels only, no expectation changes.",
   "timing_cost": {
     "all": {
-      "tickets": 15,
+      "tickets": 18,
       "native_observed": 13,
-      "native_missing": 2,
+      "native_missing": 5,
       "native_median_seconds": 188.0,
       "native_p90_seconds": 259.0,
-      "worker_median_seconds": 154.39144681699997,
-      "worker_p90_seconds": 203.489456507,
-      "investigation_cost_microdollars": 5504163,
-      "cost_per_ticket_usd": 0.3669442,
-      "physical_requests": 335
+      "worker_median_seconds": 171.92881492599997,
+      "worker_p90_seconds": 218.167820693,
+      "investigation_cost_microdollars": 9595119,
+      "cost_per_ticket_usd": 0.5330621666666666,
+      "physical_requests": 382
     },
     "full_investigation": {
       "tickets": 9,
@@ -4333,16 +5351,16 @@
       "physical_requests": 84
     },
     "holds": {
-      "tickets": 2,
+      "tickets": 5,
       "native_observed": 0,
-      "native_missing": 2,
+      "native_missing": 5,
       "native_median_seconds": null,
       "native_p90_seconds": null,
-      "worker_median_seconds": null,
-      "worker_p90_seconds": null,
-      "investigation_cost_microdollars": 180209,
-      "cost_per_ticket_usd": 0.0901045,
-      "physical_requests": 0
+      "worker_median_seconds": 201.2121639315,
+      "worker_p90_seconds": 218.167820693,
+      "investigation_cost_microdollars": 4271165,
+      "cost_per_ticket_usd": 0.854233,
+      "physical_requests": 47
     }
   }
 }

@@ -2,7 +2,7 @@
 import json,sys,runpy,subprocess,hashlib
 from pathlib import Path
 sys.path.insert(0,'scripts')
-from round25_independent_review import packet,exact_deduplicate,differs,schema,SYSTEM,metric_winner,saved_evidence
+from round25_independent_review import packet,exact_deduplicate,compact_capture_packet,differs,schema,SYSTEM,metric_winner,saved_evidence,review_resume_response,review_budget
 from round25_quality import raw_answer
 from investigator.adapters.reasoning_anthropic import Client
 from investigator.reasoning_budget import TicketBudget,RateCard
@@ -32,15 +32,22 @@ with configured(policy):
   ident=row['case_id'];raw=(r/(cohort+'-'+ident+'-result.json')).read_bytes();w=json.loads(raw);case=w.get('result',w).get('case',{})
   inputs=packet(ticket=tickets[ident],answer=raw_answer(w),evidence=saved_evidence(w),expectation=expected[ident],primary=row['output'],secondary=secondary[ident]);packed=exact_deduplicate(inputs);payload=bytes_of(packed);_safe(payload);source_hash=hashlib.sha256(payload).hexdigest()
   source=folder/(ident+'-input.json');out=folder/(ident+'-review.json');provider=folder/(ident+'-provider.jsonl');started=folder/(ident+'-started.json')
+  if len(payload)>150000 and not out.exists():
+   prior=[json.loads(x)for x in provider.read_bytes().splitlines()]if provider.exists()else[]
+   if started.exists():
+    assert prior and all(x.get('event')=='REASONING_TOKEN_COUNT'for x in prior),'Prior review dispatch uncertain; never repack and resubmit'
+   compact=bytes_of(compact_capture_packet(inputs))
+   if len(compact)<len(payload):
+    payload=compact;_safe(payload);source_hash=hashlib.sha256(payload).hexdigest()
+    source=folder/(ident+'-lossless-v2-input.json');provider=folder/(ident+'-lossless-v2-provider.jsonl');started=folder/(ident+'-lossless-v2-started.json')
   if source.exists():assert source.read_bytes()==payload
   else:source.write_bytes(payload)
   if out.exists():result=json.loads(out.read_bytes());assert result['source_sha256']==source_hash;results.append(result);continue
   response=None
   if started.exists():
    events=[json.loads(x)for x in provider.read_bytes().splitlines()]if provider.exists()else[];responses=[x['body']for x in events if x.get('event')=='REASONING_RESPONSE']
-   if len(responses)!=1:raise RuntimeError('INDEPENDENT_REVIEW_UNCERTAIN_DO_NOT_DUPLICATE '+ident)
-   response=responses[0]
-  budget=TicketBudget(state,case_id='round25-independent-review:'+cohort+':'+ident,owner='round25-independent-reviewer',rate=rate,purpose='GRADING')
+   response=review_resume_response(events)
+  budget=review_budget(state,'round25-independent-review:'+cohort+':'+ident,rate)
   if response is None:
    def record(event):
     raw=bytes_of(event);_safe(raw)

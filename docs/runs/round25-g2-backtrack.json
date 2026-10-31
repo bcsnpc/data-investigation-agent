@@ -1,6 +1,6 @@
 {
   "pass": "Round25 G2 raw-reviewed",
-  "graded": 15,
+  "graded": 18,
   "score": 12,
   "correctness": {
     "verdict_match": 12,
@@ -9,10 +9,105 @@
   },
   "harmful": 0,
   "zero_groups": {
-    "intake": 2,
-    "conclusion": 1
+    "intake": 3,
+    "query": 1,
+    "conclusion": 2
   },
   "zeros": [
+    {
+      "ticket": "v4-access-export-1",
+      "first_wrong_step": "intake",
+      "reason": "What the saved record shows: the agent stopped with status NEEDS_INPUT, code AMBIGUOUS_PRIMARY_FIGURE, and asked \"Which reported figure is the question about?\" with choices 10 and 25. Its handoff and stop fields are null. In the saved evidence, only the intake step is filled in. Triage, queries and evidence are all null, so nothing was investigated. Intake did fill in the record (case_id1) and classified the ticket as OTHERS_SEE_DIFFERENT_NUMBER. That matches the ticket, which says the question is not about a report card amount. It is about app.round22_access_export for case_id1: orderops_investigator sees quantity 10 with 1 row, dia-investigator-round19 sees 25 with 2 rows, and neither sign-in had a role change.\n\nThe sealed expectation is a verdict of \"access difference\", in the application export layer (current-user row access, not the report or semantic model). The named cause is a per-sign-in reader mapping (readers_id 1970106059) that filters the export rows (rows_id 1938105945). The saved answer gives no verdict, no layer and no cause, so all three fail. Under the all-three rule this is a zero, and partial is false. It is not harmful because no cause was stated as fact. The agent was not being honestly cautious, either: 10 and 25 are the two users' different results, which is the symptom to explain, not two candidate figures to choose between.\n\nDisputed points:\n(1) Handoff quality. The primary grader gives 1 because the question is clear and could be rerun. But the question doesn't move the case forward: answering 10 or 25 doesn't help explain why the two sign-ins differ. There are no queries, no evidence and no suggested next check, such as looking at the export's reader mapping or row filter for each sign-in. Handoff quality is 0, as the secondary grader says.\n(2) Failing step. Intake extracted the record and classified the issue reasonably. The first wrong action was asking the user for a clarification the ticket had already answered. So the failing step is \"asked the user\", as the secondary grader says, rather than \"intake\".\n\nBoth graders agree on verdict, layer, cause, harm and partial, and they are right on those. The secondary grader is also right on the two disputed points, so the secondary grader wins.",
+      "saved_trace": {
+        "outcome_sha256": "30e6d6d1df08ab861701a44ce9897c5b4d2162d76f5add04226c1becadeeac82",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-access-export-1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "v4-access-export"
+    },
+    {
+      "ticket": "v4-access-export-2",
+      "first_wrong_step": "query",
+      "reason": "The saved answer is status UNRESOLVED with stop TOOL_OR_TIME_LIMIT. Its business text says only that \"the checks did not establish a cause within this ticket's limits.\" The sealed expectation is the verdict \"access difference\": the application export app.round22_access_export filters rows through a per-sign-in reader mapping.\n\nThe capture shows the agent did find the right objects. It retrieved the retained view definition, which LEFT JOINs app.round22_access_rows to app.round22_access_readers on visibility_group and on reader_name = CURRENT_USER. It also drafted a correct finding, \"access difference\". But both submit_finding calls were rejected: the first failed schema validation (a ValidationError on the `checked` IDs) and the second returned FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING. That draft finding therefore never became the delivered answer.\n\nThe delivered answer states no verdict, no layer split and no cause, so all three dimensions score false. A rejected draft and a working trace do not count as a delivered layer, so I disagree with the primary grader's layer_match=true. The all-three rule scores the answer zero; partial is false. The answer is not harmful because it claims nothing incorrect. It explicitly declines to blame the failed warehouse run.\n\nFailing step:\n- The first diagnostic query was rejected by the validator before it ran, because of the N'...' (National) string literals.\n- The four later reads of round22_access_readers and round22_access_rows were rejected as \"SQL object unavailable / view dependencies not validated\".\n- The query correction limit was then reached.\n\nThat makes the failing step query validation, not \"wrong evidence\" as the primary grader said. The evidence the agent gathered (the view definition) was correct; it just could not confirm row values.\n\nHandoff quality is 1. The query text and error records are kept and the stopping point is clear. But next_checks are mostly opaque items like \"check unread layer native:<hash>\" plus restated errors, ruled_out is empty, and nothing suggests a concrete fix: removing the N'' literals, checking that the reader and rows tables can be read, or comparing the reader mappings for each sign-in.\n\nThe secondary grader's judgment is correct on every field.",
+      "saved_trace": {
+        "outcome_sha256": "3cdaf7ab85b237dc0ce64dc2bd7653e2ed72d1fea38d5306134ea46b16da196a",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-access-export-2-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [
+        {
+          "id": "query:9761f6354bf97e5f3a875904baef79f698e60a10205d58ecbdc76291a28e5355:1",
+          "error": "Unsupported SQL syntax or function nodes: National. Remove these constructs or choose a supported diagnostic; no query executed.",
+          "query": "SELECT r.case_id, r.visibility_group, CONVERT(bigint,r.units) AS units, m.reader_name FROM [app].[round22_access_rows] AS r LEFT JOIN [app].[round22_access_readers] AS m ON m.visibility_group=r.visibility_group WHERE m.reader_name IN (N'orderops_investigator',N'dia-investigator-round19') OR m.reader_name IS NULL ORDER BY r.case_id, r.visibility_group, m.reader_name;"
+        },
+        {
+          "id": "query:562f53a00f2129aee4d456dd567f4e817017cf700d255d9f87a9f68b239a0559:2",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT visibility_group, reader_name FROM [app].[round22_access_readers] ORDER BY visibility_group, reader_name;"
+        },
+        {
+          "id": "query:1f20d14da8aeb0de097dd93f87c60555977201fa8d66cd9ee6c06d64cb7b5242:3",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT visibility_group, reader_name FROM [app].[round22_access_readers]"
+        },
+        {
+          "id": "query:1f20d14da8aeb0de097dd93f87c60555977201fa8d66cd9ee6c06d64cb7b5242:4",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT visibility_group, reader_name FROM [app].[round22_access_readers]"
+        },
+        {
+          "id": "query:14c2e7afb56c4c08ada31d6987c8615082163209f85d99efeac476ad241a4ce0:5",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT case_id, visibility_group, units FROM [app].[round22_access_rows]"
+        }
+      ],
+      "correct_action": "Use the returned native error and schema to correct this read before concluding.",
+      "class": "v4-access-export"
+    },
+    {
+      "ticket": "v4-access-export-3",
+      "first_wrong_step": "conclusion",
+      "reason": "The sealed expectation is an access difference at the application export (app.round22_access_export with current-user row access). The named cause is a per-sign-in reader mapping that limits each identity to its own mapped rows.\n\nThe saved answer is UNRESOLVED with stop reason TOOL_OR_TIME_LIMIT. It gives no verdict, no layer and no cause. Under the all-three rule this scores zero, so partial is false. It is not harmful, because it makes no confident wrong claim and does not substitute a report measure. Both graders agree on all of this.\n\nWhat the raw capture establishes:\n- Intake was READY and kept the export question, so intake did not fail.\n- get_definition returned the retained view text. It LEFT JOINs round22_access_readers on visibility_group and on m.reader_name = CURRENT_USER, then sums units and counts rows only where a mapping exists.\n- Query 5 succeeded. It shows dia-investigator-round19 mapped to visibility groups 0 and 1, and orderops_investigator mapped to group 0 only. That fits the reported 2 rows vs 1 row.\n- Queries 1 to 4 were rejected before dispatch ('SQL object unavailable or view dependencies not validated'). Query 6, the per-group rows read, failed with 'Source transport unavailable'.\n\nWith the CURRENT_USER join in hand, plus a mapping that gives the two sign-ins different groups, the agent had enough evidence to name the cause. It stopped without drawing the conclusion. The decisive failure is therefore the conclusion step. The query rejections were real, but the agent worked around them and still had sufficient evidence. So I side with the primary's 'wrong conclusion' over the secondary's 'query validation'.\n\nHandoff:\n- next_checks are opaque 'check unread layer native:<hash>' items and 'review query' items that only repeat error text.\n- ruled_out is empty.\n- The triage pointer to the failed BuildSilverAndGold run is irrelevant to an access question.\n- Nothing points to the mapping evidence the agent already had.\n- Queries are retained verbatim, which gives some value.\nSo handoff quality is 1, not the primary's 2.\n\nThe primary also misstates the evidence: it says orderops_investigator maps to groups 0 and 1, which is the reverse of the captured result. It also counts the failed-job pointer as actionable.\n\nOn balance the secondary grader is more accurate in substance: correct evidence direction and correct handoff score. Its only weaker call is the failing-step label.",
+      "saved_trace": {
+        "outcome_sha256": "0d0a44629aaac4c10b4ec7b5a7f73038f3f53cf33db835522c68cdf5f6fc9dcc",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-access-export-3-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [
+        {
+          "id": "query:4484c1c28a630ab1d85e839f0725f8f19332b10bda5fedec87828a57d7fa28f0:1",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT m.reader_name, COUNT(*) AS visible_rows, SUM(CONVERT(bigint,r.units)) AS quantity FROM [app].[round22_access_rows] AS r JOIN [app].[round22_access_readers] AS m ON m.visibility_group=r.visibility_group WHERE r.case_id='case_id1' AND m.reader_name IN ('orderops_investigator','dia-investigator-round19') GROUP BY m.reader_name"
+        },
+        {
+          "id": "query:e324280e2c21d5450f331474442d718d9aa9b01aef73fc3bf16d25a33bbe7653:2",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT r.visibility_group, COUNT(*) AS row_count, SUM(CONVERT(bigint,r.units)) AS units FROM [app].[round22_access_rows] AS r WHERE r.case_id='case_id1' GROUP BY r.visibility_group"
+        },
+        {
+          "id": "query:d0bd0e76e5335ed47686d5a7b7997002b07c44ef96c727b840fbe0f53072f2b2:3",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT reader_name, visibility_group FROM [app].[round22_access_readers] WHERE reader_name IN ('orderops_investigator','dia-investigator-round19')"
+        },
+        {
+          "id": "query:6a32eefd5091a4fbb93692bd99ff9a64df8eb03be5f88ba17c273e77abe79161:4",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT case_id, quantity, visible_rows FROM [app].[round22_access_export] WHERE case_id = 'case_id1'"
+        },
+        {
+          "id": "query:222be52b2c9c89494d7d96bfec779417479b08b91c3afc07b0c4dc61bad2604c:6",
+          "error": "Source transport unavailable",
+          "query": "SELECT visibility_group, COUNT(*) AS row_count, SUM(CONVERT(bigint,units)) AS units FROM [app].[round22_access_rows] WHERE case_id = 'case_id1' GROUP BY visibility_group"
+        }
+      ],
+      "correct_action": "Restrict the cause to what the cited native evidence establishes.",
+      "class": "v4-access-export"
+    },
     {
       "ticket": "v4-source-history-1",
       "first_wrong_step": "intake",
@@ -58,52 +153,105 @@
   ],
   "walkthroughs": [
     {
-      "ticket": "v4-source-history-1",
+      "ticket": "v4-access-export-1",
       "first_wrong_step": "intake",
-      "reason": "What the saved capture shows: DIA stopped with status NEEDS_INPUT and code AMBIGUOUS_PRIMARY_FIGURE. It asked the user to choose between \"41 units\" and \"47 units\". Handoff and stop are null. In saved_evidence, only the intake object is filled in: a prefilled IntakeRequest with hashed report, page and visual IDs, details.record=movement900201, issue_type SOMETHING_ELSE and classified_issue_type NUMBER_LOOKS_WRONG. Triage, queries and evidence are all null.\n\nThe sealed expectation is the verdict \"source changed history\" at the source layer. The cause is a system-versioned temporal table update: movement 900201 had 41 units from 17:11:12 until 17:18:00, when it became 47 units. The completed load ran from 17:11:20 to 17:12:57, while the 41-unit version was current.\n\nScoring: DIA gave no verdict, layer or cause, so all three fail and the case scores zero under the all-three rule. Partial credit is not available. It stated no false cause as fact, so it is not harmful.\n\nDisputed failing step: the ticket already says which figure is which (41 in the earlier export, 47 in the later one) and asks why the value changed. That question needs both figures, so asking the user to pick one was unnecessary. The ambiguity check ran at intake, but the specific failure is that DIA asked the user a question it didn't need to ask. \"Asked the user\" is the most accurate label, so the secondary grader is right and the primary grader's \"intake\" is less precise.\n\nDisputed handoff quality: there is no handoff object, no queries to rerun, no evidence and no suggested next check, such as comparing the record's temporal history with the pipeline run times. The only stop reason is a misguided ambiguity code, and the clarifying question points away from the actual investigation. The prefilled intake fields just restate what the ticket already says and are not a useful next step. The primary grader's score of 1 is too generous, so 0 is right.\n\nThe secondary grader slightly overstates things by saying there was \"no stopping point or reason\", because an AMBIGUOUS_PRIMARY_FIGURE code does exist. That code is not a useful reason, though, so the secondary grader's conclusions still hold. Both graders agree on the core matches being false and on harmful=false. The secondary grader is right on both disputed fields.",
+      "reason": "What the saved record shows: the agent stopped with status NEEDS_INPUT, code AMBIGUOUS_PRIMARY_FIGURE, and asked \"Which reported figure is the question about?\" with choices 10 and 25. Its handoff and stop fields are null. In the saved evidence, only the intake step is filled in. Triage, queries and evidence are all null, so nothing was investigated. Intake did fill in the record (case_id1) and classified the ticket as OTHERS_SEE_DIFFERENT_NUMBER. That matches the ticket, which says the question is not about a report card amount. It is about app.round22_access_export for case_id1: orderops_investigator sees quantity 10 with 1 row, dia-investigator-round19 sees 25 with 2 rows, and neither sign-in had a role change.\n\nThe sealed expectation is a verdict of \"access difference\", in the application export layer (current-user row access, not the report or semantic model). The named cause is a per-sign-in reader mapping (readers_id 1970106059) that filters the export rows (rows_id 1938105945). The saved answer gives no verdict, no layer and no cause, so all three fail. Under the all-three rule this is a zero, and partial is false. It is not harmful because no cause was stated as fact. The agent was not being honestly cautious, either: 10 and 25 are the two users' different results, which is the symptom to explain, not two candidate figures to choose between.\n\nDisputed points:\n(1) Handoff quality. The primary grader gives 1 because the question is clear and could be rerun. But the question doesn't move the case forward: answering 10 or 25 doesn't help explain why the two sign-ins differ. There are no queries, no evidence and no suggested next check, such as looking at the export's reader mapping or row filter for each sign-in. Handoff quality is 0, as the secondary grader says.\n(2) Failing step. Intake extracted the record and classified the issue reasonably. The first wrong action was asking the user for a clarification the ticket had already answered. So the failing step is \"asked the user\", as the secondary grader says, rather than \"intake\".\n\nBoth graders agree on verdict, layer, cause, harm and partial, and they are right on those. The secondary grader is also right on the two disputed points, so the secondary grader wins.",
       "saved_trace": {
-        "outcome_sha256": "39863e8868d7ab8710ae575da87acf4a4d610bc8f84b916f80ac801374360c44",
-        "local_outcome": ".local\\round-twenty-five\\g2-v4-source-history-1-result.json",
+        "outcome_sha256": "30e6d6d1df08ab861701a44ce9897c5b4d2162d76f5add04226c1becadeeac82",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-access-export-1-result.json",
         "assessment_origin": "fresh independent Claude saved-evidence review"
       },
       "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
       "retained_query_errors": [],
       "correct_action": "Resolve only the missing user fact using the admitted catalog.",
-      "class": "v4-source-history"
+      "class": "v4-access-export"
     },
     {
-      "ticket": "v4-waiting-application-load-3",
+      "ticket": "v4-access-export-2",
+      "first_wrong_step": "query",
+      "reason": "The saved answer is status UNRESOLVED with stop TOOL_OR_TIME_LIMIT. Its business text says only that \"the checks did not establish a cause within this ticket's limits.\" The sealed expectation is the verdict \"access difference\": the application export app.round22_access_export filters rows through a per-sign-in reader mapping.\n\nThe capture shows the agent did find the right objects. It retrieved the retained view definition, which LEFT JOINs app.round22_access_rows to app.round22_access_readers on visibility_group and on reader_name = CURRENT_USER. It also drafted a correct finding, \"access difference\". But both submit_finding calls were rejected: the first failed schema validation (a ValidationError on the `checked` IDs) and the second returned FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING. That draft finding therefore never became the delivered answer.\n\nThe delivered answer states no verdict, no layer split and no cause, so all three dimensions score false. A rejected draft and a working trace do not count as a delivered layer, so I disagree with the primary grader's layer_match=true. The all-three rule scores the answer zero; partial is false. The answer is not harmful because it claims nothing incorrect. It explicitly declines to blame the failed warehouse run.\n\nFailing step:\n- The first diagnostic query was rejected by the validator before it ran, because of the N'...' (National) string literals.\n- The four later reads of round22_access_readers and round22_access_rows were rejected as \"SQL object unavailable / view dependencies not validated\".\n- The query correction limit was then reached.\n\nThat makes the failing step query validation, not \"wrong evidence\" as the primary grader said. The evidence the agent gathered (the view definition) was correct; it just could not confirm row values.\n\nHandoff quality is 1. The query text and error records are kept and the stopping point is clear. But next_checks are mostly opaque items like \"check unread layer native:<hash>\" plus restated errors, ruled_out is empty, and nothing suggests a concrete fix: removing the N'' literals, checking that the reader and rows tables can be read, or comparing the reader mappings for each sign-in.\n\nThe secondary grader's judgment is correct on every field.",
+      "saved_trace": {
+        "outcome_sha256": "3cdaf7ab85b237dc0ce64dc2bd7653e2ed72d1fea38d5306134ea46b16da196a",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-access-export-2-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [
+        {
+          "id": "query:9761f6354bf97e5f3a875904baef79f698e60a10205d58ecbdc76291a28e5355:1",
+          "error": "Unsupported SQL syntax or function nodes: National. Remove these constructs or choose a supported diagnostic; no query executed.",
+          "query": "SELECT r.case_id, r.visibility_group, CONVERT(bigint,r.units) AS units, m.reader_name FROM [app].[round22_access_rows] AS r LEFT JOIN [app].[round22_access_readers] AS m ON m.visibility_group=r.visibility_group WHERE m.reader_name IN (N'orderops_investigator',N'dia-investigator-round19') OR m.reader_name IS NULL ORDER BY r.case_id, r.visibility_group, m.reader_name;"
+        },
+        {
+          "id": "query:562f53a00f2129aee4d456dd567f4e817017cf700d255d9f87a9f68b239a0559:2",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT visibility_group, reader_name FROM [app].[round22_access_readers] ORDER BY visibility_group, reader_name;"
+        },
+        {
+          "id": "query:1f20d14da8aeb0de097dd93f87c60555977201fa8d66cd9ee6c06d64cb7b5242:3",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT visibility_group, reader_name FROM [app].[round22_access_readers]"
+        },
+        {
+          "id": "query:1f20d14da8aeb0de097dd93f87c60555977201fa8d66cd9ee6c06d64cb7b5242:4",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT visibility_group, reader_name FROM [app].[round22_access_readers]"
+        },
+        {
+          "id": "query:14c2e7afb56c4c08ada31d6987c8615082163209f85d99efeac476ad241a4ce0:5",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT case_id, visibility_group, units FROM [app].[round22_access_rows]"
+        }
+      ],
+      "correct_action": "Use the returned native error and schema to correct this read before concluding.",
+      "class": "v4-access-export"
+    },
+    {
+      "ticket": "v4-access-export-3",
       "first_wrong_step": "conclusion",
-      "reason": "What the saved capture shows: the triage JOB_RUNS fact, read at 2026-10-31T19:00:48Z for pipeline node 3bf74ae1, lists e2748b17-7057-482c-8556-b936713b931b as the newest run. That run started at 18:51:08Z and was RUNNING with no end time. The same listing shows that 78c23b46-0543-44c8-869f-59b7dfb34a23, the run the sealed expectation names, had already SUCCEEDED (16:56:27Z to 2026-10-28T17:06:36.77Z). A fresh native get_job_runs read at 19:01:18Z shows e2748b17 SUCCEEDED, ending at 19:01:17.99Z with no error. That read also has no audit row for the run (DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN).\n\nThe delivered answer reports these facts accurately. It does not assert a lock, saying only that one can be neither confirmed nor ruled out. It claims no data mismatch and lists its limits honestly: the Copy Job has no run in the window, the earlier run da45f511 failed with error 2011, and the model refresh 763470267 ended on 2026-10-28 with its schedule disabled. Every claim is backed by the evidence, so the answer is not harmful.\n\nScoring against the sealed expectation: the expected verdict is 'waiting on job', with 78c23b46 still InProgress. The delivered verdict is 'observed value', about a different run that has finished. So the verdict and the cause do not match. The layer, orchestration at the pipeline job instance, does match. Only one of the three criteria holds, so the result is partial and scores zero under the all-three rule.\n\nThe mismatch is caused by expectation drift, not by a mistake in the agent's work. The sealed record itself says the running state must be confirmed again with a fresh check at scored execution. The agent did exactly that, and the evidence shows the expected run had already finished before this session started. Even so, the scoring rule compares against the sealed expectation and does not allow correcting it.\n\nPrimary grader: its verdict, layer and cause judgments match mine, but its failing step is wrong. It says triage misidentified the run. In fact triage correctly picked e2748b17 as the latest RUNNING instance, and its own data shows 78c23b46 had already SUCCEEDED. Primary also marks partial=false even though the layer matched.\n\nSecondary grader: it gets every judgment right. It sets partial=true and correctly notes that the triage data shows 78c23b46 SUCCEEDED, so the expectation is probably stale. It does not override the expectation, which is correct under the protocol. I would label its failing step 'wrong conclusion' only in the sense of a mismatch at the conclusion stage, not a conclusion the evidence fails to support.\n\nHandoff quality is 1: the evidence IDs, timestamps and limits are clear, but there are no rerunnable queries and no explicit plan to recheck.",
+      "reason": "The sealed expectation is an access difference at the application export (app.round22_access_export with current-user row access). The named cause is a per-sign-in reader mapping that limits each identity to its own mapped rows.\n\nThe saved answer is UNRESOLVED with stop reason TOOL_OR_TIME_LIMIT. It gives no verdict, no layer and no cause. Under the all-three rule this scores zero, so partial is false. It is not harmful, because it makes no confident wrong claim and does not substitute a report measure. Both graders agree on all of this.\n\nWhat the raw capture establishes:\n- Intake was READY and kept the export question, so intake did not fail.\n- get_definition returned the retained view text. It LEFT JOINs round22_access_readers on visibility_group and on m.reader_name = CURRENT_USER, then sums units and counts rows only where a mapping exists.\n- Query 5 succeeded. It shows dia-investigator-round19 mapped to visibility groups 0 and 1, and orderops_investigator mapped to group 0 only. That fits the reported 2 rows vs 1 row.\n- Queries 1 to 4 were rejected before dispatch ('SQL object unavailable or view dependencies not validated'). Query 6, the per-group rows read, failed with 'Source transport unavailable'.\n\nWith the CURRENT_USER join in hand, plus a mapping that gives the two sign-ins different groups, the agent had enough evidence to name the cause. It stopped without drawing the conclusion. The decisive failure is therefore the conclusion step. The query rejections were real, but the agent worked around them and still had sufficient evidence. So I side with the primary's 'wrong conclusion' over the secondary's 'query validation'.\n\nHandoff:\n- next_checks are opaque 'check unread layer native:<hash>' items and 'review query' items that only repeat error text.\n- ruled_out is empty.\n- The triage pointer to the failed BuildSilverAndGold run is irrelevant to an access question.\n- Nothing points to the mapping evidence the agent already had.\n- Queries are retained verbatim, which gives some value.\nSo handoff quality is 1, not the primary's 2.\n\nThe primary also misstates the evidence: it says orderops_investigator maps to groups 0 and 1, which is the reverse of the captured result. It also counts the failed-job pointer as actionable.\n\nOn balance the secondary grader is more accurate in substance: correct evidence direction and correct handoff score. Its only weaker call is the failing-step label.",
       "saved_trace": {
-        "outcome_sha256": "99a2f794e20cf5a1bdfe76c510105181ec99010e28c3823b74f4bf5888480d1a",
-        "local_outcome": ".local\\round-twenty-five\\g2-v4-waiting-application-load-3-result.json",
+        "outcome_sha256": "0d0a44629aaac4c10b4ec7b5a7f73038f3f53cf33db835522c68cdf5f6fc9dcc",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-access-export-3-result.json",
         "assessment_origin": "fresh independent Claude saved-evidence review"
       },
       "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
-      "retained_query_errors": [],
+      "retained_query_errors": [
+        {
+          "id": "query:4484c1c28a630ab1d85e839f0725f8f19332b10bda5fedec87828a57d7fa28f0:1",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT m.reader_name, COUNT(*) AS visible_rows, SUM(CONVERT(bigint,r.units)) AS quantity FROM [app].[round22_access_rows] AS r JOIN [app].[round22_access_readers] AS m ON m.visibility_group=r.visibility_group WHERE r.case_id='case_id1' AND m.reader_name IN ('orderops_investigator','dia-investigator-round19') GROUP BY m.reader_name"
+        },
+        {
+          "id": "query:e324280e2c21d5450f331474442d718d9aa9b01aef73fc3bf16d25a33bbe7653:2",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT r.visibility_group, COUNT(*) AS row_count, SUM(CONVERT(bigint,r.units)) AS units FROM [app].[round22_access_rows] AS r WHERE r.case_id='case_id1' GROUP BY r.visibility_group"
+        },
+        {
+          "id": "query:d0bd0e76e5335ed47686d5a7b7997002b07c44ef96c727b840fbe0f53072f2b2:3",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT reader_name, visibility_group FROM [app].[round22_access_readers] WHERE reader_name IN ('orderops_investigator','dia-investigator-round19')"
+        },
+        {
+          "id": "query:6a32eefd5091a4fbb93692bd99ff9a64df8eb03be5f88ba17c273e77abe79161:4",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT case_id, quantity, visible_rows FROM [app].[round22_access_export] WHERE case_id = 'case_id1'"
+        },
+        {
+          "id": "query:222be52b2c9c89494d7d96bfec779417479b08b91c3afc07b0c4dc61bad2604c:6",
+          "error": "Source transport unavailable",
+          "query": "SELECT visibility_group, COUNT(*) AS row_count, SUM(CONVERT(bigint,units)) AS units FROM [app].[round22_access_rows] WHERE case_id = 'case_id1' GROUP BY visibility_group"
+        }
+      ],
       "correct_action": "Restrict the cause to what the cited native evidence establishes.",
-      "class": "v4-waiting-application-load"
-    },
-    {
-      "ticket": "v4-latency-record-1",
-      "first_wrong_step": "intake",
-      "reason": "What the saved record shows: the DIA answer is status NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED. The handoff and stop fields are null. In the saved evidence, triage, queries and evidence are all null, so no check was run. The intake prefill is correct and complete for this ticket. It has issue_type RECORD_MISSING, record movement900701, an EMPTY reported_figure, and a source comparison of exactly 17 units from ordersops. It also has the report, page and visual bindings. Even so, the system asked the user to pick a figure_interpretation: exact value, rounded precision or empty visual. The prefill had already settled that. The sealed answer expects verdict latency, layer ingestion (source to landing/bronze), and a cause: the record changed in the source after the last loads, and the next scheduled load is enabled but has not started. The answer reaches none of these, so verdict, layer and cause all fail, and under the all-three rule there is no partial credit. It is not harmful because it states no cause, right or wrong. Handoff quality is 0. There are no queries to rerun and no stop record. It suggests no next checks, such as comparing the source row with bronze or checking the load schedule. The one question it asks is pointless and misses the real ambiguity: 'Movement Units' is a card showing a total, not a visual with rows. The only disagreement between the graders is the failing step. Primary says 'intake'. But extraction did not actually fail, because every prefilled field matches the ticket. The first real error was stopping to ask the user an unnecessary question when the details were already established, so 'asked the user' is the better label. The secondary grader names this correctly and also points out the card-versus-row-visual ambiguity, so the secondary grader wins.",
-      "saved_trace": {
-        "outcome_sha256": "4e8e614fffbadba3594e5ee485223d4a0fa06a61220d96adaa033fc839ce5166",
-        "local_outcome": ".local\\round-twenty-five\\g2-v4-latency-record-1-result.json",
-        "assessment_origin": "fresh independent Claude saved-evidence review"
-      },
-      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
-      "retained_query_errors": [],
-      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
-      "class": "v4-latency-record"
+      "class": "v4-access-export"
     }
   ],
   "estate_reads": 0,
   "model_calls": 0,
   "scores_or_expectations_changed": false,
   "zero_classes": {
+    "v4-access-export": 3,
     "v4-source-history": 1,
     "v4-latency-record": 1,
     "v4-waiting-application-load": 1

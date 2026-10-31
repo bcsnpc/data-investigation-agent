@@ -1,8 +1,39 @@
 ﻿import unittest
 from copy import deepcopy
-from round25_independent_review import packet,exact_deduplicate,differs,schema,metric_winner,saved_evidence
+from round25_independent_review import packet,exact_deduplicate,pack_embedded_json,compact_capture_packet,differs,schema,metric_winner,saved_evidence,review_resume_response,review_budget
 from jsonschema import Draft202012Validator
 class IndependentReviewTests(unittest.TestCase):
+ def test_review_budget_uses_owner_actual_limit_without_changing_monthly_authority(self):
+  from unittest.mock import patch
+  state=object();rate=object()
+  with patch('investigator.reasoning_budget.TicketBudget')as budget:
+   review_budget(state,'review:case',rate)
+   budget.assert_called_once_with(state,case_id='review:case',owner='round25-independent-reviewer',rate=rate,purpose='GRADING',actual_usage_limit=3_000_000)
+ def test_only_token_count_refusal_is_safe_to_retry(self):
+  self.assertIsNone(review_resume_response([{'event':'REASONING_TOKEN_COUNT','input_tokens':100}]))
+  response={'content':['saved']}
+  self.assertEqual(review_resume_response([{'event':'REASONING_RESPONSE','body':response}]),response)
+  for events in ([],[{'event':'REASONING_REQUEST'}],[{'event':'REASONING_RESPONSE','body':response}]*2):
+   with self.assertRaisesRegex(RuntimeError,'DO_NOT_DUPLICATE'):review_resume_response(events)
+ def test_column_key_packet_keeps_nested_json_order_unicode_and_all_rows(self):
+  import json
+  rows={'rows':[{'id':i,'literal':'synthetic α value'}for i in range(300)]}
+  value={'native':rows,'body':json.dumps(rows),'reverse':json.dumps({'z':rows,'a':1}),'plain':'not JSON '*400}
+  before=deepcopy(value);packed=compact_capture_packet(value)
+  self.assertLess(len(json.dumps(packed)),len(json.dumps(exact_deduplicate(value))))
+  self.assertEqual(value,before);self.assertIn('key_sets',packed)
+ def test_embedded_json_strings_preserve_every_byte_and_reduce_repetition(self):
+  import json
+  rows={'rows':[{'id':i,'literal':'synthetic α value'}for i in range(100)]}
+  original={'native':rows,'body':json.dumps(rows),'canonical_body':json.dumps(rows,ensure_ascii=False,sort_keys=True,separators=(',',':'))}
+  before=deepcopy(original);packed=pack_embedded_json(original)
+  self.assertLess(len(json.dumps(packed)),len(json.dumps(exact_deduplicate(original))))
+  self.assertEqual(original,before)
+ def test_nonstandard_json_whitespace_and_plain_strings_remain_literal(self):
+  import json
+  text=json.dumps({'rows':list(range(800))},indent=3)+'\n'
+  packed=pack_embedded_json({'body':text,'plain':'not JSON '*400})
+  self.assertIn(text,packed['verbatim_pool'])
  def test_only_owner_allowed_inputs_and_no_mutation(self):
   p={'verdict_match':True,'reason':'first'};s={'verdict_match':False,'reason':'second'};old=deepcopy(p)
   result=packet(ticket={'text':'question'},answer={'business':'saved'},evidence={'rows':[[1],[2],[3],[4]]},expectation={'cause':'fixed'},primary=p,secondary=s)
