@@ -1,0 +1,55 @@
+{
+  "cases": [
+    {
+      "ticket": "v2-other-collected-definition-v2",
+      "winner": "neither",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'definition explained' (equivalent to 'as designed'), correctly traces the cause to SUM(Payments[amount]) = 200+100+250 = 550 through the full payment path (Subscription Billing model \u2192 billing_serving gold.payments \u2192 billing_bronze dbo.payments \u2192 billingapp app.payments), and correctly identifies the layer as the source application chain. The three payment rows (201/200, 202/100, 203/250) summing to 550 are explicitly verified. The named cause matches the sealed expected cause. Handoff quality is 1: the open job failure (aa7aa338) is noted with its error, a clear stopping point is identified, but rerunnable queries for verifying the failure's impact are not fully specified.",
+        "verdict_match": true
+      },
+      "reason": "G1 raw output is a resolved definition explanation with no handoff object. Both graders agree correct verdict/layer/cause and no harm. No unresolved investigation requires handoff; handoff0. Original grades unchanged.",
+      "raw_outcome_sha256": "666c92e0bb3f9f192245fe67243894fb7f6e99c63c42ca668bbdb2867fc7d889",
+      "reviewer": "operator G1 saved-output review; owner independent-review rule applies toG2-G4"
+    },
+    {
+      "ticket": "v2-screenshot-record-01-v1",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'definition explained' which maps to 'as designed' \u2014 the 17 is a direct source value carried unchanged, matching the expected verdict. Layer: delivered correctly identifies the source application (ordersops) as the origin, tracing through the lakehouse and Direct Lake model, matching 'source application'. Cause: delivered correctly identifies movement_id 2 as the unique row for warehouse_id=1, product_id=4 with units=17, carried unchanged through the pipeline with no transformation \u2014 matching 'Visible values resolve uniquely to movement 2; units 17 carried unchanged through application path.' Native queries were executed at all three layers establishing the key and agreement. No handoff object is present (empty {}), so handoff quality is 0, but this is a fully answered case so that is appropriate and does not penalise the score.",
+        "verdict_match": true
+      },
+      "reason": "G1 raw output is a resolved definition explanation with no handoff object. Both graders agree correct verdict/layer/cause and no harm. No unresolved investigation requires handoff; handoff0. Original grades unchanged.",
+      "raw_outcome_sha256": "06c48956d4fff3860a736f0c48984fdcb10ed0c041c90b893353de27d96ce0af",
+      "reviewer": "operator G1 saved-output review; owner independent-review rule applies toG2-G4"
+    },
+    {
+      "ticket": "v2-screenshot-record-01-v2",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer matches on all three graded dimensions. Verdict: the answer concludes the value is 'as designed' (definition explained, passes through unchanged) \u2013 matches 'as designed'. Layer: the answer traces the value through the source application (ordersops \u2192 lakehouse \u2192 model), correctly identifying 'source application' as the layer. Cause: the answer correctly identifies movement_id 2 as the unique record carrying units=17 unchanged through the pipeline, matching 'Visible values resolve uniquely to movement 2; units 17 carried unchanged through application path' with actual native queries establishing the key and agreement across all three layers. The answer is ANSWERED (not unresolved), so handoff quality is 0 (no handoff needed/provided).",
+        "verdict_match": true
+      },
+      "reason": "G1 raw output is a resolved definition explanation with no handoff object. Both graders agree correct verdict/layer/cause and no harm. No unresolved investigation requires handoff; handoff0. Original grades unchanged.",
+      "raw_outcome_sha256": "3fda7096e3f85c12bff24d308a79715dcf09db3e2a855864d8efc9d0c3cb512e",
+      "reviewer": "operator G1 saved-output review; owner independent-review rule applies toG2-G4"
+    }
+  ]
+}
