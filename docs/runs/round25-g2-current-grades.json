@@ -1,141 +1,141 @@
 {
   "official_primary": {
     "all_three": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 10,
+      "total": 12,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.5519691377470266,
+      "upper": 0.9530348578161463,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 10,
+      "total": 12,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.5519691377470266,
+      "upper": 0.9530348578161463,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 11,
+      "total": 12,
+      "accuracy": 0.9166666666666666,
+      "lower": 0.646120088858883,
+      "upper": 0.9851349055950829,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 10,
+      "total": 12,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.5519691377470266,
+      "upper": 0.9530348578161463,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 9,
+      "total": 12,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.2991450484195441,
+      "lower": 2.7755575615628914e-17,
+      "upper": 0.24249400665524085,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "strict": {
     "all_three": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 10,
+      "total": 12,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.5519691377470266,
+      "upper": 0.9530348578161463,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 10,
+      "total": 12,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.5519691377470266,
+      "upper": 0.9530348578161463,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 11,
+      "total": 12,
+      "accuracy": 0.9166666666666666,
+      "lower": 0.646120088858883,
+      "upper": 0.9851349055950829,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 10,
+      "total": 12,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.5519691377470266,
+      "upper": 0.9530348578161463,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 9,
+      "total": 12,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.2991450484195441,
+      "lower": 2.7755575615628914e-17,
+      "upper": 0.24249400665524085,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "raw_reviewed": {
     "all_three": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 10,
+      "total": 12,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.5519691377470266,
+      "upper": 0.9530348578161463,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 10,
+      "total": 12,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.5519691377470266,
+      "upper": 0.9530348578161463,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 11,
+      "total": 12,
+      "accuracy": 0.9166666666666666,
+      "lower": 0.646120088858883,
+      "upper": 0.9851349055950829,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 10,
+      "total": 12,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.5519691377470266,
+      "upper": 0.9530348578161463,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 9,
+      "total": 12,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.2991450484195441,
+      "lower": 2.7755575615628914e-17,
+      "upper": 0.24249400665524085,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,106 +143,106 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 9,
+  "completed_graded": 12,
   "primary": {
     "all_three": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 10,
+      "total": 12,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.5519691377470266,
+      "upper": 0.9530348578161463,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 10,
+      "total": 12,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.5519691377470266,
+      "upper": 0.9530348578161463,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 11,
+      "total": 12,
+      "accuracy": 0.9166666666666666,
+      "lower": 0.646120088858883,
+      "upper": 0.9851349055950829,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 10,
+      "total": 12,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.5519691377470266,
+      "upper": 0.9530348578161463,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 9,
+      "total": 12,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.2991450484195441,
+      "lower": 2.7755575615628914e-17,
+      "upper": 0.24249400665524085,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "secondary": {
     "all_three": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 10,
+      "total": 12,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.5519691377470266,
+      "upper": 0.9530348578161463,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 10,
+      "total": 12,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.5519691377470266,
+      "upper": 0.9530348578161463,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 11,
+      "total": 12,
+      "accuracy": 0.9166666666666666,
+      "lower": 0.646120088858883,
+      "upper": 0.9851349055950829,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 8,
-      "total": 9,
-      "accuracy": 0.8888888888888888,
-      "lower": 0.5650002944233439,
-      "upper": 0.9801091123614551,
+      "correct": 10,
+      "total": 12,
+      "accuracy": 0.8333333333333334,
+      "lower": 0.5519691377470266,
+      "upper": 0.9530348578161463,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 9,
+      "total": 12,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.2991450484195441,
+      "lower": 2.7755575615628914e-17,
+      "upper": 0.24249400665524085,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 9,
-    "total": 9,
+    "correct": 12,
+    "total": 12,
     "accuracy": 1.0,
-    "lower": 0.7008549515804559,
+    "lower": 0.7575059933447592,
     "upper": 1.0,
     "confidence": 0.95,
     "method": "Wilson"
@@ -254,11 +254,11 @@
     "harmful"
   ],
   "full_assessment_agreement": {
-    "correct": 1,
-    "total": 9,
-    "accuracy": 0.1111111111111111,
-    "lower": 0.019890887638544907,
-    "upper": 0.434999705576656,
+    "correct": 3,
+    "total": 12,
+    "accuracy": 0.25,
+    "lower": 0.08894166839405471,
+    "upper": 0.5323053349335657,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -310,6 +310,13 @@
       "ticket": "v4-source-history-3",
       "fields": [
         "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v4-waiting-application-load-3",
+      "fields": [
+        "failing_step",
+        "partial"
       ]
     }
   ],
@@ -1619,6 +1626,246 @@
           "method": "Wilson"
         }
       }
+    },
+    "v4-waiting-application-load": {
+      "official_primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
     }
   },
   "disagreements": [],
@@ -2242,6 +2489,149 @@
         },
         "winner": "secondary"
       }
+    },
+    {
+      "ticket": "v4-waiting-application-load-1",
+      "class": "v4-waiting-application-load",
+      "fixture": "waiting",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: both say 'waiting on job' (pipeline still running). Layer matches: the delivered answer correctly identifies the orchestration/pipeline job layer (round_two_application_load_audited_20261003 pipeline run still RUNNING). Cause matches: the delivered answer correctly states the latest run is still running with no end time and no error recorded, and explicitly states no available evidence confirms or rules out a lock (matching the expected 'no native evidence of a lock'). The run IDs differ slightly (e2748b17 vs 78c23b46 in the expected) but this reflects the scoring note that the running state must be confirmed fresh at execution time \u2014 the delivered answer found a different (newer) RUNNING run, which is consistent with the expectation that the state should be re-checked. The core facts align: pipeline still running, no lock evidence, no failure recorded. The lock caveat is handled correctly \u2014 not stated as the cause, only noted as unverifiable. The blocking session query failed (QueryRejection) which is honestly disclosed. Handoff quality is 1: there is a clear stopping point (pipeline still running, check again), and the failed lock check query is noted, but the handoff object is empty and no specific rerunnable next steps are spelled out for confirming completion or retrying the lock check.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: both say 'waiting on job'. Layer: the delivered answer places the issue at orchestration. It names the latest pipeline run of round_two_application_load_audited_20261003, which matches the expected orchestration layer (the pipeline job instance feeding Application Load). Cause: the substance matches. The delivered answer says the latest run is still RUNNING with no end time and no recorded error. It also says no retained fact shows a lock or blocking session and that the lock check did not complete, so it treats the user's lock idea as unconfirmed rather than stating it as the cause. That is what the expected answer asks for. Possible disagreement: the run ID and start time differ (e2748b17\u2026 started 2026-10-31T18:51Z, versus 78c23b46\u2026 InProgress since 2026-10-28T16:56Z). However, the expected record says the running state was seen at admission and must be confirmed with a fresh check at scored execution. The delivered answer comes from a fresh native run-history read, so a newer run ID is consistent with the expectation, not a contradiction. The answer claims no data discrepancy and cites no numbers, which also matches. It is not harmful because no wrong cause is stated as fact. Handoff (scored separately): the handoff object is empty. The one lock query (sys.dm_exec_requests blocking check) was rejected before dispatch, and the answer gives no next check or re-run guidance for it. The query text is recorded, though, so it can be re-run, and the stopping point is clear. That earns partial handoff credit.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-waiting01",
+      "outcome_sha256": "709d9179f86f1cbe600696f02936d517912170b110fc70c5568bb661fc0b2793",
+      "status": "ANSWERED",
+      "native_duration_seconds": 186.0,
+      "worker_wall_seconds": 153.60043148699992,
+      "investigation_cost_microdollars": 327008,
+      "physical_requests": 19,
+      "model_calls": 5,
+      "timing_group": "full_investigation"
+    },
+    {
+      "ticket": "v4-waiting-application-load-2",
+      "class": "v4-waiting-application-load",
+      "fixture": "waiting",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: delivered correctly identifies 'waiting on job' with the pipeline run still RUNNING. Layer matches: orchestration/pipeline job instance feeding the application load model. Cause matches: the current pipeline run has not finished (no end time, no error), so Movement Units is waiting on a load that hasn't finished; the lock theory is correctly treated as unverified/unconfirmable. The delivered answer uses a different run ID (e2748b17 vs 78c23b46 in the expected) but this is because the expected was written for a different observation time and the delivered correctly reports the run that was RUNNING at observation time 2026-10-31T18:57:58Z. The core factual substance matches the expected pattern. No harmful incorrect cause was stated. Handoff is 0 because the delivered answer has no handoff/stop fields populated (empty handoff object, null stop) and no rerunnable queries listed despite the investigation being unresolved (pipeline still running).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: both say 'waiting on job'. Layer matches: the delivered answer places the issue at the orchestration pipeline job instance (round_two_application_load_audited_20261003) that feeds Movement Units' bronze table through the Copy Job, which is the expected layer. Cause matches in substance: the latest pipeline run is still RUNNING with no end time and no error, so it has not failed, and the lock idea is treated as unverified rather than confirmed. The run ID differs from the expected one. The expected record names run 78c23b46, InProgress since 2026-10-28, but it says the running state must be confirmed again with a fresh check at scored execution. The delivered fresh observation shows 78c23b46 now SUCCEEDED and a newer run, e2748b17, RUNNING since 2026-10-31T18:51Z, so the expected situation still holds with a newer run. The answer is also honest that Movement Units values were not checked and that no lock evidence was available. Nothing wrong is stated as fact. Handoff scored 0 only because the answer is resolved and has no handoff or queries.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-waiting01",
+      "outcome_sha256": "fff8b2d3ea0f8958364e1e60fe8fcd72d3f64f1d5b537508bf0cc12290ef897d",
+      "status": "ANSWERED",
+      "native_duration_seconds": 160.0,
+      "worker_wall_seconds": 135.2890125020001,
+      "investigation_cost_microdollars": 285121,
+      "physical_requests": 21,
+      "model_calls": 3,
+      "timing_group": "answered_without_layer_queries"
+    },
+    {
+      "ticket": "v4-waiting-application-load-3",
+      "class": "v4-waiting-application-load",
+      "fixture": "waiting",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the expected verdict is 'waiting on job' (pipeline still InProgress at triage time), but the delivered answer concludes 'observed value' / SUCCEEDED. The agent re-queried mid-session and found the run had completed, then reported that as its final verdict. The expected answer is based on the state at triage time (RUNNING/InProgress) and instructs that the running state must be confirmed again with a fresh check \u2014 the agent did perform that fresh check and correctly noted the transition from RUNNING to SUCCEEDED, but the expected sealed answer is 'waiting on job'. However, beyond the verdict disagreement, the cause is also wrong: the expected cause names run 78c23b46-0543-44c8-869f-59b7dfb34a23 as the specific InProgress instance, whereas the delivered answer identifies e2748b17-7057-482c-8556-b936713b931b as the run in question (a different run that was RUNNING at triage). The triage step itself appears to have misidentified which run was in-scope: the expected answer ties to item b4871498 / run 78c23b46, while the agent focused on a different pipeline run. This mismatch in the identified run ID means the cause does not match. Layer is correct (orchestration/pipeline). The answer is not harmful \u2014 it reports an honest observational result with appropriate caveats. Handoff quality is moderate: the agent provides clear evidence IDs and timestamps but the stopping point was declared ANSWERED rather than leaving a re-check instruction, and the underlying run identification appears off.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Expected: verdict 'waiting on job'. Pipeline job instance 78c23b46-0543-44c8-869f-59b7dfb34a23 should be InProgress since 2026-10-28T16:56:27Z, with no end time and no failure reason, and no lock should be asserted. Delivered: verdict 'observed value'. It treats a different run, e2748b17-7057-482c-8556-b936713b931b, as the latest instance. Triage saw that run as RUNNING, and a fresh read showed it SUCCEEDED at 2026-10-31T19:01:17Z. Layer matches: both answers are about the orchestration (pipeline job instance) layer. Verdict does not match: 'observed value' versus 'waiting on job'. Cause does not match: the run ID differs, and the delivered answer says the job finished, while the expected answer says it is still in progress. Under the zero-for-partial rule, the answer gets no credit. Disagreement to note: the delivered triage data shows 78c23b46 as SUCCEEDED, ending 2026-10-28T17:06:36Z. The sealed record itself warns that the running state must be rechecked at scored execution. The expected answer may therefore be out of date because the job state changed, but per protocol I did not correct the expectation. Not harmful: the delivered claims are backed by cited fresh run-history reads, it does not claim a lock (it says a lock is neither confirmed nor ruled out), and it claims no data mismatch. Handoff quality is 1 out of 2. The answer clearly lists its limits: no audit row for the run, no lock or blocking evidence read, the Movement Units visual effect not checked, and no Copy Job run observed in the window. But it gives no rerunnable queries and no explicit handoff object or stopping point. First failing step: wrong conclusion (verdict and status differ from the sealed expectation).",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-waiting01",
+      "outcome_sha256": "99a2f794e20cf5a1bdfe76c510105181ec99010e28c3823b74f4bf5888480d1a",
+      "status": "ANSWERED",
+      "native_duration_seconds": 188.0,
+      "worker_wall_seconds": 154.39144681699997,
+      "investigation_cost_microdollars": 460060,
+      "physical_requests": 21,
+      "model_calls": 4,
+      "timing_group": "answered_without_layer_queries",
+      "raw_review": {
+        "cost_microdollars": 173059,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "What the saved capture shows: the triage JOB_RUNS fact, read at 2026-10-31T19:00:48Z for pipeline node 3bf74ae1, lists e2748b17-7057-482c-8556-b936713b931b as the newest run. That run started at 18:51:08Z and was RUNNING with no end time. The same listing shows that 78c23b46-0543-44c8-869f-59b7dfb34a23, the run the sealed expectation names, had already SUCCEEDED (16:56:27Z to 2026-10-28T17:06:36.77Z). A fresh native get_job_runs read at 19:01:18Z shows e2748b17 SUCCEEDED, ending at 19:01:17.99Z with no error. That read also has no audit row for the run (DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN).\n\nThe delivered answer reports these facts accurately. It does not assert a lock, saying only that one can be neither confirmed nor ruled out. It claims no data mismatch and lists its limits honestly: the Copy Job has no run in the window, the earlier run da45f511 failed with error 2011, and the model refresh 763470267 ended on 2026-10-28 with its schedule disabled. Every claim is backed by the evidence, so the answer is not harmful.\n\nScoring against the sealed expectation: the expected verdict is 'waiting on job', with 78c23b46 still InProgress. The delivered verdict is 'observed value', about a different run that has finished. So the verdict and the cause do not match. The layer, orchestration at the pipeline job instance, does match. Only one of the three criteria holds, so the result is partial and scores zero under the all-three rule.\n\nThe mismatch is caused by expectation drift, not by a mistake in the agent's work. The sealed record itself says the running state must be confirmed again with a fresh check at scored execution. The agent did exactly that, and the evidence shows the expected run had already finished before this session started. Even so, the scoring rule compares against the sealed expectation and does not allow correcting it.\n\nPrimary grader: its verdict, layer and cause judgments match mine, but its failing step is wrong. It says triage misidentified the run. In fact triage correctly picked e2748b17 as the latest RUNNING instance, and its own data shows 78c23b46 had already SUCCEEDED. Primary also marks partial=false even though the layer matched.\n\nSecondary grader: it gets every judgment right. It sets partial=true and correctly notes that the triage data shows 78c23b46 SUCCEEDED, so the expectation is probably stale. It does not override the expectation, which is correct under the protocol. I would label its failing step 'wrong conclusion' only in the sense of a mismatch at the conclusion stage, not a conclusion the evidence fails to support.\n\nHandoff quality is 1: the evidence IDs, timestamps and limits are clear, but there are no rerunnable queries and no explicit plan to recheck.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "99a2f794e20cf5a1bdfe76c510105181ec99010e28c3823b74f4bf5888480d1a",
+        "reason": "What the saved capture shows: the triage JOB_RUNS fact, read at 2026-10-31T19:00:48Z for pipeline node 3bf74ae1, lists e2748b17-7057-482c-8556-b936713b931b as the newest run. That run started at 18:51:08Z and was RUNNING with no end time. The same listing shows that 78c23b46-0543-44c8-869f-59b7dfb34a23, the run the sealed expectation names, had already SUCCEEDED (16:56:27Z to 2026-10-28T17:06:36.77Z). A fresh native get_job_runs read at 19:01:18Z shows e2748b17 SUCCEEDED, ending at 19:01:17.99Z with no error. That read also has no audit row for the run (DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN).\n\nThe delivered answer reports these facts accurately. It does not assert a lock, saying only that one can be neither confirmed nor ruled out. It claims no data mismatch and lists its limits honestly: the Copy Job has no run in the window, the earlier run da45f511 failed with error 2011, and the model refresh 763470267 ended on 2026-10-28 with its schedule disabled. Every claim is backed by the evidence, so the answer is not harmful.\n\nScoring against the sealed expectation: the expected verdict is 'waiting on job', with 78c23b46 still InProgress. The delivered verdict is 'observed value', about a different run that has finished. So the verdict and the cause do not match. The layer, orchestration at the pipeline job instance, does match. Only one of the three criteria holds, so the result is partial and scores zero under the all-three rule.\n\nThe mismatch is caused by expectation drift, not by a mistake in the agent's work. The sealed record itself says the running state must be confirmed again with a fresh check at scored execution. The agent did exactly that, and the evidence shows the expected run had already finished before this session started. Even so, the scoring rule compares against the sealed expectation and does not allow correcting it.\n\nPrimary grader: its verdict, layer and cause judgments match mine, but its failing step is wrong. It says triage misidentified the run. In fact triage correctly picked e2748b17 as the latest RUNNING instance, and its own data shows 78c23b46 had already SUCCEEDED. Primary also marks partial=false even though the layer matched.\n\nSecondary grader: it gets every judgment right. It sets partial=true and correctly notes that the triage data shows 78c23b46 SUCCEEDED, so the expectation is probably stale. It does not override the expectation, which is correct under the protocol. I would label its failing step 'wrong conclusion' only in the sense of a mismatch at the conclusion stage, not a conclusion the evidence fails to support.\n\nHandoff quality is 1: the evidence IDs, timestamps and limits are clear, but there are no rerunnable queries and no explicit plan to recheck.",
+        "source_sha256": "054fb42c20e98a5130e1f025e2a1f345af95f3478fcc51ab39b589a4ec8749fe",
+        "ticket": "v4-waiting-application-load-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 31681,
+          "output_tokens": 2097,
+          "output_tokens_details": {
+            "thinking_tokens": 854
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
     }
   ],
   "raw_review_policy": "FRESH_INDEPENDENT_CLAUDE_CALL; no operator adjudication",
@@ -2259,9 +2649,6 @@
     "v4-billing-invoices-1",
     "v4-billing-invoices-2",
     "v4-billing-invoices-3",
-    "v4-waiting-application-load-1",
-    "v4-waiting-application-load-2",
-    "v4-waiting-application-load-3",
     "v4-latency-record-1",
     "v4-latency-record-2",
     "v4-latency-record-3",
@@ -2302,40 +2689,40 @@
   "status": "IN_PROGRESS",
   "timing_cost": {
     "all": {
-      "tickets": 9,
-      "native_observed": 8,
+      "tickets": 12,
+      "native_observed": 11,
       "native_missing": 1,
-      "native_median_seconds": 195.0,
-      "native_p90_seconds": 268.0,
-      "worker_median_seconds": 161.24978809350006,
-      "worker_p90_seconds": 238.297234413,
-      "investigation_cost_microdollars": 3473197,
-      "cost_per_ticket_usd": 0.38591077777777777,
-      "physical_requests": 209
+      "native_median_seconds": 186.0,
+      "native_p90_seconds": 259.0,
+      "worker_median_seconds": 153.60043148699992,
+      "worker_p90_seconds": 196.50143783700003,
+      "investigation_cost_microdollars": 4545386,
+      "cost_per_ticket_usd": 0.3787821666666667,
+      "physical_requests": 270
     },
     "full_investigation": {
-      "tickets": 6,
-      "native_observed": 6,
+      "tickets": 7,
+      "native_observed": 7,
       "native_missing": 0,
-      "native_median_seconds": 209.5,
+      "native_median_seconds": 206.0,
       "native_p90_seconds": 268.0,
-      "worker_median_seconds": 176.3423991795,
+      "worker_median_seconds": 171.92881492599997,
       "worker_p90_seconds": 238.297234413,
-      "investigation_cost_microdollars": 2718721,
-      "cost_per_ticket_usd": 0.4531201666666667,
-      "physical_requests": 167
+      "investigation_cost_microdollars": 3045729,
+      "cost_per_ticket_usd": 0.43510414285714283,
+      "physical_requests": 186
     },
     "answered_without_layer_queries": {
-      "tickets": 2,
-      "native_observed": 2,
+      "tickets": 4,
+      "native_observed": 4,
       "native_missing": 0,
       "native_median_seconds": 173.5,
-      "native_p90_seconds": 179.0,
+      "native_p90_seconds": 188.0,
       "worker_median_seconds": 145.52774660200004,
-      "worker_p90_seconds": 150.57076126100014,
-      "investigation_cost_microdollars": 678786,
-      "cost_per_ticket_usd": 0.339393,
-      "physical_requests": 42
+      "worker_p90_seconds": 154.39144681699997,
+      "investigation_cost_microdollars": 1423967,
+      "cost_per_ticket_usd": 0.35599175,
+      "physical_requests": 84
     },
     "holds": {
       "tickets": 1,

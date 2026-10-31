@@ -1,15 +1,16 @@
 {
   "pass": "Round25 G2 raw-reviewed",
-  "graded": 9,
-  "score": 8,
+  "graded": 12,
+  "score": 10,
   "correctness": {
-    "verdict_match": 8,
-    "layer_match": 8,
-    "cause_match": 8
+    "verdict_match": 10,
+    "layer_match": 11,
+    "cause_match": 10
   },
   "harmful": 0,
   "zero_groups": {
-    "intake": 1
+    "intake": 1,
+    "conclusion": 1
   },
   "zeros": [
     {
@@ -25,6 +26,20 @@
       "retained_query_errors": [],
       "correct_action": "Resolve only the missing user fact using the admitted catalog.",
       "class": "v4-source-history"
+    },
+    {
+      "ticket": "v4-waiting-application-load-3",
+      "first_wrong_step": "conclusion",
+      "reason": "What the saved capture shows: the triage JOB_RUNS fact, read at 2026-10-31T19:00:48Z for pipeline node 3bf74ae1, lists e2748b17-7057-482c-8556-b936713b931b as the newest run. That run started at 18:51:08Z and was RUNNING with no end time. The same listing shows that 78c23b46-0543-44c8-869f-59b7dfb34a23, the run the sealed expectation names, had already SUCCEEDED (16:56:27Z to 2026-10-28T17:06:36.77Z). A fresh native get_job_runs read at 19:01:18Z shows e2748b17 SUCCEEDED, ending at 19:01:17.99Z with no error. That read also has no audit row for the run (DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN).\n\nThe delivered answer reports these facts accurately. It does not assert a lock, saying only that one can be neither confirmed nor ruled out. It claims no data mismatch and lists its limits honestly: the Copy Job has no run in the window, the earlier run da45f511 failed with error 2011, and the model refresh 763470267 ended on 2026-10-28 with its schedule disabled. Every claim is backed by the evidence, so the answer is not harmful.\n\nScoring against the sealed expectation: the expected verdict is 'waiting on job', with 78c23b46 still InProgress. The delivered verdict is 'observed value', about a different run that has finished. So the verdict and the cause do not match. The layer, orchestration at the pipeline job instance, does match. Only one of the three criteria holds, so the result is partial and scores zero under the all-three rule.\n\nThe mismatch is caused by expectation drift, not by a mistake in the agent's work. The sealed record itself says the running state must be confirmed again with a fresh check at scored execution. The agent did exactly that, and the evidence shows the expected run had already finished before this session started. Even so, the scoring rule compares against the sealed expectation and does not allow correcting it.\n\nPrimary grader: its verdict, layer and cause judgments match mine, but its failing step is wrong. It says triage misidentified the run. In fact triage correctly picked e2748b17 as the latest RUNNING instance, and its own data shows 78c23b46 had already SUCCEEDED. Primary also marks partial=false even though the layer matched.\n\nSecondary grader: it gets every judgment right. It sets partial=true and correctly notes that the triage data shows 78c23b46 SUCCEEDED, so the expectation is probably stale. It does not override the expectation, which is correct under the protocol. I would label its failing step 'wrong conclusion' only in the sense of a mismatch at the conclusion stage, not a conclusion the evidence fails to support.\n\nHandoff quality is 1: the evidence IDs, timestamps and limits are clear, but there are no rerunnable queries and no explicit plan to recheck.",
+      "saved_trace": {
+        "outcome_sha256": "99a2f794e20cf5a1bdfe76c510105181ec99010e28c3823b74f4bf5888480d1a",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-waiting-application-load-3-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Restrict the cause to what the cited native evidence establishes.",
+      "class": "v4-waiting-application-load"
     }
   ],
   "walkthroughs": [
@@ -41,12 +56,27 @@
       "retained_query_errors": [],
       "correct_action": "Resolve only the missing user fact using the admitted catalog.",
       "class": "v4-source-history"
+    },
+    {
+      "ticket": "v4-waiting-application-load-3",
+      "first_wrong_step": "conclusion",
+      "reason": "What the saved capture shows: the triage JOB_RUNS fact, read at 2026-10-31T19:00:48Z for pipeline node 3bf74ae1, lists e2748b17-7057-482c-8556-b936713b931b as the newest run. That run started at 18:51:08Z and was RUNNING with no end time. The same listing shows that 78c23b46-0543-44c8-869f-59b7dfb34a23, the run the sealed expectation names, had already SUCCEEDED (16:56:27Z to 2026-10-28T17:06:36.77Z). A fresh native get_job_runs read at 19:01:18Z shows e2748b17 SUCCEEDED, ending at 19:01:17.99Z with no error. That read also has no audit row for the run (DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN).\n\nThe delivered answer reports these facts accurately. It does not assert a lock, saying only that one can be neither confirmed nor ruled out. It claims no data mismatch and lists its limits honestly: the Copy Job has no run in the window, the earlier run da45f511 failed with error 2011, and the model refresh 763470267 ended on 2026-10-28 with its schedule disabled. Every claim is backed by the evidence, so the answer is not harmful.\n\nScoring against the sealed expectation: the expected verdict is 'waiting on job', with 78c23b46 still InProgress. The delivered verdict is 'observed value', about a different run that has finished. So the verdict and the cause do not match. The layer, orchestration at the pipeline job instance, does match. Only one of the three criteria holds, so the result is partial and scores zero under the all-three rule.\n\nThe mismatch is caused by expectation drift, not by a mistake in the agent's work. The sealed record itself says the running state must be confirmed again with a fresh check at scored execution. The agent did exactly that, and the evidence shows the expected run had already finished before this session started. Even so, the scoring rule compares against the sealed expectation and does not allow correcting it.\n\nPrimary grader: its verdict, layer and cause judgments match mine, but its failing step is wrong. It says triage misidentified the run. In fact triage correctly picked e2748b17 as the latest RUNNING instance, and its own data shows 78c23b46 had already SUCCEEDED. Primary also marks partial=false even though the layer matched.\n\nSecondary grader: it gets every judgment right. It sets partial=true and correctly notes that the triage data shows 78c23b46 SUCCEEDED, so the expectation is probably stale. It does not override the expectation, which is correct under the protocol. I would label its failing step 'wrong conclusion' only in the sense of a mismatch at the conclusion stage, not a conclusion the evidence fails to support.\n\nHandoff quality is 1: the evidence IDs, timestamps and limits are clear, but there are no rerunnable queries and no explicit plan to recheck.",
+      "saved_trace": {
+        "outcome_sha256": "99a2f794e20cf5a1bdfe76c510105181ec99010e28c3823b74f4bf5888480d1a",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-waiting-application-load-3-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Restrict the cause to what the cited native evidence establishes.",
+      "class": "v4-waiting-application-load"
     }
   ],
   "estate_reads": 0,
   "model_calls": 0,
   "scores_or_expectations_changed": false,
   "zero_classes": {
-    "v4-source-history": 1
+    "v4-source-history": 1,
+    "v4-waiting-application-load": 1
   }
 }
