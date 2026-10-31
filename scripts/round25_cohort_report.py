@@ -5,6 +5,13 @@ from round25_independent_review import differs
 import json
 from pathlib import Path
 
+def established_intake_exception(failure,exit_record):
+    return (failure.get('error_type')=='ValueError'
+            and failure.get('message')in ('COMPARISON_DETAILS_REQUIRED','CONFLICTING_COMPARISON_TARGET')
+            and exit_record.get('exit_code')==1
+            and exit_record.get('reason')=='UNDELIVERED_EXCEPTION'
+            and exit_record.get('last_step')=='guided-investigation')
+
 def load_saved_outcome(root,cohort,ident):
     """Report a real native exception without inventing an engine answer/usage."""
     root=Path(root);p=root/(cohort+'-'+ident+'-result.json')

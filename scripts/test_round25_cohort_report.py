@@ -1,6 +1,12 @@
 ﻿import unittest
-from round25_cohort_report import summarize,verdict_class,load_saved_outcome
+from round25_cohort_report import summarize,verdict_class,load_saved_outcome,established_intake_exception
 class CohortReviewTests(unittest.TestCase):
+ def test_only_exact_established_intake_failures_can_be_classified_automatically(self):
+  exit_record={'exit_code':1,'reason':'UNDELIVERED_EXCEPTION','last_step':'guided-investigation'}
+  self.assertTrue(established_intake_exception({'error_type':'ValueError','message':'COMPARISON_DETAILS_REQUIRED'},exit_record))
+  for failure in ({'error_type':'HTTPError','message':'HTTP404'},{'error_type':'ValueError','message':'READ_ONLY_VIOLATION'},{'error_type':'ProviderHTTPError','message':'429'},{'error_type':'SpendHold','message':'MONTHLY_MODEL_EXHAUSTED'}):
+   self.assertFalse(established_intake_exception(failure,exit_record))
+  self.assertFalse(established_intake_exception({'error_type':'ValueError','message':'COMPARISON_DETAILS_REQUIRED'},{**exit_record,'exit_code':0}))
  def test_native_exception_preserves_original_bytes_and_unknown_usage(self):
   import tempfile,json
   from pathlib import Path
