@@ -2,46 +2,46 @@
   "official_primary": {
     "all_three": {
       "correct": 12,
-      "total": 21,
-      "accuracy": 0.5714285714285714,
-      "lower": 0.3654655436930671,
-      "upper": 0.7553003107462404,
+      "total": 24,
+      "accuracy": 0.5,
+      "lower": 0.3142742581957335,
+      "upper": 0.6857257418042665,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 15,
-      "total": 21,
-      "accuracy": 0.7142857142857143,
-      "lower": 0.5004361928391441,
-      "upper": 0.8618613704787788,
+      "total": 24,
+      "accuracy": 0.625,
+      "lower": 0.42709962442674276,
+      "upper": 0.7884063244045122,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 17,
-      "total": 21,
-      "accuracy": 0.8095238095238095,
-      "lower": 0.5999943530979508,
-      "upper": 0.9233243494723822,
+      "correct": 18,
+      "total": 24,
+      "accuracy": 0.75,
+      "lower": 0.55100555994846,
+      "upper": 0.8800063377140499,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 12,
-      "total": 21,
-      "accuracy": 0.5714285714285714,
-      "lower": 0.3654655436930671,
-      "upper": 0.7553003107462404,
+      "total": 24,
+      "accuracy": 0.5,
+      "lower": 0.3142742581957335,
+      "upper": 0.6857257418042665,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 21,
+      "total": 24,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.154639018924847,
+      "lower": 1.3877787807814457e-17,
+      "upper": 0.13797620467498017,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -49,93 +49,93 @@
   "strict": {
     "all_three": {
       "correct": 12,
-      "total": 21,
-      "accuracy": 0.5714285714285714,
-      "lower": 0.3654655436930671,
-      "upper": 0.7553003107462404,
+      "total": 24,
+      "accuracy": 0.5,
+      "lower": 0.3142742581957335,
+      "upper": 0.6857257418042665,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 15,
-      "total": 21,
-      "accuracy": 0.7142857142857143,
-      "lower": 0.5004361928391441,
-      "upper": 0.8618613704787788,
+      "total": 24,
+      "accuracy": 0.625,
+      "lower": 0.42709962442674276,
+      "upper": 0.7884063244045122,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 16,
-      "total": 21,
-      "accuracy": 0.7619047619047619,
-      "lower": 0.5490882631704924,
-      "upper": 0.8937198697736354,
+      "correct": 17,
+      "total": 24,
+      "accuracy": 0.7083333333333334,
+      "lower": 0.5083230633550337,
+      "upper": 0.8508535180303913,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 12,
-      "total": 21,
-      "accuracy": 0.5714285714285714,
-      "lower": 0.3654655436930671,
-      "upper": 0.7553003107462404,
+      "total": 24,
+      "accuracy": 0.5,
+      "lower": 0.3142742581957335,
+      "upper": 0.6857257418042665,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 21,
+      "total": 24,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.154639018924847,
+      "lower": 1.3877787807814457e-17,
+      "upper": 0.13797620467498017,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "raw_reviewed": {
     "all_three": {
-      "correct": 12,
-      "total": 21,
-      "accuracy": 0.5714285714285714,
-      "lower": 0.3654655436930671,
-      "upper": 0.7553003107462404,
+      "correct": 13,
+      "total": 24,
+      "accuracy": 0.5416666666666666,
+      "lower": 0.3507486535891948,
+      "upper": 0.72108666268789,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 15,
-      "total": 21,
-      "accuracy": 0.7142857142857143,
-      "lower": 0.5004361928391441,
-      "upper": 0.8618613704787788,
+      "correct": 16,
+      "total": 24,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.4670631683813174,
+      "upper": 0.8202780967270225,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 16,
-      "total": 21,
-      "accuracy": 0.7619047619047619,
-      "lower": 0.5490882631704924,
-      "upper": 0.8937198697736354,
+      "correct": 17,
+      "total": 24,
+      "accuracy": 0.7083333333333334,
+      "lower": 0.5083230633550337,
+      "upper": 0.8508535180303913,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 12,
-      "total": 21,
-      "accuracy": 0.5714285714285714,
-      "lower": 0.3654655436930671,
-      "upper": 0.7553003107462404,
+      "correct": 13,
+      "total": 24,
+      "accuracy": 0.5416666666666666,
+      "lower": 0.3507486535891948,
+      "upper": 0.72108666268789,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 21,
+      "total": 24,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.154639018924847,
+      "lower": 1.3877787807814457e-17,
+      "upper": 0.13797620467498017,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,107 +143,107 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 21,
+  "completed_graded": 24,
   "primary": {
     "all_three": {
       "correct": 12,
-      "total": 21,
-      "accuracy": 0.5714285714285714,
-      "lower": 0.3654655436930671,
-      "upper": 0.7553003107462404,
+      "total": 24,
+      "accuracy": 0.5,
+      "lower": 0.3142742581957335,
+      "upper": 0.6857257418042665,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 15,
-      "total": 21,
-      "accuracy": 0.7142857142857143,
-      "lower": 0.5004361928391441,
-      "upper": 0.8618613704787788,
+      "total": 24,
+      "accuracy": 0.625,
+      "lower": 0.42709962442674276,
+      "upper": 0.7884063244045122,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 17,
-      "total": 21,
-      "accuracy": 0.8095238095238095,
-      "lower": 0.5999943530979508,
-      "upper": 0.9233243494723822,
+      "correct": 18,
+      "total": 24,
+      "accuracy": 0.75,
+      "lower": 0.55100555994846,
+      "upper": 0.8800063377140499,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 12,
-      "total": 21,
-      "accuracy": 0.5714285714285714,
-      "lower": 0.3654655436930671,
-      "upper": 0.7553003107462404,
+      "total": 24,
+      "accuracy": 0.5,
+      "lower": 0.3142742581957335,
+      "upper": 0.6857257418042665,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 21,
+      "total": 24,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.154639018924847,
+      "lower": 1.3877787807814457e-17,
+      "upper": 0.13797620467498017,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "secondary": {
     "all_three": {
-      "correct": 12,
-      "total": 21,
-      "accuracy": 0.5714285714285714,
-      "lower": 0.3654655436930671,
-      "upper": 0.7553003107462404,
+      "correct": 13,
+      "total": 24,
+      "accuracy": 0.5416666666666666,
+      "lower": 0.3507486535891948,
+      "upper": 0.72108666268789,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 15,
-      "total": 21,
-      "accuracy": 0.7142857142857143,
-      "lower": 0.5004361928391441,
-      "upper": 0.8618613704787788,
+      "correct": 16,
+      "total": 24,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.4670631683813174,
+      "upper": 0.8202780967270225,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 16,
-      "total": 21,
-      "accuracy": 0.7619047619047619,
-      "lower": 0.5490882631704924,
-      "upper": 0.8937198697736354,
+      "correct": 17,
+      "total": 24,
+      "accuracy": 0.7083333333333334,
+      "lower": 0.5083230633550337,
+      "upper": 0.8508535180303913,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 12,
-      "total": 21,
-      "accuracy": 0.5714285714285714,
-      "lower": 0.3654655436930671,
-      "upper": 0.7553003107462404,
+      "correct": 13,
+      "total": 24,
+      "accuracy": 0.5416666666666666,
+      "lower": 0.3507486535891948,
+      "upper": 0.72108666268789,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 21,
+      "total": 24,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.154639018924847,
+      "lower": 1.3877787807814457e-17,
+      "upper": 0.13797620467498017,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 20,
-    "total": 21,
-    "accuracy": 0.9523809523809523,
-    "lower": 0.7733063992587743,
-    "upper": 0.9915440121901737,
+    "correct": 22,
+    "total": 24,
+    "accuracy": 0.9166666666666666,
+    "lower": 0.741511978067893,
+    "upper": 0.9768411847029567,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -254,11 +254,11 @@
     "harmful"
   ],
   "full_assessment_agreement": {
-    "correct": 3,
-    "total": 21,
-    "accuracy": 0.14285714285714285,
-    "lower": 0.04981012499725268,
-    "upper": 0.34636060280620945,
+    "correct": 5,
+    "total": 24,
+    "accuracy": 0.20833333333333334,
+    "lower": 0.09244825352851857,
+    "upper": 0.40470453253188665,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -375,6 +375,15 @@
       ]
     },
     {
+      "ticket": "v4-application-baseline-1",
+      "fields": [
+        "verdict_match",
+        "cause_match",
+        "handoff_quality",
+        "failing_step"
+      ]
+    },
+    {
       "ticket": "v4-waiting-application-load-3",
       "fields": [
         "failing_step",
@@ -416,6 +425,8 @@
       "investigation_cost_microdollars": 81507,
       "physical_requests": 0,
       "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-access-export-1-result.json",
+      "usage_unavailable": false,
       "timing_group": "holds",
       "expected_verdict_class": "access difference",
       "raw_review": {
@@ -490,6 +501,8 @@
       "investigation_cost_microdollars": 2164325,
       "physical_requests": 20,
       "model_calls": 8,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-access-export-2-result.json",
+      "usage_unavailable": false,
       "timing_group": "holds",
       "expected_verdict_class": "access difference",
       "raw_review": {
@@ -564,6 +577,8 @@
       "investigation_cost_microdollars": 1845124,
       "physical_requests": 27,
       "model_calls": 7,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-access-export-3-result.json",
+      "usage_unavailable": false,
       "timing_group": "holds",
       "expected_verdict_class": "access difference",
       "raw_review": {
@@ -638,6 +653,8 @@
       "investigation_cost_microdollars": 564296,
       "physical_requests": 32,
       "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-failed-billing-transform-1-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "failed job",
       "raw_review": {
@@ -712,6 +729,8 @@
       "investigation_cost_microdollars": 504488,
       "physical_requests": 29,
       "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-failed-billing-transform-2-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "failed job",
       "raw_review": {
@@ -786,6 +805,8 @@
       "investigation_cost_microdollars": 723198,
       "physical_requests": 27,
       "model_calls": 6,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-failed-billing-transform-3-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "failed job",
       "raw_review": {
@@ -860,6 +881,8 @@
       "investigation_cost_microdollars": 380141,
       "physical_requests": 21,
       "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-failed-application-load-1-result.json",
+      "usage_unavailable": false,
       "timing_group": "answered_without_layer_queries",
       "expected_verdict_class": "failed job",
       "raw_review": {
@@ -934,6 +957,8 @@
       "investigation_cost_microdollars": 286271,
       "physical_requests": 29,
       "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-failed-application-load-3-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "failed job",
       "raw_review": {
@@ -1008,6 +1033,8 @@
       "investigation_cost_microdollars": 75690,
       "physical_requests": 0,
       "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-source-history-1-result.json",
+      "usage_unavailable": false,
       "timing_group": "holds",
       "expected_verdict_class": "source changed history",
       "raw_review": {
@@ -1082,6 +1109,8 @@
       "investigation_cost_microdollars": 395814,
       "physical_requests": 27,
       "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-source-history-2-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "source changed history",
       "raw_review": {
@@ -1156,6 +1185,8 @@
       "investigation_cost_microdollars": 244654,
       "physical_requests": 23,
       "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-source-history-3-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "source changed history",
       "raw_review": {
@@ -1230,6 +1261,8 @@
       "investigation_cost_microdollars": 381245,
       "physical_requests": 32,
       "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-latency-record-2-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "latency",
       "raw_review": {
@@ -1304,6 +1337,8 @@
       "investigation_cost_microdollars": 473013,
       "physical_requests": 33,
       "model_calls": 6,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-latency-record-3-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "latency",
       "raw_review": {
@@ -1378,6 +1413,8 @@
       "investigation_cost_microdollars": 382132,
       "physical_requests": 28,
       "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-stale-model-2-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "refresh stale",
       "raw_review": {
@@ -1412,6 +1449,82 @@
           "output_tokens": 2077,
           "output_tokens_details": {
             "thinking_tokens": 776
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-application-baseline-1",
+      "class": "v4-application-baseline",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The layer match is correct: the delivered answer correctly identifies the semantic model measure layer (SUM('Movements'[units]) in the Direct Lake model). However, the verdict is wrong. The expected verdict is 'as designed' but the delivered answer gives 'definition explained', which is a different classification. The cause is also wrong: the expected cause is that Movement Units is SUM('Movements'[units]) and the 7661 matches because it IS the sum of units (the design is working correctly as designed), but the delivered technical answer frames this as explaining a definition rather than confirming the system is working as designed. The delivered answer does reach the right factual conclusion (7661 = sum of units over 360 rows, everything matches), but classifies the verdict as 'definition explained' rather than 'as designed'. This is a verdict mismatch that disqualifies a full match. The handoff quality is moderate (1): queries are documented with results, but there is no clear rerunnable stopping point or next-step checklist for a follow-up investigator.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Expected verdict is 'as designed'. The answer says 'definition explained' and concludes that the card matches the application data with nothing wrong, so it has the same meaning. Layer matches: the semantic model measure Movement Units is SUM('Movements'[units]). Named cause matches: a Direct Lake table over dbo.stock_movements_round_two_20261003, and 7661 is the total units across the application's 360 rows, not a row count. Read-only queries confirm 7661/360 on the model, lakehouse and application layers. The extra detail about pipeline failures is accurate and qualified: successful runs followed both failures. It does not claim a wrong cause, so it is not harmful. Handoff: the queries are kept word for word and can be rerun, the stopping point is clear, and the caveats are stated (separate snapshots, unavailable triage checks). No further checks are needed.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static01",
+      "outcome_sha256": "ff2bb55c529718d49412fadc10cce75f792c32d8eaa2a0c64f38677995f63889",
+      "status": "ANSWERED",
+      "native_duration_seconds": 192.0,
+      "worker_wall_seconds": 163.67915454499996,
+      "investigation_cost_microdollars": 341441,
+      "physical_requests": 26,
+      "model_calls": 2,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-application-baseline-1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 171223,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence shows: the model query returned Movement Units 7661 over 360 rows with no filters. Read-only SQL on the lakehouse table dbo.stock_movements_round_two_20261003 and the application table app.stock_movements_round_two_20261003 each returned 7661 units and 360 rows. The load pipeline's run history shows exactly two failed runs, both with error 2011 (controlled fixture failure): 2026-10-28 16:12:39\u201316:13:05 UTC and 2026-10-31 17:52:20\u201317:52:48 UTC. Successful runs followed both. The latest run (20:11:57\u201320:13:27 UTC on 2026-10-31) succeeded with 360 rows read and 360 written. The latest model refresh (2026-10-28 21:50 UTC, run 763470267) succeeded. Every number and time the answer cites matches these records. The SUM('Movements'[units]) definition and the Direct Lake binding are not in any saved query, but the sealed expectation confirms both, so they are not unsupported. Verdict: 'definition explained' with the conclusion that the card matches the application data, with nothing wrong, means the same as 'as designed'. The primary grader judged the label, not the substance. Layer: semantic model measure (both graders agree). Cause: the answer names the expected cause: the measure sums units over the Direct Lake table, and 7661 is the units total while 360 is a row count. The primary grader's framing objection is wrong. Not harmful: the pipeline failures are reported accurately, with successful runs after both. Handoff quality is 2: the queries are saved word for word and can be rerun, and the caveats are stated (layers read separately, not one snapshot). The secondary grader is right.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "ff2bb55c529718d49412fadc10cce75f792c32d8eaa2a0c64f38677995f63889",
+        "reason": "What the saved evidence shows: the model query returned Movement Units 7661 over 360 rows with no filters. Read-only SQL on the lakehouse table dbo.stock_movements_round_two_20261003 and the application table app.stock_movements_round_two_20261003 each returned 7661 units and 360 rows. The load pipeline's run history shows exactly two failed runs, both with error 2011 (controlled fixture failure): 2026-10-28 16:12:39\u201316:13:05 UTC and 2026-10-31 17:52:20\u201317:52:48 UTC. Successful runs followed both. The latest run (20:11:57\u201320:13:27 UTC on 2026-10-31) succeeded with 360 rows read and 360 written. The latest model refresh (2026-10-28 21:50 UTC, run 763470267) succeeded. Every number and time the answer cites matches these records. The SUM('Movements'[units]) definition and the Direct Lake binding are not in any saved query, but the sealed expectation confirms both, so they are not unsupported. Verdict: 'definition explained' with the conclusion that the card matches the application data, with nothing wrong, means the same as 'as designed'. The primary grader judged the label, not the substance. Layer: semantic model measure (both graders agree). Cause: the answer names the expected cause: the measure sums units over the Direct Lake table, and 7661 is the units total while 360 is a row count. The primary grader's framing objection is wrong. Not harmful: the pipeline failures are reported accurately, with successful runs after both. Handoff quality is 2: the queries are saved word for word and can be rerun, and the caveats are stated (layers read separately, not one snapshot). The secondary grader is right.",
+        "source_sha256": "51638909c4f7d123316fbbef4fd9bce31ed14edbe792a8a822a9f95008ff715e",
+        "ticket": "v4-application-baseline-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 31092,
+          "output_tokens": 2123,
+          "output_tokens_details": {
+            "thinking_tokens": 482
           },
           "service_tier": "standard",
           "speed": "standard"
@@ -2861,6 +2974,246 @@
         }
       }
     },
+    "v4-application-baseline": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "v4-waiting-application-load": {
       "official_primary": {
         "all_three": {
@@ -3136,6 +3489,8 @@
       "investigation_cost_microdollars": 2164325,
       "physical_requests": 20,
       "model_calls": 8,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-access-export-2-result.json",
+      "usage_unavailable": false,
       "timing_group": "holds",
       "expected_verdict_class": "access difference",
       "raw_review": {
@@ -3170,6 +3525,82 @@
           "output_tokens": 1469,
           "output_tokens_details": {
             "thinking_tokens": 483
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-application-baseline-1",
+      "class": "v4-application-baseline",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The layer match is correct: the delivered answer correctly identifies the semantic model measure layer (SUM('Movements'[units]) in the Direct Lake model). However, the verdict is wrong. The expected verdict is 'as designed' but the delivered answer gives 'definition explained', which is a different classification. The cause is also wrong: the expected cause is that Movement Units is SUM('Movements'[units]) and the 7661 matches because it IS the sum of units (the design is working correctly as designed), but the delivered technical answer frames this as explaining a definition rather than confirming the system is working as designed. The delivered answer does reach the right factual conclusion (7661 = sum of units over 360 rows, everything matches), but classifies the verdict as 'definition explained' rather than 'as designed'. This is a verdict mismatch that disqualifies a full match. The handoff quality is moderate (1): queries are documented with results, but there is no clear rerunnable stopping point or next-step checklist for a follow-up investigator.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Expected verdict is 'as designed'. The answer says 'definition explained' and concludes that the card matches the application data with nothing wrong, so it has the same meaning. Layer matches: the semantic model measure Movement Units is SUM('Movements'[units]). Named cause matches: a Direct Lake table over dbo.stock_movements_round_two_20261003, and 7661 is the total units across the application's 360 rows, not a row count. Read-only queries confirm 7661/360 on the model, lakehouse and application layers. The extra detail about pipeline failures is accurate and qualified: successful runs followed both failures. It does not claim a wrong cause, so it is not harmful. Handoff: the queries are kept word for word and can be rerun, the stopping point is clear, and the caveats are stated (separate snapshots, unavailable triage checks). No further checks are needed.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static01",
+      "outcome_sha256": "ff2bb55c529718d49412fadc10cce75f792c32d8eaa2a0c64f38677995f63889",
+      "status": "ANSWERED",
+      "native_duration_seconds": 192.0,
+      "worker_wall_seconds": 163.67915454499996,
+      "investigation_cost_microdollars": 341441,
+      "physical_requests": 26,
+      "model_calls": 2,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-application-baseline-1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 171223,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence shows: the model query returned Movement Units 7661 over 360 rows with no filters. Read-only SQL on the lakehouse table dbo.stock_movements_round_two_20261003 and the application table app.stock_movements_round_two_20261003 each returned 7661 units and 360 rows. The load pipeline's run history shows exactly two failed runs, both with error 2011 (controlled fixture failure): 2026-10-28 16:12:39\u201316:13:05 UTC and 2026-10-31 17:52:20\u201317:52:48 UTC. Successful runs followed both. The latest run (20:11:57\u201320:13:27 UTC on 2026-10-31) succeeded with 360 rows read and 360 written. The latest model refresh (2026-10-28 21:50 UTC, run 763470267) succeeded. Every number and time the answer cites matches these records. The SUM('Movements'[units]) definition and the Direct Lake binding are not in any saved query, but the sealed expectation confirms both, so they are not unsupported. Verdict: 'definition explained' with the conclusion that the card matches the application data, with nothing wrong, means the same as 'as designed'. The primary grader judged the label, not the substance. Layer: semantic model measure (both graders agree). Cause: the answer names the expected cause: the measure sums units over the Direct Lake table, and 7661 is the units total while 360 is a row count. The primary grader's framing objection is wrong. Not harmful: the pipeline failures are reported accurately, with successful runs after both. Handoff quality is 2: the queries are saved word for word and can be rerun, and the caveats are stated (layers read separately, not one snapshot). The secondary grader is right.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "ff2bb55c529718d49412fadc10cce75f792c32d8eaa2a0c64f38677995f63889",
+        "reason": "What the saved evidence shows: the model query returned Movement Units 7661 over 360 rows with no filters. Read-only SQL on the lakehouse table dbo.stock_movements_round_two_20261003 and the application table app.stock_movements_round_two_20261003 each returned 7661 units and 360 rows. The load pipeline's run history shows exactly two failed runs, both with error 2011 (controlled fixture failure): 2026-10-28 16:12:39\u201316:13:05 UTC and 2026-10-31 17:52:20\u201317:52:48 UTC. Successful runs followed both. The latest run (20:11:57\u201320:13:27 UTC on 2026-10-31) succeeded with 360 rows read and 360 written. The latest model refresh (2026-10-28 21:50 UTC, run 763470267) succeeded. Every number and time the answer cites matches these records. The SUM('Movements'[units]) definition and the Direct Lake binding are not in any saved query, but the sealed expectation confirms both, so they are not unsupported. Verdict: 'definition explained' with the conclusion that the card matches the application data, with nothing wrong, means the same as 'as designed'. The primary grader judged the label, not the substance. Layer: semantic model measure (both graders agree). Cause: the answer names the expected cause: the measure sums units over the Direct Lake table, and 7661 is the units total while 360 is a row count. The primary grader's framing objection is wrong. Not harmful: the pipeline failures are reported accurately, with successful runs after both. Handoff quality is 2: the queries are saved word for word and can be rerun, and the caveats are stated (layers read separately, not one snapshot). The secondary grader is right.",
+        "source_sha256": "51638909c4f7d123316fbbef4fd9bce31ed14edbe792a8a822a9f95008ff715e",
+        "ticket": "v4-application-baseline-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 31092,
+          "output_tokens": 2123,
+          "output_tokens_details": {
+            "thinking_tokens": 482
           },
           "service_tier": "standard",
           "speed": "standard"
@@ -3213,6 +3644,8 @@
       "investigation_cost_microdollars": 81507,
       "physical_requests": 0,
       "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-access-export-1-result.json",
+      "usage_unavailable": false,
       "timing_group": "holds",
       "expected_verdict_class": "access difference",
       "raw_review": {
@@ -3287,6 +3720,8 @@
       "investigation_cost_microdollars": 2164325,
       "physical_requests": 20,
       "model_calls": 8,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-access-export-2-result.json",
+      "usage_unavailable": false,
       "timing_group": "holds",
       "expected_verdict_class": "access difference",
       "raw_review": {
@@ -3361,6 +3796,8 @@
       "investigation_cost_microdollars": 1845124,
       "physical_requests": 27,
       "model_calls": 7,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-access-export-3-result.json",
+      "usage_unavailable": false,
       "timing_group": "holds",
       "expected_verdict_class": "access difference",
       "raw_review": {
@@ -3435,6 +3872,8 @@
       "investigation_cost_microdollars": 564296,
       "physical_requests": 32,
       "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-failed-billing-transform-1-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "failed job",
       "raw_review": {
@@ -3509,6 +3948,8 @@
       "investigation_cost_microdollars": 504488,
       "physical_requests": 29,
       "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-failed-billing-transform-2-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "failed job",
       "raw_review": {
@@ -3583,6 +4024,8 @@
       "investigation_cost_microdollars": 723198,
       "physical_requests": 27,
       "model_calls": 6,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-failed-billing-transform-3-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "failed job",
       "raw_review": {
@@ -3657,6 +4100,8 @@
       "investigation_cost_microdollars": 380141,
       "physical_requests": 21,
       "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-failed-application-load-1-result.json",
+      "usage_unavailable": false,
       "timing_group": "answered_without_layer_queries",
       "expected_verdict_class": "failed job",
       "raw_review": {
@@ -3731,6 +4176,8 @@
       "investigation_cost_microdollars": 298645,
       "physical_requests": 21,
       "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-failed-application-load-2-result.json",
+      "usage_unavailable": false,
       "timing_group": "answered_without_layer_queries",
       "expected_verdict_class": "failed job"
     },
@@ -3767,6 +4214,8 @@
       "investigation_cost_microdollars": 286271,
       "physical_requests": 29,
       "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-failed-application-load-3-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "failed job",
       "raw_review": {
@@ -3841,6 +4290,8 @@
       "investigation_cost_microdollars": 75690,
       "physical_requests": 0,
       "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-source-history-1-result.json",
+      "usage_unavailable": false,
       "timing_group": "holds",
       "expected_verdict_class": "source changed history",
       "raw_review": {
@@ -3915,6 +4366,8 @@
       "investigation_cost_microdollars": 395814,
       "physical_requests": 27,
       "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-source-history-2-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "source changed history",
       "raw_review": {
@@ -3989,6 +4442,8 @@
       "investigation_cost_microdollars": 244654,
       "physical_requests": 23,
       "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-source-history-3-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "source changed history",
       "raw_review": {
@@ -4063,6 +4518,8 @@
       "investigation_cost_microdollars": 104519,
       "physical_requests": 0,
       "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-latency-record-1-result.json",
+      "usage_unavailable": false,
       "timing_group": "holds",
       "expected_verdict_class": "latency",
       "raw_review": {
@@ -4137,6 +4594,8 @@
       "investigation_cost_microdollars": 381245,
       "physical_requests": 32,
       "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-latency-record-2-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "latency",
       "raw_review": {
@@ -4211,6 +4670,8 @@
       "investigation_cost_microdollars": 473013,
       "physical_requests": 33,
       "model_calls": 6,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-latency-record-3-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "latency",
       "raw_review": {
@@ -4285,6 +4746,8 @@
       "investigation_cost_microdollars": 374701,
       "physical_requests": 28,
       "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-stale-model-1-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "refresh stale",
       "raw_review": {
@@ -4359,6 +4822,8 @@
       "investigation_cost_microdollars": 382132,
       "physical_requests": 28,
       "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-stale-model-2-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "refresh stale",
       "raw_review": {
@@ -4433,6 +4898,8 @@
       "investigation_cost_microdollars": 376845,
       "physical_requests": 28,
       "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-stale-model-3-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "refresh stale",
       "raw_review": {
@@ -4475,6 +4942,158 @@
       }
     },
     {
+      "ticket": "v4-application-baseline-1",
+      "class": "v4-application-baseline",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The layer match is correct: the delivered answer correctly identifies the semantic model measure layer (SUM('Movements'[units]) in the Direct Lake model). However, the verdict is wrong. The expected verdict is 'as designed' but the delivered answer gives 'definition explained', which is a different classification. The cause is also wrong: the expected cause is that Movement Units is SUM('Movements'[units]) and the 7661 matches because it IS the sum of units (the design is working correctly as designed), but the delivered technical answer frames this as explaining a definition rather than confirming the system is working as designed. The delivered answer does reach the right factual conclusion (7661 = sum of units over 360 rows, everything matches), but classifies the verdict as 'definition explained' rather than 'as designed'. This is a verdict mismatch that disqualifies a full match. The handoff quality is moderate (1): queries are documented with results, but there is no clear rerunnable stopping point or next-step checklist for a follow-up investigator.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Expected verdict is 'as designed'. The answer says 'definition explained' and concludes that the card matches the application data with nothing wrong, so it has the same meaning. Layer matches: the semantic model measure Movement Units is SUM('Movements'[units]). Named cause matches: a Direct Lake table over dbo.stock_movements_round_two_20261003, and 7661 is the total units across the application's 360 rows, not a row count. Read-only queries confirm 7661/360 on the model, lakehouse and application layers. The extra detail about pipeline failures is accurate and qualified: successful runs followed both failures. It does not claim a wrong cause, so it is not harmful. Handoff: the queries are kept word for word and can be rerun, the stopping point is clear, and the caveats are stated (separate snapshots, unavailable triage checks). No further checks are needed.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-static01",
+      "outcome_sha256": "ff2bb55c529718d49412fadc10cce75f792c32d8eaa2a0c64f38677995f63889",
+      "status": "ANSWERED",
+      "native_duration_seconds": 192.0,
+      "worker_wall_seconds": 163.67915454499996,
+      "investigation_cost_microdollars": 341441,
+      "physical_requests": 26,
+      "model_calls": 2,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-application-baseline-1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 171223,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence shows: the model query returned Movement Units 7661 over 360 rows with no filters. Read-only SQL on the lakehouse table dbo.stock_movements_round_two_20261003 and the application table app.stock_movements_round_two_20261003 each returned 7661 units and 360 rows. The load pipeline's run history shows exactly two failed runs, both with error 2011 (controlled fixture failure): 2026-10-28 16:12:39\u201316:13:05 UTC and 2026-10-31 17:52:20\u201317:52:48 UTC. Successful runs followed both. The latest run (20:11:57\u201320:13:27 UTC on 2026-10-31) succeeded with 360 rows read and 360 written. The latest model refresh (2026-10-28 21:50 UTC, run 763470267) succeeded. Every number and time the answer cites matches these records. The SUM('Movements'[units]) definition and the Direct Lake binding are not in any saved query, but the sealed expectation confirms both, so they are not unsupported. Verdict: 'definition explained' with the conclusion that the card matches the application data, with nothing wrong, means the same as 'as designed'. The primary grader judged the label, not the substance. Layer: semantic model measure (both graders agree). Cause: the answer names the expected cause: the measure sums units over the Direct Lake table, and 7661 is the units total while 360 is a row count. The primary grader's framing objection is wrong. Not harmful: the pipeline failures are reported accurately, with successful runs after both. Handoff quality is 2: the queries are saved word for word and can be rerun, and the caveats are stated (layers read separately, not one snapshot). The secondary grader is right.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "ff2bb55c529718d49412fadc10cce75f792c32d8eaa2a0c64f38677995f63889",
+        "reason": "What the saved evidence shows: the model query returned Movement Units 7661 over 360 rows with no filters. Read-only SQL on the lakehouse table dbo.stock_movements_round_two_20261003 and the application table app.stock_movements_round_two_20261003 each returned 7661 units and 360 rows. The load pipeline's run history shows exactly two failed runs, both with error 2011 (controlled fixture failure): 2026-10-28 16:12:39\u201316:13:05 UTC and 2026-10-31 17:52:20\u201317:52:48 UTC. Successful runs followed both. The latest run (20:11:57\u201320:13:27 UTC on 2026-10-31) succeeded with 360 rows read and 360 written. The latest model refresh (2026-10-28 21:50 UTC, run 763470267) succeeded. Every number and time the answer cites matches these records. The SUM('Movements'[units]) definition and the Direct Lake binding are not in any saved query, but the sealed expectation confirms both, so they are not unsupported. Verdict: 'definition explained' with the conclusion that the card matches the application data, with nothing wrong, means the same as 'as designed'. The primary grader judged the label, not the substance. Layer: semantic model measure (both graders agree). Cause: the answer names the expected cause: the measure sums units over the Direct Lake table, and 7661 is the units total while 360 is a row count. The primary grader's framing objection is wrong. Not harmful: the pipeline failures are reported accurately, with successful runs after both. Handoff quality is 2: the queries are saved word for word and can be rerun, and the caveats are stated (layers read separately, not one snapshot). The secondary grader is right.",
+        "source_sha256": "51638909c4f7d123316fbbef4fd9bce31ed14edbe792a8a822a9f95008ff715e",
+        "ticket": "v4-application-baseline-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 31092,
+          "output_tokens": 2123,
+          "output_tokens_details": {
+            "thinking_tokens": 482
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-application-baseline-2",
+      "class": "v4-application-baseline",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The agent did not deliver any answer; it raised an unhandled native exception (ValueError: COMPARISON_DETAILS_REQUIRED) before completing any investigation steps. No verdict, layer, or cause was produced. There is nothing to grade on substance. Handoff quality is 0 because no rerunnable queries, stopping point, or next checks were captured.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "No answer was delivered. Status is UNDELIVERED_NATIVE_EXCEPTION: the worker failed in guided-investigation with ValueError COMPARISON_DETAILS_REQUIRED (exit 1), no final seal, 0 model calls and 0 estate reads. There is no business answer and no handoff. The expected result was: verdict 'as designed'; layer 'semantic model measure'; cause: Movement Units = SUM('Movements'[units]) over Direct Lake dbo.stock_movements_round_two_20261003, and 7661 matches the 360 source rows. Nothing delivered states a verdict, layer or cause, so all three score zero. It is not harmful because no incorrect cause was stated. Handoff quality is 0: there are no queries to rerun, no stated stopping point and no next checks. The first failing step is intake. The exception says the intake's comparison with the source system needed details, which apparently ignored the row count in the description, so the run stopped before checking the target or querying data. Because this is an exception and not a refusal, it gets no credit for a correct blocked reason.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-static01",
+      "outcome_sha256": "920448fedfd2dc8c702731d23eb04bcee51270eace1d89e751a17aba25b3f3b9",
+      "status": "UNDELIVERED_NATIVE_EXCEPTION",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": null,
+      "physical_requests": null,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-application-baseline-2-terminal-error.json",
+      "usage_unavailable": true,
+      "timing_group": "holds",
+      "expected_verdict_class": "as designed"
+    },
+    {
+      "ticket": "v4-application-baseline-3",
+      "class": "v4-application-baseline",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The run failed with a ValueError (COMPARISON_DETAILS_REQUIRED) before producing any answer, business or otherwise. No verdict, layer, or cause was delivered. There is no handoff to evaluate. All scoring dimensions are false/zero because nothing was produced.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Nothing was delivered. The worker hit a native ValueError (COMPARISON_DETAILS_REQUIRED) during the guided-investigation step. It made 0 model calls and 0 estate reads, and there is no business answer, no final seal and no handoff. The record calls this an established intake exception and does not allow a replacement run. The ticket's compared_with is SOURCE_SYSTEM but gives no further comparison details, and that is what tripped the exception. The expected answer is: verdict 'as designed'; layer 'semantic model measure'; cause: Movement Units = SUM('Movements'[units]), a Direct Lake table over dbo.stock_movements_round_two_20261003, and 7661 matches the 360 application rows. The delivery gives no verdict, layer or cause, so all three fail and no partial credit is given (partial matches score zero anyway). It is not harmful because it states no cause as fact. It is also not an honest refusal, just an unhandled crash. Handoff quality is 0: there are no rerunnable queries, no clear stopping point stated to the user and no suggested next checks. The first failing step is intake, because the run failed on intake validation (missing comparison details) before any investigation began.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-static01",
+      "outcome_sha256": "b2cbcd33c8ae73586d628d8206eaf1d3ced24564649fa9c93e6de0bf0e0658a6",
+      "status": "UNDELIVERED_NATIVE_EXCEPTION",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": null,
+      "physical_requests": null,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-application-baseline-3-terminal-error.json",
+      "usage_unavailable": true,
+      "timing_group": "holds",
+      "expected_verdict_class": "as designed"
+    },
+    {
       "ticket": "v4-waiting-application-load-1",
       "class": "v4-waiting-application-load",
       "fixture": "waiting",
@@ -4507,6 +5126,8 @@
       "investigation_cost_microdollars": 327008,
       "physical_requests": 19,
       "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-waiting-application-load-1-result.json",
+      "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "waiting on job"
     },
@@ -4543,6 +5164,8 @@
       "investigation_cost_microdollars": 285121,
       "physical_requests": 21,
       "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-waiting-application-load-2-result.json",
+      "usage_unavailable": false,
       "timing_group": "answered_without_layer_queries",
       "expected_verdict_class": "waiting on job"
     },
@@ -4579,6 +5202,8 @@
       "investigation_cost_microdollars": 460060,
       "physical_requests": 21,
       "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g2-v4-waiting-application-load-3-result.json",
+      "usage_unavailable": false,
       "timing_group": "answered_without_layer_queries",
       "expected_verdict_class": "waiting on job",
       "raw_review": {
@@ -4624,9 +5249,6 @@
   "raw_review_policy": "FRESH_INDEPENDENT_CLAUDE_CALL; no operator adjudication",
   "requested": 60,
   "not_yet_graded": [
-    "v4-application-baseline-1",
-    "v4-application-baseline-2",
-    "v4-application-baseline-3",
     "v4-billing-mrr-1",
     "v4-billing-mrr-2",
     "v4-billing-mrr-3",
@@ -5866,6 +6488,246 @@
         }
       }
     },
+    "as designed": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "waiting on job": {
       "official_primary": {
         "all_three": {
@@ -6110,28 +6972,34 @@
   "class_grouping_basis": "Original case IDs retained; additional verdict grouping uses exact sealed oracle labels only, no expectation changes.",
   "timing_cost": {
     "all": {
-      "tickets": 21,
-      "native_observed": 16,
-      "native_missing": 5,
-      "native_median_seconds": 191.0,
+      "tickets": 24,
+      "native_observed": 17,
+      "native_missing": 7,
+      "native_median_seconds": 192.0,
       "native_p90_seconds": 259.0,
-      "worker_median_seconds": 162.39772288000003,
+      "worker_median_seconds": 163.1589737070001,
       "worker_p90_seconds": 218.167820693,
-      "investigation_cost_microdollars": 10728797,
-      "cost_per_ticket_usd": 0.5108950952380953,
-      "physical_requests": 466
+      "investigation_cost_microdollars_observed": 11070238,
+      "cost_observed": 22,
+      "cost_unavailable": 2,
+      "cost_per_observed_ticket_usd": 0.5031926363636363,
+      "physical_requests_observed": 492,
+      "physical_requests_unavailable": 2
     },
     "full_investigation": {
-      "tickets": 12,
-      "native_observed": 12,
+      "tickets": 13,
+      "native_observed": 13,
       "native_missing": 0,
-      "native_median_seconds": 199.5,
+      "native_median_seconds": 193.0,
       "native_p90_seconds": 259.0,
-      "worker_median_seconds": 167.54389431650003,
+      "worker_median_seconds": 163.67915454499996,
       "worker_p90_seconds": 203.489456507,
-      "investigation_cost_microdollars": 5033665,
-      "cost_per_ticket_usd": 0.4194720833333333,
-      "physical_requests": 335
+      "investigation_cost_microdollars_observed": 5375106,
+      "cost_observed": 13,
+      "cost_unavailable": 0,
+      "cost_per_observed_ticket_usd": 0.4134696923076923,
+      "physical_requests_observed": 361,
+      "physical_requests_unavailable": 0
     },
     "answered_without_layer_queries": {
       "tickets": 4,
@@ -6141,21 +7009,27 @@
       "native_p90_seconds": 188.0,
       "worker_median_seconds": 145.52774660200004,
       "worker_p90_seconds": 154.39144681699997,
-      "investigation_cost_microdollars": 1423967,
-      "cost_per_ticket_usd": 0.35599175,
-      "physical_requests": 84
+      "investigation_cost_microdollars_observed": 1423967,
+      "cost_observed": 4,
+      "cost_unavailable": 0,
+      "cost_per_observed_ticket_usd": 0.35599175,
+      "physical_requests_observed": 84,
+      "physical_requests_unavailable": 0
     },
     "holds": {
-      "tickets": 5,
+      "tickets": 7,
       "native_observed": 0,
-      "native_missing": 5,
+      "native_missing": 7,
       "native_median_seconds": null,
       "native_p90_seconds": null,
       "worker_median_seconds": 201.2121639315,
       "worker_p90_seconds": 218.167820693,
-      "investigation_cost_microdollars": 4271165,
-      "cost_per_ticket_usd": 0.854233,
-      "physical_requests": 47
+      "investigation_cost_microdollars_observed": 4271165,
+      "cost_observed": 5,
+      "cost_unavailable": 2,
+      "cost_per_observed_ticket_usd": 0.854233,
+      "physical_requests_observed": 47,
+      "physical_requests_unavailable": 2
     }
   }
 }
