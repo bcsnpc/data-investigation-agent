@@ -1,6 +1,25 @@
 ﻿import unittest
-from round25_cohort_report import summarize,verdict_class
+from round25_cohort_report import summarize,verdict_class,load_saved_outcome
 class CohortReviewTests(unittest.TestCase):
+ def test_native_exception_preserves_original_bytes_and_unknown_usage(self):
+  import tempfile,json
+  from pathlib import Path
+  with tempfile.TemporaryDirectory()as folder:
+   error={'error':{'type':'ValueError','message':'COMPARISON_DETAILS_REQUIRED'},'execution':{'status':'Failed'}}
+   p=Path(folder)/'g2-fixture-terminal-error.json';raw=json.dumps(error,indent=2).encode();p.write_bytes(raw)
+   source,saved,wrapped=load_saved_outcome(folder,'g2','fixture')
+   self.assertEqual((source,saved),(p,raw));self.assertTrue(wrapped['reporting_only_native_exception'])
+   self.assertEqual(wrapped['result']['status'],'UNDELIVERED_NATIVE_EXCEPTION')
+   self.assertIsNone(wrapped['result']['physical_requests']);self.assertNotIn('charged_microdollars',wrapped['result']['cost'])
+   self.assertEqual(wrapped['result']['native_error'],error);self.assertFalse(wrapped['result']['outputs'])
+ def test_sealed_result_always_takes_precedence_over_error_metadata(self):
+  import tempfile,json
+  from pathlib import Path
+  with tempfile.TemporaryDirectory()as folder:
+   p=Path(folder)/'g2-fixture-result.json';raw=b'{"result":{"status":"ANSWERED"}}';p.write_bytes(raw)
+   (Path(folder)/'g2-fixture-terminal-error.json').write_text('{}')
+   source,saved,wrapped=load_saved_outcome(folder,'g2','fixture')
+   self.assertEqual((source,saved),(p,raw));self.assertNotIn('reporting_only_native_exception',wrapped)
  def test_authored_verdict_groups_preserve_legacy_and_direct_labels(self):
   self.assertEqual(verdict_class({'expected':{'verdict':'source changed history'}}),'source changed history')
   self.assertEqual(verdict_class({'verdict':'waiting on job'}),'waiting on job')

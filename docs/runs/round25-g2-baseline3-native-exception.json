@@ -1,0 +1,27 @@
+{
+  "status": "UNDELIVERED_NATIVE_EXCEPTION",
+  "ticket_id": "v4-application-baseline-3",
+  "run_id": "b0cfbdc9-ce60-42c3-8a8d-c443e6eee025",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:deae7d44d1e28f859c75d13d00e81bc529a64b4cc2e8f8d8156763e7bc452c7c",
+  "execution": {
+    "endTime": null,
+    "execution_name": "job-dia-worker-riy04bp",
+    "startTime": "2026-10-31T20:17:07+00:00",
+    "status": "Failed"
+  },
+  "error": {
+    "type": "ValueError",
+    "message": "COMPARISON_DETAILS_REQUIRED"
+  },
+  "native_worker_exit": {
+    "error_type": "ValueError",
+    "exit_code": 1,
+    "last_step": "guided-investigation",
+    "reason": "UNDELIVERED_EXCEPTION"
+  },
+  "final_seal_exists": false,
+  "engine_answer_exists": false,
+  "replacement_allowed": false,
+  "replacement_reason": "Established intake exception, not pure plumbing",
+  "usage": "UNAVAILABLE_FROM_UNSEALED_PARTIAL_CAPTURE; not estimated as zero"
+}

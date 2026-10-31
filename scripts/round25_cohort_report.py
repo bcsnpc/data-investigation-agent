@@ -2,6 +2,18 @@
 from copy import deepcopy
 from round25_quality import cohort_metrics
 from round25_independent_review import differs
+import json
+from pathlib import Path
+
+def load_saved_outcome(root,cohort,ident):
+    """Report a real native exception without inventing an engine answer/usage."""
+    root=Path(root);p=root/(cohort+'-'+ident+'-result.json')
+    if p.exists():
+        raw=p.read_bytes();return p,raw,json.loads(raw)
+    p=root/(cohort+'-'+ident+'-terminal-error.json');raw=p.read_bytes();error=json.loads(raw)
+    return p,raw,{'execution':error.get('execution',{}),'reporting_only_native_exception':True,
+        'result':{'status':'UNDELIVERED_NATIVE_EXCEPTION','stop':error.get('error'),
+                  'native_error':error,'outputs':{},'cost':{},'physical_requests':None,'model_calls':None}}
 
 def verdict_class(expected):
     """Group authored oracle labels without reading or rewriting ticket prose."""

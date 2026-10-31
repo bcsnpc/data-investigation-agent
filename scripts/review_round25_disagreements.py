@@ -10,6 +10,7 @@ from investigator.live_gateway import configured
 from investigator.process_tape import bytes_of
 from investigator.planner_recording import _safe
 from jsonschema import Draft202012Validator
+from round25_cohort_report import load_saved_outcome
 r=Path('.local/round-twenty-five');cohort,label=sys.argv[1:];assert cohort in ('g2','g3','g4')
 primary=json.loads((r/'grading'/label/(cohort+'-grader-result.json')).read_bytes());assert primary['status']=='COMPLETED'
 secondary={x['ticket']:x['grade']for x in json.loads((r/'grading'/(label+'-second-result.json')).read_bytes())['results']}
@@ -29,7 +30,7 @@ def read_key(*args,**kwargs):
 rate=RateCard(model='claude-opus-5-5',**reason['rate_card']);results=[]
 with configured(policy):
  for row in selected:
-  ident=row['case_id'];raw=(r/(cohort+'-'+ident+'-result.json')).read_bytes();w=json.loads(raw);case=w.get('result',w).get('case',{})
+  ident=row['case_id'];_,raw,w=load_saved_outcome(r,cohort,ident);case=w.get('result',w).get('case',{})
   inputs=packet(ticket=tickets[ident],answer=raw_answer(w),evidence=saved_evidence(w),expectation=expected[ident],primary=row['output'],secondary=secondary[ident]);packed=exact_deduplicate(inputs);payload=bytes_of(packed);_safe(payload);source_hash=hashlib.sha256(payload).hexdigest()
   source=folder/(ident+'-input.json');out=folder/(ident+'-review.json');provider=folder/(ident+'-provider.jsonl');started=folder/(ident+'-started.json')
   if len(payload)>150000 and not out.exists():
