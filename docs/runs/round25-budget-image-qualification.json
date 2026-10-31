@@ -14,5 +14,12 @@
     "monthly_grading_compatibility": 1,
     "enrichment": 3,
     "round25_tooling": 20
+  },
+  "worker_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:deae7d44d1e28f859c75d13d00e81bc529a64b4cc2e8f8d8156763e7bc452c7c",
+  "source": "6afba553cfd75c7e0df648faa9632ec8542e5abf",
+  "workflow": 41221526204,
+  "hosted_focused": {
+    "passed": 439,
+    "skipped": 28
   }
 }
