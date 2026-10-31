@@ -717,3 +717,6 @@ Round25, 2026-10-28 ? A three-case primary grading batch failed during the ADMIT
 
 
 2026-10-31 R25 reporting-only recovery: PostgreSQL closed a connection19.4s old,0.026s idle, while saving accepted grading batch msgbatch_01Rtphhueww4FoAjEPpfKe6c. Idle-drop cause not established. Original POST/200 receipt exactly matches admitted requests; registered that same batch using optimistic revision and preserved reservations. No new provider submission, engine run, engine change or score change. Receipt docs/runs/round25-g2-static06-grader-recovery.json.
+
+
+2026-10-31 R25 timing limitation: case journals have event order/hashes but no event timestamps. Azure execution start/end and native worker wall times are observed, not complete admission-to-delivery timing. One current wave began orchestration21:37:42UTC while its remaining Azure execution reports start21:42:01UTC; that group timestamp is not a per-ticket admission timestamp and cannot establish a precise delay mechanism. Preserve both, do not estimate or label Azure intervals as full end-to-end times. No timing target claim is earned from them.

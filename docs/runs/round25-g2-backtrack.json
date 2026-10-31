@@ -1,15 +1,15 @@
 {
   "pass": "Round25 G2 raw-reviewed",
-  "graded": 39,
-  "score": 24,
+  "graded": 45,
+  "score": 25,
   "correctness": {
-    "verdict_match": 30,
-    "layer_match": 31,
-    "cause_match": 24
+    "verdict_match": 31,
+    "layer_match": 32,
+    "cause_match": 25
   },
   "harmful": 0,
   "zero_groups": {
-    "intake": 6,
+    "intake": 11,
     "query": 4,
     "conclusion": 2,
     "triage": 3
@@ -287,6 +287,76 @@
       "class": "v4-fixture-quantity"
     },
     {
+      "ticket": "v4-record-absent-everywhere-1",
+      "first_wrong_step": "intake",
+      "reason": "The worker crashed with a native ValueError (COMPARISON_DETAILS_REQUIRED) before producing any answer, handoff, or business output. There is nothing to evaluate for verdict, layer, or cause correctness. No handoff was delivered, so handoff quality is 0. The failure is an undelivered native exception, not a harmful confident incorrect answer.",
+      "saved_trace": {
+        "outcome_sha256": "5572d7143711f3941f3841861afee0d153b873b50a12daf83c82e7e549cbfe0a",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-record-absent-everywhere-1-terminal-error.json",
+        "assessment_origin": "both independent graders agree"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "v4-record-absent-everywhere"
+    },
+    {
+      "ticket": "v4-record-absent-everywhere-2",
+      "first_wrong_step": "intake",
+      "reason": "The worker crashed with an unhandled ValueError (COMPARISON_DETAILS_REQUIRED) before producing any business answer, triage, queries, or handoff. There is no delivered verdict, layer attribution, or named cause to compare against the expected answer (verdict: not found, layer: source, cause: movement900099 absent from source and application landing table). No meaningful handoff was captured either, so handoff quality is 0. This is a pure infrastructure failure with zero scoreable content.",
+      "saved_trace": {
+        "outcome_sha256": "9a4c4fd2ec4c2cc8e6d4b1d4efa495c2fb9e149a22f3dc754942a3dcbe9d88e6",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-record-absent-everywhere-2-terminal-error.json",
+        "assessment_origin": "both independent graders agree"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "v4-record-absent-everywhere"
+    },
+    {
+      "ticket": "v4-record-absent-everywhere-3",
+      "first_wrong_step": "intake",
+      "reason": "The worker crashed with a native ValueError (COMPARISON_DETAILS_REQUIRED) before producing any business answer, handoff, or meaningful investigation steps. There are zero estate reads and zero model calls recorded. Nothing was delivered to grade on verdict, layer, or cause. Handoff quality is 0 because no queries, stopping point, or next checks were left behind \u2014 the run simply failed before any investigative work was done.",
+      "saved_trace": {
+        "outcome_sha256": "12b3e5b8b0bd3003fd654a6b61263f0235e36cdbd68a47dfc88ce86cd2898bdb",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-record-absent-everywhere-3-terminal-error.json",
+        "assessment_origin": "both independent graders agree"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "v4-record-absent-everywhere"
+    },
+    {
+      "ticket": "v4-record-repeated-gold-2",
+      "first_wrong_step": "intake",
+      "reason": "The worker raised a native ValueError (COMPARISON_DETAILS_REQUIRED) and crashed before producing any business answer, handoff, or analysis. There is no delivered verdict, layer identification, or cause to evaluate. Nothing was produced to compare against the expected answer (Gold join fan-out on product_rates by product_id). No handoff notes exist, so handoff quality is 0.",
+      "saved_trace": {
+        "outcome_sha256": "262e7322f7473b72b33ee9dd7a874d21d89bc7449c2a7edbc88693ecb86bfbda",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-record-repeated-gold-2-terminal-error.json",
+        "assessment_origin": "both independent graders agree"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "v4-record-repeated-gold"
+    },
+    {
+      "ticket": "v4-record-repeated-gold-3",
+      "first_wrong_step": "intake",
+      "reason": "The run failed with an unhandled native exception (COMPARISON_DETAILS_REQUIRED / ValueError) before any investigation steps completed. No business answer, no layer identification, no cause, and no handoff were delivered. There is nothing to grade on substance. Verdict, layer, and cause all fail by default. No handoff exists so handoff quality is 0.",
+      "saved_trace": {
+        "outcome_sha256": "393699517b1520ef99faa35f662498c1cb31cbfabbb7ded3d9ae185dad555dbb",
+        "local_outcome": ".local\\round-twenty-five\\g2-v4-record-repeated-gold-3-terminal-error.json",
+        "assessment_origin": "both independent graders agree"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "v4-record-repeated-gold"
+    },
+    {
       "ticket": "v4-waiting-application-load-3",
       "first_wrong_step": "conclusion",
       "reason": "What the saved capture shows: the triage JOB_RUNS fact, read at 2026-10-31T19:00:48Z for pipeline node 3bf74ae1, lists e2748b17-7057-482c-8556-b936713b931b as the newest run. That run started at 18:51:08Z and was RUNNING with no end time. The same listing shows that 78c23b46-0543-44c8-869f-59b7dfb34a23, the run the sealed expectation names, had already SUCCEEDED (16:56:27Z to 2026-10-28T17:06:36.77Z). A fresh native get_job_runs read at 19:01:18Z shows e2748b17 SUCCEEDED, ending at 19:01:17.99Z with no error. That read also has no audit row for the run (DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN).\n\nThe delivered answer reports these facts accurately. It does not assert a lock, saying only that one can be neither confirmed nor ruled out. It claims no data mismatch and lists its limits honestly: the Copy Job has no run in the window, the earlier run da45f511 failed with error 2011, and the model refresh 763470267 ended on 2026-10-28 with its schedule disabled. Every claim is backed by the evidence, so the answer is not harmful.\n\nScoring against the sealed expectation: the expected verdict is 'waiting on job', with 78c23b46 still InProgress. The delivered verdict is 'observed value', about a different run that has finished. So the verdict and the cause do not match. The layer, orchestration at the pipeline job instance, does match. Only one of the three criteria holds, so the result is partial and scores zero under the all-three rule.\n\nThe mismatch is caused by expectation drift, not by a mistake in the agent's work. The sealed record itself says the running state must be confirmed again with a fresh check at scored execution. The agent did exactly that, and the evidence shows the expected run had already finished before this session started. Even so, the scoring rule compares against the sealed expectation and does not allow correcting it.\n\nPrimary grader: its verdict, layer and cause judgments match mine, but its failing step is wrong. It says triage misidentified the run. In fact triage correctly picked e2748b17 as the latest RUNNING instance, and its own data shows 78c23b46 had already SUCCEEDED. Primary also marks partial=false even though the layer matched.\n\nSecondary grader: it gets every judgment right. It sets partial=true and correctly notes that the triage data shows 78c23b46 SUCCEEDED, so the expectation is probably stale. It does not override the expectation, which is correct under the protocol. I would label its failing step 'wrong conclusion' only in the sense of a mismatch at the conclusion stage, not a conclusion the evidence fails to support.\n\nHandoff quality is 1: the evidence IDs, timestamps and limits are clear, but there are no rerunnable queries and no explicit plan to recheck.",
@@ -408,6 +478,8 @@
     "v4-application-baseline": 2,
     "v4-before-temporal-retention": 3,
     "v4-fixture-quantity": 1,
+    "v4-record-absent-everywhere": 3,
+    "v4-record-repeated-gold": 2,
     "v4-waiting-application-load": 1
   }
 }
