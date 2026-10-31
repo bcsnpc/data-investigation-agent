@@ -1,0 +1,46 @@
+{
+  "formatVersion": "202502",
+  "name": "df_reference_mapping",
+  "documentLocale": "en-US",
+  "computeEngineSettings": {
+    "maxConcurrency": 1
+  },
+  "queriesMetadata": {
+    "ref_payer_group_history": {
+      "queryId": "237cf3a4-9651-5d0f-b83e-f76a282464bb",
+      "queryName": "ref_payer_group_history",
+      "isHidden": false,
+      "loadEnabled": true
+    },
+    "ref_payer_group_history_DataDestination": {
+      "queryId": "c2ccae5c-b3d2-562f-924a-ea67a3951035",
+      "queryName": "ref_payer_group_history_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    },
+    "ref_department_mapping": {
+      "queryId": "0cc474a3-6c5a-5b66-8ee4-1b8f39e8d4b3",
+      "queryName": "ref_department_mapping",
+      "isHidden": false,
+      "loadEnabled": true
+    },
+    "ref_department_mapping_DataDestination": {
+      "queryId": "c7598390-4df6-52fd-9cbd-e688b0b9d75b",
+      "queryName": "ref_department_mapping_DataDestination",
+      "isHidden": true,
+      "loadEnabled": false
+    }
+  },
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"7e46fcb7-355d-42e5-a7d8-66fab5959fd2\",\"DatasourceId\":\"71f7f92d-3d2c-4513-ab66-b394131a0161\"}"
+    },
+    {
+      "path": "Warehouse",
+      "kind": "Warehouse",
+      "connectionId": "{\"ClusterId\":\"7e46fcb7-355d-42e5-a7d8-66fab5959fd2\",\"DatasourceId\":\"5397d91d-3257-4db9-9397-433c3e6bf445\"}"
+    }
+  ]
+}

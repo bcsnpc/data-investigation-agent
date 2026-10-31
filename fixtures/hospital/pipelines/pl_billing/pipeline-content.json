@@ -1,0 +1,2113 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "name": "lower_payer",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='billing'AND table_name='payer'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_payer",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_payer",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[payer]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_payer",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_payer",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[payer]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "payer"
+              },
+              "externalReferences": {
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_billing_payer"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_payer",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_payer",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_billing' AND table_name='payer')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','payer','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_payer').output.rowsRead},@{activity('copy_payer').output.rowsCopied},'@{activity('upper_payer').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('billing','payer','@{activity('upper_payer').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_payer_plan",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_payer",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='billing'AND table_name='payer_plan'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_payer_plan",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_payer_plan",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[payer_plan]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_payer_plan",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_payer_plan",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[payer_plan]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "payer_plan"
+              },
+              "externalReferences": {
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_billing_payer_plan"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_payer_plan",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_payer_plan",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_billing' AND table_name='payer_plan')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','payer_plan','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_payer_plan').output.rowsRead},@{activity('copy_payer_plan').output.rowsCopied},'@{activity('upper_payer_plan').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('billing','payer_plan','@{activity('upper_payer_plan').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_payer_plan_history",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_payer_plan",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='billing'AND table_name='payer_plan_history'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_payer_plan_history",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_payer_plan_history",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[payer_plan_history]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_payer_plan_history",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_payer_plan_history",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[payer_plan_history]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "payer_plan_history"
+              },
+              "externalReferences": {
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_billing_payer_plan_history"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_payer_plan_history",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_payer_plan_history",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_billing' AND table_name='payer_plan_history')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','payer_plan_history','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_payer_plan_history').output.rowsRead},@{activity('copy_payer_plan_history').output.rowsCopied},'@{activity('upper_payer_plan_history').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('billing','payer_plan_history','@{activity('upper_payer_plan_history').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_account",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_payer_plan_history",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='billing'AND table_name='account'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_account",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_account",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[account]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_account",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_account",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[account]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "account"
+              },
+              "externalReferences": {
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_billing_account"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_account",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_account",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_billing' AND table_name='account')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','account','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_account').output.rowsRead},@{activity('copy_account').output.rowsCopied},'@{activity('upper_account').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('billing','account','@{activity('upper_account').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_charge",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_account",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='billing'AND table_name='charge'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_charge",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_charge",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[charge]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_charge",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_charge",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": {
+              "value": "@concat('SELECT * FROM app.[charge] WHERE updated_at >= ''',activity('lower_charge').output.firstRow.watermark_utc,''' AND updated_at <= ''',activity('upper_charge').output.firstRow.watermark_utc,'''')",
+              "type": "Expression"
+            },
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "charge"
+              },
+              "externalReferences": {
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Upsert",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_billing_charge"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_charge",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_charge",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_billing' AND table_name='charge')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','charge','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_charge').output.rowsRead},@{activity('copy_charge').output.rowsCopied},'@{activity('upper_charge').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('billing','charge','@{activity('upper_charge').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_claim",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_charge",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='billing'AND table_name='claim'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_claim",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_claim",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[claim]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_claim",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_claim",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": {
+              "value": "@concat('SELECT * FROM app.[claim] WHERE updated_at >= ''',activity('lower_claim').output.firstRow.watermark_utc,''' AND updated_at <= ''',activity('upper_claim').output.firstRow.watermark_utc,'''')",
+              "type": "Expression"
+            },
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "claim"
+              },
+              "externalReferences": {
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Upsert",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_billing_claim"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_claim",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_claim",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_billing' AND table_name='claim')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','claim','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_claim').output.rowsRead},@{activity('copy_claim').output.rowsCopied},'@{activity('upper_claim').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('billing','claim','@{activity('upper_claim').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_claim_line",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_claim",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='billing'AND table_name='claim_line'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_claim_line",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_claim_line",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[claim_line]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_claim_line",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_claim_line",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": {
+              "value": "@concat('SELECT * FROM app.[claim_line] WHERE updated_at >= ''',activity('lower_claim_line').output.firstRow.watermark_utc,''' AND updated_at <= ''',activity('upper_claim_line').output.firstRow.watermark_utc,'''')",
+              "type": "Expression"
+            },
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "claim_line"
+              },
+              "externalReferences": {
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Upsert",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_billing_claim_line"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_claim_line",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_claim_line",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_billing' AND table_name='claim_line')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','claim_line','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_claim_line').output.rowsRead},@{activity('copy_claim_line').output.rowsCopied},'@{activity('upper_claim_line').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('billing','claim_line','@{activity('upper_claim_line').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_remittance",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_claim_line",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='billing'AND table_name='remittance'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_remittance",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_remittance",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[remittance]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_remittance",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_remittance",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": {
+              "value": "@concat('SELECT * FROM app.[remittance] WHERE updated_at >= ''',activity('lower_remittance').output.firstRow.watermark_utc,''' AND updated_at <= ''',activity('upper_remittance').output.firstRow.watermark_utc,'''')",
+              "type": "Expression"
+            },
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "remittance"
+              },
+              "externalReferences": {
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Upsert",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_billing_remittance"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_remittance",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_remittance",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_billing' AND table_name='remittance')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','remittance','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_remittance').output.rowsRead},@{activity('copy_remittance').output.rowsCopied},'@{activity('upper_remittance').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('billing','remittance','@{activity('upper_remittance').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_remittance_line",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_remittance",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='billing'AND table_name='remittance_line'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_remittance_line",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_remittance_line",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[remittance_line]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_remittance_line",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_remittance_line",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": {
+              "value": "@concat('SELECT * FROM app.[remittance_line] WHERE updated_at >= ''',activity('lower_remittance_line').output.firstRow.watermark_utc,''' AND updated_at <= ''',activity('upper_remittance_line').output.firstRow.watermark_utc,'''')",
+              "type": "Expression"
+            },
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "remittance_line"
+              },
+              "externalReferences": {
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Upsert",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_billing_remittance_line"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_remittance_line",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_remittance_line",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_billing' AND table_name='remittance_line')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','remittance_line','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_remittance_line').output.rowsRead},@{activity('copy_remittance_line').output.rowsCopied},'@{activity('upper_remittance_line').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('billing','remittance_line','@{activity('upper_remittance_line').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_payment",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_remittance_line",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='billing'AND table_name='payment'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_payment",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_payment",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[payment]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_payment",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_payment",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": {
+              "value": "@concat('SELECT * FROM app.[payment] WHERE updated_at >= ''',activity('lower_payment').output.firstRow.watermark_utc,''' AND updated_at <= ''',activity('upper_payment').output.firstRow.watermark_utc,'''')",
+              "type": "Expression"
+            },
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "payment"
+              },
+              "externalReferences": {
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Upsert",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_billing_payment"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_payment",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_payment",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_billing' AND table_name='payment')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','payment','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_payment').output.rowsRead},@{activity('copy_payment').output.rowsCopied},'@{activity('upper_payment').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('billing','payment','@{activity('upper_payment').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_adjustment",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_payment",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='billing'AND table_name='adjustment'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_adjustment",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_adjustment",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[adjustment]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_adjustment",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_adjustment",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": {
+              "value": "@concat('SELECT * FROM app.[adjustment] WHERE updated_at >= ''',activity('lower_adjustment').output.firstRow.watermark_utc,''' AND updated_at <= ''',activity('upper_adjustment').output.firstRow.watermark_utc,'''')",
+              "type": "Expression"
+            },
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "adjustment"
+              },
+              "externalReferences": {
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Upsert",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_billing_adjustment"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_adjustment",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_adjustment",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_billing' AND table_name='adjustment')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','adjustment','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_adjustment').output.rowsRead},@{activity('copy_adjustment').output.rowsCopied},'@{activity('upper_adjustment').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('billing','adjustment','@{activity('upper_adjustment').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_ar_snapshot_daily",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_adjustment",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='billing'AND table_name='ar_snapshot_daily'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_ar_snapshot_daily",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_ar_snapshot_daily",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[ar_snapshot_daily]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_ar_snapshot_daily",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_ar_snapshot_daily",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[ar_snapshot_daily]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "ar_snapshot_daily"
+              },
+              "externalReferences": {
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_billing_ar_snapshot_daily"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_ar_snapshot_daily",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_ar_snapshot_daily",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_billing' AND table_name='ar_snapshot_daily')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','ar_snapshot_daily','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_ar_snapshot_daily').output.rowsRead},@{activity('copy_ar_snapshot_daily').output.rowsCopied},'@{activity('upper_ar_snapshot_daily').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('billing','ar_snapshot_daily','@{activity('upper_ar_snapshot_daily').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      }
+    ],
+    "concurrency": 1,
+    "annotations": [
+      "Synthetic HealthNet only",
+      "No row recount substituted for native Copy output"
+    ]
+  }
+}

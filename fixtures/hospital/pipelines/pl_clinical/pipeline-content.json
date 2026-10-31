@@ -1,0 +1,3499 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "name": "lower_facility",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='facility'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_facility",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_facility",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[facility]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_facility",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_facility",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[facility]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "facility"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_facility"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_facility",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_facility",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='facility')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','facility','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_facility').output.rowsRead},@{activity('copy_facility').output.rowsCopied},'@{activity('upper_facility').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','facility','@{activity('upper_facility').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_department",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_facility",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='department'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_department",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_department",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[department]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_department",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_department",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[department]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "department"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_department"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_department",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_department",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='department')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','department','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_department').output.rowsRead},@{activity('copy_department').output.rowsCopied},'@{activity('upper_department').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','department','@{activity('upper_department').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_unit",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_department",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='unit'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_unit",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_unit",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[unit]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_unit",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_unit",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[unit]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "unit"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_unit"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_unit",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_unit",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='unit')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','unit','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_unit').output.rowsRead},@{activity('copy_unit').output.rowsCopied},'@{activity('upper_unit').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','unit','@{activity('upper_unit').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_bed",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_unit",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='bed'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_bed",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_bed",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[bed]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_bed",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_bed",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[bed]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "bed"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_bed"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_bed",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_bed",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='bed')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','bed','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_bed').output.rowsRead},@{activity('copy_bed').output.rowsCopied},'@{activity('upper_bed').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','bed','@{activity('upper_bed').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_provider",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_bed",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='provider'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_provider",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_provider",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[provider]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_provider",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_provider",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[provider]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "provider"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_provider"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_provider",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_provider",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='provider')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','provider','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_provider').output.rowsRead},@{activity('copy_provider').output.rowsCopied},'@{activity('upper_provider').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','provider','@{activity('upper_provider').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_provider_assignment",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_provider",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='provider_assignment'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_provider_assignment",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_provider_assignment",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[provider_assignment]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_provider_assignment",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_provider_assignment",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[provider_assignment]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "provider_assignment"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_provider_assignment"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_provider_assignment",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_provider_assignment",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='provider_assignment')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','provider_assignment','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_provider_assignment').output.rowsRead},@{activity('copy_provider_assignment').output.rowsCopied},'@{activity('upper_provider_assignment').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','provider_assignment','@{activity('upper_provider_assignment').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_payer_plan",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_provider_assignment",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='payer_plan'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_payer_plan",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_payer_plan",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[payer_plan]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_payer_plan",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_payer_plan",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[payer_plan]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "payer_plan"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_payer_plan"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_payer_plan",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_payer_plan",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='payer_plan')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','payer_plan','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_payer_plan').output.rowsRead},@{activity('copy_payer_plan').output.rowsCopied},'@{activity('upper_payer_plan').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','payer_plan','@{activity('upper_payer_plan').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_patient",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_payer_plan",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='patient'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_patient",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_patient",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[patient]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_patient",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_patient",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[patient]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "patient"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_patient"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_patient",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_patient",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='patient')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','patient','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_patient').output.rowsRead},@{activity('copy_patient').output.rowsCopied},'@{activity('upper_patient').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','patient','@{activity('upper_patient').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_patient_alias",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_patient",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='patient_alias'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_patient_alias",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_patient_alias",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[patient_alias]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_patient_alias",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_patient_alias",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[patient_alias]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "patient_alias"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_patient_alias"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_patient_alias",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_patient_alias",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='patient_alias')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','patient_alias','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_patient_alias').output.rowsRead},@{activity('copy_patient_alias').output.rowsCopied},'@{activity('upper_patient_alias').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','patient_alias','@{activity('upper_patient_alias').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_patient_merge",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_patient_alias",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='patient_merge'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_patient_merge",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_patient_merge",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[patient_merge]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_patient_merge",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_patient_merge",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[patient_merge]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "patient_merge"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_patient_merge"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_patient_merge",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_patient_merge",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='patient_merge')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','patient_merge','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_patient_merge').output.rowsRead},@{activity('copy_patient_merge').output.rowsCopied},'@{activity('upper_patient_merge').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','patient_merge','@{activity('upper_patient_merge').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_encounter",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_patient_merge",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='encounter'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_encounter",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_encounter",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[encounter]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_encounter",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_encounter",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": {
+              "value": "@concat('SELECT * FROM app.[encounter] WHERE updated_at >= ''',activity('lower_encounter').output.firstRow.watermark_utc,''' AND updated_at <= ''',activity('upper_encounter').output.firstRow.watermark_utc,'''')",
+              "type": "Expression"
+            },
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "encounter"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Upsert",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_encounter"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_encounter",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_encounter",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='encounter')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','encounter','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_encounter').output.rowsRead},@{activity('copy_encounter').output.rowsCopied},'@{activity('upper_encounter').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','encounter','@{activity('upper_encounter').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_adt_event",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_encounter",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='adt_event'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_adt_event",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_adt_event",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[adt_event]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_adt_event",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_adt_event",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[adt_event]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "adt_event"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_adt_event"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_adt_event",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_adt_event",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='adt_event')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','adt_event','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_adt_event').output.rowsRead},@{activity('copy_adt_event').output.rowsCopied},'@{activity('upper_adt_event').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','adt_event','@{activity('upper_adt_event').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_bed_assignment",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_adt_event",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='bed_assignment'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_bed_assignment",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_bed_assignment",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[bed_assignment]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_bed_assignment",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_bed_assignment",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[bed_assignment]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "bed_assignment"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_bed_assignment"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_bed_assignment",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_bed_assignment",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='bed_assignment')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','bed_assignment','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_bed_assignment').output.rowsRead},@{activity('copy_bed_assignment').output.rowsCopied},'@{activity('upper_bed_assignment').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','bed_assignment','@{activity('upper_bed_assignment').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_ed_visit_detail",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_bed_assignment",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='ed_visit_detail'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_ed_visit_detail",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_ed_visit_detail",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[ed_visit_detail]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_ed_visit_detail",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_ed_visit_detail",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[ed_visit_detail]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "ed_visit_detail"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_ed_visit_detail"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_ed_visit_detail",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_ed_visit_detail",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='ed_visit_detail')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','ed_visit_detail','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_ed_visit_detail').output.rowsRead},@{activity('copy_ed_visit_detail').output.rowsCopied},'@{activity('upper_ed_visit_detail').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','ed_visit_detail','@{activity('upper_ed_visit_detail').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_diagnosis",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_ed_visit_detail",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='diagnosis'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_diagnosis",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_diagnosis",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[diagnosis]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_diagnosis",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_diagnosis",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[diagnosis]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "diagnosis"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_diagnosis"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_diagnosis",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_diagnosis",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='diagnosis')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','diagnosis','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_diagnosis').output.rowsRead},@{activity('copy_diagnosis').output.rowsCopied},'@{activity('upper_diagnosis').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','diagnosis','@{activity('upper_diagnosis').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_procedure",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_diagnosis",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='procedure'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_procedure",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_procedure",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[procedure]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_procedure",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_procedure",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM app.[procedure]",
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "procedure"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_procedure"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_procedure",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_procedure",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='procedure')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','procedure','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_procedure').output.rowsRead},@{activity('copy_procedure').output.rowsCopied},'@{activity('upper_procedure').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','procedure','@{activity('upper_procedure').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_order_header",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_procedure",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='order_header'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_order_header",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_order_header",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[order_header]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_order_header",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_order_header",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": {
+              "value": "@concat('SELECT * FROM app.[order_header] WHERE updated_at >= ''',activity('lower_order_header').output.firstRow.watermark_utc,''' AND updated_at <= ''',activity('upper_order_header').output.firstRow.watermark_utc,'''')",
+              "type": "Expression"
+            },
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "order_header"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Upsert",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_order_header"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_order_header",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_order_header",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='order_header')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','order_header','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_order_header').output.rowsRead},@{activity('copy_order_header').output.rowsCopied},'@{activity('upper_order_header').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','order_header','@{activity('upper_order_header').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_order_line",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_order_header",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='order_line'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_order_line",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_order_line",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[order_line]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_order_line",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_order_line",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": {
+              "value": "@concat('SELECT * FROM app.[order_line] WHERE updated_at >= ''',activity('lower_order_line').output.firstRow.watermark_utc,''' AND updated_at <= ''',activity('upper_order_line').output.firstRow.watermark_utc,'''')",
+              "type": "Expression"
+            },
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "order_line"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Upsert",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_order_line"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_order_line",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_order_line",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='order_line')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','order_line','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_order_line').output.rowsRead},@{activity('copy_order_line').output.rowsCopied},'@{activity('upper_order_line').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','order_line','@{activity('upper_order_line').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_result",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_order_line",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='result'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_result",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_result",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[result]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_result",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_result",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": {
+              "value": "@concat('SELECT * FROM app.[result] WHERE updated_at >= ''',activity('lower_result').output.firstRow.watermark_utc,''' AND updated_at <= ''',activity('upper_result').output.firstRow.watermark_utc,'''')",
+              "type": "Expression"
+            },
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "result"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Upsert",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_result"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_result",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_result",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='result')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','result','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_result').output.rowsRead},@{activity('copy_result').output.rowsCopied},'@{activity('upper_result').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','result','@{activity('upper_result').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      },
+      {
+        "name": "lower_medication_admin",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "commit_result",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='medication_admin'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_medication_admin",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_medication_admin",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[medication_admin]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "copy_medication_admin",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "upper_medication_admin",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": {
+              "value": "@concat('SELECT * FROM app.[medication_admin] WHERE updated_at >= ''',activity('lower_medication_admin').output.firstRow.watermark_utc,''' AND updated_at <= ''',activity('upper_medication_admin').output.firstRow.watermark_utc,'''')",
+              "type": "Expression"
+            },
+            "queryTimeout": "01:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "medication_admin"
+              },
+              "externalReferences": {
+                "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Upsert",
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "raw_clinical_medication_admin"
+              },
+              "linkedService": {
+                "name": "hn_raw",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+                    "artifactId": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "commit_medication_admin",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "copy_medication_admin",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "BEGIN TRANSACTION;\nIF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{pipeline().RunId}' AND pipeline_name='pl_clinical' AND table_name='medication_admin')\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_clinical','medication_admin','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_medication_admin').output.rowsRead},@{activity('copy_medication_admin').output.rowsCopied},'@{activity('upper_medication_admin').output.firstRow.watermark_utc}');\nINSERT INTO dbo.load_watermark VALUES('clinical','medication_admin','@{activity('upper_medication_admin').output.firstRow.watermark_utc}',0);\nCOMMIT;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      }
+    ],
+    "concurrency": 1,
+    "annotations": [
+      "Synthetic HealthNet only",
+      "No row recount substituted for native Copy output"
+    ]
+  }
+}

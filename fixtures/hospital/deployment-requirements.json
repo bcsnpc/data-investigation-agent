@@ -1,0 +1,24 @@
+{
+  "workspace_id": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+  "lakehouse_id": "0d5289e1-3133-4ddb-87bc-77e287b54935",
+  "warehouse_id": "ef705467-9870-481c-b977-aad877b83c30",
+  "warehouse_server": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+  "connections": {
+    "clinical": "91f9fa32-8875-454b-b28c-120bc399a1ac",
+    "billing": "01437114-ac49-4204-828e-f9bde09f2465",
+    "warehouse": "5397d91d-3257-4db9-9397-433c3e6bf445",
+    "model_sql": "8a49d254-e4e3-4729-9365-12d3ebfe5042",
+    "lakehouse": "71f7f92d-3d2c-4513-ab66-b394131a0161"
+  },
+  "missing_connections": [],
+  "native_pipelines_verified": false,
+  "planned_schedules": {
+    "clinical": "daily02UTC",
+    "billing": "daily0240UTC",
+    "warehouse": "daily0330UTC",
+    "revenue_model": "daily0430UTC",
+    "productivity_model": "daily05UTC"
+  },
+  "cadence_reason": "One source wake per day plus60minute inactivity tail is estimated within the free CPU allowance; continuous4hour wakes are not. Daily cadence deliberately permits latency.",
+  "schedule_enablement": "Only after manual verification and free-offer allowance review; never paid fallback"
+}

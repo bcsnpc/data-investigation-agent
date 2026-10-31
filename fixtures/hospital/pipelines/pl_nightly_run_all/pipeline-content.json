@@ -1,0 +1,84 @@
+{
+  "properties": {
+    "concurrency": 1,
+    "activities": [
+      {
+        "name": "reference_mapping",
+        "type": "RefreshDataFlow",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "dataflowId": "5be967da-aa22-44ed-ae6d-f564039d7e62",
+          "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+          "dataflowType": "DataflowFabric",
+          "notifyOption": "NoNotification"
+        }
+      },
+      {
+        "name": "patient_mpi",
+        "type": "TridentNotebook",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30
+        },
+        "typeProperties": {
+          "notebookId": "a2ad4345-c364-40c1-8e10-abb6c0dc3734",
+          "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+        }
+      },
+      {
+        "name": "warehouse_run_all",
+        "type": "Script",
+        "policy": {
+          "timeout": "0.01:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "reference_mapping",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "patient_mpi",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "EXEC dbo.sp_run_all;"
+            }
+          ],
+          "scriptBlockExecutionTimeout": "01:00:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
+        }
+      }
+    ]
+  }
+}
