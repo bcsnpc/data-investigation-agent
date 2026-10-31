@@ -26,7 +26,7 @@ All40 outcomes saved and double-graded. **Raw-reviewed35/40**, official37/40, st
 
 ## G2: headline held-out v4
 
-_pending_
+In progress. History measured first under owner pause-lift: all3counted, oneNEEDS_INPUT and twoANSWERED. Primary2/3,strict2/3,independently raw-reviewed2/3,harm0. Three fresh Claude disagreement reviews completed; operator did not adjudicate. Original source360row hash and real restoration load verified, temporalON. Other57pending. [Interim G2](runs/round25-g2-current-grades.json), [independent decisions](runs/g2-history01-independent-review.json).
 
 ## G3: unchanged R22 messy input
 

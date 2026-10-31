@@ -436,3 +436,6 @@ Measurement disclosure2026-10-31: an overbroad operator text search under the pr
 
 
 Owner2026-10-31: source-history harm pause lifted for Round25 practice measurement; all3G2history admitted, prior2G1history remain scored and not rerun. Harmfulanswers still reported. G2/G3/G4 grader disagreements require a separate independent Claude raw review, supplied only ticket,savedanswer/evidence,sealedexpectation,bothreasons. Operator does not decide. Exposure disclosure retained. No engine,expectation,identity or further cap change.
+
+
+2026-10-31 budget deployment: all three existing scheduled Container Apps jobs were read back on tested budget-only image deae7d44. This makes the owner-approved October cap effective for scheduled components as well as manual runs; SCAN2500 and all schedules,identities,resources,environment and scopes remain unchanged. Running executions retain their own pinned override. Native before/after: docs/runs/round25-scheduled-budget-image-20261031.json.

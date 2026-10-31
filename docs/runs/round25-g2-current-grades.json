@@ -1,0 +1,1084 @@
+{
+  "official_primary": {
+    "all_three": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 3,
+      "accuracy": 0.0,
+      "lower": 5.551115123125783e-17,
+      "upper": 0.5614970317550454,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "strict": {
+    "all_three": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 3,
+      "accuracy": 0.0,
+      "lower": 5.551115123125783e-17,
+      "upper": 0.5614970317550454,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "raw_reviewed": {
+    "all_three": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 3,
+      "accuracy": 0.0,
+      "lower": 5.551115123125783e-17,
+      "upper": 0.5614970317550454,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "raw_review_pending": [],
+  "raw_review_complete": true,
+  "headline": "raw_reviewed",
+  "completed_graded": 3,
+  "primary": {
+    "all_three": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 3,
+      "accuracy": 0.0,
+      "lower": 5.551115123125783e-17,
+      "upper": 0.5614970317550454,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "secondary": {
+    "all_three": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 2,
+      "total": 3,
+      "accuracy": 0.6666666666666666,
+      "lower": 0.2076596008020477,
+      "upper": 0.9385080552796037,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 3,
+      "accuracy": 0.0,
+      "lower": 5.551115123125783e-17,
+      "upper": 0.5614970317550454,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "agreement": {
+    "correct": 3,
+    "total": 3,
+    "accuracy": 1.0,
+    "lower": 0.4385029682449546,
+    "upper": 1.0,
+    "confidence": 0.95,
+    "method": "Wilson"
+  },
+  "agreement_fields": [
+    "verdict_match",
+    "layer_match",
+    "cause_match",
+    "harmful"
+  ],
+  "full_assessment_agreement": {
+    "correct": 0,
+    "total": 3,
+    "accuracy": 0.0,
+    "lower": 5.551115123125783e-17,
+    "upper": 0.5614970317550454,
+    "confidence": 0.95,
+    "method": "Wilson"
+  },
+  "assessment_disagreements": [
+    {
+      "ticket": "v4-source-history-1",
+      "fields": [
+        "handoff_quality",
+        "failing_step"
+      ]
+    },
+    {
+      "ticket": "v4-source-history-2",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v4-source-history-3",
+      "fields": [
+        "handoff_quality"
+      ]
+    }
+  ],
+  "handoff_disagreements": [
+    {
+      "ticket": "v4-source-history-1",
+      "class": "v4-source-history",
+      "fixture": "history",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer never reached a verdict. It returned NEEDS_INPUT asking the user to clarify which reported figure (41 or 47 units) the question concerns. The expected answer is that the source system-versioned table was updated between exports, changing movement 900201 from 41 to 47 units, with the pipeline run having completed while the 41-unit version was current. The delivered answer neither identifies the layer (source) nor the cause (source temporal update). The clarification question is unnecessary: both figures are described in the ticket and the answer does not depend on picking one. The handoff provides a prefilled structure with some correct classification fields (record ID, report, page, visual) but no queries were run and no factual investigation was performed. Handoff quality is 1 because there is a clear stopping point and the prefilled data gives a sensible next step, but no queries or evidence were gathered.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "asked the user",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer stops with NEEDS_INPUT (AMBIGUOUS_PRIMARY_FIGURE) and asks the user to choose between 41 units and 47 units. The ticket already makes this clear: 41 is the earlier export, 47 is the later one, and the user wants to know why the value changed. So the clarifying question was not needed. The sealed answer is 'source changed history' at the source layer. The cause is a system-versioned temporal table update: 41 units was valid from 17:11:12 to 17:18:00, and 47 units has been valid since 17:18:00. The completed load ran from 17:11:20 to 17:12:57, while the 41-unit version was current. The delivered answer gives no verdict, layer or cause, so none of them matches. It states no incorrect cause as fact, so it is not harmful. Handoff quality is 0: there are no queries to rerun, no stopping point or reason, and no next checks such as checking the temporal history of record 900201 against the pipeline run times. The first failing step is asking the user an unnecessary clarifying question when the ticket already had what was needed.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-history01",
+      "outcome_sha256": "39863e8868d7ab8710ae575da87acf4a4d610bc8f84b916f80ac801374360c44",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 75690,
+      "physical_requests": 0,
+      "model_calls": null,
+      "timing_group": "holds",
+      "raw_review": {
+        "cost_microdollars": 53447,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "asked the user",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved capture shows: DIA stopped with status NEEDS_INPUT and code AMBIGUOUS_PRIMARY_FIGURE. It asked the user to choose between \"41 units\" and \"47 units\". Handoff and stop are null. In saved_evidence, only the intake object is filled in: a prefilled IntakeRequest with hashed report, page and visual IDs, details.record=movement900201, issue_type SOMETHING_ELSE and classified_issue_type NUMBER_LOOKS_WRONG. Triage, queries and evidence are all null.\n\nThe sealed expectation is the verdict \"source changed history\" at the source layer. The cause is a system-versioned temporal table update: movement 900201 had 41 units from 17:11:12 until 17:18:00, when it became 47 units. The completed load ran from 17:11:20 to 17:12:57, while the 41-unit version was current.\n\nScoring: DIA gave no verdict, layer or cause, so all three fail and the case scores zero under the all-three rule. Partial credit is not available. It stated no false cause as fact, so it is not harmful.\n\nDisputed failing step: the ticket already says which figure is which (41 in the earlier export, 47 in the later one) and asks why the value changed. That question needs both figures, so asking the user to pick one was unnecessary. The ambiguity check ran at intake, but the specific failure is that DIA asked the user a question it didn't need to ask. \"Asked the user\" is the most accurate label, so the secondary grader is right and the primary grader's \"intake\" is less precise.\n\nDisputed handoff quality: there is no handoff object, no queries to rerun, no evidence and no suggested next check, such as comparing the record's temporal history with the pipeline run times. The only stop reason is a misguided ambiguity code, and the clarifying question points away from the actual investigation. The prefilled intake fields just restate what the ticket already says and are not a useful next step. The primary grader's score of 1 is too generous, so 0 is right.\n\nThe secondary grader slightly overstates things by saying there was \"no stopping point or reason\", because an AMBIGUOUS_PRIMARY_FIGURE code does exist. That code is not a useful reason, though, so the secondary grader's conclusions still hold. Both graders agree on the core matches being false and on harmful=false. The secondary grader is right on both disputed fields.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "39863e8868d7ab8710ae575da87acf4a4d610bc8f84b916f80ac801374360c44",
+        "reason": "What the saved capture shows: DIA stopped with status NEEDS_INPUT and code AMBIGUOUS_PRIMARY_FIGURE. It asked the user to choose between \"41 units\" and \"47 units\". Handoff and stop are null. In saved_evidence, only the intake object is filled in: a prefilled IntakeRequest with hashed report, page and visual IDs, details.record=movement900201, issue_type SOMETHING_ELSE and classified_issue_type NUMBER_LOOKS_WRONG. Triage, queries and evidence are all null.\n\nThe sealed expectation is the verdict \"source changed history\" at the source layer. The cause is a system-versioned temporal table update: movement 900201 had 41 units from 17:11:12 until 17:18:00, when it became 47 units. The completed load ran from 17:11:20 to 17:12:57, while the 41-unit version was current.\n\nScoring: DIA gave no verdict, layer or cause, so all three fail and the case scores zero under the all-three rule. Partial credit is not available. It stated no false cause as fact, so it is not harmful.\n\nDisputed failing step: the ticket already says which figure is which (41 in the earlier export, 47 in the later one) and asks why the value changed. That question needs both figures, so asking the user to pick one was unnecessary. The ambiguity check ran at intake, but the specific failure is that DIA asked the user a question it didn't need to ask. \"Asked the user\" is the most accurate label, so the secondary grader is right and the primary grader's \"intake\" is less precise.\n\nDisputed handoff quality: there is no handoff object, no queries to rerun, no evidence and no suggested next check, such as comparing the record's temporal history with the pipeline run times. The only stop reason is a misguided ambiguity code, and the clarifying question points away from the actual investigation. The prefilled intake fields just restate what the ticket already says and are not a useful next step. The primary grader's score of 1 is too generous, so 0 is right.\n\nThe secondary grader slightly overstates things by saying there was \"no stopping point or reason\", because an AMBIGUOUS_PRIMARY_FIGURE code does exist. That code is not a useful reason, though, so the secondary grader's conclusions still hold. Both graders agree on the core matches being false and on harmful=false. The secondary grader is right on both disputed fields.",
+        "source_sha256": "c7353ddb054a4a1661d8b901b49d490aa855464d87783a32ae4c307659a2798c",
+        "ticket": "v4-source-history-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 2943,
+          "output_tokens": 1864,
+          "output_tokens_details": {
+            "thinking_tokens": 831
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-source-history-2",
+      "class": "v4-source-history",
+      "fixture": "history",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'source changed history' (matching the sealed expected verdict), correctly attributes the layer to 'source', and correctly names the cause as the source row being updated after the load completed (the application updated the record from 41 to 47 units after the pipeline run finished, before any subsequent load captured the change). The evidence is solid: application table shows 47 units with source_modified_at_utc 2026-10-31 17:31:03, landing copy shows 41 units from load time, and the last load run ended at 17:29:33 before the source modification at 17:31:03. This matches the sealed expected cause ('The source row for movement 900201 was updated from 41 to 47 units...the completed load captured the earlier 41-unit version'). Layer is 'source' in both. The answer is fully resolved (ANSWERED status), so handoff quality is not applicable (scored 0 as N/A for a completed answer).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered verdict is 'source changed history', which matches the sealed verdict. Layer: both put the cause at the source. The delivered answer says the application edited the record and the data path copied units 1:1 without changing them. Cause: both say the source row went from 41 to 47 units after the last completed load, and the load had already captured 41. The evidence is the source query showing 47 versus the landing table and model both showing 41. Timestamps and run IDs differ: the sealed record says the update happened at 2026-10-28 17:18 and the load ran 17:11\u201317:12:57 that day. The delivered answer says run ff37fd32 ended at 2026-10-31 17:29:33 and the source row was modified at 17:31:03. The sealed basis says the admission-window facts must be re-established when the answer is scored, so the newer re-observed timings are acceptable. The before/after order is the same. One difference in evidence: the sealed answer relies on the source table's own version history, but the delivered answer never read it. It got the earlier value from the landing copy and says so openly. That limits the evidence but does not change the named cause. The delivered answer did not note that the form's RECORD_MISSING issue type is a mismatch; this does not affect scoring. Nothing is stated wrongly as fact. Handoff: the case was answered, not stopped. All four queries are recorded verbatim with parameters and can be rerun. Limits and next checks are stated: no source history read, editor and reason unknown, export timing not confirmed.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-history01",
+      "outcome_sha256": "9c4e0fb71382ca26781054f1af2548710537ba4fbc268c8fe4b48ad2560f646f",
+      "status": "ANSWERED",
+      "native_duration_seconds": 206.0,
+      "worker_wall_seconds": 171.92881492599997,
+      "investigation_cost_microdollars": 395814,
+      "physical_requests": 27,
+      "model_calls": 5,
+      "timing_group": "full_investigation",
+      "raw_review": {
+        "cost_microdollars": 195976,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The case scores as fully correct under the all-three rule. The two graders agree on that and differ only on handoff quality, where the secondary grader's reasoning holds up better.\n\n**What the saved queries show:**\n- **Source table** (app.stock_movements_round_two_20261003, ordersops): one row for 900201 with 47 units, event_day 2026-09-18, modified at 2026-10-31 17:31:03.268, row version 78002.\n- **Landing copy** (round_two_bronze_20261003): one row with 41 units, modified at 17:27:51.577, row version 0x130B1. That hex value is 78001, so the version moved up by exactly one.\n- **Model:** both DAX queries return one row for 900201 with 41 units. The trace marks the model layer's presence as UNAVAILABLE (RESULT_MISSING_KEY_COLUMN), but the raw rows do show the record, so \"present once at every layer\" is fine in substance.\n- **Pipeline:** job node 3bf74 has a complete run listing. The last run, ff37fd32, succeeded from 17:28:04 to 17:29:33 on 10-31, reading and writing 361 rows. No later run is listed, and the pipeline's schedule list is empty.\n\nThe source row was therefore changed about 90 seconds after the last load finished. That supports the answer's verdict \"source changed history\", its layer (source), and its cause: the application edited the row from 41 to 47 after the load had captured 41.\n\n**Match against the sealed expectation:** the sealed answer has the same verdict, layer and cause (row updated 41\u219247 after a completed load that captured 41). Its timestamps and run differ (2026-10-28, run 0d728d94), but its own basis says the admission-window facts must be re-established when scored, and the order of events is the same. So verdict, layer and cause all match, and the case is not partial.\n\n**Honesty of the answer:** it openly says it never read the source table's version history, which the sealed answer relied on. It also says it did not establish who edited the row, why, or when either export was taken. Its first attempt cited row version 78001, which validation rejected because that number did not appear in any cited result; the final answer drops it and just says the version advanced. One claim is not backed by any saved row: \"the copy mapping copies units 1:1 with Overwrite.\" It is minor and does not affect the cause, but the secondary grader is slightly too generous in saying nothing is stated wrongly as fact. Neither grader caught that the model's last refresh (10-28 21:50) is older than the 10-31 load, but this does not weaken the source-change conclusion. Nothing in the answer is harmful.\n\n**The disputed score (handoff quality):** the primary grader gave 0, treating it as not applicable to an answered case. That undersells a capture where all four queries are recorded word for word with parameters and can be rerun, and the limits and next checks are spelled out. The secondary grader's score of 2 fits the evidence. Its overall analysis \u2014 re-observed timings are acceptable, the earlier 41 comes from the landing copy rather than native history, and the unflagged RECORD_MISSING issue type does not affect scoring \u2014 is more thorough and accurate, so the secondary grader wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "9c4e0fb71382ca26781054f1af2548710537ba4fbc268c8fe4b48ad2560f646f",
+        "reason": "The case scores as fully correct under the all-three rule. The two graders agree on that and differ only on handoff quality, where the secondary grader's reasoning holds up better.\n\n**What the saved queries show:**\n- **Source table** (app.stock_movements_round_two_20261003, ordersops): one row for 900201 with 47 units, event_day 2026-09-18, modified at 2026-10-31 17:31:03.268, row version 78002.\n- **Landing copy** (round_two_bronze_20261003): one row with 41 units, modified at 17:27:51.577, row version 0x130B1. That hex value is 78001, so the version moved up by exactly one.\n- **Model:** both DAX queries return one row for 900201 with 41 units. The trace marks the model layer's presence as UNAVAILABLE (RESULT_MISSING_KEY_COLUMN), but the raw rows do show the record, so \"present once at every layer\" is fine in substance.\n- **Pipeline:** job node 3bf74 has a complete run listing. The last run, ff37fd32, succeeded from 17:28:04 to 17:29:33 on 10-31, reading and writing 361 rows. No later run is listed, and the pipeline's schedule list is empty.\n\nThe source row was therefore changed about 90 seconds after the last load finished. That supports the answer's verdict \"source changed history\", its layer (source), and its cause: the application edited the row from 41 to 47 after the load had captured 41.\n\n**Match against the sealed expectation:** the sealed answer has the same verdict, layer and cause (row updated 41\u219247 after a completed load that captured 41). Its timestamps and run differ (2026-10-28, run 0d728d94), but its own basis says the admission-window facts must be re-established when scored, and the order of events is the same. So verdict, layer and cause all match, and the case is not partial.\n\n**Honesty of the answer:** it openly says it never read the source table's version history, which the sealed answer relied on. It also says it did not establish who edited the row, why, or when either export was taken. Its first attempt cited row version 78001, which validation rejected because that number did not appear in any cited result; the final answer drops it and just says the version advanced. One claim is not backed by any saved row: \"the copy mapping copies units 1:1 with Overwrite.\" It is minor and does not affect the cause, but the secondary grader is slightly too generous in saying nothing is stated wrongly as fact. Neither grader caught that the model's last refresh (10-28 21:50) is older than the 10-31 load, but this does not weaken the source-change conclusion. Nothing in the answer is harmful.\n\n**The disputed score (handoff quality):** the primary grader gave 0, treating it as not applicable to an answered case. That undersells a capture where all four queries are recorded word for word with parameters and can be rerun, and the limits and next checks are spelled out. The secondary grader's score of 2 fits the evidence. Its overall analysis \u2014 re-observed timings are acceptable, the earlier 41 comes from the landing copy rather than native history, and the unflagged RECORD_MISSING issue type does not affect scoring \u2014 is more thorough and accurate, so the secondary grader wins.",
+        "source_sha256": "9ca55f8f2f18a7c4ea062d0ea2330a1c882f52d1d11dab0a001cd9ee9a459336",
+        "ticket": "v4-source-history-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 38275,
+          "output_tokens": 2135,
+          "output_tokens_details": {
+            "thinking_tokens": 839
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-source-history-3",
+      "class": "v4-source-history",
+      "fixture": "history",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer matches on all three scored dimensions. Verdict: the discrepancy is real and explained (not missing, not a pipeline fault). Layer: source \u2014 the application (source) row was edited after the load completed, placing the root cause at the source layer. Cause: 'source changed history' \u2014 movement 900201 had its units changed in the source application table after the earlier load captured 41 units, exactly matching the sealed expected cause. Evidence is solid: application row shows 47 / row_version 0x00000000000130B2 / modified 17:31:03, landing row shows 41 / row_version 0x00000000000130B1 / modified 17:27:51, model shows 41, last load SUCCEEDED 17:28:04\u201317:29:33 (before the edit). Numbers 900201, 41, 47, 361 all cited. No incorrect causal claim. Handoff quality is 0 because the answer is fully resolved \u2014 there is no handoff needed.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: both say 'source changed history'. Layer: the expected layer is source. The delivered answer puts the split at the application (source) table, which shows 47. The landing table and model both still show 41. Cause: the expected cause is that the source row was edited from 41 to 47 after an earlier completed load had already captured 41. The delivered answer names the same cause: the application row was updated from 41 to 47 after the latest successful load (361 rows read/written) captured the 41 version. It supports this with the source's later modified time and higher row version (0x...B2 vs 0x...B1), and its four cited queries succeeded. Disagreement noted: the timestamps differ. The sealed answer says the edit was at 2026-10-28 17:18:00, after a load from 17:11:20 to 17:12:57. The delivered answer says the edit was at 2026-10-31 17:31:03, after a load from 17:28:04 to 17:29:33. The sealed basis itself warns that these facts must be re-established at scored execution, so the fixture was evidently re-run. The delivered timestamps agree with each other and with the live query results. The mechanism and the order of events are the same, so I am not counting this against the answer. The answer is also honest that it did not read the system-versioned history table, and it correctly confirms the record is not missing. Full match, nothing harmful. Handoff: the queries are verbatim and rerunnable, the stopping point is clear, and the gaps (history table not read, who made the edit and why) are stated.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-history01",
+      "outcome_sha256": "72dd5ed9620d907844e53d506bfbfefd8bcda5e07d8a304c129feaf542f72a07",
+      "status": "ANSWERED",
+      "native_duration_seconds": 164.0,
+      "worker_wall_seconds": 138.225793522,
+      "investigation_cost_microdollars": 244654,
+      "physical_requests": 23,
+      "model_calls": 3,
+      "timing_group": "full_investigation",
+      "raw_review": {
+        "cost_microdollars": 176624,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The answer matches on all three scored points (verdict, layer and cause), so it counts as a full match.\n\nWhat the saved evidence shows:\n- **Application table** (ordersops, query 1): movement 900201 has units 47, event_day 2026-09-18, RECEIPT, source_modified_at_utc 2026-10-31 17:31:03.268177 and row version 0x\u2026130B2.\n- **Landing table** (round_two_bronze_20261003, query 2): the same record has units 41, modified 17:27:51.577665 and the lower row version 0x\u2026130B1.\n- **Model** (DAX queries 3 and 4): one row, with Movement Units = 41.\n- **Load runs** (JOB_RUNS triage): load run ff37fd32 SUCCEEDED from 2026-10-31 17:28:04 to 17:29:33. Its declared warehouse audit shows 361 rows read and 361 written. The landing row's modified time is just before that run started, and the application edit is after it ended.\n- **Schedules:** the schedule for that pipeline lists no native schedules, and next_due is null.\n\nSo the answer's claims are supported:\n- It names the expected verdict, \"source changed history\".\n- It puts the split at the source layer: the application shows 47, while the landing table and model show 41.\n- It names the expected cause: the source row was edited from 41 to 47 after a completed load had captured 41.\n\n**Timestamps.** The sealed expectation gives different times (an edit on 10-28 at 17:18 and a load from 17:11 to 17:12). However, its basis warns that these facts must be re-established at scored execution. The live captures are consistent with each other and show the same order of events, so the mismatch is not a fault in the answer.\n\n**Uncertainty.** The answer is honest about its limits. It says it did not read the system-versioned history and cannot say who made the edit or why. It does not claim more than the evidence shows. Two small points do not affect any scored dimension:\n- It says the record is present at every layer, while the trace marked model presence as UNAVAILABLE. The DAX results do show exactly one row, so the claim still holds.\n- The pipeline's display name does not appear in the saved rows.\n\n**Handoff quality.** The answer is complete, with no handoff needed. It gives queries that can be rerun exactly as written and states its remaining gaps clearly, so it deserves a 2.\n\n**Graders.** Both graders get verdict, layer, cause and harm right. The primary grader gives handoff a 0 just because no handoff was needed, which misjudges the answer's quality. It also does not deal with the timestamp mismatch against the sealed answer. The secondary grader addresses the mismatch correctly and rates the handoff accurately. The secondary grader wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "72dd5ed9620d907844e53d506bfbfefd8bcda5e07d8a304c129feaf542f72a07",
+        "reason": "The answer matches on all three scored points (verdict, layer and cause), so it counts as a full match.\n\nWhat the saved evidence shows:\n- **Application table** (ordersops, query 1): movement 900201 has units 47, event_day 2026-09-18, RECEIPT, source_modified_at_utc 2026-10-31 17:31:03.268177 and row version 0x\u2026130B2.\n- **Landing table** (round_two_bronze_20261003, query 2): the same record has units 41, modified 17:27:51.577665 and the lower row version 0x\u2026130B1.\n- **Model** (DAX queries 3 and 4): one row, with Movement Units = 41.\n- **Load runs** (JOB_RUNS triage): load run ff37fd32 SUCCEEDED from 2026-10-31 17:28:04 to 17:29:33. Its declared warehouse audit shows 361 rows read and 361 written. The landing row's modified time is just before that run started, and the application edit is after it ended.\n- **Schedules:** the schedule for that pipeline lists no native schedules, and next_due is null.\n\nSo the answer's claims are supported:\n- It names the expected verdict, \"source changed history\".\n- It puts the split at the source layer: the application shows 47, while the landing table and model show 41.\n- It names the expected cause: the source row was edited from 41 to 47 after a completed load had captured 41.\n\n**Timestamps.** The sealed expectation gives different times (an edit on 10-28 at 17:18 and a load from 17:11 to 17:12). However, its basis warns that these facts must be re-established at scored execution. The live captures are consistent with each other and show the same order of events, so the mismatch is not a fault in the answer.\n\n**Uncertainty.** The answer is honest about its limits. It says it did not read the system-versioned history and cannot say who made the edit or why. It does not claim more than the evidence shows. Two small points do not affect any scored dimension:\n- It says the record is present at every layer, while the trace marked model presence as UNAVAILABLE. The DAX results do show exactly one row, so the claim still holds.\n- The pipeline's display name does not appear in the saved rows.\n\n**Handoff quality.** The answer is complete, with no handoff needed. It gives queries that can be rerun exactly as written and states its remaining gaps clearly, so it deserves a 2.\n\n**Graders.** Both graders get verdict, layer, cause and harm right. The primary grader gives handoff a 0 just because no handoff was needed, which misjudges the answer's quality. It also does not deal with the timestamp mismatch against the sealed answer. The secondary grader addresses the mismatch correctly and rates the handoff accurately. The secondary grader wins.",
+        "source_sha256": "9fdd9ec7fab20e0ac63147ffd7bd113473156d1da0b90367860fad6398f36a64",
+        "ticket": "v4-source-history-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 34947,
+          "output_tokens": 1833,
+          "output_tokens_details": {
+            "thinking_tokens": 690
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    }
+  ],
+  "per_class": {
+    "v4-source-history": {
+      "official_primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 3,
+          "accuracy": 0.6666666666666666,
+          "lower": 0.2076596008020477,
+          "upper": 0.9385080552796037,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    }
+  },
+  "disagreements": [],
+  "cohort": "g2",
+  "cases": [
+    {
+      "ticket": "v4-source-history-1",
+      "class": "v4-source-history",
+      "fixture": "history",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer never reached a verdict. It returned NEEDS_INPUT asking the user to clarify which reported figure (41 or 47 units) the question concerns. The expected answer is that the source system-versioned table was updated between exports, changing movement 900201 from 41 to 47 units, with the pipeline run having completed while the 41-unit version was current. The delivered answer neither identifies the layer (source) nor the cause (source temporal update). The clarification question is unnecessary: both figures are described in the ticket and the answer does not depend on picking one. The handoff provides a prefilled structure with some correct classification fields (record ID, report, page, visual) but no queries were run and no factual investigation was performed. Handoff quality is 1 because there is a clear stopping point and the prefilled data gives a sensible next step, but no queries or evidence were gathered.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "asked the user",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer stops with NEEDS_INPUT (AMBIGUOUS_PRIMARY_FIGURE) and asks the user to choose between 41 units and 47 units. The ticket already makes this clear: 41 is the earlier export, 47 is the later one, and the user wants to know why the value changed. So the clarifying question was not needed. The sealed answer is 'source changed history' at the source layer. The cause is a system-versioned temporal table update: 41 units was valid from 17:11:12 to 17:18:00, and 47 units has been valid since 17:18:00. The completed load ran from 17:11:20 to 17:12:57, while the 41-unit version was current. The delivered answer gives no verdict, layer or cause, so none of them matches. It states no incorrect cause as fact, so it is not harmful. Handoff quality is 0: there are no queries to rerun, no stopping point or reason, and no next checks such as checking the temporal history of record 900201 against the pipeline run times. The first failing step is asking the user an unnecessary clarifying question when the ticket already had what was needed.",
+        "verdict_match": false
+      },
+      "grade_wave": "g2-history01",
+      "outcome_sha256": "39863e8868d7ab8710ae575da87acf4a4d610bc8f84b916f80ac801374360c44",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 75690,
+      "physical_requests": 0,
+      "model_calls": null,
+      "timing_group": "holds",
+      "raw_review": {
+        "cost_microdollars": 53447,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "asked the user",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved capture shows: DIA stopped with status NEEDS_INPUT and code AMBIGUOUS_PRIMARY_FIGURE. It asked the user to choose between \"41 units\" and \"47 units\". Handoff and stop are null. In saved_evidence, only the intake object is filled in: a prefilled IntakeRequest with hashed report, page and visual IDs, details.record=movement900201, issue_type SOMETHING_ELSE and classified_issue_type NUMBER_LOOKS_WRONG. Triage, queries and evidence are all null.\n\nThe sealed expectation is the verdict \"source changed history\" at the source layer. The cause is a system-versioned temporal table update: movement 900201 had 41 units from 17:11:12 until 17:18:00, when it became 47 units. The completed load ran from 17:11:20 to 17:12:57, while the 41-unit version was current.\n\nScoring: DIA gave no verdict, layer or cause, so all three fail and the case scores zero under the all-three rule. Partial credit is not available. It stated no false cause as fact, so it is not harmful.\n\nDisputed failing step: the ticket already says which figure is which (41 in the earlier export, 47 in the later one) and asks why the value changed. That question needs both figures, so asking the user to pick one was unnecessary. The ambiguity check ran at intake, but the specific failure is that DIA asked the user a question it didn't need to ask. \"Asked the user\" is the most accurate label, so the secondary grader is right and the primary grader's \"intake\" is less precise.\n\nDisputed handoff quality: there is no handoff object, no queries to rerun, no evidence and no suggested next check, such as comparing the record's temporal history with the pipeline run times. The only stop reason is a misguided ambiguity code, and the clarifying question points away from the actual investigation. The prefilled intake fields just restate what the ticket already says and are not a useful next step. The primary grader's score of 1 is too generous, so 0 is right.\n\nThe secondary grader slightly overstates things by saying there was \"no stopping point or reason\", because an AMBIGUOUS_PRIMARY_FIGURE code does exist. That code is not a useful reason, though, so the secondary grader's conclusions still hold. Both graders agree on the core matches being false and on harmful=false. The secondary grader is right on both disputed fields.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "39863e8868d7ab8710ae575da87acf4a4d610bc8f84b916f80ac801374360c44",
+        "reason": "What the saved capture shows: DIA stopped with status NEEDS_INPUT and code AMBIGUOUS_PRIMARY_FIGURE. It asked the user to choose between \"41 units\" and \"47 units\". Handoff and stop are null. In saved_evidence, only the intake object is filled in: a prefilled IntakeRequest with hashed report, page and visual IDs, details.record=movement900201, issue_type SOMETHING_ELSE and classified_issue_type NUMBER_LOOKS_WRONG. Triage, queries and evidence are all null.\n\nThe sealed expectation is the verdict \"source changed history\" at the source layer. The cause is a system-versioned temporal table update: movement 900201 had 41 units from 17:11:12 until 17:18:00, when it became 47 units. The completed load ran from 17:11:20 to 17:12:57, while the 41-unit version was current.\n\nScoring: DIA gave no verdict, layer or cause, so all three fail and the case scores zero under the all-three rule. Partial credit is not available. It stated no false cause as fact, so it is not harmful.\n\nDisputed failing step: the ticket already says which figure is which (41 in the earlier export, 47 in the later one) and asks why the value changed. That question needs both figures, so asking the user to pick one was unnecessary. The ambiguity check ran at intake, but the specific failure is that DIA asked the user a question it didn't need to ask. \"Asked the user\" is the most accurate label, so the secondary grader is right and the primary grader's \"intake\" is less precise.\n\nDisputed handoff quality: there is no handoff object, no queries to rerun, no evidence and no suggested next check, such as comparing the record's temporal history with the pipeline run times. The only stop reason is a misguided ambiguity code, and the clarifying question points away from the actual investigation. The prefilled intake fields just restate what the ticket already says and are not a useful next step. The primary grader's score of 1 is too generous, so 0 is right.\n\nThe secondary grader slightly overstates things by saying there was \"no stopping point or reason\", because an AMBIGUOUS_PRIMARY_FIGURE code does exist. That code is not a useful reason, though, so the secondary grader's conclusions still hold. Both graders agree on the core matches being false and on harmful=false. The secondary grader is right on both disputed fields.",
+        "source_sha256": "c7353ddb054a4a1661d8b901b49d490aa855464d87783a32ae4c307659a2798c",
+        "ticket": "v4-source-history-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 2943,
+          "output_tokens": 1864,
+          "output_tokens_details": {
+            "thinking_tokens": 831
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-source-history-2",
+      "class": "v4-source-history",
+      "fixture": "history",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'source changed history' (matching the sealed expected verdict), correctly attributes the layer to 'source', and correctly names the cause as the source row being updated after the load completed (the application updated the record from 41 to 47 units after the pipeline run finished, before any subsequent load captured the change). The evidence is solid: application table shows 47 units with source_modified_at_utc 2026-10-31 17:31:03, landing copy shows 41 units from load time, and the last load run ended at 17:29:33 before the source modification at 17:31:03. This matches the sealed expected cause ('The source row for movement 900201 was updated from 41 to 47 units...the completed load captured the earlier 41-unit version'). Layer is 'source' in both. The answer is fully resolved (ANSWERED status), so handoff quality is not applicable (scored 0 as N/A for a completed answer).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered verdict is 'source changed history', which matches the sealed verdict. Layer: both put the cause at the source. The delivered answer says the application edited the record and the data path copied units 1:1 without changing them. Cause: both say the source row went from 41 to 47 units after the last completed load, and the load had already captured 41. The evidence is the source query showing 47 versus the landing table and model both showing 41. Timestamps and run IDs differ: the sealed record says the update happened at 2026-10-28 17:18 and the load ran 17:11\u201317:12:57 that day. The delivered answer says run ff37fd32 ended at 2026-10-31 17:29:33 and the source row was modified at 17:31:03. The sealed basis says the admission-window facts must be re-established when the answer is scored, so the newer re-observed timings are acceptable. The before/after order is the same. One difference in evidence: the sealed answer relies on the source table's own version history, but the delivered answer never read it. It got the earlier value from the landing copy and says so openly. That limits the evidence but does not change the named cause. The delivered answer did not note that the form's RECORD_MISSING issue type is a mismatch; this does not affect scoring. Nothing is stated wrongly as fact. Handoff: the case was answered, not stopped. All four queries are recorded verbatim with parameters and can be rerun. Limits and next checks are stated: no source history read, editor and reason unknown, export timing not confirmed.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-history01",
+      "outcome_sha256": "9c4e0fb71382ca26781054f1af2548710537ba4fbc268c8fe4b48ad2560f646f",
+      "status": "ANSWERED",
+      "native_duration_seconds": 206.0,
+      "worker_wall_seconds": 171.92881492599997,
+      "investigation_cost_microdollars": 395814,
+      "physical_requests": 27,
+      "model_calls": 5,
+      "timing_group": "full_investigation",
+      "raw_review": {
+        "cost_microdollars": 195976,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The case scores as fully correct under the all-three rule. The two graders agree on that and differ only on handoff quality, where the secondary grader's reasoning holds up better.\n\n**What the saved queries show:**\n- **Source table** (app.stock_movements_round_two_20261003, ordersops): one row for 900201 with 47 units, event_day 2026-09-18, modified at 2026-10-31 17:31:03.268, row version 78002.\n- **Landing copy** (round_two_bronze_20261003): one row with 41 units, modified at 17:27:51.577, row version 0x130B1. That hex value is 78001, so the version moved up by exactly one.\n- **Model:** both DAX queries return one row for 900201 with 41 units. The trace marks the model layer's presence as UNAVAILABLE (RESULT_MISSING_KEY_COLUMN), but the raw rows do show the record, so \"present once at every layer\" is fine in substance.\n- **Pipeline:** job node 3bf74 has a complete run listing. The last run, ff37fd32, succeeded from 17:28:04 to 17:29:33 on 10-31, reading and writing 361 rows. No later run is listed, and the pipeline's schedule list is empty.\n\nThe source row was therefore changed about 90 seconds after the last load finished. That supports the answer's verdict \"source changed history\", its layer (source), and its cause: the application edited the row from 41 to 47 after the load had captured 41.\n\n**Match against the sealed expectation:** the sealed answer has the same verdict, layer and cause (row updated 41\u219247 after a completed load that captured 41). Its timestamps and run differ (2026-10-28, run 0d728d94), but its own basis says the admission-window facts must be re-established when scored, and the order of events is the same. So verdict, layer and cause all match, and the case is not partial.\n\n**Honesty of the answer:** it openly says it never read the source table's version history, which the sealed answer relied on. It also says it did not establish who edited the row, why, or when either export was taken. Its first attempt cited row version 78001, which validation rejected because that number did not appear in any cited result; the final answer drops it and just says the version advanced. One claim is not backed by any saved row: \"the copy mapping copies units 1:1 with Overwrite.\" It is minor and does not affect the cause, but the secondary grader is slightly too generous in saying nothing is stated wrongly as fact. Neither grader caught that the model's last refresh (10-28 21:50) is older than the 10-31 load, but this does not weaken the source-change conclusion. Nothing in the answer is harmful.\n\n**The disputed score (handoff quality):** the primary grader gave 0, treating it as not applicable to an answered case. That undersells a capture where all four queries are recorded word for word with parameters and can be rerun, and the limits and next checks are spelled out. The secondary grader's score of 2 fits the evidence. Its overall analysis \u2014 re-observed timings are acceptable, the earlier 41 comes from the landing copy rather than native history, and the unflagged RECORD_MISSING issue type does not affect scoring \u2014 is more thorough and accurate, so the secondary grader wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "9c4e0fb71382ca26781054f1af2548710537ba4fbc268c8fe4b48ad2560f646f",
+        "reason": "The case scores as fully correct under the all-three rule. The two graders agree on that and differ only on handoff quality, where the secondary grader's reasoning holds up better.\n\n**What the saved queries show:**\n- **Source table** (app.stock_movements_round_two_20261003, ordersops): one row for 900201 with 47 units, event_day 2026-09-18, modified at 2026-10-31 17:31:03.268, row version 78002.\n- **Landing copy** (round_two_bronze_20261003): one row with 41 units, modified at 17:27:51.577, row version 0x130B1. That hex value is 78001, so the version moved up by exactly one.\n- **Model:** both DAX queries return one row for 900201 with 41 units. The trace marks the model layer's presence as UNAVAILABLE (RESULT_MISSING_KEY_COLUMN), but the raw rows do show the record, so \"present once at every layer\" is fine in substance.\n- **Pipeline:** job node 3bf74 has a complete run listing. The last run, ff37fd32, succeeded from 17:28:04 to 17:29:33 on 10-31, reading and writing 361 rows. No later run is listed, and the pipeline's schedule list is empty.\n\nThe source row was therefore changed about 90 seconds after the last load finished. That supports the answer's verdict \"source changed history\", its layer (source), and its cause: the application edited the row from 41 to 47 after the load had captured 41.\n\n**Match against the sealed expectation:** the sealed answer has the same verdict, layer and cause (row updated 41\u219247 after a completed load that captured 41). Its timestamps and run differ (2026-10-28, run 0d728d94), but its own basis says the admission-window facts must be re-established when scored, and the order of events is the same. So verdict, layer and cause all match, and the case is not partial.\n\n**Honesty of the answer:** it openly says it never read the source table's version history, which the sealed answer relied on. It also says it did not establish who edited the row, why, or when either export was taken. Its first attempt cited row version 78001, which validation rejected because that number did not appear in any cited result; the final answer drops it and just says the version advanced. One claim is not backed by any saved row: \"the copy mapping copies units 1:1 with Overwrite.\" It is minor and does not affect the cause, but the secondary grader is slightly too generous in saying nothing is stated wrongly as fact. Neither grader caught that the model's last refresh (10-28 21:50) is older than the 10-31 load, but this does not weaken the source-change conclusion. Nothing in the answer is harmful.\n\n**The disputed score (handoff quality):** the primary grader gave 0, treating it as not applicable to an answered case. That undersells a capture where all four queries are recorded word for word with parameters and can be rerun, and the limits and next checks are spelled out. The secondary grader's score of 2 fits the evidence. Its overall analysis \u2014 re-observed timings are acceptable, the earlier 41 comes from the landing copy rather than native history, and the unflagged RECORD_MISSING issue type does not affect scoring \u2014 is more thorough and accurate, so the secondary grader wins.",
+        "source_sha256": "9ca55f8f2f18a7c4ea062d0ea2330a1c882f52d1d11dab0a001cd9ee9a459336",
+        "ticket": "v4-source-history-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 38275,
+          "output_tokens": 2135,
+          "output_tokens_details": {
+            "thinking_tokens": 839
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-source-history-3",
+      "class": "v4-source-history",
+      "fixture": "history",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer matches on all three scored dimensions. Verdict: the discrepancy is real and explained (not missing, not a pipeline fault). Layer: source \u2014 the application (source) row was edited after the load completed, placing the root cause at the source layer. Cause: 'source changed history' \u2014 movement 900201 had its units changed in the source application table after the earlier load captured 41 units, exactly matching the sealed expected cause. Evidence is solid: application row shows 47 / row_version 0x00000000000130B2 / modified 17:31:03, landing row shows 41 / row_version 0x00000000000130B1 / modified 17:27:51, model shows 41, last load SUCCEEDED 17:28:04\u201317:29:33 (before the edit). Numbers 900201, 41, 47, 361 all cited. No incorrect causal claim. Handoff quality is 0 because the answer is fully resolved \u2014 there is no handoff needed.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: both say 'source changed history'. Layer: the expected layer is source. The delivered answer puts the split at the application (source) table, which shows 47. The landing table and model both still show 41. Cause: the expected cause is that the source row was edited from 41 to 47 after an earlier completed load had already captured 41. The delivered answer names the same cause: the application row was updated from 41 to 47 after the latest successful load (361 rows read/written) captured the 41 version. It supports this with the source's later modified time and higher row version (0x...B2 vs 0x...B1), and its four cited queries succeeded. Disagreement noted: the timestamps differ. The sealed answer says the edit was at 2026-10-28 17:18:00, after a load from 17:11:20 to 17:12:57. The delivered answer says the edit was at 2026-10-31 17:31:03, after a load from 17:28:04 to 17:29:33. The sealed basis itself warns that these facts must be re-established at scored execution, so the fixture was evidently re-run. The delivered timestamps agree with each other and with the live query results. The mechanism and the order of events are the same, so I am not counting this against the answer. The answer is also honest that it did not read the system-versioned history table, and it correctly confirms the record is not missing. Full match, nothing harmful. Handoff: the queries are verbatim and rerunnable, the stopping point is clear, and the gaps (history table not read, who made the edit and why) are stated.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-history01",
+      "outcome_sha256": "72dd5ed9620d907844e53d506bfbfefd8bcda5e07d8a304c129feaf542f72a07",
+      "status": "ANSWERED",
+      "native_duration_seconds": 164.0,
+      "worker_wall_seconds": 138.225793522,
+      "investigation_cost_microdollars": 244654,
+      "physical_requests": 23,
+      "model_calls": 3,
+      "timing_group": "full_investigation",
+      "raw_review": {
+        "cost_microdollars": 176624,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The answer matches on all three scored points (verdict, layer and cause), so it counts as a full match.\n\nWhat the saved evidence shows:\n- **Application table** (ordersops, query 1): movement 900201 has units 47, event_day 2026-09-18, RECEIPT, source_modified_at_utc 2026-10-31 17:31:03.268177 and row version 0x\u2026130B2.\n- **Landing table** (round_two_bronze_20261003, query 2): the same record has units 41, modified 17:27:51.577665 and the lower row version 0x\u2026130B1.\n- **Model** (DAX queries 3 and 4): one row, with Movement Units = 41.\n- **Load runs** (JOB_RUNS triage): load run ff37fd32 SUCCEEDED from 2026-10-31 17:28:04 to 17:29:33. Its declared warehouse audit shows 361 rows read and 361 written. The landing row's modified time is just before that run started, and the application edit is after it ended.\n- **Schedules:** the schedule for that pipeline lists no native schedules, and next_due is null.\n\nSo the answer's claims are supported:\n- It names the expected verdict, \"source changed history\".\n- It puts the split at the source layer: the application shows 47, while the landing table and model show 41.\n- It names the expected cause: the source row was edited from 41 to 47 after a completed load had captured 41.\n\n**Timestamps.** The sealed expectation gives different times (an edit on 10-28 at 17:18 and a load from 17:11 to 17:12). However, its basis warns that these facts must be re-established at scored execution. The live captures are consistent with each other and show the same order of events, so the mismatch is not a fault in the answer.\n\n**Uncertainty.** The answer is honest about its limits. It says it did not read the system-versioned history and cannot say who made the edit or why. It does not claim more than the evidence shows. Two small points do not affect any scored dimension:\n- It says the record is present at every layer, while the trace marked model presence as UNAVAILABLE. The DAX results do show exactly one row, so the claim still holds.\n- The pipeline's display name does not appear in the saved rows.\n\n**Handoff quality.** The answer is complete, with no handoff needed. It gives queries that can be rerun exactly as written and states its remaining gaps clearly, so it deserves a 2.\n\n**Graders.** Both graders get verdict, layer, cause and harm right. The primary grader gives handoff a 0 just because no handoff was needed, which misjudges the answer's quality. It also does not deal with the timestamp mismatch against the sealed answer. The secondary grader addresses the mismatch correctly and rates the handoff accurately. The secondary grader wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "72dd5ed9620d907844e53d506bfbfefd8bcda5e07d8a304c129feaf542f72a07",
+        "reason": "The answer matches on all three scored points (verdict, layer and cause), so it counts as a full match.\n\nWhat the saved evidence shows:\n- **Application table** (ordersops, query 1): movement 900201 has units 47, event_day 2026-09-18, RECEIPT, source_modified_at_utc 2026-10-31 17:31:03.268177 and row version 0x\u2026130B2.\n- **Landing table** (round_two_bronze_20261003, query 2): the same record has units 41, modified 17:27:51.577665 and the lower row version 0x\u2026130B1.\n- **Model** (DAX queries 3 and 4): one row, with Movement Units = 41.\n- **Load runs** (JOB_RUNS triage): load run ff37fd32 SUCCEEDED from 2026-10-31 17:28:04 to 17:29:33. Its declared warehouse audit shows 361 rows read and 361 written. The landing row's modified time is just before that run started, and the application edit is after it ended.\n- **Schedules:** the schedule for that pipeline lists no native schedules, and next_due is null.\n\nSo the answer's claims are supported:\n- It names the expected verdict, \"source changed history\".\n- It puts the split at the source layer: the application shows 47, while the landing table and model show 41.\n- It names the expected cause: the source row was edited from 41 to 47 after a completed load had captured 41.\n\n**Timestamps.** The sealed expectation gives different times (an edit on 10-28 at 17:18 and a load from 17:11 to 17:12). However, its basis warns that these facts must be re-established at scored execution. The live captures are consistent with each other and show the same order of events, so the mismatch is not a fault in the answer.\n\n**Uncertainty.** The answer is honest about its limits. It says it did not read the system-versioned history and cannot say who made the edit or why. It does not claim more than the evidence shows. Two small points do not affect any scored dimension:\n- It says the record is present at every layer, while the trace marked model presence as UNAVAILABLE. The DAX results do show exactly one row, so the claim still holds.\n- The pipeline's display name does not appear in the saved rows.\n\n**Handoff quality.** The answer is complete, with no handoff needed. It gives queries that can be rerun exactly as written and states its remaining gaps clearly, so it deserves a 2.\n\n**Graders.** Both graders get verdict, layer, cause and harm right. The primary grader gives handoff a 0 just because no handoff was needed, which misjudges the answer's quality. It also does not deal with the timestamp mismatch against the sealed answer. The secondary grader addresses the mismatch correctly and rates the handoff accurately. The secondary grader wins.",
+        "source_sha256": "9fdd9ec7fab20e0ac63147ffd7bd113473156d1da0b90367860fad6398f36a64",
+        "ticket": "v4-source-history-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 34947,
+          "output_tokens": 1833,
+          "output_tokens_details": {
+            "thinking_tokens": 690
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    }
+  ],
+  "raw_review_policy": "FRESH_INDEPENDENT_CLAUDE_CALL; no operator adjudication",
+  "requested": 60,
+  "not_yet_graded": [
+    "v4-application-baseline-1",
+    "v4-application-baseline-2",
+    "v4-application-baseline-3",
+    "v4-billing-mrr-1",
+    "v4-billing-mrr-2",
+    "v4-billing-mrr-3",
+    "v4-fixture-quantity-1",
+    "v4-fixture-quantity-2",
+    "v4-fixture-quantity-3",
+    "v4-billing-invoices-1",
+    "v4-billing-invoices-2",
+    "v4-billing-invoices-3",
+    "v4-failed-application-load-1",
+    "v4-failed-application-load-2",
+    "v4-failed-application-load-3",
+    "v4-failed-billing-transform-1",
+    "v4-failed-billing-transform-2",
+    "v4-failed-billing-transform-3",
+    "v4-waiting-application-load-1",
+    "v4-waiting-application-load-2",
+    "v4-waiting-application-load-3",
+    "v4-latency-record-1",
+    "v4-latency-record-2",
+    "v4-latency-record-3",
+    "v4-stale-model-1",
+    "v4-stale-model-2",
+    "v4-stale-model-3",
+    "v4-access-export-1",
+    "v4-access-export-2",
+    "v4-access-export-3",
+    "v4-warehouse-scope-1",
+    "v4-warehouse-scope-2",
+    "v4-warehouse-scope-3",
+    "v4-before-temporal-retention-1",
+    "v4-before-temporal-retention-2",
+    "v4-before-temporal-retention-3",
+    "v4-record-absent-everywhere-1",
+    "v4-record-absent-everywhere-2",
+    "v4-record-absent-everywhere-3",
+    "v4-record-repeated-gold-1",
+    "v4-record-repeated-gold-2",
+    "v4-record-repeated-gold-3",
+    "v4-other-collected-definition-1",
+    "v4-other-collected-definition-2",
+    "v4-other-collected-definition-3",
+    "v4-screenshot-fixture-01",
+    "v4-screenshot-fixture-02",
+    "v4-screenshot-fixture-03",
+    "v4-screenshot-fixture-04",
+    "v4-screenshot-billing-mrr",
+    "v4-screenshot-billing-invoices",
+    "v4-sample-technical-1",
+    "v4-sample-technical-2",
+    "v4-sample-technical-3",
+    "v4-sample-business-meaning-1",
+    "v4-sample-business-meaning-2",
+    "v4-sample-business-meaning-3"
+  ],
+  "status": "IN_PROGRESS",
+  "timing_cost": {
+    "all": {
+      "tickets": 3,
+      "native_observed": 2,
+      "native_missing": 1,
+      "native_median_seconds": 185.0,
+      "native_p90_seconds": 206.0,
+      "worker_median_seconds": 155.077304224,
+      "worker_p90_seconds": 171.92881492599997,
+      "investigation_cost_microdollars": 716158,
+      "cost_per_ticket_usd": 0.23871933333333334,
+      "physical_requests": 50
+    },
+    "full_investigation": {
+      "tickets": 2,
+      "native_observed": 2,
+      "native_missing": 0,
+      "native_median_seconds": 185.0,
+      "native_p90_seconds": 206.0,
+      "worker_median_seconds": 155.077304224,
+      "worker_p90_seconds": 171.92881492599997,
+      "investigation_cost_microdollars": 640468,
+      "cost_per_ticket_usd": 0.320234,
+      "physical_requests": 50
+    },
+    "answered_without_layer_queries": {
+      "tickets": 0,
+      "native_observed": 0,
+      "native_missing": 0,
+      "native_median_seconds": null,
+      "native_p90_seconds": null,
+      "worker_median_seconds": null,
+      "worker_p90_seconds": null,
+      "investigation_cost_microdollars": 0,
+      "cost_per_ticket_usd": null,
+      "physical_requests": 0
+    },
+    "holds": {
+      "tickets": 1,
+      "native_observed": 0,
+      "native_missing": 1,
+      "native_median_seconds": null,
+      "native_p90_seconds": null,
+      "worker_median_seconds": null,
+      "worker_p90_seconds": null,
+      "investigation_cost_microdollars": 75690,
+      "cost_per_ticket_usd": 0.07569,
+      "physical_requests": 0
+    }
+  }
+}
