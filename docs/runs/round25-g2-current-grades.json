@@ -1,141 +1,141 @@
 {
   "official_primary": {
     "all_three": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 6,
+      "total": 9,
       "accuracy": 0.0,
-      "lower": 2.7755575615628914e-17,
-      "upper": 0.3903342879021653,
+      "lower": 0.0,
+      "upper": 0.2991450484195441,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "strict": {
     "all_three": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 6,
+      "total": 9,
       "accuracy": 0.0,
-      "lower": 2.7755575615628914e-17,
-      "upper": 0.3903342879021653,
+      "lower": 0.0,
+      "upper": 0.2991450484195441,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "raw_reviewed": {
     "all_three": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 6,
+      "total": 9,
       "accuracy": 0.0,
-      "lower": 2.7755575615628914e-17,
-      "upper": 0.3903342879021653,
+      "lower": 0.0,
+      "upper": 0.2991450484195441,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,106 +143,106 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 6,
+  "completed_graded": 9,
   "primary": {
     "all_three": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 6,
+      "total": 9,
       "accuracy": 0.0,
-      "lower": 2.7755575615628914e-17,
-      "upper": 0.3903342879021653,
+      "lower": 0.0,
+      "upper": 0.2991450484195441,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "secondary": {
     "all_three": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 5,
-      "total": 6,
-      "accuracy": 0.8333333333333334,
-      "lower": 0.43649717781352987,
-      "upper": 0.9699466302516935,
+      "correct": 8,
+      "total": 9,
+      "accuracy": 0.8888888888888888,
+      "lower": 0.5650002944233439,
+      "upper": 0.9801091123614551,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 6,
+      "total": 9,
       "accuracy": 0.0,
-      "lower": 2.7755575615628914e-17,
-      "upper": 0.3903342879021653,
+      "lower": 0.0,
+      "upper": 0.2991450484195441,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 6,
-    "total": 6,
+    "correct": 9,
+    "total": 9,
     "accuracy": 1.0,
-    "lower": 0.6096657120978346,
+    "lower": 0.7008549515804559,
     "upper": 1.0,
     "confidence": 0.95,
     "method": "Wilson"
@@ -255,14 +255,32 @@
   ],
   "full_assessment_agreement": {
     "correct": 1,
-    "total": 6,
-    "accuracy": 0.16666666666666666,
-    "lower": 0.030053369748306635,
-    "upper": 0.5635028221864702,
+    "total": 9,
+    "accuracy": 0.1111111111111111,
+    "lower": 0.019890887638544907,
+    "upper": 0.434999705576656,
     "confidence": 0.95,
     "method": "Wilson"
   },
   "assessment_disagreements": [
+    {
+      "ticket": "v4-failed-billing-transform-1",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v4-failed-billing-transform-2",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v4-failed-billing-transform-3",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
     {
       "ticket": "v4-failed-application-load-1",
       "fields": [
@@ -296,6 +314,225 @@
     }
   ],
   "handoff_disagreements": [
+    {
+      "ticket": "v4-failed-billing-transform-1",
+      "class": "v4-failed-billing-transform",
+      "fixture": "failed-billing",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies verdict='failed job', layer='pipeline/orchestration (billing_serving warehouse transform pipeline feeding gold.invoice_activity)', and cause='round22_controlled_failure_before_original_activities non-retriable error 2011, meaning BuildSilverAndGold did not run'. All three match the sealed expected answer in substance. The answer is fully resolved (status=ANSWERED, stop=null) with no handoff needed, so handoff_quality is 0 by convention (irrelevant for a resolved answer). No harmful incorrect causal claims are made; the 250 gap observation and fan-out hypothesis are appropriately qualified as unconfirmed. The failing_step is none since the answer is correct.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says 'failed job', which matches the expected verdict. Layer: it places the problem in the Billing Warehouse transformations pipeline that builds silver and gold. Gold.invoice_activity feeds the model's Billing table through Direct Lake. This matches the expected layer: the billing_serving warehouse transform pipeline feeding gold.invoice_activity. Cause: the latest run (8d791d60) FAILED with error 2011, which is not retriable. It failed at the activity 'round22_controlled_failure_before_original_activities', before BuildSilverAndGold, so the run did not rebuild silver or gold. This matches the sealed cause. The run ID and times differ from the admission record (16:31Z run, job ID 817b3ab8). However, the expectation says admission facts must be freshly re-checked at scored execution. The delivered run is the newer run with the same failure. The job ID and run ID are different identifiers, so the different IDs are not a conflict. The answer says the 250 gap between gold (950) and silver (700) is unconfirmed. It mentions the account_plan_history join without claiming it as the cause, so it states no confident incorrect cause. It also does not claim the visual is stale, which agrees with the expectation. Handoff: the queries are recorded and can be rerun. The stopping point is clear. The answer names a sensible next check: read account_plan_history to explain the gap.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-failure-billing01",
+      "outcome_sha256": "680e127882c5ace84c2ef11fb24fcb2fa806d6e7d50a80ff3fa034ff9cc8a3ed",
+      "status": "ANSWERED",
+      "native_duration_seconds": 268.0,
+      "worker_wall_seconds": 238.297234413,
+      "investigation_cost_microdollars": 564296,
+      "physical_requests": 32,
+      "model_calls": 3,
+      "timing_group": "full_investigation",
+      "raw_review": {
+        "cost_microdollars": 196415,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows: Both the get_job_runs investigation result (observed 18:38:37) and the triage JOB_RUN fact (observed 18:38:30) record that the latest Billing Warehouse transformations run, 8d791d60, FAILED. It ran from 2026-10-31T18:35:51.02Z to 18:36:20.40Z with errorCode 2011, isRetriable false, and the message \"Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities\". The run history is marked complete. Its last SUCCEEDED run is 6382985a (2026-10-26 17:44\u201317:49Z), and every run after it failed. Accounting is UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA, so no row counts exist. The model's refresh history is listing_complete with no runs, and its schedule shows enabled=false. The five saved queries return 950 for the DAX Invoiced Amount, 950 for gold.invoice_activity, and 700 each for silver.invoices, billing_bronze dbo.invoices and billingapp app.invoices. Every number in the answer matches these rows.\n\nAll three scored items match. Verdict: 'failed job' is the expected verdict. Layer: the answer places the fault in the warehouse transform pipeline that builds silver and gold, upstream of gold.invoice_activity and the model, which is the expected pipeline/orchestration layer. Cause: the answer names the non-retriable round22 controlled failure that happens before BuildSilverAndGold, so this run rebuilt nothing. That is the sealed cause in substance. The expectation cites the 10-28 16:31Z run 817b3ab8 with the same message, but it explicitly requires admission facts to be re-checked at scoring time. The answer cites the newer run with the identical failure, so this is not a conflict. Nothing is partial.\n\nNot harmful: The answer does not claim the visual is stale, which agrees with the expectation that staleness can't be asserted. It calls the gold-vs-silver gap of 250 a separate observation and says its source is unconfirmed, rather than giving a wrong cause. Two statements are not backed by any saved read: that the Billing table uses Direct Lake (the CONNECTION_MODE fact is UNAVAILABLE) and that the gold definition left-joins account_plan_history. Both probably came from the model's context rather than a read, and the sealed expectation confirms both are true. They are worded with appropriate hedging, so they are not confident wrong claims.\n\nThe only disagreement between graders is handoff quality. The answer is ANSWERED with no stop, the queries are recorded in full and can be rerun, the limits are stated clearly, and there is a concrete next check (read account_plan_history). Scoring that material as 0 'by convention' understates it. Neither the task nor the expectation states a convention that forces 0 for resolved answers, so this rests on my judgment. Both graders are correct on every scored item; I prefer the secondary because it also resolves the run-ID difference explicitly and rates the handoff by what the answer actually contains.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "680e127882c5ace84c2ef11fb24fcb2fa806d6e7d50a80ff3fa034ff9cc8a3ed",
+        "reason": "What the raw capture shows: Both the get_job_runs investigation result (observed 18:38:37) and the triage JOB_RUN fact (observed 18:38:30) record that the latest Billing Warehouse transformations run, 8d791d60, FAILED. It ran from 2026-10-31T18:35:51.02Z to 18:36:20.40Z with errorCode 2011, isRetriable false, and the message \"Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities\". The run history is marked complete. Its last SUCCEEDED run is 6382985a (2026-10-26 17:44\u201317:49Z), and every run after it failed. Accounting is UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA, so no row counts exist. The model's refresh history is listing_complete with no runs, and its schedule shows enabled=false. The five saved queries return 950 for the DAX Invoiced Amount, 950 for gold.invoice_activity, and 700 each for silver.invoices, billing_bronze dbo.invoices and billingapp app.invoices. Every number in the answer matches these rows.\n\nAll three scored items match. Verdict: 'failed job' is the expected verdict. Layer: the answer places the fault in the warehouse transform pipeline that builds silver and gold, upstream of gold.invoice_activity and the model, which is the expected pipeline/orchestration layer. Cause: the answer names the non-retriable round22 controlled failure that happens before BuildSilverAndGold, so this run rebuilt nothing. That is the sealed cause in substance. The expectation cites the 10-28 16:31Z run 817b3ab8 with the same message, but it explicitly requires admission facts to be re-checked at scoring time. The answer cites the newer run with the identical failure, so this is not a conflict. Nothing is partial.\n\nNot harmful: The answer does not claim the visual is stale, which agrees with the expectation that staleness can't be asserted. It calls the gold-vs-silver gap of 250 a separate observation and says its source is unconfirmed, rather than giving a wrong cause. Two statements are not backed by any saved read: that the Billing table uses Direct Lake (the CONNECTION_MODE fact is UNAVAILABLE) and that the gold definition left-joins account_plan_history. Both probably came from the model's context rather than a read, and the sealed expectation confirms both are true. They are worded with appropriate hedging, so they are not confident wrong claims.\n\nThe only disagreement between graders is handoff quality. The answer is ANSWERED with no stop, the queries are recorded in full and can be rerun, the limits are stated clearly, and there is a concrete next check (read account_plan_history). Scoring that material as 0 'by convention' understates it. Neither the task nor the expectation states a convention that forces 0 for resolved answers, so this rests on my judgment. Both graders are correct on every scored item; I prefer the secondary because it also resolves the run-ID difference explicitly and rates the handoff by what the answer actually contains.",
+        "source_sha256": "4c91ea466613a9dd4996dbca5a4b0f7bb0ce025a8a034fc31259dca31e6302ee",
+        "ticket": "v4-failed-billing-transform-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 37430,
+          "output_tokens": 2115,
+          "output_tokens_details": {
+            "thinking_tokens": 832
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-failed-billing-transform-2",
+      "class": "v4-failed-billing-transform",
+      "fixture": "failed-billing",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer verdict is 'failed job', matching the sealed expected verdict exactly. The layer identified is the pipeline/orchestration layer feeding gold.invoice_activity via the billing warehouse transform job, matching the expected 'pipeline / orchestration (billing_serving warehouse transform pipeline feeding gold.invoice_activity)'. The cause is correctly identified as the most recent run (8d791d60) failing with errorCode 2011, non-retriable, at 'round22_controlled_failure_before_original_activities', with 12 prior consecutive failures and last success on 2026-10-26. The answer also correctly investigates the numerical discrepancy (950 vs 700) and honestly acknowledges it did not confirm the join fan-out cause, which is non-harmful. The status is ANSWERED so handoff quality is 0 (no handoff needed/present).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says \"failed job\", which matches the expected answer.\n\nLayer: the delivered answer places the problem in the Billing Warehouse transformations pipeline run, the job that feeds gold.invoice_activity. That matches the expected layer (pipeline / orchestration in the billing_serving transform pipeline).\n\nCause: the delivered answer says the latest run failed with a non-retriable error 2011 at 'round22_controlled_failure_before_original_activities'. It also gives the run's times, notes the 12 earlier failed runs and the last successful run. This is the same cause as the expected answer.\n\nDifferences, none of which contradict the expected answer:\n- The delivered answer cites run ID 8d791d60, while the expected answer cites job 817b3ab8. A run ID and a job ID are different things, so this is not a conflict.\n- The delivered answer never says outright that this step runs before BuildSilverAndGold, so no silver or gold tables were rebuilt. This doesn't affect the score because the named failing step and the failed-job cause are correct.\n\nAdditional analysis in the delivered answer, consistent with the expected facts:\n- It correctly finds that the report is not missing newer source amounts. The model and gold read 950, while silver, bronze and app all read 700.\n- It places the extra 250 between silver and gold and points to the account_id-only LEFT JOIN as the likely source. It explicitly says this was not proven. This matches the expected note that the 950 vs 700 gap is join fan-out in the transformation logic, not old data.\n\nHarm: no incorrect cause is stated as fact, so the answer is not harmful. It is a full match, not a partial one.\n\nHandoff quality: 2. The queries can be rerun as written (executed text and parameters are recorded), the limits are stated clearly (snapshot reads, account_plan_history not read, model refresh schedule disabled), and the obvious next check is to read account_plan_history.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-failure-billing01",
+      "outcome_sha256": "f425db37515b3fb293bd4e57ba4313967fd3fdd1578e1803d71388ac2c1b023d",
+      "status": "ANSWERED",
+      "native_duration_seconds": 184.0,
+      "worker_wall_seconds": 147.51680160799998,
+      "investigation_cost_microdollars": 504488,
+      "physical_requests": 29,
+      "model_calls": 3,
+      "timing_group": "full_investigation",
+      "raw_review": {
+        "cost_microdollars": 202424,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved record shows:\n- Pipeline run history: two listings of the transformations pipeline (ac9927\u2026), read at 18:43:36 and 18:43:41. Both show the latest run, 8d791d60, started 2026-10-31T18:35:51.02Z, ended 18:36:20.40Z and FAILED. Its error is code 2011, not retriable: \"Operation on target round22_controlled_failure_before_original_activities failed\u2026\".\n- Earlier runs: the 12 runs before it are all FAILED: aa7a, 817b, 6503, c4a8, 9903, 4624, 1e1a, 0aaa, 47a1, 500a, 5253 and e225. The last success is 6382985a, from 2026-10-26T17:44:17Z to 17:49:27Z. Row counts are null, and coverage says no audit source is available.\n- Model refresh: the model's run history (85eb\u2026) is an empty, complete listing. Its Power BI refresh schedule has enabled=false.\n- Query results: all five queries succeeded. The DAX measure = 950, gold.invoice_activity = 950, silver.invoices = 700, bronze dbo.invoices = 700 and app.invoices = 700.\n\nEvery factual claim in the answer about the job, the run count, the last success and the values matches these records. The answer also correctly concludes that the report is not missing newer source amounts, and that the 250 gap sits between silver and gold. It qualifies this as based on separate, unaligned snapshot reads.\n\nScore: the verdict \"failed job\" matches. The layer (the billing warehouse transform pipeline that feeds gold) matches. The cause matches: a non-retriable failure at the round22 step that runs before the original activities.\n\nThe sealed expectation names run 817b3ab8 instead. That was an earlier run with the same message, and its errorCode was \"Failed\". The expectation was written at admission and says its facts must be re-checked at scoring. The fresh run list shows 8d791d60 is now the latest run, so the answer's run ID is correct, not a mismatch. The secondary grader's explanation, that \"a run ID and a job ID are different things\", is factually wrong, since 817b3ab8 is a run ID in the list. Its conclusion that this is not a conflict is still correct.\n\nOne claim has no cited support in the saved evidence: that the gold build step LEFT JOINs to account_plan_history on account_id. It probably comes from context that was not saved. However, the answer explicitly says this does not show the join caused the gap. It fits the sealed note that the gap comes from join fan-out, and it is honest uncertainty rather than a confident causal claim. The answer is not harmful.\n\nDisputed point, handoff quality: the primary grader gave 0 only because the status is ANSWERED and no formal handoff exists. That judges the label, not the substance. The secondary grader's 2 is right. The answer records the executed query text, parameters and identities, so the queries can be rerun. It states its limits: snapshot reads that were not aligned, account_plan_history was not read, no audit counts, no retained history read, and the model schedule is disabled. It also makes the next check clear: read account_plan_history, or check for duplicate invoices in gold.\n\nBoth graders agree on all three matches, on harm and on partial. The secondary grader wins on the handoff score, despite its incorrect reasoning about run versus job IDs.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "f425db37515b3fb293bd4e57ba4313967fd3fdd1578e1803d71388ac2c1b023d",
+        "reason": "What the saved record shows:\n- Pipeline run history: two listings of the transformations pipeline (ac9927\u2026), read at 18:43:36 and 18:43:41. Both show the latest run, 8d791d60, started 2026-10-31T18:35:51.02Z, ended 18:36:20.40Z and FAILED. Its error is code 2011, not retriable: \"Operation on target round22_controlled_failure_before_original_activities failed\u2026\".\n- Earlier runs: the 12 runs before it are all FAILED: aa7a, 817b, 6503, c4a8, 9903, 4624, 1e1a, 0aaa, 47a1, 500a, 5253 and e225. The last success is 6382985a, from 2026-10-26T17:44:17Z to 17:49:27Z. Row counts are null, and coverage says no audit source is available.\n- Model refresh: the model's run history (85eb\u2026) is an empty, complete listing. Its Power BI refresh schedule has enabled=false.\n- Query results: all five queries succeeded. The DAX measure = 950, gold.invoice_activity = 950, silver.invoices = 700, bronze dbo.invoices = 700 and app.invoices = 700.\n\nEvery factual claim in the answer about the job, the run count, the last success and the values matches these records. The answer also correctly concludes that the report is not missing newer source amounts, and that the 250 gap sits between silver and gold. It qualifies this as based on separate, unaligned snapshot reads.\n\nScore: the verdict \"failed job\" matches. The layer (the billing warehouse transform pipeline that feeds gold) matches. The cause matches: a non-retriable failure at the round22 step that runs before the original activities.\n\nThe sealed expectation names run 817b3ab8 instead. That was an earlier run with the same message, and its errorCode was \"Failed\". The expectation was written at admission and says its facts must be re-checked at scoring. The fresh run list shows 8d791d60 is now the latest run, so the answer's run ID is correct, not a mismatch. The secondary grader's explanation, that \"a run ID and a job ID are different things\", is factually wrong, since 817b3ab8 is a run ID in the list. Its conclusion that this is not a conflict is still correct.\n\nOne claim has no cited support in the saved evidence: that the gold build step LEFT JOINs to account_plan_history on account_id. It probably comes from context that was not saved. However, the answer explicitly says this does not show the join caused the gap. It fits the sealed note that the gap comes from join fan-out, and it is honest uncertainty rather than a confident causal claim. The answer is not harmful.\n\nDisputed point, handoff quality: the primary grader gave 0 only because the status is ANSWERED and no formal handoff exists. That judges the label, not the substance. The secondary grader's 2 is right. The answer records the executed query text, parameters and identities, so the queries can be rerun. It states its limits: snapshot reads that were not aligned, account_plan_history was not read, no audit counts, no retained history read, and the model schedule is disabled. It also makes the next check clear: read account_plan_history, or check for duplicate invoices in gold.\n\nBoth graders agree on all three matches, on harm and on partial. The secondary grader wins on the handoff score, despite its incorrect reasoning about run versus job IDs.",
+        "source_sha256": "072db83c111915c3bc76f94160fa1014a139cf2d2b4523806f9c64e19d9320d7",
+        "ticket": "v4-failed-billing-transform-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 37047,
+          "output_tokens": 2703,
+          "output_tokens_details": {
+            "thinking_tokens": 1304
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-failed-billing-transform-3",
+      "class": "v4-failed-billing-transform",
+      "fixture": "failed-billing",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies verdict=failed job, layer=pipeline/orchestration (billing_serving warehouse transform pipeline feeding gold.invoice_activity), and cause=the latest run of Billing Warehouse transformations failed with errorCode 2011 / controlled fixture failure before original activities (round22_controlled_failure_before_original_activities). These match the sealed expected record on all three dimensions. The answer is honest about what it could not confirm (per-activity results, join fan-out causation) and does not state any confident incorrect cause. Handoff quality is 2: specific run IDs, timestamps, error codes, and next checks (confirm BuildSilverAndGold step execution, validate join fan-out) are clearly stated and rerunnable.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: both say 'failed job'. Layer: the answer places the fault in the Billing Warehouse transformations pipeline at the orchestration level, which matches the expected pipeline / orchestration layer that feeds gold.invoice_activity. Cause: the answer names the latest run (8d791d60) as failing at the activity 'round22_controlled_failure_before_original_activities'. It quotes the native error saying the failure came before the original activities. That is the same cause as the sealed answer. One difference: the sealed answer says outright that BuildSilverAndGold never ran, while the answer says it could not confirm this because per-activity results weren't read. The quoted error supports the sealed answer's reading, and the answer contradicts nothing in it, so I treated this as caution rather than a different cause. On the visual, the answer correctly reports 950 in gold versus 700 in silver and bronze. It mentions the account_plan_history LEFT JOIN fan-out and at least one account with several plan-history rows, but does not claim this causes the gap. It also does not claim the visual is stale. Both points match the expected view that the gap is a separate transformation issue and that the failure alone doesn't show the value is wrong. It correctly treats the earlier 'object named bronze already exists' failures as history. Not harmful: no confident wrong cause is stated as fact.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-failure-billing01",
+      "outcome_sha256": "81282b89651aad7b94569f895e965ff7800b40653da4676c1d3ad2ee302db9e4",
+      "status": "ANSWERED",
+      "native_duration_seconds": 213.0,
+      "worker_wall_seconds": 180.75598343300004,
+      "investigation_cost_microdollars": 723198,
+      "physical_requests": 27,
+      "model_calls": 6,
+      "timing_group": "full_investigation",
+      "raw_review": {
+        "cost_microdollars": 235400,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "Raw capture: the job-run record (observed 18:47:25) shows the latest Billing Warehouse transformations run, 8d791d60 (2026-10-31), FAILED with errorCode 2011, not retriable. The message is the controlled fixture failure 'before original activities'. The last success ended 2026-10-26T17:49:27, and every run after it failed, alternating between that controlled-failure message and the 'object named bronze already exists' error. The run the sealed record names, 817b3ab8 (10-28, errorCode Failed), is an older run in the same list with the same message. The sealed record says its admission facts must be re-checked at scoring. The fresh capture shows a newer run with the same cause, so the answer's choice of 8d791d60 matches the cause in substance. Queries: the measure returns 950 and gold sums to 950; silver and bronze sum to 700; 1 account has more than one plan-history row; the join query was rejected and never dispatched. The figure 250 was rejected and correctly dropped. Verdict (failed job) and layer (pipeline/orchestration feeding gold.invoice_activity) match. The cause matches: the answer cites the controlled failure before the original activities. Its unwillingness to confirm that BuildSilverAndGold never ran is honest caution and contradicts nothing. It makes no confident wrong claim: it says the join fan-out is unproven, does not call the visual stale, and treats the bronze-schema errors as history. All of this fits the sealed view that the 950/700 gap is a separate transformation issue. All three dimensions match, so the case is not partial. The only dispute is handoff quality. The answer gives exact run IDs, timestamps, error codes, query texts and results, plus clearly stated gaps (per-activity results, recreating the join) that point to rerunnable next checks. That deserves 2. The secondary's analysis is more thorough but gives no justification for 1, so the primary's scoring is right.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "primary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "81282b89651aad7b94569f895e965ff7800b40653da4676c1d3ad2ee302db9e4",
+        "reason": "Raw capture: the job-run record (observed 18:47:25) shows the latest Billing Warehouse transformations run, 8d791d60 (2026-10-31), FAILED with errorCode 2011, not retriable. The message is the controlled fixture failure 'before original activities'. The last success ended 2026-10-26T17:49:27, and every run after it failed, alternating between that controlled-failure message and the 'object named bronze already exists' error. The run the sealed record names, 817b3ab8 (10-28, errorCode Failed), is an older run in the same list with the same message. The sealed record says its admission facts must be re-checked at scoring. The fresh capture shows a newer run with the same cause, so the answer's choice of 8d791d60 matches the cause in substance. Queries: the measure returns 950 and gold sums to 950; silver and bronze sum to 700; 1 account has more than one plan-history row; the join query was rejected and never dispatched. The figure 250 was rejected and correctly dropped. Verdict (failed job) and layer (pipeline/orchestration feeding gold.invoice_activity) match. The cause matches: the answer cites the controlled failure before the original activities. Its unwillingness to confirm that BuildSilverAndGold never ran is honest caution and contradicts nothing. It makes no confident wrong claim: it says the join fan-out is unproven, does not call the visual stale, and treats the bronze-schema errors as history. All of this fits the sealed view that the 950/700 gap is a separate transformation issue. All three dimensions match, so the case is not partial. The only dispute is handoff quality. The answer gives exact run IDs, timestamps, error codes, query texts and results, plus clearly stated gaps (per-activity results, recreating the join) that point to rerunnable next checks. That deserves 2. The secondary's analysis is more thorough but gives no justification for 1, so the primary's scoring is right.",
+        "source_sha256": "f65dd45e6ad64001b5c907021b230d81dd68edc537fce39be3ca7b7a9016e6ec",
+        "ticket": "v4-failed-billing-transform-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 44326,
+          "output_tokens": 2896,
+          "output_tokens_details": {
+            "thinking_tokens": 907
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "primary"
+      }
+    },
     {
       "ticket": "v4-failed-application-load-1",
       "class": "v4-failed-application-load",
@@ -663,6 +900,246 @@
     }
   ],
   "per_class": {
+    "v4-failed-billing-transform": {
+      "official_primary": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 3,
+          "total": 3,
+          "accuracy": 1.0,
+          "lower": 0.4385029682449546,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 3,
+          "accuracy": 0.0,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "v4-failed-application-load": {
       "official_primary": {
         "all_three": {
@@ -1148,6 +1625,225 @@
   "cohort": "g2",
   "cases": [
     {
+      "ticket": "v4-failed-billing-transform-1",
+      "class": "v4-failed-billing-transform",
+      "fixture": "failed-billing",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies verdict='failed job', layer='pipeline/orchestration (billing_serving warehouse transform pipeline feeding gold.invoice_activity)', and cause='round22_controlled_failure_before_original_activities non-retriable error 2011, meaning BuildSilverAndGold did not run'. All three match the sealed expected answer in substance. The answer is fully resolved (status=ANSWERED, stop=null) with no handoff needed, so handoff_quality is 0 by convention (irrelevant for a resolved answer). No harmful incorrect causal claims are made; the 250 gap observation and fan-out hypothesis are appropriately qualified as unconfirmed. The failing_step is none since the answer is correct.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says 'failed job', which matches the expected verdict. Layer: it places the problem in the Billing Warehouse transformations pipeline that builds silver and gold. Gold.invoice_activity feeds the model's Billing table through Direct Lake. This matches the expected layer: the billing_serving warehouse transform pipeline feeding gold.invoice_activity. Cause: the latest run (8d791d60) FAILED with error 2011, which is not retriable. It failed at the activity 'round22_controlled_failure_before_original_activities', before BuildSilverAndGold, so the run did not rebuild silver or gold. This matches the sealed cause. The run ID and times differ from the admission record (16:31Z run, job ID 817b3ab8). However, the expectation says admission facts must be freshly re-checked at scored execution. The delivered run is the newer run with the same failure. The job ID and run ID are different identifiers, so the different IDs are not a conflict. The answer says the 250 gap between gold (950) and silver (700) is unconfirmed. It mentions the account_plan_history join without claiming it as the cause, so it states no confident incorrect cause. It also does not claim the visual is stale, which agrees with the expectation. Handoff: the queries are recorded and can be rerun. The stopping point is clear. The answer names a sensible next check: read account_plan_history to explain the gap.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-failure-billing01",
+      "outcome_sha256": "680e127882c5ace84c2ef11fb24fcb2fa806d6e7d50a80ff3fa034ff9cc8a3ed",
+      "status": "ANSWERED",
+      "native_duration_seconds": 268.0,
+      "worker_wall_seconds": 238.297234413,
+      "investigation_cost_microdollars": 564296,
+      "physical_requests": 32,
+      "model_calls": 3,
+      "timing_group": "full_investigation",
+      "raw_review": {
+        "cost_microdollars": 196415,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows: Both the get_job_runs investigation result (observed 18:38:37) and the triage JOB_RUN fact (observed 18:38:30) record that the latest Billing Warehouse transformations run, 8d791d60, FAILED. It ran from 2026-10-31T18:35:51.02Z to 18:36:20.40Z with errorCode 2011, isRetriable false, and the message \"Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities\". The run history is marked complete. Its last SUCCEEDED run is 6382985a (2026-10-26 17:44\u201317:49Z), and every run after it failed. Accounting is UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA, so no row counts exist. The model's refresh history is listing_complete with no runs, and its schedule shows enabled=false. The five saved queries return 950 for the DAX Invoiced Amount, 950 for gold.invoice_activity, and 700 each for silver.invoices, billing_bronze dbo.invoices and billingapp app.invoices. Every number in the answer matches these rows.\n\nAll three scored items match. Verdict: 'failed job' is the expected verdict. Layer: the answer places the fault in the warehouse transform pipeline that builds silver and gold, upstream of gold.invoice_activity and the model, which is the expected pipeline/orchestration layer. Cause: the answer names the non-retriable round22 controlled failure that happens before BuildSilverAndGold, so this run rebuilt nothing. That is the sealed cause in substance. The expectation cites the 10-28 16:31Z run 817b3ab8 with the same message, but it explicitly requires admission facts to be re-checked at scoring time. The answer cites the newer run with the identical failure, so this is not a conflict. Nothing is partial.\n\nNot harmful: The answer does not claim the visual is stale, which agrees with the expectation that staleness can't be asserted. It calls the gold-vs-silver gap of 250 a separate observation and says its source is unconfirmed, rather than giving a wrong cause. Two statements are not backed by any saved read: that the Billing table uses Direct Lake (the CONNECTION_MODE fact is UNAVAILABLE) and that the gold definition left-joins account_plan_history. Both probably came from the model's context rather than a read, and the sealed expectation confirms both are true. They are worded with appropriate hedging, so they are not confident wrong claims.\n\nThe only disagreement between graders is handoff quality. The answer is ANSWERED with no stop, the queries are recorded in full and can be rerun, the limits are stated clearly, and there is a concrete next check (read account_plan_history). Scoring that material as 0 'by convention' understates it. Neither the task nor the expectation states a convention that forces 0 for resolved answers, so this rests on my judgment. Both graders are correct on every scored item; I prefer the secondary because it also resolves the run-ID difference explicitly and rates the handoff by what the answer actually contains.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "680e127882c5ace84c2ef11fb24fcb2fa806d6e7d50a80ff3fa034ff9cc8a3ed",
+        "reason": "What the raw capture shows: Both the get_job_runs investigation result (observed 18:38:37) and the triage JOB_RUN fact (observed 18:38:30) record that the latest Billing Warehouse transformations run, 8d791d60, FAILED. It ran from 2026-10-31T18:35:51.02Z to 18:36:20.40Z with errorCode 2011, isRetriable false, and the message \"Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities\". The run history is marked complete. Its last SUCCEEDED run is 6382985a (2026-10-26 17:44\u201317:49Z), and every run after it failed. Accounting is UNAVAILABLE_FROM_JOB_INSTANCE_SCHEMA, so no row counts exist. The model's refresh history is listing_complete with no runs, and its schedule shows enabled=false. The five saved queries return 950 for the DAX Invoiced Amount, 950 for gold.invoice_activity, and 700 each for silver.invoices, billing_bronze dbo.invoices and billingapp app.invoices. Every number in the answer matches these rows.\n\nAll three scored items match. Verdict: 'failed job' is the expected verdict. Layer: the answer places the fault in the warehouse transform pipeline that builds silver and gold, upstream of gold.invoice_activity and the model, which is the expected pipeline/orchestration layer. Cause: the answer names the non-retriable round22 controlled failure that happens before BuildSilverAndGold, so this run rebuilt nothing. That is the sealed cause in substance. The expectation cites the 10-28 16:31Z run 817b3ab8 with the same message, but it explicitly requires admission facts to be re-checked at scoring time. The answer cites the newer run with the identical failure, so this is not a conflict. Nothing is partial.\n\nNot harmful: The answer does not claim the visual is stale, which agrees with the expectation that staleness can't be asserted. It calls the gold-vs-silver gap of 250 a separate observation and says its source is unconfirmed, rather than giving a wrong cause. Two statements are not backed by any saved read: that the Billing table uses Direct Lake (the CONNECTION_MODE fact is UNAVAILABLE) and that the gold definition left-joins account_plan_history. Both probably came from the model's context rather than a read, and the sealed expectation confirms both are true. They are worded with appropriate hedging, so they are not confident wrong claims.\n\nThe only disagreement between graders is handoff quality. The answer is ANSWERED with no stop, the queries are recorded in full and can be rerun, the limits are stated clearly, and there is a concrete next check (read account_plan_history). Scoring that material as 0 'by convention' understates it. Neither the task nor the expectation states a convention that forces 0 for resolved answers, so this rests on my judgment. Both graders are correct on every scored item; I prefer the secondary because it also resolves the run-ID difference explicitly and rates the handoff by what the answer actually contains.",
+        "source_sha256": "4c91ea466613a9dd4996dbca5a4b0f7bb0ce025a8a034fc31259dca31e6302ee",
+        "ticket": "v4-failed-billing-transform-1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 37430,
+          "output_tokens": 2115,
+          "output_tokens_details": {
+            "thinking_tokens": 832
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-failed-billing-transform-2",
+      "class": "v4-failed-billing-transform",
+      "fixture": "failed-billing",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer verdict is 'failed job', matching the sealed expected verdict exactly. The layer identified is the pipeline/orchestration layer feeding gold.invoice_activity via the billing warehouse transform job, matching the expected 'pipeline / orchestration (billing_serving warehouse transform pipeline feeding gold.invoice_activity)'. The cause is correctly identified as the most recent run (8d791d60) failing with errorCode 2011, non-retriable, at 'round22_controlled_failure_before_original_activities', with 12 prior consecutive failures and last success on 2026-10-26. The answer also correctly investigates the numerical discrepancy (950 vs 700) and honestly acknowledges it did not confirm the join fan-out cause, which is non-harmful. The status is ANSWERED so handoff quality is 0 (no handoff needed/present).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says \"failed job\", which matches the expected answer.\n\nLayer: the delivered answer places the problem in the Billing Warehouse transformations pipeline run, the job that feeds gold.invoice_activity. That matches the expected layer (pipeline / orchestration in the billing_serving transform pipeline).\n\nCause: the delivered answer says the latest run failed with a non-retriable error 2011 at 'round22_controlled_failure_before_original_activities'. It also gives the run's times, notes the 12 earlier failed runs and the last successful run. This is the same cause as the expected answer.\n\nDifferences, none of which contradict the expected answer:\n- The delivered answer cites run ID 8d791d60, while the expected answer cites job 817b3ab8. A run ID and a job ID are different things, so this is not a conflict.\n- The delivered answer never says outright that this step runs before BuildSilverAndGold, so no silver or gold tables were rebuilt. This doesn't affect the score because the named failing step and the failed-job cause are correct.\n\nAdditional analysis in the delivered answer, consistent with the expected facts:\n- It correctly finds that the report is not missing newer source amounts. The model and gold read 950, while silver, bronze and app all read 700.\n- It places the extra 250 between silver and gold and points to the account_id-only LEFT JOIN as the likely source. It explicitly says this was not proven. This matches the expected note that the 950 vs 700 gap is join fan-out in the transformation logic, not old data.\n\nHarm: no incorrect cause is stated as fact, so the answer is not harmful. It is a full match, not a partial one.\n\nHandoff quality: 2. The queries can be rerun as written (executed text and parameters are recorded), the limits are stated clearly (snapshot reads, account_plan_history not read, model refresh schedule disabled), and the obvious next check is to read account_plan_history.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-failure-billing01",
+      "outcome_sha256": "f425db37515b3fb293bd4e57ba4313967fd3fdd1578e1803d71388ac2c1b023d",
+      "status": "ANSWERED",
+      "native_duration_seconds": 184.0,
+      "worker_wall_seconds": 147.51680160799998,
+      "investigation_cost_microdollars": 504488,
+      "physical_requests": 29,
+      "model_calls": 3,
+      "timing_group": "full_investigation",
+      "raw_review": {
+        "cost_microdollars": 202424,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved record shows:\n- Pipeline run history: two listings of the transformations pipeline (ac9927\u2026), read at 18:43:36 and 18:43:41. Both show the latest run, 8d791d60, started 2026-10-31T18:35:51.02Z, ended 18:36:20.40Z and FAILED. Its error is code 2011, not retriable: \"Operation on target round22_controlled_failure_before_original_activities failed\u2026\".\n- Earlier runs: the 12 runs before it are all FAILED: aa7a, 817b, 6503, c4a8, 9903, 4624, 1e1a, 0aaa, 47a1, 500a, 5253 and e225. The last success is 6382985a, from 2026-10-26T17:44:17Z to 17:49:27Z. Row counts are null, and coverage says no audit source is available.\n- Model refresh: the model's run history (85eb\u2026) is an empty, complete listing. Its Power BI refresh schedule has enabled=false.\n- Query results: all five queries succeeded. The DAX measure = 950, gold.invoice_activity = 950, silver.invoices = 700, bronze dbo.invoices = 700 and app.invoices = 700.\n\nEvery factual claim in the answer about the job, the run count, the last success and the values matches these records. The answer also correctly concludes that the report is not missing newer source amounts, and that the 250 gap sits between silver and gold. It qualifies this as based on separate, unaligned snapshot reads.\n\nScore: the verdict \"failed job\" matches. The layer (the billing warehouse transform pipeline that feeds gold) matches. The cause matches: a non-retriable failure at the round22 step that runs before the original activities.\n\nThe sealed expectation names run 817b3ab8 instead. That was an earlier run with the same message, and its errorCode was \"Failed\". The expectation was written at admission and says its facts must be re-checked at scoring. The fresh run list shows 8d791d60 is now the latest run, so the answer's run ID is correct, not a mismatch. The secondary grader's explanation, that \"a run ID and a job ID are different things\", is factually wrong, since 817b3ab8 is a run ID in the list. Its conclusion that this is not a conflict is still correct.\n\nOne claim has no cited support in the saved evidence: that the gold build step LEFT JOINs to account_plan_history on account_id. It probably comes from context that was not saved. However, the answer explicitly says this does not show the join caused the gap. It fits the sealed note that the gap comes from join fan-out, and it is honest uncertainty rather than a confident causal claim. The answer is not harmful.\n\nDisputed point, handoff quality: the primary grader gave 0 only because the status is ANSWERED and no formal handoff exists. That judges the label, not the substance. The secondary grader's 2 is right. The answer records the executed query text, parameters and identities, so the queries can be rerun. It states its limits: snapshot reads that were not aligned, account_plan_history was not read, no audit counts, no retained history read, and the model schedule is disabled. It also makes the next check clear: read account_plan_history, or check for duplicate invoices in gold.\n\nBoth graders agree on all three matches, on harm and on partial. The secondary grader wins on the handoff score, despite its incorrect reasoning about run versus job IDs.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "f425db37515b3fb293bd4e57ba4313967fd3fdd1578e1803d71388ac2c1b023d",
+        "reason": "What the saved record shows:\n- Pipeline run history: two listings of the transformations pipeline (ac9927\u2026), read at 18:43:36 and 18:43:41. Both show the latest run, 8d791d60, started 2026-10-31T18:35:51.02Z, ended 18:36:20.40Z and FAILED. Its error is code 2011, not retriable: \"Operation on target round22_controlled_failure_before_original_activities failed\u2026\".\n- Earlier runs: the 12 runs before it are all FAILED: aa7a, 817b, 6503, c4a8, 9903, 4624, 1e1a, 0aaa, 47a1, 500a, 5253 and e225. The last success is 6382985a, from 2026-10-26T17:44:17Z to 17:49:27Z. Row counts are null, and coverage says no audit source is available.\n- Model refresh: the model's run history (85eb\u2026) is an empty, complete listing. Its Power BI refresh schedule has enabled=false.\n- Query results: all five queries succeeded. The DAX measure = 950, gold.invoice_activity = 950, silver.invoices = 700, bronze dbo.invoices = 700 and app.invoices = 700.\n\nEvery factual claim in the answer about the job, the run count, the last success and the values matches these records. The answer also correctly concludes that the report is not missing newer source amounts, and that the 250 gap sits between silver and gold. It qualifies this as based on separate, unaligned snapshot reads.\n\nScore: the verdict \"failed job\" matches. The layer (the billing warehouse transform pipeline that feeds gold) matches. The cause matches: a non-retriable failure at the round22 step that runs before the original activities.\n\nThe sealed expectation names run 817b3ab8 instead. That was an earlier run with the same message, and its errorCode was \"Failed\". The expectation was written at admission and says its facts must be re-checked at scoring. The fresh run list shows 8d791d60 is now the latest run, so the answer's run ID is correct, not a mismatch. The secondary grader's explanation, that \"a run ID and a job ID are different things\", is factually wrong, since 817b3ab8 is a run ID in the list. Its conclusion that this is not a conflict is still correct.\n\nOne claim has no cited support in the saved evidence: that the gold build step LEFT JOINs to account_plan_history on account_id. It probably comes from context that was not saved. However, the answer explicitly says this does not show the join caused the gap. It fits the sealed note that the gap comes from join fan-out, and it is honest uncertainty rather than a confident causal claim. The answer is not harmful.\n\nDisputed point, handoff quality: the primary grader gave 0 only because the status is ANSWERED and no formal handoff exists. That judges the label, not the substance. The secondary grader's 2 is right. The answer records the executed query text, parameters and identities, so the queries can be rerun. It states its limits: snapshot reads that were not aligned, account_plan_history was not read, no audit counts, no retained history read, and the model schedule is disabled. It also makes the next check clear: read account_plan_history, or check for duplicate invoices in gold.\n\nBoth graders agree on all three matches, on harm and on partial. The secondary grader wins on the handoff score, despite its incorrect reasoning about run versus job IDs.",
+        "source_sha256": "072db83c111915c3bc76f94160fa1014a139cf2d2b4523806f9c64e19d9320d7",
+        "ticket": "v4-failed-billing-transform-2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 37047,
+          "output_tokens": 2703,
+          "output_tokens_details": {
+            "thinking_tokens": 1304
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v4-failed-billing-transform-3",
+      "class": "v4-failed-billing-transform",
+      "fixture": "failed-billing",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies verdict=failed job, layer=pipeline/orchestration (billing_serving warehouse transform pipeline feeding gold.invoice_activity), and cause=the latest run of Billing Warehouse transformations failed with errorCode 2011 / controlled fixture failure before original activities (round22_controlled_failure_before_original_activities). These match the sealed expected record on all three dimensions. The answer is honest about what it could not confirm (per-activity results, join fan-out causation) and does not state any confident incorrect cause. Handoff quality is 2: specific run IDs, timestamps, error codes, and next checks (confirm BuildSilverAndGold step execution, validate join fan-out) are clearly stated and rerunnable.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: both say 'failed job'. Layer: the answer places the fault in the Billing Warehouse transformations pipeline at the orchestration level, which matches the expected pipeline / orchestration layer that feeds gold.invoice_activity. Cause: the answer names the latest run (8d791d60) as failing at the activity 'round22_controlled_failure_before_original_activities'. It quotes the native error saying the failure came before the original activities. That is the same cause as the sealed answer. One difference: the sealed answer says outright that BuildSilverAndGold never ran, while the answer says it could not confirm this because per-activity results weren't read. The quoted error supports the sealed answer's reading, and the answer contradicts nothing in it, so I treated this as caution rather than a different cause. On the visual, the answer correctly reports 950 in gold versus 700 in silver and bronze. It mentions the account_plan_history LEFT JOIN fan-out and at least one account with several plan-history rows, but does not claim this causes the gap. It also does not claim the visual is stale. Both points match the expected view that the gap is a separate transformation issue and that the failure alone doesn't show the value is wrong. It correctly treats the earlier 'object named bronze already exists' failures as history. Not harmful: no confident wrong cause is stated as fact.",
+        "verdict_match": true
+      },
+      "grade_wave": "g2-failure-billing01",
+      "outcome_sha256": "81282b89651aad7b94569f895e965ff7800b40653da4676c1d3ad2ee302db9e4",
+      "status": "ANSWERED",
+      "native_duration_seconds": 213.0,
+      "worker_wall_seconds": 180.75598343300004,
+      "investigation_cost_microdollars": 723198,
+      "physical_requests": 27,
+      "model_calls": 6,
+      "timing_group": "full_investigation",
+      "raw_review": {
+        "cost_microdollars": 235400,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "Raw capture: the job-run record (observed 18:47:25) shows the latest Billing Warehouse transformations run, 8d791d60 (2026-10-31), FAILED with errorCode 2011, not retriable. The message is the controlled fixture failure 'before original activities'. The last success ended 2026-10-26T17:49:27, and every run after it failed, alternating between that controlled-failure message and the 'object named bronze already exists' error. The run the sealed record names, 817b3ab8 (10-28, errorCode Failed), is an older run in the same list with the same message. The sealed record says its admission facts must be re-checked at scoring. The fresh capture shows a newer run with the same cause, so the answer's choice of 8d791d60 matches the cause in substance. Queries: the measure returns 950 and gold sums to 950; silver and bronze sum to 700; 1 account has more than one plan-history row; the join query was rejected and never dispatched. The figure 250 was rejected and correctly dropped. Verdict (failed job) and layer (pipeline/orchestration feeding gold.invoice_activity) match. The cause matches: the answer cites the controlled failure before the original activities. Its unwillingness to confirm that BuildSilverAndGold never ran is honest caution and contradicts nothing. It makes no confident wrong claim: it says the join fan-out is unproven, does not call the visual stale, and treats the bronze-schema errors as history. All of this fits the sealed view that the 950/700 gap is a separate transformation issue. All three dimensions match, so the case is not partial. The only dispute is handoff quality. The answer gives exact run IDs, timestamps, error codes, query texts and results, plus clearly stated gaps (per-activity results, recreating the join) that point to rerunnable next checks. That deserves 2. The secondary's analysis is more thorough but gives no justification for 1, so the primary's scoring is right.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "primary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "81282b89651aad7b94569f895e965ff7800b40653da4676c1d3ad2ee302db9e4",
+        "reason": "Raw capture: the job-run record (observed 18:47:25) shows the latest Billing Warehouse transformations run, 8d791d60 (2026-10-31), FAILED with errorCode 2011, not retriable. The message is the controlled fixture failure 'before original activities'. The last success ended 2026-10-26T17:49:27, and every run after it failed, alternating between that controlled-failure message and the 'object named bronze already exists' error. The run the sealed record names, 817b3ab8 (10-28, errorCode Failed), is an older run in the same list with the same message. The sealed record says its admission facts must be re-checked at scoring. The fresh capture shows a newer run with the same cause, so the answer's choice of 8d791d60 matches the cause in substance. Queries: the measure returns 950 and gold sums to 950; silver and bronze sum to 700; 1 account has more than one plan-history row; the join query was rejected and never dispatched. The figure 250 was rejected and correctly dropped. Verdict (failed job) and layer (pipeline/orchestration feeding gold.invoice_activity) match. The cause matches: the answer cites the controlled failure before the original activities. Its unwillingness to confirm that BuildSilverAndGold never ran is honest caution and contradicts nothing. It makes no confident wrong claim: it says the join fan-out is unproven, does not call the visual stale, and treats the bronze-schema errors as history. All of this fits the sealed view that the 950/700 gap is a separate transformation issue. All three dimensions match, so the case is not partial. The only dispute is handoff quality. The answer gives exact run IDs, timestamps, error codes, query texts and results, plus clearly stated gaps (per-activity results, recreating the join) that point to rerunnable next checks. That deserves 2. The secondary's analysis is more thorough but gives no justification for 1, so the primary's scoring is right.",
+        "source_sha256": "f65dd45e6ad64001b5c907021b230d81dd68edc537fce39be3ca7b7a9016e6ec",
+        "ticket": "v4-failed-billing-transform-3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 44326,
+          "output_tokens": 2896,
+          "output_tokens_details": {
+            "thinking_tokens": 907
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "primary"
+      }
+    },
+    {
       "ticket": "v4-failed-application-load-1",
       "class": "v4-failed-application-load",
       "fixture": "failed-fixture",
@@ -1563,9 +2259,6 @@
     "v4-billing-invoices-1",
     "v4-billing-invoices-2",
     "v4-billing-invoices-3",
-    "v4-failed-billing-transform-1",
-    "v4-failed-billing-transform-2",
-    "v4-failed-billing-transform-3",
     "v4-waiting-application-load-1",
     "v4-waiting-application-load-2",
     "v4-waiting-application-load-3",
@@ -1609,28 +2302,28 @@
   "status": "IN_PROGRESS",
   "timing_cost": {
     "all": {
-      "tickets": 6,
-      "native_observed": 5,
+      "tickets": 9,
+      "native_observed": 8,
       "native_missing": 1,
-      "native_median_seconds": 179.0,
-      "native_p90_seconds": 259.0,
-      "worker_median_seconds": 150.57076126100014,
-      "worker_p90_seconds": 196.50143783700003,
-      "investigation_cost_microdollars": 1681215,
-      "cost_per_ticket_usd": 0.2802025,
-      "physical_requests": 121
+      "native_median_seconds": 195.0,
+      "native_p90_seconds": 268.0,
+      "worker_median_seconds": 161.24978809350006,
+      "worker_p90_seconds": 238.297234413,
+      "investigation_cost_microdollars": 3473197,
+      "cost_per_ticket_usd": 0.38591077777777777,
+      "physical_requests": 209
     },
     "full_investigation": {
-      "tickets": 3,
-      "native_observed": 3,
+      "tickets": 6,
+      "native_observed": 6,
       "native_missing": 0,
-      "native_median_seconds": 206.0,
-      "native_p90_seconds": 259.0,
-      "worker_median_seconds": 171.92881492599997,
-      "worker_p90_seconds": 196.50143783700003,
-      "investigation_cost_microdollars": 926739,
-      "cost_per_ticket_usd": 0.308913,
-      "physical_requests": 79
+      "native_median_seconds": 209.5,
+      "native_p90_seconds": 268.0,
+      "worker_median_seconds": 176.3423991795,
+      "worker_p90_seconds": 238.297234413,
+      "investigation_cost_microdollars": 2718721,
+      "cost_per_ticket_usd": 0.4531201666666667,
+      "physical_requests": 167
     },
     "answered_without_layer_queries": {
       "tickets": 2,
