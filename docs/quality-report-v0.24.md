@@ -1,5 +1,11 @@
 # Quality of frozen v0.24 - Round 25
 
+Current G1 final (40): **raw-reviewed35/40 (87.5%, Wilson73.9-94.5%)**, official37/40 (80.1-97.4%), strict34/40 (70.9-92.9%). **Two raw-confirmed harmful history answers remain counted.** Owner31Oct lifted the history measurement pause; all3G2history will be measured. G2-G4 assessment disagreements will be adjudicated by fresh independent Claude calls, not the exposed operator. G2 headline remains pending.
+
+G1 investigation-only cost $16.526970 ($0.413174/ticket); native median245s,p90 317s (36observed/4unavailable); worker median207.7s,p90 285.3s (40observed); cache-read ratio67.49%. One lost start response was recovered from its original sealed answer without resubmission; its native execution details remain unknown.
+
+## Earlier checkpoint: 31 graded G1 outcomes
+
 Measurement is in progress. The primary and secondary graders disagree materially on the history family, so the current primary score must not be presented as a clean quality pass. No investigator, prompt, model, caching or query change has been made.
 
 The raw-reviewed headline for the 31 double-graded G1 tickets is **26/31** (95% Wilson 67.4-92.9%), with **2 harmful historical-question answers**. Official primary is 28/31 (75.1-96.7%); strict is 25/31 (63.7-90.8%). Raw review supports the second grader on both history disagreements; the history family is paused. Original grades and expectations remain unchanged.

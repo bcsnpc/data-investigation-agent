@@ -22,7 +22,7 @@ R24's absent-record capture has a dated raw-review correction: secondary is righ
 
 ## G1: full dev v2
 
-_pending_
+All40 outcomes saved and double-graded. **Raw-reviewed35/40**, official37/40, strict34/40; raw-confirmed harmful2 (history), retained. History measurement pause was lifted by owner31Oct; all3G2history will count. One lost Azure start response was reconciled to its original sealed, input-matching ANSWERED capture with no resubmission; its Azure execution name/status/timing remain unestablished. Independent G2-G4 review calls, not the operator, decide all grader assessment disagreements. Full per-class/Wilson receipts: [G1 grades](runs/round-twenty-five-g1-current-grades.json).
 
 ## G2: headline held-out v4
 
@@ -40,3 +40,6 @@ The original sealed20-ticket regression inputs are prepared; no G4 run admitted 
 
 _pending_
 
+
+
+G1 final timing/cost: investigation-only $16.526970, $0.413174/ticket; 1072 native investigation requests. Native median245s/p90 317s with36observed,4missing; worker median207.7s/p90 285.3s for40. Cache-read67.49%. [Exact per-ticket native usage](runs/round-twenty-five-g1-observed-cost-timing-cache.json). Grading and fixture-control spend is separate. No new G1 zero beyond the five already backtracked (two history, two pre-retention, one authored invalid warehouse/report contract).

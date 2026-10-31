@@ -1,0 +1,55 @@
+{
+  "cases": [
+    {
+      "ticket": "v2-screenshot-record-03-v2",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: expected 'as designed', delivered 'definition explained' \u2014 these are substantively equivalent (the value is passed through unchanged by design, and the answer confirms the definition/design). Layer: expected 'source application', delivered confirms ordersops as the source application layer \u2014 match. Cause: expected 'unique composite fields resolve to movement 5; units 3 carried unchanged through application path' \u2014 delivered identifies movement_id 5, confirms units=3 in ordersops (RECEIPT, 2026-09-12), traces one-to-one column mapping through the copy job and Direct Lake partition with no calculation \u2014 match. The answer is fully resolved (ANSWERED, not handed off), so handoff quality is N/A scored 0.",
+        "verdict_match": true
+      },
+      "reason": "G1 raw output is a resolved definition explanation with no handoff object. Both graders agree correct verdict/layer/cause and no harm. No unresolved investigation requires handoff; handoff0. Original grades unchanged.",
+      "raw_outcome_sha256": "2ba43a9daaab7bc93327f04fbd52f0b1d31f5a09d93c4b28340fe2d7166c56b8",
+      "reviewer": "operator G1 saved-output review; owner independent-review rule applies toG2-G4"
+    },
+    {
+      "ticket": "v2-screenshot-record-04-v1",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered 'definition explained' maps to expected 'as designed' \u2014 the answer confirms the values are correct by design, explaining the full chain. Match. Layer: delivered traces from source system ordersops through landing lakehouse through Direct Lake semantic model to the visual, which matches expected 'source application'. Match. Cause: delivered identifies movement_id 7 as the unique key, traces units=20 unchanged through the copy pipeline (no transformation), and explains the visual shows raw column values not a measure \u2014 matching expected 'Visible values resolve uniquely to movement 7; units 20 carried unchanged through application path'. Match. The answer is a complete, technically grounded resolution with no harmful incorrect claims. Handoff quality is 0 because the answer reached a conclusion (ANSWERED status, no stop), so there is nothing to hand off.",
+        "verdict_match": true
+      },
+      "reason": "G1 raw output is a resolved definition explanation with no handoff object. Both graders agree correct verdict/layer/cause and no harm. No unresolved investigation requires handoff; handoff0. Original grades unchanged.",
+      "raw_outcome_sha256": "01e708d3e02703842bafb7fddbc663342089d98841303d0d740c13f810705776",
+      "reviewer": "operator G1 saved-output review; owner independent-review rule applies toG2-G4"
+    },
+    {
+      "ticket": "v2-screenshot-record-04-v2",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: expected 'as designed', delivered 'observed value' \u2014 these are substantively equivalent; the agent confirmed the value resolves correctly to movement 7 with units 20 carried unchanged through the stack, which is what 'as designed' means in context. Layer: expected 'source application', delivered evidence covers ordersops source table and bronze lakehouse Direct Lake path \u2014 correct layer. Cause: expected 'Visible values resolve uniquely to movement 7; units 20 carried unchanged through application path' \u2014 delivered identifies movement_id 7 as the unique match, traces units 20 from the RECEIPT row in app.stock_movements_round_two_20261003 through the bronze lakehouse to the model with no transformation, confirming one-to-one column mapping and no summarization. Full cause match. No harmful incorrect claims. Handoff quality is 0 because the answer is fully resolved (no handoff needed).",
+        "verdict_match": true
+      },
+      "reason": "G1 raw output is a resolved definition explanation with no handoff object. Both graders agree correct verdict/layer/cause and no harm. No unresolved investigation requires handoff; handoff0. Original grades unchanged.",
+      "raw_outcome_sha256": "7d83df97e4b0afad9d13b6d71e03c0f8417fedcee72fe4e18ce5a444599320b0",
+      "reviewer": "operator G1 saved-output review; owner independent-review rule applies toG2-G4"
+    }
+  ]
+}
