@@ -14,9 +14,10 @@
   "native_pipelines_verified": false,
   "planned_schedules": {
     "clinical": "daily02UTC",
-    "billing": "daily0230UTC",
-    "warehouse": "daily03UTC",
-    "revenue_model": "daily04UTC"
+    "billing": "daily0240UTC",
+    "warehouse": "daily0330UTC",
+    "revenue_model": "daily0430UTC",
+    "productivity_model": "daily05UTC"
   },
   "cadence_reason": "One source wake per day plus60minute inactivity tail is estimated within the free CPU allowance; continuous4hour wakes are not. Daily cadence deliberately permits latency.",
   "schedule_enablement": "Only after manual verification and free-offer allowance review; never paid fallback"
