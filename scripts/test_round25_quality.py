@@ -270,6 +270,20 @@ class ReplacementTests(unittest.TestCase):
             with self.assertRaises(ValueError):plumbing_replacement_label(**options)
 
 class WaveTests(unittest.TestCase):
+    def test_unadmitted_next_wave_is_not_a_failed_or_uncertain_engine_attempt(self):
+        from round25_quality import case_submission_state
+        def events(*names):return [{'event':n}for n in names]
+        self.assertEqual(case_submission_state([]),'NOT_ATTEMPTED')
+        self.assertEqual(case_submission_state(events('CASE_OPEN','ADMISSION','BLOCK')),'NOT_ATTEMPTED')
+        self.assertEqual(case_submission_state(events('CASE_OPEN','SUBMIT_ATTEMPT','BLOCK')),'UNCERTAIN')
+        self.assertEqual(case_submission_state(events('SUBMIT_ATTEMPT','SUBMITTED','POLL')),'SUBMITTED')
+        self.assertEqual(case_submission_state(events('SUBMITTED','OUTCOME')),'DELIVERED')
+
+    def test_multiple_submissions_cannot_be_selected_or_retried_by_classification(self):
+        from round25_quality import case_submission_state
+        with self.assertRaisesRegex(ValueError,'MULTIPLE_SUBMISSIONS_REQUIRE_RECONCILIATION'):
+            case_submission_state([{'event':'SUBMITTED'},{'event':'SUBMITTED'}])
+
     def test_clarification_without_echo_is_retained_unchanged(self):
         from round25_quality import measurement_ticket
         from investigator.investigator_harness import CaseLog, RunHarness

@@ -461,3 +461,9 @@ Owner-approved 2026-10-31 (Â§8): October combined AI ceiling $206; physical to
 
 
 2026-10-31 R25 absent-at-source cohort: two native COMPARISON_DETAILS_REQUIRED exceptions retained, and one initial Azure job-template GET failed before job start. Exact original journal has zero SUBMITTED events; only that pre-start failure received the prompt-authorized single plumbing replacement with a separate journal. Replacement reached the engine and returned the same intake exception, retained as its scored outcome; no further replacement. Original inputs/expectations/captures unchanged. Reporting-only replacement classifier recognizes the proven pre-start case, rejects delivered/repeated replacement cases;22focused testsPASS. Native cause/receipt details in docs/runs/round25-g2-absent2-prestart-control-failure.json.
+
+
+2026-10-31 temporal validator clarification (offline only): the default bounded SQL compiler rejects Version syntax unless explicitly enabled; the active investigative route enables temporal reads and accepts native FOR SYSTEM_TIME AS OF/ALL, also through the read-only gateway. The earned pre-retention failures used invalid OPTION(FOR TIMESTAMP AS OF) or unavailable approved objects/metadata. No rejection establishes a retention policy. No validator or engine change; route-specific receipt docs/runs/round25-temporal-validator-routes.json.
+
+
+2026-10-31 grading transport only: an UNSENT G2 primary task exceeded the fixed24000-character bound. New optionalv2 pool references choose a prefix absent from literal values, with backward-compatible decoding and exact round-trip checks. Existing prepared/submitted tasks are preserved;8 codec testsPASS including literal-marker collisions and old-packet replay. The failed28380-character packet fits23604characters without extra row/history sampling, new estate reads or changed expectations/engine outputs. Receipt docs/runs/round25-grader-packet-v2-reference-packing.json.

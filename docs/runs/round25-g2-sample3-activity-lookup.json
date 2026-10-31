@@ -1,0 +1,68 @@
+{
+  "observed_at_utc": "2026-10-31T22:56:18.951340+00:00",
+  "run_id": "d85a8c61-7bb2-4403-8629-eed55a617d98",
+  "events": [
+    {
+      "time": "2026-10-31T21:54:22.2715777Z",
+      "operation": "Microsoft.App/jobs/start/action",
+      "status": "Succeeded",
+      "correlation_id": "e82f22ce-d7c8-4755-90e7-f8a72463cbd5",
+      "property_keys": [
+        "entity",
+        "eventCategory",
+        "hierarchy",
+        "message",
+        "statusCode"
+      ],
+      "execution_names": [],
+      "target_run_id_mentioned": false
+    },
+    {
+      "time": "2026-10-31T21:54:22.2285177Z",
+      "operation": "Microsoft.App/jobs/start/action",
+      "status": "Succeeded",
+      "correlation_id": "4d9c7701-fded-4e8f-83cd-19a3549f7f15",
+      "property_keys": [
+        "entity",
+        "eventCategory",
+        "hierarchy",
+        "message",
+        "statusCode"
+      ],
+      "execution_names": [],
+      "target_run_id_mentioned": false
+    },
+    {
+      "time": "2026-10-31T21:54:21.7559717Z",
+      "operation": "Microsoft.App/jobs/start/action",
+      "status": "Started",
+      "correlation_id": "e82f22ce-d7c8-4755-90e7-f8a72463cbd5",
+      "property_keys": [
+        "entity",
+        "eventCategory",
+        "hierarchy",
+        "message"
+      ],
+      "execution_names": [],
+      "target_run_id_mentioned": false
+    },
+    {
+      "time": "2026-10-31T21:54:21.6503876Z",
+      "operation": "Microsoft.App/jobs/start/action",
+      "status": "Started",
+      "correlation_id": "4d9c7701-fded-4e8f-83cd-19a3549f7f15",
+      "property_keys": [
+        "entity",
+        "eventCategory",
+        "hierarchy",
+        "message"
+      ],
+      "execution_names": [],
+      "target_run_id_mentioned": false
+    }
+  ],
+  "candidate_execution_names": [],
+  "response_sha256": "49ac73306dd2f7ea3195148d532ae5c553a9484b75e48f879aafdfcc51dfc2f1",
+  "new_submissions": 0,
+  "conclusion": "Two successful job-start actions in the bounded window, without execution IDs or run IDs. This cannot establish the lost request execution status; it remains UNESTABLISHED. No additional submission was made by the lookup."
+}

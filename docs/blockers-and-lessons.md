@@ -720,3 +720,6 @@ Round25, 2026-10-28 ? A three-case primary grading batch failed during the ADMIT
 
 
 2026-10-31 R25 timing limitation: case journals have event order/hashes but no event timestamps. Azure execution start/end and native worker wall times are observed, not complete admission-to-delivery timing. One current wave began orchestration21:37:42UTC while its remaining Azure execution reports start21:42:01UTC; that group timestamp is not a per-ticket admission timestamp and cannot establish a precise delay mechanism. Preserve both, do not estimate or label Azure intervals as full end-to-end times. No timing target claim is earned from them.
+
+
+2026-10-31 R25 runner correction: a two-wide static wave ended on one established intake exception before admitting its third ticket. The old outer coordinator tried to preserve a nonexistent third-run journal. The third ticket is NOT_ATTEMPTED, not an engine failure or retry. Generic remaining-wave handling now preserves only actual submitted failures, refuses uncertain dispatch, and admits only still-unattempted later slots after progress.24focused reporting/runner testsPASS; investigator bytes, inputs, expectations and saved answers unchanged.

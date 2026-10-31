@@ -2,12 +2,12 @@
 
 ## Current measurement
 
-Saved-result snapshot: 2026-10-31T22:15:36.133901+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the new held-out set and is incomplete until all60 tickets are accounted for. Partial cohort figures must not be presented as full-set accuracy.
+Saved-result snapshot: 2026-10-31T23:18:02.036418+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the new held-out set and is incomplete until all60 tickets are accounted for. Partial cohort figures must not be presented as full-set accuracy.
 
 | Cohort | Official primary (95% Wilson) | Strict (95% Wilson) | Raw-reviewed (95% Wilson) | Raw harmful | Requested |
 |---|---|---|---|---:|---:|
 |G1|37/40 (80.1–97.4%)|34/40 (70.9–92.9%)|35/40 (73.9–94.5%)|2|40|
-|G2|30/50 (46.2–72.4%)|25/50 (36.6–63.4%)|29/50 (44.2–70.6%)|0|60|
+|G2|37/60 (49.0–72.9%)|32/60 (40.9–65.4%)|36/60 (47.4–71.4%)|0|60|
 |G3|not run|not run|not run|not measured|60|
 |G4|not run|not run|not run|not measured|20|
 
@@ -20,7 +20,7 @@ Core agreement means verdict, layer, cause and harm flags. Full assessment addit
 | Cohort | Core agreement (95% Wilson) | Full assessment agreement (95% Wilson) | Raw verdict | Raw layer | Raw cause | Pending raw reviews |
 |---|---|---|---|---|---|---:|
 |G1|37/40 (80.1–97.4%)|8/40 (10.5–34.8%)|35/40 (73.9–94.5%)|35/40 (73.9–94.5%)|35/40 (73.9–94.5%)|0|
-|G2|41/50 (69.2–90.2%)|11/50 (12.8–35.2%)|35/50 (56.2–80.9%)|37/50 (60.4–84.1%)|30/50 (46.2–72.4%)|0|
+|G2|51/60 (73.9–91.9%)|13/60 (13.1–33.6%)|42/60 (57.5–80.1%)|44/60 (61.0–82.9%)|37/60 (49.0–72.9%)|0|
 
 Operator blinding was partly broken by two accidental held-out staging/status fragments, disclosed in decisions.md and the round summary. No investigator logic or expectation was changed afterward. G1's original raw reviews remain; G2–G4 disagreements are decided by independent Claude calls receiving only the owner-approved packet.
 
@@ -63,11 +63,45 @@ Every cell includes its95% Wilson interval. Original case-family IDs are retaine
 |G2 / v4-record-absent-everywhere|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|
 |G2 / v4-record-repeated-gold|1/3 (6.1–79.2%)|1/3 (6.1–79.2%)|1/3 (6.1–79.2%)|
 |G2 / v4-sample-business-meaning|3/3 (43.9–100.0%)|0/3 (0.0–56.1%)|2/3 (20.8–93.9%)|
+|G2 / v4-sample-technical|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|
 |G2 / v4-screenshot-billing-invoices|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|
 |G2 / v4-screenshot-billing-mrr|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|
+|G2 / v4-screenshot-fixture-01|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|
+|G2 / v4-screenshot-fixture-02|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|
+|G2 / v4-screenshot-fixture-03|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|
+|G2 / v4-screenshot-fixture-04|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|
 |G2 / v4-source-history|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|
 |G2 / v4-stale-model|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|
 |G2 / v4-waiting-application-load|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|
+|G2 / v4-warehouse-scope|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|
+
+### Expected verdict classes
+
+Grouping uses exact sealed oracle labels; no expectation or score change. Case families above remain separately available.
+
+| Cohort / expected verdict class | Official (95% Wilson) | Strict (95% Wilson) | Raw-reviewed (95% Wilson) | Raw harmful |
+|---|---|---|---|---:|
+|G1 / access difference|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|0|
+|G1 / as designed|16/16 (80.6–100.0%)|15/16 (71.7–98.9%)|16/16 (80.6–100.0%)|0|
+|G1 / different question|1/2 (9.5–90.5%)|1/2 (9.5–90.5%)|1/2 (9.5–90.5%)|0|
+|G1 / failed job|4/4 (51.0–100.0%)|4/4 (51.0–100.0%)|4/4 (51.0–100.0%)|0|
+|G1 / latency|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|0|
+|G1 / not found|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0|
+|G1 / refresh stale|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|0|
+|G1 / source changed history|2/2 (34.2–100.0%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|2|
+|G1 / transformation logic|6/6 (61.0–100.0%)|6/6 (61.0–100.0%)|6/6 (61.0–100.0%)|0|
+|G1 / waiting on job|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|0|
+|G2 / access difference|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0|
+|G2 / as designed|14/17 (59.0–93.8%)|14/17 (59.0–93.8%)|15/17 (65.7–96.7%)|0|
+|G2 / as designed; historical value not found (no retained version before 2026-10-23)|2/3 (20.8–93.9%)|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0|
+|G2 / different question|3/6 (18.8–81.2%)|0/6 (0.0–39.0%)|2/6 (9.7–70.0%)|0|
+|G2 / failed job|6/6 (61.0–100.0%)|6/6 (61.0–100.0%)|6/6 (61.0–100.0%)|0|
+|G2 / latency|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|0|
+|G2 / not found|0/4 (0.0–49.0%)|0/4 (0.0–49.0%)|1/4 (4.6–69.9%)|0|
+|G2 / refresh stale|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0|
+|G2 / source changed history|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|0|
+|G2 / transformation logic|6/9 (35.4–87.9%)|6/9 (35.4–87.9%)|6/9 (35.4–87.9%)|0|
+|G2 / waiting on job|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|0|
 
 ## Observed cost, cache and timing
 
@@ -76,9 +110,9 @@ Native provider settlements supply usage; missing capture usage is never substit
 | Cohort | Usage-observed tickets | Investigation USD | USD / usage-observed ticket | Cache-read ratio | Native observed / missing | Native median / p90 seconds |
 |---|---:|---:|---:|---:|---|---|
 |G1|40|16.526970|0.413174|67.49%|36 / 4|245.0 / 317.0|
-|G2|42|20.435861|0.486568|69.12%|36 / 6|205.0 / 282.0|
+|G2|50|23.898689|0.477974|69.21%|43 / 7|206.0 / 307.0|
 
-G2 has 8 unsealed native exceptions with unavailable usage; these remain graded but are outside the usage-observed denominator.
+G2 has 10 unsealed native exceptions with unavailable usage; these remain graded but are outside the usage-observed denominator.
 
 
 ## Failure walkthroughs and next-round priorities
@@ -87,6 +121,8 @@ G2 has 8 unsealed native exceptions with unavailable usage; these remain graded 
 2. Stale model: all three G2 stale answers recreated7661 against source/landing7692 and identified the semantic-model split. The automatic-update fact port was unavailable, so the specific OFF setting was not established. Independent review calls this a triage gap, honest partial evidence and zero under the all-three rule, not a harmful confident finding.
 3. Input admission: two application-baseline variants raised native COMPARISON_DETAILS_REQUIRED and exited1 before delivery. Each has ten preserved partial artifacts and no final seal. They are graded native exceptions, not retried as Blob404 plumbing failures, and their unknown usage is not fabricated.
 4. Access and bounded investigation: G2 access produced an intake hold and two tool/time-limit outcomes. Exact raw-review reasons and query traces remain linked; no permission was expanded to improve scores.
+
+5. Temporal queries: the active investigative route accepts native FOR SYSTEM_TIME AS OF and ALL on approved tables; the default bounded compiler rejects temporal Version nodes unless explicitly enabled. The pre-retention traces instead attempted invalid OPTION(FOR TIMESTAMP AS OF) syntax or unavailable catalog objects. These were rejected before dispatch and do not establish a retention policy. Record the query/tool/capability gap; do not widen the validator or change an expectation in this round. See runs/round25-temporal-validator-routes.json.
 
 The waiting zero is timing-confounded: its job completed during the third investigation and the answer correctly reported completion, while the sealed expectation still required waiting. The independent reviewer retained the zero against that expectation. No oracle change or replacement run occurred.
 

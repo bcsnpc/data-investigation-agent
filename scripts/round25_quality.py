@@ -10,6 +10,20 @@ GRADE_FIELDS = ('verdict_match', 'layer_match', 'cause_match')
 ASSESSMENT_FIELDS = (*GRADE_FIELDS, 'harmful', 'handoff_quality', 'failing_step', 'partial')
 
 
+def case_submission_state(events):
+    """Distinguish an unadmitted later wave from an uncertain actual dispatch."""
+    submitted = sum(e['event'] == 'SUBMITTED' for e in events)
+    if submitted > 1:
+        raise ValueError('MULTIPLE_SUBMISSIONS_REQUIRE_RECONCILIATION')
+    if any(e['event'] == 'OUTCOME' for e in events):
+        return 'DELIVERED'
+    if submitted:
+        return 'SUBMITTED'
+    if any(e['event'] == 'SUBMIT_ATTEMPT' for e in events):
+        return 'UNCERTAIN'
+    return 'NOT_ATTEMPTED'
+
+
 def measurement_ticket(identity, envelope, pinned_bytes):
     """Bind the operator port to its sealed input, without requiring an echo.
 
