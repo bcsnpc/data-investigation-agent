@@ -1,0 +1,59 @@
+{
+  "fixture": "failed-billing",
+  "status": "COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011",
+  "original_hash": "392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552",
+  "injected_hash": "99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1",
+  "restoration_required": false,
+  "job_endpoint": "workspaces/7d67bb36-04f6-4182-95aa-da5d515248fa/items/76c60248-b830-433b-9880-90593da28e7e/jobs/instances/7238f29c-2a96-48ee-bed7-cbd824bba806",
+  "native_job": {
+    "endTimeUtc": "2026-10-31T23:30:39.26",
+    "failureReason": {
+      "errorCode": "2011",
+      "isRetriable": false,
+      "message": "Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities",
+      "requestId": "1b3f4b19-a380-4469-9cfe-98a7f4d3d2f7"
+    },
+    "id": "7238f29c-2a96-48ee-bed7-cbd824bba806",
+    "invokeType": "Manual",
+    "itemId": "76c60248-b830-433b-9880-90593da28e7e",
+    "jobType": "Pipeline",
+    "rootActivityId": "34439db0-2414-4dcc-a7e3-4014fd51d65f",
+    "startTimeUtc": "2026-10-31T23:30:04.0333333",
+    "status": "Failed"
+  },
+  "normal_job_endpoint": "workspaces/7d67bb36-04f6-4182-95aa-da5d515248fa/items/76c60248-b830-433b-9880-90593da28e7e/jobs/instances/21e01b9a-e039-4a98-80f3-e736c9afab4d",
+  "normal_job": {
+    "endTimeUtc": "2026-10-31T23:44:59.1733333",
+    "failureReason": {
+      "errorCode": "2011",
+      "isRetriable": false,
+      "message": "Operation on target BuildSilverAndGold failed: There is already an object named 'bronze' in the database.\r\nCREATE SCHEMA failed due to previous errors.",
+      "requestId": "214020ea-1d33-43ff-aadf-8004d1857ba0"
+    },
+    "id": "21e01b9a-e039-4a98-80f3-e736c9afab4d",
+    "invokeType": "Manual",
+    "itemId": "76c60248-b830-433b-9880-90593da28e7e",
+    "jobType": "Pipeline",
+    "rootActivityId": "b8be9709-5bf7-4e17-8d3d-bce7b16d236f",
+    "startTimeUtc": "2026-10-31T23:44:33.2266667",
+    "status": "Failed"
+  },
+  "original_job_disposition": "ORIGINAL_EXISTING_BILLING_BOOTSTRAP_FAILED_2011",
+  "physical_requests": 13,
+  "started_at": "2026-10-31T23:29:36.311979+00:00",
+  "ended_at": "2026-10-31T23:45:07.733724+00:00",
+  "recovery_sessions": [
+    {
+      "reason": "CLI preliminary GET failed before start; resume original failed-job evidence, no reinjection",
+      "started_at": "2026-10-31T23:38:35.888908+00:00"
+    }
+  ],
+  "ticket_outcome_statuses": {
+    "failed-billing-transform-v1": "NEEDS_INPUT",
+    "failed-billing-transform-v2": "NEEDS_INPUT",
+    "fourth-failed-billing-transform-v1": "NEEDS_INPUT",
+    "fourth-failed-billing-transform-v2": "NEEDS_INPUT"
+  },
+  "original_prestart_attempt_unscored": true,
+  "engine_changed": false
+}
