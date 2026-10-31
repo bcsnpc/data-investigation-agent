@@ -2,7 +2,7 @@
 import json,sys,runpy,subprocess,hashlib
 from pathlib import Path
 sys.path.insert(0,'scripts')
-from round25_independent_review import packet,exact_deduplicate,differs,schema,SYSTEM
+from round25_independent_review import packet,exact_deduplicate,differs,schema,SYSTEM,metric_winner
 from round25_quality import raw_answer
 from investigator.adapters.reasoning_anthropic import Client
 from investigator.reasoning_budget import TicketBudget,RateCard
@@ -49,8 +49,8 @@ with configured(policy):
    started.write_bytes(bytes_of({'source_sha256':source_hash,'model':'claude-opus-5-5','independent_fresh_call':True,'operator_judgment_supplied':False,'estate_reads':0}))
    response=client.complete(system=SYSTEM,messages=[{'role':'user','content':payload.decode()}],tools=[{'name':'resolve_intake','description':'Return independent saved-evidence adjudication only; no reads or investigations.','input_schema':schema()}],max_tokens=4000)
   calls=[x for x in response.get('content',[])if x.get('type')=='tool_use'and x.get('name')=='resolve_intake'];assert len(calls)==1 and response.get('stop_reason')=='tool_use'
-  decision=calls[0]['input'];Draft202012Validator(schema()).validate(decision);winner=decision.pop('winner')
-  result={'ticket':ident,'winner':winner,'grade':decision,'reason':decision['reason'],'model':'claude-opus-5-5','independent_fresh_call':True,'operator_judgment_supplied':False,'source_sha256':source_hash,'raw_outcome_sha256':hashlib.sha256(raw).hexdigest(),'usage':response['usage'],'cost_microdollars':budget.status()['charged_microdollars']};out.write_bytes(bytes_of(result));results.append(result);print(json.dumps({'ticket':ident,'independent_review_complete':True,'winner':winner,'harmful':decision['harmful']}),flush=True)
+  decision=calls[0]['input'];Draft202012Validator(schema()).validate(decision);model_winner=decision['winner'];winner=metric_winner(decision,row['output'],secondary[ident]);decision={k:v for k,v in decision.items()if k!='winner'}
+  result={'ticket':ident,'winner':winner,'independent_model_winner':model_winner,'grade':decision,'reason':decision['reason'],'model':'claude-opus-5-5','independent_fresh_call':True,'operator_judgment_supplied':False,'source_sha256':source_hash,'raw_outcome_sha256':hashlib.sha256(raw).hexdigest(),'usage':response['usage'],'cost_microdollars':budget.status()['charged_microdollars']};out.write_bytes(bytes_of(result));results.append(result);print(json.dumps({'ticket':ident,'independent_review_complete':True,'winner':winner,'harmful':decision['harmful']}),flush=True)
 key=None
 summary={'cohort':cohort,'label':label,'disagreements':len(selected),'cases':results,'estate_reads':0,'operator_adjudication':False};(r/'grading'/(label+'-independent-review-result.json')).write_bytes(bytes_of(summary))
 Path('docs/runs/'+label+'-independent-review.json').write_bytes(bytes_of(summary)+b'\n')

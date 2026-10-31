@@ -1,6 +1,6 @@
 ﻿import unittest
 from copy import deepcopy
-from round25_independent_review import packet,exact_deduplicate,differs,schema
+from round25_independent_review import packet,exact_deduplicate,differs,schema,metric_winner
 from jsonschema import Draft202012Validator
 class IndependentReviewTests(unittest.TestCase):
  def test_only_owner_allowed_inputs_and_no_mutation(self):
@@ -16,3 +16,10 @@ class IndependentReviewTests(unittest.TestCase):
   self.assertEqual(value['a'][1]['rows'][-1],[19])
  def test_review_schema_requires_independent_decision(self):
   s=schema();Draft202012Validator.check_schema(s);self.assertIn('winner',s['required']);self.assertIn('reason',s['required'])
+
+ def test_reporting_vocabulary_never_overrides_reviewer_grade(self):
+  first={'verdict_match':True,'handoff_quality':0};second={'verdict_match':False,'handoff_quality':0}
+  decision={**first,'winner':'both'};self.assertEqual(metric_winner(decision,first,second),'mixed')
+  decision={'verdict_match':True,'handoff_quality':2,'winner':'primary'}
+  self.assertEqual(metric_winner(decision,first,second),'mixed')
+  self.assertEqual(decision['handoff_quality'],2)

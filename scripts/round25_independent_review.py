@@ -39,3 +39,12 @@ def exact_deduplicate(value):
     assert restore(root)==value
     return packed
 SYSTEM='''You are a fresh independent reviewer of two graders, not an investigator. You have only this ticket, DIA saved answer and evidence, sealed expectation and both graders assessments. Decide which grader is right by examining the full saved evidence. Do not request tools or new reads. Preserve the original all-three scoring rule: correct verdict AND layer/split AND named cause; partial is zero. Distinguish honest uncertainty from confident unsupported or wrong claims. Judge substance rather than labels. Return your own verdict_match,layer_match,cause_match,harmful,handoff_quality,partial,failing_step and reason, plus winner primary/secondary/both/neither. Explain exactly what the raw capture establishes and why each disputed judgment is right or wrong. Operator judgments and prior outcomes are not supplied. Return only through resolve_intake. The verbatim pool is lossless; use all relevant rows, not merely the grader samples.'''
+
+def metric_winner(decision,primary,secondary):
+    # Only adapt the existing report vocabulary; never change reviewer grades.
+    winner=decision['winner']
+    if winner=='both':return 'mixed'
+    if winner in ('primary','secondary'):
+        selected=primary if winner=='primary'else secondary
+        if differs(decision,selected):return 'mixed'
+    return winner

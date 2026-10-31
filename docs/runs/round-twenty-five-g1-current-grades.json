@@ -1,141 +1,141 @@
 {
   "official_primary": {
     "all_three": {
-      "correct": 31,
-      "total": 34,
-      "accuracy": 0.9117647058823529,
-      "lower": 0.7703951343719113,
-      "upper": 0.9695340563253514,
+      "correct": 34,
+      "total": 37,
+      "accuracy": 0.918918918918919,
+      "lower": 0.7869932065071162,
+      "upper": 0.9720394258995521,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 31,
-      "total": 34,
-      "accuracy": 0.9117647058823529,
-      "lower": 0.7703951343719113,
-      "upper": 0.9695340563253514,
+      "correct": 34,
+      "total": 37,
+      "accuracy": 0.918918918918919,
+      "lower": 0.7869932065071162,
+      "upper": 0.9720394258995521,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 31,
-      "total": 34,
-      "accuracy": 0.9117647058823529,
-      "lower": 0.7703951343719113,
-      "upper": 0.9695340563253514,
+      "correct": 34,
+      "total": 37,
+      "accuracy": 0.918918918918919,
+      "lower": 0.7869932065071162,
+      "upper": 0.9720394258995521,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 31,
-      "total": 34,
-      "accuracy": 0.9117647058823529,
-      "lower": 0.7703951343719113,
-      "upper": 0.9695340563253514,
+      "correct": 34,
+      "total": 37,
+      "accuracy": 0.918918918918919,
+      "lower": 0.7869932065071162,
+      "upper": 0.9720394258995521,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 34,
+      "total": 37,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.10151455415332376,
+      "upper": 0.09405782583720251,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "strict": {
     "all_three": {
-      "correct": 28,
-      "total": 34,
-      "accuracy": 0.8235294117647058,
-      "lower": 0.6648626260015724,
-      "upper": 0.9165103095462768,
+      "correct": 31,
+      "total": 37,
+      "accuracy": 0.8378378378378378,
+      "lower": 0.6886351629906503,
+      "upper": 0.9234879276598885,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 28,
-      "total": 34,
-      "accuracy": 0.8235294117647058,
-      "lower": 0.6648626260015724,
-      "upper": 0.9165103095462768,
+      "correct": 31,
+      "total": 37,
+      "accuracy": 0.8378378378378378,
+      "lower": 0.6886351629906503,
+      "upper": 0.9234879276598885,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 29,
-      "total": 34,
-      "accuracy": 0.8529411764705882,
-      "lower": 0.6987194350454783,
-      "upper": 0.9355055855521753,
+      "correct": 32,
+      "total": 37,
+      "accuracy": 0.8648648648648649,
+      "lower": 0.7202258821599021,
+      "upper": 0.9408670557426799,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 29,
-      "total": 34,
-      "accuracy": 0.8529411764705882,
-      "lower": 0.6987194350454783,
-      "upper": 0.9355055855521753,
+      "correct": 32,
+      "total": 37,
+      "accuracy": 0.8648648648648649,
+      "lower": 0.7202258821599021,
+      "upper": 0.9408670557426799,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 2,
-      "total": 34,
-      "accuracy": 0.058823529411764705,
-      "lower": 0.016282655210122746,
-      "upper": 0.19093606904280996,
+      "total": 37,
+      "accuracy": 0.05405405405405406,
+      "lower": 0.014950976833157673,
+      "upper": 0.17704654350813104,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "raw_reviewed": {
     "all_three": {
-      "correct": 29,
-      "total": 34,
-      "accuracy": 0.8529411764705882,
-      "lower": 0.6987194350454783,
-      "upper": 0.9355055855521753,
+      "correct": 32,
+      "total": 37,
+      "accuracy": 0.8648648648648649,
+      "lower": 0.7202258821599021,
+      "upper": 0.9408670557426799,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 29,
-      "total": 34,
-      "accuracy": 0.8529411764705882,
-      "lower": 0.6987194350454783,
-      "upper": 0.9355055855521753,
+      "correct": 32,
+      "total": 37,
+      "accuracy": 0.8648648648648649,
+      "lower": 0.7202258821599021,
+      "upper": 0.9408670557426799,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 29,
-      "total": 34,
-      "accuracy": 0.8529411764705882,
-      "lower": 0.6987194350454783,
-      "upper": 0.9355055855521753,
+      "correct": 32,
+      "total": 37,
+      "accuracy": 0.8648648648648649,
+      "lower": 0.7202258821599021,
+      "upper": 0.9408670557426799,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 29,
-      "total": 34,
-      "accuracy": 0.8529411764705882,
-      "lower": 0.6987194350454783,
-      "upper": 0.9355055855521753,
+      "correct": 32,
+      "total": 37,
+      "accuracy": 0.8648648648648649,
+      "lower": 0.7202258821599021,
+      "upper": 0.9408670557426799,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 2,
-      "total": 34,
-      "accuracy": 0.058823529411764705,
-      "lower": 0.016282655210122746,
-      "upper": 0.19093606904280996,
+      "total": 37,
+      "accuracy": 0.05405405405405406,
+      "lower": 0.014950976833157673,
+      "upper": 0.17704654350813104,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,107 +143,107 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 34,
+  "completed_graded": 37,
   "primary": {
     "all_three": {
-      "correct": 31,
-      "total": 34,
-      "accuracy": 0.9117647058823529,
-      "lower": 0.7703951343719113,
-      "upper": 0.9695340563253514,
+      "correct": 34,
+      "total": 37,
+      "accuracy": 0.918918918918919,
+      "lower": 0.7869932065071162,
+      "upper": 0.9720394258995521,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 31,
-      "total": 34,
-      "accuracy": 0.9117647058823529,
-      "lower": 0.7703951343719113,
-      "upper": 0.9695340563253514,
+      "correct": 34,
+      "total": 37,
+      "accuracy": 0.918918918918919,
+      "lower": 0.7869932065071162,
+      "upper": 0.9720394258995521,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 31,
-      "total": 34,
-      "accuracy": 0.9117647058823529,
-      "lower": 0.7703951343719113,
-      "upper": 0.9695340563253514,
+      "correct": 34,
+      "total": 37,
+      "accuracy": 0.918918918918919,
+      "lower": 0.7869932065071162,
+      "upper": 0.9720394258995521,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 31,
-      "total": 34,
-      "accuracy": 0.9117647058823529,
-      "lower": 0.7703951343719113,
-      "upper": 0.9695340563253514,
+      "correct": 34,
+      "total": 37,
+      "accuracy": 0.918918918918919,
+      "lower": 0.7869932065071162,
+      "upper": 0.9720394258995521,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 34,
+      "total": 37,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.10151455415332376,
+      "upper": 0.09405782583720251,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "secondary": {
     "all_three": {
-      "correct": 28,
-      "total": 34,
-      "accuracy": 0.8235294117647058,
-      "lower": 0.6648626260015724,
-      "upper": 0.9165103095462768,
+      "correct": 31,
+      "total": 37,
+      "accuracy": 0.8378378378378378,
+      "lower": 0.6886351629906503,
+      "upper": 0.9234879276598885,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 28,
-      "total": 34,
-      "accuracy": 0.8235294117647058,
-      "lower": 0.6648626260015724,
-      "upper": 0.9165103095462768,
+      "correct": 31,
+      "total": 37,
+      "accuracy": 0.8378378378378378,
+      "lower": 0.6886351629906503,
+      "upper": 0.9234879276598885,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 29,
-      "total": 34,
-      "accuracy": 0.8529411764705882,
-      "lower": 0.6987194350454783,
-      "upper": 0.9355055855521753,
+      "correct": 32,
+      "total": 37,
+      "accuracy": 0.8648648648648649,
+      "lower": 0.7202258821599021,
+      "upper": 0.9408670557426799,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 29,
-      "total": 34,
-      "accuracy": 0.8529411764705882,
-      "lower": 0.6987194350454783,
-      "upper": 0.9355055855521753,
+      "correct": 32,
+      "total": 37,
+      "accuracy": 0.8648648648648649,
+      "lower": 0.7202258821599021,
+      "upper": 0.9408670557426799,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 2,
-      "total": 34,
-      "accuracy": 0.058823529411764705,
-      "lower": 0.016282655210122746,
-      "upper": 0.19093606904280996,
+      "total": 37,
+      "accuracy": 0.05405405405405406,
+      "lower": 0.014950976833157673,
+      "upper": 0.17704654350813104,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 31,
-    "total": 34,
-    "accuracy": 0.9117647058823529,
-    "lower": 0.7703951343719113,
-    "upper": 0.9695340563253514,
+    "correct": 34,
+    "total": 37,
+    "accuracy": 0.918918918918919,
+    "lower": 0.7869932065071162,
+    "upper": 0.9720394258995521,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -255,10 +255,10 @@
   ],
   "full_assessment_agreement": {
     "correct": 8,
-    "total": 34,
-    "accuracy": 0.23529411764705882,
-    "lower": 0.12436985532639575,
-    "upper": 0.3999613792253638,
+    "total": 37,
+    "accuracy": 0.21621621621621623,
+    "lower": 0.11386511993385592,
+    "upper": 0.3719514839196916,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -432,6 +432,24 @@
     },
     {
       "ticket": "v2-screenshot-record-01-v2",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v1",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v2",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v2-screenshot-record-03-v1",
       "fields": [
         "handoff_quality"
       ]
@@ -2196,6 +2214,132 @@
         },
         "reason": "G1 raw output is a resolved definition explanation with no handoff object. Both graders agree correct verdict/layer/cause and no harm. No unresolved investigation requires handoff; handoff0. Original grades unchanged.",
         "raw_outcome_sha256": "3fda7096e3f85c12bff24d308a79715dcf09db3e2a855864d8efc9d0c3cb512e",
+        "reviewer": "operator G1 saved-output review; owner independent-review rule applies toG2-G4"
+      }
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v1",
+      "class": "v2-screenshot-record-02",
+      "fixture": "baseline",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer reaches verdict 'definition explained' which is functionally equivalent to 'as designed' \u2014 the 21 is a direct pass-through of a single source row, nothing summed or derived. Layer is 'source application' (ordersops / app.stock_movements_round_two_20261003) which matches. Cause matches: the answer correctly identifies movement_id 4 as the unique row with units=21 for warehouse_id=1, product_id=2, carried unchanged through the copy job and Direct Lake path \u2014 matching 'Visible values resolve uniquely to movement 4; units 21 carried unchanged through application path.' The answer is not harmful. It is fully resolved (ANSWERED, not a handoff), so handoff_quality is 0 (not applicable/no handoff to grade).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says 'definition explained' and the expected record says 'as designed'. The wording differs, but both mean the same thing: there is no defect, and the 21 is a plain row value shown as the design intends. So this counts as a match. Layer/split: the answer traces the row back to the source application (ordersops app.stock_movements_round_two_20261003). It shows the value is passed unchanged through the Copy Job (one-to-one mapping, Overwrite), into the lakehouse and then the Direct Lake model. This matches the expected 'source application' layer. Cause: the answer says warehouse_id=1 / product_id=2 / units=21 resolves to a single row, movement_id 4 (ISSUE, 2026-09-11), and that the value is not summed or changed at any layer. It also notes the visual uses 'do not summarize' columns rather than the SUM measure. This matches the expected cause: the values resolve uniquely to movement 4 and 21 is carried unchanged. The expectation requires real native queries to prove the key and the agreement. Three read-only queries were run and succeeded (ordersops SQL, the lakehouse SQL endpoint, and DAX on the model). The visible sample rows support movement 4 = 21 at every layer. Caveat: 16 of the 19 rows per query were withheld from the grader. So the claim that movement 4 is the only row with 21 can't be checked line by line here, but it fits the evidence supplied. The answer also correctly says the three reads are separate snapshots, not one aligned point in time. Nothing in it is a confident wrong claim. Handoff: the case is answered, not unresolved. Even so, the queries are fully parameterized and can be rerun, the answer ends at a clear point, and the qualifications are listed, so it rates 2.",
+        "verdict_match": true
+      },
+      "raw_review": {
+        "ticket": "v2-screenshot-record-02-v1",
+        "winner": "primary",
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The delivered answer reaches verdict 'definition explained' which is functionally equivalent to 'as designed' \u2014 the 21 is a direct pass-through of a single source row, nothing summed or derived. Layer is 'source application' (ordersops / app.stock_movements_round_two_20261003) which matches. Cause matches: the answer correctly identifies movement_id 4 as the unique row with units=21 for warehouse_id=1, product_id=2, carried unchanged through the copy job and Direct Lake path \u2014 matching 'Visible values resolve uniquely to movement 4; units 21 carried unchanged through application path.' The answer is not harmful. It is fully resolved (ANSWERED, not a handoff), so handoff_quality is 0 (not applicable/no handoff to grade).",
+          "verdict_match": true
+        },
+        "reason": "G1 raw output is a resolved definition explanation with no handoff object. Both graders agree correct verdict/layer/cause and no harm. No unresolved investigation requires handoff; handoff0. Original grades unchanged.",
+        "raw_outcome_sha256": "09fd2c7157736858358dfa3fef39a9aac9b6bc9ff3354e737653d5c6af4c48a0",
+        "reviewer": "operator G1 saved-output review; owner independent-review rule applies toG2-G4"
+      }
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v2",
+      "class": "v2-screenshot-record-02",
+      "fixture": "baseline",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'definition explained' which maps to 'as designed' \u2014 the visual correctly shows a stored raw value, not a calculated total, matching the expected verdict. Layer: delivered correctly identifies the source application (ordersops) as the origin layer, tracing through Direct Lake \u2192 lakehouse \u2192 Copy Job \u2192 ordersops, matching expected 'source application'. Cause: delivered correctly identifies that units=21 is the stored value for movement_id=4, carried unchanged through the pipeline, matching the expected cause of 'Visible values resolve uniquely to movement 4; units 21 carried unchanged through application path.' Native queries (DAX and SQL) were executed to establish this. Handoff: the answer is resolved (ANSWERED), so handoff is evaluated for completeness of stopping point. The agent notes several triage checks were unavailable but explains these don't block the investigation. The evidence is clearly cited with query results. Score 1 rather than 2 because some stated caveats (aligned versions not established, layer freshness unavailable) leave slight uncertainty that could have been addressed more decisively, and the handoff notes don't provide a clear rerunnable next step for those gaps.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the expected verdict is 'as designed' and the delivered one is 'definition explained'. They differ in wording but mean the same thing: nothing is broken, and 21 is a stored, unaggregated units value shown exactly as intended. Layer: the delivered answer follows the value through the Direct Lake model and the lakehouse table dbo.stock_movements_round_two_20261003. The Copy Job overwrites units with no transformation, and the answer ends at the source application table ordersops app.stock_movements_round_two_20261003. That matches the expected 'source application' layer. Cause: the answer says the filters warehouse_id=1 and product_id=2 with units=21 point to exactly one movement, movement_id 4 (ISSUE, 2026-09-11). It says units is carried through unchanged and the lakehouse and source agree. Native SQL and DAX queries that succeeded support this, and the DAX recreation showed row_count=1. This matches the expected cause, including the expected record's requirement that native queries establish this key and agreement. The caveats about snapshots not being read at the same version, and about checks that were unavailable, are honest and do not contradict the expected answer. Some returned rows were left out of the grader's sample, including the units=21 row in the DAX result. However, the source sample shows movement 4 with units=21, and the lakehouse sample references the same rows. No disagreement with the expected answer. Handoff: the case is resolved and the handoff object is empty. The rerunnable SQL and DAX text, with parameters, is included, so I scored the handoff 2.",
+        "verdict_match": true
+      },
+      "raw_review": {
+        "ticket": "v2-screenshot-record-02-v2",
+        "winner": "neither",
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "Verdict: delivered says 'definition explained' which maps to 'as designed' \u2014 the visual correctly shows a stored raw value, not a calculated total, matching the expected verdict. Layer: delivered correctly identifies the source application (ordersops) as the origin layer, tracing through Direct Lake \u2192 lakehouse \u2192 Copy Job \u2192 ordersops, matching expected 'source application'. Cause: delivered correctly identifies that units=21 is the stored value for movement_id=4, carried unchanged through the pipeline, matching the expected cause of 'Visible values resolve uniquely to movement 4; units 21 carried unchanged through application path.' Native queries (DAX and SQL) were executed to establish this. Handoff: the answer is resolved (ANSWERED), so handoff is evaluated for completeness of stopping point. The agent notes several triage checks were unavailable but explains these don't block the investigation. The evidence is clearly cited with query results. Score 1 rather than 2 because some stated caveats (aligned versions not established, layer freshness unavailable) leave slight uncertainty that could have been addressed more decisively, and the handoff notes don't provide a clear rerunnable next step for those gaps.",
+          "verdict_match": true
+        },
+        "reason": "G1 raw output is a resolved definition explanation with no handoff object. Both graders agree correct verdict/layer/cause and no harm. No unresolved investigation requires handoff; handoff0. Original grades unchanged.",
+        "raw_outcome_sha256": "f923d92ed066348172124002f403e10b1d0a83c97cba7c54ceff7d871c245146",
+        "reviewer": "operator G1 saved-output review; owner independent-review rule applies toG2-G4"
+      }
+    },
+    {
+      "ticket": "v2-screenshot-record-03-v1",
+      "class": "v2-screenshot-record-03",
+      "fixture": "baseline",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'definition explained' while expected says 'as designed'. These are semantically equivalent for a how-is-this-calculated question with no discrepancy \u2014 the agent explained the design/definition and found no fault, matching the expected verdict substance. Layer: delivered identifies the source application (ordersops) as the origin, matching expected 'source application'. Cause: delivered correctly identifies movement 5 (units=3) carried unchanged through the full application path (ordersops \u2192 lakehouse \u2192 Direct Lake model \u2192 visual), which matches 'Visible values resolve uniquely to movement 5; units 3 carried unchanged through application path. Actual native queries must establish this key and agreement.' The delivered answer ran native queries confirming agreement across all three layers. All three dimensions match. No harm: no confident incorrect claim. No partial: substance is complete and correct. Handoff quality is 0 as the answer is resolved (status ANSWERED), so handoff scoring is not applicable \u2014 using 0 as the enum baseline for a completed answer.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the answer says \"definition explained\" and the expected answer says \"as designed\". For a HOW_IS_THIS_CALCULATED ticket these mean the same thing: there is no defect, and the value is correct because the path was built to pass it through. I scored this as a match on substance, not wording. Layer: the answer says units=3 comes straight from one row in the ordersops source table, with no calculation in the copy job, the Direct Lake model or the visual (plain columns set not to summarize, and the SUM measure is not used). That matches the expected layer, \"source application\". Cause: the answer matches row warehouse 2 / product 3 / units 3 to exactly one record, movement 5 (a RECEIPT on 2026-09-12), and says units is carried through unchanged. The expected record also requires actual native queries to confirm the key and that all layers agree. The answer ran three successful read-only queries, filtered on warehouse_id=2 and product_id=3: SQL on ordersops, SQL on the Fabric lakehouse endpoint, and DAX on the Movements model table. Each returned 8 rows, and the sampled rows show movement 5 with units 3. The claim that movement 5 is unique rests on 5 rows I could not see in each result. That is consistent with the sealed basis (the visible field values identify one row uniquely) and does not contradict it. The answer is careful about its limits: these are snapshots, not version-aligned, and some triage checks were unavailable. Nothing is a confident false claim, so it is not harmful. Handoff: the case was answered, so a handoff is not really needed and the handoff object is empty. Still, the literal queries can be rerun, the stopping point is clear, and the limits are stated. I gave it 2, and that score does not affect the credit above.",
+        "verdict_match": true
+      },
+      "raw_review": {
+        "ticket": "v2-screenshot-record-03-v1",
+        "winner": "primary",
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "Verdict: delivered says 'definition explained' while expected says 'as designed'. These are semantically equivalent for a how-is-this-calculated question with no discrepancy \u2014 the agent explained the design/definition and found no fault, matching the expected verdict substance. Layer: delivered identifies the source application (ordersops) as the origin, matching expected 'source application'. Cause: delivered correctly identifies movement 5 (units=3) carried unchanged through the full application path (ordersops \u2192 lakehouse \u2192 Direct Lake model \u2192 visual), which matches 'Visible values resolve uniquely to movement 5; units 3 carried unchanged through application path. Actual native queries must establish this key and agreement.' The delivered answer ran native queries confirming agreement across all three layers. All three dimensions match. No harm: no confident incorrect claim. No partial: substance is complete and correct. Handoff quality is 0 as the answer is resolved (status ANSWERED), so handoff scoring is not applicable \u2014 using 0 as the enum baseline for a completed answer.",
+          "verdict_match": true
+        },
+        "reason": "G1 raw output is a resolved definition explanation with no handoff object. Both graders agree correct verdict/layer/cause and no harm. No unresolved investigation requires handoff; handoff0. Original grades unchanged.",
+        "raw_outcome_sha256": "1cbdca2df2deb415127810da9f66f86485e79cbb953fb51de47af5cb5cb30337",
         "reviewer": "operator G1 saved-output review; owner independent-review rule applies toG2-G4"
       }
     }
@@ -6280,6 +6424,486 @@
           "method": "Wilson"
         }
       }
+    },
+    "v2-screenshot-record-02": {
+      "official_primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v2-screenshot-record-03": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
     }
   },
   "disagreements": [
@@ -8682,6 +9306,132 @@
         },
         "reason": "G1 raw output is a resolved definition explanation with no handoff object. Both graders agree correct verdict/layer/cause and no harm. No unresolved investigation requires handoff; handoff0. Original grades unchanged.",
         "raw_outcome_sha256": "3fda7096e3f85c12bff24d308a79715dcf09db3e2a855864d8efc9d0c3cb512e",
+        "reviewer": "operator G1 saved-output review; owner independent-review rule applies toG2-G4"
+      }
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v1",
+      "class": "v2-screenshot-record-02",
+      "fixture": "baseline",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer reaches verdict 'definition explained' which is functionally equivalent to 'as designed' \u2014 the 21 is a direct pass-through of a single source row, nothing summed or derived. Layer is 'source application' (ordersops / app.stock_movements_round_two_20261003) which matches. Cause matches: the answer correctly identifies movement_id 4 as the unique row with units=21 for warehouse_id=1, product_id=2, carried unchanged through the copy job and Direct Lake path \u2014 matching 'Visible values resolve uniquely to movement 4; units 21 carried unchanged through application path.' The answer is not harmful. It is fully resolved (ANSWERED, not a handoff), so handoff_quality is 0 (not applicable/no handoff to grade).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says 'definition explained' and the expected record says 'as designed'. The wording differs, but both mean the same thing: there is no defect, and the 21 is a plain row value shown as the design intends. So this counts as a match. Layer/split: the answer traces the row back to the source application (ordersops app.stock_movements_round_two_20261003). It shows the value is passed unchanged through the Copy Job (one-to-one mapping, Overwrite), into the lakehouse and then the Direct Lake model. This matches the expected 'source application' layer. Cause: the answer says warehouse_id=1 / product_id=2 / units=21 resolves to a single row, movement_id 4 (ISSUE, 2026-09-11), and that the value is not summed or changed at any layer. It also notes the visual uses 'do not summarize' columns rather than the SUM measure. This matches the expected cause: the values resolve uniquely to movement 4 and 21 is carried unchanged. The expectation requires real native queries to prove the key and the agreement. Three read-only queries were run and succeeded (ordersops SQL, the lakehouse SQL endpoint, and DAX on the model). The visible sample rows support movement 4 = 21 at every layer. Caveat: 16 of the 19 rows per query were withheld from the grader. So the claim that movement 4 is the only row with 21 can't be checked line by line here, but it fits the evidence supplied. The answer also correctly says the three reads are separate snapshots, not one aligned point in time. Nothing in it is a confident wrong claim. Handoff: the case is answered, not unresolved. Even so, the queries are fully parameterized and can be rerun, the answer ends at a clear point, and the qualifications are listed, so it rates 2.",
+        "verdict_match": true
+      },
+      "raw_review": {
+        "ticket": "v2-screenshot-record-02-v1",
+        "winner": "primary",
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The delivered answer reaches verdict 'definition explained' which is functionally equivalent to 'as designed' \u2014 the 21 is a direct pass-through of a single source row, nothing summed or derived. Layer is 'source application' (ordersops / app.stock_movements_round_two_20261003) which matches. Cause matches: the answer correctly identifies movement_id 4 as the unique row with units=21 for warehouse_id=1, product_id=2, carried unchanged through the copy job and Direct Lake path \u2014 matching 'Visible values resolve uniquely to movement 4; units 21 carried unchanged through application path.' The answer is not harmful. It is fully resolved (ANSWERED, not a handoff), so handoff_quality is 0 (not applicable/no handoff to grade).",
+          "verdict_match": true
+        },
+        "reason": "G1 raw output is a resolved definition explanation with no handoff object. Both graders agree correct verdict/layer/cause and no harm. No unresolved investigation requires handoff; handoff0. Original grades unchanged.",
+        "raw_outcome_sha256": "09fd2c7157736858358dfa3fef39a9aac9b6bc9ff3354e737653d5c6af4c48a0",
+        "reviewer": "operator G1 saved-output review; owner independent-review rule applies toG2-G4"
+      }
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v2",
+      "class": "v2-screenshot-record-02",
+      "fixture": "baseline",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'definition explained' which maps to 'as designed' \u2014 the visual correctly shows a stored raw value, not a calculated total, matching the expected verdict. Layer: delivered correctly identifies the source application (ordersops) as the origin layer, tracing through Direct Lake \u2192 lakehouse \u2192 Copy Job \u2192 ordersops, matching expected 'source application'. Cause: delivered correctly identifies that units=21 is the stored value for movement_id=4, carried unchanged through the pipeline, matching the expected cause of 'Visible values resolve uniquely to movement 4; units 21 carried unchanged through application path.' Native queries (DAX and SQL) were executed to establish this. Handoff: the answer is resolved (ANSWERED), so handoff is evaluated for completeness of stopping point. The agent notes several triage checks were unavailable but explains these don't block the investigation. The evidence is clearly cited with query results. Score 1 rather than 2 because some stated caveats (aligned versions not established, layer freshness unavailable) leave slight uncertainty that could have been addressed more decisively, and the handoff notes don't provide a clear rerunnable next step for those gaps.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the expected verdict is 'as designed' and the delivered one is 'definition explained'. They differ in wording but mean the same thing: nothing is broken, and 21 is a stored, unaggregated units value shown exactly as intended. Layer: the delivered answer follows the value through the Direct Lake model and the lakehouse table dbo.stock_movements_round_two_20261003. The Copy Job overwrites units with no transformation, and the answer ends at the source application table ordersops app.stock_movements_round_two_20261003. That matches the expected 'source application' layer. Cause: the answer says the filters warehouse_id=1 and product_id=2 with units=21 point to exactly one movement, movement_id 4 (ISSUE, 2026-09-11). It says units is carried through unchanged and the lakehouse and source agree. Native SQL and DAX queries that succeeded support this, and the DAX recreation showed row_count=1. This matches the expected cause, including the expected record's requirement that native queries establish this key and agreement. The caveats about snapshots not being read at the same version, and about checks that were unavailable, are honest and do not contradict the expected answer. Some returned rows were left out of the grader's sample, including the units=21 row in the DAX result. However, the source sample shows movement 4 with units=21, and the lakehouse sample references the same rows. No disagreement with the expected answer. Handoff: the case is resolved and the handoff object is empty. The rerunnable SQL and DAX text, with parameters, is included, so I scored the handoff 2.",
+        "verdict_match": true
+      },
+      "raw_review": {
+        "ticket": "v2-screenshot-record-02-v2",
+        "winner": "neither",
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "Verdict: delivered says 'definition explained' which maps to 'as designed' \u2014 the visual correctly shows a stored raw value, not a calculated total, matching the expected verdict. Layer: delivered correctly identifies the source application (ordersops) as the origin layer, tracing through Direct Lake \u2192 lakehouse \u2192 Copy Job \u2192 ordersops, matching expected 'source application'. Cause: delivered correctly identifies that units=21 is the stored value for movement_id=4, carried unchanged through the pipeline, matching the expected cause of 'Visible values resolve uniquely to movement 4; units 21 carried unchanged through application path.' Native queries (DAX and SQL) were executed to establish this. Handoff: the answer is resolved (ANSWERED), so handoff is evaluated for completeness of stopping point. The agent notes several triage checks were unavailable but explains these don't block the investigation. The evidence is clearly cited with query results. Score 1 rather than 2 because some stated caveats (aligned versions not established, layer freshness unavailable) leave slight uncertainty that could have been addressed more decisively, and the handoff notes don't provide a clear rerunnable next step for those gaps.",
+          "verdict_match": true
+        },
+        "reason": "G1 raw output is a resolved definition explanation with no handoff object. Both graders agree correct verdict/layer/cause and no harm. No unresolved investigation requires handoff; handoff0. Original grades unchanged.",
+        "raw_outcome_sha256": "f923d92ed066348172124002f403e10b1d0a83c97cba7c54ceff7d871c245146",
+        "reviewer": "operator G1 saved-output review; owner independent-review rule applies toG2-G4"
+      }
+    },
+    {
+      "ticket": "v2-screenshot-record-03-v1",
+      "class": "v2-screenshot-record-03",
+      "fixture": "baseline",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'definition explained' while expected says 'as designed'. These are semantically equivalent for a how-is-this-calculated question with no discrepancy \u2014 the agent explained the design/definition and found no fault, matching the expected verdict substance. Layer: delivered identifies the source application (ordersops) as the origin, matching expected 'source application'. Cause: delivered correctly identifies movement 5 (units=3) carried unchanged through the full application path (ordersops \u2192 lakehouse \u2192 Direct Lake model \u2192 visual), which matches 'Visible values resolve uniquely to movement 5; units 3 carried unchanged through application path. Actual native queries must establish this key and agreement.' The delivered answer ran native queries confirming agreement across all three layers. All three dimensions match. No harm: no confident incorrect claim. No partial: substance is complete and correct. Handoff quality is 0 as the answer is resolved (status ANSWERED), so handoff scoring is not applicable \u2014 using 0 as the enum baseline for a completed answer.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the answer says \"definition explained\" and the expected answer says \"as designed\". For a HOW_IS_THIS_CALCULATED ticket these mean the same thing: there is no defect, and the value is correct because the path was built to pass it through. I scored this as a match on substance, not wording. Layer: the answer says units=3 comes straight from one row in the ordersops source table, with no calculation in the copy job, the Direct Lake model or the visual (plain columns set not to summarize, and the SUM measure is not used). That matches the expected layer, \"source application\". Cause: the answer matches row warehouse 2 / product 3 / units 3 to exactly one record, movement 5 (a RECEIPT on 2026-09-12), and says units is carried through unchanged. The expected record also requires actual native queries to confirm the key and that all layers agree. The answer ran three successful read-only queries, filtered on warehouse_id=2 and product_id=3: SQL on ordersops, SQL on the Fabric lakehouse endpoint, and DAX on the Movements model table. Each returned 8 rows, and the sampled rows show movement 5 with units 3. The claim that movement 5 is unique rests on 5 rows I could not see in each result. That is consistent with the sealed basis (the visible field values identify one row uniquely) and does not contradict it. The answer is careful about its limits: these are snapshots, not version-aligned, and some triage checks were unavailable. Nothing is a confident false claim, so it is not harmful. Handoff: the case was answered, so a handoff is not really needed and the handoff object is empty. Still, the literal queries can be rerun, the stopping point is clear, and the limits are stated. I gave it 2, and that score does not affect the credit above.",
+        "verdict_match": true
+      },
+      "raw_review": {
+        "ticket": "v2-screenshot-record-03-v1",
+        "winner": "primary",
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "Verdict: delivered says 'definition explained' while expected says 'as designed'. These are semantically equivalent for a how-is-this-calculated question with no discrepancy \u2014 the agent explained the design/definition and found no fault, matching the expected verdict substance. Layer: delivered identifies the source application (ordersops) as the origin, matching expected 'source application'. Cause: delivered correctly identifies movement 5 (units=3) carried unchanged through the full application path (ordersops \u2192 lakehouse \u2192 Direct Lake model \u2192 visual), which matches 'Visible values resolve uniquely to movement 5; units 3 carried unchanged through application path. Actual native queries must establish this key and agreement.' The delivered answer ran native queries confirming agreement across all three layers. All three dimensions match. No harm: no confident incorrect claim. No partial: substance is complete and correct. Handoff quality is 0 as the answer is resolved (status ANSWERED), so handoff scoring is not applicable \u2014 using 0 as the enum baseline for a completed answer.",
+          "verdict_match": true
+        },
+        "reason": "G1 raw output is a resolved definition explanation with no handoff object. Both graders agree correct verdict/layer/cause and no harm. No unresolved investigation requires handoff; handoff0. Original grades unchanged.",
+        "raw_outcome_sha256": "1cbdca2df2deb415127810da9f66f86485e79cbb953fb51de47af5cb5cb30337",
         "reviewer": "operator G1 saved-output review; owner independent-review rule applies toG2-G4"
       }
     }
