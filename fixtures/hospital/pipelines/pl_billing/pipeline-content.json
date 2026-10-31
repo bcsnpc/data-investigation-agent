@@ -17,8 +17,19 @@
           },
           "datasetSettings": {
             "type": "DataWarehouseTable",
-            "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
             }
           },
           "firstRowOnly": true
@@ -48,7 +59,7 @@
           "datasetSettings": {
             "type": "AzureSqlTable",
             "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
             }
           },
           "firstRowOnly": true
@@ -83,18 +94,16 @@
                 "table": "payer"
               },
               "externalReferences": {
-                "connection": "REQUIRES_OWNER_CONNECTION"
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
               }
             }
           },
           "sink": {
             "type": "LakehouseTableSink",
-            "tableActionOption": "Overwrite",
-            "upsertSettings": {
-              "keys": [
-                "id"
-              ]
-            },
+            "tableActionOption": "OverwriteSchema",
+            "keyColumns": [
+              "id"
+            ],
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -127,9 +136,6 @@
             ]
           }
         ],
-        "externalReferences": {
-          "connection": "REQUIRES_OWNER_CONNECTION"
-        },
         "typeProperties": {
           "scripts": [
             {
@@ -137,7 +143,22 @@
               "text": "BEGIN TRANSACTION;\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','payer','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_payer').output.rowsRead},@{activity('copy_payer').output.rowsCopied},'@{activity('upper_payer').output.firstRow.watermark_utc}');\nDELETE FROM dbo.load_watermark WHERE source_system='billing'AND table_name='payer';\nINSERT INTO dbo.load_watermark VALUES('billing','payer','@{activity('upper_payer').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
-          "scriptBlockExecutionTimeout": "00:10:00"
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
         }
       },
       {
@@ -163,8 +184,19 @@
           },
           "datasetSettings": {
             "type": "DataWarehouseTable",
-            "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
             }
           },
           "firstRowOnly": true
@@ -194,7 +226,7 @@
           "datasetSettings": {
             "type": "AzureSqlTable",
             "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
             }
           },
           "firstRowOnly": true
@@ -229,18 +261,16 @@
                 "table": "payer_plan"
               },
               "externalReferences": {
-                "connection": "REQUIRES_OWNER_CONNECTION"
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
               }
             }
           },
           "sink": {
             "type": "LakehouseTableSink",
-            "tableActionOption": "Overwrite",
-            "upsertSettings": {
-              "keys": [
-                "id"
-              ]
-            },
+            "tableActionOption": "OverwriteSchema",
+            "keyColumns": [
+              "id"
+            ],
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -273,9 +303,6 @@
             ]
           }
         ],
-        "externalReferences": {
-          "connection": "REQUIRES_OWNER_CONNECTION"
-        },
         "typeProperties": {
           "scripts": [
             {
@@ -283,7 +310,22 @@
               "text": "BEGIN TRANSACTION;\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','payer_plan','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_payer_plan').output.rowsRead},@{activity('copy_payer_plan').output.rowsCopied},'@{activity('upper_payer_plan').output.firstRow.watermark_utc}');\nDELETE FROM dbo.load_watermark WHERE source_system='billing'AND table_name='payer_plan';\nINSERT INTO dbo.load_watermark VALUES('billing','payer_plan','@{activity('upper_payer_plan').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
-          "scriptBlockExecutionTimeout": "00:10:00"
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
         }
       },
       {
@@ -309,8 +351,19 @@
           },
           "datasetSettings": {
             "type": "DataWarehouseTable",
-            "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
             }
           },
           "firstRowOnly": true
@@ -340,7 +393,7 @@
           "datasetSettings": {
             "type": "AzureSqlTable",
             "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
             }
           },
           "firstRowOnly": true
@@ -375,18 +428,16 @@
                 "table": "payer_plan_history"
               },
               "externalReferences": {
-                "connection": "REQUIRES_OWNER_CONNECTION"
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
               }
             }
           },
           "sink": {
             "type": "LakehouseTableSink",
-            "tableActionOption": "Overwrite",
-            "upsertSettings": {
-              "keys": [
-                "id"
-              ]
-            },
+            "tableActionOption": "OverwriteSchema",
+            "keyColumns": [
+              "id"
+            ],
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -419,9 +470,6 @@
             ]
           }
         ],
-        "externalReferences": {
-          "connection": "REQUIRES_OWNER_CONNECTION"
-        },
         "typeProperties": {
           "scripts": [
             {
@@ -429,7 +477,22 @@
               "text": "BEGIN TRANSACTION;\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','payer_plan_history','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_payer_plan_history').output.rowsRead},@{activity('copy_payer_plan_history').output.rowsCopied},'@{activity('upper_payer_plan_history').output.firstRow.watermark_utc}');\nDELETE FROM dbo.load_watermark WHERE source_system='billing'AND table_name='payer_plan_history';\nINSERT INTO dbo.load_watermark VALUES('billing','payer_plan_history','@{activity('upper_payer_plan_history').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
-          "scriptBlockExecutionTimeout": "00:10:00"
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
         }
       },
       {
@@ -455,8 +518,19 @@
           },
           "datasetSettings": {
             "type": "DataWarehouseTable",
-            "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
             }
           },
           "firstRowOnly": true
@@ -486,7 +560,7 @@
           "datasetSettings": {
             "type": "AzureSqlTable",
             "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
             }
           },
           "firstRowOnly": true
@@ -521,18 +595,16 @@
                 "table": "account"
               },
               "externalReferences": {
-                "connection": "REQUIRES_OWNER_CONNECTION"
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
               }
             }
           },
           "sink": {
             "type": "LakehouseTableSink",
-            "tableActionOption": "Overwrite",
-            "upsertSettings": {
-              "keys": [
-                "id"
-              ]
-            },
+            "tableActionOption": "OverwriteSchema",
+            "keyColumns": [
+              "id"
+            ],
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -565,9 +637,6 @@
             ]
           }
         ],
-        "externalReferences": {
-          "connection": "REQUIRES_OWNER_CONNECTION"
-        },
         "typeProperties": {
           "scripts": [
             {
@@ -575,7 +644,22 @@
               "text": "BEGIN TRANSACTION;\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','account','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_account').output.rowsRead},@{activity('copy_account').output.rowsCopied},'@{activity('upper_account').output.firstRow.watermark_utc}');\nDELETE FROM dbo.load_watermark WHERE source_system='billing'AND table_name='account';\nINSERT INTO dbo.load_watermark VALUES('billing','account','@{activity('upper_account').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
-          "scriptBlockExecutionTimeout": "00:10:00"
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
         }
       },
       {
@@ -601,8 +685,19 @@
           },
           "datasetSettings": {
             "type": "DataWarehouseTable",
-            "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
             }
           },
           "firstRowOnly": true
@@ -632,7 +727,7 @@
           "datasetSettings": {
             "type": "AzureSqlTable",
             "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
             }
           },
           "firstRowOnly": true
@@ -670,18 +765,16 @@
                 "table": "charge"
               },
               "externalReferences": {
-                "connection": "REQUIRES_OWNER_CONNECTION"
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
               }
             }
           },
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "Upsert",
-            "upsertSettings": {
-              "keys": [
-                "id"
-              ]
-            },
+            "keyColumns": [
+              "id"
+            ],
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -714,9 +807,6 @@
             ]
           }
         ],
-        "externalReferences": {
-          "connection": "REQUIRES_OWNER_CONNECTION"
-        },
         "typeProperties": {
           "scripts": [
             {
@@ -724,7 +814,22 @@
               "text": "BEGIN TRANSACTION;\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','charge','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_charge').output.rowsRead},@{activity('copy_charge').output.rowsCopied},'@{activity('upper_charge').output.firstRow.watermark_utc}');\nDELETE FROM dbo.load_watermark WHERE source_system='billing'AND table_name='charge';\nINSERT INTO dbo.load_watermark VALUES('billing','charge','@{activity('upper_charge').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
-          "scriptBlockExecutionTimeout": "00:10:00"
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
         }
       },
       {
@@ -750,8 +855,19 @@
           },
           "datasetSettings": {
             "type": "DataWarehouseTable",
-            "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
             }
           },
           "firstRowOnly": true
@@ -781,7 +897,7 @@
           "datasetSettings": {
             "type": "AzureSqlTable",
             "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
             }
           },
           "firstRowOnly": true
@@ -819,18 +935,16 @@
                 "table": "claim"
               },
               "externalReferences": {
-                "connection": "REQUIRES_OWNER_CONNECTION"
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
               }
             }
           },
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "Upsert",
-            "upsertSettings": {
-              "keys": [
-                "id"
-              ]
-            },
+            "keyColumns": [
+              "id"
+            ],
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -863,9 +977,6 @@
             ]
           }
         ],
-        "externalReferences": {
-          "connection": "REQUIRES_OWNER_CONNECTION"
-        },
         "typeProperties": {
           "scripts": [
             {
@@ -873,7 +984,22 @@
               "text": "BEGIN TRANSACTION;\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','claim','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_claim').output.rowsRead},@{activity('copy_claim').output.rowsCopied},'@{activity('upper_claim').output.firstRow.watermark_utc}');\nDELETE FROM dbo.load_watermark WHERE source_system='billing'AND table_name='claim';\nINSERT INTO dbo.load_watermark VALUES('billing','claim','@{activity('upper_claim').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
-          "scriptBlockExecutionTimeout": "00:10:00"
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
         }
       },
       {
@@ -899,8 +1025,19 @@
           },
           "datasetSettings": {
             "type": "DataWarehouseTable",
-            "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
             }
           },
           "firstRowOnly": true
@@ -930,7 +1067,7 @@
           "datasetSettings": {
             "type": "AzureSqlTable",
             "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
             }
           },
           "firstRowOnly": true
@@ -968,18 +1105,16 @@
                 "table": "claim_line"
               },
               "externalReferences": {
-                "connection": "REQUIRES_OWNER_CONNECTION"
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
               }
             }
           },
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "Upsert",
-            "upsertSettings": {
-              "keys": [
-                "id"
-              ]
-            },
+            "keyColumns": [
+              "id"
+            ],
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -1012,9 +1147,6 @@
             ]
           }
         ],
-        "externalReferences": {
-          "connection": "REQUIRES_OWNER_CONNECTION"
-        },
         "typeProperties": {
           "scripts": [
             {
@@ -1022,7 +1154,22 @@
               "text": "BEGIN TRANSACTION;\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','claim_line','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_claim_line').output.rowsRead},@{activity('copy_claim_line').output.rowsCopied},'@{activity('upper_claim_line').output.firstRow.watermark_utc}');\nDELETE FROM dbo.load_watermark WHERE source_system='billing'AND table_name='claim_line';\nINSERT INTO dbo.load_watermark VALUES('billing','claim_line','@{activity('upper_claim_line').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
-          "scriptBlockExecutionTimeout": "00:10:00"
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
         }
       },
       {
@@ -1048,8 +1195,19 @@
           },
           "datasetSettings": {
             "type": "DataWarehouseTable",
-            "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
             }
           },
           "firstRowOnly": true
@@ -1079,7 +1237,7 @@
           "datasetSettings": {
             "type": "AzureSqlTable",
             "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
             }
           },
           "firstRowOnly": true
@@ -1117,18 +1275,16 @@
                 "table": "remittance"
               },
               "externalReferences": {
-                "connection": "REQUIRES_OWNER_CONNECTION"
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
               }
             }
           },
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "Upsert",
-            "upsertSettings": {
-              "keys": [
-                "id"
-              ]
-            },
+            "keyColumns": [
+              "id"
+            ],
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -1161,9 +1317,6 @@
             ]
           }
         ],
-        "externalReferences": {
-          "connection": "REQUIRES_OWNER_CONNECTION"
-        },
         "typeProperties": {
           "scripts": [
             {
@@ -1171,7 +1324,22 @@
               "text": "BEGIN TRANSACTION;\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','remittance','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_remittance').output.rowsRead},@{activity('copy_remittance').output.rowsCopied},'@{activity('upper_remittance').output.firstRow.watermark_utc}');\nDELETE FROM dbo.load_watermark WHERE source_system='billing'AND table_name='remittance';\nINSERT INTO dbo.load_watermark VALUES('billing','remittance','@{activity('upper_remittance').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
-          "scriptBlockExecutionTimeout": "00:10:00"
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
         }
       },
       {
@@ -1197,8 +1365,19 @@
           },
           "datasetSettings": {
             "type": "DataWarehouseTable",
-            "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
             }
           },
           "firstRowOnly": true
@@ -1228,7 +1407,7 @@
           "datasetSettings": {
             "type": "AzureSqlTable",
             "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
             }
           },
           "firstRowOnly": true
@@ -1266,18 +1445,16 @@
                 "table": "remittance_line"
               },
               "externalReferences": {
-                "connection": "REQUIRES_OWNER_CONNECTION"
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
               }
             }
           },
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "Upsert",
-            "upsertSettings": {
-              "keys": [
-                "id"
-              ]
-            },
+            "keyColumns": [
+              "id"
+            ],
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -1310,9 +1487,6 @@
             ]
           }
         ],
-        "externalReferences": {
-          "connection": "REQUIRES_OWNER_CONNECTION"
-        },
         "typeProperties": {
           "scripts": [
             {
@@ -1320,7 +1494,22 @@
               "text": "BEGIN TRANSACTION;\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','remittance_line','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_remittance_line').output.rowsRead},@{activity('copy_remittance_line').output.rowsCopied},'@{activity('upper_remittance_line').output.firstRow.watermark_utc}');\nDELETE FROM dbo.load_watermark WHERE source_system='billing'AND table_name='remittance_line';\nINSERT INTO dbo.load_watermark VALUES('billing','remittance_line','@{activity('upper_remittance_line').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
-          "scriptBlockExecutionTimeout": "00:10:00"
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
         }
       },
       {
@@ -1346,8 +1535,19 @@
           },
           "datasetSettings": {
             "type": "DataWarehouseTable",
-            "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
             }
           },
           "firstRowOnly": true
@@ -1377,7 +1577,7 @@
           "datasetSettings": {
             "type": "AzureSqlTable",
             "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
             }
           },
           "firstRowOnly": true
@@ -1415,18 +1615,16 @@
                 "table": "payment"
               },
               "externalReferences": {
-                "connection": "REQUIRES_OWNER_CONNECTION"
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
               }
             }
           },
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "Upsert",
-            "upsertSettings": {
-              "keys": [
-                "id"
-              ]
-            },
+            "keyColumns": [
+              "id"
+            ],
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -1459,9 +1657,6 @@
             ]
           }
         ],
-        "externalReferences": {
-          "connection": "REQUIRES_OWNER_CONNECTION"
-        },
         "typeProperties": {
           "scripts": [
             {
@@ -1469,7 +1664,22 @@
               "text": "BEGIN TRANSACTION;\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','payment','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_payment').output.rowsRead},@{activity('copy_payment').output.rowsCopied},'@{activity('upper_payment').output.firstRow.watermark_utc}');\nDELETE FROM dbo.load_watermark WHERE source_system='billing'AND table_name='payment';\nINSERT INTO dbo.load_watermark VALUES('billing','payment','@{activity('upper_payment').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
-          "scriptBlockExecutionTimeout": "00:10:00"
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
         }
       },
       {
@@ -1495,8 +1705,19 @@
           },
           "datasetSettings": {
             "type": "DataWarehouseTable",
-            "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
             }
           },
           "firstRowOnly": true
@@ -1526,7 +1747,7 @@
           "datasetSettings": {
             "type": "AzureSqlTable",
             "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
             }
           },
           "firstRowOnly": true
@@ -1564,18 +1785,16 @@
                 "table": "adjustment"
               },
               "externalReferences": {
-                "connection": "REQUIRES_OWNER_CONNECTION"
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
               }
             }
           },
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "Upsert",
-            "upsertSettings": {
-              "keys": [
-                "id"
-              ]
-            },
+            "keyColumns": [
+              "id"
+            ],
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -1608,9 +1827,6 @@
             ]
           }
         ],
-        "externalReferences": {
-          "connection": "REQUIRES_OWNER_CONNECTION"
-        },
         "typeProperties": {
           "scripts": [
             {
@@ -1618,7 +1834,22 @@
               "text": "BEGIN TRANSACTION;\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','adjustment','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_adjustment').output.rowsRead},@{activity('copy_adjustment').output.rowsCopied},'@{activity('upper_adjustment').output.firstRow.watermark_utc}');\nDELETE FROM dbo.load_watermark WHERE source_system='billing'AND table_name='adjustment';\nINSERT INTO dbo.load_watermark VALUES('billing','adjustment','@{activity('upper_adjustment').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
-          "scriptBlockExecutionTimeout": "00:10:00"
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
         }
       },
       {
@@ -1644,8 +1875,19 @@
           },
           "datasetSettings": {
             "type": "DataWarehouseTable",
-            "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+            "connectionSettings": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                },
+                "externalReferences": {
+                  "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+                }
+              }
             }
           },
           "firstRowOnly": true
@@ -1675,7 +1917,7 @@
           "datasetSettings": {
             "type": "AzureSqlTable",
             "externalReferences": {
-              "connection": "REQUIRES_OWNER_CONNECTION"
+              "connection": "01437114-ac49-4204-828e-f9bde09f2465"
             }
           },
           "firstRowOnly": true
@@ -1710,18 +1952,16 @@
                 "table": "ar_snapshot_daily"
               },
               "externalReferences": {
-                "connection": "REQUIRES_OWNER_CONNECTION"
+                "connection": "01437114-ac49-4204-828e-f9bde09f2465"
               }
             }
           },
           "sink": {
             "type": "LakehouseTableSink",
-            "tableActionOption": "Overwrite",
-            "upsertSettings": {
-              "keys": [
-                "id"
-              ]
-            },
+            "tableActionOption": "OverwriteSchema",
+            "keyColumns": [
+              "id"
+            ],
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -1754,9 +1994,6 @@
             ]
           }
         ],
-        "externalReferences": {
-          "connection": "REQUIRES_OWNER_CONNECTION"
-        },
         "typeProperties": {
           "scripts": [
             {
@@ -1764,7 +2001,22 @@
               "text": "BEGIN TRANSACTION;\nINSERT INTO dbo.load_audit VALUES ('@{pipeline().RunId}','pl_billing','ar_snapshot_daily','@{pipeline().TriggerTime}',SYSUTCDATETIME(),'Succeeded',@{activity('copy_ar_snapshot_daily').output.rowsRead},@{activity('copy_ar_snapshot_daily').output.rowsCopied},'@{activity('upper_ar_snapshot_daily').output.firstRow.watermark_utc}');\nDELETE FROM dbo.load_watermark WHERE source_system='billing'AND table_name='ar_snapshot_daily';\nINSERT INTO dbo.load_watermark VALUES('billing','ar_snapshot_daily','@{activity('upper_ar_snapshot_daily').output.firstRow.watermark_utc}',0);\nCOMMIT;"
             }
           ],
-          "scriptBlockExecutionTimeout": "00:10:00"
+          "scriptBlockExecutionTimeout": "00:10:00",
+          "database": "hn_dw"
+        },
+        "connectionSettings": {
+          "name": "hn_dw",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+              "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+              "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+            },
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            }
+          }
         }
       }
     ],

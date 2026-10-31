@@ -60,7 +60,7 @@ def pipeline(system,workspace,lakehouse,source_connection,warehouse_connection):
             query={'value':f"@concat('SELECT * FROM app.[{table}] WHERE updated_at >= ''',activity('{lower}').output.firstRow.watermark_utc,''' AND updated_at <= ''',activity('{upper}').output.firstRow.watermark_utc,'''')",'type':'Expression'}
         activities.append({'name':copy,'type':'Copy','dependsOn':[{'activity':upper,'dependencyConditions':['Succeeded']}],'policy':{'timeout':'0.01:00:00','retry':1,'retryIntervalInSeconds':30},'typeProperties':{
             'source':{'type':'AzureSqlSource','sqlReaderQuery':query,'queryTimeout':'01:00:00','partitionOption':'None','datasetSettings':{'type':'AzureSqlTable','typeProperties':{'schema':'app','table':table},'externalReferences':{'connection':source_connection}}},
-            'sink':{'type':'LakehouseTableSink','tableActionOption':'Upsert'if table in incremental else'Overwrite','upsertSettings':{'keys':['id']},'datasetSettings':{'type':'LakehouseTable','typeProperties':{'table':'raw_'+system+'_'+table},'linkedService':{'name':'hn_raw','properties':{'type':'Lakehouse','typeProperties':{'workspaceId':workspace,'artifactId':lakehouse,'rootFolder':'Tables'}}}}},'enableStaging':False}})
+            'sink':{'type':'LakehouseTableSink','tableActionOption':'Upsert'if table in incremental else'OverwriteSchema','keyColumns':['id'],'datasetSettings':{'type':'LakehouseTable','typeProperties':{'table':'raw_'+system+'_'+table},'linkedService':{'name':'hn_raw','properties':{'type':'Lakehouse','typeProperties':{'workspaceId':workspace,'artifactId':lakehouse,'rootFolder':'Tables'}}}}},'enableStaging':False}})
         script=f"""INSERT INTO dbo.load_audit VALUES ('@{{pipeline().RunId}}','pl_{system}','{table}','@{{pipeline().TriggerTime}}',SYSUTCDATETIME(),'Succeeded',@{{activity('{copy}').output.rowsRead}},@{{activity('{copy}').output.rowsCopied}},'@{{activity('{upper}').output.firstRow.watermark_utc}}');
 DELETE FROM dbo.load_watermark WHERE source_system='{system}'AND table_name='{table}';
 INSERT INTO dbo.load_watermark VALUES('{system}','{table}','@{{activity('{upper}').output.firstRow.watermark_utc}}',0);"""
@@ -69,7 +69,7 @@ INSERT INTO dbo.load_watermark VALUES('{system}','{table}','@{{activity('{upper}
     return {'properties':{'activities':activities,'concurrency':1,'annotations':['Synthetic HealthNet only','No row recount substituted for native Copy output']}}
 
 
-def reference_dataflow(workspace,lakehouse,warehouse_server,warehouse_id):
+def reference_dataflow(workspace,lakehouse,warehouse_server,warehouse_id,bindings=None):
     """Explicit destination references; query metadata binds owner connections."""
     header='section Section1;\n'
     queries={
@@ -77,26 +77,73 @@ def reference_dataflow(workspace,lakehouse,warehouse_server,warehouse_id):
       'ref_department_mapping':('raw_clinical_provider_assignment','ref_department_mapping'),
     }
     metadata={'formatVersion':'202502','name':'df_reference_mapping','documentLocale':'en-US','computeEngineSettings':{'maxConcurrency':1},'queriesMetadata':{},'connections':[]}
+    for key,kind in [('lakehouse','Lakehouse'),('warehouse','Warehouse')]:
+        connection=(bindings or{}).get(key)
+        if connection:
+            metadata['connections'].append({'path':kind,'kind':kind,'connectionId':json.dumps({
+                'ClusterId':connection['cluster_id'],'DatasourceId':connection['id']},separators=(',',':'))})
     for name,(source,target)in queries.items():
         destination=name+'_DataDestination'
         header+=f'''[DataDestinations = {{[Definition = [Kind = "Reference", QueryName = "{destination}", IsNewTarget = true], Settings = [Kind = "Automatic", TypeSettings = [Kind = "Table"]]]}}]
 shared {name} = let Source = Lakehouse.Contents([]), Workspace = Source{{[workspaceId="{workspace}"]}}[Data], Lake = Workspace{{[lakehouseId="{lakehouse}"]}}[Data], Rows = Lake{{[Id="{source}",ItemKind="Table"]}}[Data], Active = Table.SelectRows(Rows, each [is_deleted] = 0) in Active;
-shared {destination} = let Source = Sql.Database("{warehouse_server}","{warehouse_id}"), Target = Source{{[Schema="dbo",Item="{target}"]}}[Data] in Target;
+shared {destination} = let Source = Fabric.Warehouse([HierarchicalNavigation = null, CreateNavigationProperties = false, EnableFolding = false]), Workspace = Source{{[workspaceId="{workspace}"]}}[Data], Warehouse = Workspace{{[warehouseId="{warehouse_id}"]}}[Data], Target = Warehouse{{[Schema="dbo",Item="{target}"]}}?[Data]? in Target;
 '''
         for query,hidden in[(name,False),(destination,True)]:
             metadata['queriesMetadata'][query]={'queryId':str(uuid5(NAMESPACE_URL,'healthnet/'+query)),'queryName':query,'isHidden':hidden,'loadEnabled':not hidden}
     return header,metadata
 
 
-def build(root,workspace,lakehouse,warehouse_server,warehouse_id,connections=None):
+def nightly_pipeline(workspace,notebook_id,dataflow_id,warehouse_connection):
+    # Both independent preparation steps must succeed before the mart rebuild.
+    policy={'timeout':'0.01:00:00','retry':0,'retryIntervalInSeconds':30}
+    return {'properties':{'concurrency':1,'activities':[
+        {'name':'reference_mapping','type':'RefreshDataFlow','dependsOn':[],
+         'policy':policy,'typeProperties':{'dataflowId':dataflow_id,'workspaceId':workspace,
+         'dataflowType':'DataflowFabric','notifyOption':'NoNotification'}},
+        {'name':'patient_mpi','type':'TridentNotebook','dependsOn':[],
+         'policy':policy,'typeProperties':{'notebookId':notebook_id,'workspaceId':workspace}},
+        {'name':'warehouse_run_all','type':'Script','policy':policy,
+         'dependsOn':[{'activity':name,'dependencyConditions':['Succeeded']}for name in('reference_mapping','patient_mpi')],
+         'externalReferences':{'connection':warehouse_connection},
+         'typeProperties':{'scripts':[{'type':'NonQuery','text':'EXEC dbo.sp_run_all;'}],
+         'scriptBlockExecutionTimeout':'01:00:00'}}]}}
+
+
+def warehouse_item_binding(value,workspace,warehouse_id,warehouse_server):
+    """A Warehouse credential is generic; the item address must also be exact."""
+    link={'name':'hn_dw','properties':{'type':'DataWarehouse','typeProperties':{
+        'endpoint':warehouse_server,'artifactId':warehouse_id,'workspaceId':workspace}}}
+    for activity in value['properties']['activities']:
+        if activity['type']=='Script':
+            import copy
+            connection=copy.deepcopy(link)
+            connection['properties']['externalReferences']=activity.pop('externalReferences')
+            activity['connectionSettings']=connection
+            activity['typeProperties']['database']='hn_dw'
+        if activity['type']=='Lookup'and activity['typeProperties']['source']['type']=='DataWarehouseSource':
+            import copy
+            dataset=activity['typeProperties']['datasetSettings']
+            connection=copy.deepcopy(link)
+            connection['properties']['externalReferences']=dataset.pop('externalReferences')
+            dataset['connectionSettings']=connection
+    return value
+
+
+def build(root,workspace,lakehouse,warehouse_server,warehouse_id,connections=None,items=None,dataflow_bindings=None):
     root=Path(root);connections=connections or{}
+    items=items or{}
     for system in('clinical','billing'):write(root/'sql'/('hn_'+system+'.sql'),ddl(system,'azure'))
     write(root/'sql/hn_dw.sql',warehouse_sql())
     write(root/'notebooks/nb_patient_mpi.ipynb',notebook(workspace,lakehouse))
-    pq,metadata=reference_dataflow(workspace,lakehouse,warehouse_server,warehouse_id)
+    pq,metadata=reference_dataflow(workspace,lakehouse,warehouse_server,warehouse_id,dataflow_bindings)
     write(root/'dataflows/df_reference_mapping/mashup.pq',pq)
     write(root/'dataflows/df_reference_mapping/queryMetadata.json',metadata)
     for system in('clinical','billing'):
         # Definition templates are clearly labelled until credentials are bound.
-        write(root/f'pipelines/pl_{system}/pipeline-content.json',pipeline(system,workspace,lakehouse,connections.get(system,'REQUIRES_OWNER_CONNECTION'),connections.get('warehouse','REQUIRES_OWNER_CONNECTION')))
+        value=pipeline(system,workspace,lakehouse,connections.get(system,'REQUIRES_OWNER_CONNECTION'),connections.get('warehouse','REQUIRES_OWNER_CONNECTION'))
+        write(root/f'pipelines/pl_{system}/pipeline-content.json',warehouse_item_binding(value,workspace,warehouse_id,warehouse_server))
+    nightly=nightly_pipeline(workspace,
+        items.get('notebook','REQUIRES_PUBLISHED_NOTEBOOK'),items.get('dataflow','REQUIRES_PUBLISHED_DATAFLOW'),
+        connections.get('warehouse','REQUIRES_OWNER_CONNECTION'))
+    write(root/'pipelines/pl_nightly_run_all/pipeline-content.json',warehouse_item_binding(nightly,workspace,warehouse_id,warehouse_server))
     write(root/'deployment-requirements.json',{'workspace_id':workspace,'lakehouse_id':lakehouse,'warehouse_id':warehouse_id,'warehouse_server':warehouse_server,'connections':connections,'missing_connections':[k for k in('clinical','billing','warehouse')if not connections.get(k)],'native_pipelines_verified':False,'planned_schedules':{'clinical':'daily02UTC','billing':'daily0230UTC','warehouse':'daily03UTC','revenue_model':'daily04UTC'},'cadence_reason':'One source wake per day plus60minute inactivity tail is estimated within the free CPU allowance; continuous4hour wakes are not. Daily cadence deliberately permits latency.','schedule_enablement':'Only after manual verification and free-offer allowance review; never paid fallback'})

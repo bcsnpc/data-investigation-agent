@@ -3,12 +3,12 @@
   "lakehouse_id": "0d5289e1-3133-4ddb-87bc-77e287b54935",
   "warehouse_id": "ef705467-9870-481c-b977-aad877b83c30",
   "warehouse_server": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
-  "connections": {},
-  "missing_connections": [
-    "clinical",
-    "billing",
-    "warehouse"
-  ],
+  "connections": {
+    "clinical": "91f9fa32-8875-454b-b28c-120bc399a1ac",
+    "billing": "01437114-ac49-4204-828e-f9bde09f2465",
+    "warehouse": "5397d91d-3257-4db9-9397-433c3e6bf445"
+  },
+  "missing_connections": [],
   "native_pipelines_verified": false,
   "planned_schedules": {
     "clinical": "daily02UTC",

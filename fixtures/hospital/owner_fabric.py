@@ -46,6 +46,10 @@ class OwnerFabric:
                 self.state['receipts'].append(receipt);self.save()
                 if r.status==202:
                     location=r.headers['Location']
+                    if '/jobs/instances/'in location:
+                        # A job instance uses Completed/Failed, not the item
+                        # creation operation's Succeeded + /result protocol.
+                        return {'job_location':location,'status':'ACCEPTED'}
                     self.state['pending_operation']=location;self.save()
                     for _ in range(60):
                         time.sleep(5)

@@ -15,11 +15,16 @@ from fixtures.hospital.schema import ddl
 from fixtures.hospital.verify import verify
 from fixtures.hospital.marts import build_local,warehouse_sql
 from fixtures.hospital.models import model
-from fixtures.hospital.artifacts import pipeline,notebook
+from fixtures.hospital.artifacts import pipeline,notebook,nightly_pipeline,reference_dataflow,warehouse_item_binding
 from fixtures.hospital.models import build as build_models
 from fixtures.hospital.reports import build as build_reports
 from fixtures.hospital.validate_assets import validate as validate_assets
 from fixtures.hospital.owner_sql import bulk_metadata
+from fixtures.hospital.reconcile_sources import hash_rows
+from fixtures.hospital.owner_warehouse import routed_address,named_instance_routing
+from fixtures.hospital.publish import definition_parts
+from fixtures.hospital.owner_fabric import OwnerFabric
+from fixtures.hospital.profile import profile
 
 
 class HospitalGeneratorTests(unittest.TestCase):
@@ -35,6 +40,107 @@ class HospitalGeneratorTests(unittest.TestCase):
     def tearDownClass(cls):cls.temp.cleanup()
 
     def test_deterministic_all_source_hashes(self):self.assertEqual(self.a,self.b)
+
+    def test_population_profile_uses_actual_rows_and_separates_denominators(self):
+        measured=profile(self.path/'a',self.path/'a')
+        self.assertEqual(sum(r[1]for r in measured['order_type_mix']),3600)
+        self.assertEqual(sum(r[1]for r in measured['original_payer_mix_encounters']),600)
+        self.assertAlmostEqual(sum(r[2]for r in measured['original_payer_mix_encounters']),1)
+        self.assertTrue(all(0<=r[1]<=1 for r in measured['occupancy_fraction_by_facility']))
+        self.assertGreater(measured['ed_door_provider_median_minutes'],0)
+
+    def test_lakehouse_sink_uses_native_overwrite_and_upsert_properties(self):
+        copies=[a for a in pipeline('clinical','ws','lh','source','warehouse')['properties']['activities']if a['type']=='Copy']
+        reference=next(a for a in copies if a['name']=='copy_facility')['typeProperties']['sink']
+        incremental=next(a for a in copies if a['name']=='copy_order_line')['typeProperties']['sink']
+        self.assertEqual(reference['tableActionOption'],'OverwriteSchema')
+        self.assertEqual(incremental['tableActionOption'],'Upsert')
+        self.assertEqual(incremental['keyColumns'],['id'])
+
+    def test_job_admission_does_not_poll_item_operation_protocol(self):
+        from unittest.mock import patch
+        owner=object.__new__(OwnerFabric);owner.token='test-only'
+        owner.path=self.path/'owner-fake.json';owner.state={'receipts':[]}
+        class Response:
+            status=202
+            headers={'Location':'https://api.fabric.microsoft.com/v1/workspaces/ws/items/item/jobs/instances/run'}
+            def read(self):return b''
+            def __enter__(self):return self
+            def __exit__(self,*args):pass
+        with patch('urllib.request.urlopen',return_value=Response())as request:
+            result=owner.call('workspaces/ws/items/item/jobs/instances?jobType=Pipeline',{})
+        self.assertEqual(result['status'],'ACCEPTED');self.assertEqual(request.call_count,1)
+        self.assertNotIn('pending_operation',owner.state)
+
+    def test_warehouse_credential_also_has_exact_native_item_address(self):
+        value=warehouse_item_binding(pipeline('billing','workspace','lakehouse','source','owner-warehouse'),
+                                     'workspace','native-warehouse','native-endpoint')
+        first=value['properties']['activities'][0]['typeProperties']['datasetSettings']
+        self.assertEqual(first['connectionSettings']['properties']['typeProperties'],
+                         {'endpoint':'native-endpoint','artifactId':'native-warehouse','workspaceId':'workspace'})
+        script=next(a for a in value['properties']['activities']if a['type']=='Script')
+        self.assertEqual(script['connectionSettings']['properties']['externalReferences']['connection'],'owner-warehouse')
+        self.assertEqual(script['typeProperties']['database'],'hn_dw')
+
+    def test_owner_publisher_refuses_unbound_assets_and_preserves_bytes(self):
+        import base64
+        folder=self.path/'publish-test';folder.mkdir()
+        (folder/'pipeline-content.json').write_bytes(b'{"connection":"REQUIRES_OWNER_CONNECTION"}')
+        with self.assertRaises(ValueError):definition_parts(folder,['pipeline-content.json'])
+        original=b'{"connection":"verified-owner"}\n'
+        (folder/'pipeline-content.json').write_bytes(original)
+        self.assertEqual(base64.b64decode(definition_parts(folder,['pipeline-content.json'])[0]['payload']),original)
+
+    def test_dataflow_destination_uses_bound_warehouse_connector(self):
+        pq,metadata=reference_dataflow('workspace','lakehouse','server','warehouse',{
+            'warehouse':{'id':'owner-warehouse','cluster_id':'cluster'}})
+        self.assertIn('Fabric.Warehouse(',pq)
+        self.assertIn('warehouseId="warehouse"',pq)
+        self.assertIn('?[Data]?',pq)
+        binding=metadata['connections'][0]
+        self.assertEqual((binding['kind'],binding['path']),('Warehouse','Warehouse'))
+        self.assertEqual(__import__('json').loads(binding['connectionId']),{'ClusterId':'cluster','DatasourceId':'owner-warehouse'})
+        self.assertTrue(all(not m['loadEnabled']for n,m in metadata['queriesMetadata'].items()if n.endswith('_DataDestination')))
+
+    def test_nightly_requires_native_mpi_and_reference_success(self):
+        activities=nightly_pipeline('workspace','notebook','dataflow','owner-warehouse')['properties']['activities']
+        self.assertEqual([a['type']for a in activities],['RefreshDataFlow','TridentNotebook','Script'])
+        self.assertEqual({d['activity']for d in activities[-1]['dependsOn']},{'patient_mpi','reference_mapping'})
+        self.assertTrue(all(d['dependencyConditions']==['Succeeded']for d in activities[-1]['dependsOn']))
+        self.assertEqual(activities[-1]['externalReferences']['connection'],'owner-warehouse')
+
+    def test_native_tds_redirect_retains_instance_without_dns_backslash(self):
+        host='pbipcus2-centralus.pbidedicated.windows.net'
+        self.assertEqual(routed_address(host+'\\HEALTHNET-dw',''),(host,'HEALTHNET-dw'))
+        with self.assertRaises(ValueError):routed_address('unexpected.example\\instance','')
+        from types import SimpleNamespace
+        calls=[]
+        def original(**kwargs):calls.append(kwargs);return 'connected'
+        driver=SimpleNamespace(_connect=original)
+        with named_instance_routing(driver):
+            self.assertEqual(driver._connect(host=host+'\\HEALTHNET-dw',instance='',port=1433),'connected')
+        self.assertIs(driver._connect,original)
+        self.assertEqual(calls,[{'host':host,'instance':'HEALTHNET-dw','port':1433}])
+
+    def test_native_reconciliation_restores_utc_datetime_bytes(self):
+        from datetime import datetime
+        from fixtures.hospital.generate import canonical_hash
+        with closing(sqlite3.connect(self.path/'a/hn_clinical.sqlite'))as db:
+            rows=db.execute('SELECT * FROM facility ORDER BY id').fetchall()
+            # SQL DATETIME2 returns datetime objects where SQLite retains ISO.
+            native=[tuple(datetime.fromisoformat(v).replace(tzinfo=None)
+                          if isinstance(v,str)and v.endswith('+00:00')else v for v in row)for row in rows]
+            self.assertEqual(hash_rows(native),(len(rows),canonical_hash(db,'facility')))
+            changed=[tuple([-1,*native[0][1:]]),*native[1:]]
+            self.assertNotEqual(hash_rows(changed)[1],hash_rows(native)[1])
+        with closing(sqlite3.connect(self.path/'a/hn_billing.sqlite'))as db:
+            rows=db.execute('SELECT * FROM charge ORDER BY id').fetchall()
+            native=[tuple(datetime.fromisoformat(v).replace(tzinfo=None)
+                          if i>=len(row)-4 and isinstance(v,str)and v[:4].isdigit()else v
+                          for i,v in enumerate(row))for row in rows]
+            self.assertEqual(hash_rows(native,rows),(len(rows),canonical_hash(db,'charge')))
+        self.assertNotEqual(hash_rows([(datetime(2026,1,1,0,0,0,1),)])[1],
+                            hash_rows([(datetime(2026,1,1),)])[1])
 
     def test_relational_and_financial_invariants(self):
         report=verify(self.path/'a')
@@ -101,7 +207,7 @@ class HospitalGeneratorTests(unittest.TestCase):
         self.assertIn('output.rowsRead',script)
         self.assertIn('output.rowsCopied',script)
         self.assertNotIn('COUNT(*)',script)
-        self.assertEqual(activities['copy_order_line']['typeProperties']['sink']['upsertSettings']['keys'],['id'])
+        self.assertEqual(activities['copy_order_line']['typeProperties']['sink']['keyColumns'],['id'])
 
     def test_import_parameters_directlake_and_doctor_ols(self):
         with closing(sqlite3.connect(self.path/'a/hn_dw.sqlite'))as db:
@@ -118,6 +224,8 @@ class HospitalGeneratorTests(unittest.TestCase):
         roles=json_text=__import__('json').dumps(productivity['model']['roles'])
         self.assertIn('USERPRINCIPALNAME()',roles)
         self.assertNotIn('investigator-reader',__import__('json').dumps(productivity))
+        census=next(m for t in operations['model']['tables']for m in t.get('measures',[])if m['name']=='Midnight Census')
+        self.assertIn('MAX(mart_census_daily[calendar_date])',census['expression'])
 
     def test_notebook_never_guesses_patient_identity(self):
         source=''.join(notebook('workspace','lakehouse')['cells'][0]['source'])
@@ -135,6 +243,9 @@ class HospitalGeneratorTests(unittest.TestCase):
         self.assertEqual(check['drillthrough_pages'],1)
         self.assertTrue(check['all_fields_bound'])
         self.assertFalse(check['native_rendering_verified'])
+        report_text='\n'.join(p.read_text()for p in(root/'reports').rglob('visual.json'))
+        for required in('Admissions','Discharges','Order Turnaround (minutes)','Payer mix by service-date charges'):
+            self.assertIn(required,report_text)
 
     def test_declared_money_is_integer_and_dates_are_offset_aware(self):
         db=sqlite3.connect(self.path/'a/hn_billing.sqlite')

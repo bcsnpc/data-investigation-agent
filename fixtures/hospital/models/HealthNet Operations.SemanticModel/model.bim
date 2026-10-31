@@ -301,7 +301,7 @@
           },
           {
             "name": "transfer_from",
-            "dataType": "string",
+            "dataType": "int64",
             "sourceColumn": "transfer_from",
             "summarizeBy": "none"
           },
@@ -395,6 +395,18 @@
             "name": "Visits",
             "expression": "COUNTROWS(mart_encounter)",
             "description": "Non-soft-deleted encounters of non-soft-deleted source patients; a transfer can contribute two visits.",
+            "formatString": "#,0.00"
+          },
+          {
+            "name": "Admissions",
+            "expression": "COUNTROWS(FILTER(mart_encounter,NOT ISBLANK(mart_encounter[admit_utc])))",
+            "description": "Retained encounters with an admission timestamp; includes active admissions.",
+            "formatString": "#,0.00"
+          },
+          {
+            "name": "Discharges",
+            "expression": "COUNTROWS(FILTER(mart_encounter,NOT ISBLANK(mart_encounter[discharge_utc])))",
+            "description": "Retained encounters with a discharge timestamp; excludes active encounters.",
             "formatString": "#,0.00"
           },
           {
@@ -690,6 +702,12 @@
         ],
         "measures": [
           {
+            "name": "Order Turnaround (minutes)",
+            "expression": "AVERAGEX(FILTER(mart_order,mart_order[status]=\"RESULTED\"&&NOT ISBLANK(mart_order[completed_utc])),DATEDIFF(mart_order[ordered_utc],mart_order[completed_utc],SECOND)/60)",
+            "description": "Mean ordered-to-completed minutes for final resulted lines only; cancelled and voided lines excluded.",
+            "formatString": "#,0.00"
+          },
+          {
             "name": "Order Count",
             "expression": "COUNTROWS(mart_order)",
             "description": "Retained order lines including cancelled and voided statuses; select status to narrow.",
@@ -759,8 +777,8 @@
         "measures": [
           {
             "name": "Midnight Census",
-            "expression": "SUM(mart_census_daily[midnight_census])",
-            "description": "Occupied beds at America/Chicago local midnight. Across several days this is occupied bed-days, not distinct patients.",
+            "expression": "CALCULATE(SUM(mart_census_daily[midnight_census]),mart_census_daily[calendar_date]=MAX(mart_census_daily[calendar_date]))",
+            "description": "Occupied beds at America/Chicago local midnight on the latest date in the selected context; not summed across dates.",
             "formatString": "#,0.00"
           },
           {

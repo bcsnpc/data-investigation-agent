@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "ce28563247545ebc9851",
   "position": {
-    "x": 748,
+    "x": 438,
     "y": 548,
-    "width": 508,
+    "width": 390,
     "height": 240,
     "z": 12,
     "tabOrder": 12
   },
   "visual": {
-    "visualType": "tableEx",
+    "visualType": "clusteredBarChart",
     "visualContainerObjects": {
       "title": [
         {
@@ -25,7 +25,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Denial definitions and writeoffs'"
+                  "Value": "'Payer mix by service-date charges'"
                 }
               }
             },
@@ -84,67 +84,41 @@
     },
     "query": {
       "queryState": {
-        "Values": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "core_payer"
+                    }
+                  },
+                  "Property": "payer_group"
+                }
+              },
+              "queryRef": "core_payer.payer_group",
+              "nativeQueryRef": "payer_group",
+              "displayName": "Payer Group"
+            }
+          ]
+        },
+        "Y": {
           "projections": [
             {
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "mart_claim"
+                      "Entity": "mart_charge"
                     }
                   },
-                  "Property": "Initial Denial Rate (count)"
+                  "Property": "Gross Charges"
                 }
               },
-              "queryRef": "mart_claim.Initial Denial Rate (count)",
-              "nativeQueryRef": "Initial Denial Rate (count)",
-              "displayName": "Initial Denial Rate (count)"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "mart_claim"
-                    }
-                  },
-                  "Property": "Final Denial Rate"
-                }
-              },
-              "queryRef": "mart_claim.Final Denial Rate",
-              "nativeQueryRef": "Final Denial Rate",
-              "displayName": "Final Denial Rate"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "mart_remittance"
-                    }
-                  },
-                  "Property": "Denial Rate ($)"
-                }
-              },
-              "queryRef": "mart_remittance.Denial Rate ($)",
-              "nativeQueryRef": "Denial Rate ($)",
-              "displayName": "Denial Rate ($)"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "mart_adjustment"
-                    }
-                  },
-                  "Property": "Writeoffs"
-                }
-              },
-              "queryRef": "mart_adjustment.Writeoffs",
-              "nativeQueryRef": "Writeoffs",
-              "displayName": "Writeoffs"
+              "queryRef": "mart_charge.Gross Charges",
+              "nativeQueryRef": "Gross Charges",
+              "displayName": "Gross Charges"
             }
           ]
         }

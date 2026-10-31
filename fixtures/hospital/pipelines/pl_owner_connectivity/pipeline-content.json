@@ -1,0 +1,76 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "name": "lower_facility",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [],
+        "typeProperties": {
+          "source": {
+            "type": "DataWarehouseSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(watermark_utc),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM dbo.load_watermark WHERE source_system='clinical'AND table_name='facility'"
+          },
+          "datasetSettings": {
+            "type": "DataWarehouseTable",
+            "externalReferences": {
+              "connection": "5397d91d-3257-4db9-9397-433c3e6bf445"
+            },
+            "linkedService": {
+              "name": "hn_dw",
+              "properties": {
+                "type": "DataWarehouse",
+                "typeProperties": {
+                  "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+                  "artifactId": "ef705467-9870-481c-b977-aad877b83c30",
+                  "workspaceId": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+                }
+              }
+            }
+          },
+          "firstRowOnly": true
+        }
+      },
+      {
+        "name": "upper_facility",
+        "type": "Lookup",
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 1,
+          "retryIntervalInSeconds": 30
+        },
+        "dependsOn": [
+          {
+            "activity": "lower_facility",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT COALESCE(MAX(updated_at),CONVERT(DATETIME2,'1900-01-01')) watermark_utc FROM app.[facility]"
+          },
+          "datasetSettings": {
+            "type": "AzureSqlTable",
+            "externalReferences": {
+              "connection": "91f9fa32-8875-454b-b28c-120bc399a1ac"
+            }
+          },
+          "firstRowOnly": true
+        }
+      }
+    ],
+    "concurrency": 1,
+    "annotations": [
+      "Synthetic HealthNet only",
+      "No row recount substituted for native Copy output"
+    ],
+    "description": "Owner-only connectivity checks: warehouse control read, source watermark read; no copy or write."
+  }
+}

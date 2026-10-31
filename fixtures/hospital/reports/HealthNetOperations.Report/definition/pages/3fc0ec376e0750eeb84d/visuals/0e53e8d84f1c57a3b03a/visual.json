@@ -1,0 +1,154 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "0e53e8d84f1c57a3b03a",
+  "position": {
+    "x": 24,
+    "y": 808,
+    "width": 590,
+    "height": 240,
+    "z": 13,
+    "tabOrder": 13
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Admissions, discharges and readmissions'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#17324D'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_encounter"
+                    }
+                  },
+                  "Property": "Visits"
+                }
+              },
+              "queryRef": "mart_encounter.Visits",
+              "nativeQueryRef": "Visits",
+              "displayName": "Visits"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_encounter"
+                    }
+                  },
+                  "Property": "Admissions"
+                }
+              },
+              "queryRef": "mart_encounter.Admissions",
+              "nativeQueryRef": "Admissions",
+              "displayName": "Admissions"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_encounter"
+                    }
+                  },
+                  "Property": "Discharges"
+                }
+              },
+              "queryRef": "mart_encounter.Discharges",
+              "nativeQueryRef": "Discharges",
+              "displayName": "Discharges"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_encounter"
+                    }
+                  },
+                  "Property": "30-day Readmission %"
+                }
+              },
+              "queryRef": "mart_encounter.30-day Readmission %",
+              "nativeQueryRef": "30-day Readmission %",
+              "displayName": "30-day Readmission %"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

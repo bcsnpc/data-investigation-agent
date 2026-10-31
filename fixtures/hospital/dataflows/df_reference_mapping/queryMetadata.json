@@ -31,5 +31,16 @@
       "loadEnabled": false
     }
   },
-  "connections": []
+  "connections": [
+    {
+      "path": "Lakehouse",
+      "kind": "Lakehouse",
+      "connectionId": "{\"ClusterId\":\"7e46fcb7-355d-42e5-a7d8-66fab5959fd2\",\"DatasourceId\":\"0a3fc2d7-4651-4770-9b8d-26b6e8665c04\"}"
+    },
+    {
+      "path": "Warehouse",
+      "kind": "Warehouse",
+      "connectionId": "{\"ClusterId\":\"7e46fcb7-355d-42e5-a7d8-66fab5959fd2\",\"DatasourceId\":\"5397d91d-3257-4db9-9397-433c3e6bf445\"}"
+    }
+  ]
 }

@@ -8,7 +8,31 @@ import json
 import os
 from pathlib import Path
 import subprocess
+from contextlib import contextmanager
 from .marts import bootstrap_sql
+
+
+def routed_address(host,instance):
+    """Separate a server-supplied TDS instance from its DNS/TLS hostname."""
+    if '\\'not in host:return host,instance
+    hostname,separator,native_instance=host.partition('\\')
+    if not hostname.lower().endswith('.pbidedicated.windows.net')or not native_instance or '\\'in native_instance:
+        raise ValueError('Unexpected named-instance routing address')
+    return hostname,native_instance
+
+
+@contextmanager
+def named_instance_routing(driver):
+    # python-tds parses instances on the initial server, but passes ENVCHANGE
+    # redirect server strings straight to DNS. Keep the native instance and
+    # native port for login; certificate checks still validate the real host.
+    original=driver._connect
+    def connect(*args,**kwargs):
+        kwargs['host'],kwargs['instance']=routed_address(kwargs['host'],kwargs['instance'])
+        return original(*args,**kwargs)
+    driver._connect=connect
+    try:yield
+    finally:driver._connect=original
 
 
 def bootstrap(requirements, receipt, azure_python, azure_profile):
@@ -26,7 +50,7 @@ def bootstrap(requirements, receipt, azure_python, azure_profile):
             'identity':'existing Fabric owner via isolated Azure profile',
             'operation':'HealthNet bootstrap only; no grants'}
     try:
-        with pytds.connect(server=settings['warehouse_server'],database=settings['warehouse_id'],
+        with named_instance_routing(pytds),pytds.connect(server=settings['warehouse_server'],database=settings['warehouse_id'],
                           access_token_callable=token,cafile=certifi.where(),
                           timeout=180,login_timeout=60,appname='HealthNet-owner-build')as connection:
             cursor=connection.cursor()
