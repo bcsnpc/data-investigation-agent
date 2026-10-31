@@ -61,10 +61,11 @@ def pipeline(system,workspace,lakehouse,source_connection,warehouse_connection):
         activities.append({'name':copy,'type':'Copy','dependsOn':[{'activity':upper,'dependencyConditions':['Succeeded']}],'policy':{'timeout':'0.01:00:00','retry':1,'retryIntervalInSeconds':30},'typeProperties':{
             'source':{'type':'AzureSqlSource','sqlReaderQuery':query,'queryTimeout':'01:00:00','partitionOption':'None','datasetSettings':{'type':'AzureSqlTable','typeProperties':{'schema':'app','table':table},'externalReferences':{'connection':source_connection}}},
             'sink':{'type':'LakehouseTableSink','tableActionOption':'Upsert'if table in incremental else'OverwriteSchema','upsertSettings':{'keys':['id']},'datasetSettings':{'type':'LakehouseTable','typeProperties':{'table':'raw_'+system+'_'+table},'linkedService':{'name':'hn_raw','properties':{'type':'Lakehouse','typeProperties':{'workspaceId':workspace,'artifactId':lakehouse,'rootFolder':'Tables'}}}}},'enableStaging':False}})
-        script=f"""INSERT INTO dbo.load_audit VALUES ('@{{pipeline().RunId}}','pl_{system}','{table}','@{{pipeline().TriggerTime}}',SYSUTCDATETIME(),'Succeeded',@{{activity('{copy}').output.rowsRead}},@{{activity('{copy}').output.rowsCopied}},'@{{activity('{upper}').output.firstRow.watermark_utc}}');
-DELETE FROM dbo.load_watermark WHERE source_system='{system}'AND table_name='{table}';
+        script=f"""SET XACT_ABORT ON;
+IF NOT EXISTS (SELECT 1 FROM dbo.load_audit WHERE run_id='@{{pipeline().RunId}}' AND pipeline_name='pl_{system}' AND table_name='{table}')
+INSERT INTO dbo.load_audit VALUES ('@{{pipeline().RunId}}','pl_{system}','{table}','@{{pipeline().TriggerTime}}',SYSUTCDATETIME(),'Succeeded',@{{activity('{copy}').output.rowsRead}},@{{activity('{copy}').output.rowsCopied}},'@{{activity('{upper}').output.firstRow.watermark_utc}}');
 INSERT INTO dbo.load_watermark VALUES('{system}','{table}','@{{activity('{upper}').output.firstRow.watermark_utc}}',0);"""
-        activities.append({'name':commit,'type':'Script','dependsOn':[{'activity':copy,'dependencyConditions':['Succeeded']}],'externalReferences':{'connection':warehouse_connection},'typeProperties':{'scripts':[{'type':'NonQuery','text':'BEGIN TRANSACTION;\n'+script+'\nCOMMIT;'}],'scriptBlockExecutionTimeout':'00:10:00'}})
+        activities.append({'name':commit,'type':'Script','policy':{'timeout':'0.00:10:00','retry':3,'retryIntervalInSeconds':30},'dependsOn':[{'activity':copy,'dependencyConditions':['Succeeded']}],'externalReferences':{'connection':warehouse_connection},'typeProperties':{'scripts':[{'type':'NonQuery','text':'BEGIN TRANSACTION;\n'+script+'\nCOMMIT;'}],'scriptBlockExecutionTimeout':'00:10:00'}})
         previous=[{'activity':commit,'dependencyConditions':['Succeeded']}]
     return {'properties':{'activities':activities,'concurrency':1,'annotations':['Synthetic HealthNet only','No row recount substituted for native Copy output']}}
 

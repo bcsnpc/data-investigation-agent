@@ -7,7 +7,8 @@
     "clinical": "91f9fa32-8875-454b-b28c-120bc399a1ac",
     "billing": "01437114-ac49-4204-828e-f9bde09f2465",
     "warehouse": "5397d91d-3257-4db9-9397-433c3e6bf445",
-    "model_sql": "8a49d254-e4e3-4729-9365-12d3ebfe5042"
+    "model_sql": "8a49d254-e4e3-4729-9365-12d3ebfe5042",
+    "lakehouse": "71f7f92d-3d2c-4513-ab66-b394131a0161"
   },
   "missing_connections": [],
   "native_pipelines_verified": false,

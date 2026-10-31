@@ -22,7 +22,7 @@ from fixtures.hospital.validate_assets import validate as validate_assets
 from fixtures.hospital.owner_sql import bulk_metadata
 from fixtures.hospital.reconcile_sources import hash_rows
 from fixtures.hospital.owner_warehouse import routed_address,named_instance_routing
-from fixtures.hospital.publish import definition_parts
+from fixtures.hospital.publish import definition_parts,update
 from fixtures.hospital.owner_fabric import OwnerFabric
 from fixtures.hospital.profile import profile
 
@@ -56,6 +56,32 @@ class HospitalGeneratorTests(unittest.TestCase):
         self.assertEqual(reference['tableActionOption'],'OverwriteSchema')
         self.assertEqual(incremental['tableActionOption'],'Upsert')
         self.assertEqual(incremental['upsertSettings']['keys'],['id'])
+
+    def test_audit_commit_is_retryable_without_cross_pipeline_watermark_deletes(self):
+        activities=pipeline('clinical','ws','lh','source','warehouse')['properties']['activities']
+        commit=next(a for a in activities if a['name']=='commit_encounter')
+        sql=commit['typeProperties']['scripts'][0]['text']
+        self.assertEqual(commit['policy']['retry'],3)
+        self.assertIn('IF NOT EXISTS',sql)
+        self.assertIn('SET XACT_ABORT ON',sql)
+        self.assertNotIn('DELETE FROM dbo.load_watermark',sql)
+        self.assertIn('INSERT INTO dbo.load_watermark',sql)
+
+    def test_native_update_preserves_before_and_requires_matching_readback(self):
+        import base64,json
+        folder=self.path/'publish-update';folder.mkdir(exist_ok=True)
+        (folder/'pipeline-content.json').write_text('{"properties":{"activities":[]}}')
+        class FakeOwner:
+            state={'workspace':{'id':'d237966c-b0b6-4123-bc89-e69643f4bf1f'},'published':{'pl_clinical':{'item':{'id':'item'},'definition_sha256':'old'}}}
+            def call(self,path,body=None):
+                if path.endswith('/updateDefinition'):self.parts=body['definition']['parts'];return {}
+                return {'definition':{'parts':getattr(self,'parts',[])}}
+            def save(self):pass
+        owner=FakeOwner()
+        result=update(owner,'pl_clinical',folder,['pipeline-content.json'],'native key fix')
+        self.assertEqual(owner.state['definition_updates'][0]['before'],{'definition':{'parts':[]}})
+        self.assertEqual(result,owner.state['definition_updates'][0]['after'])
+        with self.assertRaisesRegex(ValueError,'reason required'):update(owner,'pl_clinical',folder,['pipeline-content.json'],'')
 
     def test_job_admission_does_not_poll_item_operation_protocol(self):
         from unittest.mock import patch
