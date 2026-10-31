@@ -295,6 +295,21 @@ class HospitalGeneratorTests(unittest.TestCase):
         self.assertIn('did not converge',source)
         self.assertNotIn('given_name',source)
 
+    def test_bookmarks_bind_filters_by_expression_like_native_editor(self):
+        import json
+        root=self.path/'native-bookmark-reports';build_reports(root=root)
+        for path in root.rglob('*.bookmark.json'):
+            b=json.loads(path.read_text());state=b['explorationState']['filters']
+            self.assertNotIn('byName',state)
+            self.assertTrue(state['byExpr'])
+            for f in state['byExpr']:
+                self.assertEqual(f['howCreated'],1)
+                self.assertIn('Column',f['expression'])
+                self.assertTrue(f['filter']['Where'])
+        from fixtures.hospital.visual_queries import report_queries
+        q=report_queries(root/'HealthNetRevenue.Report')
+        self.assertTrue(any(r['context']=='Commercial payers'and 'Commercial' in (r['query']or'')for r in q))
+
     def test_patient_detail_exposes_only_masked_patient_identifiers(self):
         import json
         root=self.path/'masked-detail-reports';build_reports(root=root)

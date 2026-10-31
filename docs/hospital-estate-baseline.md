@@ -253,3 +253,26 @@ All4encounter counts match independent expected slices. These are native owner T
 ### Masked patient-name detail completion, 2026-10-30
 
 The Doctor encounters visual now includes existing mart masked_given_name and masked_family_name alongside masked_mrn. Native model baseline re-read:100returned / 249575total; SHA-256 of the exact returned rows including cardinality=e5f96b9b2094c0aa02952ef0860b3aacdbe69f0a526bb7b5b06894bb4915f71e. This supersedes only the earlier detail-window hash; no source/model data or security changed. Receipt:masked-detail-baseline.json.
+
+### Native Operations owner role tests, 2026-10-30
+
+| Single simulated role | Visible encounter rows | Raw Visits | Midnight Census |
+|---|---:|---:|---:|
+| Executive |249575|249575|565|
+| HospitalManager |127666|127666|294|
+| DepartmentHead |19475|19475|Blank: facility-only aggregate denied|
+| Doctor |0|Blank: native COUNTROWS on no rows|Blank|
+
+All4slices agree with the independent expected encounter populations. The saved native observation retains Blank, rather than rewriting the engine result as0. Normal role-restricted visuals render without error. Together with Revenue and Productivity, all12single-role owner simulations now have observed row-count/headline results. No actual role membership or DIA access changed. Receipt:operations-role-ui-observations.json.
+
+### Native OLS control, 2026-10-30
+
+Doctor's temporary combined cost/margin visual is denied with QueryUserError: synthetic_margin_cents was not found in SUMMARIZE's input table. The identical visual under Executive serves both columns (examples10700/4280,10800/4320,11350/4540). This is one denied combined query plus one positive control, not two independent column probes. Both denied-column rules are in the native model. The temporary page is gone; exact definition restoration SHA-256a4c94e30d9527a3acf99f7a0b1dfb298ce91338d635367b157dc0fac811f3b31 matches the original. Receipts:ols-owner.json,ols-ui-observations.json.
+
+### Bookmark activation correction, 2026-10-30
+
+The original bookmark-query baselines measured intended predicates; the first UI activation did not apply those predicates. Native Commercial bookmark repair now passes actual UI activation from default:Gross438933821.15 and ChargeRows113978 (default1935995659.28/505322). Native editor evidence established byExpr/howCreated1; both generated bookmarks were corrected generically. Original failed activation remains recorded. NorthED UI activation is checked separately below.
+
+### Final rendered bookmark checks, 2026-10-30
+
+Both native bookmarks now apply. Commercial payers changes GrossCharges1935995659.28 ->438933821.15 and ChargeRows505322 ->113978. NorthEDonly sets core_facility.name=HealthNetNorth and core_department.service_line=ED; native census294 and occupancy68.22% match the independent predicates'294 and0.6821827411167513. Defaults remain unfiltered in the saved author definitions. These observed UI activations supplement the model-query baselines; they do not erase the original failed byName activation.

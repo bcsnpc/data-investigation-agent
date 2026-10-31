@@ -81,7 +81,7 @@ def bookmark(report,title,filters):
         if not any(existing['name']==f['name']for existing in definition['filterConfig']['filters']):
             definition['filterConfig']['filters'].append({'name':f['name'],'field':f['expression'],'type':'Categorical','howCreated':'User'})
     write(report_path,definition)
-    write(report.root/f'definition/bookmarks/{name}.bookmark.json',{'$schema':BASE+'definition/bookmark/1.0.0/schema.json','name':name,'displayName':title,'options':{'suppressData':False,'suppressDisplay':True},'explorationState':{'version':'1.0','activeSection':report.pages[0],'filters':{'byName':{f['name']:f for f in filters}},'sections':{report.pages[0]:{'visualContainers':{}}}}})
+    write(report.root/f'definition/bookmarks/{name}.bookmark.json',{'$schema':BASE+'definition/bookmark/2.1.0/schema.json','name':name,'displayName':title,'options':{'suppressData':False,'suppressDisplay':True},'explorationState':{'version':'1.0','activeSection':report.pages[0],'filters':{'byExpr':[dict(f,howCreated=1) for f in filters]},'sections':{report.pages[0]:{'visualContainers':{}}}}})
     path=report.root/'definition/bookmarks/bookmarks.json'
     metadata=json.loads(path.read_text())if path.exists()else{'$schema':BASE+'definition/bookmarksMetadata/1.0.0/schema.json','items':[]}
     metadata['items']=[item for item in metadata['items']if item.get('name')!=name]+[{'name':name}]

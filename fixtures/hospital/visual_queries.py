@@ -13,7 +13,8 @@ def report_queries(folder):
     contexts=[('default',[])]
     for path in sorted((folder/'definition/bookmarks').glob('*.bookmark.json')):
         b=json.loads(path.read_text());filters=[]
-        for f in b['explorationState']['filters']['byName'].values():
+        state=b['explorationState']['filters']
+        for f in [*state.get('byExpr',[]),*state.get('byName',{}).values()]:
             ref=f['expression']['Column'];values=f['filter']['Where'][0]['Condition']['In']['Values']
             literal=values[0][0]['Literal']['Value']
             if not(literal.startswith("'")and literal.endswith("'")):raise ValueError('Only authored categorical bookmark literals')
