@@ -55,7 +55,7 @@ class HospitalGeneratorTests(unittest.TestCase):
         incremental=next(a for a in copies if a['name']=='copy_order_line')['typeProperties']['sink']
         self.assertEqual(reference['tableActionOption'],'OverwriteSchema')
         self.assertEqual(incremental['tableActionOption'],'Upsert')
-        self.assertEqual(incremental['keyColumns'],['id'])
+        self.assertEqual(incremental['upsertSettings']['keys'],['id'])
 
     def test_job_admission_does_not_poll_item_operation_protocol(self):
         from unittest.mock import patch
@@ -207,7 +207,7 @@ class HospitalGeneratorTests(unittest.TestCase):
         self.assertIn('output.rowsRead',script)
         self.assertIn('output.rowsCopied',script)
         self.assertNotIn('COUNT(*)',script)
-        self.assertEqual(activities['copy_order_line']['typeProperties']['sink']['keyColumns'],['id'])
+        self.assertEqual(activities['copy_order_line']['typeProperties']['sink']['upsertSettings']['keys'],['id'])
 
     def test_import_parameters_directlake_and_doctor_ols(self):
         with closing(sqlite3.connect(self.path/'a/hn_dw.sqlite'))as db:

@@ -101,9 +101,11 @@
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "OverwriteSchema",
-            "keyColumns": [
-              "id"
-            ],
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -268,9 +270,11 @@
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "OverwriteSchema",
-            "keyColumns": [
-              "id"
-            ],
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -435,9 +439,11 @@
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "OverwriteSchema",
-            "keyColumns": [
-              "id"
-            ],
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -602,9 +608,11 @@
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "OverwriteSchema",
-            "keyColumns": [
-              "id"
-            ],
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -772,9 +780,11 @@
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "Upsert",
-            "keyColumns": [
-              "id"
-            ],
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -942,9 +952,11 @@
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "Upsert",
-            "keyColumns": [
-              "id"
-            ],
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -1112,9 +1124,11 @@
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "Upsert",
-            "keyColumns": [
-              "id"
-            ],
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -1282,9 +1296,11 @@
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "Upsert",
-            "keyColumns": [
-              "id"
-            ],
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -1452,9 +1468,11 @@
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "Upsert",
-            "keyColumns": [
-              "id"
-            ],
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -1622,9 +1640,11 @@
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "Upsert",
-            "keyColumns": [
-              "id"
-            ],
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -1792,9 +1812,11 @@
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "Upsert",
-            "keyColumns": [
-              "id"
-            ],
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {
@@ -1959,9 +1981,11 @@
           "sink": {
             "type": "LakehouseTableSink",
             "tableActionOption": "OverwriteSchema",
-            "keyColumns": [
-              "id"
-            ],
+            "upsertSettings": {
+              "keys": [
+                "id"
+              ]
+            },
             "datasetSettings": {
               "type": "LakehouseTable",
               "typeProperties": {

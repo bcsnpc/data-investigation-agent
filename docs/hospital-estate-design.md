@@ -265,3 +265,13 @@ rowsCopied=3; its following audit/watermark Script also succeeded. This
 is an initial functioning hop, not a completed estate reconciliation.
 Dataflow/notebook transformations, marts, model processing, rendering and
 RLS checks are still pending. No schedules have been enabled.
+
+### Owner-build checkpoint, 2026-10-30 (America/Chicago)
+
+All 32 native source tables now match the generated row counts and canonical SHA-256 hashes, including 2,774,006 results; `native-source-reconciliation.json` records `all_matched: true`. This is source reconciliation only, not downstream verification.
+
+The owner saved HealthNet Model SQL Owner (`8a49d254-e4e3-4729-9365-12d3ebfe5042`) for the exact hn_dw SQL endpoint/database, OAuth2, encrypted, Organizational privacy, SSO off, gateway sharing off. Credentials remain in Fabric. No identity or permission was added.
+
+Original clinical run d391c856-f9fe-4dbe-a808-27ec10e52916 and billing run 79629a3a-d2a6-426b-801e-9e2611a03872 FAILED with LakehouseTableMissingKeyColumns at encounter/charge respectively. The native editor proves `sink.upsertSettings.keys = ["id"]`; the earlier top-level `keyColumns` property was accepted by the definition API but ignored at runtime. The diagnostic editor edits were not published (Save validation refused other missing keys). Both complete definitions were corrected through REST updateDefinition, read back, and their before/after definitions retained separately in the local owner journal. Original failed runs and audit rows are unchanged. Replacement runs: clinical 72e005dc-f00a-4aef-a400-2dfc10ffa598; billing 4b3a5889-b360-42cf-9a0e-27984c2835ed. These are admitted, not yet verified successful. All 23 focused generator tests pass with the corrected property contract.
+
+MPI notebook first run 942020ac-25cc-44fd-87ba-94afa1bbf61b is admitted. Dataflow first execute 4f55674a-6b27-4c54-9f1e-5f04f903158e failed with JobInstanceStatusFailed / "Job instance failed without detail error"; diagnosis is pending. No native Dataflow/MPI success or end-to-end baseline is claimed. No schedules, capacity changes or DIA access were enabled.
