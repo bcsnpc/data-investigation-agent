@@ -71,7 +71,7 @@ class MonthlyTests(unittest.TestCase):
             b.admit_physical(rows,alloc,instant('2026-10-21'),'INVESTIGATION')
         b.admit_physical(rows,alloc,instant('2026-10-21'),'SCAN')
         b.admit_physical(rows,alloc,instant('2026-10-21'),'RESTORATION')
-        self.assertTrue(b.model_status(150_000_000,'2026-10')['exhausted'])
+        self.assertTrue(b.model_status(b.model_ceiling(instant('2026-10-31')),'2026-10')['exhausted'])
 
     def test_restoration_95_automatically_reserved_without_credit_grant(self):
         rows,alloc=self.rows(4905)
