@@ -2,13 +2,13 @@
 
 ## Current measurement
 
-Saved-result snapshot: 2026-11-01T02:24:30.668571+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the completed new held-out set (60/60 accounted for). G3 and G4 remain in progress until their requested totals are accounted for. Partial cohort figures must not be presented as full-set accuracy.
+Saved-result snapshot: 2026-11-01T02:50:20.282128+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the completed new held-out set (60/60 accounted for). G3 and G4 remain in progress until their requested totals are accounted for. Partial cohort figures must not be presented as full-set accuracy.
 
 | Cohort | Official primary (95% Wilson) | Strict (95% Wilson) | Raw-reviewed (95% Wilson) | Raw harmful | Requested |
 |---|---|---|---|---:|---:|
 |G1|37/40 (80.1â€“97.4%)|34/40 (70.9â€“92.9%)|35/40 (73.9â€“94.5%)|2|40|
 |G2|37/60 (49.0â€“72.9%)|32/60 (40.9â€“65.4%)|36/60 (47.4â€“71.4%)|0|60|
-|G3|0/31 (0.0â€“11.0%)|0/31 (0.0â€“11.0%)|0/31 (0.0â€“11.0%)|3|60|
+|G3|0/33 (0.0â€“10.4%)|0/33 (0.0â€“10.4%)|1/33 (0.5â€“15.3%)|3|60|
 |G4|not run|not run|not run|not measured|20|
 
 ### Same original R22 splits
@@ -17,7 +17,7 @@ The original dev and held-out sets remain separate. Interim numerators use only 
 
 | Original split | Requested | R22 official (95% Wilson) | R25 official | R25 strict | R25 raw-reviewed |
 |---|---:|---|---|---|---|
-|dev|40|14/40 (22.1â€“50.5%)|0/22 (0.0â€“14.9%)|0/22 (0.0â€“14.9%)|0/22 (0.0â€“14.9%)|
+|dev|40|14/40 (22.1â€“50.5%)|0/24 (0.0â€“13.8%)|0/24 (0.0â€“13.8%)|1/24 (0.7â€“20.2%)|
 |heldout|20|5/20 (11.2â€“46.9%)|0/9 (0.0â€“29.9%)|0/9 (0.0â€“29.9%)|0/9 (0.0â€“29.9%)|
 
 G1 is unchanged dev v2. G3 compares unchanged R22 text (14/40dev and5/20held-out); G4 is a regression comparison with R23's6/20. The prior R24 official18/20 remains unchanged. Related variants share fixtures, so Wilson intervals describe this observed sample, not independent client-estate accuracy.
@@ -30,7 +30,7 @@ Core agreement means verdict, layer, cause and harm flags. Full assessment addit
 |---|---|---|---|---|---|---:|
 |G1|37/40 (80.1â€“97.4%)|8/40 (10.5â€“34.8%)|35/40 (73.9â€“94.5%)|35/40 (73.9â€“94.5%)|35/40 (73.9â€“94.5%)|0|
 |G2|51/60 (73.9â€“91.9%)|13/60 (13.1â€“33.6%)|42/60 (57.5â€“80.1%)|44/60 (61.0â€“82.9%)|37/60 (49.0â€“72.9%)|0|
-|G3|26/31 (67.4â€“92.9%)|5/31 (7.1â€“32.6%)|0/31 (0.0â€“11.0%)|1/31 (0.6â€“16.2%)|0/31 (0.0â€“11.0%)|0|
+|G3|27/33 (65.6â€“91.4%)|5/33 (6.7â€“30.9%)|1/33 (0.5â€“15.3%)|2/33 (1.7â€“19.6%)|1/33 (0.5â€“15.3%)|0|
 
 Operator blinding was partly broken by the earlier two staging/status fragments and an additional G3 access status dump that included saved outcome text. These exposures are disclosed in decisions.md and the round summary. No investigator logic or expectation was changed afterward. G1's original raw reviews remain; G2â€“G4 disagreements are decided by independent Claude calls receiving only the owner-approved packet.
 
@@ -92,6 +92,8 @@ Every cell includes its95% Wilson interval. Original case-family IDs are retaine
 |G3 / R17-06|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
 |G3 / R17-07|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
 |G3 / R17-08|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
+|G3 / R17-09|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|1/1 (20.7â€“100.0%)|
+|G3 / R17-10|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
 |G3 / access-export-1|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|
 |G3 / access-export-2|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
 |G3 / access-export-3|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
@@ -136,7 +138,7 @@ Grouping uses exact sealed oracle labels; no expectation or score change. Case f
 |G2 / transformation logic|6/9 (35.4â€“87.9%)|6/9 (35.4â€“87.9%)|6/9 (35.4â€“87.9%)|0|
 |G2 / waiting on job|2/3 (20.8â€“93.9%)|2/3 (20.8â€“93.9%)|2/3 (20.8â€“93.9%)|0|
 |G3 / access difference|0/4 (0.0â€“49.0%)|0/4 (0.0â€“49.0%)|0/4 (0.0â€“49.0%)|0|
-|G3 / as designed|0/7 (0.0â€“35.4%)|0/7 (0.0â€“35.4%)|0/7 (0.0â€“35.4%)|3|
+|G3 / as designed|0/9 (0.0â€“29.9%)|0/9 (0.0â€“29.9%)|1/9 (2.0â€“43.5%)|3|
 |G3 / failed job|0/6 (0.0â€“39.0%)|0/6 (0.0â€“39.0%)|0/6 (0.0â€“39.0%)|0|
 |G3 / latency|0/5 (0.0â€“43.4%)|0/5 (0.0â€“43.4%)|0/5 (0.0â€“43.4%)|0|
 |G3 / not found|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0|

@@ -1,6 +1,6 @@
 {
   "pass": "Round25 G3 raw-reviewed",
-  "graded": 32,
+  "graded": 33,
   "score": 1,
   "correctness": {
     "verdict_match": 1,
@@ -9,7 +9,7 @@
   },
   "harmful": 3,
   "zero_groups": {
-    "intake": 25,
+    "intake": 26,
     "reading results": 2,
     "conclusion": 3,
     "target": 1
@@ -394,6 +394,20 @@
       "class": "R17-08"
     },
     {
+      "ticket": "R17-10-v1",
+      "first_wrong_step": "intake",
+      "reason": "What the saved record shows: the DIA saved answer is status NEEDS_INPUT. Handoff, stop, triage, queries and evidence are all null. The only evidence saved is the intake output. In that output, intake correctly set issue_type to HOW_IS_THIS_CALCULATED and compared_with to NOTHING. It mapped the ticket text with visual provenance [12,15], so it found visual candidates. It still asked the user to pick from all 12 reports and did not narrow the list to reports holding those visuals.\n\nThe sealed expectation is: verdict 'as designed', layer SEMANTIC, and the cause that Handled Quantity sums carried additive units rather than counting movement records, with the unfiltered card evaluating to 8765. The answer gives no verdict, layer or cause. Under the all-three rule, verdict, layer and cause all fail, and partial credit counts as zero. Both graders agree on this.\n\nHarm: none. The answer made no confident claim, right or wrong. Asking the user is honest uncertainty, not an unsupported claim.\n\nHandoff quality is 1. The question is clear and lists the report choices with IDs, so the user can answer it. But nothing can be rerun: there are no queries, handoff and stop are null, no next checks are suggested, and the visual candidates it found are not used to narrow the choices.\n\nFailing step, the only real disagreement: intake itself worked. It mapped the text, classified the issue type and found visual candidates. The first thing that went wrong was deciding to ask the user instead of finding the named visual 'Handled Quantity - unfiltered'. That makes 'asked the user' the more accurate label than 'intake'.\n\nWinner: secondary. The primary grader's claim that 'no clarification was needed' goes slightly too far, because two visual candidates were mapped and could be ambiguous. Even so, a full list of 12 reports was not a justified question to ask. The secondary grader's reasoning is more exact: it names the failure as asking instead of searching, and correctly explains the handoff score (null stop, empty handoff, nothing to rerun).",
+      "saved_trace": {
+        "outcome_sha256": "d16e720519eba858b8f8f2e4444c21c0c1127c6c83ecbfce17dd4604c13bbd20",
+        "local_outcome": ".local\\round-twenty-five\\g3-R17-10-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "R17-10"
+    },
+    {
       "ticket": "waiting-billing-load-v1",
       "first_wrong_step": "intake",
       "reason": "What the saved record shows: the DIA saved answer is status NEEDS_INPUT, with handoff null and stop null. Its only output is the question \"Choose the missing details so I can check the report.\" It offers one report choice, \"Subscription Billing\". In the saved evidence, intake classified the ticket as issue_type DATA_LOOKS_OLD with compared_with NOTHING and empty provenance. Triage, queries and evidence are all null, so no query ran. The sealed expectation is verdict \"waiting on job\", layer PIPELINE, and the cause is the named job's freshly observed active RUNNING/QUEUED Wait-control execution, with its pending completion named.\n\nScoring: the answer gives no verdict, no layer and no cause, so all three fail. Under the all-three rule, partial is false and scores zero. It is not harmful because it states nothing false as fact: no failure, cause or SLA is invented. The failing step is intake. The ticket asks about a named pipeline job (\"PIPELINE Billing application load\", shown as running on the job history screen), but intake routed it as a stale-report question and asked the user to pick a report. That choice was never needed to look up the job's run status.\n\nThe one real dispute is handoff quality. The primary grader scores 1 and calls the question \"plausible\". That is too generous. The question sends the work down the wrong path: a report choice does nothing to identify the active run, the handoff is null, and nothing from any investigation is passed on. Even though \"Subscription Billing\" probably comes from the word \"Billing\" in the ticket, it is still off-target. So 0 is correct, as the secondary grader says. The primary's other points are fine, apart from its reference to \"available evidence (docs/runs/...)\": that file is the grading reference, not something DIA should have consulted.\n\nThe secondary grader has one small factual error: it quotes \"queries: []\", but the saved value is null. The substance still holds, because no queries ran either way. The secondary wins because its handoff judgment matches the record.",
@@ -518,6 +532,7 @@
     "R17-06": 1,
     "R17-07": 1,
     "R17-08": 1,
+    "R17-10": 1,
     "waiting-billing-load": 1,
     "waiting-billing-transform": 1,
     "waiting-fixture-load": 2

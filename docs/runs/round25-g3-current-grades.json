@@ -2,46 +2,46 @@
   "official_primary": {
     "all_three": {
       "correct": 0,
-      "total": 32,
+      "total": 33,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.1071791982550706,
+      "upper": 0.10426999754245206,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 0,
-      "total": 32,
+      "total": 33,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.1071791982550706,
+      "upper": 0.10426999754245206,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 4,
-      "total": 32,
-      "accuracy": 0.125,
-      "lower": 0.04970134387480073,
-      "upper": 0.2806830548165022,
+      "total": 33,
+      "accuracy": 0.12121212121212122,
+      "lower": 0.04816161309413558,
+      "upper": 0.2732550517107523,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 1,
-      "total": 32,
-      "accuracy": 0.03125,
-      "lower": 0.005537860164003122,
-      "upper": 0.15744263820012558,
+      "total": 33,
+      "accuracy": 0.030303030303030304,
+      "lower": 0.00536941053687183,
+      "upper": 0.1531872538211892,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 32,
+      "total": 33,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.1071791982550706,
+      "upper": 0.10426999754245206,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -49,46 +49,46 @@
   "strict": {
     "all_three": {
       "correct": 0,
-      "total": 32,
+      "total": 33,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.1071791982550706,
+      "upper": 0.10426999754245206,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 0,
-      "total": 32,
+      "total": 33,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.1071791982550706,
+      "upper": 0.10426999754245206,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 2,
-      "total": 32,
-      "accuracy": 0.0625,
-      "lower": 0.017310567031640967,
-      "upper": 0.2014712314415458,
+      "total": 33,
+      "accuracy": 0.06060606060606061,
+      "lower": 0.016780883087191875,
+      "upper": 0.1960624480864781,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 0,
-      "total": 32,
+      "total": 33,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.1071791982550706,
+      "upper": 0.10426999754245206,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 3,
-      "total": 32,
-      "accuracy": 0.09375,
-      "lower": 0.032401551298366194,
-      "upper": 0.24218154728387864,
+      "total": 33,
+      "accuracy": 0.09090909090909091,
+      "lower": 0.03140394152458165,
+      "upper": 0.2357260564646973,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -96,46 +96,46 @@
   "raw_reviewed": {
     "all_three": {
       "correct": 1,
-      "total": 32,
-      "accuracy": 0.03125,
-      "lower": 0.005537860164003122,
-      "upper": 0.15744263820012558,
+      "total": 33,
+      "accuracy": 0.030303030303030304,
+      "lower": 0.00536941053687183,
+      "upper": 0.1531872538211892,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 1,
-      "total": 32,
-      "accuracy": 0.03125,
-      "lower": 0.005537860164003122,
-      "upper": 0.15744263820012558,
+      "total": 33,
+      "accuracy": 0.030303030303030304,
+      "lower": 0.00536941053687183,
+      "upper": 0.1531872538211892,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 2,
-      "total": 32,
-      "accuracy": 0.0625,
-      "lower": 0.017310567031640967,
-      "upper": 0.2014712314415458,
+      "total": 33,
+      "accuracy": 0.06060606060606061,
+      "lower": 0.016780883087191875,
+      "upper": 0.1960624480864781,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 1,
-      "total": 32,
-      "accuracy": 0.03125,
-      "lower": 0.005537860164003122,
-      "upper": 0.15744263820012558,
+      "total": 33,
+      "accuracy": 0.030303030303030304,
+      "lower": 0.00536941053687183,
+      "upper": 0.1531872538211892,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 3,
-      "total": 32,
-      "accuracy": 0.09375,
-      "lower": 0.032401551298366194,
-      "upper": 0.24218154728387864,
+      "total": 33,
+      "accuracy": 0.09090909090909091,
+      "lower": 0.03140394152458165,
+      "upper": 0.2357260564646973,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,50 +143,50 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 32,
+  "completed_graded": 33,
   "primary": {
     "all_three": {
       "correct": 0,
-      "total": 32,
+      "total": 33,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.1071791982550706,
+      "upper": 0.10426999754245206,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 0,
-      "total": 32,
+      "total": 33,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.1071791982550706,
+      "upper": 0.10426999754245206,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 4,
-      "total": 32,
-      "accuracy": 0.125,
-      "lower": 0.04970134387480073,
-      "upper": 0.2806830548165022,
+      "total": 33,
+      "accuracy": 0.12121212121212122,
+      "lower": 0.04816161309413558,
+      "upper": 0.2732550517107523,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 1,
-      "total": 32,
-      "accuracy": 0.03125,
-      "lower": 0.005537860164003122,
-      "upper": 0.15744263820012558,
+      "total": 33,
+      "accuracy": 0.030303030303030304,
+      "lower": 0.00536941053687183,
+      "upper": 0.1531872538211892,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 32,
+      "total": 33,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.1071791982550706,
+      "upper": 0.10426999754245206,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -194,56 +194,56 @@
   "secondary": {
     "all_three": {
       "correct": 1,
-      "total": 32,
-      "accuracy": 0.03125,
-      "lower": 0.005537860164003122,
-      "upper": 0.15744263820012558,
+      "total": 33,
+      "accuracy": 0.030303030303030304,
+      "lower": 0.00536941053687183,
+      "upper": 0.1531872538211892,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 1,
-      "total": 32,
-      "accuracy": 0.03125,
-      "lower": 0.005537860164003122,
-      "upper": 0.15744263820012558,
+      "total": 33,
+      "accuracy": 0.030303030303030304,
+      "lower": 0.00536941053687183,
+      "upper": 0.1531872538211892,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 2,
-      "total": 32,
-      "accuracy": 0.0625,
-      "lower": 0.017310567031640967,
-      "upper": 0.2014712314415458,
+      "total": 33,
+      "accuracy": 0.06060606060606061,
+      "lower": 0.016780883087191875,
+      "upper": 0.1960624480864781,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 1,
-      "total": 32,
-      "accuracy": 0.03125,
-      "lower": 0.005537860164003122,
-      "upper": 0.15744263820012558,
+      "total": 33,
+      "accuracy": 0.030303030303030304,
+      "lower": 0.00536941053687183,
+      "upper": 0.1531872538211892,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 3,
-      "total": 32,
-      "accuracy": 0.09375,
-      "lower": 0.032401551298366194,
-      "upper": 0.24218154728387864,
+      "total": 33,
+      "accuracy": 0.09090909090909091,
+      "lower": 0.03140394152458165,
+      "upper": 0.2357260564646973,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 26,
-    "total": 32,
-    "accuracy": 0.8125,
-    "lower": 0.6469084479862404,
-    "upper": 0.9111045531043405,
+    "correct": 27,
+    "total": 33,
+    "accuracy": 0.8181818181818182,
+    "lower": 0.6561176836533009,
+    "upper": 0.9138923179105933,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -255,10 +255,10 @@
   ],
   "full_assessment_agreement": {
     "correct": 5,
-    "total": 32,
-    "accuracy": 0.15625,
-    "lower": 0.0686442028250571,
-    "upper": 0.3175414959753039,
+    "total": 33,
+    "accuracy": 0.15151515151515152,
+    "lower": 0.06650457281607568,
+    "upper": 0.3091987588044212,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -420,6 +420,12 @@
         "verdict_match",
         "cause_match",
         "handoff_quality",
+        "failing_step"
+      ]
+    },
+    {
+      "ticket": "R17-10-v1",
+      "fields": [
         "failing_step"
       ]
     },
@@ -7006,6 +7012,246 @@
         }
       }
     },
+    "R17-10": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "waiting-billing-load": {
       "official_primary": {
         "all_three": {
@@ -10164,6 +10410,82 @@
       }
     },
     {
+      "ticket": "R17-10-v1",
+      "class": "R17-10",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer stopped at NEEDS_INPUT asking the user to select a report, which is an intake/clarification step. The expected answer requires a substantive technical response: verdict='as designed', layer='SEMANTIC', and the named cause explaining that Handled Quantity sums carried additive units rather than counting movement records. The agent never reached triage or investigation, so verdict, layer, and cause all fail to match. The handoff is partially useful (it lists all available reports clearly and is rerunnable) but the stopping point is premature given the question is self-contained in the ticket text and no clarification was needed.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "asked the user",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected: verdict 'as designed', layer SEMANTIC, cause = Handled Quantity sums carried additive units (not a count of movement records), with the unfiltered card evaluating to 8765. Delivered stopped at NEEDS_INPUT and asked the user to pick a report from 12 candidates. It gave no verdict, layer or cause, so all three score zero. It is not harmful because it made no confident incorrect claim. The intake classification (HOW_IS_THIS_CALCULATED) was reasonable, but the ticket already names the visual ('Handled Quantity - unfiltered' card). The engine could have searched for it instead of asking, so asking the user is the first failing step. Handoff gets 1 of 2: the stopping point is clear (a report-selection question with enumerated choices), but there are no queries to rerun, the handoff object is empty, stop is null and no next checks are suggested.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-static10",
+      "outcome_sha256": "d16e720519eba858b8f8f2e4444c21c0c1127c6c83ecbfce17dd4604c13bbd20",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 97834,
+      "physical_requests": 0,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-R17-10-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "holds",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 52531,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "asked the user",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved record shows: the DIA saved answer is status NEEDS_INPUT. Handoff, stop, triage, queries and evidence are all null. The only evidence saved is the intake output. In that output, intake correctly set issue_type to HOW_IS_THIS_CALCULATED and compared_with to NOTHING. It mapped the ticket text with visual provenance [12,15], so it found visual candidates. It still asked the user to pick from all 12 reports and did not narrow the list to reports holding those visuals.\n\nThe sealed expectation is: verdict 'as designed', layer SEMANTIC, and the cause that Handled Quantity sums carried additive units rather than counting movement records, with the unfiltered card evaluating to 8765. The answer gives no verdict, layer or cause. Under the all-three rule, verdict, layer and cause all fail, and partial credit counts as zero. Both graders agree on this.\n\nHarm: none. The answer made no confident claim, right or wrong. Asking the user is honest uncertainty, not an unsupported claim.\n\nHandoff quality is 1. The question is clear and lists the report choices with IDs, so the user can answer it. But nothing can be rerun: there are no queries, handoff and stop are null, no next checks are suggested, and the visual candidates it found are not used to narrow the choices.\n\nFailing step, the only real disagreement: intake itself worked. It mapped the text, classified the issue type and found visual candidates. The first thing that went wrong was deciding to ask the user instead of finding the named visual 'Handled Quantity - unfiltered'. That makes 'asked the user' the more accurate label than 'intake'.\n\nWinner: secondary. The primary grader's claim that 'no clarification was needed' goes slightly too far, because two visual candidates were mapped and could be ambiguous. Even so, a full list of 12 reports was not a justified question to ask. The secondary grader's reasoning is more exact: it names the failure as asking instead of searching, and correctly explains the handoff score (null stop, empty handoff, nothing to rerun).",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "d16e720519eba858b8f8f2e4444c21c0c1127c6c83ecbfce17dd4604c13bbd20",
+        "reason": "What the saved record shows: the DIA saved answer is status NEEDS_INPUT. Handoff, stop, triage, queries and evidence are all null. The only evidence saved is the intake output. In that output, intake correctly set issue_type to HOW_IS_THIS_CALCULATED and compared_with to NOTHING. It mapped the ticket text with visual provenance [12,15], so it found visual candidates. It still asked the user to pick from all 12 reports and did not narrow the list to reports holding those visuals.\n\nThe sealed expectation is: verdict 'as designed', layer SEMANTIC, and the cause that Handled Quantity sums carried additive units rather than counting movement records, with the unfiltered card evaluating to 8765. The answer gives no verdict, layer or cause. Under the all-three rule, verdict, layer and cause all fail, and partial credit counts as zero. Both graders agree on this.\n\nHarm: none. The answer made no confident claim, right or wrong. Asking the user is honest uncertainty, not an unsupported claim.\n\nHandoff quality is 1. The question is clear and lists the report choices with IDs, so the user can answer it. But nothing can be rerun: there are no queries, handoff and stop are null, no next checks are suggested, and the visual candidates it found are not used to narrow the choices.\n\nFailing step, the only real disagreement: intake itself worked. It mapped the text, classified the issue type and found visual candidates. The first thing that went wrong was deciding to ask the user instead of finding the named visual 'Handled Quantity - unfiltered'. That makes 'asked the user' the more accurate label than 'intake'.\n\nWinner: secondary. The primary grader's claim that 'no clarification was needed' goes slightly too far, because two visual candidates were mapped and could be ambiguous. Even so, a full list of 12 reports was not a justified question to ask. The secondary grader's reasoning is more exact: it names the failure as asking instead of searching, and correctly explains the handoff score (null stop, empty handoff, nothing to rerun).",
+        "source_sha256": "0b79f29bd143aa05cff56e4735aab39eaf3d13797a4edf557e9e122c7bb9c782",
+        "ticket": "R17-10-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 3999,
+          "output_tokens": 1607,
+          "output_tokens_details": {
+            "thinking_tokens": 675
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
       "ticket": "waiting-billing-load-v1",
       "class": "waiting-billing-load",
       "fixture": "waiting-billing-load",
@@ -10433,7 +10755,6 @@
   "raw_review_policy": "FRESH_INDEPENDENT_CLAUDE_CALL; no operator adjudication",
   "requested": 60,
   "not_yet_graded": [
-    "R17-10-v1",
     "R17-11-v1",
     "R17-12-v1",
     "failed-billing-load-v1",
@@ -11428,46 +11749,46 @@
       "official_primary": {
         "all_three": {
           "correct": 0,
-          "total": 8,
+          "total": 9,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.32440756488388023,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 8,
+          "total": 9,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.32440756488388023,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 1,
-          "total": 8,
-          "accuracy": 0.125,
-          "lower": 0.02241749145005667,
-          "upper": 0.4708881822128535,
+          "total": 9,
+          "accuracy": 0.1111111111111111,
+          "lower": 0.019890887638544907,
+          "upper": 0.434999705576656,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 8,
+          "total": 9,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.32440756488388023,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 8,
+          "total": 9,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.32440756488388023,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -11475,46 +11796,46 @@
       "strict": {
         "all_three": {
           "correct": 0,
-          "total": 8,
+          "total": 9,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.32440756488388023,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 8,
+          "total": 9,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.32440756488388023,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 1,
-          "total": 8,
-          "accuracy": 0.125,
-          "lower": 0.02241749145005667,
-          "upper": 0.4708881822128535,
+          "total": 9,
+          "accuracy": 0.1111111111111111,
+          "lower": 0.019890887638544907,
+          "upper": 0.434999705576656,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 8,
+          "total": 9,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.32440756488388023,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 8,
-          "accuracy": 0.375,
-          "lower": 0.13684428582359742,
-          "upper": 0.6942576053973727,
+          "total": 9,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.1205838183869109,
+          "upper": 0.6457978644196036,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -11522,46 +11843,46 @@
       "raw_reviewed": {
         "all_three": {
           "correct": 1,
-          "total": 8,
-          "accuracy": 0.125,
-          "lower": 0.02241749145005667,
-          "upper": 0.4708881822128535,
+          "total": 9,
+          "accuracy": 0.1111111111111111,
+          "lower": 0.019890887638544907,
+          "upper": 0.434999705576656,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 1,
-          "total": 8,
-          "accuracy": 0.125,
-          "lower": 0.02241749145005667,
-          "upper": 0.4708881822128535,
+          "total": 9,
+          "accuracy": 0.1111111111111111,
+          "lower": 0.019890887638544907,
+          "upper": 0.434999705576656,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 1,
-          "total": 8,
-          "accuracy": 0.125,
-          "lower": 0.02241749145005667,
-          "upper": 0.4708881822128535,
+          "total": 9,
+          "accuracy": 0.1111111111111111,
+          "lower": 0.019890887638544907,
+          "upper": 0.434999705576656,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 1,
-          "total": 8,
-          "accuracy": 0.125,
-          "lower": 0.02241749145005667,
-          "upper": 0.4708881822128535,
+          "total": 9,
+          "accuracy": 0.1111111111111111,
+          "lower": 0.019890887638544907,
+          "upper": 0.434999705576656,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 8,
-          "accuracy": 0.375,
-          "lower": 0.13684428582359742,
-          "upper": 0.6942576053973727,
+          "total": 9,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.1205838183869109,
+          "upper": 0.6457978644196036,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -11572,46 +11893,46 @@
       "primary": {
         "all_three": {
           "correct": 0,
-          "total": 8,
+          "total": 9,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.32440756488388023,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 8,
+          "total": 9,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.32440756488388023,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 1,
-          "total": 8,
-          "accuracy": 0.125,
-          "lower": 0.02241749145005667,
-          "upper": 0.4708881822128535,
+          "total": 9,
+          "accuracy": 0.1111111111111111,
+          "lower": 0.019890887638544907,
+          "upper": 0.434999705576656,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 8,
+          "total": 9,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.32440756488388023,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 8,
+          "total": 9,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.32440756488388023,
+          "upper": 0.2991450484195441,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -11619,46 +11940,46 @@
       "secondary": {
         "all_three": {
           "correct": 1,
-          "total": 8,
-          "accuracy": 0.125,
-          "lower": 0.02241749145005667,
-          "upper": 0.4708881822128535,
+          "total": 9,
+          "accuracy": 0.1111111111111111,
+          "lower": 0.019890887638544907,
+          "upper": 0.434999705576656,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 1,
-          "total": 8,
-          "accuracy": 0.125,
-          "lower": 0.02241749145005667,
-          "upper": 0.4708881822128535,
+          "total": 9,
+          "accuracy": 0.1111111111111111,
+          "lower": 0.019890887638544907,
+          "upper": 0.434999705576656,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 1,
-          "total": 8,
-          "accuracy": 0.125,
-          "lower": 0.02241749145005667,
-          "upper": 0.4708881822128535,
+          "total": 9,
+          "accuracy": 0.1111111111111111,
+          "lower": 0.019890887638544907,
+          "upper": 0.434999705576656,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 1,
-          "total": 8,
-          "accuracy": 0.125,
-          "lower": 0.02241749145005667,
-          "upper": 0.4708881822128535,
+          "total": 9,
+          "accuracy": 0.1111111111111111,
+          "lower": 0.019890887638544907,
+          "upper": 0.434999705576656,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 8,
-          "accuracy": 0.375,
-          "lower": 0.13684428582359742,
-          "upper": 0.6942576053973727,
+          "total": 9,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.1205838183869109,
+          "upper": 0.6457978644196036,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -12152,46 +12473,46 @@
       "official_primary": {
         "all_three": {
           "correct": 0,
-          "total": 23,
+          "total": 24,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.14311661845042686,
+          "lower": 1.3877787807814457e-17,
+          "upper": 0.13797620467498017,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 23,
+          "total": 24,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.14311661845042686,
+          "lower": 1.3877787807814457e-17,
+          "upper": 0.13797620467498017,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 4,
-          "total": 23,
-          "accuracy": 0.17391304347826086,
-          "lower": 0.06978653563062565,
-          "upper": 0.3713764764022614,
+          "total": 24,
+          "accuracy": 0.16666666666666666,
+          "lower": 0.06678676328632951,
+          "upper": 0.3585307064969906,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 1,
-          "total": 23,
-          "accuracy": 0.043478260869565216,
-          "lower": 0.007716666143453149,
-          "upper": 0.20991155070258877,
+          "total": 24,
+          "accuracy": 0.041666666666666664,
+          "lower": 0.0073934561655057685,
+          "upper": 0.20241806478655938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 23,
+          "total": 24,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.14311661845042686,
+          "lower": 1.3877787807814457e-17,
+          "upper": 0.13797620467498017,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -12199,46 +12520,46 @@
       "strict": {
         "all_three": {
           "correct": 0,
-          "total": 23,
+          "total": 24,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.14311661845042686,
+          "lower": 1.3877787807814457e-17,
+          "upper": 0.13797620467498017,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 23,
+          "total": 24,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.14311661845042686,
+          "lower": 1.3877787807814457e-17,
+          "upper": 0.13797620467498017,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 2,
-          "total": 23,
-          "accuracy": 0.08695652173913043,
-          "lower": 0.024180004484220363,
-          "upper": 0.26795981075743663,
+          "total": 24,
+          "accuracy": 0.08333333333333333,
+          "lower": 0.023158815297043306,
+          "upper": 0.25848802193210685,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 23,
+          "total": 24,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.14311661845042686,
+          "lower": 1.3877787807814457e-17,
+          "upper": 0.13797620467498017,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 23,
-          "accuracy": 0.13043478260869565,
-          "lower": 0.04537659093631238,
-          "upper": 0.32127482270095964,
+          "total": 24,
+          "accuracy": 0.125,
+          "lower": 0.04344334080123444,
+          "upper": 0.31003881270500067,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -12246,46 +12567,46 @@
       "raw_reviewed": {
         "all_three": {
           "correct": 1,
-          "total": 23,
-          "accuracy": 0.043478260869565216,
-          "lower": 0.007716666143453149,
-          "upper": 0.20991155070258877,
+          "total": 24,
+          "accuracy": 0.041666666666666664,
+          "lower": 0.0073934561655057685,
+          "upper": 0.20241806478655938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 1,
-          "total": 23,
-          "accuracy": 0.043478260869565216,
-          "lower": 0.007716666143453149,
-          "upper": 0.20991155070258877,
+          "total": 24,
+          "accuracy": 0.041666666666666664,
+          "lower": 0.0073934561655057685,
+          "upper": 0.20241806478655938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 2,
-          "total": 23,
-          "accuracy": 0.08695652173913043,
-          "lower": 0.024180004484220363,
-          "upper": 0.26795981075743663,
+          "total": 24,
+          "accuracy": 0.08333333333333333,
+          "lower": 0.023158815297043306,
+          "upper": 0.25848802193210685,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 1,
-          "total": 23,
-          "accuracy": 0.043478260869565216,
-          "lower": 0.007716666143453149,
-          "upper": 0.20991155070258877,
+          "total": 24,
+          "accuracy": 0.041666666666666664,
+          "lower": 0.0073934561655057685,
+          "upper": 0.20241806478655938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 23,
-          "accuracy": 0.13043478260869565,
-          "lower": 0.04537659093631238,
-          "upper": 0.32127482270095964,
+          "total": 24,
+          "accuracy": 0.125,
+          "lower": 0.04344334080123444,
+          "upper": 0.31003881270500067,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -12293,50 +12614,50 @@
       "raw_review_pending": [],
       "raw_review_complete": true,
       "headline": "raw_reviewed",
-      "completed_graded": 23,
+      "completed_graded": 24,
       "primary": {
         "all_three": {
           "correct": 0,
-          "total": 23,
+          "total": 24,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.14311661845042686,
+          "lower": 1.3877787807814457e-17,
+          "upper": 0.13797620467498017,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 23,
+          "total": 24,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.14311661845042686,
+          "lower": 1.3877787807814457e-17,
+          "upper": 0.13797620467498017,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 4,
-          "total": 23,
-          "accuracy": 0.17391304347826086,
-          "lower": 0.06978653563062565,
-          "upper": 0.3713764764022614,
+          "total": 24,
+          "accuracy": 0.16666666666666666,
+          "lower": 0.06678676328632951,
+          "upper": 0.3585307064969906,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 1,
-          "total": 23,
-          "accuracy": 0.043478260869565216,
-          "lower": 0.007716666143453149,
-          "upper": 0.20991155070258877,
+          "total": 24,
+          "accuracy": 0.041666666666666664,
+          "lower": 0.0073934561655057685,
+          "upper": 0.20241806478655938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 23,
+          "total": 24,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.14311661845042686,
+          "lower": 1.3877787807814457e-17,
+          "upper": 0.13797620467498017,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -12344,56 +12665,56 @@
       "secondary": {
         "all_three": {
           "correct": 1,
-          "total": 23,
-          "accuracy": 0.043478260869565216,
-          "lower": 0.007716666143453149,
-          "upper": 0.20991155070258877,
+          "total": 24,
+          "accuracy": 0.041666666666666664,
+          "lower": 0.0073934561655057685,
+          "upper": 0.20241806478655938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 1,
-          "total": 23,
-          "accuracy": 0.043478260869565216,
-          "lower": 0.007716666143453149,
-          "upper": 0.20991155070258877,
+          "total": 24,
+          "accuracy": 0.041666666666666664,
+          "lower": 0.0073934561655057685,
+          "upper": 0.20241806478655938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 2,
-          "total": 23,
-          "accuracy": 0.08695652173913043,
-          "lower": 0.024180004484220363,
-          "upper": 0.26795981075743663,
+          "total": 24,
+          "accuracy": 0.08333333333333333,
+          "lower": 0.023158815297043306,
+          "upper": 0.25848802193210685,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 1,
-          "total": 23,
-          "accuracy": 0.043478260869565216,
-          "lower": 0.007716666143453149,
-          "upper": 0.20991155070258877,
+          "total": 24,
+          "accuracy": 0.041666666666666664,
+          "lower": 0.0073934561655057685,
+          "upper": 0.20241806478655938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 23,
-          "accuracy": 0.13043478260869565,
-          "lower": 0.04537659093631238,
-          "upper": 0.32127482270095964,
+          "total": 24,
+          "accuracy": 0.125,
+          "lower": 0.04344334080123444,
+          "upper": 0.31003881270500067,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "agreement": {
-        "correct": 17,
-        "total": 23,
-        "accuracy": 0.7391304347826086,
-        "lower": 0.5352999516257462,
-        "upper": 0.8745138395501366,
+        "correct": 18,
+        "total": 24,
+        "accuracy": 0.75,
+        "lower": 0.55100555994846,
+        "upper": 0.8800063377140499,
         "confidence": 0.95,
         "method": "Wilson"
       },
@@ -12405,10 +12726,10 @@
       ],
       "full_assessment_agreement": {
         "correct": 3,
-        "total": 23,
-        "accuracy": 0.13043478260869565,
-        "lower": 0.04537659093631238,
-        "upper": 0.32127482270095964,
+        "total": 24,
+        "accuracy": 0.125,
+        "lower": 0.04344334080123444,
+        "upper": 0.31003881270500067,
         "confidence": 0.95,
         "method": "Wilson"
       },
@@ -12532,6 +12853,12 @@
             "verdict_match",
             "cause_match",
             "handoff_quality",
+            "failing_step"
+          ]
+        },
+        {
+          "ticket": "R17-10-v1",
+          "fields": [
             "failing_step"
           ]
         },
@@ -17292,6 +17619,246 @@
             }
           }
         },
+        "R17-10": {
+          "official_primary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "strict": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_reviewed": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_review_pending": [],
+          "raw_review_complete": true,
+          "headline": "raw_reviewed",
+          "primary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "secondary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          }
+        },
         "waiting-fixture-load": {
           "official_primary": {
             "all_three": {
@@ -20612,17 +21179,17 @@
   },
   "timing_cost": {
     "all": {
-      "tickets": 32,
+      "tickets": 33,
       "native_observed": 7,
-      "native_missing": 25,
+      "native_missing": 26,
       "native_median_seconds": 200.0,
       "native_p90_seconds": 261.0,
       "worker_median_seconds": 171.57637016500007,
       "worker_p90_seconds": 233.1086469249999,
-      "investigation_cost_microdollars_observed": 5138839,
-      "cost_observed": 32,
+      "investigation_cost_microdollars_observed": 5236673,
+      "cost_observed": 33,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.16058871875,
+      "cost_per_observed_ticket_usd": 0.1586870606060606,
       "physical_requests_observed": 168,
       "physical_requests_unavailable": 0
     },
@@ -20657,17 +21224,17 @@
       "physical_requests_unavailable": 0
     },
     "holds": {
-      "tickets": 25,
+      "tickets": 26,
       "native_observed": 0,
-      "native_missing": 25,
+      "native_missing": 26,
       "native_median_seconds": null,
       "native_p90_seconds": null,
       "worker_median_seconds": null,
       "worker_p90_seconds": null,
-      "investigation_cost_microdollars_observed": 1879370,
-      "cost_observed": 25,
+      "investigation_cost_microdollars_observed": 1977204,
+      "cost_observed": 26,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.0751748,
+      "cost_per_observed_ticket_usd": 0.07604630769230769,
       "physical_requests_observed": 0,
       "physical_requests_unavailable": 0
     }
