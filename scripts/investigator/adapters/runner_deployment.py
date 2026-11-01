@@ -99,17 +99,21 @@ def launch(config,target,*,execute=subprocess.run):
     container['env']=env
     _safe(bytes_of(template))
     with tempfile.TemporaryDirectory(prefix='dia-runner-launch-') as folder:
-        path=Path(folder)/'execution.yaml'
-        # JSON is valid YAML. The optional approved resource increase applies
+        path=Path(folder)/'execution.json'
+        # The CLI YAML wrapper masks failures of its redundant GET as a missing
+        # job. Send this exact validated ARM template instead, with no POST retry.
+        # The optional approved resource increase applies
         # only to this execution; the job's scheduled template stays unchanged.
         path.write_bytes(bytes_of(template))
         try:
-            started=execute(base+['start','--ids',resource,'--yaml',str(path),'--output','json','--only-show-errors'],capture_output=True,text=True,check=True)
+            started=execute(cli+['rest','--method','post','--url','https://management.azure.com'+resource+'/start?api-version=2025-01-01','--headers','Content-Type=application/json','--body','@'+str(path),'--output','json','--only-show-errors'],capture_output=True,text=True,check=True,timeout=120)
         except subprocess.CalledProcessError as error:
             detail=str(error.stderr or '')[:2000]
             try:_safe(detail.encode())
             except ValueError:detail='REDACTED_UNSAFE_PROVIDER_ERROR'
             raise RuntimeError('AZURE_JOB_START_UNESTABLISHED run_id='+str(config.get('run_id'))+' image='+config['image']+' native_error='+detail) from error
+    if not started.stdout.strip():
+        raise RuntimeError('AZURE_JOB_START_ACCEPTED_WITHOUT_EXECUTION_REFERENCE run_id='+str(config.get('run_id')))
     result=json.loads(started.stdout)
     return {'run_id':config.get('run_id'),'execution_name':result.get('name'),'image':config['image'],'status':'STARTED',**({'demo_admission':admission}if demo else {})}
 

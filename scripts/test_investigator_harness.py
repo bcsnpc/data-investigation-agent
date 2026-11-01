@@ -18,9 +18,10 @@ class HarnessTests(unittest.TestCase):
         import subprocess
         user=object.__new__(AzureCLIUser);user.cli=['az'];user.control=Mock()
         user.execute=Mock(side_effect=subprocess.CalledProcessError(1,['python','dia.py'],
-            output='native start not established',stderr='AZURE_JOB_READ_FAILED_BEFORE_START: BadGateway'))
+            output='native start not established',stderr='x'*2000+'AZURE_JOB_READ_FAILED_BEFORE_START: BadGateway'))
         with self.assertRaises(subprocess.CalledProcessError):user._json(['python','dia.py'])
         user.execute.assert_called_once()
+        self.assertEqual(user.execute.call_args.kwargs['timeout'],360)
         note=user.control.call_args.args[0]
         self.assertEqual(note['kind'],'CONTROL_COMMAND_FAILURE')
         self.assertIn('READ_FAILED_BEFORE_START',note['stderr'])

@@ -33,12 +33,12 @@ class AzureCLIUser:
         read_only=operation[:4]in (['containerapp','job','execution','show'],['containerapp','job','execution','list'])
         for attempt in range(3 if read_only else 1):
             try:
-                response=self.execute(args,capture_output=True,text=True,check=True,timeout=60 if read_only else 180)
+                response=self.execute(args,capture_output=True,text=True,check=True,timeout=60 if read_only else 360)
                 return json.loads(response.stdout)
             except (subprocess.CalledProcessError,subprocess.TimeoutExpired) as error:
                 detail=str(getattr(error,'stderr','') or '')[:1000]
                 diagnostic = {'kind':'CONTROL_COMMAND_FAILURE','error_type':type(error).__name__,
-                              'read_only':read_only,'stderr':detail,
+                              'read_only':read_only,'stderr':str(getattr(error,'stderr','') or '')[-4000:],
                               'stdout':str(getattr(error,'stdout','') or '')[:4000]}
                 try:_safe(bytes_of(diagnostic))
                 except ValueError:diagnostic = {**diagnostic,'stderr':'REDACTED_UNSAFE_CONTROL_ERROR','stdout':''}
