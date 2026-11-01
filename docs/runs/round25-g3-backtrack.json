@@ -1,6 +1,6 @@
 {
   "pass": "Round25 G3 raw-reviewed",
-  "graded": 10,
+  "graded": 15,
   "score": 0,
   "correctness": {
     "verdict_match": 0,
@@ -9,7 +9,7 @@
   },
   "harmful": 0,
   "zero_groups": {
-    "intake": 10
+    "intake": 15
   },
   "zeros": [
     {
@@ -95,6 +95,76 @@
       "retained_query_errors": [],
       "correct_action": "Resolve only the missing user fact using the admitted catalog.",
       "class": "failed-fixture-load"
+    },
+    {
+      "ticket": "latency-900501-v1",
+      "first_wrong_step": "intake",
+      "reason": "What the saved record shows: the DIA answer has status NEEDS_INPUT. Its handoff is null, its stop is null, and evidence, queries and triage are all null. The intake did fill in some fields: issue_type RECORD_MISSING, details.record 'movement_id 900501', and compared_with SOURCE_SYSTEM with a hashed source. It then stopped and asked the user to pick a 'report' from 12 named choices. None of those choices is round_two_bronze_20261003, the Bronze table the ticket names. The ticket already gave the source (the application stock movements export), the target table and the record, so the investigation could have gone ahead without asking.\n\nThe sealed expectation is: verdict latency, split SOURCE -> BRONZE, and the named cause is that the movement arrived after the last completed load and an enabled application-load schedule has not run yet, with the load and its due time named. The answer gives no verdict, no layer and no cause, so all three checks fail and the score is zero. Partial credit doesn't apply. It makes no wrong causal claim, so it is not harmful. On these points both graders are right.\n\nDisputed point 1, failing step: The secondary grader's 'asked the user' is the better label. The intake did work as far as classifying the issue and identifying the record. The run went wrong when it stopped to ask the user something the ticket already answered. The list it offered doesn't even include the named target, so the user couldn't give a useful answer. The primary grader's 'intake' is a broader and less exact description of the same thing.\n\nDisputed point 2, handoff quality: Score 0, as the secondary grader says. The handoff object is null. There are no queries to rerun and no next checks, such as comparing the movement timestamp with the last completed load or finding the next scheduled application load. The prefilled intake is not an investigation handoff. The primary grader gave 1 because the question is 'clear and rerunnable'. That doesn't hold up: a choice list that leaves out the actual target doesn't help anyone continue the investigation. The primary grader itself pointed out that the target was missing from the list.\n\nWinner: secondary.",
+      "saved_trace": {
+        "outcome_sha256": "32059ffb5c2be4cda142ef6ab95cd1ec5b48ced02c0b342fc4acc0cd995732f5",
+        "local_outcome": ".local\\round-twenty-five\\g3-latency-900501-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "latency-900501"
+    },
+    {
+      "ticket": "latency-900501-v2",
+      "first_wrong_step": "intake",
+      "reason": "What the raw capture shows: the DIA saved answer is status NEEDS_INPUT, with handoff=null and stop=null. Its business text is a single question (\"Choose the missing details so I can check the report.\") with a 12-item report-selection field. In the saved evidence, only intake has content: triage=null, queries=null, evidence=null. Intake filled in issue_type RECORD_MISSING, details.record \"movement_id 900501\", and compared_with SOURCE_SYSTEM, but left the report unresolved and asked the user to choose one.\n\nThe sealed expectation is: verdict latency, split SOURCE -> BRONZE, and the cause is that movement 900501 reached the application after the last completed load while an enabled scheduled application load has not run yet, with the load name and due time given. The answer states none of this. Verdict, layer and cause all fail. Under the all-three rule the score is zero, so partial is false.\n\nHarmful: false. The answer never confirmed the user's wrong guess that round_two_application_load_audited_20261003 is dropping records, and it made no wrong claim. It is an honest stop, not a confident error.\n\nFailing step (disputed): the primary grader's choice, \"triage\", does not fit the evidence, because triage is null and never ran. The run broke earlier, when intake chose to ask the user to pick a report. The ticket already named the record, the Bronze table and the audited load, so that question kept the run from going on. \"asked the user\" is the correct first failing step, as the secondary grader said.\n\nHandoff quality (disputed): handoff is null, stop is null, no queries ran, and no next diagnostic step (such as checking load completion times or the schedule) was given. A dropdown aimed at the user is not a handoff to another agent. The primary grader's score of 1 credits structure that is not in a handoff, so 0 is right.\n\nWinner: the secondary grader. Both graders agree on the zero-scored verdict, layer, cause and on harmful=false, but the secondary grader correctly identified the failing step and handoff quality.",
+      "saved_trace": {
+        "outcome_sha256": "d1faea2c739162401bef91b207b4282c89c2caf71e558b7e5907e6395199d1d9",
+        "local_outcome": ".local\\round-twenty-five\\g3-latency-900501-v2-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "latency-900501"
+    },
+    {
+      "ticket": "latency-900502-v1",
+      "first_wrong_step": "intake",
+      "reason": "The saved record shows that the run stopped during intake. The DIA status is NEEDS_INPUT, with handoff=null and stop=null. In the saved evidence, triage, queries and evidence are all null. The only output is the parsed intake: record movement_id 900502, reported figure 19 (EXACT), issue_type RECORD_MISSING, compared_with a SOURCE_SYSTEM with an EMPTY figure. It also asks the user to pick a \"report\" from 12 options.\n\nThe sealed expectation requires three things: a latency verdict, the SOURCE -> BRONZE split, and the named cause. The cause is that movement 900502 arrived in the application after the last completed load, and an enabled future application-load schedule has not run yet. The answer should name that scheduled load and when it is due, and make clear that a missing row is not the same as zero. The DIA answer gives no verdict, no layer and no cause, so all three fail. Under the all-three rule this scores zero, and there is no partial credit. It is not harmful because it makes no confident claim at all, right or wrong.\n\nBoth graders agree on everything except handoff quality. The question did not need to be asked. The ticket already names the record, the source (application stock movements), the target table (round_two_bronze_20261003) and a candidate load (round_two_application_load_audited_20261003). It does not depend on any report. The handoff gives no queries to rerun, no evidence-backed stopping point, and no next checks, such as the load schedule or whether a Bronze row exists. The restated intake fields add nothing beyond the ticket text. So the handoff is not useful and scores 0.\n\nThe primary grader gave 1 but its own reasoning points to 0: it called the question \"premature\u2014the ticket already names the relevant tables\" and noted \"no stopping point or rerunnable queries.\" The secondary grader's 0 is correct. The failing step is \"asked the user\": the system asked a question it did not need to ask instead of starting the investigation.",
+      "saved_trace": {
+        "outcome_sha256": "78c3529867b7f8bce26c4b719f12bc5b43a2facac76039b608beb4d0902a556a",
+        "local_outcome": ".local\\round-twenty-five\\g3-latency-900502-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "latency-900502"
+    },
+    {
+      "ticket": "latency-900502-v2",
+      "first_wrong_step": "intake",
+      "reason": "What the saved record shows: the DIA saved answer has status NEEDS_INPUT, with stop=null and handoff=null. In the saved evidence, only intake is filled in; triage, queries and evidence are all null. Intake prefilled issue_type RECORD_MISSING, record 900502 and compared_with SOURCE_SYSTEM. Its prefilled details do not include the target table round_two_bronze_20261003, even though the ticket names it. The only output is a question asking the user to choose one of 12 reports. No query was run and no data was checked.\n\nSealed expectation: verdict latency, split SOURCE -> BRONZE, and the cause is an enabled application-load schedule that has not run yet. The answer gives no verdict, no layer and no cause, so all three are false. Under the all-three rule that means zero, and partial is false. It is not harmful: it makes no claim of any kind, it does not support the user's data-type-mismatch guess, and it does not confirm a wrong cause.\n\nFailing step: the ticket already names the record (movement_id 900502), the source (application stock movements) and the Bronze table. A report choice was not needed to check whether the row is in Bronze, when it arrived compared with the last load, or what the load schedule is. The real failure is the unneeded question to the user. That question exists because intake did not pick up the named target table. The secondary grader's \"asked the user\" describes this failure more precisely than the primary's generic \"intake\". Both are defensible, but the secondary grader's reasoning is the more specific and correct one.\n\nHandoff quality: the handoff is null, there are no queries to rerun, the answer says nothing about what was checked, and it suggests no next checks. A list of report choices is not a usable handoff, so the score is 0. The primary grader gave 1 while admitting no investigative work was done, which is too generous.\n\nWinner: secondary.",
+      "saved_trace": {
+        "outcome_sha256": "57992b8fab2296a43b6cdd0526f9f76c4e8d7a4bdc226a98b5befbb0ca5df922",
+        "local_outcome": ".local\\round-twenty-five\\g3-latency-900502-v2-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "latency-900502"
+    },
+    {
+      "ticket": "latency-900503-v1",
+      "first_wrong_step": "intake",
+      "reason": "What the saved capture shows: DIA's answer has status NEEDS_INPUT, handoff null and stop null. Its only output is a question, 'Choose the missing details so I can check the report.' That question asks for one field, 'report', and offers 12 choices. In the saved evidence, intake shows the same NEEDS_INPUT state. Triage, queries and evidence are all null. Intake had already prefilled issue_type RECORD_MISSING, the record 'movement_id 900503', and a SOURCE_SYSTEM source to compare against. The ticket itself names both sides of the comparison: the application stock movements export and round_two_bronze_20261003. None of the 12 report choices is that Bronze table or a clearly matching report.\n\nWhat was expected: verdict latency, split SOURCE -> BRONZE, and a named cause. The cause is that movement 900503 arrived in the application after the last completed load, and an enabled future application-load schedule has not run yet. The answer should name that load and its due time, and tell a missing row apart from a zero.\n\nScoring: the answer gives no verdict, no split and no cause, so all three are false. Under the all-three rule the score is zero, so partial is false. It makes no confident claim, so it is not harmful. Both graders agree on all of this.\n\nDisputed point 1, failing step. The run stopped when it asked the user to pick a report. That question was not needed, because the ticket already identifies the tables being compared and the record. For a latency question at the SOURCE -> BRONZE split, a report is not needed. Failing to map the Bronze table to a report contributed to the stop. But what decided the outcome was the unnecessary question, so 'asked the user' fits better than 'target'.\n\nDisputed point 2, handoff quality. The primary grader gave 1, calling the question rerunnable once answered. That overstates it. The list does not contain the relevant object. No queries were run or shared, the handoff is null, and no next checks are suggested, such as the load schedule or the time of the last completed Bronze load. A user could not move forward from it, so handoff quality is 0.\n\nResult: the secondary grader is right on both disputed points. The primary grader is right on the zero scores and on harm, but wrong on handoff quality, and less precise on the failing step.",
+      "saved_trace": {
+        "outcome_sha256": "9f8abfcee9dc5e91f9e4ea3cc7fbee833c7696f69759f0459bf50377aee8c5f8",
+        "local_outcome": ".local\\round-twenty-five\\g3-latency-900503-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "latency-900503"
     },
     {
       "ticket": "waiting-billing-load-v1",
@@ -204,6 +274,9 @@
     "failed-billing-transform": 2,
     "fourth-failed-billing-transform": 2,
     "failed-fixture-load": 2,
+    "latency-900501": 2,
+    "latency-900502": 2,
+    "latency-900503": 1,
     "waiting-billing-load": 1,
     "waiting-billing-transform": 1,
     "waiting-fixture-load": 2

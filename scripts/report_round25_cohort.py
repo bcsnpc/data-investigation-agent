@@ -35,6 +35,14 @@ value=summarize(list(cases.values()),cohort);value['requested']=len(rows);value[
 from round25_quality import cohort_metrics
 value['per_expected_verdict_class']=cohort_metrics([{**c,'class':c['expected_verdict_class']} for c in cases.values()])['per_class']
 value['class_grouping_basis']='Original case IDs retained; additional verdict grouping uses exact sealed oracle labels only, no expectation changes.'
+if cohort=='g3':
+ from round25_cohort_report import original_split_scores
+ splits={}
+ for name in ('dev','heldout'):
+  original=json.loads(Path('tests/tickets/scored-set-v1-'+name+'.json').read_bytes())
+  original=original['tickets'] if isinstance(original,dict) else original
+  splits[name]=[row['id'] for row in original]
+ value['original_r22_splits']=original_split_scores(list(cases.values()),splits)
 for group,select in [('all',list(cases.values())),('full_investigation',[c for c in cases.values()if c['timing_group']=='full_investigation']),('answered_without_layer_queries',[c for c in cases.values()if c['timing_group']=='answered_without_layer_queries']),('holds',[c for c in cases.values()if c['timing_group']=='holds'])]:
  times=sorted(c['native_duration_seconds']for c in select if c['native_duration_seconds']is not None);worker=sorted(c['worker_wall_seconds']for c in select if isinstance(c['worker_wall_seconds'],(float,int)));known=[c for c in select if c['investigation_cost_microdollars']is not None];cost=sum(c['investigation_cost_microdollars']for c in known)
  value.setdefault('timing_cost',{})[group]={'tickets':len(select),'native_observed':len(times),'native_missing':len(select)-len(times),'native_median_seconds':statistics.median(times)if times else None,'native_p90_seconds':times[math.ceil(.9*len(times))-1]if times else None,'worker_median_seconds':statistics.median(worker)if worker else None,'worker_p90_seconds':worker[math.ceil(.9*len(worker))-1]if worker else None,'investigation_cost_microdollars_observed':cost,'cost_observed':len(known),'cost_unavailable':len(select)-len(known),'cost_per_observed_ticket_usd':cost/len(known)/1e6 if known else None,'physical_requests_observed':sum(c['physical_requests']for c in select if c['physical_requests']is not None),'physical_requests_unavailable':sum(c['physical_requests']is None for c in select)}

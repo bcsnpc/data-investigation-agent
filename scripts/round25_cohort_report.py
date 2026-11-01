@@ -36,3 +36,17 @@ def summarize(cases,cohort):
             if review.get('independent_fresh_call')is not True or review.get('operator_judgment_supplied')is not False:
                 raise ValueError('OPERATOR_MUST_NOT_ADJUDICATE_G2_G3_G4')
     return {**cohort_metrics(cases),'cohort':cohort,'cases':deepcopy(cases),'raw_review_policy':'FRESH_INDEPENDENT_CLAUDE_CALL; no operator adjudication'}
+
+
+def original_split_scores(cases, splits):
+    """Compare original subsets without pooling dev and held-out denominators."""
+    membership={}
+    for name, identifiers in splits.items():
+        for ident in identifiers:
+            if ident in membership:raise ValueError('OVERLAPPING_ORIGINAL_SPLITS')
+            membership[ident]=name
+    if any(case['ticket'] not in membership for case in cases):
+        raise ValueError('UNBOUND_ORIGINAL_SPLIT_TICKET')
+    return {name:{'requested':len(identifiers),
+                  **cohort_metrics([case for case in cases if membership[case['ticket']]==name])}
+            for name,identifiers in splits.items()}

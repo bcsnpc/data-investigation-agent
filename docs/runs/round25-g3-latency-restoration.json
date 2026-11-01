@@ -1,0 +1,23 @@
+{
+  "status": "LATENCY_COHORT_COMPLETED",
+  "before_hash": {
+    "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+    "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+    "temporal_period_columns_excluded_explicitly": true
+  },
+  "restored_hash": {
+    "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+    "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+    "temporal_period_columns_excluded_explicitly": true
+  },
+  "restoration_required": false,
+  "physical_requests": 21,
+  "schedule_restore": {
+    "mutations": 1,
+    "other_schedules": [],
+    "status": "OWNED_SCHEDULE_REMOVED"
+  },
+  "outcomes_saved": 5,
+  "owned_schedule_id": "ba39688f-fa33-4093-8eff-8bad7503cea4",
+  "source_insert_confirmed": true
+}

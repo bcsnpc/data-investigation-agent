@@ -1,6 +1,19 @@
 ﻿import unittest
-from round25_cohort_report import summarize,verdict_class,load_saved_outcome,established_intake_exception
+from round25_cohort_report import summarize,verdict_class,load_saved_outcome,established_intake_exception,original_split_scores
 class CohortReviewTests(unittest.TestCase):
+ def test_original_splits_keep_denominators_and_do_not_change_grades(self):
+  from copy import deepcopy
+  a=self.case();a['secondary']=dict(a['primary']);a['ticket']='dev-a'
+  b=deepcopy(a);b['ticket']='held-b';b['primary']['cause_match']=False;b['secondary']['cause_match']=False
+  cases=[a,b];before=deepcopy(cases)
+  result=original_split_scores(cases,{'dev':['dev-a','dev-pending'],'heldout':['held-b']})
+  self.assertEqual(result['dev']['requested'],2)
+  self.assertEqual(result['dev']['official_primary']['all_three']['correct'],1)
+  self.assertEqual(result['dev']['official_primary']['all_three']['total'],1)
+  self.assertEqual(result['heldout']['official_primary']['all_three']['correct'],0)
+  self.assertEqual(cases,before)
+  with self.assertRaisesRegex(ValueError,'OVERLAPPING'):original_split_scores(cases,{'dev':['dev-a'],'heldout':['dev-a','held-b']})
+  with self.assertRaisesRegex(ValueError,'UNBOUND'):original_split_scores(cases,{'dev':['dev-a']})
  def test_only_exact_established_intake_failures_can_be_classified_automatically(self):
   exit_record={'exit_code':1,'reason':'UNDELIVERED_EXCEPTION','last_step':'guided-investigation'}
   self.assertTrue(established_intake_exception({'error_type':'ValueError','message':'COMPARISON_DETAILS_REQUIRED'},exit_record))

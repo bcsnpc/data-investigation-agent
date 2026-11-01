@@ -473,3 +473,6 @@ Round25, owner-directed continuation2026-10-31: G3 billing first start failed in
 
 
 Round25 UTC rollover observed2026-11-01T00:00UTC: existing native ledger automatically applied November AI150USD and physical9000 (SCAN2500, INVESTIGATION6405, RESTORATION95), without a counter reset or policy mutation. First readback shows1 November investigation request,0 AI committed, prior October history retained. The owned G3 waiting cohort continues across the boundary; no ticket was duplicated. Receipt: docs/runs/round25-november-automatic-rollover.json.
+
+
+Round25 reporting-only2026-11-01: keep original R22 dev40 and held-out20 scores separate within G3, beside their historical14/40 and5/20 baselines, all with Wilson intervals. Seven focused reporting tests pass, including disjoint membership, denominator conservation and unchanged grades; saved report comparison confirms every prior field unchanged. No engine, oracle, expectation, tape or model call changed.

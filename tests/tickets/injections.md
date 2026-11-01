@@ -321,3 +321,6 @@ Round25 waiting g3 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_requ
 
 
 Round25 waiting g3 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 febc543e6cb018bcfbd83e97006d98fe2b875a33a45d0debf2bf2fb09fc250a4; native jobs and guarded hash readback in .local\round-twenty-five\injections\g3-waiting-billing-load\status.json.
+
+
+Round25 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-five\injections\g3-latency-admission05\status.json. Temporal remains ON.
