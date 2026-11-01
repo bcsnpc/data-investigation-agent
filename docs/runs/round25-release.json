@@ -1,0 +1,59 @@
+{
+  "observed_at_utc": "2026-11-01T10:47:38.290430+00:00",
+  "phase": "RELEASED",
+  "pr": 432,
+  "merge_commit": "3d748db241dd1dcc010bcfde2155825371b68dce",
+  "tag": "v0.25",
+  "tag_target": "3d748db241dd1dcc010bcfde2155825371b68dce",
+  "premerge_suite": {
+    "status": "PASS",
+    "tests": 5694,
+    "seconds": 2688.374,
+    "skipped": 50,
+    "failures": 0,
+    "errors": 0,
+    "log_sha256": "71f4f2b9c250041b020add922b00923eeda439b0a83d0c544d9e50cce3678838",
+    "source": "784097fd865a99e7535092e2b1df55ee572d954a",
+    "runtime_unchanged_on_documentation_head": true,
+    "log": ".local/round-twenty-five/full-final-784097fd.log"
+  },
+  "postmerge_suite": {
+    "status": "PASS",
+    "tests": 5694,
+    "seconds": 2495.684,
+    "skipped": 50,
+    "failures": 0,
+    "errors": 0,
+    "log_sha256": "330e54db65297dc57f3cdb71cc4b74a4de02f3b22d48daa7789f62cb1ab5eec3",
+    "source": "3d748db241dd1dcc010bcfde2155825371b68dce",
+    "log": ".local/round-twenty-five/full-main-3d748db2.log"
+  },
+  "smokes": "THREE_GREEN",
+  "ai": {
+    "month_utc": "2026-11",
+    "ceiling_microdollars": 150000000,
+    "charged_microdollars": 30526751,
+    "additional_pending_commitment_microdollars": 0
+  },
+  "physical": {
+    "mode": "BUILD_PHASE",
+    "month_utc": "2026-11",
+    "used": {
+      "INVESTIGATION": 1560,
+      "SCAN": 126,
+      "RESTORATION": 18
+    },
+    "limits": {
+      "SCAN": 2500,
+      "INVESTIGATION": 6405,
+      "RESTORATION": 95
+    },
+    "total": 1704,
+    "total_limit": 9000,
+    "historical_restoration_requests": 0,
+    "restoration_remaining": 77,
+    "warnings": []
+  },
+  "engine_frozen": true,
+  "injections_restored": 33
+}

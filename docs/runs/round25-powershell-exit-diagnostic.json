@@ -1,0 +1,15 @@
+{
+  "observed_at_utc": "2026-11-01T09:44:18.303805+00:00",
+  "premerge_log_summary": "Ran 5694 tests; OK (skipped=50)",
+  "powershell_tool_wrapper_exit_code": 1,
+  "full_suite_native_exit_not_separately_retained": true,
+  "bounded_reproduction": {
+    "python_program": "write one diagnostic to stderr, sys.exit(0)",
+    "explicit_LASTEXITCODE_readback": 0,
+    "same_redirect_as_last_PowerShell_command_tool_exit": 1
+  },
+  "interpretation": "Windows PowerShell wrapper status is not the native unittest result. Exact-merge validation uses subprocess.Popen and records native return code separately.",
+  "engine_changes": 0,
+  "estate_reads": 0,
+  "model_calls": 0
+}

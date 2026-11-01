@@ -7,5 +7,7 @@
   "errors": 0,
   "log_sha256": "330e54db65297dc57f3cdb71cc4b74a4de02f3b22d48daa7789f62cb1ab5eec3",
   "source": "3d748db241dd1dcc010bcfde2155825371b68dce",
-  "log": ".local/round-twenty-five/full-main-3d748db2.log"
+  "log": ".local/round-twenty-five/full-main-3d748db2.log",
+  "native_exit_code": 0,
+  "basis": "subprocess.Popen returncode was asserted zero before tag creation"
 }

@@ -1,6 +1,6 @@
 # Round25: frozen v0.24 quality measurement
 
-RELEASED - 2026-11-01T08:54:16.964052+00:00
+RELEASED - 2026-11-01T10:48:03.610520+00:00
 
 The engine was measured, not improved. Raw-reviewed is the headline; official and strict scores remain visible. Every requested ticket has a saved outcome or retained native exception.
 
@@ -64,7 +64,7 @@ The history fixture's Bronze SQL endpoint lag was at least19m30.685s after copy 
 
 ## Budgets and release validation
 
-Latest saved November shared-ledger snapshot:AI29.601255/150USD;physical1543/9000,allocations{'SCAN': 118, 'INVESTIGATION': 1407, 'RESTORATION': 18},restoration remaining77. These include scheduled/shared work and are not falsely labelled a Round25-only total. All historical charges and uncertain exposure remain recorded. No new identity, permission, secret or paid Azure resource. The20USD platform guard stays unchanged.
+Latest saved November shared-ledger snapshot (2026-11-01T10:47:38.252596+00:00): AI $30.526751 / $150; physical 1704 / 9000 (investigation 1560, scan 126, restoration 18); restoration remaining 77. Pending model commitment $0.000000. These are shared monthly totals, not an invented Round25-only total. Historical charges and uncertain exposure remain recorded. No new identity, permission, secret or paid Azure resource. The $20 platform guard stays unchanged.
 
 Premerge suite 5694 tests / 50 skips / zero failures; exact merge suite 5694 tests / 50 skips / zero failures. Three final smokes passed all six checks on pinned6b2935e8. Hosted CI passed on the PR head and exact merge. PR432 merged as `3d748db241dd1dcc010bcfde2155825371b68dce`; `v0.25` tags that validated merge. This summary is a separate documentation commit on main.
 
@@ -73,3 +73,5 @@ No requested measurement was skipped. Failed fixture admissions were repaired/re
 [Quality report](quality-report-v0.24.md), [all 180 image bindings](runs/round25-measurement-image-index.json), [runtime check](runs/round25-final-frozen-runtime.json), [control closeout](runs/round25-injection-closeout.json), [estate readback](runs/round25-final-estate-readback.json), [full-suite receipt](runs/round25-full-suite-f29061f2.json).
 
 Final validation receipts: [premerge suite](runs/round25-final-premerge-suite.json), [three smokes](runs/round-twenty-five-final-smokes.json), [merge suite](runs/round25-merge-full-suite.json), [merge CI](runs/round25-merge-ci.json).
+
+The premerge Windows PowerShell wrapper discrepancy is documented separately; exact-merge validation recorded native exit code0. See [diagnostic](runs/round25-powershell-exit-diagnostic.json).
