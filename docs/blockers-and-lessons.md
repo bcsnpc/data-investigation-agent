@@ -749,3 +749,7 @@ Measurement completed on the frozen engine. Forms did not demonstrate free-text 
 
 
 Round25 validation shell observation, 2026-11-01: the premerge unittest log ends 5694 tests / OK / 50 skips, but Windows PowerShell returned wrapper status1. A bounded diagnostic writing stderr and exiting0 reproduced wrapper1, with explicit native LASTEXITCODE0. The full premerge native code was not separately retained; do not invent it. Exact-merge validation uses subprocess.Popen and asserts native returncode0 before tagging. No engine or grading change. See docs/runs/round25-powershell-exit-diagnostic.json.
+
+## Round 26 first generic repairs — 2026-11-01
+
+Incomplete comparison details previously passed IntakeRequest schema validation and then raised COMPARISON_DETAILS_REQUIRED. They now retain the original comparison as context and proceed with recreation/freshness. A source fallback is selected only from one explicit system_of_record catalog declaration; otherwise no comparison is fabricated. Conflicting referents still require resolution. Supporting comparison fields are retained with warnings, not discarded. Temporal SELECT support now includes T-SQL BETWEEN and Delta VERSION/TIMESTAMP AS OF alongside existing AS OF/ALL. AST binding, approved-object restrictions and write refusal stay in force. Focused intake/history regressions: 60 tests passed, zero live reads or model calls. Full form/text fuzzing, native-exception regressions and history-before-latency ordering remain pending.

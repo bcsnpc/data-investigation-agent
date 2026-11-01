@@ -23,14 +23,17 @@ def validate(text, layer, *, rows=250):
     from sqlglot import parse, exp
     from sqlglot.optimizer.scope import traverse_scope
     from sqlglot.optimizer.qualify import qualify
-    from .query_sql import NODES, MAX_JOINS, MAX_SELECTS
+    from .query_sql import NODES, MAX_JOINS, MAX_SELECTS, temporal_read
     if not isinstance(text,str) or not 1<=len(text)<=32000:raise ValueError('QUERY_TEXT_BOUND')
     if type(rows) is not int or not 1<=rows<=250:raise ValueError('QUERY_ROW_BOUND')
     statements=parse(text,read='spark')
     if len(statements)!=1 or not isinstance(statements[0],exp.Select):raise ValueError('ONE_SELECT_REQUIRED')
     tree=statements[0]
     nodes=list(tree.walk())
-    if len(nodes)>1200 or {type(n).__name__ for n in nodes}-NODES:
+    unsupported = {type(n).__name__ for n in nodes}-NODES
+    if 'Version' in unsupported and all(temporal_read(n, dialect='spark') for n in tree.find_all(exp.Version)):
+        unsupported.remove('Version')
+    if len(nodes)>1200 or unsupported:
         raise ValueError('UNSUPPORTED_SPARK_READ_SYNTAX')
     if any(n.args.get('recursive') for n in tree.find_all(exp.With)) or list(tree.find_all(exp.Parameter)):
         raise ValueError('UNSUPPORTED_SPARK_READ_SYNTAX')
@@ -51,7 +54,7 @@ def validate(text, layer, *, rows=250):
             obj=allowed.get((source.db.casefold(),source.name.casefold()))
             if obj is None or obj['metadata']['type_desc'] not in ('USER_TABLE','VIEW'):
                 raise ValueError('OBJECT_OUTSIDE_ESTATE_GRAPH')
-            if any(v for k,v in source.args.items() if k not in ('this','db','catalog','alias')):
+            if any(v for k,v in source.args.items() if k not in ('this','db','catalog','alias','version')):
                 raise ValueError('TABLE_MODIFIER_REFUSED')
             references.add(obj['id'])
     if not references:raise ValueError('GRAPH_REFERENCE_REQUIRED')

@@ -23,11 +23,21 @@ class QueryRejection(ValueError):
         self.feedback=feedback
 
 
-def temporal_read(node):
+def temporal_read(node, *, dialect='tsql'):
     from datetime import datetime
-    if not isinstance(node.parent,exp.Table)or node.args.get('this')!='TIMESTAMP'or set(node.args)-{'this','kind','expression'}:return False
+    if not isinstance(node.parent,exp.Table) or set(node.args)-{'this','kind','expression'}:return False
     kind=node.args.get('kind');value=node.args.get('expression')
+    if dialect == 'spark' and node.args.get('this') == 'VERSION':
+        return kind == 'AS OF' and isinstance(value, exp.Literal) and value.is_int and int(value.this) >= 0
+    if node.args.get('this') != 'TIMESTAMP':return False
     if kind=='ALL':return value is None
+    if kind == 'BETWEEN' and dialect == 'tsql':
+        if not isinstance(value, exp.Tuple) or len(value.expressions) != 2:return False
+        try:
+            dates = [datetime.fromisoformat(v.this.replace('Z', '+00:00'))
+                     for v in value.expressions if isinstance(v, exp.Literal) and v.is_string]
+            return len(dates) == 2 and dates[0] <= dates[1]
+        except (ValueError, TypeError):return False
     if kind!='AS OF':return False
     if isinstance(value,exp.Parameter):return isinstance(value.this,exp.Var)
     if not isinstance(value,exp.Literal)or not value.is_string:return False
@@ -128,6 +138,9 @@ def compile_query(query, objects, *, max_rows=limits.QUERY_ROWS, allow_views=Fal
     if allow_set_operations:unsupported=[n for n in unsupported if n not in ('Union','Intersect','Except')]
     if allow_temporal_all and 'Version' in unsupported:
         if all(temporal_read(n) for n in tree.find_all(exp.Version)):unsupported.remove('Version')
+    if allow_temporal_all and 'Tuple' in unsupported:
+        if all(isinstance(n.parent, exp.Version) and temporal_read(n.parent)
+               for n in tree.find_all(exp.Tuple)):unsupported.remove('Tuple')
     # Two explicitly bounded scalar primitives used by exact string witnesses.
     # No arbitrary/user-defined function becomes executable through Anonymous.
     if 'Anonymous' in unsupported:

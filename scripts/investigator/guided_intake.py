@@ -137,8 +137,22 @@ def admit(request, catalog):
     comparison = deepcopy(request['compared_with']); kind = comparison['kind']
     expected = {'ANOTHER_REPORT': 'target', 'SOURCE_SYSTEM': 'source', 'EXPECTED_NUMBER': 'figure'}
     required = {'kind'} | ({expected[kind]} if kind in expected else set())
+    if kind != 'ANOTHER_REPORT' and 'target' in comparison:
+        catalog.target(comparison['target'])
+        if any(request.get(k) != v for k, v in comparison['target'].items()):
+            raise ValueError('CONFLICTING_COMPARISON_TARGET')
     if not required <= set(comparison):
-        raise ValueError('COMPARISON_DETAILS_REQUIRED')
+        result['comparison_context'] = deepcopy(comparison)
+        declared = [n for n in catalog.nodes.values() if n['kind'] == 'SOURCE'
+                    and n.get('properties', {}).get('system_of_record') is True]
+        comparison = ({'kind': 'SOURCE_SYSTEM', 'source': declared[0]['id']}
+                      if len(declared) == 1 else {'kind': 'NOTHING'})
+        kind = comparison['kind']
+        required = set(comparison)
+        result['format_warnings'] = [
+            'Comparison details are incomplete; using the declared source of truth.'
+            if declared and len(declared) == 1 else
+            'Comparison details are incomplete; recreation and freshness proceed without a comparison.']
     extras = set(comparison) - required
     # A copied reference to the selected visual is harmless formatting, but a
     # different target is a real competing referent and must not be discarded.
@@ -146,11 +160,9 @@ def admit(request, catalog):
         catalog.target(comparison['target'])
         if any(request.get(k) != v for k,v in comparison['target'].items()):
             raise ValueError('CONFLICTING_COMPARISON_TARGET')
-    permitted = {'target','figure'} if kind == 'SOURCE_SYSTEM' else set()
-    if not extras <= permitted:raise ValueError('COMPARISON_DETAILS_REQUIRED')
     if extras:
-        result['comparison_context'] = {k:deepcopy(comparison[k]) for k in sorted(extras)}
-        result['format_warnings'] = ['Supporting comparison details retained separately; selected comparison kind preserved.']
+        result.setdefault('comparison_context', {}).update({k:deepcopy(comparison[k]) for k in sorted(extras)})
+        result.setdefault('format_warnings', []).append('Supporting comparison details retained separately; selected comparison kind preserved.')
         comparison = {k:v for k,v in comparison.items() if k in required}
     if kind == 'ANOTHER_REPORT': catalog.target(comparison['target'])
     if kind == 'SOURCE_SYSTEM':
