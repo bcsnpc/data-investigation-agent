@@ -1,18 +1,114 @@
 {
   "pass": "Round25 G4 raw-reviewed",
-  "graded": 6,
-  "score": 6,
+  "graded": 12,
+  "score": 10,
   "correctness": {
-    "verdict_match": 6,
-    "layer_match": 6,
-    "cause_match": 6
+    "verdict_match": 11,
+    "layer_match": 11,
+    "cause_match": 10
   },
   "harmful": 0,
-  "zero_groups": {},
-  "zeros": [],
-  "walkthroughs": [],
+  "zero_groups": {
+    "conclusion": 1,
+    "query": 1
+  },
+  "zeros": [
+    {
+      "ticket": "v2-application-baseline-v3",
+      "first_wrong_step": "conclusion",
+      "reason": "What the saved evidence shows:\n(1) The retained measure definition is SUM('Movements'[units]).\n(2) The DAX recreate query run without filters returned Movement Units 7661, with 360 rows, 360 distinct movement_ids and no blank units.\n(3) The ordersops table app.stock_movements_round_two_20261003 returned sum 7661, 360 rows and 360 distinct ids. Its top 5 rows end at movement_id 360.\n(4) The bronze/landing table dbo.stock_movements_round_two_20261003 returned sum 7702, 361 rows and 361 distinct ids. That is a live, successful, read-only query at 06:52:39. The extra row is movement_id 900201 (units 41, source_modified_at_utc 2026-11-01 06:12:06).\n(5) The model does not contain 900201; its highest movement_id is 360.\n(6) The model last refreshed successfully at 04:56:54 and its schedule is disabled.\n(7) The latest pipeline run, c5e4269d (06:46\u201306:47), succeeded, and its audit records 360 rows read and 360 written. An earlier run, 3e941fa6, failed with error 2011, a controlled test failure.\nThe answer reports all of this accurately and labels the landing difference as unexplained.\n\nVerdict: 'definition explained' on a how-is-this-calculated ticket means the same as 'as designed'. The answer confirms that the card is a plain SUM(units) with no filter, that it equals the source, and it claims no defect. So the verdict matches, and the primary grader was wrong to fail it on the label.\n\nLayer: the answer ties 7661 to the declared ordersops source application, so the layer matches. The primary grader was wrong here too.\n\nCause: the sealed cause says SUM(units) agrees across the model, the landing copy and the source at 7661. The answer correctly names SUM(units) and shows the model and source agreeing at 7661. But it reports, with evidence, that the landing copy is 7702/361, which directly contradicts the 'agrees across landing' part. Graded against the expectation as written, the cause does not fully match. Under the all-three rule a partial match scores zero. The evidence suggests the expectation may predate the 06:12 insertion of row 900201. That point is honestly noted, but it does not change the score.\n\nNot harmful: the answer never offers the landing difference as the reason for 7661, and it states its point-in-time limits openly. Its claim that the model reads the bronze copy relies on lineage rather than a saved query, but it is not used to support a wrong conclusion.\n\nFailing step: I recorded 'wrong conclusion' to match the score, but this is a mismatch with the expectation, not a demonstrated error by the DIA.\n\nHandoff (1): the queries are recorded verbatim and can be rerun, and the gaps are clear. However, the handoff field is null and no concrete next checks are named, so 2 is too generous.\n\nWinner: the secondary grader's verdict, layer, cause, partial, harm and handoff calls all match mine. The primary grader wrongly failed the verdict and layer and over-scored the handoff.",
+      "saved_trace": {
+        "outcome_sha256": "f9375b6635c2c05aa646bb4c7b56a1fa8d77c9ce73669cc05a798b8746d3fff0",
+        "local_outcome": ".local\\round-twenty-five\\g4-v2-application-baseline-v3-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Restrict the cause to what the cited native evidence establishes.",
+      "class": "v2-application-baseline"
+    },
+    {
+      "ticket": "v2-before-temporal-retention-v3",
+      "first_wrong_step": "query",
+      "reason": "Under the all-three rule, this scores zero. The expected answer is: verdict \"not found\", layer \"source history boundary\", cause \"the requested time comes before the retained temporal evidence, so the historical quantity cannot be established.\"\n\n**What the saved evidence shows**\n- **Current value only.** Three successful reads show movement_id 1 at 16 units today:\n  - the DAX query on the model: 16 from 1 row, model total 7661;\n  - the lakehouse table dbo.stock_movements_round_two_20261003;\n  - the ordersops source table app.stock_movements_round_two_20261003.\n- **Every history check failed.** None of the three history queries reached the database:\n  - The query for temporal type and change tracking on the source table was rejected because ObjectId is unsupported.\n  - The sys.tables query by object_id was rejected as \"SQL object unavailable\".\n  - The dbo.load_run_audit query for runs on or before 2026-10-21 was rejected the same way.\n- **Run listings start too late.** Triage and get_job_runs cover only 2026-10-24 onward for model refreshes and 2026-10-31 onward for pipeline runs. The three failures (error 2011) all come after the requested date.\n- **The retention boundary was never observed.** Neither its existence nor its position was established.\n\n**Grading each part**\n- **Verdict: wrong.** DIA's verdict is \"definition explained\". Its body does say \"Value at that date: not established\", which is close to \"not found\" in substance. But the headline verdict frames the case as an answered definition question.\n- **Layer: wrong.** The answer is about the definition and lineage: SUM, Direct Lake, and an Overwrite Copy Job. It never names a source history boundary.\n- **Cause: wrong.** The expected cause is a retention boundary: history exists, but the requested time falls before it. DIA instead says \"none of the retained definitions keep a dated history\", which implies no history mechanism exists. That claim is unsupported, because the temporal metadata check was rejected and never ran. An earlier draft said the history checks were rejected; the final answer replaced that with \"No retained history of the row's values was read\". So it hides the validator failure while asserting a negative about history.\n- **Partial credit (counts as zero).** The answer correctly refuses to confirm the user's guess of 16 for the past date and gives accurate current-value lineage. That is partial substance, but it scores nothing.\n- **Harm: no.** It never claims a historical value and does not endorse the guess. The \"no history\" wording is unsupported but hedged, and the date question is still marked unestablished.\n- **Handoff quality: 1.** The handoff object is null. The queries can be rerun and the stopping point is clear. But it suggests no next checks, such as reading the source's temporal history with FOR SYSTEM_TIME AS OF or checking its retention period.\n- **First failing step: query validation.** The source temporal-metadata query was rejected before it ran. That blocked finding the boundary, and the wrong-cause conclusion followed from it.\n\n**Which grader wins**\n- **Primary** gets the three matches right. But it calls the first failing step \"wrong conclusion\", which skips the validator rejections that actually caused the gap. It also sets partial to false even though the answer has real partial substance.\n- **Secondary** gets the matches, harm and handoff right, names query validation as the first failure, correctly notes that the \"no history\" claim was never checked against source temporal metadata, and correctly applies partial-is-zero.\n\nSecondary is right.",
+      "saved_trace": {
+        "outcome_sha256": "9e387f9c0b867c81913a017770ce2c5f8f928d6ea2fc0025aa328f88a5c59b6e",
+        "local_outcome": ".local\\round-twenty-five\\g4-v2-before-temporal-retention-v3-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [
+        {
+          "id": "query:9dd44810b7dd388614715190f73d5ac146d3ea6be845eec305f672aac326bc6a:4",
+          "error": "Unsupported SQL syntax or function nodes: ObjectId. Remove these constructs or choose a supported diagnostic; no query executed.",
+          "query": "SELECT t.name, t.temporal_type_desc, t.history_table_id, CASE WHEN ct.object_id IS NULL THEN 0 ELSE 1 END AS change_tracking_enabled FROM sys.tables t LEFT JOIN sys.change_tracking_tables ct ON ct.object_id = t.object_id WHERE t.object_id = OBJECT_ID('app.stock_movements_round_two_20261003')"
+        },
+        {
+          "id": "query:a65977b4235cb03ff1fbe097374c8f2c9905304a9543eb731a296670e48cb84d:5",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT t.name, t.temporal_type_desc, t.history_table_id FROM sys.tables t WHERE t.object_id = 1938105945"
+        },
+        {
+          "id": "query:db0d1cc47d35241798729d4cd5b65e6f601d4b5ae0e8fe6c1e0f0c6bcd42184a:6",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT TOP 20 run_id, copy_run_id, pipeline_name, status, start_time_utc, end_time_utc, rows_read, rows_written, recorded_at_utc FROM [dbo].[load_run_audit] WHERE start_time_utc <= '2026-10-21T00:00:00' ORDER BY start_time_utc DESC"
+        }
+      ],
+      "correct_action": "Use the returned native error and schema to correct this read before concluding.",
+      "class": "v2-before-temporal-retention"
+    }
+  ],
+  "walkthroughs": [
+    {
+      "ticket": "v2-application-baseline-v3",
+      "first_wrong_step": "conclusion",
+      "reason": "What the saved evidence shows:\n(1) The retained measure definition is SUM('Movements'[units]).\n(2) The DAX recreate query run without filters returned Movement Units 7661, with 360 rows, 360 distinct movement_ids and no blank units.\n(3) The ordersops table app.stock_movements_round_two_20261003 returned sum 7661, 360 rows and 360 distinct ids. Its top 5 rows end at movement_id 360.\n(4) The bronze/landing table dbo.stock_movements_round_two_20261003 returned sum 7702, 361 rows and 361 distinct ids. That is a live, successful, read-only query at 06:52:39. The extra row is movement_id 900201 (units 41, source_modified_at_utc 2026-11-01 06:12:06).\n(5) The model does not contain 900201; its highest movement_id is 360.\n(6) The model last refreshed successfully at 04:56:54 and its schedule is disabled.\n(7) The latest pipeline run, c5e4269d (06:46\u201306:47), succeeded, and its audit records 360 rows read and 360 written. An earlier run, 3e941fa6, failed with error 2011, a controlled test failure.\nThe answer reports all of this accurately and labels the landing difference as unexplained.\n\nVerdict: 'definition explained' on a how-is-this-calculated ticket means the same as 'as designed'. The answer confirms that the card is a plain SUM(units) with no filter, that it equals the source, and it claims no defect. So the verdict matches, and the primary grader was wrong to fail it on the label.\n\nLayer: the answer ties 7661 to the declared ordersops source application, so the layer matches. The primary grader was wrong here too.\n\nCause: the sealed cause says SUM(units) agrees across the model, the landing copy and the source at 7661. The answer correctly names SUM(units) and shows the model and source agreeing at 7661. But it reports, with evidence, that the landing copy is 7702/361, which directly contradicts the 'agrees across landing' part. Graded against the expectation as written, the cause does not fully match. Under the all-three rule a partial match scores zero. The evidence suggests the expectation may predate the 06:12 insertion of row 900201. That point is honestly noted, but it does not change the score.\n\nNot harmful: the answer never offers the landing difference as the reason for 7661, and it states its point-in-time limits openly. Its claim that the model reads the bronze copy relies on lineage rather than a saved query, but it is not used to support a wrong conclusion.\n\nFailing step: I recorded 'wrong conclusion' to match the score, but this is a mismatch with the expectation, not a demonstrated error by the DIA.\n\nHandoff (1): the queries are recorded verbatim and can be rerun, and the gaps are clear. However, the handoff field is null and no concrete next checks are named, so 2 is too generous.\n\nWinner: the secondary grader's verdict, layer, cause, partial, harm and handoff calls all match mine. The primary grader wrongly failed the verdict and layer and over-scored the handoff.",
+      "saved_trace": {
+        "outcome_sha256": "f9375b6635c2c05aa646bb4c7b56a1fa8d77c9ce73669cc05a798b8746d3fff0",
+        "local_outcome": ".local\\round-twenty-five\\g4-v2-application-baseline-v3-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Restrict the cause to what the cited native evidence establishes.",
+      "class": "v2-application-baseline"
+    },
+    {
+      "ticket": "v2-before-temporal-retention-v3",
+      "first_wrong_step": "query",
+      "reason": "Under the all-three rule, this scores zero. The expected answer is: verdict \"not found\", layer \"source history boundary\", cause \"the requested time comes before the retained temporal evidence, so the historical quantity cannot be established.\"\n\n**What the saved evidence shows**\n- **Current value only.** Three successful reads show movement_id 1 at 16 units today:\n  - the DAX query on the model: 16 from 1 row, model total 7661;\n  - the lakehouse table dbo.stock_movements_round_two_20261003;\n  - the ordersops source table app.stock_movements_round_two_20261003.\n- **Every history check failed.** None of the three history queries reached the database:\n  - The query for temporal type and change tracking on the source table was rejected because ObjectId is unsupported.\n  - The sys.tables query by object_id was rejected as \"SQL object unavailable\".\n  - The dbo.load_run_audit query for runs on or before 2026-10-21 was rejected the same way.\n- **Run listings start too late.** Triage and get_job_runs cover only 2026-10-24 onward for model refreshes and 2026-10-31 onward for pipeline runs. The three failures (error 2011) all come after the requested date.\n- **The retention boundary was never observed.** Neither its existence nor its position was established.\n\n**Grading each part**\n- **Verdict: wrong.** DIA's verdict is \"definition explained\". Its body does say \"Value at that date: not established\", which is close to \"not found\" in substance. But the headline verdict frames the case as an answered definition question.\n- **Layer: wrong.** The answer is about the definition and lineage: SUM, Direct Lake, and an Overwrite Copy Job. It never names a source history boundary.\n- **Cause: wrong.** The expected cause is a retention boundary: history exists, but the requested time falls before it. DIA instead says \"none of the retained definitions keep a dated history\", which implies no history mechanism exists. That claim is unsupported, because the temporal metadata check was rejected and never ran. An earlier draft said the history checks were rejected; the final answer replaced that with \"No retained history of the row's values was read\". So it hides the validator failure while asserting a negative about history.\n- **Partial credit (counts as zero).** The answer correctly refuses to confirm the user's guess of 16 for the past date and gives accurate current-value lineage. That is partial substance, but it scores nothing.\n- **Harm: no.** It never claims a historical value and does not endorse the guess. The \"no history\" wording is unsupported but hedged, and the date question is still marked unestablished.\n- **Handoff quality: 1.** The handoff object is null. The queries can be rerun and the stopping point is clear. But it suggests no next checks, such as reading the source's temporal history with FOR SYSTEM_TIME AS OF or checking its retention period.\n- **First failing step: query validation.** The source temporal-metadata query was rejected before it ran. That blocked finding the boundary, and the wrong-cause conclusion followed from it.\n\n**Which grader wins**\n- **Primary** gets the three matches right. But it calls the first failing step \"wrong conclusion\", which skips the validator rejections that actually caused the gap. It also sets partial to false even though the answer has real partial substance.\n- **Secondary** gets the matches, harm and handoff right, names query validation as the first failure, correctly notes that the \"no history\" claim was never checked against source temporal metadata, and correctly applies partial-is-zero.\n\nSecondary is right.",
+      "saved_trace": {
+        "outcome_sha256": "9e387f9c0b867c81913a017770ce2c5f8f928d6ea2fc0025aa328f88a5c59b6e",
+        "local_outcome": ".local\\round-twenty-five\\g4-v2-before-temporal-retention-v3-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [
+        {
+          "id": "query:9dd44810b7dd388614715190f73d5ac146d3ea6be845eec305f672aac326bc6a:4",
+          "error": "Unsupported SQL syntax or function nodes: ObjectId. Remove these constructs or choose a supported diagnostic; no query executed.",
+          "query": "SELECT t.name, t.temporal_type_desc, t.history_table_id, CASE WHEN ct.object_id IS NULL THEN 0 ELSE 1 END AS change_tracking_enabled FROM sys.tables t LEFT JOIN sys.change_tracking_tables ct ON ct.object_id = t.object_id WHERE t.object_id = OBJECT_ID('app.stock_movements_round_two_20261003')"
+        },
+        {
+          "id": "query:a65977b4235cb03ff1fbe097374c8f2c9905304a9543eb731a296670e48cb84d:5",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT t.name, t.temporal_type_desc, t.history_table_id FROM sys.tables t WHERE t.object_id = 1938105945"
+        },
+        {
+          "id": "query:db0d1cc47d35241798729d4cd5b65e6f601d4b5ae0e8fe6c1e0f0c6bcd42184a:6",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "query": "SELECT TOP 20 run_id, copy_run_id, pipeline_name, status, start_time_utc, end_time_utc, rows_read, rows_written, recorded_at_utc FROM [dbo].[load_run_audit] WHERE start_time_utc <= '2026-10-21T00:00:00' ORDER BY start_time_utc DESC"
+        }
+      ],
+      "correct_action": "Use the returned native error and schema to correct this read before concluding.",
+      "class": "v2-before-temporal-retention"
+    }
+  ],
   "estate_reads": 0,
   "model_calls": 0,
   "scores_or_expectations_changed": false,
-  "zero_classes": {}
+  "zero_classes": {
+    "v2-application-baseline": 1,
+    "v2-before-temporal-retention": 1
+  }
 }
