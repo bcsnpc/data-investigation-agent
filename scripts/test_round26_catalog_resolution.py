@@ -4,6 +4,24 @@ from test_round23_intake_queries import graph
 
 
 class CatalogResolutionTests(unittest.TestCase):
+    def test_named_page_disambiguates_reused_measure_across_reports(self):
+        catalog = self.catalog()
+        catalog.nodes['page']['label'] = 'Unfiltered control'
+        catalog.edges.append({'source': 'othercard', 'target': 'measure', 'kind': 'COMPUTED_FROM'})
+        result = prefill('Net Revenue on Unfiltered control looks old', {'issue_type': 'DATA_LOOKS_OLD'}, catalog)
+        self.assertEqual(result['status'], 'READY')
+        self.assertEqual(result['report'], 'report')
+        self.assertEqual(result['page'], 'page')
+
+    def test_named_physical_table_does_not_require_report(self):
+        catalog = self.catalog()
+        catalog.nodes['view'] = {'id': 'view', 'kind': 'VIEW', 'label': 'access_export'}
+        result = prefill('Why does access_export differ for these accounts?',
+                         {'issue_type': 'OTHERS_SEE_DIFFERENT_NUMBER'}, catalog)
+        self.assertEqual(result['status'], 'READY')
+        self.assertEqual(result['table'], 'view')
+        self.assertNotIn('report', result)
+
     def catalog(self):
         g = graph()
         for node in g['nodes']:

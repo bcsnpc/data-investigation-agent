@@ -207,7 +207,8 @@ def finding(args,case):
     if automatic_update_unknown:
         qualifications.append('The Direct Lake automatic-update switch is not exposed by these refresh-history/schedule reads. Its ON/OFF state is unestablished; see semantic model settings → Refresh → Keep your Direct Lake data up to date. A refresh schedule is a separate setting.')
     for assumption in case['intake'].get('resolution_assumptions', []):
-        qualifications.append('Assumption: I checked ' + assumption['name'] + ', resolved from the named catalog item and its retained report links.')
+        qualifications.append('Assumption: I checked ' + assumption['name'] + ', resolved from the named catalog item' +
+                              ('.' if assumption.get('object') else ' and its retained report links.'))
     if normalized == 'latency':qualifications.append(history['qualification'])
     if definition_only:qualifications.append('Technical calculation explained from retained definitions and native reads; this does not establish business correctness or consistency of the full source chain.')
     if source_consistency:

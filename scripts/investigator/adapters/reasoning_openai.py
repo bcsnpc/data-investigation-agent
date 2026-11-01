@@ -32,15 +32,16 @@ def authorize_body(permissions, method, url, raw):
     name, spec = matches[0]
     if method == 'GET' and url == spec['endpoint'] + '/models' and raw is None:
         return
-    if method != 'POST' or url != spec['endpoint'] + '/responses':
+    counted = url == spec['endpoint'] + '/responses/input_tokens'
+    if method != 'POST' or url not in (spec['endpoint'] + '/responses', spec['endpoint'] + '/responses/input_tokens'):
         raise ValueError('PROVIDER_ENDPOINT_REFUSED')
     body = json.loads(raw) if isinstance(raw, (str, bytes)) else raw
-    required = {'model', 'input', 'tools', 'max_output_tokens', 'store'}
+    required = {'model', 'input', 'tools'} | (set() if counted else {'max_output_tokens', 'store'})
     if not isinstance(body, dict) or not required <= body.keys() <= required | {'prompt_cache_options', 'include'}:
         raise ValueError('PROVIDER_BODY_SHAPE')
-    if body['model'] not in spec.get('models', []) or body['store'] is not False:
+    if body['model'] not in spec.get('models', []) or (not counted and body['store'] is not False):
         raise ValueError('MODEL_NOT_CONFIGURED_OR_STORAGE_ENABLED')
-    if type(body['max_output_tokens']) is not int or not 1 <= body['max_output_tokens'] <= 16000:
+    if not counted and (type(body['max_output_tokens']) is not int or not 1 <= body['max_output_tokens'] <= 16000):
         raise ValueError('PROVIDER_OUTPUT_BOUND')
     if not isinstance(body['input'], list) or not isinstance(body['tools'], list) or not body['tools']:
         raise ValueError('CLIENT_INPUT_AND_TOOLS_REQUIRED')
@@ -58,7 +59,7 @@ def authorize_body(permissions, method, url, raw):
 class Client:
     def __init__(self, *, model, budget, identity, secret_reference, record,
                  base='https://api.openai.com/v1', send=None, key_reader=None,
-                 sleep=time.sleep, explicit_cache=False):
+                 sleep=time.sleep, explicit_cache=False, count_tokens=None):
         from .managed_identity import validate_secret_reference
         validate_secret_reference(secret_reference)
         if budget.rate.model != model:
@@ -69,6 +70,7 @@ class Client:
         self.reference, self.record = deepcopy(secret_reference), record
         self.send, self.key_reader, self.sleep = send, key_reader, sleep
         self.explicit_cache = explicit_cache
+        self.count_tokens = (send is None and self.provider == 'openai') if count_tokens is None else count_tokens
         self.successful_calls = 0
         from .anthropic_prompt_cache import StablePrefix
         self.stable = StablePrefix()
@@ -114,8 +116,22 @@ class Client:
                               max_tokens=max_tokens, explicit_cache=self.explicit_cache)
         _safe(canonical(body).encode())
         reserve_body = {**body, 'max_tokens': max_tokens}
+        input_bound = None
+        if self.count_tokens:
+            counted = (self.send or self._http)('POST', self.base + '/responses/input_tokens',
+                                               {k: body[k] for k in ('model', 'input', 'tools')})
+            tokens = counted.get('input_tokens')
+            if type(tokens) is not int or tokens < 0:raise ValueError('NATIVE_PROVIDER_TOKEN_COUNT_REQUIRED')
+            input_bound = tokens + 4096
+            self.record({'event': 'REASONING_TOKEN_COUNT', 'provider': self.provider, 'input_tokens': tokens,
+                         'reservation_margin_tokens': 4096})
+        bound_for_tier = input_bound if input_bound is not None else len(canonical(reserve_body).encode()) + 4096
+        if bound_for_tier > 272000:
+            from ..model_spend import SpendHold
+            raise SpendHold('DOCUMENTED_RATE_CONTEXT_BOUND_EXCEEDED')
         for attempt in range(3):
-            reservation = self.budget.reserve(reserve_body)
+            reservation = (self.budget.reserve(reserve_body) if input_bound is None else
+                           self.budget.reserve(reserve_body, input_tokens_upper_bound=input_bound))
             try:
                 self.record({'event': 'REASONING_REQUEST', 'provider': self.provider, 'reservation': reservation,
                              **self._capture(body, private_summary)})

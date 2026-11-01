@@ -26,8 +26,11 @@ FIGURE = {'oneOf': [
      'required': ['state', 'value', 'precision']}]}
 SCHEMA = {'$schema': 'https://json-schema.org/draft/2020-12/schema',
           'title': VERSION, 'type': 'object', 'additionalProperties': False,
-          'required': ['version', 'report', 'issue_type', 'compared_with'], 'properties': {
+          'required': ['version', 'issue_type', 'compared_with'],
+          'anyOf': [{'required': ['report']}, {'required': ['table']}, {'required': ['measure']}],
+          'dependentRequired': {'page': ['report'], 'visual': ['report', 'page']}, 'properties': {
     'version': {'const': VERSION}, 'report': ID, 'page': ID, 'visual': ID,
+    'table': ID, 'measure': ID,
     'issue_type': {'enum': list(ISSUES)}, 'description': {'type': 'string'},
     'classified_issue_type': {'enum': list(ISSUES[:-1])},
     'compared_with': {'type': 'object', 'additionalProperties': False,
@@ -95,6 +98,13 @@ class Catalog:
             raise ValueError('UNKNOWN_' + kind)
 
     def target(self, target):
+        if 'report' not in target:
+            if 'table' in target:
+                if self.nodes.get(target['table'], {}).get('kind') not in ('TABLE', 'VIEW'):
+                    raise ValueError('UNKNOWN_TABLE')
+                return []
+            self.require(target['measure'], 'MEASURE')
+            return [row for row in self.rows('MEASURE') if row['id'] == target['measure']]
         self.require(target['report'], 'REPORT')
         if 'page' in target:
             if target['page'] not in {p['id'] for p in self.pages(target['report'])}:
@@ -162,6 +172,9 @@ class Catalog:
         direct = self.ranked(text, 'REPORT')
         if direct and direct[0]['score'] >= .86:
             return [r for r in direct if direct[0]['score'] - r['score'] < .08]
+        pages = self.ranked(text, 'PAGE')
+        page_reports = {r['id'] for page in pages if page['score'] >= .86 and pages[0]['score'] - page['score'] < .08
+                        for r in self.reports_for(page['id'])}
         matches = []
         for kind in ('VISUAL', 'MEASURE'):
             ranked = self.ranked(text, kind)
@@ -171,7 +184,14 @@ class Catalog:
                 for report in self.reports_for(target['id']):
                     matches.append({**report, 'score': target['score'], 'confidence': target['confidence'],
                                     'via': target['id'], 'basis': 'CATALOG_CONTAINMENT_OF_NAMED_' + kind})
-        return list({r['id']: r for r in matches}.values())
+        matches = list({r['id']: r for r in matches}.values())
+        if page_reports:
+            matches = [r for r in matches if r['id'] in page_reports]
+            if not matches:
+                matches = [{**r, 'score': pages[0]['score'], 'confidence': pages[0]['confidence'],
+                            'basis': 'CATALOG_CONTAINMENT_OF_NAMED_PAGE', 'via': pages[0]['id']}
+                           for r in self.reports() if r['id'] in page_reports]
+        return matches
 
 
 def admit(request, catalog):
@@ -180,6 +200,8 @@ def admit(request, catalog):
     _safe(canonical(request).encode())
     Draft202012Validator(SCHEMA).validate(request)
     result = deepcopy(request)
+    if sum(bool(request.get(k)) for k in ('report', 'table', 'measure')) > 1:
+        raise ValueError('CONFLICTING_TARGET_SELECTION')
     result['measure_candidates'] = catalog.target(request)
     comparison = deepcopy(request['compared_with']); kind = comparison['kind']
     expected = {'ANOTHER_REPORT': 'target', 'SOURCE_SYSTEM': 'source', 'EXPECTED_NUMBER': 'figure'}
@@ -249,16 +271,30 @@ def prefill(text, proposed, catalog, *, provenance=None):
     value['version'] = VERSION
     value['description']=text
     value.setdefault('compared_with', {'kind': 'NOTHING'})
+    direct_target = None
+    for kind, field in (('TABLE', 'table'), ('MEASURE', 'measure')):
+        if value.get(field) and not value.get('report'):
+            candidates = catalog.ranked(text, kind)
+            if field == 'table':candidates += catalog.ranked(text, 'VIEW')
+            matched = [r for r in candidates if r['score'] >= .86]
+            if len(matched) == 1 and matched[0]['id'] == value[field]:direct_target = matched[0]
+            else:raise ValueError('DIRECT_TARGET_UNRESOLVED_OR_AMBIGUOUS')
+    if not value.get('report') and not any(value.get(k) for k in ('table', 'measure')):
+        if not any(r['score'] >= .86 for r in catalog.ranked(text, 'REPORT')):
+            tables = sorted([*catalog.ranked(text, 'TABLE'), *catalog.ranked(text, 'VIEW')], key=lambda r: -r['score'])
+            tables = [r for r in tables if r['score'] >= .86 and tables[0]['score'] - r['score'] < .08]
+            if len(tables) == 1:
+                value['table'] = tables[0]['id']; direct_target = tables[0]
     reports=catalog.report_matches(text)
     assumption = None
-    if len(reports)==1:
+    if len(reports)==1 and not direct_target:
         if value.get('report') and value['report']!=reports[0]['id']:
             raise ValueError('REPORT_REFERENCE_DIFFERS_FROM_TICKET')
         value.setdefault('report',reports[0]['id'])
         if reports[0].get('via') or reports[0]['confidence'] != 'NAMED':
             assumption = {'report': reports[0]['id'], 'name': reports[0]['name'],
                           'basis': reports[0]['basis'], 'matched_node': reports[0].get('via')}
-    elif len(reports) > 1:
+    elif len(reports) > 1 and not direct_target:
         return {'status': 'NEEDS_INPUT', 'prefilled': value, 'question': {
             'text': 'These catalog matches remain close. Which report do you mean?',
             'fields': [{'field': 'report', 'choices': [{'id': r['id'], 'name': r['name']} for r in reports]}]},
@@ -298,10 +334,12 @@ def prefill(text, proposed, catalog, *, provenance=None):
         if not any(name and name.casefold() in span['quote'].casefold() for name in names):
             raise ValueError('VISUAL_PROVENANCE_DIFFERS_FROM_TARGET')
         recorded['visual']=span
-    missing = [k for k in ('report', 'issue_type') if not value.get(k)]
+    missing = [k for k in ('report', 'issue_type') if not value.get(k)
+               and not (k == 'report' and (value.get('table') or value.get('measure')))]
     if missing:
         # Check supplied fields even when others are missing.
         partial = deepcopy(SCHEMA); partial['required'] = ['version']
+        partial.pop('anyOf', None); partial.pop('dependentRequired', None)
         Draft202012Validator(partial).validate(value)
         if value.get('report'): catalog.require(value['report'], 'REPORT')
         return {'status': 'NEEDS_INPUT', 'prefilled': value, 'provenance_references':provenance,'question': {
@@ -312,7 +350,9 @@ def prefill(text, proposed, catalog, *, provenance=None):
     result=admit(value, catalog)
     result['provenance']=recorded
     result['provenance_references']=provenance
-    if assumption:result['resolution_assumptions']=[assumption]
+    if direct_target:
+        result['resolution_assumptions']=[{'name': direct_target['name'], 'basis': 'UNIQUE_NAMED_CATALOG_OBJECT', 'object': direct_target['id']}]
+    elif assumption:result['resolution_assumptions']=[assumption]
     return result
 
 
@@ -344,7 +384,11 @@ def admit_or_question(request, catalog):
         report = selected.get('report')
         report = report if isinstance(report, str) else None
         fields = []
-        if catalog.nodes.get(report, {}).get('kind') != 'REPORT':
+        physical = selected.get('table') or selected.get('measure')
+        physical = physical if isinstance(physical, str) else None
+        if report is None and physical and catalog.nodes.get(physical, {}).get('kind') in ('TABLE', 'VIEW', 'MEASURE'):
+            pass
+        elif catalog.nodes.get(report, {}).get('kind') != 'REPORT':
             fields.append({'field': 'report', 'choices': catalog.reports()})
         else:
             page = selected.get('page')

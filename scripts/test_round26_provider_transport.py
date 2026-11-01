@@ -52,6 +52,18 @@ class ProviderTransportTests(unittest.TestCase):
         self.assertEqual(client.budget.reserve.call_count, 2)
         sleep.assert_called_once_with(30)
 
+    def test_native_count_is_used_for_reservation_and_rate_tier(self):
+        send = Mock(side_effect=[{'input_tokens': 123}, self.response()])
+        client = self.client(send=send, count_tokens=True)
+        client.complete(system='s', messages=[], tools=self.tools())
+        self.assertEqual(send.call_args_list[0].args[1], 'https://api.openai.com/v1/responses/input_tokens')
+        self.assertEqual(client.budget.reserve.call_args.kwargs['input_tokens_upper_bound'], 4219)
+        send = Mock(return_value={'input_tokens': 272001})
+        client = self.client(send=send, count_tokens=True)
+        with self.assertRaisesRegex(Exception, 'RATE_CONTEXT_BOUND'):
+            client.complete(system='s', messages=[], tools=self.tools())
+        client.budget.reserve.assert_not_called()
+
     def test_unconfigured_provider_model_server_tool_and_storage_refused(self):
         body = openai_request(model='synthetic', system='s', messages=[], tools=self.tools(), max_tokens=10)
         permissions = {'ai_providers': {'openai': {'endpoint': 'https://api.openai.com/v1',

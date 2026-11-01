@@ -56,6 +56,8 @@ class Factory:
             additions=[n for n in catalog['nodes'] if n['kind']=='MODEL' and n['id'] not in present
                        and (n.get('owner') in owners or n.get('properties',{}).get('asset_id') in owners)]
             return {**path,'nodes':[*path['nodes'],*additions]}
+        if intake.get('table') or intake.get('measure'):
+            return associated(self.graph.path_to_source(intake.get('table') or intake['measure']))
         if intake.get('visual'):return associated(self.graph.path_to_source(intake['visual']))
         # A named measure is its own target. Do not resend every sibling
         # visual's calculation path merely because the visual is optional.
@@ -152,7 +154,7 @@ class Factory:
         if self.begin_case:self.begin_case()
         self.routes=deepcopy(self.registry)
         intake=deepcopy(case['intake'])
-        root=intake.get('visual') or intake.get('page') or intake['report']
+        root=intake.get('visual') or intake.get('page') or intake.get('report') or intake.get('table') or intake['measure']
         path=self.target_path(intake)
         # Catalog containment projections need not carry persisted edge IDs.
         # Give those edges a local identity without rewriting retained graph
@@ -174,7 +176,7 @@ class Factory:
         context['query_dialect_sheets']={i:sheet(layer)for i,layer in layers.items()}
         context['route_registry_hash']=digest(self.routes)
         from .facts_ledger import FactLedger
-        scope={k:intake[k] for k in ('report','page','visual','details') if k in intake}
+        scope={k:intake[k] for k in ('report','page','visual','table','measure','details') if k in intake}
         context['engineer_scope']=scope
         context['engineer_replies']=FactLedger(self.state).engineer_replies_for_path(case['estate'],sorted(nodes),scope)
         _safe(canonical(context).encode())
