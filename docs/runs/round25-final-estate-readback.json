@@ -1,0 +1,24 @@
+{
+  "observed_at_utc": "2026-11-01T08:43:54.509204+00:00",
+  "source_business_and_schema_hashes": {
+    "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+    "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+    "temporal_period_columns_excluded_explicitly": true
+  },
+  "source_matches_original_360": true,
+  "temporal_history": "ON",
+  "native_model_quantity": 7661,
+  "native_bronze_aggregate": [
+    {
+      "quantity": "7661",
+      "row_count": "360"
+    }
+  ],
+  "bronze_aggregate_aligned": true,
+  "automatic_updates": "ON persisted in native UI receipt",
+  "full_bronze_row_hash": "UNESTABLISHED; aggregate is not a row hash",
+  "identity_or_permission_change": false,
+  "local_control_physical_requests": 2,
+  "nested_cloud_probe_bound": 10,
+  "accounting": "Nested cloud probe requests counted by native cloud Meter separately; monthly shared total is authoritative."
+}

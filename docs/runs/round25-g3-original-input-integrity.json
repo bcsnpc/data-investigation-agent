@@ -1,0 +1,14 @@
+{
+  "recorded_at": "2026-10-31",
+  "cohort": "G3",
+  "original_ticket_count": 60,
+  "all_ticket_text_byte_values_unchanged": true,
+  "all_native_envelopes_original_free_text": true,
+  "source_sha256": {
+    "scored-set-v1-dev.json": "68fcba6df4aea127e11e9e77c236dce9dbc98d6808daef027faffd0f54096858",
+    "scored-set-v1-heldout.json": "2fbbc0625c8781f668587efef8777ccc08aaaebb9711ae8827fd062503ddd4b2"
+  },
+  "estate_reads": 0,
+  "model_calls": 0,
+  "ticket_wording_not_emitted": true
+}

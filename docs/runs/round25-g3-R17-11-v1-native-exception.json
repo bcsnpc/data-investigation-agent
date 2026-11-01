@@ -1,0 +1,95 @@
+{
+  "status": "UNDELIVERED_NATIVE_EXCEPTION",
+  "ticket_id": "R17-11-v1",
+  "run_id": "371e9ec9-4c60-4c58-8f47-2f70b2e96fb6",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:6b2935e8d3ff72cfbd0d45ac8a311267e7ef339729056222d6e6f72a0c0bd44e",
+  "execution": {
+    "endTime": null,
+    "execution_name": "job-dia-worker-zjd3nr2",
+    "startTime": "2026-11-01T02:35:32+00:00",
+    "status": "Failed"
+  },
+  "error": {
+    "type": "URLError",
+    "message": "<urlopen error [Errno 99] Cannot assign requested address>"
+  },
+  "native_worker_exit": {
+    "error_type": "URLError",
+    "exit_code": 1,
+    "last_step": "guided-investigation",
+    "reason": "UNDELIVERED_EXCEPTION"
+  },
+  "partial_capture": {
+    "run_id": "371e9ec9-4c60-4c58-8f47-2f70b2e96fb6",
+    "sealed": false,
+    "records": [
+      {
+        "key": "00000001-header.json",
+        "sha256": "65fd2535e7a6b71900cded87d5afae17a3a422aa21c8c627762156637e7ce386",
+        "bytes": 636
+      },
+      {
+        "key": "00000002-status.json",
+        "sha256": "7f09588f2f1bb7d947bb38514153d6933f36bdd7400475c2978f4f826d12189a",
+        "bytes": 35
+      },
+      {
+        "key": "00000003-step-start.json",
+        "sha256": "fb10c1277036cf01654a0eefd03e089af57bb1a0395949cb8d46149571955709",
+        "bytes": 47
+      },
+      {
+        "key": "00000004-step-result.json",
+        "sha256": "0707b2ee5d1a0ebc1372fbabaff306ce3e5473c514ff7e9db366ac08689d61fe",
+        "bytes": 178
+      },
+      {
+        "key": "00000005-access-audit-not-repeated.json",
+        "sha256": "ddfcca698e7dee39daabf52ebfefeef937d72f9368990dea3c98b36f9df8d276",
+        "bytes": 114
+      },
+      {
+        "key": "00000006-step-start.json",
+        "sha256": "949f2dcd67d271856e63fc8cc5fe317d027f448de329cee256197998a4c4933a",
+        "bytes": 46
+      },
+      {
+        "key": "00000007-normal-audit-batch.json",
+        "sha256": "25675c07f53454511346a4f900bc61ef675cedd83061d1899c9a8d58f4e6b9ce",
+        "bytes": 32052
+      },
+      {
+        "key": "00000008-normal-audit-index.json",
+        "sha256": "6baf9d87f4bb895fe29e5d1c46cfbb67cf34e5c0b575bede8fa78ea3e6a253f9",
+        "bytes": 539
+      },
+      {
+        "key": "00000009-attempt-failure.json",
+        "sha256": "523ab9f2aa28d797a01e915b34ae06286113d8b942b83f155cbeb8b859df2a38",
+        "bytes": 122
+      },
+      {
+        "key": "00000010-worker-exit.json",
+        "sha256": "33a3d44ba423c4ada9d3ce55b719873410c52c39cf5277b6cdfb3cdf5d240d78",
+        "bytes": 107
+      },
+      {
+        "key": "00000011-status.json",
+        "sha256": "3fad71335f39d811dcecae11d469b544b1f4103bb3c5020921859e6d551bfaa3",
+        "bytes": 129
+      },
+      {
+        "key": "timing-summary.json",
+        "sha256": "c3a45b8cef957da1a71ae71d077ee0ce2112ed200ad8f9a2c9bcc10b9eeacc68",
+        "bytes": 1450
+      }
+    ],
+    "estate_reads": "UNKNOWN",
+    "model_calls": "UNKNOWN"
+  },
+  "final_seal_exists": false,
+  "engine_answer_exists": false,
+  "replacement_allowed": false,
+  "replacement_reason": "Retained native transport exception, counted as undelivered; no rerun or engine change",
+  "usage": "UNAVAILABLE_FROM_UNSEALED_PARTIAL_CAPTURE; not estimated as zero"
+}

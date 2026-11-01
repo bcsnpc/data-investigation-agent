@@ -1,0 +1,13 @@
+{
+  "bytes": 1108904,
+  "dev_tickets": 20,
+  "estate_reads": 0,
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:595047cfadca5d7709e2463dc52d6438cbc80e3786763af89f6bf192b7652f86",
+  "model_calls": 0,
+  "permission_changes": false,
+  "sha256": "0b4dbc31bf7df8300fff98d762c5d9e6dc3f687c6caa6b2ab2ea409211e1a04e",
+  "status": "G4_R23_HELD_OUT_V2_REGRESSION_INPUTS_PREPARED_NOT_RUN",
+  "stored_md5_matched": true,
+  "held_out_wording_opened": false,
+  "existing_expectations_changed": false
+}

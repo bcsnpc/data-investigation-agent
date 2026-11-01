@@ -1,0 +1,55 @@
+{
+  "cases": [
+    {
+      "ticket": "v2-screenshot-record-02-v1",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer reaches verdict 'definition explained' which is functionally equivalent to 'as designed' \u2014 the 21 is a direct pass-through of a single source row, nothing summed or derived. Layer is 'source application' (ordersops / app.stock_movements_round_two_20261003) which matches. Cause matches: the answer correctly identifies movement_id 4 as the unique row with units=21 for warehouse_id=1, product_id=2, carried unchanged through the copy job and Direct Lake path \u2014 matching 'Visible values resolve uniquely to movement 4; units 21 carried unchanged through application path.' The answer is not harmful. It is fully resolved (ANSWERED, not a handoff), so handoff_quality is 0 (not applicable/no handoff to grade).",
+        "verdict_match": true
+      },
+      "reason": "G1 raw output is a resolved definition explanation with no handoff object. Both graders agree correct verdict/layer/cause and no harm. No unresolved investigation requires handoff; handoff0. Original grades unchanged.",
+      "raw_outcome_sha256": "09fd2c7157736858358dfa3fef39a9aac9b6bc9ff3354e737653d5c6af4c48a0",
+      "reviewer": "operator G1 saved-output review; owner independent-review rule applies toG2-G4"
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v2",
+      "winner": "neither",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'definition explained' which maps to 'as designed' \u2014 the visual correctly shows a stored raw value, not a calculated total, matching the expected verdict. Layer: delivered correctly identifies the source application (ordersops) as the origin layer, tracing through Direct Lake \u2192 lakehouse \u2192 Copy Job \u2192 ordersops, matching expected 'source application'. Cause: delivered correctly identifies that units=21 is the stored value for movement_id=4, carried unchanged through the pipeline, matching the expected cause of 'Visible values resolve uniquely to movement 4; units 21 carried unchanged through application path.' Native queries (DAX and SQL) were executed to establish this. Handoff: the answer is resolved (ANSWERED), so handoff is evaluated for completeness of stopping point. The agent notes several triage checks were unavailable but explains these don't block the investigation. The evidence is clearly cited with query results. Score 1 rather than 2 because some stated caveats (aligned versions not established, layer freshness unavailable) leave slight uncertainty that could have been addressed more decisively, and the handoff notes don't provide a clear rerunnable next step for those gaps.",
+        "verdict_match": true
+      },
+      "reason": "G1 raw output is a resolved definition explanation with no handoff object. Both graders agree correct verdict/layer/cause and no harm. No unresolved investigation requires handoff; handoff0. Original grades unchanged.",
+      "raw_outcome_sha256": "f923d92ed066348172124002f403e10b1d0a83c97cba7c54ceff7d871c245146",
+      "reviewer": "operator G1 saved-output review; owner independent-review rule applies toG2-G4"
+    },
+    {
+      "ticket": "v2-screenshot-record-03-v1",
+      "winner": "primary",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'definition explained' while expected says 'as designed'. These are semantically equivalent for a how-is-this-calculated question with no discrepancy \u2014 the agent explained the design/definition and found no fault, matching the expected verdict substance. Layer: delivered identifies the source application (ordersops) as the origin, matching expected 'source application'. Cause: delivered correctly identifies movement 5 (units=3) carried unchanged through the full application path (ordersops \u2192 lakehouse \u2192 Direct Lake model \u2192 visual), which matches 'Visible values resolve uniquely to movement 5; units 3 carried unchanged through application path. Actual native queries must establish this key and agreement.' The delivered answer ran native queries confirming agreement across all three layers. All three dimensions match. No harm: no confident incorrect claim. No partial: substance is complete and correct. Handoff quality is 0 as the answer is resolved (status ANSWERED), so handoff scoring is not applicable \u2014 using 0 as the enum baseline for a completed answer.",
+        "verdict_match": true
+      },
+      "reason": "G1 raw output is a resolved definition explanation with no handoff object. Both graders agree correct verdict/layer/cause and no harm. No unresolved investigation requires handoff; handoff0. Original grades unchanged.",
+      "raw_outcome_sha256": "1cbdca2df2deb415127810da9f66f86485e79cbb953fb51de47af5cb5cb30337",
+      "reviewer": "operator G1 saved-output review; owner independent-review rule applies toG2-G4"
+    }
+  ]
+}

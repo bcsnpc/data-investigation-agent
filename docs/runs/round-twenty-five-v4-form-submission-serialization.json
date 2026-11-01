@@ -1,0 +1,16 @@
+{
+  "status": "UNSEALED_CANONICAL_FORM_SUBMISSIONS_PREPARED",
+  "tickets": 60,
+  "forms": 48,
+  "text": 12,
+  "original_drafts_retained": true,
+  "prose_and_figures_unchanged": true,
+  "binding_receipt_sha256": "a697a40b884e08674ea926c5400f8fdc39c63f92abacd7bfcec6b8ee34bbbc1b",
+  "known_relationship_conflicts_preserved": [
+    "v4-billing-invoices-3"
+  ],
+  "conflict_requires_independent_preseal_oracle_review": true,
+  "model_calls": 0,
+  "estate_reads": 0,
+  "engine_changed": false
+}

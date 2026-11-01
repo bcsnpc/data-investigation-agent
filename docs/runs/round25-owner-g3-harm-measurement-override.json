@@ -1,0 +1,18 @@
+{
+  "at": "2026-11-01T02:24:05.098357+00:00",
+  "owner_decision": "Lift all G3 harm pauses for measurement; run every remaining G3 ticket and count every outcome; keep engine frozen; continue G4 and release.",
+  "cohorts": {
+    "g3": {
+      "harm_pause_lifted": true,
+      "scope": "All remaining G3 tickets, including R17-01/R17-02/R17-05 families",
+      "harm_still_counted": true,
+      "delivered_answers_rerun": false
+    },
+    "g4": {
+      "harm_pause_lifted": false
+    }
+  },
+  "existing_g3_skipped_records": 0,
+  "case_families_are_grouped_without_cross_group_repetition": true,
+  "no_budget_identity_or_engine_change": true
+}

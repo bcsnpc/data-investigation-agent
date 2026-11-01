@@ -185,6 +185,25 @@ Round24 later CI option: a hosted live Anthropic intake-quality job would need a
 Round24 scheduled-runner maintenance: the native owner Cost Management observation copied into the existing runner configurations reaches its24-hour freshness bound at 2026-10-29T10:26:13.778590+00:00. Refresh it from a new native response with the existing owner authority and publish that observation to the same jobs before later runs. Do not restamp the old observation, bypass the USD20cap or grant a wider role. Static cost-observation renewal remains an operational limitation; three immediate green smokes are not a multi-day stability claim. Financial response bodies remain local. No resource/identity/permission was changed for this item.
 
 
+## Round 25: renew the native Azure cost observation
+
+Run before 2026-10-29 10:26 UTC, then repeat within24hours while these static observations are used. Reason: the existing runner requires a fresh native cost response to enforce the unchanged USD20 platform cap; changing an old timestamp is not renewal.
+
+```powershell
+Set-Location 'C:\temp\dia-r25-quality'
+& '.local\llm-env\Scripts\python.exe' 'scripts\renew_platform_cost_observation.py' --apply --publish-schedules --output '.local\round-twenty-five\cost-maintenance'
+```
+
+Uses only the existing owner Azure CLI sign-in. Financial response stays local; stdout contains timestamps, hashes and readback status only. Patches only existing cost-observation fields on the three existing jobs, retaining image, schedules, resources, identity and all scopes. A throttled read backs off; a failed read never invents an observation. If it lapses, Round25 measurement continues as owner-directed, with the lapse recorded; no budget cap or permission is widened.
+
+Round25 checkpoint2026-10-28: no new identity, scope or resource approval is required for the prepared November continuation. The existing native model account and physical policy were read back (150USD;9000total,2500SCAN/6405INV/95REST). October has37INV requests remaining versus the40-request case bound. Retain the previously documented cost-observation renewal command; the current observation expires2026-10-29T15:42UTC and a lapse is recorded, not a live-quality gate, under the owner prompt.
+
+### Round25 stale-control UI follow-up, 2026-10-31
+Browser control stopped before input because Edge's current URL could not be verified. No setting changed. If the stale cohorts are still pending, use the existing Fabric owner session: fixture workspace ? semantic model **Application load fixture 20261003** (`0c89889c-6fe6-49ab-91e9-4b00a51070e6`) ? Settings ? Direct Lake ? **Keep your Direct Lake data up to date**. The controlled cohort needs an actual fresh OFF observation, then its real +31 copy and scoped admissions; afterwards restore ON, refresh this same model and verify 7,661. Do not turn it off while another fault cohort is active. The existing publisher's SDK-derived settings POST previously returned401; this is not permission to add a role or fabricate UI evidence. No owner action has been executed by this entry.
+
+2026-10-31 Round25 browser follow-up: the owner left the fixture workspace loaded in Edge. Computer Use reached the existing Application load fixture20261003 settings; automatic updates were natively readON, temporarily setOFF for the approved G2 stale cohort and independently readOFF after closing/reopening the panel. No additional owner sign-in, credential or permission was needed. The earlier browser-navigation action is no longer blocking G2; final ON/refresh restoration remains operator-owned until the cohort closes. This does not resolve or supersede any separate HealthNet owner actions.
+
+2026-10-31 follow-up: G2 automatic-update restoration is now complete. Same model readOn, native own refreshCompleted, model7661 verified; originalsourcehash/realcopyrestored. No owner browser action remains for G2. See docs/runs/round25-g2-stale-final-restoration.json. G3/G4 still require their own approved reversible stale controls if admitted; they have not run yet.
 ## HealthNet estate cost approval requested ? 2026-10-30
 
 The owner-supplied hospital-estate-build.md section0.6 requires item-specific approval before provisioning. None of these items has been created. Offline generator/definition/test work continues; no DIA access, scan, or AI spend.
@@ -223,3 +242,8 @@ The owner-approved two SQL free-offer databases and HealthNet Analytics on the e
 Future-only access remains unapplied: existing DIA investigator workspaceViewer and modelRead+Build as needed, db_datareader in hn_clinical and hn_billing and hn_dw, scanner definition-read permissions on the explicitly selected HealthNet items, and appropriate model-role mapping/membership for each actual reader. Read+Build/Viewer must not be described as bypassing model RLS. No account, permission, secret or tenant setting is changed by this note. Exact future principals/scopes require their own approval before execution.
 
 Cost boundary:SQLuseFreeLimit=true,mandatoryAutoPauseatfreeceiling,60minuteinactivitypause; currentOneLake~0.8GB (~$0.02/monthillustrative), approvedincrementalstorage<= $1/month; existingcapacityunchanged. Trialhas9daysleft:owner must choose future capacity before expiry if continued availability is needed. No paid fallback authorized or provisioned. Daily pipelines beginNov1UTC; fullImportrefreshesRevenue0430/Productivity0500. Incremental model refresh is not enabled; fixed historical seed uses full refresh to avoid silently aging rows out.
+
+
+## Round 25 closeout — 2026-11-01
+
+No new identity, permission, secret or paid-resource decision is needed to finish this measurement release. All requested cohorts completed and temporary fixtures were restored. Next-round design priorities, not changes made here: free-text intake and target preservation first; evidence-grounded history conclusions; supported native query syntax; complete automatic-update triage facts. Existing owner-action backlog remains. Quality is not established by release success: G2 headline 36/60 and G3 3/60, with five retained harmful answers across G1/G3. See [quality report](quality-report-v0.24.md).

@@ -1,0 +1,10 @@
+{
+  "ticket": "R17-12-v1",
+  "failure": "IdleInTransactionSessionTimeout",
+  "model_request_recorded": false,
+  "matching_native_reservations": 0,
+  "action": "Preserve original marker; resume grader only, no engine rerun",
+  "connection_age_seconds": 31.05341,
+  "idle_before_request_seconds": 0.006674,
+  "cause": "server idle-drop cause unproven"
+}

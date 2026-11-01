@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-31",
+  "frozen_files": 502,
+  "unchanged_nonbudget_files": 500,
+  "approved_budget_only_exceptions": [
+    "scripts/investigator/enrichment_job.py",
+    "scripts/investigator/build_phase_policy.json"
+  ],
+  "engine_behavior_changes": false,
+  "source": "git canonical blob comparisons against original freeze",
+  "estate_reads": 0,
+  "model_calls": 0
+}

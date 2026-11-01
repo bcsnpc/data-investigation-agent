@@ -1,0 +1,68 @@
+{
+  "observed_at": "2026-11-01T00:00:44.023436+00:00",
+  "period": "2026-10",
+  "snapshot_as_of_epoch": 1793491199.0,
+  "ai": {
+    "month_utc": "2026-10",
+    "ceiling_microdollars": 206000000,
+    "charged_microdollars": 179847340,
+    "additional_pending_commitment_microdollars": 0,
+    "committed_microdollars": 179847340,
+    "remaining_microdollars": 26152660,
+    "warning": true,
+    "monthly_credit_microdollars": 100000000,
+    "by_ai_step_microdollars": {
+      "INVESTIGATOR": 135016397,
+      "SCREENSHOT": 0,
+      "ENRICHMENT": 10806285,
+      "WRITER": 6139770,
+      "GRADING": 22708679,
+      "SMOKE": 3450945,
+      "UNATTRIBUTED_HISTORICAL": 1725264
+    },
+    "grading_remaining_microdollars": 0,
+    "model_account": {
+      "identity": "model-microdollars:2026-10",
+      "unit": "MICRODOLLARS",
+      "ceiling": "206000000",
+      "protected": "3000000",
+      "opening": "0",
+      "charged": "178190145",
+      "violated": false
+    },
+    "grading_account": {
+      "identity": "enrichment:round-twenty-one",
+      "unit": "MICRODOLLARS",
+      "ceiling": "25000000",
+      "protected": "12850910",
+      "opening": "0",
+      "charged": "10806285",
+      "violated": false
+    },
+    "reserved_maxima_included": true,
+    "basis": "Larger recorded ledger/console baseline plus subsequent charges across both existing accounts."
+  },
+  "physical": {
+    "mode": "BUILD_PHASE",
+    "month_utc": "2026-10",
+    "used": {
+      "INVESTIGATION": 11001,
+      "RESTORATION": 52,
+      "SCAN": 2499
+    },
+    "limits": {
+      "SCAN": 2500,
+      "INVESTIGATION": 14405,
+      "RESTORATION": 95
+    },
+    "total": 13622,
+    "total_limit": 17000,
+    "historical_restoration_requests": 70,
+    "restoration_remaining": 43,
+    "warnings": [
+      "SCAN_MONTHLY_80_PERCENT",
+      "PHYSICAL_MONTHLY_80_PERCENT"
+    ]
+  },
+  "mutation": false
+}

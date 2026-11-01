@@ -1,0 +1,51 @@
+{
+  "original_control": {
+    "receipt": ".local\\round-twenty-five\\injections\\g3-stale\\status.json",
+    "restored_hash": {
+      "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+      "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+      "temporal_period_columns_excluded_explicitly": true
+    }
+  },
+  "recovery_control": {
+    "receipt": ".local\\round-twenty-five\\injections\\g3-stale-recovery01\\status.json",
+    "restored_hash": {
+      "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+      "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+      "temporal_period_columns_excluded_explicitly": true
+    }
+  },
+  "model_restore": {
+    "native_refresh": {
+      "endTime": "2026-11-01T04:56:54.197Z",
+      "id": 764823533,
+      "refreshAttempts": [
+        {
+          "attemptId": 1,
+          "endTime": "2026-11-01T04:56:44.4247082Z",
+          "executionMetrics": [],
+          "startTime": "2026-11-01T04:56:29.8927773Z",
+          "type": "Data"
+        },
+        {
+          "attemptId": 1,
+          "endTime": "2026-11-01T04:56:46.4716774Z",
+          "executionMetrics": [],
+          "startTime": "2026-11-01T04:56:45.2216189Z",
+          "type": "Query"
+        }
+      ],
+      "refreshType": "ViaApi",
+      "requestId": "7bb6b0b1-3dfe-464d-9138-2545ea4c7cc2",
+      "startTime": "2026-11-01T04:56:29.783Z",
+      "status": "Completed"
+    },
+    "quantity": 7661,
+    "screenshot_sha256": "b11630bb809242e4cc43810db52ed00b902f74970197cb86fc23f23eb9f52afc",
+    "ui_checked": true,
+    "verification_requests": 1
+  },
+  "temporal_history": "ON",
+  "all_four_outcomes_retained": true,
+  "identity_or_permission_change": false
+}

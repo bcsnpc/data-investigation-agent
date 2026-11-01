@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-31",
+  "ticket": "failed-billing-transform-v1",
+  "run_id": "2516424b-295c-4d0f-8400-9f4053eb745a",
+  "classification": "AZURE_CONTROL_READ_FAILED_BEFORE_START",
+  "native_error": "The containerapp job 'job-dia-worker' does not exist",
+  "explanation": "Installed CLI YAML-start catches every exception from its preliminary job GET and raises this message before the start POST. A subsequent job GET succeeded. No SUBMITTED event. Original remains unscored; one infrastructure replacement authorized by existing round plumbing policy.",
+  "installed_cli_source_sha256": "cedb9758f404c4ea5968e302d7952a86629854965059d20b5d0557dbe1a82cc2",
+  "dispatch_order_verified": true
+}

@@ -1,0 +1,15 @@
+{
+  "bytes": 2596353,
+  "dev_tickets": 60,
+  "estate_reads": 0,
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:595047cfadca5d7709e2463dc52d6438cbc80e3786763af89f6bf192b7652f86",
+  "model_calls": 0,
+  "permission_changes": false,
+  "sha256": "bc47720eecd83ca286f83c936a4846e5a41b5b424b9f4b156a60f5d8a214fafb",
+  "status": "G2_SIXTY_SEALED_INPUTS_PREPARED_NOT_RUN",
+  "stored_md5_matched": true,
+  "seal_commit": "c61a5c3e",
+  "seal_sha256": "c8ef73407aae2db385d6a36067bac157ad8f97fe5a1083cb211b43085b2eaedc",
+  "no_held_out_wording_opened": true,
+  "cohort_runs_admitted": 0
+}

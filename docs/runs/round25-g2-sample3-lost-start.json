@@ -1,0 +1,20 @@
+{
+  "observed_at_utc": "2026-10-31T22:02:11.352617+00:00",
+  "ticket": "v4-sample-technical-3",
+  "original_run_id": "d85a8c61-7bb2-4403-8629-eed55a617d98",
+  "classification": "ENVIRONMENT_AFFECTED_AZURE_START_RESPONSE_LOST",
+  "original_execution_status": "UNESTABLISHED",
+  "original_delivery": "No captured delivery observed; not a claim that no job exists",
+  "capture_blobs_observed": 0,
+  "execution_listing_checks": [
+    "AzureCLI execution list: BadGateway",
+    "ARM2024-03-01 execution list: BadGateway"
+  ],
+  "original_journal_sha256": "d6914109b69411b20c9af3a6ff07a2e7217c1d791bcbc04498079fc54ed62967",
+  "native_error_sha256": "9232e713801296a33db4ea97ef7459211ea5d534cba0b3653079b39f13a078dc",
+  "original_not_scored": true,
+  "one_plumbing_replacement_under_round25": true,
+  "original_budget_exposure_not_released": true,
+  "original_input_and_expectation_unchanged": true,
+  "concurrency": "Reserve one slot for original unknown; other static width1 during replacement, then at most2"
+}

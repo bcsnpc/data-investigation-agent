@@ -1,0 +1,18 @@
+{
+  "status": "EXISTING_NATIVE_PROVIDER_RECEIPT_RECOVERED",
+  "observed_at_utc": "2026-10-31T21:26:50.753161+00:00",
+  "batch_key": "round25-g2-static06-grader-01",
+  "provider_batch": "msgbatch_01Rtphhueww4FoAjEPpfKe6c",
+  "original_provider_journal_sha256": "7534282348313d748a3924a50e7bf0f159b1340773b6ae9c5566bc5e9bb9dd9a",
+  "native_http_status": 200,
+  "requests_equal_admitted_requests": true,
+  "old_state": "ADMITTED",
+  "new_state": "SUBMITTED",
+  "old_revision": 0,
+  "new_revision": 1,
+  "same_reservations": true,
+  "provider_submissions_added": 0,
+  "model_calls_added": 0,
+  "estate_reads": 0,
+  "cause": "PostgreSQL drop saving already accepted provider receipt; original failure retained"
+}

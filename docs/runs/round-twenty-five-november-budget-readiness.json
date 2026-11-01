@@ -1,0 +1,45 @@
+{
+  "observed_at": "2026-10-28T19:57:33.205183+00:00",
+  "november_model_account": {
+    "identity": "model-microdollars:2026-11",
+    "unit": "MICRODOLLARS",
+    "ceiling": "150000000",
+    "protected": "3000000",
+    "opening": "0",
+    "charged": "0",
+    "violated": false
+  },
+  "native_physical_policy": {
+    "allocation_approval": "owner-approved 2026-10-27",
+    "allocation_effective_at": "2026-10-27T14:21:01.389061+00:00",
+    "allocation_reason": "Round24 purchased credit and October-only request increase; usage unchanged.",
+    "approval": "owner-approved 2026-10-27",
+    "default_limits": {
+      "INVESTIGATION": 6405,
+      "RESTORATION": 95,
+      "SCAN": 2500
+    },
+    "default_total_limit": 9000,
+    "effective_at": "2026-10-28T01:37:47.180265+00:00",
+    "limits": {
+      "INVESTIGATION": 9405,
+      "RESTORATION": 95,
+      "SCAN": 2500
+    },
+    "limits_effective_month": "2026-10",
+    "period": "UTC calendar month; October starts at build adoption",
+    "restoration_reset": {
+      "approval": "owner-approved 2026-10-26",
+      "effective_at": "2026-10-27T01:41:27.798275+00:00",
+      "historical_requests": 70,
+      "month_utc": "2026-10",
+      "reason": "Round22 cleanup remains charged history; fresh Round23 restoration allocation95"
+    },
+    "restoration_use": "restores only",
+    "total_limit": 12000
+  },
+  "read_only": true,
+  "new_accounts_or_policy_writes": 0,
+  "month_switch_basis": "UTC calendar and time-windowed reservations; no manual counter reset",
+  "operator_query_correction": "Initial read-only query used nonexistent key column; corrected to documented identity column. No data or policy changed."
+}

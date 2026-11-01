@@ -16,6 +16,14 @@ from investigator.live_gateway import Gateway,GatewayDenied
 from enrich_estate import plan,recorded_stub,tasks_from_graph
 from test_estate_graph import graph,T0,T1
 
+def historical_credit_clock(test):
+    """These offline fixtures exercise October's independent enrichment account."""
+    from datetime import datetime,timezone
+    from types import SimpleNamespace
+    now=datetime(2026,10,23,16,tzinfo=timezone.utc).timestamp()
+    clock=patch('investigator.anthropic_credit.time',SimpleNamespace(time=lambda:now))
+    clock.start();test.addCleanup(clock.stop)
+
 
 def source(subject='measure',definition='SUM([units])'):
     return {'estate':'estate','subject':subject,'kind':'MEASURE','definition_hash':hashlib.sha256(definition.encode()).hexdigest(),
@@ -102,6 +110,7 @@ class EnrichmentTests(unittest.TestCase):
                 entry.assert_called_once_with([operation,'--csv','owner edits.csv','--reviewer','owner'])
 
     def setUp(self):
+        historical_credit_clock(self)
         self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
         self.state=SharedState.offline(Path(self.tmp.name)/'state.sqlite');self.state.migrate();self.store=EnrichmentStore(self.state)
         self.state.import_accounts('test-enrichment',{'accounts':[

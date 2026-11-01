@@ -1,0 +1,174 @@
+{
+  "cases": [
+    {
+      "ticket": "v2-warehouse-scope-v2",
+      "winner": "mixed",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected: verdict 'different question', layer 'selection scope' (split DEV), cause = different warehouse filters (warehouse_id 1 in the report vs warehouse_id 2 in the source export), not an ingestion or arithmetic fault. Delivered: NEEDS_INPUT / UNKNOWN_REPORT, which asks the user which report to check. It gives no verdict, layer or cause, so all three score zero. The ticket already named the report, page and visual (grading_ref_2/1/3). Its own description also shows the mismatch: warehouse 1 vs warehouse 2. So the case could have been answered without asking the user, and the stop is not a correct blocked reason. The answer is not harmful because it makes no confident wrong claim. Handoff: the stopping point is clear and the catalog choices are listed. However, no queries were run or recorded, nothing was ruled out, and the only next check is generic. It also never points out the warehouse mismatch that is visible in the ticket.",
+        "verdict_match": false
+      },
+      "raw_outcome_sha256": "d538900f6494e876436c41accf9c6f9e14b4bd17bc72181e45e928b98ab05a5f",
+      "reason": "Both graders correctly give zero against the unchanged full-answer benchmark. Raw input/catalog comparison also proves that its submitted opaque report ID is not the known report ID; the zero is therefore an authored input/expectation contract finding, not a demonstrated inability to compare warehouse scopes. Secondary is closer on first step (target rather than triage), but its claim that the report was already identified ignores the invalid ID. The actual UNKNOWN_REPORT refusal and catalog question are defensible. Keep the benchmark zero and both grades unchanged; do not repair or rerun the sealed ticket.",
+      "review_classification": "INPUT_EXPECTATION_CONTRACT_FINDING",
+      "first_wrong_step": "target",
+      "engine_failure_attribution": false,
+      "query_evidence": [],
+      "original_grades_unchanged": true,
+      "expectation_unchanged": true,
+      "engine_rerun": false
+    },
+    {
+      "ticket": "v2-before-temporal-retention-v1",
+      "winner": "secondary",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The sealed answer expects 'not found': 2026-10-20 12:00 UTC is earlier than the oldest retained history, so the past Movement Units value cannot be established. The split is DEV, at the source history boundary. The delivered answer is UNRESOLVED because it hit a tool or time limit. It confirmed the current value of 16 units in the model (DAX), bronze and ordersops for movement_id 1. Its two history queries against [dbo].[load_run_audit] were rejected before running ('wrong column or table'; the schema slice shows only stock_movements_round_two_20261003). It never found or named the retention boundary, and it never said the past value cannot be recovered. A stop for budget or tool reasons is a different reason from 'evidence not retained', so the blocked/not-found pass does not apply. Verdict, layer and cause all miss. It is not harmful: the answer states no cause and openly says nothing was established. Handoff scores 1 out of 2. The queries are rerunnable (literal SQL, parameters and endpoints are included) and the stopping point is clearly marked. But the next checks only say to review the failed queries. They don't point to sensible next steps, such as checking temporal or history tables, source row-version or change-tracking retention, or the oldest retained snapshot against the requested time. First failing step: query validation, because the history queries pointed at a table that doesn't exist and were rejected.",
+        "verdict_match": false
+      },
+      "raw_outcome_sha256": "e5433f3bf446e6fd88edd2d58b3983bb3b203f64e85d8817667e32fe47587a26",
+      "reason": "The raw capture reads current16 units at model, landing and source, then tries dbo.load_run_audit on a layer where that object is unavailable. It never reads source temporal versions or establishes the retention boundary; it stops at TOOL_OR_TIME_LIMIT below the dollar and physical caps. Both graders correctly reject verdict/layer/cause and find no harmful claim. The secondary is right that the first bad step is the unavailable audit query, before the final unresolved conclusion, and that a handoff pointing only back to that failed query lacks the decisive source-history next check. The primary wording must not be read as proof that temporal history is absent: native fixture checks establish temporal history is ON, with the requested date earlier than its window.",
+      "review_classification": "CONFIRMED_ENGINE_ZERO",
+      "first_wrong_step": "query",
+      "engine_failure_attribution": true,
+      "query_evidence": [
+        {
+          "id": "query:9bbfb96b96fb86637b68c043045977e1db2139b8a16043c12474d5bbece5aefb:1",
+          "text": "EVALUATE ROW(\"units_mv1\", CALCULATE([Movement Units], 'Movements'[movement_id] = 1), \"rows_mv1\", CALCULATE(COUNTROWS('Movements'), 'Movements'[movement_id] = 1))",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "error": null,
+          "result_digest": "daef472b7a2cd0a4e2a3c22fddad3130ce2bdbd8e642d7ead7d424e143d92e19"
+        },
+        {
+          "id": "query:43eb22a3927ac77731cb14786584c5c6f43a90c78908662f8583c1a3abe6b9c8:2",
+          "text": "SELECT movement_id, units, event_day, movement_type, source_modified_at_utc, source_row_version FROM [dbo].[stock_movements_round_two_20261003] WHERE movement_id = 1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "error": null,
+          "result_digest": "98f96fe3350e6546b9374df28a60fbb40950e3bd58a55a76daa1092ea7fb0f46"
+        },
+        {
+          "id": "query:01d3b63d664c2c12f5bf94fc36edb848c7dd837bf3e672f499ad279445d00adf:3",
+          "text": "SELECT movement_id, units, event_day, movement_type, source_modified_at_utc, source_row_version FROM [app].[stock_movements_round_two_20261003] WHERE movement_id = 1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "error": null,
+          "result_digest": "7fef86bafa704b0a91f22aadaaf4ba917ae7bd696fa0221008acc455c80c7378"
+        },
+        {
+          "id": "query:96b0746770e03d501b0c62d6d0cac4d56a5d4aed05189435d83b8391a098e1a0:4",
+          "text": "SELECT TOP 20 run_id, copy_run_id, pipeline_name, status, start_time_utc, end_time_utc, rows_read, rows_written, high_watermark, watermark_state, accounting_state, recorded_at_utc FROM [dbo].[load_run_audit] WHERE start_time_utc <= '2026-10-20T12:00:00' ORDER BY start_time_utc DESC",
+          "status": "ERROR",
+          "row_count": null,
+          "error": "SQL object unavailable or view dependencies not validated",
+          "result_digest": null
+        },
+        {
+          "id": "query:153fabc648807ede240df7c0584413d59010f48fc3014ec5e2f229a2df98e11d:5",
+          "text": "SELECT COUNT(*) AS audit_rows, MIN(start_time_utc) AS first_start, MAX(start_time_utc) AS last_start FROM [dbo].[load_run_audit]",
+          "status": "ERROR",
+          "row_count": null,
+          "error": "SQL object unavailable or view dependencies not validated",
+          "result_digest": null
+        }
+      ],
+      "original_grades_unchanged": true,
+      "expectation_unchanged": true,
+      "engine_rerun": false
+    },
+    {
+      "ticket": "v2-before-temporal-retention-v2",
+      "winner": "secondary",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "query error",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The sealed expectation is verdict 'not found', layer 'source history boundary': the requested time (2026-10-20 12:00 UTC) is earlier than any retained temporal evidence, so the historical quantity can't be established. The delivered answer is UNRESOLVED because it hit a tool/time limit, and its only message is 'checks did not establish a cause'. A blocked or not-found answer can pass only if it gives the correct reason, and this one doesn't. It never says that point-in-time history is missing or outside retention, so the verdict doesn't match. It names no layer or split point and no cause, so neither of those matches either. The grading rule says an unresolved budget stop is not a successful technical answer. The answer isn't harmful: it's an honest unresolved result with no confident wrong cause. Handoff quality is 1 of 2. The queries are recorded verbatim and can be rerun, and the stopping point (TOOL_OR_TIME_LIMIT) is clear. The only next check is to review the failed load_run_audit query on the dbo warehouse (wrong object). It doesn't point to the decisive check: whether the source keeps any temporal or history records for movement 1 at the requested time, or how far its retention reaches. The current-state queries returned only the latest row (units 16, last modified 2026-10-03) and no history. The first failing step is the query error. The audit/history query against the warehouse was rejected because the table or column was wrong, and the investigation stopped without ever reaching the retention-boundary evidence.",
+        "verdict_match": false
+      },
+      "raw_outcome_sha256": "ba976c676b0dc78bfe0ff127440696b9ffa7753ca427353ad886e391d457dfaf",
+      "reason": "The raw capture reads current16 units at model, landing and source, then tries dbo.load_run_audit on a layer where that object is unavailable. It never reads source temporal versions or establishes the retention boundary; it stops at TOOL_OR_TIME_LIMIT below the dollar and physical caps. Both graders correctly reject verdict/layer/cause and find no harmful claim. The secondary is right that the first bad step is the unavailable audit query, before the final unresolved conclusion, and that a handoff pointing only back to that failed query lacks the decisive source-history next check.",
+      "review_classification": "CONFIRMED_ENGINE_ZERO",
+      "first_wrong_step": "query",
+      "engine_failure_attribution": true,
+      "query_evidence": [
+        {
+          "id": "query:8ad338eec2406be7278bbd6c2edeb034dec53ece34c5e166819a65d28feb8b67:1",
+          "text": "SELECT movement_id, units, event_day, movement_type, source_modified_at_utc FROM [app].[stock_movements_round_two_20261003] WHERE movement_id = 1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "error": null,
+          "result_digest": "a37b0d996f025dd6a255f76cd1ab1d4bb543a03b090c3e0859cee92680a4d596"
+        },
+        {
+          "id": "query:06842e4fe4943a264785aadb346291518df94fba4b8056eaac92a1f6d45688f2:2",
+          "text": "SELECT movement_id, units, event_day, movement_type, source_modified_at_utc FROM [dbo].[stock_movements_round_two_20261003] WHERE movement_id = 1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "error": null,
+          "result_digest": "cdca116cede14d43c35255771b2e99566721b50767e03fffef8b81bf9f951dc6"
+        },
+        {
+          "id": "query:9bbfb96b96fb86637b68c043045977e1db2139b8a16043c12474d5bbece5aefb:3",
+          "text": "EVALUATE ROW(\"Movement Units\", CALCULATE([Movement Units], 'Movements'[movement_id] = 1), \"Rows\", CALCULATE(COUNTROWS('Movements'), 'Movements'[movement_id] = 1))",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "error": null,
+          "result_digest": "eaee9a160f1dcc8575605bfea157388e5ea931246d3000f4af2f50cdc94ce4ce"
+        },
+        {
+          "id": "query:1c63ab05268ded4df411c6fca9581ba297830b2196f13ca63b1a99049778a2cc:4",
+          "text": "SELECT COUNT(*) AS rows_observed, MIN(movement_id) AS min_id, MAX(movement_id) AS max_id, MIN(source_modified_at_utc) AS min_mod, MAX(source_modified_at_utc) AS max_mod FROM [app].[stock_movements_round_two_20261003]",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "error": null,
+          "result_digest": "406a84ae186889ca1672fe88799d16431a6cc040d406615b8f94775d0f779b07"
+        },
+        {
+          "id": "query:a305cfaf389451829d383389ae9336a28894184afc3b98473cc2d2bdb83700d6:5",
+          "text": "SELECT DISTINCT TOP 20 movement_type FROM [app].[stock_movements_round_two_20261003]",
+          "status": "SUCCEEDED",
+          "row_count": 2,
+          "error": null,
+          "result_digest": "590718f65c2a55dcf92c049b5730ea3d05428c59f434561f0eba745fbc252e71"
+        },
+        {
+          "id": "query:90a6307e6538d90107a0dc3dadee4df6e967e169f8fc8b7af2d9f0f154dce270:6",
+          "text": "EVALUATE TOPN(10, VALUES('Movements'[movement_id]), 'Movements'[movement_id], ASC)",
+          "status": "SUCCEEDED",
+          "row_count": 10,
+          "error": null,
+          "result_digest": "5880b2cb341df038fbce06be7d2e07e3d2782e9ddbff6da4a42f2e9a0291192d"
+        },
+        {
+          "id": "query:a93fc8b3aac0224132b7c2706ab6ed8e505dbcb98fb261f65c528ce6dc12594b:7",
+          "text": "SELECT COUNT(*) AS audit_rows, MIN(start_time_utc) AS first_start, MAX(end_time_utc) AS last_end, SUM(CASE WHEN end_time_utc <= '2026-10-20T12:00:00' THEN 1 ELSE 0 END) AS runs_ended_before_point FROM [dbo].[load_run_audit]",
+          "status": "ERROR",
+          "row_count": null,
+          "error": "SQL object unavailable or view dependencies not validated",
+          "result_digest": null
+        }
+      ],
+      "original_grades_unchanged": true,
+      "expectation_unchanged": true,
+      "engine_rerun": false
+    }
+  ],
+  "estate_reads": 0,
+  "model_calls": 0,
+  "official_scores_unchanged": true
+}

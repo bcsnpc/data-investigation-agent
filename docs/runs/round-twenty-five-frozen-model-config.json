@@ -1,0 +1,222 @@
+{
+  "status": "MATCHES_FROZEN_R24_HELD_OUT_REASONING_CONFIG",
+  "model": "claude-opus-5-5",
+  "reference_spec_sha256": "b8c16673b37ef018ec4753a2fb5127b50c8948c5db38eadc7f814c1a99fe0305",
+  "reasoning_configuration_hash_excluding_worker_identity": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a",
+  "operational_worker_identity_labels_differ_only": true,
+  "checked_specs": [
+    {
+      "spec_name": "v2-access-export-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-access-export-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-application-baseline-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-application-baseline-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-before-temporal-retention-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-before-temporal-retention-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-billing-invoices-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-billing-invoices-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-billing-mrr-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-billing-mrr-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-failed-application-load-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-failed-application-load-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-failed-billing-transform-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-failed-billing-transform-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-fixture-quantity-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-fixture-quantity-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-latency-record-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-latency-record-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-other-collected-definition-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-other-collected-definition-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-record-absent-everywhere-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-record-absent-everywhere-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-record-repeated-gold-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-record-repeated-gold-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-screenshot-record-01-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-screenshot-record-01-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-screenshot-record-02-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-screenshot-record-02-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-screenshot-record-03-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-screenshot-record-03-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-screenshot-record-04-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-screenshot-record-04-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-source-history-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-source-history-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-stale-model-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-stale-model-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-waiting-application-load-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-waiting-application-load-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-warehouse-scope-v1-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-warehouse-scope-v2-spec.json",
+      "folder": "g1-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-access-export-v1-spec.json",
+      "folder": "g1access01-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    },
+    {
+      "spec_name": "v2-access-export-v2-spec.json",
+      "folder": "g1access01-inputs",
+      "reasoning_hash": "b7a1ba0c44de76289d59992068971354f7aae16f522c2afb0651677452ca3f1a"
+    }
+  ],
+  "estate_reads": 0,
+  "model_calls": 0,
+  "secrets_or_credentials_printed": false
+}

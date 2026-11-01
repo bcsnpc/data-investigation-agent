@@ -1,0 +1,40 @@
+{
+  "approval": "Owner2026-10-31: lift history pause for measurement in practice estates; include all3G2 and any unrunG1history; record harmful answers unchanged",
+  "before": {
+    "history": {
+      "cases": [
+        {
+          "checker_defect": false,
+          "primary_score_unchanged": true,
+          "raw_outcome_sha256": "0eb64d1f4c3d87a9332c16a892adec89b612bc1d9e88da375110d4ec731daf94",
+          "raw_review_status": "CONFIRMED_SECONDARY_FAIL_MISSING_NATIVE_HISTORY_AND_DISTINCT_VERDICT",
+          "review": "Full captured business output explicitly says no retained source history was read, and the query list contains current-state reads only. Source-ahead facts are true; they do not fulfill the sealed historical-edit question. Primary treats latency and source-changed-history as interchangeable; original primary grades remain official and unchanged. This is grader interpretation disagreement, not a projection/recorder defect.",
+          "secondary_harm_flag_retained": true,
+          "ticket": "v2-source-history-v1"
+        },
+        {
+          "checker_defect": false,
+          "primary_score_unchanged": true,
+          "raw_outcome_sha256": "f073e125febb42ffd48cc7a36a9507f7daa0435b2743dc620c65cfa7cb4786e8",
+          "raw_review_status": "CONFIRMED_SECONDARY_FAIL_MISSING_NATIVE_HISTORY_AND_DISTINCT_VERDICT",
+          "review": "Full captured business output explicitly says no retained source history was read, and the query list contains current-state reads only. Source-ahead facts are true; they do not fulfill the sealed historical-edit question. Primary treats latency and source-changed-history as interchangeable; original primary grades remain official and unchanged. This is grader interpretation disagreement, not a projection/recorder defect.",
+          "secondary_harm_flag_retained": true,
+          "ticket": "v2-source-history-v2"
+        }
+      ],
+      "estate_reads": 0,
+      "expectations_unchanged": true,
+      "experiment": "ROUND25_HISTORY_RAW_FAIL_REVIEW",
+      "family_paused": "source changed history",
+      "model_calls": 0,
+      "official_primary_grades_unchanged": true,
+      "scope": "Both secondary zero/harm flags confirmed against raw saved outputs. No further live history-family ticket is admitted this round while frozen."
+    }
+  },
+  "after": {},
+  "G1_history_already_saved": 2,
+  "G1_history_remaining": 0,
+  "G2_history_to_run": 3,
+  "raw_review_rule": "G2/G3/G4 disagreements decided by a separate independent Claude call with ticket,savedanswer/evidence,sealedexpectation,bothgradersreasons only; operator never adjudicates",
+  "engine_or_expectations_changed": false
+}

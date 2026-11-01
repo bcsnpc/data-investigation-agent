@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-31T19:32:48.246773+00:00",
+  "corrects": "round25-grader-packing-20261031.json",
+  "correction": "Original size labels used UTF-8 byte counts as character counts; bound is still exactly24000 Unicode characters. Original receipt retained.",
+  "before_characters": 25945,
+  "before_utf8_bytes": 25949,
+  "max_after_characters": 23807,
+  "max_after_utf8_bytes": 23809,
+  "tasks_sha256": "8dfed5fb734f898b4db386a4b6e7996452e7f775d51f8bb9b7840dcaab49e4bd",
+  "grade_or_expectation_changed": false
+}

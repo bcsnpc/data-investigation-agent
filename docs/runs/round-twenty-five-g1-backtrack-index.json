@@ -1,0 +1,57 @@
+{
+  "status": "INTERIM_ALL_FIVE_RAW_ZEROS_REVIEWED",
+  "official_primary_zeros": 3,
+  "strict_zeros": 5,
+  "raw_reviewed_zeros": 5,
+  "engine_first_step_counts": {
+    "conclusion": 2,
+    "query": 2
+  },
+  "input_contract_findings": 1,
+  "cases": [
+    {
+      "ticket": "v2-source-history-v1",
+      "class": "source changed history",
+      "first_wrong_step": "conclusion",
+      "engine_failure_attribution": true,
+      "raw_outcome_sha256": "0eb64d1f4c3d87a9332c16a892adec89b612bc1d9e88da375110d4ec731daf94",
+      "reason": "Full captured business output explicitly says no retained source history was read, and the query list contains current-state reads only. Source-ahead facts are true; they do not fulfill the sealed historical-edit question. Primary treats latency and source-changed-history as interchangeable; original primary grades remain official and unchanged. This is grader interpretation disagreement, not a projection/recorder defect."
+    },
+    {
+      "ticket": "v2-source-history-v2",
+      "class": "source changed history",
+      "first_wrong_step": "conclusion",
+      "engine_failure_attribution": true,
+      "raw_outcome_sha256": "f073e125febb42ffd48cc7a36a9507f7daa0435b2743dc620c65cfa7cb4786e8",
+      "reason": "Full captured business output explicitly says no retained source history was read, and the query list contains current-state reads only. Source-ahead facts are true; they do not fulfill the sealed historical-edit question. Primary treats latency and source-changed-history as interchangeable; original primary grades remain official and unchanged. This is grader interpretation disagreement, not a projection/recorder defect."
+    },
+    {
+      "ticket": "v2-warehouse-scope-v2",
+      "class": "warehouse scope",
+      "first_wrong_step": "target",
+      "engine_failure_attribution": false,
+      "raw_outcome_sha256": "d538900f6494e876436c41accf9c6f9e14b4bd17bc72181e45e928b98ab05a5f",
+      "reason": "Both graders correctly give zero against the unchanged full-answer benchmark. Raw input/catalog comparison also proves that its submitted opaque report ID is not the known report ID; the zero is therefore an authored input/expectation contract finding, not a demonstrated inability to compare warehouse scopes. Secondary is closer on first step (target rather than triage), but its claim that the report was already identified ignores the invalid ID. The actual UNKNOWN_REPORT refusal and catalog question are defensible. Keep the benchmark zero and both grades unchanged; do not repair or rerun the sealed ticket."
+    },
+    {
+      "ticket": "v2-before-temporal-retention-v1",
+      "class": "pre-retention history",
+      "first_wrong_step": "query",
+      "engine_failure_attribution": true,
+      "raw_outcome_sha256": "e5433f3bf446e6fd88edd2d58b3983bb3b203f64e85d8817667e32fe47587a26",
+      "reason": "The raw capture reads current16 units at model, landing and source, then tries dbo.load_run_audit on a layer where that object is unavailable. It never reads source temporal versions or establishes the retention boundary; it stops at TOOL_OR_TIME_LIMIT below the dollar and physical caps. Both graders correctly reject verdict/layer/cause and find no harmful claim. The secondary is right that the first bad step is the unavailable audit query, before the final unresolved conclusion, and that a handoff pointing only back to that failed query lacks the decisive source-history next check. The primary wording must not be read as proof that temporal history is absent: native fixture checks establish temporal history is ON, with the requested date earlier than its window."
+    },
+    {
+      "ticket": "v2-before-temporal-retention-v2",
+      "class": "pre-retention history",
+      "first_wrong_step": "query",
+      "engine_failure_attribution": true,
+      "raw_outcome_sha256": "ba976c676b0dc78bfe0ff127440696b9ffa7753ca427353ad886e391d457dfaf",
+      "reason": "The raw capture reads current16 units at model, landing and source, then tries dbo.load_run_audit on a layer where that object is unavailable. It never reads source temporal versions or establishes the retention boundary; it stops at TOOL_OR_TIME_LIMIT below the dollar and physical caps. Both graders correctly reject verdict/layer/cause and find no harmful claim. The secondary is right that the first bad step is the unavailable audit query, before the final unresolved conclusion, and that a handoff pointing only back to that failed query lacks the decisive source-history next check."
+    }
+  ],
+  "estate_reads": 0,
+  "new_model_calls": 0,
+  "no_engine_reruns": true,
+  "expectations_unchanged": true
+}

@@ -1,0 +1,27 @@
+{
+  "status": "UNDELIVERED_NATIVE_EXCEPTION",
+  "ticket_id": "v4-application-baseline-2",
+  "run_id": "4c73987b-cf3e-4803-b284-ed8779df392b",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:deae7d44d1e28f859c75d13d00e81bc529a64b4cc2e8f8d8156763e7bc452c7c",
+  "execution": {
+    "endTime": null,
+    "execution_name": "job-dia-worker-28runn0",
+    "startTime": "2026-10-31T20:17:07+00:00",
+    "status": "Failed"
+  },
+  "error": {
+    "type": "ValueError",
+    "message": "COMPARISON_DETAILS_REQUIRED"
+  },
+  "native_worker_exit": {
+    "error_type": "ValueError",
+    "exit_code": 1,
+    "last_step": "guided-investigation",
+    "reason": "UNDELIVERED_EXCEPTION"
+  },
+  "final_seal_exists": false,
+  "engine_answer_exists": false,
+  "replacement_allowed": false,
+  "replacement_reason": "Established native exception; do not label Blob404 alone as plumbing",
+  "usage": "UNAVAILABLE_FROM_UNSEALED_PARTIAL_CAPTURE; not estimated as zero"
+}

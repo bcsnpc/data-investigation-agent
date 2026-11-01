@@ -1,0 +1,21 @@
+{
+  "status": "WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED",
+  "original_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+  "injected_hash": "54303b570d0b0b27ad85f392000d7bb9824072ec45293766cf8a795b0ff949e0",
+  "restoration_required": false,
+  "restore": {
+    "before_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+    "mutations": 1,
+    "run_history_preserved": true,
+    "served_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+    "status": "RESTORED_DEFINITION"
+  },
+  "physical_requests": 87,
+  "owned_job_endpoints": [
+    "workspaces/149f8d99-1c66-4a0a-9624-759be002bb60/items/b4871498-bd35-45be-916c-9a642568012c/jobs/instances/bd6d7713-e9da-404b-8b67-baf9828437dc",
+    "workspaces/149f8d99-1c66-4a0a-9624-759be002bb60/items/b4871498-bd35-45be-916c-9a642568012c/jobs/instances/62632634-9c47-4fd2-b7ff-6cd36aac2a63"
+  ],
+  "outcomes_saved": 2,
+  "each_ticket_had_fresh_running_native_admission": true,
+  "raw_tickets_unchanged": true
+}

@@ -1,0 +1,28 @@
+{
+  "observed_at_utc": "2026-10-31T16:52:47.808993+00:00",
+  "native_response_sha256": "a54069efd729163ef12df74f52f62fa312029a5694d1dc555a5f2d366f9e2600",
+  "under_existing_platform_cap": true,
+  "jobs": [
+    {
+      "job": "job-dia-worker",
+      "status": "NATIVE_COST_ONLY_READBACK_MATCHED",
+      "configuration_identity_image_resources_unchanged": true,
+      "patch_sha256": "e73bb7cd2565220f50c1a52e8d696fda47c678384ab2bcf55a4c3675b13f7d5b"
+    },
+    {
+      "job": "job-dia-graph-scan",
+      "status": "NATIVE_COST_ONLY_READBACK_MATCHED",
+      "configuration_identity_image_resources_unchanged": true,
+      "patch_sha256": "dcd4e4bde07e4de43b6d24a0ef2c7c39cdffa12eca2204d4df12da924a252199"
+    },
+    {
+      "job": "job-dia-collectors",
+      "status": "NATIVE_COST_ONLY_READBACK_MATCHED",
+      "configuration_identity_image_resources_unchanged": true,
+      "patch_sha256": "2046709085e1be39e2c20710c7fd049b60ebf1c5e1f20ab61c38462f38899033"
+    }
+  ],
+  "no_role_identity_resource_creation": true,
+  "no_model_calls": true,
+  "financial_response_is_local_only": true
+}

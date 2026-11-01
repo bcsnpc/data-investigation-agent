@@ -6,6 +6,9 @@ from prepare_retained_enrichment import sources_from_export, prepare
 
 
 class RetainedExamplesTests(unittest.TestCase):
+    def setUp(self):
+        from test_enrichment import historical_credit_clock
+        historical_credit_clock(self)
     def export(self, root):
         raw=b'{"expression":"SUM(Sales[Amount])"}';digest=hashlib.sha256(raw).hexdigest()
         (root/digest).write_bytes(raw)

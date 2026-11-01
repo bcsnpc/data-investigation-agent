@@ -6,7 +6,7 @@ from investigator.enrichment_job import EnrichmentSpendBudget
 from investigator.anthropic_credit import status
 from investigator.adapters.anthropic_prompt_cache import StablePrefix,assert_cache_reads
 from investigator.adapters.reasoning_anthropic import authorize_body
-from investigator.build_phase import model_ceiling
+from investigator.build_phase import model_ceiling,POLICY
 
 
 class CreditTests(unittest.TestCase):
@@ -29,7 +29,7 @@ class CreditTests(unittest.TestCase):
    self.assertEqual(status(state)['remaining_microdollars'],0)
  def test_october_ceiling_does_not_lower_november(self):
   at=lambda x:datetime.fromisoformat(x).replace(tzinfo=timezone.utc).timestamp()
-  self.assertEqual(model_ceiling(at('2026-10-29')),146000000)
+  self.assertEqual(model_ceiling(at('2026-10-29')),POLICY['round24']['october']['model_microdollars'])
   self.assertEqual(model_ceiling(at('2026-11-01')),150000000)
 
 

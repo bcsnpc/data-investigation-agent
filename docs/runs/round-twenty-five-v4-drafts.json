@@ -1,0 +1,179 @@
+{
+  "status": "DRAFTS_COMPLETE_NOT_SEALED",
+  "ticket_count": 60,
+  "groups": 24,
+  "model_cost_microdollars": 614095,
+  "draft_hashes": [
+    {
+      "charged_microdollars": 38418,
+      "count": 3,
+      "id": "v4-application-baseline",
+      "sha256": "6bd403089c3ba078e8e7414a06f36cece759c9e4b72774df965fa8f45ae6ea96",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 29439,
+      "count": 3,
+      "id": "v4-billing-mrr",
+      "sha256": "f270192e39af8b0c37236b58fc21e047ca6a9c3d93676fdb696ddf85ca5b7e16",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 33179,
+      "count": 3,
+      "id": "v4-fixture-quantity",
+      "sha256": "a18c4d30a95952b641e577fcdbecc384c9caad9758eff10ce37f791b1534d99a",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 31623,
+      "count": 3,
+      "id": "v4-billing-invoices",
+      "sha256": "02fbe4a0fc63a937b38c5b115093c4bc5f8078b2e3610103eee03686cdd9d7ba",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 21471,
+      "count": 3,
+      "id": "v4-failed-application-load",
+      "sha256": "94253276913c906c46706d8e70bada015b1545c2871365f31f9b9e4d76eb07e4",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 24119,
+      "count": 3,
+      "id": "v4-failed-billing-transform",
+      "sha256": "3957005c65c0314a07a5cdf15dc5b0815ba79cffd6b53063cc9a86d2b13596e3",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 20703,
+      "count": 3,
+      "id": "v4-waiting-application-load",
+      "sha256": "f2c74081ee329e0534c84febbea7ad20d3fae45b977f11ae28efdea672f5deec",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 26415,
+      "count": 3,
+      "id": "v4-latency-record",
+      "sha256": "61adbf1c310a74836bf4dd12a2c35c98082d0e253710691b49108a93be98771e",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 27871,
+      "count": 3,
+      "id": "v4-source-history",
+      "sha256": "ae6d109a171ecba417974a946f0c038bac78351a5f3400d93873045c84f488d9",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 25247,
+      "count": 3,
+      "id": "v4-stale-model",
+      "sha256": "442425fcb8cbcb6283ada64399945882058fe432ead2b19ea34708e5547167ea",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 35555,
+      "count": 3,
+      "id": "v4-access-export",
+      "sha256": "eb7229659616055864e10d3ad628db8dcaa4e46567778ff110f5ecce948c2f62",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 28259,
+      "count": 3,
+      "id": "v4-warehouse-scope",
+      "sha256": "6164bd9fc8b4f320966e9325767cc689f7e6f7dfba69088d53d4f55c1ee49c28",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 24879,
+      "count": 3,
+      "id": "v4-before-temporal-retention",
+      "sha256": "d812fb139fdef4196b4f7c708b5293017db38a3ebf02125553533b40c455c102",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 27195,
+      "count": 3,
+      "id": "v4-record-absent-everywhere",
+      "sha256": "f3122f2a6f4b7a2ea7ef6080cf68327c6a513667284092d5b0e8df083de5799d",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 30531,
+      "count": 3,
+      "id": "v4-record-repeated-gold",
+      "sha256": "92ec3e988b1d819945568f5ff74d56432707c7b32c5289930d2cb19ebdb1b49b",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 25431,
+      "count": 3,
+      "id": "v4-other-collected-definition",
+      "sha256": "2a968cef553b65a67e102b1d0424ada6d44d08dea9f1b281b1323e3b1012b3c8",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 19619,
+      "count": 1,
+      "id": "v4-screenshot-fixture-01",
+      "sha256": "aab5effc7e25ab3d1ef98adf576d6b877191c203d7bf833279fc6fb1570b6c65",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 20547,
+      "count": 1,
+      "id": "v4-screenshot-fixture-02",
+      "sha256": "decb95e4033c4eab0370cf0c2c5094f00183e49b966b9221f69a8e9c05bd4e5a",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 21691,
+      "count": 1,
+      "id": "v4-screenshot-fixture-03",
+      "sha256": "d7cf2214e82f0a8a438191b4048facbf799a5cf7c7ab2e560741989bb0977c3e",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 16459,
+      "count": 1,
+      "id": "v4-screenshot-fixture-04",
+      "sha256": "40e7280abec4de84d99622bf5057393f4345b100575e4fd872be91b1f70545e7",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 15139,
+      "count": 1,
+      "id": "v4-screenshot-billing-mrr",
+      "sha256": "a18df28e20914c320c0757d52d6caa021bbad5d354fcb94f2afbf59f4210200a",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 19487,
+      "count": 1,
+      "id": "v4-screenshot-billing-invoices",
+      "sha256": "6a83d6a9244ce6d70db77160e6dc311bb0ec4c277f9ce529e9744d970d185172",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 24923,
+      "count": 3,
+      "id": "v4-sample-technical",
+      "sha256": "e6935f0f8a3aa9b8a192a5ca348a300150858bfb70ee318b79f990c70d26fae1",
+      "status": "AUTHORED_UNSEALED"
+    },
+    {
+      "charged_microdollars": 25895,
+      "count": 3,
+      "id": "v4-sample-business-meaning",
+      "sha256": "5df89979c840fecc42c9fb43ab8f38b67de8f7b18f3bc2b8690cda326a904b90",
+      "status": "AUTHORED_UNSEALED"
+    }
+  ],
+  "wording_opened_by_engine_developer": false,
+  "engine_oracles_or_outputs_given_to_writer": false,
+  "native_fact_verification_and_expectation_seal_pending": true
+}

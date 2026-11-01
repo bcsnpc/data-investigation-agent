@@ -1,0 +1,41 @@
+{
+  "receipt": ".local\\round-twenty-five\\injections\\g4-stale\\status.json",
+  "restored_hash": {
+    "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+    "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+    "temporal_period_columns_excluded_explicitly": true
+  },
+  "model_restore": {
+    "native_refresh": {
+      "endTime": "2026-11-01T08:40:18.233Z",
+      "id": 764893271,
+      "refreshAttempts": [
+        {
+          "attemptId": 1,
+          "endTime": "2026-11-01T08:40:08.2432167Z",
+          "executionMetrics": [],
+          "startTime": "2026-11-01T08:39:52.6005249Z",
+          "type": "Data"
+        },
+        {
+          "attemptId": 1,
+          "endTime": "2026-11-01T08:40:10.25891Z",
+          "executionMetrics": [],
+          "startTime": "2026-11-01T08:40:09.024484Z",
+          "type": "Query"
+        }
+      ],
+      "refreshType": "ViaApi",
+      "requestId": "cec7906d-0e1f-4d8e-b2ef-0955cf8a8e74",
+      "startTime": "2026-11-01T08:39:52.49Z",
+      "status": "Completed"
+    },
+    "quantity": 7661,
+    "screenshot_sha256": "14f56b78718822bae5e7ba76732591763995db5d44594f1628d18d7c33f2c342",
+    "ui_checked": true,
+    "verification_requests": 1
+  },
+  "temporal_history": "ON",
+  "scored_outcome_before_restoration": true,
+  "identity_or_permission_change": false
+}

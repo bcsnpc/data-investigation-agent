@@ -1,0 +1,11 @@
+{
+  "case": "v2-screenshot-record-04-v3",
+  "error": "IdleInTransactionSessionTimeout",
+  "connection_age_seconds": 44.379151,
+  "idle_before_request_seconds": 0.006685,
+  "provider_journal_exists": false,
+  "matching_native_reservations": 0,
+  "native_batch_exists": false,
+  "action": "Preserve failure receipt and resume primary grader only; no engine rerun",
+  "cause": "Idle-drop cause unproven"
+}

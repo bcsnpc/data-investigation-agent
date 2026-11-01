@@ -1,0 +1,6 @@
+{
+  "ticket": "fourth-design-model-formula-v1",
+  "original_response": "end_turn, thinking and prose; no tool call",
+  "action": "Original response retained and charged. Fresh independent Claude call on identical saved evidence and grading rules, requiring structured tool response. No operator adjudication, engine rerun or score/expectation edit.",
+  "retry": 1
+}

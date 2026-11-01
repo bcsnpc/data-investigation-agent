@@ -1,0 +1,1713 @@
+{
+  "status": "G2_GRADED_NATIVE_USAGE",
+  "cases": [
+    {
+      "ticket": "v4-access-export-1",
+      "class": "v4-access-export",
+      "timing_group": "hold",
+      "azure_total_seconds": null,
+      "worker_timing": {},
+      "cost_microdollars": 81507,
+      "physical_requests": 0,
+      "model_calls": 3,
+      "model_calls_basis": "count of native provider-usage settlements",
+      "cache_read_input_tokens": 5610,
+      "total_input_tokens": 14500,
+      "cache_read_ratio": 0.38689655172413795,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "30e6d6d1df08ab861701a44ce9897c5b4d2162d76f5add04226c1becadeeac82"
+    },
+    {
+      "ticket": "v4-access-export-2",
+      "class": "v4-access-export",
+      "timing_group": "hold",
+      "azure_total_seconds": null,
+      "worker_timing": {
+        "investigation_wall_seconds": 91.75942390799997,
+        "model_seconds": 74.01572771199994,
+        "native_query_sum_seconds": 0,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.226972257
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 212.493882075
+          }
+        ],
+        "route_schema_seconds": 102.10818625299999,
+        "triage_seconds": 17.639114807999988,
+        "wall_seconds": 218.167820693
+      },
+      "cost_microdollars": 2164325,
+      "physical_requests": 20,
+      "model_calls": 8,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 1306984,
+      "total_input_tokens": 1717252,
+      "cache_read_ratio": 0.7610903932562023,
+      "usage_calls": 8,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "3cdaf7ab85b237dc0ce64dc2bd7653e2ed72d1fea38d5306134ea46b16da196a"
+    },
+    {
+      "ticket": "v4-access-export-3",
+      "class": "v4-access-export",
+      "timing_group": "hold",
+      "azure_total_seconds": null,
+      "worker_timing": {
+        "investigation_wall_seconds": 65.42862460600003,
+        "model_seconds": 36.8906532499999,
+        "native_query_sum_seconds": 9.712610755000014,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.257934366000029
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 178.73320922300002
+          }
+        ],
+        "route_schema_seconds": 95.18855242700005,
+        "triage_seconds": 17.283493282999984,
+        "wall_seconds": 184.25650716999996
+      },
+      "cost_microdollars": 1845124,
+      "physical_requests": 27,
+      "model_calls": 7,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 1127601,
+      "total_input_tokens": 1475868,
+      "cache_read_ratio": 0.7640256445698396,
+      "usage_calls": 7,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "0d0a44629aaac4c10b4ec7b5a7f73038f3f53cf33db835522c68cdf5f6fc9dcc"
+    },
+    {
+      "ticket": "v4-failed-billing-transform-1",
+      "class": "v4-failed-billing-transform",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 268.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 165.13038147700001,
+        "model_seconds": 27.623471443000085,
+        "native_query_sum_seconds": 128.48220980300005,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 13.40368192599999
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 222.72777689400004
+          }
+        ],
+        "route_schema_seconds": 38.35586982000001,
+        "triage_seconds": 18.647405366999976,
+        "wall_seconds": 238.297234413
+      },
+      "cost_microdollars": 564296,
+      "physical_requests": 32,
+      "model_calls": 3,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 143617,
+      "total_input_tokens": 242007,
+      "cache_read_ratio": 0.5934415120223795,
+      "usage_calls": 5,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "680e127882c5ace84c2ef11fb24fcb2fa806d6e7d50a80ff3fa034ff9cc8a3ed"
+    },
+    {
+      "ticket": "v4-failed-billing-transform-2",
+      "class": "v4-failed-billing-transform",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 184.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 82.69937378599997,
+        "model_seconds": 32.71617368900007,
+        "native_query_sum_seconds": 41.09062067600007,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.1606709039999714
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 142.07871342299995
+          }
+        ],
+        "route_schema_seconds": 40.308321912,
+        "triage_seconds": 18.46417412400001,
+        "wall_seconds": 147.51680160799998
+      },
+      "cost_microdollars": 504488,
+      "physical_requests": 29,
+      "model_calls": 3,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 144425,
+      "total_input_tokens": 232707,
+      "cache_read_ratio": 0.620630234586841,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "f425db37515b3fb293bd4e57ba4313967fd3fdd1578e1803d71388ac2c1b023d"
+    },
+    {
+      "ticket": "v4-failed-billing-transform-3",
+      "class": "v4-failed-billing-transform",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 213.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 119.40069525800004,
+        "model_seconds": 61.23482512099986,
+        "native_query_sum_seconds": 47.02517591900016,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.129052965000028
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 175.53662591199998
+          }
+        ],
+        "route_schema_seconds": 37.76444362199999,
+        "triage_seconds": 17.76757197200004,
+        "wall_seconds": 180.75598343300004
+      },
+      "cost_microdollars": 723198,
+      "physical_requests": 27,
+      "model_calls": 6,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 357030,
+      "total_input_tokens": 478253,
+      "cache_read_ratio": 0.7465295565317939,
+      "usage_calls": 6,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "81282b89651aad7b94569f895e965ff7800b40653da4676c1d3ad2ee302db9e4"
+    },
+    {
+      "ticket": "v4-failed-application-load-1",
+      "class": "v4-failed-application-load",
+      "timing_group": "operational status without layer queries",
+      "azure_total_seconds": 179.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 48.68047091499989,
+        "model_seconds": 25.48367289199996,
+        "native_query_sum_seconds": 0,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 27.481772942000134
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 116.73930521800003
+          }
+        ],
+        "route_schema_seconds": 38.72524604400019,
+        "triage_seconds": 28.695230250999884,
+        "wall_seconds": 150.57076126100014
+      },
+      "cost_microdollars": 380141,
+      "physical_requests": 21,
+      "model_calls": 3,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 74243,
+      "total_input_tokens": 139625,
+      "cache_read_ratio": 0.5317314234556849,
+      "usage_calls": 5,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "430adea4eec54551d7bd5414f7a65bcd099a2e3a2330cb86b13ff9d2a405f879"
+    },
+    {
+      "ticket": "v4-failed-application-load-2",
+      "class": "v4-failed-application-load",
+      "timing_group": "operational status without layer queries",
+      "azure_total_seconds": 168.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 53.584381753,
+        "model_seconds": 30.194769501999986,
+        "native_query_sum_seconds": 0,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 14.937442629999964
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 119.27626693000013
+          }
+        ],
+        "route_schema_seconds": 37.10721680000006,
+        "triage_seconds": 27.84729796199997,
+        "wall_seconds": 140.48473194299993
+      },
+      "cost_microdollars": 298645,
+      "physical_requests": 21,
+      "model_calls": 3,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 73443,
+      "total_input_tokens": 124511,
+      "cache_read_ratio": 0.5898514990643396,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "a06b3e495affeff6a41daf4d6e589bc0d821414c5d966aae2967f2ca4ea7b266"
+    },
+    {
+      "ticket": "v4-failed-application-load-3",
+      "class": "v4-failed-application-load",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 259.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 100.21757762200002,
+        "model_seconds": 22.60746489600001,
+        "native_query_sum_seconds": 73.82897266100008,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 17.364008102999946
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 171.83617954099998
+          }
+        ],
+        "route_schema_seconds": 41.89041865499996,
+        "triage_seconds": 29.06007643099997,
+        "wall_seconds": 196.50143783700003
+      },
+      "cost_microdollars": 286271,
+      "physical_requests": 29,
+      "model_calls": 3,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 74559,
+      "total_input_tokens": 123968,
+      "cache_read_ratio": 0.6014374677336086,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "3e25329ab608ac7989a6c5a15d06a2046c113cbe43eac06275fd54074d500c85"
+    },
+    {
+      "ticket": "v4-source-history-1",
+      "class": "v4-source-history",
+      "timing_group": "hold",
+      "azure_total_seconds": null,
+      "worker_timing": {},
+      "cost_microdollars": 75690,
+      "physical_requests": 0,
+      "model_calls": 2,
+      "model_calls_basis": "count of native provider-usage settlements",
+      "cache_read_input_tokens": 2805,
+      "total_input_tokens": 13446,
+      "cache_read_ratio": 0.20861222668451584,
+      "usage_calls": 2,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "39863e8868d7ab8710ae575da87acf4a4d610bc8f84b916f80ac801374360c44"
+    },
+    {
+      "ticket": "v4-source-history-2",
+      "class": "v4-source-history",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 206.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 85.94556650700002,
+        "model_seconds": 43.750111385000025,
+        "native_query_sum_seconds": 22.279512888000056,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 14.654290453999977
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 151.27620646199998
+          }
+        ],
+        "route_schema_seconds": 35.49292117600001,
+        "triage_seconds": 29.214896251000027,
+        "wall_seconds": 171.92881492599997
+      },
+      "cost_microdollars": 395814,
+      "physical_requests": 27,
+      "model_calls": 5,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 139864,
+      "total_input_tokens": 205262,
+      "cache_read_ratio": 0.6813925617016301,
+      "usage_calls": 5,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "9c4e0fb71382ca26781054f1af2548710537ba4fbc268c8fe4b48ad2560f646f"
+    },
+    {
+      "ticket": "v4-source-history-3",
+      "class": "v4-source-history",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 164.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 49.52584077999995,
+        "model_seconds": 26.49129699299999,
+        "native_query_sum_seconds": 20.63332941800013,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 15.239161757000034
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 116.58468753900002
+          }
+        ],
+        "route_schema_seconds": 38.58131553299995,
+        "triage_seconds": 27.88279494300002,
+        "wall_seconds": 138.225793522
+      },
+      "cost_microdollars": 244654,
+      "physical_requests": 23,
+      "model_calls": 3,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 73605,
+      "total_input_tokens": 112192,
+      "cache_read_ratio": 0.656062820878494,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "72dd5ed9620d907844e53d506bfbfefd8bcda5e07d8a304c129feaf542f72a07"
+    },
+    {
+      "ticket": "v4-latency-record-1",
+      "class": "v4-latency-record",
+      "timing_group": "hold",
+      "azure_total_seconds": null,
+      "worker_timing": {},
+      "cost_microdollars": 104519,
+      "physical_requests": 0,
+      "model_calls": 3,
+      "model_calls_basis": "count of native provider-usage settlements",
+      "cache_read_input_tokens": 5610,
+      "total_input_tokens": 21718,
+      "cache_read_ratio": 0.25831107836817385,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "4e8e614fffbadba3594e5ee485223d4a0fa06a61220d96adaa033fc839ce5166"
+    },
+    {
+      "ticket": "v4-latency-record-2",
+      "class": "v4-latency-record",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 244.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 110.47504606900003,
+        "model_seconds": 43.843261396000116,
+        "native_query_sum_seconds": 51.584836085999825,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 15.79823227899999
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 180.665086552
+          }
+        ],
+        "route_schema_seconds": 39.76765822699997,
+        "triage_seconds": 29.695300116999988,
+        "wall_seconds": 203.489456507
+      },
+      "cost_microdollars": 381245,
+      "physical_requests": 32,
+      "model_calls": 5,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 145460,
+      "total_input_tokens": 207077,
+      "cache_read_ratio": 0.7024440184086113,
+      "usage_calls": 5,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "d64fa935bc9efc0a2474fe54636c6525258ecf7b1319c2cf77b44ad391c6865d"
+    },
+    {
+      "ticket": "v4-latency-record-3",
+      "class": "v4-latency-record",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 230.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 112.31247547499999,
+        "model_seconds": 54.21102380399998,
+        "native_query_sum_seconds": 37.094437192999976,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 15.087652850999973
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 177.909482213
+          }
+        ],
+        "route_schema_seconds": 37.871622048999996,
+        "triage_seconds": 27.072819951000042,
+        "wall_seconds": 199.198549255
+      },
+      "cost_microdollars": 473013,
+      "physical_requests": 33,
+      "model_calls": 6,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 184395,
+      "total_input_tokens": 264231,
+      "cache_read_ratio": 0.6978552857159077,
+      "usage_calls": 6,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "7b4ac4f75561cfc451d9ad63426cb66880b7cb8531b39ab5daeb3b09ea0cf1ce"
+    },
+    {
+      "ticket": "v4-stale-model-1",
+      "class": "v4-stale-model",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 192.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 76.1421217510001,
+        "model_seconds": 35.566846926999915,
+        "native_query_sum_seconds": 28.9856154659999,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 15.047370876000059
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 141.51187519799987
+          }
+        ],
+        "route_schema_seconds": 37.848040825,
+        "triage_seconds": 26.79515126000001,
+        "wall_seconds": 163.1589737070001
+      },
+      "cost_microdollars": 374701,
+      "physical_requests": 28,
+      "model_calls": 5,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 142452,
+      "total_input_tokens": 206911,
+      "cache_read_ratio": 0.6884699218504574,
+      "usage_calls": 5,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "47c67d95b48e2729e9a3022036291de8777df2308d9da00da85f10dd48ce668e"
+    },
+    {
+      "ticket": "v4-stale-model-2",
+      "class": "v4-stale-model",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 193.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 72.290738369,
+        "model_seconds": 37.99923416599995,
+        "native_query_sum_seconds": 20.361613731999967,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 15.405413039999985
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 139.83990209799998
+          }
+        ],
+        "route_schema_seconds": 37.76484534299999,
+        "triage_seconds": 29.147106280000003,
+        "wall_seconds": 161.63647205299998
+      },
+      "cost_microdollars": 382132,
+      "physical_requests": 28,
+      "model_calls": 5,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 147361,
+      "total_input_tokens": 210666,
+      "cache_read_ratio": 0.6995006313311118,
+      "usage_calls": 5,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "d0a32a9672a8cfaeadc9bff94086851338d8af8987cc4b9884a3a625caf30cd4"
+    },
+    {
+      "ticket": "v4-stale-model-3",
+      "class": "v4-stale-model",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 190.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 67.58210231199996,
+        "model_seconds": 34.213263766000125,
+        "native_query_sum_seconds": 19.46320391200004,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 15.126018456999986
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 134.261629385
+          }
+        ],
+        "route_schema_seconds": 36.980279325000026,
+        "triage_seconds": 29.01060642499999,
+        "wall_seconds": 156.07676704099998
+      },
+      "cost_microdollars": 376845,
+      "physical_requests": 28,
+      "model_calls": 5,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 147285,
+      "total_input_tokens": 210422,
+      "cache_read_ratio": 0.6999505755101653,
+      "usage_calls": 5,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "b624ad0ece9c3e4c814269762ce2c4a9c4e78383f971f677caee46996d8c0fbf"
+    },
+    {
+      "ticket": "v4-application-baseline-1",
+      "class": "v4-application-baseline",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 192.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 51.559063291999905,
+        "model_seconds": 19.67385437300004,
+        "native_query_sum_seconds": 29.362666351999906,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 40.067901612000014
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 117.66489082800001
+          }
+        ],
+        "route_schema_seconds": 37.16471706999994,
+        "triage_seconds": 28.337141633999977,
+        "wall_seconds": 163.67915454499996
+      },
+      "cost_microdollars": 341441,
+      "physical_requests": 26,
+      "model_calls": 2,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 42011,
+      "total_input_tokens": 98759,
+      "cache_read_ratio": 0.42538907846373497,
+      "usage_calls": 5,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "ff2bb55c529718d49412fadc10cce75f792c32d8eaa2a0c64f38677995f63889"
+    },
+    {
+      "ticket": "v4-before-temporal-retention-1",
+      "class": "v4-before-temporal-retention",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 262.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 95.84600734900005,
+        "model_seconds": 58.66419618499998,
+        "native_query_sum_seconds": 19.756206331000044,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 41.81482556899999
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 174.29434375599993
+          }
+        ],
+        "route_schema_seconds": 47.654026805,
+        "triage_seconds": 30.075561085000004,
+        "wall_seconds": 226.34892200100006
+      },
+      "cost_microdollars": 505139,
+      "physical_requests": 28,
+      "model_calls": 5,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 143802,
+      "total_input_tokens": 222713,
+      "cache_read_ratio": 0.6456830090744591,
+      "usage_calls": 7,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "af925cb1472bece68ac8f6fc3aa0098eb97a193ddb0157ae5569a8ed419fe9a6"
+    },
+    {
+      "ticket": "v4-before-temporal-retention-2",
+      "class": "v4-before-temporal-retention",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 247.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 93.49435819899998,
+        "model_seconds": 52.86664892500016,
+        "native_query_sum_seconds": 19.552451469999937,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 21.04351323000003
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 181.67006744000003
+          }
+        ],
+        "route_schema_seconds": 52.94644857200001,
+        "triage_seconds": 34.38366415899998,
+        "wall_seconds": 212.160591394
+      },
+      "cost_microdollars": 458455,
+      "physical_requests": 26,
+      "model_calls": 6,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 183170,
+      "total_input_tokens": 260699,
+      "cache_read_ratio": 0.7026110571962302,
+      "usage_calls": 6,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "3e6a6a758bc3a167d907d60b0145b078715b05589144b1666d7108c8f21c7554"
+    },
+    {
+      "ticket": "v4-before-temporal-retention-3",
+      "class": "v4-before-temporal-retention",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 257.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 109.20532204199992,
+        "model_seconds": 53.965273491999596,
+        "native_query_sum_seconds": 28.90738428699956,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 20.046306523999988
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 198.87185141500004
+          }
+        ],
+        "route_schema_seconds": 54.55628053600003,
+        "triage_seconds": 34.3693741159999,
+        "wall_seconds": 226.934745721
+      },
+      "cost_microdollars": 458477,
+      "physical_requests": 30,
+      "model_calls": 5,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 144484,
+      "total_input_tokens": 219808,
+      "cache_read_ratio": 0.6573191148638812,
+      "usage_calls": 5,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "033fc8c982ee2e6eeed519d5e9b9a437d1ee7cd171f06b3b2bec325fdc1c8309"
+    },
+    {
+      "ticket": "v4-billing-invoices-1",
+      "class": "v4-billing-invoices",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 307.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 195.17370177599997,
+        "model_seconds": 44.253870120000045,
+        "native_query_sum_seconds": 140.10478178599993,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 18.508510296999987
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 251.104536471
+          }
+        ],
+        "route_schema_seconds": 39.59411540900004,
+        "triage_seconds": 15.613572992000002,
+        "wall_seconds": 272.14347021000003
+      },
+      "cost_microdollars": 636125,
+      "physical_requests": 38,
+      "model_calls": 4,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 217557,
+      "total_input_tokens": 325908,
+      "cache_read_ratio": 0.6675411465812437,
+      "usage_calls": 6,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "03126b6e68b678f7d5d0bd1907fe58fe0fa8f7c83edf9683da7c3fdae07eb27b"
+    },
+    {
+      "ticket": "v4-billing-invoices-2",
+      "class": "v4-billing-invoices",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 282.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 180.675685132,
+        "model_seconds": 32.765823061000106,
+        "native_query_sum_seconds": 151.87057134000008,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.0866011429999958
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 248.03697421999993
+          }
+        ],
+        "route_schema_seconds": 42.755167416999996,
+        "triage_seconds": 23.93182413400001,
+        "wall_seconds": 253.465285683
+      },
+      "cost_microdollars": 585272,
+      "physical_requests": 39,
+      "model_calls": 4,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 210915,
+      "total_input_tokens": 313836,
+      "cache_read_ratio": 0.6720548311857149,
+      "usage_calls": 4,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "3aea27daf5ffeeefbc5b1d0c930018b5465b677d06be1a51173e0b35cce1fd4b"
+    },
+    {
+      "ticket": "v4-billing-invoices-3",
+      "class": "v4-billing-invoices",
+      "timing_group": "hold",
+      "azure_total_seconds": null,
+      "worker_timing": {
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 4.132755089
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 0.23061060600002747
+          }
+        ],
+        "wall_seconds": 7.187680102000002
+      },
+      "cost_microdollars": 0,
+      "physical_requests": 0,
+      "model_calls": 0,
+      "model_calls_basis": "count of native provider-usage settlements",
+      "cache_read_input_tokens": 0,
+      "total_input_tokens": 0,
+      "cache_read_ratio": null,
+      "usage_calls": 0,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "77a80124206f88a63200cfe593e601f9a0997317fdedca4a733b62c1443feb4d"
+    },
+    {
+      "ticket": "v4-billing-mrr-1",
+      "class": "v4-billing-mrr",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 214.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 81.75222596099997,
+        "model_seconds": 42.53440352399997,
+        "native_query_sum_seconds": 33.31054017299999,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 17.883830440000025
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 152.639544451
+          }
+        ],
+        "route_schema_seconds": 52.46029236199996,
+        "triage_seconds": 17.662299726000015,
+        "wall_seconds": 174.75534739500003
+      },
+      "cost_microdollars": 568264,
+      "physical_requests": 23,
+      "model_calls": 5,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 253566,
+      "total_input_tokens": 345290,
+      "cache_read_ratio": 0.7343566277621709,
+      "usage_calls": 7,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "d311a15eb28599ef77a844fa4e7782b3d4ac18f64381a9ace1700f1e9e4b261c"
+    },
+    {
+      "ticket": "v4-billing-mrr-2",
+      "class": "v4-billing-mrr",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 274.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 144.250735453,
+        "model_seconds": 39.186727769000015,
+        "native_query_sum_seconds": 102.31359941099998,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 4.9982360669999935
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 216.36507288
+          }
+        ],
+        "route_schema_seconds": 51.160983183999974,
+        "triage_seconds": 20.182283315000006,
+        "wall_seconds": 225.78359040099997
+      },
+      "cost_microdollars": 482951,
+      "physical_requests": 30,
+      "model_calls": 4,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 187827,
+      "total_input_tokens": 268391,
+      "cache_read_ratio": 0.6998260001266808,
+      "usage_calls": 4,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "02079dd8855d2fcaf13b64aa7fd93c2d87d1ff0d6de080fe560a6396e636bb08"
+    },
+    {
+      "ticket": "v4-billing-mrr-3",
+      "class": "v4-billing-mrr",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 204.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 88.72779531500004,
+        "model_seconds": 41.83079347699993,
+        "native_query_sum_seconds": 35.825260223999976,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.300403286000005
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 164.01375304700002
+          }
+        ],
+        "route_schema_seconds": 54.77274098799998,
+        "triage_seconds": 19.820424317999993,
+        "wall_seconds": 169.735375887
+      },
+      "cost_microdollars": 544956,
+      "physical_requests": 22,
+      "model_calls": 4,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 192180,
+      "total_input_tokens": 284695,
+      "cache_read_ratio": 0.6750381987741267,
+      "usage_calls": 4,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "c47bf661bb6aff1bf820f25d4bb8ec58193767ea25528e5b8f9e300145d96e91"
+    },
+    {
+      "ticket": "v4-fixture-quantity-1",
+      "class": "v4-fixture-quantity",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 237.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 95.80349708799997,
+        "model_seconds": 21.194001557000036,
+        "native_query_sum_seconds": 71.03334108899998,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 48.529433900000015
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 142.33359555100003
+          }
+        ],
+        "route_schema_seconds": 39.93311773800002,
+        "triage_seconds": 5.77325362900001,
+        "wall_seconds": 197.95403272599998
+      },
+      "cost_microdollars": 414446,
+      "physical_requests": 25,
+      "model_calls": 3,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 98821,
+      "total_input_tokens": 167593,
+      "cache_read_ratio": 0.589648732345623,
+      "usage_calls": 6,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "baee2d1cba2be65dd0d252464ba321fd3d08d44de8d7b993c5c0f33ccdfdb1ef"
+    },
+    {
+      "ticket": "v4-fixture-quantity-2",
+      "class": "v4-fixture-quantity",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 241.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 126.87995918800004,
+        "model_seconds": 27.662125443999912,
+        "native_query_sum_seconds": 94.70786095000005,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 20.053522454000017
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 175.273810111
+          }
+        ],
+        "route_schema_seconds": 41.46871445399995,
+        "triage_seconds": 6.2535589700000855,
+        "wall_seconds": 202.52543450099995
+      },
+      "cost_microdollars": 363704,
+      "physical_requests": 26,
+      "model_calls": 4,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 134160,
+      "total_input_tokens": 194943,
+      "cache_read_ratio": 0.6882011664948215,
+      "usage_calls": 4,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "947bfe16683d42cfff10a9381d0499c0fb5c2f00a6a4806edbaf6b1f8bb1eb67"
+    },
+    {
+      "ticket": "v4-other-collected-definition-1",
+      "class": "v4-other-collected-definition",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 207.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 102.11375325299997,
+        "model_seconds": 41.92311062499999,
+        "native_query_sum_seconds": 51.65996427799996,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 4.357869031999996
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 163.22849447000004
+          }
+        ],
+        "route_schema_seconds": 41.631343260999984,
+        "triage_seconds": 18.693746590000046,
+        "wall_seconds": 171.068875806
+      },
+      "cost_microdollars": 463136,
+      "physical_requests": 28,
+      "model_calls": 4,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 149808,
+      "total_input_tokens": 230512,
+      "cache_read_ratio": 0.6498924134101478,
+      "usage_calls": 4,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "c8f591251057aefda49a0f0a02aab20369b88aa533d10f8ebe0df01d4e2abc69"
+    },
+    {
+      "ticket": "v4-other-collected-definition-2",
+      "class": "v4-other-collected-definition",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 202.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 95.27904385400007,
+        "model_seconds": 36.0057869860002,
+        "native_query_sum_seconds": 49.917431090000264,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.367867784000282
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 160.01906734500017
+          }
+        ],
+        "route_schema_seconds": 43.124375552999936,
+        "triage_seconds": 20.6578674780003,
+        "wall_seconds": 166.91722966999987
+      },
+      "cost_microdollars": 459475,
+      "physical_requests": 28,
+      "model_calls": 4,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 149817,
+      "total_input_tokens": 230700,
+      "cache_read_ratio": 0.6494018205461638,
+      "usage_calls": 4,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "38a6b772dcdff2ca29303ba2bd6f060eb375341a77a6634b9169b8293db63229"
+    },
+    {
+      "ticket": "v4-other-collected-definition-3",
+      "class": "v4-other-collected-definition",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 197.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 90.33711767499994,
+        "model_seconds": 36.59150939799997,
+        "native_query_sum_seconds": 41.874257352000086,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 5.390659228000004
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 148.66628191499996
+          }
+        ],
+        "route_schema_seconds": 36.73672789200003,
+        "triage_seconds": 20.80220597699997,
+        "wall_seconds": 157.78027072700002
+      },
+      "cost_microdollars": 505811,
+      "physical_requests": 26,
+      "model_calls": 5,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 202445,
+      "total_input_tokens": 289448,
+      "cache_read_ratio": 0.6994175119537879,
+      "usage_calls": 5,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "1a695d6d2959f9c5ee8ba553c79c588f039b18adbcb5c87b70d5f0713d9dbc13"
+    },
+    {
+      "ticket": "v4-record-repeated-gold-1",
+      "class": "v4-record-repeated-gold",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 296.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 173.374977075,
+        "model_seconds": 43.39538567300002,
+        "native_query_sum_seconds": 130.2497156209999,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 38.922678287
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 215.98920632400007
+          }
+        ],
+        "route_schema_seconds": 35.707645102000015,
+        "triage_seconds": 6.264989377999996,
+        "wall_seconds": 261.19824630299996
+      },
+      "cost_microdollars": 620069,
+      "physical_requests": 34,
+      "model_calls": 6,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 233000,
+      "total_input_tokens": 335741,
+      "cache_read_ratio": 0.6939873295188851,
+      "usage_calls": 10,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "0457c6ff207d1e3eedda71f9d8c4acc040755bc70fce48a4b251ba207cdedde8"
+    },
+    {
+      "ticket": "v4-sample-business-meaning-1",
+      "class": "v4-sample-business-meaning",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 74.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 31.53423494599997,
+        "model_seconds": 20.581912746999933,
+        "native_query_sum_seconds": 8.967019224999945,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 1.8145576859999437
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 40.90215023799999
+          }
+        ],
+        "route_schema_seconds": 2.817738892999955,
+        "triage_seconds": 6.041837535000013,
+        "wall_seconds": 44.10327117899999
+      },
+      "cost_microdollars": 355456,
+      "physical_requests": 3,
+      "model_calls": 3,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 112748,
+      "total_input_tokens": 173601,
+      "cache_read_ratio": 0.6494663049175984,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "4c5304dfdeb3ec3c4dd0a61c880af0b73194b0ae0a327e786634f51785281f73"
+    },
+    {
+      "ticket": "v4-sample-business-meaning-2",
+      "class": "v4-sample-business-meaning",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 79.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 30.955474405000132,
+        "model_seconds": 24.548085331999573,
+        "native_query_sum_seconds": 4.239532758000223,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 1.7643302859996766
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 41.19726975000003
+          }
+        ],
+        "route_schema_seconds": 3.4556721270000708,
+        "triage_seconds": 5.58189067100011,
+        "wall_seconds": 45.09490492499981
+      },
+      "cost_microdollars": 447178,
+      "physical_requests": 3,
+      "model_calls": 3,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 149738,
+      "total_input_tokens": 225825,
+      "cache_read_ratio": 0.6630709620281191,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "a6a8f77643aa01f63accb661ad3ffc395f3ef71d5fcdf960cb15b6a6b67e6b4c"
+    },
+    {
+      "ticket": "v4-sample-business-meaning-3",
+      "class": "v4-sample-business-meaning",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 83.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 36.91109030300004,
+        "model_seconds": 26.733189046000007,
+        "native_query_sum_seconds": 3.0103571330000136,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 1.7553593910000131
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 47.18888431099998
+          }
+        ],
+        "route_schema_seconds": 4.162348747999999,
+        "triage_seconds": 5.531880415999979,
+        "wall_seconds": 50.33655007700003
+      },
+      "cost_microdollars": 456258,
+      "physical_requests": 5,
+      "model_calls": 3,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 149514,
+      "total_input_tokens": 227755,
+      "cache_read_ratio": 0.6564685736866369,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "4d20919066295c81cc3cbcade3f011449c9422446ae37f58ff703d9fb76a26cc"
+    },
+    {
+      "ticket": "v4-sample-technical-1",
+      "class": "v4-sample-technical",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 92.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 39.161186622,
+        "model_seconds": 30.256015580999986,
+        "native_query_sum_seconds": 4.873484750999978,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 2.1365745829999696
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 47.84110573899994
+          }
+        ],
+        "route_schema_seconds": 2.557560465999984,
+        "triage_seconds": 5.480686252999988,
+        "wall_seconds": 51.81618070999997
+      },
+      "cost_microdollars": 570347,
+      "physical_requests": 4,
+      "model_calls": 5,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 229038,
+      "total_input_tokens": 335021,
+      "cache_read_ratio": 0.683652666549261,
+      "usage_calls": 5,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "656acb14fa81604bbb1005d02e8c89de6f5769c5ec454941dd508aca7a6df778"
+    },
+    {
+      "ticket": "v4-sample-technical-2",
+      "class": "v4-sample-technical",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 97.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 46.80307916300001,
+        "model_seconds": 37.61785645399982,
+        "native_query_sum_seconds": 5.817144840000083,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 1.7245475989999477
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 58.90418115
+          }
+        ],
+        "route_schema_seconds": 3.5116479020000497,
+        "triage_seconds": 7.957946977999995,
+        "wall_seconds": 61.91411462899998
+      },
+      "cost_microdollars": 636916,
+      "physical_requests": 4,
+      "model_calls": 5,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 296834,
+      "total_input_tokens": 410957,
+      "cache_read_ratio": 0.7222994133206151,
+      "usage_calls": 5,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "753c26218647327b62946b94ee67a9d4d2dcea04f16f3862effa4dbf700493b8"
+    },
+    {
+      "ticket": "v4-sample-technical-3",
+      "class": "v4-sample-technical",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 92.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 40.690698923000014,
+        "model_seconds": 32.6341807780002,
+        "native_query_sum_seconds": 4.957717611000021,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 1.8639354970000568
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 50.722899356000084
+          }
+        ],
+        "route_schema_seconds": 3.6759168460000637,
+        "triage_seconds": 5.761699080999961,
+        "wall_seconds": 54.03051408400006
+      },
+      "cost_microdollars": 475831,
+      "physical_requests": 3,
+      "model_calls": 3,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 146946,
+      "total_input_tokens": 228078,
+      "cache_read_ratio": 0.6442795885618078,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "e58181d08aedb3d9b8248d21cf491f5cba0c11a731486a6f90d8102776746c65"
+    },
+    {
+      "ticket": "v4-screenshot-billing-invoices",
+      "class": "v4-screenshot-billing-invoices",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 314.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 217.41027259700002,
+        "model_seconds": 38.52793411300013,
+        "native_query_sum_seconds": 149.074615312,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.3406901410000955
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 280.33930866599997
+          }
+        ],
+        "route_schema_seconds": 44.077476958000034,
+        "triage_seconds": 16.825379621000025,
+        "wall_seconds": 286.14072304800004
+      },
+      "cost_microdollars": 584772,
+      "physical_requests": 38,
+      "model_calls": 4,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 211293,
+      "total_input_tokens": 313533,
+      "cache_read_ratio": 0.6739099233573499,
+      "usage_calls": 4,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "9ebd1307dbf18177653a6b4a5da20a280908fcfcfafd88d4a118347699ec81d4"
+    },
+    {
+      "ticket": "v4-screenshot-billing-mrr",
+      "class": "v4-screenshot-billing-mrr",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 165.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 69.07588492900004,
+        "model_seconds": 25.00935037299996,
+        "native_query_sum_seconds": 21.38614795600006,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 3.4924880159999248
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 128.179760333
+          }
+        ],
+        "route_schema_seconds": 41.02545712099993,
+        "triage_seconds": 16.14495016400008,
+        "wall_seconds": 134.20213217799994
+      },
+      "cost_microdollars": 455679,
+      "physical_requests": 22,
+      "model_calls": 3,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 132616,
+      "total_input_tokens": 212359,
+      "cache_read_ratio": 0.6244896613753126,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "c42253bc1f2c7ce67d7d5a1a7292fb6a8b36a832c7e6ae9923dc34cd1a6c986a"
+    },
+    {
+      "ticket": "v4-screenshot-fixture-01",
+      "class": "v4-screenshot-fixture-01",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 369.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 224.23958530899995,
+        "model_seconds": 25.978209463999747,
+        "native_query_sum_seconds": 110.09617047699999,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 18.53117750800004
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 314.20525371999986
+          }
+        ],
+        "route_schema_seconds": 43.94122633699999,
+        "triage_seconds": 39.75672487600002,
+        "wall_seconds": 340.64525119199993
+      },
+      "cost_microdollars": 348814,
+      "physical_requests": 28,
+      "model_calls": 5,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 138176,
+      "total_input_tokens": 192822,
+      "cache_read_ratio": 0.7165987283608717,
+      "usage_calls": 7,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "036f2ea8e1b8a1bf2e75e611e02aae568a2a6159a1217a261f31882306773e80"
+    },
+    {
+      "ticket": "v4-screenshot-fixture-02",
+      "class": "v4-screenshot-fixture-02",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 323.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 192.59950497299997,
+        "model_seconds": 51.43086203799987,
+        "native_query_sum_seconds": 30.049406746000045,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 16.884660801999985
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 267.847937321
+          }
+        ],
+        "route_schema_seconds": 39.91830097700006,
+        "triage_seconds": 28.898937767999996,
+        "wall_seconds": 291.46618342400006
+      },
+      "cost_microdollars": 489188,
+      "physical_requests": 25,
+      "model_calls": 6,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 186925,
+      "total_input_tokens": 261282,
+      "cache_read_ratio": 0.7154147625936728,
+      "usage_calls": 8,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "89eba53fc025f9c9afde1cf12eb5863d8303169e40b25504a55a6eae6d424c38"
+    },
+    {
+      "ticket": "v4-screenshot-fixture-03",
+      "class": "v4-screenshot-fixture-03",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 296.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 168.16767923600003,
+        "model_seconds": 34.051718876999985,
+        "native_query_sum_seconds": 33.16009210500022,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 15.030315202999986
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 239.41836770599997
+          }
+        ],
+        "route_schema_seconds": 36.38570802100003,
+        "triage_seconds": 28.606589978999978,
+        "wall_seconds": 260.753527255
+      },
+      "cost_microdollars": 385609,
+      "physical_requests": 26,
+      "model_calls": 5,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 149196,
+      "total_input_tokens": 211566,
+      "cache_read_ratio": 0.7051983778111794,
+      "usage_calls": 7,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "020072afb46595a47fc2cfc435ba3db2ccbf5d5678ebdd56fd5776368ad4984f"
+    },
+    {
+      "ticket": "v4-screenshot-fixture-04",
+      "class": "v4-screenshot-fixture-04",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 310.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 188.74265385100006,
+        "model_seconds": 40.528568541000084,
+        "native_query_sum_seconds": 33.778248652999935,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 15.141254256999957
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 262.055408175
+          }
+        ],
+        "route_schema_seconds": 37.51832790100002,
+        "triage_seconds": 29.675783429999967,
+        "wall_seconds": 283.70427723099993
+      },
+      "cost_microdollars": 441480,
+      "physical_requests": 25,
+      "model_calls": 6,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 187290,
+      "total_input_tokens": 256918,
+      "cache_read_ratio": 0.7289874590336216,
+      "usage_calls": 8,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "d2982f8a2229af2018c229d0da0f338d4630f47c0b59f79ca28cb1ad4b2854d1"
+    },
+    {
+      "ticket": "v4-warehouse-scope-1",
+      "class": "v4-warehouse-scope",
+      "timing_group": "hold",
+      "azure_total_seconds": null,
+      "worker_timing": {},
+      "cost_microdollars": 114643,
+      "physical_requests": 0,
+      "model_calls": 3,
+      "model_calls_basis": "count of native provider-usage settlements",
+      "cache_read_input_tokens": 5610,
+      "total_input_tokens": 23044,
+      "cache_read_ratio": 0.24344731817392815,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "4b5f3635f799f1ab6315ddc7bc991e69699d9d3952cf746a97859979da0c96fa"
+    },
+    {
+      "ticket": "v4-waiting-application-load-1",
+      "class": "v4-waiting-application-load",
+      "timing_group": "full investigation",
+      "azure_total_seconds": 186.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 48.36893424300001,
+        "model_seconds": 32.28233282000008,
+        "native_query_sum_seconds": 0,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 15.597189512
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 131.734854596
+          }
+        ],
+        "route_schema_seconds": 44.251075635999996,
+        "triage_seconds": 38.373980887000016,
+        "wall_seconds": 153.60043148699992
+      },
+      "cost_microdollars": 327008,
+      "physical_requests": 19,
+      "model_calls": 5,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 132912,
+      "total_input_tokens": 186926,
+      "cache_read_ratio": 0.7110407326963611,
+      "usage_calls": 5,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "709d9179f86f1cbe600696f02936d517912170b110fc70c5568bb661fc0b2793"
+    },
+    {
+      "ticket": "v4-waiting-application-load-2",
+      "class": "v4-waiting-application-load",
+      "timing_group": "operational status without layer queries",
+      "azure_total_seconds": 160.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 48.186911545000044,
+        "model_seconds": 23.23674006100009,
+        "native_query_sum_seconds": 0,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 14.897230536000052
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 114.08963827599996
+          }
+        ],
+        "route_schema_seconds": 36.674298291000014,
+        "triage_seconds": 28.573899506999965,
+        "wall_seconds": 135.2890125020001
+      },
+      "cost_microdollars": 285121,
+      "physical_requests": 21,
+      "model_calls": 3,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 74483,
+      "total_input_tokens": 125008,
+      "cache_read_ratio": 0.5958258671445027,
+      "usage_calls": 3,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "fff8b2d3ea0f8958364e1e60fe8fcd72d3f64f1d5b537508bf0cc12290ef897d"
+    },
+    {
+      "ticket": "v4-waiting-application-load-3",
+      "class": "v4-waiting-application-load",
+      "timing_group": "operational status without layer queries",
+      "azure_total_seconds": 188.0,
+      "worker_timing": {
+        "investigation_wall_seconds": 62.796807143000024,
+        "model_seconds": 39.740733753999734,
+        "native_query_sum_seconds": 0,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 15.850282033999974
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 130.89651521300004
+          }
+        ],
+        "route_schema_seconds": 37.41585507500008,
+        "triage_seconds": 29.97845194599995,
+        "wall_seconds": 154.39144681699997
+      },
+      "cost_microdollars": 460060,
+      "physical_requests": 21,
+      "model_calls": 4,
+      "model_calls_basis": "native worker count",
+      "cache_read_input_tokens": 110370,
+      "total_input_tokens": 195209,
+      "cache_read_ratio": 0.5653940135956846,
+      "usage_calls": 4,
+      "native_ledger_charge_matched": true,
+      "outcome_sha256": "99a2f794e20cf5a1bdfe76c510105181ec99010e28c3823b74f4bf5888480d1a"
+    }
+  ],
+  "all": {
+    "tickets": 50,
+    "native_duration_observed": 43,
+    "native_duration_unavailable": 7,
+    "worker_wall_observed": 46,
+    "worker_wall_median_seconds": 171.49884536599998,
+    "worker_wall_p90_seconds": 272.14347021000003,
+    "median_seconds": 206.0,
+    "p90_seconds_nearest_rank": 307.0,
+    "investigation_cost_microdollars": 23898689,
+    "cost_per_ticket_usd": 0.47797378,
+    "cache_read_input_tokens": 9253601,
+    "total_input_tokens": 13369556,
+    "cache_read_ratio": 0.6921397389711371
+  },
+  "timing_groups": {
+    "full investigation": {
+      "tickets": 39,
+      "native_duration_observed": 39,
+      "native_duration_unavailable": 0,
+      "worker_wall_observed": 39,
+      "worker_wall_median_seconds": 174.75534739500003,
+      "worker_wall_p90_seconds": 283.70427723099993,
+      "median_seconds": 213.0,
+      "p90_seconds_nearest_rank": 310.0,
+      "investigation_cost_microdollars": 18088914,
+      "cost_per_ticket_usd": 0.4638183076923077,
+      "cache_read_input_tokens": 6466842,
+      "total_input_tokens": 9519375,
+      "cache_read_ratio": 0.6793347252314359
+    },
+    "hold": {
+      "tickets": 7,
+      "native_duration_observed": 0,
+      "native_duration_unavailable": 7,
+      "worker_wall_observed": 3,
+      "worker_wall_median_seconds": 184.25650716999996,
+      "worker_wall_p90_seconds": 218.167820693,
+      "median_seconds": null,
+      "p90_seconds_nearest_rank": null,
+      "investigation_cost_microdollars": 4385808,
+      "cost_per_ticket_usd": 0.626544,
+      "cache_read_input_tokens": 2454220,
+      "total_input_tokens": 3265828,
+      "cache_read_ratio": 0.751484768946803
+    },
+    "operational status without layer queries": {
+      "tickets": 4,
+      "native_duration_observed": 4,
+      "native_duration_unavailable": 0,
+      "worker_wall_observed": 4,
+      "worker_wall_median_seconds": 145.52774660200004,
+      "worker_wall_p90_seconds": 154.39144681699997,
+      "median_seconds": 173.5,
+      "p90_seconds_nearest_rank": 188.0,
+      "investigation_cost_microdollars": 1423967,
+      "cost_per_ticket_usd": 0.35599175,
+      "cache_read_input_tokens": 332539,
+      "total_input_tokens": 584353,
+      "cache_read_ratio": 0.5690721190787076
+    }
+  },
+  "cache_definition": "cache_read_input_tokens / (uncached input_tokens + cache_creation_input_tokens + cache_read_input_tokens), from native provider settlements",
+  "control_reads_for_report": 0,
+  "new_estate_reads": 0,
+  "new_model_calls": 0,
+  "monthly_ledger_read_only": true,
+  "graded_total_including_native_exceptions": 60,
+  "usage_unavailable_cases": [
+    "v4-application-baseline-2",
+    "v4-application-baseline-3",
+    "v4-fixture-quantity-3",
+    "v4-record-absent-everywhere-1",
+    "v4-record-absent-everywhere-2",
+    "v4-record-absent-everywhere-3",
+    "v4-record-repeated-gold-2",
+    "v4-record-repeated-gold-3",
+    "v4-warehouse-scope-2",
+    "v4-warehouse-scope-3"
+  ],
+  "usage_denominator": "Only native sealed outcomes with ledger-reconciled usage; unsealed exceptions are not estimated as zero"
+}

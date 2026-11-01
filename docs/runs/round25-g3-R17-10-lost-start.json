@@ -1,0 +1,19 @@
+{
+  "at": "2026-11-01T02:32:22.951716+00:00",
+  "cohort": "G3",
+  "ticket": "R17-10-v1",
+  "original_run_id": "9bbed1e7-9669-4180-9213-72a6ae714815",
+  "original_status": "UNESTABLISHED_UNSCORED",
+  "error": "Azure start CLI HTTPSConnectionPool management.azure.com read timeout; WinError10060",
+  "post_reached": "UNESTABLISHED: timeout can occur inside preliminary GET or start POST",
+  "original_blob_count": 0,
+  "native_execution_list": {
+    "exit_code": 1,
+    "executions": null,
+    "error": "ERROR: Bad Gateway({\"error\":{\"code\":\"BadGateway\",\"message\":\"The issue encountered for 'Microsoft.App'; cannot fulfill the request.\"}})\n"
+  },
+  "original_exposure_released": false,
+  "replacement": "One Part0.3 plumbing replacement, recorded separately; no answer exists to retry",
+  "concurrency": "Width1 leaves two uncertain original slots, including retained G2 sample start; maximum3 unchanged",
+  "engine_changed": false
+}

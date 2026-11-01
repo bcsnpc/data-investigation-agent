@@ -1,3 +1,10 @@
+<!-- ROUND25-CURRENT-BEGIN -->
+Round25 MEASUREMENTS COMPLETE; RELEASE VALIDATION IN PROGRESS: G2 headline raw36/60 (official37,strict32),harm0. G1raw35/40,harm2; G3raw3/60,harm3 (same R22 dev3/40,held0/20 versus original14/40,5/20); G4raw16/20(official18,strict15),harm0. All 180 outcomes accounted for; all 33 controls restored,temporalOn/model 7661. Frozen engine; no quality fix. Full report: [round-twenty-five-summary.md](round-twenty-five-summary.md). Earlier dated checkpoints below are historical.
+<!-- ROUND25-CURRENT-END -->
+
+Round25 checkpoint 2026-10-31: G1 complete40, raw35/40 (official37, strict34), harmful2 retained; history pause lifted for measurement. G2 first9 graded raw8/9 (official8, strict8), harmful0; waiting3 saved and restored, grading underway. G2-G4 raw disagreements use fresh independent Claude calls; partial operator exposure is disclosed. October owner caps166USD/15500 requests; current native usage145.804507USD/12597 requests. Frozen investigation logic, tested two-file budget-only image exception; draftPR432, release pending. See docs/round-twenty-five-summary.md.
+
+Historical pre-owner-budget checkpoint: Round25 in progress: G1 raw-reviewed26/31 (official28/31; strict25/31), two confirmed harmful source-history findings; family paused. Frozen v0.24, draftPR432. Further investigation admissions defer to November (37 October INV requests left, next case bounded40).
 <!-- ROUND24-CURRENT-BEGIN -->
 Round24: Released v0.24. Held-out18/20,harm0 from both graders,agreement19/20;20sealed answers. Devpartial13/15 (25notrun); secondary12/15 with1disputed harmful flag retained. Graph0->9/80,cache70.44%; full native-job median234.5s misses120s and2classes remainzero. Allpracticecontrolsrestored,temporalON. Frozenb78299f6/image595047cf; no held-out tuning. Post-freeze admission-log wording exposure is disclosed. [Full report](round-twenty-four-summary.md). Earlier dated entries below are historical.
 <!-- ROUND24-CURRENT-END -->
@@ -759,3 +766,6 @@ before November1. Round22 is closed at af73a1b, v0.22 on validated merge567a95b.
 Round24 started2026-10-27 on fresh branch; implementation and live proof pending. R23 results unchanged.
 
 Round24 checkpoint2026-10-27: cloud budget readback preserved all accounting;39/40 offline forms assemble, one unknown-report refusal unchanged. Raw retained graph0/73 complete declared-source paths; diagnostic only. Focused policy/cost/query/smoke/triage tests pass; no live R24 model or estate pass admitted yet. Engine freeze invalidated for R24, R23 scored pins retained.
+
+
+Round25 scoring update, 2026-10-28: G1 interim raw-reviewed 11/13 (95% Wilson 57.8-95.7%), strict 11/13, official primary 13/13 (77.2-100%). Raw-confirmed harmful2; history family paused. R24 official18/20 unchanged after raw disagreement review. Full measurement remains in progress; see docs/quality-report-v0.24.md.

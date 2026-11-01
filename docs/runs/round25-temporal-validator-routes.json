@@ -1,0 +1,24 @@
+{
+  "observed_at_utc": "2026-10-31T22:41:10.807268+00:00",
+  "query": "SELECT id FROM dbo.Items FOR SYSTEM_TIME AS OF '2026-10-20'",
+  "routes": [
+    {
+      "route": "default_bounded_sql",
+      "accepted": false,
+      "error_type": "ValueError",
+      "message": "Unsupported SQL syntax or function nodes: Version. Remove these constructs or choose a supported diagnostic; no query executed."
+    },
+    {
+      "route": "active_investigative_route",
+      "accepted": true,
+      "compiled_query": "SELECT TOP 251 [items].[id] AS [id] FROM [dbo].[items] FOR SYSTEM_TIME AS OF @p0 AS [items]"
+    }
+  ],
+  "basis": "Frozen code, synthetic approved object; no dispatch",
+  "estate_reads": 0,
+  "model_calls": 0,
+  "code_changed": false,
+  "active_route_evidence": "investigative_queries.validate passes allow_temporal_all=True; default query_sql.compile_query defaults False",
+  "prior_receipt_sha256": "9c1d850aeae0068d3da6df30c1c04c07b75af4cb21179823fa9bed10e1cba823",
+  "conclusion": "Default bounded SQL rejects Version; active investigative route and read-only gateway admit native AS OF on an approved table. Original rejected OPTION(FOR TIMESTAMP AS OF) was not native T-SQL syntax. Missing catalog/metadata objects remain unavailable; none of these rejections proves temporal retention."
+}

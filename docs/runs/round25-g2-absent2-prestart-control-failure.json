@@ -1,0 +1,13 @@
+{
+  "ticket": "v4-record-absent-everywhere-2",
+  "classification": "ENVIRONMENT_AFFECTED_BEFORE_ENGINE_START",
+  "reason": "Existing job template GET failed before launch reaches Container Apps start. Native HTTP detail was not retained by nested CalledProcessError; no fabricated status.",
+  "control_phase": "INITIAL_EXISTING_JOB_GET",
+  "job_start_not_reached": true,
+  "original_journal_sha256": "1095e17624e8da418e1775109d133b9819ef5633a9c3637c6d404b988bb2d8e1",
+  "original_operator_log_sha256": "8273804cb1b20eefe7e0dbd644d0914ef0d7fd0d931f25128aeceabd3f0f9a25",
+  "engine_attempts": 0,
+  "scored_attempts": 0,
+  "one_plumbing_replacement_approved_by_round25": true,
+  "original_input_unchanged": true
+}

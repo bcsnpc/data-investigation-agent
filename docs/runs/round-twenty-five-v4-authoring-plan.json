@@ -1,0 +1,37 @@
+{
+  "version": "round25-v4-coverage-plan/1",
+  "tickets": 60,
+  "main_native_scenarios": 16,
+  "main_tickets": 48,
+  "main_variants_per_scenario": 3,
+  "free_text_only": 12,
+  "free_text_scenario_ids": [
+    "v2-access-export",
+    "v2-application-baseline",
+    "v2-before-temporal-retention",
+    "v2-billing-invoices",
+    "v2-billing-mrr",
+    "v2-failed-application-load",
+    "v2-failed-billing-transform",
+    "v2-fixture-quantity",
+    "v2-latency-record",
+    "v2-record-repeated-gold",
+    "v2-source-history",
+    "v2-warehouse-scope"
+  ],
+  "real_screenshot_tickets": 6,
+  "distinct_real_capture_files": 6,
+  "sample_estate_tickets": 6,
+  "something_else_minimum": 3,
+  "all_three_estates": true,
+  "hard_variants": [
+    "native near-duplicate names",
+    "wrong named page",
+    "two plausible causes with one observed",
+    "another-report comparison",
+    "difference under one percent"
+  ],
+  "engine_outputs_expectations_or_grades_given_to_writer": false,
+  "seal_before_any_G2_run": true,
+  "facts_before_seal_and_fresh_at_scored_fault_ticket": true
+}

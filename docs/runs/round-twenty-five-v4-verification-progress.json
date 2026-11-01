@@ -1,0 +1,72 @@
+{
+  "status": "UNSEALED_PREPARATION_ONLY",
+  "draft_tickets": 60,
+  "native_verified_oracle_candidates": 36,
+  "groups": [
+    {
+      "group": "v4-application-baseline",
+      "cases": 3,
+      "verified": 3
+    },
+    {
+      "group": "v4-before-temporal-retention",
+      "cases": 3,
+      "verified": 3
+    },
+    {
+      "group": "v4-billing-invoices",
+      "cases": 3,
+      "verified": 3
+    },
+    {
+      "group": "v4-billing-mrr",
+      "cases": 3,
+      "verified": 3
+    },
+    {
+      "group": "v4-failed-application-load",
+      "cases": 3,
+      "verified": 3
+    },
+    {
+      "group": "v4-failed-billing-transform",
+      "cases": 3,
+      "verified": 3
+    },
+    {
+      "group": "v4-fixture-quantity",
+      "cases": 3,
+      "verified": 3
+    },
+    {
+      "group": "v4-latency-record",
+      "cases": 3,
+      "verified": 3
+    },
+    {
+      "group": "v4-source-history",
+      "cases": 3,
+      "verified": 3
+    },
+    {
+      "group": "v4-stale-model",
+      "cases": 3,
+      "verified": 3
+    },
+    {
+      "group": "v4-waiting-application-load",
+      "cases": 3,
+      "verified": 3
+    },
+    {
+      "group": "v4-warehouse-scope",
+      "cases": 3,
+      "verified": 3
+    }
+  ],
+  "source_history_scoring_paused": true,
+  "held_out_wording_opened": false,
+  "held_out_engine_runs": 0,
+  "expectations_changed_after_runs": false,
+  "note": "Original unverified oracle versions retained; native link completion is a separate pre-seal oracle version. Further authoring is deferred at the operator G1-priority reserve, not a raised or reached monthly hard cap."
+}

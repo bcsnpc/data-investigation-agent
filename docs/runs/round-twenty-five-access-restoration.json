@@ -1,0 +1,23 @@
+{
+  "status": "ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED",
+  "native_receipt_sha256": "c8c9c49f68cba307773d13926251eac7a48e7225b53b59be60b56f5f3fd27f2b",
+  "control_requests": 13,
+  "owned_fixture_objects_removed": 3,
+  "actual_reader_control_values": {
+    "SQL_reader": {
+      "quantity": 10,
+      "rows": 1
+    },
+    "investigator_service_principal": {
+      "quantity": 25,
+      "rows": 2
+    }
+  },
+  "roles_before_after_equal": true,
+  "source_objects_and_catalog_hash_guarded_restore": true,
+  "identity_or_permission_changes": false,
+  "scored_tickets": [
+    "v2-access-export-v1",
+    "v2-access-export-v2"
+  ]
+}
