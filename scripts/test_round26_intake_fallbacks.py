@@ -5,6 +5,43 @@ from test_round23_intake_queries import graph, request
 
 
 class ComparisonFallbackTests(unittest.TestCase):
+    def test_rejected_quantity_span_does_not_reask_report_for_known_measure(self):
+        from unittest.mock import Mock
+        from investigator.guided_text_resolver import Resolver
+        from test_round23_text_resolver import reference
+        from test_round23_reasoning import tool
+        text='Measure shows 950 for record 42.'
+        wide=reference(text,'950 for record 42');narrow=reference(text,'950')
+        value={'version':'IntakeRequest/1','measure':'measure','issue_type':'NUMBER_LOOKS_WRONG',
+               'reported_figure':{'state':'NUMBER','value':'950','precision':'EXACT'},'compared_with':{'kind':'NOTHING'}}
+        def arguments(span):return {'proposal':deepcopy(value),'provenance':{'reported_figure':span},
+                                  'figure_mentions':[{'role':'PRIMARY','reference':span}]}
+        model=Mock();model.complete.side_effect=[tool('resolve_intake',arguments(wide)),tool('resolve_intake',arguments(narrow))]
+        result=Resolver(catalog=Catalog(graph()),model=model,record=Mock()).resolve(text)
+        self.assertEqual(result['status'],'READY');self.assertEqual(result['measure'],'measure')
+        model=Mock();model.complete.return_value=tool('resolve_intake',arguments(wide))
+        result=Resolver(catalog=Catalog(graph()),model=model,record=Mock()).resolve(text)
+        self.assertEqual(result['status'],'NEEDS_INPUT');self.assertEqual(model.complete.call_count,2)
+        self.assertEqual([x['field']for x in result['question']['fields']],['figure_interpretation'])
+        self.assertEqual(result['prefilled']['measure'],'measure')
+        self.assertEqual(result['extraction_rejection']['type'],'UnavailablePrecision')
+
+    def test_ambiguous_table_target_question_offers_tables_not_reports(self):
+        from unittest.mock import Mock
+        from investigator.guided_text_resolver import Resolver
+        from test_round23_reasoning import tool
+        g=graph();g['nodes'] += [{'id':k,'kind':'TABLE','label':'Rows'}for k in ('left-table','right-table')]
+        args={'proposal':{'version':'IntakeRequest/1','table':'left-table','issue_type':'NUMBER_LOOKS_WRONG',
+                          'compared_with':{'kind':'NOTHING'}},'provenance':{},'figure_mentions':[]}
+        model=Mock();model.complete.return_value=tool('resolve_intake',args)
+        result=Resolver(catalog=Catalog(g),model=model,record=Mock()).resolve('Rows differ between exports.')
+        self.assertEqual(result['status'],'NEEDS_INPUT')
+        self.assertEqual([x['field']for x in result['question']['fields']],['table'])
+        self.assertEqual({c['id']for c in result['question']['fields'][0]['choices']},{'left-table','right-table'})
+        result=Resolver(catalog=Catalog(g),model=model,record=Mock()).resolve('Check the export.')
+        self.assertEqual([x['field']for x in result['question']['fields']],['table'])
+        self.assertEqual(len(result['question']['fields'][0]['choices']),2)
+
     def test_each_native_comparison_exception_has_generic_reproduction(self):
         # Public receipt IDs only; no held-out wording or expectation enters this test.
         receipts = ['v4-application-baseline-3', 'v4-application-baseline-2', 'v4-fixture-quantity-3', 'v4-record-absent-everywhere-1', 'v4-record-absent-everywhere-2', 'v4-record-absent-everywhere-3', 'v4-record-repeated-gold-2', 'v4-record-repeated-gold-3', 'v4-warehouse-scope-2', 'v4-warehouse-scope-3']

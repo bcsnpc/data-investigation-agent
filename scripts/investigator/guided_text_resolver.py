@@ -152,7 +152,7 @@ class Resolver:
         messages=[{'role':'user','content':canonical({'ticket_tokens':wire_tokens(text),'catalog_matches':matches,
                     'resolved_catalog_candidates':{key:[{'id':r['id'],'name':r.get('name',r.get('label',''))}
                         for r in rows]for key,rows in self.lookup({'words':text}).items()}})}]
-        rejections=0;last_proposal={}
+        rejections=0;last_proposal={};last_error=None
         for step in range(4):
             response=self.model.complete(system=stable_instructions,messages=messages,tools=tools)
             self.record({'event':'GUIDED_TEXT_RESPONSE','step':step+1,'response':response})
@@ -176,6 +176,7 @@ class Resolver:
                 failed=False
             except (ValueError,KeyError,TypeError,ValidationError) as error:
                 reason = error.message if isinstance(error,ValidationError) else str(error)
+                last_error={'type':type(error).__name__,'reason':reason[:1200]}
                 rejections+=1;result={'rejection':reason[:1200]};failed=True
             messages.append({'role':'user','content':[{'type':'tool_result','tool_use_id':call['id'],
                               'content':canonical(result),'is_error':failed}]})
@@ -186,7 +187,16 @@ class Resolver:
         report=reports[0]['id'] if len(reports)==1 else last_proposal.get('report')
         if self.catalog.nodes.get(report,{}).get('kind')!='REPORT':report=None
         fields=[]
-        if not report:fields.append({'field':'report','choices':self.catalog.reports()})
+        direct=next((field for field,kinds in (('table',('TABLE','VIEW')),('measure',('MEASURE',)))
+                     if self.catalog.nodes.get(last_proposal.get(field),{}).get('kind')in kinds),None)
+        if last_error and last_error['reason']=='DIRECT_TARGET_UNRESOLVED_OR_AMBIGUOUS' and direct:
+            matches=self.catalog.table_matches(text)if direct=='table'else self.catalog.ranked(text,'MEASURE')[:10]
+            if not matches:
+                matches=([*self.catalog.rows('TABLE'),*self.catalog.rows('VIEW')]
+                         if direct=='table'else self.catalog.rows('MEASURE'))[:10]
+            fields.append({'field':direct,'choices':[{'id':r['id'],'name':r['name']}for r in matches]})
+        elif not report and not direct:
+            fields.append({'field':'report','choices':self.catalog.reports()})
         if last_proposal.get('issue_type') not in self.catalog.view()['issue_types']:
             fields.append({'field':'issue_type','choices':self.catalog.view()['issue_types']})
         if not fields:
@@ -194,4 +204,5 @@ class Resolver:
                 {'name':'A stated exact value'},{'name':'The stated rounded precision'},{'name':'An empty visual'}]}]
         return {'status':'NEEDS_INPUT','code':'INTAKE_EXTRACTION_UNESTABLISHED',
                 'prefilled':{**last_proposal,**({'report':report} if report else {})},
+                'extraction_rejection':last_error,
                 'question':{'text':'Choose the remaining detail before the checks.','fields':fields}}
