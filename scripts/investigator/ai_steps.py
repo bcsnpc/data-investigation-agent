@@ -39,13 +39,19 @@ class Steps:
     def generate(self, *, step, case_id, instructions, payload, schema, max_tokens=4000):
         from .planner_recording import _safe
         _safe(canonical(payload).encode())
-        response = self.model(step, case_id).complete(system=instructions,
-            messages=[{'role': 'user', 'content': canonical(payload)}],
-            tools=[{'name': 'resolve_intake', 'description': 'Return only the requested structured record; no external execution.',
-                    'input_schema': schema}], max_tokens=max_tokens)
-        calls = [b for b in response['content'] if b['type'] == 'tool_use' and b['name'] == 'resolve_intake']
-        if len(calls) != 1 or response.get('stop_reason') == 'max_tokens':
-            raise ValueError('STRUCTURED_AI_RESULT_UNESTABLISHED')
+        system = instructions + '\nReturn the requested record by calling resolve_intake exactly once. A prose-only answer does not satisfy this structured interface.'
+        messages = [{'role': 'user', 'content': canonical(payload)}]
+        for attempt in range(2):
+            response = self.model(step, case_id).complete(system=system, messages=messages,
+                tools=[{'name': 'resolve_intake', 'description': 'Return only the requested structured record; no external execution.',
+                        'input_schema': schema}], max_tokens=max_tokens)
+            calls = [b for b in response['content'] if b['type'] == 'tool_use' and b['name'] == 'resolve_intake']
+            if len(calls) == 1 and response.get('stop_reason') != 'max_tokens':
+                break
+            if attempt:
+                raise ValueError('STRUCTURED_AI_RESULT_UNESTABLISHED')
+            self.record({'event': 'STRUCTURED_AI_RETRY', 'step': step, 'reason': 'STRUCTURED_TOOL_RESULT_REQUIRED'})
+            messages.append({'role': 'user', 'content': 'Use resolve_intake once with the requested record, rather than prose. Do not invent missing facts.'})
         value = calls[0]['input']
         Draft202012Validator(schema).validate(value)
         _safe(canonical(value).encode())

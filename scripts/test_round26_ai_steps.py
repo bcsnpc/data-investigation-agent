@@ -7,6 +7,22 @@ from investigator.shared_state import SharedState
 
 
 class AIStepsTests(unittest.TestCase):
+    def test_prose_helper_response_retries_once_with_explicit_structured_contract(self):
+        steps=Steps(configuration={},tenant='t',state=None,record=Mock())
+        model=Mock()
+        model.complete.side_effect=[{'stop_reason':'end_turn','content':[{'type':'text','text':'A summary.'}]},
+            {'stop_reason':'tool_use','content':[{'type':'tool_use','name':'resolve_intake','input':{'ok':True}}]}]
+        steps.model=Mock(return_value=model)
+        result=steps.generate(step='SUMMARY',case_id='c',instructions='Summarize.',payload={},
+                              schema={'type':'object','required':['ok'],'properties':{'ok':{'type':'boolean'}}})
+        self.assertEqual(result,{'ok':True})
+        self.assertEqual(model.complete.call_count,2)
+        first,second=model.complete.call_args_list
+        self.assertEqual(first.kwargs['system'],second.kwargs['system'])
+        self.assertIn('calling resolve_intake exactly once',second.kwargs['system'])
+        self.assertEqual(len(second.kwargs['messages']),2)
+        self.assertEqual(steps.record.call_args.args[0]['event'],'STRUCTURED_AI_RETRY')
+
     def test_azure_runs_end_to_end_with_fake_endpoint_and_owner_funded_offline_budget(self):
         import json,time
         from unittest.mock import patch
@@ -72,3 +88,4 @@ class AIStepsTests(unittest.TestCase):
         steps.model = Mock(return_value=model)
         with self.assertRaisesRegex(ValueError, 'UNESTABLISHED'):
             steps.generate(step='WRITER', case_id='c', instructions='s', payload={}, schema={'type': 'object'})
+        self.assertEqual(model.complete.call_count,2)

@@ -4,6 +4,21 @@ from investigator.investigation_cascade import Cascade
 
 
 class InvestigationCascadeTests(unittest.TestCase):
+    def test_escalation_gets_bounded_literal_query_preview_without_mutating_evidence(self):
+        from copy import deepcopy
+        from investigator.investigation_cascade import query_handoff
+        query={'id':'e1','layer':'gold','text':'SELECT quantity FROM dbo.Items',
+               'status':'SUCCEEDED','row_count':3,'truncated':False,
+               'result':{'rows':[{'quantity':7},{'quantity':8},{'quantity':9}]}}
+        original=deepcopy(query)
+        view=query_handoff(query)
+        self.assertEqual(view['result_preview']['rows_sample'],[{'quantity':7},{'quantity':8}])
+        self.assertTrue(view['result_preview']['sample_only'])
+        self.assertEqual(view['result_preview']['full_result_evidence_id'],'e1')
+        self.assertEqual(query,original)
+        query['result']['rows']=[{'large':'x'*2000}]
+        self.assertNotIn('result_preview',query_handoff(query))
+
     def test_generic_cached_layer_schema_never_bypasses_local_admission(self):
         from investigator.ai_investigation import Investigator
         from investigator.investigative_queries import Queries

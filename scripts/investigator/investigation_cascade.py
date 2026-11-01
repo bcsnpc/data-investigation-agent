@@ -3,6 +3,18 @@ from copy import deepcopy
 from .estate_graph_contract import canonical
 
 
+def query_handoff(query):
+    """Bounded literal preview; the complete result remains evidence by ID."""
+    view = {k: deepcopy(query[k]) for k in ('id', 'layer', 'text', 'status', 'row_count', 'truncated') if k in query}
+    result = query.get('result')
+    if isinstance(result, dict) and isinstance(result.get('rows'), list):
+        preview = {'rows_sample': deepcopy(result['rows'][:2]),
+                   'sample_only': True, 'full_result_evidence_id': query['id']}
+        if len(canonical(preview)) <= 1200:
+            view['result_preview'] = preview
+    return view
+
+
 class Cascade:
     def __init__(self, engine, fallback_model):
         self.engine,self.fallback_model=engine,fallback_model
@@ -27,8 +39,7 @@ class Cascade:
             engine.state['messages']=[{'role':'user','content':canonical({
                 'escalation_reason':first.get('stop',first.get('question')),
                 'evidence_inventory':evidence,
-                'queries':[{'id':q['id'],'layer':q['layer'],'text':q['text'],'status':q['status']}
-                           for q in engine.queries.records],
+                'queries':[query_handoff(q) for q in engine.queries.records],
                 'instruction':'Continue this same case. Fetch existing evidence by ID; do not repeat reads or infer an unread result.'})}]
             engine.tool_limit=limit;engine.deadline_seconds=deadline
             engine.model=self.fallback_model()
