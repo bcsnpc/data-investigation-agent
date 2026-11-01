@@ -247,3 +247,9 @@ Cost boundary:SQLuseFreeLimit=true,mandatoryAutoPauseatfreeceiling,60minuteinact
 ## Round 25 closeout â€” 2026-11-01
 
 No new identity, permission, secret or paid-resource decision is needed to finish this measurement release. All requested cohorts completed and temporary fixtures were restored. Next-round design priorities, not changes made here: free-text intake and target preservation first; evidence-grounded history conclusions; supported native query syntax; complete automatic-update triage facts. Existing owner-action backlog remains. Quality is not established by release success: G2 headline 36/60 and G3 3/60, with five retained harmful answers across G1/G3. See [quality report](quality-report-v0.24.md).
+
+## Round 26 OpenAI key — owner action, 2026-11-01
+
+1. Sign in to https://platform.openai.com/api-keys in the intended funded project and create a project API key. Check the credit expiry and available balance in Billing before testing.
+2. In your existing Azure-owner PowerShell session, run `powershell -ExecutionPolicy Bypass -File C:\temp\dia-r26-build\scripts\store_openai_key.ps1`. Enter the key only at its hidden prompt. The script restricts a random temporary file to your Windows account, uploads it with `az keyvault secret set --vault-name kv-dia-d5dd7d65 --name openai-api-key --file <temporary-file> --output none`, and removes the temporary file in `finally`.
+3. Tell the agent the key is stored; never paste it into chat. The agent will perform a model-list request before any paid call. No new identity or permission is requested. Offline implementation continues meanwhile.
