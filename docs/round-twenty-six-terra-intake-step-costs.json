@@ -1,0 +1,852 @@
+[
+  {
+    "step": "INTAKE",
+    "provider": "openai",
+    "model": "gpt-6.1-terra",
+    "calls": 93,
+    "actual_microdollars": 956194,
+    "mean_microdollars_per_call": 10281.655913978495,
+    "input_tokens": 4850214,
+    "cached_input_tokens": 4207142,
+    "cache_read_ratio": 0.867413685251826,
+    "calls_detail": [
+      {
+        "actual_microdollars": 3868,
+        "usage": {
+          "input_tokens": 15756,
+          "cached_input_tokens": 13125,
+          "cache_write_tokens": 0,
+          "output_tokens": 116
+        }
+      },
+      {
+        "actual_microdollars": 3553,
+        "usage": {
+          "input_tokens": 15771,
+          "cached_input_tokens": 13125,
+          "cache_write_tokens": 0,
+          "output_tokens": 50
+        }
+      },
+      {
+        "actual_microdollars": 5500,
+        "usage": {
+          "input_tokens": 16723,
+          "cached_input_tokens": 13125,
+          "cache_write_tokens": 0,
+          "output_tokens": 249
+        }
+      },
+      {
+        "actual_microdollars": 7396,
+        "usage": {
+          "input_tokens": 17874,
+          "cached_input_tokens": 13125,
+          "cache_write_tokens": 0,
+          "output_tokens": 398
+        }
+      },
+      {
+        "actual_microdollars": 3602,
+        "usage": {
+          "input_tokens": 15695,
+          "cached_input_tokens": 13125,
+          "cache_write_tokens": 0,
+          "output_tokens": 75
+        }
+      },
+      {
+        "actual_microdollars": 3632,
+        "usage": {
+          "input_tokens": 15710,
+          "cached_input_tokens": 13125,
+          "cache_write_tokens": 0,
+          "output_tokens": 78
+        }
+      },
+      {
+        "actual_microdollars": 7297,
+        "usage": {
+          "input_tokens": 58581,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 110
+        }
+      },
+      {
+        "actual_microdollars": 7242,
+        "usage": {
+          "input_tokens": 58711,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 73
+        }
+      },
+      {
+        "actual_microdollars": 11044,
+        "usage": {
+          "input_tokens": 61403,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 295
+        }
+      },
+      {
+        "actual_microdollars": 6792,
+        "usage": {
+          "input_tokens": 58211,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 83
+        }
+      },
+      {
+        "actual_microdollars": 6835,
+        "usage": {
+          "input_tokens": 58314,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 71
+        }
+      },
+      {
+        "actual_microdollars": 10451,
+        "usage": {
+          "input_tokens": 60855,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 286
+        }
+      },
+      {
+        "actual_microdollars": 20311,
+        "usage": {
+          "input_tokens": 16399,
+          "cached_input_tokens": 0,
+          "cache_write_tokens": 13125,
+          "output_tokens": 126
+        }
+      },
+      {
+        "actual_microdollars": 4457,
+        "usage": {
+          "input_tokens": 16545,
+          "cached_input_tokens": 13125,
+          "cache_write_tokens": 0,
+          "output_tokens": 76
+        }
+      },
+      {
+        "actual_microdollars": 8447,
+        "usage": {
+          "input_tokens": 19205,
+          "cached_input_tokens": 13125,
+          "cache_write_tokens": 0,
+          "output_tokens": 342
+        }
+      },
+      {
+        "actual_microdollars": 4596,
+        "usage": {
+          "input_tokens": 16414,
+          "cached_input_tokens": 13125,
+          "cache_write_tokens": 0,
+          "output_tokens": 130
+        }
+      },
+      {
+        "actual_microdollars": 8295,
+        "usage": {
+          "input_tokens": 19128,
+          "cached_input_tokens": 13125,
+          "cache_write_tokens": 0,
+          "output_tokens": 327
+        }
+      },
+      {
+        "actual_microdollars": 8555,
+        "usage": {
+          "input_tokens": 19478,
+          "cached_input_tokens": 13125,
+          "cache_write_tokens": 0,
+          "output_tokens": 309
+        }
+      },
+      {
+        "actual_microdollars": 9139,
+        "usage": {
+          "input_tokens": 7513,
+          "cached_input_tokens": 0,
+          "cache_write_tokens": 5021,
+          "output_tokens": 74
+        }
+      },
+      {
+        "actual_microdollars": 3208,
+        "usage": {
+          "input_tokens": 7607,
+          "cached_input_tokens": 5021,
+          "cache_write_tokens": 0,
+          "output_tokens": 74
+        }
+      },
+      {
+        "actual_microdollars": 6152,
+        "usage": {
+          "input_tokens": 9411,
+          "cached_input_tokens": 5021,
+          "cache_write_tokens": 0,
+          "output_tokens": 302
+        }
+      },
+      {
+        "actual_microdollars": 3107,
+        "usage": {
+          "input_tokens": 7311,
+          "cached_input_tokens": 5021,
+          "cache_write_tokens": 0,
+          "output_tokens": 113
+        }
+      },
+      {
+        "actual_microdollars": 3040,
+        "usage": {
+          "input_tokens": 7444,
+          "cached_input_tokens": 5021,
+          "cache_write_tokens": 0,
+          "output_tokens": 73
+        }
+      },
+      {
+        "actual_microdollars": 5438,
+        "usage": {
+          "input_tokens": 9247,
+          "cached_input_tokens": 5021,
+          "cache_write_tokens": 0,
+          "output_tokens": 192
+        }
+      },
+      {
+        "actual_microdollars": 6649,
+        "usage": {
+          "input_tokens": 58258,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 45
+        }
+      },
+      {
+        "actual_microdollars": 11543,
+        "usage": {
+          "input_tokens": 61842,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 307
+        }
+      },
+      {
+        "actual_microdollars": 7178,
+        "usage": {
+          "input_tokens": 58562,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 90
+        }
+      },
+      {
+        "actual_microdollars": 11653,
+        "usage": {
+          "input_tokens": 61617,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 374
+        }
+      },
+      {
+        "actual_microdollars": 7100,
+        "usage": {
+          "input_tokens": 58534,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 80
+        }
+      },
+      {
+        "actual_microdollars": 11857,
+        "usage": {
+          "input_tokens": 61406,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 457
+        }
+      },
+      {
+        "actual_microdollars": 11782,
+        "usage": {
+          "input_tokens": 61886,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 346
+        }
+      },
+      {
+        "actual_microdollars": 7421,
+        "usage": {
+          "input_tokens": 58315,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 188
+        }
+      },
+      {
+        "actual_microdollars": 11148,
+        "usage": {
+          "input_tokens": 61277,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 341
+        }
+      },
+      {
+        "actual_microdollars": 11107,
+        "usage": {
+          "input_tokens": 61641,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 260
+        }
+      },
+      {
+        "actual_microdollars": 7248,
+        "usage": {
+          "input_tokens": 58792,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 58
+        }
+      },
+      {
+        "actual_microdollars": 19215,
+        "usage": {
+          "input_tokens": 69319,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 346
+        }
+      },
+      {
+        "actual_microdollars": 18180,
+        "usage": {
+          "input_tokens": 69694,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 64
+        }
+      },
+      {
+        "actual_microdollars": 20418,
+        "usage": {
+          "input_tokens": 71007,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 249
+        }
+      },
+      {
+        "actual_microdollars": 6914,
+        "usage": {
+          "input_tokens": 58298,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 90
+        }
+      },
+      {
+        "actual_microdollars": 11233,
+        "usage": {
+          "input_tokens": 61397,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 334
+        }
+      },
+      {
+        "actual_microdollars": 10326,
+        "usage": {
+          "input_tokens": 61760,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 80
+        }
+      },
+      {
+        "actual_microdollars": 13698,
+        "usage": {
+          "input_tokens": 64602,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 186
+        }
+      },
+      {
+        "actual_microdollars": 7424,
+        "usage": {
+          "input_tokens": 58938,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 64
+        }
+      },
+      {
+        "actual_microdollars": 11839,
+        "usage": {
+          "input_tokens": 61798,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 375
+        }
+      },
+      {
+        "actual_microdollars": 11538,
+        "usage": {
+          "input_tokens": 62202,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 234
+        }
+      },
+      {
+        "actual_microdollars": 6707,
+        "usage": {
+          "input_tokens": 58181,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 72
+        }
+      },
+      {
+        "actual_microdollars": 11851,
+        "usage": {
+          "input_tokens": 61915,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 354
+        }
+      },
+      {
+        "actual_microdollars": 10760,
+        "usage": {
+          "input_tokens": 62299,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 59
+        }
+      },
+      {
+        "actual_microdollars": 20330,
+        "usage": {
+          "input_tokens": 70939,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 245
+        }
+      },
+      {
+        "actual_microdollars": 6829,
+        "usage": {
+          "input_tokens": 58463,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 40
+        }
+      },
+      {
+        "actual_microdollars": 17310,
+        "usage": {
+          "input_tokens": 68884,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 52
+        }
+      },
+      {
+        "actual_microdollars": 28208,
+        "usage": {
+          "input_tokens": 77687,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 471
+        }
+      },
+      {
+        "actual_microdollars": 6937,
+        "usage": {
+          "input_tokens": 58571,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 40
+        }
+      },
+      {
+        "actual_microdollars": 17408,
+        "usage": {
+          "input_tokens": 68992,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 50
+        }
+      },
+      {
+        "actual_microdollars": 27969,
+        "usage": {
+          "input_tokens": 77793,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 402
+        }
+      },
+      {
+        "actual_microdollars": 6394,
+        "usage": {
+          "input_tokens": 57873,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 71
+        }
+      },
+      {
+        "actual_microdollars": 6515,
+        "usage": {
+          "input_tokens": 57964,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 77
+        }
+      },
+      {
+        "actual_microdollars": 10141,
+        "usage": {
+          "input_tokens": 60315,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 332
+        }
+      },
+      {
+        "actual_microdollars": 71925,
+        "usage": {
+          "input_tokens": 57889,
+          "cached_input_tokens": 0,
+          "cache_write_tokens": 54563,
+          "output_tokens": 79
+        }
+      },
+      {
+        "actual_microdollars": 6554,
+        "usage": {
+          "input_tokens": 57988,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 80
+        }
+      },
+      {
+        "actual_microdollars": 10503,
+        "usage": {
+          "input_tokens": 60347,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 398
+        }
+      },
+      {
+        "actual_microdollars": 5925,
+        "usage": {
+          "input_tokens": 57579,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 36
+        }
+      },
+      {
+        "actual_microdollars": 9443,
+        "usage": {
+          "input_tokens": 59892,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 277
+        }
+      },
+      {
+        "actual_microdollars": 9608,
+        "usage": {
+          "input_tokens": 60192,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 250
+        }
+      },
+      {
+        "actual_microdollars": 6265,
+        "usage": {
+          "input_tokens": 57859,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 48
+        }
+      },
+      {
+        "actual_microdollars": 13827,
+        "usage": {
+          "input_tokens": 64841,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 164
+        }
+      },
+      {
+        "actual_microdollars": 6427,
+        "usage": {
+          "input_tokens": 57836,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 85
+        }
+      },
+      {
+        "actual_microdollars": 10089,
+        "usage": {
+          "input_tokens": 60193,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 346
+        }
+      },
+      {
+        "actual_microdollars": 12120,
+        "usage": {
+          "input_tokens": 62419,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 307
+        }
+      },
+      {
+        "actual_microdollars": 5958,
+        "usage": {
+          "input_tokens": 57572,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 44
+        }
+      },
+      {
+        "actual_microdollars": 9936,
+        "usage": {
+          "input_tokens": 59895,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 375
+        }
+      },
+      {
+        "actual_microdollars": 9888,
+        "usage": {
+          "input_tokens": 60292,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 286
+        }
+      },
+      {
+        "actual_microdollars": 5998,
+        "usage": {
+          "input_tokens": 57552,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 56
+        }
+      },
+      {
+        "actual_microdollars": 9210,
+        "usage": {
+          "input_tokens": 59884,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 232
+        }
+      },
+      {
+        "actual_microdollars": 9260,
+        "usage": {
+          "input_tokens": 60139,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 191
+        }
+      },
+      {
+        "actual_microdollars": 6199,
+        "usage": {
+          "input_tokens": 57853,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 36
+        }
+      },
+      {
+        "actual_microdollars": 13699,
+        "usage": {
+          "input_tokens": 64803,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 146
+        }
+      },
+      {
+        "actual_microdollars": 6521,
+        "usage": {
+          "input_tokens": 57820,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 107
+        }
+      },
+      {
+        "actual_microdollars": 9837,
+        "usage": {
+          "input_tokens": 60201,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 294
+        }
+      },
+      {
+        "actual_microdollars": 10118,
+        "usage": {
+          "input_tokens": 60522,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 286
+        }
+      },
+      {
+        "actual_microdollars": 6257,
+        "usage": {
+          "input_tokens": 57856,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 47
+        }
+      },
+      {
+        "actual_microdollars": 13703,
+        "usage": {
+          "input_tokens": 64847,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 138
+        }
+      },
+      {
+        "actual_microdollars": 5914,
+        "usage": {
+          "input_tokens": 57518,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 46
+        }
+      },
+      {
+        "actual_microdollars": 9071,
+        "usage": {
+          "input_tokens": 59840,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 213
+        }
+      },
+      {
+        "actual_microdollars": 9201,
+        "usage": {
+          "input_tokens": 60075,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 192
+        }
+      },
+      {
+        "actual_microdollars": 6390,
+        "usage": {
+          "input_tokens": 58064,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 32
+        }
+      },
+      {
+        "actual_microdollars": 13926,
+        "usage": {
+          "input_tokens": 65010,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 150
+        }
+      },
+      {
+        "actual_microdollars": 7210,
+        "usage": {
+          "input_tokens": 58569,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 95
+        }
+      },
+      {
+        "actual_microdollars": 7280,
+        "usage": {
+          "input_tokens": 58584,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 106
+        }
+      },
+      {
+        "actual_microdollars": 14948,
+        "usage": {
+          "input_tokens": 64762,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 404
+        }
+      },
+      {
+        "actual_microdollars": 6938,
+        "usage": {
+          "input_tokens": 58352,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 84
+        }
+      },
+      {
+        "actual_microdollars": 6783,
+        "usage": {
+          "input_tokens": 58367,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 50
+        }
+      },
+      {
+        "actual_microdollars": 14476,
+        "usage": {
+          "input_tokens": 64475,
+          "cached_input_tokens": 54563,
+          "cache_write_tokens": 0,
+          "output_tokens": 367
+        }
+      }
+    ]
+  }
+]

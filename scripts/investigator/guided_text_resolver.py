@@ -41,6 +41,9 @@ Choose one primary target: report, table or measure. Page/visual belong only to
 a report target. A table/export/security question can target its actual catalog
 table/view directly without inventing or asking for a report. Mentioned tables
 can remain in details.table when the report is the primary target.
+For a report target, put its measure ID in details.measure, not in the primary
+measure field. Supplied catalog matches were already looked up by code; use the
+lookup tool only when those matches do not resolve the target.
 '''
 
 
@@ -70,7 +73,12 @@ class Resolver:
     def lookup(self,args):
         reports=self.catalog.reports()
         if args.get('report'):
-            self.catalog.require(args['report'],'REPORT');reports=[r for r in reports if r['id']==args['report']]
+            selected=args['report']
+            if self.catalog.nodes.get(selected,{}).get('kind')!='REPORT':
+                matches=[r for r in self.catalog.ranked(selected,'REPORT')if r['confidence']in('NAMED','NORMALIZED')]
+                if len(matches)!=1:raise ValueError('REPORT_LOOKUP_UNRESOLVED_OR_AMBIGUOUS')
+                selected=matches[0]['id']
+            reports=[r for r in reports if r['id']==selected]
         else:
             ranked=self.catalog.report_matches(args['words'])
             if ranked:reports=[r for r in reports if r['id'] in {x['id'] for x in ranked}]

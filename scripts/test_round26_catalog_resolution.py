@@ -4,6 +4,46 @@ from test_round23_intake_queries import graph
 
 
 class CatalogResolutionTests(unittest.TestCase):
+    def test_measure_mention_is_retained_without_displacing_selected_report(self):
+        catalog=self.catalog()
+        result=prefill('Billing Overview Net Revenue',{'report':'report','measure':'measure',
+            'issue_type':'NUMBER_LOOKS_WRONG'},catalog)
+        self.assertEqual(result['status'],'READY')
+        self.assertEqual(result['report'],'report')
+        self.assertEqual(result['details']['measure'],'measure')
+        self.assertNotIn('measure',result)
+
+    def test_named_other_page_card_cannot_be_replaced_by_same_measure(self):
+        catalog=self.catalog();catalog.nodes['card']['label']='North card'
+        catalog.nodes.update({'global':{'id':'global','kind':'VISUAL','label':'Global card'},
+                              'globalpage':{'id':'globalpage','kind':'PAGE','label':'Global page'}})
+        catalog.edges.extend([{'source':'report','target':'globalpage','kind':'CONTAINS'},
+            {'source':'globalpage','target':'global','kind':'CONTAINS'},
+            {'source':'global','target':'measure','kind':'COMPUTED_FROM'}])
+        with self.assertRaisesRegex(ValueError,'VISUAL_PROVENANCE'):
+            prefill('Billing Overview Global card Net Revenue',{'report':'report','page':'page','visual':'card',
+                'issue_type':'NUMBER_LOOKS_WRONG'},catalog,provenance={'visual':[5,6]})
+
+    def test_measure_span_can_resolve_only_its_unique_visual_on_the_page(self):
+        catalog=self.catalog();catalog.nodes['card']['label']='Net Revenue - unfiltered'
+        text='Billing Overview Net Revenue card'
+        result=prefill(text,{'report':'report','page':'page','visual':'card',
+            'issue_type':'NUMBER_LOOKS_WRONG'},catalog,provenance={'visual':[3,4]})
+        self.assertEqual(result['status'],'READY')
+        self.assertEqual(result['visual'],'card')
+        catalog.nodes['second']={'id':'second','kind':'VISUAL','label':'Net Revenue by region'}
+        catalog.edges.extend([{'source':'page','target':'second','kind':'CONTAINS'},
+                              {'source':'second','target':'measure','kind':'COMPUTED_FROM'}])
+        with self.assertRaisesRegex(ValueError,'VISUAL_PROVENANCE'):
+            prefill(text,{'report':'report','page':'page','visual':'card',
+                'issue_type':'NUMBER_LOOKS_WRONG'},catalog,provenance={'visual':[3,4]})
+
+    def test_lookup_accepts_unique_report_name_without_changing_target(self):
+        from investigator.guided_text_resolver import Resolver
+        catalog=self.catalog();resolver=Resolver(catalog=catalog,model=None,record=lambda e:None)
+        result=resolver.lookup({'report':'Billing Overview','words':'Net Revenue'})
+        self.assertEqual([r['id']for r in result['reports']],['report'])
+
     def test_named_model_uses_its_only_native_table_without_inventing_report(self):
         catalog = self.catalog()
         catalog.nodes.update({'model':{'id':'model','kind':'MODEL','label':'Quarterly snapshot'},

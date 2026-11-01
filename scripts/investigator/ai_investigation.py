@@ -256,6 +256,34 @@ class Investigator:
                     self.evidence({'operational_read_failed':name,'error_type':type(error).__name__})
                 self.state['pending']=None;self.save();return
 
+    def prime_access_definitions(self):
+        """Access questions start with roles/views, before value recreation."""
+        intake=self.context.get('intake',{})
+        if intake.get('issue_type')!='OTHERS_SEE_DIFFERENT_NUMBER':return
+        self.refresh_tools()
+        tool=self.read_tools.get('get_security_definitions')
+        if not tool:return
+        allowed=tool['schema']['properties']['node'].get('enum',[])
+        nodes=self.context.get('path',{}).get('nodes',[])
+        candidates=[intake['table']]if intake.get('table') else []
+        candidates += [n['id']for kind in ('MODEL','TABLE','VIEW')for n in nodes if n['kind']==kind]
+        node=next((n for n in candidates if n in allowed),None)
+        if node is None:return
+        args={'node':node};key=digest(['get_security_definitions',args])
+        if key in self.state['cache']:return
+        self.state['pending']={'kind':'TOOL','name':'get_security_definitions','signature':key};self.save()
+        self.state['tools_used']+=1
+        try:
+            value=self.dispatch('get_security_definitions',args)
+            ident=self.evidence({'tool':'get_security_definitions','arguments':args,'result':value})
+            self.state['cache'][key]={'evidence_id':ident,'result':value}
+            self.state['messages'].append({'role':'user','content':canonical({'security_evidence':ident,
+                'result':value,'instruction':'Use these roles, mappings and view definitions first, then recreate the named user filters. No impersonation or inferred membership.'})})
+        except (SpendHold,UsageHold,GatewayDenied):raise
+        except Exception as error:
+            self.evidence({'security_read_failed':'get_security_definitions','error_type':type(error).__name__})
+        self.state['pending']=None;self.save()
+
     def run(self):
         started=self.clock();self._started=started;pins=digest([self.case_id,self.context,self.triage])
         saved=self.checkpoint.load()
@@ -283,7 +311,9 @@ class Investigator:
             self._elapsed_before=0
             self.evidence({'kind':'TRIAGE','facts':self.triage})
         try:
-            if not saved:self.prime_operational_run()
+            if not saved:
+                self.prime_access_definitions()
+                self.prime_operational_run()
             while self.state['tools_used']<self.tool_limit and self.state['model_calls']<self.tool_limit+3:
                 if self._elapsed_before+self.clock()-started>=self.deadline_seconds:break
                 recitation={'case_id':self.case_id,'tools_used':self.state['tools_used'],

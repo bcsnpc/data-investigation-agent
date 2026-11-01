@@ -41,7 +41,7 @@ SCHEMA = {'$schema': 'https://json-schema.org/draft/2020-12/schema',
         'record': {'type': 'string', 'minLength': 1}, 'approximate_date': {'type': 'string'},
         'users': {'type': 'array', 'maxItems': 20, 'items': ID},
         'roles': {'type': 'array', 'maxItems': 20, 'items': ID},
-        'table': ID,
+        'table': ID, 'measure': ID,
         'date_range': {'type': 'object', 'properties': {'from': ID, 'to': ID},
                        'required': ['from', 'to'], 'additionalProperties': False},
         'filters': {'type': 'array', 'items': {'type': 'object', 'properties': {
@@ -295,6 +295,18 @@ def prefill(text, proposed, catalog, *, provenance=None):
     value['version'] = VERSION
     value['description']=text
     value.setdefault('compared_with', {'kind': 'NOTHING'})
+    if value.get('report') and value.get('measure'):
+        # A measure used by the selected report/visual is contextual detail,
+        # not a competing primary target. Preserve it with its native link.
+        measure=value['measure'];report=value['report']
+        if value.get('visual'):
+            linked=any(e['source']==value['visual'] and e['target']==measure
+                       and e['kind']=='COMPUTED_FROM' for e in catalog.edges)
+        elif value.get('page'):
+            linked=any(m['id']==measure for v in catalog.visuals(report,value['page']) for m in v.get('measures',[]))
+        else:linked=any(r['id']==report for r in catalog.reports_for(measure))
+        if linked:
+            value.setdefault('details',{})['measure']=value.pop('measure')
     direct_target = None
     for kind, field in (('TABLE', 'table'), ('MEASURE', 'measure')):
         if value.get(field) and not value.get('report'):
@@ -360,7 +372,19 @@ def prefill(text, proposed, catalog, *, provenance=None):
         span=source('visual')
         node=catalog.nodes.get(value['visual'],{})
         names=[node.get('label',''),*node.get('enrichment',{}).get('synonyms',[])]
-        if not any(name and name.casefold() in span['quote'].casefold() for name in names):
+        exact=any(name and name.casefold() in span['quote'].casefold() for name in names)
+        if not exact and value.get('report') and value.get('page'):
+            visuals=catalog.visuals(value['report'],value['page'])
+            report_visuals={v['id'] for p in catalog.pages(value['report'])
+                            for v in catalog.visuals(value['report'],p['id'])}
+            named=[r for r in catalog.ranked(text,'VISUAL',within=report_visuals)
+                   if r['confidence']=='NAMED']
+            measures={e['target']for e in catalog.edges if e['source']==value['visual'] and e['kind']=='COMPUTED_FROM'}
+            cited={m for m in measures if catalog.nodes.get(m,{}).get('label','') and
+                   catalog.nodes[m]['label'].casefold() in span['quote'].casefold()}
+            same_measure=[v for v in visuals if any(m['id']in cited for m in v.get('measures',[]))]
+            exact=bool(cited) and len(same_measure)==1 and same_measure[0]['id']==value['visual'] and not named
+        if not exact:
             raise ValueError('VISUAL_PROVENANCE_DIFFERS_FROM_TARGET')
         recorded['visual']=span
     missing = [k for k in ('report', 'issue_type') if not value.get(k)
