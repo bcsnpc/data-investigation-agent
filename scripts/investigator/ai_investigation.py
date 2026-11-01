@@ -47,6 +47,10 @@ only the user's value. Definition questions: retained definition first, then its
 actual inputs. Record questions: key presence through the declared path first.
 Access questions: retained roles and mappings, then ordinary read-only filter
 recreation; never impersonate or infer membership from inaccessible APIs.
+For stale data, inspect refresh history and schedule. Direct Lake automatic
+updates is a different setting: if its value is unavailable, state the known
+refresh/newer-data timestamps and that the switch is unreadable. Never infer
+automatic updates OFF from an absent refresh schedule or from old values.
 Value agreement never establishes snapshot alignment. A statement about a
 whole source chain requires actual reads of its boundaries. For a calculation
 trace, follow declared route bridges and retained transformations beyond the

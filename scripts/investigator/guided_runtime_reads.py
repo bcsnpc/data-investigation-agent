@@ -34,4 +34,10 @@ class SubjectHistory:
         observed=[f for f in selected if f['state'] in ('OBSERVED','OBSERVED_NEGATIVE')]
         return {'status':'OBSERVED' if observed else 'UNAVAILABLE','node':node,
             'purpose':'INVESTIGATION','source':'native-subject-history','observed_at':at,
-            'facts':selected,'coverage':[f for f in facts if f['kind']=='COVERAGE']}
+            'facts':selected,'coverage':[f for f in facts if f['kind']=='COVERAGE'],
+            **({'automatic_updates': {'status': 'UNAVAILABLE_FROM_THIS_SURFACE',
+                  'setting': 'Keep your Direct Lake data up to date',
+                  'reason': 'The supported refresh-history and refresh-schedule responses do not expose the Direct Lake automatic-update switch.',
+                  'owner_location': 'Semantic model settings → Refresh → Keep your Direct Lake data up to date',
+                  'inference': 'No ON/OFF state is inferred from refresh dates or a schedule enabled flag.'}}
+               if self.subjects[node]['kind']=='MODEL' else {})}

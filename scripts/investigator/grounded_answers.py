@@ -76,6 +76,21 @@ def finding(args,case):
     support=cited(args,case)
     if not args['verdict'].strip() or not args['cause'].strip():raise ValueError('VERDICT_AND_CAUSE_REQUIRED')
     normalized=args['verdict'].casefold().replace('_',' ').replace('-',' ')
+    automatic_update_unknown = False
+    if normalized == 'refresh stale':
+        import re
+        def auto_values(value):
+            if isinstance(value, dict):
+                for key, child in value.items():
+                    if key == 'directLakeAutoSync' and type(child) is bool:yield child
+                    elif isinstance(child, (dict, list)):yield from auto_values(child)
+            elif isinstance(value, list):
+                for child in value:yield from auto_values(child)
+        known = list(auto_values(support))
+        automatic_update_unknown = not known
+        off_claim = re.search(r'(?:automatic\s+(?:updates?|refresh(?:es)?|framing)|auto[ -]?sync)[^.!?\n]{0,55}\b(?:off|disabled)\b', args['cause'], re.I)
+        if off_claim and (not known or any(known)):
+            raise ValueError('AUTOMATIC_UPDATE_SETTING_UNREADABLE: report native refresh and newer-data timestamps; do not infer the switch is OFF')
     if normalized == 'latency':
         from .history_comparison import disposition
         history = disposition(case, args['evidence_ids'])
@@ -189,6 +204,8 @@ def finding(args,case):
         operational=rendered
         business+='\n'+'\n'.join(rendered)
     qualifications=[]
+    if automatic_update_unknown:
+        qualifications.append('The Direct Lake automatic-update switch is not exposed by these refresh-history/schedule reads. Its ON/OFF state is unestablished; see semantic model settings → Refresh → Keep your Direct Lake data up to date. A refresh schedule is a separate setting.')
     for assumption in case['intake'].get('resolution_assumptions', []):
         qualifications.append('Assumption: I checked ' + assumption['name'] + ', resolved from the named catalog item and its retained report links.')
     if normalized == 'latency':qualifications.append(history['qualification'])

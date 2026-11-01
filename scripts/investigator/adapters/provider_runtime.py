@@ -1,7 +1,7 @@
 """Trusted installation routing, shared by all AI steps; never ticket-selected."""
 from copy import deepcopy
 
-STEPS = frozenset(('INVESTIGATOR', 'SCREENSHOT', 'SUMMARY', 'ENRICHMENT', 'WRITER', 'GRADING', 'REVIEWER', 'SMOKE'))
+STEPS = frozenset(('INVESTIGATOR', 'SCREENSHOT', 'SUMMARY', 'ENRICHMENT', 'WRITER', 'GRADING', 'SECONDARY_GRADING', 'REVIEWER', 'SMOKE'))
 
 
 def select(configuration, *, tenant, step):
@@ -45,7 +45,33 @@ def client(config, *, budget, record, diagnostic_prompt_cache=None, **ports):
         from .reasoning_openai import Client
         arguments['base'] = config.get('endpoint', 'https://api.openai.com/v1')
         arguments['explicit_cache'] = config.get('explicit_cache', False)
-    return Client(**arguments)
+    return UnifiedClient(Client(**arguments), provider=provider, record=record)
+
+
+class UnifiedClient:
+    """The application sees normalized usage/cost; native bodies stay recorded."""
+    def __init__(self, transport, *, provider, record):
+        self.transport, self.provider, self.record = transport, provider, record
+
+    def __getattr__(self, name):
+        return getattr(self.transport, name)
+
+    def complete(self, **request):
+        from .provider_contract import anthropic_reply, Usage
+        native = self.transport.complete(**request)
+        if self.provider == 'anthropic':
+            usage = anthropic_reply(native).usage
+        else:
+            parts = native['usage']
+            cached = parts.get('cache_read_input_tokens', 0)
+            writes = parts.get('cache_creation_input_tokens', 0)
+            usage = Usage(parts['input_tokens'] + cached + writes, cached, writes, parts['output_tokens'])
+        cost = self.transport.budget.rate.usage_price(usage.budget_usage())
+        normalized = {'provider': self.provider, 'model': self.model,
+                      'normalized_usage': deepcopy(usage.__dict__), 'cost_microdollars': cost,
+                      'cache_read_ratio': usage.cache_read_ratio}
+        self.record({'event': 'AI_NORMALIZED_USAGE', **normalized})
+        return {**native, **normalized}
 
 
 def validate_graders(investigator, primary, secondary, reviewer):

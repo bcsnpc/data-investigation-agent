@@ -17,7 +17,7 @@ def specification(options):
         raise ValueError('GUIDED_RUNNER_OPTIONS')
     value=json.loads(reference(options['spec'],maximum=500000).read_bytes())
     required={'version','ticket','assets','graph','reasoning','max_requests'}
-    if not isinstance(value,dict) or not required<=set(value)<=required|{'collector','screenshots','diagnostic_budget','diagnostic_prompt_cache'} or value['version']!='guided-investigation/1':
+    if not isinstance(value,dict) or not required<=set(value)<=required|{'collector','screenshots','diagnostic_budget','diagnostic_prompt_cache','ai_routing'} or value['version']!='guided-investigation/1':
         raise ValueError('GUIDED_RUNNER_SPECIFICATION')
     if type(value['max_requests']) is not int or not 1<=value['max_requests']<=100:
         raise ValueError('GUIDED_PHYSICAL_REQUEST_BOUND')
@@ -99,16 +99,24 @@ def run(plan,context):
         collector_config=json.loads(reference(spec['collector'],maximum=500000).read_bytes())
         collector=PathCollector(collector_config,state,
                                 graph_spec['allowed_objects'],record)
-    rate=RateCard(model=spec['reasoning']['model'],**spec['reasoning']['rate_card'])
+    def ai_configuration(step):
+        if 'ai_routing' not in spec:return spec['reasoning']
+        from investigator.adapters.provider_runtime import select
+        return select(spec['ai_routing'],tenant=graph_spec['estate'],step=step)
+    investigator_configuration = ai_configuration('INVESTIGATOR')
+    rate=RateCard(model=investigator_configuration['model'],**investigator_configuration['rate_card'])
     budgets={}
-    def budget(case_id):
-        if case_id not in budgets:
-            budgets[case_id]=TicketBudget(state,case_id=case_id,owner=spec['reasoning']['worker_identity'],rate=rate,
-                provider=spec['reasoning'].get('provider','anthropic'),
+    def budget(case_id,step='INVESTIGATOR'):
+        selected=ai_configuration(step)
+        key=(case_id,step,selected.get('provider','anthropic'),selected['model'])
+        if key not in budgets:
+            budgets[key]=TicketBudget(state,case_id=case_id,owner=selected['worker_identity'],
+                rate=RateCard(model=selected['model'],**selected['rate_card']),
+                provider=selected.get('provider','anthropic'),purpose=step,
                 actual_usage_limit=spec.get('diagnostic_budget',{}).get('actual_usage_limit_microdollars',3000000))
-        return budgets[case_id]
-    def model(case_id):
-        return provider_client(spec['reasoning'],budget=budget(case_id),record=record,
+        return budgets[key]
+    def model(case_id,step='INVESTIGATOR'):
+        return provider_client(ai_configuration(step),budget=budget(case_id,step),record=record,
                       diagnostic_prompt_cache=spec.get('diagnostic_prompt_cache',True))
     request_key=plan.get('run_id',getattr(context,'run_id',root.name))
     from investigator.estate_graph_contract import digest
@@ -202,6 +210,7 @@ def run(plan,context):
         return image
     factory=Factory(state=state,graph=graph,routes=native_catalog.routes,native=execute_native,
         context_for=native_catalog.context,triage_for=triage,model_for=model,
+        model_for_step=model,
         prepare_route=native_catalog.prepare,begin_case=native_catalog.opened.clear,candidate_details=native_catalog.candidate_details,
         screenshot_reader=screenshot_reader,
         security_definitions=security,

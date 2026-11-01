@@ -10,6 +10,21 @@ def config(provider='anthropic', model='synthetic'):
 
 
 class ProviderRuntimeTests(unittest.TestCase):
+    def test_normalized_interface_reports_same_usage_and_cost_across_vendors(self):
+        from investigator.reasoning_budget import RateCard
+        from investigator.adapters.provider_runtime import UnifiedClient
+        rate = RateCard(model='synthetic', input_rate='1.25', base_input_rate='1', cache_read_rate='.1',
+                        output_rate='2', source='https://example.test/pricing', observed_at='2026-11-01')
+        usage = {'input_tokens': 20, 'cache_read_input_tokens': 80, 'output_tokens': 2}
+        outputs = []
+        for provider in ('anthropic', 'openai'):
+            transport = Mock(); transport.model = 'synthetic'; transport.budget.rate = rate
+            transport.complete.return_value = {'id': 'r', 'model': 'synthetic', 'content': [], 'stop_reason': 'end_turn', 'usage': usage}
+            outputs.append(UnifiedClient(transport, provider=provider, record=Mock()).complete(system='x'))
+        self.assertEqual(outputs[0]['normalized_usage'], outputs[1]['normalized_usage'])
+        self.assertEqual(outputs[0]['cost_microdollars'], 32)
+        self.assertEqual(outputs[0]['cost_microdollars'], outputs[1]['cost_microdollars'])
+
     def test_every_component_supports_tenant_and_step_routing(self):
         for step in ('INVESTIGATOR', 'SCREENSHOT', 'SUMMARY', 'ENRICHMENT', 'WRITER', 'GRADING', 'REVIEWER', 'SMOKE'):
             installation = {'default': config(), 'tenants': {'client': {'steps': {step: config('openai')}}}}

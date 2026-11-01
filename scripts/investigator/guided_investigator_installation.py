@@ -15,13 +15,14 @@ from .estate_graph_contract import canonical,digest
 class Factory:
     def __init__(self,*,state,graph,routes,native,context_for,triage_for,model_for,
                  reserve,persist,job_runs,refresh_history,security_definitions=None,
-                 checkpoint_for=None,prepare_route=None,begin_case=None,candidate_details=None,screenshot_reader=None,declared_continuations=None,associated_nodes=None,definition_for=None):
+                 checkpoint_for=None,prepare_route=None,begin_case=None,candidate_details=None,screenshot_reader=None,declared_continuations=None,associated_nodes=None,definition_for=None,model_for_step=None):
         self.state,self.graph,self.routes=state,graph,deepcopy(routes)
         self.native,self.context_for,self.triage_for,self.model_for=native,context_for,triage_for,model_for
         self.reserve,self.persist=reserve,persist
         self.prepare_route=prepare_route;self.begin_case=begin_case;self.candidate_details=candidate_details
         self.registry=deepcopy(routes)
         self.screenshot_reader=screenshot_reader
+        self.model_for_step=model_for_step
         self.declared_continuations=declared_continuations
         self.associated_nodes=associated_nodes
         self.definition_for=definition_for
@@ -205,7 +206,8 @@ class Factory:
                 from .adapters.screenshot_assistance import Assistance
                 from .guided_intake import Catalog
                 from .ai_investigation import schema
-                assistance=Assistance(model,lambda:{**context,'layers':deepcopy(queries.layers)})
+                screenshot_model=self.model_for_step(case['id'],'SCREENSHOT') if self.model_for_step else model
+                assistance=Assistance(screenshot_model,lambda:{**context,'layers':deepcopy(queries.layers)})
                 lookup=ScreenshotLookup(catalog=Catalog.from_graph(self.graph),queries=queries,
                     extract=assistance.extract,plan=assistance.plan,audit=save)
                 def resolve(_):
