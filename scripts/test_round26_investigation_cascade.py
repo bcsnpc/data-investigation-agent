@@ -4,6 +4,41 @@ from investigator.investigation_cascade import Cascade
 
 
 class InvestigationCascadeTests(unittest.TestCase):
+    def test_real_checkpoint_continuation_reuses_native_query_across_models(self):
+        from investigator.ai_investigation import Investigator,schema
+        from investigator.investigative_queries import Queries
+        from test_round23_reasoning import MemoryCheckpoint,tool
+        from test_round23_intake_queries import sql_objects
+        execute=Mock(return_value={'rows':[[7]]})
+        queries=Queries({'gold':{'dialect':'T-SQL','objects':sql_objects()}},
+            execute=execute,reserve=Mock(),save=Mock())
+        query={'layer':'gold','query':'SELECT SUM(quantity) AS total FROM dbo.Items','purpose':'recreate'}
+        sol=Mock();sol.model='sol'
+        sol.complete.side_effect=[tool('run_sql',query)]+[
+            tool('get_definition',{'node':str(i)},identity='definition-'+str(i))for i in range(6)]
+        reads={'get_definition':{'description':'Read retained logic',
+            'schema':schema({'node':{'enum':[str(i)for i in range(6)]}}),'run':Mock(return_value={'definition':'retained'})}}
+        engine=Investigator(queries=queries,model=sol,read_tools=reads,checkpoint=MemoryCheckpoint(),
+            case_id='same-case',context={'intake':{'report':'report'},'path':['gold']},triage=[],
+            validate_finding=Mock(return_value={'business':'Checked total is 7.'}))
+        astra=Mock();astra.model='astra'
+        def answer(**kwargs):
+            return tool('submit_finding',{'verdict':'as designed','cause':'Checked total is 7.',
+                'numbers':[7],'checked':['gold'],'evidence_ids':[queries.records[0]['id']]})
+        responses=[tool('run_sql',query),answer]
+        def complete(**kwargs):
+            response=responses.pop(0)
+            return response(**kwargs)if callable(response)else response
+        astra.complete.side_effect=complete
+        result=Cascade(engine,lambda:astra).run()
+        self.assertEqual(result['status'],'ANSWERED')
+        self.assertEqual(result['investigation_cascade']['resolved_by_model'],'astra')
+        execute.assert_called_once()
+        self.assertEqual(sol.complete.call_count,7)
+        self.assertEqual(astra.complete.call_count,2)
+        self.assertEqual(result['model_calls'],9)
+        self.assertEqual(len(queries.records),1)
+
     def engine(self,first_status):
         engine=Mock();engine.tool_limit=15;engine.deadline_seconds=900;engine.model.model='sol'
         engine.state={'evidence':{'old':{'kind':'QUERY'}},'cache':{'same-call':{'evidence_id':'old'}},'pending':None}

@@ -6,6 +6,36 @@ from investigator.adapters.provider_contract import openai_request
 
 
 class ProviderTransportTests(unittest.TestCase):
+    def test_anthropic_urlerror_regression_retries_without_zeroing_unknown_usage(self):
+        from investigator.adapters.reasoning_anthropic import Client as Anthropic
+        from urllib.error import URLError
+        budget=Mock();budget.rate.model='synthetic';budget.reserve.return_value='r'
+        send=Mock(side_effect=[URLError('connection reset'),{'content':[],'usage':{'input_tokens':1,'output_tokens':1}}])
+        sleep=Mock()
+        with patch('investigator.adapters.managed_identity.validate_secret_reference'):
+            client=Anthropic(model='synthetic',budget=budget,identity='reader',secret_reference={},
+                record=Mock(),send=send,sleep=sleep)
+        client.complete(system='fixed',messages=[],tools=self.tools())
+        self.assertEqual(budget.reserve.call_count,2)
+        budget.settle.assert_any_call('r')
+        sleep.assert_called_once_with(30)
+
+    def test_count_connection_reset_retries_before_any_paid_dispatch(self):
+        send=Mock(side_effect=[ConnectionResetError(),{'input_tokens':123},self.response()])
+        sleep=Mock();client=self.client(send=send,count_tokens=True,sleep=sleep)
+        client.complete(system='fixed',messages=[],tools=self.tools())
+        self.assertEqual(client.budget.reserve.call_count,1)
+        self.assertEqual(send.call_args_list[0].args[1],send.call_args_list[1].args[1])
+        sleep.assert_called_once_with(30)
+
+    def test_paid_connection_reset_keeps_unknown_charge_and_retries_with_new_reservation(self):
+        send=Mock(side_effect=[ConnectionResetError(),self.response()]);sleep=Mock()
+        client=self.client(send=send,sleep=sleep)
+        client.complete(system='fixed',messages=[],tools=self.tools())
+        self.assertEqual(client.budget.reserve.call_count,2)
+        client.budget.settle.assert_any_call('reservation')
+        sleep.assert_called_once_with(30)
+
     @patch.dict('os.environ', {'DIA_LIVE_ACCESS_DISABLED': '0'})
     def test_gateway_allows_only_tenant_configured_provider_for_every_component(self):
         from investigator.live_gateway import Gateway, GatewayDenied

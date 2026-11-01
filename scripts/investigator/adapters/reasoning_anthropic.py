@@ -8,7 +8,9 @@ from copy import deepcopy
 import json
 import time
 from urllib.request import Request,build_opener
-from urllib.error import HTTPError
+from urllib.error import HTTPError,URLError
+from http.client import IncompleteRead
+from .provider_failures import retryable
 from ..estate_graph_contract import canonical
 from ..round23_calendar import require_live_window
 
@@ -149,7 +151,15 @@ class Client:
         input_bound=None
         if self.count_tokens:
             count_body={k:v for k,v in body.items() if k!='max_tokens'}
-            counted=(self.send or self._http)('POST',BASE+'/messages/count_tokens',count_body)
+            for count_attempt in range(3):
+                try:
+                    counted=(self.send or self._http)('POST',BASE+'/messages/count_tokens',count_body)
+                    break
+                except (ProviderHTTPError,ConnectionError,TimeoutError,IncompleteRead,URLError)as error:
+                    if count_attempt==2 or not retryable(error):raise
+                    self.record({'event':'REASONING_COUNT_TRANSIENT','error_type':type(error).__name__,
+                        'attempt':count_attempt+1,'wait_seconds':30*(count_attempt+1),'paid_request_dispatched':False})
+                    self.sleep(30*(count_attempt+1))
             count=counted.get('input_tokens')
             if type(count) is not int or count<0:raise ValueError('PROVIDER_TOKEN_COUNT_REQUIRED')
             input_bound=count+4096
@@ -176,10 +186,12 @@ class Client:
                     self.diagnostic_helper_usage.prefix_sha256=__import__('hashlib').sha256(canonical([body['tools'],body['system']]).encode()).hexdigest()
                     observed=self.diagnostic_helper_usage.observe(response.get('usage'));observed.update(phase='INTAKE_HELPER_UNCHANGED',cache_assertion_applies=False,subsequent_cache_read_check='NOT_APPLICABLE_NO_ADMITTED_PATH_PREFIX');self.record(observed)
                 return response
-            except ProviderHTTPError as error:
-                if attempt==2 or error.http_status not in (408,429,502,503,504):raise
+            except (ProviderHTTPError,ConnectionError,TimeoutError,IncompleteRead,URLError)as error:
+                if attempt==2 or not retryable(error):raise
                 wait=30*(attempt+1)
-                self.record({'event':'REASONING_TRANSIENT','status':error.http_status,'attempt':attempt+1,'wait_seconds':wait})
+                self.record({'event':'REASONING_TRANSIENT','status':getattr(error,'http_status',None),
+                    'error_type':type(error).__name__,'attempt':attempt+1,'wait_seconds':wait,
+                    'unknown_usage_retains_full_reservation':True})
             finally:
                 # Unknown failures remain charged. Each retry gets a new
                 # reservation; 429 is never delivered as an investigation result.

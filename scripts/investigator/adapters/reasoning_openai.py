@@ -4,9 +4,11 @@ import json
 import re
 import time
 from urllib.request import Request, build_opener
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
+from http.client import IncompleteRead
 from ..estate_graph_contract import canonical
 from .provider_contract import openai_request, openai_reply
+from .provider_failures import retryable
 
 
 class ProviderHTTPError(RuntimeError):
@@ -118,8 +120,17 @@ class Client:
         reserve_body = {**body, 'max_tokens': max_tokens}
         input_bound = None
         if self.count_tokens:
-            counted = (self.send or self._http)('POST', self.base + '/responses/input_tokens',
-                                               {k: body[k] for k in ('model', 'input', 'tools')})
+            for count_attempt in range(3):
+                try:
+                    counted = (self.send or self._http)('POST', self.base + '/responses/input_tokens',
+                                                       {k: body[k] for k in ('model', 'input', 'tools')})
+                    break
+                except (ProviderHTTPError,ConnectionError,TimeoutError,IncompleteRead,URLError) as error:
+                    if count_attempt==2 or not retryable(error):raise
+                    self.record({'event':'REASONING_COUNT_TRANSIENT','provider':self.provider,
+                        'error_type':type(error).__name__,'attempt':count_attempt+1,
+                        'wait_seconds':30*(count_attempt+1),'paid_request_dispatched':False})
+                    self.sleep(30*(count_attempt+1))
             tokens = counted.get('input_tokens')
             if type(tokens) is not int or tokens < 0:raise ValueError('NATIVE_PROVIDER_TOKEN_COUNT_REQUIRED')
             input_bound = tokens + 4096
@@ -151,11 +162,13 @@ class Client:
                              'cache_assertion_applies': investigation,
                              'prefix_sha256': self.stable.prefix_sha256 if investigation else None})
                 return reply.compatible()
-            except ProviderHTTPError as error:
-                if attempt == 2 or error.http_status not in (408, 429, 500, 502, 503, 504):
+            except (ProviderHTTPError,ConnectionError,TimeoutError,IncompleteRead,URLError) as error:
+                if attempt == 2 or not retryable(error):
                     raise
                 self.record({'event': 'REASONING_TRANSIENT', 'provider': self.provider,
-                             'status': error.http_status, 'attempt': attempt + 1, 'wait_seconds': 30 * (attempt + 1)})
+                             'status': getattr(error,'http_status',None), 'error_type':type(error).__name__,
+                             'attempt': attempt + 1, 'wait_seconds': 30 * (attempt + 1),
+                             'unknown_usage_retains_full_reservation':True})
             finally:
                 self.budget.settle(reservation)
             self.sleep(30 * (attempt + 1))
