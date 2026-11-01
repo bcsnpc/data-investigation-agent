@@ -38,3 +38,8 @@ Observed first-leg intake results: Astra28/40, USD0.123874/call,18.37%cached; Te
 The three investigator columns are Sol with unresolved-only Astra escalation, Astra-only, and Opus. All share selected intake and Terra helpers. First Sol launch failed before model dispatch due to the obsolete Opus-only cache-spec restriction; partial capture and failure are retained, unscored. Corrected specification plus fake Azure key-header coverage passed90Round26 tests; corrected image publication pending at this checkpoint.
 
 The offline80route check now includes native declared continuations:59PATH_OPENED,8native operational,10questions,3rejected saved proposals; zero estate/model reads. This does not establish value correctness or full layer coverage.
+
+
+Partial cross-vendor primary grading checkpoint: first two application tickets each earned2/2 in Sol-to-Astra and Astra-only, graded by Claude Sonnet4.6 Batch, harmful0; initial three Opus tickets earned3/3 with Sol primary, harmful0. These are partial benchmark results and do not select the investigator default. Anthropic batch grading costUSD0.015069/call for the Sol-cascade sample andUSD0.015386/call for Astra-only; OpenAI Sol synchronous gradingUSD0.022148/call, cached-input0% on these one-call evaluations. Native usage and pricing class are recorded in round-twenty-six-initial-crossvendor-grading.json.
+
+Intake cascade costs98generation calls(63Sol including failed-original costs,35Astra fallback),USD0.193346 per ticket versus historical Astra-onlyUSD0.266329. Fallback cached-input85.43%. Engine-revision differences remain disclosed.

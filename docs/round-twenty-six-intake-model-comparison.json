@@ -38,5 +38,16 @@
     }
   ],
   "estate_reads": 0,
-  "note": "All cohorts include eight code-only operational routes with no model calls; original tapes/results unchanged. Intake fixes landed between historical cohorts."
+  "note": "All cohorts include eight code-only operational routes with no model calls; original tapes/results unchanged. Intake fixes landed between historical cohorts.",
+  "selected_cascade": {
+    "ready": 29,
+    "records": 40,
+    "calls": 98,
+    "fallback_calls": 35,
+    "actual_microdollars": 7733820,
+    "fallback_cache_read_ratio": 0.8543437333539354,
+    "usd_per_ticket": 0.1933455,
+    "usd_per_call": 0.07891653061224489,
+    "astra_only_usd_per_ticket": 0.266329
+  }
 }
