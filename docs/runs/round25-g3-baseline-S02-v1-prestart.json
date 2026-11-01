@@ -1,0 +1,10 @@
+{
+  "ticket": "baseline-S02-v1",
+  "at": "2026-11-01T03:11:15.431916+00:00",
+  "error_type": "AZURE_CONTROL_READ_FAILED_BEFORE_START",
+  "stage": "job GET before start POST",
+  "submitted": false,
+  "replacement_allowed": true,
+  "engine_changed": false,
+  "receipt": ".local\\round-twenty-five\\g3-operator-1793502635702817000.log"
+}

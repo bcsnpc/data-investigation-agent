@@ -1,17 +1,17 @@
 {
   "pass": "Round25 G3 raw-reviewed",
-  "graded": 33,
+  "graded": 37,
   "score": 1,
   "correctness": {
     "verdict_match": 1,
-    "layer_match": 2,
-    "cause_match": 1
+    "layer_match": 4,
+    "cause_match": 3
   },
   "harmful": 3,
   "zero_groups": {
-    "intake": 26,
+    "intake": 28,
     "reading results": 2,
-    "conclusion": 3,
+    "conclusion": 5,
     "target": 1
   },
   "zeros": [
@@ -408,6 +408,68 @@
       "class": "R17-10"
     },
     {
+      "ticket": "R17-11-v1",
+      "first_wrong_step": "intake",
+      "reason": "The run was UNDELIVERED_NATIVE_EXCEPTION due to a URLError (Cannot assign requested address). No answer, handoff, or evidence was delivered. There is nothing to grade for verdict, layer, or cause. Handoff quality is 0 because no stopping point, queries, or next steps were captured.",
+      "saved_trace": {
+        "outcome_sha256": "d961a33f31a471f58666c0f537fa4770123937ad6316b56686768a04d9cfb54d",
+        "local_outcome": ".local\\round-twenty-five\\g3-R17-11-v1-terminal-error.json",
+        "assessment_origin": "both independent graders agree"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "R17-11"
+    },
+    {
+      "ticket": "R17-12-v1",
+      "first_wrong_step": "intake",
+      "reason": "The expected answer is verdict='not found', layer='SEMANTIC', cause='Business intent or physical unit meaning is not established by the SUM definition; state the limit, never invent intended correctness or physical units.' The delivered answer instead asked the user to select a report from a list before proceeding (NEEDS_INPUT status). This is not a correct resolution: the system should have attempted to answer with the information available, concluded the unit meaning cannot be determined from the data (not found, semantic layer), and stated that limit honestly. Instead it halted at intake by asking the user to disambiguate the report, which is the wrong step \u2014 the question names no specific report, so the agent should either have tried to resolve across available reports or stated it cannot determine the unit. The agent did not reach a verdict, did not identify the correct layer, and did not name the correct cause. Handoff quality is 1: the list of reports is plausible next context but there is no clear stopping criterion stated, no queries run, and no explanation of why a report selection is needed to answer a units question.",
+      "saved_trace": {
+        "outcome_sha256": "a60c43c67838d5b745a428de98c2a73bbdbff05f7e206721324daa95a9df44e1",
+        "local_outcome": ".local\\round-twenty-five\\g3-R17-12-v1-result.json",
+        "assessment_origin": "both independent graders agree"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "R17-12"
+    },
+    {
+      "ticket": "baseline-S01-v1",
+      "first_wrong_step": "conclusion",
+      "reason": "What the raw capture shows: Query 1, the DAX call that included [Activity Entries], failed with 'Unknown or ambiguous DAX member' and is not used as evidence. Query 5 (DAX on the model) returned Handled Quantity = 8765. Query 2 (SQL on gold movement_values) also returned 8765. Silver stock_movements (q3) and bronze stock_movements (q4) each returned 7661. Query 6 found that only product 7 has more than one row in silver product_rates, with exactly 2 rows. Query 7 found product 7 in gold with 92 rows, 46 distinct movement_ids and 2208 units. Query 8 found product 7 in silver with 1104 units. The arithmetic checks out: 2208 - 1104 = 1104, and 8765 - 7661 = 1104. Bronze and silver match each other, so the extra 1104 units first appear between silver and gold. This supports layer REFINED -> SERVING and the expected cause (two rate matches for product 7, so its 1104 units are carried twice, giving 7661 + 1104 = 8765). Layer and cause match.\n\nSeveral details in the answer were never read: the notebook's join logic ('left-joining ... on product_id only'), the measure definition SUM('Activity'[units]), and the claim that the two rate rows are 'rate versions 1 and 2'. These are confident inferences without evidence. They agree with the expected answer and are not harmful, but neither grader mentioned them. The secondary grader said every number is backed by a cited query, which is true; it just did not flag these non-numeric inferences.\n\nVerdict: the expected verdict is 'as designed', and the expected answer says to describe the mechanics without judging business correctness. The answer instead chose the separate label 'transformation logic' and described the result as 'duplication'. That puts the cause in faulty transformation logic rather than describing designed behaviour. The primary grader's claim that 'transformation logic' maps to 'as designed' has no basis: these are different labels in the verdict set. So the verdict does not match. Under the all-three rule this is a partial match and scores zero.\n\nHandoff: the status is ANSWERED with no handoff object, but the answer does state what it did not check (no period filter applied, notebook run status not read) and lists rerunnable literal queries. That is worth 1. The primary grader's 0 does not fit these facts.\n\nThe secondary grader is correct on verdict, partial, failing step and handoff. The primary grader wrongly scored the case as a full match.",
+      "saved_trace": {
+        "outcome_sha256": "f54477deed6513f692b1f091bce10daa2aef51c4fc2b8d8ec753bbaf4b15272a",
+        "local_outcome": ".local\\round-twenty-five\\g3-baseline-S01-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [
+        {
+          "id": "query:f07232610fc46d85cf4e62a1840e4e2c96fc67f68b009846b6b4f9aa5924addd:1",
+          "error": "Unknown or ambiguous DAX member",
+          "query": "EVALUATE ROW(\"Handled Quantity\", [Handled Quantity], \"Activity Entries\", [Activity Entries])"
+        }
+      ],
+      "correct_action": "Restrict the cause to what the cited native evidence establishes.",
+      "class": "baseline-S01"
+    },
+    {
+      "ticket": "baseline-S01-v2",
+      "first_wrong_step": "conclusion",
+      "reason": "What the saved evidence shows: six read-only queries succeeded. (1) DAX [Handled Quantity] = 8765. (2) Gold dbo.movement_values SUM(units) = 8765 (Int64). (3) Silver stock_movements_e1b8e1 = 7661. (4) Bronze stock_movements_e1b8e1 = 7661. (5) Silver product_rates_e1b8e1 has only one product_id with more than one row: product 7, with 2 rows. (6) The extra units from per-product rate multiplicity in silver add up to 1104, and 7661 + 1104 = 8765 exactly. All the sums are integers, so rounding is correctly ruled out.\n\nLayer: the gap first appears between silver and gold, because bronze equals silver and gold equals the measure. That matches REFINED -> SERVING.\n\nCause: the sealed cause is a left join on product_id that finds two rate matches for product 7, so 1104 carried units repeat. The answer names that same mechanism with the same numbers, so cause matches in substance.\n\nOne caveat neither grader raised: the saved capture has no read of the 'Warehouse valuation e1b8e1' notebook definition or of the measure's DAX expression. It also has no query showing 'rate versions 1 and 2'. Those details are stated as fact without cited evidence, and DEFINITION_CHANGES was UNAVAILABLE in triage. The join mechanism is strongly supported by the exact arithmetic but is inferred, not observed. Because it matches the sealed truth, this is a weakness in how the claim is supported, not a harmful error.\n\nVerdict: the sealed verdict is 'as designed', and the expectation says to describe the recorded mechanics without judging business correctness. The answer says 'transformation logic' and says product 7 units are 'counted twice', which frames the join as a defect. That is a different verdict category, so verdict_match is false. Under the all-three rule this is a partial match and scores zero.\n\nPrimary's error: Primary treated 'transformation logic' as equivalent to 'as designed'. That ignores the expectation's explicit instruction not to judge correctness, so Primary is wrong on the verdict and on the final score.\n\nSecondary is right on the verdict, layer, cause, partial and not-harmful judgments. Secondary's handoff score of 1 is reasonable. The status is ANSWERED with a null handoff, but the literal queries can be rerun and the evidence IDs are cited. There is no stated stopping point and no next checks, such as reading the notebook to confirm the join.",
+      "saved_trace": {
+        "outcome_sha256": "909e1eac5419ac79d04af19d3d5fae3241b72368a818d7bf02910daf23a18c0a",
+        "local_outcome": ".local\\round-twenty-five\\g3-baseline-S01-v2-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Restrict the cause to what the cited native evidence establishes.",
+      "class": "baseline-S01"
+    },
+    {
       "ticket": "waiting-billing-load-v1",
       "first_wrong_step": "intake",
       "reason": "What the saved record shows: the DIA saved answer is status NEEDS_INPUT, with handoff null and stop null. Its only output is the question \"Choose the missing details so I can check the report.\" It offers one report choice, \"Subscription Billing\". In the saved evidence, intake classified the ticket as issue_type DATA_LOOKS_OLD with compared_with NOTHING and empty provenance. Triage, queries and evidence are all null, so no query ran. The sealed expectation is verdict \"waiting on job\", layer PIPELINE, and the cause is the named job's freshly observed active RUNNING/QUEUED Wait-control execution, with its pending completion named.\n\nScoring: the answer gives no verdict, no layer and no cause, so all three fail. Under the all-three rule, partial is false and scores zero. It is not harmful because it states nothing false as fact: no failure, cause or SLA is invented. The failing step is intake. The ticket asks about a named pipeline job (\"PIPELINE Billing application load\", shown as running on the job history screen), but intake routed it as a stale-report question and asked the user to pick a report. That choice was never needed to look up the job's run status.\n\nThe one real dispute is handoff quality. The primary grader scores 1 and calls the question \"plausible\". That is too generous. The question sends the work down the wrong path: a report choice does nothing to identify the active run, the handoff is null, and nothing from any investigation is passed on. Even though \"Subscription Billing\" probably comes from the word \"Billing\" in the ticket, it is still off-target. So 0 is correct, as the secondary grader says. The primary's other points are fine, apart from its reference to \"available evidence (docs/runs/...)\": that file is the grading reference, not something DIA should have consulted.\n\nThe secondary grader has one small factual error: it quotes \"queries: []\", but the saved value is null. The substance still holds, because no queries ran either way. The secondary wins because its handoff judgment matches the record.",
@@ -533,6 +595,9 @@
     "R17-07": 1,
     "R17-08": 1,
     "R17-10": 1,
+    "R17-11": 1,
+    "R17-12": 1,
+    "baseline-S01": 2,
     "waiting-billing-load": 1,
     "waiting-billing-transform": 1,
     "waiting-fixture-load": 2

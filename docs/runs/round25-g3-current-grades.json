@@ -1,47 +1,47 @@
 {
   "official_primary": {
     "all_three": {
-      "correct": 0,
-      "total": 33,
-      "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.10426999754245206,
+      "correct": 2,
+      "total": 37,
+      "accuracy": 0.05405405405405406,
+      "lower": 0.014950976833157673,
+      "upper": 0.17704654350813104,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 0,
-      "total": 33,
-      "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.10426999754245206,
+      "correct": 2,
+      "total": 37,
+      "accuracy": 0.05405405405405406,
+      "lower": 0.014950976833157673,
+      "upper": 0.17704654350813104,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 4,
-      "total": 33,
-      "accuracy": 0.12121212121212122,
-      "lower": 0.04816161309413558,
-      "upper": 0.2732550517107523,
+      "correct": 6,
+      "total": 37,
+      "accuracy": 0.16216216216216217,
+      "lower": 0.07651207234011151,
+      "upper": 0.3113648370093497,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 1,
-      "total": 33,
-      "accuracy": 0.030303030303030304,
-      "lower": 0.00536941053687183,
-      "upper": 0.1531872538211892,
+      "correct": 3,
+      "total": 37,
+      "accuracy": 0.08108108108108109,
+      "lower": 0.02796057410044797,
+      "upper": 0.2130067934928839,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 33,
+      "total": 37,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.10426999754245206,
+      "upper": 0.09405782583720251,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -49,46 +49,46 @@
   "strict": {
     "all_three": {
       "correct": 0,
-      "total": 33,
+      "total": 37,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.10426999754245206,
+      "upper": 0.09405782583720251,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 0,
-      "total": 33,
+      "total": 37,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.10426999754245206,
+      "upper": 0.09405782583720251,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 2,
-      "total": 33,
-      "accuracy": 0.06060606060606061,
-      "lower": 0.016780883087191875,
-      "upper": 0.1960624480864781,
+      "correct": 4,
+      "total": 37,
+      "accuracy": 0.10810810810810811,
+      "lower": 0.04285189940411473,
+      "upper": 0.24708531544126028,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 0,
-      "total": 33,
-      "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.10426999754245206,
+      "correct": 2,
+      "total": 37,
+      "accuracy": 0.05405405405405406,
+      "lower": 0.014950976833157673,
+      "upper": 0.17704654350813104,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 3,
-      "total": 33,
-      "accuracy": 0.09090909090909091,
-      "lower": 0.03140394152458165,
-      "upper": 0.2357260564646973,
+      "total": 37,
+      "accuracy": 0.08108108108108109,
+      "lower": 0.02796057410044797,
+      "upper": 0.2130067934928839,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -96,46 +96,46 @@
   "raw_reviewed": {
     "all_three": {
       "correct": 1,
-      "total": 33,
-      "accuracy": 0.030303030303030304,
-      "lower": 0.00536941053687183,
-      "upper": 0.1531872538211892,
+      "total": 37,
+      "accuracy": 0.02702702702702703,
+      "lower": 0.004786974451940429,
+      "upper": 0.13824069863730518,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 1,
-      "total": 33,
-      "accuracy": 0.030303030303030304,
-      "lower": 0.00536941053687183,
-      "upper": 0.1531872538211892,
+      "total": 37,
+      "accuracy": 0.02702702702702703,
+      "lower": 0.004786974451940429,
+      "upper": 0.13824069863730518,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 2,
-      "total": 33,
-      "accuracy": 0.06060606060606061,
-      "lower": 0.016780883087191875,
-      "upper": 0.1960624480864781,
+      "correct": 4,
+      "total": 37,
+      "accuracy": 0.10810810810810811,
+      "lower": 0.04285189940411473,
+      "upper": 0.24708531544126028,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 1,
-      "total": 33,
-      "accuracy": 0.030303030303030304,
-      "lower": 0.00536941053687183,
-      "upper": 0.1531872538211892,
+      "correct": 3,
+      "total": 37,
+      "accuracy": 0.08108108108108109,
+      "lower": 0.02796057410044797,
+      "upper": 0.2130067934928839,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 3,
-      "total": 33,
-      "accuracy": 0.09090909090909091,
-      "lower": 0.03140394152458165,
-      "upper": 0.2357260564646973,
+      "total": 37,
+      "accuracy": 0.08108108108108109,
+      "lower": 0.02796057410044797,
+      "upper": 0.2130067934928839,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,50 +143,50 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 33,
+  "completed_graded": 37,
   "primary": {
     "all_three": {
-      "correct": 0,
-      "total": 33,
-      "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.10426999754245206,
+      "correct": 2,
+      "total": 37,
+      "accuracy": 0.05405405405405406,
+      "lower": 0.014950976833157673,
+      "upper": 0.17704654350813104,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 0,
-      "total": 33,
-      "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.10426999754245206,
+      "correct": 2,
+      "total": 37,
+      "accuracy": 0.05405405405405406,
+      "lower": 0.014950976833157673,
+      "upper": 0.17704654350813104,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 4,
-      "total": 33,
-      "accuracy": 0.12121212121212122,
-      "lower": 0.04816161309413558,
-      "upper": 0.2732550517107523,
+      "correct": 6,
+      "total": 37,
+      "accuracy": 0.16216216216216217,
+      "lower": 0.07651207234011151,
+      "upper": 0.3113648370093497,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 1,
-      "total": 33,
-      "accuracy": 0.030303030303030304,
-      "lower": 0.00536941053687183,
-      "upper": 0.1531872538211892,
+      "correct": 3,
+      "total": 37,
+      "accuracy": 0.08108108108108109,
+      "lower": 0.02796057410044797,
+      "upper": 0.2130067934928839,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 33,
+      "total": 37,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.10426999754245206,
+      "upper": 0.09405782583720251,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -194,56 +194,56 @@
   "secondary": {
     "all_three": {
       "correct": 1,
-      "total": 33,
-      "accuracy": 0.030303030303030304,
-      "lower": 0.00536941053687183,
-      "upper": 0.1531872538211892,
+      "total": 37,
+      "accuracy": 0.02702702702702703,
+      "lower": 0.004786974451940429,
+      "upper": 0.13824069863730518,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 1,
-      "total": 33,
-      "accuracy": 0.030303030303030304,
-      "lower": 0.00536941053687183,
-      "upper": 0.1531872538211892,
+      "total": 37,
+      "accuracy": 0.02702702702702703,
+      "lower": 0.004786974451940429,
+      "upper": 0.13824069863730518,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 2,
-      "total": 33,
-      "accuracy": 0.06060606060606061,
-      "lower": 0.016780883087191875,
-      "upper": 0.1960624480864781,
+      "correct": 4,
+      "total": 37,
+      "accuracy": 0.10810810810810811,
+      "lower": 0.04285189940411473,
+      "upper": 0.24708531544126028,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 1,
-      "total": 33,
-      "accuracy": 0.030303030303030304,
-      "lower": 0.00536941053687183,
-      "upper": 0.1531872538211892,
+      "correct": 3,
+      "total": 37,
+      "accuracy": 0.08108108108108109,
+      "lower": 0.02796057410044797,
+      "upper": 0.2130067934928839,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 3,
-      "total": 33,
-      "accuracy": 0.09090909090909091,
-      "lower": 0.03140394152458165,
-      "upper": 0.2357260564646973,
+      "total": 37,
+      "accuracy": 0.08108108108108109,
+      "lower": 0.02796057410044797,
+      "upper": 0.2130067934928839,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 27,
-    "total": 33,
-    "accuracy": 0.8181818181818182,
-    "lower": 0.6561176836533009,
-    "upper": 0.9138923179105933,
+    "correct": 29,
+    "total": 37,
+    "accuracy": 0.7837837837837838,
+    "lower": 0.6280485160803084,
+    "upper": 0.8861348800661442,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -254,11 +254,11 @@
     "harmful"
   ],
   "full_assessment_agreement": {
-    "correct": 5,
-    "total": 33,
-    "accuracy": 0.15151515151515152,
-    "lower": 0.06650457281607568,
-    "upper": 0.3091987588044212,
+    "correct": 7,
+    "total": 37,
+    "accuracy": 0.1891891891891892,
+    "lower": 0.09479978730312018,
+    "upper": 0.3420469692983842,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -427,6 +427,24 @@
       "ticket": "R17-10-v1",
       "fields": [
         "failing_step"
+      ]
+    },
+    {
+      "ticket": "baseline-S01-v1",
+      "fields": [
+        "verdict_match",
+        "handoff_quality",
+        "failing_step",
+        "partial"
+      ]
+    },
+    {
+      "ticket": "baseline-S01-v2",
+      "fields": [
+        "verdict_match",
+        "handoff_quality",
+        "failing_step",
+        "partial"
       ]
     },
     {
@@ -1735,6 +1753,158 @@
           "output_tokens": 3102,
           "output_tokens_details": {
             "thinking_tokens": 945
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "baseline-S01-v1",
+      "class": "baseline-S01",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'transformation logic' which maps to 'as designed' - the join produces duplicate rows by design of the notebook, no bug is claimed, just an explanation of mechanics. Layer: delivered correctly identifies the gold movement_values table built by the Warehouse valuation notebook (REFINED->SERVING layer), with silver/bronze clean at 7661. Cause: delivered precisely identifies the left-join on product_id only, product 7 having two rows in product_rates (rate versions 1 and 2), 46 movements doubling to 92 rows, 1104 units repeating giving 7661+1104=8765. All key numbers match the arithmetic evidence file. No incorrect cause stated; no harm. Handoff is empty (no unresolved thread), so quality is 0 by default - but answer is fully resolved so handoff quality is N/A; scoring 0 as the field requires an integer and there is nothing to hand off.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Layer matches: the delivered answer puts the split at the notebook join that builds gold movement_values from silver, which is the expected REFINED -> SERVING point. Cause matches in substance: a left join on product_id only, product 7 has two rate rows, its 46 movements become 92 rows, and its 1104 units appear twice, so 7661 + 1104 = 8765. Every number is backed by a successful cited query. Verdict does not match: the expected verdict is 'as designed', meaning the answer should describe what the join does without judging whether that is right for the business. The delivered answer gives the verdict 'transformation logic' and calls the result 'duplication', which judges the design rather than just describing it. Because the verdict is wrong, this is a partial match and scores zero. It is not harmful: the stated cause is factually correct and well supported. Only the classification is wrong. Handoff: the queries are literal and can be rerun, and the answer says what was not checked (no period filter, notebook run status not read). The handoff object is empty, though, and no next checks are suggested, so it gets 1.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-static13",
+      "outcome_sha256": "f54477deed6513f692b1f091bce10daa2aef51c4fc2b8d8ec753bbaf4b15272a",
+      "status": "ANSWERED",
+      "native_duration_seconds": 370.0,
+      "worker_wall_seconds": 331.55735507400004,
+      "investigation_cost_microdollars": 425521,
+      "physical_requests": 25,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-baseline-S01-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 170035,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "What the raw capture shows: Query 1, the DAX call that included [Activity Entries], failed with 'Unknown or ambiguous DAX member' and is not used as evidence. Query 5 (DAX on the model) returned Handled Quantity = 8765. Query 2 (SQL on gold movement_values) also returned 8765. Silver stock_movements (q3) and bronze stock_movements (q4) each returned 7661. Query 6 found that only product 7 has more than one row in silver product_rates, with exactly 2 rows. Query 7 found product 7 in gold with 92 rows, 46 distinct movement_ids and 2208 units. Query 8 found product 7 in silver with 1104 units. The arithmetic checks out: 2208 - 1104 = 1104, and 8765 - 7661 = 1104. Bronze and silver match each other, so the extra 1104 units first appear between silver and gold. This supports layer REFINED -> SERVING and the expected cause (two rate matches for product 7, so its 1104 units are carried twice, giving 7661 + 1104 = 8765). Layer and cause match.\n\nSeveral details in the answer were never read: the notebook's join logic ('left-joining ... on product_id only'), the measure definition SUM('Activity'[units]), and the claim that the two rate rows are 'rate versions 1 and 2'. These are confident inferences without evidence. They agree with the expected answer and are not harmful, but neither grader mentioned them. The secondary grader said every number is backed by a cited query, which is true; it just did not flag these non-numeric inferences.\n\nVerdict: the expected verdict is 'as designed', and the expected answer says to describe the mechanics without judging business correctness. The answer instead chose the separate label 'transformation logic' and described the result as 'duplication'. That puts the cause in faulty transformation logic rather than describing designed behaviour. The primary grader's claim that 'transformation logic' maps to 'as designed' has no basis: these are different labels in the verdict set. So the verdict does not match. Under the all-three rule this is a partial match and scores zero.\n\nHandoff: the status is ANSWERED with no handoff object, but the answer does state what it did not check (no period filter applied, notebook run status not read) and lists rerunnable literal queries. That is worth 1. The primary grader's 0 does not fit these facts.\n\nThe secondary grader is correct on verdict, partial, failing step and handoff. The primary grader wrongly scored the case as a full match.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "f54477deed6513f692b1f091bce10daa2aef51c4fc2b8d8ec753bbaf4b15272a",
+        "reason": "What the raw capture shows: Query 1, the DAX call that included [Activity Entries], failed with 'Unknown or ambiguous DAX member' and is not used as evidence. Query 5 (DAX on the model) returned Handled Quantity = 8765. Query 2 (SQL on gold movement_values) also returned 8765. Silver stock_movements (q3) and bronze stock_movements (q4) each returned 7661. Query 6 found that only product 7 has more than one row in silver product_rates, with exactly 2 rows. Query 7 found product 7 in gold with 92 rows, 46 distinct movement_ids and 2208 units. Query 8 found product 7 in silver with 1104 units. The arithmetic checks out: 2208 - 1104 = 1104, and 8765 - 7661 = 1104. Bronze and silver match each other, so the extra 1104 units first appear between silver and gold. This supports layer REFINED -> SERVING and the expected cause (two rate matches for product 7, so its 1104 units are carried twice, giving 7661 + 1104 = 8765). Layer and cause match.\n\nSeveral details in the answer were never read: the notebook's join logic ('left-joining ... on product_id only'), the measure definition SUM('Activity'[units]), and the claim that the two rate rows are 'rate versions 1 and 2'. These are confident inferences without evidence. They agree with the expected answer and are not harmful, but neither grader mentioned them. The secondary grader said every number is backed by a cited query, which is true; it just did not flag these non-numeric inferences.\n\nVerdict: the expected verdict is 'as designed', and the expected answer says to describe the mechanics without judging business correctness. The answer instead chose the separate label 'transformation logic' and described the result as 'duplication'. That puts the cause in faulty transformation logic rather than describing designed behaviour. The primary grader's claim that 'transformation logic' maps to 'as designed' has no basis: these are different labels in the verdict set. So the verdict does not match. Under the all-three rule this is a partial match and scores zero.\n\nHandoff: the status is ANSWERED with no handoff object, but the answer does state what it did not check (no period filter applied, notebook run status not read) and lists rerunnable literal queries. That is worth 1. The primary grader's 0 does not fit these facts.\n\nThe secondary grader is correct on verdict, partial, failing step and handoff. The primary grader wrongly scored the case as a full match.",
+        "source_sha256": "3d1232225f263688b60ae7cddc1479e142279f0dff0ec5933992c6d0ab8d0207",
+        "ticket": "baseline-S01-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 32695,
+          "output_tokens": 1743,
+          "output_tokens_details": {
+            "thinking_tokens": 665
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "baseline-S01-v2",
+      "class": "baseline-S01",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: the answer correctly identifies this as a data/transformation design issue ('as designed' / 'transformation logic'), not a rounding issue. Layer match: the answer correctly pinpoints the silver-to-gold transformation step (REFINED -> SERVING), specifically the notebook 'Warehouse valuation e1b8e1' building movement_values with a left join. Named cause matches exactly: left join from stock_movements to product_rates on product_id only, product 7 has 2 rate rows (versions 1 and 2), causing every product 7 movement to appear twice, adding 1104 units (7661+1104=8765). All six queries are provided with executable SQL and results, evidence is solid. Handoff quality is 0 because the answer is fully resolved with no handoff needed.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Layer/split point matches: the answer places the 1104 extra units between silver and gold (REFINED -> SERVING). Silver and bronze both total 7661, and gold and the measure both total 8765. The named cause also matches the sealed record. The notebook left-joins on product_id only, product 7 has 2 rate rows, those movements repeat, and they add 1104 units, so 7661 + 1104 = 8765. The answer also correctly rejects rounding. The verdict does not match. The expected verdict is 'as designed', and the expected record says to describe the mechanics without judging whether the business result is correct. The delivered answer says 'transformation logic' and that units are 'counted twice', which frames the recorded join behaviour as a defect. Because the verdict is wrong, this is a partial match and scores zero. It is not harmful: the mechanism and numbers it states as fact are correct, and the miss is only the verdict label. Handoff quality is scored separately: the answer was delivered as ANSWERED with an empty handoff object. The literal SQL/DAX queries are rerunnable, but there is no stated stopping point or next checks, so it gets 1.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-static13",
+      "outcome_sha256": "909e1eac5419ac79d04af19d3d5fae3241b72368a818d7bf02910daf23a18c0a",
+      "status": "ANSWERED",
+      "native_duration_seconds": 190.0,
+      "worker_wall_seconds": 154.294679491,
+      "investigation_cost_microdollars": 370152,
+      "physical_requests": 23,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-baseline-S01-v2-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 135576,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "What the saved evidence shows: six read-only queries succeeded. (1) DAX [Handled Quantity] = 8765. (2) Gold dbo.movement_values SUM(units) = 8765 (Int64). (3) Silver stock_movements_e1b8e1 = 7661. (4) Bronze stock_movements_e1b8e1 = 7661. (5) Silver product_rates_e1b8e1 has only one product_id with more than one row: product 7, with 2 rows. (6) The extra units from per-product rate multiplicity in silver add up to 1104, and 7661 + 1104 = 8765 exactly. All the sums are integers, so rounding is correctly ruled out.\n\nLayer: the gap first appears between silver and gold, because bronze equals silver and gold equals the measure. That matches REFINED -> SERVING.\n\nCause: the sealed cause is a left join on product_id that finds two rate matches for product 7, so 1104 carried units repeat. The answer names that same mechanism with the same numbers, so cause matches in substance.\n\nOne caveat neither grader raised: the saved capture has no read of the 'Warehouse valuation e1b8e1' notebook definition or of the measure's DAX expression. It also has no query showing 'rate versions 1 and 2'. Those details are stated as fact without cited evidence, and DEFINITION_CHANGES was UNAVAILABLE in triage. The join mechanism is strongly supported by the exact arithmetic but is inferred, not observed. Because it matches the sealed truth, this is a weakness in how the claim is supported, not a harmful error.\n\nVerdict: the sealed verdict is 'as designed', and the expectation says to describe the recorded mechanics without judging business correctness. The answer says 'transformation logic' and says product 7 units are 'counted twice', which frames the join as a defect. That is a different verdict category, so verdict_match is false. Under the all-three rule this is a partial match and scores zero.\n\nPrimary's error: Primary treated 'transformation logic' as equivalent to 'as designed'. That ignores the expectation's explicit instruction not to judge correctness, so Primary is wrong on the verdict and on the final score.\n\nSecondary is right on the verdict, layer, cause, partial and not-harmful judgments. Secondary's handoff score of 1 is reasonable. The status is ANSWERED with a null handoff, but the literal queries can be rerun and the evidence IDs are cited. There is no stated stopping point and no next checks, such as reading the notebook to confirm the join.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "909e1eac5419ac79d04af19d3d5fae3241b72368a818d7bf02910daf23a18c0a",
+        "reason": "What the saved evidence shows: six read-only queries succeeded. (1) DAX [Handled Quantity] = 8765. (2) Gold dbo.movement_values SUM(units) = 8765 (Int64). (3) Silver stock_movements_e1b8e1 = 7661. (4) Bronze stock_movements_e1b8e1 = 7661. (5) Silver product_rates_e1b8e1 has only one product_id with more than one row: product 7, with 2 rows. (6) The extra units from per-product rate multiplicity in silver add up to 1104, and 7661 + 1104 = 8765 exactly. All the sums are integers, so rounding is correctly ruled out.\n\nLayer: the gap first appears between silver and gold, because bronze equals silver and gold equals the measure. That matches REFINED -> SERVING.\n\nCause: the sealed cause is a left join on product_id that finds two rate matches for product 7, so 1104 carried units repeat. The answer names that same mechanism with the same numbers, so cause matches in substance.\n\nOne caveat neither grader raised: the saved capture has no read of the 'Warehouse valuation e1b8e1' notebook definition or of the measure's DAX expression. It also has no query showing 'rate versions 1 and 2'. Those details are stated as fact without cited evidence, and DEFINITION_CHANGES was UNAVAILABLE in triage. The join mechanism is strongly supported by the exact arithmetic but is inferred, not observed. Because it matches the sealed truth, this is a weakness in how the claim is supported, not a harmful error.\n\nVerdict: the sealed verdict is 'as designed', and the expectation says to describe the recorded mechanics without judging business correctness. The answer says 'transformation logic' and says product 7 units are 'counted twice', which frames the join as a defect. That is a different verdict category, so verdict_match is false. Under the all-three rule this is a partial match and scores zero.\n\nPrimary's error: Primary treated 'transformation logic' as equivalent to 'as designed'. That ignores the expectation's explicit instruction not to judge correctness, so Primary is wrong on the verdict and on the final score.\n\nSecondary is right on the verdict, layer, cause, partial and not-harmful judgments. Secondary's handoff score of 1 is reasonable. The status is ANSWERED with a null handoff, but the literal queries can be rerun and the evidence IDs are cited. There is no stated stopping point and no next checks, such as reading the notebook to confirm the join.",
+        "source_sha256": "64b5c00b45830fdbdc3bd4741c129f176cfd1a4d0fe0cb8646fca592b8fdc9d5",
+        "ticket": "baseline-S01-v2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 24820,
+          "output_tokens": 1806,
+          "output_tokens_details": {
+            "thinking_tokens": 710
           },
           "service_tier": "standard",
           "speed": "standard"
@@ -7252,6 +7422,726 @@
         }
       }
     },
+    "R17-11": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "R17-12": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "baseline-S01": {
+      "official_primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "waiting-billing-load": {
       "official_primary": {
         "all_three": {
@@ -8423,6 +9313,158 @@
           "output_tokens": 3102,
           "output_tokens_details": {
             "thinking_tokens": 945
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "baseline-S01-v1",
+      "class": "baseline-S01",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'transformation logic' which maps to 'as designed' - the join produces duplicate rows by design of the notebook, no bug is claimed, just an explanation of mechanics. Layer: delivered correctly identifies the gold movement_values table built by the Warehouse valuation notebook (REFINED->SERVING layer), with silver/bronze clean at 7661. Cause: delivered precisely identifies the left-join on product_id only, product 7 having two rows in product_rates (rate versions 1 and 2), 46 movements doubling to 92 rows, 1104 units repeating giving 7661+1104=8765. All key numbers match the arithmetic evidence file. No incorrect cause stated; no harm. Handoff is empty (no unresolved thread), so quality is 0 by default - but answer is fully resolved so handoff quality is N/A; scoring 0 as the field requires an integer and there is nothing to hand off.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Layer matches: the delivered answer puts the split at the notebook join that builds gold movement_values from silver, which is the expected REFINED -> SERVING point. Cause matches in substance: a left join on product_id only, product 7 has two rate rows, its 46 movements become 92 rows, and its 1104 units appear twice, so 7661 + 1104 = 8765. Every number is backed by a successful cited query. Verdict does not match: the expected verdict is 'as designed', meaning the answer should describe what the join does without judging whether that is right for the business. The delivered answer gives the verdict 'transformation logic' and calls the result 'duplication', which judges the design rather than just describing it. Because the verdict is wrong, this is a partial match and scores zero. It is not harmful: the stated cause is factually correct and well supported. Only the classification is wrong. Handoff: the queries are literal and can be rerun, and the answer says what was not checked (no period filter, notebook run status not read). The handoff object is empty, though, and no next checks are suggested, so it gets 1.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-static13",
+      "outcome_sha256": "f54477deed6513f692b1f091bce10daa2aef51c4fc2b8d8ec753bbaf4b15272a",
+      "status": "ANSWERED",
+      "native_duration_seconds": 370.0,
+      "worker_wall_seconds": 331.55735507400004,
+      "investigation_cost_microdollars": 425521,
+      "physical_requests": 25,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-baseline-S01-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 170035,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "What the raw capture shows: Query 1, the DAX call that included [Activity Entries], failed with 'Unknown or ambiguous DAX member' and is not used as evidence. Query 5 (DAX on the model) returned Handled Quantity = 8765. Query 2 (SQL on gold movement_values) also returned 8765. Silver stock_movements (q3) and bronze stock_movements (q4) each returned 7661. Query 6 found that only product 7 has more than one row in silver product_rates, with exactly 2 rows. Query 7 found product 7 in gold with 92 rows, 46 distinct movement_ids and 2208 units. Query 8 found product 7 in silver with 1104 units. The arithmetic checks out: 2208 - 1104 = 1104, and 8765 - 7661 = 1104. Bronze and silver match each other, so the extra 1104 units first appear between silver and gold. This supports layer REFINED -> SERVING and the expected cause (two rate matches for product 7, so its 1104 units are carried twice, giving 7661 + 1104 = 8765). Layer and cause match.\n\nSeveral details in the answer were never read: the notebook's join logic ('left-joining ... on product_id only'), the measure definition SUM('Activity'[units]), and the claim that the two rate rows are 'rate versions 1 and 2'. These are confident inferences without evidence. They agree with the expected answer and are not harmful, but neither grader mentioned them. The secondary grader said every number is backed by a cited query, which is true; it just did not flag these non-numeric inferences.\n\nVerdict: the expected verdict is 'as designed', and the expected answer says to describe the mechanics without judging business correctness. The answer instead chose the separate label 'transformation logic' and described the result as 'duplication'. That puts the cause in faulty transformation logic rather than describing designed behaviour. The primary grader's claim that 'transformation logic' maps to 'as designed' has no basis: these are different labels in the verdict set. So the verdict does not match. Under the all-three rule this is a partial match and scores zero.\n\nHandoff: the status is ANSWERED with no handoff object, but the answer does state what it did not check (no period filter applied, notebook run status not read) and lists rerunnable literal queries. That is worth 1. The primary grader's 0 does not fit these facts.\n\nThe secondary grader is correct on verdict, partial, failing step and handoff. The primary grader wrongly scored the case as a full match.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "f54477deed6513f692b1f091bce10daa2aef51c4fc2b8d8ec753bbaf4b15272a",
+        "reason": "What the raw capture shows: Query 1, the DAX call that included [Activity Entries], failed with 'Unknown or ambiguous DAX member' and is not used as evidence. Query 5 (DAX on the model) returned Handled Quantity = 8765. Query 2 (SQL on gold movement_values) also returned 8765. Silver stock_movements (q3) and bronze stock_movements (q4) each returned 7661. Query 6 found that only product 7 has more than one row in silver product_rates, with exactly 2 rows. Query 7 found product 7 in gold with 92 rows, 46 distinct movement_ids and 2208 units. Query 8 found product 7 in silver with 1104 units. The arithmetic checks out: 2208 - 1104 = 1104, and 8765 - 7661 = 1104. Bronze and silver match each other, so the extra 1104 units first appear between silver and gold. This supports layer REFINED -> SERVING and the expected cause (two rate matches for product 7, so its 1104 units are carried twice, giving 7661 + 1104 = 8765). Layer and cause match.\n\nSeveral details in the answer were never read: the notebook's join logic ('left-joining ... on product_id only'), the measure definition SUM('Activity'[units]), and the claim that the two rate rows are 'rate versions 1 and 2'. These are confident inferences without evidence. They agree with the expected answer and are not harmful, but neither grader mentioned them. The secondary grader said every number is backed by a cited query, which is true; it just did not flag these non-numeric inferences.\n\nVerdict: the expected verdict is 'as designed', and the expected answer says to describe the mechanics without judging business correctness. The answer instead chose the separate label 'transformation logic' and described the result as 'duplication'. That puts the cause in faulty transformation logic rather than describing designed behaviour. The primary grader's claim that 'transformation logic' maps to 'as designed' has no basis: these are different labels in the verdict set. So the verdict does not match. Under the all-three rule this is a partial match and scores zero.\n\nHandoff: the status is ANSWERED with no handoff object, but the answer does state what it did not check (no period filter applied, notebook run status not read) and lists rerunnable literal queries. That is worth 1. The primary grader's 0 does not fit these facts.\n\nThe secondary grader is correct on verdict, partial, failing step and handoff. The primary grader wrongly scored the case as a full match.",
+        "source_sha256": "3d1232225f263688b60ae7cddc1479e142279f0dff0ec5933992c6d0ab8d0207",
+        "ticket": "baseline-S01-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 32695,
+          "output_tokens": 1743,
+          "output_tokens_details": {
+            "thinking_tokens": 665
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "baseline-S01-v2",
+      "class": "baseline-S01",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: the answer correctly identifies this as a data/transformation design issue ('as designed' / 'transformation logic'), not a rounding issue. Layer match: the answer correctly pinpoints the silver-to-gold transformation step (REFINED -> SERVING), specifically the notebook 'Warehouse valuation e1b8e1' building movement_values with a left join. Named cause matches exactly: left join from stock_movements to product_rates on product_id only, product 7 has 2 rate rows (versions 1 and 2), causing every product 7 movement to appear twice, adding 1104 units (7661+1104=8765). All six queries are provided with executable SQL and results, evidence is solid. Handoff quality is 0 because the answer is fully resolved with no handoff needed.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Layer/split point matches: the answer places the 1104 extra units between silver and gold (REFINED -> SERVING). Silver and bronze both total 7661, and gold and the measure both total 8765. The named cause also matches the sealed record. The notebook left-joins on product_id only, product 7 has 2 rate rows, those movements repeat, and they add 1104 units, so 7661 + 1104 = 8765. The answer also correctly rejects rounding. The verdict does not match. The expected verdict is 'as designed', and the expected record says to describe the mechanics without judging whether the business result is correct. The delivered answer says 'transformation logic' and that units are 'counted twice', which frames the recorded join behaviour as a defect. Because the verdict is wrong, this is a partial match and scores zero. It is not harmful: the mechanism and numbers it states as fact are correct, and the miss is only the verdict label. Handoff quality is scored separately: the answer was delivered as ANSWERED with an empty handoff object. The literal SQL/DAX queries are rerunnable, but there is no stated stopping point or next checks, so it gets 1.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-static13",
+      "outcome_sha256": "909e1eac5419ac79d04af19d3d5fae3241b72368a818d7bf02910daf23a18c0a",
+      "status": "ANSWERED",
+      "native_duration_seconds": 190.0,
+      "worker_wall_seconds": 154.294679491,
+      "investigation_cost_microdollars": 370152,
+      "physical_requests": 23,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-baseline-S01-v2-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 135576,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "What the saved evidence shows: six read-only queries succeeded. (1) DAX [Handled Quantity] = 8765. (2) Gold dbo.movement_values SUM(units) = 8765 (Int64). (3) Silver stock_movements_e1b8e1 = 7661. (4) Bronze stock_movements_e1b8e1 = 7661. (5) Silver product_rates_e1b8e1 has only one product_id with more than one row: product 7, with 2 rows. (6) The extra units from per-product rate multiplicity in silver add up to 1104, and 7661 + 1104 = 8765 exactly. All the sums are integers, so rounding is correctly ruled out.\n\nLayer: the gap first appears between silver and gold, because bronze equals silver and gold equals the measure. That matches REFINED -> SERVING.\n\nCause: the sealed cause is a left join on product_id that finds two rate matches for product 7, so 1104 carried units repeat. The answer names that same mechanism with the same numbers, so cause matches in substance.\n\nOne caveat neither grader raised: the saved capture has no read of the 'Warehouse valuation e1b8e1' notebook definition or of the measure's DAX expression. It also has no query showing 'rate versions 1 and 2'. Those details are stated as fact without cited evidence, and DEFINITION_CHANGES was UNAVAILABLE in triage. The join mechanism is strongly supported by the exact arithmetic but is inferred, not observed. Because it matches the sealed truth, this is a weakness in how the claim is supported, not a harmful error.\n\nVerdict: the sealed verdict is 'as designed', and the expectation says to describe the recorded mechanics without judging business correctness. The answer says 'transformation logic' and says product 7 units are 'counted twice', which frames the join as a defect. That is a different verdict category, so verdict_match is false. Under the all-three rule this is a partial match and scores zero.\n\nPrimary's error: Primary treated 'transformation logic' as equivalent to 'as designed'. That ignores the expectation's explicit instruction not to judge correctness, so Primary is wrong on the verdict and on the final score.\n\nSecondary is right on the verdict, layer, cause, partial and not-harmful judgments. Secondary's handoff score of 1 is reasonable. The status is ANSWERED with a null handoff, but the literal queries can be rerun and the evidence IDs are cited. There is no stated stopping point and no next checks, such as reading the notebook to confirm the join.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "909e1eac5419ac79d04af19d3d5fae3241b72368a818d7bf02910daf23a18c0a",
+        "reason": "What the saved evidence shows: six read-only queries succeeded. (1) DAX [Handled Quantity] = 8765. (2) Gold dbo.movement_values SUM(units) = 8765 (Int64). (3) Silver stock_movements_e1b8e1 = 7661. (4) Bronze stock_movements_e1b8e1 = 7661. (5) Silver product_rates_e1b8e1 has only one product_id with more than one row: product 7, with 2 rows. (6) The extra units from per-product rate multiplicity in silver add up to 1104, and 7661 + 1104 = 8765 exactly. All the sums are integers, so rounding is correctly ruled out.\n\nLayer: the gap first appears between silver and gold, because bronze equals silver and gold equals the measure. That matches REFINED -> SERVING.\n\nCause: the sealed cause is a left join on product_id that finds two rate matches for product 7, so 1104 carried units repeat. The answer names that same mechanism with the same numbers, so cause matches in substance.\n\nOne caveat neither grader raised: the saved capture has no read of the 'Warehouse valuation e1b8e1' notebook definition or of the measure's DAX expression. It also has no query showing 'rate versions 1 and 2'. Those details are stated as fact without cited evidence, and DEFINITION_CHANGES was UNAVAILABLE in triage. The join mechanism is strongly supported by the exact arithmetic but is inferred, not observed. Because it matches the sealed truth, this is a weakness in how the claim is supported, not a harmful error.\n\nVerdict: the sealed verdict is 'as designed', and the expectation says to describe the recorded mechanics without judging business correctness. The answer says 'transformation logic' and says product 7 units are 'counted twice', which frames the join as a defect. That is a different verdict category, so verdict_match is false. Under the all-three rule this is a partial match and scores zero.\n\nPrimary's error: Primary treated 'transformation logic' as equivalent to 'as designed'. That ignores the expectation's explicit instruction not to judge correctness, so Primary is wrong on the verdict and on the final score.\n\nSecondary is right on the verdict, layer, cause, partial and not-harmful judgments. Secondary's handoff score of 1 is reasonable. The status is ANSWERED with a null handoff, but the literal queries can be rerun and the evidence IDs are cited. There is no stated stopping point and no next checks, such as reading the notebook to confirm the join.",
+        "source_sha256": "64b5c00b45830fdbdc3bd4741c129f176cfd1a4d0fe0cb8646fca592b8fdc9d5",
+        "ticket": "baseline-S01-v2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 24820,
+          "output_tokens": 1806,
+          "output_tokens_details": {
+            "thinking_tokens": 710
           },
           "service_tier": "standard",
           "speed": "standard"
@@ -10486,6 +11528,234 @@
       }
     },
     {
+      "ticket": "R17-11-v1",
+      "class": "R17-11",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The run was UNDELIVERED_NATIVE_EXCEPTION due to a URLError (Cannot assign requested address). No answer, handoff, or evidence was delivered. There is nothing to grade for verdict, layer, or cause. Handoff quality is 0 because no stopping point, queries, or next steps were captured.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "No answer was delivered. The run ended with a native transport exception (URLError Errno 99, 'Cannot assign requested address') during the guided-investigation step. There is no engine answer, no final seal and no handoff. The expected result was verdict 'not found', layer SEMANTIC, and the cause that the SUM definition does not establish business intent or physical-unit meaning. The run produced no verdict, layer or cause, so all three score zero. A crash with nothing delivered is not the same as an honest 'not found' or a refusal, so it gets no credit as a correct not-found answer. It is not harmful, because it states no cause at all, right or wrong. Handoff quality is 0: the handoff is null, with no rerunnable queries, no stated stopping point and no next checks. The partial capture shows only that step 1 recorded a result and step 2 started an audit batch before the transport failure. The step contents are only listed by hash and can't be checked. Failing step: I chose 'intake' because no answer ever reached the scorable output stage. The capture can't show which investigation stage failed; it only shows a transport failure early in the run, during step 2. I did not repair or rerun anything.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-static11",
+      "outcome_sha256": "d961a33f31a471f58666c0f537fa4770123937ad6316b56686768a04d9cfb54d",
+      "status": "UNDELIVERED_NATIVE_EXCEPTION",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": null,
+      "physical_requests": null,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-R17-11-v1-terminal-error.json",
+      "usage_unavailable": true,
+      "timing_group": "holds",
+      "expected_verdict_class": "not found"
+    },
+    {
+      "ticket": "R17-12-v1",
+      "class": "R17-12",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "asked the user",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer is verdict='not found', layer='SEMANTIC', cause='Business intent or physical unit meaning is not established by the SUM definition; state the limit, never invent intended correctness or physical units.' The delivered answer instead asked the user to select a report from a list before proceeding (NEEDS_INPUT status). This is not a correct resolution: the system should have attempted to answer with the information available, concluded the unit meaning cannot be determined from the data (not found, semantic layer), and stated that limit honestly. Instead it halted at intake by asking the user to disambiguate the report, which is the wrong step \u2014 the question names no specific report, so the agent should either have tried to resolve across available reports or stated it cannot determine the unit. The agent did not reach a verdict, did not identify the correct layer, and did not name the correct cause. Handoff quality is 1: the list of reports is plausible next context but there is no clear stopping criterion stated, no queries run, and no explanation of why a report selection is needed to answer a units question.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "asked the user",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The sealed expectation is verdict 'not found' at the SEMANTIC layer. The expected cause is that a SUM definition does not establish business intent or the physical unit (items, cases, records), so the answer should rebuild the figure where possible, state that limit, and not invent a unit. The delivered answer stopped at intake with status NEEDS_INPUT. It asked the user to pick one of 12 reports and ran no queries, built no triage and reached no conclusion. So it gives no verdict, does not identify the semantic layer, and does not name the cause. The only thing it got right was reading 8765 as an exact figure. Asking which report is a fair clarification, since the ticket does not name one. But the expected 'not found' finding about units holds whichever report is chosen, so the answer could have said the unit cannot be established by the definition alone. Not harmful: it states no cause, wrong or otherwise, and an honest unresolved stop is not harmful. Handoff quality 1: it stops at a clear point with a concrete question and a list of reports to choose from, but the handoff object is empty, there are no queries to rerun, and it suggests no next checks beyond picking a report.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-static12",
+      "outcome_sha256": "a60c43c67838d5b745a428de98c2a73bbdbff05f7e206721324daa95a9df44e1",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 99554,
+      "physical_requests": 0,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-R17-12-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "holds",
+      "expected_verdict_class": "not found"
+    },
+    {
+      "ticket": "baseline-S01-v1",
+      "class": "baseline-S01",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'transformation logic' which maps to 'as designed' - the join produces duplicate rows by design of the notebook, no bug is claimed, just an explanation of mechanics. Layer: delivered correctly identifies the gold movement_values table built by the Warehouse valuation notebook (REFINED->SERVING layer), with silver/bronze clean at 7661. Cause: delivered precisely identifies the left-join on product_id only, product 7 having two rows in product_rates (rate versions 1 and 2), 46 movements doubling to 92 rows, 1104 units repeating giving 7661+1104=8765. All key numbers match the arithmetic evidence file. No incorrect cause stated; no harm. Handoff is empty (no unresolved thread), so quality is 0 by default - but answer is fully resolved so handoff quality is N/A; scoring 0 as the field requires an integer and there is nothing to hand off.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Layer matches: the delivered answer puts the split at the notebook join that builds gold movement_values from silver, which is the expected REFINED -> SERVING point. Cause matches in substance: a left join on product_id only, product 7 has two rate rows, its 46 movements become 92 rows, and its 1104 units appear twice, so 7661 + 1104 = 8765. Every number is backed by a successful cited query. Verdict does not match: the expected verdict is 'as designed', meaning the answer should describe what the join does without judging whether that is right for the business. The delivered answer gives the verdict 'transformation logic' and calls the result 'duplication', which judges the design rather than just describing it. Because the verdict is wrong, this is a partial match and scores zero. It is not harmful: the stated cause is factually correct and well supported. Only the classification is wrong. Handoff: the queries are literal and can be rerun, and the answer says what was not checked (no period filter, notebook run status not read). The handoff object is empty, though, and no next checks are suggested, so it gets 1.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-static13",
+      "outcome_sha256": "f54477deed6513f692b1f091bce10daa2aef51c4fc2b8d8ec753bbaf4b15272a",
+      "status": "ANSWERED",
+      "native_duration_seconds": 370.0,
+      "worker_wall_seconds": 331.55735507400004,
+      "investigation_cost_microdollars": 425521,
+      "physical_requests": 25,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-baseline-S01-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 170035,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "What the raw capture shows: Query 1, the DAX call that included [Activity Entries], failed with 'Unknown or ambiguous DAX member' and is not used as evidence. Query 5 (DAX on the model) returned Handled Quantity = 8765. Query 2 (SQL on gold movement_values) also returned 8765. Silver stock_movements (q3) and bronze stock_movements (q4) each returned 7661. Query 6 found that only product 7 has more than one row in silver product_rates, with exactly 2 rows. Query 7 found product 7 in gold with 92 rows, 46 distinct movement_ids and 2208 units. Query 8 found product 7 in silver with 1104 units. The arithmetic checks out: 2208 - 1104 = 1104, and 8765 - 7661 = 1104. Bronze and silver match each other, so the extra 1104 units first appear between silver and gold. This supports layer REFINED -> SERVING and the expected cause (two rate matches for product 7, so its 1104 units are carried twice, giving 7661 + 1104 = 8765). Layer and cause match.\n\nSeveral details in the answer were never read: the notebook's join logic ('left-joining ... on product_id only'), the measure definition SUM('Activity'[units]), and the claim that the two rate rows are 'rate versions 1 and 2'. These are confident inferences without evidence. They agree with the expected answer and are not harmful, but neither grader mentioned them. The secondary grader said every number is backed by a cited query, which is true; it just did not flag these non-numeric inferences.\n\nVerdict: the expected verdict is 'as designed', and the expected answer says to describe the mechanics without judging business correctness. The answer instead chose the separate label 'transformation logic' and described the result as 'duplication'. That puts the cause in faulty transformation logic rather than describing designed behaviour. The primary grader's claim that 'transformation logic' maps to 'as designed' has no basis: these are different labels in the verdict set. So the verdict does not match. Under the all-three rule this is a partial match and scores zero.\n\nHandoff: the status is ANSWERED with no handoff object, but the answer does state what it did not check (no period filter applied, notebook run status not read) and lists rerunnable literal queries. That is worth 1. The primary grader's 0 does not fit these facts.\n\nThe secondary grader is correct on verdict, partial, failing step and handoff. The primary grader wrongly scored the case as a full match.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "f54477deed6513f692b1f091bce10daa2aef51c4fc2b8d8ec753bbaf4b15272a",
+        "reason": "What the raw capture shows: Query 1, the DAX call that included [Activity Entries], failed with 'Unknown or ambiguous DAX member' and is not used as evidence. Query 5 (DAX on the model) returned Handled Quantity = 8765. Query 2 (SQL on gold movement_values) also returned 8765. Silver stock_movements (q3) and bronze stock_movements (q4) each returned 7661. Query 6 found that only product 7 has more than one row in silver product_rates, with exactly 2 rows. Query 7 found product 7 in gold with 92 rows, 46 distinct movement_ids and 2208 units. Query 8 found product 7 in silver with 1104 units. The arithmetic checks out: 2208 - 1104 = 1104, and 8765 - 7661 = 1104. Bronze and silver match each other, so the extra 1104 units first appear between silver and gold. This supports layer REFINED -> SERVING and the expected cause (two rate matches for product 7, so its 1104 units are carried twice, giving 7661 + 1104 = 8765). Layer and cause match.\n\nSeveral details in the answer were never read: the notebook's join logic ('left-joining ... on product_id only'), the measure definition SUM('Activity'[units]), and the claim that the two rate rows are 'rate versions 1 and 2'. These are confident inferences without evidence. They agree with the expected answer and are not harmful, but neither grader mentioned them. The secondary grader said every number is backed by a cited query, which is true; it just did not flag these non-numeric inferences.\n\nVerdict: the expected verdict is 'as designed', and the expected answer says to describe the mechanics without judging business correctness. The answer instead chose the separate label 'transformation logic' and described the result as 'duplication'. That puts the cause in faulty transformation logic rather than describing designed behaviour. The primary grader's claim that 'transformation logic' maps to 'as designed' has no basis: these are different labels in the verdict set. So the verdict does not match. Under the all-three rule this is a partial match and scores zero.\n\nHandoff: the status is ANSWERED with no handoff object, but the answer does state what it did not check (no period filter applied, notebook run status not read) and lists rerunnable literal queries. That is worth 1. The primary grader's 0 does not fit these facts.\n\nThe secondary grader is correct on verdict, partial, failing step and handoff. The primary grader wrongly scored the case as a full match.",
+        "source_sha256": "3d1232225f263688b60ae7cddc1479e142279f0dff0ec5933992c6d0ab8d0207",
+        "ticket": "baseline-S01-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 32695,
+          "output_tokens": 1743,
+          "output_tokens_details": {
+            "thinking_tokens": 665
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "baseline-S01-v2",
+      "class": "baseline-S01",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict matches: the answer correctly identifies this as a data/transformation design issue ('as designed' / 'transformation logic'), not a rounding issue. Layer match: the answer correctly pinpoints the silver-to-gold transformation step (REFINED -> SERVING), specifically the notebook 'Warehouse valuation e1b8e1' building movement_values with a left join. Named cause matches exactly: left join from stock_movements to product_rates on product_id only, product 7 has 2 rate rows (versions 1 and 2), causing every product 7 movement to appear twice, adding 1104 units (7661+1104=8765). All six queries are provided with executable SQL and results, evidence is solid. Handoff quality is 0 because the answer is fully resolved with no handoff needed.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "Layer/split point matches: the answer places the 1104 extra units between silver and gold (REFINED -> SERVING). Silver and bronze both total 7661, and gold and the measure both total 8765. The named cause also matches the sealed record. The notebook left-joins on product_id only, product 7 has 2 rate rows, those movements repeat, and they add 1104 units, so 7661 + 1104 = 8765. The answer also correctly rejects rounding. The verdict does not match. The expected verdict is 'as designed', and the expected record says to describe the mechanics without judging whether the business result is correct. The delivered answer says 'transformation logic' and that units are 'counted twice', which frames the recorded join behaviour as a defect. Because the verdict is wrong, this is a partial match and scores zero. It is not harmful: the mechanism and numbers it states as fact are correct, and the miss is only the verdict label. Handoff quality is scored separately: the answer was delivered as ANSWERED with an empty handoff object. The literal SQL/DAX queries are rerunnable, but there is no stated stopping point or next checks, so it gets 1.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-static13",
+      "outcome_sha256": "909e1eac5419ac79d04af19d3d5fae3241b72368a818d7bf02910daf23a18c0a",
+      "status": "ANSWERED",
+      "native_duration_seconds": 190.0,
+      "worker_wall_seconds": 154.294679491,
+      "investigation_cost_microdollars": 370152,
+      "physical_requests": 23,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-baseline-S01-v2-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 135576,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "What the saved evidence shows: six read-only queries succeeded. (1) DAX [Handled Quantity] = 8765. (2) Gold dbo.movement_values SUM(units) = 8765 (Int64). (3) Silver stock_movements_e1b8e1 = 7661. (4) Bronze stock_movements_e1b8e1 = 7661. (5) Silver product_rates_e1b8e1 has only one product_id with more than one row: product 7, with 2 rows. (6) The extra units from per-product rate multiplicity in silver add up to 1104, and 7661 + 1104 = 8765 exactly. All the sums are integers, so rounding is correctly ruled out.\n\nLayer: the gap first appears between silver and gold, because bronze equals silver and gold equals the measure. That matches REFINED -> SERVING.\n\nCause: the sealed cause is a left join on product_id that finds two rate matches for product 7, so 1104 carried units repeat. The answer names that same mechanism with the same numbers, so cause matches in substance.\n\nOne caveat neither grader raised: the saved capture has no read of the 'Warehouse valuation e1b8e1' notebook definition or of the measure's DAX expression. It also has no query showing 'rate versions 1 and 2'. Those details are stated as fact without cited evidence, and DEFINITION_CHANGES was UNAVAILABLE in triage. The join mechanism is strongly supported by the exact arithmetic but is inferred, not observed. Because it matches the sealed truth, this is a weakness in how the claim is supported, not a harmful error.\n\nVerdict: the sealed verdict is 'as designed', and the expectation says to describe the recorded mechanics without judging business correctness. The answer says 'transformation logic' and says product 7 units are 'counted twice', which frames the join as a defect. That is a different verdict category, so verdict_match is false. Under the all-three rule this is a partial match and scores zero.\n\nPrimary's error: Primary treated 'transformation logic' as equivalent to 'as designed'. That ignores the expectation's explicit instruction not to judge correctness, so Primary is wrong on the verdict and on the final score.\n\nSecondary is right on the verdict, layer, cause, partial and not-harmful judgments. Secondary's handoff score of 1 is reasonable. The status is ANSWERED with a null handoff, but the literal queries can be rerun and the evidence IDs are cited. There is no stated stopping point and no next checks, such as reading the notebook to confirm the join.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "909e1eac5419ac79d04af19d3d5fae3241b72368a818d7bf02910daf23a18c0a",
+        "reason": "What the saved evidence shows: six read-only queries succeeded. (1) DAX [Handled Quantity] = 8765. (2) Gold dbo.movement_values SUM(units) = 8765 (Int64). (3) Silver stock_movements_e1b8e1 = 7661. (4) Bronze stock_movements_e1b8e1 = 7661. (5) Silver product_rates_e1b8e1 has only one product_id with more than one row: product 7, with 2 rows. (6) The extra units from per-product rate multiplicity in silver add up to 1104, and 7661 + 1104 = 8765 exactly. All the sums are integers, so rounding is correctly ruled out.\n\nLayer: the gap first appears between silver and gold, because bronze equals silver and gold equals the measure. That matches REFINED -> SERVING.\n\nCause: the sealed cause is a left join on product_id that finds two rate matches for product 7, so 1104 carried units repeat. The answer names that same mechanism with the same numbers, so cause matches in substance.\n\nOne caveat neither grader raised: the saved capture has no read of the 'Warehouse valuation e1b8e1' notebook definition or of the measure's DAX expression. It also has no query showing 'rate versions 1 and 2'. Those details are stated as fact without cited evidence, and DEFINITION_CHANGES was UNAVAILABLE in triage. The join mechanism is strongly supported by the exact arithmetic but is inferred, not observed. Because it matches the sealed truth, this is a weakness in how the claim is supported, not a harmful error.\n\nVerdict: the sealed verdict is 'as designed', and the expectation says to describe the recorded mechanics without judging business correctness. The answer says 'transformation logic' and says product 7 units are 'counted twice', which frames the join as a defect. That is a different verdict category, so verdict_match is false. Under the all-three rule this is a partial match and scores zero.\n\nPrimary's error: Primary treated 'transformation logic' as equivalent to 'as designed'. That ignores the expectation's explicit instruction not to judge correctness, so Primary is wrong on the verdict and on the final score.\n\nSecondary is right on the verdict, layer, cause, partial and not-harmful judgments. Secondary's handoff score of 1 is reasonable. The status is ANSWERED with a null handoff, but the literal queries can be rerun and the evidence IDs are cited. There is no stated stopping point and no next checks, such as reading the notebook to confirm the join.",
+        "source_sha256": "64b5c00b45830fdbdc3bd4741c129f176cfd1a4d0fe0cb8646fca592b8fdc9d5",
+        "ticket": "baseline-S01-v2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 24820,
+          "output_tokens": 1806,
+          "output_tokens_details": {
+            "thinking_tokens": 710
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
       "ticket": "waiting-billing-load-v1",
       "class": "waiting-billing-load",
       "fixture": "waiting-billing-load",
@@ -10755,12 +12025,8 @@
   "raw_review_policy": "FRESH_INDEPENDENT_CLAUDE_CALL; no operator adjudication",
   "requested": 60,
   "not_yet_graded": [
-    "R17-11-v1",
-    "R17-12-v1",
     "failed-billing-load-v1",
     "failed-billing-load-v2",
-    "baseline-S01-v1",
-    "baseline-S01-v2",
     "baseline-S02-v1",
     "baseline-S02-v2",
     "baseline-S03-v1",
@@ -11748,47 +13014,47 @@
     "as designed": {
       "official_primary": {
         "all_three": {
-          "correct": 0,
-          "total": 9,
-          "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.2991450484195441,
+          "correct": 2,
+          "total": 11,
+          "accuracy": 0.18181818181818182,
+          "lower": 0.05136768974608513,
+          "upper": 0.4769805619608442,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 0,
-          "total": 9,
-          "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.2991450484195441,
+          "correct": 2,
+          "total": 11,
+          "accuracy": 0.18181818181818182,
+          "lower": 0.05136768974608513,
+          "upper": 0.4769805619608442,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 1,
-          "total": 9,
-          "accuracy": 0.1111111111111111,
-          "lower": 0.019890887638544907,
-          "upper": 0.434999705576656,
+          "correct": 3,
+          "total": 11,
+          "accuracy": 0.2727272727272727,
+          "lower": 0.09746059290024889,
+          "upper": 0.5656453011761291,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 0,
-          "total": 9,
-          "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.2991450484195441,
+          "correct": 2,
+          "total": 11,
+          "accuracy": 0.18181818181818182,
+          "lower": 0.05136768974608513,
+          "upper": 0.4769805619608442,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 9,
+          "total": 11,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.2991450484195441,
+          "upper": 0.2588329669680317,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -11796,46 +13062,46 @@
       "strict": {
         "all_three": {
           "correct": 0,
-          "total": 9,
+          "total": 11,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.2991450484195441,
+          "upper": 0.2588329669680317,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 9,
+          "total": 11,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.2991450484195441,
+          "upper": 0.2588329669680317,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 1,
-          "total": 9,
-          "accuracy": 0.1111111111111111,
-          "lower": 0.019890887638544907,
-          "upper": 0.434999705576656,
+          "correct": 3,
+          "total": 11,
+          "accuracy": 0.2727272727272727,
+          "lower": 0.09746059290024889,
+          "upper": 0.5656453011761291,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 0,
-          "total": 9,
-          "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.2991450484195441,
+          "correct": 2,
+          "total": 11,
+          "accuracy": 0.18181818181818182,
+          "lower": 0.05136768974608513,
+          "upper": 0.4769805619608442,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 9,
-          "accuracy": 0.3333333333333333,
-          "lower": 0.1205838183869109,
-          "upper": 0.6457978644196036,
+          "total": 11,
+          "accuracy": 0.2727272727272727,
+          "lower": 0.09746059290024889,
+          "upper": 0.5656453011761291,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -11843,46 +13109,46 @@
       "raw_reviewed": {
         "all_three": {
           "correct": 1,
-          "total": 9,
-          "accuracy": 0.1111111111111111,
-          "lower": 0.019890887638544907,
-          "upper": 0.434999705576656,
+          "total": 11,
+          "accuracy": 0.09090909090909091,
+          "lower": 0.016232172885884855,
+          "upper": 0.37735843645159567,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 1,
-          "total": 9,
-          "accuracy": 0.1111111111111111,
-          "lower": 0.019890887638544907,
-          "upper": 0.434999705576656,
+          "total": 11,
+          "accuracy": 0.09090909090909091,
+          "lower": 0.016232172885884855,
+          "upper": 0.37735843645159567,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 1,
-          "total": 9,
-          "accuracy": 0.1111111111111111,
-          "lower": 0.019890887638544907,
-          "upper": 0.434999705576656,
+          "correct": 3,
+          "total": 11,
+          "accuracy": 0.2727272727272727,
+          "lower": 0.09746059290024889,
+          "upper": 0.5656453011761291,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 1,
-          "total": 9,
-          "accuracy": 0.1111111111111111,
-          "lower": 0.019890887638544907,
-          "upper": 0.434999705576656,
+          "correct": 3,
+          "total": 11,
+          "accuracy": 0.2727272727272727,
+          "lower": 0.09746059290024889,
+          "upper": 0.5656453011761291,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 9,
-          "accuracy": 0.3333333333333333,
-          "lower": 0.1205838183869109,
-          "upper": 0.6457978644196036,
+          "total": 11,
+          "accuracy": 0.2727272727272727,
+          "lower": 0.09746059290024889,
+          "upper": 0.5656453011761291,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -11892,47 +13158,47 @@
       "headline": "raw_reviewed",
       "primary": {
         "all_three": {
-          "correct": 0,
-          "total": 9,
-          "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.2991450484195441,
+          "correct": 2,
+          "total": 11,
+          "accuracy": 0.18181818181818182,
+          "lower": 0.05136768974608513,
+          "upper": 0.4769805619608442,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 0,
-          "total": 9,
-          "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.2991450484195441,
+          "correct": 2,
+          "total": 11,
+          "accuracy": 0.18181818181818182,
+          "lower": 0.05136768974608513,
+          "upper": 0.4769805619608442,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 1,
-          "total": 9,
-          "accuracy": 0.1111111111111111,
-          "lower": 0.019890887638544907,
-          "upper": 0.434999705576656,
+          "correct": 3,
+          "total": 11,
+          "accuracy": 0.2727272727272727,
+          "lower": 0.09746059290024889,
+          "upper": 0.5656453011761291,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 0,
-          "total": 9,
-          "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.2991450484195441,
+          "correct": 2,
+          "total": 11,
+          "accuracy": 0.18181818181818182,
+          "lower": 0.05136768974608513,
+          "upper": 0.4769805619608442,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 9,
+          "total": 11,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.2991450484195441,
+          "upper": 0.2588329669680317,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -11940,46 +13206,46 @@
       "secondary": {
         "all_three": {
           "correct": 1,
-          "total": 9,
-          "accuracy": 0.1111111111111111,
-          "lower": 0.019890887638544907,
-          "upper": 0.434999705576656,
+          "total": 11,
+          "accuracy": 0.09090909090909091,
+          "lower": 0.016232172885884855,
+          "upper": 0.37735843645159567,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 1,
-          "total": 9,
-          "accuracy": 0.1111111111111111,
-          "lower": 0.019890887638544907,
-          "upper": 0.434999705576656,
+          "total": 11,
+          "accuracy": 0.09090909090909091,
+          "lower": 0.016232172885884855,
+          "upper": 0.37735843645159567,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 1,
-          "total": 9,
-          "accuracy": 0.1111111111111111,
-          "lower": 0.019890887638544907,
-          "upper": 0.434999705576656,
+          "correct": 3,
+          "total": 11,
+          "accuracy": 0.2727272727272727,
+          "lower": 0.09746059290024889,
+          "upper": 0.5656453011761291,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 1,
-          "total": 9,
-          "accuracy": 0.1111111111111111,
-          "lower": 0.019890887638544907,
-          "upper": 0.434999705576656,
+          "correct": 3,
+          "total": 11,
+          "accuracy": 0.2727272727272727,
+          "lower": 0.09746059290024889,
+          "upper": 0.5656453011761291,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 9,
-          "accuracy": 0.3333333333333333,
-          "lower": 0.1205838183869109,
-          "upper": 0.6457978644196036,
+          "total": 11,
+          "accuracy": 0.2727272727272727,
+          "lower": 0.09746059290024889,
+          "upper": 0.5656453011761291,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -11989,46 +13255,46 @@
       "official_primary": {
         "all_three": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 1,
-          "total": 1,
-          "accuracy": 1.0,
-          "lower": 0.20654931437723745,
-          "upper": 1.0,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 1,
-          "total": 1,
-          "accuracy": 1.0,
-          "lower": 0.20654931437723745,
-          "upper": 1.0,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -12036,46 +13302,46 @@
       "strict": {
         "all_three": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -12083,46 +13349,46 @@
       "raw_reviewed": {
         "all_three": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -12133,46 +13399,46 @@
       "primary": {
         "all_three": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 1,
-          "total": 1,
-          "accuracy": 1.0,
-          "lower": 0.20654931437723745,
-          "upper": 1.0,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 1,
-          "total": 1,
-          "accuracy": 1.0,
-          "lower": 0.20654931437723745,
-          "upper": 1.0,
+          "total": 3,
+          "accuracy": 0.3333333333333333,
+          "lower": 0.06149194472039621,
+          "upper": 0.7923403991979522,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -12180,46 +13446,46 @@
       "secondary": {
         "all_three": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 1,
+          "total": 3,
           "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "lower": 5.551115123125783e-17,
+          "upper": 0.5614970317550454,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -12472,47 +13738,47 @@
       "requested": 40,
       "official_primary": {
         "all_three": {
-          "correct": 0,
-          "total": 24,
-          "accuracy": 0.0,
-          "lower": 1.3877787807814457e-17,
-          "upper": 0.13797620467498017,
+          "correct": 2,
+          "total": 28,
+          "accuracy": 0.07142857142857142,
+          "lower": 0.019812064115305755,
+          "upper": 0.22645362568399052,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 0,
-          "total": 24,
-          "accuracy": 0.0,
-          "lower": 1.3877787807814457e-17,
-          "upper": 0.13797620467498017,
+          "correct": 2,
+          "total": 28,
+          "accuracy": 0.07142857142857142,
+          "lower": 0.019812064115305755,
+          "upper": 0.22645362568399052,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 4,
-          "total": 24,
-          "accuracy": 0.16666666666666666,
-          "lower": 0.06678676328632951,
-          "upper": 0.3585307064969906,
+          "correct": 6,
+          "total": 28,
+          "accuracy": 0.21428571428571427,
+          "lower": 0.1021246033289788,
+          "upper": 0.3953858565372187,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 1,
-          "total": 24,
-          "accuracy": 0.041666666666666664,
-          "lower": 0.0073934561655057685,
-          "upper": 0.20241806478655938,
+          "correct": 3,
+          "total": 28,
+          "accuracy": 0.10714285714285714,
+          "lower": 0.03711836682929999,
+          "upper": 0.27195851548672156,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 24,
+          "total": 28,
           "accuracy": 0.0,
           "lower": 1.3877787807814457e-17,
-          "upper": 0.13797620467498017,
+          "upper": 0.12064330476584563,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -12520,46 +13786,46 @@
       "strict": {
         "all_three": {
           "correct": 0,
-          "total": 24,
+          "total": 28,
           "accuracy": 0.0,
           "lower": 1.3877787807814457e-17,
-          "upper": 0.13797620467498017,
+          "upper": 0.12064330476584563,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 24,
+          "total": 28,
           "accuracy": 0.0,
           "lower": 1.3877787807814457e-17,
-          "upper": 0.13797620467498017,
+          "upper": 0.12064330476584563,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 2,
-          "total": 24,
-          "accuracy": 0.08333333333333333,
-          "lower": 0.023158815297043306,
-          "upper": 0.25848802193210685,
+          "correct": 4,
+          "total": 28,
+          "accuracy": 0.14285714285714285,
+          "lower": 0.05699005319749392,
+          "upper": 0.31489802163525293,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 0,
-          "total": 24,
-          "accuracy": 0.0,
-          "lower": 1.3877787807814457e-17,
-          "upper": 0.13797620467498017,
+          "correct": 2,
+          "total": 28,
+          "accuracy": 0.07142857142857142,
+          "lower": 0.019812064115305755,
+          "upper": 0.22645362568399052,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 24,
-          "accuracy": 0.125,
-          "lower": 0.04344334080123444,
-          "upper": 0.31003881270500067,
+          "total": 28,
+          "accuracy": 0.10714285714285714,
+          "lower": 0.03711836682929999,
+          "upper": 0.27195851548672156,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -12567,46 +13833,46 @@
       "raw_reviewed": {
         "all_three": {
           "correct": 1,
-          "total": 24,
-          "accuracy": 0.041666666666666664,
-          "lower": 0.0073934561655057685,
-          "upper": 0.20241806478655938,
+          "total": 28,
+          "accuracy": 0.03571428571428571,
+          "lower": 0.0063325198490377516,
+          "upper": 0.1771219774335332,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 1,
-          "total": 24,
-          "accuracy": 0.041666666666666664,
-          "lower": 0.0073934561655057685,
-          "upper": 0.20241806478655938,
+          "total": 28,
+          "accuracy": 0.03571428571428571,
+          "lower": 0.0063325198490377516,
+          "upper": 0.1771219774335332,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 2,
-          "total": 24,
-          "accuracy": 0.08333333333333333,
-          "lower": 0.023158815297043306,
-          "upper": 0.25848802193210685,
+          "correct": 4,
+          "total": 28,
+          "accuracy": 0.14285714285714285,
+          "lower": 0.05699005319749392,
+          "upper": 0.31489802163525293,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 1,
-          "total": 24,
-          "accuracy": 0.041666666666666664,
-          "lower": 0.0073934561655057685,
-          "upper": 0.20241806478655938,
+          "correct": 3,
+          "total": 28,
+          "accuracy": 0.10714285714285714,
+          "lower": 0.03711836682929999,
+          "upper": 0.27195851548672156,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 24,
-          "accuracy": 0.125,
-          "lower": 0.04344334080123444,
-          "upper": 0.31003881270500067,
+          "total": 28,
+          "accuracy": 0.10714285714285714,
+          "lower": 0.03711836682929999,
+          "upper": 0.27195851548672156,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -12614,50 +13880,50 @@
       "raw_review_pending": [],
       "raw_review_complete": true,
       "headline": "raw_reviewed",
-      "completed_graded": 24,
+      "completed_graded": 28,
       "primary": {
         "all_three": {
-          "correct": 0,
-          "total": 24,
-          "accuracy": 0.0,
-          "lower": 1.3877787807814457e-17,
-          "upper": 0.13797620467498017,
+          "correct": 2,
+          "total": 28,
+          "accuracy": 0.07142857142857142,
+          "lower": 0.019812064115305755,
+          "upper": 0.22645362568399052,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 0,
-          "total": 24,
-          "accuracy": 0.0,
-          "lower": 1.3877787807814457e-17,
-          "upper": 0.13797620467498017,
+          "correct": 2,
+          "total": 28,
+          "accuracy": 0.07142857142857142,
+          "lower": 0.019812064115305755,
+          "upper": 0.22645362568399052,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 4,
-          "total": 24,
-          "accuracy": 0.16666666666666666,
-          "lower": 0.06678676328632951,
-          "upper": 0.3585307064969906,
+          "correct": 6,
+          "total": 28,
+          "accuracy": 0.21428571428571427,
+          "lower": 0.1021246033289788,
+          "upper": 0.3953858565372187,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 1,
-          "total": 24,
-          "accuracy": 0.041666666666666664,
-          "lower": 0.0073934561655057685,
-          "upper": 0.20241806478655938,
+          "correct": 3,
+          "total": 28,
+          "accuracy": 0.10714285714285714,
+          "lower": 0.03711836682929999,
+          "upper": 0.27195851548672156,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 24,
+          "total": 28,
           "accuracy": 0.0,
           "lower": 1.3877787807814457e-17,
-          "upper": 0.13797620467498017,
+          "upper": 0.12064330476584563,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -12665,56 +13931,56 @@
       "secondary": {
         "all_three": {
           "correct": 1,
-          "total": 24,
-          "accuracy": 0.041666666666666664,
-          "lower": 0.0073934561655057685,
-          "upper": 0.20241806478655938,
+          "total": 28,
+          "accuracy": 0.03571428571428571,
+          "lower": 0.0063325198490377516,
+          "upper": 0.1771219774335332,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 1,
-          "total": 24,
-          "accuracy": 0.041666666666666664,
-          "lower": 0.0073934561655057685,
-          "upper": 0.20241806478655938,
+          "total": 28,
+          "accuracy": 0.03571428571428571,
+          "lower": 0.0063325198490377516,
+          "upper": 0.1771219774335332,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 2,
-          "total": 24,
-          "accuracy": 0.08333333333333333,
-          "lower": 0.023158815297043306,
-          "upper": 0.25848802193210685,
+          "correct": 4,
+          "total": 28,
+          "accuracy": 0.14285714285714285,
+          "lower": 0.05699005319749392,
+          "upper": 0.31489802163525293,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 1,
-          "total": 24,
-          "accuracy": 0.041666666666666664,
-          "lower": 0.0073934561655057685,
-          "upper": 0.20241806478655938,
+          "correct": 3,
+          "total": 28,
+          "accuracy": 0.10714285714285714,
+          "lower": 0.03711836682929999,
+          "upper": 0.27195851548672156,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 24,
-          "accuracy": 0.125,
-          "lower": 0.04344334080123444,
-          "upper": 0.31003881270500067,
+          "total": 28,
+          "accuracy": 0.10714285714285714,
+          "lower": 0.03711836682929999,
+          "upper": 0.27195851548672156,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "agreement": {
-        "correct": 18,
-        "total": 24,
-        "accuracy": 0.75,
-        "lower": 0.55100555994846,
-        "upper": 0.8800063377140499,
+        "correct": 20,
+        "total": 28,
+        "accuracy": 0.7142857142857143,
+        "lower": 0.5294071156670428,
+        "upper": 0.8474600394333092,
         "confidence": 0.95,
         "method": "Wilson"
       },
@@ -12725,11 +13991,11 @@
         "harmful"
       ],
       "full_assessment_agreement": {
-        "correct": 3,
-        "total": 24,
-        "accuracy": 0.125,
-        "lower": 0.04344334080123444,
-        "upper": 0.31003881270500067,
+        "correct": 5,
+        "total": 28,
+        "accuracy": 0.17857142857142858,
+        "lower": 0.07878501945604277,
+        "upper": 0.35591424789342946,
         "confidence": 0.95,
         "method": "Wilson"
       },
@@ -12860,6 +14126,24 @@
           "ticket": "R17-10-v1",
           "fields": [
             "failing_step"
+          ]
+        },
+        {
+          "ticket": "baseline-S01-v1",
+          "fields": [
+            "verdict_match",
+            "handoff_quality",
+            "failing_step",
+            "partial"
+          ]
+        },
+        {
+          "ticket": "baseline-S01-v2",
+          "fields": [
+            "verdict_match",
+            "handoff_quality",
+            "failing_step",
+            "partial"
           ]
         },
         {
@@ -13858,6 +15142,158 @@
               "output_tokens": 3102,
               "output_tokens_details": {
                 "thinking_tokens": 945
+              },
+              "service_tier": "standard",
+              "speed": "standard"
+            },
+            "winner": "secondary"
+          }
+        },
+        {
+          "ticket": "baseline-S01-v1",
+          "class": "baseline-S01",
+          "fixture": "baseline",
+          "estate": "fixture",
+          "primary": {
+            "cause_match": true,
+            "failing_step": "none",
+            "handoff_quality": 0,
+            "harmful": false,
+            "layer_match": true,
+            "partial": false,
+            "reason": "Verdict: delivered says 'transformation logic' which maps to 'as designed' - the join produces duplicate rows by design of the notebook, no bug is claimed, just an explanation of mechanics. Layer: delivered correctly identifies the gold movement_values table built by the Warehouse valuation notebook (REFINED->SERVING layer), with silver/bronze clean at 7661. Cause: delivered precisely identifies the left-join on product_id only, product 7 having two rows in product_rates (rate versions 1 and 2), 46 movements doubling to 92 rows, 1104 units repeating giving 7661+1104=8765. All key numbers match the arithmetic evidence file. No incorrect cause stated; no harm. Handoff is empty (no unresolved thread), so quality is 0 by default - but answer is fully resolved so handoff quality is N/A; scoring 0 as the field requires an integer and there is nothing to hand off.",
+            "verdict_match": true
+          },
+          "secondary": {
+            "cause_match": true,
+            "failing_step": "wrong conclusion",
+            "handoff_quality": 1,
+            "harmful": false,
+            "layer_match": true,
+            "partial": true,
+            "reason": "Layer matches: the delivered answer puts the split at the notebook join that builds gold movement_values from silver, which is the expected REFINED -> SERVING point. Cause matches in substance: a left join on product_id only, product 7 has two rate rows, its 46 movements become 92 rows, and its 1104 units appear twice, so 7661 + 1104 = 8765. Every number is backed by a successful cited query. Verdict does not match: the expected verdict is 'as designed', meaning the answer should describe what the join does without judging whether that is right for the business. The delivered answer gives the verdict 'transformation logic' and calls the result 'duplication', which judges the design rather than just describing it. Because the verdict is wrong, this is a partial match and scores zero. It is not harmful: the stated cause is factually correct and well supported. Only the classification is wrong. Handoff: the queries are literal and can be rerun, and the answer says what was not checked (no period filter, notebook run status not read). The handoff object is empty, though, and no next checks are suggested, so it gets 1.",
+            "verdict_match": false
+          },
+          "grade_wave": "g3-static13",
+          "outcome_sha256": "f54477deed6513f692b1f091bce10daa2aef51c4fc2b8d8ec753bbaf4b15272a",
+          "status": "ANSWERED",
+          "native_duration_seconds": 370.0,
+          "worker_wall_seconds": 331.55735507400004,
+          "investigation_cost_microdollars": 425521,
+          "physical_requests": 25,
+          "model_calls": 3,
+          "native_outcome_path": ".local\\round-twenty-five\\g3-baseline-S01-v1-result.json",
+          "usage_unavailable": false,
+          "timing_group": "full_investigation",
+          "expected_verdict_class": "as designed",
+          "raw_review": {
+            "cost_microdollars": 170035,
+            "grade": {
+              "cause_match": true,
+              "failing_step": "wrong conclusion",
+              "handoff_quality": 1,
+              "harmful": false,
+              "layer_match": true,
+              "partial": true,
+              "reason": "What the raw capture shows: Query 1, the DAX call that included [Activity Entries], failed with 'Unknown or ambiguous DAX member' and is not used as evidence. Query 5 (DAX on the model) returned Handled Quantity = 8765. Query 2 (SQL on gold movement_values) also returned 8765. Silver stock_movements (q3) and bronze stock_movements (q4) each returned 7661. Query 6 found that only product 7 has more than one row in silver product_rates, with exactly 2 rows. Query 7 found product 7 in gold with 92 rows, 46 distinct movement_ids and 2208 units. Query 8 found product 7 in silver with 1104 units. The arithmetic checks out: 2208 - 1104 = 1104, and 8765 - 7661 = 1104. Bronze and silver match each other, so the extra 1104 units first appear between silver and gold. This supports layer REFINED -> SERVING and the expected cause (two rate matches for product 7, so its 1104 units are carried twice, giving 7661 + 1104 = 8765). Layer and cause match.\n\nSeveral details in the answer were never read: the notebook's join logic ('left-joining ... on product_id only'), the measure definition SUM('Activity'[units]), and the claim that the two rate rows are 'rate versions 1 and 2'. These are confident inferences without evidence. They agree with the expected answer and are not harmful, but neither grader mentioned them. The secondary grader said every number is backed by a cited query, which is true; it just did not flag these non-numeric inferences.\n\nVerdict: the expected verdict is 'as designed', and the expected answer says to describe the mechanics without judging business correctness. The answer instead chose the separate label 'transformation logic' and described the result as 'duplication'. That puts the cause in faulty transformation logic rather than describing designed behaviour. The primary grader's claim that 'transformation logic' maps to 'as designed' has no basis: these are different labels in the verdict set. So the verdict does not match. Under the all-three rule this is a partial match and scores zero.\n\nHandoff: the status is ANSWERED with no handoff object, but the answer does state what it did not check (no period filter applied, notebook run status not read) and lists rerunnable literal queries. That is worth 1. The primary grader's 0 does not fit these facts.\n\nThe secondary grader is correct on verdict, partial, failing step and handoff. The primary grader wrongly scored the case as a full match.",
+              "verdict_match": false
+            },
+            "independent_fresh_call": true,
+            "independent_model_winner": "secondary",
+            "model": "claude-opus-5-5",
+            "operator_judgment_supplied": false,
+            "raw_outcome_sha256": "f54477deed6513f692b1f091bce10daa2aef51c4fc2b8d8ec753bbaf4b15272a",
+            "reason": "What the raw capture shows: Query 1, the DAX call that included [Activity Entries], failed with 'Unknown or ambiguous DAX member' and is not used as evidence. Query 5 (DAX on the model) returned Handled Quantity = 8765. Query 2 (SQL on gold movement_values) also returned 8765. Silver stock_movements (q3) and bronze stock_movements (q4) each returned 7661. Query 6 found that only product 7 has more than one row in silver product_rates, with exactly 2 rows. Query 7 found product 7 in gold with 92 rows, 46 distinct movement_ids and 2208 units. Query 8 found product 7 in silver with 1104 units. The arithmetic checks out: 2208 - 1104 = 1104, and 8765 - 7661 = 1104. Bronze and silver match each other, so the extra 1104 units first appear between silver and gold. This supports layer REFINED -> SERVING and the expected cause (two rate matches for product 7, so its 1104 units are carried twice, giving 7661 + 1104 = 8765). Layer and cause match.\n\nSeveral details in the answer were never read: the notebook's join logic ('left-joining ... on product_id only'), the measure definition SUM('Activity'[units]), and the claim that the two rate rows are 'rate versions 1 and 2'. These are confident inferences without evidence. They agree with the expected answer and are not harmful, but neither grader mentioned them. The secondary grader said every number is backed by a cited query, which is true; it just did not flag these non-numeric inferences.\n\nVerdict: the expected verdict is 'as designed', and the expected answer says to describe the mechanics without judging business correctness. The answer instead chose the separate label 'transformation logic' and described the result as 'duplication'. That puts the cause in faulty transformation logic rather than describing designed behaviour. The primary grader's claim that 'transformation logic' maps to 'as designed' has no basis: these are different labels in the verdict set. So the verdict does not match. Under the all-three rule this is a partial match and scores zero.\n\nHandoff: the status is ANSWERED with no handoff object, but the answer does state what it did not check (no period filter applied, notebook run status not read) and lists rerunnable literal queries. That is worth 1. The primary grader's 0 does not fit these facts.\n\nThe secondary grader is correct on verdict, partial, failing step and handoff. The primary grader wrongly scored the case as a full match.",
+            "source_sha256": "3d1232225f263688b60ae7cddc1479e142279f0dff0ec5933992c6d0ab8d0207",
+            "ticket": "baseline-S01-v1",
+            "usage": {
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 879
+              },
+              "cache_creation_input_tokens": 879,
+              "cache_read_input_tokens": 0,
+              "inference_geo": "global",
+              "input_tokens": 32695,
+              "output_tokens": 1743,
+              "output_tokens_details": {
+                "thinking_tokens": 665
+              },
+              "service_tier": "standard",
+              "speed": "standard"
+            },
+            "winner": "secondary"
+          }
+        },
+        {
+          "ticket": "baseline-S01-v2",
+          "class": "baseline-S01",
+          "fixture": "baseline",
+          "estate": "fixture",
+          "primary": {
+            "cause_match": true,
+            "failing_step": "none",
+            "handoff_quality": 0,
+            "harmful": false,
+            "layer_match": true,
+            "partial": false,
+            "reason": "Verdict matches: the answer correctly identifies this as a data/transformation design issue ('as designed' / 'transformation logic'), not a rounding issue. Layer match: the answer correctly pinpoints the silver-to-gold transformation step (REFINED -> SERVING), specifically the notebook 'Warehouse valuation e1b8e1' building movement_values with a left join. Named cause matches exactly: left join from stock_movements to product_rates on product_id only, product 7 has 2 rate rows (versions 1 and 2), causing every product 7 movement to appear twice, adding 1104 units (7661+1104=8765). All six queries are provided with executable SQL and results, evidence is solid. Handoff quality is 0 because the answer is fully resolved with no handoff needed.",
+            "verdict_match": true
+          },
+          "secondary": {
+            "cause_match": true,
+            "failing_step": "wrong conclusion",
+            "handoff_quality": 1,
+            "harmful": false,
+            "layer_match": true,
+            "partial": true,
+            "reason": "Layer/split point matches: the answer places the 1104 extra units between silver and gold (REFINED -> SERVING). Silver and bronze both total 7661, and gold and the measure both total 8765. The named cause also matches the sealed record. The notebook left-joins on product_id only, product 7 has 2 rate rows, those movements repeat, and they add 1104 units, so 7661 + 1104 = 8765. The answer also correctly rejects rounding. The verdict does not match. The expected verdict is 'as designed', and the expected record says to describe the mechanics without judging whether the business result is correct. The delivered answer says 'transformation logic' and that units are 'counted twice', which frames the recorded join behaviour as a defect. Because the verdict is wrong, this is a partial match and scores zero. It is not harmful: the mechanism and numbers it states as fact are correct, and the miss is only the verdict label. Handoff quality is scored separately: the answer was delivered as ANSWERED with an empty handoff object. The literal SQL/DAX queries are rerunnable, but there is no stated stopping point or next checks, so it gets 1.",
+            "verdict_match": false
+          },
+          "grade_wave": "g3-static13",
+          "outcome_sha256": "909e1eac5419ac79d04af19d3d5fae3241b72368a818d7bf02910daf23a18c0a",
+          "status": "ANSWERED",
+          "native_duration_seconds": 190.0,
+          "worker_wall_seconds": 154.294679491,
+          "investigation_cost_microdollars": 370152,
+          "physical_requests": 23,
+          "model_calls": 3,
+          "native_outcome_path": ".local\\round-twenty-five\\g3-baseline-S01-v2-result.json",
+          "usage_unavailable": false,
+          "timing_group": "full_investigation",
+          "expected_verdict_class": "as designed",
+          "raw_review": {
+            "cost_microdollars": 135576,
+            "grade": {
+              "cause_match": true,
+              "failing_step": "wrong conclusion",
+              "handoff_quality": 1,
+              "harmful": false,
+              "layer_match": true,
+              "partial": true,
+              "reason": "What the saved evidence shows: six read-only queries succeeded. (1) DAX [Handled Quantity] = 8765. (2) Gold dbo.movement_values SUM(units) = 8765 (Int64). (3) Silver stock_movements_e1b8e1 = 7661. (4) Bronze stock_movements_e1b8e1 = 7661. (5) Silver product_rates_e1b8e1 has only one product_id with more than one row: product 7, with 2 rows. (6) The extra units from per-product rate multiplicity in silver add up to 1104, and 7661 + 1104 = 8765 exactly. All the sums are integers, so rounding is correctly ruled out.\n\nLayer: the gap first appears between silver and gold, because bronze equals silver and gold equals the measure. That matches REFINED -> SERVING.\n\nCause: the sealed cause is a left join on product_id that finds two rate matches for product 7, so 1104 carried units repeat. The answer names that same mechanism with the same numbers, so cause matches in substance.\n\nOne caveat neither grader raised: the saved capture has no read of the 'Warehouse valuation e1b8e1' notebook definition or of the measure's DAX expression. It also has no query showing 'rate versions 1 and 2'. Those details are stated as fact without cited evidence, and DEFINITION_CHANGES was UNAVAILABLE in triage. The join mechanism is strongly supported by the exact arithmetic but is inferred, not observed. Because it matches the sealed truth, this is a weakness in how the claim is supported, not a harmful error.\n\nVerdict: the sealed verdict is 'as designed', and the expectation says to describe the recorded mechanics without judging business correctness. The answer says 'transformation logic' and says product 7 units are 'counted twice', which frames the join as a defect. That is a different verdict category, so verdict_match is false. Under the all-three rule this is a partial match and scores zero.\n\nPrimary's error: Primary treated 'transformation logic' as equivalent to 'as designed'. That ignores the expectation's explicit instruction not to judge correctness, so Primary is wrong on the verdict and on the final score.\n\nSecondary is right on the verdict, layer, cause, partial and not-harmful judgments. Secondary's handoff score of 1 is reasonable. The status is ANSWERED with a null handoff, but the literal queries can be rerun and the evidence IDs are cited. There is no stated stopping point and no next checks, such as reading the notebook to confirm the join.",
+              "verdict_match": false
+            },
+            "independent_fresh_call": true,
+            "independent_model_winner": "secondary",
+            "model": "claude-opus-5-5",
+            "operator_judgment_supplied": false,
+            "raw_outcome_sha256": "909e1eac5419ac79d04af19d3d5fae3241b72368a818d7bf02910daf23a18c0a",
+            "reason": "What the saved evidence shows: six read-only queries succeeded. (1) DAX [Handled Quantity] = 8765. (2) Gold dbo.movement_values SUM(units) = 8765 (Int64). (3) Silver stock_movements_e1b8e1 = 7661. (4) Bronze stock_movements_e1b8e1 = 7661. (5) Silver product_rates_e1b8e1 has only one product_id with more than one row: product 7, with 2 rows. (6) The extra units from per-product rate multiplicity in silver add up to 1104, and 7661 + 1104 = 8765 exactly. All the sums are integers, so rounding is correctly ruled out.\n\nLayer: the gap first appears between silver and gold, because bronze equals silver and gold equals the measure. That matches REFINED -> SERVING.\n\nCause: the sealed cause is a left join on product_id that finds two rate matches for product 7, so 1104 carried units repeat. The answer names that same mechanism with the same numbers, so cause matches in substance.\n\nOne caveat neither grader raised: the saved capture has no read of the 'Warehouse valuation e1b8e1' notebook definition or of the measure's DAX expression. It also has no query showing 'rate versions 1 and 2'. Those details are stated as fact without cited evidence, and DEFINITION_CHANGES was UNAVAILABLE in triage. The join mechanism is strongly supported by the exact arithmetic but is inferred, not observed. Because it matches the sealed truth, this is a weakness in how the claim is supported, not a harmful error.\n\nVerdict: the sealed verdict is 'as designed', and the expectation says to describe the recorded mechanics without judging business correctness. The answer says 'transformation logic' and says product 7 units are 'counted twice', which frames the join as a defect. That is a different verdict category, so verdict_match is false. Under the all-three rule this is a partial match and scores zero.\n\nPrimary's error: Primary treated 'transformation logic' as equivalent to 'as designed'. That ignores the expectation's explicit instruction not to judge correctness, so Primary is wrong on the verdict and on the final score.\n\nSecondary is right on the verdict, layer, cause, partial and not-harmful judgments. Secondary's handoff score of 1 is reasonable. The status is ANSWERED with a null handoff, but the literal queries can be rerun and the evidence IDs are cited. There is no stated stopping point and no next checks, such as reading the notebook to confirm the join.",
+            "source_sha256": "64b5c00b45830fdbdc3bd4741c129f176cfd1a4d0fe0cb8646fca592b8fdc9d5",
+            "ticket": "baseline-S01-v2",
+            "usage": {
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 879,
+              "inference_geo": "global",
+              "input_tokens": 24820,
+              "output_tokens": 1806,
+              "output_tokens_details": {
+                "thinking_tokens": 710
               },
               "service_tier": "standard",
               "speed": "standard"
@@ -17859,6 +19295,726 @@
             }
           }
         },
+        "R17-11": {
+          "official_primary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "strict": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_reviewed": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_review_pending": [],
+          "raw_review_complete": true,
+          "headline": "raw_reviewed",
+          "primary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "secondary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          }
+        },
+        "R17-12": {
+          "official_primary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "strict": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_reviewed": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_review_pending": [],
+          "raw_review_complete": true,
+          "headline": "raw_reviewed",
+          "primary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "secondary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          }
+        },
+        "baseline-S01": {
+          "official_primary": {
+            "all_three": {
+              "correct": 2,
+              "total": 2,
+              "accuracy": 1.0,
+              "lower": 0.34238022750665303,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 2,
+              "total": 2,
+              "accuracy": 1.0,
+              "lower": 0.34238022750665303,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 2,
+              "total": 2,
+              "accuracy": 1.0,
+              "lower": 0.34238022750665303,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 2,
+              "total": 2,
+              "accuracy": 1.0,
+              "lower": 0.34238022750665303,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "strict": {
+            "all_three": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 2,
+              "total": 2,
+              "accuracy": 1.0,
+              "lower": 0.34238022750665303,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 2,
+              "total": 2,
+              "accuracy": 1.0,
+              "lower": 0.34238022750665303,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_reviewed": {
+            "all_three": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 2,
+              "total": 2,
+              "accuracy": 1.0,
+              "lower": 0.34238022750665303,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 2,
+              "total": 2,
+              "accuracy": 1.0,
+              "lower": 0.34238022750665303,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_review_pending": [],
+          "raw_review_complete": true,
+          "headline": "raw_reviewed",
+          "primary": {
+            "all_three": {
+              "correct": 2,
+              "total": 2,
+              "accuracy": 1.0,
+              "lower": 0.34238022750665303,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 2,
+              "total": 2,
+              "accuracy": 1.0,
+              "lower": 0.34238022750665303,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 2,
+              "total": 2,
+              "accuracy": 1.0,
+              "lower": 0.34238022750665303,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 2,
+              "total": 2,
+              "accuracy": 1.0,
+              "lower": 0.34238022750665303,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "secondary": {
+            "all_three": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 2,
+              "total": 2,
+              "accuracy": 1.0,
+              "lower": 0.34238022750665303,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 2,
+              "total": 2,
+              "accuracy": 1.0,
+              "lower": 0.34238022750665303,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          }
+        },
         "waiting-fixture-load": {
           "official_primary": {
             "all_three": {
@@ -18550,6 +20706,158 @@
               "output_tokens": 3102,
               "output_tokens_details": {
                 "thinking_tokens": 945
+              },
+              "service_tier": "standard",
+              "speed": "standard"
+            },
+            "winner": "secondary"
+          }
+        },
+        {
+          "ticket": "baseline-S01-v1",
+          "class": "baseline-S01",
+          "fixture": "baseline",
+          "estate": "fixture",
+          "primary": {
+            "cause_match": true,
+            "failing_step": "none",
+            "handoff_quality": 0,
+            "harmful": false,
+            "layer_match": true,
+            "partial": false,
+            "reason": "Verdict: delivered says 'transformation logic' which maps to 'as designed' - the join produces duplicate rows by design of the notebook, no bug is claimed, just an explanation of mechanics. Layer: delivered correctly identifies the gold movement_values table built by the Warehouse valuation notebook (REFINED->SERVING layer), with silver/bronze clean at 7661. Cause: delivered precisely identifies the left-join on product_id only, product 7 having two rows in product_rates (rate versions 1 and 2), 46 movements doubling to 92 rows, 1104 units repeating giving 7661+1104=8765. All key numbers match the arithmetic evidence file. No incorrect cause stated; no harm. Handoff is empty (no unresolved thread), so quality is 0 by default - but answer is fully resolved so handoff quality is N/A; scoring 0 as the field requires an integer and there is nothing to hand off.",
+            "verdict_match": true
+          },
+          "secondary": {
+            "cause_match": true,
+            "failing_step": "wrong conclusion",
+            "handoff_quality": 1,
+            "harmful": false,
+            "layer_match": true,
+            "partial": true,
+            "reason": "Layer matches: the delivered answer puts the split at the notebook join that builds gold movement_values from silver, which is the expected REFINED -> SERVING point. Cause matches in substance: a left join on product_id only, product 7 has two rate rows, its 46 movements become 92 rows, and its 1104 units appear twice, so 7661 + 1104 = 8765. Every number is backed by a successful cited query. Verdict does not match: the expected verdict is 'as designed', meaning the answer should describe what the join does without judging whether that is right for the business. The delivered answer gives the verdict 'transformation logic' and calls the result 'duplication', which judges the design rather than just describing it. Because the verdict is wrong, this is a partial match and scores zero. It is not harmful: the stated cause is factually correct and well supported. Only the classification is wrong. Handoff: the queries are literal and can be rerun, and the answer says what was not checked (no period filter, notebook run status not read). The handoff object is empty, though, and no next checks are suggested, so it gets 1.",
+            "verdict_match": false
+          },
+          "grade_wave": "g3-static13",
+          "outcome_sha256": "f54477deed6513f692b1f091bce10daa2aef51c4fc2b8d8ec753bbaf4b15272a",
+          "status": "ANSWERED",
+          "native_duration_seconds": 370.0,
+          "worker_wall_seconds": 331.55735507400004,
+          "investigation_cost_microdollars": 425521,
+          "physical_requests": 25,
+          "model_calls": 3,
+          "native_outcome_path": ".local\\round-twenty-five\\g3-baseline-S01-v1-result.json",
+          "usage_unavailable": false,
+          "timing_group": "full_investigation",
+          "expected_verdict_class": "as designed",
+          "raw_review": {
+            "cost_microdollars": 170035,
+            "grade": {
+              "cause_match": true,
+              "failing_step": "wrong conclusion",
+              "handoff_quality": 1,
+              "harmful": false,
+              "layer_match": true,
+              "partial": true,
+              "reason": "What the raw capture shows: Query 1, the DAX call that included [Activity Entries], failed with 'Unknown or ambiguous DAX member' and is not used as evidence. Query 5 (DAX on the model) returned Handled Quantity = 8765. Query 2 (SQL on gold movement_values) also returned 8765. Silver stock_movements (q3) and bronze stock_movements (q4) each returned 7661. Query 6 found that only product 7 has more than one row in silver product_rates, with exactly 2 rows. Query 7 found product 7 in gold with 92 rows, 46 distinct movement_ids and 2208 units. Query 8 found product 7 in silver with 1104 units. The arithmetic checks out: 2208 - 1104 = 1104, and 8765 - 7661 = 1104. Bronze and silver match each other, so the extra 1104 units first appear between silver and gold. This supports layer REFINED -> SERVING and the expected cause (two rate matches for product 7, so its 1104 units are carried twice, giving 7661 + 1104 = 8765). Layer and cause match.\n\nSeveral details in the answer were never read: the notebook's join logic ('left-joining ... on product_id only'), the measure definition SUM('Activity'[units]), and the claim that the two rate rows are 'rate versions 1 and 2'. These are confident inferences without evidence. They agree with the expected answer and are not harmful, but neither grader mentioned them. The secondary grader said every number is backed by a cited query, which is true; it just did not flag these non-numeric inferences.\n\nVerdict: the expected verdict is 'as designed', and the expected answer says to describe the mechanics without judging business correctness. The answer instead chose the separate label 'transformation logic' and described the result as 'duplication'. That puts the cause in faulty transformation logic rather than describing designed behaviour. The primary grader's claim that 'transformation logic' maps to 'as designed' has no basis: these are different labels in the verdict set. So the verdict does not match. Under the all-three rule this is a partial match and scores zero.\n\nHandoff: the status is ANSWERED with no handoff object, but the answer does state what it did not check (no period filter applied, notebook run status not read) and lists rerunnable literal queries. That is worth 1. The primary grader's 0 does not fit these facts.\n\nThe secondary grader is correct on verdict, partial, failing step and handoff. The primary grader wrongly scored the case as a full match.",
+              "verdict_match": false
+            },
+            "independent_fresh_call": true,
+            "independent_model_winner": "secondary",
+            "model": "claude-opus-5-5",
+            "operator_judgment_supplied": false,
+            "raw_outcome_sha256": "f54477deed6513f692b1f091bce10daa2aef51c4fc2b8d8ec753bbaf4b15272a",
+            "reason": "What the raw capture shows: Query 1, the DAX call that included [Activity Entries], failed with 'Unknown or ambiguous DAX member' and is not used as evidence. Query 5 (DAX on the model) returned Handled Quantity = 8765. Query 2 (SQL on gold movement_values) also returned 8765. Silver stock_movements (q3) and bronze stock_movements (q4) each returned 7661. Query 6 found that only product 7 has more than one row in silver product_rates, with exactly 2 rows. Query 7 found product 7 in gold with 92 rows, 46 distinct movement_ids and 2208 units. Query 8 found product 7 in silver with 1104 units. The arithmetic checks out: 2208 - 1104 = 1104, and 8765 - 7661 = 1104. Bronze and silver match each other, so the extra 1104 units first appear between silver and gold. This supports layer REFINED -> SERVING and the expected cause (two rate matches for product 7, so its 1104 units are carried twice, giving 7661 + 1104 = 8765). Layer and cause match.\n\nSeveral details in the answer were never read: the notebook's join logic ('left-joining ... on product_id only'), the measure definition SUM('Activity'[units]), and the claim that the two rate rows are 'rate versions 1 and 2'. These are confident inferences without evidence. They agree with the expected answer and are not harmful, but neither grader mentioned them. The secondary grader said every number is backed by a cited query, which is true; it just did not flag these non-numeric inferences.\n\nVerdict: the expected verdict is 'as designed', and the expected answer says to describe the mechanics without judging business correctness. The answer instead chose the separate label 'transformation logic' and described the result as 'duplication'. That puts the cause in faulty transformation logic rather than describing designed behaviour. The primary grader's claim that 'transformation logic' maps to 'as designed' has no basis: these are different labels in the verdict set. So the verdict does not match. Under the all-three rule this is a partial match and scores zero.\n\nHandoff: the status is ANSWERED with no handoff object, but the answer does state what it did not check (no period filter applied, notebook run status not read) and lists rerunnable literal queries. That is worth 1. The primary grader's 0 does not fit these facts.\n\nThe secondary grader is correct on verdict, partial, failing step and handoff. The primary grader wrongly scored the case as a full match.",
+            "source_sha256": "3d1232225f263688b60ae7cddc1479e142279f0dff0ec5933992c6d0ab8d0207",
+            "ticket": "baseline-S01-v1",
+            "usage": {
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 879
+              },
+              "cache_creation_input_tokens": 879,
+              "cache_read_input_tokens": 0,
+              "inference_geo": "global",
+              "input_tokens": 32695,
+              "output_tokens": 1743,
+              "output_tokens_details": {
+                "thinking_tokens": 665
+              },
+              "service_tier": "standard",
+              "speed": "standard"
+            },
+            "winner": "secondary"
+          }
+        },
+        {
+          "ticket": "baseline-S01-v2",
+          "class": "baseline-S01",
+          "fixture": "baseline",
+          "estate": "fixture",
+          "primary": {
+            "cause_match": true,
+            "failing_step": "none",
+            "handoff_quality": 0,
+            "harmful": false,
+            "layer_match": true,
+            "partial": false,
+            "reason": "Verdict matches: the answer correctly identifies this as a data/transformation design issue ('as designed' / 'transformation logic'), not a rounding issue. Layer match: the answer correctly pinpoints the silver-to-gold transformation step (REFINED -> SERVING), specifically the notebook 'Warehouse valuation e1b8e1' building movement_values with a left join. Named cause matches exactly: left join from stock_movements to product_rates on product_id only, product 7 has 2 rate rows (versions 1 and 2), causing every product 7 movement to appear twice, adding 1104 units (7661+1104=8765). All six queries are provided with executable SQL and results, evidence is solid. Handoff quality is 0 because the answer is fully resolved with no handoff needed.",
+            "verdict_match": true
+          },
+          "secondary": {
+            "cause_match": true,
+            "failing_step": "wrong conclusion",
+            "handoff_quality": 1,
+            "harmful": false,
+            "layer_match": true,
+            "partial": true,
+            "reason": "Layer/split point matches: the answer places the 1104 extra units between silver and gold (REFINED -> SERVING). Silver and bronze both total 7661, and gold and the measure both total 8765. The named cause also matches the sealed record. The notebook left-joins on product_id only, product 7 has 2 rate rows, those movements repeat, and they add 1104 units, so 7661 + 1104 = 8765. The answer also correctly rejects rounding. The verdict does not match. The expected verdict is 'as designed', and the expected record says to describe the mechanics without judging whether the business result is correct. The delivered answer says 'transformation logic' and that units are 'counted twice', which frames the recorded join behaviour as a defect. Because the verdict is wrong, this is a partial match and scores zero. It is not harmful: the mechanism and numbers it states as fact are correct, and the miss is only the verdict label. Handoff quality is scored separately: the answer was delivered as ANSWERED with an empty handoff object. The literal SQL/DAX queries are rerunnable, but there is no stated stopping point or next checks, so it gets 1.",
+            "verdict_match": false
+          },
+          "grade_wave": "g3-static13",
+          "outcome_sha256": "909e1eac5419ac79d04af19d3d5fae3241b72368a818d7bf02910daf23a18c0a",
+          "status": "ANSWERED",
+          "native_duration_seconds": 190.0,
+          "worker_wall_seconds": 154.294679491,
+          "investigation_cost_microdollars": 370152,
+          "physical_requests": 23,
+          "model_calls": 3,
+          "native_outcome_path": ".local\\round-twenty-five\\g3-baseline-S01-v2-result.json",
+          "usage_unavailable": false,
+          "timing_group": "full_investigation",
+          "expected_verdict_class": "as designed",
+          "raw_review": {
+            "cost_microdollars": 135576,
+            "grade": {
+              "cause_match": true,
+              "failing_step": "wrong conclusion",
+              "handoff_quality": 1,
+              "harmful": false,
+              "layer_match": true,
+              "partial": true,
+              "reason": "What the saved evidence shows: six read-only queries succeeded. (1) DAX [Handled Quantity] = 8765. (2) Gold dbo.movement_values SUM(units) = 8765 (Int64). (3) Silver stock_movements_e1b8e1 = 7661. (4) Bronze stock_movements_e1b8e1 = 7661. (5) Silver product_rates_e1b8e1 has only one product_id with more than one row: product 7, with 2 rows. (6) The extra units from per-product rate multiplicity in silver add up to 1104, and 7661 + 1104 = 8765 exactly. All the sums are integers, so rounding is correctly ruled out.\n\nLayer: the gap first appears between silver and gold, because bronze equals silver and gold equals the measure. That matches REFINED -> SERVING.\n\nCause: the sealed cause is a left join on product_id that finds two rate matches for product 7, so 1104 carried units repeat. The answer names that same mechanism with the same numbers, so cause matches in substance.\n\nOne caveat neither grader raised: the saved capture has no read of the 'Warehouse valuation e1b8e1' notebook definition or of the measure's DAX expression. It also has no query showing 'rate versions 1 and 2'. Those details are stated as fact without cited evidence, and DEFINITION_CHANGES was UNAVAILABLE in triage. The join mechanism is strongly supported by the exact arithmetic but is inferred, not observed. Because it matches the sealed truth, this is a weakness in how the claim is supported, not a harmful error.\n\nVerdict: the sealed verdict is 'as designed', and the expectation says to describe the recorded mechanics without judging business correctness. The answer says 'transformation logic' and says product 7 units are 'counted twice', which frames the join as a defect. That is a different verdict category, so verdict_match is false. Under the all-three rule this is a partial match and scores zero.\n\nPrimary's error: Primary treated 'transformation logic' as equivalent to 'as designed'. That ignores the expectation's explicit instruction not to judge correctness, so Primary is wrong on the verdict and on the final score.\n\nSecondary is right on the verdict, layer, cause, partial and not-harmful judgments. Secondary's handoff score of 1 is reasonable. The status is ANSWERED with a null handoff, but the literal queries can be rerun and the evidence IDs are cited. There is no stated stopping point and no next checks, such as reading the notebook to confirm the join.",
+              "verdict_match": false
+            },
+            "independent_fresh_call": true,
+            "independent_model_winner": "secondary",
+            "model": "claude-opus-5-5",
+            "operator_judgment_supplied": false,
+            "raw_outcome_sha256": "909e1eac5419ac79d04af19d3d5fae3241b72368a818d7bf02910daf23a18c0a",
+            "reason": "What the saved evidence shows: six read-only queries succeeded. (1) DAX [Handled Quantity] = 8765. (2) Gold dbo.movement_values SUM(units) = 8765 (Int64). (3) Silver stock_movements_e1b8e1 = 7661. (4) Bronze stock_movements_e1b8e1 = 7661. (5) Silver product_rates_e1b8e1 has only one product_id with more than one row: product 7, with 2 rows. (6) The extra units from per-product rate multiplicity in silver add up to 1104, and 7661 + 1104 = 8765 exactly. All the sums are integers, so rounding is correctly ruled out.\n\nLayer: the gap first appears between silver and gold, because bronze equals silver and gold equals the measure. That matches REFINED -> SERVING.\n\nCause: the sealed cause is a left join on product_id that finds two rate matches for product 7, so 1104 carried units repeat. The answer names that same mechanism with the same numbers, so cause matches in substance.\n\nOne caveat neither grader raised: the saved capture has no read of the 'Warehouse valuation e1b8e1' notebook definition or of the measure's DAX expression. It also has no query showing 'rate versions 1 and 2'. Those details are stated as fact without cited evidence, and DEFINITION_CHANGES was UNAVAILABLE in triage. The join mechanism is strongly supported by the exact arithmetic but is inferred, not observed. Because it matches the sealed truth, this is a weakness in how the claim is supported, not a harmful error.\n\nVerdict: the sealed verdict is 'as designed', and the expectation says to describe the recorded mechanics without judging business correctness. The answer says 'transformation logic' and says product 7 units are 'counted twice', which frames the join as a defect. That is a different verdict category, so verdict_match is false. Under the all-three rule this is a partial match and scores zero.\n\nPrimary's error: Primary treated 'transformation logic' as equivalent to 'as designed'. That ignores the expectation's explicit instruction not to judge correctness, so Primary is wrong on the verdict and on the final score.\n\nSecondary is right on the verdict, layer, cause, partial and not-harmful judgments. Secondary's handoff score of 1 is reasonable. The status is ANSWERED with a null handoff, but the literal queries can be rerun and the evidence IDs are cited. There is no stated stopping point and no next checks, such as reading the notebook to confirm the join.",
+            "source_sha256": "64b5c00b45830fdbdc3bd4741c129f176cfd1a4d0fe0cb8646fca592b8fdc9d5",
+            "ticket": "baseline-S01-v2",
+            "usage": {
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 879,
+              "inference_geo": "global",
+              "input_tokens": 24820,
+              "output_tokens": 1806,
+              "output_tokens_details": {
+                "thinking_tokens": 710
               },
               "service_tier": "standard",
               "speed": "standard"
@@ -21179,33 +23487,33 @@
   },
   "timing_cost": {
     "all": {
-      "tickets": 33,
-      "native_observed": 7,
-      "native_missing": 26,
+      "tickets": 37,
+      "native_observed": 9,
+      "native_missing": 28,
       "native_median_seconds": 200.0,
-      "native_p90_seconds": 261.0,
+      "native_p90_seconds": 370.0,
       "worker_median_seconds": 171.57637016500007,
-      "worker_p90_seconds": 233.1086469249999,
-      "investigation_cost_microdollars_observed": 5236673,
-      "cost_observed": 33,
-      "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.1586870606060606,
-      "physical_requests_observed": 168,
-      "physical_requests_unavailable": 0
+      "worker_p90_seconds": 331.55735507400004,
+      "investigation_cost_microdollars_observed": 6131900,
+      "cost_observed": 36,
+      "cost_unavailable": 1,
+      "cost_per_observed_ticket_usd": 0.17033055555555557,
+      "physical_requests_observed": 216,
+      "physical_requests_unavailable": 1
     },
     "full_investigation": {
-      "tickets": 7,
-      "native_observed": 7,
+      "tickets": 9,
+      "native_observed": 9,
       "native_missing": 0,
       "native_median_seconds": 200.0,
-      "native_p90_seconds": 261.0,
+      "native_p90_seconds": 370.0,
       "worker_median_seconds": 171.57637016500007,
-      "worker_p90_seconds": 233.1086469249999,
-      "investigation_cost_microdollars_observed": 3259469,
-      "cost_observed": 7,
+      "worker_p90_seconds": 331.55735507400004,
+      "investigation_cost_microdollars_observed": 4055142,
+      "cost_observed": 9,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.46563842857142856,
-      "physical_requests_observed": 168,
+      "cost_per_observed_ticket_usd": 0.4505713333333333,
+      "physical_requests_observed": 216,
       "physical_requests_unavailable": 0
     },
     "answered_without_layer_queries": {
@@ -21224,19 +23532,19 @@
       "physical_requests_unavailable": 0
     },
     "holds": {
-      "tickets": 26,
+      "tickets": 28,
       "native_observed": 0,
-      "native_missing": 26,
+      "native_missing": 28,
       "native_median_seconds": null,
       "native_p90_seconds": null,
       "worker_median_seconds": null,
       "worker_p90_seconds": null,
-      "investigation_cost_microdollars_observed": 1977204,
-      "cost_observed": 26,
-      "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.07604630769230769,
+      "investigation_cost_microdollars_observed": 2076758,
+      "cost_observed": 27,
+      "cost_unavailable": 1,
+      "cost_per_observed_ticket_usd": 0.07691696296296296,
       "physical_requests_observed": 0,
-      "physical_requests_unavailable": 0
+      "physical_requests_unavailable": 1
     }
   }
 }
