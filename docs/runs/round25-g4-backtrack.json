@@ -1,15 +1,15 @@
 {
   "pass": "Round25 G4 raw-reviewed",
-  "graded": 12,
-  "score": 10,
+  "graded": 15,
+  "score": 12,
   "correctness": {
-    "verdict_match": 11,
-    "layer_match": 11,
-    "cause_match": 10
+    "verdict_match": 13,
+    "layer_match": 14,
+    "cause_match": 13
   },
   "harmful": 0,
   "zero_groups": {
-    "conclusion": 1,
+    "conclusion": 2,
     "query": 1
   },
   "zeros": [
@@ -56,6 +56,20 @@
       ],
       "correct_action": "Use the returned native error and schema to correct this read before concluding.",
       "class": "v2-before-temporal-retention"
+    },
+    {
+      "ticket": "v2-record-absent-everywhere-v3",
+      "first_wrong_step": "conclusion",
+      "reason": "What the saved evidence shows: three record lookups for movement_id = 900099 all succeeded and returned 0 rows, with truncated=false and no read errors. The lookups ran against app.stock_movements_round_two_20261003 in ordersops (the source system of record), dbo.stock_movements_round_two_20261003 in round_two_bronze_20261003, and the DAX query on 'Movements'. The first query hit SQL error 40613 twice while the source was paused, then connected on attempt 3. That retry did not affect the result. A separate profile query on the source returned 360 rows, ids 1\u2013360, 0 rows between ids 900090 and 900110, and 44 rows whose event_day starts with 2026-09-12. record_trace marks the record ABSENT in all three layers. The first submit_finding was rejected only because it cited the number 900099, which did not appear in any query result or the reported input. The resubmission with numbers [0,360,1,44] was accepted. Triage found successful refreshes and job runs, and lists six checks as unavailable.\n\nLayer and cause: both match. The answer places the absence at the source application table and in every reachable downstream layer, and correctly says the load and model did not lose the record. That is the substance of the expected cause. It does not mention 'BLANK is not zero', but it does not contradict it either.\n\nVerdict: does not match. The expected verdict 'as designed' means the report is behaving correctly and there is no defect. The DIA returned 'not found'. It confirmed absence, but it never concluded that the empty visual is correct. It also deliberately left open whether the record existed earlier, and it did not address what the EMPTY reported figure means. Its hedging is honest and supported by the evidence, but it is a different conclusion from the expected one, not the same conclusion with a different label. Under the all-three rule this is a partial match, which scores zero. The failing step is the conclusion.\n\nNot harmful: every factual claim is backed by successful, read-only, rerunnable queries, and the uncertainty is stated appropriately.\n\nHandoff quality is 1. The queries are literal and rerunnable and the stopping point is clear, but the answer suggests no next checks, such as source audit or history for 2026-09-12, or confirming the id with the requester.\n\nThe primary grader was wrong to treat 'not found' as equivalent to 'as designed', and wrong to score handoff 0 as not applicable. The secondary grader's assessment matches on every field.",
+      "saved_trace": {
+        "outcome_sha256": "7670350a274b6b2f3e73d31838a016025b136e9bcb3353dc4b664e0ab099196d",
+        "local_outcome": ".local\\round-twenty-five\\g4-v2-record-absent-everywhere-v3-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Restrict the cause to what the cited native evidence establishes.",
+      "class": "v2-record-absent-everywhere"
     }
   ],
   "walkthroughs": [
@@ -102,6 +116,20 @@
       ],
       "correct_action": "Use the returned native error and schema to correct this read before concluding.",
       "class": "v2-before-temporal-retention"
+    },
+    {
+      "ticket": "v2-record-absent-everywhere-v3",
+      "first_wrong_step": "conclusion",
+      "reason": "What the saved evidence shows: three record lookups for movement_id = 900099 all succeeded and returned 0 rows, with truncated=false and no read errors. The lookups ran against app.stock_movements_round_two_20261003 in ordersops (the source system of record), dbo.stock_movements_round_two_20261003 in round_two_bronze_20261003, and the DAX query on 'Movements'. The first query hit SQL error 40613 twice while the source was paused, then connected on attempt 3. That retry did not affect the result. A separate profile query on the source returned 360 rows, ids 1\u2013360, 0 rows between ids 900090 and 900110, and 44 rows whose event_day starts with 2026-09-12. record_trace marks the record ABSENT in all three layers. The first submit_finding was rejected only because it cited the number 900099, which did not appear in any query result or the reported input. The resubmission with numbers [0,360,1,44] was accepted. Triage found successful refreshes and job runs, and lists six checks as unavailable.\n\nLayer and cause: both match. The answer places the absence at the source application table and in every reachable downstream layer, and correctly says the load and model did not lose the record. That is the substance of the expected cause. It does not mention 'BLANK is not zero', but it does not contradict it either.\n\nVerdict: does not match. The expected verdict 'as designed' means the report is behaving correctly and there is no defect. The DIA returned 'not found'. It confirmed absence, but it never concluded that the empty visual is correct. It also deliberately left open whether the record existed earlier, and it did not address what the EMPTY reported figure means. Its hedging is honest and supported by the evidence, but it is a different conclusion from the expected one, not the same conclusion with a different label. Under the all-three rule this is a partial match, which scores zero. The failing step is the conclusion.\n\nNot harmful: every factual claim is backed by successful, read-only, rerunnable queries, and the uncertainty is stated appropriately.\n\nHandoff quality is 1. The queries are literal and rerunnable and the stopping point is clear, but the answer suggests no next checks, such as source audit or history for 2026-09-12, or confirming the id with the requester.\n\nThe primary grader was wrong to treat 'not found' as equivalent to 'as designed', and wrong to score handoff 0 as not applicable. The secondary grader's assessment matches on every field.",
+      "saved_trace": {
+        "outcome_sha256": "7670350a274b6b2f3e73d31838a016025b136e9bcb3353dc4b664e0ab099196d",
+        "local_outcome": ".local\\round-twenty-five\\g4-v2-record-absent-everywhere-v3-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Restrict the cause to what the cited native evidence establishes.",
+      "class": "v2-record-absent-everywhere"
     }
   ],
   "estate_reads": 0,
@@ -109,6 +137,7 @@
   "scores_or_expectations_changed": false,
   "zero_classes": {
     "v2-application-baseline": 1,
-    "v2-before-temporal-retention": 1
+    "v2-before-temporal-retention": 1,
+    "v2-record-absent-everywhere": 1
   }
 }
