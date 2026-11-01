@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "tests": 5694,
+  "seconds": 2688.374,
+  "skipped": 50,
+  "failures": 0,
+  "errors": 0,
+  "log_sha256": "71f4f2b9c250041b020add922b00923eeda439b0a83d0c544d9e50cce3678838",
+  "source": "784097fd865a99e7535092e2b1df55ee572d954a",
+  "runtime_unchanged_on_documentation_head": true,
+  "log": ".local/round-twenty-five/full-final-784097fd.log"
+}

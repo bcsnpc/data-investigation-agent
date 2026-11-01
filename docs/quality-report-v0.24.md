@@ -213,14 +213,12 @@ Native provider settlements supply usage; missing capture usage is never substit
 |---|---:|---:|---:|---:|---|---|
 |G1|40|16.526970|0.413174|67.49%|36 / 4|245.0 / 317.0|
 |G2|50|23.898689|0.477974|69.21%|43 / 7|206.0 / 307.0|
+|G3|59|9.630812|0.163234|60.18%|13 / 46|200.0 / 323.0|
+|G4|20|8.387129|0.419356|67.66%|20 / 0|212.0 / 291.0|
 
 G2 has 10 unsealed native exceptions with unavailable usage; these remain graded but are outside the usage-observed denominator.
 
-|G3|59|9.630812|0.163234|60.18%|13 / 46|200.0 / 323.0|
-
 G3 has 1 unsealed native exceptions with unavailable usage; these remain graded but are outside the usage-observed denominator.
-
-|G4|20|8.387129|0.419356|67.66%|20 / 0|212.0 / 291.0|
 
 ## Failure walkthroughs and next-round priorities
 
@@ -307,3 +305,14 @@ Only saved native usage is counted here; fixture controls, grading and unknown e
 |G2|50 / 10|1081|21.62|
 |G3|59 / 1|297|5.03|
 |G4|20 / 0|548|27.40|
+
+## Saved handoff assessments
+
+Handoff is graded 0?2 for rerunnable queries, a clear stopping point and sensible next checks. It never replaces verdict/layer/cause credit. These are distributions from the existing raw-reviewed grades, not a new regrade. A zero on a fully answered ticket may be inapplicable. Recorded partial flags and non-full scores are kept distinct from runtime holds.
+
+| Cohort | All outcomes: quality 0 / 1 / 2 | Recorded partial=true: 0 / 1 / 2 | Not fully correct: 0 / 1 / 2 |
+|---|---|---|---|
+|G1|30 / 6 / 4|0 / 2 / 0|0 / 5 / 0|
+|G2|16 / 24 / 20|0 / 9 / 0|14 / 10 / 0|
+|G3|39 / 19 / 2|0 / 5 / 0|39 / 18 / 0|
+|G4|2 / 9 / 9|0 / 4 / 0|0 / 4 / 0|
