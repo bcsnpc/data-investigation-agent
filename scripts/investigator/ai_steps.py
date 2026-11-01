@@ -3,6 +3,7 @@
 Provider/model selection belongs to installation configuration. Native adapters
 record the original provider bytes and settle their own shared reservations.
 """
+import json
 from jsonschema import Draft202012Validator
 from .adapters.provider_runtime import select, client
 from .reasoning_budget import TicketBudget, RateCard
@@ -58,7 +59,7 @@ class Steps:
         if grading_role not in ('PRIMARY', 'SECONDARY'):raise ValueError('GRADING_ROLE_REQUIRED')
         step = ('GRADING' if grading_role == 'PRIMARY' else 'SECONDARY_GRADING') if purpose.startswith('GRADE_') else 'REVIEWER' if purpose == 'ASSESS_FAIRNESS' else 'WRITER'
         raw = self.generate(step=step, case_id=case_id, instructions=request['system'],
-            payload=request['messages'][0]['content'], schema=request['output_config']['format']['schema'],
+            payload=json.loads(request['messages'][0]['content']), schema=request['output_config']['format']['schema'],
             max_tokens=request['max_tokens'])
         output = decode_output(source, raw)
         Draft202012Validator(output_schema(purpose)).validate(output)
@@ -71,7 +72,7 @@ class Steps:
         request = request_for(source, sha(source))
         params = request['params']
         raw = self.generate(step='ENRICHMENT', case_id=case_id, instructions=params['system'],
-            payload=params['messages'][0]['content'], schema=params['output_config']['format']['schema'],
+            payload=json.loads(params['messages'][0]['content']), schema=params['output_config']['format']['schema'],
             max_tokens=params['max_tokens'])
         output = resolve_references(raw, source, request)
         Draft202012Validator(SCHEMA).validate(output)

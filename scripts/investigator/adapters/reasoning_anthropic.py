@@ -61,7 +61,7 @@ def authorize_body(permissions,method,url,raw):
     if not isinstance(body['tools'],list) or not body['tools']:raise ValueError('CLIENT_TOOLS_REQUIRED')
     for index,tool in enumerate(body['tools']):
         fields={'name','description','input_schema'}
-        cached=body['model']=='claude-opus-5-5'
+        cached=body['model'] in permissions.get('reasoning_models', [])
         if not isinstance(tool,dict) or not fields<=set(tool)<=fields|({'cache_control'}if cached else set()) or tool['name'] not in names:
             raise ValueError('SERVER_OR_UNKNOWN_TOOL_REFUSED')
         if 'cache_control'in tool and (index!=len(body['tools'])-1 or tool['cache_control']!={'type':'ephemeral'}):
@@ -95,8 +95,8 @@ class Client:
         self.sleep=sleep
         self.count_tokens=(send is None) if count_tokens is None else count_tokens
         if diagnostic_prompt_cache is None:diagnostic_prompt_cache=(model=='claude-opus-5-5')
-        if type(diagnostic_prompt_cache)is not bool or (diagnostic_prompt_cache and model!='claude-opus-5-5'):
-            raise ValueError('OWNER_DIAGNOSTIC_CACHE_MODEL_REQUIRED')
+        if type(diagnostic_prompt_cache)is not bool:
+            raise ValueError('CACHE_CONFIGURATION_BOOLEAN_REQUIRED')
         from .anthropic_prompt_cache import StablePrefix
         self.diagnostic_cache=StablePrefix()if diagnostic_prompt_cache else None
         self.diagnostic_helper_usage=StablePrefix()if diagnostic_prompt_cache else None

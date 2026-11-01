@@ -3,6 +3,12 @@ from investigator.history_comparison import disposition
 
 
 class HistoryComparisonTests(unittest.TestCase):
+    def test_native_normalized_job_end_is_an_anchor(self):
+        case = self.case()
+        native = case['triage']['facts'][0]['value']
+        native['end'] = native.pop('end_time')
+        self.assertTrue(disposition(case, ['now', 'then'])['ruled_out'])
+
     def case(self):
         return {'triage': {'facts': [{'kind': 'JOB_RUN', 'state': 'OBSERVED',
                                      'value': {'status': 'Succeeded', 'end_time': '2026-10-01T00:00:00Z'}}]},

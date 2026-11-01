@@ -170,7 +170,7 @@ class Catalog:
 
     def report_matches(self, text):
         direct = self.ranked(text, 'REPORT')
-        if direct and direct[0]['score'] >= .86:
+        if direct and direct[0]['confidence'] in ('NAMED', 'NORMALIZED'):
             return [r for r in direct if direct[0]['score'] - r['score'] < .08]
         pages = self.ranked(text, 'PAGE')
         page_reports = {r['id'] for page in pages if page['score'] >= .86 and pages[0]['score'] - page['score'] < .08
@@ -191,7 +191,12 @@ class Catalog:
                 matches = [{**r, 'score': pages[0]['score'], 'confidence': pages[0]['confidence'],
                             'basis': 'CATALOG_CONTAINMENT_OF_NAMED_PAGE', 'via': pages[0]['id']}
                            for r in self.reports() if r['id'] in page_reports]
-        return matches
+        if matches:
+            strongest = max(r['score'] for r in matches)
+            return [r for r in matches if strongest - r['score'] < .08]
+        if direct and direct[0]['score'] >= .86:
+            return [r for r in direct if direct[0]['score'] - r['score'] < .08]
+        return []
 
 
 def admit(request, catalog):
@@ -276,7 +281,8 @@ def prefill(text, proposed, catalog, *, provenance=None):
         if value.get(field) and not value.get('report'):
             candidates = catalog.ranked(text, kind)
             if field == 'table':candidates += catalog.ranked(text, 'VIEW')
-            matched = [r for r in candidates if r['score'] >= .86]
+            strongest = max((r['score'] for r in candidates), default=0)
+            matched = [r for r in candidates if r['score'] >= .86 and strongest - r['score'] < .08]
             if len(matched) == 1 and matched[0]['id'] == value[field]:direct_target = matched[0]
             else:raise ValueError('DIRECT_TARGET_UNRESOLVED_OR_AMBIGUOUS')
     if not value.get('report') and not any(value.get(k) for k in ('table', 'measure')):

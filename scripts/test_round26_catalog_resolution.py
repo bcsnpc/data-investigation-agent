@@ -4,6 +4,33 @@ from test_round23_intake_queries import graph
 
 
 class CatalogResolutionTests(unittest.TestCase):
+    def test_named_page_beats_unrelated_fuzzy_report_name(self):
+        catalog = self.catalog()
+        catalog.nodes['page']['label'] = 'Unfiltered control'
+        catalog.nodes['other']['label'] = 'Net Reveneu'
+        result = prefill('Net Revenue on Unfiltered control looks old',
+                         {'issue_type': 'DATA_LOOKS_OLD'}, catalog)
+        self.assertEqual(result['status'], 'READY')
+        self.assertEqual(result['report'], 'report')
+
+    def test_exact_table_beats_lower_ranked_fuzzy_table(self):
+        catalog = self.catalog()
+        catalog.nodes['a'] = {'id': 'a', 'kind': 'TABLE', 'label': 'ledger_transactions'}
+        catalog.nodes['b'] = {'id': 'b', 'kind': 'TABLE', 'label': 'ledger_transaction'}
+        # Use a lower fuzzy score outside the tie interval: an exact match
+        # must not be rejected merely because another fuzzy result exists.
+        from unittest.mock import patch
+        original = catalog.ranked
+        def ranked(text, kind, **kwargs):
+            if kind == 'TABLE':return [{'id':'a','name':'ledger_transactions','score':1.0,'confidence':'NAMED'},
+                                      {'id':'b','name':'ledger_transaction','score':.9,'confidence':'FUZZY'}]
+            return original(text, kind, **kwargs)
+        with patch.object(catalog, 'ranked', side_effect=ranked):
+            result = prefill('ledger_transactions differs',
+                {'issue_type':'NUMBER_LOOKS_WRONG','table':'a'}, catalog)
+        self.assertEqual(result['status'], 'READY')
+        self.assertEqual(result['table'], 'a')
+
     def test_named_page_disambiguates_reused_measure_across_reports(self):
         catalog = self.catalog()
         catalog.nodes['page']['label'] = 'Unfiltered control'

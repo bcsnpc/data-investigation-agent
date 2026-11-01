@@ -21,7 +21,7 @@ def load_anchor(case):
             if value.get('kind') in ('JOB_RUN', 'TABLE_LOAD') and value.get('state') == 'OBSERVED':
                 native = value.get('value', {})
                 if str(native.get('status', '')).casefold() in ('completed', 'succeeded', 'success'):
-                    for key in ('end_time', 'endTimeUtc', 'endTime', 'ended_at'):
+                    for key in ('end', 'end_time', 'endTimeUtc', 'endTime', 'ended_at'):
                         try:anchors.append(instant(native[key]))
                         except (KeyError, ValueError, TypeError):pass
             for key, child in value.items():

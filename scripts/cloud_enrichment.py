@@ -13,10 +13,19 @@ def validate_options(options):
     if operation not in ('submit','resume','evaluation-submit','evaluation-resume') or set(options)!=expected:raise ValueError('ENRICHMENT_RUNNER_OPTIONS')
     if not isinstance(options['batch_key'],str) or not re.fullmatch(r'[A-Za-z0-9_.:-]{1,160}',options['batch_key']):raise ValueError('ENRICHMENT_BATCH_KEY')
     config=json.loads(reference(options['config'],maximum=64000).read_bytes())
-    if not isinstance(config,dict) or set(config)!={'secret_reference','gateway_identity','worker_identity'}:raise ValueError('ENRICHMENT_RUNNER_CONFIG')
+    configured=isinstance(config,dict) and 'ai_routing' in config
+    if configured:
+        required={'ai_routing','tenant'}
+        if not required<=set(config)<=required|{'investigator_configuration','grading_role'}:raise ValueError('ENRICHMENT_RUNNER_CONFIG')
+        from investigator.adapters.provider_runtime import select
+        if not isinstance(config['tenant'],str) or not config['tenant']:raise ValueError('ENRICHMENT_RUNNER_IDENTITY')
+        for step in ('ENRICHMENT','WRITER','GRADING','SECONDARY_GRADING','REVIEWER'):
+            select(config['ai_routing'],tenant=config['tenant'],step=step)
+        if config.get('grading_role','PRIMARY') not in ('PRIMARY','SECONDARY'):raise ValueError('GRADING_ROLE_REQUIRED')
+    elif not isinstance(config,dict) or set(config)!={'secret_reference','gateway_identity','worker_identity'}:raise ValueError('ENRICHMENT_RUNNER_CONFIG')
     from investigator.adapters.managed_identity import validate_secret_reference
-    validate_secret_reference(config['secret_reference'])
-    for key in ('gateway_identity','worker_identity'):
+    if not configured:validate_secret_reference(config['secret_reference'])
+    for key in (() if configured else ('gateway_identity','worker_identity')):
         if not isinstance(config[key],str) or not config[key]:raise ValueError('ENRICHMENT_RUNNER_IDENTITY')
     sources=None
     if operation in ('submit','evaluation-submit'):
@@ -57,6 +66,19 @@ def execute(plan,context):
         context.record('enrichment-provider',{'kind':kind,'body':body})
     try:
         with journal.active(tape):
+            if 'ai_routing' in config:
+                from investigator.configured_ai_job import ConfiguredJob
+                from investigator.provider_budget import report as provider_report
+                job=ConfiguredJob(state,config,record)
+                import time
+                before=provider_report(state,time.time())
+                result=(job.submit(sources,batch_key=batch_key,evaluation=operation.startswith('evaluation-'))
+                        if operation in ('submit','evaluation-submit') else job.resume(batch_key))
+                output={'operation':operation,'batch_key':batch_key,'result':result,
+                        'provider_budget_before':before,'provider_budget_after':provider_report(state,time.time()),
+                        'estate_reads':0,'account':'CONFIGURED_PROVIDER_MONTHLY'}
+                context.record('enrichment-result',output);tape.finish(output)
+                return output
             if operation.startswith('evaluation-'):
                 from investigator.adapters.evaluation_anthropic import EvaluationClient
                 from investigator.adapters.enrichment_anthropic import price
