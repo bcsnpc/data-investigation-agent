@@ -25,8 +25,8 @@ def specification(options):
     if set(graph)!={'estate','identity','allowed_objects'} or not isinstance(graph['allowed_objects'],list):
         raise ValueError('GUIDED_GRAPH_SCOPE')
     reason=value['reasoning']
-    if set(reason)!={'model','rate_card','secret_reference','gateway_identity','worker_identity'}:
-        raise ValueError('GUIDED_REASONING_CONFIGURATION')
+    from investigator.adapters.provider_runtime import validate
+    validate(reason)
     if 'diagnostic_budget' in value and value['diagnostic_budget']!={'label':'UNSCORED_STATIC_DIAGNOSTIC','actual_usage_limit_microdollars':3000000}:
         raise ValueError('GUIDED_OWNER_DIAGNOSTIC_BUDGET_REQUIRED')
     if 'diagnostic_prompt_cache'in value and (value['diagnostic_prompt_cache']is not True or 'diagnostic_budget'not in value or reason['model']!='claude-opus-5-5'):
@@ -58,7 +58,7 @@ def run(plan,context):
     from investigator.guided_live_facts import PathFacts
     from investigator.adapters.ai_native_catalog import NativeCatalog
     from investigator.adapters.investigative_native import NativeQueries
-    from investigator.adapters.reasoning_anthropic import Client
+    from investigator.adapters.provider_runtime import client as provider_client
     from investigator.reasoning_budget import RateCard,TicketBudget
     from scan_estate_graph import Meter
     from investigator.usage_governance import UsageHold
@@ -104,11 +104,11 @@ def run(plan,context):
     def budget(case_id):
         if case_id not in budgets:
             budgets[case_id]=TicketBudget(state,case_id=case_id,owner=spec['reasoning']['worker_identity'],rate=rate,
+                provider=spec['reasoning'].get('provider','anthropic'),
                 actual_usage_limit=spec.get('diagnostic_budget',{}).get('actual_usage_limit_microdollars',3000000))
         return budgets[case_id]
     def model(case_id):
-        return Client(model=rate.model,budget=budget(case_id),identity=spec['reasoning']['gateway_identity'],
-                      secret_reference=spec['reasoning']['secret_reference'],record=record,
+        return provider_client(spec['reasoning'],budget=budget(case_id),record=record,
                       diagnostic_prompt_cache=spec.get('diagnostic_prompt_cache',True))
     request_key=plan.get('run_id',getattr(context,'run_id',root.name))
     from investigator.estate_graph_contract import digest
