@@ -29,3 +29,12 @@ The first model-only R22 dev intake diagnostic admitted 21/40; the second admitt
 Current authoritative November AI charge: Anthropic USD30.526751/150; OpenAI USD15.111366/180; combined USD45.638117. No pending exposure in either provider account at this observation. Historical usage was not reset.
 
 The configured enrichment/evaluation cloud entry now uses the common provider surface, persists dispatch intent and returns saved status without resubmitting interrupted calls. Legacy Anthropic batch receipts retain their old route. Focused checks: 63 Round26 tests, 3 cloud enrichment tests and 8 prior cache regressions passed; full suite and live qualification pending.
+
+
+## Selected intake checkpoint
+
+Observed first-leg intake results: Astra28/40, USD0.123874/call,18.37%cached; Terra21/40,USD0.010282/call,86.74%cached; Sol28/40,USD0.024139/call,88.04%cached. Engine versions differ, and eight operational routes make no model call; this is not a controlled investigation benchmark. Sol selected by readiness first, cost second. One Astra fallback pass on13 non-ready/low-confidence tickets gives29/40 atUSD7.733820 combined, zero estate reads. Later Terra19/40 remains recorded.
+
+The three investigator columns are Sol with unresolved-only Astra escalation, Astra-only, and Opus. All share selected intake and Terra helpers. First Sol launch failed before model dispatch due to the obsolete Opus-only cache-spec restriction; partial capture and failure are retained, unscored. Corrected specification plus fake Azure key-header coverage passed90Round26 tests; corrected image publication pending at this checkpoint.
+
+The offline80route check now includes native declared continuations:59PATH_OPENED,8native operational,10questions,3rejected saved proposals; zero estate/model reads. This does not establish value correctness or full layer coverage.

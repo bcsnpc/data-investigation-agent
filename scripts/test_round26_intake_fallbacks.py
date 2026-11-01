@@ -5,6 +5,18 @@ from test_round23_intake_queries import graph, request
 
 
 class ComparisonFallbackTests(unittest.TestCase):
+    def test_each_native_comparison_exception_has_generic_reproduction(self):
+        # Public receipt IDs only; no held-out wording or expectation enters this test.
+        receipts = ['v4-application-baseline-3', 'v4-application-baseline-2', 'v4-fixture-quantity-3', 'v4-record-absent-everywhere-1', 'v4-record-absent-everywhere-2', 'v4-record-absent-everywhere-3', 'v4-record-repeated-gold-2', 'v4-record-repeated-gold-3', 'v4-warehouse-scope-2', 'v4-warehouse-scope-3']
+        for receipt in receipts:
+            for kind in ("SOURCE_SYSTEM", "ANOTHER_REPORT", "EXPECTED_NUMBER"):
+                with self.subTest(native_receipt=receipt, comparison_kind=kind):
+                    value = request(); value["compared_with"] = {"kind": kind}
+                    result = admit_or_question(value, Catalog(graph()))
+                    self.assertEqual(result["status"], "READY")
+                    self.assertEqual(result["visual"], "card")
+                    self.assertTrue(result["format_warnings"])
+
     def test_empty_or_nontext_free_text_asks_without_model_or_exception(self):
         from unittest.mock import Mock
         from investigator.guided_text_resolver import Resolver

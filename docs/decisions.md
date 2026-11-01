@@ -535,3 +535,8 @@ Owner requested Sol alongside Astra and Terra, selection by intake readiness fir
 The measured Sol first leg plus one Astra fallback pass reached 29/40 at $7.733820 total, with 13 fallback tickets (including low confidence). Failed original Sol transport-attempt costs remain included. All these intake diagnostics made zero estate reads. Per-ticket model resolution and costs are preserved in the linked acceptance receipts.
 
 All three investigation benchmark columns share selected Sol intake with one Astra fallback, Terra screenshot/summary helpers, unchanged tickets, common image and the $3 actual-usage ticket cap. Investigation escalation shares the same case evidence, requests and step/time allowance rather than granting a second ticket allowance. Anthropic batch pricing will be used for cross-vendor grading where supported; synchronous calls will never be labelled batch-discounted. Investigation-quality results remain pending.
+
+
+### 2026-11-01 ? Round26 waiting control lifetime
+
+Owner PartE requires the native job to remain running through the answer. Increase the reversible Wait-only fixture upper bound from600to3600seconds, preserving removal of all original data activities and guarded restoration. Fourteen fixture scenario tests pass, including a3600second Wait with no copy or writer. Fresh native admission and answer-time status remain required; a finished Wait is a fixture artefact, never an engine failure. This changes practice-control support, not the benchmark investigator or its caps.

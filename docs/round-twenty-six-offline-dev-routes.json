@@ -15,7 +15,7 @@
       "id": "v2-application-baseline-v1",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 17,
+      "nodes": 19,
       "layers": [
         {
           "kind": "DAX",
@@ -37,7 +37,7 @@
       "id": "v2-application-baseline-v2",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 17,
+      "nodes": 19,
       "layers": [
         {
           "kind": "DAX",
@@ -215,7 +215,7 @@
       "id": "v2-failed-application-load-v1",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 17,
+      "nodes": 19,
       "layers": [
         {
           "kind": "DAX",
@@ -237,7 +237,7 @@
       "id": "v2-failed-application-load-v2",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 17,
+      "nodes": 19,
       "layers": [
         {
           "kind": "DAX",
@@ -311,7 +311,7 @@
       "id": "v2-waiting-application-load-v1",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 17,
+      "nodes": 19,
       "layers": [
         {
           "kind": "DAX",
@@ -333,7 +333,7 @@
       "id": "v2-waiting-application-load-v2",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 17,
+      "nodes": 19,
       "layers": [
         {
           "kind": "DAX",
@@ -355,7 +355,7 @@
       "id": "v2-latency-record-v1",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 17,
+      "nodes": 19,
       "layers": [
         {
           "kind": "DAX",
@@ -377,7 +377,7 @@
       "id": "v2-latency-record-v2",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 17,
+      "nodes": 19,
       "layers": [
         {
           "kind": "DAX",
@@ -399,7 +399,7 @@
       "id": "v2-stale-model-v1",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 17,
+      "nodes": 19,
       "layers": [
         {
           "kind": "DAX",
@@ -421,7 +421,7 @@
       "id": "v2-stale-model-v2",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 17,
+      "nodes": 19,
       "layers": [
         {
           "kind": "DAX",
@@ -443,7 +443,7 @@
       "id": "v2-access-export-v1",
       "estate": "billing",
       "status": "PATH_OPENED",
-      "nodes": 138,
+      "nodes": 142,
       "layers": [
         {
           "kind": "FABRIC_SQL",
@@ -469,7 +469,7 @@
       "id": "v2-access-export-v2",
       "estate": "billing",
       "status": "PATH_OPENED",
-      "nodes": 138,
+      "nodes": 142,
       "layers": [
         {
           "kind": "FABRIC_SQL",
@@ -495,7 +495,7 @@
       "id": "v2-warehouse-scope-v1",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 17,
+      "nodes": 19,
       "layers": [
         {
           "kind": "DAX",
@@ -524,7 +524,7 @@
       "id": "v2-before-temporal-retention-v1",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 17,
+      "nodes": 19,
       "layers": [
         {
           "kind": "DAX",
@@ -546,7 +546,7 @@
       "id": "v2-before-temporal-retention-v2",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 17,
+      "nodes": 19,
       "layers": [
         {
           "kind": "DAX",
@@ -568,7 +568,7 @@
       "id": "v2-record-absent-everywhere-v1",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 17,
+      "nodes": 19,
       "layers": [
         {
           "kind": "DAX",
@@ -590,7 +590,7 @@
       "id": "v2-record-absent-everywhere-v2",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 17,
+      "nodes": 19,
       "layers": [
         {
           "kind": "DAX",
@@ -664,7 +664,7 @@
       "id": "v2-source-history-v1",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 17,
+      "nodes": 19,
       "layers": [
         {
           "kind": "DAX",
@@ -686,7 +686,7 @@
       "id": "v2-source-history-v2",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 17,
+      "nodes": 19,
       "layers": [
         {
           "kind": "DAX",
@@ -760,7 +760,7 @@
       "id": "v2-screenshot-record-01-v1",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 10,
+      "nodes": 22,
       "layers": [
         {
           "kind": "DAX",
@@ -769,6 +769,10 @@
         {
           "kind": "FABRIC_SQL",
           "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
         }
       ],
       "truncated": false
@@ -778,7 +782,7 @@
       "id": "v2-screenshot-record-01-v2",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 10,
+      "nodes": 22,
       "layers": [
         {
           "kind": "DAX",
@@ -787,6 +791,10 @@
         {
           "kind": "FABRIC_SQL",
           "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
         }
       ],
       "truncated": false
@@ -796,7 +804,7 @@
       "id": "v2-screenshot-record-02-v1",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 10,
+      "nodes": 22,
       "layers": [
         {
           "kind": "DAX",
@@ -805,6 +813,10 @@
         {
           "kind": "FABRIC_SQL",
           "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
         }
       ],
       "truncated": false
@@ -814,7 +826,7 @@
       "id": "v2-screenshot-record-02-v2",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 10,
+      "nodes": 22,
       "layers": [
         {
           "kind": "DAX",
@@ -823,6 +835,10 @@
         {
           "kind": "FABRIC_SQL",
           "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
         }
       ],
       "truncated": false
@@ -832,7 +848,7 @@
       "id": "v2-screenshot-record-03-v1",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 10,
+      "nodes": 22,
       "layers": [
         {
           "kind": "DAX",
@@ -841,6 +857,10 @@
         {
           "kind": "FABRIC_SQL",
           "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
         }
       ],
       "truncated": false
@@ -850,7 +870,7 @@
       "id": "v2-screenshot-record-03-v2",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 10,
+      "nodes": 22,
       "layers": [
         {
           "kind": "DAX",
@@ -859,6 +879,10 @@
         {
           "kind": "FABRIC_SQL",
           "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
         }
       ],
       "truncated": false
@@ -868,7 +892,7 @@
       "id": "v2-screenshot-record-04-v1",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 10,
+      "nodes": 22,
       "layers": [
         {
           "kind": "DAX",
@@ -877,6 +901,10 @@
         {
           "kind": "FABRIC_SQL",
           "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
         }
       ],
       "truncated": false
@@ -886,7 +914,7 @@
       "id": "v2-screenshot-record-04-v2",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 10,
+      "nodes": 22,
       "layers": [
         {
           "kind": "DAX",
@@ -895,6 +923,10 @@
         {
           "kind": "FABRIC_SQL",
           "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
         }
       ],
       "truncated": false
@@ -1333,7 +1365,7 @@
       "id": "access-export-1-v1",
       "estate": "billing",
       "status": "PATH_OPENED",
-      "nodes": 138,
+      "nodes": 142,
       "layers": [
         {
           "kind": "FABRIC_SQL",
@@ -1422,7 +1454,7 @@
       "id": "latency-900502-v2",
       "estate": "fixture",
       "status": "PATH_OPENED",
-      "nodes": 34,
+      "nodes": 39,
       "layers": [
         {
           "kind": "FABRIC_SQL",
