@@ -315,3 +315,9 @@ Round25 failed-billing g3: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLI
 
 
 Round25 waiting g3 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-five\injections\g3-waiting\status.json.
+
+
+Round25 waiting g3 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; native jobs and guarded hash readback in .local\round-twenty-five\injections\g3-waiting-billing-transform\status.json.
+
+
+Round25 waiting g3 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 febc543e6cb018bcfbd83e97006d98fe2b875a33a45d0debf2bf2fb09fc250a4; native jobs and guarded hash readback in .local\round-twenty-five\injections\g3-waiting-billing-load\status.json.

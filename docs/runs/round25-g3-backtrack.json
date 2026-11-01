@@ -1,6 +1,6 @@
 {
   "pass": "Round25 G3 raw-reviewed",
-  "graded": 6,
+  "graded": 10,
   "score": 0,
   "correctness": {
     "verdict_match": 0,
@@ -9,7 +9,7 @@
   },
   "harmful": 0,
   "zero_groups": {
-    "intake": 6
+    "intake": 10
   },
   "zeros": [
     {
@@ -95,6 +95,62 @@
       "retained_query_errors": [],
       "correct_action": "Resolve only the missing user fact using the admitted catalog.",
       "class": "failed-fixture-load"
+    },
+    {
+      "ticket": "waiting-billing-load-v1",
+      "first_wrong_step": "intake",
+      "reason": "What the saved record shows: the DIA saved answer is status NEEDS_INPUT, with handoff null and stop null. Its only output is the question \"Choose the missing details so I can check the report.\" It offers one report choice, \"Subscription Billing\". In the saved evidence, intake classified the ticket as issue_type DATA_LOOKS_OLD with compared_with NOTHING and empty provenance. Triage, queries and evidence are all null, so no query ran. The sealed expectation is verdict \"waiting on job\", layer PIPELINE, and the cause is the named job's freshly observed active RUNNING/QUEUED Wait-control execution, with its pending completion named.\n\nScoring: the answer gives no verdict, no layer and no cause, so all three fail. Under the all-three rule, partial is false and scores zero. It is not harmful because it states nothing false as fact: no failure, cause or SLA is invented. The failing step is intake. The ticket asks about a named pipeline job (\"PIPELINE Billing application load\", shown as running on the job history screen), but intake routed it as a stale-report question and asked the user to pick a report. That choice was never needed to look up the job's run status.\n\nThe one real dispute is handoff quality. The primary grader scores 1 and calls the question \"plausible\". That is too generous. The question sends the work down the wrong path: a report choice does nothing to identify the active run, the handoff is null, and nothing from any investigation is passed on. Even though \"Subscription Billing\" probably comes from the word \"Billing\" in the ticket, it is still off-target. So 0 is correct, as the secondary grader says. The primary's other points are fine, apart from its reference to \"available evidence (docs/runs/...)\": that file is the grading reference, not something DIA should have consulted.\n\nThe secondary grader has one small factual error: it quotes \"queries: []\", but the saved value is null. The substance still holds, because no queries ran either way. The secondary wins because its handoff judgment matches the record.",
+      "saved_trace": {
+        "outcome_sha256": "e21d97399a87a683a1f1b9e00d76ee51ce07788a62d124d3f7086f4ad895e6f4",
+        "local_outcome": ".local\\round-twenty-five\\g3-waiting-billing-load-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "waiting-billing-load"
+    },
+    {
+      "ticket": "waiting-billing-transform-v1",
+      "first_wrong_step": "intake",
+      "reason": "The delivered answer never investigated the question and instead returned NEEDS_INPUT asking the user to choose a report. The expected answer is 'waiting on job' at the PIPELINE layer, with a named active RUNNING/QUEUED Wait-control execution for the Billing Warehouse transformations job as the cause. The delivered answer provides no verdict, no layer identification, and no named cause \u2014 it stopped at intake without querying any evidence. No technical analysis was performed, so no harmful incorrect claim was made, but the answer is entirely wrong relative to the expected sealed record.",
+      "saved_trace": {
+        "outcome_sha256": "4e25e490857d75abed034606147274954b3aa40527bc15394f32ce70098ad534",
+        "local_outcome": ".local\\round-twenty-five\\g3-waiting-billing-transform-v1-result.json",
+        "assessment_origin": "both independent graders agree"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "waiting-billing-transform"
+    },
+    {
+      "ticket": "waiting-fixture-load-v1",
+      "first_wrong_step": "intake",
+      "reason": "What the saved capture shows: the system stopped with status NEEDS_INPUT. Handoff is null and stop is null. In saved_evidence, triage, queries and evidence are all null. The only populated part is intake. It filed the ticket as issue_type SOMETHING_ELSE, classified it as DATA_LOOKS_OLD and set compared_with to NOTHING. Its source mapping did flag one word in the ticket as an IDENTIFIER (figure_mentions [17,17]), but nothing turned that into a target. The system then asked the user to choose one of 12 reports, such as Inventory Health, Warehouse Performance, Round Ten Visual Variety and Application Load Support. None of these is the pipeline run the ticket names.\n\nThe sealed expectation is: verdict 'waiting on job', layer PIPELINE, and a cause naming round_two_application_load_audited_20261003 as a freshly observed active RUNNING/QUEUED execution that is still pending. No verdict, layer or cause was delivered, so all three checks fail. The scoring rule needs all three, and partial is 0.\n\nNot harmful: the answer makes no false claim about failure, cause or SLA.\n\nFirst failing step is intake. The ticket explicitly named the PIPELINE job and said it is still running, so nothing was missing. Intake misread the question as a stale-report issue and did not turn the named job into a target. Asking the user was a consequence of that error, not the root failure.\n\nThe one real dispute is handoff quality. The primary grader gave 1, calling the question 'at least actionable'. That is wrong. A list of unrelated reports is not a useful next step for checking the status of a named running pipeline. The answer also has no queries to rerun, no stopping point and no evidence. Answering that question would not help the user. The 'Application Load Support' report is only loosely related by name and is not the named run. The secondary grader's score of 0 is right, and its reasoning on every dimension matches the capture. The secondary grader wins.",
+      "saved_trace": {
+        "outcome_sha256": "ba8fc5e33534eab80064c18234149c5417dbee1c45463af5ec1cc2f51ddb6c82",
+        "local_outcome": ".local\\round-twenty-five\\g3-waiting-fixture-load-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "waiting-fixture-load"
+    },
+    {
+      "ticket": "waiting-fixture-load-v2",
+      "first_wrong_step": "intake",
+      "reason": "What the saved evidence shows: only intake ran. The intake result is status NEEDS_INPUT, issue_type SOMETHING_ELSE, classified_issue_type DATA_LOOKS_OLD, and compared_with NOTHING. The question asks the user to choose one of 12 reports, such as Application Load Support or Inventory Health. Triage, queries and evidence are all null. Handoff and stop are null. The ticket names PIPELINE round_two_application_load_audited_20261003 outright, and the intake did map that name as an IDENTIFIER mention. Even so, it went looking for a report. The sealed expectation is the verdict 'waiting on job' at the PIPELINE layer, with the cause being an active RUNNING/QUEUED Wait-control execution on the named job. The saved answer gives no verdict, no layer and no cause, so all three fail. Under the all-three rule this scores zero, and partial is false. It is not harmful. It made no confident wrong claim and did not accept the user's lock guess. It simply asked a question.\n\nDisputed points: (1) First failing step. The error is at intake: it misclassified a pipeline ticket as a stale-report issue and picked the wrong kind of target. Triage never ran, so blaming triage, as the primary grader does, is wrong. The secondary grader's 'intake' is correct. (2) Handoff quality. There are no rerunnable queries, no stop or handoff content, and no next checks. Also, choosing any report from the list would not lead to the named pipeline's run state. The primary grader says the answer is 'rerunnable once the user responds'. That overstates it, because the question points at the wrong object. A score of 0 is justified. Both graders agree on the match fields and on harmful. The secondary grader is right on both disputed points.",
+      "saved_trace": {
+        "outcome_sha256": "68a6476d21a545f27cdebeca45f1ecbf1df4e1581bcfc4089e58eb67c0580d6e",
+        "local_outcome": ".local\\round-twenty-five\\g3-waiting-fixture-load-v2-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "waiting-fixture-load"
     }
   ],
   "walkthroughs": [
@@ -147,6 +203,9 @@
   "zero_classes": {
     "failed-billing-transform": 2,
     "fourth-failed-billing-transform": 2,
-    "failed-fixture-load": 2
+    "failed-fixture-load": 2,
+    "waiting-billing-load": 1,
+    "waiting-billing-transform": 1,
+    "waiting-fixture-load": 2
   }
 }

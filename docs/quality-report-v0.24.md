@@ -2,13 +2,13 @@
 
 ## Current measurement
 
-Saved-result snapshot: 2026-10-31T23:48:36.686161+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the completed new held-out set (60/60 accounted for). G3 and G4 remain in progress until their requested totals are accounted for. Partial cohort figures must not be presented as full-set accuracy.
+Saved-result snapshot: 2026-11-01T00:43:10.957758+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the completed new held-out set (60/60 accounted for). G3 and G4 remain in progress until their requested totals are accounted for. Partial cohort figures must not be presented as full-set accuracy.
 
 | Cohort | Official primary (95% Wilson) | Strict (95% Wilson) | Raw-reviewed (95% Wilson) | Raw harmful | Requested |
 |---|---|---|---|---:|---:|
 |G1|37/40 (80.1–97.4%)|34/40 (70.9–92.9%)|35/40 (73.9–94.5%)|2|40|
 |G2|37/60 (49.0–72.9%)|32/60 (40.9–65.4%)|36/60 (47.4–71.4%)|0|60|
-|G3|0/6 (0.0–39.0%)|0/6 (0.0–39.0%)|0/6 (0.0–39.0%)|0|60|
+|G3|0/10 (0.0–27.8%)|0/10 (0.0–27.8%)|0/10 (0.0–27.8%)|0|60|
 |G4|not run|not run|not run|not measured|20|
 
 G1 is unchanged dev v2. G3 compares unchanged R22 text (14/40dev and5/20held-out); G4 is a regression comparison with R23's6/20. The prior R24 official18/20 remains unchanged. Related variants share fixtures, so Wilson intervals describe this observed sample, not independent client-estate accuracy.
@@ -21,7 +21,7 @@ Core agreement means verdict, layer, cause and harm flags. Full assessment addit
 |---|---|---|---|---|---|---:|
 |G1|37/40 (80.1–97.4%)|8/40 (10.5–34.8%)|35/40 (73.9–94.5%)|35/40 (73.9–94.5%)|35/40 (73.9–94.5%)|0|
 |G2|51/60 (73.9–91.9%)|13/60 (13.1–33.6%)|42/60 (57.5–80.1%)|44/60 (61.0–82.9%)|37/60 (49.0–72.9%)|0|
-|G3|6/6 (61.0–100.0%)|2/6 (9.7–70.0%)|0/6 (0.0–39.0%)|0/6 (0.0–39.0%)|0/6 (0.0–39.0%)|0|
+|G3|10/10 (72.2–100.0%)|3/10 (10.8–60.3%)|0/10 (0.0–27.8%)|0/10 (0.0–27.8%)|0/10 (0.0–27.8%)|0|
 
 Operator blinding was partly broken by two accidental held-out staging/status fragments, disclosed in decisions.md and the round summary. No investigator logic or expectation was changed afterward. G1's original raw reviews remain; G2–G4 disagreements are decided by independent Claude calls receiving only the owner-approved packet.
 
@@ -78,6 +78,9 @@ Every cell includes its95% Wilson interval. Original case-family IDs are retaine
 |G3 / failed-billing-transform|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
 |G3 / failed-fixture-load|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
 |G3 / fourth-failed-billing-transform|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
+|G3 / waiting-billing-load|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|
+|G3 / waiting-billing-transform|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|
+|G3 / waiting-fixture-load|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
 
 ### Expected verdict classes
 
@@ -107,6 +110,7 @@ Grouping uses exact sealed oracle labels; no expectation or score change. Case f
 |G2 / transformation logic|6/9 (35.4–87.9%)|6/9 (35.4–87.9%)|6/9 (35.4–87.9%)|0|
 |G2 / waiting on job|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|0|
 |G3 / failed job|0/6 (0.0–39.0%)|0/6 (0.0–39.0%)|0/6 (0.0–39.0%)|0|
+|G3 / waiting on job|0/4 (0.0–49.0%)|0/4 (0.0–49.0%)|0/4 (0.0–49.0%)|0|
 
 ## Observed cost, cache and timing
 

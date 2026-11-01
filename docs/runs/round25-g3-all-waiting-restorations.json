@@ -1,0 +1,60 @@
+{
+  "controls": [
+    {
+      "fixture": "waiting",
+      "status": "WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED",
+      "original_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+      "injected_hash": "54303b570d0b0b27ad85f392000d7bb9824072ec45293766cf8a795b0ff949e0",
+      "physical_requests": 87,
+      "restore": {
+        "before_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+        "mutations": 1,
+        "run_history_preserved": true,
+        "served_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+        "status": "RESTORED_DEFINITION"
+      },
+      "outcomes_saved": 2,
+      "owned_job_endpoints": [
+        "workspaces/149f8d99-1c66-4a0a-9624-759be002bb60/items/b4871498-bd35-45be-916c-9a642568012c/jobs/instances/bd6d7713-e9da-404b-8b67-baf9828437dc",
+        "workspaces/149f8d99-1c66-4a0a-9624-759be002bb60/items/b4871498-bd35-45be-916c-9a642568012c/jobs/instances/62632634-9c47-4fd2-b7ff-6cd36aac2a63"
+      ]
+    },
+    {
+      "fixture": "waiting-billing-transform",
+      "status": "WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED",
+      "original_hash": "392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552",
+      "injected_hash": "f0c73828cf0b48465a662d580c6be1b09edba8a37aa822e375c3d72ef59b2b61",
+      "physical_requests": 50,
+      "restore": {
+        "before_hash": "392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552",
+        "mutations": 1,
+        "run_history_preserved": true,
+        "served_hash": "392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552",
+        "status": "RESTORED_DEFINITION"
+      },
+      "outcomes_saved": 1,
+      "owned_job_endpoints": [
+        "workspaces/7d67bb36-04f6-4182-95aa-da5d515248fa/items/76c60248-b830-433b-9880-90593da28e7e/jobs/instances/82ceaa2a-cb95-4c6e-bbd8-adcda44679a7"
+      ]
+    },
+    {
+      "fixture": "waiting-billing-load",
+      "status": "WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED",
+      "original_hash": "febc543e6cb018bcfbd83e97006d98fe2b875a33a45d0debf2bf2fb09fc250a4",
+      "injected_hash": "97b85045112768b95c717b1831ddda272a0106dce607ea96fb3cbff6242b95e7",
+      "physical_requests": 50,
+      "restore": {
+        "before_hash": "febc543e6cb018bcfbd83e97006d98fe2b875a33a45d0debf2bf2fb09fc250a4",
+        "mutations": 1,
+        "run_history_preserved": true,
+        "served_hash": "febc543e6cb018bcfbd83e97006d98fe2b875a33a45d0debf2bf2fb09fc250a4",
+        "status": "RESTORED_DEFINITION"
+      },
+      "outcomes_saved": 1,
+      "owned_job_endpoints": [
+        "workspaces/7d67bb36-04f6-4182-95aa-da5d515248fa/items/fc8438fd-2c18-4196-9191-33e26481e2e0/jobs/instances/493990f1-df8d-4ade-9b96-209272777c9d"
+      ]
+    }
+  ],
+  "source_or_expectation_change": false
+}
