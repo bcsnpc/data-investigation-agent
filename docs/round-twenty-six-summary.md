@@ -22,6 +22,12 @@ _pending_
 
 Owner stored the existing OpenAI project key in the platform Key Vault. Model listing and bounded synthetic Responses/tool/cache calls passed. Credit expiry remains unknown: the owner reply used the placeholder <date>. No key was printed or committed. The live benchmark and release remain pending.
 
+### In-progress provider usage checkpoint
+
+There are 31 saved benchmark outcomes at this checkpoint; this is not a quality score. Actual investigator call means and cached-input ratios are: Opus USD0.106269 / 69.94%; Astra-only USD0.182081 / 64.47%; Sol first leg USD0.034744 / 58.99%; Astra fallback USD0.257695 / 44.31%. Different unresolved paths and differing call counts make these cost observations, not proof of relative quality. Exact counts, costs, capture seals and the original common image are in `round-twenty-six-benchmark-usage-checkpoint.json`. Screenshot and standalone-summary calls have not yet been measured in this checkpoint; no zero-cost claim is substituted.
+
+The benchmark remains on its original image. The next development image includes a generic cached query-layer contract correction and observational UTC timing, tested separately. The saved strict-schema hypothesis was not established by the captured requests. All prior outcomes are preserved. Physical-budget planning and an owner decision request are recorded in `owner-actions.md`; no ceiling has changed.
+
 ## Intake diagnostic checkpoint (2026-11-01)
 
 The first model-only R22 dev intake diagnostic admitted 21/40; the second admitted 28/40, with 12 questions, 86 model calls and USD10.653160. Both used unchanged dev text and retained catalog metadata, with zero estate reads. These are admission diagnostics, not scored investigation results. Original results and provider journals are retained. See round-twenty-six-intake-dry1.json and round-twenty-six-intake-dry2.json.
