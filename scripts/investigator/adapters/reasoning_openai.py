@@ -149,10 +149,10 @@ class Client:
                              **self._capture(body, private_summary)})
                 response = (self.send or self._http)('POST', self.base + '/responses', body)
                 reply = openai_reply(response, provider=self.provider)
-                self.budget.settle(reservation, reply.usage.budget_usage())
                 _safe(canonical(response).encode())
                 self.record({'event': 'REASONING_RESPONSE', 'provider': self.provider, 'reservation': reservation,
                              **self._capture(response, private_summary)})
+                self.budget.settle(reservation, reply.usage.budget_usage())
                 self.successful_calls += 1
                 self.record({'event': 'REASONING_CACHE_USAGE', 'provider': self.provider,
                              'successful_call': self.successful_calls,

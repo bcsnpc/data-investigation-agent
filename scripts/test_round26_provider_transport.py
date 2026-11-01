@@ -6,6 +6,17 @@ from investigator.adapters.provider_contract import openai_request
 
 
 class ProviderTransportTests(unittest.TestCase):
+    def test_native_response_is_retained_before_settlement_can_fail(self):
+        send=Mock(return_value=self.response());client=self.client(send=send)
+        def failed_settlement(*args):
+            events=[c.args[0] for c in client.record.call_args_list]
+            self.assertTrue(any(e['event']=='REASONING_RESPONSE' for e in events))
+            raise RuntimeError('synthetic ledger lock')
+        client.budget.settle.side_effect=failed_settlement
+        with self.assertRaisesRegex(RuntimeError,'synthetic ledger lock'):
+            client.complete(system='s',messages=[],tools=self.tools())
+        send.assert_called_once()
+
     def test_arm_start_template_excludes_job_only_fields_without_mutating_schedule(self):
         from investigator.adapters.runner_deployment import execution_template
         source={'containers':[{'name':'worker','image':'pinned','resources':{'cpu':1,'memory':'2Gi'},

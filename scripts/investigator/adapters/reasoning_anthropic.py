@@ -175,11 +175,11 @@ class Client:
                              **({'private_case_content_omitted':True,'sha256':__import__('hashlib').sha256(canonical(body).encode()).hexdigest()}
                                 if private_summary else {'body':body})})
                 response=(self.send or self._http)('POST',BASE+'/messages',body)
-                self.budget.settle(identity,response.get('usage'))
                 _safe(canonical(response).encode())
                 self.record({'event':'REASONING_RESPONSE','reservation':identity,
                              **({'private_case_content_omitted':True,'sha256':__import__('hashlib').sha256(canonical(response).encode()).hexdigest(),'usage':response.get('usage')}
                                 if private_summary else {'body':response})})
+                self.budget.settle(identity,response.get('usage'))
                 if cache_investigation:
                     observed=self.diagnostic_cache.observe(response.get('usage'));observed.update(phase='INVESTIGATION',cache_assertion_applies=True);self.record(observed)
                 elif self.diagnostic_helper_usage is not None:

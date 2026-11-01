@@ -270,7 +270,11 @@ class SharedState:
         for attempt in range(2):
             try:return operation()
             except Exception as error:
-                if self.backend!='postgresql' or not dropped_connection(error):raise
+                # A lock timeout aborts this transaction. These callers are
+                # reads or settlement of the same reservation ID, so retrying
+                # once cannot dispatch another estate or provider request.
+                lock_timeout=getattr(error,'sqlstate',None)=='55P03'
+                if self.backend!='postgresql' or not (dropped_connection(error) or lock_timeout):raise
                 self.connection_failures.append({'operation':name,'attempt':attempt+1,
                     'error_type':type(error).__name__,'sqlstate':getattr(error,'sqlstate',None),
                     'connection_timing':getattr(error,'postgres_connection_timing',None),'retry':attempt==0})

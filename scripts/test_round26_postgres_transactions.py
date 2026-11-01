@@ -6,6 +6,20 @@ from investigator.shared_state import SharedState, StateConflict, TRANSACTION_AC
 
 
 class ShortTransactionsTests(unittest.TestCase):
+    def test_lock_timeout_retries_idempotent_operation_once_without_new_dispatch(self):
+        from unittest.mock import Mock
+        class LockTimeout(Exception):sqlstate='55P03'
+        state=SharedState(lambda:None,backend='postgresql',mode='live')
+        operation=Mock(side_effect=[LockTimeout('synthetic'),{'settled':'same-id'}])
+        with patch('time.sleep') as sleep:
+            self.assertEqual(state._retry_connection_operation('RESERVATION_SETTLEMENT',operation),{'settled':'same-id'})
+        self.assertEqual(operation.call_count,2);sleep.assert_called_once_with(30)
+        self.assertEqual(state.connection_failures[0]['sqlstate'],'55P03')
+        operation=Mock(side_effect=LockTimeout('still held'))
+        with patch('time.sleep'),self.assertRaises(LockTimeout):
+            state._retry_connection_operation('RESERVATION_SETTLEMENT',operation)
+        self.assertEqual(operation.call_count,2)
+
     def test_graph_reads_do_not_take_shared_writer_transactions(self):
         from investigator.estate_graph_repository import GraphRepository
         from test_estate_graph import graph
