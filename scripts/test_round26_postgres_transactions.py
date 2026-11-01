@@ -6,6 +6,23 @@ from investigator.shared_state import SharedState, StateConflict, TRANSACTION_AC
 
 
 class ShortTransactionsTests(unittest.TestCase):
+    def test_writer_lock_retry_precedes_body_and_reinstates_transaction_settings(self):
+        from unittest.mock import Mock
+        class LockTimeout(Exception):sqlstate='55P03'
+        db=Mock();attempts=[]
+        def execute(sql):
+            if 'pg_advisory_xact_lock' in sql:
+                attempts.append(sql)
+                if len(attempts)==1:raise LockTimeout('busy')
+        db.execute.side_effect=execute
+        state=SharedState(lambda:None,backend='postgresql',mode='live');check=Mock()
+        with patch('time.sleep') as sleep:state._begin_postgres(db,False,False,check)
+        self.assertEqual(len(attempts),2);db.rollback.assert_called_once()
+        self.assertEqual(check.call_count,2);sleep.assert_called_once_with(30)
+        statements=[c.args[0] for c in db.execute.call_args_list]
+        self.assertEqual(statements.count("SET LOCAL lock_timeout = '5s'"),2)
+        self.assertFalse(state.connection_failures[0]['transaction_body_started'])
+
     def test_lock_timeout_retries_idempotent_operation_once_without_new_dispatch(self):
         from unittest.mock import Mock
         class LockTimeout(Exception):sqlstate='55P03'
