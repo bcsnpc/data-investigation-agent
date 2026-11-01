@@ -6,6 +6,15 @@ from datetime import datetime,timezone
 from cloud_investigator import reference,PathCollector
 
 
+def intake_question_outcome(text, mapped, *, resolution, step_costs, cost):
+    """Keep the original text bound even when no intake has been admitted."""
+    business=mapped.get('question','A named choice is needed before investigation.')
+    return {'status':'NEEDS_INPUT','ticket':{'text':text},'business':business,
+            'outputs':{'business':business,'technical':json.dumps(mapped)},
+            'intake':mapped,'intake_resolution':resolution,'ai_step_costs':step_costs,
+            'cost':cost,'physical_requests':0}
+
+
 def metadata_tokens(configuration):
     """Use the full installed auth declaration, never its display profile."""
     from investigator.adapters.vault_user_cache import credential,provider
@@ -145,10 +154,8 @@ def run(plan,context):
         record({'event':'GUIDED_INTAKE_ADMISSION','status':mapped['status'],
                 'resolution':intake_resolution,'confidence':mapped.get('resolution_confidence')})
         if mapped['status']!='READY':
-            business=mapped.get('question','A named choice is needed before investigation.')
-            return {'status':'NEEDS_INPUT','business':business,'outputs':{'business':business,'technical':json.dumps(mapped)},
-                    'intake':mapped,'intake_resolution':intake_resolution,'ai_step_costs':step_costs(ai_usage),
-                    'cost':budget(case_id).status(),'physical_requests':0}
+            return intake_question_outcome(submitted['text'],mapped,resolution=intake_resolution,
+                    step_costs=step_costs(ai_usage),cost=budget(case_id).status())
         submitted={'intake':mapped['intake'],'source':mapped['source']}
     if operational_admission is None and (not isinstance(submitted,dict) or not {'intake'}<=set(submitted)<={'intake','source'}):
         raise ValueError('GUIDED_TICKET_ENVELOPE')
