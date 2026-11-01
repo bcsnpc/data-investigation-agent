@@ -2,46 +2,46 @@
   "official_primary": {
     "all_three": {
       "correct": 0,
-      "total": 24,
+      "total": 25,
       "accuracy": 0.0,
       "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "upper": 0.13319225093904846,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 0,
-      "total": 24,
+      "total": 25,
       "accuracy": 0.0,
       "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "upper": 0.13319225093904846,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 2,
-      "total": 24,
-      "accuracy": 0.08333333333333333,
-      "lower": 0.023158815297043306,
-      "upper": 0.25848802193210685,
+      "total": 25,
+      "accuracy": 0.08,
+      "lower": 0.022220401284847563,
+      "upper": 0.24966108950395313,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 0,
-      "total": 24,
+      "total": 25,
       "accuracy": 0.0,
       "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "upper": 0.13319225093904846,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 24,
+      "total": 25,
       "accuracy": 0.0,
       "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "upper": 0.13319225093904846,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -49,46 +49,46 @@
   "strict": {
     "all_three": {
       "correct": 0,
-      "total": 24,
+      "total": 25,
       "accuracy": 0.0,
       "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "upper": 0.13319225093904846,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 0,
-      "total": 24,
+      "total": 25,
       "accuracy": 0.0,
       "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "upper": 0.13319225093904846,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 1,
-      "total": 24,
-      "accuracy": 0.041666666666666664,
-      "lower": 0.0073934561655057685,
-      "upper": 0.20241806478655938,
+      "total": 25,
+      "accuracy": 0.04,
+      "lower": 0.007096233501987265,
+      "upper": 0.19544063736193734,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 0,
-      "total": 24,
+      "total": 25,
       "accuracy": 0.0,
       "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "upper": 0.13319225093904846,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
-      "correct": 1,
-      "total": 24,
-      "accuracy": 0.041666666666666664,
-      "lower": 0.0073934561655057685,
-      "upper": 0.20241806478655938,
+      "correct": 2,
+      "total": 25,
+      "accuracy": 0.08,
+      "lower": 0.022220401284847563,
+      "upper": 0.24966108950395313,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -96,46 +96,46 @@
   "raw_reviewed": {
     "all_three": {
       "correct": 0,
-      "total": 24,
+      "total": 25,
       "accuracy": 0.0,
       "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "upper": 0.13319225093904846,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 0,
-      "total": 24,
+      "total": 25,
       "accuracy": 0.0,
       "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "upper": 0.13319225093904846,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 1,
-      "total": 24,
-      "accuracy": 0.041666666666666664,
-      "lower": 0.0073934561655057685,
-      "upper": 0.20241806478655938,
+      "total": 25,
+      "accuracy": 0.04,
+      "lower": 0.007096233501987265,
+      "upper": 0.19544063736193734,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 0,
-      "total": 24,
+      "total": 25,
       "accuracy": 0.0,
       "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "upper": 0.13319225093904846,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
-      "correct": 1,
-      "total": 24,
-      "accuracy": 0.041666666666666664,
-      "lower": 0.0073934561655057685,
-      "upper": 0.20241806478655938,
+      "correct": 2,
+      "total": 25,
+      "accuracy": 0.08,
+      "lower": 0.022220401284847563,
+      "upper": 0.24966108950395313,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,50 +143,50 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 24,
+  "completed_graded": 25,
   "primary": {
     "all_three": {
       "correct": 0,
-      "total": 24,
+      "total": 25,
       "accuracy": 0.0,
       "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "upper": 0.13319225093904846,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 0,
-      "total": 24,
+      "total": 25,
       "accuracy": 0.0,
       "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "upper": 0.13319225093904846,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 2,
-      "total": 24,
-      "accuracy": 0.08333333333333333,
-      "lower": 0.023158815297043306,
-      "upper": 0.25848802193210685,
+      "total": 25,
+      "accuracy": 0.08,
+      "lower": 0.022220401284847563,
+      "upper": 0.24966108950395313,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 0,
-      "total": 24,
+      "total": 25,
       "accuracy": 0.0,
       "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "upper": 0.13319225093904846,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 24,
+      "total": 25,
       "accuracy": 0.0,
       "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "upper": 0.13319225093904846,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -194,56 +194,56 @@
   "secondary": {
     "all_three": {
       "correct": 0,
-      "total": 24,
+      "total": 25,
       "accuracy": 0.0,
       "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "upper": 0.13319225093904846,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 0,
-      "total": 24,
+      "total": 25,
       "accuracy": 0.0,
       "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "upper": 0.13319225093904846,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 1,
-      "total": 24,
-      "accuracy": 0.041666666666666664,
-      "lower": 0.0073934561655057685,
-      "upper": 0.20241806478655938,
+      "total": 25,
+      "accuracy": 0.04,
+      "lower": 0.007096233501987265,
+      "upper": 0.19544063736193734,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 0,
-      "total": 24,
+      "total": 25,
       "accuracy": 0.0,
       "lower": 1.3877787807814457e-17,
-      "upper": 0.13797620467498017,
+      "upper": 0.13319225093904846,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
-      "correct": 1,
-      "total": 24,
-      "accuracy": 0.041666666666666664,
-      "lower": 0.0073934561655057685,
-      "upper": 0.20241806478655938,
+      "correct": 2,
+      "total": 25,
+      "accuracy": 0.08,
+      "lower": 0.022220401284847563,
+      "upper": 0.24966108950395313,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
     "correct": 22,
-    "total": 24,
-    "accuracy": 0.9166666666666666,
-    "lower": 0.741511978067893,
-    "upper": 0.9768411847029567,
+    "total": 25,
+    "accuracy": 0.88,
+    "lower": 0.7004420607907267,
+    "upper": 0.9583318284955964,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -255,10 +255,10 @@
   ],
   "full_assessment_agreement": {
     "correct": 4,
-    "total": 24,
-    "accuracy": 0.16666666666666666,
-    "lower": 0.06678676328632951,
-    "upper": 0.3585307064969906,
+    "total": 25,
+    "accuracy": 0.16,
+    "lower": 0.0640345145667644,
+    "upper": 0.3465362160717886,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -369,6 +369,13 @@
     },
     {
       "ticket": "R17-01-v1",
+      "fields": [
+        "harmful",
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "R17-02-v1",
       "fields": [
         "harmful",
         "handoff_quality"
@@ -1376,6 +1383,82 @@
           "output_tokens": 3135,
           "output_tokens_details": {
             "thinking_tokens": 1208
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "R17-02-v1",
+      "class": "R17-02",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The sealed expected answer is 'as designed': the 8765 figure is correct by design because Handled Quantity sums additive units, not movement record counts, and the unfiltered card legitimately evaluates to 8765. The expected layer is SEMANTIC (a measure definition/aggregation choice), not a transformation defect. The delivered answer instead concludes there is a data quality bug \u2014 a duplicate-join in the gold table causing an inflation of 1104 units for product 7, making 8765 wrong relative to 7661 in silver/bronze. This is the opposite verdict (transformation logic error vs. as designed) and the wrong layer (ETL join vs. semantic measure). Although the investigation is thorough and the evidence is internally consistent, the causal interpretation is entirely wrong: the join producing 406 rows for 360 movements may be intentional (e.g., movement_values is a fact table meant to hold one row per movement\u00d7rate combination, and Handled Quantity is defined to sum only units without double-counting, or the model DAX deduplicates). The answer did not check whether the DAX measure itself avoids the duplication, nor did it consider that 'as designed' is the expected answer. Because the verdict, layer, and named cause all fail to match, and the handoff contains no rerunnable stopping point or next checks, handoff quality is 0.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": true,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Sealed expectation: verdict 'as designed', layer SEMANTIC, cause = Handled Quantity sums carried additive units (not a count of movement records), and the unfiltered card evaluates to 8765. The answer should keep the named visual, qualify saved/default and snapshot assumptions, and not judge whether the figure is the intended business number. Delivered: verdict 'transformation logic', placed in the gold-building notebook step (transformation layer, not semantic), cause = a product_id-only left join to product_rates fans out product 7 rows, adding 1104 units. Verdict, layer and cause all differ, so every dimension scores zero; partial credit is not allowed. The delivered answer does correctly confirm the measure returns 8765 and that it sums Activity[units], which overlaps the expected cause. But it then states an upstream defect as fact under a definite verdict. Under the rubric that is a confident incorrect cause, so it is graded harmful, even though the answer adds a 'not judging intended business figure' caveat and lists snapshot limits. Disagreement noted: the delivered queries look internally consistent (gold 406 rows vs 360 distinct movement IDs; silver/bronze 7661; product 7 = 1104 = the gap). That suggests real duplication evidence the sealed expectation may not have considered. Also, the ticket names the visual 'Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered', but the delivered answer never mentions or preserves that visual and only queries the Warehouse Operations e1b8e1 measure. Per instructions I grade against the expectation without repairing either document. First failing step: the conclusion step, where measure evidence that matched the expectation was turned into a transformation-defect verdict. Handoff: no handoff object (status ANSWERED). Queries are recorded verbatim and can be rerun, but there is no explicit stopping point or next checks (e.g., checking the named visual or the intended rate grain), so score 1.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-static02",
+      "outcome_sha256": "a9f5cb087eda60946328f7be15fe172666c7abf3e4d938dcf90c59b87ae8f1bd",
+      "status": "ANSWERED",
+      "native_duration_seconds": 192.0,
+      "worker_wall_seconds": 164.18657813600004,
+      "investigation_cost_microdollars": 392967,
+      "physical_requests": 25,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-R17-02-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 158115,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": true,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved evidence shows: there are seven successful read-only queries.\n- The Handled Quantity measure, evaluated with DAX, returns 8765. That matches the reported figure.\n- Gold movement_values sums to 8765.\n- stock_movements_e1b8e1 sums to 7661 in both silver and bronze.\n- In silver product_rates_e1b8e1, only product 7 has more than one rate row (2 rows).\n- Silver product 7 units total 1104. That is exactly 8765 \u2212 7661.\n- Gold has 406 rows for 360 distinct movement IDs.\n- Triage shows the model's last refresh succeeded on 2026-10-07, and its schedule is disabled. The job-run, layer-freshness, source-change and definition-change checks were unavailable.\n\nWhat the evidence does not show: nothing in the capture reads the Warehouse valuation notebook or any transformation definition. The answer states as fact that the step building gold 'joins silver movements to silver product_rates_e1b8e1 on product_id only (a left join)'. That is an inference from the numbers, not something the agent observed. The arithmetic suggests fan-out, but the specific mechanism is unsupported.\n\nScoring against the sealed expectation, which requires all three to match:\n- Expected verdict is 'as designed'. The answer says 'transformation logic', so the verdict does not match.\n- Expected layer is SEMANTIC. The answer places the problem in the notebook step that builds gold, so the layer does not match.\n- Expected cause is that Handled Quantity sums carried additive units, not a count of movement records, so the unfiltered card evaluates to 8765. The answer mentions that SUM, but its named cause is an upstream join duplication. The cause does not match.\n- All-three rule: nothing matches, and partial credit is zero.\n\nHarmful: true. The answer gives a definite defect verdict and states an unread notebook join as fact. It uses that to treat the reported figure as inflated, which contradicts the expected 'as designed' finding. The caveat that it is not judging the intended business figure, and the snapshot limits, do not cancel that confident causal claim.\n\nHandoff quality: 1. Status is ANSWERED, with no handoff object, stopping point or next checks. However, every query is recorded verbatim and can be rerun, and the limits are stated. That is more than zero.\n\nFailing step: wrong conclusion. Intake, target selection and query execution were fine. The reads confirmed the figure, and the agent then drew a transformation-defect conclusion, partly from a mechanism it never read.\n\nOn the graders: they agree on all three match fields being false, and both are correct there. The primary grader is weaker on three points.\n1. It marks harmful=false despite a confident wrong cause that includes a claim the agent never verified.\n2. It gives handoff 0 even though the queries are rerunnable.\n3. Its speculation that the 'DAX deduplicates' is contradicted by the evidence: the measure equals the gold sum of 8765.\n\nThe secondary grader correctly marks harmful=true and handoff 1. It also correctly notes that the answer never preserves the named visual, and it fairly flags that the duplication evidence is internally consistent. It missed that the notebook-join claim has no captured evidence behind it, but its scores are still right.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "a9f5cb087eda60946328f7be15fe172666c7abf3e4d938dcf90c59b87ae8f1bd",
+        "reason": "What the saved evidence shows: there are seven successful read-only queries.\n- The Handled Quantity measure, evaluated with DAX, returns 8765. That matches the reported figure.\n- Gold movement_values sums to 8765.\n- stock_movements_e1b8e1 sums to 7661 in both silver and bronze.\n- In silver product_rates_e1b8e1, only product 7 has more than one rate row (2 rows).\n- Silver product 7 units total 1104. That is exactly 8765 \u2212 7661.\n- Gold has 406 rows for 360 distinct movement IDs.\n- Triage shows the model's last refresh succeeded on 2026-10-07, and its schedule is disabled. The job-run, layer-freshness, source-change and definition-change checks were unavailable.\n\nWhat the evidence does not show: nothing in the capture reads the Warehouse valuation notebook or any transformation definition. The answer states as fact that the step building gold 'joins silver movements to silver product_rates_e1b8e1 on product_id only (a left join)'. That is an inference from the numbers, not something the agent observed. The arithmetic suggests fan-out, but the specific mechanism is unsupported.\n\nScoring against the sealed expectation, which requires all three to match:\n- Expected verdict is 'as designed'. The answer says 'transformation logic', so the verdict does not match.\n- Expected layer is SEMANTIC. The answer places the problem in the notebook step that builds gold, so the layer does not match.\n- Expected cause is that Handled Quantity sums carried additive units, not a count of movement records, so the unfiltered card evaluates to 8765. The answer mentions that SUM, but its named cause is an upstream join duplication. The cause does not match.\n- All-three rule: nothing matches, and partial credit is zero.\n\nHarmful: true. The answer gives a definite defect verdict and states an unread notebook join as fact. It uses that to treat the reported figure as inflated, which contradicts the expected 'as designed' finding. The caveat that it is not judging the intended business figure, and the snapshot limits, do not cancel that confident causal claim.\n\nHandoff quality: 1. Status is ANSWERED, with no handoff object, stopping point or next checks. However, every query is recorded verbatim and can be rerun, and the limits are stated. That is more than zero.\n\nFailing step: wrong conclusion. Intake, target selection and query execution were fine. The reads confirmed the figure, and the agent then drew a transformation-defect conclusion, partly from a mechanism it never read.\n\nOn the graders: they agree on all three match fields being false, and both are correct there. The primary grader is weaker on three points.\n1. It marks harmful=false despite a confident wrong cause that includes a claim the agent never verified.\n2. It gives handoff 0 even though the queries are rerunnable.\n3. Its speculation that the 'DAX deduplicates' is contradicted by the evidence: the measure equals the gold sum of 8765.\n\nThe secondary grader correctly marks harmful=true and handoff 1. It also correctly notes that the answer never preserves the named visual, and it fairly flags that the duplication evidence is internally consistent. It missed that the notebook-join claim has no captured evidence behind it, but its scores are still right.",
+        "source_sha256": "7e2ec09b4a42ac260aa3c1a1ffb49dbf7c8c5a54eb08ac94bfadc02c50d3c0a6",
+        "ticket": "R17-02-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 28255,
+          "output_tokens": 2035,
+          "output_tokens_details": {
+            "thinking_tokens": 697
           },
           "service_tier": "standard",
           "speed": "standard"
@@ -4733,6 +4816,246 @@
         }
       }
     },
+    "R17-02": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "waiting-billing-load": {
       "official_primary": {
         "all_three": {
@@ -5600,6 +5923,82 @@
           "output_tokens": 3135,
           "output_tokens_details": {
             "thinking_tokens": 1208
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "R17-02-v1",
+      "class": "R17-02",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The sealed expected answer is 'as designed': the 8765 figure is correct by design because Handled Quantity sums additive units, not movement record counts, and the unfiltered card legitimately evaluates to 8765. The expected layer is SEMANTIC (a measure definition/aggregation choice), not a transformation defect. The delivered answer instead concludes there is a data quality bug \u2014 a duplicate-join in the gold table causing an inflation of 1104 units for product 7, making 8765 wrong relative to 7661 in silver/bronze. This is the opposite verdict (transformation logic error vs. as designed) and the wrong layer (ETL join vs. semantic measure). Although the investigation is thorough and the evidence is internally consistent, the causal interpretation is entirely wrong: the join producing 406 rows for 360 movements may be intentional (e.g., movement_values is a fact table meant to hold one row per movement\u00d7rate combination, and Handled Quantity is defined to sum only units without double-counting, or the model DAX deduplicates). The answer did not check whether the DAX measure itself avoids the duplication, nor did it consider that 'as designed' is the expected answer. Because the verdict, layer, and named cause all fail to match, and the handoff contains no rerunnable stopping point or next checks, handoff quality is 0.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": true,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Sealed expectation: verdict 'as designed', layer SEMANTIC, cause = Handled Quantity sums carried additive units (not a count of movement records), and the unfiltered card evaluates to 8765. The answer should keep the named visual, qualify saved/default and snapshot assumptions, and not judge whether the figure is the intended business number. Delivered: verdict 'transformation logic', placed in the gold-building notebook step (transformation layer, not semantic), cause = a product_id-only left join to product_rates fans out product 7 rows, adding 1104 units. Verdict, layer and cause all differ, so every dimension scores zero; partial credit is not allowed. The delivered answer does correctly confirm the measure returns 8765 and that it sums Activity[units], which overlaps the expected cause. But it then states an upstream defect as fact under a definite verdict. Under the rubric that is a confident incorrect cause, so it is graded harmful, even though the answer adds a 'not judging intended business figure' caveat and lists snapshot limits. Disagreement noted: the delivered queries look internally consistent (gold 406 rows vs 360 distinct movement IDs; silver/bronze 7661; product 7 = 1104 = the gap). That suggests real duplication evidence the sealed expectation may not have considered. Also, the ticket names the visual 'Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered', but the delivered answer never mentions or preserves that visual and only queries the Warehouse Operations e1b8e1 measure. Per instructions I grade against the expectation without repairing either document. First failing step: the conclusion step, where measure evidence that matched the expectation was turned into a transformation-defect verdict. Handoff: no handoff object (status ANSWERED). Queries are recorded verbatim and can be rerun, but there is no explicit stopping point or next checks (e.g., checking the named visual or the intended rate grain), so score 1.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-static02",
+      "outcome_sha256": "a9f5cb087eda60946328f7be15fe172666c7abf3e4d938dcf90c59b87ae8f1bd",
+      "status": "ANSWERED",
+      "native_duration_seconds": 192.0,
+      "worker_wall_seconds": 164.18657813600004,
+      "investigation_cost_microdollars": 392967,
+      "physical_requests": 25,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-R17-02-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 158115,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": true,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved evidence shows: there are seven successful read-only queries.\n- The Handled Quantity measure, evaluated with DAX, returns 8765. That matches the reported figure.\n- Gold movement_values sums to 8765.\n- stock_movements_e1b8e1 sums to 7661 in both silver and bronze.\n- In silver product_rates_e1b8e1, only product 7 has more than one rate row (2 rows).\n- Silver product 7 units total 1104. That is exactly 8765 \u2212 7661.\n- Gold has 406 rows for 360 distinct movement IDs.\n- Triage shows the model's last refresh succeeded on 2026-10-07, and its schedule is disabled. The job-run, layer-freshness, source-change and definition-change checks were unavailable.\n\nWhat the evidence does not show: nothing in the capture reads the Warehouse valuation notebook or any transformation definition. The answer states as fact that the step building gold 'joins silver movements to silver product_rates_e1b8e1 on product_id only (a left join)'. That is an inference from the numbers, not something the agent observed. The arithmetic suggests fan-out, but the specific mechanism is unsupported.\n\nScoring against the sealed expectation, which requires all three to match:\n- Expected verdict is 'as designed'. The answer says 'transformation logic', so the verdict does not match.\n- Expected layer is SEMANTIC. The answer places the problem in the notebook step that builds gold, so the layer does not match.\n- Expected cause is that Handled Quantity sums carried additive units, not a count of movement records, so the unfiltered card evaluates to 8765. The answer mentions that SUM, but its named cause is an upstream join duplication. The cause does not match.\n- All-three rule: nothing matches, and partial credit is zero.\n\nHarmful: true. The answer gives a definite defect verdict and states an unread notebook join as fact. It uses that to treat the reported figure as inflated, which contradicts the expected 'as designed' finding. The caveat that it is not judging the intended business figure, and the snapshot limits, do not cancel that confident causal claim.\n\nHandoff quality: 1. Status is ANSWERED, with no handoff object, stopping point or next checks. However, every query is recorded verbatim and can be rerun, and the limits are stated. That is more than zero.\n\nFailing step: wrong conclusion. Intake, target selection and query execution were fine. The reads confirmed the figure, and the agent then drew a transformation-defect conclusion, partly from a mechanism it never read.\n\nOn the graders: they agree on all three match fields being false, and both are correct there. The primary grader is weaker on three points.\n1. It marks harmful=false despite a confident wrong cause that includes a claim the agent never verified.\n2. It gives handoff 0 even though the queries are rerunnable.\n3. Its speculation that the 'DAX deduplicates' is contradicted by the evidence: the measure equals the gold sum of 8765.\n\nThe secondary grader correctly marks harmful=true and handoff 1. It also correctly notes that the answer never preserves the named visual, and it fairly flags that the duplication evidence is internally consistent. It missed that the notebook-join claim has no captured evidence behind it, but its scores are still right.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "a9f5cb087eda60946328f7be15fe172666c7abf3e4d938dcf90c59b87ae8f1bd",
+        "reason": "What the saved evidence shows: there are seven successful read-only queries.\n- The Handled Quantity measure, evaluated with DAX, returns 8765. That matches the reported figure.\n- Gold movement_values sums to 8765.\n- stock_movements_e1b8e1 sums to 7661 in both silver and bronze.\n- In silver product_rates_e1b8e1, only product 7 has more than one rate row (2 rows).\n- Silver product 7 units total 1104. That is exactly 8765 \u2212 7661.\n- Gold has 406 rows for 360 distinct movement IDs.\n- Triage shows the model's last refresh succeeded on 2026-10-07, and its schedule is disabled. The job-run, layer-freshness, source-change and definition-change checks were unavailable.\n\nWhat the evidence does not show: nothing in the capture reads the Warehouse valuation notebook or any transformation definition. The answer states as fact that the step building gold 'joins silver movements to silver product_rates_e1b8e1 on product_id only (a left join)'. That is an inference from the numbers, not something the agent observed. The arithmetic suggests fan-out, but the specific mechanism is unsupported.\n\nScoring against the sealed expectation, which requires all three to match:\n- Expected verdict is 'as designed'. The answer says 'transformation logic', so the verdict does not match.\n- Expected layer is SEMANTIC. The answer places the problem in the notebook step that builds gold, so the layer does not match.\n- Expected cause is that Handled Quantity sums carried additive units, not a count of movement records, so the unfiltered card evaluates to 8765. The answer mentions that SUM, but its named cause is an upstream join duplication. The cause does not match.\n- All-three rule: nothing matches, and partial credit is zero.\n\nHarmful: true. The answer gives a definite defect verdict and states an unread notebook join as fact. It uses that to treat the reported figure as inflated, which contradicts the expected 'as designed' finding. The caveat that it is not judging the intended business figure, and the snapshot limits, do not cancel that confident causal claim.\n\nHandoff quality: 1. Status is ANSWERED, with no handoff object, stopping point or next checks. However, every query is recorded verbatim and can be rerun, and the limits are stated. That is more than zero.\n\nFailing step: wrong conclusion. Intake, target selection and query execution were fine. The reads confirmed the figure, and the agent then drew a transformation-defect conclusion, partly from a mechanism it never read.\n\nOn the graders: they agree on all three match fields being false, and both are correct there. The primary grader is weaker on three points.\n1. It marks harmful=false despite a confident wrong cause that includes a claim the agent never verified.\n2. It gives handoff 0 even though the queries are rerunnable.\n3. Its speculation that the 'DAX deduplicates' is contradicted by the evidence: the measure equals the gold sum of 8765.\n\nThe secondary grader correctly marks harmful=true and handoff 1. It also correctly notes that the answer never preserves the named visual, and it fairly flags that the duplication evidence is internally consistent. It missed that the notebook-join claim has no captured evidence behind it, but its scores are still right.",
+        "source_sha256": "7e2ec09b4a42ac260aa3c1a1ffb49dbf7c8c5a54eb08ac94bfadc02c50d3c0a6",
+        "ticket": "R17-02-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 28255,
+          "output_tokens": 2035,
+          "output_tokens_details": {
+            "thinking_tokens": 697
           },
           "service_tier": "standard",
           "speed": "standard"
@@ -7017,6 +7416,82 @@
       }
     },
     {
+      "ticket": "R17-02-v1",
+      "class": "R17-02",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The sealed expected answer is 'as designed': the 8765 figure is correct by design because Handled Quantity sums additive units, not movement record counts, and the unfiltered card legitimately evaluates to 8765. The expected layer is SEMANTIC (a measure definition/aggregation choice), not a transformation defect. The delivered answer instead concludes there is a data quality bug \u2014 a duplicate-join in the gold table causing an inflation of 1104 units for product 7, making 8765 wrong relative to 7661 in silver/bronze. This is the opposite verdict (transformation logic error vs. as designed) and the wrong layer (ETL join vs. semantic measure). Although the investigation is thorough and the evidence is internally consistent, the causal interpretation is entirely wrong: the join producing 406 rows for 360 movements may be intentional (e.g., movement_values is a fact table meant to hold one row per movement\u00d7rate combination, and Handled Quantity is defined to sum only units without double-counting, or the model DAX deduplicates). The answer did not check whether the DAX measure itself avoids the duplication, nor did it consider that 'as designed' is the expected answer. Because the verdict, layer, and named cause all fail to match, and the handoff contains no rerunnable stopping point or next checks, handoff quality is 0.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": true,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Sealed expectation: verdict 'as designed', layer SEMANTIC, cause = Handled Quantity sums carried additive units (not a count of movement records), and the unfiltered card evaluates to 8765. The answer should keep the named visual, qualify saved/default and snapshot assumptions, and not judge whether the figure is the intended business number. Delivered: verdict 'transformation logic', placed in the gold-building notebook step (transformation layer, not semantic), cause = a product_id-only left join to product_rates fans out product 7 rows, adding 1104 units. Verdict, layer and cause all differ, so every dimension scores zero; partial credit is not allowed. The delivered answer does correctly confirm the measure returns 8765 and that it sums Activity[units], which overlaps the expected cause. But it then states an upstream defect as fact under a definite verdict. Under the rubric that is a confident incorrect cause, so it is graded harmful, even though the answer adds a 'not judging intended business figure' caveat and lists snapshot limits. Disagreement noted: the delivered queries look internally consistent (gold 406 rows vs 360 distinct movement IDs; silver/bronze 7661; product 7 = 1104 = the gap). That suggests real duplication evidence the sealed expectation may not have considered. Also, the ticket names the visual 'Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered', but the delivered answer never mentions or preserves that visual and only queries the Warehouse Operations e1b8e1 measure. Per instructions I grade against the expectation without repairing either document. First failing step: the conclusion step, where measure evidence that matched the expectation was turned into a transformation-defect verdict. Handoff: no handoff object (status ANSWERED). Queries are recorded verbatim and can be rerun, but there is no explicit stopping point or next checks (e.g., checking the named visual or the intended rate grain), so score 1.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-static02",
+      "outcome_sha256": "a9f5cb087eda60946328f7be15fe172666c7abf3e4d938dcf90c59b87ae8f1bd",
+      "status": "ANSWERED",
+      "native_duration_seconds": 192.0,
+      "worker_wall_seconds": 164.18657813600004,
+      "investigation_cost_microdollars": 392967,
+      "physical_requests": 25,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-R17-02-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 158115,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": true,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved evidence shows: there are seven successful read-only queries.\n- The Handled Quantity measure, evaluated with DAX, returns 8765. That matches the reported figure.\n- Gold movement_values sums to 8765.\n- stock_movements_e1b8e1 sums to 7661 in both silver and bronze.\n- In silver product_rates_e1b8e1, only product 7 has more than one rate row (2 rows).\n- Silver product 7 units total 1104. That is exactly 8765 \u2212 7661.\n- Gold has 406 rows for 360 distinct movement IDs.\n- Triage shows the model's last refresh succeeded on 2026-10-07, and its schedule is disabled. The job-run, layer-freshness, source-change and definition-change checks were unavailable.\n\nWhat the evidence does not show: nothing in the capture reads the Warehouse valuation notebook or any transformation definition. The answer states as fact that the step building gold 'joins silver movements to silver product_rates_e1b8e1 on product_id only (a left join)'. That is an inference from the numbers, not something the agent observed. The arithmetic suggests fan-out, but the specific mechanism is unsupported.\n\nScoring against the sealed expectation, which requires all three to match:\n- Expected verdict is 'as designed'. The answer says 'transformation logic', so the verdict does not match.\n- Expected layer is SEMANTIC. The answer places the problem in the notebook step that builds gold, so the layer does not match.\n- Expected cause is that Handled Quantity sums carried additive units, not a count of movement records, so the unfiltered card evaluates to 8765. The answer mentions that SUM, but its named cause is an upstream join duplication. The cause does not match.\n- All-three rule: nothing matches, and partial credit is zero.\n\nHarmful: true. The answer gives a definite defect verdict and states an unread notebook join as fact. It uses that to treat the reported figure as inflated, which contradicts the expected 'as designed' finding. The caveat that it is not judging the intended business figure, and the snapshot limits, do not cancel that confident causal claim.\n\nHandoff quality: 1. Status is ANSWERED, with no handoff object, stopping point or next checks. However, every query is recorded verbatim and can be rerun, and the limits are stated. That is more than zero.\n\nFailing step: wrong conclusion. Intake, target selection and query execution were fine. The reads confirmed the figure, and the agent then drew a transformation-defect conclusion, partly from a mechanism it never read.\n\nOn the graders: they agree on all three match fields being false, and both are correct there. The primary grader is weaker on three points.\n1. It marks harmful=false despite a confident wrong cause that includes a claim the agent never verified.\n2. It gives handoff 0 even though the queries are rerunnable.\n3. Its speculation that the 'DAX deduplicates' is contradicted by the evidence: the measure equals the gold sum of 8765.\n\nThe secondary grader correctly marks harmful=true and handoff 1. It also correctly notes that the answer never preserves the named visual, and it fairly flags that the duplication evidence is internally consistent. It missed that the notebook-join claim has no captured evidence behind it, but its scores are still right.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "a9f5cb087eda60946328f7be15fe172666c7abf3e4d938dcf90c59b87ae8f1bd",
+        "reason": "What the saved evidence shows: there are seven successful read-only queries.\n- The Handled Quantity measure, evaluated with DAX, returns 8765. That matches the reported figure.\n- Gold movement_values sums to 8765.\n- stock_movements_e1b8e1 sums to 7661 in both silver and bronze.\n- In silver product_rates_e1b8e1, only product 7 has more than one rate row (2 rows).\n- Silver product 7 units total 1104. That is exactly 8765 \u2212 7661.\n- Gold has 406 rows for 360 distinct movement IDs.\n- Triage shows the model's last refresh succeeded on 2026-10-07, and its schedule is disabled. The job-run, layer-freshness, source-change and definition-change checks were unavailable.\n\nWhat the evidence does not show: nothing in the capture reads the Warehouse valuation notebook or any transformation definition. The answer states as fact that the step building gold 'joins silver movements to silver product_rates_e1b8e1 on product_id only (a left join)'. That is an inference from the numbers, not something the agent observed. The arithmetic suggests fan-out, but the specific mechanism is unsupported.\n\nScoring against the sealed expectation, which requires all three to match:\n- Expected verdict is 'as designed'. The answer says 'transformation logic', so the verdict does not match.\n- Expected layer is SEMANTIC. The answer places the problem in the notebook step that builds gold, so the layer does not match.\n- Expected cause is that Handled Quantity sums carried additive units, not a count of movement records, so the unfiltered card evaluates to 8765. The answer mentions that SUM, but its named cause is an upstream join duplication. The cause does not match.\n- All-three rule: nothing matches, and partial credit is zero.\n\nHarmful: true. The answer gives a definite defect verdict and states an unread notebook join as fact. It uses that to treat the reported figure as inflated, which contradicts the expected 'as designed' finding. The caveat that it is not judging the intended business figure, and the snapshot limits, do not cancel that confident causal claim.\n\nHandoff quality: 1. Status is ANSWERED, with no handoff object, stopping point or next checks. However, every query is recorded verbatim and can be rerun, and the limits are stated. That is more than zero.\n\nFailing step: wrong conclusion. Intake, target selection and query execution were fine. The reads confirmed the figure, and the agent then drew a transformation-defect conclusion, partly from a mechanism it never read.\n\nOn the graders: they agree on all three match fields being false, and both are correct there. The primary grader is weaker on three points.\n1. It marks harmful=false despite a confident wrong cause that includes a claim the agent never verified.\n2. It gives handoff 0 even though the queries are rerunnable.\n3. Its speculation that the 'DAX deduplicates' is contradicted by the evidence: the measure equals the gold sum of 8765.\n\nThe secondary grader correctly marks harmful=true and handoff 1. It also correctly notes that the answer never preserves the named visual, and it fairly flags that the duplication evidence is internally consistent. It missed that the notebook-join claim has no captured evidence behind it, but its scores are still right.",
+        "source_sha256": "7e2ec09b4a42ac260aa3c1a1ffb49dbf7c8c5a54eb08ac94bfadc02c50d3c0a6",
+        "ticket": "R17-02-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 28255,
+          "output_tokens": 2035,
+          "output_tokens_details": {
+            "thinking_tokens": 697
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
       "ticket": "waiting-billing-load-v1",
       "class": "waiting-billing-load",
       "fixture": "waiting-billing-load",
@@ -7286,7 +7761,6 @@
   "raw_review_policy": "FRESH_INDEPENDENT_CLAUDE_CALL; no operator adjudication",
   "requested": 60,
   "not_yet_graded": [
-    "R17-02-v1",
     "R17-03-v1",
     "R17-04-v1",
     "R17-05-v1",
@@ -8289,46 +8763,46 @@
       "official_primary": {
         "all_three": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -8336,45 +8810,45 @@
       "strict": {
         "all_three": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
-          "correct": 1,
-          "total": 1,
+          "correct": 2,
+          "total": 2,
           "accuracy": 1.0,
-          "lower": 0.20654931437723745,
+          "lower": 0.34238022750665303,
           "upper": 1.0,
           "confidence": 0.95,
           "method": "Wilson"
@@ -8383,45 +8857,45 @@
       "raw_reviewed": {
         "all_three": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
-          "correct": 1,
-          "total": 1,
+          "correct": 2,
+          "total": 2,
           "accuracy": 1.0,
-          "lower": 0.20654931437723745,
+          "lower": 0.34238022750665303,
           "upper": 1.0,
           "confidence": 0.95,
           "method": "Wilson"
@@ -8433,46 +8907,46 @@
       "primary": {
         "all_three": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -8480,45 +8954,45 @@
       "secondary": {
         "all_three": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 1,
+          "total": 2,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.7934506856227626,
+          "upper": 0.6576197724933469,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
-          "correct": 1,
-          "total": 1,
+          "correct": 2,
+          "total": 2,
           "accuracy": 1.0,
-          "lower": 0.20654931437723745,
+          "lower": 0.34238022750665303,
           "upper": 1.0,
           "confidence": 0.95,
           "method": "Wilson"
@@ -8773,46 +9247,46 @@
       "official_primary": {
         "all_three": {
           "correct": 0,
-          "total": 15,
+          "total": 16,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.20388330103584862,
+          "upper": 0.1936076805344365,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 15,
+          "total": 16,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.20388330103584862,
+          "upper": 0.1936076805344365,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 2,
-          "total": 15,
-          "accuracy": 0.13333333333333333,
-          "lower": 0.03736125910306537,
-          "upper": 0.37881982832322364,
+          "total": 16,
+          "accuracy": 0.125,
+          "lower": 0.03497748774324047,
+          "upper": 0.36022827265758695,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 15,
+          "total": 16,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.20388330103584862,
+          "upper": 0.1936076805344365,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 15,
+          "total": 16,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.20388330103584862,
+          "upper": 0.1936076805344365,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -8820,46 +9294,46 @@
       "strict": {
         "all_three": {
           "correct": 0,
-          "total": 15,
+          "total": 16,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.20388330103584862,
+          "upper": 0.1936076805344365,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 15,
+          "total": 16,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.20388330103584862,
+          "upper": 0.1936076805344365,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 1,
-          "total": 15,
-          "accuracy": 0.06666666666666667,
-          "lower": 0.011866895493268553,
-          "upper": 0.2981652987378003,
+          "total": 16,
+          "accuracy": 0.0625,
+          "lower": 0.01111934476464252,
+          "upper": 0.28328737570298945,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 15,
+          "total": 16,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.20388330103584862,
+          "upper": 0.1936076805344365,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
-          "correct": 1,
-          "total": 15,
-          "accuracy": 0.06666666666666667,
-          "lower": 0.011866895493268553,
-          "upper": 0.2981652987378003,
+          "correct": 2,
+          "total": 16,
+          "accuracy": 0.125,
+          "lower": 0.03497748774324047,
+          "upper": 0.36022827265758695,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -8867,46 +9341,46 @@
       "raw_reviewed": {
         "all_three": {
           "correct": 0,
-          "total": 15,
+          "total": 16,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.20388330103584862,
+          "upper": 0.1936076805344365,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 15,
+          "total": 16,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.20388330103584862,
+          "upper": 0.1936076805344365,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 1,
-          "total": 15,
-          "accuracy": 0.06666666666666667,
-          "lower": 0.011866895493268553,
-          "upper": 0.2981652987378003,
+          "total": 16,
+          "accuracy": 0.0625,
+          "lower": 0.01111934476464252,
+          "upper": 0.28328737570298945,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 15,
+          "total": 16,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.20388330103584862,
+          "upper": 0.1936076805344365,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
-          "correct": 1,
-          "total": 15,
-          "accuracy": 0.06666666666666667,
-          "lower": 0.011866895493268553,
-          "upper": 0.2981652987378003,
+          "correct": 2,
+          "total": 16,
+          "accuracy": 0.125,
+          "lower": 0.03497748774324047,
+          "upper": 0.36022827265758695,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -8914,50 +9388,50 @@
       "raw_review_pending": [],
       "raw_review_complete": true,
       "headline": "raw_reviewed",
-      "completed_graded": 15,
+      "completed_graded": 16,
       "primary": {
         "all_three": {
           "correct": 0,
-          "total": 15,
+          "total": 16,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.20388330103584862,
+          "upper": 0.1936076805344365,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 15,
+          "total": 16,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.20388330103584862,
+          "upper": 0.1936076805344365,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 2,
-          "total": 15,
-          "accuracy": 0.13333333333333333,
-          "lower": 0.03736125910306537,
-          "upper": 0.37881982832322364,
+          "total": 16,
+          "accuracy": 0.125,
+          "lower": 0.03497748774324047,
+          "upper": 0.36022827265758695,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 15,
+          "total": 16,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.20388330103584862,
+          "upper": 0.1936076805344365,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 15,
+          "total": 16,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.20388330103584862,
+          "upper": 0.1936076805344365,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -8965,56 +9439,56 @@
       "secondary": {
         "all_three": {
           "correct": 0,
-          "total": 15,
+          "total": 16,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.20388330103584862,
+          "upper": 0.1936076805344365,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 15,
+          "total": 16,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.20388330103584862,
+          "upper": 0.1936076805344365,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 1,
-          "total": 15,
-          "accuracy": 0.06666666666666667,
-          "lower": 0.011866895493268553,
-          "upper": 0.2981652987378003,
+          "total": 16,
+          "accuracy": 0.0625,
+          "lower": 0.01111934476464252,
+          "upper": 0.28328737570298945,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 15,
+          "total": 16,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.20388330103584862,
+          "upper": 0.1936076805344365,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
-          "correct": 1,
-          "total": 15,
-          "accuracy": 0.06666666666666667,
-          "lower": 0.011866895493268553,
-          "upper": 0.2981652987378003,
+          "correct": 2,
+          "total": 16,
+          "accuracy": 0.125,
+          "lower": 0.03497748774324047,
+          "upper": 0.36022827265758695,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "agreement": {
         "correct": 13,
-        "total": 15,
-        "accuracy": 0.8666666666666667,
-        "lower": 0.6211801716767764,
-        "upper": 0.9626387408969346,
+        "total": 16,
+        "accuracy": 0.8125,
+        "lower": 0.5699111903802586,
+        "upper": 0.9340840092857187,
         "confidence": 0.95,
         "method": "Wilson"
       },
@@ -9026,10 +9500,10 @@
       ],
       "full_assessment_agreement": {
         "correct": 2,
-        "total": 15,
-        "accuracy": 0.13333333333333333,
-        "lower": 0.03736125910306537,
-        "upper": 0.37881982832322364,
+        "total": 16,
+        "accuracy": 0.125,
+        "lower": 0.03497748774324047,
+        "upper": 0.36022827265758695,
         "confidence": 0.95,
         "method": "Wilson"
       },
@@ -9102,6 +9576,13 @@
         },
         {
           "ticket": "R17-01-v1",
+          "fields": [
+            "harmful",
+            "handoff_quality"
+          ]
+        },
+        {
+          "ticket": "R17-02-v1",
           "fields": [
             "harmful",
             "handoff_quality"
@@ -9799,6 +10280,82 @@
               "output_tokens": 3135,
               "output_tokens_details": {
                 "thinking_tokens": 1208
+              },
+              "service_tier": "standard",
+              "speed": "standard"
+            },
+            "winner": "secondary"
+          }
+        },
+        {
+          "ticket": "R17-02-v1",
+          "class": "R17-02",
+          "fixture": "baseline",
+          "estate": "fixture",
+          "primary": {
+            "cause_match": false,
+            "failing_step": "wrong conclusion",
+            "handoff_quality": 0,
+            "harmful": false,
+            "layer_match": false,
+            "partial": false,
+            "reason": "The sealed expected answer is 'as designed': the 8765 figure is correct by design because Handled Quantity sums additive units, not movement record counts, and the unfiltered card legitimately evaluates to 8765. The expected layer is SEMANTIC (a measure definition/aggregation choice), not a transformation defect. The delivered answer instead concludes there is a data quality bug \u2014 a duplicate-join in the gold table causing an inflation of 1104 units for product 7, making 8765 wrong relative to 7661 in silver/bronze. This is the opposite verdict (transformation logic error vs. as designed) and the wrong layer (ETL join vs. semantic measure). Although the investigation is thorough and the evidence is internally consistent, the causal interpretation is entirely wrong: the join producing 406 rows for 360 movements may be intentional (e.g., movement_values is a fact table meant to hold one row per movement\u00d7rate combination, and Handled Quantity is defined to sum only units without double-counting, or the model DAX deduplicates). The answer did not check whether the DAX measure itself avoids the duplication, nor did it consider that 'as designed' is the expected answer. Because the verdict, layer, and named cause all fail to match, and the handoff contains no rerunnable stopping point or next checks, handoff quality is 0.",
+            "verdict_match": false
+          },
+          "secondary": {
+            "cause_match": false,
+            "failing_step": "wrong conclusion",
+            "handoff_quality": 1,
+            "harmful": true,
+            "layer_match": false,
+            "partial": false,
+            "reason": "Sealed expectation: verdict 'as designed', layer SEMANTIC, cause = Handled Quantity sums carried additive units (not a count of movement records), and the unfiltered card evaluates to 8765. The answer should keep the named visual, qualify saved/default and snapshot assumptions, and not judge whether the figure is the intended business number. Delivered: verdict 'transformation logic', placed in the gold-building notebook step (transformation layer, not semantic), cause = a product_id-only left join to product_rates fans out product 7 rows, adding 1104 units. Verdict, layer and cause all differ, so every dimension scores zero; partial credit is not allowed. The delivered answer does correctly confirm the measure returns 8765 and that it sums Activity[units], which overlaps the expected cause. But it then states an upstream defect as fact under a definite verdict. Under the rubric that is a confident incorrect cause, so it is graded harmful, even though the answer adds a 'not judging intended business figure' caveat and lists snapshot limits. Disagreement noted: the delivered queries look internally consistent (gold 406 rows vs 360 distinct movement IDs; silver/bronze 7661; product 7 = 1104 = the gap). That suggests real duplication evidence the sealed expectation may not have considered. Also, the ticket names the visual 'Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered', but the delivered answer never mentions or preserves that visual and only queries the Warehouse Operations e1b8e1 measure. Per instructions I grade against the expectation without repairing either document. First failing step: the conclusion step, where measure evidence that matched the expectation was turned into a transformation-defect verdict. Handoff: no handoff object (status ANSWERED). Queries are recorded verbatim and can be rerun, but there is no explicit stopping point or next checks (e.g., checking the named visual or the intended rate grain), so score 1.",
+            "verdict_match": false
+          },
+          "grade_wave": "g3-static02",
+          "outcome_sha256": "a9f5cb087eda60946328f7be15fe172666c7abf3e4d938dcf90c59b87ae8f1bd",
+          "status": "ANSWERED",
+          "native_duration_seconds": 192.0,
+          "worker_wall_seconds": 164.18657813600004,
+          "investigation_cost_microdollars": 392967,
+          "physical_requests": 25,
+          "model_calls": 3,
+          "native_outcome_path": ".local\\round-twenty-five\\g3-R17-02-v1-result.json",
+          "usage_unavailable": false,
+          "timing_group": "full_investigation",
+          "expected_verdict_class": "as designed",
+          "raw_review": {
+            "cost_microdollars": 158115,
+            "grade": {
+              "cause_match": false,
+              "failing_step": "wrong conclusion",
+              "handoff_quality": 1,
+              "harmful": true,
+              "layer_match": false,
+              "partial": false,
+              "reason": "What the saved evidence shows: there are seven successful read-only queries.\n- The Handled Quantity measure, evaluated with DAX, returns 8765. That matches the reported figure.\n- Gold movement_values sums to 8765.\n- stock_movements_e1b8e1 sums to 7661 in both silver and bronze.\n- In silver product_rates_e1b8e1, only product 7 has more than one rate row (2 rows).\n- Silver product 7 units total 1104. That is exactly 8765 \u2212 7661.\n- Gold has 406 rows for 360 distinct movement IDs.\n- Triage shows the model's last refresh succeeded on 2026-10-07, and its schedule is disabled. The job-run, layer-freshness, source-change and definition-change checks were unavailable.\n\nWhat the evidence does not show: nothing in the capture reads the Warehouse valuation notebook or any transformation definition. The answer states as fact that the step building gold 'joins silver movements to silver product_rates_e1b8e1 on product_id only (a left join)'. That is an inference from the numbers, not something the agent observed. The arithmetic suggests fan-out, but the specific mechanism is unsupported.\n\nScoring against the sealed expectation, which requires all three to match:\n- Expected verdict is 'as designed'. The answer says 'transformation logic', so the verdict does not match.\n- Expected layer is SEMANTIC. The answer places the problem in the notebook step that builds gold, so the layer does not match.\n- Expected cause is that Handled Quantity sums carried additive units, not a count of movement records, so the unfiltered card evaluates to 8765. The answer mentions that SUM, but its named cause is an upstream join duplication. The cause does not match.\n- All-three rule: nothing matches, and partial credit is zero.\n\nHarmful: true. The answer gives a definite defect verdict and states an unread notebook join as fact. It uses that to treat the reported figure as inflated, which contradicts the expected 'as designed' finding. The caveat that it is not judging the intended business figure, and the snapshot limits, do not cancel that confident causal claim.\n\nHandoff quality: 1. Status is ANSWERED, with no handoff object, stopping point or next checks. However, every query is recorded verbatim and can be rerun, and the limits are stated. That is more than zero.\n\nFailing step: wrong conclusion. Intake, target selection and query execution were fine. The reads confirmed the figure, and the agent then drew a transformation-defect conclusion, partly from a mechanism it never read.\n\nOn the graders: they agree on all three match fields being false, and both are correct there. The primary grader is weaker on three points.\n1. It marks harmful=false despite a confident wrong cause that includes a claim the agent never verified.\n2. It gives handoff 0 even though the queries are rerunnable.\n3. Its speculation that the 'DAX deduplicates' is contradicted by the evidence: the measure equals the gold sum of 8765.\n\nThe secondary grader correctly marks harmful=true and handoff 1. It also correctly notes that the answer never preserves the named visual, and it fairly flags that the duplication evidence is internally consistent. It missed that the notebook-join claim has no captured evidence behind it, but its scores are still right.",
+              "verdict_match": false
+            },
+            "independent_fresh_call": true,
+            "independent_model_winner": "secondary",
+            "model": "claude-opus-5-5",
+            "operator_judgment_supplied": false,
+            "raw_outcome_sha256": "a9f5cb087eda60946328f7be15fe172666c7abf3e4d938dcf90c59b87ae8f1bd",
+            "reason": "What the saved evidence shows: there are seven successful read-only queries.\n- The Handled Quantity measure, evaluated with DAX, returns 8765. That matches the reported figure.\n- Gold movement_values sums to 8765.\n- stock_movements_e1b8e1 sums to 7661 in both silver and bronze.\n- In silver product_rates_e1b8e1, only product 7 has more than one rate row (2 rows).\n- Silver product 7 units total 1104. That is exactly 8765 \u2212 7661.\n- Gold has 406 rows for 360 distinct movement IDs.\n- Triage shows the model's last refresh succeeded on 2026-10-07, and its schedule is disabled. The job-run, layer-freshness, source-change and definition-change checks were unavailable.\n\nWhat the evidence does not show: nothing in the capture reads the Warehouse valuation notebook or any transformation definition. The answer states as fact that the step building gold 'joins silver movements to silver product_rates_e1b8e1 on product_id only (a left join)'. That is an inference from the numbers, not something the agent observed. The arithmetic suggests fan-out, but the specific mechanism is unsupported.\n\nScoring against the sealed expectation, which requires all three to match:\n- Expected verdict is 'as designed'. The answer says 'transformation logic', so the verdict does not match.\n- Expected layer is SEMANTIC. The answer places the problem in the notebook step that builds gold, so the layer does not match.\n- Expected cause is that Handled Quantity sums carried additive units, not a count of movement records, so the unfiltered card evaluates to 8765. The answer mentions that SUM, but its named cause is an upstream join duplication. The cause does not match.\n- All-three rule: nothing matches, and partial credit is zero.\n\nHarmful: true. The answer gives a definite defect verdict and states an unread notebook join as fact. It uses that to treat the reported figure as inflated, which contradicts the expected 'as designed' finding. The caveat that it is not judging the intended business figure, and the snapshot limits, do not cancel that confident causal claim.\n\nHandoff quality: 1. Status is ANSWERED, with no handoff object, stopping point or next checks. However, every query is recorded verbatim and can be rerun, and the limits are stated. That is more than zero.\n\nFailing step: wrong conclusion. Intake, target selection and query execution were fine. The reads confirmed the figure, and the agent then drew a transformation-defect conclusion, partly from a mechanism it never read.\n\nOn the graders: they agree on all three match fields being false, and both are correct there. The primary grader is weaker on three points.\n1. It marks harmful=false despite a confident wrong cause that includes a claim the agent never verified.\n2. It gives handoff 0 even though the queries are rerunnable.\n3. Its speculation that the 'DAX deduplicates' is contradicted by the evidence: the measure equals the gold sum of 8765.\n\nThe secondary grader correctly marks harmful=true and handoff 1. It also correctly notes that the answer never preserves the named visual, and it fairly flags that the duplication evidence is internally consistent. It missed that the notebook-join claim has no captured evidence behind it, but its scores are still right.",
+            "source_sha256": "7e2ec09b4a42ac260aa3c1a1ffb49dbf7c8c5a54eb08ac94bfadc02c50d3c0a6",
+            "ticket": "R17-02-v1",
+            "usage": {
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 879
+              },
+              "cache_creation_input_tokens": 879,
+              "cache_read_input_tokens": 0,
+              "inference_geo": "global",
+              "input_tokens": 28255,
+              "output_tokens": 2035,
+              "output_tokens_details": {
+                "thinking_tokens": 697
               },
               "service_tier": "standard",
               "speed": "standard"
@@ -11640,6 +12197,246 @@
             }
           }
         },
+        "R17-02": {
+          "official_primary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "strict": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 1,
+              "total": 1,
+              "accuracy": 1.0,
+              "lower": 0.20654931437723745,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_reviewed": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 1,
+              "total": 1,
+              "accuracy": 1.0,
+              "lower": 0.20654931437723745,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_review_pending": [],
+          "raw_review_complete": true,
+          "headline": "raw_reviewed",
+          "primary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "secondary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 1,
+              "total": 1,
+              "accuracy": 1.0,
+              "lower": 0.20654931437723745,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          }
+        },
         "waiting-fixture-load": {
           "official_primary": {
             "all_three": {
@@ -12027,6 +12824,82 @@
               "output_tokens": 3135,
               "output_tokens_details": {
                 "thinking_tokens": 1208
+              },
+              "service_tier": "standard",
+              "speed": "standard"
+            },
+            "winner": "secondary"
+          }
+        },
+        {
+          "ticket": "R17-02-v1",
+          "class": "R17-02",
+          "fixture": "baseline",
+          "estate": "fixture",
+          "primary": {
+            "cause_match": false,
+            "failing_step": "wrong conclusion",
+            "handoff_quality": 0,
+            "harmful": false,
+            "layer_match": false,
+            "partial": false,
+            "reason": "The sealed expected answer is 'as designed': the 8765 figure is correct by design because Handled Quantity sums additive units, not movement record counts, and the unfiltered card legitimately evaluates to 8765. The expected layer is SEMANTIC (a measure definition/aggregation choice), not a transformation defect. The delivered answer instead concludes there is a data quality bug \u2014 a duplicate-join in the gold table causing an inflation of 1104 units for product 7, making 8765 wrong relative to 7661 in silver/bronze. This is the opposite verdict (transformation logic error vs. as designed) and the wrong layer (ETL join vs. semantic measure). Although the investigation is thorough and the evidence is internally consistent, the causal interpretation is entirely wrong: the join producing 406 rows for 360 movements may be intentional (e.g., movement_values is a fact table meant to hold one row per movement\u00d7rate combination, and Handled Quantity is defined to sum only units without double-counting, or the model DAX deduplicates). The answer did not check whether the DAX measure itself avoids the duplication, nor did it consider that 'as designed' is the expected answer. Because the verdict, layer, and named cause all fail to match, and the handoff contains no rerunnable stopping point or next checks, handoff quality is 0.",
+            "verdict_match": false
+          },
+          "secondary": {
+            "cause_match": false,
+            "failing_step": "wrong conclusion",
+            "handoff_quality": 1,
+            "harmful": true,
+            "layer_match": false,
+            "partial": false,
+            "reason": "Sealed expectation: verdict 'as designed', layer SEMANTIC, cause = Handled Quantity sums carried additive units (not a count of movement records), and the unfiltered card evaluates to 8765. The answer should keep the named visual, qualify saved/default and snapshot assumptions, and not judge whether the figure is the intended business number. Delivered: verdict 'transformation logic', placed in the gold-building notebook step (transformation layer, not semantic), cause = a product_id-only left join to product_rates fans out product 7 rows, adding 1104 units. Verdict, layer and cause all differ, so every dimension scores zero; partial credit is not allowed. The delivered answer does correctly confirm the measure returns 8765 and that it sums Activity[units], which overlaps the expected cause. But it then states an upstream defect as fact under a definite verdict. Under the rubric that is a confident incorrect cause, so it is graded harmful, even though the answer adds a 'not judging intended business figure' caveat and lists snapshot limits. Disagreement noted: the delivered queries look internally consistent (gold 406 rows vs 360 distinct movement IDs; silver/bronze 7661; product 7 = 1104 = the gap). That suggests real duplication evidence the sealed expectation may not have considered. Also, the ticket names the visual 'Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered', but the delivered answer never mentions or preserves that visual and only queries the Warehouse Operations e1b8e1 measure. Per instructions I grade against the expectation without repairing either document. First failing step: the conclusion step, where measure evidence that matched the expectation was turned into a transformation-defect verdict. Handoff: no handoff object (status ANSWERED). Queries are recorded verbatim and can be rerun, but there is no explicit stopping point or next checks (e.g., checking the named visual or the intended rate grain), so score 1.",
+            "verdict_match": false
+          },
+          "grade_wave": "g3-static02",
+          "outcome_sha256": "a9f5cb087eda60946328f7be15fe172666c7abf3e4d938dcf90c59b87ae8f1bd",
+          "status": "ANSWERED",
+          "native_duration_seconds": 192.0,
+          "worker_wall_seconds": 164.18657813600004,
+          "investigation_cost_microdollars": 392967,
+          "physical_requests": 25,
+          "model_calls": 3,
+          "native_outcome_path": ".local\\round-twenty-five\\g3-R17-02-v1-result.json",
+          "usage_unavailable": false,
+          "timing_group": "full_investigation",
+          "expected_verdict_class": "as designed",
+          "raw_review": {
+            "cost_microdollars": 158115,
+            "grade": {
+              "cause_match": false,
+              "failing_step": "wrong conclusion",
+              "handoff_quality": 1,
+              "harmful": true,
+              "layer_match": false,
+              "partial": false,
+              "reason": "What the saved evidence shows: there are seven successful read-only queries.\n- The Handled Quantity measure, evaluated with DAX, returns 8765. That matches the reported figure.\n- Gold movement_values sums to 8765.\n- stock_movements_e1b8e1 sums to 7661 in both silver and bronze.\n- In silver product_rates_e1b8e1, only product 7 has more than one rate row (2 rows).\n- Silver product 7 units total 1104. That is exactly 8765 \u2212 7661.\n- Gold has 406 rows for 360 distinct movement IDs.\n- Triage shows the model's last refresh succeeded on 2026-10-07, and its schedule is disabled. The job-run, layer-freshness, source-change and definition-change checks were unavailable.\n\nWhat the evidence does not show: nothing in the capture reads the Warehouse valuation notebook or any transformation definition. The answer states as fact that the step building gold 'joins silver movements to silver product_rates_e1b8e1 on product_id only (a left join)'. That is an inference from the numbers, not something the agent observed. The arithmetic suggests fan-out, but the specific mechanism is unsupported.\n\nScoring against the sealed expectation, which requires all three to match:\n- Expected verdict is 'as designed'. The answer says 'transformation logic', so the verdict does not match.\n- Expected layer is SEMANTIC. The answer places the problem in the notebook step that builds gold, so the layer does not match.\n- Expected cause is that Handled Quantity sums carried additive units, not a count of movement records, so the unfiltered card evaluates to 8765. The answer mentions that SUM, but its named cause is an upstream join duplication. The cause does not match.\n- All-three rule: nothing matches, and partial credit is zero.\n\nHarmful: true. The answer gives a definite defect verdict and states an unread notebook join as fact. It uses that to treat the reported figure as inflated, which contradicts the expected 'as designed' finding. The caveat that it is not judging the intended business figure, and the snapshot limits, do not cancel that confident causal claim.\n\nHandoff quality: 1. Status is ANSWERED, with no handoff object, stopping point or next checks. However, every query is recorded verbatim and can be rerun, and the limits are stated. That is more than zero.\n\nFailing step: wrong conclusion. Intake, target selection and query execution were fine. The reads confirmed the figure, and the agent then drew a transformation-defect conclusion, partly from a mechanism it never read.\n\nOn the graders: they agree on all three match fields being false, and both are correct there. The primary grader is weaker on three points.\n1. It marks harmful=false despite a confident wrong cause that includes a claim the agent never verified.\n2. It gives handoff 0 even though the queries are rerunnable.\n3. Its speculation that the 'DAX deduplicates' is contradicted by the evidence: the measure equals the gold sum of 8765.\n\nThe secondary grader correctly marks harmful=true and handoff 1. It also correctly notes that the answer never preserves the named visual, and it fairly flags that the duplication evidence is internally consistent. It missed that the notebook-join claim has no captured evidence behind it, but its scores are still right.",
+              "verdict_match": false
+            },
+            "independent_fresh_call": true,
+            "independent_model_winner": "secondary",
+            "model": "claude-opus-5-5",
+            "operator_judgment_supplied": false,
+            "raw_outcome_sha256": "a9f5cb087eda60946328f7be15fe172666c7abf3e4d938dcf90c59b87ae8f1bd",
+            "reason": "What the saved evidence shows: there are seven successful read-only queries.\n- The Handled Quantity measure, evaluated with DAX, returns 8765. That matches the reported figure.\n- Gold movement_values sums to 8765.\n- stock_movements_e1b8e1 sums to 7661 in both silver and bronze.\n- In silver product_rates_e1b8e1, only product 7 has more than one rate row (2 rows).\n- Silver product 7 units total 1104. That is exactly 8765 \u2212 7661.\n- Gold has 406 rows for 360 distinct movement IDs.\n- Triage shows the model's last refresh succeeded on 2026-10-07, and its schedule is disabled. The job-run, layer-freshness, source-change and definition-change checks were unavailable.\n\nWhat the evidence does not show: nothing in the capture reads the Warehouse valuation notebook or any transformation definition. The answer states as fact that the step building gold 'joins silver movements to silver product_rates_e1b8e1 on product_id only (a left join)'. That is an inference from the numbers, not something the agent observed. The arithmetic suggests fan-out, but the specific mechanism is unsupported.\n\nScoring against the sealed expectation, which requires all three to match:\n- Expected verdict is 'as designed'. The answer says 'transformation logic', so the verdict does not match.\n- Expected layer is SEMANTIC. The answer places the problem in the notebook step that builds gold, so the layer does not match.\n- Expected cause is that Handled Quantity sums carried additive units, not a count of movement records, so the unfiltered card evaluates to 8765. The answer mentions that SUM, but its named cause is an upstream join duplication. The cause does not match.\n- All-three rule: nothing matches, and partial credit is zero.\n\nHarmful: true. The answer gives a definite defect verdict and states an unread notebook join as fact. It uses that to treat the reported figure as inflated, which contradicts the expected 'as designed' finding. The caveat that it is not judging the intended business figure, and the snapshot limits, do not cancel that confident causal claim.\n\nHandoff quality: 1. Status is ANSWERED, with no handoff object, stopping point or next checks. However, every query is recorded verbatim and can be rerun, and the limits are stated. That is more than zero.\n\nFailing step: wrong conclusion. Intake, target selection and query execution were fine. The reads confirmed the figure, and the agent then drew a transformation-defect conclusion, partly from a mechanism it never read.\n\nOn the graders: they agree on all three match fields being false, and both are correct there. The primary grader is weaker on three points.\n1. It marks harmful=false despite a confident wrong cause that includes a claim the agent never verified.\n2. It gives handoff 0 even though the queries are rerunnable.\n3. Its speculation that the 'DAX deduplicates' is contradicted by the evidence: the measure equals the gold sum of 8765.\n\nThe secondary grader correctly marks harmful=true and handoff 1. It also correctly notes that the answer never preserves the named visual, and it fairly flags that the duplication evidence is internally consistent. It missed that the notebook-join claim has no captured evidence behind it, but its scores are still right.",
+            "source_sha256": "7e2ec09b4a42ac260aa3c1a1ffb49dbf7c8c5a54eb08ac94bfadc02c50d3c0a6",
+            "ticket": "R17-02-v1",
+            "usage": {
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 879
+              },
+              "cache_creation_input_tokens": 879,
+              "cache_read_input_tokens": 0,
+              "inference_geo": "global",
+              "input_tokens": 28255,
+              "output_tokens": 2035,
+              "output_tokens_details": {
+                "thinking_tokens": 697
               },
               "service_tier": "standard",
               "speed": "standard"
@@ -14656,33 +15529,33 @@
   },
   "timing_cost": {
     "all": {
-      "tickets": 24,
-      "native_observed": 4,
+      "tickets": 25,
+      "native_observed": 5,
       "native_missing": 20,
-      "native_median_seconds": 207.5,
+      "native_median_seconds": 199.0,
       "native_p90_seconds": 261.0,
-      "worker_median_seconds": 177.4972969515,
+      "worker_median_seconds": 171.38800489799996,
       "worker_p90_seconds": 233.1086469249999,
-      "investigation_cost_microdollars_observed": 3408392,
-      "cost_observed": 24,
+      "investigation_cost_microdollars_observed": 3801359,
+      "cost_observed": 25,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.14201633333333336,
-      "physical_requests_observed": 89,
+      "cost_per_observed_ticket_usd": 0.15205436,
+      "physical_requests_observed": 114,
       "physical_requests_unavailable": 0
     },
     "full_investigation": {
-      "tickets": 4,
-      "native_observed": 4,
+      "tickets": 5,
+      "native_observed": 5,
       "native_missing": 0,
-      "native_median_seconds": 207.5,
+      "native_median_seconds": 199.0,
       "native_p90_seconds": 261.0,
-      "worker_median_seconds": 177.4972969515,
+      "worker_median_seconds": 171.38800489799996,
       "worker_p90_seconds": 233.1086469249999,
-      "investigation_cost_microdollars_observed": 1993020,
-      "cost_observed": 4,
+      "investigation_cost_microdollars_observed": 2385987,
+      "cost_observed": 5,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.498255,
-      "physical_requests_observed": 89,
+      "cost_per_observed_ticket_usd": 0.47719740000000005,
+      "physical_requests_observed": 114,
       "physical_requests_unavailable": 0
     },
     "answered_without_layer_queries": {

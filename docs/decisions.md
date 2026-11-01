@@ -482,3 +482,6 @@ Round25 exposure disclosure2026-11-01: while diagnosing G3 access control recove
 
 
 Round25 harm pause2026-11-01: fresh independent raw review confirms R17-01-v1 harmful (primaryfalse, secondarytrue, rawtrue): confident transformation finding includes an unread notebook join detail and does not answer the expected measure/count question. Preserve all three judgments and the original answer. Pause exact case-family R17-01; unrelated baseline families continue. Correct coordinator bookkeeping so an already-recorded family harm does not globally stop every later family, and enforce the same family key before admission.25focused tooling tests pass, including family isolation and preserving harm. No frozen investigator/prompt/query/model change and no rerun of a delivered answer. Receipt: runs/round25-family-pauses.json.
+
+
+Round25 second raw-confirmed family harm2026-11-01: R17-02 is paused after its fresh independent review, preserving primary/secondary/raw judgments and the delivered answer. No engine fix or answer retry. Coordinator records any further independently confirmed family pause automatically and skips only matching future family records; it does not pause every baseline family. The original history measurement exception remains recorded separately. Exact pause records and reasons: runs/round25-family-pauses.json.
