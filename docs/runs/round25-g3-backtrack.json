@@ -1,15 +1,16 @@
 {
   "pass": "Round25 G3 raw-reviewed",
-  "graded": 19,
+  "graded": 23,
   "score": 0,
   "correctness": {
     "verdict_match": 0,
-    "layer_match": 0,
+    "layer_match": 1,
     "cause_match": 0
   },
   "harmful": 0,
   "zero_groups": {
-    "intake": 19
+    "intake": 21,
+    "reading results": 2
   },
   "zeros": [
     {
@@ -151,6 +152,62 @@
       "retained_query_errors": [],
       "correct_action": "Resolve only the missing user fact using the admitted catalog.",
       "class": "failed-fixture-load"
+    },
+    {
+      "ticket": "history-source-900201-v1",
+      "first_wrong_step": "reading results",
+      "reason": "What the raw capture shows: six reads succeeded, none truncated. The four record lookups for movement_id=900201 found 0 rows in each of bronze stock_movements_e1b8e1, silver stock_movements_e1b8e1, gold movement_values and the DAX Activity table. The range checks found min 1 and max 360 in both gold (406 rows) and bronze (360 rows), with 0 IDs at or above 900000. Triage saw two successful model refreshes on 2026-10-07 and a disabled schedule. JOB_RUNS, CONNECTION_MODE, SOURCE_CHANGES and LAYER_FRESHNESS were UNAVAILABLE. Both get_job_runs calls failed validation because they named the wrong node; the only node allowed was f25f6b\u2026. No Delta or temporal-history read was ever made.\n\nThe sealed expectation is verdict 'source changed history' at layer SOURCE. Its cause is retained native temporal history showing 900201 absent before 2026-10-23 22:49:20 UTC and quantity 7 at 22:49:28 UTC.\n\nVerdict: DIA returned 'not found', so this fails. Both graders agree.\n\nLayer (the disputed judgment): DIA never names SOURCE or any split point. It only says the row is missing everywhere in the current path and that it cannot explain the September row. Getting no presence change at any layer is not a SOURCE attribution. The primary grader's layer_match=true has no support. The secondary grader is right.\n\nCause: fails. DIA says history was unreadable and that it can't say whether the row ever existed. The expectation says that history exists and shows the row appearing.\n\nHarmful: false. DIA admits it cannot explain the export and does not assert a false cause. It does contain unsupported details, though. 'No native history was readable' overstates things, because Delta history was never tried and the job-run calls failed on the wrong node. The Direct Lake claim conflicts with CONNECTION_MODE being UNAVAILABLE. Nothing in the saved evidence shows the notebook's fixed 1\u2013360 ID list. None of these supports a wrong causal conclusion, so the answer is still not harmful.\n\nPartial: false. None of the three scored dimensions matches. Accurate current-state reads do not make the answer a partial match, and a partial would score zero anyway. The secondary grader set partial=true, which I think is wrong. The primary grader set partial=false, but that contradicts its own layer_match=true.\n\nFailing step: wrong evidence. DIA relied on current-state reads and never reached the temporal versions.\n\nHandoff quality: 1. The queries can be rerun and the stopping point is clear, but there is no handoff object and no concrete next step, such as reading Delta history around 2026-10-23 or calling job runs on the correct node.\n\nWinner: secondary. It is right on the key disputed judgment (layer) and on every other dimension except the partial flag.",
+      "saved_trace": {
+        "outcome_sha256": "7bb346517c90cb9196cb224f8420446b4385e69b70372e5c735791d6a7af8b12",
+        "local_outcome": ".local\\round-twenty-five\\g3-history-source-900201-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Interpret the saved result with its actual scope and native semantics.",
+      "class": "history-source-900201"
+    },
+    {
+      "ticket": "history-source-900201-v2",
+      "first_wrong_step": "reading results",
+      "reason": "What the raw capture shows: five read-only queries ran on 2026-11-01 and none was truncated. Movement_id = 900201 returned 0 rows in bronze stock_movements_e1b8e1, silver stock_movements_e1b8e1, gold movement_values, and the Activity table in the semantic model (the DAX TREATAS query). record_trace marks all four layers ABSENT with no duplicates. Bronze currently holds 360 rows with IDs 1\u2013360. Refresh history is complete: two successful runs on 2026-10-07, with the schedule disabled. The job-runs call was rejected because the node failed schema validation. Triage lists SOURCE_CHANGES, LAYER_FRESHNESS and JOB_RUNS as unavailable. No query read retained or temporal table history. The sealed expectation is 'source changed history' at SOURCE. It rests on retained native history showing 900201 absent before 22:49:20 UTC and quantity 7 at 22:49:28 UTC on 2026-10-23.\n\nScoring:\n- Verdict: no match. The answer says 'record missing', which is a different class from a source history change.\n- Layer: match. The answer places the split at the earliest readable source (bronze), which is SOURCE in substance.\n- Cause: no match. The answer never names a version change in source history. It explicitly says it cannot explain the September receipt or whether the record was present earlier.\n- Overall: one of three matches. That counts as partial, which scores zero under the all-three rule. Primary's partial=false is wrong on this point.\n- Harm: none. The final answer sticks to current reads, doesn't invent a zero, and doesn't claim the record never existed. It also correctly finds no evidence for the user's 'built-in delay' guess. An earlier submission had an unsupported claim about the notebook writing only IDs 1\u2013360, but it was rejected and is not in the saved answer.\n- Failing step: 'wrong evidence' (secondary) is right. The queries that ran were valid and correctly scoped, so 'query validation' (primary) mislabels the failure. The real failure is that the investigation stopped at current-state lookups and never read the temporal or retained versions that held the deciding evidence.\n- Handoff quality: 1. The queries are literal and rerunnable, and the limits are stated honestly. But the status is ANSWERED with a null handoff and no concrete next query for the temporal history.\n\nWinner: secondary. It matches on every field, including partial and failing step. Primary agrees on the match flags, harm and handoff quality but gets partial and failing step wrong.",
+      "saved_trace": {
+        "outcome_sha256": "be541b8a02eb4f70137a3453a30ebff5af607fe25b0a709807a0a951f544b906",
+        "local_outcome": ".local\\round-twenty-five\\g3-history-source-900201-v2-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Interpret the saved result with its actual scope and native semantics.",
+      "class": "history-source-900201"
+    },
+    {
+      "ticket": "history-source-900202-v1",
+      "first_wrong_step": "intake",
+      "reason": "This scores 0 because the verdict, layer and cause all miss. The two graders agree on everything except the failing step. I side with the secondary grader: the first failure is at intake, not in the evidence.\n\n**What the saved evidence shows:**\n- **Current-state lookups:** Four lookups for movement 900202 ran against bronze stock_movements_e1b8e1, silver stock_movements_e1b8e1, gold movement_values and the model's Activity table. All four succeeded, returned 0 rows and were not cut short. The record_trace marks the movement absent in every layer with no duplicates.\n- **Job history:** get_job_runs came back unavailable (NATIVE_HISTORY_SUBJECT_NOT_CONFIGURED). A second get_job_runs call was rejected for an invalid node.\n- **Lineage:** get_lineage only returned column-containment edges for the bronze table.\n- **Search:** list_candidates returned only unrelated objects, all at lineage distance 308, outside the workspace, with resolution NOT_ESTABLISHED.\n- **Triage:** The checks for source changes, job runs and layer freshness were unavailable. The model refresh last succeeded on 2026-10-07 and its schedule is disabled.\n- **What was never read:** No retained native temporal history was read at any point.\n\n**Against the expectation:** The sealed expectation is verdict \"source changed history\", split point SOURCE. Its named cause is native temporal history showing movement 900202 blank before 22:49:20 UTC and quantity 11 at 22:49:28 UTC on 2026-10-23. The answer instead says \"record missing\", names no SOURCE split and states no cause. So verdict, layer and cause all fail, and partial credit counts as zero.\n\n**Harm:** The answer is not harmful. It says plainly that it could not explain the second export and could not confirm or rule out a source history change, and that its reads are current only. That is honest uncertainty, not a wrong cause stated as fact. Its one overreach is filing the case as ANSWERED under a \"record missing\" label.\n\n**Handoff quality: 1.** The queries can be rerun with their parameters, and the answer says clearly where it stopped. But there is no handoff object and no concrete next step, such as querying the source's native or versioned history around the export times.\n\n**The disputed failing step:** Intake took a ticket about two exports that disagreed over time (\"why would the September history show up in one export but not the other\"). It reclassified it from SOMETHING_ELSE to RECORD_MISSING and set compared_with to NOTHING, which dropped the two-moment comparison entirely. That framing sent the work into current-state presence lookups (record_trace) instead of temporal or source-history reads, and everything after it followed from that. Looking at current data was a result of that framing, not the first mistake. So the primary grader's \"wrong evidence\" names a later symptom, and the secondary grader's \"intake\" is the correct first failing step.",
+      "saved_trace": {
+        "outcome_sha256": "24ce3ba05085c9ca9311776a2b0dd7362c24709d8d4e33b5fe9b5541a3d2ae88",
+        "local_outcome": ".local\\round-twenty-five\\g3-history-source-900202-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "history-source-900202"
+    },
+    {
+      "ticket": "history-source-900203-v1",
+      "first_wrong_step": "intake",
+      "reason": "The delivered answer never resolved the question. It returned NEEDS_INPUT / INTAKE_EXTRACTION_UNESTABLISHED with no queries run and no technical finding. The expected answer is a full verdict: layer=SOURCE, cause=native temporal history shows movement 900203 absent before 22:49:20 UTC and quantity 13 at 22:49:28 UTC on 2026-10-23 (source changed history). None of verdict, layer, or named cause were established. The answer is an honest non-answer, so not harmful, but it fails at the intake/extraction step before any analysis began. Handoff quality is 0: no queries, no stopping point, no next-check suggestions \u2014 nothing rerunnable or actionable was left for a downstream agent.",
+      "saved_trace": {
+        "outcome_sha256": "05a56d38fb394ad1c5ef7f64e8f4317a1d631ea308828a9f3e772dbbab601350",
+        "local_outcome": ".local\\round-twenty-five\\g3-history-source-900203-v1-result.json",
+        "assessment_origin": "both independent graders agree"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "history-source-900203"
     },
     {
       "ticket": "latency-900501-v1",
@@ -295,6 +352,20 @@
       "class": "access-export-1"
     },
     {
+      "ticket": "history-source-900201-v1",
+      "first_wrong_step": "reading results",
+      "reason": "What the raw capture shows: six reads succeeded, none truncated. The four record lookups for movement_id=900201 found 0 rows in each of bronze stock_movements_e1b8e1, silver stock_movements_e1b8e1, gold movement_values and the DAX Activity table. The range checks found min 1 and max 360 in both gold (406 rows) and bronze (360 rows), with 0 IDs at or above 900000. Triage saw two successful model refreshes on 2026-10-07 and a disabled schedule. JOB_RUNS, CONNECTION_MODE, SOURCE_CHANGES and LAYER_FRESHNESS were UNAVAILABLE. Both get_job_runs calls failed validation because they named the wrong node; the only node allowed was f25f6b\u2026. No Delta or temporal-history read was ever made.\n\nThe sealed expectation is verdict 'source changed history' at layer SOURCE. Its cause is retained native temporal history showing 900201 absent before 2026-10-23 22:49:20 UTC and quantity 7 at 22:49:28 UTC.\n\nVerdict: DIA returned 'not found', so this fails. Both graders agree.\n\nLayer (the disputed judgment): DIA never names SOURCE or any split point. It only says the row is missing everywhere in the current path and that it cannot explain the September row. Getting no presence change at any layer is not a SOURCE attribution. The primary grader's layer_match=true has no support. The secondary grader is right.\n\nCause: fails. DIA says history was unreadable and that it can't say whether the row ever existed. The expectation says that history exists and shows the row appearing.\n\nHarmful: false. DIA admits it cannot explain the export and does not assert a false cause. It does contain unsupported details, though. 'No native history was readable' overstates things, because Delta history was never tried and the job-run calls failed on the wrong node. The Direct Lake claim conflicts with CONNECTION_MODE being UNAVAILABLE. Nothing in the saved evidence shows the notebook's fixed 1\u2013360 ID list. None of these supports a wrong causal conclusion, so the answer is still not harmful.\n\nPartial: false. None of the three scored dimensions matches. Accurate current-state reads do not make the answer a partial match, and a partial would score zero anyway. The secondary grader set partial=true, which I think is wrong. The primary grader set partial=false, but that contradicts its own layer_match=true.\n\nFailing step: wrong evidence. DIA relied on current-state reads and never reached the temporal versions.\n\nHandoff quality: 1. The queries can be rerun and the stopping point is clear, but there is no handoff object and no concrete next step, such as reading Delta history around 2026-10-23 or calling job runs on the correct node.\n\nWinner: secondary. It is right on the key disputed judgment (layer) and on every other dimension except the partial flag.",
+      "saved_trace": {
+        "outcome_sha256": "7bb346517c90cb9196cb224f8420446b4385e69b70372e5c735791d6a7af8b12",
+        "local_outcome": ".local\\round-twenty-five\\g3-history-source-900201-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Interpret the saved result with its actual scope and native semantics.",
+      "class": "history-source-900201"
+    },
+    {
       "ticket": "access-export-1-v2",
       "first_wrong_step": "intake",
       "reason": "Raw capture: DIA stopped at intake with status NEEDS_INPUT and code INTAKE_EXTRACTION_UNESTABLISHED. prefilled is empty, and handoff and stop are null. The saved evidence has only the intake object; triage, queries and evidence are all null. DIA asked the user to choose a report (only one choice was offered, \"Subscription Billing\") and an issue type. The ticket already gave billingapp, round22_access_export, case_id 1, both principals and the symptom: the quantity changes depending on who is signed in, which matches OTHERS_SEE_DIFFERENT_NUMBER. The question was not needed, so intake is the step that failed.\n\nSealed expectation: the verdict is \"access difference\" and the layer is SOURCE. The cause is a difference in the CURRENT_USER visibility-group data mapping (10 and 1 row versus 25 and 2 rows from the same SELECT). It is data-based visibility, not native RLS and not a permission grant.\n\nDIA gave no verdict, layer or cause, so all three fail. Under the all-three rule, a partial answer scores zero. It is not harmful because it made no claim and did not accept the user's wrong guess that this is a permissions issue. On these points both graders are right.\n\nThe only disagreement is handoff quality. The primary grader gave 1 but admits there is no stopping point, no queries and no guidance. A form that asks again for details the ticket already gave is not a useful handoff. The secondary grader's 0 is supported: nothing was collected, the handoff is null, and DIA suggested no next checks, such as running the same SELECT as each principal or comparing their visibility mappings. The secondary grader also correctly says intake failed to extract details that were already present. So the secondary grader wins.",
@@ -307,20 +378,6 @@
       "retained_query_errors": [],
       "correct_action": "Resolve only the missing user fact using the admitted catalog.",
       "class": "access-export-1"
-    },
-    {
-      "ticket": "access-export-2-v1",
-      "first_wrong_step": "intake",
-      "reason": "Secondary wins, with caveats. What the saved capture shows: the answer has status NEEDS_INPUT, handoff=null and stop=null. The evidence has no triage, queries or evidence. All it contains is an intake prefill and one question: pick a report from a single choice, \"Subscription Billing\". The prefill copies the ticket text word for word. It also adds one filter (case_id=2), sets issue_type to OTHERS_SEE_DIFFERENT_NUMBER and sets compared_with to NOTHING. The sealed expectation is: access difference, at the SOURCE layer. In case 2, orderops_investigator sees 20 and 1 row, while the investigator principal sees 45 and 2 rows. Both run the same SELECT, but the CURRENT_USER visibility-group data mapping differs. That is data-based visibility, not a new native RLS policy or grant. The answer gives no verdict, layer or cause, so all three score zero. Under the all-three rule there is no partial credit. It is not harmful because it makes no technical claim, true or false. Both graders agree on these points, and they are right. The first failure is at intake. The ticket gives the two principals, case_id, the app (billingapp) and the export (round22_access_export). Structured intake sets compared_with to NOTHING and does not capture the export name. It then asks a question that should have been avoidable, since the only offered choice was Subscription Billing. The disputed point is handoff_quality. The primary gives 1, saying the answer \"identifies the report context\". The capture does not support that. Handoff is null, and there are no queries to rerun, no stop record and no next checks. The only report reference is the unresolved choice the user was asked to make. So 0 is correct. Two of the secondary's claims go a little too far. First, the two sign-ins are not entirely lost. They survive in the copied description, but they are missing from the structured comparison field (compared_with=NOTHING). Second, the ticket does not explicitly say \"Subscription Billing\". Neither caveat changes any score. The secondary's scoring is correct.",
-      "saved_trace": {
-        "outcome_sha256": "d30f8235f426a8fa706951807dfd8f626be3af05490dea244681087f3a0788c5",
-        "local_outcome": ".local\\round-twenty-five\\g3-access-export-2-v1-result.json",
-        "assessment_origin": "fresh independent Claude saved-evidence review"
-      },
-      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
-      "retained_query_errors": [],
-      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
-      "class": "access-export-2"
     }
   ],
   "estate_reads": 0,
@@ -333,6 +390,9 @@
     "failed-billing-transform": 2,
     "fourth-failed-billing-transform": 2,
     "failed-fixture-load": 2,
+    "history-source-900201": 2,
+    "history-source-900202": 1,
+    "history-source-900203": 1,
     "latency-900501": 2,
     "latency-900502": 2,
     "latency-900503": 1,

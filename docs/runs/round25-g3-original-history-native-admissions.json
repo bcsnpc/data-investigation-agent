@@ -1,0 +1,72 @@
+{
+  "status": "ORIGINAL_RETAINED_HISTORY_COHORT_COMPLETE_NO_MUTATION",
+  "record_sha256": "674ac98b06f63747ab37068e1b26fa478cf4f4a84b7208f9a05b5e3857c0627e",
+  "before": "2026-10-23T22:49:20Z",
+  "after": "2026-10-23T22:49:28Z",
+  "source_mutation": false,
+  "restoration_required": false,
+  "native_checks": [
+    {
+      "ticket": "history-source-900201-v1",
+      "rows": [
+        {
+          "after_quantity": "7",
+          "after_rows": "1",
+          "before_quantity": null,
+          "before_rows": "0",
+          "history_coverage_from": "2026-10-23T22:43:47.9434148",
+          "movement_id": "900201"
+        }
+      ],
+      "read_only_verified": true,
+      "surface_report_binding": "VALUE_QUERY"
+    },
+    {
+      "ticket": "history-source-900201-v2",
+      "rows": [
+        {
+          "after_quantity": "7",
+          "after_rows": "1",
+          "before_quantity": null,
+          "before_rows": "0",
+          "history_coverage_from": "2026-10-23T22:43:47.9434148",
+          "movement_id": "900201"
+        }
+      ],
+      "read_only_verified": true,
+      "surface_report_binding": "VALUE_QUERY"
+    },
+    {
+      "ticket": "history-source-900202-v1",
+      "rows": [
+        {
+          "after_quantity": "11",
+          "after_rows": "1",
+          "before_quantity": null,
+          "before_rows": "0",
+          "history_coverage_from": "2026-10-23T22:43:47.9434148",
+          "movement_id": "900202"
+        }
+      ],
+      "read_only_verified": true,
+      "surface_report_binding": "VALUE_QUERY"
+    },
+    {
+      "ticket": "history-source-900203-v1",
+      "rows": [
+        {
+          "after_quantity": "13",
+          "after_rows": "1",
+          "before_quantity": null,
+          "before_rows": "0",
+          "history_coverage_from": "2026-10-23T22:43:47.9434148",
+          "movement_id": "900203"
+        }
+      ],
+      "read_only_verified": true,
+      "surface_report_binding": "VALUE_QUERY"
+    }
+  ],
+  "outcomes_saved": 4,
+  "original_probes_and_prestart_failure_retained": true
+}

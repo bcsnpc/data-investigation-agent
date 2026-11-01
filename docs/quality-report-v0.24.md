@@ -2,13 +2,13 @@
 
 ## Current measurement
 
-Saved-result snapshot: 2026-11-01T01:25:13.571151+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the completed new held-out set (60/60 accounted for). G3 and G4 remain in progress until their requested totals are accounted for. Partial cohort figures must not be presented as full-set accuracy.
+Saved-result snapshot: 2026-11-01T01:44:46.905807+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the completed new held-out set (60/60 accounted for). G3 and G4 remain in progress until their requested totals are accounted for. Partial cohort figures must not be presented as full-set accuracy.
 
 | Cohort | Official primary (95% Wilson) | Strict (95% Wilson) | Raw-reviewed (95% Wilson) | Raw harmful | Requested |
 |---|---|---|---|---:|---:|
 |G1|37/40 (80.1–97.4%)|34/40 (70.9–92.9%)|35/40 (73.9–94.5%)|2|40|
 |G2|37/60 (49.0–72.9%)|32/60 (40.9–65.4%)|36/60 (47.4–71.4%)|0|60|
-|G3|0/19 (0.0–16.8%)|0/19 (0.0–16.8%)|0/19 (0.0–16.8%)|0|60|
+|G3|0/23 (0.0–14.3%)|0/23 (0.0–14.3%)|0/23 (0.0–14.3%)|0|60|
 |G4|not run|not run|not run|not measured|20|
 
 ### Same original R22 splits
@@ -17,8 +17,8 @@ The original dev and held-out sets remain separate. Interim numerators use only 
 
 | Original split | Requested | R22 official (95% Wilson) | R25 official | R25 strict | R25 raw-reviewed |
 |---|---:|---|---|---|---|
-|dev|40|14/40 (22.1–50.5%)|0/12 (0.0–24.2%)|0/12 (0.0–24.2%)|0/12 (0.0–24.2%)|
-|heldout|20|5/20 (11.2–46.9%)|0/7 (0.0–35.4%)|0/7 (0.0–35.4%)|0/7 (0.0–35.4%)|
+|dev|40|14/40 (22.1–50.5%)|0/14 (0.0–21.5%)|0/14 (0.0–21.5%)|0/14 (0.0–21.5%)|
+|heldout|20|5/20 (11.2–46.9%)|0/9 (0.0–29.9%)|0/9 (0.0–29.9%)|0/9 (0.0–29.9%)|
 
 G1 is unchanged dev v2. G3 compares unchanged R22 text (14/40dev and5/20held-out); G4 is a regression comparison with R23's6/20. The prior R24 official18/20 remains unchanged. Related variants share fixtures, so Wilson intervals describe this observed sample, not independent client-estate accuracy.
 
@@ -30,7 +30,7 @@ Core agreement means verdict, layer, cause and harm flags. Full assessment addit
 |---|---|---|---|---|---|---:|
 |G1|37/40 (80.1–97.4%)|8/40 (10.5–34.8%)|35/40 (73.9–94.5%)|35/40 (73.9–94.5%)|35/40 (73.9–94.5%)|0|
 |G2|51/60 (73.9–91.9%)|13/60 (13.1–33.6%)|42/60 (57.5–80.1%)|44/60 (61.0–82.9%)|37/60 (49.0–72.9%)|0|
-|G3|19/19 (83.2–100.0%)|3/19 (5.5–37.6%)|0/19 (0.0–16.8%)|0/19 (0.0–16.8%)|0/19 (0.0–16.8%)|0|
+|G3|22/23 (79.0–99.2%)|4/23 (7.0–37.1%)|0/23 (0.0–14.3%)|1/23 (0.8–21.0%)|0/23 (0.0–14.3%)|0|
 
 Operator blinding was partly broken by the earlier two staging/status fragments and an additional G3 access status dump that included saved outcome text. These exposures are disclosed in decisions.md and the round summary. No investigator logic or expectation was changed afterward. G1's original raw reviews remain; G2–G4 disagreements are decided by independent Claude calls receiving only the owner-approved packet.
 
@@ -90,6 +90,9 @@ Every cell includes its95% Wilson interval. Original case-family IDs are retaine
 |G3 / failed-billing-transform|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
 |G3 / failed-fixture-load|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
 |G3 / fourth-failed-billing-transform|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
+|G3 / history-source-900201|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
+|G3 / history-source-900202|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|
+|G3 / history-source-900203|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|
 |G3 / latency-900501|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
 |G3 / latency-900502|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
 |G3 / latency-900503|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|
@@ -127,6 +130,7 @@ Grouping uses exact sealed oracle labels; no expectation or score change. Case f
 |G3 / access difference|0/4 (0.0–49.0%)|0/4 (0.0–49.0%)|0/4 (0.0–49.0%)|0|
 |G3 / failed job|0/6 (0.0–39.0%)|0/6 (0.0–39.0%)|0/6 (0.0–39.0%)|0|
 |G3 / latency|0/5 (0.0–43.4%)|0/5 (0.0–43.4%)|0/5 (0.0–43.4%)|0|
+|G3 / source changed history|0/4 (0.0–49.0%)|0/4 (0.0–49.0%)|0/4 (0.0–49.0%)|0|
 |G3 / waiting on job|0/4 (0.0–49.0%)|0/4 (0.0–49.0%)|0/4 (0.0–49.0%)|0|
 
 ## Observed cost, cache and timing
@@ -151,6 +155,8 @@ G2 has 10 unsealed native exceptions with unavailable usage; these remain graded
 5. Temporal queries: the active investigative route accepts native FOR SYSTEM_TIME AS OF and ALL on approved tables; the default bounded compiler rejects temporal Version nodes unless explicitly enabled. The pre-retention traces instead attempted invalid OPTION(FOR TIMESTAMP AS OF) syntax or unavailable catalog objects. These were rejected before dispatch and do not establish a retention policy. Record the query/tool/capability gap; do not widen the validator or change an expectation in this round. See runs/round25-temporal-validator-routes.json.
 
 The waiting zero is timing-confounded: its job completed during the third investigation and the answer correctly reported completion, while the sealed expectation still required waiting. The independent reviewer retained the zero against that expectation. No oracle change or replacement run occurred.
+
+G3 original-history review: three delivered answers checked current Bronze/Silver/Gold/model rows but never read the retained application temporal history that fresh controls had established. Job-history calls used unsupported subjects, and one answer followed a different current-data path. The fourth ticket held at intake. All four score zero, without a raw-confirmed harmful cause claim. This is a route/tool/intake failure, not proof that temporal syntax is universally blocked. The original saved evidence and fresh independent reasons are retained.
 
 Priorities are drawn from backtracks only: history-evidence reasoning; native triage ports for the decisive setting; target/comparison admission; bounded query/tool choice and explicit handoff. None is implemented in this frozen measurement round.
 
