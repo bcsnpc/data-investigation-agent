@@ -16,8 +16,11 @@ class PolicyTests(unittest.TestCase):
   self.assertEqual(october['total'],8294);self.assertEqual(october['total_limit'],b.POLICY['round24']['october']['total_limit'])
   self.assertEqual(october['limits'],b.POLICY['round24']['october']['limits'])
   november=b.physical_status([row],[allocation],at('2026-11-01'))
-  self.assertEqual(november['total'],0);self.assertEqual(november['total_limit'],9000)
-  self.assertEqual(november['limits'],{'SCAN':2500,'INVESTIGATION':6405,'RESTORATION':95})
+  self.assertEqual(november['total'],0);self.assertEqual(november['total_limit'],14500)
+  self.assertEqual(november['limits'],{'SCAN':2500,'INVESTIGATION':11905,'RESTORATION':95})
+  december=b.physical_status([row],[allocation],at('2026-12-01'))
+  self.assertEqual(december['total'],0);self.assertEqual(december['total_limit'],9000)
+  self.assertEqual(december['limits'],{'SCAN':2500,'INVESTIGATION':6405,'RESTORATION':95})
   self.assertEqual(b.model_ceiling(at('2026-10-29')),b.POLICY['round24']['october']['model_microdollars'])
   self.assertEqual(b.model_ceiling(at('2026-11-01')),150000000)
  def test_new_batches_use_monthly_combined_account_without_erasing_old_usage(self):
