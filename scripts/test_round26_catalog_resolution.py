@@ -4,6 +4,24 @@ from test_round23_intake_queries import graph
 
 
 class CatalogResolutionTests(unittest.TestCase):
+    def test_named_model_uses_its_only_native_table_without_inventing_report(self):
+        catalog = self.catalog()
+        catalog.nodes.update({'model':{'id':'model','kind':'MODEL','label':'Quarterly snapshot'},
+                              't':{'id':'t','kind':'TABLE','label':'Movements'}})
+        catalog.edges.append({'source':'model','target':'t','kind':'CONTAINS'})
+        result = prefill('Quarterly snapshot is stale', {'issue_type':'DATA_LOOKS_OLD'}, catalog)
+        self.assertEqual(result['status'], 'READY')
+        self.assertEqual(result['table'], 't')
+        self.assertNotIn('report', result)
+        catalog.nodes['t2'] = {'id':'t2','kind':'TABLE','label':'Rates'}
+        catalog.edges.append({'source':'model','target':'t2','kind':'CONTAINS'})
+        self.assertEqual(catalog.table_matches('Quarterly snapshot is stale'), [])
+
+    def test_identifier_underscores_normalize_as_word_separators(self):
+        catalog = self.catalog()
+        catalog.nodes['t'] = {'id':'t','kind':'TABLE','label':'ledger_transactions'}
+        self.assertEqual(catalog.table_matches('ledger transactions differs')[0]['id'], 't')
+
     def test_named_page_beats_unrelated_fuzzy_report_name(self):
         catalog = self.catalog()
         catalog.nodes['page']['label'] = 'Unfiltered control'

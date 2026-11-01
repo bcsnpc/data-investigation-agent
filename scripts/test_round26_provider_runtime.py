@@ -10,6 +10,12 @@ def config(provider='anthropic', model='synthetic'):
 
 
 class ProviderRuntimeTests(unittest.TestCase):
+    def test_anthropic_explicit_cache_setting_reaches_transport(self):
+        budget = Mock(); budget.rate.model = 'synthetic'
+        with patch('investigator.adapters.managed_identity.validate_secret_reference'):
+            model = client({**config(), 'explicit_cache':True}, budget=budget, record=Mock())
+        self.assertIsNotNone(model.transport.diagnostic_cache)
+
     def test_normalized_interface_reports_same_usage_and_cost_across_vendors(self):
         from investigator.reasoning_budget import RateCard
         from investigator.adapters.provider_runtime import UnifiedClient

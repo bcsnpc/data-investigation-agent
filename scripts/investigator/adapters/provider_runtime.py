@@ -39,6 +39,8 @@ def client(config, *, budget, record, diagnostic_prompt_cache=None, **ports):
                  'identity': config['gateway_identity'], 'secret_reference': config['secret_reference'], **ports}
     if provider == 'anthropic':
         from .reasoning_anthropic import Client
+        if diagnostic_prompt_cache is None and 'explicit_cache' in config:
+            diagnostic_prompt_cache = config['explicit_cache']
         if diagnostic_prompt_cache is not None:
             arguments['diagnostic_prompt_cache'] = diagnostic_prompt_cache
     else:

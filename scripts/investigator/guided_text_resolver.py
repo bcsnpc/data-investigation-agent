@@ -77,7 +77,7 @@ class Resolver:
                 'visual_matches':self.catalog.ranked(args['words'],'VISUAL')[:10],
                 'job_matches':[row for kind in ('PIPELINE','COPY_ACTIVITY','DATAFLOW','NOTEBOOK','MODEL','REFRESH_SCHEDULE')
                                for row in self.catalog.ranked(args['words'],kind)[:5]],
-                'table_matches':self.catalog.ranked(args['words'],'TABLE')[:10]}
+                'table_matches':self.catalog.table_matches(args['words'])[:10]}
 
     def check(self,text,args):
         ts=tokens(text);primaries=[]

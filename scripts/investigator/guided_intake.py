@@ -129,7 +129,7 @@ class Catalog:
         import re, unicodedata
         from difflib import SequenceMatcher
         def normalized(value):
-            return ' '.join(re.findall(r'\w+', unicodedata.normalize('NFKC', value).casefold()))
+            return ' '.join(re.findall(r'[^\W_]+', unicodedata.normalize('NFKC', value).casefold()))
         normalized_text = normalized(text)
         text_words = normalized_text.split()
         words=set(re.findall(r'\w+',text.casefold()));rows=[]
@@ -167,6 +167,25 @@ class Catalog:
                 if parent not in seen:
                     seen.add(parent); frontier.append(parent)
         return [row for row in self.reports() if row['id'] in seen]
+
+    def table_matches(self, text):
+        """Resolve native container names through retained containment only."""
+        direct = [*self.ranked(text, 'TABLE'), *self.ranked(text, 'VIEW')]
+        direct.sort(key=lambda r: -r['score'])
+        containers = [r for kind in ('MODEL', 'SOURCE') for r in self.ranked(text, kind)
+                      if r['confidence'] in ('NAMED', 'NORMALIZED')]
+        contained = []
+        for parent in containers:
+            children = [*self.children(parent['id'], 'TABLE'), *self.children(parent['id'], 'VIEW')]
+            if len(children) == 1:
+                child = children[0]
+                contained.append({**child, 'score':parent['score'], 'confidence':parent['confidence'],
+                    'basis':'NATIVE_CONTAINMENT_OF_NAMED_CONTAINER', 'via':parent['id']})
+        if direct and direct[0]['confidence'] in ('NAMED', 'NORMALIZED'):
+            return [r for r in direct if direct[0]['score']-r['score'] < .08]
+        if contained:
+            return list({r['id']:r for r in contained}.values())
+        return [r for r in direct if r['score'] >= .86 and direct[0]['score']-r['score'] < .08]
 
     def report_matches(self, text):
         direct = self.ranked(text, 'REPORT')
@@ -279,16 +298,14 @@ def prefill(text, proposed, catalog, *, provenance=None):
     direct_target = None
     for kind, field in (('TABLE', 'table'), ('MEASURE', 'measure')):
         if value.get(field) and not value.get('report'):
-            candidates = catalog.ranked(text, kind)
-            if field == 'table':candidates += catalog.ranked(text, 'VIEW')
+            candidates = catalog.table_matches(text) if field == 'table' else catalog.ranked(text, kind)
             strongest = max((r['score'] for r in candidates), default=0)
             matched = [r for r in candidates if r['score'] >= .86 and strongest - r['score'] < .08]
             if len(matched) == 1 and matched[0]['id'] == value[field]:direct_target = matched[0]
             else:raise ValueError('DIRECT_TARGET_UNRESOLVED_OR_AMBIGUOUS')
     if not value.get('report') and not any(value.get(k) for k in ('table', 'measure')):
         if not any(r['score'] >= .86 for r in catalog.ranked(text, 'REPORT')):
-            tables = sorted([*catalog.ranked(text, 'TABLE'), *catalog.ranked(text, 'VIEW')], key=lambda r: -r['score'])
-            tables = [r for r in tables if r['score'] >= .86 and tables[0]['score'] - r['score'] < .08]
+            tables = catalog.table_matches(text)
             if len(tables) == 1:
                 value['table'] = tables[0]['id']; direct_target = tables[0]
     reports=catalog.report_matches(text)

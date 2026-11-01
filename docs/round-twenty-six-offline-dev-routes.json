@@ -1,0 +1,1542 @@
+{
+  "kind": "OFFLINE_RETAINED_METADATA_ROUTE_CHECK_NOT_A_VALUE_OR_QUALITY_SCORE",
+  "records": 80,
+  "estate_reads": 0,
+  "model_calls": 0,
+  "statuses": {
+    "PATH_OPENED": 59,
+    "NEEDS_INPUT": 10,
+    "OPERATIONAL_NATIVE_SUBJECT": 8,
+    "REJECTED": 3
+  },
+  "cases": [
+    {
+      "group": "form",
+      "id": "v2-application-baseline-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 17,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-application-baseline-v2",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 17,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-billing-mrr-v1",
+      "estate": "billing",
+      "status": "PATH_OPENED",
+      "nodes": 33,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_bronze"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_serving"
+        },
+        {
+          "kind": "DAX",
+          "label": "Subscription Billing"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "billingapp"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-billing-mrr-v2",
+      "estate": "billing",
+      "status": "PATH_OPENED",
+      "nodes": 33,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_bronze"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_serving"
+        },
+        {
+          "kind": "DAX",
+          "label": "Subscription Billing"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "billingapp"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-fixture-quantity-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 16,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_e1b8e1"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_e1b8e1"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-fixture-quantity-v2",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 16,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_e1b8e1"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_e1b8e1"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-billing-invoices-v1",
+      "estate": "billing",
+      "status": "PATH_OPENED",
+      "nodes": 38,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_bronze"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_serving"
+        },
+        {
+          "kind": "DAX",
+          "label": "Subscription Billing"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "billingapp"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-billing-invoices-v2",
+      "estate": "billing",
+      "status": "PATH_OPENED",
+      "nodes": 38,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_bronze"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_serving"
+        },
+        {
+          "kind": "DAX",
+          "label": "Subscription Billing"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "billingapp"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-failed-application-load-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 17,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-failed-application-load-v2",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 17,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-failed-billing-transform-v1",
+      "estate": "billing",
+      "status": "PATH_OPENED",
+      "nodes": 38,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_bronze"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_serving"
+        },
+        {
+          "kind": "DAX",
+          "label": "Subscription Billing"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "billingapp"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-failed-billing-transform-v2",
+      "estate": "billing",
+      "status": "PATH_OPENED",
+      "nodes": 38,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_bronze"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_serving"
+        },
+        {
+          "kind": "DAX",
+          "label": "Subscription Billing"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "billingapp"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-waiting-application-load-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 17,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-waiting-application-load-v2",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 17,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-latency-record-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 17,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-latency-record-v2",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 17,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-stale-model-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 17,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-stale-model-v2",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 17,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-access-export-v1",
+      "estate": "billing",
+      "status": "PATH_OPENED",
+      "nodes": 138,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_bronze"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_serving"
+        },
+        {
+          "kind": "DAX",
+          "label": "Subscription Billing"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "billingapp"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-access-export-v2",
+      "estate": "billing",
+      "status": "PATH_OPENED",
+      "nodes": 138,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_bronze"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_serving"
+        },
+        {
+          "kind": "DAX",
+          "label": "Subscription Billing"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "billingapp"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-warehouse-scope-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 17,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-warehouse-scope-v2",
+      "estate": "fixture",
+      "status": "NEEDS_INPUT",
+      "reason": "UNKNOWN_REPORT"
+    },
+    {
+      "group": "form",
+      "id": "v2-before-temporal-retention-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 17,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-before-temporal-retention-v2",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 17,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-record-absent-everywhere-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 17,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-record-absent-everywhere-v2",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 17,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-record-repeated-gold-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 16,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_e1b8e1"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_e1b8e1"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-record-repeated-gold-v2",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 16,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_e1b8e1"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_e1b8e1"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-source-history-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 17,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-source-history-v2",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 17,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "ordersops"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-other-collected-definition-v1",
+      "estate": "billing",
+      "status": "PATH_OPENED",
+      "nodes": 19,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_bronze"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_serving"
+        },
+        {
+          "kind": "DAX",
+          "label": "Subscription Billing"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "billingapp"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-other-collected-definition-v2",
+      "estate": "billing",
+      "status": "PATH_OPENED",
+      "nodes": 19,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_bronze"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_serving"
+        },
+        {
+          "kind": "DAX",
+          "label": "Subscription Billing"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "billingapp"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-screenshot-record-01-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 10,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-screenshot-record-01-v2",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 10,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-screenshot-record-02-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 10,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-screenshot-record-02-v2",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 10,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-screenshot-record-03-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 10,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-screenshot-record-03-v2",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 10,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-screenshot-record-04-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 10,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "form",
+      "id": "v2-screenshot-record-04-v2",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 10,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "Application load fixture 20261003"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "round_two_bronze_20261003"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "R17-01-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 15,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_e1b8e1"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_e1b8e1"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "R17-02-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 16,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_e1b8e1"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_e1b8e1"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "R17-03-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 15,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_e1b8e1"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_e1b8e1"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "R17-04-v1",
+      "estate": "fixture",
+      "status": "NEEDS_INPUT",
+      "reason": "These catalog matches remain close. Which report do you mean?"
+    },
+    {
+      "group": "text",
+      "id": "R17-05-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 26,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_e1b8e1"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_e1b8e1"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "R17-06-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 16,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_e1b8e1"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_e1b8e1"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "R17-07-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 15,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_e1b8e1"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_e1b8e1"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "R17-08-v1",
+      "estate": "fixture",
+      "status": "NEEDS_INPUT",
+      "reason": "These catalog matches remain close. Which report do you mean?"
+    },
+    {
+      "group": "text",
+      "id": "R17-09-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 15,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_e1b8e1"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_e1b8e1"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "R17-10-v1",
+      "estate": "fixture",
+      "status": "NEEDS_INPUT",
+      "reason": "These catalog matches remain close. Which report do you mean?"
+    },
+    {
+      "group": "text",
+      "id": "R17-11-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 15,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_e1b8e1"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_e1b8e1"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "R17-12-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 7,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_e1b8e1"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_e1b8e1"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "failed-fixture-load-v1",
+      "estate": "fixture",
+      "status": "OPERATIONAL_NATIVE_SUBJECT",
+      "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+    },
+    {
+      "group": "text",
+      "id": "failed-fixture-load-v2",
+      "estate": "fixture",
+      "status": "OPERATIONAL_NATIVE_SUBJECT",
+      "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+    },
+    {
+      "group": "text",
+      "id": "failed-billing-transform-v1",
+      "estate": "billing",
+      "status": "OPERATIONAL_NATIVE_SUBJECT",
+      "subject": "ac9927a6c04a1b67866ea90c1e3432709bd4ffebe49985f80c21d67cc14f85d8"
+    },
+    {
+      "group": "text",
+      "id": "failed-billing-transform-v2",
+      "estate": "billing",
+      "status": "OPERATIONAL_NATIVE_SUBJECT",
+      "subject": "ac9927a6c04a1b67866ea90c1e3432709bd4ffebe49985f80c21d67cc14f85d8"
+    },
+    {
+      "group": "text",
+      "id": "failed-billing-load-v1",
+      "estate": "billing",
+      "status": "OPERATIONAL_NATIVE_SUBJECT",
+      "subject": "11c0001e0832168c29db5eb18c2c0e0095c7450e2b2d05ceb81f3d74ee8f8f4b"
+    },
+    {
+      "group": "text",
+      "id": "failed-billing-load-v2",
+      "estate": "billing",
+      "status": "OPERATIONAL_NATIVE_SUBJECT",
+      "subject": "11c0001e0832168c29db5eb18c2c0e0095c7450e2b2d05ceb81f3d74ee8f8f4b"
+    },
+    {
+      "group": "text",
+      "id": "baseline-S01-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 16,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_e1b8e1"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_e1b8e1"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "baseline-S01-v2",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 16,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_e1b8e1"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_e1b8e1"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "baseline-S02-v1",
+      "estate": "billing",
+      "status": "PATH_OPENED",
+      "nodes": 38,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_bronze"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_serving"
+        },
+        {
+          "kind": "DAX",
+          "label": "Subscription Billing"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "billingapp"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "baseline-S02-v2",
+      "estate": "billing",
+      "status": "PATH_OPENED",
+      "nodes": 38,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_bronze"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_serving"
+        },
+        {
+          "kind": "DAX",
+          "label": "Subscription Billing"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "billingapp"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "baseline-S03-v1",
+      "estate": "dia-sample-estate",
+      "status": "PATH_OPENED",
+      "nodes": 7,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "AdventureWorks Sales"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "baseline-S03-v2",
+      "estate": "dia-sample-estate",
+      "status": "PATH_OPENED",
+      "nodes": 7,
+      "layers": [
+        {
+          "kind": "DAX",
+          "label": "AdventureWorks Sales"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "access-export-1-v1",
+      "estate": "billing",
+      "status": "PATH_OPENED",
+      "nodes": 138,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_bronze"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_serving"
+        },
+        {
+          "kind": "DAX",
+          "label": "Subscription Billing"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "billingapp"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "access-export-1-v2",
+      "estate": "billing",
+      "status": "PATH_OPENED",
+      "nodes": 53,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_bronze"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "billing_serving"
+        },
+        {
+          "kind": "DAX",
+          "label": "Subscription Billing"
+        },
+        {
+          "kind": "SOURCE_SQL",
+          "label": "billingapp"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "different-warehouse-v1",
+      "estate": "fixture",
+      "status": "REJECTED",
+      "error": "ValueError",
+      "reason": "DIRECT_TARGET_UNRESOLVED_OR_AMBIGUOUS"
+    },
+    {
+      "group": "text",
+      "id": "different-warehouse-v2",
+      "estate": "fixture",
+      "status": "NEEDS_INPUT",
+      "reason": "Choose the missing details so I can check the report."
+    },
+    {
+      "group": "text",
+      "id": "latency-900501-v1",
+      "estate": "fixture",
+      "status": "NEEDS_INPUT",
+      "reason": "Choose the missing details so I can check the report."
+    },
+    {
+      "group": "text",
+      "id": "latency-900501-v2",
+      "estate": "fixture",
+      "status": "REJECTED",
+      "error": "ValueError",
+      "reason": "DIRECT_TARGET_UNRESOLVED_OR_AMBIGUOUS"
+    },
+    {
+      "group": "text",
+      "id": "latency-900502-v1",
+      "estate": "fixture",
+      "status": "NEEDS_INPUT",
+      "reason": "Choose the missing details so I can check the report."
+    },
+    {
+      "group": "text",
+      "id": "latency-900502-v2",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 34,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_f28cf2"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_f28cf2"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_f28cf2"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations f28cf2"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "history-source-900201-v1",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 16,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_e1b8e1"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_e1b8e1"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "history-source-900201-v2",
+      "estate": "fixture",
+      "status": "PATH_OPENED",
+      "nodes": 15,
+      "layers": [
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_bronze_e1b8e1"
+        },
+        {
+          "kind": "DAX",
+          "label": "Warehouse Operations e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_gold_e1b8e1"
+        },
+        {
+          "kind": "FABRIC_SQL",
+          "label": "warehouse_silver_e1b8e1"
+        }
+      ],
+      "truncated": false
+    },
+    {
+      "group": "text",
+      "id": "older-export-movement-1-v1",
+      "estate": "fixture",
+      "status": "NEEDS_INPUT",
+      "reason": "These catalog matches remain close. Which report do you mean?"
+    },
+    {
+      "group": "text",
+      "id": "older-export-movement-1-v2",
+      "estate": "fixture",
+      "status": "NEEDS_INPUT",
+      "reason": "Choose the missing details so I can check the report."
+    },
+    {
+      "group": "text",
+      "id": "stale-total-v1",
+      "estate": "fixture",
+      "status": "NEEDS_INPUT",
+      "reason": "These catalog matches remain close. Which report do you mean?"
+    },
+    {
+      "group": "text",
+      "id": "stale-total-v2",
+      "estate": "fixture",
+      "status": "REJECTED",
+      "error": "ValueError",
+      "reason": "DIRECT_TARGET_UNRESOLVED_OR_AMBIGUOUS"
+    },
+    {
+      "group": "text",
+      "id": "waiting-fixture-load-v1",
+      "estate": "fixture",
+      "status": "OPERATIONAL_NATIVE_SUBJECT",
+      "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+    },
+    {
+      "group": "text",
+      "id": "waiting-fixture-load-v2",
+      "estate": "fixture",
+      "status": "OPERATIONAL_NATIVE_SUBJECT",
+      "subject": "3bf74ae1043c1b528ef21a56ec14c7db29b4b94146434091a4149048762356ba"
+    }
+  ]
+}
