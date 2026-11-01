@@ -1,6 +1,6 @@
 {
   "pass": "Round25 G3 raw-reviewed",
-  "graded": 46,
+  "graded": 50,
   "score": 3,
   "correctness": {
     "verdict_match": 3,
@@ -9,7 +9,7 @@
   },
   "harmful": 3,
   "zero_groups": {
-    "intake": 31,
+    "intake": 35,
     "reading results": 2,
     "conclusion": 7,
     "target": 3
@@ -568,6 +568,62 @@
       "class": "different-product"
     },
     {
+      "ticket": "different-warehouse-v1",
+      "first_wrong_step": "intake",
+      "reason": "What the saved record shows: the DIA answer has status NEEDS_INPUT, handoff null, stop null and technical.status NEEDS_INPUT. The saved evidence has only an intake object; triage, queries and evidence are all null. Intake tagged the ticket issue_type SOMETHING_ELSE (classified as HOW_IS_THIS_CALCULATED) and set compared_with to NOTHING. That is wrong: the ticket plainly compares two exports from the application stock movements table, one filtered to warehouse_id 1 and the other to warehouse_id 2. The text even marks those two values as IDENTIFIER figure mentions. The only output is a question asking the user to pick a 'report' from 12 dashboards (Inventory Health, Warehouse Performance, fixture reports and others). None of these is the application stock movements table the user named.\n\nSealed expectation: verdict 'different question', layer SOURCE, and the cause that the two exports select different warehouse scopes (1=2948 units vs 2=2084 units), so they should not be treated as the same scope and no pipeline loss should be claimed.\n\nScoring: there is no verdict, so verdict_match is false. No layer was assessed, so layer_match is false. The warehouse-scope cause was never named, so cause_match is false. Since all three fail, this is a clear zero under the all-three rule, not a partial. Nothing false was asserted, so the answer is not harmful. It is an honest but unnecessary stop, because the ticket itself already says what answers the question. The failure happened at intake: comparison scope was set to NOTHING, which missed the warehouse_id split.\n\nDisputed point (handoff quality): this should be 0. The handoff field is null. There are no queries to rerun, no stated reason for stopping and no suggested next checks. The clarification asks for a report from a list that doesn't include the source the ticket names. That cannot move the case toward the warehouse_id scope explanation and could send the user to an unrelated dashboard. The primary grader's 1 rests on calling the question 'sensible' and the list 'reasonable', but the saved choices don't support that. The secondary grader's 0 matches the evidence and correctly identifies the compared_with=NOTHING misclassification. Both graders agree with me on every other field, so the secondary grader wins.",
+      "saved_trace": {
+        "outcome_sha256": "e4a4a8c3d8efae214bc736add93af18a84d06ae16ee84757c9a4d79438639015",
+        "local_outcome": ".local\\round-twenty-five\\g3-different-warehouse-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "different-warehouse"
+    },
+    {
+      "ticket": "different-warehouse-v2",
+      "first_wrong_step": "intake",
+      "reason": "What the saved evidence shows: DIA stopped at intake with status NEEDS_INPUT. handoff and stop are null, and the saved evidence has no triage, queries or evidence (all null). The only output is a question asking the user to pick a \"report\" from 12 choices. The prefilled intake set issue_type to SOMETHING_ELSE, classified it as HOW_IS_THIS_CALCULATED and set compared_with to NOTHING, even though the ticket plainly compares warehouse_id 1 with warehouse_id 2. Figure mentions picked up only the two IDs, as identifiers.\n\nThe sealed expectation is: verdict \"different question\", layer SOURCE, cause = the two pulls select different warehouse scopes (2948 vs 2084). The answer gives no verdict, no layer and no cause, so verdict, layer and cause all fail. Under the all-three rule this scores 0, and partial is false.\n\nNot harmful: the answer made no confident claim and did not back the user's product_id-overlap guess.\n\nFailing step is intake. Both graders agree, correctly. The question to the user is a side effect of intake building a weak request. The ticket names no report, so asking for one is defensible on its own. But intake dropped the comparison the ticket clearly makes.\n\nThe only real dispute is handoff quality (primary 1, secondary 0). The question asked is coherent and relevant. The ticket really does not say which report it means, and the choices include plausible inventory and warehouse reports. So the user gets a small but actionable next step, not nothing. That supports 1 rather than 0. It does not deserve 2: there is no handoff object, no queries, the warehouse comparison and the user's hypothesis are missing from the question, and compared_with=NOTHING means the comparison context would be lost even after the user answers.\n\nThe secondary grader is right to criticise the misclassification and compared_with=NOTHING. It overstates when it calls the handoff worthless and the ticket fully \"clear\": no report was identified. The primary grader overstates that the agent could have queried directly without a report. Even so, its overall handoff score of 1 is the better fit, so the primary wins.",
+      "saved_trace": {
+        "outcome_sha256": "e67c76761e0411ad9ee89767766f1ba883716ddd7f46f9eaadf7b78f69fdfdae",
+        "local_outcome": ".local\\round-twenty-five\\g3-different-warehouse-v2-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "different-warehouse"
+    },
+    {
+      "ticket": "failed-billing-load-v1",
+      "first_wrong_step": "intake",
+      "reason": "What the saved evidence shows: the answer has status NEEDS_INPUT, no handoff and no stop. Its only content is the question \"Choose the missing details so I can check the report\", with a single report choice, \"Subscription Billing\". Evidence, queries and triage are all null. Only intake ran. Intake left issue_type as SOMETHING_ELSE but classified the ticket as DATA_LOOKS_OLD. It treated the ticket as a report-freshness question and only pulled out the date. The ticket actually asks about a specific Failed run of the Billing application load pipeline on the job-history page, starting 2026-10-23 17:26:54 UTC. The sealed expectation is: verdict 'failed job'; layer PIPELINE; cause is that the named native run failed with controlled SQL THROW2011 before its original activities and did not complete. Scoring: the answer gives no verdict, layer or cause, so verdict, layer and cause all fail, and partial counts as zero. It is not harmful: it makes no confident wrong claim and is an honest unresolved stop. But that stop comes from a misread ticket, not from real uncertainty about evidence. Failing step: intake. The run failed before any query existed, so primary's 'query validation' is wrong. Primary also says the ticket 'clearly identifies' the report. It doesn't: it names a pipeline run, not a report. The real problem is that the question about a report doesn't fit the ticket at all, not that asking was premature. Handoff quality is 0: no queries, no stopping point and no useful next check for the failed pipeline run. The report-choice question doesn't help find the failure cause, so primary's 1 is too generous. Secondary gets the classification error, the scores, the failing step and the handoff right.",
+      "saved_trace": {
+        "outcome_sha256": "3901ad3ab20b36961bcd31cb4cfcb15a66c9a78dd37bdd532dd26835051f26d6",
+        "local_outcome": ".local\\round-twenty-five\\g3-failed-billing-load-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "failed-billing-load"
+    },
+    {
+      "ticket": "failed-billing-load-v2",
+      "first_wrong_step": "intake",
+      "reason": "What the saved capture shows: DIA's saved answer has status NEEDS_INPUT, handoff=null and stop=null. Saved evidence has triage=null, queries=null and evidence=null. Only the intake object was filled in. Intake set issue_type to SOMETHING_ELSE and classified_issue_type to DATA_LOOKS_OLD. compared_with is NOTHING. The only detail recorded is approximate_date = '2026-10-23T17:26:54.8166667 UTC'. The single question asks the user to pick a report, with one choice: 'Subscription Billing'. The ticket asked about a specific PIPELINE run of 'Billing application load': it wanted the failure reason and whether the job completed or was terminated. The sealed expectation is verdict 'failed job', layer PIPELINE, and the cause that the named native run failed with a controlled SQL THROW2011 before its original activities ran, so it did not complete.\n\nScoring: no verdict, layer or cause was given, so all three are false. Partial is false, and a partial result scores zero anyway. The answer isn't harmful because it states no cause, right or wrong. It honestly asks for input instead of making a confident false claim. The failing step is intake. Intake misread a pipeline-run question as a report or stale-data issue and so picked the wrong target. The question to the user is a result of that error, not the root cause. Both graders agree on all of this, correctly.\n\nThe only disagreement is handoff quality: the primary grader gives 1, the secondary gives 0. I side with the secondary and give 0. The handoff field is literally null. There are no queries, no evidence references and no triage. The one follow-up offered is a report choice ('Subscription Billing') unrelated to the named pipeline run, and answering it would send the next investigator to the wrong target. The intake does keep the ticket text and the run timestamp. But that just repeats the ticket, which doesn't amount to a usable handoff. The primary grader says 'the stopping point is clear'. That is only true in a narrow sense: the stop is at a misdirected intake question, which gives no useful guidance. The secondary grader's phrase 'no stopping point' goes too far, since there is an explicit NEEDS_INPUT stop. Still, its conclusion is right: there's no useful next step, so the score should be 0.",
+      "saved_trace": {
+        "outcome_sha256": "55fe40c61ac0be4bc0c6ae0bc5f29a71b5f3f2aa73e91cc350e7413a284bcccc",
+        "local_outcome": ".local\\round-twenty-five\\g3-failed-billing-load-v2-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "failed-billing-load"
+    },
+    {
       "ticket": "waiting-billing-load-v1",
       "first_wrong_step": "intake",
       "reason": "What the saved record shows: the DIA saved answer is status NEEDS_INPUT, with handoff null and stop null. Its only output is the question \"Choose the missing details so I can check the report.\" It offers one report choice, \"Subscription Billing\". In the saved evidence, intake classified the ticket as issue_type DATA_LOOKS_OLD with compared_with NOTHING and empty provenance. Triage, queries and evidence are all null, so no query ran. The sealed expectation is verdict \"waiting on job\", layer PIPELINE, and the cause is the named job's freshly observed active RUNNING/QUEUED Wait-control execution, with its pending completion named.\n\nScoring: the answer gives no verdict, no layer and no cause, so all three fail. Under the all-three rule, partial is false and scores zero. It is not harmful because it states nothing false as fact: no failure, cause or SLA is invented. The failing step is intake. The ticket asks about a named pipeline job (\"PIPELINE Billing application load\", shown as running on the job history screen), but intake routed it as a stale-report question and asked the user to pick a report. That choice was never needed to look up the job's run status.\n\nThe one real dispute is handoff quality. The primary grader scores 1 and calls the question \"plausible\". That is too generous. The question sends the work down the wrong path: a report choice does nothing to identify the active run, the handoff is null, and nothing from any investigation is passed on. Even though \"Subscription Billing\" probably comes from the word \"Billing\" in the ticket, it is still off-target. So 0 is correct, as the secondary grader says. The primary's other points are fine, apart from its reference to \"available evidence (docs/runs/...)\": that file is the grading reference, not something DIA should have consulted.\n\nThe secondary grader has one small factual error: it quotes \"queries: []\", but the saved value is null. The substance still holds, because no queries ran either way. The secondary wins because its handoff judgment matches the record.",
@@ -702,6 +758,8 @@
     "blocked-model-movement-3": 1,
     "different-day": 1,
     "different-product": 1,
+    "different-warehouse": 2,
+    "failed-billing-load": 2,
     "waiting-billing-load": 1,
     "waiting-billing-transform": 1,
     "waiting-fixture-load": 2
