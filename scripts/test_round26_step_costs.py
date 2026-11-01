@@ -7,6 +7,21 @@ from test_round23_intake_queries import graph
 
 
 class StepCostTests(unittest.TestCase):
+    def test_extraction_tool_declares_actual_target_identifiers(self):
+        from investigator.guided_text_resolver import extraction_tools
+        tools=extraction_tools(Catalog(graph()))
+        fields=tools[1]['input_schema']['properties']['proposal']['properties']
+        self.assertEqual(fields['report']['enum'],['other','report'])
+        self.assertEqual(fields['visual']['enum'],['card','othercard'])
+
+    def test_named_visual_resolves_its_unique_native_page(self):
+        from investigator.guided_intake import prefill
+        value=prefill('Report Card is wrong',{'report':'report','visual':'card',
+            'issue_type':'NUMBER_LOOKS_WRONG'},Catalog(graph()),provenance={'visual':[2,2]})
+        self.assertEqual(value['status'],'READY')
+        self.assertEqual(value['visual'],'card')
+        self.assertEqual(value['page'],'page')
+
     def test_costs_are_actual_and_cache_ratio_is_token_weighted(self):
         events = [{'event':'AI_NORMALIZED_USAGE','step':'INTAKE','provider':'openai','model':'cheap',
                    'cost_microdollars':cost,'normalized_usage':{'input_tokens':total,'cached_input_tokens':cached}}

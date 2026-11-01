@@ -44,9 +44,14 @@ can remain in details.table when the report is the primary target.
 '''
 
 
-def extraction_tools():
+def extraction_tools(catalog=None):
     partial=deepcopy(SCHEMA);partial['required']=['version']
     partial.pop('anyOf', None); partial.pop('dependentRequired', None)
+    if catalog is not None:
+        for field, kinds in {'report':('REPORT',),'page':('PAGE',),'visual':('VISUAL',),
+                             'table':('TABLE','VIEW'),'measure':('MEASURE',)}.items():
+            identities=sorted(n['id']for n in catalog.nodes.values()if n['kind']in kinds)
+            if identities:partial['properties'][field]={**partial['properties'][field],'enum':identities}
     return [{'name':'lookup_intake_catalog','description':'Inspect actual catalog targets and their containment. Local retained metadata only.',
              'input_schema':{'type':'object','properties':{'words':{'type':'string'},'report':{'type':'string'}},
                              'required':['words'],'additionalProperties':False}},
@@ -126,7 +131,7 @@ class Resolver:
                                 'fields':[{'field':'report','choices':self.catalog.reports()}]}}
         from .planner_recording import _safe
         _safe(text.encode())
-        tools=extraction_tools();validators={t['name']:Draft202012Validator(t['input_schema']) for t in tools}
+        tools=extraction_tools(self.catalog);validators={t['name']:Draft202012Validator(t['input_schema']) for t in tools}
         # The full retained lookup is installation metadata and is identical
         # across calls. Keep it before the cache breakpoint rather than
         # repeatedly appending every report/page/visual to the changing input.
@@ -162,7 +167,8 @@ class Resolver:
                     return result
                 failed=False
             except (ValueError,KeyError,TypeError,ValidationError) as error:
-                rejections+=1;result={'rejection':str(error)};failed=True
+                reason = error.message if isinstance(error,ValidationError) else str(error)
+                rejections+=1;result={'rejection':reason[:1200]};failed=True
             messages.append({'role':'user','content':[{'type':'tool_result','tool_use_id':call['id'],
                               'content':canonical(result),'is_error':failed}]})
             if rejections>=2:break

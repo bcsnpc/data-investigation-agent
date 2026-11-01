@@ -323,6 +323,12 @@ def prefill(text, proposed, catalog, *, provenance=None):
             'fields': [{'field': 'report', 'choices': [{'id': r['id'], 'name': r['name']} for r in reports]}]},
             'resolution_candidates': reports}
     if value.get('report'):
+        if value.get('visual') and not value.get('page'):
+            # A selected visual's unique native parent is an address lookup,
+            # not a replacement visual or an inferred filter selection.
+            parents=[p for p in catalog.pages(value['report'])
+                     if any(v['id']==value['visual']for v in catalog.visuals(value['report'],p['id']))]
+            if len(parents)==1:value['page']=parents[0]['id']
         pages=[p for p in catalog.ranked(text,'PAGE',within={p['id'] for p in catalog.pages(value['report'])})
                if p['confidence']=='NAMED']
         if len(pages)==1:
