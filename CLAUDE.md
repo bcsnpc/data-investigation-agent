@@ -1172,3 +1172,6 @@ Section8 Round25 G4 final stale practice control,2026-11-01: existing publisher 
 ### Round25 measurement closeout, 2026-11-01
 
 All180 requested outcomes accounted for on frozen v0.24; raw G1 35/40,harm2; G2 36/60,harm0; G3 3/60,harm3; G4 16/20,harm0. All33 controls restored; temporal historyON, model7661/automatic updatesON. November150USD/9000 applies automatically; historical October179.847340USD/13622 retained. Owner budget decisions and before/after receipts are in docs/decisions.md and the round ledger. No new identity, permission or secret change. Release validation/merge/tag remain pending; do not claim released yet. See docs/round-twenty-five-summary.md.
+
+
+Round25 released2026-11-01: PR432 merge `3d748db241dd1dcc010bcfde2155825371b68dce`, validated premerge/exact-merge suites 5694/5694 tests with50/50 skips and zero failures; three final smokes and hosted CI passed. Tagv0.25 pushed. Raw G1 35/40harm2, G2 36/60harm0, G3 3/60harm3, G4 16/20harm0; scores/oracles unchanged. All33controlsrestored,temporalON/model7661autoON. No new scope/identity/secret. See docs/round-twenty-five-summary.md.

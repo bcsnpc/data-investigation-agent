@@ -1883,3 +1883,6 @@ remain next; draft #297 remains open.
 ## Round 25 measurement complete — 2026-11-01
 
 All 180 requested outcomes accounted for, 169 sealed and 11 retained native exceptions. Raw-reviewed G1 35/40, G2 36/60, G3 3/60, G4 16/20; harmful 2/0/3/0. Cleanup verified across 33 controls; frozen runtime unchanged except approved budget compatibility. Final committed-source suite, three final smokes, hosted CI, merge, exact-merge validation and v0.25 release remain separate pending validation steps. See [summary](round-twenty-five-summary.md).
+
+
+Round25 released2026-11-01: PR432 merge `3d748db241dd1dcc010bcfde2155825371b68dce`, validated premerge/exact-merge suites 5694/5694 tests with50/50 skips and zero failures; three final smokes and hosted CI passed. Tagv0.25 pushed. Raw G1 35/40harm2, G2 36/60harm0, G3 3/60harm3, G4 16/20harm0; scores/oracles unchanged. All33controlsrestored,temporalON/model7661autoON. No new scope/identity/secret. See docs/round-twenty-five-summary.md.
