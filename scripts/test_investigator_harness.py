@@ -14,6 +14,19 @@ import test_ledger_investigator as fixtures
 
 
 class HarnessTests(unittest.TestCase):
+    def test_submit_failure_retains_safe_diagnostics_and_never_repeats_start(self):
+        import subprocess
+        user=object.__new__(AzureCLIUser);user.cli=['az'];user.control=Mock()
+        user.execute=Mock(side_effect=subprocess.CalledProcessError(1,['python','dia.py'],
+            output='native start not established',stderr='AZURE_JOB_READ_FAILED_BEFORE_START: BadGateway'))
+        with self.assertRaises(subprocess.CalledProcessError):user._json(['python','dia.py'])
+        user.execute.assert_called_once()
+        note=user.control.call_args.args[0]
+        self.assertEqual(note['kind'],'CONTROL_COMMAND_FAILURE')
+        self.assertIn('READ_FAILED_BEFORE_START',note['stderr'])
+        self.assertEqual(note['stdout'],'native start not established')
+        self.assertFalse(note['read_only'])
+
     def test_artifact_get_retries_body_reset_without_resubmitting_job(self):
         user=object.__new__(AzureCLIUser);user._token='fixture-token';user.control=Mock()
         first=Mock();first.__enter__=Mock(return_value=first);first.__exit__=Mock(return_value=False)

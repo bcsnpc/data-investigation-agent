@@ -6,6 +6,22 @@ from investigator.adapters.provider_contract import openai_request
 
 
 class ProviderTransportTests(unittest.TestCase):
+    def test_azure_prestart_get_retries_but_does_not_dispatch_or_retry_start(self):
+        import subprocess
+        from investigator.adapters.runner_deployment import read_job
+        command = ['az', 'containerapp', 'job', 'show', '--ids', 'existing-job']
+        failure = subprocess.CalledProcessError(1, command, stderr='ERROR: (BadGateway) Microsoft.App')
+        success = subprocess.CompletedProcess(command, 0, '{}', '')
+        execute = Mock(side_effect=[failure, failure, success]); sleep = Mock()
+        self.assertIs(read_job(execute, command, sleep=sleep), success)
+        self.assertEqual(execute.call_count, 3)
+        self.assertTrue(all(c.args[0] == command for c in execute.call_args_list))
+        self.assertEqual([c.args[0] for c in sleep.call_args_list], [5, 10])
+        execute = Mock(side_effect=subprocess.CalledProcessError(1, command, stderr='Forbidden'))
+        with self.assertRaisesRegex(RuntimeError, 'READ_FAILED_BEFORE_START.*Forbidden'):
+            read_job(execute, command, sleep=Mock())
+        execute.assert_called_once()
+
     def test_native_http_uses_provider_specific_key_header_without_echo(self):
         import json
         for base, header, absent, expected in (

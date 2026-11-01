@@ -37,6 +37,12 @@ class AzureCLIUser:
                 return json.loads(response.stdout)
             except (subprocess.CalledProcessError,subprocess.TimeoutExpired) as error:
                 detail=str(getattr(error,'stderr','') or '')[:1000]
+                diagnostic = {'kind':'CONTROL_COMMAND_FAILURE','error_type':type(error).__name__,
+                              'read_only':read_only,'stderr':detail,
+                              'stdout':str(getattr(error,'stdout','') or '')[:4000]}
+                try:_safe(bytes_of(diagnostic))
+                except ValueError:diagnostic = {**diagnostic,'stderr':'REDACTED_UNSAFE_CONTROL_ERROR','stdout':''}
+                self.control(diagnostic)
                 transient=isinstance(error,subprocess.TimeoutExpired)or any(word in detail.casefold()for word in ('badgateway','gatewaytimeout','serviceunavailable','too many requests','429'))
                 if not read_only or not transient or attempt==2:raise
                 try:_safe(detail.encode())

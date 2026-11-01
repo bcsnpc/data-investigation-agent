@@ -5,6 +5,22 @@ from ..process_tape import bytes_of
 from ..planner_recording import _safe
 from ..unified_runner import command
 
+def read_job(execute, args, *, sleep=time.sleep):
+    """Retry only the pre-start GET; never repeat an uncertain start."""
+    for attempt in range(3):
+        try:
+            return execute(args, capture_output=True, text=True, check=True, timeout=60)
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as error:
+            detail = str(getattr(error, 'stderr', '') or '')[:2000]
+            try: _safe(detail.encode())
+            except ValueError: detail = 'REDACTED_UNSAFE_PROVIDER_ERROR'
+            transient = isinstance(error, subprocess.TimeoutExpired) or any(word in detail.casefold()
+                for word in ('badgateway', 'gatewaytimeout', 'serviceunavailable', 'too many requests', '429'))
+            if not transient or attempt == 2:
+                raise RuntimeError('AZURE_JOB_READ_FAILED_BEFORE_START: ' + detail) from error
+            sleep(5 * (attempt + 1))
+
+
 def input_policy_preflight(config):
     """Validate generated input bindings before launch; never widen them."""
     if 'input' not in config:return {'status':'NOT_REQUIRED'}
@@ -65,7 +81,7 @@ def launch(config,target,*,execute=subprocess.run):
     cli=deployment['cli']
     if not (cli==['az'] or isinstance(cli,list) and len(cli)==3 and cli[1:]==['-m','azure.cli'] and re.fullmatch(r'python(?:[0-9.]*)?(?:\.exe)?',Path(cli[0]).name,re.I)):raise ValueError('RUNNER_FIXED_AZURE_CLI_REQUIRED')
     base=cli+['containerapp','job']
-    read=execute(base+['show','--ids',resource,'--output','json','--only-show-errors'],capture_output=True,text=True,check=True)
+    read=read_job(execute,base+['show','--ids',resource,'--output','json','--only-show-errors'])
     job=json.loads(read.stdout)
     check=config.get('checks',{}).get(target,{})
     demo=check.get('kind')=='investigation' and 'verification_proof'in check.get('options',{})
