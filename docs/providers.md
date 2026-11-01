@@ -28,3 +28,12 @@ Intake now places deterministic retained catalog metadata before the cache break
 
 
 Owner refinement: measure Sol intake as well and pick readiness before cost. An optional one-pass configured intake fallback is recorded per ticket (model, status, confidence and resolving model). Unresolved investigator escalation retains the original evidence/queries, uses a fresh model-facing handoff instead of another model's opaque reasoning state, and divides the existing15-tool/900-second allowance rather than doubling it. Per-call normalized output now names INTAKE, INTAKE_FALLBACK, INVESTIGATOR, INVESTIGATOR_FALLBACK and the other AI steps. Full benchmark qualification remains pending.
+
+
+## Superseding selection and live checkpoint
+
+Owner's latest readiness-first rule selects Sol intake:28/40 atUSD0.024139/call and88.04%cachedinput, tied with historical Astra28/40 atUSD0.123874/call and18.37%cachedinput. Terra21/40 atUSD0.010282/call and86.74%cachedinput remains the cheap screenshot/standalone-summary model. Cohort engine revisions differ; this is observational selection, not an isolated quality comparison. Sol plus one Astra intake fallback measured29/40,totalUSD7.733820,zeroestate reads. See the [intake comparison](round-twenty-six-intake-comparison.md). This replaces the earlier Terra-first default while retaining the bounded fallback capability.
+
+Three same-image investigator columns are now running: Sol with Astra only after unresolved status, Astra-only, and Opus5.5. The first corrected static ticket delivered answers in both OpenAI columns: Sol-to-Astra5calls/USD0.415137, Astra-only4calls/USD0.436823. These are ungraded observations, not earned support or correctness scores. Native per-step cache/cost and evidence remain saved; the earlier pre-dispatch cache-spec failure is retained separately.
+
+Azure key authentication now has a fake HTTP test for the documented api-key header, distinct from OpenAI Bearer authentication. [Microsoft's Responses REST reference](https://learn.microsoft.com/en-us/rest/api/microsoft-foundry/azureopenai/responses?view=rest-microsoft-foundry-v1) documents this distinction. Azure has no live deployment in this round and remains fake-endpoint tested only.
