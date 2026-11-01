@@ -86,7 +86,7 @@ def launch(config,target,*,execute=subprocess.run):
     check=config.get('checks',{}).get(target,{})
     demo=check.get('kind')=='investigation' and 'verification_proof'in check.get('options',{})
     admission=demo_preflight(job,resource,execute=execute,cli=cli)if demo else None
-    template=writable_template(job['properties']['template'])
+    template=execution_template(job['properties']['template'])
     if len(template.get('containers',[]))!=1:raise ValueError('RUNNER_SINGLE_EXISTING_WORKER_REQUIRED')
     container=template['containers'][0]
     if resources is not None:container['resources']=copy.deepcopy(resources)
@@ -131,3 +131,13 @@ def writable_template(value):
         if template.get(group) is not None:
             template[group]=[{k:v for k,v in row.items() if k in fields and (group!='initContainers' or k!='probes')} for row in template[group]]
     return template
+
+
+def execution_template(value):
+    """StartJobExecutionTemplate differs from the scheduled JobTemplate."""
+    if value.get('volumes'):
+        raise ValueError('RUNNER_START_VOLUMES_UNSUPPORTED')
+    fields={'name','image','command','args','env','resources'}
+    return {group:[{k:copy.deepcopy(v) for k,v in row.items() if k in fields}
+                   for row in value[group]]
+            for group in ('containers','initContainers') if value.get(group) is not None}

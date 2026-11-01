@@ -6,6 +6,19 @@ from investigator.adapters.provider_contract import openai_request
 
 
 class ProviderTransportTests(unittest.TestCase):
+    def test_arm_start_template_excludes_job_only_fields_without_mutating_schedule(self):
+        from investigator.adapters.runner_deployment import execution_template
+        source={'containers':[{'name':'worker','image':'pinned','resources':{'cpu':1,'memory':'2Gi'},
+                              'env':[{'name':'REF','secretRef':'existing'}],
+                              'probes':[],'volumeMounts':[],'imageType':'ContainerImage'}],
+                'initContainers':[],'volumes':[]}
+        before=deepcopy(source);result=execution_template(source)
+        self.assertEqual(set(result),{'containers','initContainers'})
+        self.assertEqual(set(result['containers'][0]),{'name','image','resources','env'})
+        self.assertEqual(source,before)
+        with self.assertRaisesRegex(ValueError,'START_VOLUMES_UNSUPPORTED'):
+            execution_template({**source,'volumes':[{'name':'in-use'}]})
+
     def test_azure_prestart_get_retries_but_does_not_dispatch_or_retry_start(self):
         import subprocess
         from investigator.adapters.runner_deployment import read_job
